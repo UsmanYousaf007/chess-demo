@@ -1,0 +1,106 @@
+/// @license Propriety <http://license.url>
+/// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
+/// Unauthorized copying of this file, via any medium is strictly prohibited
+/// Proprietary and confidential
+/// 
+/// @author Faraz Ahmed <faraz@turbolabz.com>
+/// @company Turbo Labz <http://turbolabz.com>
+/// @date 2017-01-06 17:45:03 UTC+05:00
+/// 
+/// @description
+/// [add_description_here]
+
+using strange.extensions.mediation.impl;
+using TurboLabz.Gamebet;
+
+namespace TurboLabz.CPUChess 
+{
+    public partial class GameMediator : Mediator
+    {
+        // View injection
+        [Inject] public GameView view { get; set; }
+
+        // Dispatch signals
+        [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public StopTimersSignal stopTimersSignal { get; set; }
+        [Inject] public SaveGameSignal saveGameSignal { get; set; }
+
+        public override void OnRegister()
+        {
+            OnRegisterChessboard();
+            OnRegisterClock();
+            OnRegisterPromotions();
+            OnRegisterResults();
+            OnRegisterScore();
+            OnRegisterMatchInfo();
+            OnRegisterMenu();
+            OnRegisterHint();
+            OnRegisterUndo();
+        }
+
+        public override void OnRemove()
+        {
+            OnRemoveChessboard();
+            OnRemoveClock();
+            OnRemovePromotions();
+            OnRemoveResults();
+            OnRemoveScore();
+            OnRemoveMenu();
+            OnRemoveHint();
+            OnRemoveUndo();
+        }
+
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.CPU_PLAY) 
+            {
+                view.Show();
+            }
+        }
+
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.CPU_PLAY)
+            {
+                stopTimersSignal.Dispatch();
+                saveGameSignal.Dispatch();
+                view.Hide();
+            }
+        }
+
+        [ListensTo(typeof(GameAppEventSignal))]
+        public void OnAppEventChessboard(AppEvent evt)
+        {
+            if (!view || !view.IsVisible())
+            {
+                return;
+            }
+
+            if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
+            {
+                saveGameSignal.Dispatch();
+                // TODO: remove this temp hack when the navigator is integrated
+                // with the rest of the system
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            }
+        }
+
+        [ListensTo(typeof(BackendErrorSignal))]
+        public void OnBackendErrorChessboard(BackendResult result)
+        {
+            if (!view || !view.IsVisible())
+            {
+                return;
+            }
+
+            saveGameSignal.Dispatch();
+
+            // TODO: remove this temp hack when the navigator is integrated
+            // with the rest of the system
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+        }
+
+    }
+}

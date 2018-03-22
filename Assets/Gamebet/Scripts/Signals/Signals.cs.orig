@@ -1,0 +1,78 @@
+/// @license Propriety <http://license.url>
+/// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
+/// Unauthorized copying of this file, via any medium is strictly prohibited
+/// Proprietary and confidential
+/// 
+/// @author Mubeen Iqbal <mubeen@turbolabz.com>
+/// @company Turbo Labz <http://turbolabz.com>
+/// @date 2016-09-07 17:48:13 UTC+05:00
+/// 
+/// @description
+/// [add_description_here]
+
+using UnityEngine;
+
+using strange.extensions.signal.impl;
+
+namespace TurboLabz.Gamebet
+{
+    // TODO: Organize these signals with proper comments and order
+    // The main app start signal
+    public class StartSignal : Signal {}
+    public class BootSignal : Signal {}
+
+    // Command signals
+    public class BackendErrorSignal : Signal<BackendResult> {}
+    public class ConnectBackendSignal : Signal {}
+    public class DisconnectBackendSignal : Signal {}
+    public class AuthGuestSignal : Signal {}
+    public class AuthFacebookSignal : Signal {}
+    public class FindMatchSignal : Signal<FindMatchVO> {}
+    public class GetGameStartTimeSignal : Signal {}
+    public class ClockSyncedSignal : Signal<BackendResult> {}
+    public class AppEventSignal : Signal<AppEvent> {}
+    public class UpdateAppSignal : Signal {}
+    public class LoadLobbySignal : Signal {}
+    public class SetPlayerSocialNameSignal : Signal<string> {}
+    public class LoadPlayerProfileSignal : Signal {}
+    public class LoadRoomsSignal : Signal {}
+    public class LoadShopSignal : Signal {}
+    public class GameAppEventSignal : Signal<AppEvent> {}
+    public class GetPlayerProfilePictureSignal : Signal {}
+    public class GetOpponentProfilePictureSignal : Signal {}
+    public class LoadEndGameSignal : Signal {}
+    public class LoadFreeCurrency1ModalSignal : Signal {}
+    public class PlayAdSignal : Signal {}
+
+    // View loading signals
+    public class LoadViewSignal : Signal<ViewId> {}
+    public class LoadPreviousViewSignal : Signal {}
+    public class ShowViewSignal : Signal<ViewId> {}
+    public class HideViewSignal : Signal<ViewId> {}
+
+    // Modal View Loading signals
+    public class LoadModalViewSignal : Signal<ModalViewId> {}
+    public class CloseModalViewSignal : Signal {}
+    public class ShowModalViewSignal : Signal<ModalViewId> {}
+    public class HideModalViewSignal : Signal<ModalViewId> {}
+
+    // Command-mediator signals
+    public class UpdateRetryConnectionMessageSignal : Signal<string> {}
+    public class UpdateLobbyViewSignal : Signal<LobbyVO> {}
+    public class UpdatePlayerProfilePictureSignal : Signal<Sprite> {}
+    public class UpdateOpponentProfilePictureSignal : Signal<Sprite> {}
+    public class UpdateMatchmakingViewPreMatchFoundSignal : Signal<PreMatchmakingVO> {}
+    public class UpdateMatchmakingViewPostMatchFoundSignal : Signal<PostMatchmakingVO> {}
+    public class UpdateSetPlayerSocialNameViewSignal : Signal<SetPlayerSocialNameVO> {}
+    public class UpdatePlayerProfileViewSignal : Signal<PlayerProfileVO> {}
+    public class UpdateRoomsViewSignal : Signal<RoomsVO> {}
+    public class UpdateEndGameViewSignal : Signal<EndGameVO> {}
+
+    public class UpdateFreeCurrency1ModalViewSignal : Signal<bool> {}
+    public class UpdateOutOfCurrency1ModalViewSignal : Signal<bool> {}
+    public class UpdateCurrency1RewardModalViewSignal : Signal<Currency1RewardModalVO> {}
+    public class UpdateCurrency1RewardModalViewShowWaitForRewardSignal : Signal {}
+
+    // Gamebet-Game interfacing signals
+    public class StartGameSignal :  Signal {} // Enter Game from Gamebet
+}
