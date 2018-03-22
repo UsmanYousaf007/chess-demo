@@ -58,16 +58,14 @@ namespace TurboLabz.CPUChess
                 cmd.runTimeControlSignal.Dispatch();
             }
 
-            IPlayerModel playerModel = cmd.playerModel;
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
             IChessboardModel chessboardModel = cmd.chessboardModel;
-            PublicProfile playerPublicProfile = playerModel.publicProfile;
 
             // Update the game info areas
             CPUGameInfoVO vo = new CPUGameInfoVO();
-            vo.playerName = playerPublicProfile.name;
-            vo.playerLevel = playerPublicProfile.level;
-            vo.playerCountryId = playerPublicProfile.countryId;
+            vo.playerName = "TODO: REMOVE";
+            vo.playerLevel = 0;
+            vo.playerCountryId = "TODO: REMOVE";
             vo.cpuStrength = cpuGameModel.cpuStrength;
             vo.durationMinutes = CPUSettings.DURATION_MINUTES[cpuGameModel.durationIndex];
             vo.isPlayerTurn = isPlayerTurn;

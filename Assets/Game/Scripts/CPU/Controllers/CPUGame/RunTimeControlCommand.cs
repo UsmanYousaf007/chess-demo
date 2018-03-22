@@ -138,7 +138,6 @@ namespace TurboLabz.CPUChess
             takeTurnSwapTimeControlSignal.AddListener(OnTakeTurnSwapTimeControl);
             receiveTurnSwapTimeControlSignal.AddListener(OnReceiveTurnSwapTimeControl);
             stopTimersSignal.AddListener(OnStopTimersSignal);
-            disconnectBackendSignal.AddListener(OnDisconnectBackend);
         }
 
         private void RemoveListeners()
@@ -151,7 +150,6 @@ namespace TurboLabz.CPUChess
             takeTurnSwapTimeControlSignal.RemoveListener(OnTakeTurnSwapTimeControl);
             receiveTurnSwapTimeControlSignal.RemoveListener(OnReceiveTurnSwapTimeControl);
             stopTimersSignal.RemoveListener(OnStopTimersSignal);
-            disconnectBackendSignal.RemoveListener(OnDisconnectBackend);
         }
     }
 }

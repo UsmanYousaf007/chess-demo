@@ -1,34 +1,27 @@
 /// @license Propriety <http://license.url>
-/// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
+/// @copyright Copyright (C) Turbo Labz 2018 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 /// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
+/// @author IRTAZA MUMTAZ <irtaza.mumtaz@turbolabz.com>
 /// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-12-14 13:37:03 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
-
+/// @date 2018-03-20 10:42:53 UTC+05:00
 namespace TurboLabz.Gamebet
 {
-    public class NSCPUPlayExitDialog : NS
+    public class NSStart : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.CPU_PLAY_MENU);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_CPU_PLAY ||
-                evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.SHOW_SPLASH)
             {
-                return new NSCPUPlay();
+                return new NSSplash();
             }
 
             return null;
         }
     }
 }
-

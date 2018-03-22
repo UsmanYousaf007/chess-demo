@@ -16,7 +16,8 @@ namespace TurboLabz.Gamebet
 {
     public class SplashMediator : Mediator
     {
-        [Inject] public BootSignal bootSignal { get; set; }
+        // Dispatch signals
+        [Inject] public LoadCPUMenuSignal loadCPUMenuSignal { get; set; }
 
         // View injection
         [Inject] public SplashView view { get; set; }
@@ -52,7 +53,7 @@ namespace TurboLabz.Gamebet
 
         private void OnSplashAnimationCompleted()
         {
-            bootSignal.Dispatch();
+            loadCPUMenuSignal.Dispatch();
         }
     }
 }

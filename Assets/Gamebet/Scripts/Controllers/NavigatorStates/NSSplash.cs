@@ -17,9 +17,9 @@ namespace TurboLabz.Gamebet
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_LOADING)
+            if (evt == NavigatorEvent.SHOW_CPU_MENU)
             {
-                return new NSLoading();
+                return new NSCPUMenu();
             }
 
             return null;

@@ -80,10 +80,7 @@ namespace TurboLabz.CPUChess
 
         private void OnExitButtonClicked()
         {
-            loadLobbySignal.Dispatch();
-            // TODO: remove this hack, its used only for the lobby
-            // which is using the old view manager
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            loadCPUMenuSignal.Dispatch();
         }
 
         private void OnContinueButtonClicked()

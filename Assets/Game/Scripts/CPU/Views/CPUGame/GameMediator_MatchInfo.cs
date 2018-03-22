@@ -29,11 +29,5 @@ namespace TurboLabz.CPUChess
         {
             view.UpdateCPUGameInfo(vo);
         }
-
-        [ListensTo(typeof(UpdatePlayerProfilePictureSignal))]
-        public void OnUpdatePlayerProfilePicture(Sprite sprite)
-        {
-            view.UpdatePlayerProfilePicture(sprite);
-        }
     }
 }

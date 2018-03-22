@@ -42,7 +42,6 @@ namespace TurboLabz.CPUChess
         {
             playerNameLabel.text = vo.playerName;
             playerLevelLabel.text = localizationService.Get(LocalizationKey.GM_PLAYER_LEVEL, vo.playerLevel.ToString());
-            playerFlag.sprite = spriteCache.GetCountryFlag(vo.playerCountryId);
             cpuStrengthLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_STRENGTH, vo.cpuStrength.ToString());
         }
 

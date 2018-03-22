@@ -61,7 +61,6 @@ namespace TurboLabz.Gamebet
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
 
             // Bind services
-            injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
             injectionBinder.Bind<ILocalDataService>().To<EasySaveService>().ToSingleton();
 

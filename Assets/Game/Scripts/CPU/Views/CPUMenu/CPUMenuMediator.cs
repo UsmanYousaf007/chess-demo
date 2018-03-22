@@ -36,7 +36,6 @@ namespace TurboLabz.CPUChess
         public override void OnRegister()
         {
             view.Init();
-            view.backButtonClickedSignal.AddListener(OnBackButtonClicked);
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
             view.decDurationButtonClickedSignal.AddListener(OnDecTimeButtonClicked);
@@ -102,11 +101,6 @@ namespace TurboLabz.CPUChess
         public void OnUpdatePlayerColor(CPUMenuVO vo)
         {
             view.UpdatePlayerColor(vo);
-        }
-
-        private void OnBackButtonClicked()
-        {
-            loadLobbySignal.Dispatch();
         }
 
         private void OnDecStrengthButtonClicked()

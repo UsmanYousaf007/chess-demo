@@ -23,8 +23,7 @@ namespace TurboLabz.Gamebet
         private IDictionary<string, string> data = new Dictionary<string, string>();
 
         private IDictionary<string, ILocale> locales = new Dictionary<string, ILocale>() {
-            { "en-US", new Locale_en_US() },
-            { "x", new Locale_x() }
+            { "en-US", new Locale_en_US() }
         };
 
         private string _locale;
@@ -56,12 +55,6 @@ namespace TurboLabz.Gamebet
             Assertions.Assert(data.ContainsKey(key), "The key " + key + " does not exist in the " + locale + " locale file!");
 
             return string.Format(new PluralFormatProvider(), data[key], args);
-        }
-
-        public string GetRoomTitle(string key, params object[] args)
-        {
-            string roomTitleKey = (key == RoomTitleId.NONE) ? LocalizationKey.ROOM_TITLE_NONE : key;
-            return Get(roomTitleKey, args);
         }
     }
 }
