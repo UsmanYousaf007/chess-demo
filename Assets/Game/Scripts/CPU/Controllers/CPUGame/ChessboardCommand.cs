@@ -63,9 +63,7 @@ namespace TurboLabz.CPUChess
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
-        [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }

@@ -35,12 +35,10 @@ namespace TurboLabz.CPUChess
         [Inject] public TakeTurnSwapTimeControlSignal takeTurnSwapTimeControlSignal { get; set; }
         [Inject] public ReceiveTurnSwapTimeControlSignal receiveTurnSwapTimeControlSignal { get; set; }
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
-        [Inject] public DisconnectBackendSignal disconnectBackendSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Utils
         [Inject] public ITimeControl timeControl { get; set; }

@@ -86,21 +86,5 @@ namespace TurboLabz.CPUChess
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             }
         }
-
-        [ListensTo(typeof(BackendErrorSignal))]
-        public void OnBackendErrorChessboard(BackendResult result)
-        {
-            if (!view || !view.IsVisible())
-            {
-                return;
-            }
-
-            saveGameSignal.Dispatch();
-
-            // TODO: remove this temp hack when the navigator is integrated
-            // with the rest of the system
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-        }
-
     }
 }

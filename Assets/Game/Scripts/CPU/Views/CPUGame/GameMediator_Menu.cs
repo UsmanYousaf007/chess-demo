@@ -22,7 +22,6 @@ namespace TurboLabz.CPUChess
         // Dispatch Signals
         [Inject] public ResignSignal resignSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         public void OnRegisterMenu()
         {

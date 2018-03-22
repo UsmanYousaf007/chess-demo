@@ -25,13 +25,6 @@ namespace TurboLabz.Gamebet
         // Dispatch signals
         [Inject] public NavigatorShowViewSignal showViewSignal { get; set; }
         [Inject] public NavigatorHideViewSignal hideViewSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public LoadShopSignal loadShopSignal { get; set; }
-        [Inject] public LoadShopChessSkinsModalSignal loadShopChessSkinsModalSignal { get; set; }
-        [Inject] public LoadShopAvatarsModalSignal loadShopAvatarsModalSignal { get; set; }
-        [Inject] public LoadShopAvatarsBorderModalSignal loadShopAvatarsBorderModalSignal { get; set; }
-        [Inject] public LoadInventorySignal loadInventorySignal { get; set; }
-        [Inject] public LoadRoomsSignal loadRoomsSignal { get; set; }
         [Inject] public LoadCPUMenuSignal loadCPUMenuSignal { get; set; }
 
         // Models

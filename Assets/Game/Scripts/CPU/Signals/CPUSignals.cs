@@ -66,7 +66,6 @@ namespace TurboLabz.CPUChess
     public class RejectDrawSignal : Signal {}
     public class ResignSignal : Signal {}
     public class SaveGameSignal : Signal {}
-    public class SaveAndExitSignal: Signal<ViewId> {}
     public class LoadGameSignal : Signal {}
     public class InitTimersSignal : Signal<InitTimerVO> {}
     public class InitInfiniteTimersSignal : Signal<bool> {}

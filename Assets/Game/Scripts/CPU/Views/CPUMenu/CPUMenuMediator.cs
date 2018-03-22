@@ -29,7 +29,6 @@ namespace TurboLabz.CPUChess
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // View injection
         [Inject] public CPUMenuView view { get; set; }
