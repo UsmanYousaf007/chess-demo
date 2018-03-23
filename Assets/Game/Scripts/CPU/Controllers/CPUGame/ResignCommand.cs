@@ -11,10 +11,10 @@
 /// [add_description_here]
 
 using strange.extensions.command.impl;
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
 
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class ResignCommand : Command
     {

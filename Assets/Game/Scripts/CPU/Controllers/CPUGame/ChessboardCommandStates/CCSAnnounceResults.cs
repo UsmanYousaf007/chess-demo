@@ -10,10 +10,10 @@
 /// @description
 /// [add_description_here]
 using TurboLabz.Chess;
-using TurboLabz.Common;
-using TurboLabz.Gamebet;
+using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class CCSAnnounceResults : CCS
     {

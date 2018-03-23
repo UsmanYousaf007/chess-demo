@@ -12,11 +12,11 @@
 
 using strange.extensions.command.impl;
 
-using TurboLabz.Gamebet;
-using TurboLabz.Common;
+using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class ChessboardCommand : Command
     {
@@ -27,7 +27,6 @@ namespace TurboLabz.CPUChess
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public SetupChessboardSignal setupChessboardSignal { get; set; }
-        [Inject] public UpdateCPUGameInfoSignal updateCPUGameInfoSignal { get; set; }
         [Inject] public UpdateChessboardSignal updateChessboardSignal { get; set; }
         [Inject] public AiTurnSignal aiTurnSignal { get; set; }
         [Inject] public ShowPlayerFromIndicatorSignal showPlayerFromIndicatorSignal { get; set; }
@@ -64,6 +63,7 @@ namespace TurboLabz.CPUChess
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }

@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class CCSPlayerTurnPieceSelected : CCS
     {

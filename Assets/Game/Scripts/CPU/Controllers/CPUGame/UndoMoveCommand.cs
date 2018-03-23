@@ -13,10 +13,10 @@
 using strange.extensions.command.impl;
 using System.Collections.Generic;
 using TurboLabz.Chess;
-using TurboLabz.Common;
+using TurboLabz.TLUtils;
 
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class UndoMoveCommand : Command
     {

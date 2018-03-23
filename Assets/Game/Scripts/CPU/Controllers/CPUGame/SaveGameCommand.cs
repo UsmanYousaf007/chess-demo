@@ -11,15 +11,15 @@
 /// [add_description_here]
 
 using strange.extensions.command.impl;
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
 using System.Collections.Generic;
 using TurboLabz.Chess;
-using TurboLabz.Common;
+using TurboLabz.TLUtils;
 using System;
 using UnityEngine;
 
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class SaveGameCommand : Command
     {

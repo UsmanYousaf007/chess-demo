@@ -12,22 +12,16 @@
 
 using UnityEngine;
 
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public partial class GameMediator
     {
         public void OnRegisterMatchInfo()
         {
             view.InitMatchInfo();
-        }
-        
-        [ListensTo(typeof(UpdateCPUGameInfoSignal))]
-        public void OnUpdateCPUGameInfo(CPUGameInfoVO vo)
-        {
-            view.UpdateCPUGameInfo(vo);
         }
     }
 }

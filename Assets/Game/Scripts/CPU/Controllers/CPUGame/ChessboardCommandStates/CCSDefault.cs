@@ -10,10 +10,10 @@
 /// @description
 /// [add_description_here]
 using TurboLabz.Chess;
-using TurboLabz.Common;
+using TurboLabz.TLUtils;
 using System.Collections.Generic;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class CCSDefault : CCS
     {

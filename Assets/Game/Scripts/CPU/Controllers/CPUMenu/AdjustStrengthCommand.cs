@@ -20,7 +20,7 @@ using strange.extensions.command.impl;
 // User defined namespaces
 using UnityEngine;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class AdjustStrengthCommand : Command
     {

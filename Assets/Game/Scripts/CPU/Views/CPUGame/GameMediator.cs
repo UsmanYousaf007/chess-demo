@@ -11,9 +11,9 @@
 /// [add_description_here]
 
 using strange.extensions.mediation.impl;
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
 
-namespace TurboLabz.CPUChess 
+namespace TurboLabz.InstantChess 
 {
     public partial class GameMediator : Mediator
     {

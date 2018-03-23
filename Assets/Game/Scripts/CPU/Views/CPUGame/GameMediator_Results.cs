@@ -10,11 +10,11 @@
 /// @description
 /// [add_description_here]
 
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
-using TurboLabz.Common;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.CPUChess 
+namespace TurboLabz.InstantChess 
 {
     public partial class GameMediator
     {

@@ -13,9 +13,9 @@ using strange.extensions.signal.impl;
 using System;
 using TurboLabz.Chess;
 using System.Collections.Generic;
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     // CPU MENU
     public class UpdateCPUMenuViewSignal : Signal<CPUMenuVO> {}
@@ -31,7 +31,6 @@ namespace TurboLabz.CPUChess
     public class DevFenValueChangedSignal : Signal<string> {}
     public class ChessboardEventSignal : Signal<ChessboardEvent> {}
     public class SetupChessboardSignal : Signal<bool> {}
-    public class UpdateCPUGameInfoSignal : Signal<CPUGameInfoVO> {}
     public class UpdateChessboardSignal : Signal<ChessSquare[,]> {}
     public class AiTurnSignal : Signal {}
     public class ShowPlayerFromIndicatorSignal : Signal<ChessSquare> {}

@@ -15,10 +15,10 @@ using UnityEngine;
 using strange.extensions.mediation.impl;
 
 using TurboLabz.Chess;
-using TurboLabz.Gamebet;
-using TurboLabz.Common;
+using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class CPUMenuMediator : Mediator
     {

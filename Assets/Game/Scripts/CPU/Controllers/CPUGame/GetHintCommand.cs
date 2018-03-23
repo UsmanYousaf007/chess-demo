@@ -12,12 +12,12 @@
 
 using strange.extensions.command.impl;
 
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
 using strange.extensions.promise.api;
-using TurboLabz.Common;
+using TurboLabz.TLUtils;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class GetHintCommand : Command
     {

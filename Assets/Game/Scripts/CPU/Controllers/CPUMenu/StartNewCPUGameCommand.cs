@@ -13,9 +13,9 @@
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
 using System;
-using TurboLabz.Common;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class StartNewCPUGameCommand : Command
     {

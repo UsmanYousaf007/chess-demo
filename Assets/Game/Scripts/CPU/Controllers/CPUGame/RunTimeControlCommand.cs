@@ -14,11 +14,11 @@ using System;
 
 using strange.extensions.command.impl;
 
-using TurboLabz.Common;
-using TurboLabz.Gamebet;
+using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class RunTimeControlCommand : Command
     {
@@ -39,6 +39,7 @@ namespace TurboLabz.CPUChess
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Utils
         [Inject] public ITimeControl timeControl { get; set; }

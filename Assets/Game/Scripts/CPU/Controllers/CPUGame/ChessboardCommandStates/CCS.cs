@@ -12,12 +12,12 @@
 
 using System;
 
-using TurboLabz.Gamebet;
-using TurboLabz.Common;
+using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 using TurboLabz.Chess;
 using System.Collections.Generic;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class CCS
     {
@@ -60,17 +60,6 @@ namespace TurboLabz.CPUChess
 
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
             IChessboardModel chessboardModel = cmd.chessboardModel;
-
-            // Update the game info areas
-            CPUGameInfoVO vo = new CPUGameInfoVO();
-            vo.playerName = "TODO: REMOVE";
-            vo.playerLevel = 0;
-            vo.playerCountryId = "TODO: REMOVE";
-            vo.cpuStrength = cpuGameModel.cpuStrength;
-            vo.durationMinutes = CPUSettings.DURATION_MINUTES[cpuGameModel.durationIndex];
-            vo.isPlayerTurn = isPlayerTurn;
-
-            cmd.updateCPUGameInfoSignal.Dispatch(vo);
 
             // Setup the initial rotation
             bool isPlayerWhite = (chessboardModel.playerColor == ChessColor.WHITE);

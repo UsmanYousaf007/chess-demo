@@ -12,12 +12,12 @@
 
 using System.Collections.Generic;
 using strange.extensions.command.impl;
-using TurboLabz.Gamebet;
-using TurboLabz.Common;
+using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class LoadCPUMenuCommand : Command
     {

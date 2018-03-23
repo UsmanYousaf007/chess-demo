@@ -18,11 +18,11 @@ using UnityEngine.UI;
 using DG.Tweening;
 using strange.extensions.signal.impl;
 
-using TurboLabz.Common;
-using TurboLabz.Gamebet;
+using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public partial class GameView
     {

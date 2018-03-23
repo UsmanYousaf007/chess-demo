@@ -12,7 +12,7 @@
 using TurboLabz.Chess;
 using System.Collections.Generic;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public interface ICPUGameModel
     {

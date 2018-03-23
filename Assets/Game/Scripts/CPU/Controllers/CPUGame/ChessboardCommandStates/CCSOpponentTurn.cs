@@ -11,7 +11,7 @@
 /// [add_description_here]
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class CCSOpponentTurn : CCS
     {

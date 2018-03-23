@@ -17,10 +17,10 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl ;
 
 using TurboLabz.Chess;
-using TurboLabz.Gamebet;
-using TurboLabz.Common;
+using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public class CPUMenuView : View
     {

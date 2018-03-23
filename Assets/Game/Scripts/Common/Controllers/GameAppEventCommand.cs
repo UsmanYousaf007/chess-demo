@@ -12,9 +12,10 @@
 
 using strange.extensions.command.impl;
 
-using TurboLabz.Gamebet;
+using TurboLabz.InstantFramework;
+using TurboLabz.Chess;
 
-namespace TurboLabz.Chess
+namespace TurboLabz.InstantFramework
 {
     public class GameAppEventCommand : Command
     {

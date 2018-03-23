@@ -14,12 +14,12 @@ using UnityEngine;
 
 using strange.extensions.mediation.impl;
 
-using TurboLabz.Gamebet;
-using TurboLabz.Common;
+using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 using UnityEngine.UI;
 using TurboLabz.Chess;
 
-namespace TurboLabz.CPUChess
+namespace TurboLabz.InstantChess
 {
     public partial class GameView : View
     {
