@@ -21,13 +21,13 @@ using TurboLabz.InstantChess;
 
 namespace TurboLabz.InstantFramework
 {
-    public partial class GamebetContext : MVCSContext
+    public partial class InstantFrameworkContext : MVCSContext
     {
-        public GamebetContext(MonoBehaviour view) : base(view)
+        public InstantFrameworkContext(MonoBehaviour view) : base(view)
         {
         }
 
-        public GamebetContext(MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
+        public InstantFrameworkContext(MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
         {
         }
 
@@ -50,12 +50,14 @@ namespace TurboLabz.InstantFramework
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
+            commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
 
             // Signals to launch game modes from the lobby
-            commandBinder.Bind<LoadCPUMenuSignal>().To<TurboLabz.InstantChess.LoadCPUMenuCommand>();
+            commandBinder.Bind<LoadCPUMenuSignal>().To<LoadCPUMenuCommand>();
 
             // Bind signals for dispatching to mediators
-
+            injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
+            injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -63,7 +65,6 @@ namespace TurboLabz.InstantFramework
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
             injectionBinder.Bind<ILocalDataService>().To<EasySaveService>().ToSingleton();
-
 
             // Bind utils
             injectionBinder.Bind<IRoutineRunner>().To<StrangeRoutineRunner>().ToSingleton();
@@ -147,8 +148,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
-            injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
-            injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

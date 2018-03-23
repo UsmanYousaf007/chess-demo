@@ -16,7 +16,7 @@ using strange.extensions.context.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GamebetRoot : ContextView
+    public class InstantFrameworkRoot : ContextView
     {
         void Awake()
         {
@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
             // Keep the device awake while the game is running.
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            context = new GamebetContext(this);
+            context = new InstantFrameworkContext(this);
         }
     }
 }
