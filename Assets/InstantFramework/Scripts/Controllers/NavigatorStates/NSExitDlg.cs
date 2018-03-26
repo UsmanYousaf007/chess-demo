@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.PLAY);
+            ShowDialog(NavigatorViewId.EXIT_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
