@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
     public class SplashMediator : Mediator
     {
         // Dispatch signals
-        [Inject] public LoadGameSignal loadGameSignal { get; set; }
+        [Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
 
         // View injection
         [Inject] public SplashView view { get; set; }

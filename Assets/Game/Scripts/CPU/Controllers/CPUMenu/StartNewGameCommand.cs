@@ -28,8 +28,6 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
-            chessboardModel.Reset();
-
             if (cpuGameModel.durationIndex == 0)
             {
                 chessboardModel.gameDuration = TimeSpan.Zero;

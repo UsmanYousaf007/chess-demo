@@ -15,7 +15,6 @@ namespace TurboLabz.InstantFramework
     public enum NavigatorEvent
     {
         ESCAPE,
-        LOAD_GAME,
         SHOW_SPLASH,
         SHOW_MENU,
         SHOW_PLAY,

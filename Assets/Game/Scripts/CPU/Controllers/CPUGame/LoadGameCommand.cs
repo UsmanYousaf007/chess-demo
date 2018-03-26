@@ -37,10 +37,11 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
+            ResetAll();
+
             if (!localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
             {
                 LogUtil.Log("No saved game or settings found.", "yellow");
-                ResetAll();
                 LoadMenu();
                 return;
             }
@@ -61,7 +62,7 @@ namespace TurboLabz.InstantChess
                     LoadMenu();
                     return;
                 }
-                    
+
                 if (Debug.isDebugBuild)
                 {
                     cpuGameModel.devFen = reader.Read<string>(SaveKeys.DEV_FEN);
@@ -131,6 +132,7 @@ namespace TurboLabz.InstantChess
 
         private void ResetAll()
         {
+            chessboardModel.Reset();
             cpuGameModel.Reset();
             cpuGameModel.inProgress = false;
         }

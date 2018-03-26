@@ -35,8 +35,7 @@ namespace TurboLabz.InstantFramework
                 appEscapeSignal.Dispatch();
             }
         }
-
-
+            
         void OnApplicationPause(bool isPaused)
         {
             if (isPaused)

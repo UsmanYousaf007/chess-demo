@@ -12,6 +12,7 @@
 
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess 
 {
@@ -81,9 +82,6 @@ namespace TurboLabz.InstantChess
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
                 saveGameSignal.Dispatch();
-                // TODO: remove this temp hack when the navigator is integrated
-                // with the rest of the system
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             }
         }
     }

@@ -29,6 +29,7 @@ namespace TurboLabz.InstantChess
         [Inject] public StartNewGameSignal startCPUGameSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public SaveGameSignal saveGameSignal { get; set; }
 
         // View injection
         [Inject] public CPUMenuView view { get; set; }
@@ -76,6 +77,20 @@ namespace TurboLabz.InstantChess
             if (viewId == NavigatorViewId.MENU)
             {
                 view.Hide();
+            }
+        }
+
+        [ListensTo(typeof(GameAppEventSignal))]
+        public void OnAppEvent(AppEvent evt)
+        {
+            if (!view || !view.IsVisible())
+            {
+                return;
+            }
+
+            if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
+            {
+                saveGameSignal.Dispatch();
             }
         }
 

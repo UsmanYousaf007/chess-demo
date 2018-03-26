@@ -18,6 +18,9 @@ namespace TurboLabz.InstantChess
 {
     public partial class GameMediator
     {
+        // Dispatch signal
+        [Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
+
         public void OnRegisterResults()
         {
             view.InitResults();
@@ -56,7 +59,7 @@ namespace TurboLabz.InstantChess
 
         private void OnResultsExitButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MENU);
+            loadGameSignal.Dispatch();
         }
 
         private void OnStatsButtonClickedSignal()

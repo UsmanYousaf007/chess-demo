@@ -49,7 +49,8 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
-            commandBinder.Bind<LoadGameSignal>().To<LoadGameCommand>();
+            commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
+            commandBinder.Bind<LoadCPUGameSignal>().To<LoadGameCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
 
@@ -59,6 +60,7 @@ namespace TurboLabz.InstantFramework
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
+            mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

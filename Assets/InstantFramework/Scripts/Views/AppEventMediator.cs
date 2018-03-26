@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -39,6 +40,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnAppPaused()
         {
+            LogUtil.Log("App paused mediator...", "yellow");
             appEventSignal.Dispatch(AppEvent.PAUSED);
         }
 

@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorShowViewSignal showViewSignal { get; set; }
         [Inject] public NavigatorHideViewSignal hideViewSignal { get; set; }
-        [Inject] public LoadGameSignal loadGameSignal { get; set; }
+        [Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }

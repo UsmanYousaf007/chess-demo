@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using strange.extensions.command.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,6 +26,8 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+            LogUtil.Log("Got app event command:" + appEvent);
+
             gameAppEventSignal.Dispatch(appEvent);
 
             if (appEvent == AppEvent.ESCAPED)
