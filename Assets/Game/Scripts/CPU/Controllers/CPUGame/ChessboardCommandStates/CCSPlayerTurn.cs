@@ -36,8 +36,6 @@ namespace TurboLabz.InstantChess
                 cmd.hidePlayerToIndicatorSignal.Dispatch();
                 cmd.hidePossibleMovesSignal.Dispatch();
             }
-
-            cmd.updateUndoButtonSignal.Dispatch(true, cmd.chessboardModel.moveList.Count);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)
@@ -59,9 +57,7 @@ namespace TurboLabz.InstantChess
             }
             else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
-                cmd.receiveTurnSwapTimeControlSignal.Dispatch();
-                cmd.chessboardModel.opponentMoveRenderComplete = true;
-                cmd.turnSwapSignal.Dispatch(true);
+                OpponentMoveRenderCompleted(cmd);
                 return null;
             }
             else if (evt == ChessboardEvent.GAME_ENDED)

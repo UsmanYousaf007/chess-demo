@@ -40,7 +40,6 @@ namespace TurboLabz.InstantChess
 
         public void UpdateUndoButton(bool isPlayerTurn, int totalMoveCount)
         {
-            LogUtil.Log("Updating undo button..." + isPlayerTurn + "," + totalMoveCount, "red");
             if (isPlayerTurn && totalMoveCount >= 2)
             {
                 EnableUndoButton();

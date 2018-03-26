@@ -30,6 +30,7 @@ namespace TurboLabz.InstantChess
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Service
         [Inject] public ILocalDataService localDataService { get; set; }
@@ -37,6 +38,8 @@ namespace TurboLabz.InstantChess
         public override void Execute()
         {
             chessboardModel.Reset();
+            playerModel.Reset();
+
             loadGameSignal.Dispatch();
 
             if (cpuGameModel.inProgress)

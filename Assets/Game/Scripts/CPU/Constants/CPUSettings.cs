@@ -26,5 +26,7 @@ namespace TurboLabz.InstantChess
         public const int DEFAULT_PLAYER_COLOR_INDEX = 0;
 
         public const int DEFAULT_HINT_COUNT = 3;
+
+        public const string DEFAULT_PLAYER_ID = "DEFAULT_PLAYER_ID";
     }
 }

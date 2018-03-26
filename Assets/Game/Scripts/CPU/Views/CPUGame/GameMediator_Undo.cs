@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using TurboLabz.Chess;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
@@ -28,6 +29,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(UpdateUndoButtonSignal))]
         public void OnUpdateUndoButton(bool isPlayerTurn, int totalMoveCount)
         {
+            LogUtil.Log("UPDATING UNDO BUTTON....", "red");
             view.UpdateUndoButton(isPlayerTurn, totalMoveCount);
         }
 
@@ -44,6 +46,7 @@ namespace TurboLabz.InstantChess
 
         private void OnUndoMove()
         {
+            LogUtil.Log("UNDO CLICKED", "red");
             undoMoveSignal.Dispatch();
         }
     }

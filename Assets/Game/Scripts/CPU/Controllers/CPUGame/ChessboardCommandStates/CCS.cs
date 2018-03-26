@@ -180,6 +180,14 @@ namespace TurboLabz.InstantChess
             return new CCSOpponentTurn();
         }
 
+        protected void OpponentMoveRenderCompleted(ChessboardCommand cmd)
+        {
+            cmd.receiveTurnSwapTimeControlSignal.Dispatch();
+            cmd.chessboardModel.opponentMoveRenderComplete = true;
+            cmd.turnSwapSignal.Dispatch(true);
+            cmd.updateUndoButtonSignal.Dispatch(true, cmd.chessboardModel.moveList.Count);
+        }
+
         protected void ProcessGameEndTimers(ChessboardCommand cmd)
         {
             IChessboardModel model = cmd.chessboardModel;
