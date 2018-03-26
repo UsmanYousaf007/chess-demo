@@ -31,6 +31,7 @@ namespace TurboLabz.InstantChess
 
         public GameObject gameMenu;
 
+        public Text titleLabel;
         public Text resignButtonLabel;
         public Text continueButtonLabel;
 
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantChess
             resignButton.onClick.AddListener(OnResignButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
 
+            titleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
         }

@@ -64,7 +64,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_GAME_RESIGN_BUTTON = "cpuGameResignButton";
         public const string CPU_GAME_UNDO_BUTTON = "cpuGameUndoButton";
         public const string CPU_GAME_HINT_BUTTON = "cpuGameHintButton";
-        public const string CPU_GAME_EXIT_BUTTON = "cpuGameExitButton";
+        public const string CPU_GAME_EXIT_DLG_TITLE = "cpuGameExitDlgTitle";
         public const string CPU_GAME_CONTINUE_BUTTON = "cpuGameContinueButton";
         public const string CPU_GAME_EXIT_EXPLAINATION = "cpuGameExitExplanation";
         public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
