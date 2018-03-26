@@ -31,6 +31,7 @@ namespace TurboLabz.InstantChess
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
@@ -132,6 +133,7 @@ namespace TurboLabz.InstantChess
 
         private void ResetAll()
         {
+            playerModel.Reset();
             chessboardModel.Reset();
             cpuGameModel.Reset();
             cpuGameModel.inProgress = false;
