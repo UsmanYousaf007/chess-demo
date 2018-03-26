@@ -26,7 +26,7 @@ namespace TurboLabz.InstantChess
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public AdjustTimerSignal adjustTimerSignal { get; set; }
         [Inject] public AdjustPlayerColorSignal adjustPlayerColorSignal { get; set; }
-        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
+        [Inject] public StartNewGameSignal startCPUGameSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
@@ -64,7 +64,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_MENU) 
+            if (viewId == NavigatorViewId.MENU) 
             {
                 view.Show();
             }
@@ -73,13 +73,13 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_MENU)
+            if (viewId == NavigatorViewId.MENU)
             {
                 view.Hide();
             }
         }
 
-        [ListensTo(typeof(UpdateCPUMenuViewSignal))]
+        [ListensTo(typeof(UpdateMenuViewSignal))]
         public void OnUpdateView(CPUMenuVO vo)
         {
             view.UpdateView(vo);

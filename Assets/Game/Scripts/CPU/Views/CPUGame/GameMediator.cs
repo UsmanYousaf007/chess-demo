@@ -53,7 +53,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_PLAY) 
+            if (viewId == NavigatorViewId.PLAY) 
             {
                 view.Show();
             }
@@ -62,7 +62,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_PLAY)
+            if (viewId == NavigatorViewId.PLAY)
             {
                 stopTimersSignal.Dispatch();
                 saveGameSignal.Dispatch();

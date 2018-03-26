@@ -20,7 +20,7 @@ namespace TurboLabz.InstantChess
         {
             if (CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PROMO_DIALOG);
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PROMO_DLG);
 
                 IChessboardModel model = cmd.chessboardModel;
                 cmd.hidePossibleMovesSignal.Dispatch();

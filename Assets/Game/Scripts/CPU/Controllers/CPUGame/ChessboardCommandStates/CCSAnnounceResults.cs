@@ -39,7 +39,7 @@ namespace TurboLabz.InstantChess
             IChessboardModel model = cmd.chessboardModel;
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
 
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PLAY_RESULTS_DLG);
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
             cmd.updateResultsDialogSignal.Dispatch(model.gameEndReason, playerWins);
 
 

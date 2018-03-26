@@ -29,7 +29,6 @@ namespace TurboLabz.InstantChess
 
             view.menuButtonClickedSignal.AddListener(OnMenuButtonClicked);
             view.resignButtonClickedSignal.AddListener(OnResignClicked);
-            view.exitButtonClickedSignal.AddListener(OnExitButtonClicked);
             view.continueButtonClickedSignal.AddListener(OnContinueButtonClicked);
         }
 
@@ -41,7 +40,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowMenuView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_PLAY_MENU) 
+            if (viewId == NavigatorViewId.EXIT_DLG) 
             {
                 view.ShowMenu();
             }
@@ -50,7 +49,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideMenuView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_PLAY_MENU)
+            if (viewId == NavigatorViewId.EXIT_DLG)
             {
                 view.HideMenu();
             }
@@ -70,7 +69,7 @@ namespace TurboLabz.InstantChess
 
         private void OnMenuButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PLAY_EXIT_DLG);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
         }
 
         private void OnResignClicked()
@@ -78,14 +77,9 @@ namespace TurboLabz.InstantChess
             resignSignal.Dispatch();
         }
 
-        private void OnExitButtonClicked()
-        {
-            loadCPUMenuSignal.Dispatch();
-        }
-
         private void OnContinueButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PLAY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
         }
     }
 }

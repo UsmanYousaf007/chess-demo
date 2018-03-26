@@ -28,8 +28,9 @@ namespace TurboLabz.InstantFramework
 
             #endif
 
-            // Keep the device awake while the game is running.
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
+            Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
 
             context = new InstantFrameworkContext(this);
         }

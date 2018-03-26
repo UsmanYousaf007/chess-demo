@@ -17,7 +17,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
-    public class StartNewCPUGameCommand : Command
+    public class StartNewGameCommand : Command
     {
         // Dispatch signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }

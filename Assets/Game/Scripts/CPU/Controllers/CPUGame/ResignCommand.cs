@@ -27,7 +27,7 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PLAY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
 
             chessboardModel.gameEndReason = TurboLabz.Chess.GameEndReason.RESIGNATION;
             chessboardModel.winnerId = null;

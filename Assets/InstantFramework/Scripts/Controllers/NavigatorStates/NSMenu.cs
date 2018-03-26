@@ -12,23 +12,18 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSCPUPlayResultsDialog : NS
+    public class NSMenu : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.CPU_PLAY_RESULTS);
+            ShowView(NavigatorViewId.MENU);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_CPU_MENU)
+            if (evt == NavigatorEvent.SHOW_PLAY)
             {
-                return new NSCPUMenu();
-            }
-            else if (evt == NavigatorEvent.ESCAPE)
-            {
-                cmd.loadCPUMenuSignal.Dispatch();
-                return null;
+                return new NSPlay();
             }
 
             return null;

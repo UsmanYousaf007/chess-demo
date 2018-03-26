@@ -17,9 +17,10 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_CPU_MENU)
+            if (evt == NavigatorEvent.LOAD_GAME)
             {
-                return new NSCPUMenu();
+                cmd.loadGameSignal.Dispatch();
+                return null;
             }
 
             return null;

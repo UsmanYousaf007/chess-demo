@@ -23,32 +23,25 @@ namespace TurboLabz.InstantChess
     {
         public Button menuButton;
         public Button resignButton;
-        public Button exitButton;
         public Button continueButton;
 
         public Signal menuButtonClickedSignal = new Signal();
         public Signal resignButtonClickedSignal = new Signal();
-        public Signal exitButtonClickedSignal = new Signal();
         public Signal continueButtonClickedSignal = new Signal();
 
         public GameObject gameMenu;
 
         public Text resignButtonLabel;
-        public Text exitButtonLabel;
         public Text continueButtonLabel;
-        public Text exitExplanationLabel;
 
         public void InitMenu()
         {
             menuButton.onClick.AddListener(OnMenuButtonClicked);
             resignButton.onClick.AddListener(OnResignButtonClicked);
-            exitButton.onClick.AddListener(OnExitButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
 
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
-            exitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
-            exitExplanationLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_EXPLAINATION);
         }
 
         public void OnParentShowMenu()
@@ -134,11 +127,6 @@ namespace TurboLabz.InstantChess
         void OnResignButtonClicked()
         {
             resignButtonClickedSignal.Dispatch();
-        }
-
-        void OnExitButtonClicked()
-        {
-            exitButtonClickedSignal.Dispatch();
         }
 
         void OnContinueButtonClicked()

@@ -15,39 +15,13 @@ namespace TurboLabz.InstantFramework
     public enum NavigatorEvent
     {
         ESCAPE,
-        SHOW_CPU_MENU,
-        SHOW_CPU_PLAY,
-        SHOW_LOBBY,
-        SHOW_CPU_PLAY_EXIT_DLG,
-        SHOW_CPU_PLAY_RESULTS_DLG,
-        SHOW_MP_PLAY,
-        SHOW_PROMO_DIALOG,
-
+        LOAD_GAME,
         SHOW_SPLASH,
-        SHOW_LOADING,
-        SHOW_AUTHENTICATION,
-        SHOW_ROOMS,
-        SHOW_SHOP,
-        SHOW_SHOP_LOOT_BOXES,
-        SHOW_SHOP_AVATARS,
-        SHOW_SHOP_CHESS_SKINS,
-        SHOW_SHOP_CHAT,
-        SHOW_SHOP_CURRENCY,
-        BACK_FROM_SHOP,
-        SHOW_INVENTORY,
-        BACK_FROM_INVENTORY,
-        SHOW_PLAYER_PROFILE,
-        SHOW_MATCH_MAKING,
-        SHOW_END_GAME,
-
-        CLOSE_DLG,
-        SHOW_FREE_CURRENCY_1_DLG,
-        SHOW_OUT_OF_CURRENCY_1_DLG,
-        SHOW_SHOP_LOOT_BOXES_DLG,
-        SHOW_SHOP_AVATARS_DLG,
-        SHOW_SHOP_AVATARS_BORDER_DLG,
-        SHOW_SHOP_CHESS_SKINS_DLG,
-        SHOW_SHOP_CURRENCY_1_DLG,
-        SHOW_SHOP_CURRENCY_2_DLG
+        SHOW_MENU,
+        SHOW_PLAY,
+        SHOW_LOBBY,
+        SHOW_EXIT_DLG,
+        SHOW_RESULTS_DLG,
+        SHOW_PROMO_DLG
     }
 }

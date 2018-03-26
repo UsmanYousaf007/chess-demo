@@ -43,7 +43,7 @@ namespace TurboLabz.InstantChess
         protected void RenderNewGame(ChessboardCommand cmd, bool isPlayerTurn)
         {
             // Load the game view
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PLAY);
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
 
             // Initialize and launch our time control if not playing an
             // infinite time game.
@@ -119,7 +119,7 @@ namespace TurboLabz.InstantChess
 
         protected void RenderPromo(ChessboardCommand cmd)
         {
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PLAY);
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
             IChessboardModel model = cmd.chessboardModel;
             cmd.updatePromoSignal.Dispatch(GetMoveVO(model, true));
             cmd.chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);

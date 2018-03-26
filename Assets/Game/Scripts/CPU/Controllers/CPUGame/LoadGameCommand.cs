@@ -23,6 +23,11 @@ namespace TurboLabz.InstantChess
 {
     public class LoadGameCommand : Command
     {
+        // Dispatch Signals
+        [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
+
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -34,7 +39,9 @@ namespace TurboLabz.InstantChess
         {
             if (!localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
             {
-                LogUtil.Log("No saved game found.", "yellow");
+                LogUtil.Log("No saved game or settings found.", "yellow");
+                ResetAll();
+                LoadMenu();
                 return;
             }
 
@@ -51,6 +58,7 @@ namespace TurboLabz.InstantChess
                 if (!cpuGameModel.inProgress)
                 {
                     reader.Close();
+                    LoadMenu();
                     return;
                 }
                     
@@ -87,6 +95,9 @@ namespace TurboLabz.InstantChess
 
                 reader.Close();
 
+                chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+
+
                 /*
                 LogUtil.Log("Loaded game", "yellow");
 
@@ -112,12 +123,22 @@ namespace TurboLabz.InstantChess
             catch (Exception e)
             {
                 LogUtil.Log("Corrupt saved game! " + e, "red");
-                chessboardModel.Reset();
-                cpuGameModel.Reset();
-                cpuGameModel.inProgress = false;
                 localDataService.DeleteFile(SaveKeys.CPU_SAVE_FILENAME);
-
+                ResetAll();
+                LoadMenu();
             }
+        }
+
+        private void ResetAll()
+        {
+            cpuGameModel.Reset();
+            cpuGameModel.inProgress = false;
+        }
+
+        private void LoadMenu()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MENU);
+            updateMenuViewSignal.Dispatch(cpuGameModel.GetCPUMenuVO());
         }
     }
 }

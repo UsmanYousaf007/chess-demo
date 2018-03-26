@@ -49,11 +49,9 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
+            commandBinder.Bind<LoadGameSignal>().To<LoadGameCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
-
-            // Signals to launch game modes from the lobby
-            commandBinder.Bind<LoadCPUMenuSignal>().To<LoadCPUMenuCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -85,11 +83,10 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IChessAiService>().To<ChessAiService>().ToSingleton();
 
             // Bind signals to commands
-            commandBinder.Bind<StartCPUGameSignal>().To<StartNewCPUGameCommand>();
+            commandBinder.Bind<StartNewGameSignal>().To<StartNewGameCommand>();
             commandBinder.Bind<RunTimeControlSignal>().To<RunTimeControlCommand>();
             commandBinder.Bind<ResignSignal>().To<ResignCommand>();
             commandBinder.Bind<SaveGameSignal>().To<SaveGameCommand>();
-            commandBinder.Bind<LoadGameSignal>().To<LoadGameCommand>();
             commandBinder.Bind<AiTurnSignal>().To<AiTurnCommand>();
             commandBinder.Bind<ChessboardEventSignal>().To<ChessboardCommand>();
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
@@ -141,7 +138,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<DisableUndoButtonSignal>().ToSingleton();
             injectionBinder.Bind<DisableMenuButtonSignal>().ToSingleton();
             injectionBinder.Bind<DisableHintButtonSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateCPUMenuViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStrengthSignal>().ToSingleton();
             injectionBinder.Bind<UpdateDurationSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerColorSignal>().ToSingleton();

@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
     public class SplashMediator : Mediator
     {
         // Dispatch signals
-        [Inject] public LoadCPUMenuSignal loadCPUMenuSignal { get; set; }
+        [Inject] public LoadGameSignal loadGameSignal { get; set; }
 
         // View injection
         [Inject] public SplashView view { get; set; }
@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnSplashAnimationCompleted()
         {
-            loadCPUMenuSignal.Dispatch();
+            loadGameSignal.Dispatch();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -12,20 +12,15 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSCPUMenu : NS
+    public class NSStats : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.CPU_MENU);
+            ShowView(NavigatorViewId.STATS);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_CPU_PLAY)
-            {
-                return new NSCPUPlay();
-            }
-
             return null;
         }
     }

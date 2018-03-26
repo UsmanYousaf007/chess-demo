@@ -18,9 +18,6 @@ namespace TurboLabz.InstantChess
 {
     public partial class GameMediator
     {
-        // Dispatch signals
-        [Inject] public LoadCPUMenuSignal loadCPUMenuSignal { get; set; }
-
         public void OnRegisterResults()
         {
             view.InitResults();
@@ -36,7 +33,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowResultsView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_PLAY_RESULTS) 
+            if (viewId == NavigatorViewId.RESULTS_DLG) 
             {
                 view.ShowResultsDialog();
             }
@@ -45,7 +42,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideResultsView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_PLAY_RESULTS)
+            if (viewId == NavigatorViewId.RESULTS_DLG)
             {
                 view.HideResultsDialog();
             }
@@ -59,7 +56,7 @@ namespace TurboLabz.InstantChess
 
         private void OnResultsExitButtonClicked()
         {
-            loadCPUMenuSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MENU);
         }
 
         private void OnStatsButtonClickedSignal()

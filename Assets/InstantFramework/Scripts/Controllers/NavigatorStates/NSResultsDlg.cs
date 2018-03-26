@@ -12,16 +12,20 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSCPUStats : NS
+    public class NSResultsDlg : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.CPU_STATS);
+            ShowDialog(NavigatorViewId.RESULTS_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            
+            if (evt == NavigatorEvent.SHOW_MENU ||
+                evt == NavigatorEvent.ESCAPE)
+            {
+                return new NSMenu();
+            }
 
             return null;
         }

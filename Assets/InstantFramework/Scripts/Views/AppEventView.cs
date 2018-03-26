@@ -26,13 +26,6 @@ namespace TurboLabz.InstantFramework
         public Signal appQuitSignal = new Signal();
         public Signal appEscapeSignal = new Signal();
 
-
-        void Awake()
-        {
-            Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
-            Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
-        }
-
         // TODO: Verify that this class behaves correctly for EACH platform
         // Windows Phone might require OnApplicationFocus - this this out
         void Update()

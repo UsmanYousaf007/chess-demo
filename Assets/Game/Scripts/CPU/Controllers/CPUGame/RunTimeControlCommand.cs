@@ -108,7 +108,7 @@ namespace TurboLabz.InstantChess
         {
             chessboardModel.gameEndReason = GameEndReason.TIMER_EXPIRED;
             chessboardModel.winnerId = winnerId;
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PLAY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
 
         }

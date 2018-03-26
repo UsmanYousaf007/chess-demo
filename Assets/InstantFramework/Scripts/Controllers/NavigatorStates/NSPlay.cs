@@ -12,18 +12,27 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSCPUPlayPromo : NS
+    public class NSPlay : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.CPU_PLAY_PROMO);
+            ShowView(NavigatorViewId.PLAY);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_CPU_PLAY)
+            if (evt == NavigatorEvent.SHOW_EXIT_DLG ||
+                evt == NavigatorEvent.ESCAPE)
             {
-                return new NSCPUPlay();
+                return new NSExitDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_RESULTS_DLG)
+            {
+                return new NSResultsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_PROMO_DLG)
+            {
+                return new NSPromo();
             }
 
             return null;
