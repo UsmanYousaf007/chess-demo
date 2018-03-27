@@ -81,4 +81,5 @@ namespace TurboLabz.InstantChess
     public class GetHintSignal : Signal {}
     public class UpdateHintCountSignal : Signal<int> {}
     public class TurnSwapSignal : Signal<bool> {}
+    public class UpdateGameInfoSignal : Signal<GameInfoVO> {};
 }

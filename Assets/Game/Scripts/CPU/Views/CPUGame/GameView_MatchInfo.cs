@@ -22,8 +22,6 @@ namespace TurboLabz.InstantChess
     public partial class GameView
     {
         public Text playerNameLabel;
-        public Text playerLevelLabel;
-        public Image playerFlag;
         public Text cpuNameLabel;
         public Text cpuStrengthLabel;
         public Image playerProfilePicture;
@@ -31,6 +29,7 @@ namespace TurboLabz.InstantChess
         public void InitMatchInfo()
         {
             cpuNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_NAME);
+            playerNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_PLAYER_NAME);
         }
 
         public void OnParentShowMatchInfo()
@@ -38,17 +37,17 @@ namespace TurboLabz.InstantChess
             // Nothing
         }
 
-        public void UpdateCPUGameInfo(CPUGameInfoVO vo)
+        public void UpdateGameInfo(GameInfoVO vo)
         {
-            playerNameLabel.text = vo.playerName;
-            playerLevelLabel.text = localizationService.Get(LocalizationKey.GM_PLAYER_LEVEL, vo.playerLevel.ToString());
             cpuStrengthLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_STRENGTH, vo.cpuStrength.ToString());
         }
 
+        /*
         public void UpdatePlayerProfilePicture(Sprite sprite)
         {
             playerProfilePicture.sprite = sprite;
             playerProfilePicture.gameObject.SetActive(sprite != null);
         }
+        */
     }
 }

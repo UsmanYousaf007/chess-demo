@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateGameInfoSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

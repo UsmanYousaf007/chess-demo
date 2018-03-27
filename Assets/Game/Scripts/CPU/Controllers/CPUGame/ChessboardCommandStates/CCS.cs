@@ -80,6 +80,11 @@ namespace TurboLabz.InstantChess
             // Set the undo button's default state
             cmd.disableUndoButtonSignal.Dispatch();
 
+            // Update the game info
+            GameInfoVO gameInfoVO = new GameInfoVO();
+            gameInfoVO.cpuStrength = cmd.cpuGameModel.cpuStrength;
+            cmd.updateGameInfoSignal.Dispatch(gameInfoVO);
+
             // If we are resuming and there were some moves made, update the
             // view to account for the moves
             int resumeMoveCount = chessboardModel.moveVOCache.Count;

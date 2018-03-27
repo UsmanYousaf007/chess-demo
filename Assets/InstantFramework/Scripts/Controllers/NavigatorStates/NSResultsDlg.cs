@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -21,8 +22,12 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_MENU ||
-                evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.ESCAPE)
+            {
+                cmd.loadGameSignal.Dispatch();
+                return null;
+            }
+            else if (evt == NavigatorEvent.SHOW_MENU)
             {
                 return new NSMenu();
             }

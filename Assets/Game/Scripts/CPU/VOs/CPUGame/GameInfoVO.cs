@@ -12,14 +12,8 @@
 
 namespace TurboLabz.InstantChess
 {
-    public class CPUGameInfoVO
+    public class GameInfoVO
     {
-        public string playerName;
-        public int playerLevel;
-        public string playerCountryId;
         public int cpuStrength;
-        public bool isPlayerTurn;
-        public int hintCount;
-        public int durationMinutes;
     }
 }

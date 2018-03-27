@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_STATS, "STATS" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "CPU" },
                 { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Strength {0}" },
+                { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
 
                 { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN" },
                 { LocalizationKey.CPU_GAME_UNDO_BUTTON, "UNDO" },

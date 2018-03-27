@@ -23,5 +23,11 @@ namespace TurboLabz.InstantChess
         {
             view.InitMatchInfo();
         }
+
+        [ListensTo(typeof(UpdateGameInfoSignal))]
+        public void OnUpdateGameInfo(GameInfoVO vo)
+        {
+            view.UpdateGameInfo(vo);
+        }
     }
 }

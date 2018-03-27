@@ -61,6 +61,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_STATS = "cpuMenuStats";
         public const string CPU_GAME_CPU_NAME = "cpuGameCpuName";
         public const string CPU_GAME_CPU_STRENGTH = "cpuGameCpuStrength";
+        public const string CPU_GAME_PLAYER_NAME = "cpuGamePlayerName";
         public const string CPU_GAME_RESIGN_BUTTON = "cpuGameResignButton";
         public const string CPU_GAME_UNDO_BUTTON = "cpuGameUndoButton";
         public const string CPU_GAME_HINT_BUTTON = "cpuGameHintButton";
