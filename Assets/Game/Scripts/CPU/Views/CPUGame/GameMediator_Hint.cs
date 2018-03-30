@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using TurboLabz.Chess;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {

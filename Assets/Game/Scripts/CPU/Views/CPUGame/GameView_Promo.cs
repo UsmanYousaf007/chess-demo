@@ -96,8 +96,8 @@ namespace TurboLabz.InstantChess
             promoParent.SetActive(true);
 
             StashUndoButton();
-            StashHintButton();
             StashMenuButton();
+            DisableHintButton();
         }
 
         public void HidePromoDialog()
@@ -106,7 +106,6 @@ namespace TurboLabz.InstantChess
             promoParent.SetActive(false);
 
             PopUndoButton();
-            PopHintButton();
             PopMenuButton();
         }
 

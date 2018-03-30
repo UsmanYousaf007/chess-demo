@@ -20,14 +20,6 @@ namespace TurboLabz.InstantFramework
     {
         void Awake()
         {
-            #if UNITY_EDITOR
-
-            // For debugging on the editor we don't want the app to keep going
-            // in the background when we switch focus to MonoDevelop, etc.
-            //UnityEngine.Application.runInBackground = true;
-
-            #endif
-
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
             Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
