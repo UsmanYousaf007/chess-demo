@@ -69,6 +69,10 @@ namespace TurboLabz.InstantChess
             resultsDialog.SetActive(true);
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", RESULTS_DELAY_TIME);
+
+            DisableUndoButton();
+            DisableMenuButton();
+            DisableHintButton();
         }
 
         public void HideResultsDialog()
