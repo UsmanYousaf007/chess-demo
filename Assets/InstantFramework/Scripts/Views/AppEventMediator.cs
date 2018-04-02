@@ -40,7 +40,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnAppPaused()
         {
-            LogUtil.Log("App paused mediator...", "yellow");
             appEventSignal.Dispatch(AppEvent.PAUSED);
         }
 

@@ -25,6 +25,8 @@ namespace TurboLabz.InstantChess
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
+        [Inject] public PauseTimersSignal pauseTimersSignal { get; set; }
+        [Inject] public ResumeTimersSignal resumeTimersSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -81,7 +83,12 @@ namespace TurboLabz.InstantChess
 
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
+                pauseTimersSignal.Dispatch();   
                 saveGameSignal.Dispatch();
+            }
+            else if (evt == AppEvent.RESUMED)
+            {
+                resumeTimersSignal.Dispatch();
             }
         }
     }

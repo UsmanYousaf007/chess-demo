@@ -22,8 +22,6 @@ namespace TurboLabz.InstantChess
         // Dispatch Signals
         [Inject] public ResignSignal resignSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public PauseTimersSignal pauseTimersSignal { get; set; }
-        [Inject] public ResumeTimersSignal resumeTimersSignal { get; set; }
 
         public void OnRegisterMenu()
         {
@@ -45,7 +43,6 @@ namespace TurboLabz.InstantChess
             if (viewId == NavigatorViewId.EXIT_DLG) 
             {
                 view.ShowMenu();
-                pauseTimersSignal.Dispatch();
             }
         }
 
@@ -55,7 +52,6 @@ namespace TurboLabz.InstantChess
             if (viewId == NavigatorViewId.EXIT_DLG)
             {
                 view.HideMenu();
-                resumeTimersSignal.Dispatch();
             }
         }
 

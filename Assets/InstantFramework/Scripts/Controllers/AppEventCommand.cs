@@ -26,8 +26,6 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            LogUtil.Log("Got app event command:" + appEvent);
-
             gameAppEventSignal.Dispatch(appEvent);
 
             if (appEvent == AppEvent.ESCAPED)
