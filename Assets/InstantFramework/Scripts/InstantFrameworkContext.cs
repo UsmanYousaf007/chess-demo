@@ -153,6 +153,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();
             injectionBinder.Bind<ReceiveTurnSwapTimeControlSignal>().ToSingleton();
             injectionBinder.Bind<StopTimersSignal>().ToSingleton();
+            injectionBinder.Bind<PauseTimersSignal>().ToSingleton();
+            injectionBinder.Bind<ResumeTimersSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();

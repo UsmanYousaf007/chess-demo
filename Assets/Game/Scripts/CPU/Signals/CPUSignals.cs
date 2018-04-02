@@ -53,6 +53,8 @@ namespace TurboLabz.InstantChess
     public class TakeTurnSwapTimeControlSignal : Signal {}
     public class ReceiveTurnSwapTimeControlSignal : Signal {}
     public class StopTimersSignal : Signal {}
+    public class PauseTimersSignal : Signal {}
+    public class ResumeTimersSignal : Signal {}
     public class EnablePlayerTurnInteractionSignal : Signal {}
     public class EnableOpponentTurnInteractionSignal : Signal {}
     public class UpdateMoveForResumeSignal : Signal<MoveVO, bool> {}

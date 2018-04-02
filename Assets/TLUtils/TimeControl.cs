@@ -32,9 +32,7 @@ namespace TurboLabz.TLUtils
         private IRoutineRunner routineRunner = new NormalRoutineRunner();
 
         public TimeSpan playerRealTimer { get; set; }
-        public TimeSpan playerDisplayTimer { get; set; }
         public TimeSpan opponentRealTimer { get; set; }
-        public TimeSpan opponentDisplayTimer { get; set; }
 
         private DateTime swapTimestamp;
         private TimeSpan timerAtSwap;
@@ -46,6 +44,9 @@ namespace TurboLabz.TLUtils
         private bool isPlayerTurn;
         private int lastPlayerTimerSeconds;
         private int lastOpponentTimerSeconds;
+
+        private bool isPaused;
+        private DateTime pauseTime;
 
         public Signal playerTickSignal { get; private set; }
         public Signal opponentTickSignal { get; private set; }
@@ -65,9 +66,7 @@ namespace TurboLabz.TLUtils
             state = State.STOPPED;
 
             playerRealTimer = playerTimer;
-            playerDisplayTimer = playerTimer;
             opponentRealTimer = opponentTimer;
-            opponentDisplayTimer = opponentTimer;
         }
 
         public void Reset()
@@ -75,9 +74,7 @@ namespace TurboLabz.TLUtils
             state = State.UNINITIALIZED;
 
             playerRealTimer = default(TimeSpan);
-            playerDisplayTimer = default(TimeSpan);
             opponentRealTimer = default(TimeSpan);
-            opponentDisplayTimer = default(TimeSpan);
         }
 
         public void StartTimers(bool isPlayerTurn)
@@ -116,6 +113,24 @@ namespace TurboLabz.TLUtils
             isPlayerTurn = !isPlayerTurn;
         }
 
+        public void PauseTimers()
+        {
+            if (!isPaused)
+            {
+                pauseTime = DateTime.UtcNow;
+                isPaused = true;
+            }
+        }
+
+        public void ResumeTimers()
+        {
+            if (isPaused)
+            {
+                swapTimestamp = swapTimestamp.Add(DateTime.UtcNow.Subtract(pauseTime));
+                isPaused = false;
+            }
+        }
+
         private void StartPlayerTimer()
         {
             Assertions.Assert(state != State.PLAYER_TIMER_RUNNING, "Player timer must NOT already be running!");
@@ -124,7 +139,6 @@ namespace TurboLabz.TLUtils
 
             swapTimestamp = DateTime.UtcNow;
             timerAtSwap = playerRealTimer;
-            lastPlayerTimerSeconds = playerDisplayTimer.Seconds;
             runPlayerTimerCR = RunPlayerTimerCR();
             routineRunner.StartCoroutine(runPlayerTimerCR);
         }
@@ -133,29 +147,22 @@ namespace TurboLabz.TLUtils
         {
             while (true)
             {
-                playerRealTimer = timerAtSwap - (DateTime.UtcNow - swapTimestamp);
-
-                if (playerRealTimer < TimeSpan.Zero)
+                if (!isPaused)
                 {
-                    playerRealTimer = TimeSpan.Zero;
-                }
+                    playerRealTimer = timerAtSwap - (DateTime.UtcNow - swapTimestamp);
 
-                if (playerRealTimer < playerDisplayTimer)
-                {
-                    playerDisplayTimer = playerRealTimer;
-                }
+                    if (playerRealTimer < TimeSpan.Zero)
+                    {
+                        playerRealTimer = TimeSpan.Zero;
+                    }
 
-                if ((playerDisplayTimer.Seconds != lastPlayerTimerSeconds) || 
-                    (playerDisplayTimer == TimeSpan.Zero))
-                {
-                    lastPlayerTimerSeconds = playerDisplayTimer.Seconds;
                     playerTickSignal.Dispatch();
-                }
 
-                if (playerRealTimer == TimeSpan.Zero)
-                {
-                    playerTimerExpiredSignal.Dispatch();
-                    StopTimers();
+                    if (playerRealTimer == TimeSpan.Zero)
+                    {
+                        playerTimerExpiredSignal.Dispatch();
+                        StopTimers();
+                    }
                 }
 
                 yield return null;
@@ -179,7 +186,6 @@ namespace TurboLabz.TLUtils
 
             swapTimestamp = DateTime.UtcNow;
             timerAtSwap = opponentRealTimer;
-            lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
             runOpponentTimerCR = RunOpponentTimerCR();
             routineRunner.StartCoroutine(runOpponentTimerCR);
         }
@@ -188,29 +194,22 @@ namespace TurboLabz.TLUtils
         {
             while (true)
             {
-                opponentRealTimer = timerAtSwap - (DateTime.UtcNow - swapTimestamp);
-
-                if (opponentRealTimer < TimeSpan.Zero)
+                if (!isPaused)
                 {
-                    opponentRealTimer = TimeSpan.Zero;
-                }
+                    opponentRealTimer = timerAtSwap - (DateTime.UtcNow - swapTimestamp);
 
-                if (opponentRealTimer < opponentDisplayTimer)
-                {
-                    opponentDisplayTimer = opponentRealTimer;
-                }
+                    if (opponentRealTimer < TimeSpan.Zero)
+                    {
+                        opponentRealTimer = TimeSpan.Zero;
+                    }
 
-                if ((opponentDisplayTimer.Seconds != lastOpponentTimerSeconds) || 
-                    (opponentDisplayTimer == TimeSpan.Zero))
-                {
-                    lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
                     opponentTickSignal.Dispatch();
-                }
 
-                if (opponentRealTimer == TimeSpan.Zero)
-                {
-                    opponentTimerExpiredSignal.Dispatch();
-                    StopTimers();
+                    if (opponentRealTimer == TimeSpan.Zero)
+                    {
+                        opponentTimerExpiredSignal.Dispatch();
+                        StopTimers();
+                    }
                 }
 
                 yield return null;

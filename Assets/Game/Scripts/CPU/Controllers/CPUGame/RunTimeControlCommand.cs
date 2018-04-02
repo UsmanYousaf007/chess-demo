@@ -35,6 +35,8 @@ namespace TurboLabz.InstantChess
         [Inject] public TakeTurnSwapTimeControlSignal takeTurnSwapTimeControlSignal { get; set; }
         [Inject] public ReceiveTurnSwapTimeControlSignal receiveTurnSwapTimeControlSignal { get; set; }
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
+        [Inject] public PauseTimersSignal pauseTimersSignal { get; set; }
+        [Inject] public ResumeTimersSignal resumeTimersSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -68,13 +70,13 @@ namespace TurboLabz.InstantChess
 
         private void OnPlayerTimerTick()
         {
-            updatePlayerTimerSignal.Dispatch(timeControl.playerDisplayTimer);
+            updatePlayerTimerSignal.Dispatch(timeControl.playerRealTimer);
             chessboardModel.playerTimer = timeControl.playerRealTimer;
         }
 
         private void OnOpponentTimerTick()
         {
-            updateOpponentTimerSignal.Dispatch(timeControl.opponentDisplayTimer);
+            updateOpponentTimerSignal.Dispatch(timeControl.opponentRealTimer);
             chessboardModel.opponentTimer = timeControl.opponentRealTimer;
         }
 
@@ -120,13 +122,14 @@ namespace TurboLabz.InstantChess
             Release();
         }
 
-        // TODO: Discuss architecture for releasing non-request commands when
-        // the backend disconnects.
-        private void OnDisconnectBackend()
+        private void OnPauseTimers()
         {
-            timeControl.StopTimers();
-            RemoveListeners();
-            Release();
+            timeControl.PauseTimers();
+        }
+
+        private void OnResumeTimers()
+        {
+            timeControl.ResumeTimers();
         }
 
         private void AddListeners()
@@ -139,6 +142,9 @@ namespace TurboLabz.InstantChess
             takeTurnSwapTimeControlSignal.AddListener(OnTakeTurnSwapTimeControl);
             receiveTurnSwapTimeControlSignal.AddListener(OnReceiveTurnSwapTimeControl);
             stopTimersSignal.AddListener(OnStopTimersSignal);
+
+            pauseTimersSignal.AddListener(OnPauseTimers);
+            resumeTimersSignal.AddListener(OnResumeTimers);
         }
 
         private void RemoveListeners()
@@ -151,6 +157,9 @@ namespace TurboLabz.InstantChess
             takeTurnSwapTimeControlSignal.RemoveListener(OnTakeTurnSwapTimeControl);
             receiveTurnSwapTimeControlSignal.RemoveListener(OnReceiveTurnSwapTimeControl);
             stopTimersSignal.RemoveListener(OnStopTimersSignal);
+
+            pauseTimersSignal.RemoveListener(OnPauseTimers);
+            resumeTimersSignal.RemoveListener(OnResumeTimers);
         }
     }
 }

@@ -24,14 +24,14 @@ namespace TurboLabz.TLUtils
         Signal opponentTimerExpiredSignal { get; }
 
         TimeSpan playerRealTimer { get; set; }
-        TimeSpan playerDisplayTimer { get; set; }
         TimeSpan opponentRealTimer { get; set; }
-        TimeSpan opponentDisplayTimer { get; set; }
 
         void SetTimers(TimeSpan playerTimer, TimeSpan opponentTimer);
         void Reset();
         void StartTimers(bool isPlayerTurn);
         void StopTimers();
         void SwapTimers();
+        void PauseTimers();
+        void ResumeTimers();
     }
 }
