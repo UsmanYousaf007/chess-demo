@@ -29,13 +29,11 @@ namespace TurboLabz.InstantFramework
         {
             if (appEvent == AppEvent.QUIT)
             {
-                #if UNITY_EDITOR
                 if (chessAiService.isInitialized)
                 {
                     chessAiService.Shutdown();
 
                 }
-                #endif
             }
         }
     }

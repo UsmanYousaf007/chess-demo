@@ -26,7 +26,7 @@ namespace TurboLabz.Chess
     public partial class ChessAiService : IChessAiService
     {
         #if UNITY_EDITOR
-        public const string PLUGIN_NAME = "osx-ai";
+        public const string PLUGIN_NAME = "macos-ai";
         #elif UNITY_ANDROID
         public const string PLUGIN_NAME = "android-ai";
         #endif
@@ -178,6 +178,8 @@ namespace TurboLabz.Chess
 
         private static void UnityOutCallback(string str)
         {
+            LogUtil.Log("Unity out: " + str, "cyan");
+
             if (str.Contains("moveOptions"))
             {
                 aiSearchResultMovesStr = str;
