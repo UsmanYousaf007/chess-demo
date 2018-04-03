@@ -19,8 +19,6 @@ namespace TurboLabz.Chess
         void NewGame();
         void Shutdown();
         void SetPosition(string FEN);
-        IPromise<FileRank, FileRank, string> GetAiMove(AiMoveInputVO vo, AiOverrideStrength overrideStrength);
         IPromise<FileRank, FileRank, string> GetAiMove(AiMoveInputVO vo);
-        bool isInitialized { get; set; }
     }
 }

@@ -32,7 +32,6 @@ namespace TurboLabz.Chess
         private void SelectMove()
         {
             AiLog("AI selecting move.");
-            ParseResults();
 
             // For any other move, emulate a human player by thinking
             // 1 dimensionally.
@@ -73,7 +72,7 @@ namespace TurboLabz.Chess
             // If we are not making the best possible Ai move, then we must
             // check for certain events that we want to disallow across the board.
             // If such an event does occur, we make the best move instead.
-            if (overrideStrength != AiOverrideStrength.STUPID && index > 0 && !panicMove) 
+            if (index > 0 && !panicMove) 
             {
                 if (CancelMoveDueToFeedsOrWeakExchanges(from, to, promo, index) ||
                     CancelMoveDueToFreeCaptureAvailable(to, index) ||
@@ -160,7 +159,7 @@ namespace TurboLabz.Chess
 
         private bool CancelMoveDueToRookRestriction(FileRank from, int index)
         {
-            if (aiMoveInputVO.aiMoveNumber <= AiConfig.ROOK_RESTRICTION_MOVE_COUNT &&
+            if (aiMoveInputVO.aiMoveNumber <= ChessAiConfig.ROOK_RESTRICTION_MOVE_COUNT &&
                 IsMovingPiece(from, ChessPieceName.BLACK_ROOK))
             {
                 AiLog("Rook was moved non-optimally.");
@@ -205,7 +204,7 @@ namespace TurboLabz.Chess
                     // A chance of making the exchange if values are equal
                     bool exchange = false;
                     exchange = (attackingPieceValue < victimPieceValue) ||
-                        ((attackingPieceValue == victimPieceValue) && RollPercentageDice(AiConfig.PIECE_EXCHANCE_CHANCE));
+                        ((attackingPieceValue == victimPieceValue) && RollPercentageDice(ChessAiConfig.PIECE_EXCHANCE_CHANCE));
 
                     if (exchange)
                     {
@@ -278,9 +277,9 @@ namespace TurboLabz.Chess
         {
             // For the first 4 moves we select a random opening move or one of 3 'pro' opening
             // moves based on if we rolled a best move
-            if (aiMoveInputVO.aiMoveNumber <= AiConfig.OPENING_MOVES_COUNT)
+            if (aiMoveInputVO.aiMoveNumber <= ChessAiConfig.OPENING_MOVES_COUNT)
             {
-                int selectCount = Math.Min(scores.Count, AiConfig.OPENING_MOVES_SELECT_COUNT);
+                int selectCount = Math.Min(scores.Count, ChessAiConfig.OPENING_MOVES_SELECT_COUNT);
                 int openingMoveIndex = UnityEngine.Random.Range(0, selectCount);
 
                 AiLog("Made opening move.");
@@ -318,15 +317,15 @@ namespace TurboLabz.Chess
             {
                 if (clockSeconds < 10 )
                 {
-                    panic = RollPercentageDice(AiConfig.TEN_SECOND_PANIC_CHANCE);
+                    panic = RollPercentageDice(ChessAiConfig.TEN_SECOND_PANIC_CHANCE);
                 }
                 else if (clockSeconds < 30)
                 {
-                    panic = RollPercentageDice(AiConfig.THIRTY_SECOND_PANIC_CHANCE);
+                    panic = RollPercentageDice(ChessAiConfig.THIRTY_SECOND_PANIC_CHANCE);
                 }
                 else if (clockSeconds < 60)
                 {
-                    panic = RollPercentageDice(AiConfig.ONE_MIN_PANIC_CHANCE);
+                    panic = RollPercentageDice(ChessAiConfig.ONE_MIN_PANIC_CHANCE);
                 }
             }
             else
@@ -335,14 +334,14 @@ namespace TurboLabz.Chess
                 // to the mindset when the clock is so low.
                 if (clockSeconds < 10 )
                 {
-                    panic = RollPercentageDice(AiConfig.TEN_SECOND_PANIC_CHANCE);
+                    panic = RollPercentageDice(ChessAiConfig.TEN_SECOND_PANIC_CHANCE);
                 }
             }
 
             if (panic)
             {
                 AiLog("Rolled a panic move.");
-                DispatchMove(AiConfig.PANIC_MOVE_INDEX, true);
+                DispatchMove(ChessAiConfig.PANIC_MOVE_INDEX, true);
                 return true;
             }
 
@@ -407,50 +406,33 @@ namespace TurboLabz.Chess
             return 0;
         }
 
-        private void ParseResults()
-        {
-            // Read the scores returned
-            aiSearchResultScoresList = new List<string>(aiSearchResultScoresStr.Split(','));
-            aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
-            scores = new List<int>();
-
-            foreach (string score in aiSearchResultScoresList)
-            {
-                scores.Add(int.Parse(score));
-            }
-
-            // Read the moves returned
-            aiSearchResultMovesList = new List<string>(aiSearchResultMovesStr.Split(','));
-            aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
-        }
-
         private int GetValueForPiece(string pieceName)
         {
             pieceName = pieceName.ToLower();
 
             if (pieceName == ChessPieceName.BLACK_KING)
             {
-                return AiConfig.KING_VALUE;
+                return ChessAiConfig.KING_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_QUEEN)
             {
-                return AiConfig.QUEEN_VALUE;
+                return ChessAiConfig.QUEEN_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_ROOK)
             {
-                return AiConfig.ROOK_VALUE;
+                return ChessAiConfig.ROOK_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_BISHOP)
             {
-                return AiConfig.BISHOP_VALUE;
+                return ChessAiConfig.BISHOP_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_KNIGHT)
             {
-                return AiConfig.KNIGHT_VALUE;
+                return ChessAiConfig.KNIGHT_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_PAWN)
             {
-                return AiConfig.PAWN_VALUE;
+                return ChessAiConfig.PAWN_VALUE;
             }
 
             Assertions.Assert(false, "Unknown piece name.");

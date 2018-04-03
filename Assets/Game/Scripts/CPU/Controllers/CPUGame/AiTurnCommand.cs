@@ -46,27 +46,10 @@ namespace TurboLabz.InstantChess
             vo.squares = chessboardModel.squares;
             vo.opponentTimer = chessboardModel.opponentTimer;
             vo.timeControl = chessboardModel.aiTimeControl;
-            vo.opponentLevel = cpuGameModel.cpuStrength;
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
-            vo.defaultMoveDelay = CPUSettings.MOVE_DELAYS[cpuGameModel.durationIndex];
 
-            LogUtil.Log("REMOVE AI STRENGTH HACK!!", "red");
-
-            if (cpuGameModel.cpuStrength == 1)
-            {
-                IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo, AiOverrideStrength.STUPID);
-                promise.Then(OnAiMove);
-            }
-            else if (cpuGameModel.cpuStrength == 2)
-            {
-                IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo, AiOverrideStrength.SMART);
-                promise.Then(OnAiMove);
-            }
-            else
-            {
-                IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
-                promise.Then(OnAiMove);
-            }
+            IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
+            promise.Then(OnAiMove);
         }
 
         private void OnAiMove(FileRank from, FileRank to, string promo)

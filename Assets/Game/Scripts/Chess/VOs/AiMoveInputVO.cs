@@ -21,9 +21,7 @@ namespace TurboLabz.Chess
         public ChessSquare[,] squares;
         public TimeSpan opponentTimer;
         public AiTimeControl timeControl;
-        public int opponentLevel;
         public int aiMoveNumber;
-        public float defaultMoveDelay;
-        public AiOverrideSpeed overrideSpeed;
+        public bool isHint;
     }
 }

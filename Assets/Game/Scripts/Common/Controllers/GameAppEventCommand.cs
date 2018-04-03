@@ -29,11 +29,7 @@ namespace TurboLabz.InstantFramework
         {
             if (appEvent == AppEvent.QUIT)
             {
-                if (chessAiService.isInitialized)
-                {
-                    chessAiService.Shutdown();
-
-                }
+                chessAiService.Shutdown();
             }
         }
     }
