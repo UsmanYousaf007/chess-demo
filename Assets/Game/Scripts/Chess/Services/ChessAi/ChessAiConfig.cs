@@ -27,6 +27,7 @@ namespace TurboLabz.Chess
         public const int MOVES_TO_GENERATE = 10;
         public const int OPENING_MOVES_SELECT_COUNT = 5;
         public const int OPENING_MOVES_COUNT = 5;
+        public const int DIFFICULTY_VARIANCE = 1;
 
         // Panic filters
         public const int ONE_MIN_PANIC_CHANCE = 50;

@@ -23,5 +23,6 @@ namespace TurboLabz.Chess
         public AiTimeControl timeControl;
         public int aiMoveNumber;
         public bool isHint;
+        public int cpuStrength;
     }
 }

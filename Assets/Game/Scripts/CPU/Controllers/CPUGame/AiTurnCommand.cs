@@ -47,6 +47,7 @@ namespace TurboLabz.InstantChess
             vo.opponentTimer = chessboardModel.opponentTimer;
             vo.timeControl = chessboardModel.aiTimeControl;
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
+            vo.cpuStrength = cpuGameModel.cpuStrength;
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
             promise.Then(OnAiMove);

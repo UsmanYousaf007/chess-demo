@@ -33,6 +33,13 @@ namespace TurboLabz.Chess
         {
             AiLog("AI selecting move.");
 
+            if (aiMoveInputVO.isHint)
+            {
+                AiLog("Hint request, returning the best move");
+                DispatchMove(0);
+                return;
+            }
+
             // For any other move, emulate a human player by thinking
             // 1 dimensionally.
             if (MakeOpeningMoves() ||
@@ -44,10 +51,9 @@ namespace TurboLabz.Chess
                 return;
             }
 
-            AiLog("No special situation, making the worst move.");
+            AiLog("No special pre-move situation, applying difficulty...");
             DispatchMove(scores.Count - 1);
         }
-
 
         /// <summary>
         /// We parse the move and dispatch the move

@@ -11,14 +11,7 @@
 /// [add_description_here]
 
 using System;
-using System.Collections;
 using System.Runtime.InteropServices;
-
-using UnityEngine;
-
-using strange.extensions.promise.api;
-using strange.extensions.promise.impl;
-
 using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
 
@@ -34,8 +27,6 @@ namespace TurboLabz.Chess
             public string aiSearchResultScoresStr;
             public string aiBestMoveStr;
         }
-
-
 
         #if UNITY_EDITOR
         public const string PLUGIN_NAME = "macos-ai";
