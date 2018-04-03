@@ -72,8 +72,6 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
-            LogUtil.Log("ChessboardEvent: " + chessboardEvent);
-
             if (chessboardModel.currentState == null)
             {
                 chessboardModel.currentState = new CCSDefault();
@@ -87,10 +85,7 @@ namespace TurboLabz.InstantChess
                 chessboardModel.previousState = currentState;
                 chessboardModel.currentState = newState;
                 newState.RenderDisplayOnEnter(this);
-
-                LogUtil.Log(chessboardEvent + ": " + newState.GetType().Name, "yellow");
             }
         }
-
     }
 }
