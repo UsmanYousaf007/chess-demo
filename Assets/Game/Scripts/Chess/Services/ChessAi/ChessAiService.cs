@@ -97,19 +97,8 @@ namespace TurboLabz.Chess
             this.aiMoveInputVO = vo;
             this.overrideStrength = overrideStrength;
 
-            // Setup move search parameters. Near the end game, the AI looks very
-            // abnormal if it does not make the optimal move. Therefore we set the
-            // move search count to 1 which ensures that the Ai makes the best move
-            // possible. This is mainly due to how the player perceives the game
-            // on an empty chessboard, i.e, stupid moves look very stupid.
-            if (ReachedEndGame())
-            {
-                SetAnalysisMovesCount(1);
-            }
-            else
-            {
-                SetAnalysisMovesCount(MOVES_TO_GENERATE);
-            }
+
+            SetAnalysisMovesCount(AiConfig.MOVES_TO_GENERATE);
 
             SetContempt(0); // Do not change this, we don't know what it does at other values.
 
@@ -122,11 +111,11 @@ namespace TurboLabz.Chess
             // clock runs out. TODO: verify whether this comment is true 
             if (vo.timeControl == AiTimeControl.ONE_MINUTE)
             {
-                cmd("go depth " + ONE_MIN_SEARCH_DEPTH);
+                cmd("go depth " + AiConfig.ONE_MIN_SEARCH_DEPTH);
             }
             else
             {
-                cmd("go depth " + DEFAULT_SEARCH_DEPTH);
+                cmd("go depth " + AiConfig.DEFAULT_SEARCH_DEPTH);
             }
 
             // Read the results

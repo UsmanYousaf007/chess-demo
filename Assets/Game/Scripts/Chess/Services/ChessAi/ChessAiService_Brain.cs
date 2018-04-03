@@ -22,38 +22,6 @@ namespace TurboLabz.Chess
 {
     public partial class ChessAiService
     {
-        const int MAX_LEVEL = 150;
-
-        // Basic move selection
-        const int MOVES_TO_GENERATE = 10;
-        const int OPENING_MOVES_SELECT_COUNT = 5;
-        const int OPENING_MOVES_COUNT = 5;
-
-        // Panic filters
-        const int ONE_MIN_PANIC_CHANCE = 50;
-        const int THIRTY_SECOND_PANIC_CHANCE = 60;
-        const int TEN_SECOND_PANIC_CHANCE = 70;
-        const int PANIC_MOVE_INDEX = MOVES_TO_GENERATE - 1;
-
-        // Dice rolls
-        const int LEVEL_1_BEST_MOVE_CHANCE = 0;
-        const int LEVEL_MAX_BEST_MOVE_CHANCE = 80;
-        const int PIECE_EXCHANCE_CHANCE = 50;
-
-        // Special situations
-        const int END_GAME_PIECE_COUNT = 4;
-        const int ROOK_RESTRICTION_MOVE_COUNT = 10;
-
-        // Fixed settings .. DO NOT MODIFY consts below this
-        const int DEFAULT_SEARCH_DEPTH = 0;
-        const int ONE_MIN_SEARCH_DEPTH = 10; // because we want the computer to be aggressive in 1 min games
-        const int KING_VALUE = 1000;
-        const int QUEEN_VALUE = 100;
-        const int ROOK_VALUE = 75;
-        const int BISHOP_VALUE = 50;
-        const int KNIGHT_VALUE = 50;
-        const int PAWN_VALUE = 25;
-
         private List<string> aiSearchResultScoresList;
         private List<string> aiSearchResultMovesList;
         private List<int> scores;
@@ -66,37 +34,11 @@ namespace TurboLabz.Chess
             AiLog("AI selecting move.");
             ParseResults();
 
-            // Handle overrides
-            if (overrideStrength == AiOverrideStrength.STUPID)
-            {
-                AiLog("Stupid override: AI selected the worst move.");
-                DispatchMove(scores.Count - 1);
-                return;
-            }
-            else if (overrideStrength == AiOverrideStrength.SMART)
-            {
-                AiLog("Smart override: Ai selected the best move.");
-                DispatchMove(0);
-                return;
-            }
-
-            // This is the main dice roll that decides whether the Ai
-            // will make a strong move or not.
-            bool rolledBestMove = RollBestMove();
-
-            if (rolledBestMove)
-            {
-                AiLog("Rolled the best move.");
-                DispatchMove(0);
-                return;
-            }
-
             // For any other move, emulate a human player by thinking
             // 1 dimensionally.
             if (MakeOpeningMoves() ||
                 MakeOnlyMoveAvailable() ||
                 MakePanicMove() ||
-                MakeEmptyBoardMove() ||
                 MakeReactionaryCaptureMove() ||
                 MakeReactionaryEvasiveMove())
             {
@@ -218,7 +160,7 @@ namespace TurboLabz.Chess
 
         private bool CancelMoveDueToRookRestriction(FileRank from, int index)
         {
-            if (aiMoveInputVO.aiMoveNumber <= ROOK_RESTRICTION_MOVE_COUNT &&
+            if (aiMoveInputVO.aiMoveNumber <= AiConfig.ROOK_RESTRICTION_MOVE_COUNT &&
                 IsMovingPiece(from, ChessPieceName.BLACK_ROOK))
             {
                 AiLog("Rook was moved non-optimally.");
@@ -263,7 +205,7 @@ namespace TurboLabz.Chess
                     // A chance of making the exchange if values are equal
                     bool exchange = false;
                     exchange = (attackingPieceValue < victimPieceValue) ||
-                        ((attackingPieceValue == victimPieceValue) && RollPercentageDice(PIECE_EXCHANCE_CHANCE));
+                        ((attackingPieceValue == victimPieceValue) && RollPercentageDice(AiConfig.PIECE_EXCHANCE_CHANCE));
 
                     if (exchange)
                     {
@@ -336,9 +278,9 @@ namespace TurboLabz.Chess
         {
             // For the first 4 moves we select a random opening move or one of 3 'pro' opening
             // moves based on if we rolled a best move
-            if (aiMoveInputVO.aiMoveNumber <= OPENING_MOVES_COUNT)
+            if (aiMoveInputVO.aiMoveNumber <= AiConfig.OPENING_MOVES_COUNT)
             {
-                int selectCount = Math.Min(scores.Count, OPENING_MOVES_SELECT_COUNT);
+                int selectCount = Math.Min(scores.Count, AiConfig.OPENING_MOVES_SELECT_COUNT);
                 int openingMoveIndex = UnityEngine.Random.Range(0, selectCount);
 
                 AiLog("Made opening move.");
@@ -376,15 +318,15 @@ namespace TurboLabz.Chess
             {
                 if (clockSeconds < 10 )
                 {
-                    panic = RollPercentageDice(TEN_SECOND_PANIC_CHANCE);
+                    panic = RollPercentageDice(AiConfig.TEN_SECOND_PANIC_CHANCE);
                 }
                 else if (clockSeconds < 30)
                 {
-                    panic = RollPercentageDice(THIRTY_SECOND_PANIC_CHANCE);
+                    panic = RollPercentageDice(AiConfig.THIRTY_SECOND_PANIC_CHANCE);
                 }
                 else if (clockSeconds < 60)
                 {
-                    panic = RollPercentageDice(ONE_MIN_PANIC_CHANCE);
+                    panic = RollPercentageDice(AiConfig.ONE_MIN_PANIC_CHANCE);
                 }
             }
             else
@@ -393,60 +335,18 @@ namespace TurboLabz.Chess
                 // to the mindset when the clock is so low.
                 if (clockSeconds < 10 )
                 {
-                    panic = RollPercentageDice(TEN_SECOND_PANIC_CHANCE);
+                    panic = RollPercentageDice(AiConfig.TEN_SECOND_PANIC_CHANCE);
                 }
             }
 
             if (panic)
             {
                 AiLog("Rolled a panic move.");
-                DispatchMove(PANIC_MOVE_INDEX, true);
+                DispatchMove(AiConfig.PANIC_MOVE_INDEX, true);
                 return true;
             }
 
             return false;
-        }
-
-        private bool MakeEmptyBoardMove()
-        {
-            // If we have an empty board, we can't expose the Ai. So just
-            // make the best second best move. If this move has some weirdness,
-            // the dispatch move cancel filters will catch it.
-            if (ReachedEndGame())
-            {
-                AiLog("End game piece count detected.");
-                DispatchMove(0);
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool ReachedEndGame()
-        {
-            return (chessService.GetPieceCount(ChessColor.BLACK) <= END_GAME_PIECE_COUNT ||
-                    chessService.GetPieceCount(ChessColor.WHITE) <= END_GAME_PIECE_COUNT);
-        }
-
-        private bool RollBestMove()
-        {
-            // Roll our performance dice
-            int bestMoveChanceDelta = LEVEL_MAX_BEST_MOVE_CHANCE - LEVEL_1_BEST_MOVE_CHANCE;
-            float levelProgress = aiMoveInputVO.opponentLevel / (float)MAX_LEVEL;
-            int bestMoveProgressDelta = Mathf.FloorToInt(bestMoveChanceDelta * levelProgress);
-            int bestMoveChance = LEVEL_1_BEST_MOVE_CHANCE + bestMoveProgressDelta;
-            bool success = RollPercentageDice(bestMoveChance);
-
-            if (success)
-            {
-                AiLog("Rolled best move.");
-            }
-            else
-            {
-                AiLog("Did not roll best move.");
-            }
-
-            return success;
         }
 
         private bool IsMovingPiece(FileRank from, string pieceName)
@@ -530,27 +430,27 @@ namespace TurboLabz.Chess
 
             if (pieceName == ChessPieceName.BLACK_KING)
             {
-                return KING_VALUE;
+                return AiConfig.KING_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_QUEEN)
             {
-                return QUEEN_VALUE;
+                return AiConfig.QUEEN_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_ROOK)
             {
-                return ROOK_VALUE;
+                return AiConfig.ROOK_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_BISHOP)
             {
-                return BISHOP_VALUE;
+                return AiConfig.BISHOP_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_KNIGHT)
             {
-                return KNIGHT_VALUE;
+                return AiConfig.KNIGHT_VALUE;
             }
             else if (pieceName == ChessPieceName.BLACK_PAWN)
             {
-                return PAWN_VALUE;
+                return AiConfig.PAWN_VALUE;
             }
 
             Assertions.Assert(false, "Unknown piece name.");
