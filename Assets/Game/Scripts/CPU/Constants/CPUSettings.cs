@@ -17,7 +17,7 @@ namespace TurboLabz.InstantChess
     {
         public const int MIN_STRENGTH = 1;
         public const int MAX_STRENGTH = 10;
-        public static readonly int[] DURATION_MINUTES = { 0,    1,      5,      10,     30,     60 };
+        public static readonly int[] DURATION_MINUTES = { 0,    1,     5,     20,     90 };
         public static readonly float[] MOVE_DELAYS    = { 2f,  0.5f,   5f,   2f,     2f,     2f };
         public static readonly ChessColor[] PLAYER_COLORS = { ChessColor.WHITE, ChessColor.BLACK, ChessColor.NONE };
 

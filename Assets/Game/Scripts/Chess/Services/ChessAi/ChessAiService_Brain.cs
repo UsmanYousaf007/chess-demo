@@ -26,6 +26,39 @@ namespace TurboLabz.Chess
         private List<string> aiSearchResultMovesList;
         private List<int> scores;
 
+        private bool filterMoves;
+
+        private int GetSearchDepth()
+        {
+            // We set a strong search depth for one minute games because the ai engine
+            // exhibits focused aggressive behaviour with that search depth. Meaning instead
+            // of beating around the bush, it will go straight to attack your prime pieces
+            // which is the general way players approach a 1 min game. This is especially
+            // important to counter time hackers that make random moves so that the opponent's
+            // clock runs out. TODO: verify whether this actually works correctly
+            if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.FAST_BOT)
+            {
+                return ChessAiConfig.SF_MAX_SEARCH_DEPTH;
+            }
+            else
+            {
+                // Upto 60% cpu strength will use a min search depth.
+                // After that we will increase the search depth to 
+                // somewhat match AiFactory's max stated ELO at max difficulty 12 (ELO 2100)
+                // We get our ELO to depth from https://chess.stackexchange.com/questions/8123/stockfish-elo-vs-search-depth
+
+                if (aiMoveInputVO.cpuStrengthPct < 0.6f)
+                {
+                    return ChessAiConfig.SF_MIN_SEARCH_DEPTH;
+                }
+
+                int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
+                int searchDepth = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.cpuStrengthPct * searchDepthRange);
+
+                return searchDepth;
+            }
+        }
+
         /// <summary>
         /// This is called when the search result strings from the plugin are ready
         /// </summary>
@@ -40,19 +73,55 @@ namespace TurboLabz.Chess
                 return;
             }
 
+            // There are two common sense filters:
+            // 1) Premove filters that emulate a human reactionary move
+            // 2) Postmove filters that remove stupid looking computer selected moves via our random move selection 
+            //    in the case where a reactionary move is not made
+
+            // These filters happen to create difficulty for beginner players. Therefore we will reduce the probability
+            // of triggering these filters upto 50% computer strength.
+            filterMoves = true;
+
+            float filterOffProb = Mathf.Max((0.5f - aiMoveInputVO.cpuStrengthPct) * 2f, 0f);
+
+            AiLog("filterOffProb = " + filterOffProb);
+            filterMoves = !RollPercentageDice(Mathf.FloorToInt(filterOffProb * 100));
+            AiLog("filter moves = " + filterMoves);
+
             // For any other move, emulate a human player by thinking
             // 1 dimensionally.
-            if (MakeOpeningMoves() ||
-                MakeOnlyMoveAvailable() ||
-                MakePanicMove() ||
-                MakeReactionaryCaptureMove() ||
-                MakeReactionaryEvasiveMove())
+            if (filterMoves)
             {
-                return;
+                if (MakeOpeningMoves() ||
+                    MakeOnlyMoveAvailable() ||
+                    MakePanicMove() ||
+                    MakeReactionaryCaptureMove() ||
+                    MakeReactionaryEvasiveMove())
+                {
+                    return;
+                }
             }
 
             AiLog("No special pre-move situation, applying difficulty...");
-            DispatchMove(scores.Count - 1);
+
+            // We will apply a bit of variance offset to the move index
+            int windowDice = UnityEngine.Random.Range(ChessAiConfig.DIFFICULTY_VARIANCE * -1, ChessAiConfig.DIFFICULTY_VARIANCE + 1);
+            AiLog("windowDice = " + windowDice);
+
+            // Find the move index
+            // Since the indexes are inverted with the strongest first, we will invert the cpu strength
+            float invertedStr = 1 - aiMoveInputVO.cpuStrengthPct;
+            AiLog("cpuStrengthPct = " + aiMoveInputVO.cpuStrengthPct);
+            AiLog("invertedStr = " + invertedStr);
+
+            int index = Mathf.FloorToInt(scores.Count * invertedStr);
+            AiLog("index = " + index);
+
+            // Now apply the variance dice
+            int variedIndex = Mathf.Clamp(index + windowDice, 0, scores.Count - 1);
+            AiLog("variedIndex = " + variedIndex);
+
+            DispatchMove(variedIndex);
         }
 
         /// <summary>
@@ -75,10 +144,11 @@ namespace TurboLabz.Chess
                 promo = selectedMove[4].ToString();
             }
 
-            // If we are not making the best possible Ai move, then we must
-            // check for certain events that we want to disallow across the board.
-            // If such an event does occur, we make the best move instead.
-            if (index > 0 && !panicMove) 
+            // Off looking moves can still get to this point. After the initial reactionary filters
+            // the computer selects a random unfiltered move. This could be a very "off" looking move.
+            // So unless we have rolled the best move possible and we're not panicing at this time,
+            // we filter out this off move by move up one index of the scores count.
+            if (index > 0 && !panicMove && filterMoves) 
             {
                 if (CancelMoveDueToFeedsOrWeakExchanges(from, to, promo, index) ||
                     CancelMoveDueToFreeCaptureAvailable(to, index) ||
@@ -311,6 +381,11 @@ namespace TurboLabz.Chess
 
         private bool MakePanicMove()
         {
+            if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.CPU)
+            {
+                return false;
+            }
+
             // Apply panic attack and leave early. This means that we also
             // ignore our silly move filters below and make a move regardless
             // since the player is 'paniced'.
@@ -319,7 +394,7 @@ namespace TurboLabz.Chess
 
             // Panic also applies at 1 min and 30 seconds for ONE MINUTE games
             // because of their inherent mindset.
-            if (aiMoveInputVO.timeControl == AiTimeControl.ONE_MINUTE)
+            if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.FAST_BOT)
             {
                 if (clockSeconds < 10 )
                 {
@@ -347,7 +422,7 @@ namespace TurboLabz.Chess
             if (panic)
             {
                 AiLog("Rolled a panic move.");
-                DispatchMove(ChessAiConfig.PANIC_MOVE_INDEX, true);
+                DispatchMove(scores.Count - 1, true);
                 return true;
             }
 

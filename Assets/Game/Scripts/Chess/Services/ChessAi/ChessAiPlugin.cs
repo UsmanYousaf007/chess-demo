@@ -127,7 +127,7 @@ namespace TurboLabz.Chess
 
         private static void UnityOutCallback(string str)
         {
-            LogUtil.Log("Unity out: " + str, "cyan");
+            // LogUtil.Log("Unity out: " + str, "cyan");
 
             if (str.Contains("moveOptions"))
             {

@@ -45,7 +45,7 @@ namespace TurboLabz.InstantChess
         string winnerId { get; set; }
         int aiMoveNumber { get; set; }
         ChessMove lastPlayerMove { get; set; }
-        AiTimeControl aiTimeControl { get; set; }
+        AiMoveDelay aiMoveDelay { get; set; }
         ChessColor playerColor { get; set; }
         ChessColor opponentColor { get; set; }
         bool aiWillResign { get; set; }

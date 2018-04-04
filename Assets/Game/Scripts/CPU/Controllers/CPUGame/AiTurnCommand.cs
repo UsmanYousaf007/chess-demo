@@ -45,9 +45,24 @@ namespace TurboLabz.InstantChess
             vo.lastPlayerMove = chessboardModel.lastPlayerMove;
             vo.squares = chessboardModel.squares;
             vo.opponentTimer = chessboardModel.opponentTimer;
-            vo.timeControl = chessboardModel.aiTimeControl;
+            vo.aiMoveDelay = chessboardModel.aiMoveDelay;
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
-            vo.cpuStrength = cpuGameModel.cpuStrength;
+            vo.cpuStrengthPct = (float)cpuGameModel.cpuStrength / (float)CPUSettings.MAX_STRENGTH;
+           
+            double durationMins = chessboardModel.gameDuration.TotalMinutes;
+
+            // Now adjust for strength based on time control
+            if (durationMins > 0)
+            {
+                if (durationMins <= ChessAiConfig.DURATION_FAST_MINS)
+                {
+                    vo.cpuStrengthPct *= ChessAiConfig.FAST_GIMP;
+                }
+                else if (durationMins <= ChessAiConfig.DURATION_MEDIUM_MINS)
+                {
+                    vo.cpuStrengthPct *= ChessAiConfig.MEDIUM_GIMP;
+                }
+            }
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
             promise.Then(OnAiMove);

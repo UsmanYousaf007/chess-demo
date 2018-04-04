@@ -20,9 +20,9 @@ namespace TurboLabz.Chess
         public ChessMove lastPlayerMove;
         public ChessSquare[,] squares;
         public TimeSpan opponentTimer;
-        public AiTimeControl timeControl;
+        public AiMoveDelay aiMoveDelay;
         public int aiMoveNumber;
         public bool isHint;
-        public int cpuStrength;
+        public float cpuStrengthPct;
     }
 }

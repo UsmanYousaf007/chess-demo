@@ -45,7 +45,7 @@ namespace TurboLabz.InstantChess
         public string winnerId { get; set; }
         public int aiMoveNumber { get; set; }
         public ChessMove lastPlayerMove { get; set; }
-        public AiTimeControl aiTimeControl { get; set; }
+        public AiMoveDelay aiMoveDelay { get; set; }
         public ChessColor playerColor { get; set; }
         public ChessColor opponentColor { get; set; }
         public bool aiWillResign { get; set; }
@@ -85,7 +85,7 @@ namespace TurboLabz.InstantChess
             winnerId = null;
             aiMoveNumber = 0;
             lastPlayerMove = null;
-            aiTimeControl = AiTimeControl.CPU;
+            aiMoveDelay = AiMoveDelay.CPU;
             playerColor = ChessColor.NONE;
             opponentColor = ChessColor.NONE;
             aiWillResign = false;

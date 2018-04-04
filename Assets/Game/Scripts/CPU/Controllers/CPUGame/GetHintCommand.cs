@@ -49,7 +49,7 @@ namespace TurboLabz.InstantChess
             vo.aiColor = chessboardModel.playerColor;
             vo.playerColor = chessboardModel.opponentColor;
             vo.squares = chessboardModel.squares;
-            vo.timeControl = AiTimeControl.HINT;
+            vo.aiMoveDelay = AiMoveDelay.NONE;
             vo.isHint = true;
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);

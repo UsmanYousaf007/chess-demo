@@ -12,14 +12,12 @@
 
 namespace TurboLabz.Chess
 {
-    public enum AiTimeControl
+    public enum AiMoveDelay
     {
-        HINT,
+        NONE,
         CPU,
-        ONE_MINUTE,
-        THREE_MINUTE,
-        FIVE_MINUTE,
-        TEN_MINUTE,
-        LONG_PLAY
+        FAST_BOT,
+        MEDIUM_BOT,
+        SLOW_BOT
     }
 }

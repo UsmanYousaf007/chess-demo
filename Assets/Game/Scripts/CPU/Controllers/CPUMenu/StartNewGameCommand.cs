@@ -37,7 +37,7 @@ namespace TurboLabz.InstantChess
                 long gameDuration = CPUSettings.DURATION_MINUTES[cpuGameModel.durationIndex] * 60000;
                 chessboardModel.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
 
-                chessboardModel.aiTimeControl = AiTimeControl.CPU;
+                chessboardModel.aiMoveDelay = AiMoveDelay.CPU;
                 chessboardModel.playerTimer = chessboardModel.gameDuration;
                 chessboardModel.opponentTimer = chessboardModel.gameDuration;
             }

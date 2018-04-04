@@ -46,21 +46,10 @@ namespace TurboLabz.Chess
             // Clear the results flag
             resultsReady = false;
 
-            // Execute the search
-            // We set a strong search depth for one minute games because the ai engine
-            // exhibits focused aggressive behaviour with that search depth. Meaning instead
-            // of beating around the bush, it will go straight to attack your prime pieces
-            // which is the general way players approach a 1 min game. This is especially
-            // important to counter time hackers that make random moves so that the opponent's
-            // clock runs out. TODO: verify whether this actually works correctly
-            if (vo.timeControl == AiTimeControl.ONE_MINUTE)
-            {
-                plugin.GoDepth(ChessAiConfig.SF_ONE_MIN_SEARCH_DEPTH);
-            }
-            else
-            {
-                plugin.GoDepth(ChessAiConfig.SF_DEFAULT_SEARCH_DEPTH);
-            }
+            // Execute the move
+            string searchDepth = GetSearchDepth().ToString();
+            AiLog("searchDepth = " + searchDepth);
+            plugin.GoDepth(searchDepth);
 
             // Read the results
             aiMovePromise = new Promise<FileRank, FileRank, string>();
