@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
     public class AppEventSignal : Signal<AppEvent> {}
     public class GameAppEventSignal : Signal<AppEvent> {}
     public class LoadCPUGameSignal : Signal {}
+    public class LoadStatsSignal : Signal {}
 
     // Navigator Signals
     public class NavigatorEventSignal : Signal<NavigatorEvent> {}

@@ -14,6 +14,7 @@ using System;
 using System.Runtime.InteropServices;
 using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
+using UnityEngine;
 
 namespace TurboLabz.Chess
 {
@@ -74,6 +75,8 @@ namespace TurboLabz.Chess
             SetMultiPV(ChessAiConfig.SF_MULTIPV);
             SetSkillLevel(ChessAiConfig.SF_SKILL_LEVEL);
             SetSlowMover(ChessAiConfig.SF_SLOW_MOVER);
+            //SetHash(ChessAiConfig.SF_HASH);
+            //SetThreads(SystemInfo.processorCount.ToString());
         }
 
         public void Shutdown()
@@ -116,6 +119,16 @@ namespace TurboLabz.Chess
             cmd("setoption name Slow Mover value " + slowMoverAmt);
         }
 
+        private void SetHash(string hash)
+        {
+            cmd("setoption name Hash value " + hash);
+        }
+
+        private void SetThreads(string threads)
+        {
+            cmd("setoption name Threads value " + threads);
+        }
+
         public void GoDepth(string depth)
         {
             results.aiBestMoveStr = null;
@@ -123,6 +136,11 @@ namespace TurboLabz.Chess
             results.aiSearchResultScoresStr = null;
 
             cmd("go depth " + depth);
+        }
+
+        public void Stop()
+        {
+            cmd("stop");
         }
 
         private static void UnityOutCallback(string str)

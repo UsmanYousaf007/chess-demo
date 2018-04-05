@@ -95,6 +95,7 @@ namespace TurboLabz.Chess
                 if (MakeOpeningMoves() ||
                     MakeOnlyMoveAvailable() ||
                     MakePanicMove() ||
+                    MakeEmptyBoardMove() ||
                     MakeReactionaryCaptureMove() ||
                     MakeReactionaryEvasiveMove())
                 {
@@ -427,6 +428,27 @@ namespace TurboLabz.Chess
             }
 
             return false;
+        }
+
+        private bool MakeEmptyBoardMove()
+        {
+            // If we have an empty board, we can't expose the Ai. So just
+            // make the best second best move. If this move has some weirdness,
+            // the dispatch move cancel filters will catch it.
+            if (ReachedEndGame())
+            {
+                AiLog("End game piece count detected.");
+                DispatchMove(0);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool ReachedEndGame()
+        {
+            return (chessService.GetPieceCount(ChessColor.BLACK) <= ChessAiConfig.END_GAME_PIECE_COUNT ||
+                chessService.GetPieceCount(ChessColor.WHITE) <= ChessAiConfig.END_GAME_PIECE_COUNT);
         }
 
         private bool IsMovingPiece(FileRank from, string pieceName)

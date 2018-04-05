@@ -30,6 +30,7 @@ namespace TurboLabz.InstantChess
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
+        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 
         // View injection
         [Inject] public CPUMenuView view { get; set; }
@@ -160,7 +161,7 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClicked()
         {
-            
+            loadStatsSignal.Dispatch();
         }
     }
 }

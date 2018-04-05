@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
             commandBinder.Bind<LoadCPUGameSignal>().To<LoadGameCommand>();
+            commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
 
@@ -105,6 +106,7 @@ namespace TurboLabz.InstantFramework
             // Bind views to mediators
             mediationBinder.Bind<CPUMenuView>().To<CPUMenuMediator>();
             mediationBinder.Bind<GameView>().To<GameMediator>();
+            mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<SetupChessboardSignal>().ToSingleton();

@@ -25,6 +25,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSPlay();
             }
+            else if (evt == NavigatorEvent.SHOW_STATS)
+            {
+                return new NSStats();
+            }
 
             return null;
         }

@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         SHOW_LOBBY,
         SHOW_EXIT_DLG,
         SHOW_RESULTS_DLG,
-        SHOW_PROMO_DLG
+        SHOW_PROMO_DLG,
+        SHOW_STATS
     }
 }

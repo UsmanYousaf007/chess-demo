@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using UnityEngine;
 
 namespace TurboLabz.Chess
 {
@@ -20,6 +21,8 @@ namespace TurboLabz.Chess
         public const string SF_MULTIPV = "10"; // This is how we dumb down stock fish by generating 10 alternate moves and picking one from the list.
         public const string SF_SKILL_LEVEL = "0"; // We use multipv to generate moves, therefore skill level is irrelevant and set to 0.
         public const string SF_SLOW_MOVER = "10"; // This makes the engine think less. We use the minimum here because we want to max out performance.
+        //public const string SF_HASH = "128"; // This is a value in MB and it may improve performance as you increase it (testing pending)
+        //public const string SF_THREADS =  // Threads of course improve performance but may also chew up battery life;
 
         // Duration thresholds
         public const double DURATION_FAST_MINS = 1;
@@ -29,7 +32,7 @@ namespace TurboLabz.Chess
 
         // Search depth is key to making stockfish smarter
         public const int SF_MIN_SEARCH_DEPTH = 0; 
-        public const int SF_MAX_SEARCH_DEPTH = 10;
+        public const int SF_MAX_SEARCH_DEPTH = 15;
 
         // Basic move selection
         public const int OPENING_MOVES_SELECT_COUNT = 3;
