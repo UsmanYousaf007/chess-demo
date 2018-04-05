@@ -23,6 +23,9 @@ namespace TurboLabz.InstantChess
 {
     public class LoadStatsCommand : Command
     {
+        // Parameters
+        [Inject] public int durationIndex { get; set; }
+
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateStatsSignal updateStatsSignal { get; set; }
@@ -36,6 +39,8 @@ namespace TurboLabz.InstantChess
         public override void Execute()
         {
             statsModel.Reset();
+
+            statsModel.durationIndex = durationIndex;
 
             if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
             {
@@ -62,7 +67,7 @@ namespace TurboLabz.InstantChess
             }
             catch (Exception e)
             {
-                LogUtil.Log("Corrupt saved game! " + e, "red");
+                LogUtil.Log("Corrupt saved stats! " + e, "red");
                 localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
                 statsModel.Reset();
                 LoadStats();

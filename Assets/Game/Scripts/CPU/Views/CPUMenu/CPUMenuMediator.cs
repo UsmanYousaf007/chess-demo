@@ -159,9 +159,9 @@ namespace TurboLabz.InstantChess
             devFenValueChangedSignal.Dispatch(fen);
         }
 
-        private void OnStatsButtonClicked()
+        private void OnStatsButtonClicked(int selectedDurationIndex)
         {
-            //loadStatsSignal.Dispatch();
+            loadStatsSignal.Dispatch(selectedDurationIndex);
         }
     }
 }

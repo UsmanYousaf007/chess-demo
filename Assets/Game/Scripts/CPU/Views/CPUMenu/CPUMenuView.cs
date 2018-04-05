@@ -67,8 +67,10 @@ namespace TurboLabz.InstantChess
         public Signal decPlayerColorButtonClickedSignal = new Signal();
         public Signal incPlayerColorButtonClickedSignal = new Signal();
         public Signal playButtonClickedSignal = new Signal();
-        public Signal statsButtonClickedSignal = new Signal();
+        public Signal<int> statsButtonClickedSignal = new Signal<int>();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
+
+        private int selectedDurationIndex;
 
         public void Init()
         {
@@ -143,6 +145,7 @@ namespace TurboLabz.InstantChess
 
         public void UpdateDuration(CPUMenuVO vo)
         {
+            selectedDurationIndex = vo.selectedDurationIndex;
             int duration = vo.durationMinutes[vo.selectedDurationIndex];
 
             currentDurationLabel.text = (duration == 0) ? 
@@ -253,7 +256,7 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClicked()
         {
-            statsButtonClickedSignal.Dispatch();
+            statsButtonClickedSignal.Dispatch(selectedDurationIndex);
         }
 
         private void OnDevFenValueChanged(string fen)
