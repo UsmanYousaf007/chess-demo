@@ -91,13 +91,14 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RunTimeControlSignal>().To<RunTimeControlCommand>();
             commandBinder.Bind<ResignSignal>().To<ResignCommand>();
             commandBinder.Bind<SaveGameSignal>().To<SaveGameCommand>();
+            commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
             commandBinder.Bind<AiTurnSignal>().To<AiTurnCommand>();
             commandBinder.Bind<ChessboardEventSignal>().To<ChessboardCommand>();
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
             commandBinder.Bind<PromoSelectedSignal>().To<ChessboardPromoCommand>();
 
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
-            commandBinder.Bind<AdjustTimerSignal>().To<AdjustDurationCommand>();
+            commandBinder.Bind<AdjustDurationSignal>().To<AdjustDurationCommand>();
             commandBinder.Bind<AdjustPlayerColorSignal>().To<AdjustPlayerColorCommand>();
             commandBinder.Bind<DevFenValueChangedSignal>().To<DevFenChangedCommand>();
             commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
@@ -145,7 +146,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<DisableHintButtonSignal>().ToSingleton();
             injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStrengthSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateDurationSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateStatsSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerColorSignal>().ToSingleton();
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
@@ -162,6 +163,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();
             injectionBinder.Bind<ICPUGameModel>().To<CPUGameModel>().ToSingleton();
             injectionBinder.Bind<IPlayerModel>().To<PlayerModel>().ToSingleton();
+            injectionBinder.Bind<IStatsModel>().To<StatsModel>().ToSingleton();
         }
     }
 }

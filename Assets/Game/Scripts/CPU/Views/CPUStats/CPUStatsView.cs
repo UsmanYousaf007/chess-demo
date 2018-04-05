@@ -48,16 +48,21 @@ namespace TurboLabz.InstantChess
         public Button backButton;
         public Button resetButton;
         public Text resetLabel;
+        public Button decDurationButton;
+        public Button incDurationButton;
 
         // View signals
         public Signal backButtonClickedSignal = new Signal();
         public Signal resetButtonClickedSignal = new Signal();
-
+        public Signal decDurationButtonClickedSignal = new Signal();
+        public Signal incDurationButtonClickedSignal = new Signal();
 
         public void Init()
         {
             backButton.onClick.AddListener(OnBackButtonClicked);
             resetButton.onClick.AddListener(OnResetButtonClicked);
+            decDurationButton.onClick.AddListener(OnDecDurationButtonClicked);
+            incDurationButton.onClick.AddListener(OnIncDurationButtonClicked);
 
             titleLabel.text = localizationService.Get(LocalizationKey.STATS_TITLE);
             timeLimitLabel.text = localizationService.Get(LocalizationKey.STATS_TIME_LIMIT);
@@ -75,6 +80,31 @@ namespace TurboLabz.InstantChess
         public void CleanUp()
         {
   //          backButton.onClick.RemoveAllListeners();
+        }
+
+        public void UpdateDuration(CPUMenuVO vo)
+        {
+            int duration = vo.durationMinutes[vo.selectedDurationIndex];
+
+            timeCurrentLabel.text = (duration == 0) ? 
+                localizationService.Get(LocalizationKey.CPU_MENU_DURATION_NONE)
+                : vo.durationMinutes[vo.selectedDurationIndex] + " m";
+
+            if (vo.selectedDurationIndex == 0)
+            {
+                decDurationButton.interactable = false;
+                incDurationButton.interactable = true;
+            }
+            else if (vo.selectedDurationIndex == (vo.durationMinutes.Length - 1))
+            {
+                decDurationButton.interactable = true;
+                incDurationButton.interactable = false;
+            }
+            else
+            {
+                decDurationButton.interactable = true;
+                incDurationButton.interactable = true;
+            }
         }
 
         public void UpdateView()
@@ -105,6 +135,16 @@ namespace TurboLabz.InstantChess
         private void OnResetButtonClicked()
         {
             resetButtonClickedSignal.Dispatch();
+        }
+
+        private void OnDecDurationButtonClicked()
+        {
+            decDurationButtonClickedSignal.Dispatch();
+        }
+
+        private void OnIncDurationButtonClicked()
+        {
+            incDurationButtonClickedSignal.Dispatch();
         }
     }
 }

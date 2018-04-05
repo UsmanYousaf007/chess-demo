@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
     {
         void Write<T>(string key, T value);
         void WriteList<T>(string key, List<T> value);
+        void WriteDictionary<TKey,TValue>(string key, Dictionary<TKey,TValue> value);
         void Close();
     }
 
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
     {
         T Read<T>(string key);
         List<T> ReadList<T>(string key);
+        Dictionary<TKey,TValue> ReadDictionary<TKey,TValue>(string key);
         bool HasKey(string key);
         void Close();
     }

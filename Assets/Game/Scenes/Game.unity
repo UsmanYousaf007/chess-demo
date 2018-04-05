@@ -2192,7 +2192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 607.955, y: -50}
+  m_AnchoredPosition: {x: 607.95496, y: -50}
   m_SizeDelta: {x: 60, y: 102.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &98572969
@@ -30690,6 +30690,8 @@ MonoBehaviour:
   backButton: {fileID: 789162620}
   resetButton: {fileID: 1812710501}
   resetLabel: {fileID: 269730819}
+  decDurationButton: {fileID: 685678626}
+  incDurationButton: {fileID: 793119728}
 --- !u!1 &1555663563
 GameObject:
   m_ObjectHideFlags: 0

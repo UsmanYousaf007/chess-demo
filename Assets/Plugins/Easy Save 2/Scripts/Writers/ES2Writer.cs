@@ -94,6 +94,7 @@ public partial class ES2Writer : System.IDisposable
 		if(type == null)
 		{
 			Debug.LogError ("Easy Save does not support saving of type "+param.GetType().ToString()+".");
+            throw new IOException();
 			return;
 		}
 			

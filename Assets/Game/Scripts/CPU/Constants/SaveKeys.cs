@@ -17,6 +17,7 @@ namespace TurboLabz.InstantChess
     {
         // FILENAME
         public const string CPU_SAVE_FILENAME = "cpuSave";
+        public const string STATS_SAVE_FILENAME = "statsSave";
 
         // CPU MENU MODEL
         public const string CPU_STRENGTH = "cpuStrength";
@@ -33,5 +34,8 @@ namespace TurboLabz.InstantChess
         public const string OPPONENT_COLOR = "opponentColor";
         public const string MOVE_LIST = "moveList";
         public const string AVAILABLE_HINTS = "availableHints";
+
+        // STATS MODEL
+
     }
 }

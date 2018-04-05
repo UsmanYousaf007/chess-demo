@@ -24,7 +24,7 @@ namespace TurboLabz.InstantChess
     {
         // Dispatch signals
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
-        [Inject] public AdjustTimerSignal adjustTimerSignal { get; set; }
+        [Inject] public AdjustDurationSignal adjustTimerSignal { get; set; }
         [Inject] public AdjustPlayerColorSignal adjustPlayerColorSignal { get; set; }
         [Inject] public StartNewGameSignal startCPUGameSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
@@ -107,7 +107,7 @@ namespace TurboLabz.InstantChess
             view.UpdateStrength(vo);
         }
 
-        [ListensTo(typeof(UpdateDurationSignal))]
+        [ListensTo(typeof(UpdateStatsSignal))]
         public void OnUpdateTimer(CPUMenuVO vo)
         {
             view.UpdateDuration(vo);
@@ -161,7 +161,7 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClicked()
         {
-            loadStatsSignal.Dispatch();
+            //loadStatsSignal.Dispatch();
         }
     }
 }

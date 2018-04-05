@@ -270,6 +270,38 @@ namespace TurboLabz.InstantFramework
             }
             #endregion
 
+            #region Test14
+            // Write a dictionary to a file
+            Debug.Log("---- Test14: Write a dictionary to a file");
+            string test14writerfilename = GetRandomFilename("test14writer");
+            ILocalDataWriter test14writer = OpenWriter(test14writerfilename);
+            Dictionary<int, string> test14Dict = new Dictionary<int, string>();
+            test14Dict.Add(5, "foo5");
+            test14Dict.Add(15, "foo15");
+            test14writer.WriteDictionary<int, string>("test14Dict", test14Dict);
+            test14writer.Close();
+            Debug.Log("---- Test14: OK");
+            #endregion
+
+            #region Test15
+            // Read the list from the file
+            Debug.Log("---- Test15: Read a dictionary from a file");
+            ILocalDataReader test15reader = OpenReader(test14writerfilename);
+            Dictionary<int, string> test15Dict = test15reader.ReadDictionary<int, string>("test14Dict");
+            test15reader.Close();
+            if (test15Dict[5] == "foo5" && test15Dict[15] == "foo15")
+            {
+                Debug.Log("---- Test15: OK");
+            }
+            else
+            {
+                Debug.Log("---- Test15: FAILED");
+                return;
+            }
+            #endregion
+
+
+
             Debug.Log("Testing EasySave Service: All Tests OK.");
         }
 

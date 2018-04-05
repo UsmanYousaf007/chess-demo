@@ -63,6 +63,11 @@ namespace TurboLabz.InstantFramework
             writer.Write(value, key);
         }
 
+        public void WriteDictionary<TKey,TValue>(string key, Dictionary<TKey,TValue> value)
+        {
+            writer.Write(value, key);
+        }
+
         public void Close()
         {
             writer.Save();
@@ -97,6 +102,16 @@ namespace TurboLabz.InstantFramework
             }
 
             return es2Data.LoadList<T>(key);
+        }
+
+        public Dictionary<TKey,TValue> ReadDictionary<TKey,TValue>(string key)
+        {
+            if (!es2Data.TagExists(key))
+            {
+                throw new KeyNotFoundException();
+            }
+
+            return es2Data.LoadDictionary<TKey,TValue>(key);
         }
 
         public bool HasKey(string key)
