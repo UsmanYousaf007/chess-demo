@@ -57,6 +57,8 @@ namespace TurboLabz.InstantChess
         public Signal decDurationButtonClickedSignal = new Signal();
         public Signal incDurationButtonClickedSignal = new Signal();
 
+        private int durationIndex;
+
         public void Init()
         {
             backButton.onClick.AddListener(OnBackButtonClicked);
@@ -82,20 +84,26 @@ namespace TurboLabz.InstantChess
   //          backButton.onClick.RemoveAllListeners();
         }
 
-        public void UpdateDuration(CPUMenuVO vo)
+        public void UpdateView(CPUStatsVO vo)
         {
-            int duration = vo.durationMinutes[vo.selectedDurationIndex];
+            UpdateDuration(vo);
+        }
+
+        public void UpdateDuration(CPUStatsVO vo)
+        {
+            int duration = vo.durationMinutes[vo.durationIndex];
+            durationIndex = vo.durationIndex;
 
             timeCurrentLabel.text = (duration == 0) ? 
                 localizationService.Get(LocalizationKey.CPU_MENU_DURATION_NONE)
-                : vo.durationMinutes[vo.selectedDurationIndex] + " m";
+                : vo.durationMinutes[durationIndex] + " m";
 
-            if (vo.selectedDurationIndex == 0)
+            if (durationIndex == 0)
             {
                 decDurationButton.interactable = false;
                 incDurationButton.interactable = true;
             }
-            else if (vo.selectedDurationIndex == (vo.durationMinutes.Length - 1))
+            else if (durationIndex == (vo.durationMinutes.Length - 1))
             {
                 decDurationButton.interactable = true;
                 incDurationButton.interactable = false;
@@ -105,11 +113,6 @@ namespace TurboLabz.InstantChess
                 decDurationButton.interactable = true;
                 incDurationButton.interactable = true;
             }
-        }
-
-        public void UpdateView()
-        {
-            
         }
 
         public void Show()

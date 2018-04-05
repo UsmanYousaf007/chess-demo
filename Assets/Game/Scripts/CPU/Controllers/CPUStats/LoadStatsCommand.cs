@@ -76,6 +76,12 @@ namespace TurboLabz.InstantChess
         private void LoadStats()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
+
+            CPUStatsVO vo;
+            vo.durationIndex = durationIndex;
+            vo.durationMinutes = CPUSettings.DURATION_MINUTES;
+            vo.stats = statsModel.stats;
+            updateStatsSignal.Dispatch(vo);
         }
     }
 }

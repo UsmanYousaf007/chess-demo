@@ -59,13 +59,12 @@ namespace TurboLabz.InstantChess
                 view.Hide();
             }
         }
-        /*
-        [ListensTo(typeof(UpdateMenuViewSignal))]
-        public void OnUpdateView(CPUMenuVO vo)
+
+        [ListensTo(typeof(UpdateStatsSignal))]
+        public void OnUpdateStats(CPUStatsVO vo)
         {
             view.UpdateView(vo);
         }
-        */
 
         private void OnBackButtonClicked()
         {
