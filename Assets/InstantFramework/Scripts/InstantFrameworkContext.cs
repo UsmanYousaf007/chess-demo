@@ -146,7 +146,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<DisableHintButtonSignal>().ToSingleton();
             injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStrengthSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateStatsSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateDurationSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerColorSignal>().ToSingleton();
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();

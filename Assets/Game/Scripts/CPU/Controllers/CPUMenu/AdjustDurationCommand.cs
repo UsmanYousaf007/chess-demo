@@ -25,7 +25,7 @@ namespace TurboLabz.InstantChess
     public class AdjustDurationCommand : Command
     {
         // Dispatch Signal
-        [Inject] public UpdateStatsSignal updateDurationSignal { get; set; }
+        [Inject] public UpdateDurationSignal updateDurationSignal { get; set; }
 
         // Parameters
         [Inject] public bool increase { get; set; }

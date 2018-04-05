@@ -23,9 +23,12 @@ namespace TurboLabz.InstantChess
 {
     public class SaveStatsCommand : Command
     {
+        // Parameters
+        [Inject] public int durationIndex { get; set; }
+        [Inject] public StatResult result { get; set; }
+
         // Models
-        [Inject] public ICPUGameModel cpuGameModel { get; set; }
-        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IStatsModel statsModel { get; set; }
 
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
@@ -34,71 +37,39 @@ namespace TurboLabz.InstantChess
         {
             try
             {
-                ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.CPU_SAVE_FILENAME);
+                ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.STATS_SAVE_FILENAME);
 
-                // CPU MENU MODEL
-                writer.Write<int>(SaveKeys.CPU_STRENGTH, cpuGameModel.cpuStrength);
-                writer.Write<int>(SaveKeys.DURATION_INDEX, cpuGameModel.durationIndex);
-                writer.Write<bool>(SaveKeys.IN_PROGRESS, cpuGameModel.inProgress);
-                writer.Write<int>(SaveKeys.PLAYER_COLOR_INDEX, cpuGameModel.playerColorIndex);
-
-                if (!cpuGameModel.inProgress)
+                if (result == StatResult.WON)
                 {
-                    writer.Close();
-                    return;
+                    statsModel.stats[durationIndex].wins++;
+                }
+                else if (result == StatResult.LOST)
+                {
+                    statsModel.stats[durationIndex].losses++;
+                }
+                else if (result == StatResult.DRAWN)
+                {
+                    statsModel.stats[durationIndex].draws++;
                 }
 
-                writer.Write<string>(SaveKeys.DEV_FEN, cpuGameModel.devFen);
+                Dictionary<int, string> statsSaveData = new Dictionary<int, string>();
 
-                // CHESSBOARD MODEL
-                writer.Write<long>(SaveKeys.GAME_DURATION, chessboardModel.gameDuration.Ticks);
-                writer.Write<long>(SaveKeys.PLAYER_TIMER, chessboardModel.playerTimer.Ticks);
-                writer.Write<long>(SaveKeys.OPPONENT_TIMER, chessboardModel.opponentTimer.Ticks);
-                writer.Write<ChessColor>(SaveKeys.PLAYER_COLOR, chessboardModel.playerColor);
-                writer.Write<ChessColor>(SaveKeys.OPPONENT_COLOR, chessboardModel.opponentColor);
-                writer.Write<int>(SaveKeys.AVAILABLE_HINTS, chessboardModel.availableHints);
-
-                List<string> moveListJson = new List<string>();
-
-                foreach (ChessMove move in chessboardModel.moveList)
+                foreach (KeyValuePair<int, Performance> entry in statsModel.stats)
                 {
-                    moveListJson.Add(JsonUtility.ToJson(move));
+                    statsSaveData.Add(entry.Key, JsonUtility.ToJson(entry.Value));
                 }
 
-                writer.WriteList<string>(SaveKeys.MOVE_LIST, moveListJson);
-
+                writer.WriteDictionary<int, string>(SaveKeys.STATS_DATA, statsSaveData);
                 writer.Close();
-
-                /*
-                LogUtil.Log("Saved game", "yellow");
-
-                // CPU MENU MODEL
-                LogUtil.Log("SaveKeys.CPU_STRENGTH: " + cpuGameModel.cpuStrength, "yellow");
-                LogUtil.Log("SaveKeys.DURATION_INDEX: " + cpuGameModel.durationIndex, "yellow");
-                LogUtil.Log("SaveKeys.IN_PROGRESS: " + cpuGameModel.inProgress, "yellow");
-                LogUtil.Log("SaveKeys.PLAYER_COLOR_INDEX: " + cpuGameModel.playerColorIndex, "yellow");
-                LogUtil.Log("SaveKeys.DEV_FEN: " + cpuGameModel.devFen, "yellow");
-
-                // CHESSBOARD MODEL
-                LogUtil.Log("SaveKeys.PLAYER_TIMER: " +  chessboardModel.playerTimer.TotalMilliseconds, "yellow");
-                LogUtil.Log("SaveKeys.OPPONENT_TIMER: " +  chessboardModel.opponentTimer.TotalMilliseconds, "yellow");
-                LogUtil.Log("SaveKeys.PLAYER_COLOR: " +  chessboardModel.playerColor, "yellow");
-                LogUtil.Log("SaveKeys.OPPONENT_COLOR: " +  chessboardModel.opponentColor, "yellow");
-
-                foreach(string move in moveListJson)
-                {
-                    LogUtil.Log("Move: " + move, "yellow");
-                }
-                */
             }
             catch (Exception e)
             {
-                if (localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
+                if (localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
                 {
-                    localDataService.DeleteFile(SaveKeys.CPU_SAVE_FILENAME);
+                    localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
                 }
 
-                LogUtil.Log("Critical error when saving game. File deleted. " + e, "red");
+                LogUtil.Log("Critical error when saving stats. File deleted. " + e, "red");
             }
         }
     }

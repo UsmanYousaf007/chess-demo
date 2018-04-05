@@ -36,6 +36,7 @@ namespace TurboLabz.InstantChess
         public const string AVAILABLE_HINTS = "availableHints";
 
         // STATS MODEL
+        public const string STATS_DATA = "statsData";
 
     }
 }

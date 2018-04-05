@@ -107,8 +107,8 @@ namespace TurboLabz.InstantChess
             view.UpdateStrength(vo);
         }
 
-        [ListensTo(typeof(UpdateStatsSignal))]
-        public void OnUpdateTimer(CPUMenuVO vo)
+        [ListensTo(typeof(UpdateDurationSignal))]
+        public void OnUpdateDuration(CPUMenuVO vo)
         {
             view.UpdateDuration(vo);
         }

@@ -19,6 +19,6 @@ namespace TurboLabz.InstantChess
         int durationIndex { get; set; }
         Dictionary<int, Performance> stats { get; set; }
         void Reset();
-        CPUStatsVO GetCPUStatsVO();
+        StatsVO GetCPUStatsVO();
     }
 }

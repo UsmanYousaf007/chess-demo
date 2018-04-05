@@ -18,9 +18,9 @@ namespace TurboLabz.InstantChess
         public int durationIndex { get; set; }
         public Dictionary<int, Performance> stats { get; set; }
 
-        public CPUStatsVO GetCPUStatsVO()
+        public StatsVO GetCPUStatsVO()
         {
-            CPUStatsVO vo = new CPUStatsVO();
+            StatsVO vo = new StatsVO();
             vo.durationIndex = durationIndex;
             vo.stats = stats;
             vo.durationMinutes = CPUSettings.DURATION_MINUTES;
@@ -31,7 +31,7 @@ namespace TurboLabz.InstantChess
         public void Reset()
         {
             durationIndex = 0;
-            stats = null;
+            stats = new Dictionary<int, Performance>();
         }
     }
 }

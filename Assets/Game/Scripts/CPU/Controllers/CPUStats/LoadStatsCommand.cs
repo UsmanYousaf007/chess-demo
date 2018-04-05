@@ -24,19 +24,52 @@ namespace TurboLabz.InstantChess
     public class LoadStatsCommand : Command
     {
         // Dispatch Signals
-        [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
+        [Inject] public UpdateStatsSignal updateStatsSignal { get; set; }
 
         // Models
-        [Inject] public ICPUGameModel cpuGameModel { get; set; }
-        [Inject] public IChessboardModel chessboardModel { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IStatsModel statsModel { get; set; }
 
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
 
         public override void Execute()
+        {
+            statsModel.Reset();
+
+            if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
+            {
+                LogUtil.Log("No saved stats found.", "yellow");
+                LoadStats();
+                return;
+            }
+
+            try
+            {
+                ILocalDataReader reader = localDataService.OpenReader(SaveKeys.STATS_SAVE_FILENAME);
+
+                // STATS MODEL
+                Dictionary<int, string> statsSaveData = new Dictionary<int, string>();
+                statsSaveData = reader.ReadDictionary<int, string>(SaveKeys.STATS_DATA);
+
+                foreach (KeyValuePair<int, string> entry in statsSaveData)
+                {
+                    Performance p = JsonUtility.FromJson<Performance>(entry.Value);
+                    statsModel.stats[entry.Key] = p;
+                }
+
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                LogUtil.Log("Corrupt saved game! " + e, "red");
+                localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
+                statsModel.Reset();
+                LoadStats();
+            }
+        }
+
+        private void LoadStats()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
         }
