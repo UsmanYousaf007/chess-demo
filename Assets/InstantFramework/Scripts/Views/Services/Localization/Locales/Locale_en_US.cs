@@ -77,6 +77,19 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO MENU" },
 
                 #endregion
+
+                #region Stats
+
+                { LocalizationKey.STATS_TITLE, "Stats" },
+                { LocalizationKey.STATS_TIME_LIMIT, "Time Limit" },
+                { LocalizationKey.STATS_STRENGTH, "Strength" },
+                { LocalizationKey.STATS_PERFORMANCE, "Performance" },
+                { LocalizationKey.STATS_W, "W" },
+                { LocalizationKey.STATS_L, "L" },
+                { LocalizationKey.STATS_D, "D" },
+                { LocalizationKey.STATS_RESET, "RESET" },
+
+                #endregion
             };
         }
     }

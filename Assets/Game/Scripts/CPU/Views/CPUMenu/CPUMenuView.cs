@@ -81,6 +81,13 @@ namespace TurboLabz.InstantChess
             playButton.onClick.AddListener(OnPlayButtonClicked);
             statsButton.onClick.AddListener(OnStatsButtonClicked);
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
+
+            headingLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_HEADING);
+            strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
+            durationLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_DURATION);
+            playerColorLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAYER_COLOR);
+            playButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY);
+            statsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STATS);
         }
 
         public void CleanUp()
@@ -98,13 +105,6 @@ namespace TurboLabz.InstantChess
 
         public void UpdateView(CPUMenuVO vo)
         {
-            headingLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_HEADING);
-            strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
-            durationLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_DURATION);
-            playerColorLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAYER_COLOR);
-            playButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY);
-            statsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STATS);
-
             UpdateStrength(vo);
             UpdateDuration(vo);
             UpdatePlayerColor(vo);

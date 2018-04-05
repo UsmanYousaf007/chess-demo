@@ -47,14 +47,29 @@ namespace TurboLabz.InstantChess
         public Text[] drawCountLabels;
         public Button backButton;
         public Button resetButton;
+        public Text resetLabel;
 
         // View signals
         public Signal backButtonClickedSignal = new Signal();
+        public Signal resetButtonClickedSignal = new Signal();
 
 
         public void Init()
         {
-//            backButton.onClick.AddListener(OnBackButtonClicked);
+            backButton.onClick.AddListener(OnBackButtonClicked);
+            resetButton.onClick.AddListener(OnResetButtonClicked);
+
+            titleLabel.text = localizationService.Get(LocalizationKey.STATS_TITLE);
+            timeLimitLabel.text = localizationService.Get(LocalizationKey.STATS_TIME_LIMIT);
+            strengthLabel.text = localizationService.Get(LocalizationKey.STATS_STRENGTH);
+            performanceLabel.text = localizationService.Get(LocalizationKey.STATS_PERFORMANCE);
+            string W = localizationService.Get(LocalizationKey.STATS_W);
+            for (int i = 0; i < winLabels.Length; i++) winLabels[i].text = W;
+            string L = localizationService.Get(LocalizationKey.STATS_L);
+            for (int i = 0; i < lossLabels.Length; i++) lossLabels[i].text = L;
+            string D = localizationService.Get(LocalizationKey.STATS_D);
+            for (int i = 0; i < drawLabels.Length; i++) drawLabels[i].text = D;
+            resetLabel.text = localizationService.Get(LocalizationKey.STATS_RESET);
         }
 
         public void CleanUp()
@@ -85,6 +100,11 @@ namespace TurboLabz.InstantChess
         private void OnBackButtonClicked()
         {
             backButtonClickedSignal.Dispatch();
+        }
+
+        private void OnResetButtonClicked()
+        {
+            resetButtonClickedSignal.Dispatch();
         }
     }
 }

@@ -72,5 +72,18 @@ namespace TurboLabz.InstantFramework
         public const string CPU_RESULTS_EXIT_BUTTON = "cpuResultsExitButton";
 
         #endregion
+
+        #region Stats
+
+        public const string STATS_TITLE = "statsTitle";
+        public const string STATS_TIME_LIMIT = "statsTimeLimit";
+        public const string STATS_STRENGTH = "statsStrength";
+        public const string STATS_PERFORMANCE = "statsPerformance";
+        public const string STATS_W = "statsW";
+        public const string STATS_L = "statsL";
+        public const string STATS_D = "statsD";
+        public const string STATS_RESET = "statsReset";
+
+        #endregion
     }
 }
