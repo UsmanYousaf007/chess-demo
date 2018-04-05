@@ -28,7 +28,25 @@ namespace TurboLabz.InstantChess
         [Inject] public ILocalizationService localizationService { get; set; }
 
         // Scene references
+
+        public Text titleLabel;
+        public Text timeLimitLabel;
+        public Button timeDecButton;
+        public Text timeCurrentLabel;
+        public Button timeIncButton;
+        public Text strengthLabel;
+        public Text performanceLabel;
+        public Text[] winLabels;
+        public Text[] lossLabels;
+        public Text[] drawLabels;
+        public RectTransform[] winBars;
+        public RectTransform[] lossBars;
+        public RectTransform[] drawBars;
+        public Text[] winCountLabels;
+        public Text[] lossCountLabels;
+        public Text[] drawCountLabels;
         public Button backButton;
+        public Button resetButton;
 
         // View signals
         public Signal backButtonClickedSignal = new Signal();
