@@ -47,7 +47,7 @@ namespace TurboLabz.Chess
             resultsReady = false;
 
             // Execute the move
-            string searchDepth = GetSearchDepth().ToString();
+            string searchDepth = vo.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
             AiLog("searchDepth = " + searchDepth);
             plugin.GoDepth(searchDepth);
 
