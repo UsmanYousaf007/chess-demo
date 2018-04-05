@@ -24,14 +24,15 @@ namespace TurboLabz.InstantChess
     public class AdjustDurationSignal : Signal<bool> {}
     public class AdjustPlayerColorSignal : Signal<bool>{}
     public class UpdateStrengthSignal : Signal<CPUMenuVO> {}
-    public class UpdateDurationSignal : Signal<StatsVO>{}
+    public class UpdateDurationSignal : Signal<CPUMenuVO>{}
     public class UpdatePlayerColorSignal : Signal<CPUMenuVO>{}
     public class LoadCPUGameSignal : Signal {}
 
     // CPU STATS
-    public class LoadStatsSignal : Signal<int>{}
-    public class UpdateStatsDurationSignal : Signal<string>{}
-    public class SaveStatsSignal : Signal<int, Performance>{}
+    public class LoadStatsSignal : Signal<int> {}
+    public class UpdateStatsDurationSignal : Signal<string> {}
+    public class SaveStatsSignal : Signal<int, Performance> {}
+    public class UpdateStatsSignal : Signal<StatsVO> {};
 
     // CPU GAME
     public class StartNewGameSignal : Signal {}
