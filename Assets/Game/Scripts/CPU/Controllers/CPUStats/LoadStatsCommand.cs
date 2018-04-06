@@ -17,7 +17,6 @@ using System;
 using TurboLabz.TLUtils;
 using UnityEngine;
 
-
 namespace TurboLabz.InstantChess
 {
     public class LoadStatsCommand : Command

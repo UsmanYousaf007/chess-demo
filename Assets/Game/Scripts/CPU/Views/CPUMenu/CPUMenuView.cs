@@ -150,7 +150,7 @@ namespace TurboLabz.InstantChess
 
             currentDurationLabel.text = (duration == 0) ? 
                 localizationService.Get(LocalizationKey.CPU_MENU_DURATION_NONE)
-                : vo.durationMinutes[vo.selectedDurationIndex] + " m";
+                : localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
 
             if (vo.selectedDurationIndex == 0)
             {

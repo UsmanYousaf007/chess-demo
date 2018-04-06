@@ -19,6 +19,7 @@ using strange.extensions.signal.impl ;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantChess
 {
@@ -28,7 +29,6 @@ namespace TurboLabz.InstantChess
         [Inject] public ILocalizationService localizationService { get; set; }
 
         // Scene references
-
         public Text titleLabel;
         public Text timeLimitLabel;
         public Button timeDecButton;
@@ -54,10 +54,13 @@ namespace TurboLabz.InstantChess
         // View signals
         public Signal backButtonClickedSignal = new Signal();
         public Signal resetButtonClickedSignal = new Signal();
-        public Signal decDurationButtonClickedSignal = new Signal();
-        public Signal incDurationButtonClickedSignal = new Signal();
+
+        private const float BAR_MAX_WIDTH = 462;
+        private const float BAR_MIN_WIDTH = 9;
 
         private int durationIndex;
+        private int[] durationMinutes;
+        private Dictionary<int, Performance> stats;
 
         public void Init()
         {
@@ -84,26 +87,70 @@ namespace TurboLabz.InstantChess
   //          backButton.onClick.RemoveAllListeners();
         }
 
-        public void UpdateView(CPUStatsVO vo)
-        {
-            UpdateDuration(vo);
+        public void Show() 
+        { 
+            gameObject.SetActive(true); 
         }
 
-        public void UpdateDuration(CPUStatsVO vo)
+        public void Hide()
+        { 
+            gameObject.SetActive(false); 
+        }
+
+        public void UpdateView(CPUStatsVO vo)
         {
-            int duration = vo.durationMinutes[vo.durationIndex];
             durationIndex = vo.durationIndex;
+            durationMinutes = vo.durationMinutes;
+            stats = vo.stats;
+
+            RefreshData();
+        }
+
+        private void UpdateStats()
+        {
+            for (int i = 0; i < winCountLabels.Length; i++)
+            {
+                Performance p;
+
+                if (i < stats.Count)
+                {
+                    p = stats[i];
+                }
+
+                winCountLabels[i].text = p.wins.ToString();
+                lossCountLabels[i].text = p.losses.ToString();
+                drawCountLabels[i].text = p.draws.ToString();
+
+                int[] vals = { p.wins, p.losses, p.draws };
+                int max = Mathf.Max(vals);
+
+                SetBarWidth(winBars[i], (BAR_MAX_WIDTH * p.wins /  max));
+                SetBarWidth(lossBars[i], (BAR_MAX_WIDTH * p.losses /  max));
+                SetBarWidth(drawBars[i], (BAR_MAX_WIDTH * p.draws /  max));
+            }
+        }
+
+        private void SetBarWidth(RectTransform bar, float width)
+        {
+            Vector2 sizeDelta = bar.sizeDelta;
+            sizeDelta.x = Mathf.Max(BAR_MIN_WIDTH, width);
+            bar.sizeDelta = sizeDelta;
+        }
+
+        private void UpdateDuration()
+        {
+            int duration = durationMinutes[durationIndex];
 
             timeCurrentLabel.text = (duration == 0) ? 
                 localizationService.Get(LocalizationKey.CPU_MENU_DURATION_NONE)
-                : vo.durationMinutes[durationIndex] + " m";
+                : localizationService.Get(LocalizationKey.GM_ROOM_DURATION, durationMinutes[durationIndex]);
 
             if (durationIndex == 0)
             {
                 decDurationButton.interactable = false;
                 incDurationButton.interactable = true;
             }
-            else if (durationIndex == (vo.durationMinutes.Length - 1))
+            else if (durationIndex == (durationMinutes.Length - 1))
             {
                 decDurationButton.interactable = true;
                 incDurationButton.interactable = false;
@@ -113,21 +160,6 @@ namespace TurboLabz.InstantChess
                 decDurationButton.interactable = true;
                 incDurationButton.interactable = true;
             }
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public bool IsVisible()
-        {
-            return gameObject.activeSelf;
         }
 
         private void OnBackButtonClicked()
@@ -142,12 +174,28 @@ namespace TurboLabz.InstantChess
 
         private void OnDecDurationButtonClicked()
         {
-            decDurationButtonClickedSignal.Dispatch();
+            if (durationIndex > 0)
+            {
+                durationIndex--;
+            }
+
+            RefreshData();
         }
 
         private void OnIncDurationButtonClicked()
         {
-            incDurationButtonClickedSignal.Dispatch();
+            if (durationIndex < durationMinutes.Length - 1 )
+            {
+                durationIndex++;
+            }
+
+            RefreshData();
+        }
+
+        private void RefreshData()
+        {
+            UpdateDuration();
+            UpdateStats();
         }
     }
 }

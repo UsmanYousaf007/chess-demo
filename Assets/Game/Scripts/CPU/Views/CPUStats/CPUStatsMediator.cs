@@ -32,8 +32,6 @@ namespace TurboLabz.InstantChess
         {
             view.Init();
             view.backButtonClickedSignal.AddListener(OnBackButtonClicked);
-            view.decDurationButtonClickedSignal.AddListener(OnDecDurationButtonClicked);
-            view.incDurationButtonClickedSignal.AddListener(OnIncDurationButtonClicked);
         }
 
         public override void OnRemove()
@@ -69,14 +67,6 @@ namespace TurboLabz.InstantChess
         private void OnBackButtonClicked()
         {
             //loadGameSignal.Dispatch();
-        }
-
-        private void OnDecDurationButtonClicked()
-        {
-        }
-
-        private void OnIncDurationButtonClicked()
-        {
         }
     }
 }
