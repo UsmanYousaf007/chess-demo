@@ -60,7 +60,7 @@ namespace TurboLabz.InstantChess
 
         private int durationIndex;
         private int[] durationMinutes;
-        private Dictionary<int, Performance> stats;
+        private Dictionary<int, int[]> stats;
 
         public void Init()
         {
@@ -99,15 +99,16 @@ namespace TurboLabz.InstantChess
 
         public void UpdateView(CPUStatsVO vo)
         {
-            durationIndex = vo.durationIndex;
+            durationIndex = vo.selectedDurationIndex;
             durationMinutes = vo.durationMinutes;
-            stats = vo.stats;
+            //stats = vo.stats;
 
             RefreshData();
         }
 
         private void UpdateStats()
         {
+            /*
             for (int i = 0; i < winCountLabels.Length; i++)
             {
                 Performance p;
@@ -128,6 +129,7 @@ namespace TurboLabz.InstantChess
                 SetBarWidth(lossBars[i], (BAR_MAX_WIDTH * p.losses /  max));
                 SetBarWidth(drawBars[i], (BAR_MAX_WIDTH * p.draws /  max));
             }
+            */
         }
 
         private void SetBarWidth(RectTransform bar, float width)

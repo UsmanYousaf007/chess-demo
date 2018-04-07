@@ -21,12 +21,8 @@ namespace TurboLabz.InstantChess
 {
     public class LoadStatsCommand : Command
     {
-        // Parameters
-        [Inject] public int durationIndex { get; set; }
-
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public UpdateStatsSignal updateStatsSignal { get; set; }
 
         // Models
         [Inject] public IStatsModel statsModel { get; set; }
@@ -36,14 +32,10 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
-            statsModel.Reset();
-
-            statsModel.durationIndex = durationIndex;
-
             if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
             {
                 LogUtil.Log("No saved stats found.", "yellow");
-                LoadStats();
+                ShowStats();
                 return;
             }
 
@@ -52,13 +44,11 @@ namespace TurboLabz.InstantChess
                 ILocalDataReader reader = localDataService.OpenReader(SaveKeys.STATS_SAVE_FILENAME);
 
                 // STATS MODEL
-                Dictionary<int, string> statsSaveData = new Dictionary<int, string>();
-                statsSaveData = reader.ReadDictionary<int, string>(SaveKeys.STATS_DATA);
+                Dictionary<int, string> statsSaveData = reader.ReadDictionary<int, string>(SaveKeys.STATS_DATA);
 
                 foreach (KeyValuePair<int, string> entry in statsSaveData)
                 {
-                    Performance p = JsonUtility.FromJson<Performance>(entry.Value);
-                    statsModel.stats[entry.Key] = p;
+                    statsModel.stats[entry.Key] = JsonUtility.FromJson<PerformanceSet>(entry.Value);
                 }
 
                 reader.Close();
@@ -68,19 +58,15 @@ namespace TurboLabz.InstantChess
                 LogUtil.Log("Corrupt saved stats! " + e, "red");
                 localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
                 statsModel.Reset();
-                LoadStats();
             }
+
+            LogUtil.Log("Found stats file.", "yellow");
+            ShowStats();
         }
 
-        private void LoadStats()
+        private void ShowStats()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
-
-            CPUStatsVO vo;
-            vo.durationIndex = durationIndex;
-            vo.durationMinutes = CPUSettings.DURATION_MINUTES;
-            vo.stats = statsModel.stats;
-            updateStatsSignal.Dispatch(vo);
         }
     }
 }

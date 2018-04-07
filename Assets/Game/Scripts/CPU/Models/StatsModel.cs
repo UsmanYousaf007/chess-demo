@@ -10,28 +10,52 @@
 /// @description
 /// [add_description_here]
 using System.Collections.Generic;
+using UnityEngine;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
     public class StatsModel : IStatsModel
     {
-        public int durationIndex { get; set; }
-        public Dictionary<int, Performance> stats { get; set; }
+        public int selectedDurationIndex { get; set; }
+        public Dictionary<int, PerformanceSet> stats { get; set; }
+
+        [PostConstruct]
+        public void LoadDefault()
+        {
+            Reset();
+        }
 
         public CPUStatsVO GetCPUStatsVO()
         {
             CPUStatsVO vo = new CPUStatsVO();
-            vo.durationIndex = durationIndex;
-            vo.stats = stats;
+            vo.selectedDurationIndex = selectedDurationIndex;
             vo.durationMinutes = CPUSettings.DURATION_MINUTES;
-
+            vo.stats = stats;
             return vo;
         }
 
         public void Reset()
         {
-            durationIndex = 0;
-            stats = new Dictionary<int, Performance>();
+            selectedDurationIndex = 0;
+
+            stats = new Dictionary<int, PerformanceSet>();
+
+            for (int i = 0; i < CPUSettings.DURATION_MINUTES.Length; i++)
+            {
+                // Create default performance set
+                PerformanceSet pset;
+                pset.performances = new List<Performance>();
+
+                for (int j = 0; j < CPUSettings.MAX_STRENGTH; j++)
+                {
+                    // Create a default performance
+                    pset.performances.Add(new Performance());
+                }
+
+                // Save the complete performance list for each duration
+                stats.Add(i, pset);
+            }
         }
     }
 }

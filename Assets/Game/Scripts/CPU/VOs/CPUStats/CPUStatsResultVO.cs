@@ -13,10 +13,10 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantChess
 {
-    public struct CPUStatsVO
+    public struct CPUStatsResultsVO
     {
-        public int[] durationMinutes;
-        public int selectedDurationIndex;
-        public Dictionary<int, PerformanceSet> stats;
+        public int durationIndex;
+        public int strength;
+        public StatResult result;
     }
 }

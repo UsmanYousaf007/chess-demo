@@ -24,8 +24,7 @@ namespace TurboLabz.InstantChess
     public class SaveStatsCommand : Command
     {
         // Parameters
-        [Inject] public int durationIndex { get; set; }
-        [Inject] public StatResult result { get; set; }
+        [Inject] public CPUStatsResultsVO result { get; set; }
 
         // Models
         [Inject] public IStatsModel statsModel { get; set; }
@@ -39,22 +38,26 @@ namespace TurboLabz.InstantChess
             {
                 ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.STATS_SAVE_FILENAME);
 
-                if (result == StatResult.WON)
+                Performance p = statsModel.stats[result.durationIndex].performances[result.strength];
+
+                if (result.result == StatResult.WON)
                 {
-                    statsModel.stats[durationIndex].wins++;
+                    p.wins++;
                 }
-                else if (result == StatResult.LOST)
+                else if (result.result == StatResult.LOST)
                 {
-                    statsModel.stats[durationIndex].losses++;
+                    p.losses++;
                 }
-                else if (result == StatResult.DRAWN)
+                else if (result.result == StatResult.DRAWN)
                 {
-                    statsModel.stats[durationIndex].draws++;
+                    p.draws++;
                 }
+
+                statsModel.stats[result.durationIndex].performances[result.strength] = p;
 
                 Dictionary<int, string> statsSaveData = new Dictionary<int, string>();
 
-                foreach (KeyValuePair<int, Performance> entry in statsModel.stats)
+                foreach (KeyValuePair<int, PerformanceSet> entry in statsModel.stats)
                 {
                     statsSaveData.Add(entry.Key, JsonUtility.ToJson(entry.Value));
                 }

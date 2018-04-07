@@ -1,4 +1,4 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -9,9 +9,18 @@
 /// 
 /// @description
 /// [add_description_here]
+using System;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantChess
 {
+    [Serializable]
+    public struct PerformanceSet
+    {
+        public List<Performance> performances;
+    }
+
+    [Serializable]
     public struct Performance
     {
         public int wins;

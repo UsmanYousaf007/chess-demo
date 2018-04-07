@@ -29,9 +29,9 @@ namespace TurboLabz.InstantChess
     public class LoadCPUGameSignal : Signal {}
 
     // CPU STATS
-    public class LoadStatsSignal : Signal<int> {}
+    public class LoadStatsSignal : Signal {}
     public class UpdateStatsDurationSignal : Signal<string> {}
-    public class SaveStatsSignal : Signal<int, Performance> {}
+    public class SaveStatsSignal : Signal<CPUStatsResultsVO> {}
     public class UpdateStatsSignal : Signal<CPUStatsVO> {};
 
     // CPU GAME
