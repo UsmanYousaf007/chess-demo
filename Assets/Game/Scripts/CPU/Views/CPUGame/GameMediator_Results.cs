@@ -20,6 +20,7 @@ namespace TurboLabz.InstantChess
     {
         // Dispatch signal
         [Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
+        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 
         public void OnRegisterResults()
         {
@@ -64,7 +65,7 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClickedSignal()
         {
-
+            loadStatsSignal.Dispatch();
         }
     }
 }

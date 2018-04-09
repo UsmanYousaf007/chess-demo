@@ -29,7 +29,7 @@ namespace TurboLabz.InstantChess
     public class LoadCPUGameSignal : Signal {}
 
     // CPU STATS
-    public class LoadStatsSignal : Signal<int> {}
+    public class LoadStatsSignal : Signal {}
     public class UpdateStatsDurationSignal : Signal<string> {}
     public class SaveStatsSignal : Signal<CPUStatsResultsVO> {}
     public class UpdateStatsSignal : Signal<CPUStatsVO> {};
@@ -74,7 +74,6 @@ namespace TurboLabz.InstantChess
     public class ClaimDrawSignal : Signal {}
     public class RejectDrawSignal : Signal {}
     public class ResignSignal : Signal {}
-    public class LoadGameSignal : Signal {}
     public class InitTimersSignal : Signal<InitTimerVO> {}
     public class InitInfiniteTimersSignal : Signal<bool> {}
     public class UpdatePlayerTimerSignal : Signal<TimeSpan> {}

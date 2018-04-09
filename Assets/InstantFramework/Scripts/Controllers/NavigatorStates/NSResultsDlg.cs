@@ -31,6 +31,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMenu();
             }
+            else if (evt == NavigatorEvent.SHOW_STATS)
+            {
+                return new NSStats();
+            }
 
             return null;
         }

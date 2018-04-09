@@ -67,7 +67,7 @@ namespace TurboLabz.InstantChess
         public Signal decPlayerColorButtonClickedSignal = new Signal();
         public Signal incPlayerColorButtonClickedSignal = new Signal();
         public Signal playButtonClickedSignal = new Signal();
-        public Signal<int> statsButtonClickedSignal = new Signal<int>();
+        public Signal statsButtonClickedSignal = new Signal();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
 
         private int selectedDurationIndex;
@@ -256,7 +256,7 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClicked()
         {
-            statsButtonClickedSignal.Dispatch(selectedDurationIndex);
+            statsButtonClickedSignal.Dispatch();
         }
 
         private void OnDevFenValueChanged(string fen)

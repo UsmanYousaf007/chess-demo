@@ -23,7 +23,7 @@ namespace TurboLabz.InstantChess
     public class CPUStatsMediator : Mediator
     {
         // Dispatch signals
-        //[Inject] public LoadGameSignal loadGameSignal { get; set; }
+        [Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
 
         // View injection
         [Inject] public CPUStatsView view { get; set; }
@@ -66,7 +66,7 @@ namespace TurboLabz.InstantChess
 
         private void OnBackButtonClicked()
         {
-            //loadGameSignal.Dispatch();
+            loadCPUGameSignal.Dispatch();
         }
     }
 }
