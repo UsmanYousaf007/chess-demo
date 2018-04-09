@@ -46,8 +46,6 @@ namespace TurboLabz.InstantChess
         public Text[] lossCountLabels;
         public Text[] drawCountLabels;
         public Button backButton;
-        public Button resetButton;
-        public Text resetLabel;
         public Button decDurationButton;
         public Button incDurationButton;
 
@@ -65,7 +63,6 @@ namespace TurboLabz.InstantChess
         public void Init()
         {
             backButton.onClick.AddListener(OnBackButtonClicked);
-            resetButton.onClick.AddListener(OnResetButtonClicked);
             decDurationButton.onClick.AddListener(OnDecDurationButtonClicked);
             incDurationButton.onClick.AddListener(OnIncDurationButtonClicked);
 
@@ -79,12 +76,13 @@ namespace TurboLabz.InstantChess
             for (int i = 0; i < lossLabels.Length; i++) lossLabels[i].text = L;
             string D = localizationService.Get(LocalizationKey.STATS_D);
             for (int i = 0; i < drawLabels.Length; i++) drawLabels[i].text = D;
-            resetLabel.text = localizationService.Get(LocalizationKey.STATS_RESET);
         }
 
         public void CleanUp()
         {
-  //          backButton.onClick.RemoveAllListeners();
+            backButton.onClick.RemoveAllListeners();
+            decDurationButton.onClick.RemoveAllListeners();
+            incDurationButton.onClick.RemoveAllListeners();
         }
 
         public void Show() 
@@ -175,11 +173,6 @@ namespace TurboLabz.InstantChess
         private void OnBackButtonClicked()
         {
             backButtonClickedSignal.Dispatch();
-        }
-
-        private void OnResetButtonClicked()
-        {
-            resetButtonClickedSignal.Dispatch();
         }
 
         private void OnDecDurationButtonClicked()
