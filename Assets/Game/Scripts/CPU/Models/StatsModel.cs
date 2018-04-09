@@ -12,17 +12,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
+using System;
 
 namespace TurboLabz.InstantChess
 {
     public class StatsModel : IStatsModel
     {
+        [Inject] public ILocalDataService localDataService { get; set; }
+
         public Dictionary<int, PerformanceSet> stats { get; set; }
 
         [PostConstruct]
-        public void LoadDefault()
+        public void Load()
         {
             Reset();
+            LoadFromFile();
+        }
+
+        public void LoadFromFile()
+        {
+            if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
+            {
+                return;
+            }
+
+            try
+            {
+                ILocalDataReader reader = localDataService.OpenReader(SaveKeys.STATS_SAVE_FILENAME);
+
+                // STATS MODEL
+                Dictionary<int, string> statsSaveData = reader.ReadDictionary<int, string>(SaveKeys.STATS_DATA);
+
+                foreach (KeyValuePair<int, string> entry in statsSaveData)
+                {
+                    stats[entry.Key] = JsonUtility.FromJson<PerformanceSet>(entry.Value);
+                }
+
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                LogUtil.Log("Corrupt saved stats! " + e, "red");
+                localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
+                Reset();
+            }
+
+            LogUtil.Log("Found stats file.", "yellow");
         }
 
         public void Reset()

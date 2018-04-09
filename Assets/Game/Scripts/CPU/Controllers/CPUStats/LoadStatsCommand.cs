@@ -34,40 +34,6 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
-            if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
-            {
-                LogUtil.Log("No saved stats found.", "yellow");
-                ShowStats();
-                return;
-            }
-
-            try
-            {
-                ILocalDataReader reader = localDataService.OpenReader(SaveKeys.STATS_SAVE_FILENAME);
-
-                // STATS MODEL
-                Dictionary<int, string> statsSaveData = reader.ReadDictionary<int, string>(SaveKeys.STATS_DATA);
-
-                foreach (KeyValuePair<int, string> entry in statsSaveData)
-                {
-                    statsModel.stats[entry.Key] = JsonUtility.FromJson<PerformanceSet>(entry.Value);
-                }
-
-                reader.Close();
-            }
-            catch (Exception e)
-            {
-                LogUtil.Log("Corrupt saved stats! " + e, "red");
-                localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
-                statsModel.Reset();
-            }
-
-            LogUtil.Log("Found stats file.", "yellow");
-            ShowStats();
-        }
-
-        private void ShowStats()
-        {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
 
             CPUStatsVO vo = new CPUStatsVO();
