@@ -60,11 +60,13 @@ namespace TurboLabz.InstantChess
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
         [Inject] public TurnSwapSignal turnSwapSignal { get; set; }
         [Inject] public UpdateGameInfoSignal updateGameInfoSignal { get; set; }
+        [Inject] public SaveStatsSignal saveStatsSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IStatsModel statsModel { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }

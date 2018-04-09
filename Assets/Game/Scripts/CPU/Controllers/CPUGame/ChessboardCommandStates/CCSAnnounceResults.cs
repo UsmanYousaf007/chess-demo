@@ -12,6 +12,7 @@
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantChess
 {
@@ -39,9 +40,10 @@ namespace TurboLabz.InstantChess
             IChessboardModel model = cmd.chessboardModel;
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
 
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
-            cmd.updateResultsDialogSignal.Dispatch(model.gameEndReason, playerWins);
+            GameEndReason gameEndReason = model.gameEndReason;
 
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
+            cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins);
 
             cmd.disableUndoButtonSignal.Dispatch();
             cmd.disableMenuButtonSignal.Dispatch();
@@ -50,7 +52,36 @@ namespace TurboLabz.InstantChess
             cmd.cpuGameModel.inProgress = false;
             cmd.saveGameSignal.Dispatch();
 
+            // Update player stats
+            bool isDraw = false;
 
+            if (gameEndReason == GameEndReason.STALEMATE ||
+                gameEndReason == GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL)
+            {
+                isDraw = true;
+            }
+
+
+            StatResult statResult;
+
+            if (playerWins)
+            {
+                statResult = StatResult.WON;
+            }
+            else if (isDraw)
+            {
+                statResult = StatResult.DRAWN;
+            }
+            else
+            {
+                statResult = StatResult.LOST;
+            }
+
+            CPUStatsResultsVO vo;
+            vo.durationIndex = cmd.cpuGameModel.durationIndex;
+            vo.strength = cmd.cpuGameModel.cpuStrength;
+            vo.result = statResult;
+            cmd.saveStatsSignal.Dispatch(vo);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

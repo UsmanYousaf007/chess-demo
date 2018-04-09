@@ -38,7 +38,10 @@ namespace TurboLabz.InstantChess
             {
                 ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.STATS_SAVE_FILENAME);
 
-                Performance p = statsModel.stats[result.durationIndex].performances[result.strength];
+                // TODO: This is hacky where the strength index should be a proper independant index
+                // and not calculated based off the strength value.
+                int strengthIndex = result.strength - 1; 
+                Performance p = statsModel.stats[result.durationIndex].performances[strengthIndex];
 
                 if (result.result == StatResult.WON)
                 {
@@ -53,7 +56,7 @@ namespace TurboLabz.InstantChess
                     p.draws++;
                 }
 
-                statsModel.stats[result.durationIndex].performances[result.strength] = p;
+                statsModel.stats[result.durationIndex].performances[strengthIndex] = p;
 
                 Dictionary<int, string> statsSaveData = new Dictionary<int, string>();
 
