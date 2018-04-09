@@ -58,9 +58,9 @@ namespace TurboLabz.InstantChess
         private const float BAR_MAX_WIDTH = 462;
         private const float BAR_MIN_WIDTH = 9;
 
-        private int durationIndex;
+        private int selectedDurationIndex;
         private int[] durationMinutes;
-        private Dictionary<int, int[]> stats;
+        private Dictionary<int, PerformanceSet> stats;
 
         public void Init()
         {
@@ -99,23 +99,23 @@ namespace TurboLabz.InstantChess
 
         public void UpdateView(CPUStatsVO vo)
         {
-            durationIndex = vo.selectedDurationIndex;
+            selectedDurationIndex = vo.selectedDurationIndex;
             durationMinutes = vo.durationMinutes;
-            //stats = vo.stats;
+            stats = vo.stats;
 
             RefreshData();
         }
 
         private void UpdateStats()
         {
-            /*
             for (int i = 0; i < winCountLabels.Length; i++)
             {
-                Performance p;
+                PerformanceSet pset = stats[selectedDurationIndex];
+                Performance p = new Performance();
 
-                if (i < stats.Count)
+                if (i < pset.performances.Count)
                 {
-                    p = stats[i];
+                    p = pset.performances[i];
                 }
 
                 winCountLabels[i].text = p.wins.ToString();
@@ -125,11 +125,19 @@ namespace TurboLabz.InstantChess
                 int[] vals = { p.wins, p.losses, p.draws };
                 int max = Mathf.Max(vals);
 
-                SetBarWidth(winBars[i], (BAR_MAX_WIDTH * p.wins /  max));
-                SetBarWidth(lossBars[i], (BAR_MAX_WIDTH * p.losses /  max));
-                SetBarWidth(drawBars[i], (BAR_MAX_WIDTH * p.draws /  max));
+                if (max > 0)
+                {
+                    SetBarWidth(winBars[i], (BAR_MAX_WIDTH * p.wins / max));
+                    SetBarWidth(lossBars[i], (BAR_MAX_WIDTH * p.losses / max));
+                    SetBarWidth(drawBars[i], (BAR_MAX_WIDTH * p.draws / max));
+                }
+                else
+                {
+                    SetBarWidth(winBars[i], 0);
+                    SetBarWidth(lossBars[i], 0);
+                    SetBarWidth(drawBars[i], 0);
+                }
             }
-            */
         }
 
         private void SetBarWidth(RectTransform bar, float width)
@@ -141,18 +149,18 @@ namespace TurboLabz.InstantChess
 
         private void UpdateDuration()
         {
-            int duration = durationMinutes[durationIndex];
+            int duration = durationMinutes[selectedDurationIndex];
 
             timeCurrentLabel.text = (duration == 0) ? 
                 localizationService.Get(LocalizationKey.CPU_MENU_DURATION_NONE)
-                : localizationService.Get(LocalizationKey.GM_ROOM_DURATION, durationMinutes[durationIndex]);
+                : localizationService.Get(LocalizationKey.GM_ROOM_DURATION, durationMinutes[selectedDurationIndex]);
 
-            if (durationIndex == 0)
+            if (selectedDurationIndex == 0)
             {
                 decDurationButton.interactable = false;
                 incDurationButton.interactable = true;
             }
-            else if (durationIndex == (durationMinutes.Length - 1))
+            else if (selectedDurationIndex == (durationMinutes.Length - 1))
             {
                 decDurationButton.interactable = true;
                 incDurationButton.interactable = false;
@@ -176,9 +184,9 @@ namespace TurboLabz.InstantChess
 
         private void OnDecDurationButtonClicked()
         {
-            if (durationIndex > 0)
+            if (selectedDurationIndex > 0)
             {
-                durationIndex--;
+                selectedDurationIndex--;
             }
 
             RefreshData();
@@ -186,9 +194,9 @@ namespace TurboLabz.InstantChess
 
         private void OnIncDurationButtonClicked()
         {
-            if (durationIndex < durationMinutes.Length - 1 )
+            if (selectedDurationIndex < durationMinutes.Length - 1 )
             {
-                durationIndex++;
+                selectedDurationIndex++;
             }
 
             RefreshData();

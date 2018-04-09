@@ -17,7 +17,6 @@ namespace TurboLabz.InstantChess
 {
     public class StatsModel : IStatsModel
     {
-        public int selectedDurationIndex { get; set; }
         public Dictionary<int, PerformanceSet> stats { get; set; }
 
         [PostConstruct]
@@ -26,19 +25,8 @@ namespace TurboLabz.InstantChess
             Reset();
         }
 
-        public CPUStatsVO GetCPUStatsVO()
-        {
-            CPUStatsVO vo = new CPUStatsVO();
-            vo.selectedDurationIndex = selectedDurationIndex;
-            vo.durationMinutes = CPUSettings.DURATION_MINUTES;
-            vo.stats = stats;
-            return vo;
-        }
-
         public void Reset()
         {
-            selectedDurationIndex = 0;
-
             stats = new Dictionary<int, PerformanceSet>();
 
             for (int i = 0; i < CPUSettings.DURATION_MINUTES.Length; i++)

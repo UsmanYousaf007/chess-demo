@@ -16,9 +16,7 @@ namespace TurboLabz.InstantChess
 {
     public interface IStatsModel
     {
-        int selectedDurationIndex { get; set; }
         Dictionary<int, PerformanceSet> stats { get; set; }
         void Reset();
-        CPUStatsVO GetCPUStatsVO();
     }
 }

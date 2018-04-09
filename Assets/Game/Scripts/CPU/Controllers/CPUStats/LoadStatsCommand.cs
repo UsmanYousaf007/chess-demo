@@ -21,8 +21,12 @@ namespace TurboLabz.InstantChess
 {
     public class LoadStatsCommand : Command
     {
+        // Parameters
+        [Inject] public int selectedDurationIndex { get; set; }
+
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateStatsSignal updateStatsSignal { get; set; }
 
         // Models
         [Inject] public IStatsModel statsModel { get; set; }
@@ -67,6 +71,13 @@ namespace TurboLabz.InstantChess
         private void ShowStats()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
+
+            CPUStatsVO vo = new CPUStatsVO();
+            vo.durationMinutes = CPUSettings.DURATION_MINUTES;
+            vo.selectedDurationIndex = selectedDurationIndex;
+            vo.stats = statsModel.stats;
+
+            updateStatsSignal.Dispatch(vo);
         }
     }
 }

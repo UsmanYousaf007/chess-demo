@@ -161,7 +161,7 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClicked(int selectedDurationIndex)
         {
-            loadStatsSignal.Dispatch();
+            loadStatsSignal.Dispatch(selectedDurationIndex);
         }
     }
 }
