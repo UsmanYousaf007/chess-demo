@@ -28,8 +28,6 @@ namespace TurboLabz.InstantChess
         [Inject] public ILocalizationService localizationService { get; set; }
 
         // Scene references
-        public Text headingLabel;
-
         public Text strengthLabel;
         public Button decStrengthButton;
         public Text prevStrengthLabel;
@@ -84,7 +82,6 @@ namespace TurboLabz.InstantChess
             statsButton.onClick.AddListener(OnStatsButtonClicked);
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
-            headingLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_HEADING);
             strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
             durationLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_DURATION);
             playerColorLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAYER_COLOR);
