@@ -258,7 +258,7 @@ namespace TurboLabz.InstantChess
                 timer = TimeSpan.FromMilliseconds(timer.TotalMilliseconds + 999);
             }
 
-            return string.Format("{0:00}:{1:00}", timer.TotalMinutes, timer.Seconds);
+            return string.Format("{0:00}:{1:00}", Mathf.FloorToInt((float)timer.TotalMinutes), timer.Seconds);
         }
 
         private void StopPlayerClockCR()

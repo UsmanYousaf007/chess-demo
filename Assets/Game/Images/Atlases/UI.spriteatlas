@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: UI
+  m_EditorData:
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 2
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingParameters:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
+    - {fileID: 102900000, guid: 207c8d5fd6b0d49f79e7f92aac8a306e, type: 3}
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 39f933fec0b4542adba179d7027eccc4, type: 3}
+  - {fileID: 21300000, guid: d6e6241b48e1341cab721fa246106765, type: 3}
+  - {fileID: 21300000, guid: 262b7b73aabac48519ef7286cff75be6, type: 3}
+  - {fileID: 21300000, guid: de076e797810641b2934864bdf26d411, type: 3}
+  - {fileID: 21300000, guid: 8f84ebfd9b91a4547adbd55f5671fd5e, type: 3}
+  - {fileID: 21300000, guid: 7728fd19aa58644f7a307375c8544833, type: 3}
+  - {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  - {fileID: 21300000, guid: 7f246e5db743441758b7cb074166f235, type: 3}
+  - {fileID: 21300000, guid: 411d28d834585464d9f9d2a8cb7c1b18, type: 3}
+  - {fileID: 21300000, guid: 0e909fca1840e49dcaf6a7b75dfe20ad, type: 3}
+  - {fileID: 21300000, guid: 9c48a50c1b6464e4c8a9d5cabe4fd37e, type: 3}
+  - {fileID: 21300000, guid: 10c06c606dc3c47528f2d5e037a9e89d, type: 3}
+  - {fileID: 21300000, guid: 5273b42a0dc204490a625761bf9cf859, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - MainButton
+  - ChessLogo
+  - HeadingBar
+  - StrengthIcon
+  - RandomKing
+  - BackButton
+  - ChangeValueButton
+  - WhiteKing
+  - BlackKing
+  - StatsButtonIcon
+  - PlayButtonIcon
+  - Seperator
+  - StatsBar
+  m_Tag: UI
+  m_IsVariant: 0
