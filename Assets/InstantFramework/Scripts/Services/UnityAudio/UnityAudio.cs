@@ -8,9 +8,6 @@
 /// @date 2018-01-10 10:52:49 UTC+05:00
 
 using UnityEngine;
-using System;
-using System.Text;
-using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,12 +19,15 @@ namespace TurboLabz.InstantFramework
         private const string OBJ_NAME = "AudioService";
         private bool audioOn;
 
+
         [PostConstruct]
         public void PostConstruct()
         {
             audio = GameObject.Find(OBJ_NAME).GetComponent<AudioSource>();
             sounds = audio.GetComponent<AudioList>();
             audioOn = true;
+
+            sounds.playStandardClickSignal.AddListener(PlayStandardClick);
         }
 
         public void Play(AudioClip sound, float volume = 1.0f)
@@ -36,6 +36,11 @@ namespace TurboLabz.InstantFramework
             {
                 audio.PlayOneShot(sound, volume);
             }
+        }
+
+        public void PlayStandardClick()
+        {
+            Play(sounds.CLICK);
         }
 
         public void ToggleAudio(bool on)

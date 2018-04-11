@@ -25,8 +25,8 @@ namespace TurboLabz.InstantChess
 {
     public class CPUStatsView : View
     {
-        // TODO: Remove this injection, views cannot inject services or models
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Scene references
         public Text titleLabel;
@@ -183,6 +183,7 @@ namespace TurboLabz.InstantChess
             }
 
             RefreshData();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void OnIncDurationButtonClicked()
@@ -193,6 +194,7 @@ namespace TurboLabz.InstantChess
             }
 
             RefreshData();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void RefreshData()

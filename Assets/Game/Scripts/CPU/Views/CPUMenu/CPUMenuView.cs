@@ -219,31 +219,37 @@ namespace TurboLabz.InstantChess
         void OnDecStrengthButtonClicked()
         {
             decStrengthButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void OnIncStrengthButtonClicked()
         {
             incStrengthButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void OnDecDurationButtonClicked()
         {
             decDurationButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void OnIncDurationButtonClicked()
         {
             incDurationButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void OnDecPlayerColorButtonClicked()
         {
             decPlayerColorButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void OnIncPlayerColorButtonClicked()
         {
             incPlayerColorButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.STEP_CLICK);
         }
 
         private void OnPlayButtonClicked()
