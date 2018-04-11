@@ -184,11 +184,11 @@ namespace TurboLabz.InstantChess
                 activatedPieceImages.Remove(capturedPieceImage);
                 pool.ReturnObject(capturedPieceImage);
                 chessboardPieces[toSquareIndex] = null;
-                audioService.Play(audioService.sounds.CAPTURE);
+                audioService.Play(audioService.sounds.SFX_CAPTURE);
             }
             else
             {
-                audioService.Play(audioService.sounds.PLACE_PIECE);
+                audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
             }
 
             // Update the from piece position to the target position
@@ -288,11 +288,11 @@ namespace TurboLabz.InstantChess
 
                 // Show the captured piece in the captured pieces slots
                 HandleCapturePieceGraphic(capturedPieceImage.name, isPlayerTurn);
-                audioService.Play(audioService.sounds.CAPTURE);
+                audioService.Play(audioService.sounds.SFX_CAPTURE);
             }
             else
             {
-                audioService.Play(audioService.sounds.PLACE_PIECE);
+                audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
             }
 
             // Update chessboard piece image array
@@ -570,7 +570,7 @@ namespace TurboLabz.InstantChess
 
             if (vo.isPlayerInCheck && !isResume)
             {
-                audioService.Play(audioService.sounds.CHECK);
+                audioService.Play(audioService.sounds.SFX_CHECK);
             }
         }
 

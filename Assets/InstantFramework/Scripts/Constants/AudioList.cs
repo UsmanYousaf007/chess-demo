@@ -16,17 +16,17 @@ using strange.extensions.signal.impl;
 public class AudioList : MonoBehaviour {
 
     // Framework
-    public AudioClip CLICK;
+    public AudioClip SFX_CLICK;
+    public AudioClip SFX_STEP_CLICK;
 
     // Game
-    public AudioClip CAPTURE;
-    public AudioClip CHECK;
-    public AudioClip DEFEAT;
-    public AudioClip HINT;
-    public AudioClip PLACE_PIECE;
-    public AudioClip PROMO;
-    public AudioClip VICTORY;
-    public AudioClip STEP_CLICK;
+    public AudioClip SFX_CAPTURE;
+    public AudioClip SFX_CHECK;
+    public AudioClip SFX_DEFEAT;
+    public AudioClip SFX_HINT;
+    public AudioClip SFX_PLACE_PIECE;
+    public AudioClip SFX_PROMO;
+    public AudioClip SFX_VICTORY;
 
     // Dispatch Signal
     public Signal playStandardClickSignal = new Signal();

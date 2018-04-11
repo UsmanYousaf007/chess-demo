@@ -160,11 +160,11 @@ namespace TurboLabz.InstantChess
 
             if (isDraw || !playerWins)
             {
-                audioService.Play(audioService.sounds.DEFEAT);
+                audioService.Play(audioService.sounds.SFX_DEFEAT);
             }
             else
             {
-                audioService.Play(audioService.sounds.VICTORY);
+                audioService.Play(audioService.sounds.SFX_VICTORY);
             }
         }
 

@@ -53,7 +53,7 @@ namespace TurboLabz.InstantChess
             hintToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
             hintToIndicator.SetActive(true);
 
-            audioService.Play(audioService.sounds.HINT);
+            audioService.Play(audioService.sounds.SFX_HINT);
 
             UpdateHintCount(vo.availableHints);
             DisableHintButton();

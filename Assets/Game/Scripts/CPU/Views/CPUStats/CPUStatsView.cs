@@ -183,7 +183,7 @@ namespace TurboLabz.InstantChess
             }
 
             RefreshData();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void OnIncDurationButtonClicked()
@@ -194,7 +194,7 @@ namespace TurboLabz.InstantChess
             }
 
             RefreshData();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void RefreshData()

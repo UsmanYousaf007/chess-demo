@@ -68,8 +68,6 @@ namespace TurboLabz.InstantChess
         public Signal statsButtonClickedSignal = new Signal();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
 
-        private int selectedDurationIndex;
-
         public void Init()
         {
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
@@ -142,7 +140,6 @@ namespace TurboLabz.InstantChess
 
         public void UpdateDuration(CPUMenuVO vo)
         {
-            selectedDurationIndex = vo.selectedDurationIndex;
             int duration = vo.durationMinutes[vo.selectedDurationIndex];
 
             currentDurationLabel.text = (duration == 0) ? 
@@ -219,37 +216,37 @@ namespace TurboLabz.InstantChess
         void OnDecStrengthButtonClicked()
         {
             decStrengthButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void OnIncStrengthButtonClicked()
         {
             incStrengthButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void OnDecDurationButtonClicked()
         {
             decDurationButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void OnIncDurationButtonClicked()
         {
             incDurationButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void OnDecPlayerColorButtonClicked()
         {
             decPlayerColorButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void OnIncPlayerColorButtonClicked()
         {
             incPlayerColorButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.STEP_CLICK);
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         private void OnPlayButtonClicked()

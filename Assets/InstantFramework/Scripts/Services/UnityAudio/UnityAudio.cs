@@ -25,8 +25,8 @@ namespace TurboLabz.InstantFramework
         {
             audio = GameObject.Find(OBJ_NAME).GetComponent<AudioSource>();
             sounds = audio.GetComponent<AudioList>();
-            audioOn = true;
 
+            audioOn = true;
             sounds.playStandardClickSignal.AddListener(PlayStandardClick);
         }
 
@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
 
         public void PlayStandardClick()
         {
-            Play(sounds.CLICK);
+            Play(sounds.SFX_CLICK);
         }
 
         public void ToggleAudio(bool on)
