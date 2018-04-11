@@ -57,8 +57,6 @@ namespace TurboLabz.InstantChess
                 localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
                 Reset();
             }
-
-            LogUtil.Log("Found stats file.", "yellow");
         }
 
         public void Reset()

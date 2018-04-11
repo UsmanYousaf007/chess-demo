@@ -36,15 +36,10 @@ namespace TurboLabz.InstantFramework
 
             if (navigatorModel.currentState == null)
             {
-                LogUtil.Log("---- INITIALIZING NAVIGATOR ----", "green");
                 navigatorModel.Reset();
                 navigatorModel.currentState = new NSStart();
                 navigatorModel.currentState.SetCommand(this);
             }
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Nav: " + navigatorModel.currentState.GetType().Name);
-            sb.Append(" -> [" + navigatorEvent + "]");
 
             newState = navigatorModel.currentState.HandleEvent(navigatorEvent);
 
@@ -54,15 +49,7 @@ namespace TurboLabz.InstantFramework
                 navigatorModel.previousState = navigatorModel.currentState;
                 navigatorModel.currentState = newState;
                 newState.RenderDisplayOnEnter();
-
-                sb.Append(" -> " + newState.GetType().Name); 
             }
-            else
-            {
-                sb.Append(" -> Ignored."); 
-            }
-
-            LogUtil.Log(sb.ToString(), "green");
         }
     }
 }

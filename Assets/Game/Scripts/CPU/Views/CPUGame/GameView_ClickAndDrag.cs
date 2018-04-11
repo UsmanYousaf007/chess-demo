@@ -94,8 +94,6 @@ namespace TurboLabz.InstantChess
 
         private void HandleEvent(CDSEvent evt)
         {
-            //LogUtil.Log("CDSEvent: " + evt);
-
             if (model.currentState == null)
             {
                 model.currentState = new CDSDefault();
@@ -109,8 +107,6 @@ namespace TurboLabz.InstantChess
                 model.previousState = currentState;
                 model.currentState = newState;
                 newState.RenderDisplayOnEnter(model);
-
-                //LogUtil.Log(evt + ": " + newState.GetType().Name, "white");
             }
         }
 

@@ -86,8 +86,6 @@ namespace TurboLabz.InstantChess
          */
         private void ProcessResume(ChessboardCommand cmd)
         {
-            LogUtil.Log("Processing resume.. ", "yellow");
-
             IChessboardModel chessboardModel = cmd.chessboardModel;
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
             IChessService chessService = cmd.chessService;

@@ -58,7 +58,6 @@ namespace TurboLabz.InstantFramework
             }
 
             cmd.navigatorModel.history.Add(GetTopOfStack());
-            LogHistory();
         }
 
         protected NavigatorViewId CameFrom(params NavigatorViewId[] ids)
@@ -142,19 +141,6 @@ namespace TurboLabz.InstantFramework
                 return viewStack[viewStack.Count - 1];
             }
         }
-
-        private void LogHistory()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (NavigatorViewId his in cmd.navigatorModel.history)
-            {
-                sb.Append("-> " + his);
-            }
-
-            LogUtil.Log(sb.ToString(), "red");
-        }
-
     }
 }
 

@@ -58,8 +58,6 @@ namespace TurboLabz.InstantChess
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
-            LogUtil.Log("RECEIVED HINT: " + from + " -> " + to + " promo:" + promo);
-
             HintVO vo;
             vo.fromSquare = chessboardModel.squares[from.file, from.rank];
             vo.toSquare = chessboardModel.squares[to.file, to.rank];

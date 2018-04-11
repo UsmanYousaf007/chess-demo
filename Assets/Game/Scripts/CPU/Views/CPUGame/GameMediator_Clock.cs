@@ -43,7 +43,6 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(TakeTurnSwapTimeControlSignal))]
         public void OnTakeTurnSwapTimeControl()
         {
-            LogUtil.Log("Swap time control....", "red");
             view.PlayerTurnComplete();
         }
 

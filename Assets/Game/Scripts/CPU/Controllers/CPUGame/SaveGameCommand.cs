@@ -68,28 +68,6 @@ namespace TurboLabz.InstantChess
                 writer.WriteList<string>(SaveKeys.MOVE_LIST, moveListJson);
 
                 writer.Close();
-
-                /*
-                LogUtil.Log("Saved game", "yellow");
-
-                // CPU MENU MODEL
-                LogUtil.Log("SaveKeys.CPU_STRENGTH: " + cpuGameModel.cpuStrength, "yellow");
-                LogUtil.Log("SaveKeys.DURATION_INDEX: " + cpuGameModel.durationIndex, "yellow");
-                LogUtil.Log("SaveKeys.IN_PROGRESS: " + cpuGameModel.inProgress, "yellow");
-                LogUtil.Log("SaveKeys.PLAYER_COLOR_INDEX: " + cpuGameModel.playerColorIndex, "yellow");
-                LogUtil.Log("SaveKeys.DEV_FEN: " + cpuGameModel.devFen, "yellow");
-
-                // CHESSBOARD MODEL
-                LogUtil.Log("SaveKeys.PLAYER_TIMER: " +  chessboardModel.playerTimer.TotalMilliseconds, "yellow");
-                LogUtil.Log("SaveKeys.OPPONENT_TIMER: " +  chessboardModel.opponentTimer.TotalMilliseconds, "yellow");
-                LogUtil.Log("SaveKeys.PLAYER_COLOR: " +  chessboardModel.playerColor, "yellow");
-                LogUtil.Log("SaveKeys.OPPONENT_COLOR: " +  chessboardModel.opponentColor, "yellow");
-
-                foreach(string move in moveListJson)
-                {
-                    LogUtil.Log("Move: " + move, "yellow");
-                }
-                */
             }
             catch (Exception e)
             {

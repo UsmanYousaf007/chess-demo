@@ -98,29 +98,6 @@ namespace TurboLabz.InstantChess
                 reader.Close();
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
-
-
-                /*
-                LogUtil.Log("Loaded game", "yellow");
-
-                // CPU MENU MODEL
-                LogUtil.Log("Loaded.CPU_STRENGTH: " + cpuGameModel.cpuStrength, "yellow");
-                LogUtil.Log("Loaded.DURATION_INDEX: " + cpuGameModel.durationIndex, "yellow");
-                LogUtil.Log("Loaded.IN_PROGRESS: " + cpuGameModel.inProgress, "yellow");
-                LogUtil.Log("Loaded.PLAYER_COLOR_INDEX: " + cpuGameModel.playerColorIndex, "yellow");
-                LogUtil.Log("Loaded.DEV_FEN: " + cpuGameModel.devFen, "yellow");
-
-                // CHESSBOARD MODEL
-                LogUtil.Log("Loaded.PLAYER_TIMER: " +  chessboardModel.playerTimer.TotalMilliseconds, "yellow");
-                LogUtil.Log("Loaded.OPPONENT_TIMER: " +  chessboardModel.opponentTimer.TotalMilliseconds, "yellow");
-                LogUtil.Log("Loaded.PLAYER_COLOR: " +  chessboardModel.playerColor, "yellow");
-                LogUtil.Log("Loaded.OPPONENT_COLOR: " +  chessboardModel.opponentColor, "yellow");
-
-                foreach(string move in moveList)
-                {
-                    LogUtil.Log("Move: " + move, "yellow");
-                }
-                */
             }
             catch (Exception e)
             {
