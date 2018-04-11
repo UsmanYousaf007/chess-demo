@@ -26,6 +26,7 @@ namespace TurboLabz.InstantChess
         // TODO: Remove this injection, views cannot inject services or models or
         // anything for that matter.
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         public Camera chessboardCamera;
         public GameObject uiBlocker;

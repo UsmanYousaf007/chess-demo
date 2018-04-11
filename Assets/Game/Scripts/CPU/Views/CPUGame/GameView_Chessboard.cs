@@ -27,19 +27,6 @@ namespace TurboLabz.InstantChess
 {
     public partial class GameView
     {
-        // TODO: TEMP AUDIO CODE
-        // An audio component is added to the GameView object. Remove the 
-        // component when removing this temp code.
-        private AudioSource audioSource;
-        public AudioClip placePieceSoundFx;
-        public AudioClip promoSoundFx;
-        public AudioClip victoryFx;
-        public AudioClip defeatFx;
-        public AudioClip captureFx;
-        public AudioClip checkFx;
-        public AudioClip hintFx;
-        private const float FX_VOLUME = 1f;
-
         private const string IMAGE_POSSIBLE_MOVE = "PossibleMove";
         private const string IMAGE_ATTACK_INDICATOR = "Attack";
         private const string IMAGE_FROM = "From";
@@ -85,9 +72,6 @@ namespace TurboLabz.InstantChess
 
         public void InitChessboard()
         {
-            // TODO: TEMP AUDIO CODE
-            audioSource = GetComponent<AudioSource>();
-           
             // Add poolable images to our object pool
             foreach(GameObject piece in pieces)
             {
@@ -200,12 +184,11 @@ namespace TurboLabz.InstantChess
                 activatedPieceImages.Remove(capturedPieceImage);
                 pool.ReturnObject(capturedPieceImage);
                 chessboardPieces[toSquareIndex] = null;
-                audioSource.PlayOneShot(captureFx, FX_VOLUME);
+                audioService.Play(audioService.sounds.CAPTURE);
             }
             else
             {
-                // TODO: TEMP AUDIO CODE
-                audioSource.PlayOneShot(placePieceSoundFx, FX_VOLUME);
+                audioService.Play(audioService.sounds.PLACE_PIECE);
             }
 
             // Update the from piece position to the target position
@@ -305,12 +288,11 @@ namespace TurboLabz.InstantChess
 
                 // Show the captured piece in the captured pieces slots
                 HandleCapturePieceGraphic(capturedPieceImage.name, isPlayerTurn);
-                audioSource.PlayOneShot(captureFx, FX_VOLUME);
+                audioService.Play(audioService.sounds.CAPTURE);
             }
             else
             {
-                // TODO: TEMP AUDIO CODE
-                audioSource.PlayOneShot(placePieceSoundFx, FX_VOLUME);
+                audioService.Play(audioService.sounds.PLACE_PIECE);
             }
 
             // Update chessboard piece image array
@@ -588,7 +570,7 @@ namespace TurboLabz.InstantChess
 
             if (vo.isPlayerInCheck && !isResume)
             {
-                audioSource.PlayOneShot(checkFx, FX_VOLUME);
+                audioService.Play(audioService.sounds.CHECK);
             }
         }
 

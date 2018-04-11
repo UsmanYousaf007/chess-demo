@@ -24,8 +24,8 @@ namespace TurboLabz.InstantChess
 {
     public class CPUMenuView : View
     {
-        // TODO: Remove this injection, views cannot inject services or models
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Scene references
         public Text strengthLabel;

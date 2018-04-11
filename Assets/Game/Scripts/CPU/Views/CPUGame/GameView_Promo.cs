@@ -61,7 +61,7 @@ namespace TurboLabz.InstantChess
         {
             HidePromoDialog();
             promoClickedSignal.Dispatch(pieceName);
-            audioSource.PlayOneShot(promoSoundFx, FX_VOLUME);
+            audioService.Play(audioService.sounds.PROMO);
         }
 
         public void UpdatePromoDialog(ChessColor color)
