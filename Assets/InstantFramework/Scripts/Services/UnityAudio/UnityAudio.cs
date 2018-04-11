@@ -17,19 +17,30 @@ namespace TurboLabz.InstantFramework
     public class UnityAudio : IAudioService
     {
         public AudioList sounds { get; set; }
+
         private AudioSource audio;
         private const string OBJ_NAME = "AudioService";
+        private bool audioOn;
 
         [PostConstruct]
         public void PostConstruct()
         {
             audio = GameObject.Find(OBJ_NAME).GetComponent<AudioSource>();
             sounds = audio.GetComponent<AudioList>();
+            audioOn = true;
         }
 
         public void Play(AudioClip sound, float volume = 1.0f)
         {
-            audio.PlayOneShot(sound, volume);
+            if (audioOn)
+            {
+                audio.PlayOneShot(sound, volume);
+            }
+        }
+
+        public void ToggleAudio(bool on)
+        {
+            audioOn = on;
         }
     }
 }
