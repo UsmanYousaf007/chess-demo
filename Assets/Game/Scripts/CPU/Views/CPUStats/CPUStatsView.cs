@@ -112,9 +112,8 @@ namespace TurboLabz.InstantChess
                 }
 
                 Performance p = stats[i].performances[selectedStrengthIndex];
-                totalGames += p.wins;
-                totalGames += p.draws;
-                totalGames += p.losses;
+                int totalGamesForDuration = p.wins + p.draws + p.losses;
+                totalGames += totalGamesForDuration;
 
                 float max = (float)Mathf.Max(p.wins, p.draws, p.losses);
 
@@ -124,9 +123,9 @@ namespace TurboLabz.InstantChess
 
                 if (max > 0)
                 {
-                    winPct = Mathf.FloorToInt(((float)p.wins / max) * 100);
-                    drawPct = Mathf.FloorToInt(((float)p.draws / max) * 100);
-                    lossPct = Mathf.FloorToInt(((float)p.losses / max) * 100);
+                    winPct = Mathf.FloorToInt(((float)p.wins / totalGamesForDuration) * 100);
+                    drawPct = Mathf.FloorToInt(((float)p.draws / totalGamesForDuration) * 100);
+                    lossPct = Mathf.FloorToInt(((float)p.losses / totalGamesForDuration) * 100);
                 }
 
                 winAmtLabels[i].text = p.wins.ToString();
@@ -152,7 +151,7 @@ namespace TurboLabz.InstantChess
                 strengthDecButton.interactable = false;
                 strengthIncButton.interactable = true;
             }
-            else if (selectedStrengthIndex == (durationMinutes.Length - 1))
+            else if (selectedStrengthIndex == (maxStrength - 1))
             {
                 strengthDecButton.interactable = true;
                 strengthIncButton.interactable = false;
@@ -182,7 +181,7 @@ namespace TurboLabz.InstantChess
 
         private void OnStrengthIncButtonClicked()
         {
-            if (selectedStrengthIndex < maxStrength - 2 )
+            if (selectedStrengthIndex < maxStrength - 1)
             {
                 selectedStrengthIndex++;
             }
