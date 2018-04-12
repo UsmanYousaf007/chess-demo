@@ -68,6 +68,7 @@ namespace TurboLabz.InstantFramework
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
             injectionBinder.Bind<ILocalDataService>().To<EasySaveService>().ToSingleton();
+            injectionBinder.Bind<IShareService>().To<MegacoolShareService>().ToSingleton();
 
             #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();

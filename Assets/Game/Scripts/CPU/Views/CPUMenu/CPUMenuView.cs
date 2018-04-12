@@ -26,6 +26,7 @@ namespace TurboLabz.InstantChess
     {
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IShareService shareService { get; set; }
 
         // Scene references
         public Text strengthLabel;
@@ -263,6 +264,8 @@ namespace TurboLabz.InstantChess
         private void OnStatsButtonClicked()
         {
             statsButtonClickedSignal.Dispatch();
+
+            shareService.ShareAppDownload("testing testing... don't panic");
         }
 
         private void OnAudioIsOnButtonClicked()

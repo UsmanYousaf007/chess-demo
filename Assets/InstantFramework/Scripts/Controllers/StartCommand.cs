@@ -16,11 +16,19 @@ namespace TurboLabz.InstantFramework
 {
     public class StartCommand : Command
     {
+        // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
+        // Services
+        [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IShareService shareService { get; set; }
 
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
+        
+            audioService.Init();
+            shareService.Init();
         }
     }
 }

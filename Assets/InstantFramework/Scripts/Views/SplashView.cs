@@ -17,13 +17,11 @@ namespace TurboLabz.InstantFramework
 {
     public class SplashView : View
     {
-        [Inject] public IAudioService audioService { get; set; }
-
         public Signal splashAnimationCompletedSignal = new Signal();
 
         public void Init()
         {
-            audioService.Init();
+            
         }
 
         public void OnSplashAnimationComplete()
