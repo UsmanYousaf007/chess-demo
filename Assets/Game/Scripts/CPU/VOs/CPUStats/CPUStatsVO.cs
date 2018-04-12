@@ -15,8 +15,9 @@ namespace TurboLabz.InstantChess
 {
     public struct CPUStatsVO
     {
+        public int maxStrength;
+        public int selectedStrengthIndex;
         public int[] durationMinutes;
-        public int selectedDurationIndex;
         public Dictionary<int, PerformanceSet> stats;
     }
 }

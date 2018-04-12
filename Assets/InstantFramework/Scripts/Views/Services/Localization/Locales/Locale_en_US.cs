@@ -81,13 +81,13 @@ namespace TurboLabz.InstantFramework
                 #region Stats
 
                 { LocalizationKey.STATS_TITLE, "Stats" },
-                { LocalizationKey.STATS_TIME_LIMIT, "Time Limit" },
-                { LocalizationKey.STATS_STRENGTH, "Strength" },
-                { LocalizationKey.STATS_PERFORMANCE, "Performance" },
-                { LocalizationKey.STATS_W, "W" },
-                { LocalizationKey.STATS_L, "L" },
-                { LocalizationKey.STATS_D, "D" },
-                { LocalizationKey.STATS_RESET, "RESET" },
+                { LocalizationKey.STATS_CURRENT_STRENGTH, "Strength" },
+                { LocalizationKey.STATS_TOTAL_GAMES, "Total Games" },
+                { LocalizationKey.STATS_W, "Victories" },
+                { LocalizationKey.STATS_L, "Defeats" },
+                { LocalizationKey.STATS_D, "Draws" },
+                { LocalizationKey.STATS_DURATION, "{0} m" },
+                { LocalizationKey.STATS_PCT, "{0}%" },
 
                 #endregion
 

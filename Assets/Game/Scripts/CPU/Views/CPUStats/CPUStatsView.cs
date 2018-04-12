@@ -30,46 +30,41 @@ namespace TurboLabz.InstantChess
 
         // Scene references
         public Text titleLabel;
-        public Text timeLimitLabel;
-        public Button timeDecButton;
-        public Text timeCurrentLabel;
-        public Button timeIncButton;
         public Text strengthLabel;
-        public Text performanceLabel;
+        public Button strengthDecButton;
+        public Text strengthCurrentLabel;
+        public Button strengthIncButton;
+        public Text[] durationLabels;
         public Text[] winLabels;
-        public Text[] lossLabels;
         public Text[] drawLabels;
-        public RectTransform[] winBars;
-        public RectTransform[] lossBars;
-        public RectTransform[] drawBars;
-        public Text[] winCountLabels;
-        public Text[] lossCountLabels;
-        public Text[] drawCountLabels;
+        public Text[] lossLabels;
+        public Text[] winAmtLabels;
+        public Text[] drawAmtLabels;
+        public Text[] lossAmtLabels;
+        public Text[] winAmtPctLabels;
+        public Text[] drawAmtPctLabels;
+        public Text[] lossAmtPctLabels;
+        public Text totalGamesLabel;
+        public Text totalGamesCount;
         public Button backButton;
-        public Button decDurationButton;
-        public Button incDurationButton;
 
         // View signals
         public Signal backButtonClickedSignal = new Signal();
-        public Signal resetButtonClickedSignal = new Signal();
 
-        private const float BAR_MAX_WIDTH = 462;
-        private const float BAR_MIN_WIDTH = 9;
-
-        private int selectedDurationIndex;
+        private int selectedStrengthIndex;
+        private int maxStrength;
         private int[] durationMinutes;
         private Dictionary<int, PerformanceSet> stats;
 
         public void Init()
         {
             backButton.onClick.AddListener(OnBackButtonClicked);
-            decDurationButton.onClick.AddListener(OnDecDurationButtonClicked);
-            incDurationButton.onClick.AddListener(OnIncDurationButtonClicked);
+            strengthDecButton.onClick.AddListener(OnStrengthDecButtonClicked);
+            strengthIncButton.onClick.AddListener(OnStrengthIncButtonClicked);
 
             titleLabel.text = localizationService.Get(LocalizationKey.STATS_TITLE);
-            timeLimitLabel.text = localizationService.Get(LocalizationKey.STATS_TIME_LIMIT);
-            strengthLabel.text = localizationService.Get(LocalizationKey.STATS_STRENGTH);
-            performanceLabel.text = localizationService.Get(LocalizationKey.STATS_PERFORMANCE);
+            strengthLabel.text = localizationService.Get(LocalizationKey.STATS_CURRENT_STRENGTH);
+            totalGamesLabel.text = localizationService.Get(LocalizationKey.STATS_TOTAL_GAMES);
             string W = localizationService.Get(LocalizationKey.STATS_W);
             for (int i = 0; i < winLabels.Length; i++) winLabels[i].text = W;
             string L = localizationService.Get(LocalizationKey.STATS_L);
@@ -81,8 +76,8 @@ namespace TurboLabz.InstantChess
         public void CleanUp()
         {
             backButton.onClick.RemoveAllListeners();
-            decDurationButton.onClick.RemoveAllListeners();
-            incDurationButton.onClick.RemoveAllListeners();
+            strengthDecButton.onClick.RemoveAllListeners();
+            strengthIncButton.onClick.RemoveAllListeners();
         }
 
         public void Show() 
@@ -97,7 +92,8 @@ namespace TurboLabz.InstantChess
 
         public void UpdateView(CPUStatsVO vo)
         {
-            selectedDurationIndex = vo.selectedDurationIndex;
+            selectedStrengthIndex = vo.selectedStrengthIndex;
+            maxStrength = vo.maxStrength;
             durationMinutes = vo.durationMinutes;
             stats = vo.stats;
 
@@ -106,67 +102,65 @@ namespace TurboLabz.InstantChess
 
         private void UpdateStats()
         {
-            for (int i = 0; i < winCountLabels.Length; i++)
-            {
-                PerformanceSet pset = stats[selectedDurationIndex];
-                Performance p = new Performance();
+            int totalGames = 0;
 
-                if (i < pset.performances.Count)
+            for (int i = 0; i < durationLabels.Length; i++)
+            {
+                if (i != 0) // Since we show an infinity image instead of text for 0 
                 {
-                    p = pset.performances[i];
+                    durationLabels[i].text = localizationService.Get(LocalizationKey.STATS_DURATION, durationMinutes[i]);
                 }
 
-                winCountLabels[i].text = p.wins.ToString();
-                lossCountLabels[i].text = p.losses.ToString();
-                drawCountLabels[i].text = p.draws.ToString();
+                Performance p = stats[i].performances[selectedStrengthIndex];
+                totalGames += p.wins;
+                totalGames += p.draws;
+                totalGames += p.losses;
 
-                int[] vals = { p.wins, p.losses, p.draws };
-                int max = Mathf.Max(vals);
+                float max = (float)Mathf.Max(p.wins, p.draws, p.losses);
+
+                int winPct = 0;
+                int drawPct = 0;
+                int lossPct = 0;
 
                 if (max > 0)
                 {
-                    SetBarWidth(winBars[i], (BAR_MAX_WIDTH * p.wins / max));
-                    SetBarWidth(lossBars[i], (BAR_MAX_WIDTH * p.losses / max));
-                    SetBarWidth(drawBars[i], (BAR_MAX_WIDTH * p.draws / max));
+                    winPct = Mathf.FloorToInt(((float)p.wins / max) * 100);
+                    drawPct = Mathf.FloorToInt(((float)p.draws / max) * 100);
+                    lossPct = Mathf.FloorToInt(((float)p.losses / max) * 100);
                 }
-                else
-                {
-                    SetBarWidth(winBars[i], 0);
-                    SetBarWidth(lossBars[i], 0);
-                    SetBarWidth(drawBars[i], 0);
-                }
+
+                winAmtLabels[i].text = p.wins.ToString();
+                winAmtPctLabels[i].text = localizationService.Get(LocalizationKey.STATS_PCT, winPct.ToString());
+                drawAmtLabels[i].text = p.draws.ToString();
+                drawAmtPctLabels[i].text = localizationService.Get(LocalizationKey.STATS_PCT, drawPct.ToString());
+                lossAmtLabels[i].text = p.losses.ToString();
+                lossAmtPctLabels[i].text = localizationService.Get(LocalizationKey.STATS_PCT, lossPct.ToString());
             }
+
+            totalGamesCount.text = totalGames.ToString();
         }
 
-        private void SetBarWidth(RectTransform bar, float width)
+        private void UpdateStrength()
         {
-            Vector2 sizeDelta = bar.sizeDelta;
-            sizeDelta.x = Mathf.Max(BAR_MIN_WIDTH, width);
-            bar.sizeDelta = sizeDelta;
-        }
+            int strength = selectedStrengthIndex + 1;
 
-        private void UpdateDuration()
-        {
-            int duration = durationMinutes[selectedDurationIndex];
+            strengthCurrentLabel.text = strength.ToString();
+                
 
-            timeCurrentLabel.text = (duration == 0) ? 
-                localizationService.Get(LocalizationKey.CPU_MENU_DURATION_NONE)
-                : localizationService.Get(LocalizationKey.GM_ROOM_DURATION, durationMinutes[selectedDurationIndex]);
-
-            if (selectedDurationIndex == 0)
+            if (selectedStrengthIndex == 0)
             {
-                decDurationButton.interactable = false;
-                incDurationButton.interactable = true;
+                strengthDecButton.interactable = false;
+                strengthIncButton.interactable = true;
             }
-            else if (selectedDurationIndex == (durationMinutes.Length - 1))
+            else if (selectedStrengthIndex == (durationMinutes.Length - 1))
             {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = false;
+                strengthDecButton.interactable = true;
+                strengthIncButton.interactable = false;
             }
             else
             {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = true;
+                strengthDecButton.interactable = true;
+                strengthIncButton.interactable = true;
             }
         }
 
@@ -175,22 +169,22 @@ namespace TurboLabz.InstantChess
             backButtonClickedSignal.Dispatch();
         }
 
-        private void OnDecDurationButtonClicked()
+        private void OnStrengthDecButtonClicked()
         {
-            if (selectedDurationIndex > 0)
+            if (selectedStrengthIndex > 0)
             {
-                selectedDurationIndex--;
+                selectedStrengthIndex--;
             }
 
             RefreshData();
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
-        private void OnIncDurationButtonClicked()
+        private void OnStrengthIncButtonClicked()
         {
-            if (selectedDurationIndex < durationMinutes.Length - 1 )
+            if (selectedStrengthIndex < maxStrength - 2 )
             {
-                selectedDurationIndex++;
+                selectedStrengthIndex++;
             }
 
             RefreshData();
@@ -199,7 +193,7 @@ namespace TurboLabz.InstantChess
 
         private void RefreshData()
         {
-            UpdateDuration();
+            UpdateStrength();
             UpdateStats();
         }
     }

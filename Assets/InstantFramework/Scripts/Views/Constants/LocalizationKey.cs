@@ -76,13 +76,13 @@ namespace TurboLabz.InstantFramework
         #region Stats
 
         public const string STATS_TITLE = "statsTitle";
-        public const string STATS_TIME_LIMIT = "statsTimeLimit";
-        public const string STATS_STRENGTH = "statsStrength";
-        public const string STATS_PERFORMANCE = "statsPerformance";
+        public const string STATS_CURRENT_STRENGTH = "statsCurrentStrength";
+        public const string STATS_TOTAL_GAMES = "statsTotalGames";
         public const string STATS_W = "statsW";
         public const string STATS_L = "statsL";
         public const string STATS_D = "statsD";
-        public const string STATS_RESET = "statsReset";
+        public const string STATS_DURATION = "statsDuration";
+        public const string STATS_PCT = "statsPct";
 
         #endregion
 
