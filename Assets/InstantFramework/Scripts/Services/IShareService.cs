@@ -16,6 +16,6 @@ namespace TurboLabz.InstantFramework
     public interface IShareService
     {
         void Init();
-        void ShareAppDownload(string message);
+        void ShareApp(string message);
     }
 }

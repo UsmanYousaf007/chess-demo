@@ -90,6 +90,12 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STATS_RESET, "RESET" },
 
                 #endregion
+
+                #region Share
+
+                { LocalizationKey.SHARE_STANDARD, "Hey, checkout Instant Chess!" },
+
+                #endregion
             };
         }
     }

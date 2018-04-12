@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
             Megacool.Instance.Start();
         }
 
-        public void ShareAppDownload(string message)
+        public void ShareApp(string message)
         {
             Megacool.Instance.SharingText = message;
             Megacool.Instance.Share(new MegacoolShareConfig {

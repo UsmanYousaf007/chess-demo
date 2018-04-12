@@ -25,6 +25,7 @@ namespace TurboLabz.InstantChess
     public class CPUMenuView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
+
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IShareService shareService { get; set; }
 
@@ -56,6 +57,7 @@ namespace TurboLabz.InstantChess
 
         public Button audioIsOnButton;
         public Button audioIsOffButton;
+        public Button shareAppButton;
 
         public InputField devFen;
 
@@ -68,6 +70,7 @@ namespace TurboLabz.InstantChess
         public Signal incPlayerColorButtonClickedSignal = new Signal();
         public Signal playButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
+        public Signal shareAppButtonClickedSignal = new Signal();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
 
         public void Init()
@@ -82,6 +85,7 @@ namespace TurboLabz.InstantChess
             statsButton.onClick.AddListener(OnStatsButtonClicked);
             audioIsOnButton.onClick.AddListener(OnAudioIsOnButtonClicked);
             audioIsOffButton.onClick.AddListener(OnAudioIsOffButtonClicked);
+            shareAppButton.onClick.AddListener(OnShareAppButtonClicked);
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
@@ -105,6 +109,10 @@ namespace TurboLabz.InstantChess
             playButton.onClick.RemoveAllListeners();
             statsButton.onClick.RemoveAllListeners();
             devFen.onValueChanged.RemoveAllListeners();
+
+            audioIsOnButton.onClick.RemoveAllListeners();
+            audioIsOffButton.onClick.RemoveAllListeners();
+            shareAppButton.onClick.RemoveAllListeners();
         }
 
         public void UpdateView(CPUMenuVO vo)
@@ -264,8 +272,6 @@ namespace TurboLabz.InstantChess
         private void OnStatsButtonClicked()
         {
             statsButtonClickedSignal.Dispatch();
-
-            shareService.ShareAppDownload("testing testing... don't panic");
         }
 
         private void OnAudioIsOnButtonClicked()
@@ -285,6 +291,11 @@ namespace TurboLabz.InstantChess
         {
             audioIsOnButton.gameObject.SetActive(audioService.IsAudioOn());
             audioIsOffButton.gameObject.SetActive(!audioService.IsAudioOn());
+        }
+
+        private void OnShareAppButtonClicked()
+        {
+            shareAppButtonClickedSignal.Dispatch();
         }
 
         private void OnDevFenValueChanged(string fen)

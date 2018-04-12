@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
+            commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();

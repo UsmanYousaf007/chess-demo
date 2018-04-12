@@ -85,5 +85,11 @@ namespace TurboLabz.InstantFramework
         public const string STATS_RESET = "statsReset";
 
         #endregion
+
+        #region Share
+
+        public const string SHARE_STANDARD = "shareStandard";
+
+        #endregion
     }
 }
