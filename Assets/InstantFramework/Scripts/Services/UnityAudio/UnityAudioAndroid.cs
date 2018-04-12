@@ -75,6 +75,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public bool IsAudioOn()
+        {
+            return preferencesModel.isAudioOn;
+        }
+
         private void CreatePool(params AudioClip[] clips)
         {
             AndroidNativeAudio.makePool(clips.Length); 

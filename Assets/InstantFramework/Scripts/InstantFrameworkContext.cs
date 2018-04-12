@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateGameInfoSignal>().ToSingleton();
+            injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -81,6 +82,7 @@ namespace TurboLabz.InstantFramework
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
+            injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
 
             MapGameBindings();
         }

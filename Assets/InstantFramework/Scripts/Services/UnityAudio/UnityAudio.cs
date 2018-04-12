@@ -45,5 +45,10 @@ namespace TurboLabz.InstantFramework
         {
             preferencesModel.isAudioOn = state;
         }
+
+        public bool IsAudioOn()
+        {
+            return preferencesModel.isAudioOn;
+        }
     }
 }

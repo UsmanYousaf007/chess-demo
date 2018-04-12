@@ -53,7 +53,8 @@ namespace TurboLabz.InstantChess
         public Button statsButton;
         public Text statsButtonLabel;
 
-        public Button backButton;
+        public Button audioIsOnButton;
+        public Button audioIsOffButton;
 
         public InputField devFen;
 
@@ -78,6 +79,9 @@ namespace TurboLabz.InstantChess
             incPlayerColorButton.onClick.AddListener(OnIncPlayerColorButtonClicked);
             playButton.onClick.AddListener(OnPlayButtonClicked);
             statsButton.onClick.AddListener(OnStatsButtonClicked);
+            audioIsOnButton.onClick.AddListener(OnAudioIsOnButtonClicked);
+            audioIsOffButton.onClick.AddListener(OnAudioIsOffButtonClicked);
+
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
             strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
@@ -85,6 +89,8 @@ namespace TurboLabz.InstantChess
             playerColorLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAYER_COLOR);
             playButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY);
             statsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STATS);
+
+            RefreshAudioButtons();
         }
 
         public void CleanUp()
@@ -257,6 +263,25 @@ namespace TurboLabz.InstantChess
         private void OnStatsButtonClicked()
         {
             statsButtonClickedSignal.Dispatch();
+        }
+
+        private void OnAudioIsOnButtonClicked()
+        {
+            audioService.ToggleAudio(false);
+            RefreshAudioButtons();
+        }
+
+        private void OnAudioIsOffButtonClicked()
+        {
+            audioService.ToggleAudio(true);
+            audioService.PlayStandardClick();
+            RefreshAudioButtons();
+        }
+
+        private void RefreshAudioButtons()
+        {
+            audioIsOnButton.gameObject.SetActive(audioService.IsAudioOn());
+            audioIsOffButton.gameObject.SetActive(!audioService.IsAudioOn());
         }
 
         private void OnDevFenValueChanged(string fen)
