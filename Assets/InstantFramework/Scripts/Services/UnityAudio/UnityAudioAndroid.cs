@@ -14,11 +14,12 @@ namespace TurboLabz.InstantFramework
 {
     public class UnityAudioAndroid : IAudioService
     {
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         [Inject] public AppEventSignal appEventSignal { get; set; }
 
         public AudioList sounds { get; set; }
 
-        private bool audioOn;
         private const string OBJ_NAME = "AudioService";
         private const string FILE_EXT = ".wav";
         private Dictionary<string, int> streamFiles;
@@ -27,7 +28,6 @@ namespace TurboLabz.InstantFramework
         {
             appEventSignal.AddListener(OnAppEvent);
             sounds = GameObject.Find(OBJ_NAME).GetComponent<AudioList>();
-            audioOn = true;
             sounds.playStandardClickSignal.AddListener(PlayStandardClick);
 
             CreatePool(
@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
 
         public void Play(AudioClip sound, float volume = 1.0f)
         {
-            if (audioOn)
+            if (preferencesModel.isAudioOn)
             {
                 AndroidNativeAudio.play(streamFiles[sound.name]);
             }
@@ -57,9 +57,9 @@ namespace TurboLabz.InstantFramework
             Play(sounds.SFX_CLICK);
         }
 
-        public void ToggleAudio(bool on)
+        public void ToggleAudio(bool state)
         {
-            audioOn = on;
+            preferencesModel.isAudioOn = state;
         }
             
         public void OnAppEvent(AppEvent evt)

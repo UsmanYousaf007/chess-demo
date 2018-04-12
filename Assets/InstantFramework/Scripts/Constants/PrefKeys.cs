@@ -5,21 +5,20 @@
 /// 
 /// @author Faraz Ahmed <faraz@turbolabz.com>
 /// @company Turbo Labz <http://turbolabz.com>
-/// @date 2018-01-10 10:47:41 UTC+05:00
+/// @date 2018-01-11 17:36:46 UTC+05:00
 /// 
 /// @description
 /// [add_description_here]
-using System.Collections.Generic;
-using UnityEngine;
+using TurboLabz.Chess;
 
-namespace TurboLabz.InstantFramework
+namespace TurboLabz.InstantChess
 {
-    public interface IAudioService
+    public class PrefKeys
     {
-        AudioList sounds { get; set; }
-        void Init();
-        void Play(AudioClip sound, float volume = 1.0f);
-        void ToggleAudio(bool state);
-        void PlayStandardClick();
+        // FILENAME
+        public const string PREFS_SAVE_FILENAME = "prefs";
+
+        // PREFS
+        public const string AUDIO_STATE = "audioState";
     }
 }

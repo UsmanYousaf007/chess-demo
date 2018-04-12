@@ -13,24 +13,24 @@ namespace TurboLabz.InstantFramework
 {
     public class UnityAudio : IAudioService
     {
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         public AudioList sounds { get; set; }
 
         private AudioSource audio;
         private const string OBJ_NAME = "AudioService";
-        private bool audioOn;
 
         public void Init()
         {
             audio = GameObject.Find(OBJ_NAME).GetComponent<AudioSource>();
             sounds = audio.GetComponent<AudioList>();
 
-            audioOn = true;
             sounds.playStandardClickSignal.AddListener(PlayStandardClick);
         }
 
         public void Play(AudioClip sound, float volume = 1.0f)
         {
-            if (audioOn)
+            if (preferencesModel.isAudioOn)
             {
                 audio.PlayOneShot(sound, volume);
             }
@@ -41,9 +41,9 @@ namespace TurboLabz.InstantFramework
             Play(sounds.SFX_CLICK);
         }
 
-        public void ToggleAudio(bool on)
+        public void ToggleAudio(bool state)
         {
-            audioOn = on;
+            preferencesModel.isAudioOn = state;
         }
     }
 }
