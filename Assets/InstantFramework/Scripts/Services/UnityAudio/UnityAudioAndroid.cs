@@ -23,25 +23,25 @@ namespace TurboLabz.InstantFramework
         private const string FILE_EXT = ".wav";
         private Dictionary<string, int> streamFiles;
 
-        [PostConstruct]
-        public void PostConstruct()
+        public void Init()
         {
             appEventSignal.AddListener(OnAppEvent);
             sounds = GameObject.Find(OBJ_NAME).GetComponent<AudioList>();
             audioOn = true;
             sounds.playStandardClickSignal.AddListener(PlayStandardClick);
 
-            AndroidNativeAudio.makePool(9); 
-            streamFiles = new Dictionary<string, int>();
-            LoadSound(sounds.SFX_CAPTURE);
-            LoadSound(sounds.SFX_CHECK);
-            LoadSound(sounds.SFX_CLICK);
-            LoadSound(sounds.SFX_DEFEAT);
-            LoadSound(sounds.SFX_HINT);
-            LoadSound(sounds.SFX_PLACE_PIECE);
-            LoadSound(sounds.SFX_PROMO);
-            LoadSound(sounds.SFX_STEP_CLICK);
-            LoadSound(sounds.SFX_VICTORY);
+            CreatePool(
+                sounds.SFX_CAPTURE,
+                sounds.SFX_CHECK,
+                sounds.SFX_CLICK,
+                sounds.SFX_DEFEAT,
+                sounds.SFX_HINT,
+                sounds.SFX_PLACE_PIECE,
+                sounds.SFX_PROMO,
+                sounds.SFX_STEP_CLICK,
+                sounds.SFX_VICTORY
+            );
+
         }
 
         public void Play(AudioClip sound, float volume = 1.0f)
@@ -72,6 +72,18 @@ namespace TurboLabz.InstantFramework
                 }
 
                 AndroidNativeAudio.releasePool();
+            }
+        }
+
+        private void CreatePool(params AudioClip[] clips)
+        {
+            AndroidNativeAudio.makePool(clips.Length); 
+
+            streamFiles = new Dictionary<string, int>();
+
+            foreach (AudioClip clip in clips)
+            {
+                LoadSound(clip);
             }
         }
 

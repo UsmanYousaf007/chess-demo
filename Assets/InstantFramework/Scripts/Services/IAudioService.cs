@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
     public interface IAudioService
     {
         AudioList sounds { get; set; }
+        void Init();
         void Play(AudioClip sound, float volume = 1.0f);
         void ToggleAudio(bool on);
         void PlayStandardClick();

@@ -19,9 +19,7 @@ namespace TurboLabz.InstantFramework
         private const string OBJ_NAME = "AudioService";
         private bool audioOn;
 
-
-        [PostConstruct]
-        public void PostConstruct()
+        public void Init()
         {
             audio = GameObject.Find(OBJ_NAME).GetComponent<AudioSource>();
             sounds = audio.GetComponent<AudioList>();
