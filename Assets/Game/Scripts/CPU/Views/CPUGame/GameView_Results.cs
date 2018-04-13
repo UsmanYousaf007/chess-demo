@@ -38,6 +38,7 @@ namespace TurboLabz.InstantChess
 
         public Signal resultsExitButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
+        public Signal showAdButtonClickedSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
@@ -195,7 +196,7 @@ namespace TurboLabz.InstantChess
 
         private void OnAdsButtonClicked()
         {
-            resultsExitButtonClickedSignal.Dispatch();
+            showAdButtonClickedSignal.Dispatch();
         }
     }
 }

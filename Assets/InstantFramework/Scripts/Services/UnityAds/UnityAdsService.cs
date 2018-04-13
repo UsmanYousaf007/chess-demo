@@ -30,18 +30,18 @@ namespace TurboLabz.InstantFramework
         { 
             get
             {
-                return Advertisement.IsReady();
+                return Advertisement.IsReady(UnityAdsPlacementId.VIDEO);
             }
         }
 
         public IPromise<AdsResult> ShowRewardedAd()
         {
-            return new UnityAdsShowRewardedAdRequest().Send();
+            return new UnityAdsShowAdRequest().Send(UnityAdsPlacementId.REWARDED_VIDEO);
         }
 
-        public void ShowAd()
+        public IPromise<AdsResult> ShowAd()
         {
-            Advertisement.Show();
+            return new UnityAdsShowAdRequest().Send(UnityAdsPlacementId.VIDEO);
         }
     }
 }

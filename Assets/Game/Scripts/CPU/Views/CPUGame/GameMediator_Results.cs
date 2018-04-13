@@ -21,12 +21,14 @@ namespace TurboLabz.InstantChess
         // Dispatch signal
         [Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         public void OnRegisterResults()
         {
             view.InitResults();
             view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
-            view.statsButtonClickedSignal.AddListener(OnStatsButtonClickedSignal);
+            view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
+            view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -63,7 +65,12 @@ namespace TurboLabz.InstantChess
             loadGameSignal.Dispatch();
         }
 
-        private void OnStatsButtonClickedSignal()
+        private void OnShowAdButtonClicked()
+        {
+            showAdSignal.Dispatch();
+        }
+
+        private void OnStatsButtonClicked()
         {
             loadStatsSignal.Dispatch();
         }

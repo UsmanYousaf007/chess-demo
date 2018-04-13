@@ -21,7 +21,6 @@ namespace TurboLabz.InstantChess
         public bool inProgress { get; set; }
         public string devFen { get; set; }
         public int totalGames { get; set; }
-        public bool showAd { get; set; }
 
         [PostConstruct]
         public void LoadDefault()
@@ -37,7 +36,6 @@ namespace TurboLabz.InstantChess
             inProgress = false;
             devFen = "";
             totalGames = 0;
-            showAd = false;
         }
 
         public CPUMenuVO GetCPUMenuVO()

@@ -39,7 +39,6 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
-            ProcessAds();
             ResetAll();
 
             if (!localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
@@ -123,21 +122,6 @@ namespace TurboLabz.InstantChess
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MENU);
             updateMenuViewSignal.Dispatch(cpuGameModel.GetCPUMenuVO());
-        }
-
-        private void ProcessAds()
-        {
-            if (cpuGameModel.showAd)
-            {
-                cpuGameModel.showAd = false;
-
-                LogUtil.Log("SHOWING AD", "cyan");
-
-                if (adsService.isAdAvailable)
-                {
-                    adsService.ShowAd();
-                }
-            }
         }
     }
 }

@@ -57,14 +57,14 @@ namespace TurboLabz.InstantFramework
                 #region CPUMenu
 
                 { LocalizationKey.CPU_MENU_HEADING, "Play vs CPU" },
-                { LocalizationKey.CPU_MENU_STRENGTH, "CPU Strength" },
+                { LocalizationKey.CPU_MENU_STRENGTH, "Difficulty" },
                 { LocalizationKey.CPU_MENU_DURATION, "Time Limit" },
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
                 { LocalizationKey.CPU_MENU_PLAY, "PLAY" },
                 { LocalizationKey.CPU_MENU_STATS, "STATS" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "CPU" },
-                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Strength {0}" },
+                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty {0}" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
 
                 { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN" },
@@ -81,7 +81,7 @@ namespace TurboLabz.InstantFramework
                 #region Stats
 
                 { LocalizationKey.STATS_TITLE, "Stats" },
-                { LocalizationKey.STATS_CURRENT_STRENGTH, "Strength" },
+                { LocalizationKey.STATS_CURRENT_STRENGTH, "Difficulty" },
                 { LocalizationKey.STATS_TOTAL_GAMES, "Total Games" },
                 { LocalizationKey.STATS_W, "Victories" },
                 { LocalizationKey.STATS_L, "Defeats" },
@@ -93,7 +93,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Share
 
-                { LocalizationKey.SHARE_STANDARD, "Hey, checkout Instant Chess!" },
+                { LocalizationKey.SHARE_STANDARD, "Hey, let's play Instant Chess!" },
 
                 #endregion
             };

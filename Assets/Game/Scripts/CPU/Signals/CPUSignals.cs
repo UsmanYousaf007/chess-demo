@@ -28,6 +28,7 @@ namespace TurboLabz.InstantChess
     public class UpdatePlayerColorSignal : Signal<CPUMenuVO>{}
     public class LoadCPUGameSignal : Signal {}
     public class ShareAppSignal : Signal {}
+    public class ShowAdSignal : Signal {}
 
     // CPU STATS
     public class LoadStatsSignal : Signal {}

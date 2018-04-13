@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         PLAY,
         EXIT_DLG,
         RESULTS_DLG,
-        PROMO_DLG
+        PROMO_DLG,
+        AD_COVER
     }
 }

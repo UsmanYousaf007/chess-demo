@@ -108,13 +108,13 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ChessboardEventSignal>().To<ChessboardCommand>();
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
             commandBinder.Bind<PromoSelectedSignal>().To<ChessboardPromoCommand>();
-
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
             commandBinder.Bind<AdjustDurationSignal>().To<AdjustDurationCommand>();
             commandBinder.Bind<AdjustPlayerColorSignal>().To<AdjustPlayerColorCommand>();
             commandBinder.Bind<DevFenValueChangedSignal>().To<DevFenChangedCommand>();
             commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
+            commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<CPUMenuView>().To<CPUMenuMediator>();

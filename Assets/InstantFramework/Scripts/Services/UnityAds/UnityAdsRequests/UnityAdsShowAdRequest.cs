@@ -39,25 +39,25 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class UnityAdsShowRewardedAdRequest
+    public class UnityAdsShowAdRequest
     {
         private IPromise<AdsResult> promise = new Promise<AdsResult>();
 
-        public IPromise<AdsResult> Send()
+        public IPromise<AdsResult> Send(string placementId)
         {
-            Assertions.Assert(Advertisement.IsReady(UnityAdsPlacementId.REWARDED_VIDEO), "ShowAd must not be called before ads become available!");
+            Assertions.Assert(Advertisement.IsReady(placementId), "ShowAd must not be called before ads become available!");
 
-            ShowAd();
+            ShowAd(placementId);
 
             return promise;
         }
 
-        public void ShowAd()
+        public void ShowAd(string placementId)
         {
             ShowOptions showOptions = new ShowOptions();
             showOptions.resultCallback = OnShowAd;
 
-            Advertisement.Show(UnityAdsPlacementId.REWARDED_VIDEO, showOptions);
+            Advertisement.Show(placementId, showOptions);
         }
 
         public void OnShowAd(ShowResult result)

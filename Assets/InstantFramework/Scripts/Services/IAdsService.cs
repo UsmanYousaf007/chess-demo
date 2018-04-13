@@ -22,6 +22,6 @@ namespace TurboLabz.InstantFramework
 
         // Simple skippable ads
         bool isAdAvailable { get; }
-        void ShowAd();
+        IPromise<AdsResult> ShowAd();
     }
 }
