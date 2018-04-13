@@ -13,7 +13,7 @@ namespace TurboLabz.InstantFramework
 {
     public class MegacoolShareService : IShareService
     {
-        private const string APP_PROMO_IMAGE = "Share.png";
+        private const string APP_PROMO_IMAGE = "ShareAnim.gif";
 
         public void Init()
         {
