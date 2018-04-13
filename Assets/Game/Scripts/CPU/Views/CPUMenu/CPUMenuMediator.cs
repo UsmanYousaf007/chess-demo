@@ -36,6 +36,9 @@ namespace TurboLabz.InstantChess
         // View injection
         [Inject] public CPUMenuView view { get; set; }
 
+        // Services
+        [Inject] public IAndroidNativeService androidNativeService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -94,6 +97,10 @@ namespace TurboLabz.InstantChess
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
                 saveGameSignal.Dispatch();
+            }
+            else if (evt == AppEvent.ESCAPED)
+            {
+                androidNativeService.SendToBackground();
             }
         }
 
