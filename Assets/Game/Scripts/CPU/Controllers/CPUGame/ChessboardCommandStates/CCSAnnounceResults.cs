@@ -50,6 +50,7 @@ namespace TurboLabz.InstantChess
             cmd.disableHintButtonSignal.Dispatch();
 
             cmd.cpuGameModel.inProgress = false;
+            cmd.cpuGameModel.totalGames++;
             cmd.saveGameSignal.Dispatch();
 
             // Update player stats
@@ -60,7 +61,6 @@ namespace TurboLabz.InstantChess
             {
                 isDraw = true;
             }
-
 
             StatResult statResult;
 

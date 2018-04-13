@@ -39,7 +39,6 @@ namespace TurboLabz.InstantFramework
             return new UnityAdsShowRewardedAdRequest().Send();
         }
 
-
         public void ShowAd()
         {
             Advertisement.Show();

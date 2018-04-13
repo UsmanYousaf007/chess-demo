@@ -21,6 +21,8 @@ namespace TurboLabz.InstantChess
         bool inProgress { get; set; }
         int playerColorIndex { get; set; }
         string devFen { get; set; }
+        int totalGames { get; set; }
+        bool showAd { get; set; }
 
         void Reset();
         CPUMenuVO GetCPUMenuVO();

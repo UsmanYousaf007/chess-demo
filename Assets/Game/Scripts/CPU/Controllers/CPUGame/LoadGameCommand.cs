@@ -35,9 +35,11 @@ namespace TurboLabz.InstantChess
 
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         public override void Execute()
         {
+            ProcessAds();
             ResetAll();
 
             if (!localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
@@ -52,6 +54,7 @@ namespace TurboLabz.InstantChess
                 ILocalDataReader reader = localDataService.OpenReader(SaveKeys.CPU_SAVE_FILENAME);
 
                 // CPU MENU MODEL
+                cpuGameModel.totalGames = reader.Read<int>(SaveKeys.TOTAL_GAMES);
                 cpuGameModel.cpuStrength = reader.Read<int>(SaveKeys.CPU_STRENGTH);
                 cpuGameModel.durationIndex = reader.Read<int>(SaveKeys.DURATION_INDEX);
                 cpuGameModel.playerColorIndex = reader.Read<int>(SaveKeys.PLAYER_COLOR_INDEX);
@@ -120,6 +123,21 @@ namespace TurboLabz.InstantChess
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MENU);
             updateMenuViewSignal.Dispatch(cpuGameModel.GetCPUMenuVO());
+        }
+
+        private void ProcessAds()
+        {
+            if (cpuGameModel.showAd)
+            {
+                cpuGameModel.showAd = false;
+
+                LogUtil.Log("SHOWING AD", "cyan");
+
+                if (adsService.isAdAvailable)
+                {
+                    adsService.ShowAd();
+                }
+            }
         }
     }
 }

@@ -20,6 +20,8 @@ namespace TurboLabz.InstantChess
         public int playerColorIndex { get; set; }
         public bool inProgress { get; set; }
         public string devFen { get; set; }
+        public int totalGames { get; set; }
+        public bool showAd { get; set; }
 
         [PostConstruct]
         public void LoadDefault()
@@ -34,6 +36,8 @@ namespace TurboLabz.InstantChess
             playerColorIndex = CPUSettings.DEFAULT_PLAYER_COLOR_INDEX;
             inProgress = false;
             devFen = "";
+            totalGames = 0;
+            showAd = false;
         }
 
         public CPUMenuVO GetCPUMenuVO()
@@ -47,6 +51,7 @@ namespace TurboLabz.InstantChess
             vo.playerColors = CPUSettings.PLAYER_COLORS;
             vo.selectedPlayerColorIndex = playerColorIndex;
             vo.inProgress = inProgress;
+            vo.totalGames = totalGames;
 
             return vo;
         }

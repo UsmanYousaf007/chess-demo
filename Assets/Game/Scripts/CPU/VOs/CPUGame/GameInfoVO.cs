@@ -15,5 +15,6 @@ namespace TurboLabz.InstantChess
     public class GameInfoVO
     {
         public int cpuStrength;
+        public bool showAd;
     }
 }

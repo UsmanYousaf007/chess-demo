@@ -33,6 +33,8 @@ namespace TurboLabz.InstantChess
         public Button resultsExitButton;
         public Text statsButtonLabel;
         public Text resultsExitButtonLabel;
+        public Button adsButton;
+        public Text adsButtonLabel;
 
         public Signal resultsExitButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
@@ -48,6 +50,7 @@ namespace TurboLabz.InstantChess
         {
             statsButton.onClick.AddListener(OnStatsButtonClicked);
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
+            adsButton.onClick.AddListener(OnAdsButtonClicked);
 
             statsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_STATS_BUTTON);
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
@@ -57,6 +60,9 @@ namespace TurboLabz.InstantChess
 
         public void CleanupResults()
         {
+            statsButton.onClick.RemoveAllListeners();
+            resultsExitButton.onClick.RemoveAllListeners();
+            adsButton.onClick.RemoveAllListeners();
         }
 
         public void OnParentShowResults()
@@ -73,6 +79,10 @@ namespace TurboLabz.InstantChess
             DisableUndoButton();
             DisableMenuButton();
             DisableHintButton();
+
+            adsButton.gameObject.SetActive(showAd);
+            resultsExitButton.gameObject.SetActive(!showAd);
+            statsButton.gameObject.SetActive(!showAd);
         }
 
         public void HideResultsDialog()
@@ -179,6 +189,11 @@ namespace TurboLabz.InstantChess
         }
 
         private void OnResultsExitButtonClicked()
+        {
+            resultsExitButtonClickedSignal.Dispatch();
+        }
+
+        private void OnAdsButtonClicked()
         {
             resultsExitButtonClickedSignal.Dispatch();
         }

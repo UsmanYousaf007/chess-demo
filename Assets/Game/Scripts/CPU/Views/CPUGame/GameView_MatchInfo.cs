@@ -40,6 +40,7 @@ namespace TurboLabz.InstantChess
         public void UpdateGameInfo(GameInfoVO vo)
         {
             cpuStrengthLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_STRENGTH, vo.cpuStrength.ToString());
+            showAd = vo.showAd;
         }
 
         /*

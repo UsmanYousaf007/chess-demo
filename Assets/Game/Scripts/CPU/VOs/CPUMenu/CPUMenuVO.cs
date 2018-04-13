@@ -22,5 +22,6 @@ namespace TurboLabz.Chess
         public ChessColor[] playerColors;
         public int selectedPlayerColorIndex;
         public bool inProgress;
+        public int totalGames;
     }
 }

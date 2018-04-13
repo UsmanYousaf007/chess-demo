@@ -37,6 +37,7 @@ namespace TurboLabz.InstantChess
                 ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.CPU_SAVE_FILENAME);
 
                 // CPU MENU MODEL
+                writer.Write<int>(SaveKeys.TOTAL_GAMES, cpuGameModel.totalGames);
                 writer.Write<int>(SaveKeys.CPU_STRENGTH, cpuGameModel.cpuStrength);
                 writer.Write<int>(SaveKeys.DURATION_INDEX, cpuGameModel.durationIndex);
                 writer.Write<bool>(SaveKeys.IN_PROGRESS, cpuGameModel.inProgress);

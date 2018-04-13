@@ -20,13 +20,11 @@ namespace TurboLabz.InstantChess
         public static readonly int[] DURATION_MINUTES = { 0,    1,     5,     20,     90 };
         public static readonly float[] MOVE_DELAYS    = { 2f,  0.5f,   5f,   2f,     2f,     2f };
         public static readonly ChessColor[] PLAYER_COLORS = { ChessColor.WHITE, ChessColor.BLACK, ChessColor.NONE };
-
         public const int DEFAULT_STRENGTH = 1;
         public const int DEFAULT_TIMER_INDEX = 0;
         public const int DEFAULT_PLAYER_COLOR_INDEX = 0;
-
         public const int DEFAULT_HINT_COUNT = 3;
-
         public const string DEFAULT_PLAYER_ID = "DEFAULT_PLAYER_ID";
+        public const int AD_FREQUENCY = 3;
     }
 }
