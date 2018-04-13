@@ -82,7 +82,8 @@ namespace TurboLabz.InstantChess
 
             // Decide whether to show ads after this game is completed
             cmd.cpuGameModel.showAd = (cmd.cpuGameModel.totalGames % CPUSettings.AD_FREQUENCY == 0)
-                                        && cmd.cpuGameModel.totalGames > 0;
+                                        && cmd.cpuGameModel.totalGames > 0
+                                        && cmd.adsService.isAdAvailable;
 
             // Update the game info
             GameInfoVO gameInfoVO = new GameInfoVO();
