@@ -26,9 +26,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorShowViewSignal showViewSignal { get; set; }
         [Inject] public NavigatorHideViewSignal hideViewSignal { get; set; }
         [Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         public override void Execute()
         {

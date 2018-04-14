@@ -24,7 +24,15 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                cmd.loadGameSignal.Dispatch();
+                if (cmd.cpuGameModel.showAd)
+                {
+                    cmd.showAdSignal.Dispatch();
+                }
+                else
+                {
+                    cmd.loadGameSignal.Dispatch();
+                }
+
                 return null;
             }
             else if (evt == NavigatorEvent.SHOW_MENU)
