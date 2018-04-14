@@ -41,6 +41,7 @@ namespace TurboLabz.InstantChess
         public Signal showAdButtonClickedSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
+        private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
         private float resultsDialogHalfHeight;
 
@@ -74,8 +75,6 @@ namespace TurboLabz.InstantChess
         public void ShowResultsDialog()
         {
             resultsDialog.SetActive(true);
-            resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
-            Invoke("AnimateResultsDialog", RESULTS_DELAY_TIME);
 
             DisableUndoButton();
             DisableMenuButton();
@@ -99,6 +98,7 @@ namespace TurboLabz.InstantChess
 
             this.playerWins = playerWins;
             isDraw = false;
+            float animDelay = RESULTS_DELAY_TIME;
 
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
             {
@@ -111,6 +111,11 @@ namespace TurboLabz.InstantChess
             else if (gameEndReason == GameEndReason.RESIGNATION)
             {
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION);
+
+                if (!playerWins)
+                {
+                    animDelay = RESULTS_SHORT_DELAY_TIME;
+                }
             }
             else if (gameEndReason == GameEndReason.STALEMATE)
             {
@@ -145,6 +150,9 @@ namespace TurboLabz.InstantChess
                     resultsDialogHeading.color = redText;
                 }
             }
+
+            resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
+            Invoke("AnimateResultsDialog", animDelay);
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)

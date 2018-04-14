@@ -36,17 +36,12 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE, "By Fifty Move Rule" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE, "By Threefold Repeat Rule" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_TIMER_EXPIRED, "By Time" },
-                { LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED, "Your Opponent Left" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION, "By Resignation" },
-                { LocalizationKey.GM_DRAW_DIALOG_HEADING, "CLAIM DRAW" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE, "Claim draw by Fifty Move rule?" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE, "Claim draw by Threefold Repeat rule?" },
                 { LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON, "YES" },
                 { LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON, "NO" },
-                { LocalizationKey.GM_ROOM_PRIZE, "Win\n{0}" },
                 { LocalizationKey.GM_ROOM_DURATION, "{0} m" },
-                { LocalizationKey.GM_PLAYER_LEVEL, "Level {0}" },
-                { LocalizationKey.GM_WAITING_FOR_OPPONENT, "Waiting for opponent..." },
 
                 #endregion
 
@@ -56,14 +51,13 @@ namespace TurboLabz.InstantFramework
 
                 #region CPUMenu
 
-                { LocalizationKey.CPU_MENU_HEADING, "Play vs CPU" },
                 { LocalizationKey.CPU_MENU_STRENGTH, "Difficulty" },
                 { LocalizationKey.CPU_MENU_DURATION, "Time Limit" },
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
                 { LocalizationKey.CPU_MENU_PLAY, "PLAY" },
                 { LocalizationKey.CPU_MENU_STATS, "STATS" },
-                { LocalizationKey.CPU_GAME_CPU_NAME, "CPU" },
+                { LocalizationKey.CPU_GAME_CPU_NAME, "Computer" },
                 { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty {0}" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
 
@@ -72,7 +66,6 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_HINT_BUTTON, "GET HINT" },
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "CONTINUE" },
-                { LocalizationKey.CPU_GAME_EXIT_EXPLAINATION, "*Your progress is saved." },
                 { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "VIEW STATS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO MENU" },
 
