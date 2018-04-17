@@ -67,14 +67,25 @@ namespace TurboLabz.InstantChess
             if (playerWins)
             {
                 statResult = StatResult.WON;
+                cmd.analyticsService.LevelComplete(cmd.cpuGameModel.cpuStrength, gameEndReason.ToString());
             }
             else if (isDraw)
             {
                 statResult = StatResult.DRAWN;
+                cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength, gameEndReason.ToString());
             }
             else
             {
                 statResult = StatResult.LOST;
+
+                if (gameEndReason == GameEndReason.RESIGNATION)
+                {
+                    cmd.analyticsService.LevelQuit(cmd.cpuGameModel.cpuStrength);
+                }
+                else
+                {
+                    cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength, gameEndReason.ToString());
+                }
             }
 
             CPUStatsResultsVO vo;

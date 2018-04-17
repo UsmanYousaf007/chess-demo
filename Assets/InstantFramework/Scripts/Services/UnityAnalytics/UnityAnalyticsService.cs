@@ -9,11 +9,18 @@
 
 using UnityEngine;
 using UnityEngine.Analytics;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
     public class UnityAnalyticsService : IAnalyticsService
     {
+        private const string GAME_END_REASON = "gameEndReason";
+        private Dictionary<string, object> gameEndReasonParam = new Dictionary<string, object>
+        {
+            { GAME_END_REASON, "Unknown" }
+        };
+
         public void ScreenVisit(NavigatorViewId viewId)
         {
             AnalyticsEvent.ScreenVisit(viewId.ToString());
@@ -24,14 +31,16 @@ namespace TurboLabz.InstantFramework
             AnalyticsEvent.LevelStart(index);
         }
 
-        public void LevelComplete(int index)
+        public void LevelComplete(int index, string gameEndReason)
         {
-            AnalyticsEvent.LevelStart(index);
+            gameEndReasonParam[GAME_END_REASON] = gameEndReason;
+            AnalyticsEvent.LevelComplete(index, gameEndReasonParam);
         }
 
-        public void LevelFail(int index)
+        public void LevelFail(int index, string gameEndReason)
         {
-            AnalyticsEvent.LevelFail(index);
+            gameEndReasonParam[GAME_END_REASON] = gameEndReason;
+            AnalyticsEvent.LevelFail(index, gameEndReasonParam);
         }
 
         public void LevelQuit(int index)

@@ -83,6 +83,11 @@ namespace TurboLabz.InstantChess
             adsButton.gameObject.SetActive(showAd);
             resultsExitButton.gameObject.SetActive(!showAd);
             statsButton.gameObject.SetActive(!showAd);
+
+            if (showAd)
+            {
+                analyticsService.AdOffer(false, UnityAdsPlacementId.VIDEO);
+            }
         }
 
         public void HideResultsDialog()

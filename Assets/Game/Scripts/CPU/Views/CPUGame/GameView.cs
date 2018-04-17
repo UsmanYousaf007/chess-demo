@@ -23,10 +23,9 @@ namespace TurboLabz.InstantChess
 {
     public partial class GameView : View
     {
-        // TODO: Remove this injection, views cannot inject services or models or
-        // anything for that matter.
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public Camera chessboardCamera;
         public GameObject uiBlocker;

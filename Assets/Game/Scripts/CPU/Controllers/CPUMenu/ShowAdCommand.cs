@@ -27,6 +27,7 @@ namespace TurboLabz.InstantChess
         // Services
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void Execute()
         {
@@ -34,6 +35,8 @@ namespace TurboLabz.InstantChess
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_AD);
                 adsService.ShowAd().Then(OnShowAd);
+
+                analyticsService.AdStart(false, UnityAdsPlacementId.VIDEO);
             }
             else
             {
@@ -44,6 +47,15 @@ namespace TurboLabz.InstantChess
         private void OnShowAd(AdsResult result)
         {
             loadCPUGameSignal.Dispatch();
+
+            if (result == AdsResult.FINISHED)
+            {
+                analyticsService.AdComplete(false, UnityAdsPlacementId.VIDEO);
+            }
+            else if (result == AdsResult.SKIPPED)
+            {
+                analyticsService.AdSkip(false, UnityAdsPlacementId.VIDEO);
+            }
         }
     }
 }

@@ -17,8 +17,8 @@ namespace TurboLabz.InstantFramework
     {
         void ScreenVisit(NavigatorViewId viewId);
         void LevelStart(int index);
-        void LevelComplete(int index);
-        void LevelFail(int index);
+        void LevelComplete(int index, string gameEndReason);
+        void LevelFail(int index, string gameEndReason);
         void LevelQuit(int index);
         void SocialShare(ShareContext context);
         void AdOffer(bool rewarded, string placementId);

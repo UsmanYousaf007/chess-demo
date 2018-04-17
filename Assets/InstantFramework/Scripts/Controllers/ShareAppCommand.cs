@@ -20,10 +20,13 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IShareService shareService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void Execute()
         {
             shareService.ShareApp(localizationService.Get(LocalizationKey.SHARE_STANDARD));
+
+            analyticsService.SocialShare(ShareContext.MAIN_MENU);
         }
     }
 }

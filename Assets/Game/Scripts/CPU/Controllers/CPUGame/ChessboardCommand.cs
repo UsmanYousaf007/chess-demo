@@ -73,6 +73,7 @@ namespace TurboLabz.InstantChess
         [Inject] public IChessService chessService { get; set; }
         [Inject] public IChessAiService chessAiService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void Execute()
         {

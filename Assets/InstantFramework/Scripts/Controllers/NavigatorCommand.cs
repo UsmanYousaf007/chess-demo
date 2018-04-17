@@ -32,6 +32,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void Execute()
         {
             NS newState;

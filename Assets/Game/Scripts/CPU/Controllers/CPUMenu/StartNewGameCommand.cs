@@ -14,6 +14,7 @@ using strange.extensions.command.impl;
 using TurboLabz.Chess;
 using System;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantChess
 {
@@ -25,6 +26,9 @@ namespace TurboLabz.InstantChess
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
+
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void Execute()
         {
@@ -53,6 +57,8 @@ namespace TurboLabz.InstantChess
             chessboardModel.opponentColor = (playerPreferredColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+
+            analyticsService.LevelStart(cpuGameModel.cpuStrength);
         }
     }
 }
