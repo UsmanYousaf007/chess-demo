@@ -11,6 +11,7 @@
 /// This is the entry point to the game.
 
 using strange.extensions.command.impl;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,6 +26,10 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
+            Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
         
             audioService.Init();
