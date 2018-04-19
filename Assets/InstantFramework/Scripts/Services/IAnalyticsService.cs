@@ -16,10 +16,10 @@ namespace TurboLabz.InstantFramework
     public interface IAnalyticsService
     {
         void ScreenVisit(NavigatorViewId viewId);
-        void LevelStart(int index);
-        void LevelComplete(int index, string gameEndReason);
-        void LevelFail(int index, string gameEndReason);
-        void LevelQuit(int index);
+        void LevelStart(string levelId);
+        void LevelComplete(string levelId, string gameEndReason);
+        void LevelFail(string levelId, string gameEndReason);
+        void LevelQuit(string levelId);
         void SocialShare(ShareContext context);
         void AdOffer(bool rewarded, string placementId);
         void AdStart(bool rewarded, string placementId);

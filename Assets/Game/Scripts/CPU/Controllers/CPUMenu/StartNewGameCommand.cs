@@ -58,7 +58,7 @@ namespace TurboLabz.InstantChess
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 
-            analyticsService.LevelStart(cpuGameModel.cpuStrength);
+            analyticsService.LevelStart(cpuGameModel.levelId);
         }
     }
 }

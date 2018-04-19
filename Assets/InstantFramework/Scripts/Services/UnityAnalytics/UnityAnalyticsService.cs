@@ -26,26 +26,26 @@ namespace TurboLabz.InstantFramework
             AnalyticsEvent.ScreenVisit(viewId.ToString());
         }
 
-        public void LevelStart(int index)
+        public void LevelStart(string levelId)
         {
-            AnalyticsEvent.LevelStart(index);
+            AnalyticsEvent.LevelStart(levelId);
         }
 
-        public void LevelComplete(int index, string gameEndReason)
+        public void LevelComplete(string levelId, string gameEndReason)
         {
             gameEndReasonParam[GAME_END_REASON] = gameEndReason;
-            AnalyticsEvent.LevelComplete(index, gameEndReasonParam);
+            AnalyticsEvent.LevelComplete(levelId, gameEndReasonParam);
         }
 
-        public void LevelFail(int index, string gameEndReason)
+        public void LevelFail(string levelId, string gameEndReason)
         {
             gameEndReasonParam[GAME_END_REASON] = gameEndReason;
-            AnalyticsEvent.LevelFail(index, gameEndReasonParam);
+            AnalyticsEvent.LevelFail(levelId, gameEndReasonParam);
         }
 
-        public void LevelQuit(int index)
+        public void LevelQuit(string levelId)
         {
-            AnalyticsEvent.LevelQuit(index);
+            AnalyticsEvent.LevelQuit(levelId);
         }
 
         public void SocialShare(ShareContext context)

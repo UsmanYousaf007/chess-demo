@@ -23,6 +23,15 @@ namespace TurboLabz.InstantChess
         public int totalGames { get; set; }
         public bool showAd { get; set; }
 
+        public string levelId
+        {
+            get
+            {
+                return durationIndex + "_" + cpuStrength;
+            }
+        }
+
+
         [PostConstruct]
         public void LoadDefault()
         {
