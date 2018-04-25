@@ -70,6 +70,12 @@ namespace TurboLabz.Chess
                 DispatchMove(0);
                 return;
             }
+            else if (aiMoveInputVO.cpuStrengthPct == 1f)
+            {
+                AiLog("Epic max strength best move.");
+                DispatchMove(0);
+                return;
+            }
 
             // There are two common sense filters:
             // 1) Premove filters that emulate a human reactionary move

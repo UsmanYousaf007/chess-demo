@@ -30,12 +30,15 @@ namespace TurboLabz.InstantChess
         public Text hintButtonLabel;
         public Text hintCountLabel;
 
+        public GameObject hintThinking;
+
         private int availableHints;
 
         public void InitHint()
         {
             hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hintButton.onClick.AddListener(HintButtonClicked);
+            hintThinking.SetActive(false);
         }
 
         public void OnParentShowHint()
@@ -57,6 +60,7 @@ namespace TurboLabz.InstantChess
 
             UpdateHintCount(vo.availableHints);
             DisableHintButton();
+            hintThinking.SetActive(false);
         }
 
         public void HideHint()
@@ -103,6 +107,8 @@ namespace TurboLabz.InstantChess
 
         private void HintButtonClicked()
         {
+            DisableHintButton();
+            hintThinking.SetActive(true);
             hintClickedSignal.Dispatch();
         }
 

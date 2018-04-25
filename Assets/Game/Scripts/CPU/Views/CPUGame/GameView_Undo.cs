@@ -67,7 +67,7 @@ namespace TurboLabz.InstantChess
             HideHint();
             ClearNotation();
             EmptyScores();
-
+            DisableUndoButton();
             undoMoveClickedSignal.Dispatch();
         }
 
