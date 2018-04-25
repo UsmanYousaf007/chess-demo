@@ -33,6 +33,8 @@ namespace TurboLabz.Chess
         public const string PLUGIN_NAME = "macos-ai";
         #elif UNITY_ANDROID
         public const string PLUGIN_NAME = "android-ai";
+        #elif UNITY_IOS
+        public const string PLUGIN_NAME = "ios-ai";
         #endif
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -74,9 +76,7 @@ namespace TurboLabz.Chess
             SetPonder(ChessAiConfig.SF_PONDER);
             SetMultiPV(ChessAiConfig.SF_MULTIPV);
             SetSkillLevel(ChessAiConfig.SF_SKILL_LEVEL);
-            SetSlowMover(ChessAiConfig.SF_SLOW_MOVER);
-            //SetHash(ChessAiConfig.SF_HASH);
-            //SetThreads(SystemInfo.processorCount.ToString());
+            SetThreads(SystemInfo.processorCount.ToString());
         }
 
         public void Shutdown()

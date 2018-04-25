@@ -89,7 +89,6 @@ namespace TurboLabz.Chess
 
             yield return new WaitForSecondsRealtime(delay);
 
-            plugin.Stop();
 
             while (!resultsReady)
             {

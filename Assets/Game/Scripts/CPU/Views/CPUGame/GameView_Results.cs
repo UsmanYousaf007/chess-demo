@@ -79,6 +79,7 @@ namespace TurboLabz.InstantChess
             DisableUndoButton();
             DisableMenuButton();
             DisableHintButton();
+            DeactivateThink();
 
             adsButton.gameObject.SetActive(showAd);
             resultsExitButton.gameObject.SetActive(!showAd);

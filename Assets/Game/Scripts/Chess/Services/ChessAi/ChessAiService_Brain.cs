@@ -64,8 +64,6 @@ namespace TurboLabz.Chess
         /// </summary>
         private void SelectMove()
         {
-            AiLog("AI selecting move.");
-
             if (aiMoveInputVO.isHint)
             {
                 AiLog("Hint request, returning the best move");
@@ -83,10 +81,7 @@ namespace TurboLabz.Chess
             filterMoves = true;
 
             float filterOffProb = Mathf.Max((0.5f - aiMoveInputVO.cpuStrengthPct) * 2f, 0f);
-
-            AiLog("filterOffProb = " + filterOffProb);
             filterMoves = !RollPercentageDice(Mathf.FloorToInt(filterOffProb * 100));
-            AiLog("filter moves = " + filterMoves);
 
             // For any other move, emulate a human player by thinking
             // 1 dimensionally.
@@ -103,24 +98,17 @@ namespace TurboLabz.Chess
                 }
             }
 
-            AiLog("No special pre-move situation, applying difficulty...");
-
             // We will apply a bit of variance offset to the move index
             int windowDice = UnityEngine.Random.Range(ChessAiConfig.DIFFICULTY_VARIANCE * -1, ChessAiConfig.DIFFICULTY_VARIANCE + 1);
-            AiLog("windowDice = " + windowDice);
 
             // Find the move index
             // Since the indexes are inverted with the strongest first, we will invert the cpu strength
             float invertedStr = 1 - aiMoveInputVO.cpuStrengthPct;
-            AiLog("cpuStrengthPct = " + aiMoveInputVO.cpuStrengthPct);
-            AiLog("invertedStr = " + invertedStr);
 
             int index = Mathf.FloorToInt(scores.Count * invertedStr);
-            AiLog("index = " + index);
 
             // Now apply the variance dice
             int variedIndex = Mathf.Clamp(index + windowDice, 0, scores.Count - 1);
-            AiLog("variedIndex = " + variedIndex);
 
             DispatchMove(variedIndex);
         }
@@ -135,8 +123,6 @@ namespace TurboLabz.Chess
 
             FileRank from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
             FileRank to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);;
-
-            AiLog("[" + chessService.GetAlgebraicLocation(from) + " " + chessService.GetAlgebraicLocation(to) + "]");
 
             string promo = null;
 
@@ -205,7 +191,6 @@ namespace TurboLabz.Chess
                 }
 
                 // Looks like there is a free capture and we're not making it. So lets select another move.
-                AiLog("Profitable capture. Cancelling.");
                 return true;
             }
 
@@ -216,7 +201,6 @@ namespace TurboLabz.Chess
         {
             if (chessService.WillMoveCauseWeakExchangeOrFeed(from, to, promo))
             {
-                AiLog("Weak exchange or feed. " + chessService.GetAlgebraicLocation(from) + " " + chessService.GetAlgebraicLocation(to));
                 return true;
             }
 
@@ -227,7 +211,6 @@ namespace TurboLabz.Chess
         {
             if (IsMovingPiece(from, ChessPieceName.BLACK_KING))
             {
-                AiLog("King was moved non-optimally.");
                 return true;
             }
 
@@ -239,7 +222,6 @@ namespace TurboLabz.Chess
             if (aiMoveInputVO.aiMoveNumber <= ChessAiConfig.ROOK_RESTRICTION_MOVE_COUNT &&
                 IsMovingPiece(from, ChessPieceName.BLACK_ROOK))
             {
-                AiLog("Rook was moved non-optimally.");
                 return true;
             }
 
@@ -263,7 +245,6 @@ namespace TurboLabz.Chess
                 // If I can attack, Then make the capture using the cheapest piece
                 if (cheapestAttackingMove != null)
                 {
-                    AiLog("Captured undefended at [" + chessService.GetAlgebraicLocation(aiMoveInputVO.lastPlayerMove.to) + "]");
                     int index = GetAiMoveIndex(cheapestAttackingMove);
                     DispatchMove(index);
                     return true;
@@ -285,7 +266,6 @@ namespace TurboLabz.Chess
 
                     if (exchange)
                     {
-                        AiLog("Made exchange.");
                         int index = GetAiMoveIndex(cheapestAttackingMove);
                         DispatchMove(index);
                         return true;
@@ -317,14 +297,12 @@ namespace TurboLabz.Chess
 
                     if (attackingPieceValue < myPieceValue)
                     {
-                        AiLog("Enemy can capture better piece. [" + chessService.GetAlgebraicLocation(enemyCaptureMove.to) + "] Evading!");
                         evade = true;
                     }
                 }
                 // Escape attack on undefended piece
                 else
                 {
-                    AiLog("Enemy can capture undefended piece. [" + chessService.GetAlgebraicLocation(enemyCaptureMove.to) + "] Evading!");
                     evade = true;
                 }
 
@@ -334,12 +312,10 @@ namespace TurboLabz.Chess
 
                     if (aiEvasionMoveIndex != -1)
                     {
-                        AiLog("Found evasion index.");
                         DispatchMove(aiEvasionMoveIndex);
                     }
                     else
                     {
-                        AiLog("No evasion index.");
                         DispatchMove(0);
                     }
 
@@ -372,7 +348,6 @@ namespace TurboLabz.Chess
             // If there is just one move, make it and get out
             if (scores.Count == 1)
             {
-                AiLog("Just 1 move available.");
                 DispatchMove(0);
                 return true;
             }
@@ -505,7 +480,6 @@ namespace TurboLabz.Chess
                 }
             }
 
-            AiLog("Not in Ai list.");
             return 0;
         }
 
