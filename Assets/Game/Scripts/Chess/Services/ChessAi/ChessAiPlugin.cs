@@ -57,7 +57,7 @@ namespace TurboLabz.Chess
 
         private static bool isInitialized;
 
-        public  ChessAiPlugin()
+        public void NewGame()
         {
             if (!isInitialized)
             {
@@ -84,8 +84,8 @@ namespace TurboLabz.Chess
             // Shutdown the plugin
             if (isInitialized)
             {
-                shutdown();
                 isInitialized = false;
+                shutdown();
             }
         }
 

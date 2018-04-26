@@ -34,6 +34,7 @@ namespace TurboLabz.Chess
 
         public void NewGame()
         {
+            plugin.NewGame();
             ChessAiPlugin.resultsReadySignal.RemoveAllListeners();
             ChessAiPlugin.resultsReadySignal.AddListener(ResultsReady);
         }
