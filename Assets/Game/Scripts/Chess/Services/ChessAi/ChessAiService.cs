@@ -76,7 +76,13 @@ namespace TurboLabz.Chess
 
         private IEnumerator GetAiResult()
         {
-            // lets wait and then execute
+            float startTime = Time.time;
+
+            while (!resultsReady)
+            {
+                yield return null;
+            }
+
             float delay;
 
             if (aiMoveInputVO.isHint)
@@ -87,14 +93,11 @@ namespace TurboLabz.Chess
             {
                 delay = AiMoveTimes.M_CPU;
             }
-
+                
+            float timeElapsed = Time.time - startTime;
+            delay -= timeElapsed;
+            delay = Mathf.Max(0, delay);
             yield return new WaitForSecondsRealtime(delay);
-
-
-            while (!resultsReady)
-            {
-                yield return null;
-            }
 
             ExecuteAiMove();
         }
