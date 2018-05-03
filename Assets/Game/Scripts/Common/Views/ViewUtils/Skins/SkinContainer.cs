@@ -16,8 +16,7 @@ namespace TurboLabz.Chess
 {
     public class SkinContainer : ScriptableObject 
     {
-        public const string SPRITE_BACKGROUND = "Background";
-        public const string SPRITE_CAPTURED_PREFIX = "c";
+        public const string SPRITE_BACKGROUND = "background";
 
         public string skinName = "unassigned";
         public List<Sprite> sprites = new List<Sprite>();
@@ -25,12 +24,31 @@ namespace TurboLabz.Chess
 
         public static SkinContainer LoadSkin(string key)
         {
-            return Resources.Load(ASSET_PATH + key) as SkinContainer;
+            return Resources.Load(key) as SkinContainer;
         }
 
-        public Sprite GetSprite(string key)
+        public Sprite GetSprite(string key, bool isCapturePiece = false)
         {
-            key += "_" + skinName;
+            if (key.Length == 1)
+            {
+                if (key != key.ToLower())
+                {
+                    key = "w" + key.ToLower();
+                }
+                else
+                {
+                    key = "b" + key;
+                }
+            }
+
+            if (isCapturePiece)
+            {
+                key = "c" + key;
+            }
+
+            key = skinName + "_" + key;
+
+            Debug.Log("Getting sprite... " + key);
 
             foreach (Sprite sprite in sprites)
             {
@@ -40,10 +58,12 @@ namespace TurboLabz.Chess
                 }
             }
 
+            Debug.Log("Sprite not found");
+
             return null;
         }
 
-        #region EDITOR
+        #if UNITY_EDITOR
         const string ASSET_PATH = "Assets/Game/Images/Resources/";
         const string SKINS_PATH = "Assets/Game/Images/Skins/";
 
@@ -76,6 +96,6 @@ namespace TurboLabz.Chess
 
             AssetBuilder.Build(this, skinName, ASSET_PATH);
         }
-        #endregion
+        #endif
     }
 }

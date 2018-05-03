@@ -401,16 +401,21 @@ namespace TurboLabz.InstantChess
             }
         }
 
+        public void ShowIndicator(ChessSquare square, GameObject indicator)
+        {
+            int squareIndex = RankFileMap.Map[square.fileRank.rank, square.fileRank.file];
+            indicator.transform.position = refs.chessboardSquares[squareIndex].position;
+            indicator.SetActive(true);
+        }
+
         public void ShowPlayerFromIndicator(ChessSquare square)
         {
-            refs.playerFromIndicator.SetActive(true);
+            ShowIndicator(square, refs.playerFromIndicator);
         }
 
         public void ShowPlayerToIndicator(ChessSquare square)
         {
-            int squareIndex = RankFileMap.Map[square.fileRank.rank, square.fileRank.file];
-            refs.playerToIndicator.transform.position = refs.chessboardSquares[squareIndex].position;
-            refs.playerToIndicator.SetActive(true);
+            ShowIndicator(square, refs.playerToIndicator);
         }
 
         public void HidePlayerFromIndicator()
@@ -425,16 +430,12 @@ namespace TurboLabz.InstantChess
 
         public void ShowOpponentFromIndicator(ChessSquare square)
         {
-            int squareIndex = RankFileMap.Map[square.fileRank.rank, square.fileRank.file];
-            refs.opponentFromIndicator.transform.position = refs.chessboardSquares[squareIndex].position;
-            refs.opponentFromIndicator.SetActive(true);
+            ShowIndicator(square, refs.opponentFromIndicator);
         }
 
         public void ShowOpponentToIndicator(ChessSquare square)
         {
-            int squareIndex = RankFileMap.Map[square.fileRank.rank, square.fileRank.file];
-            refs.opponentToIndicator.transform.position = refs.chessboardSquares[squareIndex].position;
-            refs.opponentToIndicator.SetActive(true);
+            ShowIndicator(square, refs.opponentToIndicator);
         }
 
         public void HideOpponentFromIndicator()
@@ -447,9 +448,11 @@ namespace TurboLabz.InstantChess
             refs.opponentToIndicator.SetActive(false);
         }
 
-        public void SetupChessboard(bool isPlayerWhite)
+        public void SetupChessboard(SetupChessboardVO vo)
         {
-            if (isPlayerWhite)
+            refs.ApplySkin(vo.activeSkinId);
+
+            if (vo.isPlayerWhite)
             {
                 refs.chessboard.rotation = refs.WHITE_BOARD_ROTATION;
                 refs.chessboard.position = refs.WHITE_BOARD_POSITION;
@@ -465,8 +468,8 @@ namespace TurboLabz.InstantChess
                 opponentColor = ChessColor.WHITE;
             }
 
-            refs.fileRankLabelsForward.SetActive(isPlayerWhite);
-            refs.fileRankLabelsBackward.SetActive(!isPlayerWhite);
+            refs.fileRankLabelsForward.SetActive(vo.isPlayerWhite);
+            refs.fileRankLabelsBackward.SetActive(!vo.isPlayerWhite);
 
             refs.chessContainer.SetActive(true);
             refs.playerFromIndicator.SetActive(false);

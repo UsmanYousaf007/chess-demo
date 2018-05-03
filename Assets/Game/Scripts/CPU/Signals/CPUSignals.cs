@@ -40,7 +40,7 @@ namespace TurboLabz.InstantChess
     public class StartNewGameSignal : Signal {}
     public class DevFenValueChangedSignal : Signal<string> {}
     public class ChessboardEventSignal : Signal<ChessboardEvent> {}
-    public class SetupChessboardSignal : Signal<bool> {}
+    public class SetupChessboardSignal : Signal<SetupChessboardVO> {}
     public class UpdateChessboardSignal : Signal<ChessSquare[,]> {}
     public class AiTurnSignal : Signal {}
     public class ShowPlayerFromIndicatorSignal : Signal<ChessSquare> {}

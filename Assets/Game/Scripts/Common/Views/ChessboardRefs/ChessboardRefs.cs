@@ -71,7 +71,7 @@ namespace TurboLabz.Chess
 
             foreach (GameObject capturedPiece in cpuCapturedPieces)
             {
-                capturedPiece.GetComponent<Image>().sprite = container.GetSprite(SkinContainer.SPRITE_CAPTURED_PREFIX + capturedPiece.name);
+                capturedPiece.GetComponent<Image>().sprite = container.GetSprite(capturedPiece.name, true);
             }
         }
     }

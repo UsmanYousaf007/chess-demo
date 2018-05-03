@@ -16,10 +16,12 @@ namespace TurboLabz.InstantChess
     public class PlayerModel : IPlayerModel
     {
         public string id { get; set; }
+        public string activeSkinId { get; set; }
 
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
+            activeSkinId = "SkinWood";
         }
     }
 }

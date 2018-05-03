@@ -63,7 +63,10 @@ namespace TurboLabz.InstantChess
 
             // Setup the initial rotation
             bool isPlayerWhite = (chessboardModel.playerColor == ChessColor.WHITE);
-            cmd.setupChessboardSignal.Dispatch(isPlayerWhite);
+            SetupChessboardVO vo;
+            vo.isPlayerWhite = isPlayerWhite;
+            vo.activeSkinId = cmd.playerModel.activeSkinId;
+            cmd.setupChessboardSignal.Dispatch(vo);
 
             // Place the pieces
             cmd.updateChessboardSignal.Dispatch(cmd.chessboardModel.squares);

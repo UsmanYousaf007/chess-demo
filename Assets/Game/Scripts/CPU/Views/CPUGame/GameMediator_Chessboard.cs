@@ -35,9 +35,9 @@ namespace TurboLabz.InstantChess
         }
 
         [ListensTo(typeof(SetupChessboardSignal))]
-        public void OnSetupChessboard(bool isPlayerTurn)
+        public void OnSetupChessboard(SetupChessboardVO vo)
         {
-            view.SetupChessboard(isPlayerTurn);
+            view.SetupChessboard(vo);
         }
 
         [ListensTo(typeof(ShowPossibleMovesSignal))]

@@ -16,6 +16,7 @@ namespace TurboLabz.InstantChess
     public interface IPlayerModel
     {
         string id { get; set; }
+        string activeSkinId { get; set; }
         void Reset();
     }
 }
