@@ -49,11 +49,11 @@ namespace TurboLabz.InstantChess
         public void RenderHint(HintVO vo)
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
-            hintFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
+            hintFromIndicator.transform.position = refs.chessboardSquares[fromSquareIndex].position;
             hintFromIndicator.SetActive(true);
 
             int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
-            hintToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
+            hintToIndicator.transform.position = refs.chessboardSquares[toSquareIndex].position;
             hintToIndicator.SetActive(true);
 
             audioService.Play(audioService.sounds.SFX_HINT);

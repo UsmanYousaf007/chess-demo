@@ -16,6 +16,10 @@ namespace TurboLabz.Chess
 {
     public class SkinContainer : ScriptableObject 
     {
+        public const string SPRITE_BACKGROUND = "Background";
+        public const string SPRITE_CAPTURED_PREFIX = "c";
+
+        public string skinName = "unassigned";
         public List<Sprite> sprites = new List<Sprite>();
         public Color32 tint;
 
@@ -26,6 +30,8 @@ namespace TurboLabz.Chess
 
         public Sprite GetSprite(string key)
         {
+            key += "_" + skinName;
+
             foreach (Sprite sprite in sprites)
             {
                 if (sprite.name == key)
@@ -59,7 +65,7 @@ namespace TurboLabz.Chess
             }
 
             string[] files = Directory.GetFiles(sourceSkinPath , "*.png");
-            string skinName = Path.GetFileName(sourceSkinPath);
+            skinName = Path.GetFileName(sourceSkinPath);
             string spritePathPrefx = SKINS_PATH + skinName + Path.DirectorySeparatorChar;
 
             foreach(string filePath in files)

@@ -9,8 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f291f6f9ab5c4b32b9e1d83aba872d8, type: 3}
-  m_Name: Wood
+  m_Name: SkinWood
   m_EditorClassIdentifier: 
+  skinName: SkinWood
   sprites:
   - {fileID: 21300000, guid: 761498abc8ae445378f611ac8df06f4c, type: 3}
   - {fileID: 21300000, guid: f65cd5dd6a34b428cad95363c6347bb3, type: 3}
@@ -37,4 +38,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 28cdd085e1c6c4a199c962f98af754bd, type: 3}
   tint:
     serializedVersion: 2
-    rgba: 13766671
+    rgba: 0
