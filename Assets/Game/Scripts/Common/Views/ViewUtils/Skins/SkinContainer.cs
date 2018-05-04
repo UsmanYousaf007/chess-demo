@@ -17,6 +17,7 @@ namespace TurboLabz.Chess
     public class SkinContainer : ScriptableObject 
     {
         public const string SPRITE_BACKGROUND = "background";
+        public const string PROMO_BG = "promoBg";
 
         public string skinName = "unassigned";
         public List<Sprite> sprites = new List<Sprite>();

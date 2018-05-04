@@ -38,6 +38,8 @@ namespace TurboLabz.Chess
         public GameObject dragInvalidIndicator;
         public GameObject hintFromIndicator;
         public GameObject hintToIndicator;
+        public Image promoBg;
+        public Image[] promoPieces;
         public Camera chessboardCamera;
 
         // Unique skinnable objects for each game mode UI
@@ -63,10 +65,16 @@ namespace TurboLabz.Chess
             currentSkinId = skinId;
             SkinContainer container = SkinContainer.LoadSkin(skinId);
             background.sprite = container.GetSprite(SkinContainer.SPRITE_BACKGROUND);
+            promoBg.sprite = container.GetSprite(SkinContainer.PROMO_BG);
 
             foreach (GameObject piece in pieces)
             {
                 piece.GetComponent<SpriteRenderer>().sprite = container.GetSprite(piece.name);
+            }
+
+            foreach (Image promoPiece in promoPieces)
+            {
+                promoPiece.sprite = container.GetSprite(promoPiece.name);
             }
 
             foreach (GameObject capturedPiece in cpuCapturedPieces)
