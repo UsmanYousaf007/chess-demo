@@ -41,9 +41,9 @@ namespace TurboLabz.InstantChess
         private readonly Color redColor = new Color(0.82f, 0.18f, 0.18f);
         private readonly Color yellowColor = new Color(0.98f, 0.66f, 0.15f);
         private readonly Color greenColor = new Color(0.04f, 0.6f, 0.4f);
-        private readonly Color labelEnabledColor = new Color(1f, 1f, 1f);
-        private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.12f);
-        private readonly Color imageDisabledColor = new Color(0.17f, 0.22f, 0.24f);
+        private readonly Color labelEnabledColor = new Color(1f, 1f, 1f, 1f);
+        private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.6f);
+        private readonly Color imageDisabledColor = new Color(0.49f, 0.49f, 0.49f);
         private const double clockEmergencyThresholdSeconds = 10;
 
         public void InitClock()
