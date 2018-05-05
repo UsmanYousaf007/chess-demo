@@ -120,8 +120,7 @@ namespace TurboLabz.InstantChess
             pieceTransform.position = refs.chessboardSquares[toSquareIndex].position;
 
             // Hide the check indicators
-            refs.blackKingCheckIndicator.SetActive(false);
-            refs.whiteKingCheckIndicator.SetActive(false);
+            refs.kingCheckIndicator.SetActive(false);
 
             // Handle remaining visual updates
             UpdatePiecesPostMove(moveVO, true);
@@ -188,8 +187,7 @@ namespace TurboLabz.InstantChess
             ShowOpponentFromIndicator(moveVO.fromSquare);
 
             // Hide the check indicators
-            refs.blackKingCheckIndicator.SetActive(false);
-            refs.whiteKingCheckIndicator.SetActive(false);
+            refs.kingCheckIndicator.SetActive(false);
 
             // Animate the piece movement and update the piece image array upon completion
             Transform pieceTransform = chessboardPieces[fromSquareIndex].transform;
@@ -476,8 +474,7 @@ namespace TurboLabz.InstantChess
             refs.playerToIndicator.SetActive(false);
             refs.opponentFromIndicator.SetActive(false);
             refs.opponentToIndicator.SetActive(false);
-            refs.whiteKingCheckIndicator.SetActive(false);
-            refs.blackKingCheckIndicator.SetActive(false);
+            refs.kingCheckIndicator.SetActive(false);
 
             InitClickAndDrag();
             HidePossibleMoves();
@@ -497,8 +494,7 @@ namespace TurboLabz.InstantChess
 
         private void UpdateKingCheckIndicator(MoveVO vo, bool isResume)
         {
-            refs.blackKingCheckIndicator.SetActive(false);
-            refs.whiteKingCheckIndicator.SetActive(false);
+            refs.kingCheckIndicator.SetActive(false);
 
             ChessColor checkedColor;
 
@@ -515,22 +511,13 @@ namespace TurboLabz.InstantChess
                 return;
             }
 
-            int kingSquareIndex;
-            GameObject checkIndicator;
+            int kingSquareIndex = (checkedColor == ChessColor.BLACK) ? 
+                Array.IndexOf(chessboardPieces, blackKing) : 
+                Array.IndexOf(chessboardPieces, whiteKing);
 
-            if (checkedColor == ChessColor.BLACK)
-            {
-                kingSquareIndex = Array.IndexOf(chessboardPieces, blackKing);
-                checkIndicator = refs.blackKingCheckIndicator;
-            }
-            else
-            {
-                kingSquareIndex = Array.IndexOf(chessboardPieces, whiteKing);
-                checkIndicator = refs.whiteKingCheckIndicator;
-            }
-
-            checkIndicator.SetActive(true);
-            checkIndicator.transform.position = refs.chessboardSquares[kingSquareIndex].position;
+            GameObject kingCheckIndicator = refs.kingCheckIndicator;
+            kingCheckIndicator.SetActive(true);
+            kingCheckIndicator.transform.position = refs.chessboardSquares[kingSquareIndex].position;
 
             if (vo.isPlayerInCheck && !isResume)
             {

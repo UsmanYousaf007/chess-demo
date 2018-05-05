@@ -24,8 +24,7 @@ namespace TurboLabz.Chess
         public Transform[] chessboardSquares;
         public GameObject[] pieces;
         public GameObject[] possibleMoveIndicators;
-        public GameObject whiteKingCheckIndicator;
-        public GameObject blackKingCheckIndicator;
+        public GameObject kingCheckIndicator;
         public GameObject playerFromIndicator;
         public GameObject playerToIndicator;
         public GameObject opponentFromIndicator;

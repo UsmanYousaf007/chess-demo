@@ -58,6 +58,7 @@ namespace TurboLabz.InstantChess
 
         public void Init()
         {
+            /*
             backButton.onClick.AddListener(OnBackButtonClicked);
             strengthDecButton.onClick.AddListener(OnStrengthDecButtonClicked);
             strengthIncButton.onClick.AddListener(OnStrengthIncButtonClicked);
@@ -71,6 +72,7 @@ namespace TurboLabz.InstantChess
             for (int i = 0; i < lossLabels.Length; i++) lossLabels[i].text = L;
             string D = localizationService.Get(LocalizationKey.STATS_D);
             for (int i = 0; i < drawLabels.Length; i++) drawLabels[i].text = D;
+            */
         }
 
         public void CleanUp()
