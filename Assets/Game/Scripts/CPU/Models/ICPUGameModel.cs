@@ -22,7 +22,6 @@ namespace TurboLabz.InstantChess
         int playerColorIndex { get; set; }
         string devFen { get; set; }
         int totalGames { get; set; }
-        bool showAd { get; set; }
         string levelId { get; }
         bool isResuming { get; set; }
 

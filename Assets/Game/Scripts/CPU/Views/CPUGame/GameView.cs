@@ -39,8 +39,6 @@ namespace TurboLabz.InstantChess
         private bool hintButtonWasActive;
         private bool menuButtonWasActive;
 
-        private bool showAd;
-
         public void Show()
         {
             gameObject.SetActive(true);

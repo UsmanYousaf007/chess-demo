@@ -16,8 +16,8 @@ namespace TurboLabz.InstantChess
     public class SaveKeys
     {
         // FILENAME
-        public const string CPU_SAVE_FILENAME = "cpuSave";
-        public const string STATS_SAVE_FILENAME = "statsSave";
+        public const string CPU_SAVE_FILENAME = "cpuSave1";
+        public const string STATS_SAVE_FILENAME = "statsSave1";
 
         // CPU MENU MODEL
         public const string CPU_STRENGTH = "cpuStrength";

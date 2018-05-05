@@ -24,15 +24,7 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.cpuGameModel.showAd)
-                {
-                    cmd.showAdSignal.Dispatch();
-                }
-                else
-                {
-                    cmd.loadGameSignal.Dispatch();
-                }
-
+                cmd.loadGameSignal.Dispatch(); 
                 return null;
             }
             else if (evt == NavigatorEvent.SHOW_MENU)
@@ -42,10 +34,6 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_STATS)
             {
                 return new NSStats();
-            }
-            else if (evt == NavigatorEvent.SHOW_AD)
-            {
-                return new NSAdCover();
             }
 
             return null;

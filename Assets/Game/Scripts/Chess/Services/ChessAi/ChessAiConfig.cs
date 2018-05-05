@@ -24,11 +24,11 @@ namespace TurboLabz.Chess
         //public const string SF_HASH = "128"; // This is a value in MB and it may improve performance as you increase it (testing pending)
 
 
-        // Duration thresholds
+        // Duration difficulty thresholds
         public const double DURATION_FAST_MINS = 1;
-        public const double DURATION_MEDIUM_MINS = 20;
-        public const float FAST_GIMP = 1f;
-        public const float MEDIUM_GIMP = 1f;
+        public const double DURATION_MEDIUM_MINS = 10;
+        public const float FAST_GIMP = 0.5f;
+        public const float MEDIUM_GIMP = 0.8f;
 
         // Search depth is key to making stockfish smarter
         public const int SF_MIN_SEARCH_DEPTH = 0; 

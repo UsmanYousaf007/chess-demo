@@ -89,14 +89,8 @@ namespace TurboLabz.InstantChess
             // Set the undo button's default state
             cmd.disableUndoButtonSignal.Dispatch();
 
-            // Decide whether to show ads after this game is completed
-            cmd.cpuGameModel.showAd = (cmd.cpuGameModel.totalGames % CPUSettings.AD_FREQUENCY == 0)
-                && cmd.cpuGameModel.totalGames > 0
-                && cmd.adsService.isAdAvailable;
-            
             // Update the game info
             GameInfoVO gameInfoVO = new GameInfoVO();
-            gameInfoVO.showAd = cmd.cpuGameModel.showAd;
             gameInfoVO.cpuStrength = cmd.cpuGameModel.cpuStrength;
             cmd.updateGameInfoSignal.Dispatch(gameInfoVO);
 

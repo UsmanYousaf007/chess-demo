@@ -33,9 +33,7 @@ namespace TurboLabz.InstantChess
         {
             if (adsService.isAdAvailable)
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_AD);
                 adsService.ShowAd().Then(OnShowAd);
-
                 analyticsService.AdStart(false, UnityAdsPlacementId.VIDEO);
             }
             else
