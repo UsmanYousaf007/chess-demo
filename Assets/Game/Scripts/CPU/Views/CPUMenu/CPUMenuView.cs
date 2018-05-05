@@ -40,6 +40,7 @@ namespace TurboLabz.InstantChess
         public Text durationLabel;
         public Button decDurationButton;
         public Text currentDurationLabel;
+        public GameObject infinityIcon;
         public Button incDurationButton;
 
         public Text playerColorLabel;
@@ -157,9 +158,18 @@ namespace TurboLabz.InstantChess
         {
             int duration = vo.durationMinutes[vo.selectedDurationIndex];
 
-            currentDurationLabel.text = (duration == 0) ? 
-                localizationService.Get(LocalizationKey.CPU_MENU_DURATION_NONE)
-                : localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
+            if (duration == 0)
+            {
+                infinityIcon.SetActive(true);
+                currentDurationLabel.gameObject.SetActive(false);
+            }
+            else
+            {
+                infinityIcon.SetActive(false);
+                currentDurationLabel.gameObject.SetActive(true);
+                currentDurationLabel.text = 
+                    localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
+            }
 
             if (vo.selectedDurationIndex == 0)
             {
