@@ -83,6 +83,7 @@ namespace TurboLabz.InstantChess
             if (viewId == NavigatorViewId.MENU)
             {
                 view.Hide();
+                saveGameSignal.Dispatch();
             }
         }
 
