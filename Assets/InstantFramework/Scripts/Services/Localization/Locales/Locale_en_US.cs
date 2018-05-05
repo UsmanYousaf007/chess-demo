@@ -61,11 +61,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty {0}" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
 
-                { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN" },
+                { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN GAME" },
                 { LocalizationKey.CPU_GAME_UNDO_BUTTON, "UNDO" },
                 { LocalizationKey.CPU_GAME_HINT_BUTTON, "GET HINT" },
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
-                { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "CONTINUE" },
+                { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },
                 { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "VIEW STATS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO MENU" },
 
