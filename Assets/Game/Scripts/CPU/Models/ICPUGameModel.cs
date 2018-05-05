@@ -24,6 +24,7 @@ namespace TurboLabz.InstantChess
         int totalGames { get; set; }
         bool showAd { get; set; }
         string levelId { get; }
+        bool isResuming { get; set; }
 
         void Reset();
         CPUMenuVO GetCPUMenuVO();

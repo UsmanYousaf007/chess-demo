@@ -22,6 +22,7 @@ namespace TurboLabz.InstantChess
         public string devFen { get; set; }
         public int totalGames { get; set; }
         public bool showAd { get; set; }
+        public bool isResuming { get; set; }
 
         public string levelId
         {
@@ -47,6 +48,7 @@ namespace TurboLabz.InstantChess
             devFen = "";
             totalGames = 0;
             showAd = false;
+            isResuming = false;
         }
 
         public CPUMenuVO GetCPUMenuVO()
