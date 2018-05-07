@@ -24,6 +24,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IShareService shareService { get; set; }
 
+		// Models
+		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+
         public override void Execute()
         {
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -34,6 +37,8 @@ namespace TurboLabz.InstantFramework
         
             audioService.Init();
             shareService.Init();
+
+			storeSettingsModel.Load();
         }
     }
 }

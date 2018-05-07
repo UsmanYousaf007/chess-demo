@@ -56,6 +56,9 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
 
+			// Bind signals to models data loader commands
+			commandBinder.Bind<StoreSettingsDataLoadSignal>().To<StoreSettingsData>();
+
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
@@ -88,6 +91,7 @@ namespace TurboLabz.InstantFramework
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
+			injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
 
             MapGameBindings();
         }
