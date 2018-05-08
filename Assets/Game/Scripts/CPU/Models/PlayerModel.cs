@@ -18,6 +18,14 @@ namespace TurboLabz.InstantChess
         public string id { get; set; }
         public string activeSkinId { get; set; }
 
+        [PostConstruct]
+        void Load()
+        {
+            Reset();
+
+            // TODO: load from the saved file here.
+        }
+
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;

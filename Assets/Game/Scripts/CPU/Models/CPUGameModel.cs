@@ -31,7 +31,6 @@ namespace TurboLabz.InstantChess
             }
         }
 
-
         [PostConstruct]
         public void LoadDefault()
         {

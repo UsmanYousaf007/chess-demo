@@ -36,6 +36,7 @@ namespace TurboLabz.InstantChess
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
 
+            /*
             CPUStatsVO vo = new CPUStatsVO();
             vo.maxStrength = CPUSettings.MAX_STRENGTH;
             vo.durationMinutes = CPUSettings.DURATION_MINUTES;
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantChess
             vo.stats = statsModel.stats;
 
             updateStatsSignal.Dispatch(vo);
+            */
         }
     }
 }

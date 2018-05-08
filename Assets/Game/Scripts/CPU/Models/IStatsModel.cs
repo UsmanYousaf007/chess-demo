@@ -17,6 +17,7 @@ namespace TurboLabz.InstantChess
     public interface IStatsModel
     {
         Dictionary<int, PerformanceSet> stats { get; set; }
+        void Save(int durationIndex, int difficulty, int result);
         void Reset();
     }
 }

@@ -51,7 +51,6 @@ namespace TurboLabz.InstantChess
 
         public void Init()
         {
-            /*
             titleLabel.text = localizationService.Get(LocalizationKey.STATS_TITLE);
             difficultyLabel.text = localizationService.Get(LocalizationKey.STATS_DIFFICULTY);
 
@@ -67,11 +66,9 @@ namespace TurboLabz.InstantChess
 
             infinityIcon.SetActive(false);
 
-
             durationDecButton.onClick.AddListener(OnDurationDecButtonClicked);
             durationIncButton.onClick.AddListener(OnDurationIncButtonClicked);
             backButton.onClick.AddListener(OnBackButtonClicked);
-            */
         }
 
         public void UpdateView(CPUStatsVO vo)

@@ -78,6 +78,7 @@ namespace TurboLabz.InstantChess
                 chessboardModel.playerColor = reader.Read<ChessColor>(SaveKeys.PLAYER_COLOR);
                 chessboardModel.opponentColor = reader.Read<ChessColor>(SaveKeys.OPPONENT_COLOR);
                 chessboardModel.availableHints = reader.Read<int>(SaveKeys.AVAILABLE_HINTS);
+                chessboardModel.usedHelp = reader.Read<bool>(SaveKeys.USED_HELP);
 
                 List<string> moveList = reader.ReadList<string>(SaveKeys.MOVE_LIST);
                 chessboardModel.moveList = new List<ChessMove>();
@@ -112,7 +113,6 @@ namespace TurboLabz.InstantChess
 
         private void ResetAll()
         {
-            playerModel.Reset();
             chessboardModel.Reset();
             cpuGameModel.Reset();
             cpuGameModel.inProgress = false;

@@ -58,6 +58,7 @@ namespace TurboLabz.InstantChess
                 writer.Write<ChessColor>(SaveKeys.PLAYER_COLOR, chessboardModel.playerColor);
                 writer.Write<ChessColor>(SaveKeys.OPPONENT_COLOR, chessboardModel.opponentColor);
                 writer.Write<int>(SaveKeys.AVAILABLE_HINTS, chessboardModel.availableHints);
+                writer.Write<bool>(SaveKeys.USED_HELP, chessboardModel.usedHelp);
 
                 List<string> moveListJson = new List<string>();
 

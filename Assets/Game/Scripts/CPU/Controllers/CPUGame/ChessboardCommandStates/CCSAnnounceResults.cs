@@ -62,21 +62,29 @@ namespace TurboLabz.InstantChess
                 isDraw = true;
             }
 
-            StatResult statResult;
+            int statResult = StatResult.NONE;
 
             if (playerWins)
             {
-                statResult = StatResult.WON;
+                if (cmd.chessboardModel.usedHelp)
+                {
+                    statResult = StatResult.SILVER;
+                }
+                else
+                {
+                    statResult = StatResult.GOLD;
+                }
+
                 cmd.analyticsService.LevelComplete(cmd.cpuGameModel.levelId, gameEndReason.ToString());
             }
             else if (isDraw)
             {
-                statResult = StatResult.DRAWN;
+                statResult = StatResult.NONE;
                 cmd.analyticsService.LevelFail(cmd.cpuGameModel.levelId, gameEndReason.ToString());
             }
             else
             {
-                statResult = StatResult.LOST;
+                statResult = StatResult.NONE;
 
                 if (gameEndReason == GameEndReason.RESIGNATION)
                 {
@@ -88,11 +96,7 @@ namespace TurboLabz.InstantChess
                 }
             }
 
-            CPUStatsResultsVO vo;
-            vo.durationIndex = cmd.cpuGameModel.durationIndex;
-            vo.strength = cmd.cpuGameModel.cpuStrength;
-            vo.result = statResult;
-            cmd.saveStatsSignal.Dispatch(vo);
+            cmd.saveStatsSignal.Dispatch(statResult);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)
