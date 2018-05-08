@@ -57,6 +57,7 @@ namespace TurboLabz.InstantChess
         float defaultMoveDelay { get; set; }
         int availableHints { get; set; }
         bool usedHelp { get; set; }
+        bool isUndo { get; set; }
 
         void Reset();
     }

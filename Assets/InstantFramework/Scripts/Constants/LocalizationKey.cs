@@ -82,6 +82,7 @@ namespace TurboLabz.InstantFramework
         public const string STATS_WON_WITH_HELP = "statsWonWithHelp";
         public const string STATS_WON_WITH_HELP_EXPLAINER = "statsWonWithHelpExplainer";
         public const string STATS_DURATION = "statsDuration";
+        public const string STATS_DURATION_TIME = "statsDurationTime";
 
         #endregion
 

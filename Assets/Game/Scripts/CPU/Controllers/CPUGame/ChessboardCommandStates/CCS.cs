@@ -46,7 +46,7 @@ namespace TurboLabz.InstantChess
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
 
             // If resuming, show the resume menu
-            if (cmd.cpuGameModel.isResuming)
+            if (cmd.cpuGameModel.isResuming && !cmd.chessboardModel.isUndo)
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
             }

@@ -36,15 +36,13 @@ namespace TurboLabz.InstantChess
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
 
-            /*
             CPUStatsVO vo = new CPUStatsVO();
-            vo.maxStrength = CPUSettings.MAX_STRENGTH;
+            vo.selectedDurationIndex = cpuGameModel.durationIndex;
             vo.durationMinutes = CPUSettings.DURATION_MINUTES;
-            vo.selectedStrengthIndex = cpuGameModel.cpuStrength - 1;
             vo.stats = statsModel.stats;
 
+
             updateStatsSignal.Dispatch(vo);
-            */
         }
     }
 }

@@ -30,6 +30,7 @@ namespace TurboLabz.InstantChess
          
             if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
             {
+                LogUtil.Log("No stats file found.", "cyan");
                 return;
             }
 
@@ -93,6 +94,7 @@ namespace TurboLabz.InstantChess
             {
                 // Create default performance set
                 PerformanceSet pset = new PerformanceSet();
+                pset.performance = new List<int>();
 
                 for (int j = 0; j < CPUSettings.MAX_STRENGTH; j++)
                 {

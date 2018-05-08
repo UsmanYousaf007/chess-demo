@@ -73,7 +73,26 @@ namespace TurboLabz.InstantChess
 
         public void UpdateView(CPUStatsVO vo)
         {
-            
+            durationCurrentLabel.text = localizationService.Get(
+                LocalizationKey.STATS_DURATION_TIME, vo.durationMinutes[vo.selectedDurationIndex]
+            );
+
+            foreach(int mins in vo.durationMinutes)
+            {
+                LogUtil.Log("Mins:" + mins, "cyan");
+            }
+
+            LogUtil.Log("Selected duration index=" + vo.selectedDurationIndex, "cyan");
+
+            foreach(KeyValuePair<int, PerformanceSet> entry in vo.stats)
+            {
+                LogUtil.Log("Duration = " + entry.Key, "cyan");
+
+                for (int i = 0; i < entry.Value.performance.Count; i++)
+                {
+                    LogUtil.Log("Difficulty = " + i + " Performance = " + entry.Value.performance[i], "cyan");
+                }
+            }
         }
 
         public void OnDurationDecButtonClicked()
