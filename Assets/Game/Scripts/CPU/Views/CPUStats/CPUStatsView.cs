@@ -46,6 +46,7 @@ namespace TurboLabz.InstantChess
         // View signals
         public Signal backButtonClickedSignal = new Signal();
 
+        private int[] durationMinutes;
         private int selectedDurationIndex;
         private Dictionary<int, int> stats;
 
@@ -73,9 +74,9 @@ namespace TurboLabz.InstantChess
 
         public void UpdateView(CPUStatsVO vo)
         {
-            durationCurrentLabel.text = localizationService.Get(
-                LocalizationKey.STATS_DURATION_TIME, vo.durationMinutes[vo.selectedDurationIndex]
-            );
+            selectedDurationIndex = vo.selectedDurationIndex;
+            durationMinutes = vo.durationMinutes;
+
 
             foreach(int mins in vo.durationMinutes)
             {
@@ -93,14 +94,8 @@ namespace TurboLabz.InstantChess
                     LogUtil.Log("Difficulty = " + i + " Performance = " + entry.Value.performance[i], "cyan");
                 }
             }
-        }
 
-        public void OnDurationDecButtonClicked()
-        {
-        }
-
-        public void OnDurationIncButtonClicked()
-        {
+            UpdateStats();
         }
 
         public void CleanUp()
@@ -120,51 +115,63 @@ namespace TurboLabz.InstantChess
             gameObject.SetActive(false); 
         }
 
-        private void UpdateStats()
+        void UpdateStats()
         {
-
-        }
-        /*
-        public void UpdateDuration(CPUMenuVO vo)
-        {
-            int duration = vo.durationMinutes[vo.selectedDurationIndex];
-
-            if (duration == 0)
+            if (selectedDurationIndex == 0)
             {
+                durationCurrentLabel.gameObject.SetActive(false);
                 infinityIcon.SetActive(true);
-                currentDurationLabel.gameObject.SetActive(false);
             }
             else
             {
+                durationCurrentLabel.text = localizationService.Get(
+                    LocalizationKey.STATS_DURATION_TIME, durationMinutes[selectedDurationIndex]
+                );
+
+                durationCurrentLabel.gameObject.SetActive(true);
                 infinityIcon.SetActive(false);
-                currentDurationLabel.gameObject.SetActive(true);
-                currentDurationLabel.text = 
-                    localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
             }
 
-            if (vo.selectedDurationIndex == 0)
+            durationDecButton.interactable = true;
+            durationIncButton.interactable = true;
+
+            if (selectedDurationIndex == 0)
             {
-                decDurationButton.interactable = false;
-                incDurationButton.interactable = true;
+                durationDecButton.interactable = false;
             }
-            else if (vo.selectedDurationIndex == (vo.durationMinutes.Length - 1))
+            else if (selectedDurationIndex == durationMinutes.Length - 1)
             {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = false;
-            }
-            else
-            {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = true;
+                durationIncButton.interactable = false;
             }
         }
-        */
+
+        void OnDurationDecButtonClicked()
+        {
+            if (selectedDurationIndex > 0)
+            {
+                selectedDurationIndex--;
+            }
+
+            UpdateStats();
+        }
+
+        void OnDurationIncButtonClicked()
+        {
+            if (selectedDurationIndex < durationMinutes.Length - 1)
+            {
+                selectedDurationIndex++;
+            }
+
+            UpdateStats();
+        }
+
+       
+
+
 
         private void OnBackButtonClicked()
         {
             backButtonClickedSignal.Dispatch();
         }
-
-
     }
 }
