@@ -74,13 +74,12 @@ namespace TurboLabz.InstantFramework
                 #region Stats
 
                 { LocalizationKey.STATS_TITLE, "Stats" },
-                { LocalizationKey.STATS_CURRENT_STRENGTH, "Difficulty" },
+                { LocalizationKey.STATS_DIFFICULTY, "Difficulty Level" },
                 { LocalizationKey.STATS_TOTAL_GAMES, "Total Games" },
-                { LocalizationKey.STATS_W, "Victories" },
-                { LocalizationKey.STATS_L, "Defeats" },
-                { LocalizationKey.STATS_D, "Draws" },
-                { LocalizationKey.STATS_DURATION, "{0} m" },
-                { LocalizationKey.STATS_PCT, "{0}%" },
+                { LocalizationKey.STATS_WON, "Won" },
+                { LocalizationKey.STATS_WON_WITH_HELP, "Won" },
+                { LocalizationKey.STATS_WON_WITH_HELP_EXPLAINER, "With Undos | Hints" },
+                { LocalizationKey.STATS_DURATION, "Duration" },
 
                 #endregion
 

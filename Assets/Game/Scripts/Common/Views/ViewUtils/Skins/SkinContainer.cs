@@ -8,9 +8,12 @@
 /// @date 2018-02-15 18:04:52 UTC+05:00
 
 using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace TurboLabz.Chess
 {
