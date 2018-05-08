@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         SPLASH,
         MENU,
         STATS,
+		STORE,
         PLAY,
         EXIT_DLG,
         RESULTS_DLG,

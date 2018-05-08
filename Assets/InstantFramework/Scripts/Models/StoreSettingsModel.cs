@@ -23,27 +23,27 @@ namespace TurboLabz.InstantFramework
 			storeSettingsDataLoadSignal.Dispatch();
 		}
 
-        public void Reset()
+        private void Reset()
         {
             lists = null;
             items = null;
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             lists = new Dictionary<string, List<StoreItem>>();
             items = new OrderedDictionary<string, StoreItem>();
         }
 
-        public List<string> getProductIds ()
+		public List<string> getRemoteProductIds()
         { 
             List<string> ids = new List<string> ();
 
             foreach (KeyValuePair<string, StoreItem> item in items) 
 			{
-                if (item.Value.storeProductId != null) 
+                if (item.Value.remoteProductId != null) 
 				{
-                    ids.Add(item.Value.storeProductId);
+                    ids.Add(item.Value.remoteProductId);
 				}
 			}
 			return ids;			
@@ -76,7 +76,7 @@ namespace TurboLabz.InstantFramework
         public int currency2Cost;           // Cost in currency2
 		public int currency1Payout;			// Payout in currency1
 		public int currency2Payout;			// Payout in currency2
-        public string storeProductId;       // Remote store product id
+        public string remoteProductId;      // Remote store product id
 
 		public enum State
 		{
@@ -104,6 +104,7 @@ namespace TurboLabz.InstantFramework
 			currency2Cost = 0;
 			currency1Payout = 0;
 			currency2Payout = 0;
+			remoteProductId = null;
 		}
 	}
 }

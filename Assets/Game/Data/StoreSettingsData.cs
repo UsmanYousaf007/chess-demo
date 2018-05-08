@@ -14,12 +14,12 @@ namespace TurboLabz.Chess
 	public class StoreSettingsData : Command
 	{
 		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
-			
+
 		public override void Execute()
 		{
 			OrderedDictionary<string, StoreItem> skinItems = new OrderedDictionary<string, StoreItem>()
 			{
-				{"SkinDefault", new StoreItem {key = "SkinDefault", kind = "Skin", displayName = "Army", currency2Cost = 500} },
+				{"SkinDefault", new StoreItem {key = "SkinDefault", kind = "Skin", displayName = "Basic", currency2Cost = 500} },
 				{"SkinOcean", new StoreItem {key = "SkinOcean", kind = "Skin", displayName = "Army", currency2Cost = 500} }
 			};
 
@@ -27,4 +27,3 @@ namespace TurboLabz.Chess
 		}
 	}
 }
-

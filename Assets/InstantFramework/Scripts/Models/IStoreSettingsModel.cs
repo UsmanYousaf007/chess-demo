@@ -13,12 +13,9 @@ namespace TurboLabz.InstantFramework
 		IOrderedDictionary<string, StoreItem> items { get; set; }		// All items dictionary
         IDictionary<string, List<StoreItem>> lists { get; set; }		// Categorized lists of items by kind
 
-		void Reset();
-		void Initialize();
 		void Load();
 		void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems);
-		List<string> getProductIds();
-
+		List<string> getRemoteProductIds();
 	}
 }
 
