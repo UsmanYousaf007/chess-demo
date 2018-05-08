@@ -73,7 +73,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Stats
 
-                { LocalizationKey.STATS_TITLE, "Stats" },
+                { LocalizationKey.STATS_TITLE, "Achievements" },
                 { LocalizationKey.STATS_DIFFICULTY, "Difficulty Level" },
                 { LocalizationKey.STATS_TOTAL_GAMES, "Total Games" },
                 { LocalizationKey.STATS_WON, "Won" },

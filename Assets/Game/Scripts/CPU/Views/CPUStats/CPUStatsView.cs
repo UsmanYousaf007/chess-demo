@@ -48,7 +48,7 @@ namespace TurboLabz.InstantChess
 
         private int[] durationMinutes;
         private int selectedDurationIndex;
-        private Dictionary<int, int> stats;
+        private Dictionary<int, PerformanceSet> stats;
 
         public void Init()
         {
@@ -76,24 +76,7 @@ namespace TurboLabz.InstantChess
         {
             selectedDurationIndex = vo.selectedDurationIndex;
             durationMinutes = vo.durationMinutes;
-
-
-            foreach(int mins in vo.durationMinutes)
-            {
-                LogUtil.Log("Mins:" + mins, "cyan");
-            }
-
-            LogUtil.Log("Selected duration index=" + vo.selectedDurationIndex, "cyan");
-
-            foreach(KeyValuePair<int, PerformanceSet> entry in vo.stats)
-            {
-                LogUtil.Log("Duration = " + entry.Key, "cyan");
-
-                for (int i = 0; i < entry.Value.performance.Count; i++)
-                {
-                    LogUtil.Log("Difficulty = " + i + " Performance = " + entry.Value.performance[i], "cyan");
-                }
-            }
+            stats = vo.stats;
 
             UpdateStats();
         }
@@ -115,7 +98,59 @@ namespace TurboLabz.InstantChess
             gameObject.SetActive(false); 
         }
 
+        void OnDurationDecButtonClicked()
+        {
+            if (selectedDurationIndex > 0)
+            {
+                selectedDurationIndex--;
+            }
+
+            UpdateStats();
+        }
+
+        void OnDurationIncButtonClicked()
+        {
+            if (selectedDurationIndex < durationMinutes.Length - 1)
+            {
+                selectedDurationIndex++;
+            }
+
+            UpdateStats();
+        }
+
+        void OnBackButtonClicked()
+        {
+            backButtonClickedSignal.Dispatch();
+        }
+
         void UpdateStats()
+        {
+            UpdateStars();
+            UpdateDuration();
+        }
+
+        void UpdateStars()
+        {
+            List<int> pset = stats[selectedDurationIndex].performance;
+
+            for (int i = 0; i < pset.Count; i++)
+            {
+                if (pset[i] == 1)
+                {
+                    stars[i].sprite = silverStar;
+                }
+                else if (pset[i] == 2)
+                {
+                    stars[i].sprite = goldStar;
+                }
+                else
+                {
+                    stars[i].sprite = noStar;
+                }
+            }
+        }
+
+        void UpdateDuration()
         {
             if (selectedDurationIndex == 0)
             {
@@ -143,35 +178,6 @@ namespace TurboLabz.InstantChess
             {
                 durationIncButton.interactable = false;
             }
-        }
-
-        void OnDurationDecButtonClicked()
-        {
-            if (selectedDurationIndex > 0)
-            {
-                selectedDurationIndex--;
-            }
-
-            UpdateStats();
-        }
-
-        void OnDurationIncButtonClicked()
-        {
-            if (selectedDurationIndex < durationMinutes.Length - 1)
-            {
-                selectedDurationIndex++;
-            }
-
-            UpdateStats();
-        }
-
-       
-
-
-
-        private void OnBackButtonClicked()
-        {
-            backButtonClickedSignal.Dispatch();
         }
     }
 }
