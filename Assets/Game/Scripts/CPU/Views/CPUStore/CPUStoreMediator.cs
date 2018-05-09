@@ -26,6 +26,7 @@ namespace TurboLabz.InstantChess
 			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
 
 			OnRegisterBuy();
+			OnRegisterNotEnoughBucks();
 		}
 
 		public override void OnRemove()
@@ -34,6 +35,7 @@ namespace TurboLabz.InstantChess
 			view.skinItemClickedSignal.RemoveAllListeners ();
 
 			OnRemoveBuy();
+			OnRemoveNotEnoughBucks();
 		}
 
 		[ListensTo(typeof(NavigatorShowViewSignal))]
@@ -65,9 +67,9 @@ namespace TurboLabz.InstantChess
 			loadCPUGameSignal.Dispatch();
 		}
 
-		private void OnSkinItemClicked()
+		private void OnSkinItemClicked(StoreItem item)
 		{
-			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_BUY_DLG);
+			purchaseStoreItemSignal.Dispatch(item.key, false);
 		}
     }
 }

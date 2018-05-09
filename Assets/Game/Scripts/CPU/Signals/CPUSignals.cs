@@ -42,7 +42,9 @@ namespace TurboLabz.InstantChess
 	// CPU STORE
 	public class LoadStoreSignal : Signal {}
 	public class UpdateStoreSignal : Signal<CPUStoreVO> {}
-	public class PurchaseStoreItem : Signal<string> {}
+	public class PurchaseStoreItemSignal : Signal<string, bool> {}
+	public class UpdateStoreBuyDlgSignal : Signal<StoreItem> {}
+	public class UpdateStoreNotEnoughBucksDlgSignal : Signal<StoreItem> {}
 
     // CPU GAME
     public class StartNewGameSignal : Signal {}

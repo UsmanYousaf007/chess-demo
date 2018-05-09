@@ -16,9 +16,13 @@ namespace TurboLabz.InstantChess
 	{
 		// Command Params
 		[Inject] public string key { get; set; }
+		[Inject] public bool clearForPurchase { get; set; }
 
 		// Dispatch Signals
 		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
+		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+		[Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
+		[Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
 
 		// Models
 		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -27,10 +31,52 @@ namespace TurboLabz.InstantChess
 		public override void Execute()
 		{
 			StoreItem item = storeSettingsModel.items[key];
+
+			if (clearForPurchase == true) 
+			{
+				// Case Player is clear to purchase item
+				Purchase(item);
+			} 
+			else if (playerModel.bucks < item.currency2Cost) 
+			{
+				// Case Player does not have enough bucks
+				StoreItem bestBuckPackOffer = GetBestBuckPackOffer (item.currency2Cost);
+				updateStoreNotEnoughBucksDlgSignal.Dispatch(bestBuckPackOffer);
+				navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
+			} 
+			else 
+			{
+				// Case Ask Player for purchase confirmation
+				updateStoreBuyDlgSignal.Dispatch(item);
+				navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_BUY_DLG);
+			}
+		}
+
+		private void Purchase(StoreItem item)
+		{
 			playerModel.bucks -= item.currency2Cost;
 			playerModel.vGoods.Add(key);
 
 			savePlayerSignal.Dispatch();
+		}
+
+		private StoreItem GetBestBuckPackOffer(int price)
+		{
+			List<StoreItem> buckPacks = storeSettingsModel.lists["BuckPack"];
+			int bucks = playerModel.bucks;
+
+			int i = 0;
+			bool found = false;
+			while (!found && i < buckPacks.Count) 
+			{
+				found = (buckPacks[i].currency2Payout + bucks) >= price;
+				if (!found) 
+				{
+					i++;
+				}
+			}
+
+			return (i >= buckPacks.Count) ? buckPacks[buckPacks.Count-1] : buckPacks[i];
 		}
 	}
 }

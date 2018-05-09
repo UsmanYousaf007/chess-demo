@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         SHOW_PROMO_DLG,
         SHOW_STATS,
 		SHOW_STORE,
-		SHOW_BUY_DLG
+		SHOW_BUY_DLG,
+		SHOW_NOT_ENOUGH_DLG
     }
 }

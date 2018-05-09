@@ -13,14 +13,14 @@ namespace TurboLabz.InstantChess
 	{
 		// Dispatch Signals
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-		[Inject] public PurchaseStoreItem purchaseStoreItem { get; set; }
+		[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
 
 		public void OnRegisterBuy()
 		{
 			view.InitBuy();
-
-			view.noButtonClickedSignal.AddListener (OnNoButtonClicked);
-			view.yesButtonClickedSignal.AddListener (OnYesButtonClicked);
+			view.noButtonClickedSignal.AddListener(OnNoButtonClicked);
+			view.yesButtonClickedSignal.AddListener(OnYesButtonClicked);
 		}
 
 		public void OnRemoveBuy()
@@ -38,7 +38,7 @@ namespace TurboLabz.InstantChess
 		}
 
 		[ListensTo(typeof(NavigatorHideViewSignal))]
-		public void OnHideMenuView(NavigatorViewId viewId)
+		public void OnHideBuyView(NavigatorViewId viewId)
 		{
 			if (viewId == NavigatorViewId.BUY_DLG)
 			{
@@ -46,15 +46,21 @@ namespace TurboLabz.InstantChess
 			}
 		}
 
+		[ListensTo(typeof(UpdateStoreBuyDlgSignal))]
+		public void OnUpdateStoreBuyDlg(StoreItem item)
+		{
+			view.UpdateStoreBuyDlg(item);
+		}
+
 		private void OnNoButtonClicked()
 		{
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
 		}
 
-		private void OnYesButtonClicked()
+		private void OnYesButtonClicked(StoreItem item)
 		{
-			purchaseStoreItem.Dispatch(view.activeStoreItem.key);
-			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
+			purchaseStoreItemSignal.Dispatch(item.key, true);
+			loadStoreSignal.Dispatch();
 		}
 	}
 }

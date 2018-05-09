@@ -93,6 +93,10 @@ namespace TurboLabz.InstantFramework
 		public const string CPU_STORE_BUY_NO_BUTTON = "storeBuyNo";
 		public const string CPU_STORE_BUY_FOR = "storeBuyFor";
 
+		public const string CPU_STORE_NOT_ENOUGH_BUCKS_TITLE = "storeNotEnoughBucksTitle";
+		public const string CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING = "storeNotEnoughBucksSubHeading";
+		public const string CPU_STORE_NOT_ENOUGH_BUCKS_BUY = "storeNotEnoughBucksBuy";
+
 		#endregion
 
         #region Share

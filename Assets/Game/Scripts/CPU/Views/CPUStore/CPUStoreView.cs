@@ -23,11 +23,11 @@ namespace TurboLabz.InstantChess
 		public GameObject gallery;
 		public Button backButton;
 
-		public StoreItem activeStoreItem;
-
 		// View signals
 		public Signal backButtonClickedSignal = new Signal();
-		public Signal skinItemClickedSignal = new Signal();
+		public Signal<StoreItem> skinItemClickedSignal = new Signal<StoreItem>();
+
+		List<SkinShopItemPrefab> prefabs = null;
 
         public void Init()
         {
@@ -36,6 +36,11 @@ namespace TurboLabz.InstantChess
 
 		public void UpdateView(CPUStoreVO vo)
 		{
+			if (prefabs == null) 
+			{
+				CreatePrefabs (vo);	
+			}
+
 			PopulateSkins(vo);
 		}
 
@@ -54,15 +59,33 @@ namespace TurboLabz.InstantChess
 			backButtonClickedSignal.Dispatch();
 		}
 
+		private void CreatePrefabs(CPUStoreVO vo)
+		{
+			IStoreSettingsModel storeSettingsModel = vo.storeSettingsModel;
+			SkinShopItemPrefab prefab = Instantiate<SkinShopItemPrefab>(skinShopItemPrefab);
+
+			prefabs = new List<SkinShopItemPrefab>();
+
+			List<StoreItem> list = storeSettingsModel.lists["Skin"];
+			foreach (StoreItem item in list) 
+			{
+				SkinShopItemPrefab skinThumbnail = Object.Instantiate(prefab);
+				skinThumbnail.transform.SetParent(gallery.transform, false);
+				prefabs.Add (skinThumbnail);
+			}
+
+			Destroy(prefab);
+		}
+
 		private void PopulateSkins(CPUStoreVO vo)
 		{
 			IStoreSettingsModel storeSettingsModel = vo.storeSettingsModel;
 
 			List<StoreItem> list = storeSettingsModel.lists["Skin"];
-			foreach (StoreItem item in list) 
+			for (int i = 0; i < list.Count; i++) 
 			{
-				SkinShopItemPrefab skinThumbnail = Instantiate<SkinShopItemPrefab>(skinShopItemPrefab);
-				skinThumbnail.transform.SetParent(gallery.transform, false);
+				SkinShopItemPrefab skinThumbnail = prefabs[i];
+				StoreItem item = list[i];
 
 				skinThumbnail.displayName.text = item.displayName;
 				if (vo.playerModel.ownsVGood (item.key)) 
@@ -80,10 +103,9 @@ namespace TurboLabz.InstantChess
 			}
 		}
 
-		private void OnSkinItemClicked(StoreItem storeItem)
+		private void OnSkinItemClicked(StoreItem item)
 		{
-			activeStoreItem = storeItem;
-			skinItemClickedSignal.Dispatch();
+			skinItemClickedSignal.Dispatch(item);
 		}
     }
 }

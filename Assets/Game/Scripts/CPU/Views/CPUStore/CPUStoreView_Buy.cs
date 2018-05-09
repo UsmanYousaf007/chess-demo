@@ -19,7 +19,7 @@ namespace TurboLabz.InstantChess
 		public Button yesButton;
 		public Button noButton;
 
-		public Signal yesButtonClickedSignal = new Signal();
+		public Signal<StoreItem> yesButtonClickedSignal = new Signal<StoreItem>();
 		public Signal noButtonClickedSignal = new Signal();
 
 		public GameObject uiBlocker;
@@ -31,6 +31,8 @@ namespace TurboLabz.InstantChess
 		public Text itemNameLabel;
 		public Text priceLabel;
 		public Text forLabel;
+
+		private StoreItem buyStoreItem;
 
 		public void InitBuy()
 		{
@@ -49,11 +51,15 @@ namespace TurboLabz.InstantChess
 			noButton.onClick.RemoveAllListeners();
 		}
 
+		public void UpdateStoreBuyDlg(StoreItem item)
+		{
+			buyStoreItem = item;
+			itemNameLabel.text = item.displayName;
+			priceLabel.text = item.currency2Cost.ToString();
+		}
+
 		public void ShowBuy()
 		{
-			itemNameLabel.text = activeStoreItem.displayName;
-			priceLabel.text = activeStoreItem.currency2Cost.ToString();
-
 			uiBlocker.SetActive(true);
 			buyDlg.SetActive(true);
 		}
@@ -74,7 +80,7 @@ namespace TurboLabz.InstantChess
 
 		void OnYesButtonClicked()
 		{
-			yesButtonClickedSignal.Dispatch();
+			yesButtonClickedSignal.Dispatch(buyStoreItem);
 		}
 
 		void OnNoButtonClicked()
