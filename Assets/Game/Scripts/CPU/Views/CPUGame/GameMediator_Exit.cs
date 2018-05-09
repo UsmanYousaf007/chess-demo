@@ -42,6 +42,7 @@ namespace TurboLabz.InstantChess
         {
             if (viewId == NavigatorViewId.EXIT_DLG) 
             {
+                pauseTimersSignal.Dispatch();
                 view.ShowMenu();
             }
         }
@@ -51,6 +52,7 @@ namespace TurboLabz.InstantChess
         {
             if (viewId == NavigatorViewId.EXIT_DLG)
             {
+                resumeTimersSignal.Dispatch();
                 view.HideMenu();
             }
         }

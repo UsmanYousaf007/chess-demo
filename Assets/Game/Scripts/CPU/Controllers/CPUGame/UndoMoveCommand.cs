@@ -43,8 +43,6 @@ namespace TurboLabz.InstantChess
             // Store the fact that we are undoing
             chessboardModel.isUndo = true;
 
-            LogUtil.Log("SET UNDO FLAG");
-
             chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_UNDO);
         }
     }

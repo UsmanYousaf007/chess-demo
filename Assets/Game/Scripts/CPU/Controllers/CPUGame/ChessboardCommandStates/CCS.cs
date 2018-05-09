@@ -45,12 +45,6 @@ namespace TurboLabz.InstantChess
             // Load the game view
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
 
-            // If resuming, show the resume menu
-            if (cmd.cpuGameModel.isResuming && !cmd.chessboardModel.isUndo)
-            {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
-            }
-
             // Initialize and launch our time control if not playing an
             // infinite time game.
             if (cmd.cpuGameModel.durationIndex == 0)
@@ -62,6 +56,12 @@ namespace TurboLabz.InstantChess
                 // We kick off the time control signal here because the game
                 // view needs to be visible for it to function correctly
                 cmd.runTimeControlSignal.Dispatch();
+            }
+
+            // If resuming, show the resume menu
+            if (cmd.cpuGameModel.isResuming && !cmd.chessboardModel.isUndo)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
             }
 
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
