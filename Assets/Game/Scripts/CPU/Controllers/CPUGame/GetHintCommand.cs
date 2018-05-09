@@ -42,6 +42,7 @@ namespace TurboLabz.InstantChess
             Retain();
 
             --chessboardModel.availableHints;
+            chessboardModel.usedHelp = true;
 
             chessAiService.SetPosition(chessService.GetFen());
 

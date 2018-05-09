@@ -56,6 +56,8 @@ namespace TurboLabz.InstantChess
         List<MoveVO> moveVOCache { get; set; }
         float defaultMoveDelay { get; set; }
         int availableHints { get; set; }
+        bool usedHelp { get; set; }
+        bool isUndo { get; set; }
 
         void Reset();
     }

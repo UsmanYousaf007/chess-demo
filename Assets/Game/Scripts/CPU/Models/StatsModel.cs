@@ -27,21 +27,16 @@ namespace TurboLabz.InstantChess
         public void Load()
         {
             Reset();
-            LoadFromFile();
-        }
-
-        public void LoadFromFile()
-        {
+         
             if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
             {
+                LogUtil.Log("No stats file found.", "cyan");
                 return;
             }
 
             try
             {
                 ILocalDataReader reader = localDataService.OpenReader(SaveKeys.STATS_SAVE_FILENAME);
-
-                // STATS MODEL
                 Dictionary<int, string> statsSaveData = reader.ReadDictionary<int, string>(SaveKeys.STATS_DATA);
 
                 foreach (KeyValuePair<int, string> entry in statsSaveData)
@@ -59,6 +54,38 @@ namespace TurboLabz.InstantChess
             }
         }
 
+        public void Save(int durationIndex, int difficulty, int result)
+        {
+            try
+            {
+                ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.STATS_SAVE_FILENAME);
+
+                // TODO: This is hacky where the strength index should be a proper independant index
+                // and not calculated based off the strength value.
+                int strengthIndex = difficulty - 1; 
+                stats[durationIndex].performance[strengthIndex] = result;
+
+                Dictionary<int, string> statsSaveData = new Dictionary<int, string>();
+
+                foreach (KeyValuePair<int, PerformanceSet> entry in stats)
+                {
+                    statsSaveData.Add(entry.Key, JsonUtility.ToJson(entry.Value));
+                }
+
+                writer.WriteDictionary<int, string>(SaveKeys.STATS_DATA, statsSaveData);
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                if (localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
+                {
+                    localDataService.DeleteFile(SaveKeys.STATS_SAVE_FILENAME);
+                }
+
+                LogUtil.Log("Critical error when saving stats. File deleted. " + e, "red");
+            }
+        }
+
         public void Reset()
         {
             stats = new Dictionary<int, PerformanceSet>();
@@ -66,13 +93,13 @@ namespace TurboLabz.InstantChess
             for (int i = 0; i < CPUSettings.DURATION_MINUTES.Length; i++)
             {
                 // Create default performance set
-                PerformanceSet pset;
-                pset.performances = new List<Performance>();
+                PerformanceSet pset = new PerformanceSet();
+                pset.performance = new List<int>();
 
                 for (int j = 0; j < CPUSettings.MAX_STRENGTH; j++)
                 {
                     // Create a default performance
-                    pset.performances.Add(new Performance());
+                    pset.performance.Add(StatResult.NONE);
                 }
 
                 // Save the complete performance list for each duration

@@ -56,6 +56,8 @@ namespace TurboLabz.InstantChess
         public List<MoveVO> moveVOCache { get; set; }
         public float defaultMoveDelay { get; set; }
         public int availableHints { get; set; }
+        public bool usedHelp { get; set; }
+        public bool isUndo { get; set; }
 
         public void Reset()
         {
@@ -95,6 +97,8 @@ namespace TurboLabz.InstantChess
             moveList = new List<ChessMove>();
             moveVOCache = new List<MoveVO>();
             availableHints = CPUSettings.DEFAULT_HINT_COUNT;
+            usedHelp = false;
+            isUndo = false;
         }
     }
 }

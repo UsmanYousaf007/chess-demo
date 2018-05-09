@@ -13,6 +13,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.Chess
 {
@@ -56,6 +57,7 @@ namespace TurboLabz.Chess
 
         public void ApplySkin(string skinId)
         {
+            LogUtil.Log("Applying skin = " + skinId, "cyan");
             if (skinId == currentSkinId)
             {
                 return;

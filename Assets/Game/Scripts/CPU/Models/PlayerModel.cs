@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
@@ -20,7 +21,15 @@ namespace TurboLabz.InstantChess
 		public int bucks { get; set; }
 		public List<string> vGoods { get; set; }
 
-        public void Reset()
+        [PostConstruct]
+        public void Load()
+        {
+            Reset();
+
+            // TODO: load from the saved file here.
+        }
+
+        void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
             activeSkinId = "SkinWood";

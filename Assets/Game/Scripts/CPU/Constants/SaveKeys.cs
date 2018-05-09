@@ -37,6 +37,7 @@ namespace TurboLabz.InstantChess
         public const string OPPONENT_COLOR = "opponentColor";
         public const string MOVE_LIST = "moveList";
         public const string AVAILABLE_HINTS = "availableHints";
+        public const string USED_HELP = "usedHelp";
 
         // STATS MODEL
         public const string STATS_DATA = "statsData";

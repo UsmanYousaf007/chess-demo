@@ -35,9 +35,13 @@ namespace TurboLabz.InstantChess
 
             // Reset the notation stored in the model
             chessboardModel.notation = new List<string>();
+            chessboardModel.usedHelp = true;
 
             // Stop the running timer
             stopTimersSignal.Dispatch();
+
+            // Store the fact that we are undoing
+            chessboardModel.isUndo = true;
 
             chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_UNDO);
         }
