@@ -11,27 +11,29 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
-    public class CPUStoreMediator : Mediator
+    public partial class CPUStoreMediator : Mediator
     {
         // View injection
 		[Inject] public CPUStoreView view { get; set; }
 
 		// Dispatch signals
 		[Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
-		[Inject] public PurchaseStoreItem purchaseStoreItem { get; set; }
 
-        
-		public override void OnRegister()
+ 		public override void OnRegister()
 		{
 			view.Init();
 			view.backButtonClickedSignal.AddListener(OnBackButtonClicked);
 			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
+
+			OnRegisterBuy();
 		}
 
 		public override void OnRemove()
 		{
 			view.backButtonClickedSignal.RemoveAllListeners();
 			view.skinItemClickedSignal.RemoveAllListeners ();
+
+			OnRemoveBuy();
 		}
 
 		[ListensTo(typeof(NavigatorShowViewSignal))]
@@ -63,9 +65,9 @@ namespace TurboLabz.InstantChess
 			loadCPUGameSignal.Dispatch();
 		}
 
-		private void OnSkinItemClicked(string key)
+		private void OnSkinItemClicked()
 		{
-			purchaseStoreItem.Dispatch(key);
+			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_BUY_DLG);
 		}
     }
 }

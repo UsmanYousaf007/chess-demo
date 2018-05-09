@@ -18,6 +18,13 @@ namespace TurboLabz.InstantChess
         // FILENAME
         public const string CPU_SAVE_FILENAME = "cpuSave1";
         public const string STATS_SAVE_FILENAME = "statsSave1";
+		public const string PLAYER_SAVE_FILENAME = "playersSave";
+
+		// PLAYER MODEL
+		public const string PLAYER_BUCKS = "playerBucks";
+		public const string PLAYER_VGOODS = "playerVGoods";
+		public const string PLAYER_ID = "playerId";
+		public const string PLAYER_ACTIVE_SKIN_ID = "activeSkinId";
 
         // CPU MENU MODEL
         public const string CPU_STRENGTH = "cpuStrength";
@@ -26,8 +33,6 @@ namespace TurboLabz.InstantChess
         public const string PLAYER_COLOR_INDEX = "playerColorIndex";
         public const string DEV_FEN = "devFen";
         public const string TOTAL_GAMES = "totalGames";
-		public const string PLAYER_BUCKS = "playerBucks";
-		public const string PLAYER_VGOODS = "playerVGoods";
 
         // CHESSBOARD MODEL
         public const string GAME_DURATION = "gameDuration";

@@ -18,7 +18,7 @@ namespace TurboLabz.InstantChess
 		[Inject] public string key { get; set; }
 
 		// Dispatch Signals
-		[Inject] public SaveGameSignal saveGameSignal { get; set; }
+		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
 
 		// Models
 		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -26,11 +26,11 @@ namespace TurboLabz.InstantChess
 
 		public override void Execute()
 		{
-			StoreItem item = storeSettingsModel.items [key];
+			StoreItem item = storeSettingsModel.items[key];
 			playerModel.bucks -= item.currency2Cost;
 			playerModel.vGoods.Add(key);
 
-			saveGameSignal.Dispatch();
+			savePlayerSignal.Dispatch();
 		}
 	}
 }

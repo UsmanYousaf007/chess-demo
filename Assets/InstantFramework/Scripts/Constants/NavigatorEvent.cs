@@ -18,11 +18,11 @@ namespace TurboLabz.InstantFramework
         SHOW_SPLASH,
         SHOW_MENU,
         SHOW_PLAY,
-        SHOW_LOBBY,
         SHOW_EXIT_DLG,
         SHOW_RESULTS_DLG,
         SHOW_PROMO_DLG,
         SHOW_STATS,
-		SHOW_STORE
+		SHOW_STORE,
+		SHOW_BUY_DLG
     }
 }

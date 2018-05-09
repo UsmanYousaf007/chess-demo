@@ -11,5 +11,6 @@ namespace TurboLabz.InstantChess
 	public struct CPUStoreVO
 	{
 		public IStoreSettingsModel storeSettingsModel;
+		public IPlayerModel playerModel;
 	}
 }

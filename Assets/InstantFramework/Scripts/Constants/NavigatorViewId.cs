@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         EXIT_DLG,
         RESULTS_DLG,
         PROMO_DLG,
-        AD_COVER
+        AD_COVER,
+		BUY_DLG
     }
 }

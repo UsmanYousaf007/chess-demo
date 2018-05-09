@@ -20,6 +20,7 @@ namespace TurboLabz.InstantChess
 
 		// Models
 		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+		[Inject] public IPlayerModel playerModel { get; set; }
 
 		public override void Execute()
 		{
@@ -27,6 +28,7 @@ namespace TurboLabz.InstantChess
 
 			CPUStoreVO vo = new CPUStoreVO();
 			vo.storeSettingsModel = storeSettingsModel;
+			vo.playerModel = playerModel;
 
 			updateStoreSignal.Dispatch(vo);
 		}

@@ -14,5 +14,6 @@ namespace TurboLabz.InstantChess
 		public Text displayName;
 		public Text price;
 		public Button button;
+		public Image bucksIcon;
 	}
 }

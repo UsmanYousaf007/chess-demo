@@ -84,6 +84,15 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
+				#region Store
+
+				{ LocalizationKey.CPU_STORE_BUY_THEME_TITLE, "Buy Theme" },
+				{ LocalizationKey.CPU_STORE_BUY_YES_BUTTON, "YES" },
+				{ LocalizationKey.CPU_STORE_BUY_NO_BUTTON, "NO" },
+				{ LocalizationKey.CPU_STORE_BUY_FOR, "for" },
+
+				#endregion
+
                 #region Share
 
                 { LocalizationKey.SHARE_STANDARD, "Hey, let's play Instant Chess!" },

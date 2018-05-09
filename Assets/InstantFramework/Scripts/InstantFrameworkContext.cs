@@ -111,6 +111,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ResignSignal>().To<ResignCommand>();
             commandBinder.Bind<SaveGameSignal>().To<SaveGameCommand>();
             commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
+			commandBinder.Bind<SavePlayerSignal>().To<SavePlayerCommand>();
             commandBinder.Bind<AiTurnSignal>().To<AiTurnCommand>();
             commandBinder.Bind<ChessboardEventSignal>().To<ChessboardCommand>();
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();

@@ -15,16 +15,19 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantChess
 {
-    public class CPUStoreView : View
+    public partial class CPUStoreView : View
     {
+		[Inject] public ILocalizationService localizationService { get; set; }
+
 		public SkinShopItemPrefab skinShopItemPrefab;
 		public GameObject gallery;
 		public Button backButton;
 
+		public StoreItem activeStoreItem;
+
 		// View signals
 		public Signal backButtonClickedSignal = new Signal();
-		public Signal<string> skinItemClickedSignal = new Signal<string>();
-
+		public Signal skinItemClickedSignal = new Signal();
 
         public void Init()
         {
@@ -62,15 +65,25 @@ namespace TurboLabz.InstantChess
 				skinThumbnail.transform.SetParent(gallery.transform, false);
 
 				skinThumbnail.displayName.text = item.displayName;
-				//skinThumbnail.thumbnail = ;
-				skinThumbnail.price.text = item.currency2Cost.ToString();
-				skinThumbnail.button.onClick.AddListener(() => OnSkinItemClicked(item.key));
+				if (vo.playerModel.ownsVGood (item.key)) 
+				{
+					skinThumbnail.price.text = "Owned";
+					skinThumbnail.bucksIcon.gameObject.SetActive (false);
+				} 
+				else 
+				{
+					skinThumbnail.price.text = item.currency2Cost.ToString();
+					skinThumbnail.bucksIcon.gameObject.SetActive (true);
+				}
+
+				skinThumbnail.button.onClick.AddListener(() => OnSkinItemClicked(item));
 			}
 		}
 
-		private void OnSkinItemClicked(string key)
+		private void OnSkinItemClicked(StoreItem storeItem)
 		{
-			skinItemClickedSignal.Dispatch(key);
+			activeStoreItem = storeItem;
+			skinItemClickedSignal.Dispatch();
 		}
     }
 }
