@@ -38,8 +38,12 @@ namespace TurboLabz.InstantChess
             int durationIndex = cpuGameModel.durationIndex;
             int cpuStrength = cpuGameModel.cpuStrength;
 
+            // LogUtil.Log("NEW STATS RESULT = " + result, "cyan");
+            // LogUtil.Log("CURRENT STATS RESULT = " + statsModel.stats[durationIndex].performance[cpuStrength], "cyan");
+
             if (result > statsModel.stats[durationIndex].performance[cpuStrength])
             {
+                statsModel.stats[durationIndex].performance[cpuStrength] = result;
                 statsModel.Save(durationIndex, cpuStrength, result);
             }
         }
