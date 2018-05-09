@@ -59,47 +59,61 @@ namespace TurboLabz.InstantChess
                 cpuGameModel.playerColorIndex = reader.Read<int>(SaveKeys.PLAYER_COLOR_INDEX);
                 cpuGameModel.inProgress = reader.Read<bool>(SaveKeys.IN_PROGRESS);
 
-                if (!cpuGameModel.inProgress)
+                if (cpuGameModel.inProgress)
                 {
-                    reader.Close();
-                    LoadMenu();
-                    return;
-                }
+	                if (Debug.isDebugBuild)
+	                {
+	                    cpuGameModel.devFen = reader.Read<string>(SaveKeys.DEV_FEN);
+	                }
 
-                if (Debug.isDebugBuild)
-                {
-                    cpuGameModel.devFen = reader.Read<string>(SaveKeys.DEV_FEN);
-                }
+	                // CHESSBOARD MODEL
+	                chessboardModel.gameDuration = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.GAME_DURATION));
+	                chessboardModel.playerTimer = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.PLAYER_TIMER));
+	                chessboardModel.opponentTimer = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.OPPONENT_TIMER));
+	                chessboardModel.playerColor = reader.Read<ChessColor>(SaveKeys.PLAYER_COLOR);
+	                chessboardModel.opponentColor = reader.Read<ChessColor>(SaveKeys.OPPONENT_COLOR);
+	                chessboardModel.availableHints = reader.Read<int>(SaveKeys.AVAILABLE_HINTS);
 
-                // CHESSBOARD MODEL
-                chessboardModel.gameDuration = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.GAME_DURATION));
-                chessboardModel.playerTimer = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.PLAYER_TIMER));
-                chessboardModel.opponentTimer = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.OPPONENT_TIMER));
-                chessboardModel.playerColor = reader.Read<ChessColor>(SaveKeys.PLAYER_COLOR);
-                chessboardModel.opponentColor = reader.Read<ChessColor>(SaveKeys.OPPONENT_COLOR);
-                chessboardModel.availableHints = reader.Read<int>(SaveKeys.AVAILABLE_HINTS);
+	                List<string> moveList = reader.ReadList<string>(SaveKeys.MOVE_LIST);
+	                chessboardModel.moveList = new List<ChessMove>();
 
-                List<string> moveList = reader.ReadList<string>(SaveKeys.MOVE_LIST);
-                chessboardModel.moveList = new List<ChessMove>();
+	                foreach (string json in moveList)
+	                {
+	                    ChessMove move = JsonUtility.FromJson<ChessMove>(json);
 
-                foreach (string json in moveList)
-                {
-                    ChessMove move = JsonUtility.FromJson<ChessMove>(json);
+	                    // Unity Json Utility does not respect nulls and converts
+	                    // them to empty strings. So we undo that here.
+	                    // TODO: replace unity built in lib with proper json library
+	                    if (move.promo == "")
+	                    {
+	                        move.promo = null;
+	                    }
 
-                    // Unity Json Utility does not respect nulls and converts
-                    // them to empty strings. So we undo that here.
-                    // TODO: replace unity built in lib with proper json library
-                    if (move.promo == "")
-                    {
-                        move.promo = null;
-                    }
+	                    chessboardModel.moveList.Add(move);
+	                }
+				}
 
-                    chessboardModel.moveList.Add(move);
-                }
+				// PLAYER MODEL
+				playerModel.bucks = reader.Read<int>(SaveKeys.PLAYER_BUCKS);
+
+				playerModel.vGoods = new List<string>();
+				List<string> vGoodsListJson = reader.ReadList<string>(SaveKeys.MOVE_LIST);
+				foreach (string json in vGoodsListJson)
+				{
+					string vGood = JsonUtility.FromJson<string>(json);
+					playerModel.vGoods.Add(vGood);
+				}
 
                 reader.Close();
 
-                chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+				if (!cpuGameModel.inProgress)
+				{
+					LoadMenu();
+				}
+				else
+				{
+                	chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+				}
             }
             catch (Exception e)
             {

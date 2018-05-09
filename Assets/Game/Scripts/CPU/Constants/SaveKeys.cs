@@ -26,6 +26,8 @@ namespace TurboLabz.InstantChess
         public const string PLAYER_COLOR_INDEX = "playerColorIndex";
         public const string DEV_FEN = "devFen";
         public const string TOTAL_GAMES = "totalGames";
+		public const string PLAYER_BUCKS = "playerBucks";
+		public const string PLAYER_VGOODS = "playerVGoods";
 
         // CHESSBOARD MODEL
         public const string GAME_DURATION = "gameDuration";

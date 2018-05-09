@@ -26,13 +26,14 @@ namespace TurboLabz.InstantChess
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+		[Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
 
         public override void Execute()
         {
-            try
+           try
             {
                 ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.CPU_SAVE_FILENAME);
 
@@ -43,30 +44,37 @@ namespace TurboLabz.InstantChess
                 writer.Write<bool>(SaveKeys.IN_PROGRESS, cpuGameModel.inProgress);
                 writer.Write<int>(SaveKeys.PLAYER_COLOR_INDEX, cpuGameModel.playerColorIndex);
 
-                if (!cpuGameModel.inProgress)
+                if (cpuGameModel.inProgress)
                 {
-                    writer.Close();
-                    return;
-                }
-                    
-                writer.Write<string>(SaveKeys.DEV_FEN, cpuGameModel.devFen);
+	                writer.Write<string>(SaveKeys.DEV_FEN, cpuGameModel.devFen);
 
-                // CHESSBOARD MODEL
-                writer.Write<long>(SaveKeys.GAME_DURATION, chessboardModel.gameDuration.Ticks);
-                writer.Write<long>(SaveKeys.PLAYER_TIMER, chessboardModel.playerTimer.Ticks);
-                writer.Write<long>(SaveKeys.OPPONENT_TIMER, chessboardModel.opponentTimer.Ticks);
-                writer.Write<ChessColor>(SaveKeys.PLAYER_COLOR, chessboardModel.playerColor);
-                writer.Write<ChessColor>(SaveKeys.OPPONENT_COLOR, chessboardModel.opponentColor);
-                writer.Write<int>(SaveKeys.AVAILABLE_HINTS, chessboardModel.availableHints);
+	                // CHESSBOARD MODEL
+	                writer.Write<long>(SaveKeys.GAME_DURATION, chessboardModel.gameDuration.Ticks);
+	                writer.Write<long>(SaveKeys.PLAYER_TIMER, chessboardModel.playerTimer.Ticks);
+	                writer.Write<long>(SaveKeys.OPPONENT_TIMER, chessboardModel.opponentTimer.Ticks);
+	                writer.Write<ChessColor>(SaveKeys.PLAYER_COLOR, chessboardModel.playerColor);
+	                writer.Write<ChessColor>(SaveKeys.OPPONENT_COLOR, chessboardModel.opponentColor);
+	                writer.Write<int>(SaveKeys.AVAILABLE_HINTS, chessboardModel.availableHints);
 
-                List<string> moveListJson = new List<string>();
+	                List<string> moveListJson = new List<string>();
 
-                foreach (ChessMove move in chessboardModel.moveList)
-                {
-                    moveListJson.Add(JsonUtility.ToJson(move));
-                }
+	                foreach (ChessMove move in chessboardModel.moveList)
+	                {
+	                    moveListJson.Add(JsonUtility.ToJson(move));
+	                }
 
-                writer.WriteList<string>(SaveKeys.MOVE_LIST, moveListJson);
+	                writer.WriteList<string>(SaveKeys.MOVE_LIST, moveListJson);
+				}
+
+				// PLAYER MODEL
+				List<string> vGoodsListJson = new List<string>();
+				foreach (string vGood in playerModel.vGoods)
+				{
+					vGoodsListJson.Add(JsonUtility.ToJson(vGood));
+				}
+
+				writer.Write<int>(SaveKeys.PLAYER_BUCKS, playerModel.bucks);
+				writer.WriteList<string>(SaveKeys.PLAYER_VGOODS, vGoodsListJson);
 
                 writer.Close();
             }

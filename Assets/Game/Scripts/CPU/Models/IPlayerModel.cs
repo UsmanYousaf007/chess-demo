@@ -17,6 +17,9 @@ namespace TurboLabz.InstantChess
     {
         string id { get; set; }
         string activeSkinId { get; set; }
+		int bucks { get; set; }
+		List<string> vGoods { get; set; }
+
         void Reset();
     }
 }

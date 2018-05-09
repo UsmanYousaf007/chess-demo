@@ -18,18 +18,20 @@ namespace TurboLabz.InstantChess
 
 		// Dispatch signals
 		[Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
+		[Inject] public PurchaseStoreItem purchaseStoreItem { get; set; }
 
         
 		public override void OnRegister()
 		{
 			view.Init();
 			view.backButtonClickedSignal.AddListener(OnBackButtonClicked);
+			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
 		}
 
 		public override void OnRemove()
 		{
 			view.backButtonClickedSignal.RemoveAllListeners();
-			//view.CleanUp();
+			view.skinItemClickedSignal.RemoveAllListeners ();
 		}
 
 		[ListensTo(typeof(NavigatorShowViewSignal))]
@@ -59,6 +61,11 @@ namespace TurboLabz.InstantChess
 		private void OnBackButtonClicked()
 		{
 			loadCPUGameSignal.Dispatch();
+		}
+
+		private void OnSkinItemClicked(string key)
+		{
+			purchaseStoreItem.Dispatch(key);
 		}
     }
 }

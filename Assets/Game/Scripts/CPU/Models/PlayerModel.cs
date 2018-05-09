@@ -17,11 +17,15 @@ namespace TurboLabz.InstantChess
     {
         public string id { get; set; }
         public string activeSkinId { get; set; }
+		public int bucks { get; set; }
+		public List<string> vGoods { get; set; }
 
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
             activeSkinId = "SkinWood";
+			bucks = 1000;
+			vGoods = new List<string>();
         }
     }
 }
