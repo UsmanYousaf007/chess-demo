@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                cmd.loadGameSignal.Dispatch(); 
+                cmd.enterPlaybackSignal.Dispatch(); 
                 return null;
             }
             else if (evt == NavigatorEvent.SHOW_MENU)
@@ -34,6 +34,10 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_STATS)
             {
                 return new NSStats();
+            }
+            else if (evt == NavigatorEvent.SHOW_PLAY)
+            {
+                return new NSPlay();
             }
 
             return null;

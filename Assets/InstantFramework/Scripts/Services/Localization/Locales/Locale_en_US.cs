@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },
                 { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "VIEW STATS" },
-                { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO MENU" },
+                { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO LOBBY" },
 
                 #endregion
 

@@ -426,6 +426,11 @@ namespace TurboLabz.InstantChess
             refs.playerToIndicator.SetActive(false);
         }
 
+        public bool ArePlayerMoveIndicatorsVisible()
+        {
+            return refs.playerToIndicator.activeSelf && refs.playerFromIndicator.activeSelf;
+        }
+
         public void ShowOpponentFromIndicator(ChessSquare square)
         {
             ShowIndicator(square, refs.opponentFromIndicator);
