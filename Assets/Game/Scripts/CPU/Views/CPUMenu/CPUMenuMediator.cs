@@ -31,6 +31,7 @@ namespace TurboLabz.InstantChess
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
+		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
 
         // View injection
@@ -174,7 +175,12 @@ namespace TurboLabz.InstantChess
             loadStatsSignal.Dispatch();
         }
 
-        private void OnShareAppButtonClicked()
+		private void OnStoreButtonClicked()
+		{
+			loadStoreSignal.Dispatch ();
+		}
+
+		private void OnShareAppButtonClicked()
         {
             shareAppSignal.Dispatch();
         }

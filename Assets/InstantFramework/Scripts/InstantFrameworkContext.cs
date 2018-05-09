@@ -52,9 +52,14 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
             commandBinder.Bind<LoadCPUGameSignal>().To<LoadGameCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
+			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
+			commandBinder.Bind<PurchaseStoreItem>().To<PurchaseStoreItemCommand>();
+
+			// Bind signals to models data loader commands
+			commandBinder.Bind<StoreSettingsDataLoadSignal>().To<StoreSettingsData>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -88,6 +93,7 @@ namespace TurboLabz.InstantFramework
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
+			injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
 
             MapGameBindings();
         }
@@ -105,6 +111,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ResignSignal>().To<ResignCommand>();
             commandBinder.Bind<SaveGameSignal>().To<SaveGameCommand>();
             commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
+			commandBinder.Bind<SavePlayerSignal>().To<SavePlayerCommand>();
             commandBinder.Bind<AiTurnSignal>().To<AiTurnCommand>();
             commandBinder.Bind<ChessboardEventSignal>().To<ChessboardCommand>();
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
@@ -122,6 +129,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<CPUMenuView>().To<CPUMenuMediator>();
             mediationBinder.Bind<GameView>().To<GameMediator>();
             mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
+			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<SetupChessboardSignal>().ToSingleton();
@@ -166,7 +174,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStatsSignal>().ToSingleton();
-            injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
+			injectionBinder.Bind<UpdateStoreSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

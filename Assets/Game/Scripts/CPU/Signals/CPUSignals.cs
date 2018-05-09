@@ -30,12 +30,20 @@ namespace TurboLabz.InstantChess
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal {}
 
+	// PLAYER
+	public class SavePlayerSignal : Signal {}
+
     // CPU STATS
     public class LoadStatsSignal : Signal {}
     public class UpdateStatsDurationSignal : Signal<string> {}
     public class SaveStatsSignal : Signal<int> {}
     public class UpdateStatsSignal : Signal<CPUStatsVO> {};
     public class EnterPlaybackSignal : Signal {};
+
+	// CPU STORE
+	public class LoadStoreSignal : Signal {}
+	public class UpdateStoreSignal : Signal<CPUStoreVO> {}
+	public class PurchaseStoreItem : Signal<string> {}
 
     // CPU GAME
     public class StartNewGameSignal : Signal {}

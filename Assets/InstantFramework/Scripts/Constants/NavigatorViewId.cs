@@ -18,10 +18,12 @@ namespace TurboLabz.InstantFramework
         SPLASH,
         MENU,
         STATS,
+		STORE,
         PLAY,
         EXIT_DLG,
         RESULTS_DLG,
         PROMO_DLG,
-        AD_COVER
+        AD_COVER,
+		BUY_DLG
     }
 }

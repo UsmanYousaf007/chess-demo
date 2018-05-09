@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using System.Collections.Generic;
 
 namespace TurboLabz.Chess
 {
@@ -23,5 +24,7 @@ namespace TurboLabz.Chess
         public int selectedPlayerColorIndex;
         public bool inProgress;
         public int totalGames;
+		public int playerBucks;
+		public List<string> playerVGoods;
     }
 }
