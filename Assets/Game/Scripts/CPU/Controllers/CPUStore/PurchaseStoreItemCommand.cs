@@ -28,6 +28,9 @@ namespace TurboLabz.InstantChess
 		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
 
+		// Services
+		[Inject] public IStoreService storeService { get; set; }
+
 		public override void Execute()
 		{
 			StoreItem item = storeSettingsModel.items[key];
@@ -60,9 +63,9 @@ namespace TurboLabz.InstantChess
 
 		private void Purchase(StoreItem item)
 		{
-			if (item.type == StoreItem.Type.CURRENCY) 
+			if (item.remoteProductId != null) 
 			{
-				LogUtil.Log ("Purchase CURRENCY" + item.displayName, "cyan");
+				LogUtil.Log ("Purchase REMOTE" + item.displayName, "cyan");
 			} 
 			else 
 			{

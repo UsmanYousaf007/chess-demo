@@ -37,10 +37,10 @@ namespace TurboLabz.InstantChess
 			// Buck Packs
 			OrderedDictionary<string, StoreItem> buckPacks = new OrderedDictionary<string, StoreItem>()
 			{
-				{"BuckPackBronze", new StoreItem {key = "BuckPackBronze", kind = "BuckPack", displayName = "Bronze Pack", currency2Payout = 7500, type = StoreItem.Type.CURRENCY} },
-				{"BuckPackSilver", new StoreItem {key = "BuckPackSilver", kind = "BuckPack", displayName = "Silver Pack", currency2Payout = 50000, type = StoreItem.Type.CURRENCY} },
-				{"BuckPackGold", new StoreItem {key = "BuckPackGold", kind = "BuckPack", displayName = "Gold Pack", currency2Payout = 150000, type = StoreItem.Type.CURRENCY} },
-				{"BuckPackPlatinum", new StoreItem {key = "BuckPackPlatinum", kind = "BuckPack", displayName = "Platinum Pack", currency2Payout = 250000, type = StoreItem.Type.CURRENCY} },
+				{"BuckPackBronze", new StoreItem {key = "BuckPackBronze", kind = "BuckPack", displayName = "Bronze Pack", currency2Payout = 7500, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.bronzepack"} },
+				{"BuckPackSilver", new StoreItem {key = "BuckPackSilver", kind = "BuckPack", displayName = "Silver Pack", currency2Payout = 50000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.silverpack"} },
+				{"BuckPackGold", new StoreItem {key = "BuckPackGold", kind = "BuckPack", displayName = "Gold Pack", currency2Payout = 150000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.goldpack"} },
+				{"BuckPackPlatinum", new StoreItem {key = "BuckPackPlatinum", kind = "BuckPack", displayName = "Platinum Pack", currency2Payout = 250000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.platinumpack"} },
 			};
 
 			storeSettingsModel.Add("BuckPack", buckPacks);

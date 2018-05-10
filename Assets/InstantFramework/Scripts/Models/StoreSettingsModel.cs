@@ -77,6 +77,7 @@ namespace TurboLabz.InstantFramework
 		public int currency1Payout;			// Payout in currency1
 		public int currency2Payout;			// Payout in currency2
         public string remoteProductId;      // Remote store product id
+		public string remoteProductPrice;   // Remote store product localized price
 
 		public enum State
 		{
@@ -105,6 +106,7 @@ namespace TurboLabz.InstantFramework
 			currency1Payout = 0;
 			currency2Payout = 0;
 			remoteProductId = null;
+			remoteProductPrice = null;
 		}
 	}
 }

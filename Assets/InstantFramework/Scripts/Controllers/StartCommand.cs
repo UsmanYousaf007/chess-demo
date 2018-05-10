@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IShareService shareService { get; set; }
+		[Inject] public IStoreService storeService { get; set; }
 
 		// Models
 		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
             shareService.Init();
 
 			storeSettingsModel.Load();
+			storeService.Init(storeSettingsModel.getRemoteProductIds());
         }
     }
 }
