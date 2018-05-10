@@ -58,6 +58,7 @@ namespace TurboLabz.InstantChess
         public int availableHints { get; set; }
         public bool usedHelp { get; set; }
         public bool isUndo { get; set; }
+        public bool inPlaybackMode { get; set; }
 
         public void Reset()
         {
@@ -99,6 +100,7 @@ namespace TurboLabz.InstantChess
             availableHints = CPUSettings.DEFAULT_HINT_COUNT;
             usedHelp = false;
             isUndo = false;
+            inPlaybackMode = false;
         }
     }
 }

@@ -121,6 +121,11 @@ namespace TurboLabz.InstantChess
             menuButton.interactable = false;
         }
 
+        public void EnableMenuButton()
+        {
+            menuButton.interactable = true;
+        }
+
         void OnMenuButtonClicked()
         {
             menuButtonClickedSignal.Dispatch();
@@ -134,11 +139,6 @@ namespace TurboLabz.InstantChess
         void OnContinueButtonClicked()
         {
             continueButtonClickedSignal.Dispatch();
-        }
-
-        void EnableMenuButton()
-        {
-            menuButton.interactable = true;
         }
     }
 }

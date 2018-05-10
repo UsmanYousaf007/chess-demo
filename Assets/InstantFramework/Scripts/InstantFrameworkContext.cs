@@ -125,6 +125,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
             commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
+            commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<CPUMenuView>().To<CPUMenuMediator>();
@@ -176,6 +177,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStatsSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreSignal>().ToSingleton();
+            injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreBuyDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreNotEnoughBucksDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();

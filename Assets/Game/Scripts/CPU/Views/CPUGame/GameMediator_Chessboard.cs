@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using TurboLabz.Chess;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {

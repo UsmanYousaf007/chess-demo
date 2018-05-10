@@ -33,12 +33,16 @@ namespace TurboLabz.InstantChess
         public Button resultsExitButton;
         public Text statsButtonLabel;
         public Text resultsExitButtonLabel;
+        public Button resultsCloseButton;
         public Button adsButton;
         public Text adsButtonLabel;
+        public Button resultsDialogButton;
 
         public Signal resultsExitButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
+        public Signal enterPlaybackSignal = new Signal();
+        public Signal resultsDialogButtonClickedSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -53,6 +57,8 @@ namespace TurboLabz.InstantChess
             statsButton.onClick.AddListener(OnStatsButtonClicked);
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
             adsButton.onClick.AddListener(OnAdsButtonClicked);
+            resultsCloseButton.onClick.AddListener(OnResultsClosed);
+            resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
 
             statsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_STATS_BUTTON);
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
@@ -75,11 +81,18 @@ namespace TurboLabz.InstantChess
         public void ShowResultsDialog()
         {
             resultsDialog.SetActive(true);
+            resultsDialogButton.gameObject.SetActive(false);
 
             DisableUndoButton();
             DisableMenuButton();
             DisableHintButton();
             DeactivateThink();
+            HidePossibleMoves();
+
+            if (!ArePlayerMoveIndicatorsVisible())
+            {
+                HidePlayerToIndicator();
+            }
         }
 
         public void HideResultsDialog()
@@ -170,6 +183,11 @@ namespace TurboLabz.InstantChess
             return resultsDialog.activeSelf;
         }
 
+        public void EnableResultsDialogButton()
+        {
+            resultsDialogButton.gameObject.SetActive(true);
+        }
+
         private void AnimateResultsDialog()
         {
             resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
@@ -202,6 +220,16 @@ namespace TurboLabz.InstantChess
         private void OnAdsButtonClicked()
         {
             showAdButtonClickedSignal.Dispatch();
+        }
+
+        private void OnResultsClosed()
+        {
+            enterPlaybackSignal.Dispatch();
+        }
+
+        private void OnResultsDialogButtonClicked()
+        {
+            resultsDialogButtonClickedSignal.Dispatch();
         }
     }
 }
