@@ -19,10 +19,11 @@ namespace TurboLabz.InstantChess
     {
 		[Inject] public ILocalizationService localizationService { get; set; }
 
-		public SkinShopItemPrefab skinShopItemPrefab;
+		public Text playerBucks;
 		public GameObject gallery;
 		public Button backButton;
 		public Button addBucksButton;
+		public SkinShopItemPrefab skinShopItemPrefab;
 
 		// View signals
 		public Signal backButtonClickedSignal = new Signal();
@@ -41,9 +42,10 @@ namespace TurboLabz.InstantChess
 		{
 			if (prefabs == null) 
 			{
-				CreatePrefabs (vo);	
+				CreatePrefabs(vo);	
 			}
 
+			playerBucks.text = vo.playerModel.bucks.ToString();
 			PopulateSkins(vo);
 		}
 

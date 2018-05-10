@@ -113,6 +113,7 @@ namespace TurboLabz.InstantChess
 
 				thumbnail.displayName.text = item.displayName;
 				thumbnail.payout.text = item.currency2Payout.ToString();
+				thumbnail.price.text = item.remoteProductPrice;
 				thumbnail.button.onClick.AddListener(() => OnBuckPackItemClicked(item));
 			}
 		}

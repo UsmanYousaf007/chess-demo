@@ -31,7 +31,6 @@ namespace TurboLabz.InstantFramework
             shareService.Init();
 
             loadMetaDataSiganl.Dispatch();
-			// storeService.Init(storeSettingsModel.getRemoteProductIds());
         }
     }
 }

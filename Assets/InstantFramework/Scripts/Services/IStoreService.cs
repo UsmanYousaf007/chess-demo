@@ -4,13 +4,14 @@
 /// Proprietary and confidential
 
 using System.Collections.Generic;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IStoreService
     {
-		void Init(List<string> currencyProductIds);
-		void BuyProduct (string storeProductId);
+		IPromise<bool> Init(List<string> currencyProductIds);
+		bool BuyProduct (string storeProductId);
 		string GetItemLocalizedPrice (string productId);
     }
 }

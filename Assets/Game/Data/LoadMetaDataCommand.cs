@@ -6,6 +6,8 @@
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using strange.extensions.command.impl;
+using System.Collections.Generic;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantChess
 {
@@ -25,12 +27,12 @@ namespace TurboLabz.InstantChess
             {"SkinJungle", new StoreItem {key = "SkinJungle", kind = "Skin", displayName = "Jungle", currency2Cost = 500} }
         };
 
-        private OrderedDictionary<string, StoreItem> buckPacks = new OrderedDictionary<string, StoreItem>()
-        {
-            {"BuckPackBronze", new StoreItem {key = "BuckPackBronze", kind = "BuckPack", displayName = "Bronze Pack", currency2Payout = 7500, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.bronzepack"} },
-            {"BuckPackSilver", new StoreItem {key = "BuckPackSilver", kind = "BuckPack", displayName = "Silver Pack", currency2Payout = 50000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.silverpack"} },
-            {"BuckPackGold", new StoreItem {key = "BuckPackGold", kind = "BuckPack", displayName = "Gold Pack", currency2Payout = 150000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.goldpack"} },
-            {"BuckPackPlatinum", new StoreItem {key = "BuckPackPlatinum", kind = "BuckPack", displayName = "Platinum Pack", currency2Payout = 250000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.googleplay.platinumpack"} },
+       private OrderedDictionary<string, StoreItem> buckPacks = new OrderedDictionary<string, StoreItem>()
+       {
+            {"BuckPackBronze", new StoreItem {key = "BuckPackBronze", kind = "BuckPack", displayName = "Bronze Pack", currency2Payout = 7500, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.bronzepack"} },
+            {"BuckPackSilver", new StoreItem {key = "BuckPackSilver", kind = "BuckPack", displayName = "Silver Pack", currency2Payout = 50000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.silverpack"} },
+            {"BuckPackGold", new StoreItem {key = "BuckPackGold", kind = "BuckPack", displayName = "Gold Pack", currency2Payout = 150000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.goldpack"} },
+            {"BuckPackPlatinum", new StoreItem {key = "BuckPackPlatinum", kind = "BuckPack", displayName = "Platinum Pack", currency2Payout = 250000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.platinumpack"} },
         };
 
         private const int ADS_MAX_IMPRESSIONS_PER_LOT = 6;
@@ -40,12 +42,35 @@ namespace TurboLabz.InstantChess
         #region LoadMetaData
 
         [Inject] public IMetaDataModel model { get; set; }
+		[Inject] public IStoreService storeService { get; set; }
 
-        public override void Execute()
+		public override void Execute()
         {
             model.AddStoreItem("Skin", skinItems);
             model.AddStoreItem("BuckPack", buckPacks);
+
+			IPromise<bool> promise = storeService.Init(model.getRemoteProductIds());
+			promise.Then(OnStoreInit);
+
+			Retain();
         }
+			
+		private void OnStoreInit(bool success)
+		{
+			if (success) 
+			{
+				foreach (KeyValuePair<string, StoreItem> item in model.items) 
+				{
+					StoreItem storeItem = item.Value;
+					if (storeItem.remoteProductId != null) 
+					{
+						storeItem.remoteProductPrice = storeService.GetItemLocalizedPrice (storeItem.remoteProductId);
+					}
+				}
+			}
+
+			Release();
+		}
               
         #endregion
 	}

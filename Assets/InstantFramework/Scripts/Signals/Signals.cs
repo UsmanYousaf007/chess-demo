@@ -31,6 +31,4 @@ namespace TurboLabz.InstantFramework
 
 	// Model data load signals
 	public class LoadMetaDataSignal : Signal {}
-
-
 }

@@ -26,8 +26,6 @@ namespace TurboLabz.InstantChess
 
 		public override void Execute()
 		{
-            LogUtil.Log("Load store command called", "cyan");
-
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
 
 			CPUStoreVO vo = new CPUStoreVO();
@@ -35,7 +33,6 @@ namespace TurboLabz.InstantChess
 			vo.playerModel = playerModel;
 
 			updateStoreSignal.Dispatch(vo);
-      
-		}
+ 		}
 	}
 }
