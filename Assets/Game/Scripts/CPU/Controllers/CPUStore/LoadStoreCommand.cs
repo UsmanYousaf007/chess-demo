@@ -14,23 +14,28 @@ namespace TurboLabz.InstantChess
 {
 	public class LoadStoreCommand : Command
 	{
+        
 		// Dispatch Signals
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 		[Inject] public UpdateStoreSignal updateStoreSignal { get; set; }
 
 		// Models
-		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+		[Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
+
 
 		public override void Execute()
 		{
+            LogUtil.Log("Load store command called", "cyan");
+
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
 
 			CPUStoreVO vo = new CPUStoreVO();
-			vo.storeSettingsModel = storeSettingsModel;
+			vo.storeSettingsModel = metaDataModel;
 			vo.playerModel = playerModel;
 
 			updateStoreSignal.Dispatch(vo);
+      
 		}
 	}
 }

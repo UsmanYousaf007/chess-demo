@@ -22,7 +22,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
-    public class CPUMenuView : View
+    public class CPULobbyView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
@@ -116,14 +116,14 @@ namespace TurboLabz.InstantChess
             shareAppButton.onClick.RemoveAllListeners();
         }
 
-        public void UpdateView(CPUMenuVO vo)
+        public void UpdateView(CPULobbyVO vo)
         {
             UpdateStrength(vo);
             UpdateDuration(vo);
             UpdatePlayerColor(vo);
         }
 
-        public void UpdateStrength(CPUMenuVO vo)
+        public void UpdateStrength(CPULobbyVO vo)
         {
             int selectedStrength = vo.selectedStrength;
             int minStrength = vo.minStrength;
@@ -154,7 +154,7 @@ namespace TurboLabz.InstantChess
             }
         }
 
-        public void UpdateDuration(CPUMenuVO vo)
+        public void UpdateDuration(CPULobbyVO vo)
         {
             int duration = vo.durationMinutes[vo.selectedDurationIndex];
 
@@ -188,7 +188,7 @@ namespace TurboLabz.InstantChess
             }
         }
 
-        public void UpdatePlayerColor(CPUMenuVO vo)
+        public void UpdatePlayerColor(CPULobbyVO vo)
         {
             randomKing.SetActive(false);
             whiteKing.SetActive(false);

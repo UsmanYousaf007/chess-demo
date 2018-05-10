@@ -10,7 +10,7 @@ namespace TurboLabz.InstantChess
 {
 	public struct CPUStoreVO
 	{
-		public IStoreSettingsModel storeSettingsModel;
+		public IMetaDataModel storeSettingsModel;
 		public IPlayerModel playerModel;
 	}
 }

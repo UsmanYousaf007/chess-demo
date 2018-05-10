@@ -26,6 +26,6 @@ namespace TurboLabz.InstantChess
         bool isResuming { get; set; }
 
         void Reset();
-        CPUMenuVO GetCPUMenuVO();
+        CPULobbyVO GetCPUMenuVO();
     }
 }

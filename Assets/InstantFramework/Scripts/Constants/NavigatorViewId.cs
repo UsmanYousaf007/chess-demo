@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         NONE,
         SPLASH,
-        MENU,
+        CPU_LOBBY,
         STATS,
 		STORE,
         PLAY,

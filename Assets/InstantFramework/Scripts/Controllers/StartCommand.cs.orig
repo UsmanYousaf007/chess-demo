@@ -12,7 +12,6 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadMetaDataSignal loadMetaDataSiganl { get; set; }
 
         // Services
         [Inject] public IAudioService audioService { get; set; }
@@ -29,9 +28,12 @@ namespace TurboLabz.InstantFramework
         
             audioService.Init();
             shareService.Init();
+<<<<<<< Updated upstream
 
-            loadMetaDataSiganl.Dispatch();
-			// storeService.Init(storeSettingsModel.getRemoteProductIds());
+			storeSettingsModel.Load();
+			storeService.Init(storeSettingsModel.getRemoteProductIds());
+=======
+>>>>>>> Stashed changes
         }
     }
 }

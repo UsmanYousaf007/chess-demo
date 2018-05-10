@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         ESCAPE,
         SHOW_SPLASH,
-        SHOW_MENU,
+        SHOW_LOBBY,
         SHOW_PLAY,
         SHOW_EXIT_DLG,
         SHOW_RESULTS_DLG,

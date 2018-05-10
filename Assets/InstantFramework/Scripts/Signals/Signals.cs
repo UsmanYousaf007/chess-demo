@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
     public class NavigatorHideViewSignal : Signal<NavigatorViewId> {}
 
 	// Model data load signals
-	public class StoreSettingsDataLoadSignal : Signal {}
+	public class LoadMetaDataSignal : Signal {}
 
 
 }

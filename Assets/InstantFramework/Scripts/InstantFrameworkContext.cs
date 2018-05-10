@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<LoadBuckPacksSignal> ().To<LoadBuckPacksCommand>();
 
 			// Bind signals to models data loader commands
-			commandBinder.Bind<StoreSettingsDataLoadSignal>().To<StoreSettingsData>();
+			commandBinder.Bind<LoadMetaDataSignal>().To<LoadMetaDataCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -95,7 +95,7 @@ namespace TurboLabz.InstantFramework
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
-			injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
+			injectionBinder.Bind<IMetaDataModel>().To<MetaDataModel>().ToSingleton();
 
             MapGameBindings();
         }
@@ -127,8 +127,10 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
             commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
 
+  
+
             // Bind views to mediators
-            mediationBinder.Bind<CPUMenuView>().To<CPUMenuMediator>();
+            mediationBinder.Bind<CPULobbyView>().To<CPULobbyMediator>();
             mediationBinder.Bind<GameView>().To<GameMediator>();
             mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
 			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();

@@ -48,9 +48,9 @@ namespace TurboLabz.InstantChess
             isResuming = false;
         }
 
-        public CPUMenuVO GetCPUMenuVO()
+        public CPULobbyVO GetCPUMenuVO()
         {
-            CPUMenuVO vo = new CPUMenuVO();
+            CPULobbyVO vo = new CPULobbyVO();
             vo.minStrength = CPUSettings.MIN_STRENGTH;
             vo.maxStrength = CPUSettings.MAX_STRENGTH;
             vo.selectedStrength = cpuStrength;

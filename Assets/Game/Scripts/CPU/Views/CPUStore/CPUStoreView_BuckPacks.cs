@@ -85,12 +85,12 @@ namespace TurboLabz.InstantChess
 
 		private void CreateBuckPackPrefabs(CPUStoreVO vo)
 		{
-			IStoreSettingsModel storeSettingsModel = vo.storeSettingsModel;
+            IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			BuckPackItemPrefab prefab = Instantiate<BuckPackItemPrefab>(buckPackItemPrefab);
 
 			buckPackPrefabs = new List<BuckPackItemPrefab>();
 
-			List<StoreItem> list = storeSettingsModel.lists["BuckPack"];
+			List<StoreItem> list = metaDataModel.lists["BuckPack"];
 			foreach (StoreItem item in list) 
 			{
 				BuckPackItemPrefab buckPackThumbnail = Object.Instantiate(prefab);
@@ -103,9 +103,9 @@ namespace TurboLabz.InstantChess
 
 		private void PopulateBuckPacks(CPUStoreVO vo)
 		{
-			IStoreSettingsModel storeSettingsModel = vo.storeSettingsModel;
+            IMetaDataModel metaDataModel = vo.storeSettingsModel;
 
-			List<StoreItem> list = storeSettingsModel.lists["BuckPack"];
+			List<StoreItem> list = metaDataModel.lists["BuckPack"];
 			for (int i = 0; i < list.Count; i++) 
 			{
 				BuckPackItemPrefab thumbnail = buckPackPrefabs[i];

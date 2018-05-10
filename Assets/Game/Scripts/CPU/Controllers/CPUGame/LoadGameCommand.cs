@@ -120,7 +120,7 @@ namespace TurboLabz.InstantChess
 
 		private void LoadMenu()
 		{
-			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MENU);
+			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 			updateMenuViewSignal.Dispatch(cpuGameModel.GetCPUMenuVO());
 		}
 	}

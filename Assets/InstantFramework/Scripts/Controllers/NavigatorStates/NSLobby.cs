@@ -12,12 +12,12 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSMenu : NS
+    public class NSLobby : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.MENU);
-            cmd.analyticsService.ScreenVisit(NavigatorViewId.MENU);
+            ShowView(NavigatorViewId.CPU_LOBBY);
+            cmd.analyticsService.ScreenVisit(NavigatorViewId.CPU_LOBBY);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)

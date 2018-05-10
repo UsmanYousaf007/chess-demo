@@ -27,9 +27,9 @@ namespace TurboLabz.InstantFramework
                 cmd.loadGameSignal.Dispatch();
                 return null;
             }
-            else if (evt == NavigatorEvent.SHOW_MENU)
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
-                return new NSMenu();
+                return new NSLobby();
             }
 
             return null;

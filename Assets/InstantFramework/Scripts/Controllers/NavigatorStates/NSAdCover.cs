@@ -21,9 +21,9 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_MENU)
+            if (evt == NavigatorEvent.SHOW_LOBBY)
             {
-                return new NSMenu();
+                return new NSLobby();
             }
 
             return null;

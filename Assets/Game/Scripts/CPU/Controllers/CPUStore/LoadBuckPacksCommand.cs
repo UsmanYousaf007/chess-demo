@@ -19,7 +19,7 @@ namespace TurboLabz.InstantChess
 		[Inject] public UpdateStoreBuckPacksDlgSignal updateStoreBuckPacksDlgSignal { get; set; }
 
 		// Models
-		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
 
 		public override void Execute()
@@ -27,7 +27,7 @@ namespace TurboLabz.InstantChess
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_BUCK_PACKS_DLG);
 
 			CPUStoreVO vo = new CPUStoreVO();
-			vo.storeSettingsModel = storeSettingsModel;
+			vo.storeSettingsModel = metaDataModel;
 			vo.playerModel = playerModel;
 
 			updateStoreBuckPacksDlgSignal.Dispatch(vo);

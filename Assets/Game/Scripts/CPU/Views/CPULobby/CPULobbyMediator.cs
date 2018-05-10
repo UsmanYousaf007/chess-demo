@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -20,7 +20,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
-    public class CPUMenuMediator : Mediator
+    public class CPULobbyMediator : Mediator
     {
         // Dispatch signals
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
@@ -35,7 +35,7 @@ namespace TurboLabz.InstantChess
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
 
         // View injection
-        [Inject] public CPUMenuView view { get; set; }
+        [Inject] public CPULobbyView view { get; set; }
 
         // Services
         [Inject] public IAndroidNativeService androidNativeService { get; set; }
@@ -72,7 +72,8 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.MENU) 
+            LogUtil.Log("GOT VIEW ID=" + viewId, "cyan");
+            if (viewId == NavigatorViewId.CPU_LOBBY) 
             {
                 view.Show();
             }
@@ -81,7 +82,7 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.MENU)
+            if (viewId == NavigatorViewId.CPU_LOBBY)
             {
                 view.Hide();
                 saveGameSignal.Dispatch();
@@ -107,25 +108,25 @@ namespace TurboLabz.InstantChess
         }
 
         [ListensTo(typeof(UpdateMenuViewSignal))]
-        public void OnUpdateView(CPUMenuVO vo)
+        public void OnUpdateView(CPULobbyVO vo)
         {
             view.UpdateView(vo);
         }
 
         [ListensTo(typeof(UpdateStrengthSignal))]
-        public void OnUpdateStrength(CPUMenuVO vo)
+        public void OnUpdateStrength(CPULobbyVO vo)
         {
             view.UpdateStrength(vo);
         }
 
         [ListensTo(typeof(UpdateDurationSignal))]
-        public void OnUpdateDuration(CPUMenuVO vo)
+        public void OnUpdateDuration(CPULobbyVO vo)
         {
             view.UpdateDuration(vo);
         }
 
         [ListensTo(typeof(UpdatePlayerColorSignal))]
-        public void OnUpdatePlayerColor(CPUMenuVO vo)
+        public void OnUpdatePlayerColor(CPULobbyVO vo)
         {
             view.UpdatePlayerColor(vo);
         }
@@ -172,9 +173,8 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClicked()
         {
-			loadStoreSignal.Dispatch ();
-			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
-			//loadStatsSignal.Dispatch();
+            //loadStatsSignal.Dispatch();
+            loadStoreSignal.Dispatch();
         }
 
 		private void OnStoreButtonClicked()

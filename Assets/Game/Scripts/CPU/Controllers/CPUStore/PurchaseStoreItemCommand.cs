@@ -25,7 +25,7 @@ namespace TurboLabz.InstantChess
 		[Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
 
 		// Models
-		[Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+		[Inject] public IMetaDataModel storeSettingsModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
 
 		// Services

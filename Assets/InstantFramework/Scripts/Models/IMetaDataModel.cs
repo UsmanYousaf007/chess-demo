@@ -8,14 +8,17 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public interface IStoreSettingsModel
+    public interface IMetaDataModel
     {
 		IOrderedDictionary<string, StoreItem> items { get; set; }		// All items dictionary
         IDictionary<string, List<StoreItem>> lists { get; set; }		// Categorized lists of items by kind
+        AdSettings adSettings { get; set; }                             // Ad settings
 
-		void Load();
-		void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems);
+		void AddStoreItem(string kind, IOrderedDictionary<string, StoreItem> kindItems);
 		List<string> getRemoteProductIds();
+
+        void AddAdSettings(AdSettings settings);
+
 	}
 }
 

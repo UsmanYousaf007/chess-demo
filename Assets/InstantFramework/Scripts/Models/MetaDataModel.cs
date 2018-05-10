@@ -8,34 +8,19 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class StoreSettingsModel : IStoreSettingsModel
+    public class MetaDataModel : IMetaDataModel
     {
-		[Inject] public StoreSettingsDataLoadSignal storeSettingsDataLoadSignal { get; set; }
+        public IDictionary<string, List<StoreItem>> lists { get;  set;}
+        public IOrderedDictionary<string, StoreItem> items { get; set;}
+        public AdSettings adSettings { get; set; }
 
-        public IDictionary<string, List<StoreItem>> lists { get; set; }
-        public IOrderedDictionary<string, StoreItem> items { get; set; }
-
+        [PostConstruct]
 		public void Load()
 		{
-			Reset();
-			Initialize();
-
-			storeSettingsDataLoadSignal.Dispatch();
+            Reset();
 		}
 
-        private void Reset()
-        {
-            lists = null;
-            items = null;
-        }
-
-        private void Initialize()
-        {
-            lists = new Dictionary<string, List<StoreItem>>();
-            items = new OrderedDictionary<string, StoreItem>();
-        }
-
-		public List<string> getRemoteProductIds()
+        public List<string> getRemoteProductIds()
         { 
             List<string> ids = new List<string> ();
 
@@ -49,7 +34,7 @@ namespace TurboLabz.InstantFramework
 			return ids;			
 		}
 
-        public void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems)
+        public void AddStoreItem(string kind, IOrderedDictionary<string, StoreItem> kindItems)
         {
             List<StoreItem> list = new List<StoreItem>();
             foreach (KeyValuePair<string, StoreItem> item in kindItems)
@@ -60,7 +45,21 @@ namespace TurboLabz.InstantFramework
 
             lists.Add(kind,list);
         }
+
+        public void AddAdSettings(AdSettings settings)
+        {
+            adSettings = settings;
+        }
+
+        private void Reset()
+        {
+            lists = new Dictionary<string, List<StoreItem>>();
+            items = new OrderedDictionary<string, StoreItem>();
+            adSettings = null;
+        }
     }
+
+    #region DataStructures
 
     public class StoreItem
     {
@@ -109,4 +108,12 @@ namespace TurboLabz.InstantFramework
 			remoteProductPrice = null;
 		}
 	}
+
+    public class AdSettings
+    {
+        public int maxImpressionsPerSlot;
+        public int slotMinutes;
+    }
+
+    #endregion
 }

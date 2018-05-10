@@ -19,13 +19,13 @@ namespace TurboLabz.InstantChess
 {
     // CPU MENU
     public class SaveGameSignal : Signal {}
-    public class UpdateMenuViewSignal : Signal<CPUMenuVO> {}
+    public class UpdateMenuViewSignal : Signal<CPULobbyVO> {}
     public class AdjustStrengthSignal : Signal<bool> {}
     public class AdjustDurationSignal : Signal<bool> {}
     public class AdjustPlayerColorSignal : Signal<bool> {}
-    public class UpdateStrengthSignal : Signal<CPUMenuVO> {}
-    public class UpdateDurationSignal : Signal<CPUMenuVO>{}
-    public class UpdatePlayerColorSignal : Signal<CPUMenuVO>{}
+    public class UpdateStrengthSignal : Signal<CPULobbyVO> {}
+    public class UpdateDurationSignal : Signal<CPULobbyVO>{}
+    public class UpdatePlayerColorSignal : Signal<CPULobbyVO>{}
     public class LoadCPUGameSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal {}
@@ -104,6 +104,7 @@ namespace TurboLabz.InstantChess
     public class GetHintSignal : Signal {}
     public class UpdateHintCountSignal : Signal<int> {}
     public class TurnSwapSignal : Signal<bool> {}
-    public class UpdateGameInfoSignal : Signal<GameInfoVO> {};
-    public class EnableResultsDialogButtonSignal : Signal {};
+    public class UpdateGameInfoSignal : Signal<GameInfoVO> {}
+    public class EnableResultsDialogButtonSignal : Signal {}
+
 }

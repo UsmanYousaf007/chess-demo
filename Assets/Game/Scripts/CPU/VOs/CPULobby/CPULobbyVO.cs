@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace TurboLabz.Chess
 {
-    public struct CPUMenuVO
+    public struct CPULobbyVO
     {
         public int minStrength;
         public int maxStrength;
