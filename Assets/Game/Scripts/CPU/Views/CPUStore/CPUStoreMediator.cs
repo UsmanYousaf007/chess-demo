@@ -18,15 +18,18 @@ namespace TurboLabz.InstantChess
 
 		// Dispatch signals
 		[Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
+		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
 
  		public override void OnRegister()
 		{
 			view.Init();
 			view.backButtonClickedSignal.AddListener(OnBackButtonClicked);
 			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
+			view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
 
 			OnRegisterBuy();
 			OnRegisterNotEnoughBucks();
+			OnRegisterBuckPacks();
 		}
 
 		public override void OnRemove()
@@ -36,6 +39,7 @@ namespace TurboLabz.InstantChess
 
 			OnRemoveBuy();
 			OnRemoveNotEnoughBucks();
+			OnRemoveBuckPacks();
 		}
 
 		[ListensTo(typeof(NavigatorShowViewSignal))]
@@ -67,8 +71,14 @@ namespace TurboLabz.InstantChess
 			loadCPUGameSignal.Dispatch();
 		}
 
+		public void OnAddBucksButtonClicked()
+		{
+			loadBuckPacksSignal.Dispatch();
+		}
+
 		private void OnSkinItemClicked(StoreItem item)
 		{
+			// Purchase item after confirmation 
 			purchaseStoreItemSignal.Dispatch(item.key, false);
 		}
     }

@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224880848766183444}
   - component: {fileID: 222735751828482378}
-  - component: {fileID: 114985508473167810}
+  - component: {fileID: 114302746103014202}
   m_Layer: 5
   m_Name: BucksPackItem
   m_TagString: Untagged
@@ -249,6 +249,22 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114302746103014202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1489977210527212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4212ba5b469cd4b0b924a28a63c40057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thumbnail: {fileID: 114186141559375138}
+  displayName: {fileID: 114485298688458600}
+  payout: {fileID: 114608538320921500}
+  price: {fileID: 114571587166079858}
+  button: {fileID: 114223743581313224}
 --- !u!114 &114485298688458600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,21 +364,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: ?? 250,000
---- !u!114 &114985508473167810
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1489977210527212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b9cdc1e5b264090a1ba7938db16ea5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thumbnail: {fileID: 114186141559375138}
-  displayName: {fileID: 114485298688458600}
-  payout: {fileID: 114608538320921500}
-  price: {fileID: 114571587166079858}
 --- !u!222 &222006902387838016
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
 			commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
+			commandBinder.Bind<LoadBuckPacksSignal> ().To<LoadBuckPacksCommand>();
 
 			// Bind signals to models data loader commands
 			commandBinder.Bind<StoreSettingsDataLoadSignal>().To<StoreSettingsData>();
@@ -176,6 +177,7 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<UpdateStoreSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreBuyDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreNotEnoughBucksDlgSignal>().ToSingleton();
+			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

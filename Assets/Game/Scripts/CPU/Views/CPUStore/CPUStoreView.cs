@@ -22,16 +22,19 @@ namespace TurboLabz.InstantChess
 		public SkinShopItemPrefab skinShopItemPrefab;
 		public GameObject gallery;
 		public Button backButton;
+		public Button addBucksButton;
 
 		// View signals
 		public Signal backButtonClickedSignal = new Signal();
 		public Signal<StoreItem> skinItemClickedSignal = new Signal<StoreItem>();
+		public Signal addBucksButtonClickedSignal = new Signal();
 
 		List<SkinShopItemPrefab> prefabs = null;
 
         public void Init()
         {
 			backButton.onClick.AddListener(OnBackButtonClicked);
+			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
         }
 
 		public void UpdateView(CPUStoreVO vo)
@@ -107,5 +110,10 @@ namespace TurboLabz.InstantChess
 		{
 			skinItemClickedSignal.Dispatch(item);
 		}
-    }
+
+		private void OnAddBucksButtonClicked()
+		{
+			addBucksButtonClickedSignal.Dispatch();
+		}
+	}
 }

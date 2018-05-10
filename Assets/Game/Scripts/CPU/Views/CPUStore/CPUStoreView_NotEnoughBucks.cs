@@ -20,7 +20,6 @@ namespace TurboLabz.InstantChess
 		public Button closeNotEnoughBucksButton;
 		public GameObject notEnoughBucksDlg;
 		public GameObject notEnoughBucksGallery;
-		public BucksPackItemPrefab bucksPackItemPrefab;
 
 		public Text notEnoughBucksHeadingLabel;
 		public Text notEnoughBucksSubHeadingLabel;
@@ -30,7 +29,7 @@ namespace TurboLabz.InstantChess
 		public Signal closeNotEnoughBucksButtonClickedSignal = new Signal();
 
 		private StoreItem notEnoughBucksStoreItem;
-		private BucksPackItemPrefab notEnoughBucksOfferPrefab;
+		private BuckPackItemPrefab notEnoughBucksOfferPrefab;
 
 		public void InitNotEnoughBucks()
 		{
@@ -41,7 +40,7 @@ namespace TurboLabz.InstantChess
 			notEnoughBucksSubHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING);
 			notEnoughBucksBuyLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_BUY);
 
-			notEnoughBucksOfferPrefab = Instantiate<BucksPackItemPrefab>(bucksPackItemPrefab);
+			notEnoughBucksOfferPrefab = Instantiate<BuckPackItemPrefab>(buckPackItemPrefab);
 			notEnoughBucksOfferPrefab.transform.SetParent(notEnoughBucksGallery.transform, false);
 		}
 

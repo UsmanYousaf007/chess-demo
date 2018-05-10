@@ -95,6 +95,10 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING, "Buy this pack" },
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_BUY, "BUY" },
 
+
+				{ LocalizationKey.CPU_STORE_BUCK_PACKS_TITLE, "Buy Bucks" },
+				{ LocalizationKey.CPU_STORE_BUCK_PACKS_SUB_HEADING, "Great Values" },
+
 				#endregion
 
                 #region Share

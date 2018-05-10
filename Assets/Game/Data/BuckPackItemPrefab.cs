@@ -8,11 +8,13 @@ using UnityEngine.UI;
 
 namespace TurboLabz.InstantChess
 {
-	public class BucksPackItemPrefab : MonoBehaviour 
+	public class BuckPackItemPrefab : MonoBehaviour 
 	{
 		public Image thumbnail;
 		public Text displayName;
 		public Text payout;
 		public Text price;
+
+		public Button button;
 	}
 }
