@@ -32,6 +32,12 @@ namespace TurboLabz.InstantChess
 		{
 			StoreItem item = storeSettingsModel.items[key];
 
+			if (playerModel.ownsVGood(key) == true)
+			{
+				// Case item is already owned
+				return;
+			}
+
 			if (clearForPurchase == true) 
 			{
 				// Case Player is clear to purchase item
@@ -40,7 +46,7 @@ namespace TurboLabz.InstantChess
 			else if (playerModel.bucks < item.currency2Cost) 
 			{
 				// Case Player does not have enough bucks
-				StoreItem bestBuckPackOffer = GetBestBuckPackOffer (item.currency2Cost);
+				StoreItem bestBuckPackOffer = GetBestBuckPackOffer(item.currency2Cost);
 				updateStoreNotEnoughBucksDlgSignal.Dispatch(bestBuckPackOffer);
 				navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
 			} 
@@ -54,10 +60,16 @@ namespace TurboLabz.InstantChess
 
 		private void Purchase(StoreItem item)
 		{
-			playerModel.bucks -= item.currency2Cost;
-			playerModel.vGoods.Add(key);
-
-			savePlayerSignal.Dispatch();
+			if (item.type == StoreItem.Type.CURRENCY) 
+			{
+				LogUtil.Log ("Purchase CURRENCY" + item.displayName, "cyan");
+			} 
+			else 
+			{
+				playerModel.bucks -= item.currency2Cost;
+				playerModel.vGoods.Add (key);
+				savePlayerSignal.Dispatch();
+			}
 		}
 
 		private StoreItem GetBestBuckPackOffer(int price)

@@ -15,6 +15,7 @@ namespace TurboLabz.InstantChess
 		{
 			view.InitBuckPacks();
 			view.closeBuckPacksButtonClickedSignal.AddListener(OnCloseBuckPacksButtonClicked);
+			view.buckPacksClickedSignal.AddListener(OnBuckPackClicked);
 		}
 
 		public void OnRemoveBuckPacks()
@@ -46,11 +47,11 @@ namespace TurboLabz.InstantChess
 			view.UpdateStoreBuckPacksDlg(vo);
 		}
 
-		//private void OnBuckPackClicked(StoreItem item)
-		//{
-			//purchaseStoreItemSignal.Dispatch(item.key, true);
-		//	loadStoreSignal.Dispatch();
-		//}
+		private void OnBuckPackClicked(StoreItem item)
+		{
+			purchaseStoreItemSignal.Dispatch(item.key, true);
+			loadStoreSignal.Dispatch();
+		}
 
 		private void OnCloseBuckPacksButtonClicked()
 		{

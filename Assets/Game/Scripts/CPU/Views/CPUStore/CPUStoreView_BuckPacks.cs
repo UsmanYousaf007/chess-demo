@@ -25,7 +25,7 @@ namespace TurboLabz.InstantChess
 		public Text buckPacksHeadingLabel;
 		public Text buckPacksSubHeadingLabel;
 
-		public Signal<StoreItem> buyBuckPacksButtonClickedSignal = new Signal<StoreItem>();
+		public Signal<StoreItem> buckPacksClickedSignal = new Signal<StoreItem>();
 		public Signal closeBuckPacksButtonClickedSignal = new Signal();
 
 		StoreItem buckPacksStoreItem;
@@ -35,8 +35,8 @@ namespace TurboLabz.InstantChess
 		{
 			closeBuckPacksButton.onClick.AddListener(OnCloseBuckPacksButtonClicked);
 
-			buckPacksHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE);
-			buckPacksSubHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING);
+			buckPacksHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_TITLE);
+			buckPacksSubHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_SUB_HEADING);
 		}
 
 		public void CleanupBuckPacks() 
@@ -75,8 +75,7 @@ namespace TurboLabz.InstantChess
 
 		void OnBuckPackItemClicked(StoreItem item)
 		{
-			LogUtil.Log ("OnBuckPackItemClicked " + item.displayName, "cyan");
-			buyBuckPacksButtonClickedSignal.Dispatch(item);
+			buckPacksClickedSignal.Dispatch(item);
 		}
 
 		void OnCloseBuckPacksButtonClicked()
