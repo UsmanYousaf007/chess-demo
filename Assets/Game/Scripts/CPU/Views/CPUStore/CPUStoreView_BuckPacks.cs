@@ -23,7 +23,6 @@ namespace TurboLabz.InstantChess
 		public BuckPackItemPrefab buckPackItemPrefab;
 
 		public Text buckPacksHeadingLabel;
-		public Text buckPacksSubHeadingLabel;
 
 		public Signal<StoreItem> buckPacksClickedSignal = new Signal<StoreItem>();
 		public Signal closeBuckPacksButtonClickedSignal = new Signal();
@@ -36,7 +35,6 @@ namespace TurboLabz.InstantChess
 			closeBuckPacksButton.onClick.AddListener(OnCloseBuckPacksButtonClicked);
 
 			buckPacksHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_TITLE);
-			buckPacksSubHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_SUB_HEADING);
 		}
 
 		public void CleanupBuckPacks() 
@@ -49,7 +47,6 @@ namespace TurboLabz.InstantChess
 			if (buckPackPrefabs == null) 
 			{
 				CreateBuckPackPrefabs(vo);
-				PopulateBuckPacks(vo);
 			}
 		}
 
@@ -85,6 +82,8 @@ namespace TurboLabz.InstantChess
 
 		private void CreateBuckPackPrefabs(CPUStoreVO vo)
 		{
+			BuckPackThumbsContainer containter = BuckPackThumbsContainer.Load();
+
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			BuckPackItemPrefab prefab = Instantiate<BuckPackItemPrefab>(buckPackItemPrefab);
 
@@ -93,29 +92,19 @@ namespace TurboLabz.InstantChess
 			List<StoreItem> list = metaDataModel.lists["BuckPack"];
 			foreach (StoreItem item in list) 
 			{
-				BuckPackItemPrefab buckPackThumbnail = Object.Instantiate(prefab);
-				buckPackThumbnail.transform.SetParent(buckPacksGallery.transform, false);
-				buckPackPrefabs.Add(buckPackThumbnail);
+				BuckPackItemPrefab thumbnail = Object.Instantiate(prefab);
+				thumbnail.transform.SetParent(buckPacksGallery.transform, false);
+				buckPackPrefabs.Add(thumbnail);
+
+				thumbnail.bucksLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCKS);
+				thumbnail.payout.text = item.currency2Payout.ToString();
+				thumbnail.price.text = item.remoteProductPrice;
+				thumbnail.thumbnail.sprite = containter.GetSprite(item.key);
+
+				thumbnail.button.onClick.AddListener(() => OnBuckPackItemClicked(item));
 			}
 
 			Destroy(prefab);
-		}
-
-		private void PopulateBuckPacks(CPUStoreVO vo)
-		{
-            IMetaDataModel metaDataModel = vo.storeSettingsModel;
-
-			List<StoreItem> list = metaDataModel.lists["BuckPack"];
-			for (int i = 0; i < list.Count; i++) 
-			{
-				BuckPackItemPrefab thumbnail = buckPackPrefabs[i];
-				StoreItem item = list[i];
-
-				thumbnail.displayName.text = item.displayName;
-				thumbnail.payout.text = item.currency2Payout.ToString();
-				thumbnail.price.text = item.remoteProductPrice;
-				thumbnail.button.onClick.AddListener(() => OnBuckPackItemClicked(item));
-			}
 		}
 	}
 }

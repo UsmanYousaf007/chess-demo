@@ -19,18 +19,16 @@ namespace TurboLabz.InstantChess
 		public Button yesButton;
 		public Button noButton;
 
-		public Signal<StoreItem> yesButtonClickedSignal = new Signal<StoreItem>();
-		public Signal noButtonClickedSignal = new Signal();
+		public Signal<StoreItem> buyButtonClickedSignal = new Signal<StoreItem>();
+		public Signal closeButtonClickedSignal = new Signal();
 
 		public GameObject uiBlocker;
 		public GameObject buyDlg;
 
 		public Text titleLabel;
-		public Text yesButtonLabel;
-		public Text noButtonLabel;
+		public Text buyButtonLabel;
 		public Text itemNameLabel;
 		public Text priceLabel;
-		public Text forLabel;
 
 		private StoreItem buyStoreItem;
 
@@ -40,9 +38,7 @@ namespace TurboLabz.InstantChess
 			noButton.onClick.AddListener(OnNoButtonClicked);
 
 			titleLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_THEME_TITLE);
-			yesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_YES_BUTTON);
-			noButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_NO_BUTTON);
-			forLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_FOR);
+			buyButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_BUY_BUTTON);
 		}
 
 		public void CleanupBuy() 
@@ -60,13 +56,11 @@ namespace TurboLabz.InstantChess
 
 		public void ShowBuy()
 		{
-			uiBlocker.SetActive(true);
 			buyDlg.SetActive(true);
 		}
 
 		public void HideBuy()
 		{
-			uiBlocker.SetActive(false);
 			buyDlg.SetActive(false);
 		}
 
@@ -80,12 +74,12 @@ namespace TurboLabz.InstantChess
 
 		void OnYesButtonClicked()
 		{
-			yesButtonClickedSignal.Dispatch(buyStoreItem);
+			buyButtonClickedSignal.Dispatch(buyStoreItem);
 		}
 
 		void OnNoButtonClicked()
 		{
-			noButtonClickedSignal.Dispatch();
+			closeButtonClickedSignal.Dispatch();
 		}
 	}
 }

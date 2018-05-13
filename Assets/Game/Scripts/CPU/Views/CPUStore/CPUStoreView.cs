@@ -19,6 +19,7 @@ namespace TurboLabz.InstantChess
     {
 		[Inject] public ILocalizationService localizationService { get; set; }
 
+		public Text HeadingLabel;
 		public Text playerBucks;
 		public GameObject gallery;
 		public Button backButton;
@@ -36,6 +37,8 @@ namespace TurboLabz.InstantChess
         {
 			backButton.onClick.AddListener(OnBackButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
+
+			HeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_HEADING);
         }
 
 		public void UpdateView(CPUStoreVO vo)
@@ -66,6 +69,8 @@ namespace TurboLabz.InstantChess
 
 		private void CreatePrefabs(CPUStoreVO vo)
 		{
+			SkinThumbsContainer containter = SkinThumbsContainer.Load();
+
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			SkinShopItemPrefab prefab = Instantiate<SkinShopItemPrefab>(skinShopItemPrefab);
 
@@ -77,6 +82,10 @@ namespace TurboLabz.InstantChess
 				SkinShopItemPrefab skinThumbnail = Object.Instantiate(prefab);
 				skinThumbnail.transform.SetParent(gallery.transform, false);
 				prefabs.Add (skinThumbnail);
+
+				skinThumbnail.button.onClick.AddListener(() => OnSkinItemClicked(item));
+				skinThumbnail.displayName.text = item.displayName;
+				skinThumbnail.thumbnail.sprite = containter.GetSprite(item.key);
 			}
 
 			Destroy(prefab);
@@ -85,6 +94,10 @@ namespace TurboLabz.InstantChess
 		private void PopulateSkins(CPUStoreVO vo)
 		{
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
+			Color colorOwned;
+			ColorUtility.TryParseHtmlString("#EBA83DFF", out colorOwned);
+			Color colorNormal;
+			ColorUtility.TryParseHtmlString("##FFFFFFDE", out colorNormal);
 
 			List<StoreItem> list = metaDataModel.lists["Skin"];
 			for (int i = 0; i < list.Count; i++) 
@@ -92,19 +105,18 @@ namespace TurboLabz.InstantChess
 				SkinShopItemPrefab skinThumbnail = prefabs[i];
 				StoreItem item = list[i];
 
-				skinThumbnail.displayName.text = item.displayName;
 				if (vo.playerModel.ownsVGood (item.key)) 
 				{
-					skinThumbnail.price.text = "Owned";
+					skinThumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_OWNED);
+					skinThumbnail.price.color = colorOwned;
 					skinThumbnail.bucksIcon.gameObject.SetActive (false);
 				} 
 				else 
 				{
 					skinThumbnail.price.text = item.currency2Cost.ToString();
+					skinThumbnail.price.color = colorNormal;
 					skinThumbnail.bucksIcon.gameObject.SetActive (true);
 				}
-
-				skinThumbnail.button.onClick.AddListener(() => OnSkinItemClicked(item));
 			}
 		}
 

@@ -16,7 +16,8 @@ namespace TurboLabz.InstantFramework
 	public class UnityIAPService : IStoreListener, IStoreService
     {
         IStoreController storeController = null;
-        Dictionary<string, Product> pendingVerification = new Dictionary<string, Product>();
+		// TODO: Implement Reciept Verification for Multiplayer
+        // Dictionary<string, Product> pendingVerification = new Dictionary<string, Product>();
 		IPromise<bool> promise = null;
 		purchaseProcessState purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
 
@@ -100,12 +101,12 @@ namespace TurboLabz.InstantFramework
 		{
 			if (Application.platform == RuntimePlatform.Android)
 			{
-				if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
-				{
-					pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
-				}
-
 				// TODO: Implement Reciept Verification for Multiplayer
+				//if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
+				//{
+				//	pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
+				//}
+
 				// GooglePurchaseData googlePurchaseData = new GooglePurchaseData (e.purchasedProduct.receipt);
 				// backendService.GooglePlayBuyGoods(e.purchasedProduct.transactionID, "", googlePurchaseData.inAppDataSignature, 
 				//     googlePurchaseData.inAppPurchaseData, 0).Then(OnGooglePlayBuyGoods);

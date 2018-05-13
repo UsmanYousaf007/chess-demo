@@ -11,7 +11,7 @@ namespace TurboLabz.InstantChess
 	public class BuckPackItemPrefab : MonoBehaviour 
 	{
 		public Image thumbnail;
-		public Text displayName;
+		public Text bucksLabel;
 		public Text payout;
 		public Text price;
 

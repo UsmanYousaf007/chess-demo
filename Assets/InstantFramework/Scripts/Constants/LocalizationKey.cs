@@ -88,10 +88,12 @@ namespace TurboLabz.InstantFramework
 
 		#region Store
 
+		public const string CPU_STORE_HEADING = "storeHeading";
+		public const string CPU_STORE_OWNED = "storeItemOwned";
+		public const string CPU_STORE_BUCKS = "bucks";
+
 		public const string CPU_STORE_BUY_THEME_TITLE = "storeBuyThemeTitle";
-		public const string CPU_STORE_BUY_YES_BUTTON = "storeBuyYes";
-		public const string CPU_STORE_BUY_NO_BUTTON = "storeBuyNo";
-		public const string CPU_STORE_BUY_FOR = "storeBuyFor";
+		public const string CPU_STORE_BUY_BUY_BUTTON = "storeBuyBuy";
 
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_TITLE = "storeNotEnoughBucksTitle";
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING = "storeNotEnoughBucksSubHeading";
