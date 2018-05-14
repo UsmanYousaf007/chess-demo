@@ -17,41 +17,17 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.Chess
 {
-    public class ChessboardRefs : MonoBehaviour {
+    public class SkinRefs : MonoBehaviour {
         // Skin Objects
-        public GameObject chessContainer;
-        public Transform chessboard;
+
         public SpriteRenderer background;
-        public Transform[] chessboardSquares;
-        public GameObject[] pieces;
-        public GameObject[] possibleMoveIndicators;
-        public GameObject kingCheckIndicator;
-        public GameObject playerFromIndicator;
-        public GameObject playerToIndicator;
-        public GameObject opponentFromIndicator;
-        public GameObject opponentToIndicator;
-        public GameObject fileRankLabelsForward;
-        public GameObject fileRankLabelsBackward;
-        public GameObject chessboardBlocker;
-        public GameObject dragIndicator;
-        public GameObject dragValidIndicator;
-        public GameObject dragInvalidIndicator;
-        public GameObject hintFromIndicator;
-        public GameObject hintToIndicator;
         public Image promoBg;
         public Image[] promoPieces;
-        public Camera chessboardCamera;
+
 
         // Unique skinnable objects for each game mode UI
         public GameObject[] cpuCapturedPieces;
         public GameObject cpuDragGhost;
-
-        // Skin support info
-        public const string IMAGE_POSSIBLE_MOVE = "PossibleMove";
-        public readonly Quaternion WHITE_BOARD_ROTATION = Quaternion.Euler(new Vector3(0f, 0f, -270f));
-        public readonly Vector3 WHITE_BOARD_POSITION =  new Vector3(420f, -420f, 10f);
-        public readonly Quaternion BLACK_BOARD_ROTATION = Quaternion.Euler(new Vector3(0f, 0f, -90f));
-        public readonly Vector3 BLACK_BOARD_POSITION = new Vector3(-420f, 420f, 10f);
 
         private string currentSkinId;
 

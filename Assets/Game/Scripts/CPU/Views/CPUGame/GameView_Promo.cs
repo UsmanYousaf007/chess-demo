@@ -150,7 +150,7 @@ namespace TurboLabz.InstantChess
             // in the case of promotions. So we add it to the chessContainer here
             if (promoPieceImage.transform.parent == null)
             {
-                promoPieceImage.transform.parent = refs.chessContainer.transform;
+                promoPieceImage.transform.parent = chessContainer.transform;
             }
 
             // Place the new piece image in the appropriate location

@@ -71,7 +71,6 @@ namespace TurboLabz.InstantChess
             bool isPlayerWhite = (chessboardModel.playerColor == ChessColor.WHITE);
             SetupChessboardVO vo;
             vo.isPlayerWhite = isPlayerWhite;
-            vo.activeSkinId = cmd.playerModel.activeSkinId;
             cmd.setupChessboardSignal.Dispatch(vo);
 
             // Place the pieces

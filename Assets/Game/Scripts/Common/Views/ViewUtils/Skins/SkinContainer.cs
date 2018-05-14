@@ -21,7 +21,7 @@ namespace TurboLabz.Chess
     {
         public enum SkinSprite
         {
-            ChessBoardBar,
+            ChessboardBar,
             StandardDlg,
             Background,
             Board,
