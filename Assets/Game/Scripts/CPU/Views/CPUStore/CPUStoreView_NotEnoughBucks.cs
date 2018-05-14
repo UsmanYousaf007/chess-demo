@@ -16,31 +16,26 @@ namespace TurboLabz.InstantChess
 	{
 		[Header("NotEnoughBucksDlg")]
 
-		public Button closeNotEnoughBucksButton;
 		public GameObject notEnoughBucksDlg;
-		public GameObject notEnoughBucksGallery;
+
+		public Button closeNotEnoughBucksButton;
+		public Button yesNotEnoughBucksButton;
 
 		public Text notEnoughBucksHeadingLabel;
 		public Text notEnoughBucksSubHeadingLabel;
+		public Text notEnoughBucksYesButtonLabel;
 
-		public Signal<StoreItem> buyNotEnoughBucksButtonClickedSignal = new Signal<StoreItem>();
+		public Signal yesNotEnoughBucksButtonClickedSignal = new Signal();
 		public Signal closeNotEnoughBucksButtonClickedSignal = new Signal();
-
-		private StoreItem notEnoughBucksStoreItem;
-		private BuckPackItemPrefab notEnoughBucksOfferPrefab;
 
 		public void InitNotEnoughBucks()
 		{
 			closeNotEnoughBucksButton.onClick.AddListener(OnCloseNotEnoughBucksButtonClicked);
+			yesNotEnoughBucksButton.onClick.AddListener(OnYesNotEnoughBucksButtonClicked);
 
 			notEnoughBucksHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE);
 			notEnoughBucksSubHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING);
-
-			notEnoughBucksOfferPrefab = Instantiate<BuckPackItemPrefab>(buckPackItemPrefab);
-			notEnoughBucksOfferPrefab.transform.SetParent(notEnoughBucksGallery.transform, false);
-			notEnoughBucksOfferPrefab.bucksLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCKS);
-
-			notEnoughBucksOfferPrefab.button.onClick.AddListener(() => OnBuyNotEnoughBucksButtonClicked());
+			notEnoughBucksYesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON);
 		}
 
 		public void CleanupNotEnoughBucks() 
@@ -50,9 +45,6 @@ namespace TurboLabz.InstantChess
 
 		public void UpdateStoreNotEnoughBucksDlg(StoreItem item)
 		{
-			notEnoughBucksStoreItem = item;
-			notEnoughBucksOfferPrefab.payout.text = item.currency2Payout.ToString();
-			notEnoughBucksOfferPrefab.price.text = item.remoteProductPrice;
 		}
 
 		public void ShowNotEnoughBucks()
@@ -75,9 +67,9 @@ namespace TurboLabz.InstantChess
 			}
 		}
 
-		void OnBuyNotEnoughBucksButtonClicked()
+		void OnYesNotEnoughBucksButtonClicked()
 		{
-			buyNotEnoughBucksButtonClickedSignal.Dispatch(notEnoughBucksStoreItem);
+			yesNotEnoughBucksButtonClickedSignal.Dispatch();
 		}
 
 		void OnCloseNotEnoughBucksButtonClicked()

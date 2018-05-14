@@ -6,6 +6,7 @@
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantChess 
 {
@@ -14,7 +15,7 @@ namespace TurboLabz.InstantChess
 		public void OnRegisterNotEnoughBucks()
 		{
 			view.InitNotEnoughBucks();
-			view.buyNotEnoughBucksButtonClickedSignal.AddListener(OnBuyNotEnoughBucksButtonClicked);
+			view.yesNotEnoughBucksButtonClickedSignal.AddListener(OnYesNotEnoughBucksButtonClicked);
 			view.closeNotEnoughBucksButtonClickedSignal.AddListener(OnCloseNotEnoughBucksButtonClicked);
 		}
 
@@ -47,10 +48,9 @@ namespace TurboLabz.InstantChess
 			view.UpdateStoreNotEnoughBucksDlg(item);
 		}
 
-		private void OnBuyNotEnoughBucksButtonClicked(StoreItem item)
+		private void OnYesNotEnoughBucksButtonClicked()
 		{
-			purchaseStoreItemSignal.Dispatch(item.key, true);
-			loadStoreSignal.Dispatch();
+			loadBuckPacksSignal.Dispatch();
 		}
 
 		private void OnCloseNotEnoughBucksButtonClicked()

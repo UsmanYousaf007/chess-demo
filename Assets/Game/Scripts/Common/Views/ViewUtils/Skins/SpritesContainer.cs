@@ -59,11 +59,14 @@ namespace TurboLabz.InstantChess
 			}
 
 			string[] files = Directory.GetFiles(sourcePath , "*.png");
+			sourcePath = sourcePath.Substring(sourcePath.IndexOf("Assets"));
 
 			foreach(string filePath in files)
 			{
+				string filepath = sourcePath + Path.DirectorySeparatorChar + Path.GetFileName(filePath);
+
 				Sprite sprite = new Sprite();
-				sprite = AssetDatabase.LoadAssetAtPath<Sprite>(filePath);
+				sprite = AssetDatabase.LoadAssetAtPath<Sprite>(filepath);
 				sprites.Add(sprite);
 			}
 				

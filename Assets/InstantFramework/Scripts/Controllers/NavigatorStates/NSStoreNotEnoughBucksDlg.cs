@@ -19,6 +19,10 @@ namespace TurboLabz.InstantFramework
 			{
 				return new NSStore();
 			}
+			else if (evt == NavigatorEvent.SHOW_BUCK_PACKS_DLG) 
+			{
+				return new NSBuckPacksDlg();
+			}
 
 			return null;
 		}
