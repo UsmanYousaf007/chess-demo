@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
                 { LocalizationKey.CPU_MENU_PLAY, "PLAY" },
-                { LocalizationKey.CPU_MENU_STATS, "STATS" },
+                { LocalizationKey.CPU_MENU_THEMES, "THEMES" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "Computer" },
                 { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty {0}" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },

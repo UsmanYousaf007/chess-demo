@@ -50,14 +50,20 @@ namespace TurboLabz.InstantChess
         public GameObject randomKing;
         public Button incPlayerColorButton;
 
+        public Text themesLabel;
+        public Button decThemeButton;
+        public Text currentThemeLabel;
+        public Button incThemeButton;
+
         public Button playButton;
         public Text playButtonLabel;
 
-        public Button statsButton;
-        public Text statsButtonLabel;
+        public Button themesButton;
+        public Text themesButtonLabel;
 
         public Button audioIsOnButton;
         public Button audioIsOffButton;
+        public Button statsButton;
         public Button shareAppButton;
 
         public InputField devFen;
@@ -94,7 +100,7 @@ namespace TurboLabz.InstantChess
             durationLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_DURATION);
             playerColorLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAYER_COLOR);
             playButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY);
-            statsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STATS);
+            themesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_THEMES);
 
             RefreshAudioButtons();
         }

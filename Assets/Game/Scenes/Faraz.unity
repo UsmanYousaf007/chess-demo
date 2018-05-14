@@ -603,7 +603,7 @@ GameObject:
   - component: {fileID: 29964844}
   - component: {fileID: 29964843}
   m_Layer: 5
-  m_Name: ColorIcon
+  m_Name: WhiteKing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4369,7 +4369,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Get 300 Bucks
+  m_Text: X
 --- !u!222 &252255212
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11750,23 +11750,28 @@ MonoBehaviour:
   currentStrengthLabel: {fileID: 928310422}
   nextStrengthLabel: {fileID: 1750130164}
   incStrengthButton: {fileID: 1591351524}
-  durationLabel: {fileID: 0}
-  decDurationButton: {fileID: 0}
-  currentDurationLabel: {fileID: 0}
-  infinityIcon: {fileID: 0}
-  incDurationButton: {fileID: 0}
-  playerColorLabel: {fileID: 0}
-  decPlayerColorButton: {fileID: 0}
-  whiteKing: {fileID: 0}
-  blackKing: {fileID: 0}
-  randomKing: {fileID: 0}
-  incPlayerColorButton: {fileID: 0}
+  durationLabel: {fileID: 1038441112}
+  decDurationButton: {fileID: 301960108}
+  currentDurationLabel: {fileID: 994866663}
+  infinityIcon: {fileID: 375836044}
+  incDurationButton: {fileID: 1482006862}
+  playerColorLabel: {fileID: 758009102}
+  decPlayerColorButton: {fileID: 95093878}
+  whiteKing: {fileID: 29964841}
+  blackKing: {fileID: 2018143236}
+  randomKing: {fileID: 1835305060}
+  incPlayerColorButton: {fileID: 765310273}
+  themesLabel: {fileID: 1938725903}
+  decThemeButton: {fileID: 1713975047}
+  currentThemeLabel: {fileID: 525873851}
+  incThemeButton: {fileID: 1176823430}
   playButton: {fileID: 752242083}
   playButtonLabel: {fileID: 781651151}
-  statsButton: {fileID: 0}
-  statsButtonLabel: {fileID: 0}
+  themesButton: {fileID: 1630706120}
+  themesButtonLabel: {fileID: 1007980884}
   audioIsOnButton: {fileID: 449465893}
   audioIsOffButton: {fileID: 1678456059}
+  statsButton: {fileID: 1677469983}
   shareAppButton: {fileID: 804926922}
   devFen: {fileID: 201508225}
 --- !u!1 &677717815
@@ -13187,6 +13192,8 @@ RectTransform:
   m_Children:
   - {fileID: 95093877}
   - {fileID: 29964842}
+  - {fileID: 2018143237}
+  - {fileID: 1835305061}
   - {fileID: 765310272}
   m_Father: {fileID: 1279031090}
   m_RootOrder: 2
@@ -13304,7 +13311,7 @@ RectTransform:
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 758009101}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -31332,6 +31339,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1834124712}
+--- !u!1 &1835305060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1835305061}
+  - component: {fileID: 1835305063}
+  - component: {fileID: 1835305062}
+  m_Layer: 5
+  m_Name: RandomKing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1835305061
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1835305060}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 758009101}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -7.8146973, y: 0.20019531}
+  m_SizeDelta: {x: 168, y: 168}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1835305062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1835305060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 8f84ebfd9b91a4547adbd55f5671fd5e, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1835305063
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1835305060}
 --- !u!1 &1839683361
 GameObject:
   m_ObjectHideFlags: 0
@@ -33860,6 +33935,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2007884225}
+--- !u!1 &2018143236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2018143237}
+  - component: {fileID: 2018143239}
+  - component: {fileID: 2018143238}
+  m_Layer: 5
+  m_Name: BlackKing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2018143237
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2018143236}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 758009101}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -7.8146973, y: 0.20019531}
+  m_SizeDelta: {x: 168, y: 168}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2018143238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2018143236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 411d28d834585464d9f9d2a8cb7c1b18, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &2018143239
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2018143236}
 --- !u!1 &2019205337
 GameObject:
   m_ObjectHideFlags: 0
