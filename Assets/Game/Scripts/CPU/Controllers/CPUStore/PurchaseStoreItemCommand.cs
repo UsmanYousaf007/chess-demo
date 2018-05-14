@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using TurboLabz.TLUtils;
 using UnityEngine;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantChess
 {
@@ -65,12 +66,17 @@ namespace TurboLabz.InstantChess
 		{
 			if (item.remoteProductId != null) 
 			{
-				LogUtil.Log ("Purchase REMOTE" + item.displayName, "cyan");
+				bool success = storeService.BuyProduct(item.remoteProductId);
+				if (success) 
+				{
+					playerModel.bucks += item.currency2Payout;
+					savePlayerSignal.Dispatch();
+				}
 			} 
 			else 
 			{
 				playerModel.bucks -= item.currency2Cost;
-				playerModel.vGoods.Add (key);
+				playerModel.vGoods.Add(key);
 				savePlayerSignal.Dispatch();
 			}
 		}

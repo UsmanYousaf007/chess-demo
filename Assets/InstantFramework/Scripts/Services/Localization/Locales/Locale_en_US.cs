@@ -86,10 +86,12 @@ namespace TurboLabz.InstantFramework
 
 				#region Store
 
+				{ LocalizationKey.CPU_STORE_HEADING, "Themes Shop" },
+				{ LocalizationKey.CPU_STORE_OWNED, "Owned" },
+				{ LocalizationKey.CPU_STORE_BUCKS, "Bucks" },
+
 				{ LocalizationKey.CPU_STORE_BUY_THEME_TITLE, "Buy Theme" },
-				{ LocalizationKey.CPU_STORE_BUY_YES_BUTTON, "YES" },
-				{ LocalizationKey.CPU_STORE_BUY_NO_BUTTON, "NO" },
-				{ LocalizationKey.CPU_STORE_BUY_FOR, "for" },
+				{ LocalizationKey.CPU_STORE_BUY_BUY_BUTTON, "BUY" },
 
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE, "Not Enough Bucks" },
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING, "Buy this pack" },

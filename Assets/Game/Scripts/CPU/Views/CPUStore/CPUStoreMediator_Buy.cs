@@ -19,8 +19,8 @@ namespace TurboLabz.InstantChess
 		public void OnRegisterBuy()
 		{
 			view.InitBuy();
-			view.noButtonClickedSignal.AddListener(OnNoButtonClicked);
-			view.yesButtonClickedSignal.AddListener(OnYesButtonClicked);
+			view.closeButtonClickedSignal.AddListener(OnCloseButtonClicked);
+			view.buyButtonClickedSignal.AddListener(OnBuyButtonClicked);
 		}
 
 		public void OnRemoveBuy()
@@ -52,12 +52,12 @@ namespace TurboLabz.InstantChess
 			view.UpdateStoreBuyDlg(item);
 		}
 
-		private void OnNoButtonClicked()
+		private void OnCloseButtonClicked()
 		{
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
 		}
 
-		private void OnYesButtonClicked(StoreItem item)
+		private void OnBuyButtonClicked(StoreItem item)
 		{
 			purchaseStoreItemSignal.Dispatch(item.key, true);
 			loadStoreSignal.Dispatch();

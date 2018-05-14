@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 using TurboLabz.Chess;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantChess
 {
@@ -25,5 +26,7 @@ namespace TurboLabz.InstantChess
         public const int DEFAULT_HINT_COUNT = 3;
         public const string DEFAULT_PLAYER_ID = "DEFAULT_PLAYER_ID";
         public const int AD_FREQUENCY = 3000000;
+		public const int DEFAULT_STARTING_BUCKS = 100;
+		public static readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea" };
     }
 }

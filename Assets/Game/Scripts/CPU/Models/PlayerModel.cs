@@ -39,9 +39,13 @@ namespace TurboLabz.InstantChess
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
-            activeSkinId = "SkinWood";
-			bucks = 1000;
+			bucks = CPUSettings.DEFAULT_STARTING_BUCKS;
 			vGoods = new List<string>();
+			for (int i = 0; i < CPUSettings.DEFAULT_VGOODS.Length; i++) 
+			{
+				vGoods.Add(CPUSettings.DEFAULT_VGOODS[i]);
+			}
+			activeSkinId = "SkinWood";//CPUSettings.DEFAULT_VGOODS[0];
             totalAdImpressions = 0;
             slotAdImpressions = 0;
             slotStartTime = 0;

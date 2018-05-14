@@ -173,8 +173,8 @@ namespace TurboLabz.InstantChess
 
         private void OnStatsButtonClicked()
         {
-            //loadStatsSignal.Dispatch();
-            loadStoreSignal.Dispatch();
+            loadStatsSignal.Dispatch();
+            //loadStoreSignal.Dispatch();
         }
 
 		private void OnStoreButtonClicked()

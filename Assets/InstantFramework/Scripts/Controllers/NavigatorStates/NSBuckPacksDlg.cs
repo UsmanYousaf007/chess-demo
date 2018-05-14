@@ -19,7 +19,10 @@ namespace TurboLabz.InstantFramework
 			{
 				return new NSStore();
 			}
-
+			else if (evt == NavigatorEvent.SHOW_STORE) 
+			{
+				return new NSStore();
+			}
 			return null;
 		}
 	}
