@@ -12497,148 +12497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f219575e8e9b4a6f99477ebe589d28e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chessContainer: {fileID: 113640928}
-  chessboard: {fileID: 1740220251}
   background: {fileID: 309220235}
-  chessboardSquares:
-  - {fileID: 1676274649}
-  - {fileID: 220335246}
-  - {fileID: 794413294}
-  - {fileID: 447995132}
-  - {fileID: 750273443}
-  - {fileID: 1859751940}
-  - {fileID: 1830492313}
-  - {fileID: 96894842}
-  - {fileID: 948917656}
-  - {fileID: 308425837}
-  - {fileID: 1080363532}
-  - {fileID: 1983474087}
-  - {fileID: 321338388}
-  - {fileID: 457782169}
-  - {fileID: 965869438}
-  - {fileID: 668484734}
-  - {fileID: 959855129}
-  - {fileID: 242586103}
-  - {fileID: 22278292}
-  - {fileID: 1748949451}
-  - {fileID: 235355759}
-  - {fileID: 1613623432}
-  - {fileID: 2005123311}
-  - {fileID: 1750188494}
-  - {fileID: 1417102971}
-  - {fileID: 411166479}
-  - {fileID: 255988217}
-  - {fileID: 128415679}
-  - {fileID: 670923005}
-  - {fileID: 2039335742}
-  - {fileID: 720651066}
-  - {fileID: 15995341}
-  - {fileID: 842891875}
-  - {fileID: 1498505070}
-  - {fileID: 1504604292}
-  - {fileID: 1288685208}
-  - {fileID: 202174837}
-  - {fileID: 1042799361}
-  - {fileID: 1655634759}
-  - {fileID: 149495112}
-  - {fileID: 2117702661}
-  - {fileID: 161130987}
-  - {fileID: 301951559}
-  - {fileID: 1244102693}
-  - {fileID: 2110869670}
-  - {fileID: 1524122800}
-  - {fileID: 1896169687}
-  - {fileID: 318027430}
-  - {fileID: 245707105}
-  - {fileID: 358073398}
-  - {fileID: 1189396172}
-  - {fileID: 76749787}
-  - {fileID: 1801328354}
-  - {fileID: 1534132769}
-  - {fileID: 1861588996}
-  - {fileID: 1119199971}
-  - {fileID: 1197406256}
-  - {fileID: 709094988}
-  - {fileID: 1885046522}
-  - {fileID: 1913580571}
-  - {fileID: 497945568}
-  - {fileID: 1755733134}
-  - {fileID: 1527458690}
-  - {fileID: 1154835276}
-  pieces:
-  - {fileID: 1616628370}
-  - {fileID: 1581009191}
-  - {fileID: 936522133}
-  - {fileID: 241928276}
-  - {fileID: 1016088867}
-  - {fileID: 437149985}
-  - {fileID: 834734116}
-  - {fileID: 615702378}
-  - {fileID: 908198720}
-  - {fileID: 1186839350}
-  - {fileID: 2072894829}
-  - {fileID: 230946854}
-  - {fileID: 1360277374}
-  - {fileID: 1169101902}
-  - {fileID: 756774015}
-  - {fileID: 700364460}
-  - {fileID: 1846498329}
-  - {fileID: 1205199147}
-  - {fileID: 789935746}
-  - {fileID: 746418541}
-  - {fileID: 839085590}
-  - {fileID: 834347617}
-  - {fileID: 518238489}
-  - {fileID: 1235941714}
-  - {fileID: 888596897}
-  - {fileID: 1678344131}
-  - {fileID: 1839683361}
-  - {fileID: 35649482}
-  - {fileID: 1476466118}
-  - {fileID: 607494740}
-  - {fileID: 598314975}
-  - {fileID: 392799649}
-  possibleMoveIndicators:
-  - {fileID: 1085865713}
-  - {fileID: 519557829}
-  - {fileID: 221685208}
-  - {fileID: 765608398}
-  - {fileID: 1659346644}
-  - {fileID: 20077599}
-  - {fileID: 2145119735}
-  - {fileID: 2114331039}
-  - {fileID: 1448520713}
-  - {fileID: 232679722}
-  - {fileID: 677717815}
-  - {fileID: 122021795}
-  - {fileID: 11239199}
-  - {fileID: 649094612}
-  - {fileID: 423024435}
-  - {fileID: 442736968}
-  - {fileID: 69485358}
-  - {fileID: 1631305801}
-  - {fileID: 1464505220}
-  - {fileID: 558363609}
-  - {fileID: 1603755445}
-  - {fileID: 540204714}
-  - {fileID: 1887494010}
-  - {fileID: 1865560965}
-  - {fileID: 1488256452}
-  - {fileID: 214664493}
-  - {fileID: 1082913989}
-  kingCheckIndicator: {fileID: 1822688540}
-  playerFromIndicator: {fileID: 1732942479}
-  playerToIndicator: {fileID: 2133551897}
-  opponentFromIndicator: {fileID: 274001059}
-  opponentToIndicator: {fileID: 104481314}
-  fileRankLabelsForward: {fileID: 1225380428}
-  fileRankLabelsBackward: {fileID: 2088882094}
-  chessboardBlocker: {fileID: 1079477231}
-  dragIndicator: {fileID: 371216570}
-  dragValidIndicator: {fileID: 1991386470}
-  dragInvalidIndicator: {fileID: 571187812}
-  hintFromIndicator: {fileID: 672206960}
-  hintToIndicator: {fileID: 349705917}
   promoBg: {fileID: 262454316}
   promoPieces:
   - {fileID: 13682528}
@@ -12649,7 +12508,6 @@ MonoBehaviour:
   - {fileID: 1759457174}
   - {fileID: 1589081846}
   - {fileID: 509652295}
-  chessboardCamera: {fileID: 1028168539}
   cpuCapturedPieces:
   - {fileID: 1151565148}
   - {fileID: 524846302}
@@ -17074,7 +16932,6 @@ MonoBehaviour:
   - {fileID: 714664540}
   - {fileID: 2097052737}
   - {fileID: 538840264}
-  - {fileID: 1079477232}
   capturedSlotsPlayer:
   - {fileID: 1156885523}
   - {fileID: 1720753760}
@@ -17093,7 +16950,141 @@ MonoBehaviour:
   - {fileID: 784369626}
   - {fileID: 739981710}
   - {fileID: 963865930}
-  refs: {fileID: 617156579}
+  pieces:
+  - {fileID: 1616628370}
+  - {fileID: 1581009191}
+  - {fileID: 936522133}
+  - {fileID: 241928276}
+  - {fileID: 1016088867}
+  - {fileID: 437149985}
+  - {fileID: 834734116}
+  - {fileID: 615702378}
+  - {fileID: 908198720}
+  - {fileID: 1186839350}
+  - {fileID: 2072894829}
+  - {fileID: 230946854}
+  - {fileID: 1360277374}
+  - {fileID: 1169101902}
+  - {fileID: 756774015}
+  - {fileID: 700364460}
+  - {fileID: 1846498329}
+  - {fileID: 1205199147}
+  - {fileID: 789935746}
+  - {fileID: 746418541}
+  - {fileID: 839085590}
+  - {fileID: 834347617}
+  - {fileID: 518238489}
+  - {fileID: 1235941714}
+  - {fileID: 888596897}
+  - {fileID: 1678344131}
+  - {fileID: 1839683361}
+  - {fileID: 35649482}
+  - {fileID: 1476466118}
+  - {fileID: 607494740}
+  - {fileID: 598314975}
+  - {fileID: 392799649}
+  possibleMoveIndicators:
+  - {fileID: 1085865713}
+  - {fileID: 519557829}
+  - {fileID: 221685208}
+  - {fileID: 765608398}
+  - {fileID: 1659346644}
+  - {fileID: 20077599}
+  - {fileID: 2145119735}
+  - {fileID: 2114331039}
+  - {fileID: 1448520713}
+  - {fileID: 232679722}
+  - {fileID: 677717815}
+  - {fileID: 122021795}
+  - {fileID: 11239199}
+  - {fileID: 649094612}
+  - {fileID: 423024435}
+  - {fileID: 442736968}
+  - {fileID: 69485358}
+  - {fileID: 1631305801}
+  - {fileID: 1464505220}
+  - {fileID: 558363609}
+  - {fileID: 1603755445}
+  - {fileID: 540204714}
+  - {fileID: 1887494010}
+  - {fileID: 1865560965}
+  - {fileID: 1488256452}
+  - {fileID: 214664493}
+  - {fileID: 1082913989}
+  chessboardSquares:
+  - {fileID: 1676274649}
+  - {fileID: 220335246}
+  - {fileID: 794413294}
+  - {fileID: 447995132}
+  - {fileID: 750273443}
+  - {fileID: 1859751940}
+  - {fileID: 1830492313}
+  - {fileID: 96894842}
+  - {fileID: 948917656}
+  - {fileID: 308425837}
+  - {fileID: 1080363532}
+  - {fileID: 1983474087}
+  - {fileID: 321338388}
+  - {fileID: 457782169}
+  - {fileID: 965869438}
+  - {fileID: 668484734}
+  - {fileID: 959855129}
+  - {fileID: 242586103}
+  - {fileID: 22278292}
+  - {fileID: 1748949451}
+  - {fileID: 235355759}
+  - {fileID: 1613623432}
+  - {fileID: 2005123311}
+  - {fileID: 1750188494}
+  - {fileID: 1417102971}
+  - {fileID: 411166479}
+  - {fileID: 255988217}
+  - {fileID: 128415679}
+  - {fileID: 670923005}
+  - {fileID: 2039335742}
+  - {fileID: 720651066}
+  - {fileID: 15995341}
+  - {fileID: 842891875}
+  - {fileID: 1498505070}
+  - {fileID: 1504604292}
+  - {fileID: 1288685208}
+  - {fileID: 202174837}
+  - {fileID: 1042799361}
+  - {fileID: 1655634759}
+  - {fileID: 149495112}
+  - {fileID: 2117702661}
+  - {fileID: 161130987}
+  - {fileID: 301951559}
+  - {fileID: 1244102693}
+  - {fileID: 2110869670}
+  - {fileID: 1524122800}
+  - {fileID: 1896169687}
+  - {fileID: 318027430}
+  - {fileID: 245707105}
+  - {fileID: 358073398}
+  - {fileID: 1189396172}
+  - {fileID: 76749787}
+  - {fileID: 1801328354}
+  - {fileID: 1534132769}
+  - {fileID: 1861588996}
+  - {fileID: 1119199971}
+  - {fileID: 1197406256}
+  - {fileID: 709094988}
+  - {fileID: 1885046522}
+  - {fileID: 1913580571}
+  - {fileID: 497945568}
+  - {fileID: 1755733134}
+  - {fileID: 1527458690}
+  - {fileID: 1154835276}
+  chessContainer: {fileID: 113640928}
+  chessboard: {fileID: 1740220251}
+  playerFromIndicator: {fileID: 1732942479}
+  playerToIndicator: {fileID: 2133551897}
+  opponentFromIndicator: {fileID: 274001059}
+  opponentToIndicator: {fileID: 104481314}
+  fileRankLabelsForward: {fileID: 1225380428}
+  fileRankLabelsBackward: {fileID: 2088882094}
+  kingCheckIndicator: {fileID: 1822688540}
   dragIndicator: {fileID: 371216570}
   dragValidIndicator: {fileID: 1991386470}
   dragInvalidIndicator: {fileID: 571187812}
@@ -17122,7 +17113,6 @@ MonoBehaviour:
   playerNameLabel: {fileID: 574764392}
   cpuNameLabel: {fileID: 330151730}
   cpuStrengthLabel: {fileID: 1324056552}
-  playerProfilePicture: {fileID: 0}
   notation: {fileID: 2006964934}
   promoParent: {fileID: 262454314}
   promoWhiteQueenButton: {fileID: 13682527}

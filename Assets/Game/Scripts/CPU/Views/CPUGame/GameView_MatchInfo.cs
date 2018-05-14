@@ -24,7 +24,7 @@ namespace TurboLabz.InstantChess
         public Text playerNameLabel;
         public Text cpuNameLabel;
         public Text cpuStrengthLabel;
-        public Image playerProfilePicture;
+        private Image playerProfilePicture;
 
         public void InitMatchInfo()
         {
