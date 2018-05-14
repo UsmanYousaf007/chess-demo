@@ -15,6 +15,9 @@ namespace TurboLabz.InstantFramework
 {
 	public class UnityIAPService : IStoreListener, IStoreService
     {
+
+		[Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
+
         IStoreController storeController = null;
 		// TODO: Implement Reciept Verification for Multiplayer
         // Dictionary<string, Product> pendingVerification = new Dictionary<string, Product>();
@@ -116,6 +119,7 @@ namespace TurboLabz.InstantFramework
 			//return PurchaseProcessingResult.Pending;
 
 			purchaseState = purchaseProcessState.PURCHASE_STATE_SUCCESS;
+			remoteStorePurchaseCompletedSignal.Dispatch(e.purchasedProduct.definition.id);
 
 			return PurchaseProcessingResult.Complete;
 		}

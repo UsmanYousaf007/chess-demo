@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
 			commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
-			commandBinder.Bind<LoadBuckPacksSignal> ().To<LoadBuckPacksCommand>();
+			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
 
 			// Bind signals to models data loader commands
 			commandBinder.Bind<LoadMetaDataSignal>().To<LoadMetaDataCommand>();
@@ -127,8 +127,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
             commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
-
-  
+			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<CPULobbyView>().To<CPULobbyMediator>();
