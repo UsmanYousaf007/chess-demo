@@ -62,7 +62,7 @@ namespace TurboLabz.Chess
             {
                 return;
             }
-                
+
             currentSkinId = skinId;
             SkinContainer container = SkinContainer.LoadSkin(skinId);
             background.sprite = container.GetSprite(SkinContainer.SPRITE_BACKGROUND);
