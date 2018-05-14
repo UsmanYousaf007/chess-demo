@@ -50,6 +50,7 @@ namespace TurboLabz.InstantChess
             view.decPlayerColorButtonClickedSignal.AddListener(OnDecPlayerColorButtonClicked);
             view.incPlayerColorButtonClickedSignal.AddListener(OnIncPlayerColorButtonClicked);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
+			view.themesButtonClickedSignal.AddListener(OnThemesButtonClicked);
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
             view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
             view.shareAppButtonClickedSignal.AddListener(OnShareAppButtonClicked);
@@ -166,6 +167,11 @@ namespace TurboLabz.InstantChess
             startCPUGameSignal.Dispatch();
         }
 
+		private void OnThemesButtonClicked()
+		{
+			loadStoreSignal.Dispatch();
+		}
+
         private void OnDevFenValueChanged(string fen)
         {
             devFenValueChangedSignal.Dispatch(fen);
@@ -174,7 +180,6 @@ namespace TurboLabz.InstantChess
         private void OnStatsButtonClicked()
         {
             loadStatsSignal.Dispatch();
-            //loadStoreSignal.Dispatch();
         }
 
 		private void OnStoreButtonClicked()
