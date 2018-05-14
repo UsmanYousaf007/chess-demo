@@ -66,12 +66,7 @@ namespace TurboLabz.InstantChess
 		{
 			if (item.remoteProductId != null) 
 			{
-				bool success = storeService.BuyProduct(item.remoteProductId);
-				if (success) 
-				{
-					playerModel.bucks += item.currency2Payout;
-					savePlayerSignal.Dispatch();
-				}
+				storeService.BuyProduct(item.remoteProductId);
 			} 
 			else 
 			{

@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
 {
     public interface IMetaDataModel
     {
+		bool remoteStoreAvailable { get; set; }
 		IOrderedDictionary<string, StoreItem> items { get; set; }		// All items dictionary
         IDictionary<string, List<StoreItem>> lists { get; set; }		// Categorized lists of items by kind
         AdSettings adSettings { get; set; }                             // Ad settings

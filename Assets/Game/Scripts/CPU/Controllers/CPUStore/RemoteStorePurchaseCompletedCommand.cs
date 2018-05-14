@@ -17,15 +17,37 @@ namespace TurboLabz.InstantChess
 		// Params
 		[Inject] public string remoteProductId { get; set; }
 
+		// Dispatch
+		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
+
 		// Models
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
 
 		public override void Execute()
 		{
-			LogUtil.Log ("GOT TO SALE " + remoteProductId, "red");
-			playerModel.bucks += 10000;//item.currency2Payout;
-			//savePlayerSignal.Dispatch();
+			StoreItem item = FindRemoteStoreItem (remoteProductId);
+			if (item == null) 
+			{
+				return;
+			}
+
+			playerModel.bucks += item.currency2Payout;
+			savePlayerSignal.Dispatch();
+		}
+
+		private StoreItem FindRemoteStoreItem(string remoteId)
+		{
+			foreach (KeyValuePair<string, StoreItem> item in metaDataModel.items) 
+			{
+				StoreItem storeItem = item.Value;
+				if (storeItem.remoteProductId == remoteId) 
+				{
+					return storeItem;
+				}
+			}
+
+			return null;
 		}
 	}
 }

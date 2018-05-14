@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
 {
     public class MetaDataModel : IMetaDataModel
     {
+		public bool remoteStoreAvailable { get; set; }
         public IDictionary<string, List<StoreItem>> lists { get;  set;}
         public IOrderedDictionary<string, StoreItem> items { get; set;}
         public AdSettings adSettings { get; set; }
@@ -53,6 +54,7 @@ namespace TurboLabz.InstantFramework
 
         private void Reset()
         {
+			remoteStoreAvailable = false;
             lists = new Dictionary<string, List<StoreItem>>();
             items = new OrderedDictionary<string, StoreItem>();
             adSettings = null;

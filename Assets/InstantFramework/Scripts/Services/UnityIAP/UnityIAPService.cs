@@ -15,7 +15,6 @@ namespace TurboLabz.InstantFramework
 {
 	public class UnityIAPService : IStoreListener, IStoreService
     {
-
 		[Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
 
         IStoreController storeController = null;
