@@ -10,10 +10,12 @@
 /// @description
 /// [add_description_here]
 using System.Collections.Generic;
+using TurboLabz.InstantChess;
+using TurboLabz.Chess;
 
-namespace TurboLabz.Chess
+namespace TurboLabz.InstantChess
 {
-    public struct CPULobbyVO
+    public class CPULobbyVO
     {
         public int minStrength;
         public int maxStrength;
@@ -26,5 +28,18 @@ namespace TurboLabz.Chess
         public int totalGames;
 		public int playerBucks;
 		public List<string> playerVGoods;
+
+        public CPULobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel)
+        {
+            minStrength = CPUSettings.MIN_STRENGTH;
+            maxStrength = CPUSettings.MAX_STRENGTH;
+            selectedStrength = cpuGameModel.cpuStrength;
+            durationMinutes = CPUSettings.DURATION_MINUTES;
+            selectedDurationIndex = cpuGameModel.durationIndex;
+            playerColors = CPUSettings.PLAYER_COLORS;
+            selectedPlayerColorIndex = cpuGameModel.playerColorIndex;
+            inProgress = cpuGameModel.inProgress;
+            totalGames = cpuGameModel.totalGames;
+        }
     }
 }

@@ -6,6 +6,7 @@
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using strange.extensions.command.impl;
+using UnityEngine;
 
 namespace TurboLabz.InstantChess
 {
@@ -45,6 +46,12 @@ namespace TurboLabz.InstantChess
         {
             model.AddStoreItem("Skin", skinItems);
             model.AddStoreItem("BuckPack", buckPacks);
+
+            AdSettings adSettings = new AdSettings();
+            adSettings.maxImpressionsPerSlot = ADS_MAX_IMPRESSIONS_PER_LOT;
+            adSettings.slotMinutes = Debug.isDebugBuild ? ADS_SLOT_DEBUG_MINUTES : ADS_SLOT_MINUTES;
+
+            model.AddAdSettings(adSettings);
         }
               
         #endregion

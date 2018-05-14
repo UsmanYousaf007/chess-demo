@@ -106,5 +106,6 @@ namespace TurboLabz.InstantChess
     public class TurnSwapSignal : Signal<bool> {}
     public class UpdateGameInfoSignal : Signal<GameInfoVO> {}
     public class EnableResultsDialogButtonSignal : Signal {}
+    public class LoadLobbySignal : Signal {}
 
 }

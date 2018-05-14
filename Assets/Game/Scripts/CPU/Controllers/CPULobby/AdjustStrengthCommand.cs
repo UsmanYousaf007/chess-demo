@@ -32,6 +32,7 @@ namespace TurboLabz.InstantChess
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
@@ -44,7 +45,8 @@ namespace TurboLabz.InstantChess
                 cpuGameModel.cpuStrength = Mathf.Max(CPUSettings.MIN_STRENGTH, cpuGameModel.cpuStrength - 1);
             }
 
-            updateStrengthSignal.Dispatch(cpuGameModel.GetCPUMenuVO());
+            CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel);
+            updateStrengthSignal.Dispatch(vo);
         }
     }
 }

@@ -25,17 +25,14 @@ namespace TurboLabz.InstantChess
 	{
 		// Dispatch Signals
 		[Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
-		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-		[Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
 		// Models
 		[Inject] public ICPUGameModel cpuGameModel { get; set; }
 		[Inject] public IChessboardModel chessboardModel { get; set; }
-		[Inject] public IPlayerModel playerModel { get; set; }
 
 		// Services
 		[Inject] public ILocalDataService localDataService { get; set; }
-		[Inject] public IAdsService adsService { get; set; }
 
 		public override void Execute()
 		{
@@ -44,7 +41,7 @@ namespace TurboLabz.InstantChess
 			if (!localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
 			{
 				LogUtil.Log("No saved game or settings found.", "yellow");
-				LoadMenu();
+                loadLobbySignal.Dispatch();
 				return;
 			}
 
@@ -62,7 +59,7 @@ namespace TurboLabz.InstantChess
 				if (!cpuGameModel.inProgress)
 				{
 					reader.Close();
-					LoadMenu();
+                    loadLobbySignal.Dispatch();
 					return;
 				}
 
@@ -107,7 +104,7 @@ namespace TurboLabz.InstantChess
 				LogUtil.Log("Corrupt saved game! " + e, "red");
 				localDataService.DeleteFile(SaveKeys.CPU_SAVE_FILENAME);
 				ResetAll();
-				LoadMenu();
+                loadLobbySignal.Dispatch();
 			}
 		}
 
@@ -116,12 +113,6 @@ namespace TurboLabz.InstantChess
 			chessboardModel.Reset();
 			cpuGameModel.Reset();
 			cpuGameModel.inProgress = false;
-		}
-
-		private void LoadMenu()
-		{
-			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-			updateMenuViewSignal.Dispatch(cpuGameModel.GetCPUMenuVO());
 		}
 	}
 }

@@ -19,6 +19,9 @@ namespace TurboLabz.InstantChess
         string activeSkinId { get; set; }
 		int bucks { get; set; }
 		List<string> vGoods { get; set; }
+        int totalAdImpressions { get; set; }
+        int slotAdImpressions { get; set; }
+        double slotStartTime { get; set; }
 
         void Reset();
 		void SaveToFile();

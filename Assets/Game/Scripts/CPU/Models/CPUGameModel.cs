@@ -47,21 +47,5 @@ namespace TurboLabz.InstantChess
             totalGames = 0;
             isResuming = false;
         }
-
-        public CPULobbyVO GetCPUMenuVO()
-        {
-            CPULobbyVO vo = new CPULobbyVO();
-            vo.minStrength = CPUSettings.MIN_STRENGTH;
-            vo.maxStrength = CPUSettings.MAX_STRENGTH;
-            vo.selectedStrength = cpuStrength;
-            vo.durationMinutes = CPUSettings.DURATION_MINUTES;
-            vo.selectedDurationIndex = durationIndex;
-            vo.playerColors = CPUSettings.PLAYER_COLORS;
-            vo.selectedPlayerColorIndex = playerColorIndex;
-            vo.inProgress = inProgress;
-            vo.totalGames = totalGames;
-
-            return vo;
-        }
     }
 }

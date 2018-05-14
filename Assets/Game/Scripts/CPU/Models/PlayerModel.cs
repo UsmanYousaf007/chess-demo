@@ -25,6 +25,9 @@ namespace TurboLabz.InstantChess
         public string activeSkinId { get; set; }
 		public int bucks { get; set; }
 		public List<string> vGoods { get; set; }
+        public int totalAdImpressions { get; set; }
+        public int slotAdImpressions { get; set; }
+        public double slotStartTime { get; set; }
 
 		[PostConstruct]
 		public void Load()
@@ -39,6 +42,9 @@ namespace TurboLabz.InstantChess
             activeSkinId = "SkinWood";
 			bucks = 1000;
 			vGoods = new List<string>();
+            totalAdImpressions = 0;
+            slotAdImpressions = 0;
+            slotStartTime = 0;
         }
 
 		public bool ownsVGood(string key)

@@ -126,6 +126,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
             commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
             commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
+            commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
 
   
 
