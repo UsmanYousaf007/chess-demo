@@ -20,6 +20,7 @@ namespace TurboLabz.InstantChess
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public ApplySkinSignal applySkinSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -31,6 +32,8 @@ namespace TurboLabz.InstantChess
 
             CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel);
             updateMenuViewSignal.Dispatch(vo);
+
+            applySkinSignal.Dispatch("SkinAmazon");
         }
     }
 }

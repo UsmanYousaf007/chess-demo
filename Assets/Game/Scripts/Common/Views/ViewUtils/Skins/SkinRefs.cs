@@ -14,53 +14,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
+using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 
-namespace TurboLabz.Chess
+namespace TurboLabz.InstantChess
 {
-    public class SkinRefs : MonoBehaviour {
-        // Skin Objects
+    public class SkinRefs : View {
 
-        public SpriteRenderer background;
-        public Image promoBg;
-        public Image[] promoPieces;
-
-
-        // Unique skinnable objects for each game mode UI
-        public GameObject[] cpuCapturedPieces;
-        public GameObject cpuDragGhost;
-
+        public Signal skinLoadedSignal = new Signal();
         private string currentSkinId;
 
         public void ApplySkin(string skinId)
         {
-            LogUtil.Log("Applying skin = " + skinId, "cyan");
-            if (skinId == currentSkinId)
-            {
-                return;
-            }
-
+            if (skinId == currentSkinId) return;
             currentSkinId = skinId;
+
             SkinContainer container = SkinContainer.LoadSkin(skinId);
 
-            /*
-            background.sprite = container.GetSprite(SkinContainer.SPRITE_BACKGROUND);
-            promoBg.sprite = container.GetSprite(SkinContainer.PROMO_BG);
-
-            foreach (GameObject piece in pieces)
+            foreach (Transform child in transform)
             {
-                piece.GetComponent<SpriteRenderer>().sprite = container.GetSprite(piece.name);
+                Image img = child.GetComponent<Image>();
+                img.sprite = container.GetSprite(child.name);
             }
 
-            foreach (Image promoPiece in promoPieces)
-            {
-                promoPiece.sprite = container.GetSprite(promoPiece.name);
-            }
-
-            foreach (GameObject capturedPiece in cpuCapturedPieces)
-            {
-                capturedPiece.GetComponent<Image>().sprite = container.GetSprite(capturedPiece.name, true);
-            }
-            */
+            skinLoadedSignal.Dispatch();
         }
     }
 }

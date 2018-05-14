@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace TurboLabz.Chess
+namespace TurboLabz.InstantChess
 {
     public static class AssetBuilder
     {

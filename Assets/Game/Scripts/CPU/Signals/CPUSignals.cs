@@ -108,4 +108,8 @@ namespace TurboLabz.InstantChess
     public class EnableResultsDialogButtonSignal : Signal {}
     public class LoadLobbySignal : Signal {}
 
+    // SKINS
+    public class ApplySkinSignal : Signal<string> {}
+    public class UpdateSkinSignal : Signal {}
+
 }

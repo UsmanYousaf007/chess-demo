@@ -1502,7 +1502,7 @@ RectTransform:
   m_Children:
   - {fileID: 69903564}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4526,74 +4526,6 @@ MonoBehaviour:
   fileRank:
     file: 0
     rank: 0
---- !u!1 &236876094
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 236876095}
-  - component: {fileID: 236876097}
-  - component: {fileID: 236876096}
-  m_Layer: 5
-  m_Name: cbk
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &236876095
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 236876094}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
-  m_Children: []
-  m_Father: {fileID: 1575456355}
-  m_RootOrder: 33
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &236876096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 236876094}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &236876097
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 236876094}
 --- !u!1 &239064032
 GameObject:
   m_ObjectHideFlags: 0
@@ -5258,6 +5190,7 @@ GameObject:
   - component: {fileID: 267568635}
   - component: {fileID: 267568634}
   - component: {fileID: 267568633}
+  - component: {fileID: 267568636}
   m_Layer: 5
   m_Name: Themes
   m_TagString: Untagged
@@ -5356,7 +5289,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2c4cc8ba4f8b2467e97e2819a1352c57, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5370,6 +5303,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 267568631}
+--- !u!114 &267568636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 267568631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 1039549892}
 --- !u!1 &274001059
 GameObject:
   m_ObjectHideFlags: 0
@@ -5454,6 +5399,7 @@ GameObject:
   - component: {fileID: 276836802}
   - component: {fileID: 276836801}
   - component: {fileID: 276836800}
+  - component: {fileID: 276836803}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -5539,7 +5485,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5553,6 +5499,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 276836798}
+--- !u!114 &276836803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276836798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &287041663
 GameObject:
   m_ObjectHideFlags: 0
@@ -5810,7 +5768,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 30
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6831,6 +6789,7 @@ GameObject:
   - component: {fileID: 337409692}
   - component: {fileID: 337409691}
   - component: {fileID: 337409690}
+  - component: {fileID: 337409693}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -6916,7 +6875,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6930,6 +6889,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 337409688}
+--- !u!114 &337409693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 337409688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &339795803
 GameObject:
   m_ObjectHideFlags: 0
@@ -8137,7 +8108,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 34
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9766,6 +9737,7 @@ GameObject:
   - component: {fileID: 474012997}
   - component: {fileID: 474012999}
   - component: {fileID: 474012998}
+  - component: {fileID: 474013000}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -9810,7 +9782,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d29aa0275426d48fd976031f179feeb2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9824,6 +9796,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 474012996}
+--- !u!114 &474013000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 474012996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 160507675}
 --- !u!1 &476483043
 GameObject:
   m_ObjectHideFlags: 0
@@ -10801,7 +10785,7 @@ RectTransform:
   - {fileID: 840008019}
   - {fileID: 667956036}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11931,7 +11915,7 @@ RectTransform:
   - {fileID: 1466295102}
   - {fileID: 1905463043}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -12497,29 +12481,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f219575e8e9b4a6f99477ebe589d28e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 309220235}
-  promoBg: {fileID: 262454316}
-  promoPieces:
-  - {fileID: 13682528}
-  - {fileID: 418090603}
-  - {fileID: 156867434}
-  - {fileID: 1815902464}
-  - {fileID: 2007884228}
-  - {fileID: 1759457174}
-  - {fileID: 1589081846}
-  - {fileID: 509652295}
-  cpuCapturedPieces:
-  - {fileID: 1151565148}
-  - {fileID: 524846302}
-  - {fileID: 255309857}
-  - {fileID: 528984010}
-  - {fileID: 1906660017}
-  - {fileID: 1555663563}
-  - {fileID: 1015383207}
-  - {fileID: 1442277224}
-  - {fileID: 90512015}
-  - {fileID: 1756437929}
-  cpuDragGhost: {fileID: 195332123}
 --- !u!1 &637089763
 GameObject:
   m_ObjectHideFlags: 0
@@ -12883,7 +12844,7 @@ RectTransform:
   - {fileID: 950779811}
   - {fileID: 207579260}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -13618,6 +13579,7 @@ GameObject:
   - component: {fileID: 685475723}
   - component: {fileID: 685475722}
   - component: {fileID: 685475721}
+  - component: {fileID: 685475724}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -13703,7 +13665,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13717,6 +13679,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 685475719}
+--- !u!114 &685475724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685475719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &687261353
 GameObject:
   m_ObjectHideFlags: 0
@@ -19208,6 +19182,7 @@ GameObject:
   - component: {fileID: 1010892225}
   - component: {fileID: 1010892224}
   - component: {fileID: 1010892223}
+  - component: {fileID: 1010892226}
   m_Layer: 5
   m_Name: FreeBucksButton
   m_TagString: Untagged
@@ -19228,7 +19203,7 @@ RectTransform:
   - {fileID: 332507928}
   - {fileID: 32945861}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -19306,7 +19281,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 5fdf6e7113ce74d7f8a0cbe2d95861ac, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19320,6 +19295,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1010892221}
+--- !u!114 &1010892226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1010892221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 547134255}
 --- !u!1 &1012760321
 GameObject:
   m_ObjectHideFlags: 0
@@ -19562,7 +19549,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 36
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -20214,7 +20201,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 37
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -20413,6 +20400,7 @@ GameObject:
   - component: {fileID: 1055558314}
   - component: {fileID: 1055558313}
   - component: {fileID: 1055558312}
+  - component: {fileID: 1055558315}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -20498,7 +20486,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20512,6 +20500,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1055558310}
+--- !u!114 &1055558315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1055558310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &1069827695
 GameObject:
   m_ObjectHideFlags: 0
@@ -22390,7 +22390,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -22533,7 +22533,7 @@ RectTransform:
   m_Children:
   - {fileID: 560602179}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -23542,6 +23542,7 @@ GameObject:
   - component: {fileID: 1228043265}
   - component: {fileID: 1228043264}
   - component: {fileID: 1228043263}
+  - component: {fileID: 1228043266}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -23627,7 +23628,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23641,6 +23642,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1228043261}
+--- !u!114 &1228043266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1228043261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &1235941714
 GameObject:
   m_ObjectHideFlags: 0
@@ -24001,7 +24014,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24812,7 +24825,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 474012997}
-  - {fileID: 1879975869}
   - {fileID: 81936014}
   - {fileID: 1976778304}
   - {fileID: 1176029698}
@@ -25591,6 +25603,7 @@ GameObject:
   - component: {fileID: 1366081914}
   - component: {fileID: 1366081913}
   - component: {fileID: 1366081912}
+  - component: {fileID: 1366081915}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -25676,7 +25689,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25690,6 +25703,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1366081910}
+--- !u!114 &1366081915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1366081910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &1366531380
 GameObject:
   m_ObjectHideFlags: 0
@@ -28040,7 +28065,7 @@ RectTransform:
   m_Children:
   - {fileID: 1256882138}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -29026,74 +29051,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1555663563}
---- !u!1 &1557017377
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1557017378}
-  - component: {fileID: 1557017380}
-  - component: {fileID: 1557017379}
-  m_Layer: 5
-  m_Name: cWk
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1557017378
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1557017377}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
-  m_Children: []
-  m_Father: {fileID: 1575456355}
-  m_RootOrder: 27
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1557017379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1557017377}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &1557017380
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1557017377}
 --- !u!1 &1567645532
 GameObject:
   m_ObjectHideFlags: 0
@@ -29224,6 +29181,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1575456355}
+  - component: {fileID: 1575456354}
   m_Layer: 5
   m_Name: Skin
   m_TagString: Untagged
@@ -29231,6 +29189,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1575456354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1575456353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f219575e8e9b4a6f99477ebe589d28e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1575456355
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29268,13 +29237,11 @@ RectTransform:
   - {fileID: 1275498142}
   - {fileID: 1907192280}
   - {fileID: 1603521305}
-  - {fileID: 1557017378}
   - {fileID: 1814701977}
   - {fileID: 1813532941}
   - {fileID: 301090190}
   - {fileID: 1258247522}
   - {fileID: 1635531231}
-  - {fileID: 236876095}
   - {fileID: 371830781}
   - {fileID: 2078935129}
   - {fileID: 1021996280}
@@ -29298,6 +29265,7 @@ GameObject:
   - component: {fileID: 1575821728}
   - component: {fileID: 1575821727}
   - component: {fileID: 1575821726}
+  - component: {fileID: 1575821729}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -29383,7 +29351,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -29397,6 +29365,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1575821724}
+--- !u!114 &1575821729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1575821724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &1581009191
 GameObject:
   m_ObjectHideFlags: 0
@@ -30571,7 +30551,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 32
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -30933,6 +30913,7 @@ GameObject:
   - component: {fileID: 1655050503}
   - component: {fileID: 1655050502}
   - component: {fileID: 1655050501}
+  - component: {fileID: 1655050504}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -31031,7 +31012,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2c4cc8ba4f8b2467e97e2819a1352c57, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -31045,6 +31026,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1655050499}
+--- !u!114 &1655050504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1655050499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 1039549892}
 --- !u!1 &1655634758
 GameObject:
   m_ObjectHideFlags: 0
@@ -33395,7 +33388,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 29
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -33463,7 +33456,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -34714,74 +34707,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1877463425}
---- !u!1 &1879975868
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1879975869}
-  - component: {fileID: 1879975871}
-  - component: {fileID: 1879975870}
-  m_Layer: 5
-  m_Name: Ref
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1879975869
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1879975868}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1302150908}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 996, y: 2048}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1879975870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1879975868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.8172504, g: 0.18274222, b: 0.9558824, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9a9e8636d92504536808d7858f2244cb, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &1879975871
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1879975868}
 --- !u!1 &1880029620
 GameObject:
   m_ObjectHideFlags: 0
@@ -35829,7 +35754,7 @@ RectTransform:
   m_Children:
   - {fileID: 1595236781}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -36618,6 +36543,7 @@ GameObject:
   - component: {fileID: 2009222817}
   - component: {fileID: 2009222816}
   - component: {fileID: 2009222815}
+  - component: {fileID: 2009222818}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -36703,7 +36629,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f00c92af646b44e45b6e1cf2f735eac7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -36717,6 +36643,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2009222813}
+--- !u!114 &2009222818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2009222813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 668161678}
 --- !u!1 &2015195484
 GameObject:
   m_ObjectHideFlags: 0
@@ -37499,7 +37437,7 @@ RectTransform:
   - {fileID: 1655050500}
   - {fileID: 267568632}
   m_Father: {fileID: 1302150908}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -37607,7 +37545,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000018, y: 1.0000018, z: 1.0000018}
   m_Children: []
   m_Father: {fileID: 1575456355}
-  m_RootOrder: 35
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

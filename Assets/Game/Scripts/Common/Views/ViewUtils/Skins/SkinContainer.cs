@@ -15,30 +15,10 @@ using System.IO;
 using UnityEditor;
 #endif
 
-namespace TurboLabz.Chess
+namespace TurboLabz.InstantChess
 {
     public class SkinContainer : ScriptableObject 
     {
-        public enum SkinSprite
-        {
-            ChessboardBar,
-            StandardDlg,
-            Background,
-            Board,
-            FreeBucksBtn,
-            LobbyBtn,
-            OpponentTo,
-            Opponentfrom,
-            PlayerFromIndicator,
-            PlayerToIndicator,
-            Promo,
-            StandardBtn,
-            StandardTitleBar,
-            IncDecBtn,
-            Wb, Wk, Wn, Wp, Wq, Wr, bb, bk, bn, bp, bq, br,
-            cWb, cWn, cWp, cWq, cWr, cbb, cbn, cbp, cbq, cbr
-        }
-
         public string skinName = "unassigned";
         public List<Sprite> sprites = new List<Sprite>();
 
@@ -47,17 +27,17 @@ namespace TurboLabz.Chess
             return Resources.Load(key) as SkinContainer;
         }
 
-        public Sprite GetSprite(SkinSprite name)
+        public Sprite GetSprite(string name)
         {
             foreach (Sprite sprite in sprites)
             {
-                if (sprite.name == name.ToString())
+                if (sprite.name == skinName + "_" + name)
                 {
                     return sprite;
                 }
             }
 
-            Debug.Log("Sprite not found");
+            Debug.Log("Sprite not found: " + name);
 
             return null;
         }
