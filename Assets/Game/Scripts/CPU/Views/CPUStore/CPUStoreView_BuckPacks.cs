@@ -28,7 +28,7 @@ namespace TurboLabz.InstantChess
 		public Signal closeBuckPacksButtonClickedSignal = new Signal();
 
 		StoreItem buckPacksStoreItem;
-		List<BuckPackItemPrefab> buckPackPrefabs = null;
+		Dictionary<string, BuckPackItemPrefab> buckPackPrefabs = null;
 
 		public void InitBuckPacks()
 		{
@@ -47,6 +47,14 @@ namespace TurboLabz.InstantChess
 			if (buckPackPrefabs == null) 
 			{
 				CreateBuckPackPrefabs(vo);
+			}
+
+			IMetaDataModel metaDataModel = vo.storeSettingsModel;
+			List<StoreItem> list = metaDataModel.lists["BuckPack"];
+			foreach (StoreItem item in list) 
+			{
+				BuckPackItemPrefab thumbnail = buckPackPrefabs[item.key];
+				thumbnail.price.text = item.remoteProductPrice;
 			}
 		}
 
@@ -87,18 +95,17 @@ namespace TurboLabz.InstantChess
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			BuckPackItemPrefab prefab = Instantiate<BuckPackItemPrefab>(buckPackItemPrefab);
 
-			buckPackPrefabs = new List<BuckPackItemPrefab>();
+			buckPackPrefabs = new Dictionary<string, BuckPackItemPrefab>();
 
 			List<StoreItem> list = metaDataModel.lists["BuckPack"];
 			foreach (StoreItem item in list) 
 			{
 				BuckPackItemPrefab thumbnail = Object.Instantiate(prefab);
 				thumbnail.transform.SetParent(buckPacksGallery.transform, false);
-				buckPackPrefabs.Add(thumbnail);
+				buckPackPrefabs.Add(item.key, thumbnail);
 
 				thumbnail.bucksLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCKS);
 				thumbnail.payout.text = item.currency2Payout.ToString();
-				thumbnail.price.text = item.remoteProductPrice;
 				thumbnail.thumbnail.sprite = containter.GetSprite(item.key);
 
 				thumbnail.button.onClick.AddListener(() => OnBuckPackItemClicked(item));
