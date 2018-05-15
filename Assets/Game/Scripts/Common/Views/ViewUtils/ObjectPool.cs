@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TurboLabz.TLUtils;
+using TurboLabz.InstantChess;
 
 namespace TurboLabz.Chess
 {
@@ -50,12 +51,21 @@ namespace TurboLabz.Chess
             if (pool.ContainsKey(name))
             {
                 List<GameObject> objList = pool[name];
+
                 if (objList.Count == 0)
                 {
                     List<GameObject> usedObjList = used[name];
                     GameObject cloneObj = GameObject.Instantiate(usedObjList[0]);
                     cloneObj.name = name;
                     usedObjList.Add(cloneObj);
+
+                    SkinLink skinLink = cloneObj.GetComponent<SkinLink>();
+
+                    if (skinLink != null)
+                    {
+                        skinLink.UpdateSkin();
+                    }
+
                     return cloneObj;
                 }
                 else
