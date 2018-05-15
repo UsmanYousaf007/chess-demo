@@ -68,13 +68,11 @@ namespace TurboLabz.InstantChess
 
 		public void ShowBuckPacks()
 		{
-			uiBlocker.SetActive(true);
 			buckPacksDlg.SetActive(true);
 		}
 
 		public void HideBuckPacks()
 		{
-			uiBlocker.SetActive(false);
 			buckPacksDlg.SetActive(false);
 		}
 

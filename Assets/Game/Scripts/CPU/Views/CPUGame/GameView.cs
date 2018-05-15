@@ -31,9 +31,7 @@ namespace TurboLabz.InstantChess
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
 
-        private Color yellowText = new Color(0.98f, 0.86f, 0.03f);
-        private Color redText = new Color(0.91f, 0.29f, 0.24f);
-        private Color greenText = new Color(0.15f, 0.53f, 0.33f);
+
 
         private bool undoButtonWasActive;
         private bool hintButtonWasActive;

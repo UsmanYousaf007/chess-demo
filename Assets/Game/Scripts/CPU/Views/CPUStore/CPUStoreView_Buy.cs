@@ -14,21 +14,17 @@ namespace TurboLabz.InstantChess
 {
 	public partial class CPUStoreView
 	{
-		[Header("ConfirmDlg")]
-
-		public Button yesButton;
-		public Button noButton;
-
 		public Signal<StoreItem> buyButtonClickedSignal = new Signal<StoreItem>();
-		public Signal closeButtonClickedSignal = new Signal();
+        public Signal closeButtonClickedSignal = new Signal();
 
-		public GameObject uiBlocker;
-		public GameObject buyDlg;
-
-		public Text titleLabel;
-		public Text buyButtonLabel;
-		public Text itemNameLabel;
-		public Text priceLabel;
+        [Header("ConfirmDlg")]
+        public GameObject buyDlg;
+        public Text titleLabel;
+        public Text itemNameLabel;
+        public Button yesButton;
+		public Button noButton;
+        public Text yesButtonLabel;
+        public Text noButtonLabel;
 
 		private StoreItem buyStoreItem;
 
@@ -38,7 +34,10 @@ namespace TurboLabz.InstantChess
 			noButton.onClick.AddListener(OnNoButtonClicked);
 
 			titleLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_THEME_TITLE);
-			buyButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_BUY_BUTTON);
+            yesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON);
+            noButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON);
+
+            itemNameLabel.color = Color.yellow;
 		}
 
 		public void CleanupBuy() 
@@ -51,7 +50,6 @@ namespace TurboLabz.InstantChess
 		{
 			buyStoreItem = item;
 			itemNameLabel.text = item.displayName;
-			priceLabel.text = item.currency2Cost.ToString();
 		}
 
 		public void ShowBuy()

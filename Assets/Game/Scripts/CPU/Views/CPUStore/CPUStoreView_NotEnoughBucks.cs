@@ -14,6 +14,8 @@ namespace TurboLabz.InstantChess
 {
 	public partial class CPUStoreView
 	{
+        [Header("Not Enough Bucks")]
+
         public GameObject notEnoughBucksDlg;
 
         public Button notEnoughBucksNoButton;
@@ -36,6 +38,8 @@ namespace TurboLabz.InstantChess
 			notEnoughBucksSubHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING);
 			notEnoughBucksYesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON);
             notEnoughBucksNoButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON);
+
+            notEnoughBucksHeadingLabel.color = Colors.RED;
 		}
 
 		public void CleanupNotEnoughBucks() 
@@ -50,13 +54,11 @@ namespace TurboLabz.InstantChess
 
 		public void ShowNotEnoughBucks()
 		{
-			uiBlocker.SetActive(true);
 			notEnoughBucksDlg.SetActive(true);
 		}
 
 		public void HideNotEnoughBucks()
 		{
-			uiBlocker.SetActive(false);
 			notEnoughBucksDlg.SetActive(false);
 		}
 

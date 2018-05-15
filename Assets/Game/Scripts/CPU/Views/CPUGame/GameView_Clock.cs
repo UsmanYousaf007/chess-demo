@@ -38,9 +38,6 @@ namespace TurboLabz.InstantChess
         private TimeSpan opponentTimer;
         private float clockSpeed;
 
-        private readonly Color redColor = new Color(0.82f, 0.18f, 0.18f);
-        private readonly Color yellowColor = new Color(0.98f, 0.66f, 0.15f);
-        private readonly Color greenColor = new Color(0.04f, 0.6f, 0.4f);
         private readonly Color labelEnabledColor = new Color(1f, 1f, 1f, 1f);
         private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.6f);
         private readonly Color imageDisabledColor = new Color(0.49f, 0.49f, 0.49f);
@@ -162,7 +159,7 @@ namespace TurboLabz.InstantChess
         {
             if (startingTimer == TimeSpan.Zero)
             {
-                playerClockImage.color = greenColor;
+                playerClockImage.color = Colors.GREEN;
             }
             else
             {
@@ -182,7 +179,7 @@ namespace TurboLabz.InstantChess
         {
             if (startingTimer == TimeSpan.Zero)
             {
-                opponentClockImage.color = greenColor;
+                opponentClockImage.color = Colors.GREEN;
             }
             else
             {
@@ -235,17 +232,17 @@ namespace TurboLabz.InstantChess
         {
             if (currentTimer.TotalSeconds < clockEmergencyThresholdSeconds)
             {
-                return redColor;
+                return Colors.RED;
             }
 
-            return yellowColor;
+            return Colors.YELLOW;
         }
 
         private Color GetLabelColor(TimeSpan currentTimer)
         {
             if (currentTimer.TotalSeconds < clockEmergencyThresholdSeconds)
             {
-                return redColor;
+                return Colors.RED;
             }
 
             return labelEnabledColor;

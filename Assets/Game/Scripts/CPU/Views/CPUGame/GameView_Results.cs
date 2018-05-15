@@ -139,19 +139,19 @@ namespace TurboLabz.InstantChess
             if (isDraw)
             {
                 resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
-                resultsDialogHeading.color = yellowText;
+                resultsDialogHeading.color = Colors.YELLOW;
             }
             else
             {
                 if (playerWins)
                 {
                     resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
-                    resultsDialogHeading.color = greenText;
+                    resultsDialogHeading.color = Colors.GREEN;
                 }
                 else
                 {
                     resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
-                    resultsDialogHeading.color = redText;
+                    resultsDialogHeading.color = Colors.RED;
                 }
             }
 

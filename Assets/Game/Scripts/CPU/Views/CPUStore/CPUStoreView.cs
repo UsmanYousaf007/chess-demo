@@ -94,10 +94,8 @@ namespace TurboLabz.InstantChess
 		private void PopulateSkins(CPUStoreVO vo)
 		{
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
-			Color colorOwned;
-			ColorUtility.TryParseHtmlString("#EBA83DFF", out colorOwned);
-			Color colorNormal;
-			ColorUtility.TryParseHtmlString("##FFFFFFDE", out colorNormal);
+            Color colorOwned = Colors.YELLOW;
+            Color colorNormal = Colors.WHITE_TEXT;
 
 			List<StoreItem> list = metaDataModel.lists["Skin"];
 			for (int i = 0; i < list.Count; i++) 
