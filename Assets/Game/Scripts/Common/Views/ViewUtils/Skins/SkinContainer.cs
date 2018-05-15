@@ -15,54 +15,29 @@ using System.IO;
 using UnityEditor;
 #endif
 
-namespace TurboLabz.Chess
+namespace TurboLabz.InstantChess
 {
     public class SkinContainer : ScriptableObject 
     {
-        public const string SPRITE_BACKGROUND = "background";
-        public const string PROMO_BG = "promoBg";
-
         public string skinName = "unassigned";
         public List<Sprite> sprites = new List<Sprite>();
-        public Color32 tint;
 
         public static SkinContainer LoadSkin(string key)
         {
             return Resources.Load(key) as SkinContainer;
         }
 
-        public Sprite GetSprite(string key, bool isCapturePiece = false)
+        public Sprite GetSprite(string name)
         {
-            if (key.Length == 1)
-            {
-                if (key != key.ToLower())
-                {
-                    key = "w" + key.ToLower();
-                }
-                else
-                {
-                    key = "b" + key;
-                }
-            }
-
-            if (isCapturePiece)
-            {
-                key = "c" + key;
-            }
-
-            key = skinName + "_" + key;
-
-            Debug.Log("Getting sprite... " + key);
-
             foreach (Sprite sprite in sprites)
             {
-                if (sprite.name == key)
+                if (sprite.name == skinName + "_" + name)
                 {
                     return sprite;
                 }
             }
 
-            Debug.Log("Sprite not found");
+            Debug.Log("Sprite not found: " + name);
 
             return null;
         }

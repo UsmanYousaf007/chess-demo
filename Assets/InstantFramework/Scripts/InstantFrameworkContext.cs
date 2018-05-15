@@ -135,6 +135,12 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
 			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();
 
+            // Skinning view/mediators
+            mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
+            mediationBinder.Bind<SkinRefs>().To<SkinRefsMediator>();
+            injectionBinder.Bind<ApplySkinSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSkinSignal>().ToSingleton();
+
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<SetupChessboardSignal>().ToSingleton();
             injectionBinder.Bind<InitTimersSignal>().ToSingleton();

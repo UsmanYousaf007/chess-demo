@@ -27,10 +27,28 @@ namespace TurboLabz.InstantChess
 {
     public partial class GameView
     {
-        public ChessboardRefs refs;
+        public GameObject[] pieces;
+        public GameObject[] possibleMoveIndicators;
+        public Transform[] chessboardSquares;
+        public GameObject chessContainer;
+        public Transform chessboard;
+
+        public GameObject playerFromIndicator;
+        public GameObject playerToIndicator;
+        public GameObject opponentFromIndicator;
+        public GameObject opponentToIndicator;
+        public GameObject fileRankLabelsForward;
+        public GameObject fileRankLabelsBackward;
+        public GameObject kingCheckIndicator;
+
         public Signal<FileRank> squareClickedSignal = new Signal<FileRank>();
         public Signal opponentMoveRenderComplete = new Signal();
 
+        private const string IMAGE_POSSIBLE_MOVE = "PossibleMove";
+        private readonly Quaternion WHITE_BOARD_ROTATION = Quaternion.Euler(new Vector3(0f, 0f, -270f));
+        private readonly Vector3 WHITE_BOARD_POSITION =  new Vector3(420f, -420f, 10f);
+        private readonly Quaternion BLACK_BOARD_ROTATION = Quaternion.Euler(new Vector3(0f, 0f, -90f));
+        private readonly Vector3 BLACK_BOARD_POSITION = new Vector3(-420f, 420f, 10f);
         private const float PIECE_ANIMATION_TIME = 0.15f;
 
         private ObjectPool pool = new ObjectPool();
@@ -48,12 +66,12 @@ namespace TurboLabz.InstantChess
         public void InitChessboard()
         {
             // Add poolable images to our object pool
-            foreach(GameObject piece in refs.pieces)
+            foreach(GameObject piece in pieces)
             {
                 pool.AddObject(piece);
             }
 
-            foreach(GameObject possibleMoveIndicator in refs.possibleMoveIndicators)
+            foreach(GameObject possibleMoveIndicator in possibleMoveIndicators)
             {
                 pool.AddObject(possibleMoveIndicator);
             }
@@ -91,7 +109,7 @@ namespace TurboLabz.InstantChess
                 activatedPieceImages.Add(pieceImage);
 
                 int squareIndex = RankFileMap.Map[square.fileRank.rank, square.fileRank.file];
-                pieceImage.transform.position = refs.chessboardSquares[squareIndex].position;
+                pieceImage.transform.position = chessboardSquares[squareIndex].position;
                 chessboardPieces[squareIndex] = pieceImage;
 
                 if (pieceImage.name == "k")
@@ -117,10 +135,10 @@ namespace TurboLabz.InstantChess
 
             // Update the from piece position to the target position
             Transform pieceTransform = chessboardPieces[fromSquareIndex].transform;
-            pieceTransform.position = refs.chessboardSquares[toSquareIndex].position;
+            pieceTransform.position = chessboardSquares[toSquareIndex].position;
 
             // Hide the check indicators
-            refs.kingCheckIndicator.SetActive(false);
+            kingCheckIndicator.SetActive(false);
 
             // Handle remaining visual updates
             UpdatePiecesPostMove(moveVO, true);
@@ -163,7 +181,7 @@ namespace TurboLabz.InstantChess
 
             // Update the from piece position to the target position
             Transform pieceTransform = chessboardPieces[fromSquareIndex].transform;
-            pieceTransform.position = refs.chessboardSquares[toSquareIndex].position;
+            pieceTransform.position = chessboardSquares[toSquareIndex].position;
 
             // Update chessboard piece image array
             chessboardPieces[toSquareIndex] = chessboardPieces[fromSquareIndex];
@@ -187,12 +205,12 @@ namespace TurboLabz.InstantChess
             ShowOpponentFromIndicator(moveVO.fromSquare);
 
             // Hide the check indicators
-            refs.kingCheckIndicator.SetActive(false);
+            kingCheckIndicator.SetActive(false);
 
             // Animate the piece movement and update the piece image array upon completion
             Transform pieceTransform = chessboardPieces[fromSquareIndex].transform;
             opponentAnimationInProgress = true;
-            pieceTransform.DOMove(refs.chessboardSquares[toSquareIndex].position, PIECE_ANIMATION_TIME)
+            pieceTransform.DOMove(chessboardSquares[toSquareIndex].position, PIECE_ANIMATION_TIME)
                 .SetEase(Ease.Linear)
                 .OnComplete(()=>OnOpponentMoveCompleted(moveVO));
 
@@ -223,7 +241,7 @@ namespace TurboLabz.InstantChess
                 int rookToSquareIndex = RankFileMap.Map[rookToFileRankVO.rank, rookToFileRankVO.file];
 
                 Transform rookTransform = chessboardPieces[rookFromSquareIndex].transform;
-                rookTransform.DOMove(refs.chessboardSquares[rookToSquareIndex].position, PIECE_ANIMATION_TIME).SetEase(Ease.Linear);
+                rookTransform.DOMove(chessboardSquares[rookToSquareIndex].position, PIECE_ANIMATION_TIME).SetEase(Ease.Linear);
 
                 // Update chessboard piece image array
                 chessboardPieces[rookToSquareIndex] = chessboardPieces[rookFromSquareIndex];
@@ -348,8 +366,8 @@ namespace TurboLabz.InstantChess
             {   
                 int squareIndex = RankFileMap.Map[square.fileRank.rank, square.fileRank.file];
 
-                GameObject possibleMoveIndicator = pool.GetObject(ChessboardRefs.IMAGE_POSSIBLE_MOVE);
-                possibleMoveIndicator.transform.position = refs.chessboardSquares[squareIndex].position;
+                GameObject possibleMoveIndicator = pool.GetObject(IMAGE_POSSIBLE_MOVE);
+                possibleMoveIndicator.transform.position = chessboardSquares[squareIndex].position;
                 activatedPossibleMoveIndicators.Add(possibleMoveIndicator);
 
                 // Attack indicators are distracting, switching them off.
@@ -402,84 +420,82 @@ namespace TurboLabz.InstantChess
         public void ShowIndicator(ChessSquare square, GameObject indicator)
         {
             int squareIndex = RankFileMap.Map[square.fileRank.rank, square.fileRank.file];
-            indicator.transform.position = refs.chessboardSquares[squareIndex].position;
+            indicator.transform.position = chessboardSquares[squareIndex].position;
             indicator.SetActive(true);
         }
 
         public void ShowPlayerFromIndicator(ChessSquare square)
         {
-            ShowIndicator(square, refs.playerFromIndicator);
+            ShowIndicator(square, playerFromIndicator);
         }
 
         public void ShowPlayerToIndicator(ChessSquare square)
         {
-            ShowIndicator(square, refs.playerToIndicator);
+            ShowIndicator(square, playerToIndicator);
         }
 
         public void HidePlayerFromIndicator()
         {
-            refs.playerFromIndicator.SetActive(false);
+            playerFromIndicator.SetActive(false);
         }
 
         public void HidePlayerToIndicator()
         {
-            refs.playerToIndicator.SetActive(false);
+            playerToIndicator.SetActive(false);
         }
 
         public bool ArePlayerMoveIndicatorsVisible()
         {
-            return refs.playerToIndicator.activeSelf && refs.playerFromIndicator.activeSelf;
+            return playerToIndicator.activeSelf && playerFromIndicator.activeSelf;
         }
 
         public void ShowOpponentFromIndicator(ChessSquare square)
         {
-            ShowIndicator(square, refs.opponentFromIndicator);
+            ShowIndicator(square, opponentFromIndicator);
         }
 
         public void ShowOpponentToIndicator(ChessSquare square)
         {
-            ShowIndicator(square, refs.opponentToIndicator);
+            ShowIndicator(square, opponentToIndicator);
         }
 
         public void HideOpponentFromIndicator()
         {
-            refs.opponentFromIndicator.SetActive(false);
+            opponentFromIndicator.SetActive(false);
         }
 
         public void HideOpponentToIndicator()
         {
-            refs.opponentToIndicator.SetActive(false);
+            opponentToIndicator.SetActive(false);
         }
 
         public void SetupChessboard(SetupChessboardVO vo)
         {
-            refs.ApplySkin(vo.activeSkinId);
-
             if (vo.isPlayerWhite)
             {
-                refs.chessboard.rotation = refs.WHITE_BOARD_ROTATION;
-                refs.chessboard.position = refs.WHITE_BOARD_POSITION;
+                chessboard.rotation = WHITE_BOARD_ROTATION;
+                chessboard.position = WHITE_BOARD_POSITION;
                 playerColor = ChessColor.WHITE;
                 opponentColor = ChessColor.BLACK;
 
             }
             else
             { 
-                refs.chessboard.rotation = refs.BLACK_BOARD_ROTATION;
-                refs.chessboard.position = refs.BLACK_BOARD_POSITION;
+                chessboard.rotation = BLACK_BOARD_ROTATION;
+                chessboard.position = BLACK_BOARD_POSITION;
                 playerColor = ChessColor.BLACK;
                 opponentColor = ChessColor.WHITE;
             }
 
-            refs.fileRankLabelsForward.SetActive(vo.isPlayerWhite);
-            refs.fileRankLabelsBackward.SetActive(!vo.isPlayerWhite);
+            fileRankLabelsForward.SetActive(vo.isPlayerWhite);
+            fileRankLabelsBackward.SetActive(!vo.isPlayerWhite);
 
-            refs.chessContainer.SetActive(true);
-            refs.playerFromIndicator.SetActive(false);
-            refs.playerToIndicator.SetActive(false);
-            refs.opponentFromIndicator.SetActive(false);
-            refs.opponentToIndicator.SetActive(false);
-            refs.kingCheckIndicator.SetActive(false);
+            chessContainer.SetActive(true);
+            playerFromIndicator.SetActive(false);
+            playerToIndicator.SetActive(false);
+            opponentFromIndicator.SetActive(false);
+            opponentToIndicator.SetActive(false);
+            kingCheckIndicator.SetActive(false);
 
             InitClickAndDrag();
             HidePossibleMoves();
@@ -499,7 +515,7 @@ namespace TurboLabz.InstantChess
 
         private void UpdateKingCheckIndicator(MoveVO vo, bool isResume)
         {
-            refs.kingCheckIndicator.SetActive(false);
+            kingCheckIndicator.SetActive(false);
 
             ChessColor checkedColor;
 
@@ -520,9 +536,8 @@ namespace TurboLabz.InstantChess
                 Array.IndexOf(chessboardPieces, blackKing) : 
                 Array.IndexOf(chessboardPieces, whiteKing);
 
-            GameObject kingCheckIndicator = refs.kingCheckIndicator;
             kingCheckIndicator.SetActive(true);
-            kingCheckIndicator.transform.position = refs.chessboardSquares[kingSquareIndex].position;
+            kingCheckIndicator.transform.position = chessboardSquares[kingSquareIndex].position;
 
             if (vo.isPlayerInCheck && !isResume)
             {
@@ -542,7 +557,7 @@ namespace TurboLabz.InstantChess
 
         private void OnParentHideChessboard()
         {
-            refs.chessContainer.SetActive(false);
+            chessContainer.SetActive(false);
         }
     }
 }

@@ -76,7 +76,7 @@ namespace TurboLabz.InstantChess
         {
             for (int squareIndex = 0; squareIndex < 64; ++squareIndex)
             {
-                Transform squareTransform = refs.chessboardSquares[squareIndex];
+                Transform squareTransform = chessboardSquares[squareIndex];
 
                 if (squareTransform != null)
                 {
@@ -136,7 +136,7 @@ namespace TurboLabz.InstantChess
         {
             model.mouseDragLocation = location;
             int squareIndex = RankFileMap.Map[location.rank, location.file];
-            model.mouseDragSquarePosition = refs.chessboardSquares[squareIndex].position;
+            model.mouseDragSquarePosition = chessboardSquares[squareIndex].position;
         }
 
         private void OnPieceSelected(FileRank location, List<ChessSquare> possibleMoves)
@@ -172,7 +172,7 @@ namespace TurboLabz.InstantChess
                     fileRank.file = file;
                     fileRank.rank = rank;
 
-                    ChessboardSquare square = refs.chessboardSquares[squareIndex].GetComponent<ChessboardSquare>();
+                    ChessboardSquare square = chessboardSquares[squareIndex].GetComponent<ChessboardSquare>();
                     square.fileRank = fileRank;
                     square.mouseDownSignal.AddListener(OnMouseDown);
                     square.mouseDragSignal.AddListener(OnMouseDrag);

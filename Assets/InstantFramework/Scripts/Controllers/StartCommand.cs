@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
             shareService.Init();
 
             loadMetaDataSiganl.Dispatch();
+
         }
     }
 }
