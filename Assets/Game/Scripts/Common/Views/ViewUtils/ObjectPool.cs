@@ -58,14 +58,6 @@ namespace TurboLabz.Chess
                     GameObject cloneObj = GameObject.Instantiate(usedObjList[0]);
                     cloneObj.name = name;
                     usedObjList.Add(cloneObj);
-
-                    SkinLink skinLink = cloneObj.GetComponent<SkinLink>();
-
-                    if (skinLink != null)
-                    {
-                        skinLink.UpdateSkin();
-                    }
-
                     return cloneObj;
                 }
                 else

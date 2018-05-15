@@ -19,23 +19,10 @@ namespace TurboLabz.InstantChess
         // View injection
         [Inject] public SkinRefs view { get; set; }
 
-        // Dispatch signals
-        [Inject] public UpdateSkinSignal updateSkinSignal { get; set; }
-
-        public override void OnRegister()
-        {
-            view.skinLoadedSignal.AddListener(OnSkinLoaded);
-        }
-
         [ListensTo(typeof(ApplySkinSignal))]
         public void UpdateSkinSignal(string skinId)
         {
             view.ApplySkin(skinId);
-        }
-
-        private void OnSkinLoaded()
-        {
-            updateSkinSignal.Dispatch();
         }
     }
 }

@@ -19,9 +19,8 @@ using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantChess
 {
-    public class SkinRefs : View {
-
-        public Signal skinLoadedSignal = new Signal();
+    public class SkinRefs : View 
+    {
         private string currentSkinId;
 
         public void ApplySkin(string skinId)
@@ -36,8 +35,6 @@ namespace TurboLabz.InstantChess
                 Image img = child.GetComponent<Image>();
                 img.sprite = container.GetSprite(child.name);
             }
-
-            skinLoadedSignal.Dispatch();
         }
     }
 }

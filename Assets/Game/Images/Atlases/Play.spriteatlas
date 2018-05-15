@@ -60,6 +60,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9020df48e317742baaa64cdb30ca2113, type: 3}
   - {fileID: 21300000, guid: 82f2ab21796b14a90895a7c238541435, type: 3}
   - {fileID: 21300000, guid: 35ae75768389f43c795d66b09faab1d9, type: 3}
+  - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: 389fc1fc648cb42c1a680bba327ced10, type: 3}
   - {fileID: 21300000, guid: 8e1acdf30cd854d35891383225e8c61f, type: 3}
   - {fileID: 21300000, guid: 4d71572a5c766406f81efec6c0335425, type: 3}
@@ -77,7 +78,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 47d65c6c8db164c78bb724180437834d, type: 3}
   - {fileID: 21300000, guid: 799d8b8459dae4e7fb6aae552e6c65bb, type: 3}
   - {fileID: 21300000, guid: fa3407e9f0e11466591111f2043f377d, type: 3}
-  - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: f83ec0fb53c42417793b9117ca684ece, type: 3}
   - {fileID: 21300000, guid: 455caf181f6c44899acc62f654ae9723, type: 3}
   m_PackedSpriteNamesToIndex:
@@ -109,6 +109,7 @@ SpriteAtlas:
   - Coins
   - Resign
   - InGameMenuIcon
+  - PossibleMovesIndicator
   - e
   - d
   - g
@@ -126,7 +127,6 @@ SpriteAtlas:
   - 2
   - 8
   - UIBlocker
-  - PossibleMovesIndicator
   - CPUThinking
   - BlackPixel
   m_Tag: Play

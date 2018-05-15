@@ -45,7 +45,7 @@ namespace TurboLabz.InstantChess
 			{
 				vGoods.Add(CPUSettings.DEFAULT_VGOODS[i]);
 			}
-			activeSkinId = "SkinWood";//CPUSettings.DEFAULT_VGOODS[0];
+			activeSkinId = CPUSettings.DEFAULT_VGOODS[0];
             totalAdImpressions = 0;
             slotAdImpressions = 0;
             slotStartTime = 0;

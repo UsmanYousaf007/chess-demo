@@ -20,23 +20,30 @@ namespace TurboLabz.InstantChess
     {
         public Image sourceImage;
 
+        Image targetImage;
+        SpriteRenderer targetSpriteRenderer;
+
         public void UpdateSkin()
         {
-            Image targetImage = gameObject.GetComponent<Image>();
-
             if (targetImage != null)
             {
                 targetImage.sprite = sourceImage.sprite;
             }
-            else 
+            else if (targetSpriteRenderer != null) 
             {
-                SpriteRenderer targetSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-
-                if (targetSpriteRenderer != null)
-                {
-                    targetSpriteRenderer.sprite = sourceImage.sprite;
-                }
+                targetSpriteRenderer.sprite = sourceImage.sprite;
             }
+        }
+
+        void Awake()
+        {
+            targetImage = gameObject.GetComponent<Image>();
+            targetSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
+
+        void OnEnable()
+        {
+            UpdateSkin();
         }
     }
 }

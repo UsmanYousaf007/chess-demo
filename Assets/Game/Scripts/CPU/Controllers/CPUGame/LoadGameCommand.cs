@@ -26,10 +26,12 @@ namespace TurboLabz.InstantChess
 		// Dispatch Signals
 		[Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public ApplySkinSignal applySkinSignal { get; set; }
 
 		// Models
 		[Inject] public ICPUGameModel cpuGameModel { get; set; }
 		[Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
 		// Services
 		[Inject] public ILocalDataService localDataService { get; set; }
@@ -37,6 +39,8 @@ namespace TurboLabz.InstantChess
 		public override void Execute()
 		{
 			ResetAll();
+
+            applySkinSignal.Dispatch(playerModel.activeSkinId);
 
 			if (!localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
 			{
