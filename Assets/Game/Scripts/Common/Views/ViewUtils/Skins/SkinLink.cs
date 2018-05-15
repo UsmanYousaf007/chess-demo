@@ -13,6 +13,7 @@
 using strange.extensions.mediation.impl;
 using UnityEngine.UI;
 using UnityEngine;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
@@ -28,6 +29,15 @@ namespace TurboLabz.InstantChess
             if (targetImage != null)
             {
                 targetImage.sprite = sourceImage.sprite;
+
+                string[] tokens = sourceImage.sprite.name.Split(',');
+
+                if (tokens.Length > 1)
+                {
+                    Color tmp = targetImage.color;
+                    tmp.a = float.Parse(tokens[1])/100f;
+                    targetImage.color = tmp;
+                }
             }
             else if (targetSpriteRenderer != null) 
             {

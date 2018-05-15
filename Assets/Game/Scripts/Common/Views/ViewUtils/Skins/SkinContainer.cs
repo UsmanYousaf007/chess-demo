@@ -31,7 +31,9 @@ namespace TurboLabz.InstantChess
         {
             foreach (Sprite sprite in sprites)
             {
-                if (sprite.name == skinName + "_" + name)
+                string spriteName = sprite.name.Split(',')[0];
+
+                if (spriteName == skinName + "_" + name)
                 {
                     return sprite;
                 }
