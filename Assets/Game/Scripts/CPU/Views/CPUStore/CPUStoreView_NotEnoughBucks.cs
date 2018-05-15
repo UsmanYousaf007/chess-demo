@@ -14,33 +14,34 @@ namespace TurboLabz.InstantChess
 {
 	public partial class CPUStoreView
 	{
-		[Header("NotEnoughBucksDlg")]
+        public GameObject notEnoughBucksDlg;
 
-		public GameObject notEnoughBucksDlg;
-
-		public Button closeNotEnoughBucksButton;
-		public Button yesNotEnoughBucksButton;
+        public Button notEnoughBucksNoButton;
+        public Button notEnoughBucksYesButton;
 
 		public Text notEnoughBucksHeadingLabel;
 		public Text notEnoughBucksSubHeadingLabel;
 		public Text notEnoughBucksYesButtonLabel;
+        public Text notEnoughBucksNoButtonLabel;
 
 		public Signal yesNotEnoughBucksButtonClickedSignal = new Signal();
 		public Signal closeNotEnoughBucksButtonClickedSignal = new Signal();
 
 		public void InitNotEnoughBucks()
 		{
-			closeNotEnoughBucksButton.onClick.AddListener(OnCloseNotEnoughBucksButtonClicked);
-			yesNotEnoughBucksButton.onClick.AddListener(OnYesNotEnoughBucksButtonClicked);
+            notEnoughBucksNoButton.onClick.AddListener(OnCloseNotEnoughBucksButtonClicked);
+            notEnoughBucksYesButton.onClick.AddListener(OnYesNotEnoughBucksButtonClicked);
 
 			notEnoughBucksHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE);
 			notEnoughBucksSubHeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING);
 			notEnoughBucksYesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON);
+            notEnoughBucksNoButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON);
 		}
 
 		public void CleanupNotEnoughBucks() 
 		{
-			closeNotEnoughBucksButton.onClick.RemoveAllListeners();
+            notEnoughBucksNoButton.onClick.RemoveAllListeners();
+            notEnoughBucksYesButton.onClick.RemoveAllListeners();
 		}
 
 		public void UpdateStoreNotEnoughBucksDlg(StoreItem item)

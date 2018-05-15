@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_GAME_EXIT_DLG_TITLE = "cpuGameExitDlgTitle";
         public const string CPU_GAME_CONTINUE_BUTTON = "cpuGameContinueButton";
         public const string CPU_GAME_EXIT_EXPLAINATION = "cpuGameExitExplanation";
-        public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
+        public const string CPU_RESULTS_CLOSE_BUTTON = "cpuResultsStatsButton";
         public const string CPU_RESULTS_EXIT_BUTTON = "cpuResultsExitButton";
 
         #endregion
@@ -99,6 +99,7 @@ namespace TurboLabz.InstantFramework
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING = "storeNotEnoughBucksSubHeading";
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_BUY = "storeNotEnoughBucksBuy";
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON = "storeNotEnoughBucksYes";
+        public const string CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON = "storeNotEnoughBucksNo";
 
 		public const string CPU_STORE_BUCK_PACKS_TITLE = "storeBuckPacksTitle";
 		public const string CPU_STORE_BUCK_PACKS_SUB_HEADING = "storeBuckPacksSubHeading";

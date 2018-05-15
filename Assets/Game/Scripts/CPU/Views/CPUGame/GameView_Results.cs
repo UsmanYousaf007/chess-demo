@@ -29,13 +29,10 @@ namespace TurboLabz.InstantChess
         public GameObject resultsDialog;
         public Text resultsDialogHeading;
         public Text resultsDialogReason;
-        public Button statsButton;
         public Button resultsExitButton;
-        public Text statsButtonLabel;
         public Text resultsExitButtonLabel;
         public Button resultsCloseButton;
-        public Button adsButton;
-        public Text adsButtonLabel;
+        public Text resultsCloseButtonLabel;
         public Button resultsDialogButton;
 
         public Signal resultsExitButtonClickedSignal = new Signal();
@@ -54,13 +51,11 @@ namespace TurboLabz.InstantChess
 
         public void InitResults()
         {
-            statsButton.onClick.AddListener(OnStatsButtonClicked);
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
-            adsButton.onClick.AddListener(OnAdsButtonClicked);
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
 
-            statsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_STATS_BUTTON);
+            resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
 
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
@@ -68,9 +63,8 @@ namespace TurboLabz.InstantChess
 
         public void CleanupResults()
         {
-            statsButton.onClick.RemoveAllListeners();
+            resultsCloseButton.onClick.RemoveAllListeners();
             resultsExitButton.onClick.RemoveAllListeners();
-            adsButton.onClick.RemoveAllListeners();
         }
 
         public void OnParentShowResults()

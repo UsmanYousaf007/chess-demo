@@ -66,14 +66,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_HINT_BUTTON, "GET HINT" },
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },
-                { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "VIEW STATS" },
+                { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "VIEW BOARD" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO LOBBY" },
 
                 #endregion
 
                 #region Stats
 
-                { LocalizationKey.STATS_TITLE, "Achievements" },
+                { LocalizationKey.STATS_TITLE, "Progress" },
                 { LocalizationKey.STATS_DIFFICULTY, "Difficulty Level" },
                 { LocalizationKey.STATS_TOTAL_GAMES, "Total Games" },
                 { LocalizationKey.STATS_WON, "Won" },
@@ -97,6 +97,7 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING, "Would you like to buy more bucks?" },
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_BUY, "BUY" },
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON, "YES" },
+                { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON, "NO" },
 
 
 				{ LocalizationKey.CPU_STORE_BUCK_PACKS_TITLE, "Buy Bucks" },
