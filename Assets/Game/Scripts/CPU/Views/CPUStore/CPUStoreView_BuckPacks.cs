@@ -54,7 +54,15 @@ namespace TurboLabz.InstantChess
 			foreach (StoreItem item in list) 
 			{
 				BuckPackItemPrefab thumbnail = buckPackPrefabs[item.key];
-				thumbnail.price.text = item.remoteProductPrice;
+
+				if (item.remoteProductPrice == null) 
+				{
+					thumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_BUY_BUTTON);
+				} 
+				else 
+				{
+					thumbnail.price.text = item.remoteProductPrice;
+				}
 			}
 		}
 

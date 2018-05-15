@@ -18,8 +18,6 @@ namespace TurboLabz.InstantFramework
 		[Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
 
         IStoreController storeController = null;
-		// TODO: Implement Reciept Verification for Multiplayer
-        // Dictionary<string, Product> pendingVerification = new Dictionary<string, Product>();
 		IPromise<bool> promise = null;
 		purchaseProcessState purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
 
@@ -67,18 +65,27 @@ namespace TurboLabz.InstantFramework
 		{
 			return storeController != null;
 		}
-			
 
         public string GetItemLocalizedDisplayName(string storeProductId)
         {
+			if (storeController == null) 
+			{
+				return null;
+			}
+
             Product product = storeController.products.WithID(storeProductId);
-            return product != null ? product.metadata.localizedTitle : "unassigned";
+            return product != null ? product.metadata.localizedTitle : null;
         }     
 
         public string GetItemLocalizedPrice(string storeProductId)
 		{
+			if (storeController == null) 
+			{
+				return null;
+			}
+
 			Product product = storeController.products.WithID(storeProductId);
-            return product != null ? product.metadata.localizedPriceString : "unassigned";
+			return product != null ? product.metadata.localizedPriceString : null;
 		}
 
 		public bool BuyProduct(string storeProductId)
@@ -101,42 +108,11 @@ namespace TurboLabz.InstantFramework
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
-			if (Application.platform == RuntimePlatform.Android)
-			{
-				// TODO: Implement Reciept Verification for Multiplayer
-				//if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
-				//{
-				//	pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
-				//}
-
-				// GooglePurchaseData googlePurchaseData = new GooglePurchaseData (e.purchasedProduct.receipt);
-				// backendService.GooglePlayBuyGoods(e.purchasedProduct.transactionID, "", googlePurchaseData.inAppDataSignature, 
-				//     googlePurchaseData.inAppPurchaseData, 0).Then(OnGooglePlayBuyGoods);
-			}
-
-			// Always send pending to allow gamesparks to verify the purchase.
-			//return PurchaseProcessingResult.Pending;
-
 			purchaseState = purchaseProcessState.PURCHASE_STATE_SUCCESS;
 			remoteStorePurchaseCompletedSignal.Dispatch(e.purchasedProduct.definition.id);
 
 			return PurchaseProcessingResult.Complete;
 		}
-
-		/* // TODO: Implement Reciept Verification for Multiplayer
-		public void OnGooglePlayBuyGoods(BackendResult result, string transactionID)
-		{
-			if (result == BackendResult.SUCCESS)
-			{
-				// Confirm the pending purchase
-				if (pendingVerification.ContainsKey(transactionID))
-				{
-					storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
-					pendingVerification.Remove(transactionID);
-				}
-			}
-		}
-		*/
 
 		public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
 		{
