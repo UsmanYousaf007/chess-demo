@@ -31,6 +31,7 @@ namespace TurboLabz.InstantChess
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
+		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
@@ -96,6 +97,7 @@ namespace TurboLabz.InstantChess
             {
                 view.Hide();
                 saveGameSignal.Dispatch();
+				savePlayerSignal.Dispatch();
             }
             else if (viewId == NavigatorViewId.FREE_BUCKS_REWARD_DLG)
             {
@@ -114,6 +116,7 @@ namespace TurboLabz.InstantChess
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
                 saveGameSignal.Dispatch();
+				savePlayerSignal.Dispatch();
             }
             else if (evt == AppEvent.ESCAPED)
             {

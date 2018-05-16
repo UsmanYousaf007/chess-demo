@@ -20,6 +20,7 @@ using strange.extensions.command.impl;
 // User defined namespaces
 using UnityEngine;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantChess
 {
@@ -34,6 +35,7 @@ namespace TurboLabz.InstantChess
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+		[Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void Execute()
         {
@@ -46,7 +48,7 @@ namespace TurboLabz.InstantChess
                 cpuGameModel.durationIndex = Mathf.Max(0, cpuGameModel.durationIndex - 1);
             }
 
-            CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel);
+			CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel, metaDataModel);
             updateDurationSignal.Dispatch(vo);
         }
     }

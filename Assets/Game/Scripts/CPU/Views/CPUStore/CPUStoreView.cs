@@ -62,6 +62,11 @@ namespace TurboLabz.InstantChess
 			gameObject.SetActive(false); 
 		}
 
+		public bool IsVisible()
+		{
+			return gameObject.activeSelf;
+		}
+
 		private void OnBackButtonClicked()
 		{
 			backButtonClickedSignal.Dispatch();
@@ -79,6 +84,11 @@ namespace TurboLabz.InstantChess
 			List<StoreItem> list = metaDataModel.lists["Skin"];
 			foreach (StoreItem item in list) 
 			{
+				if (item.state == StoreItem.State.DISABLED) 
+				{
+					continue;
+				}
+
 				SkinShopItemPrefab skinThumbnail = Object.Instantiate(prefab);
 				skinThumbnail.transform.SetParent(gallery.transform, false);
 				prefabs.Add (skinThumbnail);
@@ -97,11 +107,16 @@ namespace TurboLabz.InstantChess
             Color colorOwned = Colors.YELLOW;
             Color colorNormal = Colors.WHITE_TEXT;
 
+			int i = 0;
 			List<StoreItem> list = metaDataModel.lists["Skin"];
-			for (int i = 0; i < list.Count; i++) 
+			foreach (StoreItem item in list) 
 			{
-				SkinShopItemPrefab skinThumbnail = prefabs[i];
-				StoreItem item = list[i];
+				if (item.state == StoreItem.State.DISABLED) 
+				{
+					continue;
+				}
+
+				SkinShopItemPrefab skinThumbnail = prefabs[i++];
 
 				if (vo.playerModel.ownsVGood (item.key)) 
 				{

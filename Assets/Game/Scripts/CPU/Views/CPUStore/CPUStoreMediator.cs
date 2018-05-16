@@ -19,6 +19,9 @@ namespace TurboLabz.InstantChess
 		// Dispatch signals
 		[Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
 		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
+		[Inject] public ApplySkinSignal applySkinSignal { get; set; }
+		[Inject] public UpdateSkinSignal updateSkinSignal { get; set; }
+		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
 
  		public override void OnRegister()
 		{
@@ -64,6 +67,27 @@ namespace TurboLabz.InstantChess
 		public void OnUpdateStore(CPUStoreVO vo)
 		{
 			view.UpdateView(vo);
+		}
+
+		[ListensTo(typeof(OwnedItemSignal))]
+		public void OnOwnedItemSignal(string key)
+		{
+			applySkinSignal.Dispatch(key);
+			updateSkinSignal.Dispatch();
+		}
+
+		[ListensTo(typeof(GameAppEventSignal))]
+		public void OnAppEvent(AppEvent evt)
+		{
+			if (!view || !view.IsVisible())
+			{
+				return;
+			}
+
+			if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
+			{
+				savePlayerSignal.Dispatch();
+			}
 		}
 
 		private void OnBackButtonClicked()

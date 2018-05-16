@@ -253,7 +253,7 @@ namespace TurboLabz.InstantChess
 
 		public void UpdateTheme(CPULobbyVO vo)
 		{
-			currentThemeLabel.text = vo.activeSkinId;
+			currentThemeLabel.text = vo.activeSkinDisplayName;
 		}
 
         public void UpdateAds(AdsVO vo)

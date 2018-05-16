@@ -24,12 +24,13 @@ namespace TurboLabz.InstantChess
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+		[Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
-            CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel);
+			CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel, metaDataModel);
             updateMenuViewSignal.Dispatch(vo);
 
             updateAdsSignal.Dispatch();

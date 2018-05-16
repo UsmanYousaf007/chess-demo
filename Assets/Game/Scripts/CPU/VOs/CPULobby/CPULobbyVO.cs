@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 using TurboLabz.InstantChess;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantChess
 {
@@ -29,8 +30,9 @@ namespace TurboLabz.InstantChess
 		public int playerBucks;
 		public List<string> playerVGoods;
 		public string activeSkinId;
+		public string activeSkinDisplayName;
 
-        public CPULobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel)
+        public CPULobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel, IMetaDataModel metaDataModel)
         {
             minStrength = CPUSettings.MIN_STRENGTH;
             maxStrength = CPUSettings.MAX_STRENGTH;
@@ -42,6 +44,7 @@ namespace TurboLabz.InstantChess
             inProgress = cpuGameModel.inProgress;
             totalGames = cpuGameModel.totalGames;
 			activeSkinId = playerModel.activeSkinId;
+			activeSkinDisplayName = metaDataModel.items[activeSkinId].displayName;
         }
     }
 }

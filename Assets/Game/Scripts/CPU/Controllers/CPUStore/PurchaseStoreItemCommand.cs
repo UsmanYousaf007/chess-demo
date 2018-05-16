@@ -24,6 +24,7 @@ namespace TurboLabz.InstantChess
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 		[Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
 		[Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
+		[Inject] public OwnedItemSignal ownedItemSignal { get; set; }
 
 		// Models
 		[Inject] public IMetaDataModel storeSettingsModel { get; set; }
@@ -39,6 +40,9 @@ namespace TurboLabz.InstantChess
 			if (playerModel.ownsVGood(key) == true)
 			{
 				// Case item is already owned
+				playerModel.activeSkinId = key;
+				ownedItemSignal.Dispatch(key);
+
 				return;
 			}
 
@@ -50,8 +54,6 @@ namespace TurboLabz.InstantChess
 			else if (playerModel.bucks < item.currency2Cost) 
 			{
 				// Case Player does not have enough bucks
-				StoreItem bestBuckPackOffer = GetBestBuckPackOffer(item.currency2Cost);
-				updateStoreNotEnoughBucksDlgSignal.Dispatch(bestBuckPackOffer);
 				navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
 			} 
 			else 
@@ -73,26 +75,10 @@ namespace TurboLabz.InstantChess
 				playerModel.bucks -= item.currency2Cost;
 				playerModel.vGoods.Add(key);
 				savePlayerSignal.Dispatch();
+
+				playerModel.activeSkinId = key;
+				ownedItemSignal.Dispatch(key);
 			}
-		}
-
-		private StoreItem GetBestBuckPackOffer(int price)
-		{
-			List<StoreItem> buckPacks = storeSettingsModel.lists["BuckPack"];
-			int bucks = playerModel.bucks;
-
-			int i = 0;
-			bool found = false;
-			while (!found && i < buckPacks.Count) 
-			{
-				found = (buckPacks[i].currency2Payout + bucks) >= price;
-				if (!found) 
-				{
-					i++;
-				}
-			}
-
-			return (i >= buckPacks.Count) ? buckPacks[buckPacks.Count-1] : buckPacks[i];
 		}
 	}
 }

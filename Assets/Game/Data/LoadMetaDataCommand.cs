@@ -16,6 +16,8 @@ namespace TurboLabz.InstantChess
 	{ 
         private OrderedDictionary<string, StoreItem> skinItems = new OrderedDictionary<string, StoreItem>()
         {
+			{"SkinSlate", new StoreItem {key = "SkinSlate", kind = "Skin", displayName = "Slate", state = StoreItem.State.DISABLED} },				// factory default
+			{"SkinDeepSea", new StoreItem {key = "SkinDeepSea", kind = "Skin", displayName = "Deep Sea", state = StoreItem.State.DISABLED} },		// factory default
 			{"SkinAmazon", new StoreItem {key = "SkinAmazon", kind = "Skin", displayName = "Amazon", currency2Cost = 200} },
 			{"SkinCrayon", new StoreItem {key = "SkinCrayon", kind = "Skin", displayName = "Crayon", currency2Cost = 7500} },
 			{"SkinIndiana", new StoreItem {key = "SkinIndiana", kind = "Skin", displayName = "Indiana", currency2Cost = 25000} },

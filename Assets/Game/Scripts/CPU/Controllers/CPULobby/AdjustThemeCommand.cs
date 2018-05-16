@@ -39,10 +39,12 @@ namespace TurboLabz.InstantChess
 
 			playerModel.activeSkinId = increase ? list[index + 1] : list[index - 1];
 
+			StoreItem item = metaDataModel.items[playerModel.activeSkinId];
+
 			applySkinSignal.Dispatch(playerModel.activeSkinId);
 			updateSkinSignal.Dispatch();
 
-			CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel);
+			CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel, metaDataModel);
 			updateThemeSignal.Dispatch(vo);
 		}
 	}
