@@ -47,7 +47,7 @@ namespace TurboLabz.InstantChess
         private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea" };
 
         private const int ADS_REWARD_INCREMENT = 10;
-        private const int ADS_MAX_IMPRESSIONS_PER_SLOT = 1;
+        private const int ADS_MAX_IMPRESSIONS_PER_SLOT = 6;
         private const int ADS_SLOT_DEBUG_MINUTES = 2;
         private const int ADS_SLOT_MINUTES = 1440; // 24 hours
 
