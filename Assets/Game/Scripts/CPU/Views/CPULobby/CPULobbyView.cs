@@ -292,6 +292,16 @@ namespace TurboLabz.InstantChess
             gameObject.SetActive(false);
         }
 
+        public void ShowFreeBucksRewardDlg()
+        {
+            freeBucksRewardDlg.SetActive(true);
+        }
+
+        public void HideFreeBucksRewardDlg()
+        {
+            freeBucksRewardDlg.SetActive(false);
+        }
+
         public bool IsVisible()
         {
             return gameObject.activeSelf;

@@ -76,10 +76,13 @@ namespace TurboLabz.InstantChess
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            LogUtil.Log("GOT VIEW ID=" + viewId, "cyan");
             if (viewId == NavigatorViewId.CPU_LOBBY) 
             {
                 view.Show();
+            }
+            else if (viewId == NavigatorViewId.FREE_BUCKS_REWARD_DLG)
+            {
+                view.ShowFreeBucksRewardDlg();
             }
         }
 
@@ -90,6 +93,10 @@ namespace TurboLabz.InstantChess
             {
                 view.Hide();
                 saveGameSignal.Dispatch();
+            }
+            else if (viewId == NavigatorViewId.FREE_BUCKS_REWARD_DLG)
+            {
+                view.HideFreeBucksRewardDlg();
             }
         }
 

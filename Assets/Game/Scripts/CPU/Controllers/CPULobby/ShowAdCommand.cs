@@ -46,7 +46,7 @@ namespace TurboLabz.InstantChess
                 int rewardBucks = playerModel.adLifetimeImpressions * metaDataModel.adSettings.adsRewardIncrement;
                 playerModel.bucks += rewardBucks;
 
-
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FREE_BUCKS_REWARD_DLG);
 
                 analyticsService.AdComplete(false, UnityAdsPlacementId.REWARDED_VIDEO);
             }

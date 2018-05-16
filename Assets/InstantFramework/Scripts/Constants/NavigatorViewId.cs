@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         AD_COVER,
 		BUY_DLG,
 		NOT_ENOUGH_BUCKS_DLG,
-		BUCK_PACKS_DLG
+		BUCK_PACKS_DLG,
+        FREE_BUCKS_REWARD_DLG
     }
 }
