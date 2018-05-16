@@ -18,7 +18,7 @@ namespace TurboLabz.InstantChess
 
 		public override void Execute()
 		{
-			playerModel.SaveToFile ();
+			playerModel.SaveToFile();
 		}
 	}
 }

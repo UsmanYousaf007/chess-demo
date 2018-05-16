@@ -79,6 +79,9 @@ namespace TurboLabz.InstantChess
 				activeSkinId = reader.Read<string>(SaveKeys.PLAYER_ACTIVE_SKIN_ID);
 				bucks = reader.Read<int>(SaveKeys.PLAYER_BUCKS);
 				vGoods = reader.ReadList<string>(SaveKeys.PLAYER_VGOODS);
+                adLifetimeImpressions = reader.Read<int>(SaveKeys.PLAYER_AD_LIFE_TIME_IMPRESSIONS);
+                adSlotImpressions = reader.Read<int>(SaveKeys.PLAYER_AD_SLOT_IMPRESSIONS);
+                adSlotId = reader.Read<long>(SaveKeys.PLAYER_AD_SLOT_ID);
 
 				reader.Close();
 			}
@@ -100,6 +103,9 @@ namespace TurboLabz.InstantChess
 				writer.Write<string>(SaveKeys.PLAYER_ACTIVE_SKIN_ID, activeSkinId);
 				writer.Write<int>(SaveKeys.PLAYER_BUCKS, bucks);
 				writer.WriteList<string>(SaveKeys.PLAYER_VGOODS, vGoods);
+                writer.Write<int>(SaveKeys.PLAYER_AD_LIFE_TIME_IMPRESSIONS, adLifetimeImpressions);
+                writer.Write<int>(SaveKeys.PLAYER_AD_SLOT_IMPRESSIONS, adSlotImpressions);
+                writer.Write<long>(SaveKeys.PLAYER_AD_SLOT_ID, adSlotId);
 
 				writer.Close();
 			}
