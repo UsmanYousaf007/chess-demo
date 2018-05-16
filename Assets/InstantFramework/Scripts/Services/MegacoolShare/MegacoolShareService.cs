@@ -8,12 +8,13 @@
 /// @date 2018-01-10 10:52:49 UTC+05:00
 
 using UnityEngine;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
     public class MegacoolShareService : IShareService
     {
-        private const string APP_PROMO_IMAGE = "ShareAnim.gif";
+        private const string APP_PROMO_IMAGE = "Share.png";
 
         public void Init()
         {
@@ -24,7 +25,8 @@ namespace TurboLabz.InstantFramework
         {
             Megacool.Instance.SharingText = message;
             Megacool.Instance.Share(new MegacoolShareConfig {
-                FallbackImage = APP_PROMO_IMAGE
+                FallbackImage = APP_PROMO_IMAGE,
+                Url = new Uri("?_autoopen=true", UriKind.Relative)
             });
         }
     }

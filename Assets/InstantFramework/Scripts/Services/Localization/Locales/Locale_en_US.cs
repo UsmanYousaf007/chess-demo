@@ -113,7 +113,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Share
 
-                { LocalizationKey.SHARE_STANDARD, "Hey, let's play Instant Chess!" },
+                { LocalizationKey.SHARE_STANDARD, "Hey, let's play Chess!" },
 
                 #endregion
             };
