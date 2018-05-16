@@ -23,9 +23,11 @@ namespace TurboLabz.InstantChess
     public class AdjustStrengthSignal : Signal<bool> {}
     public class AdjustDurationSignal : Signal<bool> {}
     public class AdjustPlayerColorSignal : Signal<bool> {}
+	public class AdjustThemeSignal : Signal<bool> {}
     public class UpdateStrengthSignal : Signal<CPULobbyVO> {}
-    public class UpdateDurationSignal : Signal<CPULobbyVO>{}
-    public class UpdatePlayerColorSignal : Signal<CPULobbyVO>{}
+    public class UpdateDurationSignal : Signal<CPULobbyVO> {}
+    public class UpdatePlayerColorSignal : Signal<CPULobbyVO> {}
+	public class UpdateThemeSignal : Signal<CPULobbyVO> {}
     public class LoadCPUGameSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal {}

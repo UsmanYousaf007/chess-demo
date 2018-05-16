@@ -26,6 +26,7 @@ namespace TurboLabz.InstantChess
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public AdjustDurationSignal adjustTimerSignal { get; set; }
         [Inject] public AdjustPlayerColorSignal adjustPlayerColorSignal { get; set; }
+		[Inject] public AdjustThemeSignal adjustThemeSignal { get; set; }
         [Inject] public StartNewGameSignal startCPUGameSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -49,6 +50,8 @@ namespace TurboLabz.InstantChess
             view.incDurationButtonClickedSignal.AddListener(OnIncTimeButtonClicked);
             view.decPlayerColorButtonClickedSignal.AddListener(OnDecPlayerColorButtonClicked);
             view.incPlayerColorButtonClickedSignal.AddListener(OnIncPlayerColorButtonClicked);
+			view.incThemeButtonClickedSignal.AddListener(OnIncThemeButtonClicked);
+			view.decThemeButtonClickedSignal.AddListener(OnDecThemeButtonClicked);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
 			view.themesButtonClickedSignal.AddListener(OnThemesButtonClicked);
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
@@ -132,6 +135,12 @@ namespace TurboLabz.InstantChess
             view.UpdatePlayerColor(vo);
         }
 
+		[ListensTo(typeof(UpdateThemeSignal))]
+		public void OnThemePlayerColor(CPULobbyVO vo)
+		{
+			view.UpdateTheme(vo);
+		}
+
         private void OnDecStrengthButtonClicked()
         {
             adjustStrengthSignal.Dispatch(false);
@@ -156,6 +165,16 @@ namespace TurboLabz.InstantChess
         {
             adjustPlayerColorSignal.Dispatch(false);
         }
+
+		private void OnIncThemeButtonClicked()
+		{
+			adjustThemeSignal.Dispatch(true);
+		}
+
+		private void OnDecThemeButtonClicked()
+		{
+			adjustThemeSignal.Dispatch(false);
+		}
 
         private void OnIncPlayerColorButtonClicked()
         {

@@ -75,6 +75,8 @@ namespace TurboLabz.InstantChess
         public Signal incDurationButtonClickedSignal = new Signal();
         public Signal decPlayerColorButtonClickedSignal = new Signal();
         public Signal incPlayerColorButtonClickedSignal = new Signal();
+		public Signal incThemeButtonClickedSignal = new Signal();
+		public Signal decThemeButtonClickedSignal = new Signal();
         public Signal playButtonClickedSignal = new Signal();
 		public Signal themesButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
@@ -89,6 +91,8 @@ namespace TurboLabz.InstantChess
             incDurationButton.onClick.AddListener(OnIncDurationButtonClicked);
             decPlayerColorButton.onClick.AddListener(OnDecPlayerColorButtonClicked);
             incPlayerColorButton.onClick.AddListener(OnIncPlayerColorButtonClicked);
+			incThemeButton.onClick.AddListener(OnIncThemeButtonClicked);
+			decThemeButton.onClick.AddListener(OnDecThemeButtonClicked);
             playButton.onClick.AddListener(OnPlayButtonClicked);
 			themesButton.onClick.AddListener(OnThemesButtonClicked);
             statsButton.onClick.AddListener(OnStatsButtonClicked);
@@ -101,8 +105,15 @@ namespace TurboLabz.InstantChess
             strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
             durationLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_DURATION);
             playerColorLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAYER_COLOR);
+			themesLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_THEME);
             playButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY);
             themesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_THEMES);
+
+			currentStrengthLabel.color = Colors.YELLOW;
+			currentDurationLabel.color = Colors.YELLOW;
+			currentThemeLabel.color = Colors.YELLOW;
+			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
+			nextStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
 
             RefreshAudioButtons();
         }
@@ -129,6 +140,7 @@ namespace TurboLabz.InstantChess
             UpdateStrength(vo);
             UpdateDuration(vo);
             UpdatePlayerColor(vo);
+			UpdateTheme(vo);
         }
 
         public void UpdateStrength(CPULobbyVO vo)
@@ -222,6 +234,11 @@ namespace TurboLabz.InstantChess
             }
         }
 
+		public void UpdateTheme(CPULobbyVO vo)
+		{
+			currentThemeLabel.text = vo.activeSkinId;
+		}
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -281,6 +298,18 @@ namespace TurboLabz.InstantChess
             incPlayerColorButtonClickedSignal.Dispatch();
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
+
+		private void OnIncThemeButtonClicked()
+		{
+			incThemeButtonClickedSignal.Dispatch();
+			audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+		}
+
+		private void OnDecThemeButtonClicked()
+		{
+			decThemeButtonClickedSignal.Dispatch();
+			audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+		}
 
         private void OnPlayButtonClicked()
         {
