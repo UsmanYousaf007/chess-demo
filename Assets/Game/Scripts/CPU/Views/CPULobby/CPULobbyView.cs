@@ -98,6 +98,8 @@ namespace TurboLabz.InstantChess
         public Signal freeBucksUpdateAdsSignal = new Signal();
 
         private Coroutine waitCR;
+        private Coroutine waitForAdsAvailabilityCR;
+        private const int ADS_AVAILABILITY_RETRY_SECONDS = 3;
 
         public void Init()
         {
@@ -272,6 +274,7 @@ namespace TurboLabz.InstantChess
             else if (vo.state == AdsState.NOT_AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE);
+                waitForAdsAvailabilityCR = StartCoroutine(WaitForAdsAvailabilityCR());
             }
             else if (vo.state == AdsState.WAIT)
             {
@@ -301,6 +304,12 @@ namespace TurboLabz.InstantChess
             }
         }
 
+        IEnumerator WaitForAdsAvailabilityCR()
+        {
+            yield return new WaitForSeconds(ADS_AVAILABILITY_RETRY_SECONDS);
+            freeBucksUpdateAdsSignal.Dispatch();
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -323,6 +332,12 @@ namespace TurboLabz.InstantChess
             {
                 StopCoroutine(waitCR);
                 waitCR = null;
+            }
+
+            if (waitForAdsAvailabilityCR != null)
+            {
+                StopCoroutine(waitForAdsAvailabilityCR);
+                waitForAdsAvailabilityCR = null;
             }
 
             return;
