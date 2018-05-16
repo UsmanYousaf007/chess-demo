@@ -72,7 +72,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_OK, "OK" },
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE, "Reward Bucks" },
                 { LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, "Get {0} Bucks" },
-                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE, "Rewards Available Soon" },
+                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE, "Available Soon" },
 
                 #endregion
 

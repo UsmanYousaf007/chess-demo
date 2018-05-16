@@ -20,6 +20,7 @@ namespace TurboLabz.InstantChess
         [Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateFreeBucksRewardSignal updatedFreeBucksRewardSignal { get; set; }
+        [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -46,9 +47,13 @@ namespace TurboLabz.InstantChess
             {
                 int rewardBucks = playerModel.adLifetimeImpressions * metaDataModel.adSettings.adsRewardIncrement;
                 playerModel.bucks += rewardBucks;
+                playerModel.adLifetimeImpressions++;
+                playerModel.adSlotImpressions++;
 
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FREE_BUCKS_REWARD_DLG);
                 updatedFreeBucksRewardSignal.Dispatch(rewardBucks);
+
+                updateAdsSignal.Dispatch();
 
                 analyticsService.AdComplete(false, UnityAdsPlacementId.REWARDED_VIDEO);
             }

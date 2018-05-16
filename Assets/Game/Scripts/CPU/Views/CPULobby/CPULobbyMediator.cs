@@ -34,6 +34,7 @@ namespace TurboLabz.InstantChess
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // View injection
         [Inject] public CPULobbyView view { get; set; }
@@ -57,6 +58,8 @@ namespace TurboLabz.InstantChess
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
             view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
             view.shareAppButtonClickedSignal.AddListener(OnShareAppButtonClicked);
+            view.freeBucksButtonClickedSignal.AddListener(OnFreeBucksButtonClicked);
+            view.freeBucksRewardOkButtonClickedSignal.AddListener(OnFreeBucksRewardOkButtonClicked);
         }
 
         public override void OnRemove()
@@ -228,6 +231,16 @@ namespace TurboLabz.InstantChess
 		private void OnShareAppButtonClicked()
         {
             shareAppSignal.Dispatch();
+        }
+
+        private void OnFreeBucksButtonClicked()
+        {
+            showAdSignal.Dispatch();
+        }
+
+        private void OnFreeBucksRewardOkButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
         }
     }
 }
