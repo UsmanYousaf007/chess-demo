@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_DURATION = "cpuMenuDuration";
         public const string CPU_MENU_DURATION_NONE = "cpuMenuDurationNone";
         public const string CPU_MENU_PLAYER_COLOR = "cpuMenuPlayerColor";
+		public const string CPU_MENU_THEME = "cpuMenuTheme";
         public const string CPU_MENU_PLAY = "cpuMenuPlay";
         public const string CPU_MENU_THEMES = "cpuMenuThemes";
         public const string CPU_GAME_CPU_NAME = "cpuGameCpuName";

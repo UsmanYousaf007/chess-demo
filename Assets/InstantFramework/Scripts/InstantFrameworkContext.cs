@@ -121,6 +121,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
             commandBinder.Bind<AdjustDurationSignal>().To<AdjustDurationCommand>();
             commandBinder.Bind<AdjustPlayerColorSignal>().To<AdjustPlayerColorCommand>();
+			commandBinder.Bind<AdjustThemeSignal>().To<AdjustThemeCommand>();
             commandBinder.Bind<DevFenValueChangedSignal>().To<DevFenChangedCommand>();
             commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
@@ -180,6 +181,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateStrengthSignal>().ToSingleton();
             injectionBinder.Bind<UpdateDurationSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerColorSignal>().ToSingleton();
+			injectionBinder.Bind<UpdateThemeSignal>().ToSingleton();
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();

@@ -28,6 +28,7 @@ namespace TurboLabz.InstantChess
         public int totalGames;
 		public int playerBucks;
 		public List<string> playerVGoods;
+		public string activeSkinId;
 
         public CPULobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel)
         {
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantChess
             selectedPlayerColorIndex = cpuGameModel.playerColorIndex;
             inProgress = cpuGameModel.inProgress;
             totalGames = cpuGameModel.totalGames;
+			activeSkinId = playerModel.activeSkinId;
         }
     }
 }

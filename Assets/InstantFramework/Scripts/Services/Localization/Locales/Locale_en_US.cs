@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION, "Time Limit" },
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
+				{ LocalizationKey.CPU_MENU_THEME, "Theme" },
                 { LocalizationKey.CPU_MENU_PLAY, "PLAY" },
                 { LocalizationKey.CPU_MENU_THEMES, "THEMES" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "Computer" },
