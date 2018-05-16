@@ -262,9 +262,12 @@ namespace TurboLabz.InstantChess
 
         public void UpdateAds(AdsVO vo)
         {
+            freeBucksButton.interactable = false;
+
             if (vo.state == AdsState.AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, vo.bucks);
+                freeBucksButton.interactable = true;
             }
             else if (vo.state == AdsState.NOT_AVAILABLE)
             {
