@@ -266,6 +266,12 @@ namespace TurboLabz.InstantChess
         {
             freeBucksButton.interactable = false;
 
+            if (waitCR != null)
+            {
+                StopCoroutine(waitCR);
+                waitCR = null;
+            }
+
             if (vo.state == AdsState.AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, vo.bucks);
@@ -285,17 +291,17 @@ namespace TurboLabz.InstantChess
 
         IEnumerator WaitCR(TimeSpan wait)
         {
-            if (wait.TotalSeconds == 0)
-            {
-                freeBucksUpdateAdsSignal.Dispatch();
-                waitCR = null;
-                yield break;
-            }
-
             string availableText = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_AVAILABLE) + " ";
 
             while (true)
             {
+                if (wait.TotalSeconds <= 0)
+                {
+                    freeBucksUpdateAdsSignal.Dispatch();
+                    waitCR = null;
+                    yield break;
+                }
+
                 freeBucksButtonLabel.text = availableText +
                 string.Format("{0:D2}:{1:D2}:{2:D2}", wait.Hours, wait.Minutes, wait.Seconds);
 

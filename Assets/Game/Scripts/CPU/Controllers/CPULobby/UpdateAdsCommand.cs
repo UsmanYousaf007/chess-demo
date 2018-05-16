@@ -10,13 +10,14 @@ using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using System;
+using UnityEngine;
 
 namespace TurboLabz.InstantChess
 {
     public class UpdateAdCommand : Command
     {
         // Dispatch Signals
-        [Inject] public UpdateLobbyAdsSignal updateAdsSignal { get; set; }
+        [Inject] public UpdateLobbyAdsSignal updateLobbyAdsSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -28,12 +29,13 @@ namespace TurboLabz.InstantChess
         // Our ad slots will reset every day at 7 PM which is the prime time for gaming
         // https://www.prnewswire.com/news-releases/prime-time-is-peak-time-for-mobile-gaming-and-social-media-199165791.html
         const int SLOT_HOURS = 19;
+        const int DEV_SLOT_SECS = 60;
 
         public override void Execute()
         {
             // The code below is based on this algo: https://docs.google.com/drawings/d/1fsbwyNYrXJKs5sANyQ47v6wqqE7Ov8GjyN1TMhYvDl8/edit
 
-            AdsState state = AdsState.NONE;
+            AdsState state;
             long currentSlotId = GetCurrentSlotId();
 
             if (playerModel.adSlotId == currentSlotId)
@@ -68,7 +70,7 @@ namespace TurboLabz.InstantChess
                 vo.waitMs = GetWaitMs();
             }
 
-            updateAdsSignal.Dispatch(vo);
+            updateLobbyAdsSignal.Dispatch(vo);
         }
 
         private long GetCurrentSlotId()
@@ -81,7 +83,6 @@ namespace TurboLabz.InstantChess
         {
             DateTime nextSlotTime = DateTime.Today.AddDays(1).AddHours(SLOT_HOURS);
             double nextSlotMs = nextSlotTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
-
             double currentMs = DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
 
             return nextSlotMs - currentMs;
