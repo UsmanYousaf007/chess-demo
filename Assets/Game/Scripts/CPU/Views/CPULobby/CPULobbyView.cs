@@ -61,6 +61,9 @@ namespace TurboLabz.InstantChess
         public Button themesButton;
         public Text themesButtonLabel;
 
+        public Button freeBucksButton;
+        public Text freeBucksButtonLabel;
+
         public Button audioIsOnButton;
         public Button audioIsOffButton;
         public Button statsButton;
@@ -77,6 +80,7 @@ namespace TurboLabz.InstantChess
         public Signal incPlayerColorButtonClickedSignal = new Signal();
         public Signal playButtonClickedSignal = new Signal();
 		public Signal themesButtonClickedSignal = new Signal();
+        public Signal freeBucksButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
@@ -91,6 +95,7 @@ namespace TurboLabz.InstantChess
             incPlayerColorButton.onClick.AddListener(OnIncPlayerColorButtonClicked);
             playButton.onClick.AddListener(OnPlayButtonClicked);
 			themesButton.onClick.AddListener(OnThemesButtonClicked);
+            freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
             statsButton.onClick.AddListener(OnStatsButtonClicked);
             audioIsOnButton.onClick.AddListener(OnAudioIsOnButtonClicked);
             audioIsOffButton.onClick.AddListener(OnAudioIsOffButtonClicked);
@@ -291,6 +296,11 @@ namespace TurboLabz.InstantChess
 		{
 			themesButtonClickedSignal.Dispatch();
 		}
+
+        private void OnFreeBucksButtonClicked()
+        {
+            freeBucksButtonClickedSignal.Dispatch();
+        }
 
         private void OnStatsButtonClicked()
         {

@@ -20,14 +20,15 @@ namespace TurboLabz.InstantChess
     public class PlayerModel : IPlayerModel
     {
 		[Inject] public ILocalDataService localDataService { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public string id { get; set; }
         public string activeSkinId { get; set; }
 		public int bucks { get; set; }
 		public List<string> vGoods { get; set; }
-        public int totalAdImpressions { get; set; }
-        public int slotAdImpressions { get; set; }
-        public double slotStartTime { get; set; }
+        public int adLifetimeImpressions { get; set; }
+        public int adSlotImpressions { get; set; }
+        public long adSlotId { get; set; }
 
 		[PostConstruct]
 		public void Load()
@@ -39,16 +40,12 @@ namespace TurboLabz.InstantChess
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
-			bucks = CPUSettings.DEFAULT_STARTING_BUCKS;
-			vGoods = new List<string>();
-			for (int i = 0; i < CPUSettings.DEFAULT_VGOODS.Length; i++) 
-			{
-				vGoods.Add(CPUSettings.DEFAULT_VGOODS[i]);
-			}
-			activeSkinId = CPUSettings.DEFAULT_VGOODS[0];
-            totalAdImpressions = 0;
-            slotAdImpressions = 0;
-            slotStartTime = 0;
+            bucks = metaDataModel.defaultStartingBucks;
+            vGoods = new List<string>(metaDataModel.defaultVGoods);
+            activeSkinId = vGoods[0];
+            adLifetimeImpressions = 1; // So we don't give him 0 bucks the first time as a reward
+            adSlotImpressions = 0;
+            adSlotId = 0;
         }
 
 		public bool ownsVGood(string key)

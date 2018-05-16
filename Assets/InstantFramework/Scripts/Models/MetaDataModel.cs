@@ -14,6 +14,8 @@ namespace TurboLabz.InstantFramework
         public IDictionary<string, List<StoreItem>> lists { get;  set;}
         public IOrderedDictionary<string, StoreItem> items { get; set;}
         public AdSettings adSettings { get; set; }
+        public int defaultStartingBucks { get; set; }
+        public string[] defaultVGoods { get; set; }
 
         [PostConstruct]
 		public void Load()
@@ -115,6 +117,7 @@ namespace TurboLabz.InstantFramework
     {
         public int maxImpressionsPerSlot;
         public int slotMinutes;
+        public int adsRewardIncrement;
     }
 
     #endregion

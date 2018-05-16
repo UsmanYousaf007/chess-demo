@@ -17,7 +17,7 @@ using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantChess
 {
-    // CPU MENU
+    // CPU LOBBY
     public class SaveGameSignal : Signal {}
     public class UpdateMenuViewSignal : Signal<CPULobbyVO> {}
     public class AdjustStrengthSignal : Signal<bool> {}
@@ -29,6 +29,7 @@ namespace TurboLabz.InstantChess
     public class LoadCPUGameSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal {}
+    public class UpdateAdsSignal : Signal<AdsVO>{}
 
 	// PLAYER
 	public class SavePlayerSignal : Signal {}

@@ -40,7 +40,11 @@ namespace TurboLabz.InstantChess
 			//{"BuckPackCrate", new StoreItem {key = "BuckPackCrate", kind = "BuckPack", displayName = "Crate", currency2Payout = 150000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.buckpackcrate"} },
 			//{"BuckPackVault", new StoreItem {key = "BuckPackVault", kind = "BuckPack", displayName = "Vault", currency2Payout = 250000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.buckpackvault"} },
         };
+            
+        private const int DEFAULT_STARTING_BUCKS = 100;
+        private readonly string[] DEFAULT_VGOODS = { "SkinAmazon", "SkinSlate", "SkinDeepSea" };
 
+        private const int ADS_REWARD_INCREMENT = 10;
         private const int ADS_MAX_IMPRESSIONS_PER_LOT = 6;
         private const int ADS_SLOT_DEBUG_MINUTES = 2;
         private const int ADS_SLOT_MINUTES = 1440; // 24 hours
@@ -63,8 +67,12 @@ namespace TurboLabz.InstantChess
             AdSettings adSettings = new AdSettings();
             adSettings.maxImpressionsPerSlot = ADS_MAX_IMPRESSIONS_PER_LOT;
             adSettings.slotMinutes = Debug.isDebugBuild ? ADS_SLOT_DEBUG_MINUTES : ADS_SLOT_MINUTES;
+            adSettings.adsRewardIncrement = ADS_REWARD_INCREMENT;
 
             model.AddAdSettings(adSettings);
+
+            model.defaultStartingBucks = DEFAULT_STARTING_BUCKS;
+            model.defaultVGoods = DEFAULT_VGOODS;
         }
 			
 		private void OnStoreInit(bool success)
