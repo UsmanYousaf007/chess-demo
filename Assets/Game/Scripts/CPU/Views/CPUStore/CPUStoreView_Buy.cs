@@ -37,7 +37,7 @@ namespace TurboLabz.InstantChess
             yesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON);
             noButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON);
 
-            itemNameLabel.color = Color.yellow;
+			itemNameLabel.color = Colors.YELLOW;
 		}
 
 		public void CleanupBuy() 

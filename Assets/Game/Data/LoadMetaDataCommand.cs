@@ -18,12 +18,12 @@ namespace TurboLabz.InstantChess
         {
 			{"SkinSlate", new StoreItem {key = "SkinSlate", kind = "Skin", displayName = "Slate", state = StoreItem.State.DISABLED} },				// factory default
 			{"SkinDeepSea", new StoreItem {key = "SkinDeepSea", kind = "Skin", displayName = "Deep Sea", state = StoreItem.State.DISABLED} },		// factory default
-			{"SkinAmazon", new StoreItem {key = "SkinAmazon", kind = "Skin", displayName = "Amazon", currency2Cost = 200} },
-			{"SkinCrayon", new StoreItem {key = "SkinCrayon", kind = "Skin", displayName = "Crayon", currency2Cost = 7500} },
-			{"SkinIndiana", new StoreItem {key = "SkinIndiana", kind = "Skin", displayName = "Indiana", currency2Cost = 25000} },
-			{"SkinMoonlight", new StoreItem {key = "SkinMoonlight", kind = "Skin", displayName = "Moonlight", currency2Cost = 40000} },
-			{"SkinMarble", new StoreItem {key = "SkinMarble", kind = "Skin", displayName = "Marble", currency2Cost = 60000} },
-			{"SkinHighrise", new StoreItem {key = "SkinHighrise", kind = "Skin", displayName = "Highrise", currency2Cost = 80000} },
+			{"SkinIndiana", new StoreItem {key = "SkinIndiana", kind = "Skin", displayName = "Indiana", currency2Cost = 200} },
+			{"SkinHighrise", new StoreItem {key = "SkinHighrise", kind = "Skin", displayName = "Highrise", currency2Cost = 7500} },
+			{"SkinMarble", new StoreItem {key = "SkinMarble", kind = "Skin", displayName = "Marble", currency2Cost = 25000} },
+			{"SkinCrayon", new StoreItem {key = "SkinCrayon", kind = "Skin", displayName = "Crayon", currency2Cost = 40000} },
+			{"SkinMoonlight", new StoreItem {key = "SkinMoonlight", kind = "Skin", displayName = "Moonlight", currency2Cost = 60000} },
+			{"SkinAmazon", new StoreItem {key = "SkinAmazon", kind = "Skin", displayName = "Amazon", currency2Cost = 80000} },
 			{"SkinDracula", new StoreItem {key = "SkinDracula", kind = "Skin", displayName = "Dracula", currency2Cost = 100000} },
 			{"SkinLuxury", new StoreItem {key = "SkinLuxury", kind = "Skin", displayName = "Luxury", currency2Cost = 120000} },
         };
@@ -44,7 +44,9 @@ namespace TurboLabz.InstantChess
         };
             
         private const int DEFAULT_STARTING_BUCKS = 100;
-        private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea" };
+        //private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea" };
+		private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea", "SkinAmazon",  "SkinCrayon", "SkinIndiana", "SkinMoonlight", "SkinMarble", "SkinHighrise", "SkinDracula", "SkinLuxury"};
+
 
         private const int ADS_REWARD_INCREMENT = 10;
         private const int ADS_MAX_IMPRESSIONS_PER_SLOT = 6;
