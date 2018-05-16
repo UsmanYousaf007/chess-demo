@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
         {
             LogUtil.Log("Navigator event: " + navigatorEvent, "yellow");
 
-            NS newState;
+            NS newState = null;
 
             if (navigatorModel.currentState == null)
             {
@@ -50,7 +50,10 @@ namespace TurboLabz.InstantFramework
                 navigatorModel.currentState.SetCommand(this);
             }
 
-            newState = navigatorModel.currentState.HandleEvent(navigatorEvent);
+            if (navigatorEvent != navigatorModel.ignoreEvent)
+            {
+                newState = navigatorModel.currentState.HandleEvent(navigatorEvent);    
+            }
 
             if (newState != null)
             {

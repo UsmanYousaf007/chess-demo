@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         public NS previousState { get; set; }
         public List<NavigatorViewId> history { get; set; }
         public List<NavigatorViewId> viewStack { get; set; }
+        public NavigatorEvent ignoreEvent { get; set; }
 
         public void Reset()
         {
@@ -26,6 +27,7 @@ namespace TurboLabz.InstantFramework
             previousState = null;
             history = new List<NavigatorViewId>();
             viewStack = new List<NavigatorViewId>();
+            ignoreEvent = NavigatorEvent.NONE;
         }
     }
 }

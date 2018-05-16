@@ -12,6 +12,7 @@
 
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantChess
 {
@@ -19,11 +20,13 @@ namespace TurboLabz.InstantChess
     {
         //Dispatch Signals
         [Inject] public GetHintSignal getHintSignal { get; set; }
+        [Inject] public NavigatorIgnoreEventSignal navigatorIgnoreEventSignal { get; set; }
 
         [ListensTo(typeof(RenderHintSignal))]
         public void OnRenderHint(HintVO vo)
         {
             view.RenderHint(vo);
+            navigatorIgnoreEventSignal.Dispatch(NavigatorEvent.NONE);
         }
 
         [ListensTo(typeof(UpdateHintCountSignal))]
@@ -57,6 +60,7 @@ namespace TurboLabz.InstantChess
 
         private void OnGetHint()
         {
+            navigatorIgnoreEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             getHintSignal.Dispatch();
         }
     }

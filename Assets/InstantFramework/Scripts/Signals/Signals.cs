@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
     public class NavigatorEventSignal : Signal<NavigatorEvent> {}
     public class NavigatorShowViewSignal : Signal<NavigatorViewId> {}
     public class NavigatorHideViewSignal : Signal<NavigatorViewId> {}
+    public class NavigatorIgnoreEventSignal : Signal<NavigatorEvent> {}
 
 	// Model data load signals
 	public class LoadMetaDataSignal : Signal {}

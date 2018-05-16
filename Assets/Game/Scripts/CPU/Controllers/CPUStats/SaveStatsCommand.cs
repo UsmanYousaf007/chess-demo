@@ -43,7 +43,6 @@ namespace TurboLabz.InstantChess
 
             if (result > statsModel.stats[durationIndex].performance[cpuStrength])
             {
-                statsModel.stats[durationIndex].performance[cpuStrength] = result;
                 statsModel.Save(durationIndex, cpuStrength, result);
             }
         }

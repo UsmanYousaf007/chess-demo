@@ -135,6 +135,7 @@ namespace TurboLabz.InstantChess
 
             for (int i = 0; i < pset.Count; i++)
             {
+                LogUtil.Log("DIFFICULTY = " + i + " SCORE = " + pset[i], "cyan"); 
                 if (pset[i] == 1)
                 {
                     stars[i].sprite = silverStar;

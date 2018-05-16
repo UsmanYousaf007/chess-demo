@@ -70,10 +70,15 @@ namespace TurboLabz.InstantChess
             OnApplicationFocusClickAndDrag(focus);
         }
 
-        private void EnableModalBlocker()
+        private void EnableModalBlocker(bool showAlphaCurtain = true)
         {
             uiBlocker.SetActive(true);
             chessboardBlocker.SetActive(true);
+
+            Image uiBlockerImage = uiBlocker.GetComponent<Image>();
+            Color c = uiBlockerImage.color;
+            c.a = showAlphaCurtain ? 50f/255f : 1f/255f; // Todo: These should be constants somewhere
+            uiBlockerImage.color = c;
         }
 
         private void DisableModalBlocker()

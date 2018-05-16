@@ -83,12 +83,8 @@ namespace TurboLabz.InstantChess
 
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
-                pauseTimersSignal.Dispatch();   
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
                 saveGameSignal.Dispatch();
-            }
-            else if (evt == AppEvent.RESUMED)
-            {
-                resumeTimersSignal.Dispatch();
             }
         }
     }

@@ -61,6 +61,7 @@ namespace TurboLabz.InstantChess
             UpdateHintCount(vo.availableHints);
             DisableHintButton();
             hintThinking.SetActive(false);
+            DisableModalBlocker();
         }
 
         public void HideHint()
@@ -109,6 +110,7 @@ namespace TurboLabz.InstantChess
         {
             DisableHintButton();
             hintThinking.SetActive(true);
+            EnableModalBlocker(false);
             hintClickedSignal.Dispatch();
         }
 

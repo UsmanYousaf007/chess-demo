@@ -70,6 +70,7 @@ namespace TurboLabz.InstantChess
                 foreach (KeyValuePair<int, PerformanceSet> entry in stats)
                 {
                     statsSaveData.Add(entry.Key, JsonUtility.ToJson(entry.Value));
+                    LogUtil.Log("Added perf set:" + JsonUtility.ToJson(entry.Value), "cyan");
                 }
 
                 writer.WriteDictionary<int, string>(SaveKeys.STATS_DATA, statsSaveData);

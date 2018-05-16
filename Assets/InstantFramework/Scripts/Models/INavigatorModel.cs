@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         NS previousState { get; set; }
         List<NavigatorViewId> history { get; set; }
         List<NavigatorViewId> viewStack { get; set; }
+        NavigatorEvent ignoreEvent { get; set; }
 
         void Reset();
     }
