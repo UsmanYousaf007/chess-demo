@@ -260,11 +260,11 @@ namespace TurboLabz.InstantChess
         {
             if (vo.state == AdsState.AVAILABLE)
             {
-                freeBucksButtonLabel.text = vo.bucks + " bucks!";
+                freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, vo.bucks);
             }
             else if (vo.state == AdsState.NOT_AVAILABLE)
             {
-                freeBucksButtonLabel.text =  "not available";
+                freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE);
             }
             else if (vo.state == AdsState.WAIT)
             {
