@@ -154,6 +154,12 @@ namespace TurboLabz.InstantChess
             view.UpdateAds(vo);
         }
 
+        [ListensTo(typeof(UpdateFreeBucksRewardSignal))]
+        public void OnUpdateFreeBucksRewardSignal(int amt)
+        {
+            view.UpdateFreeBucksReward(amt);
+        }
+
         private void OnDecStrengthButtonClicked()
         {
             adjustStrengthSignal.Dispatch(false);

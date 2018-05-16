@@ -297,6 +297,11 @@ namespace TurboLabz.InstantChess
             freeBucksRewardDlg.SetActive(true);
         }
 
+        public void UpdateFreeBucksReward(int amt)
+        {
+            freeBucksRewardAmount.text = amt.ToString();
+        }
+
         public void HideFreeBucksRewardDlg()
         {
             freeBucksRewardDlg.SetActive(false);

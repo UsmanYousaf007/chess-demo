@@ -33,6 +33,7 @@ namespace TurboLabz.InstantChess
     public class ShowAdSignal : Signal {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
     public class UpdateAdsSignal : Signal {}
+    public class UpdateFreeBucksRewardSignal : Signal<int> {}
 
 	// PLAYER
 	public class SavePlayerSignal : Signal {}
