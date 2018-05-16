@@ -16,7 +16,7 @@ namespace TurboLabz.InstantChess
     public class UpdateAdCommand : Command
     {
         // Dispatch Signals
-        [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
+        [Inject] public UpdateLobbyAdsSignal updateAdsSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -40,7 +40,7 @@ namespace TurboLabz.InstantChess
             {
                 if (playerModel.adSlotImpressions < metaDataModel.adSettings.maxImpressionsPerSlot)
                 {
-                    state = adsService.isAdAvailable ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
+                    state = adsService.isRewardedAdAvailable ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace TurboLabz.InstantChess
             {
                 playerModel.adSlotId = currentSlotId;
                 playerModel.adSlotImpressions = 0;
-                state = adsService.isAdAvailable ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
+                state = adsService.isRewardedAdAvailable ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
             }
 
             Assertions.Assert(state != AdsState.NONE, "Ad state should never be none, something broke in the algorithm");

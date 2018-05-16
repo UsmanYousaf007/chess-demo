@@ -129,6 +129,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
 			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
+            commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<CPULobbyView>().To<CPULobbyMediator>();
@@ -191,6 +192,7 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<UpdateStoreBuyDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreNotEnoughBucksDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

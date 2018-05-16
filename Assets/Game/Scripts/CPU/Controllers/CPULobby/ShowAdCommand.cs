@@ -25,31 +25,37 @@ namespace TurboLabz.InstantChess
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+
         public override void Execute()
         {
-            if (adsService.isAdAvailable)
+            if (adsService.isRewardedAdAvailable)
             {
-                adsService.ShowAd().Then(OnShowAd);
-                analyticsService.AdStart(false, UnityAdsPlacementId.VIDEO);
-            }
-            else
-            {
-                loadCPUGameSignal.Dispatch();
+                adsService.ShowRewardedAd().Then(OnShowAd);
+                analyticsService.AdStart(false, UnityAdsPlacementId.REWARDED_VIDEO);
+                Retain();
             }
         }
 
         private void OnShowAd(AdsResult result)
         {
-            loadCPUGameSignal.Dispatch();
-
             if (result == AdsResult.FINISHED)
             {
-                analyticsService.AdComplete(false, UnityAdsPlacementId.VIDEO);
+                int rewardBucks = playerModel.adLifetimeImpressions * metaDataModel.adSettings.adsRewardIncrement;
+                playerModel.bucks += rewardBucks;
+
+
+
+                analyticsService.AdComplete(false, UnityAdsPlacementId.REWARDED_VIDEO);
             }
             else if (result == AdsResult.SKIPPED)
             {
-                analyticsService.AdSkip(false, UnityAdsPlacementId.VIDEO);
+                analyticsService.AdSkip(false, UnityAdsPlacementId.REWARDED_VIDEO);
             }
+
+            Release();
         }
     }
 }

@@ -19,6 +19,7 @@ using strange.extensions.signal.impl ;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantChess
 {
@@ -64,6 +65,12 @@ namespace TurboLabz.InstantChess
         public Button freeBucksButton;
         public Text freeBucksButtonLabel;
 
+        public GameObject freeBucksRewardDlg;
+        public Button freeBucksRewardOkButton;
+        public Text freeBucksRewardOkButtonLabel;
+        public Text freeBucksRewardTitle;
+        public Text freeBucksRewardAmount;
+
         public Button audioIsOnButton;
         public Button audioIsOffButton;
         public Button statsButton;
@@ -83,6 +90,7 @@ namespace TurboLabz.InstantChess
         public Signal playButtonClickedSignal = new Signal();
 		public Signal themesButtonClickedSignal = new Signal();
         public Signal freeBucksButtonClickedSignal = new Signal();
+        public Signal freeBucksRewardOkButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
@@ -104,6 +112,7 @@ namespace TurboLabz.InstantChess
             audioIsOnButton.onClick.AddListener(OnAudioIsOnButtonClicked);
             audioIsOffButton.onClick.AddListener(OnAudioIsOffButtonClicked);
             shareAppButton.onClick.AddListener(OnShareAppButtonClicked);
+            freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
@@ -113,6 +122,9 @@ namespace TurboLabz.InstantChess
 			themesLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_THEME);
             playButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY);
             themesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_THEMES);
+            freeBucksRewardOkButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_OK);
+            freeBucksRewardTitle.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE);
+
 
 			currentStrengthLabel.color = Colors.YELLOW;
 			currentDurationLabel.color = Colors.YELLOW;
@@ -244,6 +256,23 @@ namespace TurboLabz.InstantChess
 			currentThemeLabel.text = vo.activeSkinId;
 		}
 
+        public void UpdateAds(AdsVO vo)
+        {
+            if (vo.state == AdsState.AVAILABLE)
+            {
+                freeBucksButtonLabel.text = vo.bucks + " bucks!";
+            }
+            else if (vo.state == AdsState.NOT_AVAILABLE)
+            {
+                freeBucksButtonLabel.text =  "not available";
+            }
+            else if (vo.state == AdsState.WAIT)
+            {
+                TimeSpan wait = TimeSpan.FromMilliseconds(vo.waitMs);
+                freeBucksButtonLabel.text = wait.Hours + ":" + wait.Minutes + ":" + wait.Seconds;
+            }
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -329,6 +358,11 @@ namespace TurboLabz.InstantChess
         private void OnFreeBucksButtonClicked()
         {
             freeBucksButtonClickedSignal.Dispatch();
+        }
+
+        private void OnFreeBucksRewardOkButtonClicked()
+        {
+            freeBucksRewardOkButtonClickedSignal.Dispatch();
         }
 
         private void OnStatsButtonClicked()

@@ -26,22 +26,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public bool isAdAvailable 
-        { 
-            get
-            {
-                return Advertisement.IsReady(UnityAdsPlacementId.VIDEO);
-            }
-        }
-
         public IPromise<AdsResult> ShowRewardedAd()
         {
             return new UnityAdsShowAdRequest().Send(UnityAdsPlacementId.REWARDED_VIDEO);
-        }
-
-        public IPromise<AdsResult> ShowAd()
-        {
-            return new UnityAdsShowAdRequest().Send(UnityAdsPlacementId.VIDEO);
         }
     }
 }

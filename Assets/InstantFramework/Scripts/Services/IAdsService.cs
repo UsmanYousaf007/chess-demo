@@ -19,9 +19,5 @@ namespace TurboLabz.InstantFramework
         // Rewarded ads
         bool isRewardedAdAvailable { get; }
         IPromise<AdsResult> ShowRewardedAd();
-
-        // Simple skippable ads
-        bool isAdAvailable { get; }
-        IPromise<AdsResult> ShowAd();
     }
 }

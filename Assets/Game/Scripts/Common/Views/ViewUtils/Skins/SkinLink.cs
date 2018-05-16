@@ -45,13 +45,13 @@ namespace TurboLabz.InstantChess
             }
         }
 
-        void Awake()
+        protected override void Awake()
         {
             targetImage = gameObject.GetComponent<Image>();
             targetSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
-        void OnEnable()
+        protected override void OnEnable()
         {
             UpdateSkin();
         }

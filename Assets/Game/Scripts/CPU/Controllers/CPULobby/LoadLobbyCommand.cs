@@ -19,7 +19,7 @@ namespace TurboLabz.InstantChess
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -31,6 +31,8 @@ namespace TurboLabz.InstantChess
 
             CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel);
             updateMenuViewSignal.Dispatch(vo);
+
+            updateAdsSignal.Dispatch();
         }
     }
 }

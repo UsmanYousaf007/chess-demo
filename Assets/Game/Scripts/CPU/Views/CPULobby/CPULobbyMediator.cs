@@ -141,6 +141,12 @@ namespace TurboLabz.InstantChess
 			view.UpdateTheme(vo);
 		}
 
+        [ListensTo(typeof(UpdateLobbyAdsSignal))]
+        public void OnUpdateAds(AdsVO vo)
+        {
+            view.UpdateAds(vo);
+        }
+
         private void OnDecStrengthButtonClicked()
         {
             adjustStrengthSignal.Dispatch(false);
