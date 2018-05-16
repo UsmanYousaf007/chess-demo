@@ -66,6 +66,7 @@ namespace TurboLabz.InstantChess
             else if (state == AdsState.WAIT)
             {
                 vo.waitMs = GetWaitMs();
+                LogUtil.Log("Wait state ms: " + vo.waitMs, "cyan");
             }
 
             updateAdsSignal.Dispatch(vo);
