@@ -19,7 +19,7 @@ namespace TurboLabz.InstantChess
     public class AdsVO
     {
         public int bucks;
-        public long waitMs;
+        public double waitMs;
         public AdsState state;
     }
 }

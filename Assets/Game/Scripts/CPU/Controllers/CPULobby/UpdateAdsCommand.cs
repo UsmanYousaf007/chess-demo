@@ -66,7 +66,6 @@ namespace TurboLabz.InstantChess
             else if (state == AdsState.WAIT)
             {
                 vo.waitMs = GetWaitMs();
-                LogUtil.Log("Wait state ms: " + vo.waitMs, "cyan");
             }
 
             updateAdsSignal.Dispatch(vo);
@@ -78,13 +77,12 @@ namespace TurboLabz.InstantChess
             return slotTime.Subtract(new DateTime(1970, 1, 1)).Milliseconds;
         }
 
-        private long GetWaitMs()
+        private double GetWaitMs()
         {
             DateTime nextSlotTime = DateTime.Today.AddDays(1).AddHours(SLOT_HOURS);
-            long nextSlotMs = nextSlotTime.Subtract(new DateTime(1970, 1, 1)).Milliseconds;
+            double nextSlotMs = nextSlotTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
 
-            DateTime currentTime = DateTime.Now;
-            long currentMs = currentTime.Subtract(new DateTime(1970, 1, 1)).Milliseconds;
+            double currentMs = DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
 
             return nextSlotMs - currentMs;
         }

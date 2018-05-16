@@ -47,7 +47,7 @@ namespace TurboLabz.InstantChess
         private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea" };
 
         private const int ADS_REWARD_INCREMENT = 10;
-        private const int ADS_MAX_IMPRESSIONS_PER_LOT = 6;
+        private const int ADS_MAX_IMPRESSIONS_PER_SLOT = 1;
         private const int ADS_SLOT_DEBUG_MINUTES = 2;
         private const int ADS_SLOT_MINUTES = 1440; // 24 hours
 
@@ -67,7 +67,7 @@ namespace TurboLabz.InstantChess
 			Retain();
 
             AdSettings adSettings = new AdSettings();
-            adSettings.maxImpressionsPerSlot = ADS_MAX_IMPRESSIONS_PER_LOT;
+            adSettings.maxImpressionsPerSlot = ADS_MAX_IMPRESSIONS_PER_SLOT;
             adSettings.slotMinutes = Debug.isDebugBuild ? ADS_SLOT_DEBUG_MINUTES : ADS_SLOT_MINUTES;
             adSettings.adsRewardIncrement = ADS_REWARD_INCREMENT;
 

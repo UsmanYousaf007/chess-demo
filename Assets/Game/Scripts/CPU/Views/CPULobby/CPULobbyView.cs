@@ -20,6 +20,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System;
+using System.Collections;
 
 namespace TurboLabz.InstantChess
 {
@@ -94,6 +95,9 @@ namespace TurboLabz.InstantChess
         public Signal statsButtonClickedSignal = new Signal();
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
+        public Signal freeBucksUpdateAdsSignal = new Signal();
+
+        private Coroutine waitCR;
 
         public void Init()
         {
@@ -269,7 +273,28 @@ namespace TurboLabz.InstantChess
             else if (vo.state == AdsState.WAIT)
             {
                 TimeSpan wait = TimeSpan.FromMilliseconds(vo.waitMs);
-                freeBucksButtonLabel.text = wait.Hours + ":" + wait.Minutes + ":" + wait.Seconds;
+                waitCR = StartCoroutine(WaitCR(wait));
+            }
+        }
+
+        IEnumerator WaitCR(TimeSpan wait)
+        {
+            if (wait.TotalSeconds == 0)
+            {
+                freeBucksUpdateAdsSignal.Dispatch();
+                waitCR = null;
+                yield break;
+            }
+
+            string availableText = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_AVAILABLE) + " ";
+
+            while (true)
+            {
+                freeBucksButtonLabel.text = availableText +
+                string.Format("{0:D2}:{1:D2}:{2:D2}", wait.Hours, wait.Minutes, wait.Seconds);
+
+                yield return new WaitForSeconds(1);
+                wait = wait.Subtract(TimeSpan.FromSeconds(1));
             }
         }
 
@@ -290,6 +315,14 @@ namespace TurboLabz.InstantChess
         public void Hide()
         {
             gameObject.SetActive(false);
+
+            if (waitCR != null)
+            {
+                StopCoroutine(waitCR);
+                waitCR = null;
+            }
+
+            return;
         }
 
         public void ShowFreeBucksRewardDlg()
