@@ -105,8 +105,9 @@ GameObject:
   - component: {fileID: 222344320089797366}
   - component: {fileID: 114073614605971706}
   - component: {fileID: 114814955833011076}
+  - component: {fileID: 114436880402923858}
   m_Layer: 5
-  m_Name: BuyButton
+  m_Name: TagStandardBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,6 +233,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114436880402923858
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1741505161043196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 0}
 --- !u!114 &114609070154977126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -264,7 +277,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 250,000000000000000
+  m_Text: 250,000
 --- !u!114 &114731664813886240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -483,7 +496,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 486.25995, y: 825}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224703283268307682
@@ -502,7 +515,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 241.93863, y: 10.4}
+  m_AnchoredPosition: {x: 187, y: 10.4}
   m_SizeDelta: {x: 258.5, y: 118.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224730997428772304

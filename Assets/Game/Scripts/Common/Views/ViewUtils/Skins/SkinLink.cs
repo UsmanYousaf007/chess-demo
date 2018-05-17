@@ -26,6 +26,11 @@ namespace TurboLabz.InstantChess
 
         public void UpdateSkin()
         {
+            if (gameObject.name == "TagStandardBtn")
+            {
+                sourceImage = GameObject.FindWithTag("StandardBtn").GetComponent<Image>();
+            }
+
             if (targetImage != null)
             {
                 targetImage.sprite = sourceImage.sprite;
