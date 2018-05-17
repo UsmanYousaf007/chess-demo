@@ -58,12 +58,18 @@ namespace TurboLabz.InstantChess
         {
             try
             {
-                ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.STATS_SAVE_FILENAME);
-
                 // TODO: This is hacky where the strength index should be a proper independant index
                 // and not calculated based off the strength value.
                 int strengthIndex = difficulty - 1; 
+
+                if (result <= stats[durationIndex].performance[strengthIndex])
+                {
+                    return;
+                }
+
                 stats[durationIndex].performance[strengthIndex] = result;
+
+                ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.STATS_SAVE_FILENAME);
 
                 Dictionary<int, string> statsSaveData = new Dictionary<int, string>();
 
