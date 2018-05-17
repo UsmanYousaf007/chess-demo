@@ -25,6 +25,7 @@ namespace TurboLabz.InstantChess
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Our ad slots will reset every day at 7 PM which is the prime time for gaming
         // https://www.prnewswire.com/news-releases/prime-time-is-peak-time-for-mobile-gaming-and-social-media-199165791.html
@@ -64,6 +65,8 @@ namespace TurboLabz.InstantChess
             if (state == AdsState.AVAILABLE)
             {
                 vo.bucks = playerModel.adLifetimeImpressions * metaDataModel.adSettings.adsRewardIncrement;
+                analyticsService.AdOffer(true, UnityAdsPlacementId.REWARDED_VIDEO);
+
             }
             else if (state == AdsState.WAIT)
             {

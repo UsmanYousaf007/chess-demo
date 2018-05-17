@@ -14,11 +14,23 @@ namespace TurboLabz.InstantFramework
 {
     public class MegacoolShareService : IShareService
     {
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         private const string APP_PROMO_IMAGE = "Share.png";
 
         public void Init()
         {
             Megacool.Instance.Start();
+
+            Megacool.Instance.CompletedSharing += () => {
+                analyticsService.SocialShareComplete();
+            };
+            Megacool.Instance.DismissedSharing += () => {
+                analyticsService.SocialShareDismiss();
+            };
+            Megacool.Instance.PossiblyCompletedSharing += () => {
+                analyticsService.SocialShareUnknown();
+            };
         }
 
         public void ShareApp(string message)
