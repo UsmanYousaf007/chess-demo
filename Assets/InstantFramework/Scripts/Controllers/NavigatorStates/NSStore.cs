@@ -36,8 +36,6 @@ namespace TurboLabz.InstantFramework
 			{
                 return new NSBuckPacksDlg();
 			}	
-				
-
 
 			return null;
 		}

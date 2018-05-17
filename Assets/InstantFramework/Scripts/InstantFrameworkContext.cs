@@ -138,6 +138,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<GameView>().To<GameMediator>();
             mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
 			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();
+			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -196,6 +197,7 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFreeBucksRewardSignal>().ToSingleton();
+			injectionBinder.Bind<UpdatePlayerBucksDisplaySignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

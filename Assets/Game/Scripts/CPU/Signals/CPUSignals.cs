@@ -37,6 +37,7 @@ namespace TurboLabz.InstantChess
 
 	// PLAYER
 	public class SavePlayerSignal : Signal {}
+	public class UpdatePlayerBucksDisplaySignal : Signal<int> {}
 
     // CPU STATS
     public class LoadStatsSignal : Signal {}

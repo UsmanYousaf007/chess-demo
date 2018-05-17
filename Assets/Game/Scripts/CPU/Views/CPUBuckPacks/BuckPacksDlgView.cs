@@ -10,13 +10,15 @@ using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using strange.extensions.mediation.impl;
 
 namespace TurboLabz.InstantChess
 {
-	public partial class CPUStoreView
+	public class BuckPacksDlgView : View
 	{
-		[Header("BuckPacksDlg")]
+		[Inject] public ILocalizationService localizationService { get; set; }
 
+		[Header("BuckPacksDlg")]
 		public Button closeBuckPacksButton;
 		public GameObject buckPacksDlg;
 		public GameObject buckPacksGallery;
@@ -98,7 +100,7 @@ namespace TurboLabz.InstantChess
 		{
 			BuckPackThumbsContainer containter = BuckPackThumbsContainer.Load();
 
-            IMetaDataModel metaDataModel = vo.storeSettingsModel;
+			IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			BuckPackItemPrefab prefab = Instantiate<BuckPackItemPrefab>(buckPackItemPrefab);
 
 			buckPackPrefabs = new Dictionary<string, BuckPackItemPrefab>();

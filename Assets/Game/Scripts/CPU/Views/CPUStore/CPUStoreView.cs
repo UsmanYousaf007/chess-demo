@@ -62,6 +62,11 @@ namespace TurboLabz.InstantChess
 			gameObject.SetActive(false); 
 		}
 
+		public void UpdatePlayerBucks(int bucks)
+		{
+			playerBucks.text = bucks.ToString();
+		}
+
 		public bool IsVisible()
 		{
 			return gameObject.activeSelf;

@@ -44,8 +44,8 @@ namespace TurboLabz.InstantChess
         };
             
         private const int DEFAULT_STARTING_BUCKS = 100;
-        //private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea" };
-		private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea", "SkinAmazon",  "SkinCrayon", "SkinIndiana", "SkinMoonlight", "SkinMarble", "SkinHighrise", "SkinDracula", "SkinLuxury"};
+        private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea" };
+		//private readonly string[] DEFAULT_VGOODS = { "SkinSlate", "SkinDeepSea", "SkinAmazon",  "SkinCrayon", "SkinIndiana", "SkinMoonlight", "SkinMarble", "SkinHighrise", "SkinDracula", "SkinLuxury"};
 
 
         private const int ADS_REWARD_INCREMENT = 10;

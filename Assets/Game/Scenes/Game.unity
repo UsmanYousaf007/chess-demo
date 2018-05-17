@@ -3408,7 +3408,6 @@ RectTransform:
   - {fileID: 288576665}
   - {fileID: 2120648573}
   - {fileID: 946046489}
-  - {fileID: 1796548511}
   - {fileID: 1517544173}
   m_Father: {fileID: 1542369593}
   m_RootOrder: 4
@@ -3436,12 +3435,6 @@ MonoBehaviour:
   addBucksButton: {fileID: 402037000}
   skinShopItemPrefab: {fileID: 114930873972247996, guid: e4ef844f9631244a8b35a6d20cdb6f5a,
     type: 2}
-  closeBuckPacksButton: {fileID: 1958239909}
-  buckPacksDlg: {fileID: 1796548510}
-  buckPacksGallery: {fileID: 1813273937}
-  buckPackItemPrefab: {fileID: 114070960403392634, guid: 4973ca8673a1b4cd191945a8c41a3545,
-    type: 2}
-  buckPacksHeadingLabel: {fileID: 907353254}
   buyDlg: {fileID: 1517544172}
   titleLabel: {fileID: 2144338790}
   itemNameLabel: {fileID: 763962837}
@@ -6966,6 +6959,7 @@ GameObject:
   - component: {fileID: 339795807}
   - component: {fileID: 339795806}
   - component: {fileID: 339795805}
+  - component: {fileID: 339795808}
   m_Layer: 5
   m_Name: ResignButton
   m_TagString: Untagged
@@ -7077,6 +7071,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 339795803}
+--- !u!114 &339795808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 339795803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 420385172}
 --- !u!1 &340834151
 GameObject:
   m_ObjectHideFlags: 0
@@ -25054,6 +25060,8 @@ MonoBehaviour:
   themesButtonLabel: {fileID: 497716942}
   freeBucksButton: {fileID: 1010892223}
   freeBucksButtonLabel: {fileID: 32945862}
+  addBucksButton: {fileID: 594055083}
+  playerBucks: {fileID: 1466295104}
   freeBucksRewardDlg: {fileID: 70982835}
   freeBucksRewardOkButton: {fileID: 210785311}
   freeBucksRewardOkButtonLabel: {fileID: 957683233}
@@ -28487,7 +28495,7 @@ RectTransform:
   m_Children:
   - {fileID: 756069426}
   m_Father: {fileID: 165366211}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -29077,6 +29085,7 @@ RectTransform:
   - {fileID: 1549978171}
   - {fileID: 886611726}
   - {fileID: 165366211}
+  - {fileID: 1796548511}
   m_Father: {fileID: 1780115401}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29329,6 +29338,7 @@ GameObject:
   - component: {fileID: 1567645536}
   - component: {fileID: 1567645535}
   - component: {fileID: 1567645534}
+  - component: {fileID: 1567645537}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -29440,6 +29450,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1567645532}
+--- !u!114 &1567645537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1567645532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 420385172}
 --- !u!1 &1575456353
 GameObject:
   m_ObjectHideFlags: 0
@@ -33377,6 +33399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1796548511}
   - component: {fileID: 1796548512}
+  - component: {fileID: 1796548513}
   m_Layer: 5
   m_Name: BuckPacksDlg
   m_TagString: Untagged
@@ -33396,8 +33419,8 @@ RectTransform:
   m_Children:
   - {fileID: 1979446714}
   - {fileID: 1124136509}
-  m_Father: {fileID: 165366211}
-  m_RootOrder: 6
+  m_Father: {fileID: 1542369593}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -33410,6 +33433,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1796548510}
+--- !u!114 &1796548513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1796548510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c285b1336e1d341b4b0c43e44371eab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeBuckPacksButton: {fileID: 1958239909}
+  buckPacksDlg: {fileID: 1796548510}
+  buckPacksGallery: {fileID: 1813273937}
+  buckPackItemPrefab: {fileID: 114070960403392634, guid: 4973ca8673a1b4cd191945a8c41a3545,
+    type: 2}
+  buckPacksHeadingLabel: {fileID: 907353254}
 --- !u!1 &1798263330
 GameObject:
   m_ObjectHideFlags: 0
@@ -35032,6 +35072,7 @@ GameObject:
   - component: {fileID: 1877463429}
   - component: {fileID: 1877463428}
   - component: {fileID: 1877463427}
+  - component: {fileID: 1877463430}
   m_Layer: 5
   m_Name: ViewBoard
   m_TagString: Untagged
@@ -35143,6 +35184,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1877463425}
+--- !u!114 &1877463430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1877463425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 420385172}
 --- !u!1 &1880029620
 GameObject:
   m_ObjectHideFlags: 0
@@ -37245,7 +37298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.92156863, g: 0.65882355, b: 0.23921569, a: 0.87058824}
+  m_Color: {r: 1, g: 1, b: 0.87058824, a: 0.87058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -37822,6 +37875,7 @@ GameObject:
   - component: {fileID: 2032191007}
   - component: {fileID: 2032191006}
   - component: {fileID: 2032191005}
+  - component: {fileID: 2032191008}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -37933,6 +37987,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2032191003}
+--- !u!114 &2032191008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032191003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 420385172}
 --- !u!1 &2039335741
 GameObject:
   m_ObjectHideFlags: 0

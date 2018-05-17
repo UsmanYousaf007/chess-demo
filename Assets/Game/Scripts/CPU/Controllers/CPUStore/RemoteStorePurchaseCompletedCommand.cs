@@ -19,6 +19,7 @@ namespace TurboLabz.InstantChess
 
 		// Dispatch
 		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
+		[Inject] public UpdatePlayerBucksDisplaySignal updatePlayerBucksDisplaySignal { get; set; }
 
 		// Models
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -26,7 +27,7 @@ namespace TurboLabz.InstantChess
 
 		public override void Execute()
 		{
-			StoreItem item = FindRemoteStoreItem (remoteProductId);
+			StoreItem item = FindRemoteStoreItem(remoteProductId);
 			if (item == null) 
 			{
 				return;
@@ -34,6 +35,7 @@ namespace TurboLabz.InstantChess
 
 			playerModel.bucks += item.currency2Payout;
 			savePlayerSignal.Dispatch();
+			updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 		}
 
 		private StoreItem FindRemoteStoreItem(string remoteId)

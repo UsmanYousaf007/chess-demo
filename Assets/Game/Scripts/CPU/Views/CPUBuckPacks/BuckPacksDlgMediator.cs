@@ -6,19 +6,25 @@
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using strange.extensions.mediation.impl;
 
 namespace TurboLabz.InstantChess 
 {
-	public partial class CPUStoreMediator
+	public class BuckPacksDlgMediator : Mediator
 	{
-		public void OnRegisterBuckPacks()
+		[Inject] public BuckPacksDlgView view { get; set; }
+
+		[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
+		public override void OnRegister()
 		{
 			view.InitBuckPacks();
 			view.closeBuckPacksButtonClickedSignal.AddListener(OnCloseBuckPacksButtonClicked);
 			view.buckPacksClickedSignal.AddListener(OnBuckPackClicked);
 		}
 
-		public void OnRemoveBuckPacks()
+		public override void OnRemove()
 		{
 			view.CleanupBuckPacks();
 		}
@@ -50,12 +56,12 @@ namespace TurboLabz.InstantChess
 		private void OnBuckPackClicked(StoreItem item)
 		{
 			purchaseStoreItemSignal.Dispatch(item.key, true);
-			loadStoreSignal.Dispatch();
+			navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 		}
 
 		private void OnCloseBuckPacksButtonClicked()
 		{
-			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
+			navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 		}
 	}
 }

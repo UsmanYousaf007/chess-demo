@@ -14,14 +14,18 @@ namespace TurboLabz.InstantFramework
 
 		public override NS HandleEvent(NavigatorEvent evt)
 		{
-			if (evt == NavigatorEvent.SHOW_STORE ||
-				evt == NavigatorEvent.ESCAPE)
+			NavigatorViewId viewId = CameFrom (NavigatorViewId.CPU_LOBBY, NavigatorViewId.STORE);
+
+			if (evt == NavigatorEvent.ESCAPE) 
 			{
-				return new NSStore();
-			}
-			else if (evt == NavigatorEvent.SHOW_STORE) 
-			{
-				return new NSStore();
+				if (viewId == NavigatorViewId.CPU_LOBBY) 
+				{
+					return new NSLobby();
+				} 
+				else if (viewId == NavigatorViewId.STORE) 
+				{
+					return new NSStore();
+				}
 			}
 			return null;
 		}

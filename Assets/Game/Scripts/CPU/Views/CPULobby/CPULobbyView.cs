@@ -66,6 +66,9 @@ namespace TurboLabz.InstantChess
         public Button freeBucksButton;
         public Text freeBucksButtonLabel;
 
+		public Button addBucksButton;
+		public Text playerBucks;
+
         public GameObject freeBucksRewardDlg;
         public Button freeBucksRewardOkButton;
         public Text freeBucksRewardOkButtonLabel;
@@ -96,6 +99,7 @@ namespace TurboLabz.InstantChess
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
         public Signal freeBucksUpdateAdsSignal = new Signal();
+		public Signal addBucksButtonClickedSignal = new Signal();
 
         private Coroutine waitCR;
         private Coroutine waitForAdsAvailabilityCR;
@@ -119,6 +123,7 @@ namespace TurboLabz.InstantChess
             audioIsOffButton.onClick.AddListener(OnAudioIsOffButtonClicked);
             shareAppButton.onClick.AddListener(OnShareAppButtonClicked);
             freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
+			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
@@ -164,7 +169,8 @@ namespace TurboLabz.InstantChess
             UpdateDuration(vo);
             UpdatePlayerColor(vo);
 			UpdateTheme(vo);
-        }
+			UpdatePlayerBucks(vo.playerBucks);
+		}
 
         public void UpdateStrength(CPULobbyVO vo)
         {
@@ -260,6 +266,11 @@ namespace TurboLabz.InstantChess
 		public void UpdateTheme(CPULobbyVO vo)
 		{
 			currentThemeLabel.text = vo.activeSkinDisplayName;
+		}
+
+		public void UpdatePlayerBucks(int bucks)
+		{
+			playerBucks.text = bucks.ToString();
 		}
 
         public void UpdateAds(AdsVO vo)
@@ -465,6 +476,11 @@ namespace TurboLabz.InstantChess
         {
             shareAppButtonClickedSignal.Dispatch();
         }
+
+		private void OnAddBucksButtonClicked()
+		{
+			addBucksButtonClickedSignal.Dispatch();
+		}
 
         private void OnDevFenValueChanged(string fen)
         {

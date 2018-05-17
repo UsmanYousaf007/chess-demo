@@ -32,7 +32,6 @@ namespace TurboLabz.InstantChess
 
 			OnRegisterBuy();
 			OnRegisterNotEnoughBucks();
-			OnRegisterBuckPacks();
 		}
 
 		public override void OnRemove()
@@ -42,7 +41,6 @@ namespace TurboLabz.InstantChess
 
 			OnRemoveBuy();
 			OnRemoveNotEnoughBucks();
-			OnRemoveBuckPacks();
 		}
 
 		[ListensTo(typeof(NavigatorShowViewSignal))]
@@ -67,6 +65,12 @@ namespace TurboLabz.InstantChess
 		public void OnUpdateStore(CPUStoreVO vo)
 		{
 			view.UpdateView(vo);
+		}
+
+		[ListensTo(typeof(UpdatePlayerBucksDisplaySignal))]
+		public void OnUpdatePlayerBucksDisplay(int playerBucks)
+		{
+			view.UpdatePlayerBucks(playerBucks);
 		}
 
 		[ListensTo(typeof(OwnedItemSignal))]
