@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -42,6 +43,10 @@ namespace TurboLabz.InstantFramework
 			{
 				return new NSBuckPacksDlg();
 			}	
+			else if (evt == NavigatorEvent.ESCAPE)
+			{
+				cmd.androidNativeService.SendToBackground();
+			}
 
             return null;
         }
