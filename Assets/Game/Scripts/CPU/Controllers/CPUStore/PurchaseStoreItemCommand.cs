@@ -32,6 +32,7 @@ namespace TurboLabz.InstantChess
 
 		// Services
 		[Inject] public IStoreService storeService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
 		public override void Execute()
 		{
@@ -78,6 +79,8 @@ namespace TurboLabz.InstantChess
 
 				playerModel.activeSkinId = key;
 				ownedItemSignal.Dispatch(key);
+
+                analyticsService.PurchaseSkin(key);
 			}
 		}
 	}

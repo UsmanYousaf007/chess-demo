@@ -28,5 +28,6 @@ namespace TurboLabz.InstantFramework
         void AdStart(bool rewarded, string placementId);
         void AdComplete(bool rewarded, string placementId);
         void AdSkip(bool rewarded, string placementId);
+        void PurchaseSkin(string skinId);
     }
 }

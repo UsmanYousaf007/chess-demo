@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
     public class UnityAnalyticsService : IAnalyticsService
     {
         private const string GAME_END_REASON = "gameEndReason";
+        private const string SHOP_SKIN_CONTEXT = "shopSkinContext";
         private enum SocialShareEvent
         {
             TAPPED,
@@ -94,6 +95,11 @@ namespace TurboLabz.InstantFramework
         public void AdSkip(bool rewarded, string placementId)
         {
             AnalyticsEvent.AdSkip(rewarded, null, placementId);
+        }
+
+        public void PurchaseSkin(string skinId)
+        {
+            AnalyticsEvent.ItemAcquired(AcquisitionType.Soft, SHOP_SKIN_CONTEXT, 1, skinId);
         }
     }
 }
