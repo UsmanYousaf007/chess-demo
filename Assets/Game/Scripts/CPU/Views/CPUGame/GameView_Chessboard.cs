@@ -539,7 +539,7 @@ namespace TurboLabz.InstantChess
             kingCheckIndicator.SetActive(true);
             kingCheckIndicator.transform.position = chessboardSquares[kingSquareIndex].position;
 
-            if (vo.isPlayerInCheck && !isResume)
+            if (!isResume)
             {
                 audioService.Play(audioService.sounds.SFX_CHECK);
             }
