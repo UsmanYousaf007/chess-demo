@@ -77,6 +77,15 @@ namespace TurboLabz.InstantChess
 
             model.defaultStartingBucks = DEFAULT_STARTING_BUCKS;
             model.defaultVGoods = DEFAULT_VGOODS;
+
+			if (Debug.isDebugBuild) 
+			{
+				foreach (KeyValuePair<string, StoreItem> item in skinItems) 
+				{
+					StoreItem skinItem = item.Value;
+					skinItem.currency2Cost = 150;
+				}
+			}
         }
 			
 		private void OnStoreInit(bool success)
