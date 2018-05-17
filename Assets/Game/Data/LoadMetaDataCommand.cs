@@ -83,7 +83,7 @@ namespace TurboLabz.InstantChess
 				foreach (KeyValuePair<string, StoreItem> item in skinItems) 
 				{
 					StoreItem skinItem = item.Value;
-					skinItem.currency2Cost = 150;
+					skinItem.currency2Cost = 10;
 				}
 			}
         }

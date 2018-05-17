@@ -30,14 +30,13 @@ namespace TurboLabz.InstantChess
         // Our ad slots will reset every day at 7 PM which is the prime time for gaming
         // https://www.prnewswire.com/news-releases/prime-time-is-peak-time-for-mobile-gaming-and-social-media-199165791.html
         const int SLOT_HOURS = 19;
-        const int DEV_SLOT_SECS = 60;
 
         public override void Execute()
         {
             // The code below is based on this algo: https://docs.google.com/drawings/d/1fsbwyNYrXJKs5sANyQ47v6wqqE7Ov8GjyN1TMhYvDl8/edit
 
             AdsState state;
-            long currentSlotId = GetCurrentSlotId();
+            long currentSlotId = (long)GetCurrentSlotId();
 
             if (playerModel.adSlotId == currentSlotId)
             {
@@ -76,10 +75,17 @@ namespace TurboLabz.InstantChess
             updateLobbyAdsSignal.Dispatch(vo);
         }
 
-        private long GetCurrentSlotId()
+        private double GetCurrentSlotId()
         {
             DateTime slotTime = DateTime.Today.AddHours(SLOT_HOURS);
-            return slotTime.Subtract(new DateTime(1970, 1, 1)).Milliseconds;
+            int condition = DateTime.Compare(DateTime.Now, slotTime);
+
+            if (condition >= 0)
+            {
+                slotTime = DateTime.Today.AddDays(1).AddHours(SLOT_HOURS);
+            }
+
+            return slotTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
 
         private double GetWaitMs()
