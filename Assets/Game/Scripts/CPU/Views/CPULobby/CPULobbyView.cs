@@ -80,6 +80,8 @@ namespace TurboLabz.InstantChess
         public Button statsButton;
         public Button shareAppButton;
 
+        public GameObject adBlocker;
+
         public InputField devFen;
 
         // View signals
@@ -378,6 +380,16 @@ namespace TurboLabz.InstantChess
         public bool IsVisible()
         {
             return gameObject.activeSelf;
+        }
+
+        public void ToggleAdBlocker(bool enable)
+        {
+            adBlocker.SetActive(enable);
+        }
+
+        public void HideAdBlocker()
+        {
+            adBlocker.SetActive(false);
         }
 
         void OnDecStrengthButtonClicked()

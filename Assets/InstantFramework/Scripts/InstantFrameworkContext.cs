@@ -198,6 +198,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFreeBucksRewardSignal>().ToSingleton();
 			injectionBinder.Bind<UpdatePlayerBucksDisplaySignal>().ToSingleton();
+            injectionBinder.Bind<ToggleAdBlockerSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();
