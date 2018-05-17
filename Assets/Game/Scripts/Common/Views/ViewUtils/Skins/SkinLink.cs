@@ -47,6 +47,19 @@ namespace TurboLabz.InstantChess
             else if (targetSpriteRenderer != null) 
             {
                 targetSpriteRenderer.sprite = sourceImage.sprite;
+
+
+               
+
+                if (targetSpriteRenderer.gameObject.name == "PlayBackground" &&
+                    targetSpriteRenderer.sprite.name == "SkinSlate_Background")
+                {
+                    Color tmp = targetSpriteRenderer.color;
+                    tmp.a = 0.59f;
+                    targetSpriteRenderer.color = tmp;
+
+                    LogUtil.Log("ADJUSTING COLOR!!!!!!!!!!!!!!!!!!", "cyan");
+                }
             }
         }
 
