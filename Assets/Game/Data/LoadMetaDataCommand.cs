@@ -30,17 +30,10 @@ namespace TurboLabz.InstantChess
 
        private OrderedDictionary<string, StoreItem> buckPacks = new OrderedDictionary<string, StoreItem>()
        {
-			// test
-			//{"BuckPackInAppTest1", new StoreItem {key = "BuckPackInAppTest1", kind = "BuckPack", displayName = "InAppTest1", currency2Payout = 1000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.inapptest1"} },
-			{"BuckPackStack", new StoreItem {key = "BuckPackStack", kind = "BuckPack", displayName = "Stack", currency2Payout = 7500, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.inapptest1"} },
-			{"BuckPackSuitCase", new StoreItem {key = "BuckPackSuitCase", kind = "BuckPack", displayName = "Suit Case", currency2Payout = 50000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.inapptest1"} },
-			{"BuckPackCrate", new StoreItem {key = "BuckPackCrate", kind = "BuckPack", displayName = "Crate", currency2Payout = 150000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.inapptest1"} },
-			{"BuckPackVault", new StoreItem {key = "BuckPackVault", kind = "BuckPack", displayName = "Vault", currency2Payout = 250000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.inapptest1"} },
-
-			//{"BuckPackStack", new StoreItem {key = "BuckPackStack", kind = "BuckPack", displayName = "Stack", currency2Payout = 7500, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.buckpackstack"} },
-			//{"BuckPackSuitCase", new StoreItem {key = "BuckPackSuitCase", kind = "BuckPack", displayName = "Suit Case", currency2Payout = 50000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.buckpacksuitcase"} },
-			//{"BuckPackCrate", new StoreItem {key = "BuckPackCrate", kind = "BuckPack", displayName = "Crate", currency2Payout = 150000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.buckpackcrate"} },
-			//{"BuckPackVault", new StoreItem {key = "BuckPackVault", kind = "BuckPack", displayName = "Vault", currency2Payout = 250000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.chess.buckpackvault"} },
+			{"BuckPackStack", new StoreItem {key = "BuckPackStack", kind = "BuckPack", displayName = "Stack", currency2Payout = 7500, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.7500bucks"} },
+			{"BuckPackSuitCase", new StoreItem {key = "BuckPackSuitCase", kind = "BuckPack", displayName = "Suit Case", currency2Payout = 50000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.50000bucks"} },
+			{"BuckPackCrate", new StoreItem {key = "BuckPackCrate", kind = "BuckPack", displayName = "Crate", currency2Payout = 150000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.150000bucks"} },
+			{"BuckPackVault", new StoreItem {key = "BuckPackVault", kind = "BuckPack", displayName = "Vault", currency2Payout = 250000, type = StoreItem.Type.CURRENCY, remoteProductId = "com.turbolabz.instantchess.250000bucks"} },
         };
             
         private const int DEFAULT_STARTING_BUCKS = 100;
