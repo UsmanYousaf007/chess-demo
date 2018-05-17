@@ -46,6 +46,7 @@ namespace TurboLabz.InstantChess
 			activeSkinId = playerModel.activeSkinId;
 			activeSkinDisplayName = metaDataModel.items[activeSkinId].displayName;
 			playerBucks = playerModel.bucks;
+			playerVGoods = playerModel.vGoods;
         }
     }
 }

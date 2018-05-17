@@ -268,6 +268,24 @@ namespace TurboLabz.InstantChess
 		public void UpdateTheme(CPULobbyVO vo)
 		{
 			currentThemeLabel.text = vo.activeSkinDisplayName;
+
+			int index = vo.playerVGoods.IndexOf(vo.activeSkinId);
+
+			if (index == (vo.playerVGoods.Count - 1)) 
+			{
+				incThemeButton.interactable = false;
+				decThemeButton.interactable = true;
+			} 
+			else if (index == 0) 
+			{
+				incThemeButton.interactable = true;
+				decThemeButton.interactable = false;
+			} 
+			else 
+			{
+				incThemeButton.interactable = true;
+				decThemeButton.interactable = true;
+			}
 		}
 
 		public void UpdatePlayerBucks(int bucks)
