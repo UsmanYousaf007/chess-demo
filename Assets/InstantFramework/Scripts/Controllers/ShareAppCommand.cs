@@ -26,7 +26,7 @@ namespace TurboLabz.InstantFramework
         {
             shareService.ShareApp(localizationService.Get(LocalizationKey.SHARE_STANDARD));
 
-            analyticsService.SocialShare(ShareContext.MAIN_MENU);
+            analyticsService.SocialShareTapped();
         }
     }
 }

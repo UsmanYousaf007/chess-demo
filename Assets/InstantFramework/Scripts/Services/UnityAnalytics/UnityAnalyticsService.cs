@@ -16,6 +16,14 @@ namespace TurboLabz.InstantFramework
     public class UnityAnalyticsService : IAnalyticsService
     {
         private const string GAME_END_REASON = "gameEndReason";
+        private enum SocialShareEvent
+        {
+            TAPPED,
+            COMPLETE,
+            DISMISS,
+            UNKNOWN
+        }
+
         private Dictionary<string, object> gameEndReasonParam = new Dictionary<string, object>
         {
             { GAME_END_REASON, "Unknown" }
@@ -47,10 +55,25 @@ namespace TurboLabz.InstantFramework
         {
             AnalyticsEvent.LevelQuit(levelId);
         }
-
-        public void SocialShare(ShareContext context)
+            
+        public void SocialShareTapped()
         {
-            AnalyticsEvent.SocialShare(context.ToString(), SocialNetwork.None);
+            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.TAPPED, SocialNetwork.None);
+        }
+
+        public void SocialShareComplete()
+        {
+            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.COMPLETE, SocialNetwork.None);
+        }
+
+        public void SocialShareDismiss()
+        {
+            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.DISMISS, SocialNetwork.None);
+        }
+
+        public void SocialShareUnknown()
+        {
+            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.UNKNOWN, SocialNetwork.None);
         }
 
         public void AdOffer(bool rewarded, string placementId)

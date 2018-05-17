@@ -20,7 +20,10 @@ namespace TurboLabz.InstantFramework
         void LevelComplete(string levelId, string gameEndReason);
         void LevelFail(string levelId, string gameEndReason);
         void LevelQuit(string levelId);
-        void SocialShare(ShareContext context);
+        void SocialShareTapped();
+        void SocialShareComplete();
+        void SocialShareDismiss();
+        void SocialShareUnknown();
         void AdOffer(bool rewarded, string placementId);
         void AdStart(bool rewarded, string placementId);
         void AdComplete(bool rewarded, string placementId);
