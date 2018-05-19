@@ -128,7 +128,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.2
+  bundleVersion: 1
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -163,10 +163,10 @@ PlayerSettings:
     Android: com.turbolabz.instantchess.android.googleplay
     Standalone: com.turbolabz.chess.linux.steam
     Tizen: com.turbolabz.chess.google
-    iOS: com.turbolabz.instantchess.googleplay
+    iOS: com.turbolabz.instantchess.ios
     tvOS: com.turbolabz.chess.google
   buildNumber:
-    iOS: 100
+    iOS: 1
   AndroidBundleVersionCode: 120
   AndroidMinSdkVersion: 18
   AndroidTargetSdkVersion: 0
@@ -242,7 +242,7 @@ PlayerSettings:
   metalEditorSupport: 0
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 1
-  appleDeveloperTeamID: 
+  appleDeveloperTeamID: WAJ9ZPXALN
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
   appleEnableAutomaticSigning: 0
@@ -764,7 +764,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     7: 
   platformArchitecture:
-    iOS: 2
+    iOS: 1
     tvOS: 1
   scriptingBackend:
     Android: 0

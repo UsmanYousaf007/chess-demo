@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
 using UnityEngine;
+using AOT;
 
 namespace TurboLabz.Chess
 {
@@ -34,14 +35,21 @@ namespace TurboLabz.Chess
         #elif UNITY_ANDROID
         public const string PLUGIN_NAME = "android-ai";
         #elif UNITY_IOS
-        public const string PLUGIN_NAME = "ios-ai";
+        public const string PLUGIN_NAME = "__Internal";
         #endif
 
+        #if !UNITY_IOS
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        #endif
         public delegate void UnityOutDelegate(string str);
 
+        #if UNITY_IOS
+        [DllImport (PLUGIN_NAME)]
+        public static extern void setUnityOutFuncPtr(UnityOutDelegate callback);
+        #else
         [DllImport (PLUGIN_NAME)]
         public static extern void setUnityOutFuncPtr(IntPtr fp);
+        #endif
 
         [DllImport (PLUGIN_NAME)]
         private static extern void echo(string arg);
@@ -62,9 +70,13 @@ namespace TurboLabz.Chess
             if (!isInitialized)
             {
                 // Set the callback to Unity function
+                #if UNITY_IOS
+                setUnityOutFuncPtr(UnityOutCallback);
+                #else
                 UnityOutDelegate callback_delegate = new UnityOutDelegate(UnityOutCallback);
                 IntPtr intptr_delegate = Marshal.GetFunctionPointerForDelegate(callback_delegate);
                 setUnityOutFuncPtr(intptr_delegate);
+                #endif
 
                 // Initialize the plugin once
                 init();
@@ -126,7 +138,8 @@ namespace TurboLabz.Chess
 
         private void SetThreads(string threads)
         {
-            cmd("setoption name Threads value " + threads);
+            // DO NOT USE, CRASHES ON IOS. UNKNOWN BEHAVIOR ON ANDROID PHONES.
+            // cmd("setoption name Threads value " + threads);
         }
 
         public void GoDepth(string depth)
@@ -143,6 +156,9 @@ namespace TurboLabz.Chess
             cmd("stop");
         }
 
+        #if UNITY_IOS
+        [MonoPInvokeCallback(typeof(UnityOutDelegate))]
+        #endif
         private static void UnityOutCallback(string str)
         {
             if (str.Contains("moveOptions"))
