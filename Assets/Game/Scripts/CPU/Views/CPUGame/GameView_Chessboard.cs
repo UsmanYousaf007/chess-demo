@@ -473,16 +473,16 @@ namespace TurboLabz.InstantChess
         {
             if (vo.isPlayerWhite)
             {
-                chessboard.rotation = WHITE_BOARD_ROTATION;
-                chessboard.position = WHITE_BOARD_POSITION;
+                chessboard.localRotation = WHITE_BOARD_ROTATION;
+                chessboard.localPosition = WHITE_BOARD_POSITION;
                 playerColor = ChessColor.WHITE;
                 opponentColor = ChessColor.BLACK;
 
             }
             else
             { 
-                chessboard.rotation = BLACK_BOARD_ROTATION;
-                chessboard.position = BLACK_BOARD_POSITION;
+                chessboard.localRotation = BLACK_BOARD_ROTATION;
+                chessboard.localPosition = BLACK_BOARD_POSITION;
                 playerColor = ChessColor.BLACK;
                 opponentColor = ChessColor.WHITE;
             }
