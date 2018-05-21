@@ -26,9 +26,13 @@ namespace TurboLabz.InstantChess
 {
     public partial class GameView
     {
+		[Header("Results Dialog")]
+
         public GameObject resultsDialog;
         public Text resultsDialogHeading;
         public Text resultsDialogReason;
+		public Button resultsStatsButton;
+		public Text resultsStatsButtonLabel;
         public Button resultsExitButton;
         public Text resultsExitButtonLabel;
         public Button resultsCloseButton;
@@ -36,10 +40,12 @@ namespace TurboLabz.InstantChess
         public Button resultsDialogButton;
 
         public Signal resultsExitButtonClickedSignal = new Signal();
-        public Signal statsButtonClickedSignal = new Signal();
+		public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
         public Signal enterPlaybackSignal = new Signal();
         public Signal resultsDialogButtonClickedSignal = new Signal();
+
+		public Image statsStar;
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -54,9 +60,11 @@ namespace TurboLabz.InstantChess
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
+			resultsStatsButton.onClick.AddListener(OnResultsStatsButtonClicked);
 
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
+			resultsStatsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_STATS_BUTTON);
 
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
         }
@@ -94,7 +102,7 @@ namespace TurboLabz.InstantChess
             resultsDialog.SetActive(false);
         }
 
-        public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins)
+		public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins, int statResult)
         {
             HideMenu();
             DisableInteraction();
@@ -200,12 +208,7 @@ namespace TurboLabz.InstantChess
         {
             return resultsDialog.activeSelf;
         }
-
-        private void OnStatsButtonClicked()
-        {
-            statsButtonClickedSignal.Dispatch();
-        }
-
+			
         private void OnResultsExitButtonClicked()
         {
             resultsExitButtonClickedSignal.Dispatch();
@@ -225,5 +228,10 @@ namespace TurboLabz.InstantChess
         {
             resultsDialogButtonClickedSignal.Dispatch();
         }
+
+		private void OnResultsStatsButtonClicked()
+		{
+			resultsStatsButtonClickedSignal.Dispatch();
+		}
     }
 }
