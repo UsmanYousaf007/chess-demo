@@ -109,6 +109,7 @@ namespace TurboLabz.InstantFramework
 
 		public const string CPU_STORE_BUCK_PACKS_TITLE = "storeBuckPacksTitle";
 		public const string CPU_STORE_BUCK_PACKS_SUB_HEADING = "storeBuckPacksSubHeading";
+		public const string CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE = "storeBuckPacksStoreNotAvailable";
 
 		#endregion
 
