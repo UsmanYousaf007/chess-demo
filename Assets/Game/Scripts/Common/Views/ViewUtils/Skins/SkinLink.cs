@@ -46,8 +46,6 @@ namespace TurboLabz.InstantChess
                 Color tmp = targetImage.color;
                 tmp.a = alpha;
                 targetImage.color = tmp;
-
-                LogUtil.Log("APPLYING ALPHA: " + targetImage.name + " " + alpha, "cyan");
             }
             else if (targetSpriteRenderer != null) 
             {
