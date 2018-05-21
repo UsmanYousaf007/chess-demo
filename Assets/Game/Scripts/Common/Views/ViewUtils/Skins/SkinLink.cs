@@ -31,35 +31,27 @@ namespace TurboLabz.InstantChess
                 sourceImage = GameObject.FindWithTag("StandardBtn").GetComponent<Image>();
             }
 
+            string[] tokens = sourceImage.sprite.name.Split(',');
+            float alpha = 1f;
+
+            if (tokens.Length > 1)
+            {
+                alpha = float.Parse(tokens[1])/100f;
+            }
+
             if (targetImage != null)
             {
                 targetImage.sprite = sourceImage.sprite;
 
-                string[] tokens = sourceImage.sprite.name.Split(',');
+                Color tmp = targetImage.color;
+                tmp.a = alpha;
+                targetImage.color = tmp;
 
-                if (tokens.Length > 1)
-                {
-                    Color tmp = targetImage.color;
-                    tmp.a = float.Parse(tokens[1])/100f;
-                    targetImage.color = tmp;
-                }
+                LogUtil.Log("APPLYING ALPHA: " + targetImage.name + " " + alpha, "cyan");
             }
             else if (targetSpriteRenderer != null) 
             {
                 targetSpriteRenderer.sprite = sourceImage.sprite;
-
-
-               
-
-                if (targetSpriteRenderer.gameObject.name == "PlayBackground" &&
-                    targetSpriteRenderer.sprite.name == "SkinSlate_Background")
-                {
-                    Color tmp = targetSpriteRenderer.color;
-                    tmp.a = 0.59f;
-                    targetSpriteRenderer.color = tmp;
-
-                    LogUtil.Log("ADJUSTING COLOR!!!!!!!!!!!!!!!!!!", "cyan");
-                }
             }
         }
 
