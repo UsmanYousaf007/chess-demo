@@ -59,7 +59,7 @@ namespace TurboLabz.InstantChess
 
 				if (item.remoteProductPrice == null) 
 				{
-					thumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_BUY_BUTTON);
+					thumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
 				} 
 				else 
 				{
