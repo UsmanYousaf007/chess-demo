@@ -50,6 +50,7 @@ namespace TurboLabz.InstantChess
 
 		private void OnYesNotEnoughBucksButtonClicked()
 		{
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
 			loadBuckPacksSignal.Dispatch();
 		}
 
