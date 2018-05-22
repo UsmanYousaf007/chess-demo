@@ -74,6 +74,7 @@ namespace TurboLabz.InstantChess
 
         public void ShowResultsDialog()
         {
+            EnableModalBlocker();
             resultsDialog.SetActive(true);
             resultsDialogButton.gameObject.SetActive(false);
 
@@ -179,6 +180,8 @@ namespace TurboLabz.InstantChess
 
         public void EnableResultsDialogButton()
         {
+            DisableModalBlocker();
+            EnableMenuButton();
             resultsDialogButton.gameObject.SetActive(true);
         }
 
