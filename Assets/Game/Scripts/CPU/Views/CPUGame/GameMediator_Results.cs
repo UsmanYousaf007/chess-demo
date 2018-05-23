@@ -28,10 +28,10 @@ namespace TurboLabz.InstantChess
         {
             view.InitResults();
             view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
-            view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
             view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
             view.enterPlaybackSignal.AddListener(OnEnterPlayback);
             view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
+			view.resultsStatsButtonClickedSignal.AddListener(OnResultsStatsButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -58,9 +58,9 @@ namespace TurboLabz.InstantChess
         }
 
         [ListensTo(typeof(UpdateResultDialogSignal))]
-        public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins)
+		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int statResult)
         {
-            view.UpdateResultsDialog(gameEndReason, playerWins);
+            view.UpdateResultsDialog(gameEndReason, playerWins, statResult);
         }
 
 
@@ -80,11 +80,6 @@ namespace TurboLabz.InstantChess
             showAdSignal.Dispatch();
         }
 
-        private void OnStatsButtonClicked()
-        {
-            loadStatsSignal.Dispatch();
-        }
-
         private void OnEnterPlayback()
         {
             enterPlaybackSignal.Dispatch();
@@ -94,5 +89,10 @@ namespace TurboLabz.InstantChess
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
         }
+
+		private void OnResultsStatsButtonClicked()
+		{
+			loadStatsSignal.Dispatch();
+		}
     }
 }

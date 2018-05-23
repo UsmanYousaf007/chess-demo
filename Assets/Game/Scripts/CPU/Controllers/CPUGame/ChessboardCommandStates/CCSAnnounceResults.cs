@@ -42,9 +42,6 @@ namespace TurboLabz.InstantChess
 
             GameEndReason gameEndReason = model.gameEndReason;
 
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
-            cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins);
-
             cmd.disableUndoButtonSignal.Dispatch();
             cmd.disableMenuButtonSignal.Dispatch();
             cmd.disableHintButtonSignal.Dispatch();
@@ -97,6 +94,9 @@ namespace TurboLabz.InstantChess
             }
 
             cmd.saveStatsSignal.Dispatch(statResult);
+
+			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
+			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, statResult);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

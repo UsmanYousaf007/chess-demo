@@ -76,7 +76,7 @@ namespace TurboLabz.InstantChess
     public class ShowFiftyMoveDrawDialogSignal : Signal {}
     public class ShowThreefoldRepeatDrawDialogSignal : Signal {}
     public class HideDrawDialogSignal : Signal {}
-    public class UpdateResultDialogSignal : Signal<GameEndReason, bool> {}
+    public class UpdateResultDialogSignal : Signal<GameEndReason, bool, int> {}
     public class UpdatePromoDialogSignal : Signal<ChessColor> {}
     public class UpdatePromoSignal : Signal<MoveVO> {}
     public class RunTimeControlSignal : Signal {}
