@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },
                 { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "REVIEW GAME" },
 				{ LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
-                { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO LOBBY" },
+                { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "LOBBY" },
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_OK, "OK" },
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE, "Reward Bucks" },
                 { LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, "Get {0} Bucks" },

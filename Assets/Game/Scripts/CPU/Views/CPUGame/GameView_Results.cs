@@ -45,8 +45,6 @@ namespace TurboLabz.InstantChess
         public Signal enterPlaybackSignal = new Signal();
         public Signal resultsDialogButtonClickedSignal = new Signal();
 
-		public Image statsStar;
-
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
@@ -62,7 +60,6 @@ namespace TurboLabz.InstantChess
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
 			resultsStatsButton.onClick.AddListener(OnResultsStatsButtonClicked);
 
-            resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
 			resultsStatsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_STATS_BUTTON);
 
