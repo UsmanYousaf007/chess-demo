@@ -31,9 +31,7 @@ namespace TurboLabz.InstantChess
         public GameObject resultsDialog;
         public Text resultsDialogHeading;
         public Text resultsDialogReason;
-		public Button resultsStatsButton;
-		public Text resultsStatsButtonLabel;
-        public Button resultsExitButton;
+		public Button resultsExitButton;
         public Text resultsExitButtonLabel;
         public Button resultsCloseButton;
         public Text resultsCloseButtonLabel;
@@ -58,11 +56,10 @@ namespace TurboLabz.InstantChess
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
-			resultsStatsButton.onClick.AddListener(OnResultsStatsButtonClicked);
-
+		
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
-			resultsStatsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_STATS_BUTTON);
-
+            resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
+		
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
         }
 
