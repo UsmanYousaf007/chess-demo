@@ -70,6 +70,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 737195d2dc201457aa00e16cbab6616f, type: 3}
   - {fileID: 21300000, guid: d8a041d8865f244618fa64738456fb1f, type: 3}
   - {fileID: 21300000, guid: d50601b6cd65745e6a62e4e9060bff5b, type: 3}
+  - {fileID: 21300000, guid: 45dbf3921e6ec43d8952fc3a7ff1dc38, type: 3}
   - {fileID: 21300000, guid: 1a3c8d5a68f3d45d887d8daae64f8ed6, type: 3}
   - {fileID: 21300000, guid: 1a15ed74734a34582983e6af2e414426, type: 3}
   - {fileID: 21300000, guid: 61ab842af677641fd8f0e1ff79f29cbc, type: 3}
@@ -98,13 +99,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bb2442667b4254dbfb2c22eddaecae3b, type: 3}
   - {fileID: 21300000, guid: af9d1fc5ff7964c3e9a9c7451a6edffc, type: 3}
   - {fileID: 21300000, guid: 6f6ae838a721b4395807af6109de9c5a, type: 3}
-  - {fileID: 21300000, guid: 45dbf3921e6ec43d8952fc3a7ff1dc38, type: 3}
   - {fileID: 21300000, guid: 8636a8f41feee4f6ebbaa3f04c3706d1, type: 3}
   - {fileID: 21300000, guid: 029c727e156584d3e8e7a06ba4b10b6f, type: 3}
   m_PackedSpriteNamesToIndex:
   - SkinMarble_StandardDlg
   - SkinMarble_Promo
   - SkinMarble_StandardTitleBar
+  - SkinMarble_LobbyBtn
   - SkinMarble_PlayerTo
   - SkinMarble_PlayerFrom
   - SkinMarble_OpponentFrom
@@ -133,7 +134,6 @@ SpriteAtlas:
   - SkinMarble_cWp
   - SkinMarble_cWq
   - SkinMarble_cWr
-  - SkinMarble_LobbyBtn
   - SkinMarble_ChessboardBar
   - SkinMarble_FreeBucksBtn
   m_Tag: SkinMarble
