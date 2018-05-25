@@ -66,11 +66,7 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: e6bfe0e9a2f5a485f94440f685c4a8ad, type: 3}
-  - {fileID: 21300000, guid: 26860616158de42e2ac57feffa7e25fd, type: 3}
-  - {fileID: 21300000, guid: d53008bae97ab4268a4dae1e621d12c0, type: 3}
   - {fileID: 21300000, guid: 2b64de8516e8a43608a880109c09adfc, type: 3}
-  - {fileID: 21300000, guid: 9cbe8d62a3b724c9d8ab90332c36e375, type: 3}
-  - {fileID: 21300000, guid: d8bef852e146345a9a4222c6f90367b0, type: 3}
   - {fileID: 21300000, guid: 4ce21b7f40d5142dca122ed307851344, type: 3}
   - {fileID: 21300000, guid: 0d2644a5e053b403282cc7a45ac6b070, type: 3}
   - {fileID: 21300000, guid: de3602aa211204d2c958259ffdb3850b, type: 3}
@@ -89,6 +85,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8c809266d68184e558ee23b13511e3d8, type: 3}
   - {fileID: 21300000, guid: 50d2181338cb949fda6a7968d083fd4f, type: 3}
   - {fileID: 21300000, guid: 26b17d596584b456185d52c8390aa900, type: 3}
+  - {fileID: 21300000, guid: 9cbe8d62a3b724c9d8ab90332c36e375, type: 3}
   - {fileID: 21300000, guid: bf97be8c4c6df47fcad29f56819b78cf, type: 3}
   - {fileID: 21300000, guid: eb13982f08f0348419c717ab94029444, type: 3}
   - {fileID: 21300000, guid: 9ee7e4befaef74bd5839bebe7a6feed8, type: 3}
@@ -99,13 +96,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e7063d89425e04d689fdf86d36dc8fc4, type: 3}
   - {fileID: 21300000, guid: 9e9ddea3d9e1a43e5bae4a1dd38b155e, type: 3}
   - {fileID: 21300000, guid: 3a7165494a5bb40f18885469adde0a88, type: 3}
+  - {fileID: 21300000, guid: 26860616158de42e2ac57feffa7e25fd, type: 3}
+  - {fileID: 21300000, guid: d8bef852e146345a9a4222c6f90367b0, type: 3}
+  - {fileID: 21300000, guid: d53008bae97ab4268a4dae1e621d12c0, type: 3}
   m_PackedSpriteNamesToIndex:
   - SkinMoonlight_StandardDlg
-  - SkinMoonlight_LobbyBtn
-  - SkinMoonlight_FreeBucksBtn
   - SkinMoonlight_Promo
-  - SkinMoonlight_StandardBtn
-  - SkinMoonlight_ChessboardBar
   - SkinMoonlight_StandardTitleBar
   - SkinMoonlight_PlayerTo
   - SkinMoonlight_PlayerFrom
@@ -124,6 +120,7 @@ SpriteAtlas:
   - SkinMoonlight_bk
   - SkinMoonlight_bn
   - SkinMoonlight_IncDecBtn
+  - SkinMoonlight_StandardBtn
   - SkinMoonlight_cbb
   - SkinMoonlight_cbn
   - SkinMoonlight_cbq
@@ -134,5 +131,8 @@ SpriteAtlas:
   - SkinMoonlight_cWq
   - SkinMoonlight_cWb
   - SkinMoonlight_cWn
+  - SkinMoonlight_LobbyBtn
+  - SkinMoonlight_ChessboardBar
+  - SkinMoonlight_FreeBucksBtn
   m_Tag: SkinMoonlight
   m_IsVariant: 0

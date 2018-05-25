@@ -66,11 +66,7 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: dc7e134f270b54d90837a7f426bf0a12, type: 3}
-  - {fileID: 21300000, guid: dd9453a70a98c4ecd93a28dd47f78b33, type: 3}
-  - {fileID: 21300000, guid: 8823a4765370242f7863ca1092d8ac8b, type: 3}
   - {fileID: 21300000, guid: 1b5b25b9bb4934336884596ea99839bd, type: 3}
-  - {fileID: 21300000, guid: be01834f255994e7baa97aa5a281a33a, type: 3}
-  - {fileID: 21300000, guid: 6748315d031e24f7998ad5741764b90c, type: 3}
   - {fileID: 21300000, guid: 49f0aa74ad9844aa2814af91319243bf, type: 3}
   - {fileID: 21300000, guid: 830d998c5b06447b2ba1a44fcfd91a3d, type: 3}
   - {fileID: 21300000, guid: 74be06ffb6a32486aa6bb512eb349fe0, type: 3}
@@ -89,6 +85,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 90c375d36906f44449c09507e0484595, type: 3}
   - {fileID: 21300000, guid: a06f2046f822e48208a0cb850e7fb6e4, type: 3}
   - {fileID: 21300000, guid: 2279f730125304a01b3a5a1e5f7dcbdd, type: 3}
+  - {fileID: 21300000, guid: be01834f255994e7baa97aa5a281a33a, type: 3}
   - {fileID: 21300000, guid: 33dea6101137843658dea666743dafc0, type: 3}
   - {fileID: 21300000, guid: 6fdf9870752934851adbf27356fdf0b4, type: 3}
   - {fileID: 21300000, guid: 00d6e869307504480ac44e17cb65b19c, type: 3}
@@ -98,14 +95,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ecc1bd83dd18d4528862a7a74147affb, type: 3}
   - {fileID: 21300000, guid: 10e8a6e12e88041b29fa67ab31ef3552, type: 3}
   - {fileID: 21300000, guid: 51024c6fc971e4d8c8062ce999e8dfef, type: 3}
+  - {fileID: 21300000, guid: dd9453a70a98c4ecd93a28dd47f78b33, type: 3}
   - {fileID: 21300000, guid: 7cbf6e0974f9b400888e1bbbe90e0b20, type: 3}
+  - {fileID: 21300000, guid: 6748315d031e24f7998ad5741764b90c, type: 3}
+  - {fileID: 21300000, guid: 8823a4765370242f7863ca1092d8ac8b, type: 3}
   m_PackedSpriteNamesToIndex:
   - SkinCrayon_StandardDlg
-  - SkinCrayon_LobbyBtn
-  - SkinCrayon_FreeBucksBtn
   - SkinCrayon_Promo
-  - SkinCrayon_StandardBtn
-  - SkinCrayon_ChessboardBar
   - SkinCrayon_StandardTitleBar
   - SkinCrayon_br
   - SkinCrayon_bq
@@ -124,6 +120,7 @@ SpriteAtlas:
   - SkinCrayon_OpponentTo
   - SkinCrayon_PlayerTo
   - SkinCrayon_IncDecBtn
+  - SkinCrayon_StandardBtn
   - SkinCrayon_cWb
   - SkinCrayon_cWn
   - SkinCrayon_cbn
@@ -133,6 +130,9 @@ SpriteAtlas:
   - SkinCrayon_cWr
   - SkinCrayon_cbp
   - SkinCrayon_cbq
+  - SkinCrayon_LobbyBtn
   - SkinCrayon_cbb
+  - SkinCrayon_ChessboardBar
+  - SkinCrayon_FreeBucksBtn
   m_Tag: SkinCrayon
   m_IsVariant: 0

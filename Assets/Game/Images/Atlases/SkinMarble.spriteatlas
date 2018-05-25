@@ -68,11 +68,7 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 737195d2dc201457aa00e16cbab6616f, type: 3}
-  - {fileID: 21300000, guid: 45dbf3921e6ec43d8952fc3a7ff1dc38, type: 3}
-  - {fileID: 21300000, guid: 029c727e156584d3e8e7a06ba4b10b6f, type: 3}
   - {fileID: 21300000, guid: d8a041d8865f244618fa64738456fb1f, type: 3}
-  - {fileID: 21300000, guid: d5e0a7de4ef394113af637eff747124e, type: 3}
-  - {fileID: 21300000, guid: 8636a8f41feee4f6ebbaa3f04c3706d1, type: 3}
   - {fileID: 21300000, guid: d50601b6cd65745e6a62e4e9060bff5b, type: 3}
   - {fileID: 21300000, guid: 1a3c8d5a68f3d45d887d8daae64f8ed6, type: 3}
   - {fileID: 21300000, guid: 1a15ed74734a34582983e6af2e414426, type: 3}
@@ -91,6 +87,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1e4567605b2f54fcaa9235d7b5a4042d, type: 3}
   - {fileID: 21300000, guid: b7de2b696d01746c9abfead851aab8b2, type: 3}
   - {fileID: 21300000, guid: e0a6ace4c61f143778e086ee3408d5a6, type: 3}
+  - {fileID: 21300000, guid: d5e0a7de4ef394113af637eff747124e, type: 3}
   - {fileID: 21300000, guid: 49cf034284bd247f09a08a1d100c17b3, type: 3}
   - {fileID: 21300000, guid: 2fa06e3b825f24b6e9c7864d213e00e4, type: 3}
   - {fileID: 21300000, guid: 2765db6646c3c40dc9d3ccb743dff26e, type: 3}
@@ -101,13 +98,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bb2442667b4254dbfb2c22eddaecae3b, type: 3}
   - {fileID: 21300000, guid: af9d1fc5ff7964c3e9a9c7451a6edffc, type: 3}
   - {fileID: 21300000, guid: 6f6ae838a721b4395807af6109de9c5a, type: 3}
+  - {fileID: 21300000, guid: 45dbf3921e6ec43d8952fc3a7ff1dc38, type: 3}
+  - {fileID: 21300000, guid: 8636a8f41feee4f6ebbaa3f04c3706d1, type: 3}
+  - {fileID: 21300000, guid: 029c727e156584d3e8e7a06ba4b10b6f, type: 3}
   m_PackedSpriteNamesToIndex:
   - SkinMarble_StandardDlg
-  - SkinMarble_LobbyBtn
-  - SkinMarble_FreeBucksBtn
   - SkinMarble_Promo
-  - SkinMarble_StandardBtn
-  - SkinMarble_ChessboardBar
   - SkinMarble_StandardTitleBar
   - SkinMarble_PlayerTo
   - SkinMarble_PlayerFrom
@@ -126,6 +122,7 @@ SpriteAtlas:
   - SkinMarble_Wp
   - SkinMarble_bb
   - SkinMarble_IncDecBtn
+  - SkinMarble_StandardBtn
   - SkinMarble_cbb
   - SkinMarble_cWn
   - SkinMarble_cbn
@@ -136,5 +133,8 @@ SpriteAtlas:
   - SkinMarble_cWp
   - SkinMarble_cWq
   - SkinMarble_cWr
+  - SkinMarble_LobbyBtn
+  - SkinMarble_ChessboardBar
+  - SkinMarble_FreeBucksBtn
   m_Tag: SkinMarble
   m_IsVariant: 0
