@@ -159,7 +159,7 @@ namespace TurboLabz.InstantChess
         {
             if (startingTimer == TimeSpan.Zero)
             {
-                playerClockImage.color = Colors.GREEN;
+                playerClockImage.color = Colors.YELLOW;
             }
             else
             {
@@ -179,7 +179,7 @@ namespace TurboLabz.InstantChess
         {
             if (startingTimer == TimeSpan.Zero)
             {
-                opponentClockImage.color = Colors.GREEN;
+                opponentClockImage.color = Colors.YELLOW;
             }
             else
             {

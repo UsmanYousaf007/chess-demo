@@ -20,7 +20,7 @@ namespace TurboLabz.InstantChess
         public static readonly Color YELLOW = new Color(235f/255f, 168f/255f, 61f/255f);
         public static readonly Color RED = new Color(198f/255f, 40f/255f, 40f/255f);
         public static readonly Color GREEN = new Color(0.15f, 0.53f, 0.33f);
-        public static readonly Color WHITE_TEXT = new Color(1f, 1f, 0.87f);
+        public static readonly Color WHITE_TEXT = new Color(1f, 1f, 1f);
         public const float DISABLED_TEXT_ALPHA = 128f/255f;
         public const float ENABLED_TEXT_ALPHA = 222f/255f;
 
