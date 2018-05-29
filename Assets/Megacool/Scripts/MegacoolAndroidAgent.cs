@@ -339,6 +339,10 @@ public class MegacoolAndroidAgent : MegacoolIAgent {
         Android.CallStatic("setGifColorTable", jGifColorTable);
     }
 
+    public void SetSharingStrategy(MegacoolSharingStrategy sharingStrategy) {
+        // All Android channels support both GIFs and links already, thus nothing to prioritize.
+    }
+
     public void SignalRenderTexture(RenderTexture texture) {
         if (!texture) {
             texture = Megacool.Instance.RenderTexture;

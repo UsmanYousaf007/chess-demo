@@ -189,6 +189,10 @@ public class MegacoolEditorAgent : MegacoolIAgent {
         ImplementationWarning("SetGIFColorTable");
     }
 
+    public void SetSharingStrategy(MegacoolSharingStrategy sharingStrategy) {
+        ImplementationWarning("SetSharingStrategy");
+    }
+
     public void SignalRenderTexture(RenderTexture texture) {
     }
 

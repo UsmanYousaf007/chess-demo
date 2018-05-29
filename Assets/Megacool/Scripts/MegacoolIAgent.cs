@@ -91,6 +91,8 @@ public interface MegacoolIAgent {
 
     void SetGIFColorTable(Megacool.GifColorTableType gifColorTable);
 
+    void SetSharingStrategy(MegacoolSharingStrategy sharingStrategy);
+
     void SignalRenderTexture(RenderTexture texture);
 
     void IssuePluginEvent(ref IntPtr nativePluginCallbackPointer, int eventId);

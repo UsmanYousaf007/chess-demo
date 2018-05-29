@@ -41,6 +41,21 @@ typedef NS_ENUM(int, MCLGIFColorTable) {
     kMCLGIFColorTableAnalyzeFirst,
 };
 
+/*!
+ @brief What type of data should be prioritized when sharing
+ */
+typedef NS_ENUM(unsigned long, MCLSharingStrategy) {
+    /*!
+     @brief Prioritize GIFs (this is the default)
+     */
+    kMCLSharingStrategyGIF = 0,
+
+    /*!
+     @brief Prioritize links. This setting will currently only affect WhatsApp.
+     */
+    kMCLSharingStrategyLink,
+};
+
 typedef NS_ENUM(unsigned long, MCLOverflowStrategy) {
     kMCLOverflowStrategyLatest = 0,
     kMCLOverflowStrategyTimelapse,

@@ -172,6 +172,8 @@ void resetIdentity();
 
 void setGIFColorTable(MCLGIFColorTable gifColorTable);
 
+void setSharingStrategy(MCLSharingStrategy sharingStrategy);
+
 int getNumberOfFrames(const char *recordingId);
 
 void mclFree(char* stringPtr);

@@ -12,7 +12,7 @@ public struct MegacoolShareConfig {
     private String lastFrameOverlay;
 
     [System.Obsolete("Use Megacool.SetLastFrameOverlay(string filename)")]
-    public string LastFrameOverlay  {
+    public string LastFrameOverlay {
         get {
             return lastFrameOverlay;
         }
@@ -40,7 +40,12 @@ public struct MegacoolShareConfig {
     /// Set extra share data that will be present on the received MegacoolShare.
     /// </summary>
     public Dictionary<string, string> Data;
-
+    public string DataSerialized() {
+        if (Data != null) {
+            return MegacoolThirdParty_MiniJSON.Json.Serialize(Data);
+        }
+        return null;
+    }
 
     /// <summary>
     /// Customize the link shared.
@@ -50,6 +55,12 @@ public struct MegacoolShareConfig {
     /// relative URL of the form "/some/path?key=value".
     /// </description>
     public Uri Url;
+    public string UrlString() {
+        if (Url != null) {
+            return Url.ToString();
+        }
+        return null;
+    }
 
     /// <summary>
     /// Deprecated way to customize the Url and Data on the share.

@@ -22,7 +22,7 @@
 #import "MCLShareConfig.h"
 
 #ifndef MEGACOOL_SDK_VERSION
-#define MEGACOOL_SDK_VERSION @"3.1.6"
+#define MEGACOOL_SDK_VERSION @"3.1.9"
 #endif
 
 // clang-format off
@@ -672,6 +672,15 @@ __deprecated_msg("Use the class method instead to prevent race conditions on ini
  @c mcl_init_capture.
  */
 @property(nonatomic) MCLCaptureMethod captureMethod;
+
+
+/*!
+ @brief Set sharing strategy.
+
+ @discussion What type of data should be prioritized when sharing to channels
+ that support @em either GIF @em or links.
+ */
+@property(nonatomic) MCLSharingStrategy sharingStrategy;
 
 
 /*!

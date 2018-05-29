@@ -13,6 +13,25 @@ public enum MegacoolCaptureMethod {
     RENDER,
 }
 
+
+/// <summary>
+/// Not all iOS sharing channels in the native share modal support both links and GIFs. The SharingStrategy
+/// sets what should be prioritized. This will only affect the `Share` method, not the custom channels like
+/// `ShareToMessenger`, ShareToMessages`,`ShareToTwitter` and `ShareToEmail`.
+/// </summary>
+public enum MegacoolSharingStrategy {
+    /// <summary>
+    /// Prioritize GIFs (this is the default).
+    /// </summary>
+    GIF,
+
+    /// <summary>
+    /// Prioritize links. This setting currently only affects WhatsApp.
+    /// </summary>
+    LINK,
+}
+
+
 public sealed class Megacool {
 
     [StructLayout(LayoutKind.Sequential)]
@@ -174,7 +193,7 @@ public sealed class Megacool {
     /// Callback when a user either aborted or completed a share, but we can't know which.
     /// </summary>
     /// <description>
-    /// This is only called on Android, and only available on API level 22+.
+    /// This is only called on Android, when we cannot tell whether the share actually completed or not.
     /// </description>
     public Action PossiblyCompletedSharing = delegate {
     };
@@ -314,6 +333,15 @@ public sealed class Megacool {
         }
     }
 
+    /// <summary>
+    /// Set whether to prioritize GIFs or link when sharing to channels that support either but not both.
+    /// </summary>
+    /// <value>The sharing strategy to use</value>
+    public MegacoolSharingStrategy SharingStrategy {
+        set {
+            _platformAgent.SetSharingStrategy(value);
+        }
+    }
 
     /// <summary>
     /// Turn on / off debug mode. In debug mode calls to the SDK are stored and can be submitted to the core developers using SubmitDebugData later.

@@ -117,7 +117,7 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     [DllImport("__Internal")]
     private static extern int getMaxFrames();
 
-    [DllImport("_Internal")]
+    [DllImport("__Internal")]
     private static extern int getNumberOfFrames(string recordingId);
 
     [DllImport("__Internal")]
@@ -152,6 +152,9 @@ public class MegacoolIOSAgent : MegacoolIAgent {
 
     [DllImport("__Internal")]
     private static extern void setGIFColorTable(int gifColorTable);
+
+    [DllImport("__Internal")]
+    private static extern void setSharingStrategy(int sharingStrategy);
 
     [DllImport("__Internal")]
     private static extern void setMegacoolDidCompleteShareDelegate(IntPtr f);
@@ -333,7 +336,7 @@ public class MegacoolIOSAgent : MegacoolIAgent {
         // keep functionality until lastframeOverlay in shareConfig is removed
         SetLastFrameOverlayFromShareConfig(config);
         #pragma warning disable 618
-        presentShareWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.Url.ToString(), config.Data != null ? MegacoolThirdParty_MiniJSON.Json.Serialize(config.Data) : null);
+        presentShareWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
         #pragma warning restore 618
     }
 
@@ -345,7 +348,7 @@ public class MegacoolIOSAgent : MegacoolIAgent {
         // keep functionality until lastframeOverlay in shareConfig is removed
         SetLastFrameOverlayFromShareConfig(config);
         #pragma warning disable 618
-        presentShareToMessengerWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.Url.ToString(), config.Data != null ? MegacoolThirdParty_MiniJSON.Json.Serialize(config.Data) : null);
+        presentShareToMessengerWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
         #pragma warning restore 618
     }
 
@@ -357,7 +360,7 @@ public class MegacoolIOSAgent : MegacoolIAgent {
         // keep functionality until lastframeOverlay in shareConfig is removed
         SetLastFrameOverlayFromShareConfig(config);
         #pragma warning disable 618
-        presentShareToTwitterWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.Url.ToString(), config.Data != null ? MegacoolThirdParty_MiniJSON.Json.Serialize(config.Data) : null);
+        presentShareToTwitterWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
         #pragma warning restore 618
     }
 
@@ -369,7 +372,7 @@ public class MegacoolIOSAgent : MegacoolIAgent {
         // keep functionality until lastframeOverlay in shareConfig is removed
         SetLastFrameOverlayFromShareConfig(config);
         #pragma warning disable 618
-        presentShareToMessagesWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.Url.ToString(), config.Data != null ? MegacoolThirdParty_MiniJSON.Json.Serialize(config.Data) : null);
+        presentShareToMessagesWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
         #pragma warning restore 618
     }
 
@@ -381,7 +384,7 @@ public class MegacoolIOSAgent : MegacoolIAgent {
         // keep functionality until lastframeOverlay in shareConfig is removed
         SetLastFrameOverlayFromShareConfig(config);
         #pragma warning disable 618
-        presentShareToMailWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.Url.ToString(), config.Data != null ? MegacoolThirdParty_MiniJSON.Json.Serialize(config.Data) : null);
+        presentShareToMailWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
         #pragma warning restore 618
     }
 
@@ -472,6 +475,14 @@ public class MegacoolIOSAgent : MegacoolIAgent {
             break;
         }
         setGIFColorTable(iosValue);
+    }
+
+    public void SetSharingStrategy(MegacoolSharingStrategy sharingStrategy) {
+        int iosValue = 0; // gif
+        if (sharingStrategy == MegacoolSharingStrategy.LINK) {
+            iosValue = 1;
+        }
+        setSharingStrategy(iosValue);
     }
 
     public void SignalRenderTexture(RenderTexture texture) {

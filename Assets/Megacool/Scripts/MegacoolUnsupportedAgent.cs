@@ -194,6 +194,10 @@ public class MegacoolUnsupportedAgent : MegacoolIAgent {
         SupportWarning();
     }
 
+    public void SetSharingStrategy(MegacoolSharingStrategy sharingStrategy) {
+        SupportWarning();
+    }
+
     public void SignalRenderTexture(RenderTexture texture) {
     }
 
