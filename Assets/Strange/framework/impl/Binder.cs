@@ -181,7 +181,7 @@ namespace strange.framework.impl
 					}
 					conflictSummary += k.ToString ();
 				}
-				throw new BinderException ("Binder cannot fetch Bindings when the binder is in a conflicted state.\nConflicts: " + conflictSummary, BinderExceptionType.CONFLICT_IN_BINDER);
+                throw new BinderException ("Binder cannot fetch Bindings when the binder is in a conflicted state.\nConflicts: " + conflictSummary + " " + name, BinderExceptionType.CONFLICT_IN_BINDER);
 			}
 
 			if(bindings.ContainsKey (key))

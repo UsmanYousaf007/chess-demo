@@ -7,6 +7,7 @@ using strange.extensions.command.impl;
 using UnityEngine;
 using TurboLabz.InstantFramework;
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
@@ -27,7 +28,8 @@ namespace TurboLabz.InstantChess
 
 		public override void Execute()
 		{
-			List<string> list = playerModel.vGoods;
+            List<string> list = playerModel.vGoods;
+
 			int index = list.IndexOf(playerModel.activeSkinId);
 
 			// No cycling

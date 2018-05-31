@@ -19,6 +19,6 @@ namespace TurboLabz.TLUtils
         ICollection<KeyValuePair<TKey, TValue>>,
         IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        
+        int IndexOf(TKey key);
     }
 }

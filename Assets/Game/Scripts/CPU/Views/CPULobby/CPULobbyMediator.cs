@@ -162,7 +162,7 @@ namespace TurboLabz.InstantChess
         }
 
 		[ListensTo(typeof(UpdatePlayerBucksDisplaySignal))]
-		public void OnUpdatePlayerBucksDisplay(int playerBucks)
+		public void OnUpdatePlayerBucksDisplay(long playerBucks)
 		{
 			view.UpdatePlayerBucks(playerBucks);
 		}

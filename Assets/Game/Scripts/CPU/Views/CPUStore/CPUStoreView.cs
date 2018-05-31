@@ -48,7 +48,7 @@ namespace TurboLabz.InstantChess
 				CreatePrefabs(vo);	
 			}
 
-			playerBucks.text = vo.playerModel.bucks.ToString();
+			playerBucks.text = vo.playerModel.currency2.ToString();
 			PopulateSkins(vo);
 		}
 
@@ -62,7 +62,7 @@ namespace TurboLabz.InstantChess
 			gameObject.SetActive(false); 
 		}
 
-		public void UpdatePlayerBucks(int bucks)
+		public void UpdatePlayerBucks(long bucks)
 		{
 			playerBucks.text = bucks.ToString();
 		}

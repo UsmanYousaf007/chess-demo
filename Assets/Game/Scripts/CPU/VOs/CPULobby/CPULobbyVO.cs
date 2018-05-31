@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using TurboLabz.InstantChess;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantChess
 {
@@ -27,7 +28,7 @@ namespace TurboLabz.InstantChess
         public int selectedPlayerColorIndex;
         public bool inProgress;
         public int totalGames;
-		public int playerBucks;
+		public long playerBucks;
 		public List<string> playerVGoods;
 		public string activeSkinId;
 		public string activeSkinDisplayName;
@@ -45,7 +46,7 @@ namespace TurboLabz.InstantChess
             totalGames = cpuGameModel.totalGames;
 			activeSkinId = playerModel.activeSkinId;
 			activeSkinDisplayName = metaDataModel.items[activeSkinId].displayName;
-			playerBucks = playerModel.bucks;
+			playerBucks = playerModel.currency2;
 			playerVGoods = playerModel.vGoods;
         }
     }

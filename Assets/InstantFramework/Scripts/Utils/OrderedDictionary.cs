@@ -144,6 +144,21 @@ namespace TurboLabz.TLUtils
             _internalDictionary.Add(key, value); 
         }
 
+		public int IndexOf(TKey key)
+		{
+			int index = 0;
+			foreach (DictionaryEntry entry in _internalDictionary)
+			{
+                if (entry.Key.Equals(key))
+				{
+					return index;
+				}
+				++index;
+			}
+
+            return index;
+		}
+
         public void Clear()
         {
             _internalDictionary.Clear(); 

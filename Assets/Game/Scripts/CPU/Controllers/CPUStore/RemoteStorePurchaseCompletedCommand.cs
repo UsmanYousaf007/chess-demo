@@ -33,9 +33,9 @@ namespace TurboLabz.InstantChess
 				return;
 			}
 
-			playerModel.bucks += item.currency2Payout;
+			playerModel.currency2 += item.currency2Payout;
 			savePlayerSignal.Dispatch();
-			updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+			updatePlayerBucksDisplaySignal.Dispatch(playerModel.currency2);
 		}
 
 		private StoreItem FindRemoteStoreItem(string remoteId)

@@ -70,6 +70,10 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
 			injectionBinder.Bind<OwnedItemSignal>().ToSingleton();
 
+            injectionBinder.Bind<BackendErrorSignal>().ToSingleton();
+            injectionBinder.Bind<ReceptionSignal>().ToSingleton();
+            injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
+
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
@@ -82,6 +86,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAdsService>().To<UnityAdsService>().ToSingleton();
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsService>().ToSingleton();
 			injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
+            injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
+            injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
 
             #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
@@ -98,6 +104,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
 			injectionBinder.Bind<IMetaDataModel>().To<MetaDataModel>().ToSingleton();
+
 
             MapGameBindings();
         }

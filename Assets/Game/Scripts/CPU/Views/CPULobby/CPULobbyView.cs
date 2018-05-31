@@ -288,7 +288,7 @@ namespace TurboLabz.InstantChess
 			}
 		}
 
-		public void UpdatePlayerBucks(int bucks)
+		public void UpdatePlayerBucks(long bucks)
 		{
 			playerBucks.text = bucks.ToString();
 		}
