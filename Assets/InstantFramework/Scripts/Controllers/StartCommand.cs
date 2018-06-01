@@ -45,8 +45,6 @@ namespace TurboLabz.InstantFramework
 			Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
 			Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
 
-            LogUtil.Log("START COMMAND");
-
 			Retain();
 
 			ListenForKeyEvents();
@@ -79,7 +77,7 @@ namespace TurboLabz.InstantFramework
 
 		void ProcessStartup()
 		{
-			if (gameSparksAvailable &&
+ 			if (gameSparksAvailable &&
 				splashAnimComplete &&
 				facebookInitialized)
 			{

@@ -60,6 +60,12 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
 
+            commandBinder.Bind<GetPlayerProfilePictureSignal>().To<GetPlayerProfilePictureCommand>();
+            //commandBinder.Bind<GetOpponentProfilePictureSignal>().To<GetOpponentProfilePictureCommand>();
+            commandBinder.Bind<ApplyPlayerInventorySignal>().To<ApplyPlayerInventoryCommand>();
+            commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
+            commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
+
 			// Bind signals to models data loader commands
 			commandBinder.Bind<LoadMetaDataSignal>().To<LoadMetaDataCommand>();
 
@@ -71,8 +77,12 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<OwnedItemSignal>().ToSingleton();
 
             injectionBinder.Bind<BackendErrorSignal>().ToSingleton();
-            injectionBinder.Bind<ReceptionSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
+
+            injectionBinder.Bind<UpdatePlayerProfilePictureSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePlayerProfilePictureInfoSignal>().ToSingleton();
+
+            //injectionBinder.Bind<UpdateSetPlayerSocialNameViewSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -99,12 +109,21 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IRoutineRunner>().To<StrangeRoutineRunner>().ToSingleton();
             injectionBinder.Bind<IGameEngineInfo>().To<UnityInfo>().ToSingleton();
             injectionBinder.Bind<ITimeControl>().To<TimeControl>(); // Not singleton
+            injectionBinder.Bind<IServerClock>().To<ServerClock>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
 			injectionBinder.Bind<IMetaDataModel>().To<MetaDataModel>().ToSingleton();
-
+            injectionBinder.Bind<IPlayerModel>().To<PlayerModel>().ToSingleton();
+            injectionBinder.Bind<IMatchInfoModel>().To<MatchInfoModel>().ToSingleton();
+            injectionBinder.Bind<ILeagueSettingsModel>().To<LeagueSettingsModel>().ToSingleton();
+            injectionBinder.Bind<ILevelSettingsModel>().To<LevelSettingsModel>().ToSingleton();
+            injectionBinder.Bind<IRoomSettingsModel>().To<RoomSettingsModel>().ToSingleton();
+            injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
+            injectionBinder.Bind<IInventoryModel>().To<InventoryModel>().ToSingleton();
+            injectionBinder.Bind<IPromotionsModel>().To<PromotionsModel>().ToSingleton();
+            injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton();
 
             MapGameBindings();
         }
@@ -217,7 +236,6 @@ namespace TurboLabz.InstantFramework
             // Bind models
             injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();
             injectionBinder.Bind<ICPUGameModel>().To<CPUGameModel>().ToSingleton();
-            injectionBinder.Bind<IPlayerModel>().To<PlayerModel>().ToSingleton();
             injectionBinder.Bind<IStatsModel>().To<StatsModel>().ToSingleton();
         }
     }

@@ -78,7 +78,9 @@ namespace TurboLabz.InstantFramework
 
             //CheckAndHandleMatchResume(response); // TODO: game dependency to remove
 
-            storeService.Init(storeSettingsModel.getProductIds());
+            List<string> storeProductIds = storeSettingsModel.getProductIds();
+
+            storeService.Init(storeProductIds);
         }
 
         private void FillInventoryData(GSData inventoryData, IList<GSData> playerActiveInventory)

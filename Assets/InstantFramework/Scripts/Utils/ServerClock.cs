@@ -3,13 +3,6 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 /// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-10-17 08:57:37 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
-
 using System.Collections.Generic;
 
 namespace TurboLabz.TLUtils
@@ -49,7 +42,8 @@ namespace TurboLabz.TLUtils
 
         private void SampleLatency(int latency)
         {
-            if (latencySamples.Count == latencySampleCount)
+            if ((latencySamples.Count != 0) && 
+                (latencySamples.Count == latencySampleCount))
             {
                 latencySamples.RemoveAt(0);
             }

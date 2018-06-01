@@ -104,7 +104,7 @@ namespace strange.extensions.mediation
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("ListensTo--> " + signal.GetType());
+                    Debug.Log(e.ToString() + "ListensTo: " + signal.GetType());
                 }
 			}
 			else

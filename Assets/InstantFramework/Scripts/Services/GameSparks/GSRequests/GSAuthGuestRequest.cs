@@ -42,6 +42,8 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> Send()
         {
+            TLUtils.LogUtil.Log("AUTH ...", "yellow");
+
             GSRequestSession.Instance.AddRequest(this);
             new DeviceAuthenticationRequest().Send(OnSuccess, OnFailure);
             return promise;
@@ -58,6 +60,8 @@ namespace TurboLabz.InstantFramework
         {
             if (!isExpired)
             {
+                TLUtils.LogUtil.Log("AUTH SUCCESS", "yellow");
+
                 DispatchResponse(BackendResult.SUCCESS);   
             }
         }
@@ -66,6 +70,8 @@ namespace TurboLabz.InstantFramework
         {
             if (!isExpired)
             {
+                TLUtils.LogUtil.Log("AUTH FAIL", "red");
+
                 DispatchResponse(BackendResult.AUTH_GUEST_REQUEST_FAILED);
             }
         }

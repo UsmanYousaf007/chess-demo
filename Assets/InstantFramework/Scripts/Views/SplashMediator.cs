@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2017-11-20 04:14:13 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantChess;
@@ -18,7 +11,9 @@ namespace TurboLabz.InstantFramework
     public class SplashMediator : Mediator
     {
         // Dispatch signals
-        [Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
+        //[Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public SplashAnimCompleteSignal splashAnimCompleteSignal { get; set; }
 
         // View injection
         [Inject] public SplashView view { get; set; }
@@ -54,7 +49,11 @@ namespace TurboLabz.InstantFramework
 
         private void OnSplashAnimationCompleted()
         {
-            loadGameSignal.Dispatch();
+            // TODO: Splash end to load game?
+           // loadGameSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SYSTEM_LOADING);
+            splashAnimCompleteSignal.Dispatch();
         }
     }
 }
+

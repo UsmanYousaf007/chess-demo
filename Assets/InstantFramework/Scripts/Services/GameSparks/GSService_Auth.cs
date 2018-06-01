@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthGuest()
         {
+            TurboLabz.TLUtils.LogUtil.Log("GSService_AuthGuest", "yellow");
+
             return new GSAuthGuestRequest().Send();
         }
 

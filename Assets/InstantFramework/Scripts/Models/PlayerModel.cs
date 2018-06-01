@@ -157,7 +157,6 @@ namespace TurboLabz.InstantFramework
 			}
 		}
 
-		[PostConstruct]
 		public void Load()
 		{
 			Reset();
@@ -167,9 +166,9 @@ namespace TurboLabz.InstantFramework
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
-           // bucks = metaDataModel.defaultStartingBucks;
-           // vGoods = new List<string>(metaDataModel.defaultVGoods);
-            activeSkinId = vGoods[0];
+            bucks = 0;//metaDataModel.defaultStartingBucks;
+            vGoods = null;//new List<string>(metaDataModel.defaultVGoods);
+            activeSkinId = null;//vGoods[0];
             adLifetimeImpressions = 1; // So we don't give him 0 bucks the first time as a reward
             adSlotImpressions = 0;
             adSlotId = 0;
