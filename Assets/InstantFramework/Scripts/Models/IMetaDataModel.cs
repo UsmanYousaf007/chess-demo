@@ -11,8 +11,8 @@ namespace TurboLabz.InstantFramework
     public interface IMetaDataModel
     {
         IStoreSettingsModel store { get; set; }
+        AdSettings adSettings { get; set; }
 
-        AdSettings adSettings { get; set; }                             // Ad settings
         int defaultStartingBucks { get; set; }
         string[] defaultVGoods { get; set; }
 

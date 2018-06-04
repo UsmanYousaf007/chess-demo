@@ -62,10 +62,27 @@ namespace TurboLabz.InstantFramework
 
             //CheckAndHandleMatchResume(response); // TODO: game dependency to remove
 
-            List<string> storeProductIds = storeSettingsModel.getRemoteProductIds();
-            storeService.Init(storeProductIds);
+            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
+            promise.Then(OnStoreInit);
 
             metaDataModel.store = storeSettingsModel;
+        }
+
+        private void OnStoreInit(bool success)
+        {
+            if (success) 
+            {
+                metaDataModel.store.remoteStoreAvailable = true;
+
+                foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items) 
+                {
+                    StoreItem storeItem = item.Value;
+                    if (storeItem.remoteProductId != null) 
+                    {
+                        storeItem.remoteProductPrice = storeService.GetItemLocalizedPrice (storeItem.remoteProductId);
+                    }
+                }
+            }
         }
 
         private void FillLeagueSettingsModel(IList<GSData> leagueSettingsData)

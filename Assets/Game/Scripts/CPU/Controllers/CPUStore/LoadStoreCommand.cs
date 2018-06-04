@@ -14,8 +14,7 @@ namespace TurboLabz.InstantChess
 {
 	public class LoadStoreCommand : Command
 	{
-        
-		// Dispatch Signals
+ 		// Dispatch Signals
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 		[Inject] public UpdateStoreSignal updateStoreSignal { get; set; }
 

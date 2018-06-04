@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
 
 	// Model data load signals
 	public class LoadMetaDataSignal : Signal {}
+    public class LoadMetaDataCompleteSignal : Signal {}
 
 	public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
 

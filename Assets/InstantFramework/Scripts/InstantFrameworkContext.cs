@@ -75,6 +75,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateGameInfoSignal>().ToSingleton();
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
 			injectionBinder.Bind<OwnedItemSignal>().ToSingleton();
+            injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
 
             injectionBinder.Bind<BackendErrorSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();

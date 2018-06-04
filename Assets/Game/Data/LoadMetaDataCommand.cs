@@ -50,17 +50,20 @@ namespace TurboLabz.InstantChess
 
         [Inject] public IMetaDataModel model { get; set; }
 		[Inject] public IStoreService storeService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+
+        // Dispatch Signals
+        [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
 
 		public override void Execute()
         {
-            model.store.Add("Skin", skinItems);
-            model.store.Add("BuckPack", buckPacks);
+            Retain();
+            backendService.GetInitData((int)(float.Parse(Application.version) * 100)).Then(OnGetInitData);
+        }
 
-			IPromise<bool> promise = storeService.Init(model.store.getRemoteProductIds());
-			promise.Then(OnStoreInit);
-
-			Retain();
-
+        private void InitMetaData()
+        {
             AdSettings adSettings = new AdSettings();
             adSettings.maxImpressionsPerSlot = ADS_MAX_IMPRESSIONS_PER_SLOT;
             adSettings.slotMinutes = Debug.isDebugBuild ? ADS_SLOT_DEBUG_MINUTES : ADS_SLOT_MINUTES;
@@ -71,34 +74,29 @@ namespace TurboLabz.InstantChess
             model.defaultStartingBucks = DEFAULT_STARTING_BUCKS;
             model.defaultVGoods = DEFAULT_VGOODS;
 
-			if (Debug.isDebugBuild) 
-			{
-				foreach (KeyValuePair<string, StoreItem> item in skinItems) 
-				{
-					StoreItem skinItem = item.Value;
-					skinItem.currency2Cost = 10;
-				}
-			}
+            if (Debug.isDebugBuild) 
+            {
+                foreach (KeyValuePair<string, StoreItem> item in skinItems) 
+                {
+                    StoreItem skinItem = item.Value;
+                    skinItem.currency2Cost = 10;
+                }
+            }
         }
-			
-		private void OnStoreInit(bool success)
-		{
-			if (success) 
-			{
-				model.store.remoteStoreAvailable = true;
 
-				foreach (KeyValuePair<string, StoreItem> item in model.store.items) 
-				{
-					StoreItem storeItem = item.Value;
-					if (storeItem.remoteProductId != null) 
-					{
-						storeItem.remoteProductPrice = storeService.GetItemLocalizedPrice (storeItem.remoteProductId);
-					}
-				}
-			}
+        private void OnGetInitData(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                backendErrorSignal.Dispatch(result);
+                Release();
+                return;
+            }
 
-			Release();
-		}
+            InitMetaData();
+            loadMetaDataCompleteSignal.Dispatch();
+            Release();
+        }
               
         #endregion
 	}
