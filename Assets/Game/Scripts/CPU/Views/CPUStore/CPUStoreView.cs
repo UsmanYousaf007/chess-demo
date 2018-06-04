@@ -86,7 +86,7 @@ namespace TurboLabz.InstantChess
 
 			prefabs = new List<SkinShopItemPrefab>();
 
-			List<StoreItem> list = metaDataModel.lists["Skin"];
+			List<StoreItem> list = metaDataModel.store.lists["Skin"];
 			foreach (StoreItem item in list) 
 			{
 				if (item.state == StoreItem.State.DISABLED) 

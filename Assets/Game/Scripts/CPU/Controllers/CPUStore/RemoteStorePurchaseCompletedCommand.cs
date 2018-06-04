@@ -40,7 +40,7 @@ namespace TurboLabz.InstantChess
 
 		private StoreItem FindRemoteStoreItem(string remoteId)
 		{
-			foreach (KeyValuePair<string, StoreItem> item in metaDataModel.items) 
+			foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items) 
 			{
 				StoreItem storeItem = item.Value;
 				if (storeItem.remoteProductId == remoteId) 

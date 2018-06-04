@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel  { get; set; }
+        [Inject] public IMetaDataModel metaDataModel  { get; set; }
 
 		// Services
 		[Inject] public IStoreService storeService { get; set; }
@@ -63,6 +64,8 @@ namespace TurboLabz.InstantFramework
 
             List<string> storeProductIds = storeSettingsModel.getRemoteProductIds();
             storeService.Init(storeProductIds);
+
+            metaDataModel.store = storeSettingsModel;
         }
 
         private void FillLeagueSettingsModel(IList<GSData> leagueSettingsData)
@@ -161,7 +164,7 @@ namespace TurboLabz.InstantFramework
 
             foreach (GSData itemData in skinSettingsData)
             {
-                var item = new SkinShopItem();
+                var item = new SkinStoreItem();
                 GSParser.PopulateShopItem(item, itemData);
                 GSData properties = GSParser.GetVGoodProperties(itemData);
                 if (properties != null)
@@ -181,7 +184,7 @@ namespace TurboLabz.InstantFramework
 
             foreach (GSData itemData in currencySetingsData)
             {
-                var item = new CurrencyShopItem();
+                var item = new CurrencyStoreItem();
                 GSParser.PopulateShopItem(item, itemData);
 
                 GSData properties = GSParser.GetVGoodProperties(itemData);

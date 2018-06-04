@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
 {
     public class StoreSettingsModel : IStoreSettingsModel
     {
+        public bool remoteStoreAvailable { get; set; }
         public IDictionary<string, List<StoreItem>> lists { get; set; }
         public IOrderedDictionary<string, StoreItem> items { get; set; }
 
@@ -38,7 +39,6 @@ namespace TurboLabz.InstantFramework
 			}
 			return ids;			
 		}
-
 
         public void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems)
         {
@@ -101,32 +101,12 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    /*
-    public class StoreItem
-    {
-        public string state;                // Disabled/Enabled
-        public string id;                   // Short Code
-        public string kind;                 // Classification
-        public string type;                 // VGOOD or CURRENCY
-        public string tier;                 // common, rare, epic, legendary
-        public int maxQuantity;             // Max quantity allowed to purchase
-        public string displayName;          
-        public string description;          
-        public int currency1Cost;           // Cost in currency1 or payout 
-                                            // in case of CURRENCY type
-        public int currency2Cost;           // Cost in currency2
-
-        public string storeProductId;       // Remote store product id
-    }
-    */
-
-
-    public class SkinShopItem : StoreItem
+    public class SkinStoreItem : StoreItem
     {
         public int unlockAtLevel;
     }
 
-    public class CurrencyShopItem : StoreItem
+    public class CurrencyStoreItem : StoreItem
     {
         public string promotionId;
         public float bonusXpPercentage;
@@ -135,17 +115,7 @@ namespace TurboLabz.InstantFramework
         public int bonusAmount;
     }
 
-    public class AvatarShopItem : StoreItem
-    {
-        public int unlockAtLevel;
-    }
-
-    public class ChatpackShopItem : StoreItem
-    {
-        public int unlockAtLevel;           
-    }
-
-    public class AvatarBorderShopItem : StoreItem
+    public class AvatarStoreItem : StoreItem
     {
         public int unlockAtLevel;
     }

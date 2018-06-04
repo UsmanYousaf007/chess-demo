@@ -45,7 +45,8 @@ namespace TurboLabz.InstantChess
             inProgress = cpuGameModel.inProgress;
             totalGames = cpuGameModel.totalGames;
 			activeSkinId = playerModel.activeSkinId;
-			activeSkinDisplayName = metaDataModel.items[activeSkinId].displayName;
+            LogUtil.Log("----------------------------------->" + activeSkinId);
+			activeSkinDisplayName = metaDataModel.store.items[activeSkinId].displayName;
 			playerBucks = playerModel.bucks;
             playerVGoods = playerModel.inventory;
         }

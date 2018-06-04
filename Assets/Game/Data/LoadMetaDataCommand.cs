@@ -53,10 +53,10 @@ namespace TurboLabz.InstantChess
 
 		public override void Execute()
         {
-            model.AddStoreItem("Skin", skinItems);
-            model.AddStoreItem("BuckPack", buckPacks);
+            model.store.Add("Skin", skinItems);
+            model.store.Add("BuckPack", buckPacks);
 
-			IPromise<bool> promise = storeService.Init(model.getRemoteProductIds());
+			IPromise<bool> promise = storeService.Init(model.store.getRemoteProductIds());
 			promise.Then(OnStoreInit);
 
 			Retain();
@@ -85,9 +85,9 @@ namespace TurboLabz.InstantChess
 		{
 			if (success) 
 			{
-				model.remoteStoreAvailable = true;
+				model.store.remoteStoreAvailable = true;
 
-				foreach (KeyValuePair<string, StoreItem> item in model.items) 
+				foreach (KeyValuePair<string, StoreItem> item in model.store.items) 
 				{
 					StoreItem storeItem = item.Value;
 					if (storeItem.remoteProductId != null) 

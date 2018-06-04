@@ -10,13 +10,15 @@ namespace TurboLabz.InstantFramework
 {
     public interface IStoreSettingsModel
     {
+        bool remoteStoreAvailable { get; set; }
+        IDictionary<string, List<StoreItem>> lists { get; set; }
+        IOrderedDictionary<string, StoreItem> items { get; set; }
+
         void Reset();
         void Initialize();
         void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems);
         List<string> getRemoteProductIds();
 
-        IDictionary<string, List<StoreItem>> lists { get; set; }
-        IOrderedDictionary<string, StoreItem> items { get; set; }
     }
 }
 

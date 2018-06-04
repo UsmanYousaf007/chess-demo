@@ -12,15 +12,9 @@ namespace TurboLabz.InstantFramework
     {
         IStoreSettingsModel store { get; set; }
 
-		bool remoteStoreAvailable { get; set; }
-		IOrderedDictionary<string, StoreItem> items { get; set; }		// All items dictionary
-        IDictionary<string, List<StoreItem>> lists { get; set; }		// Categorized lists of items by kind
         AdSettings adSettings { get; set; }                             // Ad settings
         int defaultStartingBucks { get; set; }
         string[] defaultVGoods { get; set; }
-
-		void AddStoreItem(string kind, IOrderedDictionary<string, StoreItem> kindItems);
-		List<string> getRemoteProductIds();
 
         void AddAdSettings(AdSettings settings);
 
