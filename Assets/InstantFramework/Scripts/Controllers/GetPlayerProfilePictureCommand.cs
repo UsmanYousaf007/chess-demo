@@ -29,7 +29,6 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IInventoryModel inventoryModel { get; set; }
 
         public override void Execute()
         {
@@ -65,7 +64,7 @@ namespace TurboLabz.InstantFramework
                 playerModel.profilePictureFB = sprite;
 
                 // Views to update profile picture only if FB avatar is activated
-                if(inventoryModel.activeAvatarsId == "AvatarFacebook")
+                if(playerModel.activeAvatarId == "AvatarFacebook")
                 {
                     playerModel.profilePicture = playerModel.profilePictureFB;
                     updatePlayerProfilePictureSignal.Dispatch(sprite);  

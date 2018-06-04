@@ -50,7 +50,7 @@ namespace TurboLabz.InstantChess
             if (result == AdsResult.FINISHED)
             {
                 int rewardBucks = playerModel.adLifetimeImpressions * metaDataModel.adSettings.adsRewardIncrement;
-                playerModel.currency2 += rewardBucks;
+                playerModel.bucks += rewardBucks;
                 playerModel.adLifetimeImpressions++;
                 playerModel.adSlotImpressions++;
 

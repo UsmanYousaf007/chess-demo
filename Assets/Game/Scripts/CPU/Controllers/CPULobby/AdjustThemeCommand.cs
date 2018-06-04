@@ -8,7 +8,7 @@ using UnityEngine;
 using TurboLabz.InstantFramework;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
-
+/*
 namespace TurboLabz.InstantChess
 {
 	public class AdjustThemeCommand : Command
@@ -51,3 +51,4 @@ namespace TurboLabz.InstantChess
 		}
 	}
 }
+*/

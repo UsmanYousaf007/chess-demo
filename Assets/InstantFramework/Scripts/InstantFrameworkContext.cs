@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
-			commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
+			//commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
 
@@ -121,7 +121,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ILevelSettingsModel>().To<LevelSettingsModel>().ToSingleton();
             injectionBinder.Bind<IRoomSettingsModel>().To<RoomSettingsModel>().ToSingleton();
             injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
-            injectionBinder.Bind<IInventoryModel>().To<InventoryModel>().ToSingleton();
             injectionBinder.Bind<IPromotionsModel>().To<PromotionsModel>().ToSingleton();
             injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton();
 
@@ -149,7 +148,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
             commandBinder.Bind<AdjustDurationSignal>().To<AdjustDurationCommand>();
             commandBinder.Bind<AdjustPlayerColorSignal>().To<AdjustPlayerColorCommand>();
-			commandBinder.Bind<AdjustThemeSignal>().To<AdjustThemeCommand>();
+			//commandBinder.Bind<AdjustThemeSignal>().To<AdjustThemeCommand>();
             commandBinder.Bind<DevFenValueChangedSignal>().To<DevFenChangedCommand>();
             commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();

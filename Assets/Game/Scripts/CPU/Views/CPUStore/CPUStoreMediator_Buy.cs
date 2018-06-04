@@ -13,7 +13,7 @@ namespace TurboLabz.InstantChess
 	{
 		// Dispatch Signals
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-		[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+		//[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
 
 		public void OnRegisterBuy()
@@ -59,7 +59,7 @@ namespace TurboLabz.InstantChess
 
 		private void OnBuyButtonClicked(StoreItem item)
 		{
-			purchaseStoreItemSignal.Dispatch(item.key, true);
+			//purchaseStoreItemSignal.Dispatch(item.key, true);
 			loadStoreSignal.Dispatch();
 		}
 	}

@@ -18,43 +18,59 @@ namespace TurboLabz.InstantFramework
     public class PlayerModel : IPlayerModel
     {
 		[Inject] public ILocalDataService localDataService { get; set; }
-       // [Inject] public IMetaDataModel metaDataModel { get; set; }
 
-        public string activeSkinId { get; set; }            // TODO: move to prefs
-        public string activeAvatarsId { get; set; }        // TODO: move to prefs
+        // Player Private Profile
+        public string id { get; set; }
+        public string tag { get; set; }
+        public string name { get; set; }
+        public string countryId { get; set; }
+        public Sprite profilePicture { get; set; }
+        public Sprite profilePictureBorder { get; set; }
+        public Sprite profilePictureFB { get; set; }
+        public int xp { get; set; }
+        public int level { get; set; }
+        public int nextMedalAt { get; set; }
+        public int medals { get; set; }
+        // public int totalGamesWon { get; }
+        // public int totalGamesLost { get; }
+        // public int totalGamesDrawn { get; }
+        // public int totalGames { get; }
 
-		public int bucks { get; set; }
-		public List<string> vGoods { get; set; }
+        // Player Public Profile
+        // public PublicProfile publicProfile { get; }
+
+        // Currency 
+        public long currency1 { get; set; }
+        public long bucks { get; set; }
+        public long currency1Winnings { get; set; }
+
+        // League & ELO
+        public string leagueId { get; set; }
+        public string league { get; set; }
+        public string eloDivision { get; set; }
+        public int eloScore { get; set; }
+        public int eloTotalPlacementGames { get; set; }
+        public int eloCompletedPlacementGames { get; set; }
+        // public bool isEloEstablished { get; }
+
+        // The keys of the dictionary are the IDs of the rooms.
+        public IDictionary<string, RoomRecord> roomRecords { get; set; }
+
+        // Social
+        public bool isSocialNameSet { get; set; }
+        // public bool hasExternalAuth { get; }
+        public IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications { get; set; }
+
+        // Ads Info
         public int adLifetimeImpressions { get; set; }
         public int adSlotImpressions { get; set; }
         public long adSlotId { get; set; }
 
-		public string id { get; set; }
-		public string tag { get; set; }
-		public string name { get; set; }
-		public string countryId { get; set; }
-		public Sprite profilePicture { get; set; }
-		public Sprite profilePictureBorder { get; set; }
-		public Sprite profilePictureFB { get; set; }
-		public long currency1 { get; set; } // coins
-		public long currency2 { get; set; } // bucks
-		public long currency1Winnings { get; set; }
-		public int xp { get; set; }
-		public int level { get; set; }
-		public string leagueId { get; set; }
-		public string eloDivision { get; set; }
-		public int eloScore { get; set; }
-		public int eloTotalPlacementGames { get; set; }
-		public int eloCompletedPlacementGames { get; set; }
-		public string league { get; set; }
-		public int nextMedalAt { get; set; }
-		public int medals { get; set; }
-
-		// The keys of the dictionary are the IDs of the rooms.
-		public IDictionary<string, RoomRecord> roomRecords { get; set; }
-
-		public bool isSocialNameSet { get; set; }
-		public IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications { get; set; }
+        // Inventory
+        public string activeSkinId { get; set; }                           // TODO: move to prefs
+        public string activeAvatarId { get; set; }                         // TODO: move to prefs
+        public IOrderedDictionary<string, int> inventory { get; set; }
+        public List<string> vGoods { get; set; }
 
 		public bool isEloEstablished
 		{
@@ -166,7 +182,6 @@ namespace TurboLabz.InstantFramework
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
-            bucks = 0;//metaDataModel.defaultStartingBucks;
             vGoods = null;//new List<string>(metaDataModel.defaultVGoods);
             activeSkinId = null;//vGoods[0];
             adLifetimeImpressions = 1; // So we don't give him 0 bucks the first time as a reward
@@ -181,7 +196,7 @@ namespace TurboLabz.InstantFramework
 			profilePictureBorder = null;
 			profilePictureFB = null;
 			currency1 = 0;
-			currency2 = 0;
+			bucks = 0;
 			currency1Winnings = 0;
 			xp = 0;
 			level = 0;
@@ -213,6 +228,7 @@ namespace TurboLabz.InstantFramework
 
 		public void LoadFromFile()
 		{
+            /*
 			if (!localDataService.FileExists(SaveKeys.PLAYER_SAVE_FILENAME))
 			{
 				return;
@@ -224,7 +240,7 @@ namespace TurboLabz.InstantFramework
 
 				id = reader.Read<string>(SaveKeys.PLAYER_ID);
 				activeSkinId = reader.Read<string>(SaveKeys.PLAYER_ACTIVE_SKIN_ID);
-				bucks = reader.Read<int>(SaveKeys.PLAYER_BUCKS);
+				//bucks = reader.Read<int>(SaveKeys.PLAYER_BUCKS);
 				vGoods = reader.ReadList<string>(SaveKeys.PLAYER_VGOODS);
                 adLifetimeImpressions = reader.Read<int>(SaveKeys.PLAYER_AD_LIFE_TIME_IMPRESSIONS);
                 adSlotImpressions = reader.Read<int>(SaveKeys.PLAYER_AD_SLOT_IMPRESSIONS);
@@ -238,17 +254,19 @@ namespace TurboLabz.InstantFramework
 				localDataService.DeleteFile(SaveKeys.PLAYER_SAVE_FILENAME);
 				Reset();
 			}
+   */         
 		}
 
 		public void SaveToFile()
 		{
+            /*
 			try
 			{
 				ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.PLAYER_SAVE_FILENAME);
 
 				writer.Write<string>(SaveKeys.PLAYER_ID, id);
 				writer.Write<string>(SaveKeys.PLAYER_ACTIVE_SKIN_ID, activeSkinId);
-				writer.Write<int>(SaveKeys.PLAYER_BUCKS, bucks);
+				//writer.Write<int>(SaveKeys.PLAYER_BUCKS, bucks);
 				writer.WriteList<string>(SaveKeys.PLAYER_VGOODS, vGoods);
                 writer.Write<int>(SaveKeys.PLAYER_AD_LIFE_TIME_IMPRESSIONS, adLifetimeImpressions);
                 writer.Write<int>(SaveKeys.PLAYER_AD_SLOT_IMPRESSIONS, adSlotImpressions);
@@ -265,6 +283,7 @@ namespace TurboLabz.InstantFramework
 
 				LogUtil.Log("Critical error when saving player data. File deleted. " + e, "red");
 			}
+   */         
 		}
 
     }

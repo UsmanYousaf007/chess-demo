@@ -48,7 +48,7 @@ namespace TurboLabz.InstantChess
 				CreatePrefabs(vo);	
 			}
 
-			playerBucks.text = vo.playerModel.currency2.ToString();
+			playerBucks.text = vo.playerModel.bucks.ToString();
 			PopulateSkins(vo);
 		}
 
@@ -108,6 +108,7 @@ namespace TurboLabz.InstantChess
 
 		private void PopulateSkins(CPUStoreVO vo)
 		{
+            /*
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
             Color colorOwned = Colors.YELLOW;
             Color colorNormal = Colors.WHITE_TEXT;
@@ -136,6 +137,7 @@ namespace TurboLabz.InstantChess
 					skinThumbnail.bucksIcon.gameObject.SetActive (true);
 				}
 			}
+   */         
 		}
 
 		private void OnSkinItemClicked(StoreItem item)

@@ -107,7 +107,7 @@ namespace TurboLabz.InstantChess
 		private void OnSkinItemClicked(StoreItem item)
 		{
 			// Purchase item after confirmation 
-			purchaseStoreItemSignal.Dispatch(item.key, false);
+			//purchaseStoreItemSignal.Dispatch(item.key, false);
 		}
     }
 }

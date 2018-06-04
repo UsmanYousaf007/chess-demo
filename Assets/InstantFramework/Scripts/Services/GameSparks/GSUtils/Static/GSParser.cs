@@ -135,7 +135,7 @@ namespace TurboLabz.InstantFramework
             return found ? knownTags[i]: null;
         }
 
-        public static void PopulateShopItem(ShopItem item, GSData itemData)
+        public static void PopulateShopItem(StoreItem item, GSData itemData)
         {
             const string unrecognized = "unrecognized";
             const string defaultTier = GSBackendKeys.ShopItem.SHOP_ITEM_TIER_COMMON;
@@ -163,9 +163,9 @@ namespace TurboLabz.InstantFramework
             string tier = SearchTags(tags, tagTiers);
             string state = SearchTags(tags, tagState);
 
-            item.state = state ?? "Enabled";
-            item.id = itemData.GetString(GSBackendKeys.SHOP_ITEM_ID);
-            item.type = itemData.GetString(GSBackendKeys.SHOP_ITEM_TYPE);
+            item.state = state == null ? StoreItem.State.ENABLED : StoreItem.State.DISABLED;
+            item.key = itemData.GetString(GSBackendKeys.SHOP_ITEM_ID);
+            item.type = itemData.GetString(GSBackendKeys.SHOP_ITEM_TYPE) == "VGOOD" ? StoreItem.Type.VGOOD : StoreItem.Type.CURRENCY;
             item.kind = kind ?? unrecognized;
             item.tier = tier ?? defaultTier;
             item.displayName = itemData.GetString(GSBackendKeys.SHOP_ITEM_DISPLAYNAME);
@@ -173,9 +173,9 @@ namespace TurboLabz.InstantFramework
             item.currency1Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY1COST);
             item.currency2Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY2COST);
             item.maxQuantity = GetSafeInt(itemData,GSBackendKeys.SHOP_ITEM_MAX_QUANTITY);
-            item.storeProductId = GSParser.GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_STORE_PRODUCT_ID, null);
+            item.remoteProductId = GSParser.GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_STORE_PRODUCT_ID, null);
 
-            LogUtil.Log("********** PopulateShopItem: " + item.id);
+            LogUtil.Log("********** PopulateShopItem: " + item.key);
         }
 
         public static void PopulateInventory(IOrderedDictionary<string, int> items, GSData inventoryData)
@@ -197,9 +197,8 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public static void GetActiveInventory(ref string activeChessSkinsId,
-            ref string activeAvatarsId,
-            ref string activeAvatarsBorderId,
+        public static void GetActiveInventory(ref string activeSkinId,
+            ref string activeAvatarId,
             IList<GSData> activeInventoryData)
         {
             if (activeInventoryData != null && activeInventoryData.Count > 0)
@@ -216,55 +215,90 @@ namespace TurboLabz.InstantFramework
 
                     if (itemKind == GSBackendKeys.ShopItem.SKIN_SHOP_TAG)
                     {
-                        activeChessSkinsId = itemId;
+                        activeSkinId = itemId;
                     }
                     else if (itemKind == GSBackendKeys.ShopItem.AVATAR_SHOP_TAG)
                     {
-                        activeAvatarsId = itemId;
-                    }
-                    else if (itemKind == GSBackendKeys.ShopItem.AVATARBORDER_SHOP_TAG)
-                    {
-                        activeAvatarsBorderId = itemId;
+                        activeAvatarId = itemId;
                     }
                 }
             }
         }
 
-        public static void PopulateActiveInventory(IInventoryModel inventoryModel,
+        public static void PopulateActiveInventory(IPlayerModel playerModel,
             IList<GSData> activeInventoryData)
         {
             if (activeInventoryData != null && activeInventoryData.Count > 0)
             {
-                string activeChessSkinsId = "";
-                string activeAvatarsId = "";
-                string activeAvatarsBorderId = "";
-                GetActiveInventory(ref activeChessSkinsId,
-                    ref activeAvatarsId,
-                    ref activeAvatarsBorderId,
-                    activeInventoryData);
+                string activeSkinId = "";
+                string activeAvatarId = "";
 
-                inventoryModel.activeChessSkinId = activeChessSkinsId;
-                inventoryModel.activeAvatarsId = activeAvatarsId;
-                inventoryModel.activeAvatarsBorderId = activeAvatarsBorderId;
+                GetActiveInventory(ref activeSkinId, ref activeAvatarId, activeInventoryData);
+
+                playerModel.activeSkinId = activeSkinId;
+                playerModel.activeAvatarId = activeAvatarId;
             }
         }
 
-        public static void LogInventory(IOrderedDictionary<string, int> items)
+        public static void LogPlayerInfo(IPlayerModel playerModel)
         {
-            LogUtil.Log("---------------- LOG INVENTORY ------------------");
-            foreach (KeyValuePair<string, int> item in items)
+            LogUtil.Log("******************** BEGIN PLAYER INFO ********************");
+
+            // Player Private Profile
+            LogUtil.Log("********** playerModel.id" + " " + playerModel.id);
+            LogUtil.Log("********** playerModel.tag" + " " + playerModel.tag);
+            LogUtil.Log("********** playerModel.name" + " " + playerModel.name);
+            LogUtil.Log("********** playerModel.countryId" + " " + playerModel.countryId);
+            LogUtil.Log("********** playerModel.profilePicture" + " " + playerModel.profilePicture);
+            LogUtil.Log("********** playerModel.profilePictureFB" + " " + playerModel.profilePictureFB);
+            LogUtil.Log("********** playerModel.xp" + " " + playerModel.xp);
+            LogUtil.Log("********** playerModel.nextMedalAt" + " " + playerModel.nextMedalAt);
+            LogUtil.Log("********** playerModel.medals" + " " + playerModel.medals);
+            LogUtil.Log("********** playerModel.totalGamesWon" + " " + playerModel.totalGamesWon);
+            LogUtil.Log("********** playerModel.totalGamesLost" + " " + playerModel.totalGamesLost);
+            LogUtil.Log("********** playerModel.totalGamesDrawn" + " " + playerModel.totalGamesDrawn);
+            LogUtil.Log("********** playerModel.totalGames" + " " + playerModel.totalGames);
+
+            // Player Public Profile
+            //PublicProfile publicProfile { get; }
+
+            // Currency 
+            LogUtil.Log("********** playerModel.currency1" + " " + playerModel.currency1);
+            LogUtil.Log("********** playerModel.bucks" + " " + playerModel.bucks);
+            LogUtil.Log("********** playerModel.currency1Winnings" + " " + playerModel.currency1Winnings);
+
+            // League & Rating
+            LogUtil.Log("********** playerModel.leagueId" + " " + playerModel.leagueId);
+            LogUtil.Log("********** playerModel.league" + " " + playerModel.league);
+            LogUtil.Log("********** playerModel.eloDivision" + " " + playerModel.eloDivision);
+            LogUtil.Log("********** playerModel.eloScore" + " " + playerModel.eloScore);
+            LogUtil.Log("********** playerModel.eloTotalPlacementGames" + " " + playerModel.eloTotalPlacementGames);
+            LogUtil.Log("********** playerModel.eloCompletedPlacementGames" + " " + playerModel.eloCompletedPlacementGames);
+            LogUtil.Log("********** playerModel.isEloEstablished" + " " + playerModel.isEloEstablished);
+
+            // The keys of the dictionary are the IDs of the rooms.
+            //IDictionary<string, RoomRecord> roomRecords { get; set; }
+
+            // Social
+            //IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications { get; set; }
+            LogUtil.Log("********** playerModel.isSocialNameSet" + " " + playerModel.isSocialNameSet);
+            LogUtil.Log("********** playerModel.hasExternalAuth" + " " + playerModel.hasExternalAuth);
+
+
+            // Ads Info
+            LogUtil.Log("********** playerModel.adLifetimeImpressions" + " " + playerModel.adLifetimeImpressions);
+            LogUtil.Log("********** playerModel.adSlotImpressions" + " " + playerModel.adSlotImpressions);
+            LogUtil.Log("********** playerModel.adSlotId" + " " + playerModel.adSlotId);
+
+            // Inventory
+            foreach (KeyValuePair<string, int> item in playerModel.inventory)
             {
-                LogUtil.Log("Inventory Item: " + item.Key + " Quantity: " + item.Value);
+                LogUtil.Log("********** playerModel.inventory " + item.Key + " Quantity: " + item.Value);
             }
-        }
+            LogUtil.Log("********** playerModel.activeSkinId" + " " + playerModel.activeSkinId);
+            LogUtil.Log("********** playerModel.activeAvatarId" + " " + playerModel.activeAvatarId);
 
-        public static void LogActiveInventory(IInventoryModel inventoryModel)
-        {
-            LogUtil.Log("---------------- LOG ACTIVE INVENTORY ------------------");
-            LogUtil.Log("Active Inventory Item: " + inventoryModel.activeChessSkinId);
-            LogUtil.Log("Active Inventory Item: " + inventoryModel.activeAvatarsId);
-            LogUtil.Log("Active Inventory Item: " + inventoryModel.activeAvatarsBorderId);
+            LogUtil.Log("******************** END PLAYER INFO ********************");
         }
-
     }
 }

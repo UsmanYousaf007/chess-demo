@@ -14,7 +14,7 @@ namespace TurboLabz.InstantChess
 	{
 		[Inject] public BuckPacksDlgView view { get; set; }
 
-		[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+		//[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
 		public override void OnRegister()
@@ -55,7 +55,7 @@ namespace TurboLabz.InstantChess
 
 		private void OnBuckPackClicked(StoreItem item)
 		{
-			purchaseStoreItemSignal.Dispatch(item.key, true);
+			//purchaseStoreItemSignal.Dispatch(item.key, true);
 			navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 		}
 

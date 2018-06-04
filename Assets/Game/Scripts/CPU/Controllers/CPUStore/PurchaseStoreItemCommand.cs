@@ -11,6 +11,7 @@ using TurboLabz.TLUtils;
 using UnityEngine;
 using strange.extensions.promise.api;
 
+/*
 namespace TurboLabz.InstantChess
 {
 	public class PurchaseStoreItemCommand : Command
@@ -52,7 +53,7 @@ namespace TurboLabz.InstantChess
 				// Case Player is clear to purchase item
 				Purchase(item);
 			} 
-			else if (playerModel.currency2 < item.currency2Cost) 
+			else if (playerModel.bucks < item.currency2Cost) 
 			{
 				// Case Player does not have enough bucks
 				navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
@@ -73,7 +74,7 @@ namespace TurboLabz.InstantChess
 			} 
 			else 
 			{
-				playerModel.currency2 -= item.currency2Cost;
+				playerModel.bucks -= item.currency2Cost;
 				playerModel.vGoods.Add(key);
 				savePlayerSignal.Dispatch();
 
@@ -85,3 +86,4 @@ namespace TurboLabz.InstantChess
 		}
 	}
 }
+*/

@@ -10,6 +10,9 @@ namespace TurboLabz.InstantFramework
 {
     public class MetaDataModel : IMetaDataModel
     {
+
+        public IStoreSettingsModel store { get; set; }
+
 		public bool remoteStoreAvailable { get; set; }
         public IDictionary<string, List<StoreItem>> lists { get;  set;}
         public IOrderedDictionary<string, StoreItem> items { get; set;}
@@ -64,7 +67,7 @@ namespace TurboLabz.InstantFramework
     }
 
     #region DataStructures
-
+    /*
     public class StoreItem
     {
         public string key;                  // Identifier
@@ -112,6 +115,7 @@ namespace TurboLabz.InstantFramework
 			remoteProductPrice = null;
 		}
 	}
+ */   
 
     public class AdSettings
     {

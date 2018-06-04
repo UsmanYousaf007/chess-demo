@@ -12,11 +12,11 @@ namespace TurboLabz.InstantFramework
     {
         void Reset();
         void Initialize();
-        void Add(string kind, IOrderedDictionary<string, ShopItem> kindItems);
-        List<string> getProductIds();
+        void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems);
+        List<string> getRemoteProductIds();
 
-        IDictionary<string, List<ShopItem>> lists { get; set; }
-        IOrderedDictionary<string, ShopItem> items { get; set; }
+        IDictionary<string, List<StoreItem>> lists { get; set; }
+        IOrderedDictionary<string, StoreItem> items { get; set; }
     }
 }
 

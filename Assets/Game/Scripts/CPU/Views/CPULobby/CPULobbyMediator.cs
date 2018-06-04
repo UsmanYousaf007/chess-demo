@@ -26,7 +26,7 @@ namespace TurboLabz.InstantChess
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public AdjustDurationSignal adjustTimerSignal { get; set; }
         [Inject] public AdjustPlayerColorSignal adjustPlayerColorSignal { get; set; }
-		[Inject] public AdjustThemeSignal adjustThemeSignal { get; set; }
+		//[Inject] public AdjustThemeSignal adjustThemeSignal { get; set; }
         [Inject] public StartNewGameSignal startCPUGameSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -206,12 +206,12 @@ namespace TurboLabz.InstantChess
 
 		private void OnIncThemeButtonClicked()
 		{
-			adjustThemeSignal.Dispatch(true);
+			//adjustThemeSignal.Dispatch(true);
 		}
 
 		private void OnDecThemeButtonClicked()
 		{
-			adjustThemeSignal.Dispatch(false);
+			//adjustThemeSignal.Dispatch(false);
 		}
 
         private void OnIncPlayerColorButtonClicked()

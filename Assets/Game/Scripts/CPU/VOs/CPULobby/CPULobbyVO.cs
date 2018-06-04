@@ -29,7 +29,7 @@ namespace TurboLabz.InstantChess
         public bool inProgress;
         public int totalGames;
 		public long playerBucks;
-		public List<string> playerVGoods;
+        public IOrderedDictionary<string, int> playerVGoods;
 		public string activeSkinId;
 		public string activeSkinDisplayName;
 
@@ -46,8 +46,8 @@ namespace TurboLabz.InstantChess
             totalGames = cpuGameModel.totalGames;
 			activeSkinId = playerModel.activeSkinId;
 			activeSkinDisplayName = metaDataModel.items[activeSkinId].displayName;
-			playerBucks = playerModel.currency2;
-			playerVGoods = playerModel.vGoods;
+			playerBucks = playerModel.bucks;
+            playerVGoods = playerModel.inventory;
         }
     }
 }

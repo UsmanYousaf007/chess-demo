@@ -8,7 +8,6 @@ namespace TurboLabz.InstantFramework
     public class ApplyPlayerInventoryCommand : Command
     {
         // Models
-        [Inject] public IInventoryModel inventoryModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
@@ -17,7 +16,6 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
 
-        private static string activeAvatarsBorderIdCache = "unassigned";
         private static string activeAvatarsIdCache = "unassigned";
         private static string activeChessSkinsIdCache = "unassigned";
 
@@ -31,9 +29,8 @@ namespace TurboLabz.InstantFramework
         {
             bool isBackendUpdateRequired = 
                 (
-                    (activeAvatarsBorderIdCache != inventoryModel.activeAvatarsBorderId) ||
-                    (activeAvatarsIdCache != inventoryModel.activeAvatarsId) ||
-                    (activeChessSkinsIdCache != inventoryModel.activeChessSkinId)
+                    (activeAvatarsIdCache != playerModel.activeAvatarId) ||
+                    (activeChessSkinsIdCache != playerModel.activeSkinId)
                 );
 
             // Apply avatar
@@ -57,9 +54,9 @@ namespace TurboLabz.InstantFramework
             // Update inventory on the back end
             if (isBackendUpdateRequired)
             {
-                backendService.UpdateActiveInventory(inventoryModel.activeChessSkinId, 
-                    inventoryModel.activeAvatarsId,
-                    inventoryModel.activeAvatarsBorderId).Then(OnProcessApplyPlayerInventory);
+                backendService.UpdateActiveInventory(playerModel.activeSkinId, 
+                    playerModel.activeAvatarId,
+                    null).Then(OnProcessApplyPlayerInventory);
             }
         }
 
@@ -71,9 +68,8 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                activeAvatarsBorderIdCache = inventoryModel.activeAvatarsBorderId;
-                activeAvatarsIdCache = inventoryModel.activeAvatarsId;
-                activeChessSkinsIdCache = inventoryModel.activeChessSkinId;
+                activeAvatarsIdCache = playerModel.activeAvatarId;
+                activeChessSkinsIdCache = playerModel.activeSkinId;
             }
 
             Release();

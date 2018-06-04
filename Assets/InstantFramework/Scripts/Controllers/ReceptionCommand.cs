@@ -27,8 +27,6 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-            TLUtils.LogUtil.Log("RECEPTION COMMAND Execute ******** ");
-
             ResetModels();
             GSRequestSession.Instance.EndSession();
             // Refactor version number calculation into proper util class
@@ -92,7 +90,6 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
-        [Inject] public IInventoryModel inventoryModel { get; set; }
         [Inject] public ILeagueSettingsModel leagueSettingsModel { get; set; }
         [Inject] public ILevelSettingsModel levelSettingsModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -105,7 +102,6 @@ namespace TurboLabz.InstantFramework
         void ResetModels()
         {
             appInfoModel.Reset();
-            inventoryModel.Reset();
             leagueSettingsModel.Reset();
             levelSettingsModel.Reset();
             matchInfoModel.Reset();
@@ -113,8 +109,7 @@ namespace TurboLabz.InstantFramework
             promotionsModel.Reset();
             roomSettingsModel.Reset();
             storeSettingsModel.Reset();
-            inventoryModel.Reset();
-        }
+         }
 
         #endregion
 

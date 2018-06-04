@@ -23,7 +23,7 @@ namespace TurboLabz.InstantChess
     public class AdjustStrengthSignal : Signal<bool> {}
     public class AdjustDurationSignal : Signal<bool> {}
     public class AdjustPlayerColorSignal : Signal<bool> {}
-	public class AdjustThemeSignal : Signal<bool> {}
+	//public class AdjustThemeSignal : Signal<bool> {}
     public class UpdateStrengthSignal : Signal<CPULobbyVO> {}
     public class UpdateDurationSignal : Signal<CPULobbyVO> {}
     public class UpdatePlayerColorSignal : Signal<CPULobbyVO> {}
@@ -50,7 +50,7 @@ namespace TurboLabz.InstantChess
 	// CPU STORE
 	public class LoadStoreSignal : Signal {}
 	public class UpdateStoreSignal : Signal<CPUStoreVO> {}
-	public class PurchaseStoreItemSignal : Signal<string, bool> {}
+	//public class PurchaseStoreItemSignal : Signal<string, bool> {}
 	public class UpdateStoreBuyDlgSignal : Signal<StoreItem> {}
 	public class UpdateStoreNotEnoughBucksDlgSignal : Signal<StoreItem> {}
 	public class UpdateStoreBuckPacksDlgSignal : Signal<CPUStoreVO> {}

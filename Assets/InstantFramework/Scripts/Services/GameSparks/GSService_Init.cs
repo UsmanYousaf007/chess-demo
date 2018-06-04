@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-12-16 02:54:18 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using System.Collections.Generic;
 
@@ -26,7 +19,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILeagueSettingsModel leagueSettingsModel { get; set; }
         [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
-        [Inject] public IInventoryModel inventoryModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel  { get; set; }
 
 		// Services
@@ -62,39 +54,15 @@ namespace TurboLabz.InstantFramework
             GSData shopSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(shopSettingsData);
 
-            IList<GSData> activeInventoryData = response.ScriptData.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
-
             GSData accountDetailsData = response.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
 
-            GSData inventoryData = accountDetailsData.GetGSData(GSBackendKeys.ACCOUNT_VIRTUALGOODS);
-
-            FillInventoryData(inventoryData, activeInventoryData);
-
-            // Call the same method as for successful retrieval of account
-            // details since we process the account details data in exactly the
-            // same manner.
             OnAccountDetailsSuccess(accountDetailsResponse);
 
             //CheckAndHandleMatchResume(response); // TODO: game dependency to remove
 
-            List<string> storeProductIds = storeSettingsModel.getProductIds();
-
+            List<string> storeProductIds = storeSettingsModel.getRemoteProductIds();
             storeService.Init(storeProductIds);
-        }
-
-        private void FillInventoryData(GSData inventoryData, IList<GSData> playerActiveInventory)
-        {
-            IOrderedDictionary<string, int> items = new OrderedDictionary<string, int>(); 
-
-            GSParser.PopulateInventory(items, inventoryData);
-
-            inventoryModel.items = items;
-
-            GSParser.PopulateActiveInventory(inventoryModel, playerActiveInventory);
-
-            GSParser.LogInventory(items);
-            GSParser.LogActiveInventory(inventoryModel);
         }
 
         private void FillLeagueSettingsModel(IList<GSData> leagueSettingsData)
@@ -173,31 +141,23 @@ namespace TurboLabz.InstantFramework
         private void FillStoreSettingsModel(GSData shopSettingsData)
         {
             List<GSData> skinShopItemsData = shopSettingsData.GetGSDataList("skinShopItems");
-            IOrderedDictionary<string, ShopItem> skinItems = PopulateSkinShopItems(skinShopItemsData);
+            IOrderedDictionary<string, StoreItem> skinItems = PopulateSkinShopItems(skinShopItemsData);
 
             List<GSData> currencyShopItemsData = shopSettingsData.GetGSDataList("coinsShopItems");
-            IOrderedDictionary<string, ShopItem> currencyItems = PopulateCurrencyShopItems(currencyShopItemsData);
+            IOrderedDictionary<string, StoreItem> currencyItems = PopulateCurrencyShopItems(currencyShopItemsData);
 
-            List<GSData> avatarShopItemsData = shopSettingsData.GetGSDataList("avatarShopItems");
-            IOrderedDictionary<string, ShopItem> avatarItems = PopulateAvatarShopItems(avatarShopItemsData);
-
-            List<GSData> chatpackShopItemsData = shopSettingsData.GetGSDataList("chatpackShopItems");
-            IOrderedDictionary<string, ShopItem> chatpackItems = PopulateChatapackShopItems(chatpackShopItemsData);
-
-            List<GSData> avatarBorderShopItemsData = shopSettingsData.GetGSDataList("avatarBorderShopItems");
-            IOrderedDictionary<string, ShopItem> avatarBorderItems = PopulateAvatarBorderShopItems(avatarBorderShopItemsData);
+            //List<GSData> avatarShopItemsData = shopSettingsData.GetGSDataList("avatarShopItems");
+            //IOrderedDictionary<string, ShopItem> avatarItems = PopulateAvatarShopItems(avatarShopItemsData);
 
             storeSettingsModel.Initialize();
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.AVATAR_SHOP_TAG, avatarItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.CHATPACK_SHOP_TAG, chatpackItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.AVATARBORDER_SHOP_TAG, avatarBorderItems);
+            //storeSettingsModel.Add(GSBackendKeys.ShopItem.AVATAR_SHOP_TAG, avatarItems);
         }
 
-        private IOrderedDictionary<string, ShopItem> PopulateSkinShopItems(List<GSData> skinSettingsData)
+        private IOrderedDictionary<string, StoreItem> PopulateSkinShopItems(List<GSData> skinSettingsData)
         {
-            IOrderedDictionary<string, ShopItem> items = new OrderedDictionary<string, ShopItem>();
+            IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
 
             foreach (GSData itemData in skinSettingsData)
             {
@@ -209,15 +169,15 @@ namespace TurboLabz.InstantFramework
                     item.unlockAtLevel = GSParser.GetSafeInt(properties, GSBackendKeys.SHOP_ITEM_UNLOCKATLEVEL);
                 }
 
-                items.Add(item.id, item);
+                items.Add(item.key, item);
             }
 
             return items;
         }
 
-        private IOrderedDictionary<string, ShopItem> PopulateCurrencyShopItems(List<GSData> currencySetingsData)
+        private IOrderedDictionary<string, StoreItem> PopulateCurrencyShopItems(List<GSData> currencySetingsData)
         {
-            IOrderedDictionary<string, ShopItem> items = new OrderedDictionary<string, ShopItem>();
+            IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
 
             foreach (GSData itemData in currencySetingsData)
             {
@@ -234,12 +194,13 @@ namespace TurboLabz.InstantFramework
                     item.bonusAmount = GSParser.GetSafeInt(properties,GSBackendKeys.SHOP_ITEM_BONUS_AMOUNT);
                 }
 
-                items.Add(item.id, item);
+                items.Add(item.key, item);
 			}
 
             return items;
         }
 
+        /*
         private IOrderedDictionary<string, ShopItem> PopulateAvatarShopItems(List<GSData> avatarSettingData)
         {
             IOrderedDictionary<string, ShopItem> items = new OrderedDictionary<string, ShopItem>();
@@ -254,35 +215,7 @@ namespace TurboLabz.InstantFramework
 
             return items;
         }
+        */
 
-        private IOrderedDictionary<string, ShopItem> PopulateAvatarBorderShopItems(List<GSData> avatarBorderSettingData)
-        {
-            IOrderedDictionary<string, ShopItem> items = new OrderedDictionary<string, ShopItem>();
-
-            foreach (GSData itemData in avatarBorderSettingData)
-            {
-                var item = new AvatarBorderShopItem();
-                GSParser.PopulateShopItem(item, itemData);
-
-                items.Add(item.id, item);
-            }
-
-            return items;
-        }
-
-        private IOrderedDictionary<string, ShopItem> PopulateChatapackShopItems(List<GSData> chatpackSettingsData)
-        {
-            IOrderedDictionary<string, ShopItem> items = new OrderedDictionary<string, ShopItem>();
-
-            foreach (GSData itemData in chatpackSettingsData)
-            {
-                var item = new ChatpackShopItem();
-                GSParser.PopulateShopItem(item, itemData);
-
-                items.Add(item.id, item);
-            }
-
-            return items;
-        }
     }
 }

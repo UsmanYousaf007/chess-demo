@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
             var res = response.ScriptData.GetGSData("rewardInfo");
             long bucks = res.GetInt("bucks").Value;
 
-            playerModel.currency2 += bucks;
+            playerModel.bucks += bucks;
         }
     }
 }

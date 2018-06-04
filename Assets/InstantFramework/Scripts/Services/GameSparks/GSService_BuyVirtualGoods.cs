@@ -24,7 +24,6 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-
                 if (response.ScriptData != null)
                 {
                     // Bought coins
@@ -38,7 +37,7 @@ namespace TurboLabz.InstantFramework
                 // Consume bucks
                 if (response.CurrencyType == 2 && response.CurrencyConsumed.HasValue)
                 {
-                    playersModel.currency2 -= response.CurrencyConsumed.Value;
+                    playersModel.bucks -= response.CurrencyConsumed.Value;
                 }
 
                 GSEnumerable<BuyVirtualGoodResponse._Boughtitem> virtualGoods = response.BoughtItems;
@@ -48,14 +47,14 @@ namespace TurboLabz.InstantFramework
                     string shopItemId = v.ShortCode;
 
                     int count = 0;
-                    if (inventoryModel.items.ContainsKey(shopItemId))
+                    if (playersModel.inventory.ContainsKey(shopItemId))
                     {
-                        count = inventoryModel.items[shopItemId] + 1;
-                        inventoryModel.items[shopItemId] = count;
+                        count = playersModel.inventory[shopItemId] + 1;
+                        playersModel.inventory[shopItemId] = count;
                     }
                     else
                     {
-                        inventoryModel.items.Add(shopItemId, 1); 
+                        playersModel.inventory.Add(shopItemId, 1); 
                     }
                 }
             }

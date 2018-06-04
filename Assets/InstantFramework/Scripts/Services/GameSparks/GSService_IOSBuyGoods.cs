@@ -22,7 +22,8 @@ namespace TurboLabz.InstantFramework
 
 		private void OnIOSBuyGoodsSuccess(BuyVirtualGoodResponse response)
         {
-            GSData records = response.ScriptData.GetGSData("TODO");
+            // TODO: Handle ios purchase
+            //GSData records = response.ScriptData.GetGSData("TODO");
         }
     }
 }

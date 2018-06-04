@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
             // Bought bucks
             if (response.Currency2Added.HasValue)
             {
-                playersModel.currency2 += response.Currency2Added.Value;
+                playersModel.bucks += response.Currency2Added.Value;
                 LogUtil.Log("********* GooglePlayBuyGoods BUCKS ADDED ---> " + response.Currency2Added.Value);
             }
         }
