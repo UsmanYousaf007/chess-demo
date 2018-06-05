@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
 {
     public interface IMetaDataModel
     {
+        IAppInfoModel appInfo  { get; set; }
         IStoreSettingsModel store { get; set; }
         AdSettings adSettings { get; set; }
 

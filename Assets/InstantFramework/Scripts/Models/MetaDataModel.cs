@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
 {
     public class MetaDataModel : IMetaDataModel
     {
+        public IAppInfoModel appInfo  { get; set; }
         public IStoreSettingsModel store { get; set; }
 
         public AdSettings adSettings { get; set; }
@@ -29,6 +30,8 @@ namespace TurboLabz.InstantFramework
 
         private void Reset()
         {
+            appInfo = null;
+            store = null;
             adSettings = null;
         }
     }

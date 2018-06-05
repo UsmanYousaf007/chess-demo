@@ -54,8 +54,6 @@ namespace TurboLabz.InstantFramework
 
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             promise.Then(OnStoreInit);
-
-            metaDataModel.store = storeSettingsModel;
         }
 
         private void OnStoreInit(bool success)

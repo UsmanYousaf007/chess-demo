@@ -18,9 +18,10 @@ namespace TurboLabz.InstantFramework
 		IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> GetInitData(int clientVersion);
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string activeAvatarsId, string activeAvatarsBorderId);
+        IPromise<BackendResult> AuthFacebook();
 
 		/*
-        IPromise<BackendResult> AuthFacebook();
+
         IPromise<BackendResult> TestRequest(string eventKey);
 
         IPromise<BackendResult> GetAccountDetails();

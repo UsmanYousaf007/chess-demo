@@ -48,7 +48,19 @@ namespace TurboLabz.InstantChess
 
         #region LoadMetaData
 
+        // Models
         [Inject] public IMetaDataModel model { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public ILeagueSettingsModel leagueSettingsModel { get; set; }
+        [Inject] public ILevelSettingsModel levelSettingsModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPromotionsModel promotionsModel { get; set; }
+        [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+
+        // Services
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
 
@@ -59,11 +71,17 @@ namespace TurboLabz.InstantChess
 		public override void Execute()
         {
             Retain();
+            ResetModels();
+
+            // TODO: version needs to correspond to backend version rather than application version 
             backendService.GetInitData((int)(float.Parse(Application.version) * 100)).Then(OnGetInitData);
         }
 
         private void InitMetaData()
         {
+            model.appInfo = appInfoModel;
+            model.store = storeSettingsModel;
+
             AdSettings adSettings = new AdSettings();
             adSettings.maxImpressionsPerSlot = ADS_MAX_IMPRESSIONS_PER_SLOT;
             adSettings.slotMinutes = Debug.isDebugBuild ? ADS_SLOT_DEBUG_MINUTES : ADS_SLOT_MINUTES;
@@ -96,6 +114,18 @@ namespace TurboLabz.InstantChess
             InitMetaData();
             loadMetaDataCompleteSignal.Dispatch();
             Release();
+        }
+
+        void ResetModels()
+        {
+            appInfoModel.Reset();
+            leagueSettingsModel.Reset();
+            levelSettingsModel.Reset();
+            matchInfoModel.Reset();
+            playerModel.Reset();
+            promotionsModel.Reset();
+            roomSettingsModel.Reset();
+            storeSettingsModel.Reset();
         }
               
         #endregion

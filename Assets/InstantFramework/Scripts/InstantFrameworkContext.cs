@@ -2,19 +2,10 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-09-07 16:38:23 UTC+05:00
-/// 
-/// @description
-/// 
 
 using UnityEngine;
-
 using strange.extensions.context.api;
 using strange.extensions.context.impl;
-
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantChess;
@@ -69,6 +60,9 @@ namespace TurboLabz.InstantFramework
 			// Bind signals to models data loader commands
 			commandBinder.Bind<LoadMetaDataSignal>().To<LoadMetaDataCommand>();
 
+            // Bind signals to social commands
+            commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
+
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
@@ -76,13 +70,11 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
 			injectionBinder.Bind<OwnedItemSignal>().ToSingleton();
             injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
-
+            injectionBinder.Bind<AuthFacebookCompleteSignal>().ToSingleton();
             injectionBinder.Bind<BackendErrorSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
-
             injectionBinder.Bind<UpdatePlayerProfilePictureSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerProfilePictureInfoSignal>().ToSingleton();
-
             //injectionBinder.Bind<UpdateSetPlayerSocialNameViewSignal>().ToSingleton();
 
             // Bind views to mediators
