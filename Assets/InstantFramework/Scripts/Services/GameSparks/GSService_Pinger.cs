@@ -22,10 +22,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        // Utils
-        [Inject] public IRoutineRunner routineRunner { get; set; }
-        [Inject] public IServerClock serverClock { get; set; }
-      
         private int initialPingCount;
 
         public void StartPinger()

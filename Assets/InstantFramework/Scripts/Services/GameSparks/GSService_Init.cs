@@ -15,16 +15,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        // Models
-        [Inject] public ILeagueSettingsModel leagueSettingsModel { get; set; }
-        [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
-        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
-        [Inject] public IAppInfoModel appInfoModel  { get; set; }
-        [Inject] public IMetaDataModel metaDataModel  { get; set; }
-
-		// Services
-		[Inject] public IStoreService storeService { get; set; }
-
         public IPromise<BackendResult> GetInitData(int clientVersion)
         {
             return new GSGetInitDataRequest().Send(clientVersion, OnGetInitDataSuccess);

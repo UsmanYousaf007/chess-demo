@@ -73,7 +73,9 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                
                 loadLobbySignal.Dispatch();
+                //loadGameSignal.Dispatch();
             }
  
             Release();

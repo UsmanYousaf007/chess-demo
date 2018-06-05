@@ -23,9 +23,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ReceptionSignal receptionSignal { get; set; }
-
         public void MonitorConnectivity()
         {
             GS.GameSparksAvailable += GameSparksAvailable;

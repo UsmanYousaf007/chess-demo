@@ -2,13 +2,8 @@
 /// @copyright Copyright (C) DefaultCompany 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-09-10 12:02:40 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
+
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -16,11 +11,23 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ReceptionSignal receptionSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ILeagueSettingsModel leagueSettingsModel { get; set; }
+        [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel  { get; set; }
+        [Inject] public IMetaDataModel metaDataModel  { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IStoreService storeService { get; set; }
+
+        // Utils
+        [Inject] public IRoutineRunner routineRunner { get; set; }
+        [Inject] public IServerClock serverClock { get; set; }
     }
 }
