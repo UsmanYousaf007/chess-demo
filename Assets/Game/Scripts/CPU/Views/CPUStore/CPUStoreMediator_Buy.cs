@@ -12,7 +12,6 @@ namespace TurboLabz.InstantChess
 	public partial class CPUStoreMediator
 	{
 		// Dispatch Signals
-		//[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
 
 		public void OnRegisterBuy()
@@ -58,8 +57,21 @@ namespace TurboLabz.InstantChess
 
 		private void OnBuyButtonClicked(StoreItem item)
 		{
-			//purchaseStoreItemSignal.Dispatch(item.key, true);
-			loadStoreSignal.Dispatch();
+            // Make the confirmed purchase
+            purchaseResultSignal.AddListener(OnBuyPurchaseResult);
+			purchaseStoreItemSignal.Dispatch(item.key, true);
 		}
+
+        private void OnBuyPurchaseResult(StoreItem item, PurchaseResult result)
+        {
+            purchaseResultSignal.RemoveListener(OnBuyPurchaseResult);
+
+            if (result == PurchaseResult.PURCHASE_FAILURE)
+            {
+                // TODO: Show a message to user in case of purchase failure
+            }
+
+            loadStoreSignal.Dispatch();
+        }
 	}
 }
