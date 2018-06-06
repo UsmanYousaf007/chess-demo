@@ -12,7 +12,6 @@ namespace TurboLabz.InstantChess
 	public partial class CPUStoreMediator
 	{
 		// Dispatch Signals
-		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 		//[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
 

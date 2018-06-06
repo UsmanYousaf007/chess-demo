@@ -70,7 +70,7 @@ namespace TurboLabz.InstantFramework
         public string activeSkinId { get; set; }                           // TODO: move to prefs
         public string activeAvatarId { get; set; }                         // TODO: move to prefs
         public IOrderedDictionary<string, int> inventory { get; set; }
-        public List<string> vGoods { get; set; }
+        //public List<string> vGoods { get; set; }
 
 		public bool isEloEstablished
 		{
@@ -182,7 +182,7 @@ namespace TurboLabz.InstantFramework
         public void Reset()
         {
             id = CPUSettings.DEFAULT_PLAYER_ID;
-            vGoods = null;//new List<string>(metaDataModel.defaultVGoods);
+            //vGoods = null;//new List<string>(metaDataModel.defaultVGoods);
             activeSkinId = null;//vGoods[0];
             adLifetimeImpressions = 1; // So we don't give him 0 bucks the first time as a reward
             adSlotImpressions = 0;
@@ -213,17 +213,7 @@ namespace TurboLabz.InstantFramework
 
 		public bool ownsVGood(string key)
 		{
-			bool found = false;
-			foreach (string item in vGoods) 
-			{
-				found = item == key;
-				if (found == true) 
-				{
-					break;
-				}
-			}
-
-            return found;
+            return inventory.ContainsKey(key);
 		}
 
 		public void LoadFromFile()

@@ -21,6 +21,9 @@ namespace TurboLabz.InstantChess
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
 
+        // test
+        [Inject] public ApplySkinSignal applySkinSignal { get; set; }
+
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -28,6 +31,8 @@ namespace TurboLabz.InstantChess
 
         public override void Execute()
         {
+            applySkinSignal.Dispatch(playerModel.activeSkinId);
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
 			CPULobbyVO vo = new CPULobbyVO(cpuGameModel, playerModel, metaDataModel);

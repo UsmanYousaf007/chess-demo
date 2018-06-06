@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
-			//commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
+			commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
 
@@ -68,7 +68,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateGameInfoSignal>().ToSingleton();
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
-			injectionBinder.Bind<OwnedItemSignal>().ToSingleton();
             injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookCompleteSignal>().ToSingleton();
             injectionBinder.Bind<BackendErrorSignal>().ToSingleton();
@@ -217,6 +216,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateFreeBucksRewardSignal>().ToSingleton();
 			injectionBinder.Bind<UpdatePlayerBucksDisplaySignal>().ToSingleton();
             injectionBinder.Bind<ToggleAdBlockerSignal>().ToSingleton();
+            injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();
