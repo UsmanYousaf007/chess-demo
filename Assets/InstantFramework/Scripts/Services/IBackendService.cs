@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> GetInitData(int clientVersion);
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string activeAvatarsId, string activeAvatarsBorderId);
         IPromise<BackendResult> AuthFacebook();
+        IPromise<BackendResult> SetPlayerSocialName(string name);
 
 		/*
 
@@ -27,7 +28,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> GetAccountDetails();
         IPromise<BackendResult> FindMatch(string groupId);
         IPromise<BackendResult> GetGameStartTime(string challengeId);
-        IPromise<BackendResult> SetPlayerSocialName(string name);
         IPromise<BackendResult> ClaimReward(string rewardType);
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
         IPromise<BackendResult> ConsumeVirtualGood(int quantity, string shortCode);

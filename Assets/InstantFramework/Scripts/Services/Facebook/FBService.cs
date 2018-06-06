@@ -32,5 +32,10 @@ namespace TurboLabz.InstantFramework
         {
             return new FBGetProfilePictureRequest().Send(userId);
         }
+
+        public IPromise<FacebookResult, string> GetUserName()
+        {
+            return new FBUserNameRequest().Send();
+        }
     }
 }
