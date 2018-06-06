@@ -52,7 +52,7 @@ namespace TurboLabz.InstantChess
 			}
 
 			IMetaDataModel metaDataModel = vo.storeSettingsModel;
-			List<StoreItem> list = metaDataModel.store.lists["BuckPack"];
+			List<StoreItem> list = metaDataModel.store.lists["CoinPack"];
 			foreach (StoreItem item in list) 
 			{
 				BuckPackItemPrefab thumbnail = buckPackPrefabs[item.key];
@@ -105,7 +105,7 @@ namespace TurboLabz.InstantChess
 
 			buckPackPrefabs = new Dictionary<string, BuckPackItemPrefab>();
 
-			List<StoreItem> list = metaDataModel.store.lists["BuckPack"];
+			List<StoreItem> list = metaDataModel.store.lists["CoinPack"];
 			foreach (StoreItem item in list) 
 			{
 				BuckPackItemPrefab thumbnail = Object.Instantiate(prefab);
