@@ -115,6 +115,13 @@ namespace TurboLabz.InstantFramework
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
+            #if UNITY_EDITOR
+            // Purchases cannot be verified when running in the editor
+            remoteStorePurchaseCompletedSignal.Dispatch(e.purchasedProduct.definition.id);
+            return PurchaseProcessingResult.Complete;
+            #endif
+
+            #if !UNITY_EDITOR
             purchaseState = purchaseProcessState.PURCHASE_STATE_PENDING;
 
             if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
@@ -122,18 +129,20 @@ namespace TurboLabz.InstantFramework
                 pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
             }
 
-            #if UNITY_ANDROID || UNITY_EDITOR
-                GooglePurchaseData googlePurchaseData = new GooglePurchaseData (e.purchasedProduct.receipt);
-                backendService.GooglePlayBuyGoods(e.purchasedProduct.transactionID, "", googlePurchaseData.inAppDataSignature, 
-                    googlePurchaseData.inAppPurchaseData, 0).Then(OnVerifiedPurchase);
+            #if UNITY_ANDROID
+            GooglePurchaseData googlePurchaseData = new GooglePurchaseData (e.purchasedProduct.receipt);
+            backendService.GooglePlayBuyGoods(e.purchasedProduct.transactionID, "", googlePurchaseData.inAppDataSignature, 
+                googlePurchaseData.inAppPurchaseData, 0).Then(OnVerifiedPurchase);
             #endif
 
             #if UNITY_IPHONE
             // TODO: Implement AppStore transaction verification
             #endif
 
+
             // Always send pending to allow gamesparks to verify the purchase.
             return PurchaseProcessingResult.Pending;
+            #endif
  		}
 
         public void OnVerifiedPurchase(BackendResult result, string transactionID)
