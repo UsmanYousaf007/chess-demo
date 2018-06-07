@@ -16,6 +16,7 @@ using TurboLabz.TLUtils;
 using System.Collections;
 using Facebook.Unity;
 using GameSparks.Core;
+using GameSparks.Api.Messages;
 
 namespace TurboLabz.InstantFramework
 {

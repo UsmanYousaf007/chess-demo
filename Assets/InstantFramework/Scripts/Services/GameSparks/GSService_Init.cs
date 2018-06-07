@@ -192,6 +192,9 @@ namespace TurboLabz.InstantFramework
                 var item = new CurrencyStoreItem();
                 GSParser.PopulateShopItem(item, itemData);
 
+                item.currency2Payout = item.currency2Cost;
+                item.currency2Cost = 0;
+
                 GSData properties = GSParser.GetVGoodProperties(itemData);
                 if (properties != null)
                 {

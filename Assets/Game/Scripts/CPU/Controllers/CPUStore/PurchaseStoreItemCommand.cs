@@ -4,15 +4,9 @@
 /// Proprietary and confidential
 
 using strange.extensions.command.impl;
-using TurboLabz.InstantFramework;
-using System.Collections.Generic;
-using System;
 using TurboLabz.TLUtils;
-using UnityEngine;
-using strange.extensions.promise.api;
 
-/*
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantFramework
 {
 	public class PurchaseStoreItemCommand : Command
 	{
@@ -21,69 +15,75 @@ namespace TurboLabz.InstantChess
 		[Inject] public bool clearForPurchase { get; set; }
 
 		// Dispatch Signals
-		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
-		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-		[Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
-		[Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
-		[Inject] public OwnedItemSignal ownedItemSignal { get; set; }
+        [Inject] public PurchaseStoreItemResultSignal purchaseResultSignal { get; set; }
 
 		// Models
-		[Inject] public IMetaDataModel storeSettingsModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
 
 		// Services
+        [Inject] public IBackendService backendService { get; set; }
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
-		public override void Execute()
-		{
-			StoreItem item = storeSettingsModel.items[key];
+        private StoreItem item;
 
-			if (playerModel.ownsVGood(key) == true)
-			{
-				// Case item is already owned
-				playerModel.activeSkinId = key;
-				ownedItemSignal.Dispatch(key);
+        public override void Execute()
+        {
+            item = metaDataModel.store.items[key];
+            PurchaseResult purchaseResult = PurchaseResult.NONE;
 
-				return;
-			}
+            if (playerModel.ownsVGood(key) == true)
+            {
+                purchaseResult = PurchaseResult.ALREADY_OWNED;
+            }
+            else if (playerModel.bucks < item.currency2Cost) 
+            {
+                purchaseResult = PurchaseResult.NOT_ENOUGH_BUCKS;
+            } 
+            else if (clearForPurchase == false)
+            {
+                purchaseResult = PurchaseResult.PERMISSION_TO_PURCHASE;
+            }
 
-			if (clearForPurchase == true) 
-			{
-				// Case Player is clear to purchase item
-				Purchase(item);
-			} 
-			else if (playerModel.bucks < item.currency2Cost) 
-			{
-				// Case Player does not have enough bucks
-				navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
-			} 
-			else 
-			{
-				// Case Ask Player for purchase confirmation
-				updateStoreBuyDlgSignal.Dispatch(item);
-				navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_BUY_DLG);
-			}
-		}
+            // Perform purchase if clear for purchase
+            if (purchaseResult == PurchaseResult.NONE)
+            {
+                Purchase(item);
+            }
+            else
+            {
+                purchaseResultSignal.Dispatch(item, purchaseResult);
+            }
+        }
 
-		private void Purchase(StoreItem item)
-		{
-			if (item.remoteProductId != null) 
-			{
-				storeService.BuyProduct(item.remoteProductId);
-			} 
-			else 
-			{
-				playerModel.bucks -= item.currency2Cost;
-				playerModel.vGoods.Add(key);
-				savePlayerSignal.Dispatch();
+        private void Purchase(StoreItem item)
+        {
+            if (item.remoteProductId != null) 
+            {
+                // Purchase from remote store
+                storeService.BuyProduct(item.remoteProductId);
+            } 
+            else 
+            {
+                // Virtual good purchase
+                Retain();
+                backendService.BuyVirtualGoods(2, 1, item.key).Then(OnPurchase);
+            }
+        }
 
-				playerModel.activeSkinId = key;
-				ownedItemSignal.Dispatch(key);
+        private void OnPurchase(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_FAILURE);
+            }
+            else
+            {
+                purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
+            }
 
-                analyticsService.PurchaseSkin(key);
-			}
-		}
+            Release();
+        }
 	}
 }
-*/

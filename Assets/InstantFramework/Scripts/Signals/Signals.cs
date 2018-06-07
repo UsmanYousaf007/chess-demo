@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
 	public class BackendErrorSignal : Signal<BackendResult> {}
 	public class SplashAnimCompleteSignal : Signal {}
 	public class ReceptionSignal : Signal {}
+    public class LoadLobbySignal : Signal {}
 
     public class GetPlayerProfilePictureSignal : Signal {}
     public class GetOpponentProfilePictureSignal : Signal {}
@@ -42,10 +43,10 @@ namespace TurboLabz.InstantFramework
     public class ApplyPlayerInventorySignal : Signal {}
     public class InitBackendOnceSignal : Signal {}
 
-    public class LoadLobbySignal : Signal {}
 
     public class UpdatePlayerProfilePictureSignal : Signal<Sprite> {}
     public class UpdatePlayerProfilePictureInfoSignal : Signal<Sprite> {}
 
-
+    public class PurchaseStoreItemSignal : Signal<string, bool> {}
+    public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}
 }

@@ -21,8 +21,7 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            Retain();
-            loadMetaDataCompleteSignal.AddListener(OnLoadDataComplete);
+            CommandBegin();
 
             GSRequestSession.Instance.EndSession();
             loadMetaDataSignal.Dispatch();
@@ -31,19 +30,29 @@ namespace TurboLabz.InstantFramework
             
         private void OnLoadDataComplete()
         {
-            loadMetaDataCompleteSignal.RemoveListener(OnLoadDataComplete);
-
             // Check version information. Prompt the player if an update is needed.
             if (model.appInfo.appVersionValid == false)
             {
                 // TODO: handle application update message
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE_APP);
-                Release();
+                CommandEnd();
                 return;
             }
-
+                
             loadLobbySignal.Dispatch();
+            CommandEnd();
+        }
+
+        private void CommandBegin()
+        {
+            Retain();
+            loadMetaDataCompleteSignal.AddListener(OnLoadDataComplete);
+        }
+
+        private void CommandEnd()
+        {
+            loadMetaDataCompleteSignal.RemoveListener(OnLoadDataComplete);
             Release();
         }
 

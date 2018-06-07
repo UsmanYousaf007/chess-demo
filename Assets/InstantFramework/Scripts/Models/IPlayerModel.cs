@@ -65,5 +65,6 @@ namespace TurboLabz.InstantFramework
 
         void Reset();
         void SaveToFile();
+        bool ownsVGood(string key);
 	}
 }

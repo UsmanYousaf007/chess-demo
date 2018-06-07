@@ -108,13 +108,13 @@ namespace TurboLabz.InstantChess
 
 		private void PopulateSkins(CPUStoreVO vo)
 		{
-            /*
+            
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
             Color colorOwned = Colors.YELLOW;
             Color colorNormal = Colors.WHITE_TEXT;
 
 			int i = 0;
-			List<StoreItem> list = metaDataModel.lists["Skin"];
+			List<StoreItem> list = metaDataModel.store.lists["Skin"];
 			foreach (StoreItem item in list) 
 			{
 				if (item.state == StoreItem.State.DISABLED) 
@@ -124,7 +124,7 @@ namespace TurboLabz.InstantChess
 
 				SkinShopItemPrefab skinThumbnail = prefabs[i++];
 
-				if (vo.playerModel.ownsVGood (item.key)) 
+                if (vo.playerModel.ownsVGood(item.key)) 
 				{
 					skinThumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_OWNED);
 					skinThumbnail.price.color = colorOwned;
@@ -137,7 +137,7 @@ namespace TurboLabz.InstantChess
 					skinThumbnail.bucksIcon.gameObject.SetActive (true);
 				}
 			}
-   */         
+            
 		}
 
 		private void OnSkinItemClicked(StoreItem item)

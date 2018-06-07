@@ -17,11 +17,17 @@ namespace TurboLabz.InstantChess
 		[Inject] public CPUStoreView view { get; set; }
 
 		// Dispatch signals
-		[Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
+		[Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
 		[Inject] public ApplySkinSignal applySkinSignal { get; set; }
 		[Inject] public UpdateSkinSignal updateSkinSignal { get; set; }
-		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
+        [Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
+
+        // Listen to signals
+        [Inject] public PurchaseStoreItemResultSignal purchaseResultSignal { get; set; }
 
  		public override void OnRegister()
 		{
@@ -73,13 +79,6 @@ namespace TurboLabz.InstantChess
 			view.UpdatePlayerBucks(playerBucks);
 		}
 
-		[ListensTo(typeof(OwnedItemSignal))]
-		public void OnOwnedItemSignal(string key)
-		{
-			applySkinSignal.Dispatch(key);
-			updateSkinSignal.Dispatch();
-		}
-
 		[ListensTo(typeof(GameAppEventSignal))]
 		public void OnAppEvent(AppEvent evt)
 		{
@@ -90,13 +89,13 @@ namespace TurboLabz.InstantChess
 
 			if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
 			{
-				savePlayerSignal.Dispatch();
+                return;
 			}
 		}
 
 		private void OnBackButtonClicked()
 		{
-			loadCPUGameSignal.Dispatch();
+			loadLobbySignal.Dispatch();
 		}
 
 		public void OnAddBucksButtonClicked()
@@ -107,7 +106,28 @@ namespace TurboLabz.InstantChess
 		private void OnSkinItemClicked(StoreItem item)
 		{
 			// Purchase item after confirmation 
-			//purchaseStoreItemSignal.Dispatch(item.key, false);
+            purchaseResultSignal.AddListener(OnPurchaseResult);
+			purchaseStoreItemSignal.Dispatch(item.key, false);
 		}
+
+        private void OnPurchaseResult(StoreItem item, PurchaseResult result)
+        {
+            purchaseResultSignal.RemoveListener(OnPurchaseResult);
+
+            if (result == PurchaseResult.ALREADY_OWNED)
+            {
+                applySkinSignal.Dispatch(item.key);
+                updateSkinSignal.Dispatch();
+            }
+            else if (result == PurchaseResult.NOT_ENOUGH_BUCKS)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
+            }
+            else if (result == PurchaseResult.PERMISSION_TO_PURCHASE)
+            {
+                updateStoreBuyDlgSignal.Dispatch(item);
+                navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_BUY_DLG);
+            }
+        }
     }
 }
