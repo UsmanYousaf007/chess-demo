@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
     public static partial class GSBackendKeys
     {
         // App Version Settings
-        public const string APP_VERSION_NUMBER = "appVersionNumber";
         public const string APP_VERSION_VALID = "appVersionValid";
         public const string APP_ANDROID_URL = "androidURL";
         public const string APP_IOS_URL = "iosURL";

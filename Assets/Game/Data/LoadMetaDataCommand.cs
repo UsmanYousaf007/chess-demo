@@ -49,8 +49,9 @@ namespace TurboLabz.InstantChess
             Retain();
             ResetModels();
 
-            // TODO: version needs to correspond to backend version rather than application version 
-            backendService.GetInitData((int)(float.Parse(Application.version) * 100)).Then(OnGetInitData);
+            appInfoModel.RetrieveAppVersion();
+            LogUtil.Log("Client AppVersion: " + appInfoModel.appVersion + " Backend Version: " + appInfoModel.appBackendVersion, "cyan");
+            backendService.GetInitData(int.Parse(appInfoModel.appBackendVersion)).Then(OnGetInitData);
         }
 
         private void InitMetaData()
