@@ -35,6 +35,8 @@ namespace TurboLabz.InstantChess
         // Scene references
         public Image cover;
 
+        public Button shareButton;
+
         public Text strengthLabel;
         public Button decStrengthButton;
         public Text prevStrengthLabel;
@@ -86,12 +88,14 @@ namespace TurboLabz.InstantChess
 
         public void Init()
         {
+            shareButton.onClick.AddListener(OnShareAppButtonClicked);
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
             playButton.onClick.AddListener(OnPlayButtonClicked);
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
             freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
+
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
@@ -108,6 +112,7 @@ namespace TurboLabz.InstantChess
 
         public void CleanUp()
         {
+            shareButton.onClick.RemoveAllListeners();
             decStrengthButton.onClick.RemoveAllListeners();
             incStrengthButton.onClick.RemoveAllListeners();
             playButton.onClick.RemoveAllListeners();
