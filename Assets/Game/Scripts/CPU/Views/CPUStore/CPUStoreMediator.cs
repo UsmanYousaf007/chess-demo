@@ -17,11 +17,10 @@ namespace TurboLabz.InstantChess
 		[Inject] public CPUStoreView view { get; set; }
 
 		// Dispatch signals
-		[Inject] public LoadCPUGameSignal loadCPUGameSignal { get; set; }
+		[Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
 		[Inject] public ApplySkinSignal applySkinSignal { get; set; }
 		[Inject] public UpdateSkinSignal updateSkinSignal { get; set; }
-		[Inject] public SavePlayerSignal savePlayerSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
@@ -90,13 +89,13 @@ namespace TurboLabz.InstantChess
 
 			if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
 			{
-				savePlayerSignal.Dispatch();
+                return;
 			}
 		}
 
 		private void OnBackButtonClicked()
 		{
-			loadCPUGameSignal.Dispatch();
+			loadLobbySignal.Dispatch();
 		}
 
 		public void OnAddBucksButtonClicked()

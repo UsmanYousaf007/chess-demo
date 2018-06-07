@@ -15,15 +15,22 @@ namespace TurboLabz.InstantFramework
 {
 	public class UnityIAPService : IStoreListener, IStoreService
     {
+        // Services
+        [Inject] public IBackendService backendService { get; set; }
+
+        // Dispatch Signals
 		[Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
 
         IStoreController storeController = null;
 		IPromise<bool> promise = null;
 		purchaseProcessState purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
 
+        private Dictionary<string, Product> pendingVerification = new Dictionary<string, Product>();
+
 		enum purchaseProcessState
 		{
 			PURCHASE_STATE_NONE,
+            PURCHASE_STATE_PENDING,
 			PURCHASE_STATE_FAIL,
 			PURCHASE_STATE_SUCCESS
 		}
@@ -103,16 +110,46 @@ namespace TurboLabz.InstantFramework
                 storeController.InitiatePurchase(product);
             }
 
-			return purchaseState == purchaseProcessState.PURCHASE_STATE_SUCCESS;
+            return purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
         }
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
-			purchaseState = purchaseProcessState.PURCHASE_STATE_SUCCESS;
-			remoteStorePurchaseCompletedSignal.Dispatch(e.purchasedProduct.definition.id);
+            purchaseState = purchaseProcessState.PURCHASE_STATE_PENDING;
 
-			return PurchaseProcessingResult.Complete;
-		}
+            if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
+            {
+                pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
+            }
+
+            #if UNITY_ANDROID || UNITY_EDITOR
+                GooglePurchaseData googlePurchaseData = new GooglePurchaseData (e.purchasedProduct.receipt);
+                backendService.GooglePlayBuyGoods(e.purchasedProduct.transactionID, "", googlePurchaseData.inAppDataSignature, 
+                    googlePurchaseData.inAppPurchaseData, 0).Then(OnVerifiedPurchase);
+            #endif
+
+            #if UNITY_IPHONE
+            // TODO: Implement AppStore transaction verification
+            #endif
+
+            // Always send pending to allow gamesparks to verify the purchase.
+            return PurchaseProcessingResult.Pending;
+ 		}
+
+        public void OnVerifiedPurchase(BackendResult result, string transactionID)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                // Confirm the pending purchase
+                if (pendingVerification.ContainsKey(transactionID))
+                {
+                    storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
+                    remoteStorePurchaseCompletedSignal.Dispatch(pendingVerification[transactionID].definition.id);
+
+                    pendingVerification.Remove(transactionID);
+                }
+            }
+        }
 
 		public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
 		{

@@ -33,8 +33,6 @@ namespace TurboLabz.InstantChess
 				return;
 			}
 
-			playerModel.bucks += item.currency2Payout;
-			savePlayerSignal.Dispatch();
 			updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 		}
 
