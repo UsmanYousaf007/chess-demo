@@ -53,7 +53,10 @@ namespace TurboLabz.InstantFramework
             //CheckAndHandleMatchResume(response); // TODO: game dependency to remove
 
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
-            promise.Then(OnStoreInit);
+            if (promise != null)
+            {
+                promise.Then(OnStoreInit);
+            }
         }
 
         private void OnStoreInit(bool success)
