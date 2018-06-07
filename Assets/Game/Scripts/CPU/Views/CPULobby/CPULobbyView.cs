@@ -21,6 +21,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System;
 using System.Collections;
+using DG.Tweening;
 
 namespace TurboLabz.InstantChess
 {
@@ -32,6 +33,10 @@ namespace TurboLabz.InstantChess
         [Inject] public IShareService shareService { get; set; }
 
         // Scene references
+        public Image cover;
+
+        public Button shareButton;
+
         public Text strengthLabel;
         public Button decStrengthButton;
         public Text prevStrengthLabel;
@@ -83,12 +88,14 @@ namespace TurboLabz.InstantChess
 
         public void Init()
         {
+            shareButton.onClick.AddListener(OnShareAppButtonClicked);
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
             playButton.onClick.AddListener(OnPlayButtonClicked);
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
             freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
+
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
@@ -101,10 +108,16 @@ namespace TurboLabz.InstantChess
 			currentStrengthLabel.color = Colors.YELLOW;
 			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
 			nextStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
+
+            if (cover != null)
+            {
+                cover.gameObject.SetActive(true);
+            }
         }
 
         public void CleanUp()
         {
+            shareButton.onClick.RemoveAllListeners();
             decStrengthButton.onClick.RemoveAllListeners();
             incStrengthButton.onClick.RemoveAllListeners();
             playButton.onClick.RemoveAllListeners();
@@ -211,6 +224,11 @@ namespace TurboLabz.InstantChess
         public void Show()
         {
             gameObject.SetActive(true);
+
+            if (cover != null)
+            {
+                DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 0.2f).OnComplete(DisableCover);
+            }
 
             if (Debug.isDebugBuild)
             {
@@ -359,6 +377,12 @@ namespace TurboLabz.InstantChess
         private void OnDevFenValueChanged(string fen)
         {
             devFenValueChangedSignal.Dispatch(fen);
+        }
+
+        private void DisableCover()
+        {
+            cover.gameObject.SetActive(false);
+            cover = null;
         }
     }
 }

@@ -55,6 +55,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 66414d13dc05a494f86ea9581d2ee749, type: 3}
   - {fileID: 21300000, guid: 3cc45dd1c1f2f49aaa183c59c9425d5c, type: 3}
   - {fileID: 21300000, guid: 29b297dc1a0844b93b3cd60f54f5503d, type: 3}
+  - {fileID: 21300000, guid: 6531c66afb50f4ae485a4be398117020, type: 3}
   - {fileID: 21300000, guid: 93f701363339b44e6b6eee9ad9b94abb, type: 3}
   - {fileID: 21300000, guid: 177c825d5265e47e6b59f6d1130c95c4, type: 3}
   - {fileID: 21300000, guid: 8f84ebfd9b91a4547adbd55f5671fd5e, type: 3}
@@ -73,6 +74,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 97ca373a7fa16465ab871fd0c1753d33, type: 3}
   - {fileID: 21300000, guid: 6155f5bcbb876439182b8a8a5c2e342d, type: 3}
   - {fileID: 21300000, guid: 5c8396d8a89bd486f97ed263bc6d4ad5, type: 3}
+  - {fileID: 21300000, guid: 7a6a4bd6a075d4af389ec9750fa3ce1a, type: 3}
   - {fileID: 21300000, guid: a297361d0729641f8bbadbed713c5620, type: 3}
   - {fileID: 21300000, guid: 7c9641864158e4cacb9aa4f929b05a3d, type: 3}
   - {fileID: 21300000, guid: 57fb4f305816148a7968dce8846ba273, type: 3}
@@ -87,9 +89,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b19a7aa46b1034c92826082decfe225f, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: feb032e04b1854a99bc2672f82cb5a28, type: 3}
+  - {fileID: 21300000, guid: 2ab5648995f684723aa61105f1c7e2f1, type: 3}
   - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
   - {fileID: 21300000, guid: 6a479efebb79f4d45a0ffff1c84f4f41, type: 3}
-  - {fileID: 21300000, guid: 2ab5648995f684723aa61105f1c7e2f1, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: 3b95f3036a8764651a29418a30a655b1, type: 3}
   - {fileID: 21300000, guid: 389fc1fc648cb42c1a680bba327ced10, type: 3}
@@ -133,6 +135,7 @@ SpriteAtlas:
   - CPUIcon
   - ClockMask
   - WaitingSpinner
+  - AvatarMask
   - AvatarOutline
   - ChessLogo
   - RandomKing
@@ -151,6 +154,7 @@ SpriteAtlas:
   - Clock
   - InfinityIcon
   - ProfileFlagContainer
+  - ProfileFlagMask
   - AudioOn
   - AudioOff
   - HomeIcon
@@ -165,9 +169,9 @@ SpriteAtlas:
   - ShopIcon
   - SettingsIcon
   - TVIcon
+  - ComputerIcon
   - ProgressIcon
   - PlayIcon
-  - ComputerIcon
   - PossibleMovesIndicator
   - AddAvatarIcon
   - e
