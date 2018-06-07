@@ -32,9 +32,8 @@ namespace TurboLabz.InstantFramework
 
         public void OnSplashAnimationComplete()
         {
-
+            splashAnimationCompletedSignal.Dispatch();
             DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 1f);
-
         }
 
         public void Show()

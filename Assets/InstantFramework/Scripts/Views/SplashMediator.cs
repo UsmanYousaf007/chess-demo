@@ -49,9 +49,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnSplashAnimationCompleted()
         {
-            // TODO: Splash end to load game?
-           // loadGameSignal.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SYSTEM_LOADING);
             splashAnimCompleteSignal.Dispatch();
         }
     }

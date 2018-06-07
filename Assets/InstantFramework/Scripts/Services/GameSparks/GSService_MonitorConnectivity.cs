@@ -36,7 +36,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SYSTEM_LOADING);
+                // TODO: Show some kind of overlay when GS disconnects?
             }
         }
     }

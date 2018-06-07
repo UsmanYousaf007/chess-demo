@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
 		}
 
 		void GameSparksAvailable(bool isAvailable)
-		{
+        {
 			gameSparksAvailable = isAvailable;
 			ProcessStartup();
 		}
@@ -55,14 +55,14 @@ namespace TurboLabz.InstantFramework
 		void OnFacebookInit(FacebookResult result)
 		{
 			if (result == FacebookResult.SUCCESS)
-			{
+            {
 				facebookInitialized = true;
 				ProcessStartup();
 			}
 		}
 
 		void SplashAnimComplete()
-		{
+        {
 			splashAnimComplete = true;
 			ProcessStartup();
 		}

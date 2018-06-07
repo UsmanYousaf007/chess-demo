@@ -27,7 +27,6 @@ namespace TurboLabz.InstantFramework
 		SHOW_BUY_DLG,
 		SHOW_NOT_ENOUGH_DLG,
 		SHOW_BUCK_PACKS_DLG,
-        SHOW_FREE_BUCKS_REWARD_DLG,
-        SYSTEM_LOADING,
+        SHOW_FREE_BUCKS_REWARD_DLG
     }
 }
