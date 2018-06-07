@@ -108,6 +108,11 @@ namespace TurboLabz.InstantChess
 			currentStrengthLabel.color = Colors.YELLOW;
 			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
 			nextStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
+
+            if (cover != null)
+            {
+                cover.gameObject.SetActive(true);
+            }
         }
 
         public void CleanUp()
