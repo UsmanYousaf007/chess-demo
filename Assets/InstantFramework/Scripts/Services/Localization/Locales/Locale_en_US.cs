@@ -21,9 +21,11 @@ namespace TurboLabz.InstantFramework
         public Locale_en_US()
         {
             data = new Dictionary<string, string>() {
-                //
-                // Client only values
-                //
+                #region Splash
+
+                { LocalizationKey.SPLASH_CONNECTING, "CONNECTING" },
+
+                #endregion
 
                 #region Game
 

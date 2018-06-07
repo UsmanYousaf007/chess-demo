@@ -19,12 +19,15 @@ namespace TurboLabz.InstantFramework
 {
     public class SplashView : View
     {
+        [Inject] public ILocalizationService localizationService { get; set; }
+
         public Signal splashAnimationCompletedSignal = new Signal();
         public Image cover;
+        public Text connectingLabel;
 
         public void Init()
         {
-            
+            connectingLabel.text = localizationService.Get(LocalizationKey.SPLASH_CONNECTING);
         }
 
         public void OnSplashAnimationComplete()

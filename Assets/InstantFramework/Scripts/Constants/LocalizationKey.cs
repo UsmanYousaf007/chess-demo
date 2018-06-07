@@ -14,6 +14,12 @@ namespace TurboLabz.InstantFramework
 {
     public static class LocalizationKey
     {
+        #region Splash
+
+        public const string SPLASH_CONNECTING = "splashConnecting";
+
+        #endregion
+
         #region Game
 
         public const string GM_RESULT_DIALOG_HEADING_WIN = "gmResultDialogHeadingWin";
