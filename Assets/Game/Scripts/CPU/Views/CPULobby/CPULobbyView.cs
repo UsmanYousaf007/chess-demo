@@ -21,6 +21,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System;
 using System.Collections;
+using DG.Tweening;
 
 namespace TurboLabz.InstantChess
 {
@@ -32,6 +33,8 @@ namespace TurboLabz.InstantChess
         [Inject] public IShareService shareService { get; set; }
 
         // Scene references
+        public Image cover;
+
         public Text strengthLabel;
         public Button decStrengthButton;
         public Text prevStrengthLabel;
@@ -212,6 +215,11 @@ namespace TurboLabz.InstantChess
         {
             gameObject.SetActive(true);
 
+            if (cover != null)
+            {
+                DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 0.2f).OnComplete(DisableCover);
+            }
+
             if (Debug.isDebugBuild)
             {
                 devFen.gameObject.SetActive(true);
@@ -359,6 +367,12 @@ namespace TurboLabz.InstantChess
         private void OnDevFenValueChanged(string fen)
         {
             devFenValueChangedSignal.Dispatch(fen);
+        }
+
+        private void DisableCover()
+        {
+            cover.gameObject.SetActive(false);
+            cover = null;
         }
     }
 }
