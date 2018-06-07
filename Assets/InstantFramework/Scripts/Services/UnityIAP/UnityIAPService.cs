@@ -136,7 +136,7 @@ namespace TurboLabz.InstantFramework
             #endif
 
             #if UNITY_IPHONE
-            // TODO: Implement AppStore transaction verification
+            backendService.IOSBuyGoods(e.purchasedProduct.transactionID, "", e.purchasedProduct.receipt, false, 0).Then(OnVerifiedPurchase);
             #endif
 
 

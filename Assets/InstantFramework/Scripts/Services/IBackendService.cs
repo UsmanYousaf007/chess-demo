@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> SetPlayerSocialName(string name);
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
         IPromise<BackendResult, string> GooglePlayBuyGoods(string transactionID, string currencyCode, string signature, string signedData, int subUnitPrice);
+        IPromise<BackendResult, string> IOSBuyGoods(string transactionID, string currencyCode, string receipt, bool sandbox, int subUnitPrice);
 
 		/*
 
@@ -32,7 +33,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> GetGameStartTime(string challengeId);
         IPromise<BackendResult> ClaimReward(string rewardType);
         IPromise<BackendResult> ConsumeVirtualGood(int quantity, string shortCode);
-        IPromise<BackendResult> IOSBuyGoods(string currencyCode, string receipt, bool sandbox, int subUnitPrice);
+
 
 */
 	}

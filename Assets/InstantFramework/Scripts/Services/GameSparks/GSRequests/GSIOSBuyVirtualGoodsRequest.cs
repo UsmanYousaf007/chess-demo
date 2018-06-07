@@ -2,35 +2,8 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Noor Khawaja <noor.khawaja@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2018-23-01 14:45:19 UTC+05:00
-/// 
-/// @description
-/// In the request classes for services the Send() method always returns a
-/// promise with BackendResult as a type parameter:
-/// 
-/// IPromise<BackendResult> Send()
-/// 
-/// We can return more data using more type parameters but if the returned type
-/// is specific to the service itself then we need to shield the world outside
-/// the service to not receive service specific type parameters. For that
-/// purpose we use a callback as a parameter to the Send() method e.g.:
-/// 
-/// IPromise<BackendResult> Send(Action<SomeServiceSpecificType> callback)
-/// 
-/// instead of doing this
-/// 
-/// IPromise<BackendResult, SomeServiceSpecificType> Send()
-/// 
-/// However these would be valid:
-/// 
-/// IPromise<BackendResult, string> Send()
-/// IPromise<BackendResult, SomeGenericType> Send()
 
 using System;
-
 using GameSparks.Api.Requests;
 using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
@@ -40,16 +13,19 @@ namespace TurboLabz.InstantFramework
 {
     public class GSIOSBuyGoodsRequest : GSRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
+        private string transaction;
+        private IPromise<BackendResult, string> promise = new Promise<BackendResult, string>();
         private Action<BuyVirtualGoodResponse> successCallback;
 
-        public IPromise<BackendResult> Send(
+        public IPromise<BackendResult, string> Send(
+            string transactionId,
             string currencyCode,                                    // The ISO 4217 currency code representing the real-world currency used for this transaction.
             string receipt,                                         // The receipt obtained from SKPaymentTransaction. transactionReceipt
             bool sandbox,                                           // Should the sandbox account be used
             int subUnitPrice,                                       // The price of this purchase
             Action<BuyVirtualGoodResponse> successCallback)
         {
+            transaction = transactionId;
             GSRequestSession.Instance.AddRequest(this);
             this.successCallback = successCallback;
             new IOSBuyGoodsRequest()
@@ -67,7 +43,7 @@ namespace TurboLabz.InstantFramework
         public override void Expire()
         {
             base.Expire();
-            promise.Dispatch(BackendResult.EXPIRED_RESPONSE);
+            promise.Dispatch(BackendResult.EXPIRED_RESPONSE, transaction);
         }
 
         private void OnSuccess(BuyVirtualGoodResponse response)
@@ -89,7 +65,7 @@ namespace TurboLabz.InstantFramework
 
         private void DispatchResponse(BackendResult result)
         {  
-            promise.Dispatch(result);
+            promise.Dispatch(result, transaction);
             GSRequestSession.Instance.RemoveRequest(this);
         }
     }
