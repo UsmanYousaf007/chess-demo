@@ -12,12 +12,15 @@
 
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using UnityEngine.UI;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
     public class SplashView : View
     {
         public Signal splashAnimationCompletedSignal = new Signal();
+        public Image cover;
 
         public void Init()
         {
@@ -26,7 +29,9 @@ namespace TurboLabz.InstantFramework
 
         public void OnSplashAnimationComplete()
         {
-            splashAnimationCompletedSignal.Dispatch();
+
+            DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 1f);
+
         }
 
         public void Show()

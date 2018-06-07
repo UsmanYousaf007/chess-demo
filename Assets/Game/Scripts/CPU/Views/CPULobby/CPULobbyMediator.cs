@@ -137,24 +137,6 @@ namespace TurboLabz.InstantChess
             view.UpdateStrength(vo);
         }
 
-        [ListensTo(typeof(UpdateDurationSignal))]
-        public void OnUpdateDuration(CPULobbyVO vo)
-        {
-            view.UpdateDuration(vo);
-        }
-
-        [ListensTo(typeof(UpdatePlayerColorSignal))]
-        public void OnUpdatePlayerColor(CPULobbyVO vo)
-        {
-            view.UpdatePlayerColor(vo);
-        }
-
-		[ListensTo(typeof(UpdateThemeSignal))]
-		public void OnThemePlayerColor(CPULobbyVO vo)
-		{
-			view.UpdateTheme(vo);
-		}
-
         [ListensTo(typeof(UpdateLobbyAdsSignal))]
         public void OnUpdateAds(AdsVO vo)
         {
@@ -270,3 +252,23 @@ namespace TurboLabz.InstantChess
         }
     }
 }
+
+/*
+ * [ListensTo(typeof(UpdateDurationSignal))]
+        public void OnUpdateDuration(CPULobbyVO vo)
+        {
+            view.UpdateDuration(vo);
+        }
+
+        [ListensTo(typeof(UpdatePlayerColorSignal))]
+        public void OnUpdatePlayerColor(CPULobbyVO vo)
+        {
+            view.UpdatePlayerColor(vo);
+        }
+
+        [ListensTo(typeof(UpdateThemeSignal))]
+        public void OnThemePlayerColor(CPULobbyVO vo)
+        {
+            view.UpdateTheme(vo);
+        }
+        */

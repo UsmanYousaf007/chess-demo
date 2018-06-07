@@ -39,29 +39,8 @@ namespace TurboLabz.InstantChess
         public Text nextStrengthLabel;
         public Button incStrengthButton;
 
-        public Text durationLabel;
-        public Button decDurationButton;
-        public Text currentDurationLabel;
-        public GameObject infinityIcon;
-        public Button incDurationButton;
-
-        public Text playerColorLabel;
-        public Button decPlayerColorButton;
-        public GameObject whiteKing;
-        public GameObject blackKing;
-        public GameObject randomKing;
-        public Button incPlayerColorButton;
-
-        public Text themesLabel;
-        public Button decThemeButton;
-        public Text currentThemeLabel;
-        public Button incThemeButton;
-
         public Button playButton;
         public Text playButtonLabel;
-
-        public Button themesButton;
-        public Text themesButtonLabel;
 
         public Button freeBucksButton;
         public Text freeBucksButtonLabel;
@@ -74,11 +53,6 @@ namespace TurboLabz.InstantChess
         public Text freeBucksRewardOkButtonLabel;
         public Text freeBucksRewardTitle;
         public Text freeBucksRewardAmount;
-
-        public Button audioIsOnButton;
-        public Button audioIsOffButton;
-        public Button statsButton;
-        public Button shareAppButton;
 
         public GameObject adBlocker;
 
@@ -111,66 +85,35 @@ namespace TurboLabz.InstantChess
         {
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
-            decDurationButton.onClick.AddListener(OnDecDurationButtonClicked);
-            incDurationButton.onClick.AddListener(OnIncDurationButtonClicked);
-            decPlayerColorButton.onClick.AddListener(OnDecPlayerColorButtonClicked);
-            incPlayerColorButton.onClick.AddListener(OnIncPlayerColorButtonClicked);
-			incThemeButton.onClick.AddListener(OnIncThemeButtonClicked);
-			decThemeButton.onClick.AddListener(OnDecThemeButtonClicked);
             playButton.onClick.AddListener(OnPlayButtonClicked);
-			themesButton.onClick.AddListener(OnThemesButtonClicked);
-            freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
-            statsButton.onClick.AddListener(OnStatsButtonClicked);
-            audioIsOnButton.onClick.AddListener(OnAudioIsOnButtonClicked);
-            audioIsOffButton.onClick.AddListener(OnAudioIsOffButtonClicked);
-            shareAppButton.onClick.AddListener(OnShareAppButtonClicked);
+		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
             freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
             strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
-            durationLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_DURATION);
-            playerColorLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAYER_COLOR);
-			themesLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_THEME);
             playButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY);
-            themesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_THEMES);
             freeBucksRewardOkButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_OK);
             freeBucksRewardTitle.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE);
 
 
 			currentStrengthLabel.color = Colors.YELLOW;
-			currentDurationLabel.color = Colors.YELLOW;
-			currentThemeLabel.color = Colors.YELLOW;
 			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
 			nextStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
-
-            RefreshAudioButtons();
         }
 
         public void CleanUp()
         {
             decStrengthButton.onClick.RemoveAllListeners();
             incStrengthButton.onClick.RemoveAllListeners();
-            decDurationButton.onClick.RemoveAllListeners();
-            incDurationButton.onClick.RemoveAllListeners();
-            decPlayerColorButton.onClick.RemoveAllListeners();
-            incPlayerColorButton.onClick.RemoveAllListeners();
             playButton.onClick.RemoveAllListeners();
-            statsButton.onClick.RemoveAllListeners();
             devFen.onValueChanged.RemoveAllListeners();
-
-            audioIsOnButton.onClick.RemoveAllListeners();
-            audioIsOffButton.onClick.RemoveAllListeners();
-            shareAppButton.onClick.RemoveAllListeners();
         }
 
         public void UpdateView(CPULobbyVO vo)
         {
             UpdateStrength(vo);
-            UpdateDuration(vo);
-            UpdatePlayerColor(vo);
-			UpdateTheme(vo);
 			UpdatePlayerBucks(vo.playerBucks);
 		}
 
@@ -205,88 +148,6 @@ namespace TurboLabz.InstantChess
             }
         }
 
-        public void UpdateDuration(CPULobbyVO vo)
-        {
-            int duration = vo.durationMinutes[vo.selectedDurationIndex];
-
-            if (duration == 0)
-            {
-                infinityIcon.SetActive(true);
-                currentDurationLabel.gameObject.SetActive(false);
-            }
-            else
-            {
-                infinityIcon.SetActive(false);
-                currentDurationLabel.gameObject.SetActive(true);
-                currentDurationLabel.text = 
-                    localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
-            }
-
-            if (vo.selectedDurationIndex == 0)
-            {
-                decDurationButton.interactable = false;
-                incDurationButton.interactable = true;
-            }
-            else if (vo.selectedDurationIndex == (vo.durationMinutes.Length - 1))
-            {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = false;
-            }
-            else
-            {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = true;
-            }
-        }
-
-        public void UpdatePlayerColor(CPULobbyVO vo)
-        {
-            randomKing.SetActive(false);
-            whiteKing.SetActive(false);
-            blackKing.SetActive(false);
-
-            if (vo.selectedPlayerColorIndex == 0)
-            {
-                whiteKing.SetActive(true);
-                incPlayerColorButton.interactable = true;
-                decPlayerColorButton.interactable = false;
-            }
-            else if (vo.selectedPlayerColorIndex == 1)
-            {
-                blackKing.SetActive(true);
-                incPlayerColorButton.interactable = true;
-                decPlayerColorButton.interactable = true;
-            }
-            else if (vo.selectedPlayerColorIndex == 2)
-            {
-                randomKing.SetActive(true);
-                incPlayerColorButton.interactable = false;
-                decPlayerColorButton.interactable = true;
-            }
-        }
-
-		public void UpdateTheme(CPULobbyVO vo)
-		{
-			currentThemeLabel.text = vo.activeSkinDisplayName;
-
-			int index = vo.playerVGoods.IndexOf(vo.activeSkinId);
-
-			if (index == (vo.playerVGoods.Count - 1)) 
-			{
-				incThemeButton.interactable = false;
-				decThemeButton.interactable = true;
-			} 
-			else if (index == 0) 
-			{
-				incThemeButton.interactable = true;
-				decThemeButton.interactable = false;
-			} 
-			else 
-			{
-				incThemeButton.interactable = true;
-				decThemeButton.interactable = true;
-			}
-		}
 
 		public void UpdatePlayerBucks(long bucks)
 		{
@@ -483,24 +344,7 @@ namespace TurboLabz.InstantChess
             statsButtonClickedSignal.Dispatch();
         }
 
-        private void OnAudioIsOnButtonClicked()
-        {
-            audioService.ToggleAudio(false);
-            RefreshAudioButtons();
-        }
 
-        private void OnAudioIsOffButtonClicked()
-        {
-            audioService.ToggleAudio(true);
-            audioService.PlayStandardClick();
-            RefreshAudioButtons();
-        }
-
-        private void RefreshAudioButtons()
-        {
-            audioIsOnButton.gameObject.SetActive(audioService.IsAudioOn());
-            audioIsOffButton.gameObject.SetActive(!audioService.IsAudioOn());
-        }
 
         private void OnShareAppButtonClicked()
         {
@@ -518,3 +362,109 @@ namespace TurboLabz.InstantChess
         }
     }
 }
+
+/*
+        public void UpdateDuration(CPULobbyVO vo)
+        {
+            int duration = vo.durationMinutes[vo.selectedDurationIndex];
+
+            if (duration == 0)
+            {
+                infinityIcon.SetActive(true);
+                currentDurationLabel.gameObject.SetActive(false);
+            }
+            else
+            {
+                infinityIcon.SetActive(false);
+                currentDurationLabel.gameObject.SetActive(true);
+                currentDurationLabel.text = 
+                    localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
+            }
+
+            if (vo.selectedDurationIndex == 0)
+            {
+                decDurationButton.interactable = false;
+                incDurationButton.interactable = true;
+            }
+            else if (vo.selectedDurationIndex == (vo.durationMinutes.Length - 1))
+            {
+                decDurationButton.interactable = true;
+                incDurationButton.interactable = false;
+            }
+            else
+            {
+                decDurationButton.interactable = true;
+                incDurationButton.interactable = true;
+            }
+        }
+
+        public void UpdatePlayerColor(CPULobbyVO vo)
+        {
+            randomKing.SetActive(false);
+            whiteKing.SetActive(false);
+            blackKing.SetActive(false);
+
+            if (vo.selectedPlayerColorIndex == 0)
+            {
+                whiteKing.SetActive(true);
+                incPlayerColorButton.interactable = true;
+                decPlayerColorButton.interactable = false;
+            }
+            else if (vo.selectedPlayerColorIndex == 1)
+            {
+                blackKing.SetActive(true);
+                incPlayerColorButton.interactable = true;
+                decPlayerColorButton.interactable = true;
+            }
+            else if (vo.selectedPlayerColorIndex == 2)
+            {
+                randomKing.SetActive(true);
+                incPlayerColorButton.interactable = false;
+                decPlayerColorButton.interactable = true;
+            }
+        }
+
+        public void UpdateTheme(CPULobbyVO vo)
+        {
+            currentThemeLabel.text = vo.activeSkinDisplayName;
+
+            int index = vo.playerVGoods.IndexOf(vo.activeSkinId);
+
+            if (index == (vo.playerVGoods.Count - 1)) 
+            {
+                incThemeButton.interactable = false;
+                decThemeButton.interactable = true;
+            } 
+            else if (index == 0) 
+            {
+                incThemeButton.interactable = true;
+                decThemeButton.interactable = false;
+            } 
+            else 
+            {
+                incThemeButton.interactable = true;
+                decThemeButton.interactable = true;
+            }
+        }
+  */      
+
+/*
+private void OnAudioIsOnButtonClicked()
+{
+    audioService.ToggleAudio(false);
+    RefreshAudioButtons();
+}
+
+private void OnAudioIsOffButtonClicked()
+{
+    audioService.ToggleAudio(true);
+    audioService.PlayStandardClick();
+    RefreshAudioButtons();
+}
+
+private void RefreshAudioButtons()
+{
+    audioIsOnButton.gameObject.SetActive(audioService.IsAudioOn());
+    audioIsOffButton.gameObject.SetActive(!audioService.IsAudioOn());
+}
+*/
