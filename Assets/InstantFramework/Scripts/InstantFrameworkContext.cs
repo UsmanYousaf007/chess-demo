@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
-            commandBinder.Bind<LoadCPUGameSignal>().To<LoadGameCommand>();
+            commandBinder.Bind<LoadCPUGameSignal>().To<LoadCPUGameDataCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
