@@ -43,14 +43,11 @@ namespace TurboLabz.InstantChess
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
-        [Inject] public LoadCPUGameDataSignal loadCPUGameDataSignal { get; set; }
 
 		public override void Execute()
         {
             Retain();
             ResetModels();
-
-            loadCPUGameDataSignal.Dispatch();
 
             appInfoModel.RetrieveAppVersion();
             LogUtil.Log("Client AppVersion: " + appInfoModel.appVersion + " Backend Version: " + appInfoModel.appBackendVersion, "cyan");

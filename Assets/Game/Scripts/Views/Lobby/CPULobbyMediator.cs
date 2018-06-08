@@ -27,7 +27,7 @@ namespace TurboLabz.InstantChess
         [Inject] public AdjustDurationSignal adjustTimerSignal { get; set; }
         [Inject] public AdjustPlayerColorSignal adjustPlayerColorSignal { get; set; }
 		//[Inject] public AdjustThemeSignal adjustThemeSignal { get; set; }
-        [Inject] public StartNewGameSignal startCPUGameSignal { get; set; }
+        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
@@ -53,7 +53,7 @@ namespace TurboLabz.InstantChess
             view.incPlayerColorButtonClickedSignal.AddListener(OnIncPlayerColorButtonClicked);
 			view.incThemeButtonClickedSignal.AddListener(OnIncThemeButtonClicked);
 			view.decThemeButtonClickedSignal.AddListener(OnDecThemeButtonClicked);
-            view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
+            view.playCPUButtonClickedSignal.AddListener(OnPlayCPUButtonClicked);
 			view.themesButtonClickedSignal.AddListener(OnThemesButtonClicked);
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
             view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
@@ -72,7 +72,7 @@ namespace TurboLabz.InstantChess
             view.incDurationButtonClickedSignal.RemoveAllListeners();
             view.decPlayerColorButtonClickedSignal.RemoveAllListeners();
             view.incPlayerColorButtonClickedSignal.RemoveAllListeners();
-            view.playButtonClickedSignal.RemoveAllListeners();
+            view.playCPUButtonClickedSignal.RemoveAllListeners();
             view.devFenValueChangedSignal.RemoveAllListeners();
             view.statsButtonClickedSignal.RemoveAllListeners();
             view.shareAppButtonClickedSignal.RemoveAllListeners();
@@ -201,7 +201,7 @@ namespace TurboLabz.InstantChess
             adjustPlayerColorSignal.Dispatch(true);
         }
 
-        private void OnPlayButtonClicked()
+        private void OnPlayCPUButtonClicked()
         {
             startCPUGameSignal.Dispatch();
         }

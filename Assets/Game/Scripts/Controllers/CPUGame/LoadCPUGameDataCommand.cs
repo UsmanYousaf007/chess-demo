@@ -91,8 +91,6 @@ namespace TurboLabz.InstantChess
 				}
 
 				reader.Close();
-
-		//		chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 			}
 			catch (Exception e)
 			{

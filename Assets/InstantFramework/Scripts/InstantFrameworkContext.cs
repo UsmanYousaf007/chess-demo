@@ -127,7 +127,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IChessAiService>().To<ChessAiService>().ToSingleton();
 
             // Bind signals to commands
-            commandBinder.Bind<StartNewGameSignal>().To<StartNewGameCommand>();
+            commandBinder.Bind<StartCPUGameSignal>().To<StartCPUGameCommand>();
             commandBinder.Bind<RunTimeControlSignal>().To<RunTimeControlCommand>();
             commandBinder.Bind<ResignSignal>().To<ResignCommand>();
             commandBinder.Bind<SaveGameSignal>().To<SaveGameCommand>();

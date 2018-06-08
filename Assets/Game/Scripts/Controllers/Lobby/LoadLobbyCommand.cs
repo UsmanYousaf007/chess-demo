@@ -20,9 +20,8 @@ namespace TurboLabz.InstantChess
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
-
-        // test
         [Inject] public ApplySkinSignal applySkinSignal { get; set; }
+        [Inject] public LoadCPUGameDataSignal loadCPUGameDataSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -32,6 +31,8 @@ namespace TurboLabz.InstantChess
         public override void Execute()
         {
             applySkinSignal.Dispatch(playerModel.activeSkinId);
+
+            loadCPUGameDataSignal.Dispatch();
 
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
