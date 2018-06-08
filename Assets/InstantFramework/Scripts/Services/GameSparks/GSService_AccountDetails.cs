@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
             playerModel.league = response.ScriptData.GetString(GSBackendKeys.LEAGUE);
             playerModel.nextMedalAt = response.ScriptData.GetInt(GSBackendKeys.NEXT_MEDAL_AT).Value;
             playerModel.medals = response.ScriptData.GetInt(GSBackendKeys.MEDALS).Value;
+            playerModel.adLifetimeImpressions = response.ScriptData.GetInt(GSBackendKeys.AD_LIFETIME_IMPRESSIONS).Value;
 
             // Player level data
             LevelInfo currentLevelInfo;

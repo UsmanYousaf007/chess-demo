@@ -63,14 +63,13 @@ namespace TurboLabz.InstantFramework
 
         // Ads Info
         public int adLifetimeImpressions { get; set; }
-        public int adSlotImpressions { get; set; }
-        public long adSlotId { get; set; }
+        public int adSlotImpressions { get; set; }                         // TODO: move to Ad Settings
+        public long adSlotId { get; set; }                                 // TODO: move to Ad Settings
 
         // Inventory
         public string activeSkinId { get; set; }                           // TODO: move to prefs
         public string activeAvatarId { get; set; }                         // TODO: move to prefs
         public IOrderedDictionary<string, int> inventory { get; set; }
-        //public List<string> vGoods { get; set; }
 
 		public bool isEloEstablished
 		{
@@ -181,13 +180,10 @@ namespace TurboLabz.InstantFramework
 
         public void Reset()
         {
-            id = CPUSettings.DEFAULT_PLAYER_ID;
-            //vGoods = null;//new List<string>(metaDataModel.defaultVGoods);
-            activeSkinId = null;//vGoods[0];
-            adLifetimeImpressions = 1; // So we don't give him 0 bucks the first time as a reward
+            activeSkinId = null;
+            adLifetimeImpressions = 0;
             adSlotImpressions = 0;
             adSlotId = 0;
-
 			id = null;
 			tag = null;
 			name = null;

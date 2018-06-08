@@ -92,6 +92,7 @@ namespace TurboLabz.InstantFramework
         public const string ELO_SCORE = "eloScore";
         public const string ELO_TOTAL_PLACEMENT_GAMES = "eloTotalPlacementGames";
         public const string ELO_COMPLETED_PLACEMENT_GAMES = "eloCompletedPlacementGames";
+        public const string AD_LIFETIME_IMPRESSIONS = "adLifetimeImpressions";
 
         // Level settings keys
         public const string LEVEL_SETTINGS = "levelSettings";
