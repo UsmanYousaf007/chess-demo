@@ -135,7 +135,7 @@ namespace TurboLabz.InstantFramework
             return found ? knownTags[i]: null;
         }
 
-        public static void PopulateShopItem(StoreItem item, GSData itemData)
+        public static void PopulateStoreItem(StoreItem item, GSData itemData)
         {
             const string unrecognized = "unrecognized";
             const string defaultTier = GSBackendKeys.ShopItem.SHOP_ITEM_TIER_COMMON;
