@@ -13,7 +13,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
-        [Inject] public LoadMetaDataSignal loadMetaDataSignal  { get; set; }
+        [Inject] public LoadGameDataSignal loadGameDataSignal  { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
 
         // Models
@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
             CommandBegin();
 
             GSRequestSession.Instance.EndSession();
-            loadMetaDataSignal.Dispatch();
+            loadGameDataSignal.Dispatch();
             initBackendOnceSignal.Dispatch();
         }
             

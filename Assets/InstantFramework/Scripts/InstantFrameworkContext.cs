@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
-            commandBinder.Bind<LoadCPUGameSignal>().To<LoadCPUGameDataCommand>();
+            commandBinder.Bind<LoadCPUGameDataSignal>().To<LoadCPUGameDataCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
 
 			// Bind signals to models data loader commands
-			commandBinder.Bind<LoadMetaDataSignal>().To<LoadMetaDataCommand>();
+			commandBinder.Bind<LoadGameDataSignal>().To<LoadGameDataCommand>();
 
             // Bind signals to social commands
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
@@ -226,7 +226,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ResumeTimersSignal>().ToSingleton();
 
             // Bind models
-            injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();
+            injectionBinder.Bind<ICPUChessboardModel>().To<CPUChessboardModel>().ToSingleton();
             injectionBinder.Bind<ICPUGameModel>().To<CPUGameModel>().ToSingleton();
             injectionBinder.Bind<IStatsModel>().To<StatsModel>().ToSingleton();
         }

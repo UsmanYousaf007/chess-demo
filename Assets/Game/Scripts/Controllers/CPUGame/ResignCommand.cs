@@ -23,7 +23,7 @@ namespace TurboLabz.InstantChess
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
-        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
 
         public override void Execute()
         {

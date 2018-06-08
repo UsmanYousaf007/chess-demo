@@ -25,7 +25,7 @@ namespace TurboLabz.InstantChess
 	{
 		// Models
 		[Inject] public ICPUGameModel cpuGameModel { get; set; }
-		[Inject] public IChessboardModel chessboardModel { get; set; }
+		[Inject] public ICPUChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
 		// Services
@@ -35,11 +35,9 @@ namespace TurboLabz.InstantChess
 		{
 			ResetAll();
 
-
 			if (!localDataService.FileExists(SaveKeys.CPU_SAVE_FILENAME))
 			{
 				LogUtil.Log("No saved game or settings found.", "yellow");
-//                loadLobbySignal.Dispatch();
 				return;
 			}
 
@@ -57,7 +55,6 @@ namespace TurboLabz.InstantChess
 				if (!cpuGameModel.inProgress)
 				{
 					reader.Close();
-     //               loadLobbySignal.Dispatch();
 					return;
 				}
 
@@ -102,7 +99,6 @@ namespace TurboLabz.InstantChess
 				LogUtil.Log("Corrupt saved game! " + e, "red");
 				localDataService.DeleteFile(SaveKeys.CPU_SAVE_FILENAME);
 				ResetAll();
-    //            loadLobbySignal.Dispatch();
 			}
 		}
 

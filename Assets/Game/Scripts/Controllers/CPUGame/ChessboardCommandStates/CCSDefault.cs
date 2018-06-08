@@ -33,7 +33,7 @@ namespace TurboLabz.InstantChess
         {
             if (cmd.chessboardEvent == ChessboardEvent.GAME_STARTED)
             {
-                IChessboardModel chessboardModel = cmd.chessboardModel;
+                ICPUChessboardModel chessboardModel = cmd.chessboardModel;
                 ICPUGameModel cpuGameModel = cmd.cpuGameModel;
                 IChessService chessService = cmd.chessService;
                 IChessAiService chessAiService = cmd.chessAiService;
@@ -88,7 +88,7 @@ namespace TurboLabz.InstantChess
          */
         private void ProcessResume(ChessboardCommand cmd)
         {
-            IChessboardModel chessboardModel = cmd.chessboardModel;
+            ICPUChessboardModel chessboardModel = cmd.chessboardModel;
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
             IChessService chessService = cmd.chessService;
             IChessAiService chessAiService = cmd.chessAiService;

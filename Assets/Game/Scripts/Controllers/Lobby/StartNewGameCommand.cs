@@ -24,7 +24,7 @@ namespace TurboLabz.InstantChess
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
 
         // Models
-        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         // Services
