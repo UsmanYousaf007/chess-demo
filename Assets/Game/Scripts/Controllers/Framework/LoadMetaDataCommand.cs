@@ -14,16 +14,6 @@ namespace TurboLabz.InstantChess
 {
 	public class LoadMetaDataCommand : Command
 	{ 
-        // TODO: Move Meta data defaults to GS server
-        private const int DEFAULT_STARTING_BUCKS = 100;
-
-        private const int ADS_REWARD_INCREMENT = 10;
-        private const int ADS_MAX_IMPRESSIONS_PER_SLOT = 6;
-        private const int ADS_SLOT_DEBUG_MINUTES = 2;
-        private const int ADS_SLOT_MINUTES = 1440; // 24 hours
-
-        #region LoadMetaData
-
         // Models
         [Inject] public IMetaDataModel model { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -35,6 +25,7 @@ namespace TurboLabz.InstantChess
         [Inject] public IPromotionsModel promotionsModel { get; set; }
         [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         // Services
 		[Inject] public IStoreService storeService { get; set; }
@@ -58,13 +49,7 @@ namespace TurboLabz.InstantChess
         {
             model.appInfo = appInfoModel;
             model.store = storeSettingsModel;
-
-            AdSettings adSettings = new AdSettings();
-            adSettings.maxImpressionsPerSlot = ADS_MAX_IMPRESSIONS_PER_SLOT;
-            adSettings.slotMinutes = Debug.isDebugBuild ? ADS_SLOT_DEBUG_MINUTES : ADS_SLOT_MINUTES;
-            adSettings.adsRewardIncrement = ADS_REWARD_INCREMENT;
-
-            model.AddAdSettings(adSettings);
+            model.adsSettings = adsSettingsModel;
         }
 
         private void OnGetInitData(BackendResult result)
@@ -91,8 +76,7 @@ namespace TurboLabz.InstantChess
             promotionsModel.Reset();
             roomSettingsModel.Reset();
             storeSettingsModel.Reset();
+            adsSettingsModel.Reset();
         }
-              
-        #endregion
 	}
 }

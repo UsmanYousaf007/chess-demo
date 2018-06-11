@@ -115,6 +115,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
             injectionBinder.Bind<IPromotionsModel>().To<PromotionsModel>().ToSingleton();
             injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton();
+            injectionBinder.Bind<IAdsSettingsModel>().To<AdsSettingsModel>().ToSingleton();
 
             MapGameBindings();
         }

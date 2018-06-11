@@ -40,7 +40,7 @@ namespace TurboLabz.InstantChess
 
             if (playerModel.adSlotId == currentSlotId)
             {
-                if (playerModel.adSlotImpressions < metaDataModel.adSettings.maxImpressionsPerSlot)
+                if (playerModel.adSlotImpressions < metaDataModel.adsSettings.maxImpressionsPerSlot)
                 {
                     state = adsService.isRewardedAdAvailable ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
                 }
@@ -63,7 +63,7 @@ namespace TurboLabz.InstantChess
 
             if (state == AdsState.AVAILABLE)
             {
-                vo.bucks = playerModel.adLifetimeImpressions * metaDataModel.adSettings.adsRewardIncrement;
+                vo.bucks = (playerModel.adLifetimeImpressions + 1) * metaDataModel.adsSettings.adsRewardIncrement;
                 analyticsService.AdOffer(true, UnityAdsPlacementId.REWARDED_VIDEO);
 
             }

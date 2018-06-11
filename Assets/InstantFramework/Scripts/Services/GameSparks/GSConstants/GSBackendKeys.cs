@@ -73,6 +73,12 @@ namespace TurboLabz.InstantFramework
         public const string ACCOUNT_VIRTUALGOODS = "virtualGoods";
         public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 
+        // Ad Settings
+        public const string ADS_SETTINGS = "adsSettings";
+        public const string ADS_MAX_IMPRESSIONS_PER_SLOT = "ADS_MAX_IMPRESSIONS_PER_SLOT";
+        public const string ADS_SLOT_MINUTES = "ADS_SLOT_MINUTES";
+        public const string ADS_REWARD_INCREMENT = "ADS_REWARD_INCREMENT";
+
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
 

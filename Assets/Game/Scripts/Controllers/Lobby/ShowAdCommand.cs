@@ -26,6 +26,7 @@ namespace TurboLabz.InstantChess
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -48,13 +49,11 @@ namespace TurboLabz.InstantChess
 
             if (result == AdsResult.FINISHED)
             {
-                int rewardBucks = playerModel.adLifetimeImpressions * metaDataModel.adSettings.adsRewardIncrement;
-                playerModel.bucks += rewardBucks;
-                playerModel.adLifetimeImpressions++;
                 playerModel.adSlotImpressions++;
+                backendService.ClaimReward("rewardAdBucks");
 
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FREE_BUCKS_REWARD_DLG);
-                updatedFreeBucksRewardSignal.Dispatch(rewardBucks);
+               // updatedFreeBucksRewardSignal.Dispatch(rewardBucks);
 
                 loadLobbySignal.Dispatch();
 

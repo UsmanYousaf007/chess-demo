@@ -12,13 +12,7 @@ namespace TurboLabz.InstantFramework
     {
         IAppInfoModel appInfo  { get; set; }
         IStoreSettingsModel store { get; set; }
-        AdSettings adSettings { get; set; }
-
-        int defaultStartingBucks { get; set; }
-        string[] defaultVGoods { get; set; }
-
-        void AddAdSettings(AdSettings settings);
-
+        IAdsSettingsModel adsSettings { get; set; }
 	}
 }
 

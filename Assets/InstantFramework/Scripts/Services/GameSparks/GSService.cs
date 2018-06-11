@@ -19,10 +19,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILeagueSettingsModel leagueSettingsModel { get; set; }
         [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
-        [Inject] public IAppInfoModel appInfoModel  { get; set; }
-        [Inject] public IMetaDataModel metaDataModel  { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPromotionsModel promotionsModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }

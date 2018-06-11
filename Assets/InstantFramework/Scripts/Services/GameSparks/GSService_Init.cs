@@ -45,6 +45,9 @@ namespace TurboLabz.InstantFramework
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);
 
+            GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
+            FillAdsSettingsModel(adsSettingsData);
+
             GSData accountDetailsData = response.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
 
@@ -74,6 +77,13 @@ namespace TurboLabz.InstantFramework
                     }
                 }
             }
+        }
+
+        private void FillAdsSettingsModel(GSData adsSettingsData)
+        {
+            adsSettingsModel.adsRewardIncrement = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARD_INCREMENT).Value;
+            adsSettingsModel.maxImpressionsPerSlot = adsSettingsData.GetInt(GSBackendKeys.ADS_MAX_IMPRESSIONS_PER_SLOT).Value;
+            adsSettingsModel.slotMinutes = adsSettingsData.GetInt(GSBackendKeys.ADS_SLOT_MINUTES).Value;
         }
 
         private void FillLeagueSettingsModel(IList<GSData> leagueSettingsData)

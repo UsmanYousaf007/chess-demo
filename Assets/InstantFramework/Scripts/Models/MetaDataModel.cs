@@ -12,38 +12,13 @@ namespace TurboLabz.InstantFramework
     {
         public IAppInfoModel appInfo  { get; set; }
         public IStoreSettingsModel store { get; set; }
+        public IAdsSettingsModel adsSettings { get; set; }
 
-        public AdSettings adSettings { get; set; }
-        public int defaultStartingBucks { get; set; }
-        public string[] defaultVGoods { get; set; }
-
-        [PostConstruct]
-		public void Load()
-		{
-            Reset();
-		}
-
-        public void AddAdSettings(AdSettings settings)
-        {
-            adSettings = settings;
-        }
-
-        private void Reset()
+        public void Reset()
         {
             appInfo = null;
             store = null;
-            adSettings = null;
+            adsSettings = null;
         }
     }
-
-    #region DataStructures
-
-    public class AdSettings
-    {
-        public int maxImpressionsPerSlot;
-        public int slotMinutes;
-        public int adsRewardIncrement;
-    }
-
-    #endregion
 }
