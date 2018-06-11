@@ -109,11 +109,7 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<IMetaDataModel>().To<MetaDataModel>().ToSingleton();
             injectionBinder.Bind<IPlayerModel>().To<PlayerModel>().ToSingleton();
             injectionBinder.Bind<IMatchInfoModel>().To<MatchInfoModel>().ToSingleton();
-            injectionBinder.Bind<ILeagueSettingsModel>().To<LeagueSettingsModel>().ToSingleton();
-            injectionBinder.Bind<ILevelSettingsModel>().To<LevelSettingsModel>().ToSingleton();
-            injectionBinder.Bind<IRoomSettingsModel>().To<RoomSettingsModel>().ToSingleton();
             injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
-            injectionBinder.Bind<IPromotionsModel>().To<PromotionsModel>().ToSingleton();
             injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton();
             injectionBinder.Bind<IAdsSettingsModel>().To<AdsSettingsModel>().ToSingleton();
 

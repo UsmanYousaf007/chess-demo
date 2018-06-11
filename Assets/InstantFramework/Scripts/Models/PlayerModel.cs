@@ -27,34 +27,19 @@ namespace TurboLabz.InstantFramework
         public Sprite profilePicture { get; set; }
         public Sprite profilePictureBorder { get; set; }
         public Sprite profilePictureFB { get; set; }
-        public int xp { get; set; }
-        public int level { get; set; }
-        public int nextMedalAt { get; set; }
-        public int medals { get; set; }
-        // public int totalGamesWon { get; }
-        // public int totalGamesLost { get; }
-        // public int totalGamesDrawn { get; }
-        // public int totalGames { get; }
+        public int totalGamesWon { get; }
+        public int totalGamesLost { get; }
+        public int totalGamesDrawn { get; }
+        public int totalGames { get; }
 
         // Player Public Profile
         // public PublicProfile publicProfile { get; }
 
         // Currency 
-        public long currency1 { get; set; }
         public long bucks { get; set; }
-        public long currency1Winnings { get; set; }
 
         // League & ELO
-        public string leagueId { get; set; }
-        public string league { get; set; }
-        public string eloDivision { get; set; }
         public int eloScore { get; set; }
-        public int eloTotalPlacementGames { get; set; }
-        public int eloCompletedPlacementGames { get; set; }
-        // public bool isEloEstablished { get; }
-
-        // The keys of the dictionary are the IDs of the rooms.
-        public IDictionary<string, RoomRecord> roomRecords { get; set; }
 
         // Social
         public bool isSocialNameSet { get; set; }
@@ -71,79 +56,11 @@ namespace TurboLabz.InstantFramework
         public string activeAvatarId { get; set; }                         // TODO: move to prefs
         public IOrderedDictionary<string, int> inventory { get; set; }
 
-		public bool isEloEstablished
-		{
-			get
-			{
-				return (eloCompletedPlacementGames >= eloTotalPlacementGames);
-			}
-		}
-
 		public bool hasExternalAuth
 		{
 			get
 			{
 				return (externalAuthentications.Count > 0);
-			}
-		}
-
-		public int totalGamesWon
-		{
-			get
-			{
-				int count = 0;
-
-				foreach (var roomRecord in roomRecords.Values)
-				{
-					count += roomRecord.gamesWon;
-				}
-
-				return count;
-			}
-		}
-
-		public int totalGamesLost
-		{
-			get
-			{
-				int count = 0;
-
-				foreach (var roomRecord in roomRecords.Values)
-				{
-					count += roomRecord.gamesLost;
-				}
-
-				return count;
-			}
-		}
-
-		public int totalGamesDrawn
-		{
-			get
-			{
-				int count = 0;
-
-				foreach (var roomRecord in roomRecords.Values)
-				{
-					count += roomRecord.gamesDrawn;
-				}
-
-				return count;
-			}
-		}
-
-		public int totalGames
-		{
-			get
-			{
-				int count = 0;
-
-				foreach (var roomRecord in roomRecords.Values)
-				{
-					count += roomRecord.gamesWon + roomRecord.gamesLost + roomRecord.gamesDrawn;
-				}
-
-				return count;
 			}
 		}
 
@@ -155,18 +72,10 @@ namespace TurboLabz.InstantFramework
 				profile.id = id;
 				profile.name = name;
 				profile.countryId = countryId;
-				profile.level = level;
-				profile.leagueId = leagueId;
-				profile.roomRecords = roomRecords;
 				profile.externalAuthentications = externalAuthentications;
 				profile.profilePicture = profilePicture;
 				profile.profilePictureBorder = profilePictureBorder;
-				profile.eloDivision = eloDivision;
 				profile.eloScore = eloScore;
-				profile.eloTotalPlacementGames = eloTotalPlacementGames;
-				profile.eloCompletedPlacementGames = eloCompletedPlacementGames;
-				profile.league = league;
-				profile.medals = medals;
 
 				return profile;
 			}
@@ -191,20 +100,10 @@ namespace TurboLabz.InstantFramework
 			profilePicture = null;
 			profilePictureBorder = null;
 			profilePictureFB = null;
-			currency1 = 0;
 			bucks = 0;
-			currency1Winnings = 0;
-			xp = 0;
-			level = 0;
-			leagueId = null;
-			eloDivision = null;
 			eloScore = 0;
-			roomRecords = null;
 			isSocialNameSet = false;
 			externalAuthentications = null;
-			league = null;
-			nextMedalAt = 0;
-			medals = 0;
         }
 
 		public bool ownsVGood(string key)
@@ -280,21 +179,9 @@ namespace TurboLabz.InstantFramework
 		public string id;
 		public string name;
 		public string countryId;
-		public int level;
-		public string leagueId;
-		public string eloDivision;
 		public int eloScore;
-		public int eloTotalPlacementGames;
-		public int eloCompletedPlacementGames;
-		public string league;
-		public int medals;
-
-		// The keys of the dictionary are the IDs of the rooms.
-		public IDictionary<string, RoomRecord> roomRecords;
-
 		public Sprite profilePicture;
 		public Sprite profilePictureBorder;
-
 		public IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications { get; set; }
 
 		public bool hasExternalAuth
@@ -304,26 +191,6 @@ namespace TurboLabz.InstantFramework
 				return (externalAuthentications.Count > 0);
 			}
 		}
-
-		public bool isEloEstablished
-		{
-			get
-			{
-				return (eloCompletedPlacementGames >= eloTotalPlacementGames);
-			}
-		}
-	}
-
-	// The id field is also present in the RoomRecord since a room record must
-	// always be able to refer to the room it belongs to from within itself.
-	public struct RoomRecord
-	{
-		public string id;
-		public int gamesWon;
-		public int gamesLost;
-		public int gamesDrawn;
-		public int trophiesWon;
-		public string roomTitleId;
 	}
 
 	public struct ExternalAuthData

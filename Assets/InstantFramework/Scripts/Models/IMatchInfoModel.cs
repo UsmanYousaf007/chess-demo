@@ -9,7 +9,6 @@ namespace TurboLabz.InstantFramework
     {
         void Reset();
         string challengeId { get; set; }
-        string roomId { get; set; }
         long gameStartTimeMilliseconds { get; set; }
         PublicProfile opponentPublicProfile { get; set; }
         string botId { get; set; }

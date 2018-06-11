@@ -27,16 +27,6 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                if (response.ScriptData != null)
-                {
-                    // Bought coins
-                    if (response.ScriptData.ContainsKey(GSBackendKeys.COINSPACK_COINS1_BOUGHT))
-                    {
-                        int coins1Added = response.ScriptData.GetInt(GSBackendKeys.COINSPACK_COINS1_BOUGHT).Value;
-                        playersModel.currency1 += coins1Added;
-                    }
-                }
-
                 // Consume bucks
                 if (response.CurrencyType == 2 && response.CurrencyConsumed.HasValue)
                 {

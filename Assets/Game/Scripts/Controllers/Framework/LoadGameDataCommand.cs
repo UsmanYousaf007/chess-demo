@@ -17,13 +17,9 @@ namespace TurboLabz.InstantChess
         // Models
         [Inject] public IMetaDataModel model { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
-        [Inject] public ILeagueSettingsModel leagueSettingsModel { get; set; }
-        [Inject] public ILevelSettingsModel levelSettingsModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IPromotionsModel promotionsModel { get; set; }
-        [Inject] public IRoomSettingsModel roomSettingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
@@ -69,12 +65,8 @@ namespace TurboLabz.InstantChess
         void ResetModels()
         {
             appInfoModel.Reset();
-            leagueSettingsModel.Reset();
-            levelSettingsModel.Reset();
             matchInfoModel.Reset();
             playerModel.Reset();
-            promotionsModel.Reset();
-            roomSettingsModel.Reset();
             storeSettingsModel.Reset();
             adsSettingsModel.Reset();
         }

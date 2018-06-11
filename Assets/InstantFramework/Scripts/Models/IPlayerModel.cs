@@ -19,10 +19,6 @@ namespace TurboLabz.InstantFramework
 		Sprite profilePicture { get; set; }
 		Sprite profilePictureBorder { get; set; }
 		Sprite profilePictureFB { get; set; }
-        int xp { get; set; }
-        int level { get; set; }
-        int nextMedalAt { get; set; }
-        int medals { get; set; }
         int totalGamesWon { get; }
         int totalGamesLost { get; }
         int totalGamesDrawn { get; }
@@ -32,21 +28,10 @@ namespace TurboLabz.InstantFramework
         PublicProfile publicProfile { get; }
 
         // Currency 
-		long currency1 { get; set; }
 		long bucks { get; set; }
-		long currency1Winnings { get; set; }
 
-        // League & Rating
-		string leagueId { get; set; }
-        string league { get; set; }
-		string eloDivision { get; set; }
+        // Rating
 		int eloScore { get; set; }
-		int eloTotalPlacementGames { get; set; }
-		int eloCompletedPlacementGames { get; set; }
-		bool isEloEstablished { get; }
-
-		// The keys of the dictionary are the IDs of the rooms.
-		IDictionary<string, RoomRecord> roomRecords { get; set; }
 
         // Social
 		bool isSocialNameSet { get; set; }

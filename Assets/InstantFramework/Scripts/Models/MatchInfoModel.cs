@@ -8,7 +8,6 @@ namespace TurboLabz.InstantFramework
     public class MatchInfoModel : IMatchInfoModel
     {
         public string challengeId { get; set; }
-        public string roomId { get; set; }
         public long gameStartTimeMilliseconds { get; set; }
         public PublicProfile opponentPublicProfile { get; set; }
         public string botId { get; set; }
@@ -31,7 +30,6 @@ namespace TurboLabz.InstantFramework
         public void Reset()
         {
             challengeId = null;
-            roomId = null;
             gameStartTimeMilliseconds = 0;
             opponentPublicProfile = new PublicProfile();
             botId = null;
