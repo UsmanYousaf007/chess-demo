@@ -16,7 +16,7 @@ using TurboLabz.Chess;
 
 namespace TurboLabz.InstantChess
 {
-    public class ChessboardModel : IChessboardModel
+    public class CPUChessboardModel : ICPUChessboardModel
     {
         public CCS currentState { get; set; }
         public CCS previousState { get; set; }

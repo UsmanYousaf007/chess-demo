@@ -75,7 +75,7 @@ namespace TurboLabz.InstantChess
         public Signal incPlayerColorButtonClickedSignal = new Signal();
 		public Signal incThemeButtonClickedSignal = new Signal();
 		public Signal decThemeButtonClickedSignal = new Signal();
-        public Signal playButtonClickedSignal = new Signal();
+        public Signal playCPUButtonClickedSignal = new Signal();
 		public Signal themesButtonClickedSignal = new Signal();
         public Signal freeBucksButtonClickedSignal = new Signal();
         public Signal freeBucksRewardOkButtonClickedSignal = new Signal();
@@ -345,7 +345,7 @@ namespace TurboLabz.InstantChess
 
         private void OnPlayCPUButtonClicked()
         {
-            playButtonClickedSignal.Dispatch();
+            playCPUButtonClickedSignal.Dispatch();
         }
 
         private void OnPlayOnlineButtonClicked()

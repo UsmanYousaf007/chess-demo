@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace TurboLabz.InstantChess
 {
-	public class LoadMetaDataCommand : Command
+	public class LoadGameDataCommand : Command
 	{ 
         // Models
         [Inject] public IMetaDataModel model { get; set; }

@@ -55,7 +55,7 @@ namespace TurboLabz.InstantChess
 
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            ICPUChessboardModel model = cmd.chessboardModel;
             ChessboardEvent evt = cmd.chessboardEvent;
 
             if (evt == ChessboardEvent.SQUARE_CLICKED)

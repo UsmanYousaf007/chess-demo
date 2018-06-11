@@ -37,7 +37,7 @@ namespace TurboLabz.InstantChess
                 }
             }
 
-            IChessboardModel model = cmd.chessboardModel;
+            ICPUChessboardModel model = cmd.chessboardModel;
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
 
             GameEndReason gameEndReason = model.gameEndReason;

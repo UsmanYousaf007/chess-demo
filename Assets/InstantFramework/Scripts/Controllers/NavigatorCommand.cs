@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
-        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }

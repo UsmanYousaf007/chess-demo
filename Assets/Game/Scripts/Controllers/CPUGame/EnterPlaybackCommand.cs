@@ -22,7 +22,7 @@ namespace TurboLabz.InstantChess
     public class EnterPlaybackCommand : Command
     {
         // Models
-        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
 
         // Dispatch Signal
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }

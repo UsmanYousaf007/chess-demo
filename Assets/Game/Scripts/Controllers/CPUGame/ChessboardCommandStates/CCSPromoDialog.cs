@@ -22,7 +22,7 @@ namespace TurboLabz.InstantChess
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PROMO_DLG);
 
-                IChessboardModel model = cmd.chessboardModel;
+                ICPUChessboardModel model = cmd.chessboardModel;
                 cmd.hidePossibleMovesSignal.Dispatch();
                 cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(model, true));
                 cmd.updatePromoDialogSignal.Dispatch(cmd.chessboardModel.playerColor);
@@ -32,7 +32,7 @@ namespace TurboLabz.InstantChess
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
             ChessboardEvent evt = cmd.chessboardEvent;
-            IChessboardModel model = cmd.chessboardModel;
+            ICPUChessboardModel model = cmd.chessboardModel;
 
             if (evt == ChessboardEvent.PROMO_SELECTED)
             {

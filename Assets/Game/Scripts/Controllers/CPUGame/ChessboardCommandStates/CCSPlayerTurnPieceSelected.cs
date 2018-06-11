@@ -19,7 +19,7 @@ namespace TurboLabz.InstantChess
     {
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            ICPUChessboardModel model = cmd.chessboardModel;
 
             // If we came here after an opponent has moved
             if (CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)))
@@ -47,7 +47,7 @@ namespace TurboLabz.InstantChess
             // Handle square clicked events
             if (evt == ChessboardEvent.SQUARE_CLICKED)
             {
-                IChessboardModel model = cmd.chessboardModel;
+                ICPUChessboardModel model = cmd.chessboardModel;
                 ChessSquare clickedSquare = model.clickedSquare;
 
                 // See if a new player piece was clicked
@@ -121,7 +121,7 @@ namespace TurboLabz.InstantChess
             return false;
         }
 
-        private bool HasPawnReachedEnd(IChessboardModel model)
+        private bool HasPawnReachedEnd(ICPUChessboardModel model)
         {
             ChessSquare fromSquare = model.playerFromSquare;
             ChessSquare toSquare = model.playerToSquare;

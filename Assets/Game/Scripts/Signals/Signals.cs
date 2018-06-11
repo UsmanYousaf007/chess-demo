@@ -28,7 +28,7 @@ namespace TurboLabz.InstantChess
     public class UpdateDurationSignal : Signal<LobbyVO> {}
     public class UpdatePlayerColorSignal : Signal<LobbyVO> {}
 	public class UpdateThemeSignal : Signal<LobbyVO> {}
-    public class LoadCPUGameSignal : Signal {}
+    public class LoadCPUGameDataSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
@@ -56,7 +56,7 @@ namespace TurboLabz.InstantChess
 	public class LoadBuckPacksSignal : Signal {}
 
     // CPU GAME
-    public class StartNewGameSignal : Signal {}
+    public class StartCPUGameSignal : Signal {}
     public class DevFenValueChangedSignal : Signal<string> {}
     public class ChessboardEventSignal : Signal<ChessboardEvent> {}
     public class SetupChessboardSignal : Signal<SetupChessboardVO> {}

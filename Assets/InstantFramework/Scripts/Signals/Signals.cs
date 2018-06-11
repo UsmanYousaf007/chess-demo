@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
     public class NavigatorIgnoreEventSignal : Signal<NavigatorEvent> {}
 
 	// Model data load signals
-	public class LoadMetaDataSignal : Signal {}
+	public class LoadGameDataSignal : Signal {}
     public class LoadMetaDataCompleteSignal : Signal {}
 
     public class AuthFaceBookSignal : Signal {}
