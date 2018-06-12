@@ -27,10 +27,11 @@ namespace TurboLabz.InstantFramework
         public Sprite profilePicture { get; set; }
         public Sprite profilePictureBorder { get; set; }
         public Sprite profilePictureFB { get; set; }
-        public int totalGamesWon { get; }
-        public int totalGamesLost { get; }
-        public int totalGamesDrawn { get; }
-        public int totalGames { get; }
+        public int totalGamesWon { get; set; }
+        public int totalGamesLost { get; set; }
+        public int totalGamesDrawn { get; set; }
+        public int totalGamesAbandoned { get; set; }
+        public int totalGamesPlayed { get; set; }
 
         // Player Public Profile
         // public PublicProfile publicProfile { get; }

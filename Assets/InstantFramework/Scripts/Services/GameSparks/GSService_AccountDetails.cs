@@ -34,6 +34,12 @@ namespace TurboLabz.InstantFramework
             playerModel.eloScore = response.ScriptData.GetInt(GSBackendKeys.ELO_SCORE).Value;
             playerModel.adLifetimeImpressions = response.ScriptData.GetInt(GSBackendKeys.AD_LIFETIME_IMPRESSIONS).Value;
 
+            playerModel.totalGamesWon = response.ScriptData.GetInt(GSBackendKeys.GAMES_WON).Value;
+            playerModel.totalGamesLost = response.ScriptData.GetInt(GSBackendKeys.GAMES_LOST).Value;
+            playerModel.totalGamesDrawn = response.ScriptData.GetInt(GSBackendKeys.GAMES_DRAWN).Value;
+            playerModel.totalGamesAbandoned = response.ScriptData.GetInt(GSBackendKeys.GAMES_ABANDONED).Value;
+            playerModel.totalGamesPlayed = response.ScriptData.GetInt(GSBackendKeys.GAMES_PLAYED).Value;
+
             // Populate inventory data
             IList<GSData> playerActiveInventory = response.ScriptData.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
             IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 

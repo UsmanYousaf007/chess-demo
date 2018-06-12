@@ -59,6 +59,11 @@ namespace TurboLabz.InstantFramework
         public const string TAG = "tag";
         public const string ELO_SCORE = "eloScore";
         public const string AD_LIFETIME_IMPRESSIONS = "adLifetimeImpressions";
+        public const string GAMES_WON = "gamesWon";
+        public const string GAMES_LOST = "gamesLost";
+        public const string GAMES_DRAWN = "gamesDrawn";
+        public const string GAMES_ABANDONED = "gamesAbandoned";
+        public const string GAMES_PLAYED = "gamesPlayed";
 
         // Message ExtCodes
         public const string START_GAME_MESSAGE = "StartGameMessage";

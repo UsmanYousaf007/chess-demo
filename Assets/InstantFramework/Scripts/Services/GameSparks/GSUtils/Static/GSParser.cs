@@ -183,7 +183,8 @@ namespace TurboLabz.InstantFramework
             LogUtil.Log("********** playerModel.totalGamesWon" + " " + playerModel.totalGamesWon);
             LogUtil.Log("********** playerModel.totalGamesLost" + " " + playerModel.totalGamesLost);
             LogUtil.Log("********** playerModel.totalGamesDrawn" + " " + playerModel.totalGamesDrawn);
-            LogUtil.Log("********** playerModel.totalGames" + " " + playerModel.totalGames);
+            LogUtil.Log("********** playerModel.totalGamesAbandoned" + " " + playerModel.totalGamesAbandoned);
+            LogUtil.Log("********** playerModel.totalGamesPlayed" + " " + playerModel.totalGamesPlayed);
 
             // Player Public Profile
             //PublicProfile publicProfile { get; }

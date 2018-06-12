@@ -19,10 +19,11 @@ namespace TurboLabz.InstantFramework
 		Sprite profilePicture { get; set; }
 		Sprite profilePictureBorder { get; set; }
 		Sprite profilePictureFB { get; set; }
-        int totalGamesWon { get; }
-        int totalGamesLost { get; }
-        int totalGamesDrawn { get; }
-        int totalGames { get; }
+        int totalGamesWon { get; set; }
+        int totalGamesLost { get; set; }
+        int totalGamesDrawn { get; set; }
+        int totalGamesPlayed { get; set; }
+        int totalGamesAbandoned { get; set; }
 
         // Player Public Profile
         PublicProfile publicProfile { get; }
