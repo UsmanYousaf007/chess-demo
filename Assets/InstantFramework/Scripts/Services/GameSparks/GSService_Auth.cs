@@ -21,9 +21,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthGuest()
         {
-            TurboLabz.TLUtils.LogUtil.Log("GSService_AuthGuest", "yellow");
-
-            return new GSAuthGuestRequest().Send();
+            return new AuthGuestRequest().Send();
         }
 
         public IPromise<BackendResult> AuthFacebook(string accessToken)
@@ -42,7 +40,7 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #region REQUEST
+    #region FACEBOOK AUTH REQUEST
 
     public class AuthFacebookRequest
     {
@@ -66,6 +64,32 @@ namespace TurboLabz.InstantFramework
         void OnFailure(AuthenticationResponse response)
         {
             promise.Dispatch(BackendResult.AUTH_FACEBOOK_REQUEST_FAILED);
+        }
+    }
+
+    #endregion
+
+    #region GUEST AUTH REQUEST
+
+    public class AuthGuestRequest
+    {
+        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
+
+        public IPromise<BackendResult> Send()
+        {
+            new DeviceAuthenticationRequest().Send(OnSuccess, OnFailure);
+
+            return promise;
+        }
+
+        void OnSuccess(AuthenticationResponse response)
+        {
+            promise.Dispatch(BackendResult.SUCCESS);
+        }
+
+        void OnFailure(AuthenticationResponse response)
+        {
+            promise.Dispatch(BackendResult.AUTH_GUEST_REQUEST_FAILED);
         }
     }
 
