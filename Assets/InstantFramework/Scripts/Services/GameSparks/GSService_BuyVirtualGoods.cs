@@ -24,34 +24,27 @@ namespace TurboLabz.InstantFramework
 
         private void OnBuyVirtualGoodsSuccess(BuyVirtualGoodResponse response)
         {
-            if (response.HasErrors)
+            // Consume bucks
+            if (response.CurrencyType == 2 && response.CurrencyConsumed.HasValue)
             {
-                backendErrorSignal.Dispatch(BackendResult.BUY_VIRTUAL_GOOD_FAILED);
+                playersModel.bucks -= response.CurrencyConsumed.Value;
             }
-            else
+
+            GSEnumerable<BuyVirtualGoodResponse._Boughtitem> virtualGoods = response.BoughtItems;
+            foreach (var v in virtualGoods)
             {
-                // Consume bucks
-                if (response.CurrencyType == 2 && response.CurrencyConsumed.HasValue)
+                //long quantity = v.Quantity.Value;
+                string shopItemId = v.ShortCode;
+
+                int count = 0;
+                if (playersModel.inventory.ContainsKey(shopItemId))
                 {
-                    playersModel.bucks -= response.CurrencyConsumed.Value;
+                    count = playersModel.inventory[shopItemId] + 1;
+                    playersModel.inventory[shopItemId] = count;
                 }
-
-                GSEnumerable<BuyVirtualGoodResponse._Boughtitem> virtualGoods = response.BoughtItems;
-                foreach (var v in virtualGoods)
+                else
                 {
-                    //long quantity = v.Quantity.Value;
-                    string shopItemId = v.ShortCode;
-
-                    int count = 0;
-                    if (playersModel.inventory.ContainsKey(shopItemId))
-                    {
-                        count = playersModel.inventory[shopItemId] + 1;
-                        playersModel.inventory[shopItemId] = count;
-                    }
-                    else
-                    {
-                        playersModel.inventory.Add(shopItemId, 1); 
-                    }
+                    playersModel.inventory.Add(shopItemId, 1); 
                 }
             }
         }
