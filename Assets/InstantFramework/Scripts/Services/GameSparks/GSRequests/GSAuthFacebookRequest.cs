@@ -12,7 +12,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSAuthFacebookRequest : GSRequest
+    public class GSAuthFacebookRequest : GSRequestDispatcher
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
 

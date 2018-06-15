@@ -42,7 +42,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSUpdateActiveInventoryRequest : GSRequest
+    public class GSUpdateActiveInventoryRequest : GSRequestDispatcher
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<LogEventResponse> successCallback;

@@ -5,6 +5,7 @@
 
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,8 +16,9 @@ namespace TurboLabz.InstantFramework
         void StartPinger();
         void MonitorConnectivity();
 
-		IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> GetInitData(int clientVersion);
+
+		IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string activeAvatarsId, string activeAvatarsBorderId);
         IPromise<BackendResult> AuthFacebook();
         IPromise<BackendResult> SetPlayerSocialName(string name);
@@ -29,7 +31,6 @@ namespace TurboLabz.InstantFramework
 
         IPromise<BackendResult> TestRequest(string eventKey);
 
-        IPromise<BackendResult> GetAccountDetails();
         IPromise<BackendResult> FindMatch(string groupId);
         IPromise<BackendResult> GetGameStartTime(string challengeId);
         IPromise<BackendResult> ConsumeVirtualGood(int quantity, string shortCode);

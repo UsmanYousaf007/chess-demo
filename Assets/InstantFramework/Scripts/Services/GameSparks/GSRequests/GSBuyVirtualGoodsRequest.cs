@@ -38,7 +38,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSBuyVirtualGoodsRequest : GSRequest
+    public class GSBuyVirtualGoodsRequest : GSRequestDispatcher
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<BuyVirtualGoodResponse> successCallback;

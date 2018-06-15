@@ -7,14 +7,11 @@ namespace TurboLabz.InstantFramework
 {
     public interface IAppInfoModel
     {
-        string appVersion { get; set; }
-        string appBackendVersion  { get; set; }
-
-        bool appVersionValid { get; set; }
+        int appBackendVersion  { get; set; }
+        bool appBackendVersionValid { get; set; }
         string iosURL { get; set; }
         string androidURL { get; set; }
 
         void Reset();
-        void RetrieveAppVersion();
     }
 }

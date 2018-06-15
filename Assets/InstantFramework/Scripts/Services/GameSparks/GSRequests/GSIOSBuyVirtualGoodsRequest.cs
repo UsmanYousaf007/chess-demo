@@ -11,7 +11,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSIOSBuyGoodsRequest : GSRequest
+    public class GSIOSBuyGoodsRequest : GSRequestDispatcher
     {
         private string transaction;
         private IPromise<BackendResult, string> promise = new Promise<BackendResult, string>();

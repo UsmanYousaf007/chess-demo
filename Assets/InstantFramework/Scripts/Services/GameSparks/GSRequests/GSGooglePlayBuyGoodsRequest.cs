@@ -11,7 +11,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSGooglePlayBuyGoodsRequest : GSRequest
+    public class GSGooglePlayBuyGoodsRequest : GSRequestDispatcher
     {
         private IPromise<BackendResult, string> promise = new Promise<BackendResult, string>();
         private Action<BuyVirtualGoodResponse> successCallback;

@@ -10,6 +10,8 @@ using GameSparks.Core;
 using strange.extensions.promise.api;
 
 using TurboLabz.TLUtils;
+using System;
+using GameSparks.Api.Requests;
 
 namespace TurboLabz.InstantFramework
 {
@@ -17,10 +19,10 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetInitData(int clientVersion)
         {
-            return new GSGetInitDataRequest().Send(clientVersion, OnGetInitDataSuccess);
+            return new GetInitDataRequest(clientVersion, OnSuccess).Send();
         }
-
-        private void OnGetInitDataSuccess(LogEventResponse response)
+    
+        void OnSuccess(LogEventResponse response)
         {
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
@@ -28,10 +30,10 @@ namespace TurboLabz.InstantFramework
             // Check app version match with back end. Bail if there is mismatch.
             if (response.ScriptData.GetBoolean(GSBackendKeys.APP_VERSION_VALID) == false)
             {
-                appInfoModel.appVersionValid = false;
+                appInfoModel.appBackendVersionValid = false;
                 return;
             }
-            appInfoModel.appVersionValid = true;
+            appInfoModel.appBackendVersionValid = true;
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);
@@ -70,13 +72,45 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        private void OnAccountDetailsSuccess(AccountDetailsResponse response)
+        {
+            GSData externalIds = response.ExternalIds;
+            IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
+
+            playerModel.id = response.UserId;
+            playerModel.tag = response.ScriptData.GetString(GSBackendKeys.TAG);
+            playerModel.name = response.DisplayName;
+            playerModel.countryId = response.Location.Country;
+
+            playerModel.bucks = response.Currency2.Value;
+            playerModel.isSocialNameSet = response.ScriptData.GetBoolean(GSBackendKeys.IS_SOCIAL_NAME_SET).Value;
+            playerModel.externalAuthentications = externalAuthentications;
+            playerModel.eloScore = response.ScriptData.GetInt(GSBackendKeys.ELO_SCORE).Value;
+            playerModel.adLifetimeImpressions = response.ScriptData.GetInt(GSBackendKeys.AD_LIFETIME_IMPRESSIONS).Value;
+
+            playerModel.totalGamesWon = response.ScriptData.GetInt(GSBackendKeys.GAMES_WON).Value;
+            playerModel.totalGamesLost = response.ScriptData.GetInt(GSBackendKeys.GAMES_LOST).Value;
+            playerModel.totalGamesDrawn = response.ScriptData.GetInt(GSBackendKeys.GAMES_DRAWN).Value;
+            playerModel.totalGamesAbandoned = response.ScriptData.GetInt(GSBackendKeys.GAMES_ABANDONED).Value;
+            playerModel.totalGamesPlayed = response.ScriptData.GetInt(GSBackendKeys.GAMES_PLAYED).Value;
+
+            // Populate inventory data
+            IList<GSData> playerActiveInventory = response.ScriptData.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
+            IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
+            GSParser.PopulateInventory(inventory, response.VirtualGoods);
+            playerModel.inventory = inventory;
+            GSParser.PopulateActiveInventory(playerModel, playerActiveInventory);
+
+            GSParser.LogPlayerInfo(playerModel);
+        }
+
         private void FillAdsSettingsModel(GSData adsSettingsData)
         {
             adsSettingsModel.adsRewardIncrement = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARD_INCREMENT).Value;
             adsSettingsModel.maxImpressionsPerSlot = adsSettingsData.GetInt(GSBackendKeys.ADS_MAX_IMPRESSIONS_PER_SLOT).Value;
             adsSettingsModel.slotMinutes = adsSettingsData.GetInt(GSBackendKeys.ADS_SLOT_MINUTES).Value;
         }
-            
+
         private void FillStoreSettingsModel(GSData storeSettingsData)
         {
             List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList("skinShopItems");
@@ -137,11 +171,11 @@ namespace TurboLabz.InstantFramework
                 }
 
                 items.Add(item.key, item);
-			}
+            }
 
             return items;
         }
-            
+
         private IOrderedDictionary<string, StoreItem> PopulateAvatarStoreItems(List<GSData> avatarSettingData)
         {
             IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
@@ -157,4 +191,22 @@ namespace TurboLabz.InstantFramework
             return items;
         }
     }
+
+    #region REQUEST
+
+    public class GetInitDataRequest : GSRequestD
+    {
+        public GetInitDataRequest(int clientVersion, Action<LogEventResponse> onSuccess)
+        {
+            // Set your request parameters here
+            key = "GetInitData";
+            request.SetEventAttribute("appVersion", clientVersion);
+            errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
+
+            // Do not modify below
+            this.onSuccess = onSuccess;
+        }
+    }
+
+    #endregion
 }

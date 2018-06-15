@@ -42,7 +42,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class FBGetProfilePictureRequest : GSRequest
+    public class FBGetProfilePictureRequest : GSRequestDispatcher
     {
         private const string PROFILE_PICTURE_TEXTURE_NAME = "FacebookProfilePicture";
 

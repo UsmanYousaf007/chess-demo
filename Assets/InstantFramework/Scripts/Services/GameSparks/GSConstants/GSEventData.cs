@@ -44,12 +44,6 @@ namespace TurboLabz.InstantFramework
             public const string ATT_KEY_NAME = "name";
         }
 
-        public static class GetInitData
-        {
-            public const string EVT_KEY = "GetInitData";
-            public const string EVT_APP_VERSION = "appVersion";
-        }
-
         public static class ClaimReward
         {
             public const string EVT_KEY = "ClaimReward";

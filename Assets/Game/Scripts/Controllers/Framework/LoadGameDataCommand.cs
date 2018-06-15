@@ -36,29 +36,24 @@ namespace TurboLabz.InstantChess
             Retain();
             ResetModels();
 
-            appInfoModel.RetrieveAppVersion();
-            LogUtil.Log("Client AppVersion: " + appInfoModel.appVersion + " Backend Version: " + appInfoModel.appBackendVersion, "cyan");
-            backendService.GetInitData(int.Parse(appInfoModel.appBackendVersion)).Then(OnGetInitData);
+            backendService.GetInitData(appInfoModel.appBackendVersion).Then(OnComplete);
         }
 
-        private void InitMetaData()
+        void OnComplete(BackendResult result)
         {
-            model.appInfo = appInfoModel;
-            model.store = storeSettingsModel;
-            model.adsSettings = adsSettingsModel;
-        }
-
-        private void OnGetInitData(BackendResult result)
-        {
-            if (result != BackendResult.SUCCESS)
+            if (result == BackendResult.SUCCESS)
             {
-                backendErrorSignal.Dispatch(result);
-                Release();
-                return;
+                model.appInfo = appInfoModel;
+                model.store = storeSettingsModel;
+                model.adsSettings = adsSettingsModel;
+
+                loadMetaDataCompleteSignal.Dispatch();
+            }
+            else
+            {
+                backendErrorSignal.Dispatch(result);    
             }
 
-            InitMetaData();
-            loadMetaDataCompleteSignal.Dispatch();
             Release();
         }
 

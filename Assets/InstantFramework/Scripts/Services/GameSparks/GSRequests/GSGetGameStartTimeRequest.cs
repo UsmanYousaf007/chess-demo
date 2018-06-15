@@ -41,7 +41,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSGetGameStartTimeRequest : GSRequest
+    public class GSGetGameStartTimeRequest : GSRequestDispatcher
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<ScriptMessage> successCallback;

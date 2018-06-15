@@ -38,7 +38,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSTestRequest : GSRequest
+    public class GSTestRequest : GSRequestDispatcher
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
 

@@ -14,7 +14,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public abstract class GSRequest : IGSRequest
+    public abstract class GSRequestDispatcher : IGSRequest
     {
         // When requests are added to the GSRequestSession, they will all expire
         // when the session ends. The session ends when we  have a backend

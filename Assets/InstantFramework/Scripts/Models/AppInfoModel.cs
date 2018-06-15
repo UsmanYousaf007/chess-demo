@@ -9,10 +9,8 @@ namespace TurboLabz.InstantFramework
 {
     public class AppInfoModel : IAppInfoModel
     {
-        public string appVersion { get; set; }
-        public string appBackendVersion  { get; set; }
-
-        public bool appVersionValid { get; set; }
+        public int appBackendVersion  { get; set; }
+        public bool appBackendVersionValid { get; set; }
         public string iosURL { get; set; }
         public string androidURL { get; set; }
 
@@ -25,19 +23,12 @@ namespace TurboLabz.InstantFramework
 
         public void Reset()
         {
-            appVersion = "";  
-            appBackendVersion = "";
-            appVersionValid = false;
+            appBackendVersionValid = false;
             iosURL = "";
             androidURL = "";
-        }
 
-        public void RetrieveAppVersion()
-        {
             string[] version = Application.version.Split('.');
-
-            appVersion = version[(int)subVersionIndex.MAJOR] + "." + version[(int)subVersionIndex.MINOR];
-            appBackendVersion = version[(int)subVersionIndex.BACKEND];
+            appBackendVersion = int.Parse(version[(int)subVersionIndex.BACKEND]);
         }
     }
 }

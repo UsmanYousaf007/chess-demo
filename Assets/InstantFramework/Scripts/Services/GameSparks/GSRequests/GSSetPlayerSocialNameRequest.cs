@@ -13,7 +13,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSSetPlayerSocialNameRequest : GSRequest
+    public class GSSetPlayerSocialNameRequest : GSRequestDispatcher
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<LogEventResponse> successCallback;
