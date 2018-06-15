@@ -7,6 +7,9 @@ using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
 using System.Collections.Generic;
 using GameSparks.Core;
+using strange.extensions.promise.impl;
+using System;
+using GameSparks.Api.Requests;
 
 namespace TurboLabz.InstantFramework
 {
@@ -16,10 +19,10 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode)
         {
-            return new GSBuyVirtualGoodsRequest().Send(currencyType, quantity, shortCode, OnBuyVirtualGoodsSuccess);
+            return new GSBuyVirtualGoodsRequest().Send(currencyType, quantity, shortCode, OnSuccess);
         }
 
-        private void OnBuyVirtualGoodsSuccess(BuyVirtualGoodResponse response)
+        private void OnSuccess(BuyVirtualGoodResponse response)
         {
             if (response.HasErrors)
             {
@@ -53,4 +56,42 @@ namespace TurboLabz.InstantFramework
             }
         }
     }
+
+    #region REQUEST
+
+    public class GSBuyVirtualGoodsRequest
+    {
+        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
+        Action<BuyVirtualGoodResponse> onSuccess;
+
+        public IPromise<BackendResult> Send(                      
+            long currencyType,                                    // Which virtual currency to use. (1 to 6)
+            int quantity,                                         // The number of items to purchase
+            string shortCode,                                     // The short code of the virtual good to be purchased
+            Action<BuyVirtualGoodResponse> onSuccess)
+        {
+            this.onSuccess = onSuccess;
+
+            new BuyVirtualGoodsRequest()  
+                .SetCurrencyType(currencyType)                  
+                .SetQuantity(quantity)
+                .SetShortCode(shortCode)
+                .Send(OnSuccess, OnFailure);
+
+            return promise;
+        }
+
+        void OnSuccess(BuyVirtualGoodResponse response)
+        {
+            onSuccess(response);
+            promise.Dispatch(BackendResult.SUCCESS);
+        }
+
+        void OnFailure(BuyVirtualGoodResponse response)
+        {
+            promise.Dispatch(BackendResult.BUY_VIRTUAL_GOOD_FAILED);
+        }
+    }
+
+    #endregion
 }

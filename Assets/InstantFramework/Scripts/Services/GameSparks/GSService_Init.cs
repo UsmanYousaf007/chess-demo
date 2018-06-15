@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetInitData(int clientVersion)
         {
-            return new GetInitDataRequest(clientVersion, OnSuccess).Send();
+            return new GSGetInitDataRequest(clientVersion, OnSuccess).Send();
         }
     
         void OnSuccess(LogEventResponse response)
@@ -194,9 +194,9 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GetInitDataRequest : GSLogEventRequest
+    public class GSGetInitDataRequest : GSLogEventRequest
     {
-        public GetInitDataRequest(int clientVersion, Action<LogEventResponse> onSuccess)
+        public GSGetInitDataRequest(int clientVersion, Action<LogEventResponse> onSuccess)
         {
             // Set your request parameters here
             key = "GetInitData";

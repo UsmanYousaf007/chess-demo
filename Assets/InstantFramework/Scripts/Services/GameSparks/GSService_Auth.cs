@@ -21,12 +21,12 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthGuest()
         {
-            return new AuthGuestRequest().Send();
+            return new GSAuthGuestRequest().Send();
         }
 
         public IPromise<BackendResult> AuthFacebook(string accessToken)
         {
-            return new AuthFacebookRequest().Send(accessToken);
+            return new GSAuthFacebookRequest().Send(accessToken);
         }
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)
@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
 
     #region FACEBOOK AUTH REQUEST
 
-    public class AuthFacebookRequest
+    public class GSAuthFacebookRequest
     {
         readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
 
@@ -71,7 +71,7 @@ namespace TurboLabz.InstantFramework
 
     #region GUEST AUTH REQUEST
 
-    public class AuthGuestRequest
+    public class GSAuthGuestRequest
     {
         readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
 
