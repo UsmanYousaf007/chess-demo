@@ -5,6 +5,7 @@
 
 using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -12,7 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> ClaimReward(string rewardType)
         {
-            return new GSClaimRewardRequest().Send(rewardType, OnClaimRewardSuccess);
+            return new GSClaimRewardRequest(rewardType, OnClaimRewardSuccess).Send();
         }
 
         private void OnClaimRewardSuccess(LogEventResponse response)
@@ -23,4 +24,22 @@ namespace TurboLabz.InstantFramework
             playerModel.bucks += bucks;
         }
     }
+
+    #region REQUEST
+
+    public class GSClaimRewardRequest : GSLogEventRequest
+    {
+        public GSClaimRewardRequest(string rewardType, Action<LogEventResponse> onSuccess)
+        {
+            // Set your request parameters here
+            key = "ClaimReward";
+            request.SetEventAttribute("rewardType", rewardType);
+            errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
+
+            // Do not modify below
+            this.onSuccess = onSuccess;
+        }
+    }
+
+    #endregion
 }

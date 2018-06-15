@@ -19,10 +19,10 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetInitData(int clientVersion)
         {
-            return new GSGetInitDataRequest(clientVersion, OnSuccess).Send();
+            return new GSGetInitDataRequest(clientVersion, OnGetInitDataSuccess).Send();
         }
     
-        void OnSuccess(LogEventResponse response)
+        void OnGetInitDataSuccess(LogEventResponse response)
         {
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);

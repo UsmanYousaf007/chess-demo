@@ -19,10 +19,10 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode)
         {
-            return new GSBuyVirtualGoodsRequest().Send(currencyType, quantity, shortCode, OnSuccess);
+            return new GSBuyVirtualGoodsRequest().Send(currencyType, quantity, shortCode, OnBuyVirtualGoodsSuccess);
         }
 
-        private void OnSuccess(BuyVirtualGoodResponse response)
+        private void OnBuyVirtualGoodsSuccess(BuyVirtualGoodResponse response)
         {
             if (response.HasErrors)
             {

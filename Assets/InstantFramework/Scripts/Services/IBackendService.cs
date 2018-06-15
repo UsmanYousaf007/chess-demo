@@ -18,13 +18,15 @@ namespace TurboLabz.InstantFramework
 
         IPromise<BackendResult> GetInitData(int clientVersion);
         IPromise<BackendResult> AuthFacebook(string accessToken);
+        IPromise<BackendResult> AuthGuest();
+        IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
+        IPromise<BackendResult> ClaimReward(string rewardType);
 
-		IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string activeAvatarsId, string activeAvatarsBorderId);
         IPromise<BackendResult> SetPlayerSocialName(string name);
-        IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
+
         IPromise<BackendResult, string> GooglePlayBuyGoods(string transactionID, string currencyCode, string signature, string signedData, int subUnitPrice);
-        IPromise<BackendResult> ClaimReward(string rewardType);
+
 
 		/*
 
