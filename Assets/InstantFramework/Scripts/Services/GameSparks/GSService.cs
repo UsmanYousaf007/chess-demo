@@ -23,7 +23,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         // Services
-        [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IStoreService storeService { get; set; }
 
         // Utils

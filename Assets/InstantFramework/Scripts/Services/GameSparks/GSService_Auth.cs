@@ -6,6 +6,9 @@
 using GameSparks.Api.Responses;
 using GameSparks.Core;
 using strange.extensions.promise.api;
+using System;
+using GameSparks.Api.Requests;
+using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,9 +26,9 @@ namespace TurboLabz.InstantFramework
             return new GSAuthGuestRequest().Send();
         }
 
-        public IPromise<BackendResult> AuthFacebook()
+        public IPromise<BackendResult> AuthFacebook(string accessToken)
         {
-            return new GSAuthFacebookRequest().Send(facebookService);
+            return new AuthFacebookRequest().Send(accessToken);
         }
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)
@@ -38,4 +41,33 @@ namespace TurboLabz.InstantFramework
             playerModel.name = response.ScriptData.GetString(GSBackendKeys.DISPLAY_NAME);
         }
     }
+
+    #region REQUEST
+
+    public class AuthFacebookRequest
+    {
+        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
+
+        public IPromise<BackendResult> Send(string accessToken)
+        {
+            new FacebookConnectRequest().SetAccessToken(accessToken)
+                .SetSyncDisplayName(true)
+                .SetSwitchIfPossible(true)
+                .Send(OnSuccess, OnFailure);
+
+            return promise;
+        }
+
+        void OnSuccess(AuthenticationResponse response)
+        {
+            promise.Dispatch(BackendResult.SUCCESS);
+        }
+
+        void OnFailure(AuthenticationResponse response)
+        {
+            promise.Dispatch(BackendResult.AUTH_FACEBOOK_REQUEST_FAILED);
+        }
+    }
+
+    #endregion
 }

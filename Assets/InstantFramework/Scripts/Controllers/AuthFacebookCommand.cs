@@ -11,21 +11,39 @@ namespace TurboLabz.InstantFramework
     {
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         // Dispatch Signals
-        [Inject] public AuthFacebookCompleteSignal authFacebookCompleteSignal { get; set; }
+        [Inject] public AuthFacebookSuccessSignal authFacebookSuccessSignal { get; set; }
 
         public override void Execute()
         {
             Retain();
+
             // TODO: Need to switch on a "standard" background view blocker
-            backendService.AuthFacebook().Then(OnAuthFacebook);
+            facebookService.Auth().Then(OnAuthFacebook);
         }
 
-        private void OnAuthFacebook(BackendResult result)
+        private void OnAuthFacebook(FacebookResult result, string accessToken)
+        {
+            if (result == FacebookResult.SUCCESS)
+            {
+                backendService.AuthFacebook(accessToken).Then(OnBackendAuthFacebook);
+            }
+            else
+            {
+                Release();
+            }
+        }
+
+        private void OnBackendAuthFacebook(BackendResult result)
         {
             // TODO: Need to switch off a "standard" background view blocker
-            authFacebookCompleteSignal.Dispatch(result);
+            if (result == BackendResult.SUCCESS)
+            {
+                authFacebookSuccessSignal.Dispatch();
+            }
+
             Release();
         }
     }

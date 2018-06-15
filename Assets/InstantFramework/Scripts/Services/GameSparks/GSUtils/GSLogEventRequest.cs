@@ -6,7 +6,7 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework 
 {
-    public class GSRequestD
+    public class GSLogEventRequest
     {
         protected LogEventRequest request = new LogEventRequest();
         protected string key;

@@ -194,7 +194,7 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GetInitDataRequest : GSRequestD
+    public class GetInitDataRequest : GSLogEventRequest
     {
         public GetInitDataRequest(int clientVersion, Action<LogEventResponse> onSuccess)
         {

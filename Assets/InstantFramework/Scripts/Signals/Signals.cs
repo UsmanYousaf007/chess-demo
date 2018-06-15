@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
     public class LoadMetaDataCompleteSignal : Signal {}
 
     public class AuthFaceBookSignal : Signal {}
-    public class AuthFacebookCompleteSignal : Signal<BackendResult> {}
+    public class AuthFacebookSuccessSignal : Signal {}
 
 	public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
 
