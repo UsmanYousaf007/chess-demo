@@ -44,8 +44,8 @@ namespace TurboLabz.InstantGame
         public Text nextStrengthLabel;
         public Button incStrengthButton;
 
-        public Button playOnlineButton;
-        public Text playOnlineButtonLabel;
+        public Button playMultiplayerButton;
+        public Text playMultiplayerButtonLabel;
 
         public Button playCPUButton;
         public Text playCPUButtonLabel;
@@ -76,6 +76,7 @@ namespace TurboLabz.InstantGame
 		public Signal incThemeButtonClickedSignal = new Signal();
 		public Signal decThemeButtonClickedSignal = new Signal();
         public Signal playCPUButtonClickedSignal = new Signal();
+        public Signal playMultiplayerButtonClickedSignal = new Signal();
 		public Signal themesButtonClickedSignal = new Signal();
         public Signal freeBucksButtonClickedSignal = new Signal();
         public Signal freeBucksRewardOkButtonClickedSignal = new Signal();
@@ -94,7 +95,7 @@ namespace TurboLabz.InstantGame
             shareButton.onClick.AddListener(OnShareAppButtonClicked);
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
-            playOnlineButton.onClick.AddListener(OnPlayOnlineButtonClicked);
+            playMultiplayerButton.onClick.AddListener(OnPlayMultiplayerButtonClicked);
             playCPUButton.onClick.AddListener(OnPlayCPUButtonClicked);
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
             freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
@@ -104,7 +105,7 @@ namespace TurboLabz.InstantGame
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
             strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
-            playOnlineButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
+            playMultiplayerButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
             playCPUButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
             freeBucksRewardOkButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_OK);
             freeBucksRewardTitle.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE);
@@ -125,7 +126,7 @@ namespace TurboLabz.InstantGame
             shareButton.onClick.RemoveAllListeners();
             decStrengthButton.onClick.RemoveAllListeners();
             incStrengthButton.onClick.RemoveAllListeners();
-            playOnlineButton.onClick.RemoveAllListeners();
+            playMultiplayerButton.onClick.RemoveAllListeners();
             playCPUButton.onClick.RemoveAllListeners();
             devFen.onValueChanged.RemoveAllListeners();
         }
@@ -348,8 +349,9 @@ namespace TurboLabz.InstantGame
             playCPUButtonClickedSignal.Dispatch();
         }
 
-        private void OnPlayOnlineButtonClicked()
+        private void OnPlayMultiplayerButtonClicked()
         {
+            playMultiplayerButtonClickedSignal.Dispatch();
         }
 
 		private void OnThemesButtonClicked()

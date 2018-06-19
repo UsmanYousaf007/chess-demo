@@ -27,8 +27,8 @@ namespace TurboLabz.InstantGame
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public AdjustDurationSignal adjustTimerSignal { get; set; }
         [Inject] public AdjustPlayerColorSignal adjustPlayerColorSignal { get; set; }
-		//[Inject] public AdjustThemeSignal adjustThemeSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
@@ -46,15 +46,21 @@ namespace TurboLabz.InstantGame
         public override void OnRegister()
         {
             view.Init();
+
+            view.playMultiplayerButtonClickedSignal.AddListener(OnPlayMultiplayerButtonClicked);
+
+            view.playCPUButtonClickedSignal.AddListener(OnPlayCPUButtonClicked);
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
+
+
+
             view.decDurationButtonClickedSignal.AddListener(OnDecTimeButtonClicked);
             view.incDurationButtonClickedSignal.AddListener(OnIncTimeButtonClicked);
             view.decPlayerColorButtonClickedSignal.AddListener(OnDecPlayerColorButtonClicked);
             view.incPlayerColorButtonClickedSignal.AddListener(OnIncPlayerColorButtonClicked);
 			view.incThemeButtonClickedSignal.AddListener(OnIncThemeButtonClicked);
 			view.decThemeButtonClickedSignal.AddListener(OnDecThemeButtonClicked);
-            view.playCPUButtonClickedSignal.AddListener(OnPlayCPUButtonClicked);
 			view.themesButtonClickedSignal.AddListener(OnThemesButtonClicked);
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
             view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
@@ -205,6 +211,11 @@ namespace TurboLabz.InstantGame
         private void OnPlayCPUButtonClicked()
         {
             startCPUGameSignal.Dispatch();
+        }
+
+        private void OnPlayMultiplayerButtonClicked()
+        {
+            findMatchSignal.Dispatch();
         }
 
 		private void OnThemesButtonClicked()

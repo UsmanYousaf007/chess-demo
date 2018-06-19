@@ -9,19 +9,20 @@ using System;
 using strange.extensions.promise.impl;
 using GameSparks.Api.Messages;
 using GameSparks.Api.Requests;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> FindMatch(string groupId)
+        public IPromise<BackendResult> FindMatch()
         {
-            return new GSFindMatchRequest().Send(groupId, OnFindMatchSuccess);
+            return new GSFindMatchRequest().Send(OnFindMatchSuccess);
         }
 
         private void OnFindMatchSuccess(ChallengeStartedMessage message)
         {
-         
+            LogUtil.Log("Found a match service....! " + message.Challenge.ChallengeId, "cyan");
         }
     }
 
@@ -32,13 +33,12 @@ namespace TurboLabz.InstantFramework
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<ChallengeStartedMessage> onSuccess;
 
-        public IPromise<BackendResult> Send(string groupId, Action<ChallengeStartedMessage> onSuccess)
+        public IPromise<BackendResult> Send(Action<ChallengeStartedMessage> onSuccess)
         {
             this.onSuccess = onSuccess;
             AddListeners();
 
             new LogEventRequest().SetEventKey("FindMatch")
-                .SetEventAttribute("matchGroup", groupId)
                 .Send((response) => {}, OnFailure);
 
             return promise;

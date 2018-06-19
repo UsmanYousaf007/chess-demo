@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
+            commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
