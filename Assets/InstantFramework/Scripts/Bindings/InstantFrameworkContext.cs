@@ -9,7 +9,6 @@ using strange.extensions.context.impl;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
-using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
@@ -42,7 +41,6 @@ namespace TurboLabz.InstantFramework
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
-            commandBinder.Bind<LoadCPUGameDataSignal>().To<LoadCPUGameDataCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
             commandBinder.Bind<GameAppEventSignal>().To<GameAppEventCommand>();
@@ -59,7 +57,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
 
 			// Bind signals to models data loader commands
-			commandBinder.Bind<LoadGameDataSignal>().To<LoadGameDataCommand>();
+			commandBinder.Bind<InitGameDataSignal>().To<InitGameDataCommand>();
 
             // Bind signals to social commands
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
@@ -67,7 +65,6 @@ namespace TurboLabz.InstantFramework
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateGameInfoSignal>().ToSingleton();
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
             injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookSuccessSignal>().ToSingleton();
@@ -115,6 +112,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAdsSettingsModel>().To<AdsSettingsModel>().ToSingleton();
 
             MapGameBindings();
+            MapCPUGameBindings();
+            MapMultiplayerGameBindings();
         }
 
         // TODO: move this to the game folder
@@ -125,32 +124,18 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IChessAiService>().To<ChessAiService>().ToSingleton();
 
             // Bind signals to commands
-            commandBinder.Bind<StartCPUGameSignal>().To<StartCPUGameCommand>();
-            commandBinder.Bind<RunTimeControlSignal>().To<RunTimeControlCommand>();
-            commandBinder.Bind<ResignSignal>().To<ResignCommand>();
-            commandBinder.Bind<SaveGameSignal>().To<SaveGameCommand>();
             commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
 			commandBinder.Bind<SavePlayerSignal>().To<SavePlayerCommand>();
-            commandBinder.Bind<AiTurnSignal>().To<AiTurnCommand>();
-            commandBinder.Bind<ChessboardEventSignal>().To<ChessboardCommand>();
-            commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
-            commandBinder.Bind<PromoSelectedSignal>().To<ChessboardPromoCommand>();
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
             commandBinder.Bind<AdjustDurationSignal>().To<AdjustDurationCommand>();
             commandBinder.Bind<AdjustPlayerColorSignal>().To<AdjustPlayerColorCommand>();
-			//commandBinder.Bind<AdjustThemeSignal>().To<AdjustThemeCommand>();
-            commandBinder.Bind<DevFenValueChangedSignal>().To<DevFenChangedCommand>();
-            commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
-            commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
-            commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
-            commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
+			commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
 			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<CPULobbyView>().To<CPULobbyMediator>();
-            mediationBinder.Bind<GameView>().To<GameMediator>();
             mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
 			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();
 			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
@@ -162,52 +147,14 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateSkinSignal>().ToSingleton();
 
             // Bind signals for dispatching to/from mediators
-            injectionBinder.Bind<SetupChessboardSignal>().ToSingleton();
-            injectionBinder.Bind<InitTimersSignal>().ToSingleton();
-            injectionBinder.Bind<InitInfiniteTimersSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayerTimerSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateOpponentTimerSignal>().ToSingleton();
-            injectionBinder.Bind<PlayerTimerExpiredSignal>().ToSingleton();
-            injectionBinder.Bind<OpponentTimerExpiredSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateResultDialogSignal>().ToSingleton();
-            injectionBinder.Bind<ShowPossibleMovesSignal>().ToSingleton();
-            injectionBinder.Bind<HidePossibleMovesSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateChessboardSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayerMoveSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayerPrePromoMoveSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateOpponentMoveSignal>().ToSingleton();
-            injectionBinder.Bind<ShowPlayerFromIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<ShowPlayerToIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<HidePlayerFromIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<HidePlayerToIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<ShowOpponentFromIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<ShowOpponentToIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<HideOpponentFromIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<HideOpponentToIndicatorSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePromoDialogSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePromoSignal>().ToSingleton();
-            injectionBinder.Bind<ShowFiftyMoveDrawDialogSignal>().ToSingleton();
-            injectionBinder.Bind<ShowThreefoldRepeatDrawDialogSignal>().ToSingleton();
-            injectionBinder.Bind<HideDrawDialogSignal>().ToSingleton();
-            injectionBinder.Bind<EnablePlayerTurnInteractionSignal>().ToSingleton();
-            injectionBinder.Bind<EnableOpponentTurnInteractionSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateMoveForResumeSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateUndoButtonSignal>().ToSingleton();
-            injectionBinder.Bind<DisableUndoButtonSignal>().ToSingleton();
-            injectionBinder.Bind<DisableMenuButtonSignal>().ToSingleton();
-            injectionBinder.Bind<DisableHintButtonSignal>().ToSingleton();
             injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStrengthSignal>().ToSingleton();
             injectionBinder.Bind<UpdateDurationSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerColorSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateThemeSignal>().ToSingleton();
-            injectionBinder.Bind<RenderHintSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
-            injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStatsSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreSignal>().ToSingleton();
-            injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
-			injectionBinder.Bind<UpdateStoreBuyDlgSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateStoreBuyDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreNotEnoughBucksDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
@@ -216,16 +163,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ToggleAdBlockerSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
 
-            // Bind signals for dipatching from command to command
-            injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();
-            injectionBinder.Bind<ReceiveTurnSwapTimeControlSignal>().ToSingleton();
-            injectionBinder.Bind<StopTimersSignal>().ToSingleton();
-            injectionBinder.Bind<PauseTimersSignal>().ToSingleton();
-            injectionBinder.Bind<ResumeTimersSignal>().ToSingleton();
-
             // Bind models
-            injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();
-            injectionBinder.Bind<ICPUGameModel>().To<CPUGameModel>().ToSingleton();
             injectionBinder.Bind<IStatsModel>().To<StatsModel>().ToSingleton();
         }
     }

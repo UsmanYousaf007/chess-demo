@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
     public class StartSignal : Signal {}
     public class AppEventSignal : Signal<AppEvent> {}
     public class GameAppEventSignal : Signal<AppEvent> {}
+    public class SavePlayerSignal : Signal {}
 
     // Preferences Signals
     public class AudioStateChangedSignal : Signal<bool> {}
@@ -24,7 +25,7 @@ namespace TurboLabz.InstantFramework
     public class NavigatorIgnoreEventSignal : Signal<NavigatorEvent> {}
 
 	// Model data load signals
-	public class LoadGameDataSignal : Signal {}
+	public class InitGameDataSignal : Signal {}
     public class LoadMetaDataCompleteSignal : Signal {}
 
     public class AuthFaceBookSignal : Signal {}

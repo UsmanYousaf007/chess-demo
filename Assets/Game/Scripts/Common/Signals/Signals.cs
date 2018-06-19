@@ -18,7 +18,6 @@ using TurboLabz.InstantFramework;
 namespace TurboLabz.InstantGame
 {
     // CPU LOBBY
-    public class SaveGameSignal : Signal {}
     public class UpdateMenuViewSignal : Signal<LobbyVO> {}
     public class AdjustStrengthSignal : Signal<bool> {}
     public class AdjustDurationSignal : Signal<bool> {}
@@ -28,7 +27,6 @@ namespace TurboLabz.InstantGame
     public class UpdateDurationSignal : Signal<LobbyVO> {}
     public class UpdatePlayerColorSignal : Signal<LobbyVO> {}
 	public class UpdateThemeSignal : Signal<LobbyVO> {}
-    public class LoadCPUGameDataSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
@@ -37,7 +35,6 @@ namespace TurboLabz.InstantGame
     public class ToggleAdBlockerSignal : Signal<bool> {}
 
 	// PLAYER
-	public class SavePlayerSignal : Signal {}
 	public class UpdatePlayerBucksDisplaySignal : Signal<long> {}
 
     // CPU STATS

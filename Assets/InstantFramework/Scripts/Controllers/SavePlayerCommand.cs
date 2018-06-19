@@ -4,9 +4,8 @@
 /// Proprietary and confidential
 
 using strange.extensions.command.impl;
-using TurboLabz.InstantFramework;
 
-namespace TurboLabz.CPU
+namespace TurboLabz.InstantFramework
 {
 	public class SavePlayerCommand : Command
 	{

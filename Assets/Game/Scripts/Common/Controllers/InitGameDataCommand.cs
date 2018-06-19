@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
-	public class LoadGameDataCommand : Command
+	public class InitGameDataCommand : Command
 	{ 
         // Models
         [Inject] public IMetaDataModel model { get; set; }

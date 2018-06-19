@@ -22,7 +22,7 @@ using UnityEngine;
 
 namespace TurboLabz.CPU
 {
-	public class LoadCPUGameDataCommand : Command
+	public class LoadGameCommand : Command
 	{
 		// Models
 		[Inject] public ICPUGameModel cpuGameModel { get; set; }
