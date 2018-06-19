@@ -43,7 +43,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowPromoDialog(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.PROMO_DLG) 
+            if (viewId == NavigatorViewId.MULTIPLAYER_PROMO_DLG) 
             {
                 view.ShowPromoDialog();
             }
@@ -52,7 +52,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHidePromoDialog(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.PROMO_DLG)
+            if (viewId == NavigatorViewId.MULTIPLAYER_PROMO_DLG)
             {
                 view.HidePromoDialog();
             }

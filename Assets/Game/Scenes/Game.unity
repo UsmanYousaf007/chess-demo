@@ -764,9 +764,8 @@ MonoBehaviour:
   titleLabel: {fileID: 1309699338}
   resignButtonLabel: {fileID: 1996006856}
   continueButtonLabel: {fileID: 292297817}
-  playerNameLabel: {fileID: 0}
-  cpuNameLabel: {fileID: 0}
-  cpuStrengthLabel: {fileID: 0}
+  playerNameLabel: {fileID: 189330509}
+  opponentNameLabel: {fileID: 467849609}
   notation: {fileID: 1285033369}
   promoParent: {fileID: 24202221}
   promoWhiteQueenButton: {fileID: 1723755465}
@@ -61390,7 +61389,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 339.34885, y: 111.3}
+  m_SizeDelta: {x: 341.33334, y: 111.3}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &2006964933
 MonoBehaviour:

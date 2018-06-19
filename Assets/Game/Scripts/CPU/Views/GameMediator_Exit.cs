@@ -40,7 +40,7 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowMenuView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.EXIT_DLG) 
+            if (viewId == NavigatorViewId.CPU_EXIT_DLG) 
             {
                 pauseTimersSignal.Dispatch();
                 view.ShowMenu();
@@ -50,7 +50,7 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideMenuView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.EXIT_DLG)
+            if (viewId == NavigatorViewId.CPU_EXIT_DLG)
             {
                 resumeTimersSignal.Dispatch();
                 view.HideMenu();
@@ -71,17 +71,18 @@ namespace TurboLabz.CPU
 
         private void OnMenuButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_EXIT_DLG);
         }
 
         private void OnResignClicked()
         {
+            LogUtil.Log("CLICK!!!", "cyan");
             resignSignal.Dispatch();
         }
 
         private void OnContinueButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
         }
     }
 }

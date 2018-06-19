@@ -16,17 +16,23 @@ namespace TurboLabz.InstantFramework
     {
         NONE,
         SPLASH,
-        CPU_LOBBY,
+        LOBBY,
         STATS,
 		STORE,
-        PLAY,
-        EXIT_DLG,
-        RESULTS_DLG,
-        PROMO_DLG,
-        AD_COVER,
-		BUY_DLG,
+        CPU,
+        CPU_EXIT_DLG,
+        CPU_RESULTS_DLG,
+        CPU_PROMO_DLG,
+        MULTIPLAYER,
+        MULTIPLAYER_EXIT_DLG,
+        MULTIPLAYER_RESULTS_DLG,
+        MULTIPLAYER_PROMO_DLG,
+        BUY_DLG,
 		NOT_ENOUGH_BUCKS_DLG,
 		BUCK_PACKS_DLG,
-        FREE_BUCKS_REWARD_DLG
+        FREE_BUCKS_REWARD_DLG,
+
+        // TODO: I am possibly unused so remove me.
+        AD_COVER
     }
 }

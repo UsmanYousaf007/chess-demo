@@ -59,6 +59,7 @@ namespace TurboLabz.Multiplayer
         List<string> notation { get; set; }
         List<ChessMove> backendMoveList { get; set; }
         List<MoveVO> resumeMoves { get; set; }
+        bool inPlaybackMode { get; set; }
 
         void Reset();
     }

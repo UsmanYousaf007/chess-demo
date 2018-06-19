@@ -96,7 +96,7 @@ namespace TurboLabz.CPU
 
             cmd.saveStatsSignal.Dispatch(statResult);
 
-			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
+			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
 			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, statResult);
         }
 

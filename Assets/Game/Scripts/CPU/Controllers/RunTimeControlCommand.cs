@@ -110,7 +110,7 @@ namespace TurboLabz.CPU
         {
             chessboardModel.gameEndReason = GameEndReason.TIMER_EXPIRED;
             chessboardModel.winnerId = winnerId;
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
 
         }

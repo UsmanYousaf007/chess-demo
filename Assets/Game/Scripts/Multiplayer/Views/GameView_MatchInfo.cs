@@ -22,13 +22,12 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         public Text playerNameLabel;
-        public Text cpuNameLabel;
-        public Text cpuStrengthLabel;
+        public Text opponentNameLabel;
         private Image playerProfilePicture;
 
         public void InitMatchInfo()
         {
-            cpuNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_NAME);
+            opponentNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_NAME);
             playerNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_PLAYER_NAME);
         }
 

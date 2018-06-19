@@ -52,7 +52,7 @@ namespace TurboLabz.InstantFramework
 
         private void AddToHistory(NavigatorViewId id)
         {
-            if (id == NavigatorViewId.CPU_LOBBY)
+            if (id == NavigatorViewId.LOBBY)
             {
                 cmd.navigatorModel.history.Clear();
             }

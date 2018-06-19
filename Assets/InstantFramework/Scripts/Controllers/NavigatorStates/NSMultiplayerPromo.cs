@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -12,18 +12,18 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSAdCover : NS
+    public class NSMultiplayerPromo : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.AD_COVER);
+            ShowDialog(NavigatorViewId.MULTIPLAYER_PROMO_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_LOBBY)
+            if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
-                return new NSLobby();
+                return new NSMultiplayer();
             }
 
             return null;

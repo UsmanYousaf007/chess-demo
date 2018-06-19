@@ -43,7 +43,7 @@ namespace TurboLabz.CPU
         protected void RenderNewGame(ChessboardCommand cmd, bool isPlayerTurn)
         {
             // Load the game view
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
 
             // Initialize and launch our time control if not playing an
             // infinite time game.
@@ -61,7 +61,7 @@ namespace TurboLabz.CPU
             // If resuming, show the resume menu
             if (cmd.cpuGameModel.isResuming && !cmd.chessboardModel.isUndo)
             {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_EXIT_DLG);
             }
 
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
@@ -132,7 +132,7 @@ namespace TurboLabz.CPU
 
         protected void RenderPromo(ChessboardCommand cmd)
         {
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
             IChessboardModel model = cmd.chessboardModel;
             cmd.updatePromoSignal.Dispatch(GetMoveVO(model, true));
             cmd.chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);

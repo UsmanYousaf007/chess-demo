@@ -17,15 +17,15 @@ namespace TurboLabz.InstantFramework
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.CPU_LOBBY);
-            cmd.analyticsService.ScreenVisit(NavigatorViewId.CPU_LOBBY);
+            ShowView(NavigatorViewId.LOBBY);
+            cmd.analyticsService.ScreenVisit(NavigatorViewId.LOBBY);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_PLAY)
+            if (evt == NavigatorEvent.SHOW_CPU)
             {
-                return new NSPlay();
+                return new NSCPU();
             }
             else if (evt == NavigatorEvent.SHOW_STATS)
             {

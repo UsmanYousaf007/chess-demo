@@ -55,6 +55,7 @@ namespace TurboLabz.Multiplayer
         public List<string> notation { get; set; }
         public List<ChessMove> backendMoveList { get; set; }
         public List<MoveVO> resumeMoves { get; set; }
+        public bool inPlaybackMode { get; set; }
 
         // Overrides
         public string overrideFen { get; set; }
@@ -101,6 +102,7 @@ namespace TurboLabz.Multiplayer
             notation = new List<string>();
             backendMoveList = new List<ChessMove>();
             resumeMoves = new List<MoveVO>();
+            inPlaybackMode = false;
 
             overrideFen = null;
             overrideAiStrength = AiOverrideStrength.NONE;

@@ -11,10 +11,8 @@
 /// [add_description_here]
 
 
-using TurboLabz.Chess;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
-using TurboLabz.CPU;
+
 
 namespace TurboLabz.Multiplayer 
 {
@@ -41,7 +39,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowMenuView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.EXIT_DLG) 
+            if (viewId == NavigatorViewId.MULTIPLAYER_EXIT_DLG) 
             {
                 view.ShowMenu();
             }
@@ -50,7 +48,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideMenuView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.EXIT_DLG)
+            if (viewId == NavigatorViewId.MULTIPLAYER_EXIT_DLG)
             {
                 view.HideMenu();
             }
@@ -58,7 +56,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnMenuButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG);
         }
 
         private void OnResignClicked()
@@ -68,7 +66,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnContinueButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
         }
     }
 }

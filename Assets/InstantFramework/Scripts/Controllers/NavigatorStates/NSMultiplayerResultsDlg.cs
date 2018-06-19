@@ -9,22 +9,35 @@
 /// 
 /// @description
 /// [add_description_here]
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSExitDlg : NS
+    public class NSMultiplayerResultsDlg : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.EXIT_DLG);
+            ShowDialog(NavigatorViewId.MULTIPLAYER_RESULTS_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_PLAY ||
-                evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.ESCAPE)
             {
-                return new NSPlay();
+                cmd.enterMultiplayerPlaybackSignal.Dispatch(); 
+                return null;
+            }
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
+            {
+                return new NSLobby();
+            }
+            else if (evt == NavigatorEvent.SHOW_STATS)
+            {
+                return new NSStats();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
             }
 
             return null;

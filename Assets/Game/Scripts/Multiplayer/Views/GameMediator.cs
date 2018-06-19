@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.PLAY) 
+            if (viewId == NavigatorViewId.MULTIPLAYER) 
             {
                 view.Show();
             }
@@ -57,7 +57,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.PLAY)
+            if (viewId == NavigatorViewId.MULTIPLAYER)
             {
                 stopTimersSignal.Dispatch();
                 view.Hide();
@@ -74,7 +74,7 @@ namespace TurboLabz.Multiplayer
 
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace TurboLabz.CPU
         {
             if (CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PROMO_DLG);
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PROMO_DLG);
 
                 IChessboardModel model = cmd.chessboardModel;
                 cmd.hidePossibleMovesSignal.Dispatch();

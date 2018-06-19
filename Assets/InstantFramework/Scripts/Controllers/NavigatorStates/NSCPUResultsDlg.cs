@@ -9,38 +9,35 @@
 /// 
 /// @description
 /// [add_description_here]
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSPlay : NS
+    public class NSCPUResultsDlg : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.PLAY);
-            cmd.analyticsService.ScreenVisit(NavigatorViewId.PLAY);
+            ShowDialog(NavigatorViewId.CPU_RESULTS_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_EXIT_DLG ||
-                evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.cpuChessboardModel.inPlaybackMode)
-                {
-                    return new NSResultsDlg();
-                }
-                else
-                {
-                    return new NSExitDlg();
-                }
+                cmd.enterCPUPlaybackSignal.Dispatch(); 
+                return null;
             }
-            else if (evt == NavigatorEvent.SHOW_RESULTS_DLG)
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
-                return new NSResultsDlg();
+                return new NSLobby();
             }
-            else if (evt == NavigatorEvent.SHOW_PROMO_DLG)
+            else if (evt == NavigatorEvent.SHOW_STATS)
             {
-                return new NSPromo();
+                return new NSStats();
+            }
+            else if (evt == NavigatorEvent.SHOW_CPU)
+            {
+                return new NSCPU();
             }
 
             return null;

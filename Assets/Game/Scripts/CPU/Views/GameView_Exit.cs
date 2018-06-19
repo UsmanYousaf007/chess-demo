@@ -133,6 +133,7 @@ namespace TurboLabz.CPU
 
         void OnResignButtonClicked()
         {
+            LogUtil.Log("CLICK!!! VIEW", "cyan");
             resignButtonClickedSignal.Dispatch();
         }
 

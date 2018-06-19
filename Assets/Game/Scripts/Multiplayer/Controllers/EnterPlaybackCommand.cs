@@ -11,28 +11,28 @@
 /// [add_description_here]
 
 using strange.extensions.command.impl;
+using System.Collections.Generic;
+using TurboLabz.Chess;
+using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 
 
-namespace TurboLabz.CPU
+namespace TurboLabz.Multiplayer
 {
-    public class ResignCommand : Command
+    public class EnterPlaybackCommand : Command
     {
-        // Dispatch signals
-        [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
 
+        // Dispatch Signal
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public EnableResultsDialogButtonSignal enableResultsDialogButtonSignal { get; set; }
+
         public override void Execute()
         {
+            chessboardModel.inPlaybackMode = true;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
-
-            chessboardModel.gameEndReason = TurboLabz.Chess.GameEndReason.RESIGNATION;
-            chessboardModel.winnerId = null;
-
-            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+            enableResultsDialogButtonSignal.Dispatch();
         }
     }
 }

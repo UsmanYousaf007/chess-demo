@@ -9,35 +9,21 @@
 /// 
 /// @description
 /// [add_description_here]
-using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSResultsDlg : NS
+    public class NSCPUPromo : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.RESULTS_DLG);
+            ShowDialog(NavigatorViewId.CPU_PROMO_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.SHOW_CPU)
             {
-                cmd.enterPlaybackSignal.Dispatch(); 
-                return null;
-            }
-            else if (evt == NavigatorEvent.SHOW_LOBBY)
-            {
-                return new NSLobby();
-            }
-            else if (evt == NavigatorEvent.SHOW_STATS)
-            {
-                return new NSStats();
-            }
-            else if (evt == NavigatorEvent.SHOW_PLAY)
-            {
-                return new NSPlay();
+                return new NSCPU();
             }
 
             return null;

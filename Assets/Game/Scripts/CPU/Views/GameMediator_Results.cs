@@ -43,7 +43,7 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowResultsView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.RESULTS_DLG) 
+            if (viewId == NavigatorViewId.CPU_RESULTS_DLG) 
             {
                 view.ShowResultsDialog();
             }
@@ -52,7 +52,7 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideResultsView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.RESULTS_DLG)
+            if (viewId == NavigatorViewId.CPU_RESULTS_DLG)
             {
                 view.HideResultsDialog();
             }
@@ -88,7 +88,7 @@ namespace TurboLabz.CPU
 
         private void OnResultsDialogButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RESULTS_DLG);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
         }
 
 		private void OnResultsStatsButtonClicked()

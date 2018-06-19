@@ -31,7 +31,7 @@ namespace TurboLabz.CPU
         public override void Execute()
         {
             chessboardModel.inPlaybackMode = true;
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
             enableResultsDialogButtonSignal.Dispatch();
         }
     }

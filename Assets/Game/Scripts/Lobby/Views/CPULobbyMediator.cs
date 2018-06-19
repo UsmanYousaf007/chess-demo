@@ -92,7 +92,7 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_LOBBY) 
+            if (viewId == NavigatorViewId.LOBBY) 
             {
                 view.Show();
             }
@@ -105,7 +105,7 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CPU_LOBBY)
+            if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Hide();
                 saveGameSignal.Dispatch();

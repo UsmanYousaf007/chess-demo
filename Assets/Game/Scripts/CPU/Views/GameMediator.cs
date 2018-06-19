@@ -57,7 +57,7 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.PLAY) 
+            if (viewId == NavigatorViewId.CPU) 
             {
                 view.Show();
             }
@@ -66,7 +66,7 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.PLAY)
+            if (viewId == NavigatorViewId.CPU)
             {
                 stopTimersSignal.Dispatch();
                 saveGameSignal.Dispatch();
@@ -84,7 +84,7 @@ namespace TurboLabz.CPU
 
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EXIT_DLG);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_EXIT_DLG);
                 saveGameSignal.Dispatch();
             }
         }
