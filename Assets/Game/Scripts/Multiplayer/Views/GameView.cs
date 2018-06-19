@@ -49,7 +49,6 @@ namespace TurboLabz.Multiplayer
             OnParentShowNotation();
             OnParentShowMatchInfo();
             OnParentShowMenu();
-            OnParentShowHint();
         }
 
         public void Hide()
@@ -104,26 +103,6 @@ namespace TurboLabz.Multiplayer
             label.color = new Color(oldColor.r, oldColor.g, oldColor.b, alpha);
         }
 
-        private void StashUndoButton()
-        {
-            if (IsUndoButtonActive())
-            {
-                undoButtonWasActive = true;
-            }
-
-            DisableUndoButton();
-        }
-
-        private void StashHintButton()
-        {
-            if (IsHintButtonActive())
-            {
-                hintButtonWasActive = true;
-            }
-
-            DisableHintButton();
-        }
-
         private void StashMenuButton()
         {
             if (IsMenuButtonActive())
@@ -132,22 +111,6 @@ namespace TurboLabz.Multiplayer
             }
 
             DisableMenuButton();
-        }
-
-        private void PopUndoButton()
-        {
-            if (undoButtonWasActive)
-            {
-                EnableUndoButton();
-            }
-        }
-
-        private void PopHintButton()
-        {
-            if (hintButtonWasActive)
-            {
-                EnableHintButton();
-            }
         }
 
         private void PopMenuButton()

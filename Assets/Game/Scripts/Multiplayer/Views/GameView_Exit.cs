@@ -66,8 +66,6 @@ namespace TurboLabz.Multiplayer
             undoButtonWasActive = false;
             hintButtonWasActive = false;
 
-            StashHintButton();
-            StashUndoButton();
             DisableMenuButton();
         }
 
@@ -76,8 +74,6 @@ namespace TurboLabz.Multiplayer
             DisableModalBlocker();
             gameMenu.SetActive(false);
 
-            PopHintButton();
-            PopUndoButton();
             EnableMenuButton();
         }
 

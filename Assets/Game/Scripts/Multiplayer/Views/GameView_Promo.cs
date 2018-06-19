@@ -87,7 +87,6 @@ namespace TurboLabz.Multiplayer
             promoBlackBishopButton.gameObject.SetActive(blackActive);
             promoBlackKnightButton.gameObject.SetActive(blackActive);
 
-            DisableUndoButton();
         }
 
         public void ShowPromoDialog()
@@ -95,9 +94,7 @@ namespace TurboLabz.Multiplayer
             EnableModalBlocker();
             promoParent.SetActive(true);
 
-            DisableHintButton();
             StashMenuButton();
-            StashUndoButton();
         }
 
         public void HidePromoDialog()
@@ -106,7 +103,6 @@ namespace TurboLabz.Multiplayer
             promoParent.SetActive(false);
 
             PopMenuButton();
-            PopUndoButton();
         }
 
         public bool IsPromoActive()

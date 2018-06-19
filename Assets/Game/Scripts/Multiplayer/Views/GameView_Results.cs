@@ -81,9 +81,7 @@ namespace TurboLabz.Multiplayer
             resultsDialog.SetActive(true);
             resultsDialogButton.gameObject.SetActive(false);
 
-            DisableUndoButton();
             DisableMenuButton();
-            DisableHintButton();
             HidePossibleMoves();
 
             if (!ArePlayerMoveIndicatorsVisible())
