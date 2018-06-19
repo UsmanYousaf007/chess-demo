@@ -42,7 +42,6 @@ namespace TurboLabz.InstantGame
     public class UpdateStatsDurationSignal : Signal<string> {}
     public class SaveStatsSignal : Signal<int> {}
     public class UpdateStatsSignal : Signal<StatsVO> {};
-    public class EnterPlaybackSignal : Signal {};
 
 	// CPU STORE
 	public class LoadStoreSignal : Signal {}
