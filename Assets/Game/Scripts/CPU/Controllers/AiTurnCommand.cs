@@ -17,7 +17,7 @@ using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class AiTurnCommand : Command
     {
@@ -29,7 +29,7 @@ namespace TurboLabz.InstantChess
         [Inject] public IChessAiService chessAiService { get; set; }
 
         // Models
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         public override void Execute()

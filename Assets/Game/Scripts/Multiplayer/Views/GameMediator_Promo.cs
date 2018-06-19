@@ -13,7 +13,7 @@
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
@@ -32,11 +32,13 @@ namespace TurboLabz.MPChess
             view.promoClickedSignal.RemoveListener(OnPromoClicked);
         }
 
+        /*
         [ListensTo(typeof(UpdatePromoDialogSignal))]
         public void OnUpdatePromoDialog(ChessColor color)
         {
             view.UpdatePromoDialog(color);
         }
+        */
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowPromoDialog(NavigatorViewId viewId)

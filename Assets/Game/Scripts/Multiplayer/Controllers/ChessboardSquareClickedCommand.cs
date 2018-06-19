@@ -14,7 +14,7 @@ using strange.extensions.command.impl;
 
 using TurboLabz.Chess;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class ChessboardSquareClickedCommand : Command
     {

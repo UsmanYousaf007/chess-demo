@@ -8,7 +8,8 @@ using strange.extensions.context.api;
 using strange.extensions.context.impl;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
+using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
@@ -223,7 +224,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ResumeTimersSignal>().ToSingleton();
 
             // Bind models
-            injectionBinder.Bind<ICPUChessboardModel>().To<CPUChessboardModel>().ToSingleton();
+            injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();
             injectionBinder.Bind<ICPUGameModel>().To<CPUGameModel>().ToSingleton();
             injectionBinder.Bind<IStatsModel>().To<StatsModel>().ToSingleton();
         }

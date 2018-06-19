@@ -13,7 +13,7 @@ using TurboLabz.Chess;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public static class Colors
     {

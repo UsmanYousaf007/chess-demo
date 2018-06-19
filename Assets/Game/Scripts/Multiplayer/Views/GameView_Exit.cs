@@ -17,7 +17,7 @@ using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {

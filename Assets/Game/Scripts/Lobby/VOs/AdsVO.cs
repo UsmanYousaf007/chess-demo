@@ -10,11 +10,11 @@
 /// @description
 /// [add_description_here]
 using System.Collections.Generic;
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class AdsVO
     {

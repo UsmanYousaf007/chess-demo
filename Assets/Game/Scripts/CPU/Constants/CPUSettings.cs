@@ -12,7 +12,7 @@
 using TurboLabz.Chess;
 using System.Collections.Generic;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class CPUSettings
     {

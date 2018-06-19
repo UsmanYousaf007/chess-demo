@@ -13,7 +13,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class ChessboardPromoCommand : Command
     {
@@ -24,7 +24,7 @@ namespace TurboLabz.InstantChess
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
 
         // Models
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         public override void Execute()
         {

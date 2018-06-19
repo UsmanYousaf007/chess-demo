@@ -11,8 +11,9 @@ using TurboLabz.Chess;
 using System;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using TurboLabz.CPU;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class ShowAdCommand : Command
     {

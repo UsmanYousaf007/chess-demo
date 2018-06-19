@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
 	public struct StoreVO
 	{

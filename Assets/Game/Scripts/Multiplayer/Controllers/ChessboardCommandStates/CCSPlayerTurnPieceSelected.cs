@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 using TurboLabz.Chess;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class CCSPlayerTurnPieceSelected : CCS
     {

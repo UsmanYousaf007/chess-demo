@@ -11,7 +11,7 @@
 /// [add_description_here]
 
 using strange.extensions.command.impl;
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {

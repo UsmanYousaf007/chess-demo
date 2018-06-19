@@ -13,13 +13,13 @@
 using System.Collections.Generic;
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class CCSPlayerTurnPieceSelected : CCS
     {
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
-            ICPUChessboardModel model = cmd.chessboardModel;
+            IChessboardModel model = cmd.chessboardModel;
 
             // If we came here after an opponent has moved
             if (CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)))
@@ -47,7 +47,7 @@ namespace TurboLabz.InstantChess
             // Handle square clicked events
             if (evt == ChessboardEvent.SQUARE_CLICKED)
             {
-                ICPUChessboardModel model = cmd.chessboardModel;
+                IChessboardModel model = cmd.chessboardModel;
                 ChessSquare clickedSquare = model.clickedSquare;
 
                 // See if a new player piece was clicked
@@ -121,7 +121,7 @@ namespace TurboLabz.InstantChess
             return false;
         }
 
-        private bool HasPawnReachedEnd(ICPUChessboardModel model)
+        private bool HasPawnReachedEnd(IChessboardModel model)
         {
             ChessSquare fromSquare = model.playerFromSquare;
             ChessSquare toSquare = model.playerToSquare;

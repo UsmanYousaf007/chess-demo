@@ -9,7 +9,7 @@ using TurboLabz.Chess;
 using UnityEditor;
 #endif
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     // Class name to match the script file name
 	[System.Serializable]

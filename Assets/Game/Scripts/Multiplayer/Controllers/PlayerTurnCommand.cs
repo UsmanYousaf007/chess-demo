@@ -11,12 +11,10 @@
 /// [add_description_here]
 
 using strange.extensions.command.impl;
-
-using TurboLabz.Gamebet;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class PlayerTurnCommand : Command
     {
@@ -36,7 +34,7 @@ namespace TurboLabz.MPChess
         public override void Execute()
         {
             Retain();
-
+            /*
             backendService.TakeTurn(
                 playerTurnVO.fromSquare.fileRank,
                 playerTurnVO.toSquare.fileRank,
@@ -44,6 +42,7 @@ namespace TurboLabz.MPChess
                 playerTurnVO.claimFiftyMoveDraw,
                 playerTurnVO.claimThreefoldRepeatDraw,
                 playerTurnVO.rejectThreefoldRepeatDraw).Then(OnTurnTaken); 
+                */
 
             SaveLastPlayerMove();
         }

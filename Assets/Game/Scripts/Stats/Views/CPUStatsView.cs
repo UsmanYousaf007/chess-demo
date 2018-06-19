@@ -19,7 +19,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class CPUStatsView : View
     {

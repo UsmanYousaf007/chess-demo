@@ -14,9 +14,9 @@ using System;
 using System.Collections.Generic;
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
-    public class CPUChessboardModel : ICPUChessboardModel
+    public class ChessboardModel : IChessboardModel
     {
         public CCS currentState { get; set; }
         public CCS previousState { get; set; }

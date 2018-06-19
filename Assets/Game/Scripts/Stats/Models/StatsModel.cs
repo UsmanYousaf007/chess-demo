@@ -14,8 +14,9 @@ using UnityEngine;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using System;
+using TurboLabz.CPU;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class StatsModel : IStatsModel
     {

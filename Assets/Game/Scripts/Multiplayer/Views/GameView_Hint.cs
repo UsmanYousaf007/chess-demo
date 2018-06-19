@@ -18,7 +18,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {

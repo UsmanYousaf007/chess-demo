@@ -12,8 +12,9 @@
 
 using System;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class CCS
     {
@@ -39,7 +40,7 @@ namespace TurboLabz.MPChess
         protected void RenderNewGame(ChessboardCommand cmd, bool isPlayerTurn)
         {
             // Load the game view
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MP_PLAY);
+            //cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MP_PLAY);
 
             // Initialize and launch our time control
             cmd.runTimeControlSignal.Dispatch();
@@ -50,6 +51,7 @@ namespace TurboLabz.MPChess
             PublicProfile playerPublicProfile = playerModel.publicProfile;
             PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
 
+            /*
             string roomId = matchInfoModel.roomId;
             RoomSetting roomInfo = cmd.roomSettingsModel.settings[roomId];
 
@@ -70,6 +72,7 @@ namespace TurboLabz.MPChess
             vo.opponentProfilePictureSprite = opponentPublicProfile.profilePicture;
 
             cmd.updateMatchInfoSignal.Dispatch(vo);
+            */
 
             // Setup the initial rotation and skin
             bool isPlayerWhite = (chessboardModel.playerColor == ChessColor.WHITE);

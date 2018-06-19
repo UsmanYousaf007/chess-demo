@@ -18,7 +18,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class RunTimeControlCommand : Command
     {
@@ -40,7 +40,7 @@ namespace TurboLabz.InstantChess
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
         // Utils

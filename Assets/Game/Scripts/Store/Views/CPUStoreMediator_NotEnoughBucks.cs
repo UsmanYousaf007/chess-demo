@@ -8,7 +8,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using strange.extensions.signal.impl;
 
-namespace TurboLabz.InstantChess 
+namespace TurboLabz.InstantGame 
 {
 	public partial class CPUStoreMediator
 	{

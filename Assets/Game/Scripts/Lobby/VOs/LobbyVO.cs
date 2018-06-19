@@ -4,12 +4,13 @@
 /// Proprietary and confidential
 
 using System.Collections.Generic;
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using TurboLabz.CPU;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class LobbyVO
     {

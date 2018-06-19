@@ -13,7 +13,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class DevFenChangedCommand : Command
     {

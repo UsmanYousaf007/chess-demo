@@ -18,8 +18,9 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using UnityEngine.UI;
 using TurboLabz.Chess;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public partial class GameView : View
     {

@@ -14,8 +14,9 @@
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using TurboLabz.CPU;
 
-namespace TurboLabz.MPChess 
+namespace TurboLabz.Multiplayer 
 {
     public partial class GameMediator
     {
@@ -42,7 +43,6 @@ namespace TurboLabz.MPChess
         {
             if (viewId == NavigatorViewId.EXIT_DLG) 
             {
-                pauseTimersSignal.Dispatch();
                 view.ShowMenu();
             }
         }
@@ -52,21 +52,8 @@ namespace TurboLabz.MPChess
         {
             if (viewId == NavigatorViewId.EXIT_DLG)
             {
-                resumeTimersSignal.Dispatch();
                 view.HideMenu();
             }
-        }
-
-        [ListensTo(typeof(TurnSwapSignal))]
-        public void OnToggleMenuButton(bool isPlayerTurn)
-        {
-            view.ToggleMenuButton(isPlayerTurn);
-        }
-
-        [ListensTo(typeof(DisableMenuButtonSignal))]
-        public void OnDisableMenuButton()
-        {
-            view.DisableMenuButton();
         }
 
         private void OnMenuButtonClicked()

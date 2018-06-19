@@ -21,8 +21,9 @@ using strange.extensions.signal.impl;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public partial class GameView
     {

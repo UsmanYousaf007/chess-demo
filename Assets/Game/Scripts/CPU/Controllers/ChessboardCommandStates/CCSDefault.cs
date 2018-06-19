@@ -13,7 +13,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class CCSDefault : CCS
     {
@@ -33,7 +33,7 @@ namespace TurboLabz.InstantChess
         {
             if (cmd.chessboardEvent == ChessboardEvent.GAME_STARTED)
             {
-                ICPUChessboardModel chessboardModel = cmd.chessboardModel;
+                IChessboardModel chessboardModel = cmd.chessboardModel;
                 ICPUGameModel cpuGameModel = cmd.cpuGameModel;
                 IChessService chessService = cmd.chessService;
                 IChessAiService chessAiService = cmd.chessAiService;
@@ -88,7 +88,7 @@ namespace TurboLabz.InstantChess
          */
         private void ProcessResume(ChessboardCommand cmd)
         {
-            ICPUChessboardModel chessboardModel = cmd.chessboardModel;
+            IChessboardModel chessboardModel = cmd.chessboardModel;
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
             IChessService chessService = cmd.chessService;
             IChessAiService chessAiService = cmd.chessAiService;

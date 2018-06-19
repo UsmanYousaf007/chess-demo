@@ -9,7 +9,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public partial class CPUStoreMediator : Mediator
     {

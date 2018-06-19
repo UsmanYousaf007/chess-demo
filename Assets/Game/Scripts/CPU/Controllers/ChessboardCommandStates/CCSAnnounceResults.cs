@@ -13,8 +13,9 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using System.Collections.Generic;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class CCSAnnounceResults : CCS
     {
@@ -37,7 +38,7 @@ namespace TurboLabz.InstantChess
                 }
             }
 
-            ICPUChessboardModel model = cmd.chessboardModel;
+            IChessboardModel model = cmd.chessboardModel;
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
 
             GameEndReason gameEndReason = model.gameEndReason;

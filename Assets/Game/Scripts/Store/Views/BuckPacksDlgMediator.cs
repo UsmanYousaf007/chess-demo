@@ -8,7 +8,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using strange.extensions.mediation.impl;
 
-namespace TurboLabz.InstantChess 
+namespace TurboLabz.InstantGame 
 {
 	public class BuckPacksDlgMediator : Mediator
 	{

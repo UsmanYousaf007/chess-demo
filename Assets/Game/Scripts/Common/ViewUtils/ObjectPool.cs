@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TurboLabz.TLUtils;
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Chess
 {

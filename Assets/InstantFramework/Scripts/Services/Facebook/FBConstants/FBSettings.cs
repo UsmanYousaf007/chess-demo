@@ -10,7 +10,7 @@
 /// @description
 /// [add_description_here]
 
-namespace TurboLabz.Gamebet
+namespace TurboLabz.InstantGame
 {
     public static class FBSettings
     {

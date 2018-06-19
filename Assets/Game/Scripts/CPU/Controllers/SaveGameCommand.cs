@@ -17,15 +17,16 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using System;
 using UnityEngine;
+using TurboLabz.InstantGame;
 
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
 	public class SaveGameCommand : Command
 	{
 		// Models
 		[Inject] public ICPUGameModel cpuGameModel { get; set; }
-		[Inject] public ICPUChessboardModel chessboardModel { get; set; }
+		[Inject] public IChessboardModel chessboardModel { get; set; }
 
 		// Services
 		[Inject] public ILocalDataService localDataService { get; set; }

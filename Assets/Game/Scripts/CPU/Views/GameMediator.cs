@@ -13,8 +13,9 @@
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantChess 
+namespace TurboLabz.CPU 
 {
     public partial class GameMediator : Mediator
     {

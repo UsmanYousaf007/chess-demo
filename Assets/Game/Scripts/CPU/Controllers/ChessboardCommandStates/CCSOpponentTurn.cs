@@ -11,7 +11,7 @@
 /// [add_description_here]
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class CCSOpponentTurn : CCS
     {
@@ -55,7 +55,7 @@ namespace TurboLabz.InstantChess
 
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
-            ICPUChessboardModel model = cmd.chessboardModel;
+            IChessboardModel model = cmd.chessboardModel;
             ChessboardEvent evt = cmd.chessboardEvent;
 
             if (evt == ChessboardEvent.SQUARE_CLICKED)

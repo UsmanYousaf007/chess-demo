@@ -17,7 +17,7 @@ using TurboLabz.TLUtils;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class SkinRefs : View 
     {

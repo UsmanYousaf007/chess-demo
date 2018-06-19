@@ -6,7 +6,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
 	public class SkinShopItemPrefab : MonoBehaviour 
 	{

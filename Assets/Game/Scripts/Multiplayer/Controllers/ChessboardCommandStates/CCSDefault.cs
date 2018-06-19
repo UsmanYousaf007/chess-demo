@@ -12,8 +12,10 @@
 
 using System.Collections.Generic;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class CCSDefault : CCS
     {

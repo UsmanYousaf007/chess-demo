@@ -17,7 +17,7 @@ using TurboLabz.TLUtils;
 
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public partial class GameView
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace TurboLabz.Chess
+namespace TurboLabz.CPU
 {
     public struct SetupChessboardVO
     {

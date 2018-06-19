@@ -11,7 +11,7 @@ using System;
 
 
 // TODO: MOVE SAVE KEYS FOR FRAMEWORK!
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {

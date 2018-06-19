@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using strange.extensions.signal.impl;
 using TurboLabz.Chess;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     // Command signals
     public class ChessboardEventSignal : Signal<ChessboardEvent> {}

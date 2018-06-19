@@ -12,7 +12,7 @@
 
 using UnityEngine;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public struct MatchInfoVO
     {

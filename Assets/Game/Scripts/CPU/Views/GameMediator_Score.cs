@@ -10,7 +10,7 @@
 /// @description
 /// [add_description_here]
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public partial class GameMediator
     {

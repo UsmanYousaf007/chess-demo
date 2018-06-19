@@ -23,7 +23,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class CPULobbyView : View
     {

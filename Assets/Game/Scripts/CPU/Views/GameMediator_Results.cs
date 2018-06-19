@@ -13,8 +13,9 @@
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantChess 
+namespace TurboLabz.CPU 
 {
     public partial class GameMediator
     {

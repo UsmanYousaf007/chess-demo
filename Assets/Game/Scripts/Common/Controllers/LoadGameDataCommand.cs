@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using strange.extensions.promise.api;
 using UnityEngine;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
 	public class LoadGameDataCommand : Command
 	{ 

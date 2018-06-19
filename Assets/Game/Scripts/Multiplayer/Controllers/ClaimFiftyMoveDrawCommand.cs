@@ -11,12 +11,9 @@
 /// [add_description_here]
 
 using strange.extensions.command.impl;
-
-using TurboLabz.Gamebet;
-using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class ClaimFiftyMoveDrawCommand : Command
     {
@@ -29,7 +26,7 @@ namespace TurboLabz.MPChess
         public override void Execute()
         {
             Retain();
-            backendService.ClaimFiftyMoveDraw().Then(OnClaimFiftyMoveDraw);
+            //backendService.ClaimFiftyMoveDraw().Then(OnClaimFiftyMoveDraw);
         }
 
         private void OnClaimFiftyMoveDraw(BackendResult result)

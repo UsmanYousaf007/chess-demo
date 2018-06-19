@@ -12,8 +12,9 @@
 
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
 using System.Text;
+using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,7 +32,8 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public TurboLabz.CPU.IChessboardModel cpuChessboardModel { get; set; }
+        [Inject] public TurboLabz.Multiplayer.IChessboardModel multiplayerChessboardModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }

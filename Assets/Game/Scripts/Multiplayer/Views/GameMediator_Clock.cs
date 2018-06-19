@@ -14,7 +14,7 @@ using System;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.MPChess 
+namespace TurboLabz.Multiplayer 
 {
     public partial class GameMediator
     {
@@ -32,12 +32,6 @@ namespace TurboLabz.MPChess
         public void InitTimersSignal(InitTimerVO vo)
         {
             view.InitTimers(vo);
-        }
-
-        [ListensTo(typeof(InitInfiniteTimersSignal))]
-        public void InitInfiniteTimersSignal(bool isPlayerTurn)
-        {
-            view.InitInfiniteTimers(isPlayerTurn);
         }
 
         [ListensTo(typeof(TakeTurnSwapTimeControlSignal))]

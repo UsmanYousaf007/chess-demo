@@ -21,8 +21,9 @@ using strange.extensions.signal.impl;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
@@ -83,7 +84,6 @@ namespace TurboLabz.MPChess
             DisableUndoButton();
             DisableMenuButton();
             DisableHintButton();
-            DeactivateThink();
             HidePossibleMoves();
 
             if (!ArePlayerMoveIndicatorsVisible())

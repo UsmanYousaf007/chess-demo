@@ -15,7 +15,7 @@ using UnityEngine;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public partial class GameMediator
     {

@@ -7,7 +7,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using System;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class PreferencesModel : IPreferencesModel
     {

@@ -17,12 +17,12 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class EnterPlaybackCommand : Command
     {
         // Models
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         // Dispatch Signal
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }

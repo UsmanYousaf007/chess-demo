@@ -13,7 +13,7 @@
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public partial class GameMediator
     {

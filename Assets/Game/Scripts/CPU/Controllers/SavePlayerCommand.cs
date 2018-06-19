@@ -6,7 +6,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
 	public class SavePlayerCommand : Command
 	{

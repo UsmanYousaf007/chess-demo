@@ -10,7 +10,7 @@ using System;
 using TurboLabz.TLUtils;
 using UnityEngine;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
 	public class LoadStoreCommand : Command
 	{

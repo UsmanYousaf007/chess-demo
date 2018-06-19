@@ -4,7 +4,7 @@
 /// Proprietary and confidential
 
 using strange.extensions.mediation.impl;
-using TurboLabz.InstantChess;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {

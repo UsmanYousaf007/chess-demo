@@ -16,7 +16,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class RunTimeControlCommand : Command
     {
@@ -84,12 +84,12 @@ namespace TurboLabz.MPChess
 
         private void OnPlayerTimerTick()
         {
-            updatePlayerTimerSignal.Dispatch(timeControl.playerDisplayTimer);
+            //updatePlayerTimerSignal.Dispatch(timeControl.playerDisplayTimer);
         }
 
         private void OnOpponentTimerTick()
         {
-            updateOpponentTimerSignal.Dispatch(timeControl.opponentDisplayTimer);
+            //updateOpponentTimerSignal.Dispatch(timeControl.opponentDisplayTimer);
         }
 
         private void OnTakeTurnSwapTimeControl()

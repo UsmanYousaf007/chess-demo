@@ -13,7 +13,7 @@
 using strange.extensions.command.impl;
 using strange.extensions.mediation.api;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public class StartGameCommand : Command
     {

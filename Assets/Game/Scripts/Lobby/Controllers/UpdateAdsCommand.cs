@@ -12,7 +12,7 @@ using TurboLabz.InstantFramework;
 using System;
 using UnityEngine;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class UpdateAdCommand : Command
     {

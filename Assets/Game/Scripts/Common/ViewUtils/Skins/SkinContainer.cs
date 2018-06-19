@@ -15,7 +15,7 @@ using System.IO;
 using UnityEditor;
 #endif
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class SkinContainer : ScriptableObject 
     {

@@ -10,7 +10,7 @@
 /// @description
 /// [add_description_here]
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public static class BotSettings
     {

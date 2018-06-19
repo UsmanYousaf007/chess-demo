@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
             if (evt == NavigatorEvent.SHOW_EXIT_DLG ||
                 evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.chessboardModel.inPlaybackMode)
+                if (cmd.cpuChessboardModel.inPlaybackMode)
                 {
                     return new NSResultsDlg();
                 }

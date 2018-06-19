@@ -20,8 +20,9 @@ using strange.extensions.command.impl;
 // User defined namespaces
 using UnityEngine;
 using TurboLabz.InstantFramework;
+using TurboLabz.CPU;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class AdjustPlayerColorCommand : Command
     {

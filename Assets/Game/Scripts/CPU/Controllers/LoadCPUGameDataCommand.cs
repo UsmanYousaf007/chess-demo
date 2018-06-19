@@ -12,6 +12,7 @@
 
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 using System.Collections.Generic;
 using TurboLabz.Chess;
 using System;
@@ -19,13 +20,13 @@ using TurboLabz.TLUtils;
 using UnityEngine;
 
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
 	public class LoadCPUGameDataCommand : Command
 	{
 		// Models
 		[Inject] public ICPUGameModel cpuGameModel { get; set; }
-		[Inject] public ICPUChessboardModel chessboardModel { get; set; }
+		[Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
 		// Services

@@ -21,8 +21,9 @@ using strange.extensions.command.impl;
 using UnityEngine;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using TurboLabz.CPU;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class AdjustDurationCommand : Command
     {

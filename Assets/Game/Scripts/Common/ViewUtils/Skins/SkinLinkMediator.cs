@@ -13,7 +13,7 @@
 using strange.extensions.mediation.impl;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class SkinLinkMediator : Mediator
     {

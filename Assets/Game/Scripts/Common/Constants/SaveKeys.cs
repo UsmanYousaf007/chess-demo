@@ -11,7 +11,7 @@
 /// [add_description_here]
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class SaveKeys
     {
@@ -40,6 +40,15 @@ namespace TurboLabz.InstantChess
 
         // STATS MODEL
         public const string STATS_DATA = "statsData";
+
+        // PLAYER MODEL
+        public const string PLAYER_BUCKS = "playerBucks";
+        public const string PLAYER_VGOODS = "playerVGoods";
+        public const string PLAYER_ID = "playerId";
+        public const string PLAYER_ACTIVE_SKIN_ID = "playerActiveSkinId";
+        public const string PLAYER_AD_LIFE_TIME_IMPRESSIONS = "playerAdLifetimeImpressions";
+        public const string PLAYER_AD_SLOT_IMPRESSIONS = "playerAdSlotImpressions";
+        public const string PLAYER_AD_SLOT_ID = "playerAdSlotId";
 
     }
 }

@@ -11,7 +11,7 @@
 /// [add_description_here]
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class PrefKeys
     {

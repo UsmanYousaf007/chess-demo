@@ -11,7 +11,7 @@
 /// [add_description_here]
 using System.Collections.Generic;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public struct StatsVO
     {

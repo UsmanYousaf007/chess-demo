@@ -17,9 +17,10 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using System;
 using UnityEngine;
+using TurboLabz.CPU;
 
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class SaveStatsCommand : Command
     {

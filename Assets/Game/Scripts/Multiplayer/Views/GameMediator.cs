@@ -14,7 +14,7 @@ using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.MPChess 
+namespace TurboLabz.Multiplayer 
 {
     public partial class GameMediator : Mediator
     {
@@ -33,7 +33,6 @@ namespace TurboLabz.MPChess
             OnRegisterScore();
             OnRegisterMatchInfo();
             OnRegisterMenu();
-            OnRegisterUndo();
         }
 
         public override void OnRemove()
@@ -44,7 +43,6 @@ namespace TurboLabz.MPChess
             OnRemoveResults();
             OnRemoveScore();
             OnRemoveMenu();
-            OnRemoveUndo();
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]

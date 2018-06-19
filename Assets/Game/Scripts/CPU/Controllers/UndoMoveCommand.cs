@@ -16,7 +16,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class UndoMoveCommand : Command
     {
@@ -25,7 +25,7 @@ namespace TurboLabz.InstantChess
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
 
         // Models
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         public override void Execute()
         {

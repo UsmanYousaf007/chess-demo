@@ -17,8 +17,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.MPChess
+namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {

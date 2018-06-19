@@ -12,7 +12,7 @@ using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
 	public class BuckPacksDlgView : View
 	{

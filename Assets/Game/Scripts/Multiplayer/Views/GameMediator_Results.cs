@@ -14,7 +14,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.MPChess 
+namespace TurboLabz.Multiplayer 
 {
     public partial class GameMediator
     {
@@ -55,6 +55,7 @@ namespace TurboLabz.MPChess
             }
         }
 
+        /*
         [ListensTo(typeof(UpdateResultDialogSignal))]
 		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int statResult)
         {
@@ -67,6 +68,7 @@ namespace TurboLabz.MPChess
         {
             view.EnableResultsDialogButton();
         }
+        */
 
         private void OnResultsExitButtonClicked()
         {
@@ -75,12 +77,12 @@ namespace TurboLabz.MPChess
 
         private void OnShowAdButtonClicked()
         {
-            showAdSignal.Dispatch();
+            //showAdSignal.Dispatch();
         }
 
         private void OnEnterPlayback()
         {
-            enterPlaybackSignal.Dispatch();
+            //enterPlaybackSignal.Dispatch();
         }
 
         private void OnResultsDialogButtonClicked()
@@ -90,7 +92,7 @@ namespace TurboLabz.MPChess
 
 		private void OnResultsStatsButtonClicked()
 		{
-			loadStatsSignal.Dispatch();
+			//loadStatsSignal.Dispatch();
 		}
     }
 }

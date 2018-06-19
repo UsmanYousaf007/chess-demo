@@ -17,7 +17,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.Chess;
 using System.Collections.Generic;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class CCS
     {
@@ -65,7 +65,7 @@ namespace TurboLabz.InstantChess
             }
 
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
-            ICPUChessboardModel chessboardModel = cmd.chessboardModel;
+            IChessboardModel chessboardModel = cmd.chessboardModel;
 
             // Setup the initial rotation
             bool isPlayerWhite = (chessboardModel.playerColor == ChessColor.WHITE);
@@ -114,7 +114,7 @@ namespace TurboLabz.InstantChess
         protected void RenderOpponentMove(ChessboardCommand cmd)
         {
             // Update the view with the opponent move
-            ICPUChessboardModel model = cmd.chessboardModel;
+            IChessboardModel model = cmd.chessboardModel;
             model.opponentMoveRenderComplete = false;
             cmd.updateOpponentMoveSignal.Dispatch(GetMoveVO(model, false));
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
@@ -124,7 +124,7 @@ namespace TurboLabz.InstantChess
         protected void RenderPlayerMove(ChessboardCommand cmd)
         {
             // Update the view with the player move
-            ICPUChessboardModel model = cmd.chessboardModel;
+            IChessboardModel model = cmd.chessboardModel;
             cmd.hidePossibleMovesSignal.Dispatch();
             cmd.updatePlayerMoveSignal.Dispatch(GetMoveVO(model, true));
             cmd.chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
@@ -133,7 +133,7 @@ namespace TurboLabz.InstantChess
         protected void RenderPromo(ChessboardCommand cmd)
         {
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PLAY);
-            ICPUChessboardModel model = cmd.chessboardModel;
+            IChessboardModel model = cmd.chessboardModel;
             cmd.updatePromoSignal.Dispatch(GetMoveVO(model, true));
             cmd.chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
         }
@@ -147,7 +147,7 @@ namespace TurboLabz.InstantChess
 
         protected CCS DoPlayerMove(ChessboardCommand cmd, string promo)
         {
-            ICPUChessboardModel chessboardModel = cmd.chessboardModel;
+            IChessboardModel chessboardModel = cmd.chessboardModel;
 
             // We need to save player ChessMove's for the Ai engine to analyse + add it to the move list
             ChessMove move = new ChessMove();
@@ -203,7 +203,7 @@ namespace TurboLabz.InstantChess
 
         protected void ProcessGameEndTimers(ChessboardCommand cmd)
         {
-            ICPUChessboardModel model = cmd.chessboardModel;
+            IChessboardModel model = cmd.chessboardModel;
 
             if (!model.timersStopped)
             {
@@ -236,7 +236,7 @@ namespace TurboLabz.InstantChess
             return promo;
         }
 
-        protected MoveVO GetMoveVO(ICPUChessboardModel model, bool isPlayerTurn)
+        protected MoveVO GetMoveVO(IChessboardModel model, bool isPlayerTurn)
         {
             MoveVO moveVO;
 

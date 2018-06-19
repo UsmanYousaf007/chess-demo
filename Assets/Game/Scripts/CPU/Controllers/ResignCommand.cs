@@ -14,7 +14,7 @@ using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class ResignCommand : Command
     {
@@ -23,7 +23,7 @@ namespace TurboLabz.InstantChess
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         public override void Execute()
         {

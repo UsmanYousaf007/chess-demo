@@ -15,8 +15,9 @@ using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using TurboLabz.Chess;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.CPU
 {
     public class ChessboardCommand : Command
     {
@@ -64,7 +65,7 @@ namespace TurboLabz.InstantChess
         [Inject] public ShowAdSignal showAdsSignal { get; set; }
 
         // Models
-        [Inject] public ICPUChessboardModel chessboardModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IStatsModel statsModel { get; set; }

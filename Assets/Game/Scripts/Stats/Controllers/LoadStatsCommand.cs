@@ -16,8 +16,9 @@ using System.Collections.Generic;
 using System;
 using TurboLabz.TLUtils;
 using UnityEngine;
+using TurboLabz.CPU;
 
-namespace TurboLabz.InstantChess
+namespace TurboLabz.InstantGame
 {
     public class LoadStatsCommand : Command
     {
