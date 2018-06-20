@@ -61,11 +61,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private bool IsCurrentChallenge(string challengeId)
-        {
-            return (challengeId == matchInfoModel.challengeId);
-        }
-
         private void OnChallengeWonMessage(ChallengeWonMessage message)
         {
             GSData scriptData = message.ScriptData;

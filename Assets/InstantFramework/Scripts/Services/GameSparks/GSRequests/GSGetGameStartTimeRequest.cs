@@ -37,18 +37,15 @@ using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 
-
-
 namespace TurboLabz.InstantFramework
 {
-    public class GSGetGameStartTimeRequest : GSRequestDispatcher
+    public class GSGetGameStartTimeRequest
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<ScriptMessage> successCallback;
 
         public IPromise<BackendResult> Send(string challengeId, Action<ScriptMessage> successCallback)
         {
-            GSRequestSession.Instance.AddRequest(this);
             this.successCallback = successCallback;
             AddListeners();
 
@@ -62,20 +59,9 @@ namespace TurboLabz.InstantFramework
             return promise;
         }
 
-        // This method is used only by GSRequestSession
-        public override void Expire()
-        {
-            base.Expire();
-            RemoveListeners();
-            promise.Dispatch(BackendResult.EXPIRED_RESPONSE);
-        }
-
         private void OnFailure(LogEventResponse response)
         {
-            if (!isExpired)
-            {
-                DispatchResponse(BackendResult.GET_GAME_START_TIME_REQUEST_FAILED);
-            }
+            DispatchResponse(BackendResult.GET_GAME_START_TIME_REQUEST_FAILED);
         }
 
         private void AddListeners()
@@ -90,13 +76,10 @@ namespace TurboLabz.InstantFramework
 
         private void OnScriptMessage(ScriptMessage message) 
         {
-            if (!isExpired)
+            if (message.ExtCode == GSBackendKeys.START_GAME_MESSAGE)
             {
-                if (message.ExtCode == GSBackendKeys.START_GAME_MESSAGE)
-                {
-                    successCallback(message);
-                    DispatchResponse(BackendResult.SUCCESS);
-                }
+                successCallback(message);
+                DispatchResponse(BackendResult.SUCCESS);
             }
         }
 
@@ -104,7 +87,6 @@ namespace TurboLabz.InstantFramework
         {  
             RemoveListeners();
             promise.Dispatch(result);
-            GSRequestSession.Instance.RemoveRequest(this);
         }
     }
 }

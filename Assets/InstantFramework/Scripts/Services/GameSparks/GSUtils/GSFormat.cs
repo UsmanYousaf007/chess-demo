@@ -5,15 +5,23 @@
 /// 
 /// @author Faraz Ahmed <faraz@turbolabz.com>
 /// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-09-20 12:35:27 UTC+05:00
+/// @date 2016-12-12 13:14:32 UTC+05:00
 /// 
 /// @description
 /// [add_description_here]
 
 namespace TurboLabz.InstantFramework
 {
-    public interface IGSRequest
+    public class GSFormat
     {
-        void Expire();
+        public static int GetBool(bool val) 
+        {
+            return (val ? 1 : 0);
+        }
+
+        public static string GetOptionalString(string val)
+        {
+            return ((val == null) ? "" : val);
+        }
     }
 }

@@ -43,67 +43,41 @@ namespace TurboLabz.InstantFramework
             {
                 LogUtil.Log("Found a match command....! ", "cyan");
 
-                /*
                 PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
 
-                if (opponentPublicProfile.hasExternalAuth)
+                if (opponentPublicProfile.usingFacebookAuth)
                 {
-                    string opponentId = opponentPublicProfile.externalAuthentications[ExternalAuthType.FACEBOOK].id;
-                    facebookService.GetProfilePicture(opponentId).Then(OnGetOpponentProfilePicture);
+                    facebookService.GetProfilePicture(opponentPublicProfile.facebookAuthId).Then(OnGetOpponentProfilePicture);
                 }
                 else
                 {
-                    RunPostMatchFoundProcesses();
-                }*/
+                    Release();
+                }
             }
             else
             {
                 backendErrorSignal.Dispatch(result);
-
+                Release();
             }
-
-            Release();
         }
-        /*
+
         private void OnGetOpponentProfilePicture(FacebookResult result, Texture2D texture)
         {
-            // In case of a failure we just don't set the profile picture.
             if (result == FacebookResult.SUCCESS)
             {
                 Sprite sprite = Sprite.Create(texture,
                                               new Rect(0, 0, texture.width, texture.height),
                                               new Vector2(0.5f, 0.5f));
                 sprite.name = texture.name;
-                PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
-                opponentPublicProfile.profilePicture = sprite;
-                matchInfoModel.opponentPublicProfile = opponentPublicProfile;
+                matchInfoModel.opponentPublicProfile.profilePicture = sprite;
             }
             else
             {
+                // In case of a failure we just don't set the profile picture.
                 LogUtil.LogWarning("Unable to get the profile picture. FacebookResult: " + result);
             }
 
-            RunPostMatchFoundProcesses();
-        }
-        */
-        /*
-        private void RunPostMatchFoundProcesses()
-        {
-            // Update model since the bet has been placed on the server.
-            RoomSetting roomInfo = roomSettingsModel.settings[matchInfoModel.roomId];
-            playerModel.currency1 -= roomInfo.wager;
-
-            PostMatchmakingVO vo;
-            vo.currency1 = playerModel.currency1;
-            vo.opponentPublicProfile = matchInfoModel.opponentPublicProfile;
-            vo.eloStatsWin = matchInfoModel.eloStatsWin;
-            vo.eloStatsLose = matchInfoModel.eloStatsLose;
-            vo.eloStatsDraw = matchInfoModel.eloStatsDraw;
-
-            updateMatchmakingViewPostMatchFoundSignal.Dispatch(vo);
-
             Release();
         }
-        */
     }
 }

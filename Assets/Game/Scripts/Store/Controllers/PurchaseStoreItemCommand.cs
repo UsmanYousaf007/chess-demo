@@ -33,7 +33,7 @@ namespace TurboLabz.InstantFramework
             item = metaDataModel.store.items[key];
             PurchaseResult purchaseResult = PurchaseResult.NONE;
 
-            if (playerModel.ownsVGood(key) == true)
+            if (playerModel.OwnsVGood(key) == true)
             {
                 purchaseResult = PurchaseResult.ALREADY_OWNED;
             }

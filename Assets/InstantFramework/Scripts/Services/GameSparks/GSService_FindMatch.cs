@@ -10,6 +10,7 @@ using strange.extensions.promise.impl;
 using GameSparks.Api.Messages;
 using GameSparks.Api.Requests;
 using TurboLabz.TLUtils;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,6 +24,8 @@ namespace TurboLabz.InstantFramework
         private void OnFindMatchSuccess(ChallengeStartedMessage message)
         {
             LogUtil.Log("Found a match service....! " + message.Challenge.ChallengeId, "cyan");
+            GSData matchData = message.ScriptData.GetGSData(GSBackendKeys.MatchData.KEY);
+            GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
         }
     }
 

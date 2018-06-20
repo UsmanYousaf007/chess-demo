@@ -40,14 +40,13 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSPingRequest : GSRequestDispatcher
+    public class GSPingRequest
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<LogEventResponse> successCallback;
 
         public IPromise<BackendResult> Send(Action<LogEventResponse> successCallback)
         {
-            GSRequestSession.Instance.AddRequest(this);
             this.successCallback = successCallback;
             new LogEventRequest().SetEventKey(GSEventData.Ping.EVT_KEY)
                                  .SetEventAttribute(GSEventData.Ping.ATT_KEY_CLIENT_SEND_TIMESTAMP, TimeUtil.unixTimestampMilliseconds)
@@ -55,34 +54,20 @@ namespace TurboLabz.InstantFramework
             return promise;
         }
 
-        // This method is used only by GSRequestSession
-        public override void Expire()
-        {
-            base.Expire();
-            promise.Dispatch(BackendResult.EXPIRED_RESPONSE);
-        }
-
         private void OnSuccess(LogEventResponse response)
         {
-            if (!isExpired)
-            {
-                successCallback(response);
-                DispatchResponse(BackendResult.SUCCESS); 
-            }
+            successCallback(response);
+            DispatchResponse(BackendResult.SUCCESS); 
         }
 
         private void OnFailure(LogEventResponse response)
         {
-            if (!isExpired)
-            {
-                DispatchResponse(BackendResult.PING_REQUEST_FAILED);
-            }
+            DispatchResponse(BackendResult.PING_REQUEST_FAILED);
         }
 
         private void DispatchResponse(BackendResult result)
         {  
             promise.Dispatch(result);
-            GSRequestSession.Instance.RemoveRequest(this);
         }
     }
 }

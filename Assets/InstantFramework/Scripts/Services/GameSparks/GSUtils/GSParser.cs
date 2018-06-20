@@ -179,12 +179,9 @@ namespace TurboLabz.InstantFramework
             LogUtil.Log("********** playerModel.name" + " " + playerModel.name);
             LogUtil.Log("********** playerModel.countryId" + " " + playerModel.countryId);
             LogUtil.Log("********** playerModel.profilePicture" + " " + playerModel.profilePicture);
-            LogUtil.Log("********** playerModel.profilePictureFB" + " " + playerModel.profilePictureFB);
             LogUtil.Log("********** playerModel.totalGamesWon" + " " + playerModel.totalGamesWon);
             LogUtil.Log("********** playerModel.totalGamesLost" + " " + playerModel.totalGamesLost);
             LogUtil.Log("********** playerModel.totalGamesDrawn" + " " + playerModel.totalGamesDrawn);
-            LogUtil.Log("********** playerModel.totalGamesAbandoned" + " " + playerModel.totalGamesAbandoned);
-            LogUtil.Log("********** playerModel.totalGamesPlayed" + " " + playerModel.totalGamesPlayed);
 
             // Player Public Profile
             //PublicProfile publicProfile { get; }
@@ -200,8 +197,6 @@ namespace TurboLabz.InstantFramework
 
             // Social
             //IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications { get; set; }
-            LogUtil.Log("********** playerModel.isSocialNameSet" + " " + playerModel.isSocialNameSet);
-            LogUtil.Log("********** playerModel.hasExternalAuth" + " " + playerModel.hasExternalAuth);
 
 
             // Ads Info

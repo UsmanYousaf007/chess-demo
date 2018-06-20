@@ -124,7 +124,7 @@ namespace TurboLabz.InstantGame
 
 				SkinShopItemPrefab skinThumbnail = prefabs[i++];
 
-                if (vo.playerModel.ownsVGood(item.key)) 
+                if (vo.playerModel.OwnsVGood(item.key)) 
 				{
 					skinThumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_OWNED);
 					skinThumbnail.price.color = colorOwned;

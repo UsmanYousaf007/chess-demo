@@ -83,7 +83,6 @@ namespace TurboLabz.InstantFramework
             playerModel.countryId = response.Location.Country;
 
             playerModel.bucks = response.Currency2.Value;
-            playerModel.isSocialNameSet = response.ScriptData.GetBoolean(GSBackendKeys.IS_SOCIAL_NAME_SET).Value;
             playerModel.externalAuthentications = externalAuthentications;
             playerModel.eloScore = response.ScriptData.GetInt(GSBackendKeys.ELO_SCORE).Value;
             playerModel.adLifetimeImpressions = response.ScriptData.GetInt(GSBackendKeys.AD_LIFETIME_IMPRESSIONS).Value;
@@ -91,8 +90,6 @@ namespace TurboLabz.InstantFramework
             playerModel.totalGamesWon = response.ScriptData.GetInt(GSBackendKeys.GAMES_WON).Value;
             playerModel.totalGamesLost = response.ScriptData.GetInt(GSBackendKeys.GAMES_LOST).Value;
             playerModel.totalGamesDrawn = response.ScriptData.GetInt(GSBackendKeys.GAMES_DRAWN).Value;
-            playerModel.totalGamesAbandoned = response.ScriptData.GetInt(GSBackendKeys.GAMES_ABANDONED).Value;
-            playerModel.totalGamesPlayed = response.ScriptData.GetInt(GSBackendKeys.GAMES_PLAYED).Value;
 
             // Populate inventory data
             IList<GSData> playerActiveInventory = response.ScriptData.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);

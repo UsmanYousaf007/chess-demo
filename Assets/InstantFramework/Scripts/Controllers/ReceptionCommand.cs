@@ -20,10 +20,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel model { get; set; }
 
         public override void Execute()
-        {TurboLabz.TLUtils.LogUtil.Log("ENTERED RECEPTION", "red");
+        {
             CommandBegin();
 
-            GSRequestSession.Instance.EndSession();
             loadGameDataSignal.Dispatch();
             initBackendOnceSignal.Dispatch();
         }

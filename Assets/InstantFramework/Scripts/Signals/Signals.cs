@@ -36,4 +36,6 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerProfilePictureInfoSignal : Signal<Sprite> {}
     public class PurchaseStoreItemSignal : Signal<string, bool> {}
     public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}
+    public class MatchFindingSignal : Signal {}
+    public class MatchFoundSignal : Signal {}
 }

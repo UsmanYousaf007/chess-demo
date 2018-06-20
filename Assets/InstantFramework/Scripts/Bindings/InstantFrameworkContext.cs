@@ -51,7 +51,7 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
 
-            commandBinder.Bind<GetPlayerProfilePictureSignal>().To<GetPlayerProfilePictureCommand>();
+            //commandBinder.Bind<GetPlayerProfilePictureSignal>().To<GetPlayerProfilePictureCommand>();
             //commandBinder.Bind<GetOpponentProfilePictureSignal>().To<GetOpponentProfilePictureCommand>();
             commandBinder.Bind<ApplyPlayerInventorySignal>().To<ApplyPlayerInventoryCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
@@ -126,7 +126,6 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals to commands
             commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
-			commandBinder.Bind<SavePlayerSignal>().To<SavePlayerCommand>();
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
             commandBinder.Bind<AdjustDurationSignal>().To<AdjustDurationCommand>();
             commandBinder.Bind<AdjustPlayerColorSignal>().To<AdjustPlayerColorCommand>();
