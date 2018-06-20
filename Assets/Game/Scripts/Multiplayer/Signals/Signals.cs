@@ -67,8 +67,6 @@ namespace TurboLabz.Multiplayer
     public class ShowPromoDialogSignal : Signal<ChessColor> {}
     public class HidePromoDialogSignal : Signal {}
     public class UpdatePromoSignal : Signal<MoveVO> {}
-    public class OpponentDisconnectedSignal : Signal {}
-    public class OpponentReconnectedSignal : Signal {}
     public class EnablePlayerTurnInteractionSignal : Signal {}
     public class EnableOpponentTurnInteractionSignal : Signal {}
     public class UpdateMoveForResumeSignal : Signal<MoveVO, bool> {}
