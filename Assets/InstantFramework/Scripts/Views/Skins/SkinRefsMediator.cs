@@ -1,4 +1,4 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -11,19 +11,18 @@
 /// [add_description_here]
 
 using strange.extensions.mediation.impl;
-using TurboLabz.TLUtils;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
-    public class SkinLinkMediator : Mediator
+    public class SkinRefsMediator : Mediator
     {
         // View injection
-        [Inject] public SkinLink view { get; set; }
+        [Inject] public SkinRefs view { get; set; }
 
-        [ListensTo(typeof(UpdateSkinSignal))]
-        public void UpdateSkinSignal()
+        [ListensTo(typeof(ApplySkinSignal))]
+        public void UpdateSkinSignal(string skinId)
         {
-            view.UpdateSkin();
+            view.ApplySkin(skinId);
         }
     }
 }

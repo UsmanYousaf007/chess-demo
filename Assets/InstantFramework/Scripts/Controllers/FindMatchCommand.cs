@@ -41,8 +41,6 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                LogUtil.Log("Found a match command....! ", "cyan");
-
                 PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
 
                 if (opponentPublicProfile.usingFacebookAuth)
@@ -51,6 +49,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
+                    LogUtil.Log("Looks like I'm playing vs " + matchInfoModel.opponentPublicProfile.name, "cyan");
                     Release();
                 }
             }

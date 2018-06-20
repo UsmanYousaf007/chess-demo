@@ -51,8 +51,5 @@ namespace TurboLabz.InstantGame
 	public class UpdateStoreBuckPacksDlgSignal : Signal<StoreVO> {}
 	public class LoadBuckPacksSignal : Signal {}
 
-    // SKINS
-    public class ApplySkinSignal : Signal<string> {}
-    public class UpdateSkinSignal : Signal {}
 
 }

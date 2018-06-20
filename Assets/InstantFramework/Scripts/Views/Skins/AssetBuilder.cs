@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public static class AssetBuilder
     {

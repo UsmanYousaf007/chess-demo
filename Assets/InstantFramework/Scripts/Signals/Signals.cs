@@ -38,4 +38,8 @@ namespace TurboLabz.InstantFramework
     public class OpponentDisconnectedSignal : Signal {}
     public class OpponentReconnectedSignal : Signal {}
 
+    // SKINS
+    public class ApplySkinSignal : Signal<string> {}
+    public class UpdateSkinSignal : Signal {}
+
 }

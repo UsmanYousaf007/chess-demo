@@ -15,7 +15,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TurboLabz.TLUtils;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public class SkinLink : View
     {
