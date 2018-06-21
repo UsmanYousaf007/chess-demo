@@ -47,6 +47,10 @@ namespace TurboLabz.InstantFramework
 			{
 				cmd.androidNativeService.SendToBackground();
 			}
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
 
             return null;
         }

@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         SHOW_CPU_EXIT_DLG,
         SHOW_CPU_RESULTS_DLG,
         SHOW_CPU_PROMO_DLG,
+        SHOW_MULTIPLAYER_FIND_DLG,
         SHOW_MULTIPLAYER,
         SHOW_MULTIPLAYER_EXIT_DLG,
         SHOW_MULTIPLAYER_RESULTS_DLG,

@@ -33,6 +33,7 @@ namespace TurboLabz.Multiplayer
             OnRegisterScore();
             OnRegisterMatchInfo();
             OnRegisterMenu();
+            OnRegisterFind();
         }
 
         public override void OnRemove()

@@ -14,14 +14,21 @@ using strange.extensions.command.impl;
 
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
-    public class MatchFindingCommand : Command
+    public class ShowFindMatchCommand : Command
     {
+        // Dispatch Signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public SetupSearchModeSignal setupSearchModeSignal { get; set; }
+
+
         public override void Execute()
         {
-            
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+            setupSearchModeSignal.Dispatch();
         }
     }
 }

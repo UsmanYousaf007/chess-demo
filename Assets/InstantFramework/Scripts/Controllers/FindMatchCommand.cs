@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowFindMatchSignal showFindMatchSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
+            showFindMatchSignal.Dispatch();
             backendService.FindMatch().Then(OnFindMatch);
         }
 

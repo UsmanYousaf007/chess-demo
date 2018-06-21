@@ -85,6 +85,12 @@ namespace TurboLabz.InstantFramework
         public const string CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE = "cpuFreeBucksButtonNotAvailable";
         public const string CPU_FREE_BUCKS_BUTTON_AVAILABLE = "cpuFreeBucksButtonAvailable";
 
+        #endregion 
+
+        #region Multiplayer
+
+        public const string MULTIPLAYER_SEARCHING = "multiplayerSearching";
+
         #endregion
 
         #region Stats
