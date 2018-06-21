@@ -18,6 +18,7 @@ using GameSparks.Core;
 using TurboLabz.Chess;
 using UnityEngine;
 using TurboLabz.Multiplayer;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -52,8 +53,10 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeTurnTakenMessage(ChallengeTurnTakenMessage message)
         {
+            LogUtil.Log("Challenge turn taken...", "cyan");
             if (!IsCurrentChallenge(message.Challenge.ChallengeId))
             {
+                LogUtil.Log("Not the current challenge, exiting...", "cyan");
                return;
             }
 

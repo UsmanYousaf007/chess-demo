@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public ShowFindMatchSignal showFindMatchSignal { get; set; }
+        [Inject] public GetGameStartTimeSignal getGameStartTimeSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -50,8 +51,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    LogUtil.Log("Looks like I'm playing vs " + matchInfoModel.opponentPublicProfile.name, "cyan");
-                    Release();
+                    MatchFound();
                 }
             }
             else
@@ -77,6 +77,12 @@ namespace TurboLabz.InstantFramework
                 LogUtil.LogWarning("Unable to get the profile picture. FacebookResult: " + result);
             }
 
+            MatchFound();
+        }
+
+        private void MatchFound()
+        {
+            getGameStartTimeSignal.Dispatch();
             Release();
         }
     }

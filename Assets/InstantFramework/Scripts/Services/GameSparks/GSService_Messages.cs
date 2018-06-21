@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
             SessionTerminatedMessage.Listener += OnSessionTerminateMessage;
 
             // TODO: Eventually move to a game specific module
-            // AddGameMessageListeners();
+            AddGameMessageListeners();
         }
 
         private void RemoveMessageListeners()

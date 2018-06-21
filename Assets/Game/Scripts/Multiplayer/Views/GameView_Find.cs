@@ -47,20 +47,16 @@ namespace TurboLabz.Multiplayer
 
         public void SetupSearchMode()
         {
-            chessboard.localRotation = WHITE_BOARD_ROTATION;
-            chessboard.localPosition = WHITE_BOARD_POSITION;
+            chessContainer.SetActive(true);
+            InitClickAndDrag();
 
             fileRankLabelsForward.SetActive(true);
             fileRankLabelsBackward.SetActive(false);
-
-            chessContainer.SetActive(true);
             playerFromIndicator.SetActive(false);
             playerToIndicator.SetActive(false);
             opponentFromIndicator.SetActive(false);
             opponentToIndicator.SetActive(false);
             kingCheckIndicator.SetActive(false);
-
-            InitClickAndDrag();
             HidePossibleMoves();
         }
     }

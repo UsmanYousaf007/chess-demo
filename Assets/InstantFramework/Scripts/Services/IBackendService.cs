@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         IServerClock serverClock { get; }
 
+        void AddMessageListeners();
         void StartPinger();
         void MonitorConnectivity();
 
@@ -24,6 +25,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string activeAvatarsId, string activeAvatarsBorderId);
         IPromise<BackendResult> SetPlayerSocialName(string name);
         IPromise<BackendResult> FindMatch();
-        //IPromise<BackendResult> GetGameStartTime(string challengeId);
+        IPromise<BackendResult> GetGameStartTime(string challengeId);
 	}
 }

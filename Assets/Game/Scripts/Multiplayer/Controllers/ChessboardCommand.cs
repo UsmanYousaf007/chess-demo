@@ -13,6 +13,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.Multiplayer
 {
@@ -66,7 +67,7 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            //LogUtil.Log("ChessboardEvent: " + chessboardEvent);
+            LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
 
             if (chessboardModel.currentState == null)
             {
@@ -82,7 +83,11 @@ namespace TurboLabz.Multiplayer
                 chessboardModel.currentState = newState;
                 newState.RenderDisplayOnEnter(this);
 
-                //LogUtil.Log(chessboardEvent + ": " + newState.GetType().Name, "white");
+                LogUtil.Log(chessboardEvent + ": " + newState.GetType().Name, "white");
+            }
+            else
+            {
+                LogUtil.Log("Event ignored.", "white");
             }
         }
 

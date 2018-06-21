@@ -66,6 +66,13 @@ namespace TurboLabz.InstantFramework
             matchInfoModel.challengeId = challengeId;
             matchInfoModel.opponentPublicProfile = opponentPublicProfile;
             matchInfoModel.botId = matchData.GetString(GSBackendKeys.MatchData.BOT_ID);
+
+            // InitGame() is responsible for filling out all the game models
+            // using the game specific data that comes as part of the response
+            // in the ChallengeStartedMessage. Since Gamebet is not responsible
+            // for any of the game models and reponse data this reponsibility
+            // has to be delegated to the game side.
+            InitGame(gameData);
         }
     }
 

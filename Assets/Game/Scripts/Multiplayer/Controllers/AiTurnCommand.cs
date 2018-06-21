@@ -79,7 +79,6 @@ namespace TurboLabz.Multiplayer
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
-            /*
             if (chessboardModel.aiWillResign &&
                 chessService.GetScore(chessboardModel.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD)
             {
@@ -89,7 +88,6 @@ namespace TurboLabz.Multiplayer
             {
                 backendService.TakeAiTurn(from, to, promo).Then(OnTurnTaken); ;
             }
-            */
         }
 
         private void OnTurnTaken(BackendResult result)

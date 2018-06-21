@@ -12,8 +12,9 @@
 
 using strange.extensions.command.impl;
 using strange.extensions.mediation.api;
+using TurboLabz.Multiplayer;
 
-namespace TurboLabz.Multiplayer
+namespace TurboLabz.InstantFramework
 {
     public class StartGameCommand : Command
     {

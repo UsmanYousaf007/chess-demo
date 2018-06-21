@@ -29,7 +29,7 @@ namespace TurboLabz.InstantFramework
         {
             backendService.StartPinger();
             backendService.MonitorConnectivity();
-            //backendService.AddMessageListeners(); // TODO: Module containing AddMessageListeners has game dependencies. Better solution is needed.
+            backendService.AddMessageListeners(); // TODO: Module containing AddMessageListeners has game dependencies. Better solution is needed.
         }
     }
 }

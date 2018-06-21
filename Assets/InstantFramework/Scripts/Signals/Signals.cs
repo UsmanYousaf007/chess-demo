@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
     public class AppEventSignal : Signal<AppEvent> {}
     public class GameAppEventSignal : Signal<AppEvent> {}
     public class FindMatchSignal : Signal {}
+    public class GetGameStartTimeSignal : Signal {}
     public class ShowFindMatchSignal : Signal {}
     public class AudioStateChangedSignal : Signal<bool> {}
     public class NavigatorEventSignal : Signal<NavigatorEvent> {}
@@ -38,6 +39,7 @@ namespace TurboLabz.InstantFramework
     public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}
     public class OpponentDisconnectedSignal : Signal {}
     public class OpponentReconnectedSignal : Signal {}
+    public class StartGameSignal : Signal {}
 
     // SKINS
     public class ApplySkinSignal : Signal<string> {}

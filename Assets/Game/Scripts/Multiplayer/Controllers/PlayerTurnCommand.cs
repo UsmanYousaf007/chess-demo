@@ -34,7 +34,7 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             Retain();
-            /*
+
             backendService.TakeTurn(
                 playerTurnVO.fromSquare.fileRank,
                 playerTurnVO.toSquare.fileRank,
@@ -42,7 +42,6 @@ namespace TurboLabz.Multiplayer
                 playerTurnVO.claimFiftyMoveDraw,
                 playerTurnVO.claimThreefoldRepeatDraw,
                 playerTurnVO.rejectThreefoldRepeatDraw).Then(OnTurnTaken); 
-                */
 
             SaveLastPlayerMove();
         }

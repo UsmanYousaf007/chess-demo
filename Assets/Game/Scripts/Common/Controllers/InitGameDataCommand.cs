@@ -3,14 +3,9 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using TurboLabz.TLUtils;
-using TurboLabz.InstantFramework;
 using strange.extensions.command.impl;
-using System.Collections.Generic;
-using strange.extensions.promise.api;
-using UnityEngine;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
 	public class InitGameDataCommand : Command
 	{ 
