@@ -11,18 +11,17 @@
 /// [add_description_here]
 
 using System.Collections.Generic;
-
 using UnityEngine;
-
 using strange.extensions.signal.impl;
 using UnityEngine.UI;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Chess
 {
     public class CDSModel
     {
         public const float DRAG_THRESHOLD = 10f;
-        public const float PIECE_PICK_OFFSET = 200f;
+        public const float PIECE_PICK_OFFSET = 125f;
         public const int PIECE_SORTING_ORDER = 1;
 
         public readonly Vector3 PIECE_ZOOM_SCALE = new Vector3(200f, 200f, 200f);
