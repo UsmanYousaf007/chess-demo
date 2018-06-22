@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -34,7 +35,9 @@ namespace TurboLabz.Multiplayer
 
             IChessboardModel model = cmd.chessboardModel;
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
-            cmd.showResultsDialogSignal.Dispatch(model.gameEndReason, playerWins);
+
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
+            cmd.updateResultsDialogSignal.Dispatch(cmd.chessboardModel.gameEndReason, playerWins);
         }
     }
 }

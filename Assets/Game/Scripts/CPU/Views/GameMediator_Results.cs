@@ -59,17 +59,18 @@ namespace TurboLabz.CPU
         }
 
         [ListensTo(typeof(UpdateResultDialogSignal))]
-		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int statResult)
+		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins)
         {
-            view.UpdateResultsDialog(gameEndReason, playerWins, statResult);
+            view.UpdateResultsDialog(gameEndReason, playerWins);
         }
 
-
+        /*
         [ListensTo(typeof(EnableResultsDialogButtonSignal))]
         public void OnEnableResultsDialogButton()
         {
             view.EnableResultsDialogButton();
         }
+        */
 
         private void OnResultsExitButtonClicked()
         {

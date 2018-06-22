@@ -97,7 +97,7 @@ namespace TurboLabz.CPU
             cmd.saveStatsSignal.Dispatch(statResult);
 
 			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
-			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, statResult);
+			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

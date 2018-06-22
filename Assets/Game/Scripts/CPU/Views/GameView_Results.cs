@@ -98,7 +98,7 @@ namespace TurboLabz.CPU
             resultsDialog.SetActive(false);
         }
 
-		public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins, int statResult)
+		public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins)
         {
             HideMenu();
             DisableInteraction();

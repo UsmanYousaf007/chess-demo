@@ -51,7 +51,7 @@ namespace TurboLabz.Multiplayer
     public class StopTimersSignal : Signal {}
     public class PlayerTimerExpiredSignal : Signal {}
     public class OpponentTimerExpiredSignal : Signal {}
-    public class ShowResultsDialogSignal : Signal<GameEndReason, bool> {}
+    public class UpdateResultDialogSignal : Signal<GameEndReason, bool> {}
     public class ShowPossibleMovesSignal : Signal<FileRank, List<ChessSquare>> {}
     public class HidePossibleMovesSignal : Signal {}
     public class ShowPlayerFromIndicatorSignal : Signal<ChessSquare> {}

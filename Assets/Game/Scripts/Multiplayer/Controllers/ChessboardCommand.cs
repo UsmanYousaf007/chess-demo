@@ -42,7 +42,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public ShowFiftyMoveDrawDialogSignal showFiftyMoveDrawDialogSignal { get; set; }
         [Inject] public ShowThreefoldRepeatDrawDialogSignal showThreefoldRepeatDrawDialogSignal { get; set; }
         [Inject] public HideDrawDialogSignal hideDrawDialogSignal { get; set; }
-        [Inject] public ShowResultsDialogSignal showResultsDialogSignal { get; set; }
+        [Inject] public UpdateResultDialogSignal updateResultsDialogSignal { get; set; }
         [Inject] public ShowPromoDialogSignal showPromoDialogSignal { get; set; }
         [Inject] public HidePromoDialogSignal hidePromoDialogSignal { get; set; }
         [Inject] public UpdatePromoSignal updatePromoSignal { get; set; }
