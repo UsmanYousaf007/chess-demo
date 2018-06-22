@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -20,10 +21,12 @@ namespace TurboLabz.Multiplayer
         {
             if (CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_PROMO_DLG);
+
                 IChessboardModel model = cmd.chessboardModel;
                 cmd.hidePossibleMovesSignal.Dispatch();
                 cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(model, true));
-                cmd.showPromoDialogSignal.Dispatch(cmd.chessboardModel.playerColor);
+                cmd.updatePromoDialogSignal.Dispatch(cmd.chessboardModel.playerColor);
             }
         }
 
@@ -34,6 +37,7 @@ namespace TurboLabz.Multiplayer
 
             if (evt == ChessboardEvent.PROMO_SELECTED)
             {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return HandlePlayerMove(cmd, model.selectedPromo);
             }
             else if (evt == ChessboardEvent.GAME_ENDED)

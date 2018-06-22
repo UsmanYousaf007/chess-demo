@@ -31,14 +31,12 @@ namespace TurboLabz.Multiplayer
             view.CleanupPromotions();
             view.promoClickedSignal.RemoveListener(OnPromoClicked);
         }
-
-        /*
+            
         [ListensTo(typeof(UpdatePromoDialogSignal))]
         public void OnUpdatePromoDialog(ChessColor color)
         {
             view.UpdatePromoDialog(color);
         }
-        */
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowPromoDialog(NavigatorViewId viewId)

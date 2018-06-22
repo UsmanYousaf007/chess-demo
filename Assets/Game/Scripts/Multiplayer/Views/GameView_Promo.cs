@@ -59,7 +59,6 @@ namespace TurboLabz.Multiplayer
 
         public void OnPromoClicked(string pieceName)
         {
-            HidePromoDialog();
             promoClickedSignal.Dispatch(pieceName);
             audioService.Play(audioService.sounds.SFX_PROMO);
         }

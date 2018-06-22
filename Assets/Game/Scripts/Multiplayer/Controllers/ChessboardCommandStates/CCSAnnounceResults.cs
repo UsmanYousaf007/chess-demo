@@ -19,20 +19,6 @@ namespace TurboLabz.Multiplayer
     {
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
-            if (CameFromState(cmd, typeof(CCSPromoDialog)))
-            {
-                cmd.hidePromoDialogSignal.Dispatch();
-            }
-            else if (CameFromState(cmd, typeof(CCSFiftyMoveDrawOnOpponentTurnAvailable)) ||
-                     CameFromState(cmd, typeof(CCSFiftyMoveDrawOnOpponentTurnAvailablePieceSelected)) ||
-                     CameFromState(cmd, typeof(CCSFiftyMoveDrawOnPlayerTurnAvailable)) ||
-                     CameFromState(cmd, typeof(CCSThreefoldRepeatDrawOnOpponentTurnAvailable)) ||
-                     CameFromState(cmd, typeof(CCSThreefoldRepeatDrawOnOpponentTurnAvailablePieceSelected)) ||
-                     CameFromState(cmd, typeof(CCSThreefoldRepeatDrawOnPlayerTurnAvailable))) 
-            {
-                cmd.hideDrawDialogSignal.Dispatch();
-            } 
-
             IChessboardModel model = cmd.chessboardModel;
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
 
