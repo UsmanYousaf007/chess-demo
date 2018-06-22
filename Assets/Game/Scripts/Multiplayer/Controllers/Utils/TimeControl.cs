@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -14,8 +14,9 @@ using System;
 using System.Collections;
 
 using strange.extensions.signal.impl;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.TLUtils
+namespace TurboLabz.Multiplayer
 {
     // TODO: Refactor class
     public class TimeControl : ITimeControl
@@ -32,7 +33,9 @@ namespace TurboLabz.TLUtils
         private IRoutineRunner routineRunner = new NormalRoutineRunner();
 
         public TimeSpan playerRealTimer { get; set; }
+        public TimeSpan playerDisplayTimer { get; set; }
         public TimeSpan opponentRealTimer { get; set; }
+        public TimeSpan opponentDisplayTimer { get; set; }
 
         private DateTime swapTimestamp;
         private TimeSpan timerAtSwap;
@@ -66,7 +69,9 @@ namespace TurboLabz.TLUtils
             state = State.STOPPED;
 
             playerRealTimer = playerTimer;
+            playerDisplayTimer = playerTimer;
             opponentRealTimer = opponentTimer;
+            opponentDisplayTimer = opponentTimer;
         }
 
         public void Reset()
@@ -74,7 +79,9 @@ namespace TurboLabz.TLUtils
             state = State.UNINITIALIZED;
 
             playerRealTimer = default(TimeSpan);
+            playerDisplayTimer = default(TimeSpan);
             opponentRealTimer = default(TimeSpan);
+            opponentDisplayTimer = default(TimeSpan);
         }
 
         public void StartTimers(bool isPlayerTurn)
@@ -139,6 +146,7 @@ namespace TurboLabz.TLUtils
 
             swapTimestamp = DateTime.UtcNow;
             timerAtSwap = playerRealTimer;
+            lastPlayerTimerSeconds = playerDisplayTimer.Seconds;
             runPlayerTimerCR = RunPlayerTimerCR();
             routineRunner.StartCoroutine(runPlayerTimerCR);
         }
@@ -156,7 +164,17 @@ namespace TurboLabz.TLUtils
                         playerRealTimer = TimeSpan.Zero;
                     }
 
-                    playerTickSignal.Dispatch();
+                    if (playerRealTimer < playerDisplayTimer)
+                    {
+                        playerDisplayTimer = playerRealTimer;
+                    }
+
+                    if ((playerDisplayTimer.Seconds != lastPlayerTimerSeconds) || 
+                        (playerDisplayTimer == TimeSpan.Zero))
+                    {
+                        lastPlayerTimerSeconds = playerDisplayTimer.Seconds;
+                        playerTickSignal.Dispatch();
+                    }
 
                     if (playerRealTimer == TimeSpan.Zero)
                     {
@@ -186,6 +204,7 @@ namespace TurboLabz.TLUtils
 
             swapTimestamp = DateTime.UtcNow;
             timerAtSwap = opponentRealTimer;
+            lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
             runOpponentTimerCR = RunOpponentTimerCR();
             routineRunner.StartCoroutine(runOpponentTimerCR);
         }
@@ -203,7 +222,17 @@ namespace TurboLabz.TLUtils
                         opponentRealTimer = TimeSpan.Zero;
                     }
 
-                    opponentTickSignal.Dispatch();
+                    if (opponentRealTimer < opponentDisplayTimer)
+                    {
+                        opponentDisplayTimer = opponentRealTimer;
+                    }
+
+                    if ((opponentDisplayTimer.Seconds != lastOpponentTimerSeconds) || 
+                        (opponentDisplayTimer == TimeSpan.Zero))
+                    {
+                        lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
+                        opponentTickSignal.Dispatch();
+                    }
 
                     if (opponentRealTimer == TimeSpan.Zero)
                     {

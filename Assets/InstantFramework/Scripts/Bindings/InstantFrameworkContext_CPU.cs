@@ -81,6 +81,9 @@ namespace TurboLabz.InstantFramework
             // Bind models
             injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();
             injectionBinder.Bind<ICPUGameModel>().To<CPUGameModel>().ToSingleton();
+
+            // Bind utils
+            injectionBinder.Bind<ITimeControl>().To<TimeControl>(); 
         }
     }
 }

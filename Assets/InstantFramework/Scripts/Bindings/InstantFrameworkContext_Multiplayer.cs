@@ -68,6 +68,9 @@ namespace TurboLabz.InstantFramework
 
             // Bind mediator to view
             mediationBinder.Bind<GameView>().To<GameMediator>();
+
+            // Bind utils
+            injectionBinder.Bind<ITimeControl>().To<TimeControl>(); 
         }
     }
 }

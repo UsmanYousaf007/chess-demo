@@ -84,12 +84,12 @@ namespace TurboLabz.Multiplayer
 
         private void OnPlayerTimerTick()
         {
-            //updatePlayerTimerSignal.Dispatch(timeControl.playerDisplayTimer);
+            updatePlayerTimerSignal.Dispatch(timeControl.playerDisplayTimer);
         }
 
         private void OnOpponentTimerTick()
         {
-            //updateOpponentTimerSignal.Dispatch(timeControl.opponentDisplayTimer);
+            updateOpponentTimerSignal.Dispatch(timeControl.opponentDisplayTimer);
         }
 
         private void OnTakeTurnSwapTimeControl()

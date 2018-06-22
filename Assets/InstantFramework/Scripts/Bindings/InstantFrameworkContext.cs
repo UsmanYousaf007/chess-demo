@@ -104,7 +104,6 @@ namespace TurboLabz.InstantFramework
             // Bind utils
             injectionBinder.Bind<IRoutineRunner>().To<StrangeRoutineRunner>().ToSingleton();
             injectionBinder.Bind<IGameEngineInfo>().To<UnityInfo>().ToSingleton();
-            injectionBinder.Bind<ITimeControl>().To<TimeControl>(); // Not singleton
             injectionBinder.Bind<IServerClock>().To<ServerClock>().ToSingleton();
 
             // Bind models

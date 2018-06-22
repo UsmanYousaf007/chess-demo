@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -14,7 +14,7 @@ using System;
 
 using strange.extensions.signal.impl;
 
-namespace TurboLabz.TLUtils
+namespace TurboLabz.Multiplayer
 {
     public interface ITimeControl
     {
@@ -24,7 +24,9 @@ namespace TurboLabz.TLUtils
         Signal opponentTimerExpiredSignal { get; }
 
         TimeSpan playerRealTimer { get; set; }
+        TimeSpan playerDisplayTimer { get; set; }
         TimeSpan opponentRealTimer { get; set; }
+        TimeSpan opponentDisplayTimer { get; set; }
 
         void SetTimers(TimeSpan playerTimer, TimeSpan opponentTimer);
         void Reset();
