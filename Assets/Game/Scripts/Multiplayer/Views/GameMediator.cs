@@ -34,6 +34,7 @@ namespace TurboLabz.Multiplayer
             OnRegisterMatchInfo();
             OnRegisterMenu();
             OnRegisterFind();
+            OnRegisterDraw();
         }
 
         public override void OnRemove()
@@ -44,6 +45,7 @@ namespace TurboLabz.Multiplayer
             OnRemoveResults();
             OnRemoveScore();
             OnRemoveMenu();
+            OnRemoveDraw();
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]

@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -24,12 +25,12 @@ namespace TurboLabz.Multiplayer
             }
             else if (CameFromState(cmd, typeof(CCSThreefoldRepeatDrawOnOpponentTurnAvailable)))
             {
-                cmd.showThreefoldRepeatDrawDialogSignal.Dispatch();
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG);
             }
             else if (CameFromState(cmd, typeof(CCSDefault)))
             {
                 RenderNewGame(cmd, true);
-                cmd.showThreefoldRepeatDrawDialogSignal.Dispatch();
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG);
             }        
         }
 
@@ -39,17 +40,19 @@ namespace TurboLabz.Multiplayer
 
             if (evt == ChessboardEvent.DRAW_CLAIMED)
             {   
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 cmd.claimThreefoldRepeatDrawSignal.Dispatch();
                 return new CCSDrawClaimedOnOpponentTurn();
             }
             else if (evt == ChessboardEvent.DRAW_REJECTED)
             {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return new CCSPlayerTurn();
             }
             else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
                 cmd.chessboardModel.opponentMoveRenderComplete = true;
-                return null;
+                return new CCSThreefoldRepeatDrawOnOpponentTurnAvailable();
             }
             else if (evt == ChessboardEvent.GAME_ENDED)
             {

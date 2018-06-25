@@ -41,7 +41,6 @@ namespace TurboLabz.Multiplayer
         {
             drawYesButton.onClick.AddListener(OnDrawClaimed);
             drawNoButton.onClick.AddListener(OnDrawRejected);
-            drawHeading.color = Colors.GREEN;
             drawYesButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON);
             drawNoButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON);
 
@@ -83,13 +82,11 @@ namespace TurboLabz.Multiplayer
 
         private void OnDrawClaimed()
         {
-            HideDrawDialog();
             drawClaimedSignal.Dispatch();
         }
 
         private void OnDrawRejected()
         {
-            HideDrawDialog();
             drawRejectedSignal.Dispatch();
         }
     }
