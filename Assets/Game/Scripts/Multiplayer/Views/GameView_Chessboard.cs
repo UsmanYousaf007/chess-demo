@@ -497,6 +497,10 @@ namespace TurboLabz.Multiplayer
 
             InitClickAndDrag();
             HidePossibleMoves();
+            DisableModalBlocker();
+            EnableMenuButton();
+            playerInfoPanel.SetActive(true);
+            opponentInfoPanel.SetActive(true);
         }
 
         private void UpdateInfoPostMove(MoveVO vo, bool isResume = false)

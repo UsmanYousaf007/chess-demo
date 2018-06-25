@@ -26,7 +26,7 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<SetupChessboardSignal>().ToSingleton();
-            injectionBinder.Bind<SetupSearchModeSignal>().ToSingleton();
+            injectionBinder.Bind<SetupFindModeSignal>().ToSingleton();
             injectionBinder.Bind<UpdateMatchInfoSignal>().ToSingleton();
             injectionBinder.Bind<InitTimersSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerTimerSignal>().ToSingleton();

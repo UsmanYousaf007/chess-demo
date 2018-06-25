@@ -41,10 +41,10 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        [ListensTo(typeof(SetupSearchModeSignal))]
-        public void OnSetupSearchMode()
+        [ListensTo(typeof(SetupFindModeSignal))]
+        public void OnSetupFindMode()
         {
-            view.SetupSearchMode();
+            view.SetupFindMode();
         }
     }
 }

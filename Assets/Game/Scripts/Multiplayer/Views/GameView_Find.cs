@@ -45,12 +45,12 @@ namespace TurboLabz.Multiplayer
             EnableMenuButton();
         }
 
-        public void SetupSearchMode()
+        public void SetupFindMode()
         {
             chessContainer.SetActive(true);
             InitClickAndDrag();
 
-            fileRankLabelsForward.SetActive(true);
+            fileRankLabelsForward.SetActive(false);
             fileRankLabelsBackward.SetActive(false);
             playerFromIndicator.SetActive(false);
             playerToIndicator.SetActive(false);
@@ -58,6 +58,19 @@ namespace TurboLabz.Multiplayer
             opponentToIndicator.SetActive(false);
             kingCheckIndicator.SetActive(false);
             HidePossibleMoves();
+            DisableMenuButton();
+            playerInfoPanel.SetActive(false);
+            opponentInfoPanel.SetActive(false);
+
+            // Reset the piece image pool
+            foreach (GameObject obj in activatedPieceImages)
+            {
+                pool.ReturnObject(obj);
+            }
+
+            activatedPieceImages.Clear();
+
+            EnableModalBlocker();
         }
     }
 }

@@ -31,6 +31,8 @@ namespace TurboLabz.Multiplayer
         public Camera chessboardCamera;
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
+        public GameObject playerInfoPanel;
+        public GameObject opponentInfoPanel;
 
 
 
