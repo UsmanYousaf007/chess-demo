@@ -130,6 +130,7 @@ namespace TurboLabz.Multiplayer
         void OnResignButtonClicked()
         {
             resignButtonClickedSignal.Dispatch();
+            EnableModalBlocker();
         }
 
         void OnContinueButtonClicked()
