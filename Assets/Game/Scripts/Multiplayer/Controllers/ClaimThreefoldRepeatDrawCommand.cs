@@ -26,7 +26,7 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             Retain();
-            //backendService.ClaimThreefoldRepeatDraw().Then(OnClaimThreefoldRepeatDraw);
+            backendService.ClaimThreefoldRepeatDraw().Then(OnClaimThreefoldRepeatDraw);
         }
 
         private void OnClaimThreefoldRepeatDraw(BackendResult result)

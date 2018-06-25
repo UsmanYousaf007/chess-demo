@@ -132,6 +132,18 @@ namespace TurboLabz.Multiplayer
                 isDraw = true;
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL);
             }
+            else if (gameEndReason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE ||
+                gameEndReason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE)
+            {
+                isDraw = true;
+                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE);
+            }
+            else if (gameEndReason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE ||
+                gameEndReason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE)
+            {
+                isDraw = true;
+                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE);
+            }
             else
             {
                 Assertions.Assert(false, "Unknown game end reason.");

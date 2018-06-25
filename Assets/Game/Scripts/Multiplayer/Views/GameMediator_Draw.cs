@@ -60,6 +60,7 @@ namespace TurboLabz.Multiplayer
         private void OnDrawClaimed()
         {
             chessboardEventSignal.Dispatch(ChessboardEvent.DRAW_CLAIMED);
+
         }
 
         private void OnDrawRejected()

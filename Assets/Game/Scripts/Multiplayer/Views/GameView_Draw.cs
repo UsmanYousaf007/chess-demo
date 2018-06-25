@@ -83,6 +83,7 @@ namespace TurboLabz.Multiplayer
         private void OnDrawClaimed()
         {
             drawClaimedSignal.Dispatch();
+            EnableModalBlocker();
         }
 
         private void OnDrawRejected()

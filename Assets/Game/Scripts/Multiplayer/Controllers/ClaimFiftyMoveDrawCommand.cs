@@ -26,7 +26,7 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             Retain();
-            //backendService.ClaimFiftyMoveDraw().Then(OnClaimFiftyMoveDraw);
+            backendService.ClaimFiftyMoveDraw().Then(OnClaimFiftyMoveDraw);
         }
 
         private void OnClaimFiftyMoveDraw(BackendResult result)
