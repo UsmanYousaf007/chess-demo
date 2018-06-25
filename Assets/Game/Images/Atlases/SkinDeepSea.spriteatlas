@@ -64,11 +64,16 @@ SpriteAtlas:
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: ba3bbeaea8b7b43a6ba1c587e6413cc6, type: 3}
-  - {fileID: 21300000, guid: e3aca59aa3c144e4686209c13a28fbbd, type: 3}
   - {fileID: 21300000, guid: c3a547f04bc454d8f885a7d0cc162abf, type: 3}
+  - {fileID: 21300000, guid: ba3bbeaea8b7b43a6ba1c587e6413cc6, type: 3}
   - {fileID: 21300000, guid: fc3617488a4e140f7b63d9f6e11e8403, type: 3}
+  - {fileID: 21300000, guid: cd183933e29244fdbad641328daeaa83, type: 3}
+  - {fileID: 21300000, guid: e3aca59aa3c144e4686209c13a28fbbd, type: 3}
+  - {fileID: 21300000, guid: 1e5a3662b88614718843d50bbc5917b4, type: 3}
   - {fileID: 21300000, guid: a2f8f2e5179c7453e83ce45a86335062, type: 3}
+  - {fileID: 21300000, guid: 4af3feb85efbb44f8b1b308c4d5efbce, type: 3}
+  - {fileID: 21300000, guid: e6a09ed7a2423463295b502389da60e4, type: 3}
+  - {fileID: 21300000, guid: 246dcd552df58469592a3f9967b864c3, type: 3}
   - {fileID: 21300000, guid: f15d01139c98b4147b5e15cc96a7641c, type: 3}
   - {fileID: 21300000, guid: 5112e27af613346eaa740512cd00b5b8, type: 3}
   - {fileID: 21300000, guid: cb67a59579c524412a4eed7ef834a631, type: 3}
@@ -80,10 +85,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: dfcf3a08d6e9d46178c308ee452dbaf2, type: 3}
   - {fileID: 21300000, guid: 540565fea8731444bbe68d4450139bdf, type: 3}
   - {fileID: 21300000, guid: a7a894fb9c30a4fb287d5e5e85ad67b3, type: 3}
-  - {fileID: 21300000, guid: 4af3feb85efbb44f8b1b308c4d5efbce, type: 3}
   - {fileID: 21300000, guid: fbceb271fb89e490db521673d6f37def, type: 3}
-  - {fileID: 21300000, guid: e6a09ed7a2423463295b502389da60e4, type: 3}
-  - {fileID: 21300000, guid: 246dcd552df58469592a3f9967b864c3, type: 3}
   - {fileID: 21300000, guid: 85f16aae5c6844a51b0c1d1c6f8c41d6, type: 3}
   - {fileID: 21300000, guid: cf28946053dd349afbfe984177f7d3c9, type: 3}
   - {fileID: 21300000, guid: d9bde2c7e18244a579d690796a20dfd1, type: 3}
@@ -95,14 +97,17 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 478458db246894c3eb402ee56f6444df, type: 3}
   - {fileID: 21300000, guid: 0c995ef78945540d1b26c84aab82af04, type: 3}
   - {fileID: 21300000, guid: 79eb9bddd34ae4b01b49568a82c089f5, type: 3}
-  - {fileID: 21300000, guid: cd183933e29244fdbad641328daeaa83, type: 3}
-  - {fileID: 21300000, guid: 1e5a3662b88614718843d50bbc5917b4, type: 3}
   m_PackedSpriteNamesToIndex:
-  - SkinDeepSea_StandardDlg
-  - SkinDeepSea_Promo
   - SkinDeepSea_StandardTitleBar
+  - SkinDeepSea_StandardDlg
   - SkinDeepSea_LobbyBtn
+  - SkinDeepSea_StandardBtn
+  - SkinDeepSea_Promo
+  - SkinDeepSea_ChessboardBar
   - SkinDeepSea_PlayerFrom
+  - SkinDeepSea_OpponentFrom
+  - SkinDeepSea_PlayerTo
+  - SkinDeepSea_OpponentTo
   - SkinDeepSea_Wr
   - SkinDeepSea_Wq
   - SkinDeepSea_Wp
@@ -114,10 +119,7 @@ SpriteAtlas:
   - SkinDeepSea_bn
   - SkinDeepSea_Wn
   - SkinDeepSea_bk
-  - SkinDeepSea_OpponentFrom
   - SkinDeepSea_bb
-  - SkinDeepSea_PlayerTo
-  - SkinDeepSea_OpponentTo
   - SkinDeepSea_IncDecBtn
   - SkinDeepSea_cWn
   - SkinDeepSea_cWb
@@ -129,7 +131,5 @@ SpriteAtlas:
   - SkinDeepSea_cWr
   - SkinDeepSea_cbb
   - SkinDeepSea_cbn
-  - SkinDeepSea_StandardBtn
-  - SkinDeepSea_ChessboardBar
   m_Tag: SkinDeepSea
   m_IsVariant: 0

@@ -64,10 +64,12 @@ SpriteAtlas:
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 083110cb67cd1435191be5d32a1b575e, type: 3}
-  - {fileID: 21300000, guid: f79d2c64c5a7b40c3aa7364b4cc5310d, type: 3}
   - {fileID: 21300000, guid: 018cbf650c6c84732872ec7f5d29d243, type: 3}
+  - {fileID: 21300000, guid: 083110cb67cd1435191be5d32a1b575e, type: 3}
   - {fileID: 21300000, guid: 6f7e4d719c1754969b8f0aaa5a2cc094, type: 3}
+  - {fileID: 21300000, guid: 7b979e9cf06334324826a50ef11efdb4, type: 3}
+  - {fileID: 21300000, guid: f79d2c64c5a7b40c3aa7364b4cc5310d, type: 3}
+  - {fileID: 21300000, guid: 4049ae47492dc4d48bd5b030f86e9c7f, type: 3}
   - {fileID: 21300000, guid: 5123e71d1a67d4b70bbbfd31e34aa79f, type: 3}
   - {fileID: 21300000, guid: f1502c0dfe5d84655aad50abebe137e0, type: 3}
   - {fileID: 21300000, guid: c8b0cf6e27e0c4076bc34eea47b6b91c, type: 3}
@@ -95,13 +97,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 58318a741216f4809989d07c504c5721, type: 3}
   - {fileID: 21300000, guid: 86abc79e6387143d996cfd957fa1945a, type: 3}
   - {fileID: 21300000, guid: 6ad31afa3175249ee8fbabc5c4018be8, type: 3}
-  - {fileID: 21300000, guid: 7b979e9cf06334324826a50ef11efdb4, type: 3}
-  - {fileID: 21300000, guid: 4049ae47492dc4d48bd5b030f86e9c7f, type: 3}
   m_PackedSpriteNamesToIndex:
-  - SkinLuxury_StandardDlg
-  - SkinLuxury_Promo
   - SkinLuxury_StandardTitleBar
+  - SkinLuxury_StandardDlg
   - SkinLuxury_LobbyBtn
+  - SkinLuxury_StandardBtn
+  - SkinLuxury_Promo
+  - SkinLuxury_ChessboardBar
   - SkinLuxury_PlayerTo
   - SkinLuxury_Wb
   - SkinLuxury_Wn
@@ -129,7 +131,5 @@ SpriteAtlas:
   - SkinLuxury_cWp
   - SkinLuxury_cWq
   - SkinLuxury_cWr
-  - SkinLuxury_StandardBtn
-  - SkinLuxury_ChessboardBar
   m_Tag: SkinLuxury
   m_IsVariant: 0

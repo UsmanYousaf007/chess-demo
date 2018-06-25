@@ -64,10 +64,12 @@ SpriteAtlas:
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: a6d6380f18b844ec7b45487897672f92, type: 3}
-  - {fileID: 21300000, guid: d1a6efcf031c7438fafbbe3d19021d7d, type: 3}
   - {fileID: 21300000, guid: 4a494922ea18a48be822972bfe3c7f29, type: 3}
+  - {fileID: 21300000, guid: a6d6380f18b844ec7b45487897672f92, type: 3}
   - {fileID: 21300000, guid: f57bc611ccd2c4ac7be10bbdea51c97e, type: 3}
+  - {fileID: 21300000, guid: 49a223cc6cd8c4ef38e7d112732aba9f, type: 3}
+  - {fileID: 21300000, guid: d1a6efcf031c7438fafbbe3d19021d7d, type: 3}
+  - {fileID: 21300000, guid: 361776cd4036d47e7a9568b042fd1a1f, type: 3}
   - {fileID: 21300000, guid: 4ef8d50058549440ebc022baa1c5bc40, type: 3}
   - {fileID: 21300000, guid: 5cce2ae3dd2584a4c9f583196bc3ca2e, type: 3}
   - {fileID: 21300000, guid: a17cd42b45e5e4bde9e9ae3a047d172b, type: 3}
@@ -95,13 +97,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 20e903dce500f4670881b6eafbc32cf4, type: 3}
   - {fileID: 21300000, guid: f1442063eb84544c1a6a4c201ebfb382, type: 3}
   - {fileID: 21300000, guid: b0e11573dd9434dccb995e59cd4bf160, type: 3}
-  - {fileID: 21300000, guid: 49a223cc6cd8c4ef38e7d112732aba9f, type: 3}
-  - {fileID: 21300000, guid: 361776cd4036d47e7a9568b042fd1a1f, type: 3}
   m_PackedSpriteNamesToIndex:
-  - SkinDracula_StandardDlg
-  - SkinDracula_Promo
   - SkinDracula_StandardTitleBar
+  - SkinDracula_StandardDlg
   - SkinDracula_LobbyBtn
+  - SkinDracula_StandardBtn
+  - SkinDracula_Promo
+  - SkinDracula_ChessboardBar
   - SkinDracula_Wb
   - SkinDracula_Wk
   - SkinDracula_Wn
@@ -129,7 +131,5 @@ SpriteAtlas:
   - SkinDracula_cbn
   - SkinDracula_cWn
   - SkinDracula_cbb
-  - SkinDracula_StandardBtn
-  - SkinDracula_ChessboardBar
   m_Tag: SkinDracula
   m_IsVariant: 0
