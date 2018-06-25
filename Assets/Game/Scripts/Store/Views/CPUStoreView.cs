@@ -111,7 +111,7 @@ namespace TurboLabz.InstantGame
             
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
             Color colorOwned = Colors.YELLOW;
-            Color colorNormal = Colors.WHITE_TEXT;
+            Color colorNormal = Colors.WHITE;
 
 			int i = 0;
 			List<StoreItem> list = metaDataModel.store.lists["Skin"];

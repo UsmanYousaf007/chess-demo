@@ -112,8 +112,8 @@ namespace TurboLabz.InstantGame
 
 
 			currentStrengthLabel.color = Colors.YELLOW;
-			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
-			nextStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE_TEXT, Colors.DISABLED_TEXT_ALPHA);
+			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+			nextStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
 
             if (cover != null)
             {
