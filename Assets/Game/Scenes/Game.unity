@@ -654,6 +654,8 @@ MonoBehaviour:
   resultsDialogButton: {fileID: 1239878571}
   playerScore: {fileID: 1045906248}
   opponentScore: {fileID: 1705155679}
+  warning: {fileID: 826054185}
+  warningLabel: {fileID: 525583356}
 --- !u!222 &15691875
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16735,7 +16737,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.7
-  m_Text: Slow Connection...
+  m_Text: ??
 --- !u!222 &525583357
 CanvasRenderer:
   m_ObjectHideFlags: 0
