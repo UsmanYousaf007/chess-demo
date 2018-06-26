@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
     public class OpponentDisconnectedSignal : Signal {}
     public class OpponentReconnectedSignal : Signal {}
     public class StartGameSignal : Signal {}
+    public class WifiIsHealthySignal : Signal<bool> {}
 
     // SKINS
     public class ApplySkinSignal : Signal<string> {}

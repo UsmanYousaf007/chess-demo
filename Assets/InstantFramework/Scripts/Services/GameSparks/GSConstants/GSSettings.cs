@@ -19,12 +19,13 @@ namespace TurboLabz.InstantFramework
 
         public const float GS_CONNECT_TIMEOUT = 30f;
         public const float GS_CONNECT_CHECK_FREQUENCY = 1f;
-        public const float PINGER_FREQUENCY = 30f;
+        public const float PINGER_FREQUENCY = 10f;
         public const int LATENCY_SAMPLE_COUNT = 6;
 
         // These initial pinger settings ensure that we get a larger data set
         // for sampling the latency before the player gets into a game.
         public const float INITIAL_PINGER_FREQUENCY = 1f;
         public const int INITIAL_PING_COUNT = 6; // Note that in addition to this, the pinger does 1 extra instant ping as soon as it starts
+        public const int SLOW_WIFI_WARNING_THRESHOLD = 500;
     }
 }

@@ -44,6 +44,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON, "YES" },
                 { LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON, "NO" },
                 { LocalizationKey.GM_ROOM_DURATION, "{0} m" },
+                { LocalizationKey.GM_WAITING_FOR_OPPONENT, "Waiting for Opponent..." },
+                { LocalizationKey.GM_WIFI_WARNING, "Slow Connection..." },
 
                 #endregion
 

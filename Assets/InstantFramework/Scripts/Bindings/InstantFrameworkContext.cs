@@ -106,6 +106,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IGameEngineInfo>().To<UnityInfo>().ToSingleton();
             injectionBinder.Bind<IServerClock>().To<ServerClock>().ToSingleton();
 
+            // Bind signals for dispatching to/from mediators
+            injectionBinder.Bind<WifiIsHealthySignal>().ToSingleton();
+
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();

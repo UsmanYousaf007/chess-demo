@@ -57,6 +57,7 @@ namespace TurboLabz.Multiplayer
             opponentFromIndicator.SetActive(false);
             opponentToIndicator.SetActive(false);
             kingCheckIndicator.SetActive(false);
+
             HidePossibleMoves();
             DisableMenuButton();
             playerInfoPanel.SetActive(false);

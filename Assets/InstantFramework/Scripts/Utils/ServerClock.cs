@@ -4,11 +4,14 @@
 /// Proprietary and confidential
 /// 
 using System.Collections.Generic;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.TLUtils
 {
     public class ServerClock : IServerClock
     {
+        [Inject] public WifiIsHealthySignal wifiIsHealthySignal { get; set; }
+
         public int latency { get; private set; }
         public int latencySampleCount { get; set; }
         public int serverClockDelta { get; private set; }
@@ -38,6 +41,9 @@ namespace TurboLabz.TLUtils
             SampleLatency(latency);
             this.latency = GetAverageLatency();
             serverClockDelta = (int)((serverReceiptTimestamp - clientReceiptTimestamp) + this.latency);
+
+            bool wifiIsHealthy = this.latency < GSSettings.SLOW_WIFI_WARNING_THRESHOLD;
+            wifiIsHealthySignal.Dispatch(wifiIsHealthy);
         }
 
         private void SampleLatency(int latency)
