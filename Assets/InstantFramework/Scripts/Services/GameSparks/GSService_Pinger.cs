@@ -17,12 +17,17 @@ using UnityEngine;
 using GameSparks.Api.Responses;
 
 using TurboLabz.TLUtils;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        [Inject] public WifiIsHealthySignal wifiIsHealthySignal { get; set; }
+
         private int initialPingCount;
+        private long sendTime;
+        private Coroutine wifiHealthCheckCR;
 
         public void StartPinger()
         {
@@ -33,6 +38,7 @@ namespace TurboLabz.InstantFramework
         {
             while (true)
             {
+                RestartHealthCheckMonitor();
                 new GSPingRequest().Send(OnPingSuccess);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
@@ -49,6 +55,13 @@ namespace TurboLabz.InstantFramework
 
         private void OnPingSuccess(LogEventResponse response)
         {
+            StopHealthCheckMonitor();
+            float secondsElapsed = (TimeUtil.unixTimestampMilliseconds - sendTime)/1000f;
+            if (secondsElapsed < GSSettings.SLOW_WIFI_WARNING_THRESHOLD)
+            {
+                wifiIsHealthySignal.Dispatch(true);
+            }
+
             // Cache client recipt timestamp at the very top to get the true
             // receipt time.
             long clientReceiptTimestamp = TimeUtil.unixTimestampMilliseconds;
@@ -56,6 +69,28 @@ namespace TurboLabz.InstantFramework
             long serverReceiptTimestamp = response.ScriptData.GetLong(GSEventData.Ping.ATT_KEY_SERVER_RECEIPT_TIMESTAMP).Value;
 
             serverClock.CalculateLatency(clientSendTimestamp, serverReceiptTimestamp, clientReceiptTimestamp);
+        }
+            
+        private void RestartHealthCheckMonitor()
+        {
+            StopHealthCheckMonitor();
+            wifiHealthCheckCR = routineRunner.StartCoroutine(CheckWifiHealthCR());
+            sendTime = TimeUtil.unixTimestampMilliseconds;
+        }
+
+        private void StopHealthCheckMonitor()
+        {
+            if (wifiHealthCheckCR != null)
+            {
+                routineRunner.StopCoroutine(wifiHealthCheckCR);
+                wifiHealthCheckCR = null;
+            }
+        }
+
+        private IEnumerator CheckWifiHealthCR()
+        {
+            yield return new WaitForSecondsRealtime(GSSettings.SLOW_WIFI_WARNING_THRESHOLD);
+            wifiIsHealthySignal.Dispatch(false);
         }
     }
 }

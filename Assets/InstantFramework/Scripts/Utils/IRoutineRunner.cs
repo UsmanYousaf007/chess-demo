@@ -21,5 +21,6 @@ namespace TurboLabz.TLUtils
     {
         Coroutine StartCoroutine(IEnumerator method);
         void StopCoroutine(IEnumerator routine);
+        void StopCoroutine(Coroutine routine);
     }
 }

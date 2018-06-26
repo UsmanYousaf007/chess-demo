@@ -30,6 +30,12 @@ namespace TurboLabz.TLUtils
             monoBehavior.StopCoroutine(routine);
             routine = null; // TODO: find out if we really need to null it here
         }
+
+        public void StopCoroutine(Coroutine routine)
+        {
+            monoBehavior.StopCoroutine(routine);
+            routine = null; // TODO: find out if we really need to null it here
+        }
     }
 
     public class RoutineRunnerBehavior : MonoBehaviour
