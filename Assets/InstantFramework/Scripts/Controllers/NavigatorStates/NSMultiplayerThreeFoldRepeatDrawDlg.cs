@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
             {
+                cmd.showViewSignal.Dispatch(NavigatorViewId.MULTIPLAYER);
                 return new NSMultiplayerResultsDlg();
             }
 

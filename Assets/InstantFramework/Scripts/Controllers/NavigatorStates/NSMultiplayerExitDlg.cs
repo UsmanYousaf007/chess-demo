@@ -28,14 +28,17 @@ namespace TurboLabz.InstantFramework
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
             {
+                cmd.showViewSignal.Dispatch(NavigatorViewId.MULTIPLAYER);
                 return new NSMultiplayerResultsDlg();
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG)
             {
+                cmd.showViewSignal.Dispatch(NavigatorViewId.MULTIPLAYER);
                 return new NSMultiplayerFiftyMoveDrawDlg();
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG)
             {
+                cmd.showViewSignal.Dispatch(NavigatorViewId.MULTIPLAYER);
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
 
