@@ -105,23 +105,5 @@ namespace TurboLabz.Multiplayer
             Color oldColor = label.color;
             label.color = new Color(oldColor.r, oldColor.g, oldColor.b, alpha);
         }
-
-        private void StashMenuButton()
-        {
-            if (IsMenuButtonActive())
-            {
-                menuButtonWasActive = true;
-            }
-
-            DisableMenuButton();
-        }
-
-        private void PopMenuButton()
-        {
-            if (menuButtonWasActive)
-            {
-                EnableMenuButton();
-            }
-        }
     }
 }

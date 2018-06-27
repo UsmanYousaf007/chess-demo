@@ -93,7 +93,7 @@ namespace TurboLabz.Multiplayer
             EnableModalBlocker();
             promoParent.SetActive(true);
 
-            StashMenuButton();
+            DisableMenuButton();
         }
 
         public void HidePromoDialog()
@@ -101,7 +101,7 @@ namespace TurboLabz.Multiplayer
             DisableModalBlocker();
             promoParent.SetActive(false);
 
-            PopMenuButton();
+            EnableMenuButton();
         }
 
         public bool IsPromoActive()
