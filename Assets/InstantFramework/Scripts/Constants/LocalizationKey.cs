@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_PLAYER_LEVEL = "gmPlayerLevel";
         public const string GM_WAITING_FOR_OPPONENT = "gmWaitingForOpponent";
         public const string GM_WIFI_WARNING = "gmWifiWarning";
+        public const string GM_DISCONNECTED = "gmDisconnected";
 
         #endregion
 

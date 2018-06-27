@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public TurboLabz.CPU.EnterPlaybackSignal enterCPUPlaybackSignal { get; set; }
         [Inject] public TurboLabz.Multiplayer.EnterPlaybackSignal enterMultiplayerPlaybackSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }

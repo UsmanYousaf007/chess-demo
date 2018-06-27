@@ -26,6 +26,6 @@ namespace TurboLabz.InstantFramework
         // for sampling the latency before the player gets into a game.
         public const float INITIAL_PINGER_FREQUENCY = 1f;
         public const int INITIAL_PING_COUNT = 6; // Note that in addition to this, the pinger does 1 extra instant ping as soon as it starts
-        public const float SLOW_WIFI_WARNING_THRESHOLD = 0.5f;
+        public const float SLOW_WIFI_WARNING_THRESHOLD = 1f;
     }
 }

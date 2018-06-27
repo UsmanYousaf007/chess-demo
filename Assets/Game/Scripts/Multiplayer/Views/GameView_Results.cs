@@ -144,9 +144,13 @@ namespace TurboLabz.Multiplayer
                 isDraw = true;
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE);
             }
+            else if (gameEndReason == GameEndReason.PLAYER_DISCONNECTED)
+            {
+                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
+            }
             else
             {
-                Assertions.Assert(false, "Unknown game end reason.");
+                Assertions.Assert(false, "Unknown game end reason: " + gameEndReason);
             }
 
             if (isDraw)

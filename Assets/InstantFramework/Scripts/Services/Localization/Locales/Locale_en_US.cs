@@ -38,13 +38,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE, "By Fifty Move Rule" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE, "By Threefold Repeat Rule" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_TIMER_EXPIRED, "By Time" },
+                { LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED, "Opponent Left" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION, "By Resignation" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE, "Claim Fifty Move Draw?" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE, "Claim Threefold Repeat Draw?" },
                 { LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON, "YES" },
                 { LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON, "NO" },
                 { LocalizationKey.GM_ROOM_DURATION, "{0} m" },
-                { LocalizationKey.GM_WAITING_FOR_OPPONENT, "Waiting for Opponent..." },
+                { LocalizationKey.GM_DISCONNECTED, "Waiting for Opponent..." },
                 { LocalizationKey.GM_WIFI_WARNING, "Slow Connection" },
 
                 #endregion

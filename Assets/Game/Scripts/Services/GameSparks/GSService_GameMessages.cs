@@ -26,8 +26,6 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
-        [Inject] public OpponentDisconnectedSignal opponentDisconnectedSignal { get; set; }
-        [Inject] public OpponentReconnectedSignal opponentReconnectedSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -239,16 +237,6 @@ namespace TurboLabz.InstantFramework
 
             chessboardModel.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
             chessboardModel.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);
-        }
-
-        private void OnOpponentDisconnect()
-        {
-            opponentDisconnectedSignal.Dispatch();
-        }
-
-        private void OnOpponentReconnect()
-        {
-            opponentReconnectedSignal.Dispatch();
         }
     }
 }

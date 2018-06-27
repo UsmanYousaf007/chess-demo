@@ -67,8 +67,6 @@ namespace TurboLabz.InstantFramework
 
         // Message ExtCodes
         public const string START_GAME_MESSAGE = "StartGameMessage";
-        public const string OPPONENT_DISCONNECTED_MESSAGE = "OpponentDisconnectedMessage";
-        public const string OPPONENT_RECONNECTED_MESSAGE = "OpponentReconnectedMessage";
 
         // Mesage data keys
         public const string GAME_START_TIME = "gameStartTime";

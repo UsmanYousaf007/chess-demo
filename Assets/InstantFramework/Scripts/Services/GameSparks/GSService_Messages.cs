@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using GameSparks.Api.Messages;
 using GameSparks.Api.Responses;
 using GameSparks.Core;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -38,27 +39,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnScriptMessage(ScriptMessage message)
         {
-            if (message.ExtCode == GSBackendKeys.OPPONENT_DISCONNECTED_MESSAGE)
-            {
-                if (!IsCurrentChallenge(message.Data.GetString(GSBackendKeys.CHALLENGE_ID)))
-                {
-                    return;
-                }
-
-                // TODO: Eventually move to a game specific module or convert to signal
-                // OnOpponentDisconnect();
-            }
-            else if (message.ExtCode == GSBackendKeys.OPPONENT_RECONNECTED_MESSAGE)
-            {
-                if (!IsCurrentChallenge(message.Data.GetString(GSBackendKeys.CHALLENGE_ID)))
-                {
-                    return;
-                }
-
-                // TODO: Eventually move to a game specific module or convert to signal
-                // OnOpponentReconnect();
-
-            }
+            // Not listening for any messages right now
         }
 
         private void OnChallengeWonMessage(ChallengeWonMessage message)
