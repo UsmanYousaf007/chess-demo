@@ -52,7 +52,7 @@ namespace TurboLabz.TLUtils
         }
 
         private int GetAverageLatency()
-        {   
+        {
             float median = MathUtil.Median(latencySamples);
             List<int> cleanSamples = MathUtil.RemoveOutliers(latencySamples, median, 1);
             return (int)MathUtil.ArithmeticMean(cleanSamples);
