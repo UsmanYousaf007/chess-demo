@@ -227,8 +227,7 @@ namespace TurboLabz.Multiplayer
                 }
             } 
         }
-
-        // TODO(mubeeniqbal): Use constants in place of all literals. WTH man?!
+            
         private Color GetClockColor(TimeSpan currentTimer)
         {
             if (currentTimer.TotalSeconds < clockEmergencyThresholdSeconds)

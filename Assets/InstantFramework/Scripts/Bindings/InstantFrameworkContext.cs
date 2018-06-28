@@ -76,6 +76,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerProfilePictureSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerProfilePictureInfoSignal>().ToSingleton();
+            injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
             //injectionBinder.Bind<UpdateSetPlayerSocialNameViewSignal>().ToSingleton();
 
             // Bind views to mediators

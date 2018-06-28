@@ -14,9 +14,10 @@ namespace TurboLabz.InstantFramework
 {
     public static class LocalizationKey
     {
-        #region Splash
+        #region System
 
         public const string SPLASH_CONNECTING = "splashConnecting";
+        public const string HARD_STOP = "hardStop";
 
         #endregion
 

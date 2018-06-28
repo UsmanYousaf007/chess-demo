@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
     public enum NavigatorViewId
     {
         NONE,
+        HARD_STOP,
         SPLASH,
         LOBBY,
         STATS,
