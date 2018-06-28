@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ApplyPlayerInventorySignal>().To<ApplyPlayerInventoryCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
+            commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
 
 			// Bind signals to models data loader commands
 			commandBinder.Bind<InitGameDataSignal>().To<InitGameDataCommand>();
@@ -72,7 +73,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
             injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookSuccessSignal>().ToSingleton();
-            injectionBinder.Bind<BackendErrorSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerProfilePictureSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerProfilePictureInfoSignal>().ToSingleton();
@@ -82,6 +82,7 @@ namespace TurboLabz.InstantFramework
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
+            mediationBinder.Bind<HardStopView>().To<HardStopMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

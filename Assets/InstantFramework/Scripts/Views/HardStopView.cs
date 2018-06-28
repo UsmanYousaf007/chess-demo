@@ -41,15 +41,8 @@ namespace TurboLabz.InstantFramework
 
         public void SetErrorAndHalt(BackendResult error)
         {
-            if (Debug.isDebugBuild)
-            {
-                errorCodeLabel.text = error.ToString();
-            }
-            else
-            {
-                errorCodeLabel.text = ((int)error).ToString();
-            }
-
+            string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
+            errorCodeLabel.text =  "(Error: " + errorCode + ")";
 
             StartCoroutine(HaltSystem());
         }

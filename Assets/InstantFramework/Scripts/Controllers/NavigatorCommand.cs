@@ -54,7 +54,15 @@ namespace TurboLabz.InstantFramework
                 navigatorModel.currentState.SetCommand(this);
             }
 
-            if (navigatorEvent != navigatorModel.ignoreEvent)
+            if (navigatorEvent == NavigatorEvent.SHOW_HARD_STOP)
+            {
+                newState = new NSHardStop();
+            }
+            else if (navigatorEvent == navigatorModel.ignoreEvent)
+            {
+                newState = null;
+            }
+            else
             {
                 newState = navigatorModel.currentState.HandleEvent(navigatorEvent);    
             }
