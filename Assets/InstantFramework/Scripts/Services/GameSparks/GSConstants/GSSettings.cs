@@ -14,13 +14,7 @@ namespace TurboLabz.InstantFramework
 {
     public static class GSSettings
     {
-        // Time interval in seconds to keep checking internet reachability
-        public const float INTERNET_REACHABLITY_MONITOR_FREQUENCY = 1f;
-
-        public const float GS_CONNECT_TIMEOUT = 30f;
-        public const float GS_CONNECT_CHECK_FREQUENCY = 1f;
         public const float PINGER_FREQUENCY = 10f;
-        public const int LATENCY_SAMPLE_COUNT = 6;
 
         // These initial pinger settings ensure that we get a larger data set
         // for sampling the latency before the player gets into a game.

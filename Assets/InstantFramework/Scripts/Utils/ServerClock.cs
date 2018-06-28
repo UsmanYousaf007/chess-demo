@@ -11,7 +11,6 @@ namespace TurboLabz.TLUtils
     public class ServerClock : IServerClock
     {
         public int latency { get; private set; }
-        public int latencySampleCount { get; set; }
         public int serverClockDelta { get; private set; }
 
         public long currentTimestamp
@@ -44,7 +43,7 @@ namespace TurboLabz.TLUtils
         private void SampleLatency(int latency)
         {
             if ((latencySamples.Count != 0) && 
-                (latencySamples.Count == latencySampleCount))
+                (latencySamples.Count == 6))
             {
                 latencySamples.RemoveAt(0);
             }
