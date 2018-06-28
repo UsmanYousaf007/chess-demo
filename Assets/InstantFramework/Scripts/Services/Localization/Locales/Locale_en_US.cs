@@ -24,7 +24,9 @@ namespace TurboLabz.InstantFramework
                 #region System
 
                 { LocalizationKey.SPLASH_CONNECTING, "CONNECTING" },
-                { LocalizationKey.HARD_STOP, "Oops! There was a problem with the game." },
+                { LocalizationKey.HARD_STOP, "Oops!\n\n" +
+                                             "There was an unexpected problem.\n\n" +
+                                             "Please restart the game." },
 
                 #endregion
 

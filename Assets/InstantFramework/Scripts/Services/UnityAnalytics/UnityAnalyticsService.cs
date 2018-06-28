@@ -15,6 +15,8 @@ namespace TurboLabz.InstantFramework
 {
     public class UnityAnalyticsService : IAnalyticsService
     {
+        private const string EVT_BACKEND_ERROR = "backendError";
+
         private const string GAME_END_REASON = "gameEndReason";
         private const string SHOP_SKIN_CONTEXT = "shopSkinContext";
         private enum SocialShareEvent
@@ -100,6 +102,14 @@ namespace TurboLabz.InstantFramework
         public void PurchaseSkin(string skinId)
         {
             AnalyticsEvent.ItemAcquired(AcquisitionType.Soft, SHOP_SKIN_CONTEXT, 1, skinId);
+        }
+
+        public void BackendError(string error)
+        {
+            Analytics.CustomEvent(EVT_BACKEND_ERROR, new Dictionary<string, object>
+                {
+                    { "error", error }
+                });
         }
     }
 }
