@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> AuthFacebook(string accessToken);
         IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
+        IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt);
         IPromise<BackendResult> ClaimReward(string rewardType);
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string activeAvatarsId, string activeAvatarsBorderId);
         IPromise<BackendResult> SetPlayerSocialName(string name);
