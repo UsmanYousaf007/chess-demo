@@ -13,9 +13,8 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSSetPlayerSocialNameRequest
+    public class GSSetPlayerSocialNameRequest : GSFrameworkRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<LogEventResponse> successCallback;
 
         public IPromise<BackendResult> Send(string name, Action<LogEventResponse> successCallback)
@@ -45,7 +44,7 @@ namespace TurboLabz.InstantFramework
 
         private void DispatchResponse(BackendResult result)
         {  
-            promise.Dispatch(result);
+            Dispatch(result);
         }
     }
 }

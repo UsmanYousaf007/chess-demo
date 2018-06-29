@@ -54,7 +54,11 @@ namespace TurboLabz.InstantFramework
                     MatchFound();
                 }
             }
-            else
+            else if (result == BackendResult.CANCELED)
+            {
+                Release();
+            }
+            else 
             {
                 backendErrorSignal.Dispatch(result);
                 Release();

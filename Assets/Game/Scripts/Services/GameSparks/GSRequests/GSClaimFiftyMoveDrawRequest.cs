@@ -39,10 +39,8 @@ using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
-    public class GSClaimFiftyMoveDrawRequest
+    public class GSClaimFiftyMoveDrawRequest : GSFrameworkRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> Send(string challengeId)
         {
             new LogChallengeEventRequest().SetChallengeInstanceId(challengeId)
@@ -72,7 +70,7 @@ namespace TurboLabz.Multiplayer
 
         private void DispatchResponse(BackendResult result)
         {  
-            promise.Dispatch(result);
+            Dispatch(result);
         }
     }
 }

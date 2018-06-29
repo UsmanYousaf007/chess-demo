@@ -40,9 +40,8 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GSPingRequest
+    public class GSPingRequest : GSFrameworkRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<LogEventResponse> successCallback;
 
         public IPromise<BackendResult> Send(Action<LogEventResponse> successCallback)
@@ -67,7 +66,7 @@ namespace TurboLabz.InstantFramework
 
         private void DispatchResponse(BackendResult result)
         {  
-            promise.Dispatch(result);
+            Dispatch(result);
         }
     }
 }

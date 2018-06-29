@@ -38,10 +38,8 @@ using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
-    public class GSTakeTurnRequest
+    public class GSTakeTurnRequest : GSFrameworkRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> Send(string challengeId,
                                             string from,
                                             string to,
@@ -83,7 +81,7 @@ namespace TurboLabz.Multiplayer
 
         private void DispatchResponse(BackendResult result)
         {  
-            promise.Dispatch(result);
+            Dispatch(result);
         }
     }
 }

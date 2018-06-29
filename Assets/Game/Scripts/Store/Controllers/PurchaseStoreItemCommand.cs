@@ -74,7 +74,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnPurchase(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS)
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_FAILURE);
             }

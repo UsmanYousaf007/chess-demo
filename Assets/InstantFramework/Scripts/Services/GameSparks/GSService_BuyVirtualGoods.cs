@@ -52,9 +52,8 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSBuyVirtualGoodsRequest
+    public class GSBuyVirtualGoodsRequest : GSFrameworkRequest
     {
-        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
         Action<BuyVirtualGoodResponse> onSuccess;
 
         public IPromise<BackendResult> Send(                      
@@ -77,12 +76,12 @@ namespace TurboLabz.InstantFramework
         void OnSuccess(BuyVirtualGoodResponse response)
         {
             onSuccess(response);
-            promise.Dispatch(BackendResult.SUCCESS);
+            Dispatch(BackendResult.SUCCESS);
         }
 
         void OnFailure(BuyVirtualGoodResponse response)
         {
-            promise.Dispatch(BackendResult.BUY_VIRTUAL_GOOD_FAILED);
+            Dispatch(BackendResult.BUY_VIRTUAL_GOOD_FAILED);
         }
     }
 

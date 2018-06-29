@@ -6,14 +6,12 @@ using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework 
 {
-    public class GSLogEventRequest
+    public class GSLogEventRequest : GSFrameworkRequest
     {
         protected LogEventRequest request = new LogEventRequest();
         protected string key;
         protected BackendResult errorCode;
         protected Action<LogEventResponse> onSuccess;
-
-        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
 
         public IPromise<BackendResult> Send()
         {
@@ -24,12 +22,12 @@ namespace TurboLabz.InstantFramework
         void OnSuccess(LogEventResponse response)
         {
             onSuccess(response); 
-            promise.Dispatch(BackendResult.SUCCESS);
+            Dispatch(BackendResult.SUCCESS);
         }
 
         void OnFailure(LogEventResponse response)
         {
-            promise.Dispatch(errorCode);
+            Dispatch(errorCode);
         }
     }
 }

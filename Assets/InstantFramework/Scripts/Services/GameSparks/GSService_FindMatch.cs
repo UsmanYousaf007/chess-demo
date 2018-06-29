@@ -78,9 +78,8 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSFindMatchRequest
+    public class GSFindMatchRequest : GSFrameworkRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<ChallengeStartedMessage> onSuccess;
 
         public IPromise<BackendResult> Send(Action<ChallengeStartedMessage> onSuccess)
@@ -118,7 +117,7 @@ namespace TurboLabz.InstantFramework
         private void DispatchResponse(BackendResult result)
         {  
             RemoveListeners();
-            promise.Dispatch(result);
+            Dispatch(result);
         }
     }
 

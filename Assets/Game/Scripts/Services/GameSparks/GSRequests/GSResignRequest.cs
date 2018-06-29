@@ -39,10 +39,8 @@ using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
-    public class GSResignRequest
+    public class GSResignRequest : GSFrameworkRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> Send(string challengeId)
         {
             new LogEventRequest().SetEventKey(GSEventData.Resign.EVT_KEY)
@@ -71,7 +69,7 @@ namespace TurboLabz.Multiplayer
 
         private void DispatchResponse(BackendResult result)
         {  
-            promise.Dispatch(result);
+            Dispatch(result);
         }
     }
 }

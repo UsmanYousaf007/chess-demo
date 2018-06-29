@@ -42,10 +42,8 @@ namespace TurboLabz.InstantFramework
 
     #region FACEBOOK AUTH REQUEST
 
-    public class GSAuthFacebookRequest
+    public class GSAuthFacebookRequest : GSFrameworkRequest
     {
-        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> Send(string accessToken)
         {
             new FacebookConnectRequest().SetAccessToken(accessToken)
@@ -58,12 +56,12 @@ namespace TurboLabz.InstantFramework
 
         void OnSuccess(AuthenticationResponse response)
         {
-            promise.Dispatch(BackendResult.SUCCESS);
+            Dispatch(BackendResult.SUCCESS);
         }
 
         void OnFailure(AuthenticationResponse response)
         {
-            promise.Dispatch(BackendResult.AUTH_FACEBOOK_REQUEST_FAILED);
+            Dispatch(BackendResult.AUTH_FACEBOOK_REQUEST_FAILED);
         }
     }
 
@@ -71,10 +69,8 @@ namespace TurboLabz.InstantFramework
 
     #region GUEST AUTH REQUEST
 
-    public class GSAuthGuestRequest
+    public class GSAuthGuestRequest : GSFrameworkRequest
     {
-        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> Send()
         {
             new DeviceAuthenticationRequest().Send(OnSuccess, OnFailure);
@@ -84,12 +80,12 @@ namespace TurboLabz.InstantFramework
 
         void OnSuccess(AuthenticationResponse response)
         {
-            promise.Dispatch(BackendResult.SUCCESS);
+            Dispatch(BackendResult.SUCCESS);
         }
 
         void OnFailure(AuthenticationResponse response)
         {
-            promise.Dispatch(BackendResult.AUTH_GUEST_REQUEST_FAILED);
+            Dispatch(BackendResult.AUTH_GUEST_REQUEST_FAILED);
         }
     }
 

@@ -92,7 +92,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnTurnTaken(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS)
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
             }
@@ -102,7 +102,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnResign(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS)
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
             }

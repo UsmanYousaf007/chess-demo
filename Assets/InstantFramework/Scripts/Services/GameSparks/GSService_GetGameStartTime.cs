@@ -27,9 +27,8 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSGetGameStartTimeRequest
+    public class GSGetGameStartTimeRequest : GSFrameworkRequest
     {
-        private readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
         private Action<ScriptMessage> successCallback;
 
         public IPromise<BackendResult> Send(string challengeId, Action<ScriptMessage> successCallback)
@@ -75,7 +74,7 @@ namespace TurboLabz.InstantFramework
         private void DispatchResponse(BackendResult result)
         {  
             RemoveListeners();
-            promise.Dispatch(result);
+            Dispatch(result);
         }
     }
 
