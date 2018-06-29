@@ -58,6 +58,10 @@ namespace TurboLabz.InstantFramework
             {
                 newState = new NSHardStop();
             }
+            else if (navigatorEvent == NavigatorEvent.SHOW_RECONNECTING)
+            {
+                newState = new NSReconnecting();
+            }
             else if (navigatorEvent == navigatorModel.ignoreEvent)
             {
                 newState = null;

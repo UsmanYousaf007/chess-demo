@@ -32,13 +32,13 @@ namespace TurboLabz.InstantFramework
         {
             if (isAvailable)
             {
-                GSFrameworkRequest.CancelRequestSession();
                 receptionSignal.Dispatch();
             }
             else
             {
-                // TODO: Show some kind of overlay when GS disconnects?
                 LogUtil.Log("GS DISCONNECTED!", "red");
+                GSFrameworkRequest.CancelRequestSession();
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
             }
         }
     }
