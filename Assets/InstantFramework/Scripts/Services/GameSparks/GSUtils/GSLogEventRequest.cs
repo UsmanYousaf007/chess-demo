@@ -21,7 +21,11 @@ namespace TurboLabz.InstantFramework
 
         void OnSuccess(LogEventResponse response)
         {
-            onSuccess(response); 
+            if (IsActive())
+            {
+                onSuccess(response); 
+            }
+
             Dispatch(BackendResult.SUCCESS);
         }
 

@@ -15,17 +15,17 @@ namespace TurboLabz.InstantFramework
 {
     public class GSSetPlayerSocialNameRequest : GSFrameworkRequest
     {
-        private Action<LogEventResponse> successCallback;
+        const string SHORT_CODE = "SetPlayerSocialName";
+        const string ATT_NAME = "name";
 
-        public IPromise<BackendResult> Send(string name, Action<LogEventResponse> successCallback)
+        private Action<LogEventResponse> onSuccess;
+
+        public IPromise<BackendResult> Send(string name, Action<LogEventResponse> onSuccess)
         {
-            this.successCallback = successCallback;
-           
-            string eventKey = GSEventData.SetPlayerSocialName.EVT_KEY;
-            string attributeKey = GSEventData.SetPlayerSocialName.ATT_KEY_NAME;
+            this.onSuccess = onSuccess;
 
-            new LogEventRequest().SetEventKey(eventKey)
-                                 .SetEventAttribute(attributeKey, name)
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_NAME, name)
                                  .Send(OnSuccess, OnFailure);
 
             return promise;
@@ -33,7 +33,11 @@ namespace TurboLabz.InstantFramework
 
         private void OnSuccess(LogEventResponse response)
         {
-            successCallback(response);
+            if (IsActive())
+            {
+                onSuccess(response);
+            }
+
             DispatchResponse(BackendResult.SUCCESS);
         }
 

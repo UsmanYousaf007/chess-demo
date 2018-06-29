@@ -193,11 +193,14 @@ namespace TurboLabz.InstantFramework
 
     public class GSGetInitDataRequest : GSLogEventRequest
     {
+        const string SHORT_CODE = "GetInitData";
+        const string ATT_APP_VERSION = "appVersion";
+
         public GSGetInitDataRequest(int clientVersion, Action<LogEventResponse> onSuccess)
         {
             // Set your request parameters here
-            key = "GetInitData";
-            request.SetEventAttribute("appVersion", clientVersion);
+            key = SHORT_CODE;
+            request.SetEventAttribute(ATT_APP_VERSION, clientVersion);
             errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
 
             // Do not modify below

@@ -80,6 +80,8 @@ namespace TurboLabz.InstantFramework
 
     public class GSFindMatchRequest : GSFrameworkRequest
     {
+        const string SHORT_CODE = "FindMatch";
+
         private Action<ChallengeStartedMessage> onSuccess;
 
         public IPromise<BackendResult> Send(Action<ChallengeStartedMessage> onSuccess)
@@ -110,7 +112,11 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeStarted(ChallengeStartedMessage message) 
         {
-            onSuccess(message);
+            if (IsActive())
+            {
+                onSuccess(message);
+            }
+
             DispatchResponse(BackendResult.SUCCESS);
         }
 

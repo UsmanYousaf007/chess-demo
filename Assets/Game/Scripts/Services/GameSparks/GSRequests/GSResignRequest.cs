@@ -41,10 +41,13 @@ namespace TurboLabz.Multiplayer
 {
     public class GSResignRequest : GSFrameworkRequest
     {
+        const string SHORT_CODE = "Resign";
+        const string ATT_CHALLENGE_ID = "challengeId";
+
         public IPromise<BackendResult> Send(string challengeId)
         {
-            new LogEventRequest().SetEventKey(GSEventData.Resign.EVT_KEY)
-                                 .SetEventAttribute(GSEventData.Resign.ATT_KEY_CHALLENGE_ID, challengeId)
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                                 .SetEventAttribute(ATT_CHALLENGE_ID, challengeId)
                                  .Send(OnSuccess, OnFailure);
             return promise;
         }

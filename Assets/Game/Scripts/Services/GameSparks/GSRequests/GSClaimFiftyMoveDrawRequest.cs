@@ -41,10 +41,12 @@ namespace TurboLabz.Multiplayer
 {
     public class GSClaimFiftyMoveDrawRequest : GSFrameworkRequest
     {
+        const string SHORT_CODE = "ClaimFiftyMoveDraw";
+
         public IPromise<BackendResult> Send(string challengeId)
         {
             new LogChallengeEventRequest().SetChallengeInstanceId(challengeId)
-                                          .SetEventKey(GSEventData.ClaimFiftyMoveDraw.EVT_KEY)
+                                          .SetEventKey(SHORT_CODE)
                                           .Send(OnSuccess, OnFailure);
 
             return promise;

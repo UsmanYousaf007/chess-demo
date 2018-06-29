@@ -40,6 +40,14 @@ namespace TurboLabz.Multiplayer
 {
     public class GSTakeTurnRequest : GSFrameworkRequest
     {
+        const string SHORT_CODE = "TakeTurn";
+        const string ATT_FROM = "from";
+        const string ATT_TO = "to";
+        const string ATT_PROMOTION = "promotion";
+        const string ATT_CLAIM_FIFTY_MOVE_DRAW = "claimFiftyMoveDraw";
+        const string ATT_CLAIM_THREEFOLD_REPEAT_DRAW = "claimThreefoldRepeatDraw";
+        const string ATT_REJECT_THREEFOLD_REPEAT_DRAW = "rejectThreefoldRepeatDraw";
+
         public IPromise<BackendResult> Send(string challengeId,
                                             string from,
                                             string to,
@@ -49,13 +57,13 @@ namespace TurboLabz.Multiplayer
                                             int rejectThreefoldRepeatDraw)
         {
             new LogChallengeEventRequest().SetChallengeInstanceId(challengeId)
-                                          .SetEventKey(GSEventData.TakeTurn.EVT_KEY)
-                                          .SetEventAttribute(GSEventData.TakeTurn.ATT_KEY_FROM, from)
-                                          .SetEventAttribute(GSEventData.TakeTurn.ATT_KEY_TO, to)
-                                          .SetEventAttribute(GSEventData.TakeTurn.ATT_KEY_PROMOTION, promotion)
-                                          .SetEventAttribute(GSEventData.TakeTurn.ATT_KEY_CLAIM_FIFTY_MOVE_DRAW, claimFiftyMoveDraw)
-                                          .SetEventAttribute(GSEventData.TakeTurn.ATT_KEY_CLAIM_THREEFOLD_REPEAT_DRAW, claimThreefoldRepeatDraw)
-                                          .SetEventAttribute(GSEventData.TakeTurn.ATT_KEY_REJECT_THREEFOLD_REPEAT_DRAW, rejectThreefoldRepeatDraw)
+                                          .SetEventKey(SHORT_CODE)
+                                          .SetEventAttribute(ATT_FROM, from)
+                                          .SetEventAttribute(ATT_TO, to)
+                                          .SetEventAttribute(ATT_PROMOTION, promotion)
+                                          .SetEventAttribute(ATT_CLAIM_FIFTY_MOVE_DRAW, claimFiftyMoveDraw)
+                                          .SetEventAttribute(ATT_CLAIM_THREEFOLD_REPEAT_DRAW, claimThreefoldRepeatDraw)
+                                          .SetEventAttribute(ATT_REJECT_THREEFOLD_REPEAT_DRAW, rejectThreefoldRepeatDraw)
                                           .Send(OnSuccess, OnFailure);
             
             return promise;

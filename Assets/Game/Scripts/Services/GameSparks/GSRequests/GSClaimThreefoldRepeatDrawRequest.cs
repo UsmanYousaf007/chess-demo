@@ -21,11 +21,13 @@ namespace TurboLabz.Multiplayer
 {
     public class GSClaimThreefoldRepeatDrawRequest : GSFrameworkRequest
     {
+        const string SHORT_CODE = "ClaimThreefoldRepeatDraw";
+
         public IPromise<BackendResult> Send(string challengeId)
         {
 
             new LogChallengeEventRequest().SetChallengeInstanceId(challengeId)
-                .SetEventKey(GSEventData.ClaimThreefoldRepeatDraw.EVT_KEY)
+                .SetEventKey(SHORT_CODE)
                 .Send(OnSuccess, OnFailure);
 
             return promise;

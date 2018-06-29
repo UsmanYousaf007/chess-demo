@@ -44,19 +44,24 @@ namespace TurboLabz.InstantFramework
 {
     public class GSUpdateActiveInventoryRequest : GSFrameworkRequest
     {
-        private Action<LogEventResponse> successCallback;
+        const string SHORT_CODE = "UpdateActiveInventory";
+        const string ATT_ACTIVE_CHESS_SKINS_ID = "activeChessSkinsId";
+        const string ATT_ACTIVE_AVATARS_ID = "activeAvatarsId";
+        const string ATT_ACTIVE_AVATARS_BORDER_ID = "activeAvatarsBorderId";
+
+        private Action<LogEventResponse> onSuccess;
 
         public IPromise<BackendResult> Send(
             string activeChessSkinsId,
             string activeAvatarsId,
             string activeAvatarsBorderId,
-            Action<LogEventResponse> successCallback)
+            Action<LogEventResponse> onSuccess)
         {
-            this.successCallback = successCallback;
-            new LogEventRequest().SetEventKey(GSEventData.UpdateActiveInventory.EVT_KEY)
-                .SetEventAttribute(GSEventData.UpdateActiveInventory.ATT_KEY_ACTIVE_CHESS_SKINS_ID, activeChessSkinsId)
-                .SetEventAttribute(GSEventData.UpdateActiveInventory.ATT_KEY_ACTIVE_AVATARS_ID, activeAvatarsId)
-                .SetEventAttribute(GSEventData.UpdateActiveInventory.ATT_KEY_ACTIVE_AVATARS_BORDER_ID, activeAvatarsBorderId)
+            this.onSuccess = onSuccess;
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_ACTIVE_CHESS_SKINS_ID, activeChessSkinsId)
+                .SetEventAttribute(ATT_ACTIVE_AVATARS_ID, activeAvatarsId)
+                .SetEventAttribute(ATT_ACTIVE_AVATARS_BORDER_ID, activeAvatarsBorderId)
                 .Send(OnSuccess, OnFailure);
 
             return promise;
@@ -64,8 +69,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnSuccess(LogEventResponse response)
         {
-            successCallback(response);
-            DispatchResponse(BackendResult.SUCCESS); 
+            if (IsActive())
+            {
+                onSuccess(response); 
+            }
+
+            DispatchResponse(BackendResult.SUCCESS);
         }
 
         private void OnFailure(LogEventResponse response)

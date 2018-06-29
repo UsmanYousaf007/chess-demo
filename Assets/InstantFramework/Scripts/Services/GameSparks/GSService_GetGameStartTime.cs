@@ -29,18 +29,18 @@ namespace TurboLabz.InstantFramework
 
     public class GSGetGameStartTimeRequest : GSFrameworkRequest
     {
-        private Action<ScriptMessage> successCallback;
+        const string SHORT_CODE = "GetGameStartTime";
+        const string ATT_CHALLENGE_ID = "challengeId";
 
-        public IPromise<BackendResult> Send(string challengeId, Action<ScriptMessage> successCallback)
+        private Action<ScriptMessage> onSuccess;
+
+        public IPromise<BackendResult> Send(string challengeId, Action<ScriptMessage> onSuccess)
         {
-            this.successCallback = successCallback;
+            this.onSuccess = onSuccess;
             AddListeners();
 
-            const string eventKey = "GetGameStartTime";
-            const string attributeKey = "challengeId";
-
-            new LogEventRequest().SetEventKey(eventKey)
-                .SetEventAttribute(attributeKey, challengeId)
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_CHALLENGE_ID, challengeId)
                 .Send(null, OnFailure);
 
             return promise;
@@ -48,7 +48,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnFailure(LogEventResponse response)
         {
-            RemoveListeners();
             DispatchResponse(BackendResult.GET_GAME_START_TIME_REQUEST_FAILED);
         }
 
@@ -66,7 +65,11 @@ namespace TurboLabz.InstantFramework
         {
             if (message.ExtCode == GSBackendKeys.START_GAME_MESSAGE)
             {
-                successCallback(message);
+                if (IsActive())
+                {
+                    onSuccess(message);
+                }
+
                 DispatchResponse(BackendResult.SUCCESS);
             }
         }

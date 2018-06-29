@@ -19,6 +19,8 @@ using GameSparks.Api.Responses;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using GameSparks.Core;
+using TurboLabz.InstantFramework;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -41,7 +43,7 @@ namespace TurboLabz.InstantFramework
             while (true)
             {
                 RestartHealthCheckMonitor();
-                new GSPingRequest().Send(OnPingSuccess);
+                new GSPingRequest(OnPingSuccess).Send();
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
 
@@ -67,8 +69,8 @@ namespace TurboLabz.InstantFramework
             // Cache client recipt timestamp at the very top to get the true
             // receipt time.
             long clientReceiptTimestamp = TimeUtil.unixTimestampMilliseconds;
-            long clientSendTimestamp = response.ScriptData.GetLong(GSEventData.Ping.ATT_KEY_CLIENT_SEND_TIMESTAMP).Value;
-            long serverReceiptTimestamp = response.ScriptData.GetLong(GSEventData.Ping.ATT_KEY_SERVER_RECEIPT_TIMESTAMP).Value;
+            long clientSendTimestamp = response.ScriptData.GetLong(GSBackendKeys.CLIENT_SEND_TIMESTAMP).Value;
+            long serverReceiptTimestamp = response.ScriptData.GetLong(GSBackendKeys.SERVER_RECEIPT_TIMESTAMP).Value;
 
             serverClock.CalculateLatency(clientSendTimestamp, serverReceiptTimestamp, clientReceiptTimestamp);
         }
@@ -96,3 +98,23 @@ namespace TurboLabz.InstantFramework
         }
     }
 }
+
+#region REQUEST
+    public class GSPingRequest : GSLogEventRequest
+    {
+        const string SHORT_CODE = "Ping";
+        const string ATT_CLIENT_SEND_TIMESTAMP = "clientSendTimestamp";
+
+        public GSPingRequest(Action<LogEventResponse> onSuccess)
+        {
+            // Set your request parameters here
+            key = SHORT_CODE;
+            request.SetEventAttribute(ATT_CLIENT_SEND_TIMESTAMP, TimeUtil.unixTimestampMilliseconds);
+            errorCode = BackendResult.PING_REQUEST_FAILED;
+
+            // Do not modify below
+            this.onSuccess = onSuccess;
+        }
+    }
+
+#endregion

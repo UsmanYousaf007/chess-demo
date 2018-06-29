@@ -75,7 +75,11 @@ namespace TurboLabz.InstantFramework
 
         void OnSuccess(BuyVirtualGoodResponse response)
         {
-            onSuccess(response);
+            if (IsActive())
+            {
+                onSuccess(response);
+            }
+
             Dispatch(BackendResult.SUCCESS);
         }
 

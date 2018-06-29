@@ -41,16 +41,22 @@ namespace TurboLabz.Multiplayer
 {
     public class GSAiTurnRequest : GSFrameworkRequest
     {
+        const string SHORT_CODE = "SetShardFlag";
+        const string ATT_CHALLENGE_ID = "challengeId";
+        const string ATT_FROM = "shard1";
+        const string ATT_TO = "shard2";
+        const string ATT_PROMOTION = "shard3";
+
         public IPromise<BackendResult> Send(string challengeId,
                                             string from,
                                             string to,
                                             string promotion)
         {
-            new LogEventRequest().SetEventKey(GSEventData.AiTurn.EVT_KEY)
-                                 .SetEventAttribute(GSEventData.AiTurn.ATT_KEY_CHALLENGE_ID, challengeId)
-                                 .SetEventAttribute(GSEventData.AiTurn.ATT_KEY_FROM, from)
-                                 .SetEventAttribute(GSEventData.AiTurn.ATT_KEY_TO, to)
-                                 .SetEventAttribute(GSEventData.AiTurn.ATT_KEY_PROMOTION, promotion)
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                                 .SetEventAttribute(ATT_CHALLENGE_ID, challengeId)
+                                 .SetEventAttribute(ATT_FROM, from)
+                                 .SetEventAttribute(ATT_TO, to)
+                                 .SetEventAttribute(ATT_PROMOTION, promotion)
                                  .Send(OnSuccess, OnFailure);
 
             return promise;

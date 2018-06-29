@@ -29,11 +29,14 @@ namespace TurboLabz.InstantFramework
 
     public class GSClaimRewardRequest : GSLogEventRequest
     {
+        const string SHORT_CODE = "ClaimReward";
+        const string ATT_REWARD_TYPE = "rewardType";
+
         public GSClaimRewardRequest(string rewardType, Action<LogEventResponse> onSuccess)
         {
             // Set your request parameters here
-            key = "ClaimReward";
-            request.SetEventAttribute("rewardType", rewardType);
+            key = SHORT_CODE;
+            request.SetEventAttribute(ATT_REWARD_TYPE, rewardType);
             errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
 
             // Do not modify below

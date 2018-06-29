@@ -11,7 +11,7 @@ namespace TurboLabz.InstantFramework
     public class GSFrameworkRequest
     {
         static List<IPromise<BackendResult>> activePromises = new List<IPromise<BackendResult>>();
-        protected readonly IPromise<BackendResult> promise;
+        protected IPromise<BackendResult> promise;
 
         public static void CancelRequestSession()
         {
@@ -30,8 +30,17 @@ namespace TurboLabz.InstantFramework
 
         protected void Dispatch(BackendResult result)
         {
-            promise.Dispatch(result);
-            activePromises.Remove(promise);
+            if (IsActive())
+            {
+                promise.Dispatch(result);
+                activePromises.Remove(promise);
+                promise = null;
+            }
+        }
+
+        protected bool IsActive()
+        {
+            return (promise != null);
         }
     }
 }
