@@ -15,7 +15,6 @@ namespace TurboLabz.TLUtils
     public interface IServerClock
     {
         int latency { get; }
-        int latencySampleCount { get; set; }
         int serverClockDelta { get; }
         long currentTimestamp { get; }
 
