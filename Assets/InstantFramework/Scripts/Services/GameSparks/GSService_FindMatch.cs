@@ -22,8 +22,9 @@ namespace TurboLabz.InstantFramework
             return new GSFindMatchRequest().Send(OnFindMatchSuccess);
         }
 
-        private void OnFindMatchSuccess(ChallengeStartedMessage message)
+        private void OnFindMatchSuccess(object m)
         {
+            ChallengeStartedMessage message = (ChallengeStartedMessage)m;
             GSData matchData = message.ScriptData.GetGSData(GSBackendKeys.MatchData.KEY);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
 
@@ -82,9 +83,7 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "FindMatch";
 
-        private Action<ChallengeStartedMessage> onSuccess;
-
-        public IPromise<BackendResult> Send(Action<ChallengeStartedMessage> onSuccess)
+        public IPromise<BackendResult> Send(Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.MATCHMAKING_REQUEST_FAILED;
