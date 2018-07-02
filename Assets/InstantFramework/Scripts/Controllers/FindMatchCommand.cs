@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
 
                 if (opponentPublicProfile.usingFacebookAuth)
                 {
-                    facebookService.GetProfilePicture(opponentPublicProfile.facebookAuthId).Then(OnGetOpponentProfilePicture);
+                    facebookService.GetSocialPic(opponentPublicProfile.facebookAuthId).Then(OnGetOpponentProfilePicture);
                 }
                 else
                 {
@@ -61,14 +61,10 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnGetOpponentProfilePicture(FacebookResult result, Texture2D texture)
+        private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite)
         {
             if (result == FacebookResult.SUCCESS)
             {
-                Sprite sprite = Sprite.Create(texture,
-                                              new Rect(0, 0, texture.width, texture.height),
-                                              new Vector2(0.5f, 0.5f));
-                sprite.name = texture.name;
                 matchInfoModel.opponentPublicProfile.profilePicture = sprite;
             }
             else

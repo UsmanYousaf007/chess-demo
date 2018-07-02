@@ -12,6 +12,7 @@ using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
 using System;
 using GameSparks.Api.Requests;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,7 +20,20 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetInitData(int clientVersion)
         {
+            // Fetch facebook pic in parallel with backend init data fetch
+            if (facebookService.isLoggedIn())
+            {
+                TLUtils.LogUtil.Log("GetInitData() Fetch player facebook pic", "cyan");
+                facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias()).Then(OnGetSocialPic);
+            }
+
+            // Fetch init data from server
             return new GSGetInitDataRequest(clientVersion, OnGetInitDataSuccess).Send();
+        }
+
+        void OnGetSocialPic(FacebookResult result, Sprite sprite)
+        {
+            playerModel.socialPic = sprite;
         }
     
         void OnGetInitDataSuccess(LogEventResponse response)
@@ -45,8 +59,6 @@ namespace TurboLabz.InstantFramework
             AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
 
             OnAccountDetailsSuccess(accountDetailsResponse);
-
-            //CheckAndHandleMatchResume(response); // TODO: game dependency to remove or move
 
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
@@ -75,7 +87,7 @@ namespace TurboLabz.InstantFramework
         private void OnAccountDetailsSuccess(AccountDetailsResponse response)
         {
             GSData externalIds = response.ExternalIds;
-            IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
+            IDictionary<ExternalAuthType, ExternalAuth> externalAuthentications = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
 
             playerModel.id = response.UserId;
             playerModel.tag = response.ScriptData.GetString(GSBackendKeys.TAG);
@@ -83,7 +95,7 @@ namespace TurboLabz.InstantFramework
             playerModel.countryId = response.Location.Country;
 
             playerModel.bucks = response.Currency2.Value;
-            playerModel.externalAuthentications = externalAuthentications;
+            playerModel.externalAuths = externalAuthentications;
             playerModel.eloScore = response.ScriptData.GetInt(GSBackendKeys.ELO_SCORE).Value;
             playerModel.adLifetimeImpressions = response.ScriptData.GetInt(GSBackendKeys.AD_LIFETIME_IMPRESSIONS).Value;
 

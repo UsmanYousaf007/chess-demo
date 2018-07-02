@@ -2,22 +2,17 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-10-29 17:55:23 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using UnityEngine;
-
+using Facebook.Unity;
 using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
     public class FBService : IFacebookService
     {
+        public const string PLAYER_USER_ID_ALIAS = "me";
+
         public IPromise<FacebookResult> Init()
         {
             return new FBInitRequest().Send();
@@ -28,14 +23,24 @@ namespace TurboLabz.InstantFramework
             return new FBAuthRequest().Send();
         }
 
-        public IPromise<FacebookResult, Texture2D> GetProfilePicture(string userId)
+        public IPromise<FacebookResult, Sprite> GetSocialPic(string userId)
         {
-            return new FBGetProfilePictureRequest().Send(userId);
+            return new FBGetSocialPicRequest().Send(userId);
         }
 
-        public IPromise<FacebookResult, string> GetUserName()
+        public IPromise<FacebookResult, string> GetSocialName()
         {
-            return new FBUserNameRequest().Send();
+            return new FBSocialNameRequest().Send();
+        }
+
+        public bool isLoggedIn()
+        {
+            return FB.IsLoggedIn;
+        }
+
+        public string GetPlayerUserIdAlias()
+        {
+            return PLAYER_USER_ID_ALIAS;
         }
     }
 }

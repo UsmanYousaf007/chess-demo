@@ -55,10 +55,10 @@ namespace TurboLabz.InstantFramework
             //opponentPublicProfile.profilePicture = AvatarThumbsContainer.GetSprite(activeAvatarsId);
 
             GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.MatchData.PROFILE_EXTERNAL_IDS);
-            IDictionary<ExternalAuthType, ExternalAuthData> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
+            IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
             if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
             {
-                ExternalAuthData facebookAuthData = auths[ExternalAuthType.FACEBOOK];
+                ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
                 opponentPublicProfile.usingFacebookAuth = true;
                 opponentPublicProfile.facebookAuthId = facebookAuthData.id;
             }

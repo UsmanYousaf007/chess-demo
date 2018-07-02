@@ -178,7 +178,7 @@ namespace TurboLabz.InstantFramework
             LogUtil.Log("********** playerModel.tag" + " " + playerModel.tag);
             LogUtil.Log("********** playerModel.name" + " " + playerModel.name);
             LogUtil.Log("********** playerModel.countryId" + " " + playerModel.countryId);
-            LogUtil.Log("********** playerModel.profilePicture" + " " + playerModel.profilePicture);
+            LogUtil.Log("********** playerModel.profilePicture" + " " + playerModel.profilePic);
             LogUtil.Log("********** playerModel.totalGamesWon" + " " + playerModel.totalGamesWon);
             LogUtil.Log("********** playerModel.totalGamesLost" + " " + playerModel.totalGamesLost);
             LogUtil.Log("********** playerModel.totalGamesDrawn" + " " + playerModel.totalGamesDrawn);

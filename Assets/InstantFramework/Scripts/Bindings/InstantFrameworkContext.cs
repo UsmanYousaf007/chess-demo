@@ -54,8 +54,6 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
 
-            //commandBinder.Bind<GetPlayerProfilePictureSignal>().To<GetPlayerProfilePictureCommand>();
-            //commandBinder.Bind<GetOpponentProfilePictureSignal>().To<GetOpponentProfilePictureCommand>();
             commandBinder.Bind<ApplyPlayerInventorySignal>().To<ApplyPlayerInventoryCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
@@ -74,10 +72,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookSuccessSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayerProfilePictureSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayerProfilePictureInfoSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
-            //injectionBinder.Bind<UpdateSetPlayerSocialNameViewSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

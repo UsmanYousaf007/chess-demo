@@ -16,13 +16,15 @@ namespace TurboLabz.InstantFramework
         public string tag { get; set; } 
         public string name { get; set; }
         public string countryId { get; set; }
-        public Sprite profilePicture { get; set; }
         public int totalGamesWon { get; set; }
         public int totalGamesLost { get; set; }
         public int totalGamesDrawn { get; set; }
         public long bucks { get; set; }
         public int eloScore { get; set; }
-        public IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications { get; set; }
+
+        public Sprite profilePic { get; set; }
+        public Sprite socialPic { get; set; }
+        public IDictionary<ExternalAuthType, ExternalAuth> externalAuths { get; set; }
 
         // Ads Info
         public int adLifetimeImpressions { get; set; }
@@ -42,7 +44,7 @@ namespace TurboLabz.InstantFramework
 				profile.id = id;
 				profile.name = name;
 				profile.countryId = countryId;
-				profile.profilePicture = profilePicture;
+				profile.profilePicture = profilePic;
 				profile.eloScore = eloScore;
 
 				return profile;
@@ -55,14 +57,16 @@ namespace TurboLabz.InstantFramework
             tag = null;
             name = null;
             countryId = null;
-            Sprite profilePicture = null;
             totalGamesWon = 0;
             totalGamesLost = 0;
             totalGamesDrawn = 0;
             bucks = 0;
             eloScore = 0;
-            IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications = 
-                new Dictionary<ExternalAuthType, ExternalAuthData>();
+
+            profilePic = null;
+            socialPic = null;
+            IDictionary<ExternalAuthType, ExternalAuth> externalAuths = 
+                new Dictionary<ExternalAuthType, ExternalAuth>();
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -72,8 +76,7 @@ namespace TurboLabz.InstantFramework
             // Inventory
             activeSkinId = null;
             activeAvatarId = null;
-            IOrderedDictionary<string, int> inventory =
-                new OrderedDictionary<string, int>();
+            inventory = new OrderedDictionary<string, int>();
         }
 
 		public bool OwnsVGood(string key)

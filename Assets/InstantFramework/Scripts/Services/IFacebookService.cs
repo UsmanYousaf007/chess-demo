@@ -13,7 +13,9 @@ namespace TurboLabz.InstantFramework
     {
         IPromise<FacebookResult> Init();
         IPromise<FacebookResult, string> Auth();
-        IPromise<FacebookResult, Texture2D> GetProfilePicture(string userId);
-        IPromise<FacebookResult, string> GetUserName();
+        IPromise<FacebookResult, Sprite> GetSocialPic(string userId);
+        IPromise<FacebookResult, string> GetSocialName();
+        bool isLoggedIn();
+        string GetPlayerUserIdAlias();
     }
 }

@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
-    public class FBUserNameRequest
+    public class FBSocialNameRequest
     {
         private IPromise<FacebookResult, string> promise = new Promise<FacebookResult, string>();
 
