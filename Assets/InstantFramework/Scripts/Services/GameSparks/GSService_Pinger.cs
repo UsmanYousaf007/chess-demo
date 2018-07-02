@@ -19,6 +19,7 @@ using TurboLabz.InstantFramework;
 
 using GameSparks.Api.Requests;
 using strange.extensions.promise.api;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
 {
@@ -40,7 +41,7 @@ namespace TurboLabz.InstantFramework
             while (true)
             {
                 RestartHealthCheckMonitor();
-                new GSPingRequest().Send(OnPingSuccess);
+                new GSPingRequest().Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
 
@@ -103,14 +104,14 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "Ping";
         const string ATT_CLIENT_SEND_TIMESTAMP = "clientSendTimestamp";
 
-        public IPromise<BackendResult> Send(Action<object> onSuccess)
+        public IPromise<BackendResult> Send(Action<object> onSuccess, long unixTimestamp)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.PING_REQUEST_FAILED;
 
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)
-                .SetEventAttribute(ATT_CLIENT_SEND_TIMESTAMP, TimeUtil.unixTimestampMilliseconds)
+                .SetEventAttribute(ATT_CLIENT_SEND_TIMESTAMP, unixTimestamp)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;
