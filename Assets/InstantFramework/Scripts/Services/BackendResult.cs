@@ -7,6 +7,7 @@ namespace TurboLabz.InstantFramework
 {
     public enum BackendResult
     {
+        NONE,
         SUCCESS,
         CANCELED,
 

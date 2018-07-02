@@ -11,16 +11,14 @@
 /// [add_description_here]
 
 using System.Collections;
-
-using UnityEngine;
-
-using GameSparks.Api.Responses;
-
-using TurboLabz.TLUtils;
-using System.Collections.Generic;
-using GameSparks.Core;
-using TurboLabz.InstantFramework;
 using System;
+using UnityEngine;
+using GameSparks.Api.Responses;
+using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
+
+using GameSparks.Api.Requests;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
@@ -34,7 +32,6 @@ namespace TurboLabz.InstantFramework
 
         public void StartPinger()
         {
-            
             routineRunner.StartCoroutine(StartPingerCR());
         }
 
@@ -43,7 +40,7 @@ namespace TurboLabz.InstantFramework
             while (true)
             {
                 RestartHealthCheckMonitor();
-                new GSPingRequest(OnPingSuccess).Send();
+                new GSPingRequest().Send(OnPingSuccess);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
 
@@ -57,8 +54,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnPingSuccess(LogEventResponse response)
+        private void OnPingSuccess(object r)
         {
+            LogEventResponse response = (LogEventResponse)r;
             StopHealthCheckMonitor();
             float secondsElapsed = (TimeUtil.unixTimestampMilliseconds - sendTime)/1000f;
             if (secondsElapsed < GSSettings.SLOW_WIFI_WARNING_THRESHOLD)
@@ -97,24 +95,29 @@ namespace TurboLabz.InstantFramework
             wifiIsHealthySignal.Dispatch(false);
         }
     }
-}
 
-#region REQUEST
-    public class GSPingRequest : GSLogEventRequest
+    #region REQUEST
+
+    public class GSPingRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "Ping";
         const string ATT_CLIENT_SEND_TIMESTAMP = "clientSendTimestamp";
 
-        public GSPingRequest(Action<LogEventResponse> onSuccess)
+        public IPromise<BackendResult> Send(Action<object> onSuccess)
         {
-            // Set your request parameters here
-            key = SHORT_CODE;
-            request.SetEventAttribute(ATT_CLIENT_SEND_TIMESTAMP, TimeUtil.unixTimestampMilliseconds);
-            errorCode = BackendResult.PING_REQUEST_FAILED;
-
-            // Do not modify below
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.PING_REQUEST_FAILED;
+
+            new LogEventRequest()  
+                .SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_CLIENT_SEND_TIMESTAMP, TimeUtil.unixTimestampMilliseconds)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
         }
     }
 
-#endregion
+    #endregion
+}
+
+    

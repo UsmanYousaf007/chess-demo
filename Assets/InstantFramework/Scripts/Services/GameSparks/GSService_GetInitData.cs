@@ -19,11 +19,12 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetInitData(int clientVersion)
         {
-            return new GSGetInitDataRequest(clientVersion, OnGetInitDataSuccess).Send();
+            return new GSGetInitDataRequest().Send(clientVersion, OnGetInitDataSuccess);
         }
     
-        void OnGetInitDataSuccess(LogEventResponse response)
+        void OnGetInitDataSuccess(object r)
         {
+            LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
 
@@ -191,20 +192,22 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSGetInitDataRequest : GSLogEventRequest
+    public class GSGetInitDataRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "GetInitData";
         const string ATT_APP_VERSION = "appVersion";
 
-        public GSGetInitDataRequest(int clientVersion, Action<LogEventResponse> onSuccess)
+        public IPromise<BackendResult> Send(int clientVersion, Action<object> onSuccess)
         {
-            // Set your request parameters here
-            key = SHORT_CODE;
-            request.SetEventAttribute(ATT_APP_VERSION, clientVersion);
-            errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
-
-            // Do not modify below
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
+
+            new LogEventRequest()  
+                .SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_APP_VERSION, clientVersion)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
         }
     }
 

@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
             bool claimFiftyMoveDraw,
             bool claimThreefoldRepeatDraw,
             bool rejectThreefoldRepeatDraw);
-        IPromise<BackendResult> TakeAiTurn(FileRank from,
+        IPromise<BackendResult> AiTurn(FileRank from,
             FileRank to,
             string promotion);
         IPromise<BackendResult> AiResign();

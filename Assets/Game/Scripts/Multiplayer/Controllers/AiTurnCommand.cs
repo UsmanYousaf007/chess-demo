@@ -86,7 +86,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backendService.TakeAiTurn(from, to, promo).Then(OnTurnTaken); ;
+                backendService.AiTurn(from, to, promo).Then(OnTurnTaken); ;
             }
         }
 

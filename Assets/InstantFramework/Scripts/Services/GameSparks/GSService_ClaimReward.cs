@@ -6,6 +6,7 @@
 using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
 using System;
+using GameSparks.Api.Requests;
 
 namespace TurboLabz.InstantFramework
 {
@@ -13,11 +14,12 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> ClaimReward(string rewardType)
         {
-            return new GSClaimRewardRequest(rewardType, OnClaimRewardSuccess).Send();
+            return new GSClaimRewardRequest().Send(rewardType, OnClaimRewardSuccess);
         }
 
-        private void OnClaimRewardSuccess(LogEventResponse response)
+        private void OnClaimRewardSuccess(object r)
         {
+            LogEventResponse response = (LogEventResponse)r;
             var res = response.ScriptData.GetGSData("rewardInfo");
             long bucks = res.GetInt("bucks").Value;
 
@@ -27,20 +29,22 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSClaimRewardRequest : GSLogEventRequest
+    public class GSClaimRewardRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "ClaimReward";
         const string ATT_REWARD_TYPE = "rewardType";
 
-        public GSClaimRewardRequest(string rewardType, Action<LogEventResponse> onSuccess)
+        public IPromise<BackendResult> Send(string rewardType, Action<object> onSuccess)
         {
-            // Set your request parameters here
-            key = SHORT_CODE;
-            request.SetEventAttribute(ATT_REWARD_TYPE, rewardType);
-            errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
-
-            // Do not modify below
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.CLAIM_REWARD_REQUEST_FAILED;
+
+            new LogEventRequest()  
+                .SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_REWARD_TYPE, rewardType)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
         }
     }
 

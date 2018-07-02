@@ -37,25 +37,7 @@ namespace TurboLabz.InstantFramework
                                                 GSFormat.GetBool(claimThreefoldRepeatDraw),
                                                 GSFormat.GetBool(rejectThreefoldRepeatDraw));
         }
-
-        public IPromise<BackendResult> TakeAiTurn(FileRank from,
-                                                  FileRank to,
-                                                  string promotion)
-        {
-            string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
-            string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
-
-            return new GSAiTurnRequest().Send(matchInfoModel.challengeId,
-                                              fromStr,
-                                              toStr,
-                                              GSFormat.GetOptionalString(promotion));
-        }
-
-        public IPromise<BackendResult> AiResign()
-        {
-            return new GSAiResignRequest().Send(matchInfoModel.challengeId);
-        }
-
+            
         public IPromise<BackendResult> ClaimFiftyMoveDraw()
         {
             return new GSClaimFiftyMoveDrawRequest().Send(matchInfoModel.challengeId);

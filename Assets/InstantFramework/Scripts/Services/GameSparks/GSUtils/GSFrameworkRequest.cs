@@ -11,7 +11,10 @@ namespace TurboLabz.InstantFramework
     public class GSFrameworkRequest
     {
         static List<IPromise<BackendResult>> activePromises = new List<IPromise<BackendResult>>();
+
         protected IPromise<BackendResult> promise;
+        protected Action<object> onSuccess;
+        protected BackendResult errorCode;
 
         public static void CancelRequestSession()
         {
@@ -28,10 +31,27 @@ namespace TurboLabz.InstantFramework
             activePromises.Add(promise);
         }
 
+        protected void OnRequestSuccess(object response)
+        {
+            if (IsActive() && onSuccess != null)
+            {
+                onSuccess(response);
+            }
+
+            Dispatch(BackendResult.SUCCESS);
+        }
+
+        protected void OnRequestFailure(object response)
+        {
+            Dispatch(errorCode);
+        }
+
         protected void Dispatch(BackendResult result)
         {
             if (IsActive())
-            {
+            {   
+                Assertions.Assert((result != BackendResult.NONE), "Backend result not set in request.");
+
                 promise.Dispatch(result);
                 activePromises.Remove(promise);
                 promise = null;
@@ -42,5 +62,6 @@ namespace TurboLabz.InstantFramework
         {
             return (promise != null);
         }
+
     }
 }

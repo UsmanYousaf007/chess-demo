@@ -19,8 +19,9 @@ namespace TurboLabz.InstantFramework
             return new GSGetGameStartTimeRequest().Send(challengeId, OnGetGameStartTimeSuccess);
         }
 
-        private void OnGetGameStartTimeSuccess(ScriptMessage message)
+        private void OnGetGameStartTimeSuccess(object m)
         {
+            ScriptMessage message = (ScriptMessage)m;
             matchInfoModel.gameStartTimeMilliseconds = message.Data.GetLong(GSBackendKeys.GAME_START_TIME).Value;
         }
     }
@@ -32,23 +33,17 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "GetGameStartTime";
         const string ATT_CHALLENGE_ID = "challengeId";
 
-        private Action<ScriptMessage> onSuccess;
-
-        public IPromise<BackendResult> Send(string challengeId, Action<ScriptMessage> onSuccess)
+        public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.GET_GAME_START_TIME_REQUEST_FAILED;
             AddListeners();
 
             new LogEventRequest().SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_CHALLENGE_ID, challengeId)
-                .Send(null, OnFailure);
+                .Send(null, OnRequestFailure);
 
             return promise;
-        }
-
-        private void OnFailure(LogEventResponse response)
-        {
-            DispatchResponse(BackendResult.GET_GAME_START_TIME_REQUEST_FAILED);
         }
 
         private void AddListeners()
@@ -65,19 +60,8 @@ namespace TurboLabz.InstantFramework
         {
             if (message.ExtCode == GSBackendKeys.START_GAME_MESSAGE)
             {
-                if (IsActive())
-                {
-                    onSuccess(message);
-                }
-
-                DispatchResponse(BackendResult.SUCCESS);
+                this.OnRequestSuccess(message);
             }
-        }
-
-        private void DispatchResponse(BackendResult result)
-        {  
-            RemoveListeners();
-            Dispatch(result);
         }
     }
 
