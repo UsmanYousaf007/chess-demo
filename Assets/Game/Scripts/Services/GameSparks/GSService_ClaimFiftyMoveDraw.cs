@@ -1,9 +1,8 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 /// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
 /// @company Turbo Labz <http://turbolabz.com>
 /// @date 2016-10-15 17:32:51 UTC+05:00
 /// 
@@ -11,9 +10,10 @@
 /// [add_description_here]
 
 using strange.extensions.promise.api;
-using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
-using TurboLabz.Multiplayer;
+using System;
+using GameSparks.Api.Responses;
+using GameSparks.Api.Requests;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,10 +23,25 @@ namespace TurboLabz.InstantFramework
         {
             return new GSClaimFiftyMoveDrawRequest().Send(matchInfoModel.challengeId);
         }
+    }
 
-        public IPromise<BackendResult> ClaimThreefoldRepeatDraw()
+    #region REQUEST
+
+    public class GSClaimFiftyMoveDrawRequest : GSFrameworkRequest
+    {
+        const string SHORT_CODE = "ClaimFiftyMoveDraw";
+
+        public IPromise<BackendResult> Send(string challengeId)
         {
-            return new GSClaimThreefoldRepeatDrawRequest().Send(matchInfoModel.challengeId);
+            this.errorCode = BackendResult.CLAIM_FIFTY_MOVE_DRAW_FAILED;
+
+            new LogChallengeEventRequest().SetChallengeInstanceId(challengeId)
+                .SetEventKey(SHORT_CODE)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
         }
     }
+
+    #endregion
 }
