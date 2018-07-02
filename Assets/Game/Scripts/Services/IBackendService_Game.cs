@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
 {
     public partial interface IBackendService
     {
-        IPromise<BackendResult> TakeTurn(FileRank from,
+        IPromise<BackendResult> PlayerTurn(FileRank from,
             FileRank to,
             string promotion,
             bool claimFiftyMoveDraw,

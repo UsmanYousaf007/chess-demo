@@ -19,25 +19,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> TakeTurn(FileRank from,
-                                                FileRank to,
-                                                string promotion,
-                                                bool claimFiftyMoveDraw,
-                                                bool claimThreefoldRepeatDraw,
-                                                bool rejectThreefoldRepeatDraw)
-        {
-            string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
-            string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
-
-            return new GSTakeTurnRequest().Send(matchInfoModel.challengeId,
-                                                fromStr,
-                                                toStr,
-                                                GSFormat.GetOptionalString(promotion),
-                                                GSFormat.GetBool(claimFiftyMoveDraw),
-                                                GSFormat.GetBool(claimThreefoldRepeatDraw),
-                                                GSFormat.GetBool(rejectThreefoldRepeatDraw));
-        }
-            
         public IPromise<BackendResult> ClaimFiftyMoveDraw()
         {
             return new GSClaimFiftyMoveDrawRequest().Send(matchInfoModel.challengeId);

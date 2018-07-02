@@ -35,7 +35,7 @@ namespace TurboLabz.Multiplayer
         {
             Retain();
 
-            backendService.TakeTurn(
+            backendService.PlayerTurn(
                 playerTurnVO.fromSquare.fileRank,
                 playerTurnVO.toSquare.fileRank,
                 playerTurnVO.promo,

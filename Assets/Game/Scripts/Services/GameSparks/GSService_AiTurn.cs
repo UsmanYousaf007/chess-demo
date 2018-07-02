@@ -25,10 +25,13 @@ namespace TurboLabz.InstantFramework
                                                FileRank to,
                                                string promotion)
         {
+            string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
+            string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
+
             return new GSAiTurnRequest().Send(matchInfoModel.challengeId,
-                                              from,
-                                              to,
-                                              promotion);
+                                              fromStr,
+                                              toStr,
+                                              GSFormat.GetOptionalString(promotion));
         }
     }
 
@@ -43,20 +46,17 @@ namespace TurboLabz.InstantFramework
         const string ATT_PROMOTION = "shard3";
 
         public IPromise<BackendResult> Send(string challengeId,
-                                            FileRank from,
-                                            FileRank to,
+                                            string from,
+                                            string to,
                                             string promotion)
         {
             this.errorCode = BackendResult.AI_TAKE_TURN_REQUEST_FAILED;
 
-            string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
-            string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
-
             new LogEventRequest().SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_CHALLENGE_ID, challengeId)
-                .SetEventAttribute(ATT_FROM, fromStr)
-                .SetEventAttribute(ATT_TO, toStr)
-                .SetEventAttribute(ATT_PROMOTION, GSFormat.GetOptionalString(promotion))
+                .SetEventAttribute(ATT_FROM, from)
+                .SetEventAttribute(ATT_TO, to)
+                .SetEventAttribute(ATT_PROMOTION, promotion)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;
