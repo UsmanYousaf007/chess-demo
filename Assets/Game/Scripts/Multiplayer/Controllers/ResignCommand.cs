@@ -26,7 +26,7 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             Retain();
-            backendService.Resign().Then(OnResign);
+            backendService.PlayerResign().Then(OnResign);
         }
 
         private void OnResign(BackendResult result)

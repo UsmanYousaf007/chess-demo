@@ -28,10 +28,5 @@ namespace TurboLabz.InstantFramework
         {
             return new GSClaimThreefoldRepeatDrawRequest().Send(matchInfoModel.challengeId);
         }
-
-        public IPromise<BackendResult> Resign()
-        {
-            return new GSResignRequest().Send(matchInfoModel.challengeId);
-        }
     }
 }
