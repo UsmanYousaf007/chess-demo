@@ -87,17 +87,13 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> Send(Action<ChallengeStartedMessage> onSuccess)
         {
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.MATCHMAKING_REQUEST_FAILED;
             AddListeners();
 
-            new LogEventRequest().SetEventKey("FindMatch")
-                .Send((response) => {}, OnFailure);
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                .Send(null, OnRequestFailure);
 
             return promise;
-        }
-
-        private void OnFailure(LogEventResponse response)
-        {
-            DispatchResponse(BackendResult.MATCHMAKING_REQUEST_FAILED);
         }
 
         private void AddListeners()
@@ -112,18 +108,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeStarted(ChallengeStartedMessage message) 
         {
-            if (IsActive())
-            {
-                onSuccess(message);
-            }
-
-            DispatchResponse(BackendResult.SUCCESS);
-        }
-
-        private void DispatchResponse(BackendResult result)
-        {  
-            RemoveListeners();
-            Dispatch(result);
+            this.OnRequestSuccess(message);
         }
     }
 
