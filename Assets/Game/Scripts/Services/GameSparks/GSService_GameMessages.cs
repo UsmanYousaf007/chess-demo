@@ -36,25 +36,17 @@ namespace TurboLabz.InstantFramework
         private void AddGameMessageListeners()
         {
             ChallengeTurnTakenMessage.Listener += OnChallengeTurnTakenMessage;
-            ChallengeWonMessage.Listener += OnGameChallengeWonMessage;
-            ChallengeLostMessage.Listener += OnGameChallengeLostMessage;
-            ChallengeDrawnMessage.Listener += OnGameChallengeDrawnMessage;
         }
 
         private void RemoveGameMessageListeners()
         {
-            ChallengeDrawnMessage.Listener -= OnGameChallengeDrawnMessage;
-            ChallengeLostMessage.Listener -= OnGameChallengeLostMessage;
-            ChallengeWonMessage.Listener -= OnGameChallengeWonMessage;
             ChallengeTurnTakenMessage.Listener -= OnChallengeTurnTakenMessage;
         }
 
         private void OnChallengeTurnTakenMessage(ChallengeTurnTakenMessage message)
         {
-            LogUtil.Log("Challenge turn taken...", "cyan");
             if (!IsCurrentChallenge(message.Challenge.ChallengeId))
             {
-                LogUtil.Log("Not the current challenge, exiting...", "cyan");
                return;
             }
 
@@ -78,11 +70,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
         {
-            if (!IsCurrentChallenge(message.Challenge.ChallengeId))
-            {
-                return;
-            }
-
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
             AnnounceResults(gameData, playerModel.id);
@@ -90,11 +77,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
         {
-            if (!IsCurrentChallenge(message.Challenge.ChallengeId))
-            {
-                return;
-            }
-
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
             AnnounceResults(gameData, matchInfoModel.opponentPublicProfile.id);
@@ -102,19 +84,9 @@ namespace TurboLabz.InstantFramework
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
-            if (!IsCurrentChallenge(message.Challenge.ChallengeId))
-            {
-                return;
-            }
-
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
             AnnounceResults(gameData, null);
-        }
-
-        private bool IsCurrentChallenge(string challengeId)
-        {
-            return (challengeId == matchInfoModel.challengeId);
         }
 
         private void LoadChessboardModel(GSData gameData)
@@ -179,34 +151,6 @@ namespace TurboLabz.InstantFramework
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
             }
-
-            DispatchEndGameResult(gameEndReason, winnerId);
-        }
-
-        private void DispatchEndGameResult(GameEndReason reason, string winnerId)
-        {
-            EndGameResult result;
-
-            if ((reason == GameEndReason.STALEMATE) ||
-                (reason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) ||
-                (reason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE) ||
-                (reason == GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL) ||
-                (reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) ||
-                (reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE))
-            {
-                result = EndGameResult.GAME_DRAWN;
-            }
-            else if (winnerId == playerModel.id)
-            {
-                result = EndGameResult.PLAYER_WON;
-            }
-            else
-            {
-                result = EndGameResult.OPPONENT_WON;
-            }
-
-            // TODO(mubeeniqbal): We will replace this method call with a signal dispatch.
-            //InitEndGame(result);
         }
 
         private void UpdateMoveData(GSData gameData)

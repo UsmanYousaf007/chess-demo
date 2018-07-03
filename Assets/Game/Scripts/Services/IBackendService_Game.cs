@@ -16,18 +16,18 @@ namespace TurboLabz.InstantFramework
 {
     public partial interface IBackendService
     {
-        IPromise<BackendResult> TakeTurn(FileRank from,
+        IPromise<BackendResult> PlayerTurn(FileRank from,
             FileRank to,
             string promotion,
             bool claimFiftyMoveDraw,
             bool claimThreefoldRepeatDraw,
             bool rejectThreefoldRepeatDraw);
-        IPromise<BackendResult> TakeAiTurn(FileRank from,
+        IPromise<BackendResult> AiTurn(FileRank from,
             FileRank to,
             string promotion);
         IPromise<BackendResult> AiResign();
         IPromise<BackendResult> ClaimFiftyMoveDraw();
         IPromise<BackendResult> ClaimThreefoldRepeatDraw();
-        IPromise<BackendResult> Resign();
+        IPromise<BackendResult> PlayerResign();
     }
 }

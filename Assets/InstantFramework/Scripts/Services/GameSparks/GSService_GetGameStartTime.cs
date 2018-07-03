@@ -19,38 +19,31 @@ namespace TurboLabz.InstantFramework
             return new GSGetGameStartTimeRequest().Send(challengeId, OnGetGameStartTimeSuccess);
         }
 
-        private void OnGetGameStartTimeSuccess(ScriptMessage message)
+        private void OnGetGameStartTimeSuccess(object m)
         {
+            ScriptMessage message = (ScriptMessage)m;
             matchInfoModel.gameStartTimeMilliseconds = message.Data.GetLong(GSBackendKeys.GAME_START_TIME).Value;
         }
     }
 
     #region REQUEST
 
-    public class GSGetGameStartTimeRequest
+    public class GSGetGameStartTimeRequest : GSFrameworkRequest
     {
-        private readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
-        private Action<ScriptMessage> successCallback;
+        const string SHORT_CODE = "GetGameStartTime";
+        const string ATT_CHALLENGE_ID = "challengeId";
 
-        public IPromise<BackendResult> Send(string challengeId, Action<ScriptMessage> successCallback)
+        public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
         {
-            this.successCallback = successCallback;
+            this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.GET_GAME_START_TIME_REQUEST_FAILED;
             AddListeners();
 
-            const string eventKey = "GetGameStartTime";
-            const string attributeKey = "challengeId";
-
-            new LogEventRequest().SetEventKey(eventKey)
-                .SetEventAttribute(attributeKey, challengeId)
-                .Send(null, OnFailure);
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_CHALLENGE_ID, challengeId)
+                .Send(null, OnRequestFailure);
 
             return promise;
-        }
-
-        private void OnFailure(LogEventResponse response)
-        {
-            RemoveListeners();
-            DispatchResponse(BackendResult.GET_GAME_START_TIME_REQUEST_FAILED);
         }
 
         private void AddListeners()
@@ -67,15 +60,8 @@ namespace TurboLabz.InstantFramework
         {
             if (message.ExtCode == GSBackendKeys.START_GAME_MESSAGE)
             {
-                successCallback(message);
-                DispatchResponse(BackendResult.SUCCESS);
+                this.OnRequestSuccess(message);
             }
-        }
-
-        private void DispatchResponse(BackendResult result)
-        {  
-            RemoveListeners();
-            promise.Dispatch(result);
         }
     }
 

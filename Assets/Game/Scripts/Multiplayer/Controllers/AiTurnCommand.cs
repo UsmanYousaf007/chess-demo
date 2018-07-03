@@ -86,13 +86,13 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backendService.TakeAiTurn(from, to, promo).Then(OnTurnTaken); ;
+                backendService.AiTurn(from, to, promo).Then(OnTurnTaken); ;
             }
         }
 
         private void OnTurnTaken(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS)
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
             }
@@ -102,7 +102,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnResign(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS)
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
             }

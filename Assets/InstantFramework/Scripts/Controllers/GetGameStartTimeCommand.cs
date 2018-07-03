@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
 
                 routineRunner.StartCoroutine(OnGetGameStartTimeCR(waitDuration));
             }
-            else
+            else if (result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
             }

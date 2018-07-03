@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
 			{
 				GotoReception();
 			}
-			else
+            else if (result != BackendResult.CANCELED)
 			{
 				backendErrorSignal.Dispatch(result);
 			}

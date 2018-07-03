@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.HARD_STOP, "Oops!\n\n" +
                                              "There was an unexpected problem.\n\n" +
                                              "Please restart the game." },
+                { LocalizationKey.RECONNECTING, "Trying to connect...\n\n" +
+                                                "Please check your internet connection." },
 
                 #endregion
 

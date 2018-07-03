@@ -34,36 +34,27 @@ namespace TurboLabz.InstantFramework
             return new GSSetPlayerSocialNameRequest().Send(name, OnSetPlayerSocialNameSuccess);
         }
 
-        private void OnSetPlayerSocialNameSuccess(LogEventResponse response)
+        private void OnSetPlayerSocialNameSuccess(object r)
         {
+            LogEventResponse response = (LogEventResponse)r;
             playerModel.name = response.ScriptData.GetString(GSBackendKeys.DISPLAY_NAME);
         }
     }
 
     #region FACEBOOK AUTH REQUEST
 
-    public class GSAuthFacebookRequest
+    public class GSAuthFacebookRequest : GSFrameworkRequest
     {
-        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> Send(string accessToken)
         {
+            this.errorCode = BackendResult.AUTH_FACEBOOK_REQUEST_FAILED;
+
             new FacebookConnectRequest().SetAccessToken(accessToken)
                 .SetSyncDisplayName(true)
                 .SetSwitchIfPossible(true)
-                .Send(OnSuccess, OnFailure);
+                .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;
-        }
-
-        void OnSuccess(AuthenticationResponse response)
-        {
-            promise.Dispatch(BackendResult.SUCCESS);
-        }
-
-        void OnFailure(AuthenticationResponse response)
-        {
-            promise.Dispatch(BackendResult.AUTH_FACEBOOK_REQUEST_FAILED);
         }
     }
 
@@ -71,25 +62,37 @@ namespace TurboLabz.InstantFramework
 
     #region GUEST AUTH REQUEST
 
-    public class GSAuthGuestRequest
+    public class GSAuthGuestRequest : GSFrameworkRequest
     {
-        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> Send()
         {
-            new DeviceAuthenticationRequest().Send(OnSuccess, OnFailure);
+            this.errorCode = BackendResult.AUTH_GUEST_REQUEST_FAILED;
 
+            new DeviceAuthenticationRequest().Send(OnRequestSuccess, OnRequestFailure);
             return promise;
         }
+    }
 
-        void OnSuccess(AuthenticationResponse response)
-        {
-            promise.Dispatch(BackendResult.SUCCESS);
-        }
+    #endregion
 
-        void OnFailure(AuthenticationResponse response)
+    #region SET SOCIAL PLAYER NAME
+
+    public class GSSetPlayerSocialNameRequest : GSFrameworkRequest
+    {
+        const string SHORT_CODE = "SetPlayerSocialName";
+        const string ATT_NAME = "name";
+
+        public IPromise<BackendResult> Send(string name, Action<object> onSuccess)
         {
-            promise.Dispatch(BackendResult.AUTH_GUEST_REQUEST_FAILED);
+            this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.SET_PLAYER_SOCIAL_NAME_FAILED;
+
+            new LogEventRequest()  
+                .SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_NAME, name)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
         }
     }
 

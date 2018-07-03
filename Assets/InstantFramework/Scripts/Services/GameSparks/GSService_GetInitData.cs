@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
             }
 
             // Fetch init data from server
-            return new GSGetInitDataRequest(clientVersion, OnGetInitDataSuccess).Send();
+            return new GSGetInitDataRequest().Send(clientVersion, OnGetInitDataSuccess);
         }
 
         void OnGetSocialPic(FacebookResult result, Sprite sprite)
@@ -36,8 +36,9 @@ namespace TurboLabz.InstantFramework
             playerModel.socialPic = sprite;
         }
     
-        void OnGetInitDataSuccess(LogEventResponse response)
+        void OnGetInitDataSuccess(object r)
         {
+            LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
 
@@ -203,17 +204,22 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSGetInitDataRequest : GSLogEventRequest
+    public class GSGetInitDataRequest : GSFrameworkRequest
     {
-        public GSGetInitDataRequest(int clientVersion, Action<LogEventResponse> onSuccess)
-        {
-            // Set your request parameters here
-            key = "GetInitData";
-            request.SetEventAttribute("appVersion", clientVersion);
-            errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
+        const string SHORT_CODE = "GetInitData";
+        const string ATT_APP_VERSION = "appVersion";
 
-            // Do not modify below
+        public IPromise<BackendResult> Send(int clientVersion, Action<object> onSuccess)
+        {
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
+
+            new LogEventRequest()  
+                .SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_APP_VERSION, clientVersion)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
         }
     }
 

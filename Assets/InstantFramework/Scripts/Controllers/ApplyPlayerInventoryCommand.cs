@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnProcessApplyPlayerInventory(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS)
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
             }

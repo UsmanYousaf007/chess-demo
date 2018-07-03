@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         NONE,
         HARD_STOP,
+        RECONNECTING,
         SPLASH,
         LOBBY,
         STATS,

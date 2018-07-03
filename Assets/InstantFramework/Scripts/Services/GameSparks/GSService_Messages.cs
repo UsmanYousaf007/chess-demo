@@ -44,20 +44,38 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeWonMessage(ChallengeWonMessage message)
         {
+            if (!IsCurrentChallenge(message.Challenge.ChallengeId))
+            {
+                return;
+            }
+
             GSData scriptData = message.ScriptData;
             EndGame(scriptData, matchInfoModel.opponentPublicProfile.id);
+            OnGameChallengeWonMessage(message);
         }
 
         private void OnChallengeLostMessage(ChallengeLostMessage message)
         {
+            if (!IsCurrentChallenge(message.Challenge.ChallengeId))
+            {
+                return;
+            }
+
             GSData scriptData = message.ScriptData;
             EndGame(scriptData, matchInfoModel.opponentPublicProfile.id);
+            OnGameChallengeLostMessage(message);
         }
 
         private void OnChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
+            if (!IsCurrentChallenge(message.Challenge.ChallengeId))
+            {
+                return;
+            }
+
             GSData scriptData = message.ScriptData;
             EndGame(scriptData, matchInfoModel.opponentPublicProfile.id);
+            OnGameChallengeDrawnMessage(message);
         }
 
         private void EndGame(GSData data, string winnerId)
@@ -73,9 +91,7 @@ namespace TurboLabz.InstantFramework
 
             // Opponent public profile elo update
             PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
-
             opponentPublicProfile.eloScore = data.GetInt(GSBackendKeys.MatchData.OPPONENT_ELO_SCORE).Value;
-
             matchInfoModel.opponentPublicProfile = opponentPublicProfile;
         }
 
@@ -83,6 +99,11 @@ namespace TurboLabz.InstantFramework
         {
             // Session terminated because this user authenticated on another device
             backendErrorSignal.Dispatch(BackendResult.SESSION_TERMINATED_ON_MULTIPLE_AUTH);
+        }
+
+        private bool IsCurrentChallenge(string challengeId)
+        {
+            return (challengeId == matchInfoModel.challengeId);
         }
     }
 }

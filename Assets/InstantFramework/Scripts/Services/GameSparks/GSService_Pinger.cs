@@ -11,13 +11,14 @@
 /// [add_description_here]
 
 using System.Collections;
-
+using System;
 using UnityEngine;
-
 using GameSparks.Api.Responses;
-
 using TurboLabz.TLUtils;
-using System.Collections.Generic;
+using TurboLabz.InstantFramework;
+
+using GameSparks.Api.Requests;
+using strange.extensions.promise.api;
 using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
@@ -32,7 +33,6 @@ namespace TurboLabz.InstantFramework
 
         public void StartPinger()
         {
-            
             routineRunner.StartCoroutine(StartPingerCR());
         }
 
@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
             while (true)
             {
                 RestartHealthCheckMonitor();
-                new GSPingRequest().Send(OnPingSuccess);
+                new GSPingRequest().Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
 
@@ -55,8 +55,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnPingSuccess(LogEventResponse response)
+        private void OnPingSuccess(object r)
         {
+            LogEventResponse response = (LogEventResponse)r;
             StopHealthCheckMonitor();
             float secondsElapsed = (TimeUtil.unixTimestampMilliseconds - sendTime)/1000f;
             if (secondsElapsed < GSSettings.SLOW_WIFI_WARNING_THRESHOLD)
@@ -67,8 +68,8 @@ namespace TurboLabz.InstantFramework
             // Cache client recipt timestamp at the very top to get the true
             // receipt time.
             long clientReceiptTimestamp = TimeUtil.unixTimestampMilliseconds;
-            long clientSendTimestamp = response.ScriptData.GetLong(GSEventData.Ping.ATT_KEY_CLIENT_SEND_TIMESTAMP).Value;
-            long serverReceiptTimestamp = response.ScriptData.GetLong(GSEventData.Ping.ATT_KEY_SERVER_RECEIPT_TIMESTAMP).Value;
+            long clientSendTimestamp = response.ScriptData.GetLong(GSBackendKeys.CLIENT_SEND_TIMESTAMP).Value;
+            long serverReceiptTimestamp = response.ScriptData.GetLong(GSBackendKeys.SERVER_RECEIPT_TIMESTAMP).Value;
 
             serverClock.CalculateLatency(clientSendTimestamp, serverReceiptTimestamp, clientReceiptTimestamp);
         }
@@ -95,4 +96,29 @@ namespace TurboLabz.InstantFramework
             wifiIsHealthySignal.Dispatch(false);
         }
     }
+
+    #region REQUEST
+
+    public class GSPingRequest : GSFrameworkRequest
+    {
+        const string SHORT_CODE = "Ping";
+        const string ATT_CLIENT_SEND_TIMESTAMP = "clientSendTimestamp";
+
+        public IPromise<BackendResult> Send(Action<object> onSuccess, long unixTimestamp)
+        {
+            this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.PING_REQUEST_FAILED;
+
+            new LogEventRequest()  
+                .SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_CLIENT_SEND_TIMESTAMP, unixTimestamp)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
+        }
+    }
+
+    #endregion
 }
+
+    

@@ -22,8 +22,10 @@ namespace TurboLabz.InstantFramework
             return new GSBuyVirtualGoodsRequest().Send(currencyType, quantity, shortCode, OnBuyVirtualGoodsSuccess);
         }
 
-        private void OnBuyVirtualGoodsSuccess(BuyVirtualGoodResponse response)
+        private void OnBuyVirtualGoodsSuccess(object r)
         {
+            BuyVirtualGoodResponse response = (BuyVirtualGoodResponse)r;
+
             // Consume bucks
             if (response.CurrencyType == 2 && response.CurrencyConsumed.HasValue)
             {
@@ -52,37 +54,25 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSBuyVirtualGoodsRequest
+    public class GSBuyVirtualGoodsRequest : GSFrameworkRequest
     {
-        readonly IPromise<BackendResult> promise = new Promise<BackendResult>();
-        Action<BuyVirtualGoodResponse> onSuccess;
-
+        
         public IPromise<BackendResult> Send(                      
             long currencyType,                                    // Which virtual currency to use. (1 to 6)
             int quantity,                                         // The number of items to purchase
             string shortCode,                                     // The short code of the virtual good to be purchased
-            Action<BuyVirtualGoodResponse> onSuccess)
+            Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.BUY_VIRTUAL_GOOD_FAILED;
 
             new BuyVirtualGoodsRequest()  
                 .SetCurrencyType(currencyType)                  
                 .SetQuantity(quantity)
                 .SetShortCode(shortCode)
-                .Send(OnSuccess, OnFailure);
+                .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;
-        }
-
-        void OnSuccess(BuyVirtualGoodResponse response)
-        {
-            onSuccess(response);
-            promise.Dispatch(BackendResult.SUCCESS);
-        }
-
-        void OnFailure(BuyVirtualGoodResponse response)
-        {
-            promise.Dispatch(BackendResult.BUY_VIRTUAL_GOOD_FAILED);
         }
     }
 

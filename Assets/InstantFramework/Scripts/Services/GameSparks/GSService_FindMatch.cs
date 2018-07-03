@@ -22,8 +22,9 @@ namespace TurboLabz.InstantFramework
             return new GSFindMatchRequest().Send(OnFindMatchSuccess);
         }
 
-        private void OnFindMatchSuccess(ChallengeStartedMessage message)
+        private void OnFindMatchSuccess(object m)
         {
+            ChallengeStartedMessage message = (ChallengeStartedMessage)m;
             GSData matchData = message.ScriptData.GetGSData(GSBackendKeys.MatchData.KEY);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
 
@@ -78,25 +79,20 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
-    public class GSFindMatchRequest
+    public class GSFindMatchRequest : GSFrameworkRequest
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
-        private Action<ChallengeStartedMessage> onSuccess;
+        const string SHORT_CODE = "FindMatch";
 
-        public IPromise<BackendResult> Send(Action<ChallengeStartedMessage> onSuccess)
+        public IPromise<BackendResult> Send(Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
+            this.errorCode = BackendResult.MATCHMAKING_REQUEST_FAILED;
             AddListeners();
 
-            new LogEventRequest().SetEventKey("FindMatch")
-                .Send((response) => {}, OnFailure);
+            new LogEventRequest().SetEventKey(SHORT_CODE)
+                .Send(null, OnRequestFailure);
 
             return promise;
-        }
-
-        private void OnFailure(LogEventResponse response)
-        {
-            DispatchResponse(BackendResult.MATCHMAKING_REQUEST_FAILED);
         }
 
         private void AddListeners()
@@ -111,14 +107,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeStarted(ChallengeStartedMessage message) 
         {
-            onSuccess(message);
-            DispatchResponse(BackendResult.SUCCESS);
-        }
-
-        private void DispatchResponse(BackendResult result)
-        {  
-            RemoveListeners();
-            promise.Dispatch(result);
+            this.OnRequestSuccess(message);
         }
     }
 

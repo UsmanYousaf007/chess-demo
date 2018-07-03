@@ -65,6 +65,10 @@ namespace TurboLabz.InstantFramework
         public const string GAMES_ABANDONED = "gamesAbandoned";
         public const string GAMES_PLAYED = "gamesPlayed";
 
+        // PING KEYS
+        public const string CLIENT_SEND_TIMESTAMP = "clientSendTimestamp";
+        public const string SERVER_RECEIPT_TIMESTAMP = "serverReceiptTimestamp";
+
         // Message ExtCodes
         public const string START_GAME_MESSAGE = "StartGameMessage";
 

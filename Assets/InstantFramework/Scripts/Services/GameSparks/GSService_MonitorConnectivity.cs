@@ -36,7 +36,9 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                // TODO: Show some kind of overlay when GS disconnects?
+                LogUtil.Log("GS DISCONNECTED!", "red");
+                GSFrameworkRequest.CancelRequestSession();
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
             }
         }
     }

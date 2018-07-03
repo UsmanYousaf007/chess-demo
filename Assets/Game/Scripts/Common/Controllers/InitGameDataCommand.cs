@@ -44,7 +44,7 @@ namespace TurboLabz.InstantFramework
 
                 loadMetaDataCompleteSignal.Dispatch();
             }
-            else
+            else if (result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);    
             }

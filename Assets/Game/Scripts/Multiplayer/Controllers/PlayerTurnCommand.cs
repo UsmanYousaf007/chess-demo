@@ -35,7 +35,7 @@ namespace TurboLabz.Multiplayer
         {
             Retain();
 
-            backendService.TakeTurn(
+            backendService.PlayerTurn(
                 playerTurnVO.fromSquare.fileRank,
                 playerTurnVO.toSquare.fileRank,
                 playerTurnVO.promo,
@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnTurnTaken(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS)
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
             }

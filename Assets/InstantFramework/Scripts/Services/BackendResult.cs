@@ -7,7 +7,9 @@ namespace TurboLabz.InstantFramework
 {
     public enum BackendResult
     {
+        NONE,
         SUCCESS,
+        CANCELED,
 
         // Errors
         EXPIRED_RESPONSE,
