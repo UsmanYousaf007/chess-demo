@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
         {
             if (FB.IsInitialized)
             {
+                // Signal an activate app event
+                FB.ActivateApp();
                 DispatchResponse(FacebookResult.SUCCESS);
             }
             else
