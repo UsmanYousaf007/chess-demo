@@ -4,6 +4,8 @@
 /// Proprietary and confidential
 
 using strange.extensions.command.impl;
+using UnityEngine;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -21,10 +23,15 @@ namespace TurboLabz.InstantFramework
         // Services
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
+
+        bool initDataComplete;
+        bool facebookPicComplete;
+        DateTime picGetStartTime;
 
 		public override void Execute()
         {
@@ -32,6 +39,18 @@ namespace TurboLabz.InstantFramework
             ResetModels();
 
             backendService.GetInitData(appInfoModel.appBackendVersion).Then(OnComplete);
+
+            // Fetch facebook pic in parallel with backend init data fetch
+            if (facebookService.isLoggedIn())
+            {
+                TLUtils.LogUtil.Log("GetInitData() Fetch player facebook pic", "cyan");
+                picGetStartTime = DateTime.UtcNow;
+                facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias()).Then(OnGetSocialPic);
+            }
+            else
+            {
+                facebookPicComplete = true;
+            }
         }
 
         void OnComplete(BackendResult result)
@@ -42,14 +61,34 @@ namespace TurboLabz.InstantFramework
                 model.store = storeSettingsModel;
                 model.adsSettings = adsSettingsModel;
 
-                loadMetaDataCompleteSignal.Dispatch();
+                initDataComplete = true;
+                CommandEnd();
             }
             else if (result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);    
+                Release();
             }
+        }
 
-            Release();
+        void OnGetSocialPic(FacebookResult result, Sprite sprite)
+        {
+            playerModel.socialPic = sprite;
+            facebookPicComplete = true;
+
+            TimeSpan elapsed = DateTime.UtcNow.Subtract(picGetStartTime);
+            playerModel.name += " " + elapsed.TotalMilliseconds;
+
+            CommandEnd();
+        }
+
+        void CommandEnd()
+        {
+            if (facebookPicComplete && initDataComplete)
+            {
+                loadMetaDataCompleteSignal.Dispatch();
+                Release();
+            }
         }
 
         void ResetModels()

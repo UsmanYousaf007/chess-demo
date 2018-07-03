@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
     public class InitGameDataSignal : Signal {}
     public class LoadMetaDataCompleteSignal : Signal {}
     public class AuthFaceBookSignal : Signal {}
-    public class AuthFacebookSuccessSignal : Signal {}
+    public class AuthFacebookSuccessSignal : Signal<Sprite, string> {}
     public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
     public class BackendErrorSignal : Signal<BackendResult> {}
 	public class SplashAnimCompleteSignal : Signal {}
@@ -31,8 +31,6 @@ namespace TurboLabz.InstantFramework
     public class LoadLobbySignal : Signal {}
     public class ApplyPlayerInventorySignal : Signal {}
     public class InitBackendOnceSignal : Signal {}
-    public class UpdatePlayerProfilePictureSignal : Signal<Sprite> {}
-    public class UpdatePlayerProfilePictureInfoSignal : Signal<Sprite> {}
     public class PurchaseStoreItemSignal : Signal<string, bool> {}
     public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}
     public class StartGameSignal : Signal {}

@@ -5,6 +5,7 @@
 
 using strange.extensions.command.impl;
 using UnityEngine;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -94,7 +95,9 @@ namespace TurboLabz.InstantFramework
 
         private void CommandEnd()
         {
-            authFacebookSuccessSignal.Dispatch();
+            LogUtil.Log("PLAYER PIC:" + playerModel.socialPic.name, "cyan");
+            LogUtil.Log("PLAYER NAME:" + playerModel.name, "cyan");
+            authFacebookSuccessSignal.Dispatch(playerModel.socialPic, playerModel.name);
             Release();
         }
     }

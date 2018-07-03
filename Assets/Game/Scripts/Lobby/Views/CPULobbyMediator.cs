@@ -38,6 +38,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
 		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
+        [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
 
         // View injection
         [Inject] public CPULobbyView view { get; set; }
@@ -68,6 +69,7 @@ namespace TurboLabz.InstantGame
             view.freeBucksRewardOkButtonClickedSignal.AddListener(OnFreeBucksRewardOkButtonClicked);
             view.freeBucksUpdateAdsSignal.AddListener(OnUpdateAdsSignal);
 			view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
+            view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
         }
 
         public override void OnRemove()
@@ -133,6 +135,12 @@ namespace TurboLabz.InstantGame
         public void OnUpdateView(LobbyVO vo)
         {
             view.UpdateView(vo);
+        }
+
+        [ListensTo(typeof(AuthFacebookSuccessSignal))]
+        public void OnAuthFacebookSuccess(Sprite pic, string name)
+        {
+            view.UpdateSocialInfo(pic, name);
         }
 
         [ListensTo(typeof(UpdateStrengthSignal))]
@@ -240,10 +248,15 @@ namespace TurboLabz.InstantGame
             shareAppSignal.Dispatch();
         }
 
-		public void OnAddBucksButtonClicked()
+		private void OnAddBucksButtonClicked()
 		{
 			loadBuckPacksSignal.Dispatch();
 		}
+
+        private void OnFacebookButtonClicked()
+        {
+            authFacebookSignal.Dispatch();
+        }
 
         private void OnFreeBucksButtonClicked()
         {

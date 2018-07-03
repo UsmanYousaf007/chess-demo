@@ -20,22 +20,10 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetInitData(int clientVersion)
         {
-            // Fetch facebook pic in parallel with backend init data fetch
-            if (facebookService.isLoggedIn())
-            {
-                TLUtils.LogUtil.Log("GetInitData() Fetch player facebook pic", "cyan");
-                facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias()).Then(OnGetSocialPic);
-            }
-
             // Fetch init data from server
             return new GSGetInitDataRequest().Send(clientVersion, OnGetInitDataSuccess);
         }
 
-        void OnGetSocialPic(FacebookResult result, Sprite sprite)
-        {
-            playerModel.socialPic = sprite;
-        }
-    
         void OnGetInitDataSuccess(object r)
         {
             LogEventResponse response = (LogEventResponse)r;

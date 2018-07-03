@@ -35,6 +35,9 @@ namespace TurboLabz.InstantGame
         // Scene references
         public Image cover;
 
+        public Image profilePic;
+        public Text profileName;
+
         public Button shareButton;
 
         public Text strengthLabel;
@@ -62,6 +65,8 @@ namespace TurboLabz.InstantGame
         public Text freeBucksRewardTitle;
         public Text freeBucksRewardAmount;
 
+        public Button facebookButton;
+
         public GameObject adBlocker;
 
         public InputField devFen;
@@ -85,6 +90,7 @@ namespace TurboLabz.InstantGame
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
         public Signal freeBucksUpdateAdsSignal = new Signal();
 		public Signal addBucksButtonClickedSignal = new Signal();
+        public Signal facebookButtonClickedSignal = new Signal();
 
         private Coroutine waitCR;
         private Coroutine waitForAdsAvailabilityCR;
@@ -100,6 +106,7 @@ namespace TurboLabz.InstantGame
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
             freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
+            facebookButton.onClick.AddListener(OnFacebookButtonClicked);
 
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
@@ -128,6 +135,7 @@ namespace TurboLabz.InstantGame
             incStrengthButton.onClick.RemoveAllListeners();
             playMultiplayerButton.onClick.RemoveAllListeners();
             playCPUButton.onClick.RemoveAllListeners();
+            facebookButton.onClick.RemoveAllListeners();
             devFen.onValueChanged.RemoveAllListeners();
         }
 
@@ -135,7 +143,16 @@ namespace TurboLabz.InstantGame
         {
             UpdateStrength(vo);
 			UpdatePlayerBucks(vo.playerBucks);
+
+            profilePic.sprite = vo.playerPic;
+            profileName.text = vo.playerName;
 		}
+
+        public void UpdateSocialInfo(Sprite pic, string name)
+        {
+            profilePic.sprite = pic;
+            profileName.text = name;
+        }
 
         public void UpdateStrength(LobbyVO vo)
         {
@@ -385,6 +402,11 @@ namespace TurboLabz.InstantGame
 		{
 			addBucksButtonClickedSignal.Dispatch();
 		}
+
+        private void OnFacebookButtonClicked()
+        {
+            facebookButtonClickedSignal.Dispatch();
+        }
 
         private void OnDevFenValueChanged(string fen)
         {
