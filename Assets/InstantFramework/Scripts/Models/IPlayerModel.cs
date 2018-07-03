@@ -15,13 +15,15 @@ namespace TurboLabz.InstantFramework
         string tag { get; set; } 
         string name { get; set; }
         string countryId { get; set; }
-        Sprite profilePicture { get; set; }
         int totalGamesWon { get; set; }
         int totalGamesLost { get; set; }
         int totalGamesDrawn { get; set; }
         long bucks { get; set; }
         int eloScore { get; set; }
-        IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications { get; set; }
+
+        Sprite profilePic { get; set; }
+        Sprite socialPic { get; set; }
+        IDictionary<ExternalAuthType, ExternalAuth> externalAuths { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

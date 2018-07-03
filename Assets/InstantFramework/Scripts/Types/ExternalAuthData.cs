@@ -2,7 +2,7 @@ using System;
 
 namespace TurboLabz.InstantFramework
 {
-    public struct ExternalAuthData
+    public struct ExternalAuth
     {
         public string id;
     }

@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IStoreService storeService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }

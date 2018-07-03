@@ -115,9 +115,18 @@ namespace TurboLabz.InstantFramework
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
-            // Purchases cannot be verified when running in the editor
-            remoteStorePurchaseCompletedSignal.Dispatch(e.purchasedProduct.definition.id);
-            return PurchaseProcessingResult.Complete;
+            purchaseState = purchaseProcessState.PURCHASE_STATE_PENDING;
+
+            if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
+            {
+                pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
+            }
+
+            backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
+                                                        e.purchasedProduct.transactionID, 
+                                                        e.purchasedProduct.receipt).Then(OnVerifiedPurchase);
+
+            return PurchaseProcessingResult.Pending;
  		}
 
         public void OnVerifiedPurchase(BackendResult result, string transactionID)

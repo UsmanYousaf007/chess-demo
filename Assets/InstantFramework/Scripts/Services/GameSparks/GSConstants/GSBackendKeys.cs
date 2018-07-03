@@ -92,15 +92,15 @@ namespace TurboLabz.InstantFramework
                 { GOOGLE_PLAY, ExternalAuthType.GOOGLE_PLAY }
             };
 
-            public static IDictionary<ExternalAuthType, ExternalAuthData> GetExternalAuthentications(GSData externalIds)
+            public static IDictionary<ExternalAuthType, ExternalAuth> GetExternalAuthentications(GSData externalIds)
             {
-                IDictionary<ExternalAuthType, ExternalAuthData> externalAuthentications = new Dictionary<ExternalAuthType, ExternalAuthData>();
+                IDictionary<ExternalAuthType, ExternalAuth> externalAuthentications = new Dictionary<ExternalAuthType, ExternalAuth>();
                 IDictionary<string, object> externalIdsBaseData = externalIds.BaseData;
 
                 foreach (KeyValuePair<string, object> e in externalIdsBaseData)
                 {
                     ExternalAuthType type = externalIdMap[e.Key];
-                    ExternalAuthData data;
+                    ExternalAuth data;
                     data.id = (string)e.Value;
 
                     externalAuthentications.Add(type, data);

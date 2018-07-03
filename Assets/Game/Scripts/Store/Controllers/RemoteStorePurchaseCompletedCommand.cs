@@ -31,14 +31,6 @@ namespace TurboLabz.InstantGame
 			{
 				return;
 			}
-
-            #if UNITY_EDITOR
-            // In editor, backend will not verify the purchase so these bucks 
-            // will only update locally
-            playerModel.bucks += item.currency2Payout;
-            LogUtil.Log("Bucks purchase in Unity Editor is not verified and will not update player bucks on the server.", "yellow");
-            #endif
-
 			updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 		}
 
