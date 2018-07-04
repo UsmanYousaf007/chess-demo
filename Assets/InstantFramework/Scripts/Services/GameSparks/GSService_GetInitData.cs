@@ -18,7 +18,7 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> GetInitData(int clientVersion)
+        public IPromise<BackendResult> GetInitData(int appVersion, string appData)
         {
             // Fetch facebook pic in parallel with backend init data fetch
             if (facebookService.isLoggedIn())
@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
             }
 
             // Fetch init data from server
-            return new GSGetInitDataRequest().Send(clientVersion, OnGetInitDataSuccess);
+            return new GSGetInitDataRequest().Send(appVersion, appData, OnGetInitDataSuccess);
         }
 
         void OnGetSocialPic(FacebookResult result, Sprite sprite)
@@ -208,15 +208,17 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "GetInitData";
         const string ATT_APP_VERSION = "appVersion";
+        const string ATT_APP_DATA = "appData";
 
-        public IPromise<BackendResult> Send(int clientVersion, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(int appVersion, string appData, Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
 
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)
-                .SetEventAttribute(ATT_APP_VERSION, clientVersion)
+                .SetEventAttribute(ATT_APP_VERSION, appVersion)
+                .SetEventAttribute(ATT_APP_DATA, appData)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
         void StartPinger();
         void MonitorConnectivity();
 
-        IPromise<BackendResult> GetInitData(int clientVersion);
+        IPromise<BackendResult> GetInitData(int appVersion, string dataJson);
         IPromise<BackendResult> AuthFacebook(string accessToken);
         IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
