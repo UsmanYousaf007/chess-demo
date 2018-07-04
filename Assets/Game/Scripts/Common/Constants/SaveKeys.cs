@@ -18,7 +18,6 @@ namespace TurboLabz.InstantGame
         // FILENAME
         public const string CPU_SAVE_FILENAME = "cpuSave1";
         public const string STATS_SAVE_FILENAME = "statsSave1";
-		public const string PLAYER_SAVE_FILENAME = "playersSave";
 
         // CPU MENU MODEL
         public const string CPU_STRENGTH = "cpuStrength";
@@ -40,15 +39,5 @@ namespace TurboLabz.InstantGame
 
         // STATS MODEL
         public const string STATS_DATA = "statsData";
-
-        // PLAYER MODEL
-        public const string PLAYER_BUCKS = "playerBucks";
-        public const string PLAYER_VGOODS = "playerVGoods";
-        public const string PLAYER_ID = "playerId";
-        public const string PLAYER_ACTIVE_SKIN_ID = "playerActiveSkinId";
-        public const string PLAYER_AD_LIFE_TIME_IMPRESSIONS = "playerAdLifetimeImpressions";
-        public const string PLAYER_AD_SLOT_IMPRESSIONS = "playerAdSlotImpressions";
-        public const string PLAYER_AD_SLOT_ID = "playerAdSlotId";
-
     }
 }

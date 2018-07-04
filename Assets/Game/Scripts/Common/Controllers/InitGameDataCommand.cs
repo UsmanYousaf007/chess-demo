@@ -4,9 +4,8 @@
 /// Proprietary and confidential
 
 using strange.extensions.command.impl;
-using System.Text;
-using TurboLabz.InstantGame;
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
@@ -37,9 +36,6 @@ namespace TurboLabz.InstantFramework
             ResetModels();
 
             string appData = BuildAppData();
-
-            TLUtils.LogUtil.Log("BUILD APP DATA: " + appData, "cyan");
-
             backendService.GetInitData(appInfoModel.appBackendVersion, appData).Then(OnComplete);
         }
 
@@ -70,10 +66,19 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.Reset();
         }
 
-        string BuildPatch1()
+        string BuildAppData()
         {
-            SaveToFile(); // TEST
+            StringBuilder json = new StringBuilder();
+            json.Append("{");
 
+            json.Append(Patch1_Build());
+
+            json.Append("}");
+            return json.ToString();
+        }
+
+        string Patch1_Build()
+        {
             string id = "";
             string activeSkinId = "";
             int bucks = 0;
@@ -82,7 +87,7 @@ namespace TurboLabz.InstantFramework
             int adSlotImpressions = 0;
             long adSlotId = 0;
 
-            bool isAvailable = LoadFromFile(ref id, ref activeSkinId, ref bucks, ref vGoods, 
+            bool isAvailable = Patch1_LoadPlayerDataFromFile(ref id, ref activeSkinId, ref bucks, ref vGoods, 
                                                 ref adLifetimeImpressions, ref adSlotImpressions, ref adSlotId);
             if (isAvailable == false)
             {
@@ -121,82 +126,49 @@ namespace TurboLabz.InstantFramework
 
             return json.ToString();
         }
-
-        string BuildAppData()
-        {
-            StringBuilder json = new StringBuilder();
-
-            json.Append("{");
-            json.Append(BuildPatch1());
-            json.Append("}");
-
-            return json.ToString();
-        }
-
-        public bool LoadFromFile(ref string id, ref string activeSkinId, ref int bucks, ref List<string> vGoods, 
+            
+        public bool Patch1_LoadPlayerDataFromFile(ref string id, ref string activeSkinId, ref int bucks, ref List<string> vGoods, 
                                     ref int adLifetimeImpressions, ref int adSlotImpressions, ref long adSlotId)
         {
-            if (!localDataService.FileExists(SaveKeys.PLAYER_SAVE_FILENAME))
+            // PLAYER MODEL
+            const string PLAYER_SAVE_FILENAME = "playersSave";
+            const string PLAYER_BUCKS = "playerBucks";
+            const string PLAYER_VGOODS = "playerVGoods";
+            const string PLAYER_ID = "playerId";
+            const string PLAYER_ACTIVE_SKIN_ID = "playerActiveSkinId";
+            const string PLAYER_AD_LIFE_TIME_IMPRESSIONS = "playerAdLifetimeImpressions";
+            const string PLAYER_AD_SLOT_IMPRESSIONS = "playerAdSlotImpressions";
+            const string PLAYER_AD_SLOT_ID = "playerAdSlotId";
+
+            if (!localDataService.FileExists(PLAYER_SAVE_FILENAME))
             {
                 return false;
             }
 
             try
             {
-                ILocalDataReader reader = localDataService.OpenReader(SaveKeys.PLAYER_SAVE_FILENAME);
+                ILocalDataReader reader = localDataService.OpenReader(PLAYER_SAVE_FILENAME);
 
-                id = reader.Read<string>(SaveKeys.PLAYER_ID);
-                activeSkinId = reader.Read<string>(SaveKeys.PLAYER_ACTIVE_SKIN_ID);
-                bucks = reader.Read<int>(SaveKeys.PLAYER_BUCKS);
-                vGoods = reader.ReadList<string>(SaveKeys.PLAYER_VGOODS);
-                adLifetimeImpressions = reader.Read<int>(SaveKeys.PLAYER_AD_LIFE_TIME_IMPRESSIONS);
-                adSlotImpressions = reader.Read<int>(SaveKeys.PLAYER_AD_SLOT_IMPRESSIONS);
-                adSlotId = reader.Read<long>(SaveKeys.PLAYER_AD_SLOT_ID);
+                id = reader.Read<string>(PLAYER_ID);
+                activeSkinId = reader.Read<string>(PLAYER_ACTIVE_SKIN_ID);
+                bucks = reader.Read<int>(PLAYER_BUCKS);
+                vGoods = reader.ReadList<string>(PLAYER_VGOODS);
+                adLifetimeImpressions = reader.Read<int>(PLAYER_AD_LIFE_TIME_IMPRESSIONS);
+                adSlotImpressions = reader.Read<int>(PLAYER_AD_SLOT_IMPRESSIONS);
+                adSlotId = reader.Read<long>(PLAYER_AD_SLOT_ID);
 
                 reader.Close();            
-                localDataService.DeleteFile(SaveKeys.PLAYER_SAVE_FILENAME);
+                localDataService.DeleteFile(PLAYER_SAVE_FILENAME);
             }
             catch (Exception e)
             {
                 // Assume the file is corrupted.
-                localDataService.DeleteFile(SaveKeys.PLAYER_SAVE_FILENAME);
+                localDataService.DeleteFile(PLAYER_SAVE_FILENAME);
+                TLUtils.LogUtil.Log("LoadPlayerDataFromFile() EXEPTION! " + e, "red");
                 return false;
             }
 
             return true;
         }
-
-        public void SaveToFile()
-        {
-            try
-            {
-                ILocalDataWriter writer = localDataService.OpenWriter(SaveKeys.PLAYER_SAVE_FILENAME);
-
-                writer.Write<string>(SaveKeys.PLAYER_ID, "TEST_id");
-                writer.Write<string>(SaveKeys.PLAYER_ACTIVE_SKIN_ID, "SkinDeepSea");
-                writer.Write<int>(SaveKeys.PLAYER_BUCKS, 9999);
-
-                List<string> vGoods = new List<string>();
-                vGoods.Add("SkinAmazon");
-                vGoods.Add("TEST_VGOOD2");
-
-                writer.WriteList<string>(SaveKeys.PLAYER_VGOODS, vGoods);
-                writer.Write<int>(SaveKeys.PLAYER_AD_LIFE_TIME_IMPRESSIONS, 8888);
-                writer.Write<int>(SaveKeys.PLAYER_AD_SLOT_IMPRESSIONS, 7777);
-                writer.Write<long>(SaveKeys.PLAYER_AD_SLOT_ID, 6666);
-
-                writer.Close();
-            }
-            catch (Exception e)
-            {
-                if (localDataService.FileExists(SaveKeys.PLAYER_SAVE_FILENAME))
-                {
-                    localDataService.DeleteFile(SaveKeys.PLAYER_SAVE_FILENAME);
-                }
-
-                TLUtils.LogUtil.Log("Critical error when saving player data. File deleted. " + e, "red");
-            }       
-        }
-
 	}
 }
