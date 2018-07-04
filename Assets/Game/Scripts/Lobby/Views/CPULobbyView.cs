@@ -37,6 +37,8 @@ namespace TurboLabz.InstantGame
 
         public Image profilePic;
         public Text profileName;
+        public GameObject noProfilePicBorder;
+        public GameObject hasProfilePicBorder;
 
         public Button shareButton;
 
@@ -143,15 +145,31 @@ namespace TurboLabz.InstantGame
         {
             UpdateStrength(vo);
 			UpdatePlayerBucks(vo.playerBucks);
-
-            profilePic.sprite = vo.playerPic;
             profileName.text = vo.playerName;
+
+            SetProfilePic(vo.playerPic);
 		}
 
         public void UpdateSocialInfo(Sprite pic, string name)
         {
-            profilePic.sprite = pic;
+            SetProfilePic(pic);
             profileName.text = name;
+        }
+
+        private void SetProfilePic(Sprite sprite)
+        {
+            noProfilePicBorder.SetActive(false);
+            hasProfilePicBorder.SetActive(false);
+
+            if (sprite == null)
+            {
+                noProfilePicBorder.SetActive(true);
+            }
+            else
+            {
+                profilePic.sprite = sprite;
+                hasProfilePicBorder.SetActive(true);
+            }
         }
 
         public void UpdateStrength(LobbyVO vo)

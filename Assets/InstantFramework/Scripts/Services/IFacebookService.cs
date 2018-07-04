@@ -17,5 +17,6 @@ namespace TurboLabz.InstantFramework
         IPromise<FacebookResult, string> GetSocialName();
         bool isLoggedIn();
         string GetPlayerUserIdAlias();
+        Sprite GetCachedPlayerPic();
     }
 }

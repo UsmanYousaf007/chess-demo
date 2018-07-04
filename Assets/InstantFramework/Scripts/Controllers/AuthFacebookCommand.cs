@@ -95,8 +95,6 @@ namespace TurboLabz.InstantFramework
 
         private void CommandEnd()
         {
-            LogUtil.Log("PLAYER PIC:" + playerModel.socialPic.name, "cyan");
-            LogUtil.Log("PLAYER NAME:" + playerModel.name, "cyan");
             authFacebookSuccessSignal.Dispatch(playerModel.socialPic, playerModel.name);
             Release();
         }

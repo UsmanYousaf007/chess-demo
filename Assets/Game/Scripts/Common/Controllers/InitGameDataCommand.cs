@@ -28,12 +28,9 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
+        [Inject] public AuthFacebookSuccessSignal authFacebookSuccessSignal { get; set; }
 
-        bool initDataComplete;
-        bool facebookPicComplete;
-        DateTime picGetStartTime;
-
-		public override void Execute()
+        public override void Execute()
         {
             Retain();
             ResetModels();
@@ -43,13 +40,7 @@ namespace TurboLabz.InstantFramework
             // Fetch facebook pic in parallel with backend init data fetch
             if (facebookService.isLoggedIn())
             {
-                TLUtils.LogUtil.Log("GetInitData() Fetch player facebook pic", "cyan");
-                picGetStartTime = DateTime.UtcNow;
                 facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias()).Then(OnGetSocialPic);
-            }
-            else
-            {
-                facebookPicComplete = true;
             }
         }
 
@@ -61,8 +52,8 @@ namespace TurboLabz.InstantFramework
                 model.store = storeSettingsModel;
                 model.adsSettings = adsSettingsModel;
 
-                initDataComplete = true;
-                CommandEnd();
+                loadMetaDataCompleteSignal.Dispatch();
+                Release();
             }
             else if (result != BackendResult.CANCELED)
             {
@@ -74,21 +65,8 @@ namespace TurboLabz.InstantFramework
         void OnGetSocialPic(FacebookResult result, Sprite sprite)
         {
             playerModel.socialPic = sprite;
-            facebookPicComplete = true;
-
-            TimeSpan elapsed = DateTime.UtcNow.Subtract(picGetStartTime);
-            playerModel.name += " " + elapsed.TotalMilliseconds;
-
-            CommandEnd();
-        }
-
-        void CommandEnd()
-        {
-            if (facebookPicComplete && initDataComplete)
-            {
-                loadMetaDataCompleteSignal.Dispatch();
-                Release();
-            }
+            authFacebookSuccessSignal.Dispatch(playerModel.socialPic, playerModel.name);
+            Release();
         }
 
         void ResetModels()

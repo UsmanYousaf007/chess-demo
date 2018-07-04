@@ -13,6 +13,12 @@ namespace TurboLabz.InstantFramework
     {
         public const string PLAYER_USER_ID_ALIAS = "me";
 
+        private const string LOCAL_FACEBOOK_DATA_FILE = "localFacebookDataFile";
+        private const string LOCAL_FACEBOOK_DATA_PIC = "localFacebookDataPic";
+
+        // Services
+        [Inject] public ILocalDataService localDataService { get; set; }
+
         public IPromise<FacebookResult> Init()
         {
             return new FBInitRequest().Send();
@@ -25,7 +31,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<FacebookResult, Sprite> GetSocialPic(string userId)
         {
-            return new FBGetSocialPicRequest().Send(userId);
+            return new FBGetSocialPicRequest().Send(userId, CachePlayerPic);
         }
 
         public IPromise<FacebookResult, string> GetSocialName()
@@ -41,6 +47,26 @@ namespace TurboLabz.InstantFramework
         public string GetPlayerUserIdAlias()
         {
             return PLAYER_USER_ID_ALIAS;
+        }
+
+        public Sprite GetCachedPlayerPic()
+        {
+            if (localDataService.FileExists(LOCAL_FACEBOOK_DATA_FILE))
+            {
+                ILocalDataReader reader = localDataService.OpenReader(LOCAL_FACEBOOK_DATA_FILE);
+                Sprite pic = reader.Read<Sprite>(LOCAL_FACEBOOK_DATA_PIC);
+                reader.Close();
+                return pic;
+            }
+
+            return null;
+        }
+
+        private void CachePlayerPic(Sprite sprite)
+        {
+            ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
+            writer.Write(LOCAL_FACEBOOK_DATA_PIC, sprite);
+            writer.Close();
         }
     }
 }
