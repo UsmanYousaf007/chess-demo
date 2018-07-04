@@ -49,7 +49,7 @@ namespace TurboLabz.Multiplayer
         private readonly Vector3 WHITE_BOARD_POSITION =  new Vector3(420f, -420f, 10f);
         private readonly Quaternion BLACK_BOARD_ROTATION = Quaternion.Euler(new Vector3(0f, 0f, -90f));
         private readonly Vector3 BLACK_BOARD_POSITION = new Vector3(-420f, 420f, 10f);
-        private const float PIECE_ANIMATION_TIME = 0.15f;
+        private const float PIECE_ANIMATION_TIME = 0.2f;
 
         private ObjectPool pool = new ObjectPool();
         private List<GameObject> activatedPossibleMoveIndicators = new List<GameObject>();
@@ -209,7 +209,7 @@ namespace TurboLabz.Multiplayer
             Transform pieceTransform = chessboardPieces[fromSquareIndex].transform;
             opponentAnimationInProgress = true;
             pieceTransform.DOMove(chessboardSquares[toSquareIndex].position, PIECE_ANIMATION_TIME)
-                .SetEase(Ease.Linear)
+                .SetEase(Ease.InSine)
                 .OnComplete(()=>OnOpponentMoveCompleted(moveVO));
 
             HandleCastling(moveVO);
@@ -239,7 +239,7 @@ namespace TurboLabz.Multiplayer
                 int rookToSquareIndex = RankFileMap.Map[rookToFileRankVO.rank, rookToFileRankVO.file];
 
                 Transform rookTransform = chessboardPieces[rookFromSquareIndex].transform;
-                rookTransform.DOMove(chessboardSquares[rookToSquareIndex].position, PIECE_ANIMATION_TIME).SetEase(Ease.Linear);
+                rookTransform.DOMove(chessboardSquares[rookToSquareIndex].position, PIECE_ANIMATION_TIME).SetEase(Ease.InSine);
 
                 // Update chessboard piece image array
                 chessboardPieces[rookToSquareIndex] = chessboardPieces[rookFromSquareIndex];
