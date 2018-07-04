@@ -34,6 +34,7 @@ namespace TurboLabz.InstantGame
 
         // Scene references
         public Image cover;
+        public Button shareButton;
 
         public Button facebookButton;
         public GameObject facebookConnectAnim;
@@ -42,8 +43,8 @@ namespace TurboLabz.InstantGame
         public Text profileName;
         public GameObject noProfilePicBorder;
         public GameObject hasProfilePicBorder;
-
-        public Button shareButton;
+        public Text eloScoreLabel;
+        public Text eloScoreValue;
 
         public Text strengthLabel;
         public Button decStrengthButton;
@@ -149,6 +150,8 @@ namespace TurboLabz.InstantGame
             UpdateStrength(vo);
 			UpdatePlayerBucks(vo.playerBucks);
             profileName.text = vo.playerName;
+            eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+            eloScoreValue.text = vo.eloScore.ToString();
 
             SetProfilePic(vo.playerPic);
 

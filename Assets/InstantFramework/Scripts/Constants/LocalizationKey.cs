@@ -22,6 +22,12 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
+        #region Lobby
+
+        public const string ELO_SCORE = "eloScore";
+
+        #endregion
+
         #region Game
 
         public const string GM_RESULT_DIALOG_HEADING_WIN = "gmResultDialogHeadingWin";

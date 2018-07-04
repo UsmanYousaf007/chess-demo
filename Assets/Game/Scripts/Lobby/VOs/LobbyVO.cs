@@ -26,6 +26,7 @@ namespace TurboLabz.InstantGame
         public Sprite playerPic;
         public string playerName;
         public bool isFacebookLoggedIn;
+        public int eloScore;
 
         public LobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel, IMetaDataModel metaDataModel)
         {
@@ -39,6 +40,7 @@ namespace TurboLabz.InstantGame
             playerVGoods = playerModel.inventory;
             playerPic = playerModel.socialPic;
             playerName = playerModel.name;
+            eloScore = playerModel.eloScore;
         }
     }
 }
