@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         public string playerName;
         public bool isFacebookLoggedIn;
         public int eloScore;
+        public string countryId;
 
         public LobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel, IMetaDataModel metaDataModel)
         {
@@ -41,6 +42,7 @@ namespace TurboLabz.InstantGame
             playerPic = playerModel.socialPic;
             playerName = playerModel.name;
             eloScore = playerModel.eloScore;
+            countryId = playerModel.countryId;
         }
     }
 }
