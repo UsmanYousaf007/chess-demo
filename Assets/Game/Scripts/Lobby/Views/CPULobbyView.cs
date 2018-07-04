@@ -35,6 +35,9 @@ namespace TurboLabz.InstantGame
         // Scene references
         public Image cover;
 
+        public Button facebookButton;
+        public GameObject facebookConnectAnim;
+
         public Image profilePic;
         public Text profileName;
         public GameObject noProfilePicBorder;
@@ -67,7 +70,7 @@ namespace TurboLabz.InstantGame
         public Text freeBucksRewardTitle;
         public Text freeBucksRewardAmount;
 
-        public Button facebookButton;
+
 
         public GameObject adBlocker;
 
@@ -148,12 +151,29 @@ namespace TurboLabz.InstantGame
             profileName.text = vo.playerName;
 
             SetProfilePic(vo.playerPic);
+
+            if (vo.isFacebookLoggedIn)
+            {
+                facebookButton.gameObject.SetActive(false);
+            }
+
+            facebookConnectAnim.SetActive(false);
 		}
 
-        public void UpdateSocialInfo(Sprite pic, string name)
+        public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
         {
-            SetProfilePic(pic);
-            profileName.text = name;
+            if (isSuccessful)
+            {
+                SetProfilePic(pic);
+                profileName.text = name;
+                facebookButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                facebookButton.enabled = true;
+            }
+                
+            facebookConnectAnim.SetActive(false);
         }
 
         private void SetProfilePic(Sprite sprite)
@@ -424,6 +444,8 @@ namespace TurboLabz.InstantGame
         private void OnFacebookButtonClicked()
         {
             facebookButtonClickedSignal.Dispatch();
+            facebookConnectAnim.SetActive(true);
+            facebookButton.enabled = false;
         }
 
         private void OnDevFenValueChanged(string fen)

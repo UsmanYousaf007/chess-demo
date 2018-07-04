@@ -41,9 +41,14 @@ namespace TurboLabz.InstantGame
 			LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
 
             // If the social pic is not available yet
-            if (facebookService.isLoggedIn() && vo.playerPic == null)
+            if (facebookService.isLoggedIn())
             {
-                //vo.playerPic = facebookService.GetCachedPlayerPic();
+                vo.isFacebookLoggedIn = true;
+
+                if (vo.playerPic == null)
+                {
+                    vo.playerPic = facebookService.GetCachedPlayerPic();
+                }
             }
 
             updateMenuViewSignal.Dispatch(vo);

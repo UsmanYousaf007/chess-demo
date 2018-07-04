@@ -18,5 +18,6 @@ namespace TurboLabz.InstantFramework
         bool isLoggedIn();
         string GetPlayerUserIdAlias();
         Sprite GetCachedPlayerPic();
+        void LogOut();
     }
 }

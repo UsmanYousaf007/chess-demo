@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
 		public string activeSkinDisplayName;
         public Sprite playerPic;
         public string playerName;
+        public bool isFacebookLoggedIn;
 
         public LobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel, IMetaDataModel metaDataModel)
         {

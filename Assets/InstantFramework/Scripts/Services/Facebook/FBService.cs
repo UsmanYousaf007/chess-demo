@@ -62,6 +62,11 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public void LogOut()
+        {
+            FB.LogOut();
+        }
+
         private void CachePlayerPic(Sprite sprite)
         {
             ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);

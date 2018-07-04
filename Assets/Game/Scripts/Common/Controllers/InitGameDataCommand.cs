@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
-        [Inject] public AuthFacebookSuccessSignal authFacebookSuccessSignal { get; set; }
+        [Inject] public AuthFacebookResultSignal authFacebookSuccessSignal { get; set; }
 
         public override void Execute()
         {
@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
         void OnGetSocialPic(FacebookResult result, Sprite sprite)
         {
             playerModel.socialPic = sprite;
-            authFacebookSuccessSignal.Dispatch(playerModel.socialPic, playerModel.name);
+            authFacebookSuccessSignal.Dispatch(true, playerModel.socialPic, playerModel.name);
             Release();
         }
 

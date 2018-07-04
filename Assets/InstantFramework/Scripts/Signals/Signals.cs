@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
     public class InitGameDataSignal : Signal {}
     public class LoadMetaDataCompleteSignal : Signal {}
     public class AuthFaceBookSignal : Signal {}
-    public class AuthFacebookSuccessSignal : Signal<Sprite, string> {}
+    public class AuthFacebookResultSignal : Signal<bool, Sprite, string> {}
     public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
     public class BackendErrorSignal : Signal<BackendResult> {}
 	public class SplashAnimCompleteSignal : Signal {}

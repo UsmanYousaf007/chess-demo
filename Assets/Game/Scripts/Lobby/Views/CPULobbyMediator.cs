@@ -137,10 +137,10 @@ namespace TurboLabz.InstantGame
             view.UpdateView(vo);
         }
 
-        [ListensTo(typeof(AuthFacebookSuccessSignal))]
-        public void OnAuthFacebookSuccess(Sprite pic, string name)
+        [ListensTo(typeof(AuthFacebookResultSignal))]
+        public void OnAuthFacebookResult(bool isSuccessful, Sprite pic, string name)
         {
-            view.UpdateSocialInfo(pic, name);
+            view.FacebookAuthResult(isSuccessful, pic, name);
         }
 
         [ListensTo(typeof(UpdateStrengthSignal))]
