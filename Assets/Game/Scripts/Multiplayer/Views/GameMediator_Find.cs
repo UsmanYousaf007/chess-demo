@@ -12,6 +12,7 @@
 
 
 using TurboLabz.InstantFramework;
+using UnityEngine;
 
 
 namespace TurboLabz.Multiplayer 
@@ -41,10 +42,10 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        [ListensTo(typeof(SetupFindModeSignal))]
-        public void OnSetupFindMode()
+        [ListensTo(typeof(MatchFoundSignal))]
+        public void OnMatchFound(Sprite opponentPic)
         {
-            view.SetupFindMode();
+            view.MatchFound(opponentPic);
         }
     }
 }

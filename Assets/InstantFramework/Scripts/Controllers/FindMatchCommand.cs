@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public ShowFindMatchSignal showFindMatchSignal { get; set; }
         [Inject] public GetGameStartTimeSignal getGameStartTimeSignal { get; set; }
+        [Inject] public MatchFoundSignal matchFoundSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -82,6 +83,7 @@ namespace TurboLabz.InstantFramework
 
         private void MatchFound()
         {
+            matchFoundSignal.Dispatch(matchInfoModel.opponentPublicProfile.profilePicture);
             getGameStartTimeSignal.Dispatch();
             Release();
         }

@@ -40,7 +40,7 @@ namespace TurboLabz.Multiplayer
         protected void RenderNewGame(ChessboardCommand cmd, bool isPlayerTurn)
         {
             // Load the game view
-            //cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MP_PLAY);
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
 
             // Initialize and launch our time control
             cmd.runTimeControlSignal.Dispatch();

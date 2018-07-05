@@ -22,13 +22,11 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public SetupFindModeSignal setupFindModeSignal { get; set; }
-
 
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-            setupFindModeSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_FIND_DLG);
         }
     }
 }

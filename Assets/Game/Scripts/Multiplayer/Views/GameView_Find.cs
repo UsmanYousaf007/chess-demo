@@ -16,6 +16,7 @@ using UnityEngine.UI;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
@@ -23,6 +24,11 @@ namespace TurboLabz.Multiplayer
     {
         public GameObject findDlg;
         public Text searchingLabel;
+        public Image findAvatar;
+        public Sprite[] profilePicturesCache;
+        public Sprite defaultAvatar;
+
+        private IEnumerator rollOpponentProfilePictureEnumerator;
 
         public void InitFind()
         {
@@ -31,10 +37,14 @@ namespace TurboLabz.Multiplayer
 
         public void ShowFind()
         {
+            SetupFindMode();
+
             EnableModalBlocker();
             findDlg.SetActive(true);
 
             DisableMenuButton();
+
+            RollOpponentProfilePicture();
         }
 
         public void HideFind()
@@ -45,7 +55,7 @@ namespace TurboLabz.Multiplayer
             EnableMenuButton();
         }
 
-        public void SetupFindMode()
+        void SetupFindMode()
         {
             chessContainer.SetActive(true);
             InitClickAndDrag();
@@ -72,6 +82,59 @@ namespace TurboLabz.Multiplayer
             activatedPieceImages.Clear();
 
             EnableModalBlocker();
+        }
+
+        public void MatchFound(Sprite opponentPic)
+        {
+            StopRollingOpponentProfilePicture();
+
+            if (opponentPic == null)
+            {
+                findAvatar.sprite = defaultAvatar;
+            }
+            else
+            {
+                findAvatar.sprite = opponentPic;
+            }
+
+            searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
+        }
+
+        private void RollOpponentProfilePicture()
+        {
+            Assertions.Assert(rollOpponentProfilePictureEnumerator == null, "Opponent profile picture must not already be rolling!");
+
+            findAvatar.gameObject.SetActive(true);
+            rollOpponentProfilePictureEnumerator = RollOpponentProfilePictureCR();
+            StartCoroutine(rollOpponentProfilePictureEnumerator);
+        }
+
+        private void StopRollingOpponentProfilePicture()
+        {
+            Assertions.Assert(rollOpponentProfilePictureEnumerator != null, "Opponent profile picture must already be rolling!");
+
+            StopCoroutine(rollOpponentProfilePictureEnumerator);
+            rollOpponentProfilePictureEnumerator = null;
+        }
+
+        private IEnumerator RollOpponentProfilePictureCR()
+        {
+            CollectionsUtil.Shuffle<Sprite>(profilePicturesCache);
+            int length = profilePicturesCache.Length;
+            int index = 0;
+
+            while (true)
+            {
+                findAvatar.sprite = profilePicturesCache[index];
+                ++index;
+
+                if (index >= length)
+                {
+                    index = 0;
+                }
+
+                yield return new WaitForSeconds(0.15f);
+            }
         }
     }
 }
