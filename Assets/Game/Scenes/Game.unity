@@ -31561,6 +31561,7 @@ RectTransform:
   - {fileID: 332507928}
   - {fileID: 32945861}
   - {fileID: 513324733}
+  - {fileID: 1216102148}
   m_Father: {fileID: 2070064606}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -38308,6 +38309,99 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
+--- !u!1 &1216102147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1248980067672270, guid: 2afbdcc51a59e4f5a9ded17f24e6d506,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1216102148}
+  - component: {fileID: 1216102151}
+  - component: {fileID: 1216102150}
+  - component: {fileID: 1216102149}
+  m_Layer: 5
+  m_Name: BonusLabel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1216102148
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 224667780733301966, guid: 2afbdcc51a59e4f5a9ded17f24e6d506,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1216102147}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1010892222}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.0000076293945, y: -89.5}
+  m_SizeDelta: {x: 0, y: 82.6}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1216102149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114258432058910086, guid: 2afbdcc51a59e4f5a9ded17f24e6d506,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1216102147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
+--- !u!114 &1216102150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114700669265891250, guid: 2afbdcc51a59e4f5a9ded17f24e6d506,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1216102147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.87058824}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 28942cad5eb19471f854ded142325af7, type: 3}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 3
+    m_MaxSize: 30
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: ??
+--- !u!222 &1216102151
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 222722407389809300, guid: 2afbdcc51a59e4f5a9ded17f24e6d506,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1216102147}
 --- !u!1 &1217260903
 GameObject:
   m_ObjectHideFlags: 0
@@ -40898,6 +40992,9 @@ MonoBehaviour:
   playCPUButtonLabel: {fileID: 432257055}
   freeBucksButton: {fileID: 1010892223}
   freeBucksButtonLabel: {fileID: 32945862}
+  adCounter: {fileID: 513324732}
+  adCounterLabel: {fileID: 2065036394}
+  adBonusLabel: {fileID: 1216102150}
   addBucksButton: {fileID: 594055083}
   playerBucks: {fileID: 1466295104}
   freeBucksRewardDlg: {fileID: 70982835}
@@ -40905,8 +41002,6 @@ MonoBehaviour:
   freeBucksRewardOkButtonLabel: {fileID: 957683233}
   freeBucksRewardTitle: {fileID: 936148767}
   freeBucksRewardAmount: {fileID: 228989526}
-  adCounter: {fileID: 513324732}
-  adCounterLabel: {fileID: 2065036394}
   adBlocker: {fileID: 1318407103}
   devFen: {fileID: 649867957}
 --- !u!1 &1307449540

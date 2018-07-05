@@ -93,6 +93,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_FREE_BUCKS_REWARD_OK = "cpuFreeBucksRewardOk";
         public const string CPU_FREE_BUCKS_REWARD_TITLE = "cpuFreeBucksRewardTitle";
         public const string CPU_FREE_BUCKS_BUTTON_GET = "cpuFreeBucksButtonGet";
+        public const string CPU_FREE_BUCKS_BONUS = "cpuFreeBucksBonus";
         public const string CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE = "cpuFreeBucksButtonNotAvailable";
         public const string CPU_FREE_BUCKS_BUTTON_AVAILABLE = "cpuFreeBucksButtonAvailable";
 

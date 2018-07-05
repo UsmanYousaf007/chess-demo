@@ -67,6 +67,7 @@ namespace TurboLabz.InstantGame
         public Text freeBucksButtonLabel;
         public GameObject adCounter;
         public Text adCounterLabel;
+        public Text adBonusLabel;
 
 		public Button addBucksButton;
 		public Text playerBucks;
@@ -253,14 +254,17 @@ namespace TurboLabz.InstantGame
             }
 
             adCounter.SetActive(false);
+            adBonusLabel.gameObject.SetActive(false);
 
             if (vo.state == AdsState.AVAILABLE)
             {
-                freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, vo.bucks);
+                freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET);
                 freeBucksButton.interactable = true;
 
                 adCounter.SetActive(true);
                 adCounterLabel.text = vo.count.ToString();
+                adBonusLabel.gameObject.SetActive(true);
+                adBonusLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BONUS, vo.bucks);
             }
             else if (vo.state == AdsState.NOT_AVAILABLE)
             {
