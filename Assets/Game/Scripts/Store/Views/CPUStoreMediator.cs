@@ -32,7 +32,6 @@ namespace TurboLabz.InstantGame
  		public override void OnRegister()
 		{
 			view.Init();
-			view.backButtonClickedSignal.AddListener(OnBackButtonClicked);
 			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
 			view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
 
@@ -42,7 +41,6 @@ namespace TurboLabz.InstantGame
 
 		public override void OnRemove()
 		{
-			view.backButtonClickedSignal.RemoveAllListeners();
 			view.skinItemClickedSignal.RemoveAllListeners ();
 
 			OnRemoveBuy();

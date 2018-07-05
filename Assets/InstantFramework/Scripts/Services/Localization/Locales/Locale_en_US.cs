@@ -143,6 +143,15 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SHARE_STANDARD, "Hey, let's play Chess!" },
 
                 #endregion
+
+                #region Bottom Nav
+
+                { LocalizationKey.NAV_HOME, "Home" },
+                { LocalizationKey.NAV_PROFILE, "Profile" },
+                { LocalizationKey.NAV_SHOP, "Shop" },
+                { LocalizationKey.NAV_SETTINGS, "Settings" },
+
+                #endregion
             };
         }
     }

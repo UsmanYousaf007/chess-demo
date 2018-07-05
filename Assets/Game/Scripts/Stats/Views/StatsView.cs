@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
-    public class CPUStatsView : View
+    public class StatsView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -41,10 +41,7 @@ namespace TurboLabz.InstantGame
         public Text durationCurrentLabel;
         public Button durationIncButton;
         public GameObject infinityIcon;
-        public Button backButton;
 
-        // View signals
-        public Signal backButtonClickedSignal = new Signal();
 
         private int[] durationMinutes;
         private int selectedDurationIndex;
@@ -69,7 +66,6 @@ namespace TurboLabz.InstantGame
 
             durationDecButton.onClick.AddListener(OnDurationDecButtonClicked);
             durationIncButton.onClick.AddListener(OnDurationIncButtonClicked);
-            backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
         public void UpdateView(StatsVO vo)
@@ -83,7 +79,6 @@ namespace TurboLabz.InstantGame
 
         public void CleanUp()
         {
-            backButton.onClick.RemoveAllListeners();
             durationDecButton.onClick.RemoveAllListeners();
             durationIncButton.onClick.RemoveAllListeners();
         }
@@ -116,11 +111,6 @@ namespace TurboLabz.InstantGame
             }
 
             UpdateStats();
-        }
-
-        void OnBackButtonClicked()
-        {
-            backButtonClickedSignal.Dispatch();
         }
 
         void UpdateStats()
