@@ -114,9 +114,4 @@ namespace TurboLabz.InstantFramework
         public float lossRecoveryPercentage;
         public int bonusAmount;
     }
-
-    public class AvatarStoreItem : StoreItem
-    {
-        public int unlockAtLevel;
-    }
 }

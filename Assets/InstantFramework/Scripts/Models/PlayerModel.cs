@@ -33,7 +33,6 @@ namespace TurboLabz.InstantFramework
 
         // Inventory
         public string activeSkinId { get; set; }      
-        public string activeAvatarId { get; set; }    
         public IOrderedDictionary<string, int> inventory { get; set; }
 
 		public PublicProfile publicProfile
@@ -75,7 +74,6 @@ namespace TurboLabz.InstantFramework
 
             // Inventory
             activeSkinId = null;
-            activeAvatarId = null;
             inventory = new OrderedDictionary<string, int>();
         }
 

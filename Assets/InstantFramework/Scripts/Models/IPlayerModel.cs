@@ -32,7 +32,6 @@ namespace TurboLabz.InstantFramework
 
         // Inventory
         string activeSkinId { get; set; }      
-        string activeAvatarId { get; set; }    
         IOrderedDictionary<string, int> inventory { get; set; }
 
         PublicProfile publicProfile { get; }
