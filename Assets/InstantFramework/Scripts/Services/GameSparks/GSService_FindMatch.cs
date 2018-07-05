@@ -51,9 +51,7 @@ namespace TurboLabz.InstantFramework
 
             IList<GSData> activeInventoryData = opponentProfile.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
             string activeChessSkinsId = "unassigned";
-            string activeAvatarsId = "unassigned";
-            GSParser.GetActiveInventory(ref activeChessSkinsId, ref activeAvatarsId, activeInventoryData);
-            //opponentPublicProfile.profilePicture = AvatarThumbsContainer.GetSprite(activeAvatarsId);
+            GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
 
             GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.MatchData.PROFILE_EXTERNAL_IDS);
             IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);

@@ -117,13 +117,9 @@ namespace TurboLabz.InstantFramework
             List<GSData> currencyShopItemsData = storeSettingsData.GetGSDataList("coinsShopItems");
             IOrderedDictionary<string, StoreItem> currencyItems = PopulateCurrencyStoreItems(currencyShopItemsData);
 
-            List<GSData> avatarShopItemsData = storeSettingsData.GetGSDataList("avatarShopItems");
-            IOrderedDictionary<string, StoreItem> avatarItems = PopulateAvatarStoreItems(avatarShopItemsData);
-
             storeSettingsModel.Initialize();
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.AVATAR_SHOP_TAG, avatarItems);
         }
 
         private IOrderedDictionary<string, StoreItem> PopulateSkinStoreItems(List<GSData> skinSettingsData)
@@ -167,21 +163,6 @@ namespace TurboLabz.InstantFramework
                     item.lossRecoveryPercentage = GSParser.GetSafeFloat(properties, GSBackendKeys.SHOP_ITEM_LOSS_RECOVERY_PERCENTAGE);
                     item.bonusAmount = GSParser.GetSafeInt(properties,GSBackendKeys.SHOP_ITEM_BONUS_AMOUNT);
                 }
-
-                items.Add(item.key, item);
-            }
-
-            return items;
-        }
-
-        private IOrderedDictionary<string, StoreItem> PopulateAvatarStoreItems(List<GSData> avatarSettingData)
-        {
-            IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
-
-            foreach (GSData itemData in avatarSettingData)
-            {
-                var item = new AvatarStoreItem();
-                GSParser.PopulateStoreItem(item, itemData);
 
                 items.Add(item.key, item);
             }

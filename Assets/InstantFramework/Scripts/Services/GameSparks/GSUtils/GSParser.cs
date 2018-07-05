@@ -79,7 +79,6 @@ namespace TurboLabz.InstantFramework
                 
             string[] tagKinds = {
                 GSBackendKeys.ShopItem.SKIN_SHOP_TAG,
-                GSBackendKeys.ShopItem.AVATAR_SHOP_TAG,             // TODO: Make this independent of order
                 GSBackendKeys.ShopItem.COINS_SHOP_TAG
             };
 
@@ -127,7 +126,6 @@ namespace TurboLabz.InstantFramework
         }
 
         public static void GetActiveInventory(ref string activeSkinId,
-            ref string activeAvatarId,
             IList<GSData> activeInventoryData)
         {
             if (activeInventoryData != null && activeInventoryData.Count > 0)
@@ -146,10 +144,6 @@ namespace TurboLabz.InstantFramework
                     {
                         activeSkinId = itemId;
                     }
-                    else if (itemKind == GSBackendKeys.ShopItem.AVATAR_SHOP_TAG)
-                    {
-                        activeAvatarId = itemId;
-                    }
                 }
             }
         }
@@ -160,12 +154,10 @@ namespace TurboLabz.InstantFramework
             if (activeInventoryData != null && activeInventoryData.Count > 0)
             {
                 string activeSkinId = "";
-                string activeAvatarId = "";
 
-                GetActiveInventory(ref activeSkinId, ref activeAvatarId, activeInventoryData);
+                GetActiveInventory(ref activeSkinId, activeInventoryData);
 
                 playerModel.activeSkinId = activeSkinId;
-                playerModel.activeAvatarId = activeAvatarId;
             }
         }
 
@@ -210,7 +202,6 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("********** playerModel.inventory " + item.Key + " Quantity: " + item.Value);
             }
             LogUtil.Log("********** playerModel.activeSkinId" + " " + playerModel.activeSkinId);
-            LogUtil.Log("********** playerModel.activeAvatarId" + " " + playerModel.activeAvatarId);
 
             LogUtil.Log("******************** END PLAYER INFO ********************");
         }
