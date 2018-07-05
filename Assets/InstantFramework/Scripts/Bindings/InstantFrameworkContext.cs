@@ -79,6 +79,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
             mediationBinder.Bind<HardStopView>().To<HardStopMediator>();
             mediationBinder.Bind<ReconnectingView>().To<ReconnectingMediator>();
+            mediationBinder.Bind<BottomNavView>().To<BottomNavMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

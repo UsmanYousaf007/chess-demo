@@ -144,5 +144,15 @@ namespace TurboLabz.InstantFramework
         public const string SHARE_STANDARD = "shareStandard";
 
         #endregion
+
+
+        #region Bottom Nav
+
+        public const string NAV_HOME = "navHome";
+        public const string NAV_PROFILE = "navProfile";
+        public const string NAV_SHOP = "navShop";
+        public const string NAV_SETTINGS = "navSettings";
+
+        #endregion
     }
 }
