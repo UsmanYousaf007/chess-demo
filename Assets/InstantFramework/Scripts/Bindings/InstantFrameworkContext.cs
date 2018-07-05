@@ -138,7 +138,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
 
             // Bind views to mediators
-            mediationBinder.Bind<CPULobbyView>().To<CPULobbyMediator>();
+            mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
             mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
 			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();
 			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();

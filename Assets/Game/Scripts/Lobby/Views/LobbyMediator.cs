@@ -21,7 +21,7 @@ using TurboLabz.CPU;
 
 namespace TurboLabz.InstantGame
 {
-    public class CPULobbyMediator : Mediator
+    public class LobbyMediator : Mediator
     {
         // Dispatch signals
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
@@ -41,7 +41,7 @@ namespace TurboLabz.InstantGame
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
 
         // View injection
-        [Inject] public CPULobbyView view { get; set; }
+        [Inject] public LobbyView view { get; set; }
 
         public override void OnRegister()
         {

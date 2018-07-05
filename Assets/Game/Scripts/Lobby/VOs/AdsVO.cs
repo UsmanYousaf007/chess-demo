@@ -21,5 +21,6 @@ namespace TurboLabz.InstantGame
         public int bucks;
         public double waitMs;
         public AdsState state;
+        public int count;
     }
 }

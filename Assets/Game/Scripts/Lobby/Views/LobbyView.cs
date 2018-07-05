@@ -25,7 +25,7 @@ using DG.Tweening;
 
 namespace TurboLabz.InstantGame
 {
-    public class CPULobbyView : View
+    public class LobbyView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
@@ -65,6 +65,8 @@ namespace TurboLabz.InstantGame
 
         public Button freeBucksButton;
         public Text freeBucksButtonLabel;
+        public GameObject adCounter;
+        public Text adCounterLabel;
 
 		public Button addBucksButton;
 		public Text playerBucks;
@@ -74,8 +76,6 @@ namespace TurboLabz.InstantGame
         public Text freeBucksRewardOkButtonLabel;
         public Text freeBucksRewardTitle;
         public Text freeBucksRewardAmount;
-
-
 
         public GameObject adBlocker;
 
@@ -252,10 +252,15 @@ namespace TurboLabz.InstantGame
                 waitCR = null;
             }
 
+            adCounter.SetActive(false);
+
             if (vo.state == AdsState.AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, vo.bucks);
                 freeBucksButton.interactable = true;
+
+                adCounter.SetActive(true);
+                adCounterLabel.text = vo.count.ToString();
             }
             else if (vo.state == AdsState.NOT_AVAILABLE)
             {
