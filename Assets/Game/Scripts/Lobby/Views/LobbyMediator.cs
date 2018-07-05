@@ -21,7 +21,7 @@ using TurboLabz.CPU;
 
 namespace TurboLabz.InstantGame
 {
-    public class CPULobbyMediator : Mediator
+    public class LobbyMediator : Mediator
     {
         // Dispatch signals
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
@@ -41,7 +41,7 @@ namespace TurboLabz.InstantGame
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
 
         // View injection
-        [Inject] public CPULobbyView view { get; set; }
+        [Inject] public LobbyView view { get; set; }
 
         public override void OnRegister()
         {
@@ -97,10 +97,6 @@ namespace TurboLabz.InstantGame
             {
                 view.Show();
             }
-            else if (viewId == NavigatorViewId.FREE_BUCKS_REWARD_DLG)
-            {
-                view.ShowFreeBucksRewardDlg();
-            }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -110,10 +106,6 @@ namespace TurboLabz.InstantGame
             {
                 view.Hide();
                 saveGameSignal.Dispatch();
-            }
-            else if (viewId == NavigatorViewId.FREE_BUCKS_REWARD_DLG)
-            {
-                view.HideFreeBucksRewardDlg();
             }
         }
 
@@ -160,12 +152,6 @@ namespace TurboLabz.InstantGame
 		{
 			view.UpdatePlayerBucks(playerBucks);
 		}
-
-        [ListensTo(typeof(UpdateFreeBucksRewardSignal))]
-        public void OnUpdateFreeBucksRewardSignal(int amt)
-        {
-            view.UpdateFreeBucksReward(amt);
-        }
 
         [ListensTo(typeof(ToggleAdBlockerSignal))]
         public void OnToggleAdBlocker(bool enable)

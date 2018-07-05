@@ -35,7 +35,6 @@ namespace TurboLabz.InstantFramework
         BUY_DLG,
 		NOT_ENOUGH_BUCKS_DLG,
 		BUCK_PACKS_DLG,
-        FREE_BUCKS_REWARD_DLG,
 
         // TODO: I am possibly unused so remove me.
         AD_COVER

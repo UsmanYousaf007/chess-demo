@@ -68,6 +68,7 @@ namespace TurboLabz.InstantFramework
                 #region CPUMenu
 
                 { LocalizationKey.CPU_MENU_STRENGTH, "Difficulty" },
+                { LocalizationKey.CPU_MENU_IN_PROGRESS, "Game In Progress" },
                 { LocalizationKey.CPU_MENU_DURATION, "Time Limit" },
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
@@ -89,7 +90,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO LOBBY" },
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_OK, "OK" },
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE, "Reward Bucks" },
-                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, "Get {0} Bucks" },
+                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, "FREE COINS" },
+                { LocalizationKey.CPU_FREE_BUCKS_BONUS, "Coin Bonus x{0}" },
                 { LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE, "Available Soon" },
                 { LocalizationKey.CPU_FREE_BUCKS_BUTTON_AVAILABLE, "Available In" },
 

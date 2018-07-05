@@ -35,10 +35,6 @@ namespace TurboLabz.InstantFramework
 			{
 				return new NSStore();
 			}
-            else if (evt == NavigatorEvent.SHOW_FREE_BUCKS_REWARD_DLG)
-            {
-                return new NSFreeBucksRewardDlg();
-            }
 			else if (evt == NavigatorEvent.SHOW_BUCK_PACKS_DLG)
 			{
 				return new NSBuckPacksDlg();

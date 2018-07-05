@@ -23,7 +23,6 @@ namespace TurboLabz.CPU
         string devFen { get; set; }
         int totalGames { get; set; }
         string levelId { get; }
-        bool isResuming { get; set; }
 
         void Reset();
     }

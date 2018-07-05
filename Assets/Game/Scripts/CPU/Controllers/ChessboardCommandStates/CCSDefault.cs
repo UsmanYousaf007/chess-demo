@@ -57,12 +57,10 @@ namespace TurboLabz.CPU
                 if (cpuGameModel.inProgress)
                 {
                     ProcessResume(cmd);
-                    cpuGameModel.isResuming = true;
                 }
                 else
                 {
                     cpuGameModel.inProgress = true;
-                    cpuGameModel.isResuming = false;
                 }
 
                 // Wait for player turn or execute Ai turn

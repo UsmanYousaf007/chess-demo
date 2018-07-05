@@ -66,6 +66,8 @@ namespace TurboLabz.InstantGame
                 vo.bucks = (playerModel.adLifetimeImpressions + 1) * metaDataModel.adsSettings.adsRewardIncrement;
                 analyticsService.AdOffer(true, UnityAdsPlacementId.REWARDED_VIDEO);
 
+                vo.count = metaDataModel.adsSettings.maxImpressionsPerSlot - playerModel.adSlotImpressions;
+
             }
             else if (state == AdsState.WAIT)
             {
