@@ -72,12 +72,6 @@ namespace TurboLabz.InstantGame
 		public Button addBucksButton;
 		public Text playerBucks;
 
-        public GameObject freeBucksRewardDlg;
-        public Button freeBucksRewardOkButton;
-        public Text freeBucksRewardOkButtonLabel;
-        public Text freeBucksRewardTitle;
-        public Text freeBucksRewardAmount;
-
         public GameObject adBlocker;
 
         public InputField devFen;
@@ -115,7 +109,6 @@ namespace TurboLabz.InstantGame
             playMultiplayerButton.onClick.AddListener(OnPlayMultiplayerButtonClicked);
             playCPUButton.onClick.AddListener(OnPlayCPUButtonClicked);
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
-            freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
             facebookButton.onClick.AddListener(OnFacebookButtonClicked);
 
@@ -126,8 +119,6 @@ namespace TurboLabz.InstantGame
             inProgressLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_IN_PROGRESS);
             playMultiplayerButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
             playCPUButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
-            freeBucksRewardOkButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_OK);
-            freeBucksRewardTitle.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE);
 
 
 
@@ -341,21 +332,6 @@ namespace TurboLabz.InstantGame
             }
 
             return;
-        }
-
-        public void ShowFreeBucksRewardDlg()
-        {
-            freeBucksRewardDlg.SetActive(true);
-        }
-
-        public void UpdateFreeBucksReward(int amt)
-        {
-            freeBucksRewardAmount.text = amt.ToString();
-        }
-
-        public void HideFreeBucksRewardDlg()
-        {
-            freeBucksRewardDlg.SetActive(false);
         }
 
         public bool IsVisible()

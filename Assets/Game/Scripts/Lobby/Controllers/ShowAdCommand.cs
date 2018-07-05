@@ -19,7 +19,6 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public UpdateFreeBucksRewardSignal updatedFreeBucksRewardSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public ToggleAdBlockerSignal toggleAdBlockerSignal { get; set; }
 
@@ -51,9 +50,10 @@ namespace TurboLabz.InstantGame
             if (result == AdsResult.FINISHED)
             {
                 playerModel.adSlotImpressions++;
+
+                // TODO: make below a constant
                 backendService.ClaimReward("rewardAdBucks");
 
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FREE_BUCKS_REWARD_DLG);
                // updatedFreeBucksRewardSignal.Dispatch(rewardBucks);
 
                 loadLobbySignal.Dispatch();

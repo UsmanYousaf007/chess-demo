@@ -31,7 +31,6 @@ namespace TurboLabz.InstantGame
     public class ShowAdSignal : Signal {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
     public class UpdateAdsSignal : Signal {}
-    public class UpdateFreeBucksRewardSignal : Signal<int> {}
     public class ToggleAdBlockerSignal : Signal<bool> {}
 
 	// PLAYER
