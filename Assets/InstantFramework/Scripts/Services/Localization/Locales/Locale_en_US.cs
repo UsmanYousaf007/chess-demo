@@ -32,6 +32,12 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
+                #region Lobby
+
+                { LocalizationKey.ELO_SCORE, "Rating" },
+
+                #endregion
+
                 #region Game
 
                 { LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN, "VICTORY" },

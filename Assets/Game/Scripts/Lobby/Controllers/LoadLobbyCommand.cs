@@ -29,17 +29,29 @@ namespace TurboLabz.InstantGame
         [Inject] public IPlayerModel playerModel { get; set; }
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
 
+        // Services
+        [Inject] public IFacebookService facebookService { get; set; }
+
         public override void Execute()
         {
             applySkinSignal.Dispatch(playerModel.activeSkinId);
-
             loadCPUGameDataSignal.Dispatch();
-
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
 			LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
-            updateMenuViewSignal.Dispatch(vo);
 
+            // If the social pic is not available yet
+            if (facebookService.isLoggedIn())
+            {
+                vo.isFacebookLoggedIn = true;
+
+                if (vo.playerPic == null)
+                {
+                    vo.playerPic = facebookService.GetCachedPlayerPic();
+                }
+            }
+
+            updateMenuViewSignal.Dispatch(vo);
             updateAdsSignal.Dispatch();
         }
     }

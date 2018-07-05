@@ -16,6 +16,6 @@ namespace TurboLabz.InstantFramework
     {
         // Unity settings
         public const bool MULTI_TOUCH_ENABLED = false;
-        public const int TARGET_FRAME_RATE = 30;
+        public const int TARGET_FRAME_RATE = 60;
     }
 }

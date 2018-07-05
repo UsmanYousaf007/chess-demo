@@ -70,7 +70,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
             injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
-            injectionBinder.Bind<AuthFacebookSuccessSignal>().ToSingleton();
+            injectionBinder.Bind<AuthFacebookResultSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
 

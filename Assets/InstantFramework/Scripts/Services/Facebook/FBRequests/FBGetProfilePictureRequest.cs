@@ -9,6 +9,7 @@ using Facebook.Unity;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -17,9 +18,11 @@ namespace TurboLabz.InstantFramework
         private const string PLAYER_SOCIAL_PIC = "PlayerSocialPic";
         private IPromise<FacebookResult, Sprite> promise = new Promise<FacebookResult, Sprite>();
         private IRoutineRunner routineRunner = new NormalRoutineRunner();
+        private Action<Sprite> onSuccess;
 
-        public IPromise<FacebookResult, Sprite> Send(string userId)
+        public IPromise<FacebookResult, Sprite> Send(string userId, Action<Sprite> onSuccess)
         {
+            this.onSuccess = onSuccess;
             GetProfilePicture(userId);
 
             return promise;
@@ -69,6 +72,11 @@ namespace TurboLabz.InstantFramework
 
         private void DispatchResponse(FacebookResult result, Sprite sprite)
         {
+            if (result == FacebookResult.SUCCESS && sprite != null)
+            {
+                onSuccess(sprite);
+            }
+
             promise.Dispatch(result, sprite);
         }
     }

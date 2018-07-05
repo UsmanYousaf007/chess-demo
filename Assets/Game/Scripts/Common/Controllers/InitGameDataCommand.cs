@@ -7,6 +7,7 @@ using strange.extensions.command.impl;
 using System;
 using System.Text;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,18 +26,26 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public ILocalDataService localDataService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
+        [Inject] public AuthFacebookResultSignal authFacebookSuccessSignal { get; set; }
 
-		public override void Execute()
+        public override void Execute()
         {
             Retain();
             ResetModels();
 
             string appData = BuildAppData();
             backendService.GetInitData(appInfoModel.appBackendVersion, appData).Then(OnComplete);
+
+            // Fetch facebook pic in parallel with backend init data fetch
+            if (facebookService.isLoggedIn())
+            {
+                facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias()).Then(OnGetSocialPic);
+            }
         }
 
         void OnComplete(BackendResult result)
@@ -48,12 +57,19 @@ namespace TurboLabz.InstantFramework
                 model.adsSettings = adsSettingsModel;
 
                 loadMetaDataCompleteSignal.Dispatch();
+                Release();
             }
             else if (result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);    
+                Release();
             }
+        }
 
+        void OnGetSocialPic(FacebookResult result, Sprite sprite)
+        {
+            playerModel.socialPic = sprite;
+            authFacebookSuccessSignal.Dispatch(true, playerModel.socialPic, playerModel.name);
             Release();
         }
 

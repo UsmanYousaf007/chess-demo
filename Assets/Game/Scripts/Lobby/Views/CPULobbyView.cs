@@ -34,8 +34,18 @@ namespace TurboLabz.InstantGame
 
         // Scene references
         public Image cover;
-
         public Button shareButton;
+
+        public Button facebookButton;
+        public GameObject facebookConnectAnim;
+
+        public Image profilePic;
+        public Text profileName;
+        public GameObject noProfilePicBorder;
+        public GameObject hasProfilePicBorder;
+        public Text eloScoreLabel;
+        public Text eloScoreValue;
+        public Image playerFlag;
 
         public Text strengthLabel;
         public Button decStrengthButton;
@@ -62,6 +72,8 @@ namespace TurboLabz.InstantGame
         public Text freeBucksRewardTitle;
         public Text freeBucksRewardAmount;
 
+
+
         public GameObject adBlocker;
 
         public InputField devFen;
@@ -85,6 +97,7 @@ namespace TurboLabz.InstantGame
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
         public Signal freeBucksUpdateAdsSignal = new Signal();
 		public Signal addBucksButtonClickedSignal = new Signal();
+        public Signal facebookButtonClickedSignal = new Signal();
 
         private Coroutine waitCR;
         private Coroutine waitForAdsAvailabilityCR;
@@ -100,6 +113,7 @@ namespace TurboLabz.InstantGame
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
             freeBucksRewardOkButton.onClick.AddListener(OnFreeBucksRewardOkButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
+            facebookButton.onClick.AddListener(OnFacebookButtonClicked);
 
 
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
@@ -128,6 +142,7 @@ namespace TurboLabz.InstantGame
             incStrengthButton.onClick.RemoveAllListeners();
             playMultiplayerButton.onClick.RemoveAllListeners();
             playCPUButton.onClick.RemoveAllListeners();
+            facebookButton.onClick.RemoveAllListeners();
             devFen.onValueChanged.RemoveAllListeners();
         }
 
@@ -135,7 +150,53 @@ namespace TurboLabz.InstantGame
         {
             UpdateStrength(vo);
 			UpdatePlayerBucks(vo.playerBucks);
+            profileName.text = vo.playerName;
+            eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+            eloScoreValue.text = vo.eloScore.ToString();
+            playerFlag.sprite = Flags.GetFlag(vo.countryId);
+
+            SetProfilePic(vo.playerPic);
+
+            if (vo.isFacebookLoggedIn)
+            {
+                facebookButton.gameObject.SetActive(false);
+            }
+
+            facebookConnectAnim.SetActive(false);
+
 		}
+
+        public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
+        {
+            if (isSuccessful)
+            {
+                SetProfilePic(pic);
+                profileName.text = name;
+                facebookButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                facebookButton.enabled = true;
+            }
+                
+            facebookConnectAnim.SetActive(false);
+        }
+
+        private void SetProfilePic(Sprite sprite)
+        {
+            noProfilePicBorder.SetActive(false);
+            hasProfilePicBorder.SetActive(false);
+
+            if (sprite == null)
+            {
+                noProfilePicBorder.SetActive(true);
+            }
+            else
+            {
+                profilePic.sprite = sprite;
+                hasProfilePicBorder.SetActive(true);
+            }
+        }
 
         public void UpdateStrength(LobbyVO vo)
         {
@@ -385,6 +446,13 @@ namespace TurboLabz.InstantGame
 		{
 			addBucksButtonClickedSignal.Dispatch();
 		}
+
+        private void OnFacebookButtonClicked()
+        {
+            facebookButtonClickedSignal.Dispatch();
+            facebookConnectAnim.SetActive(true);
+            facebookButton.enabled = false;
+        }
 
         private void OnDevFenValueChanged(string fen)
         {

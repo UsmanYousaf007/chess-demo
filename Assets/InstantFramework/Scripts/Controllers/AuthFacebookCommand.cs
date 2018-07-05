@@ -5,6 +5,7 @@
 
 using strange.extensions.command.impl;
 using UnityEngine;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -17,7 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IFacebookService facebookService { get; set; }
 
         // Dispatch Signals
-        [Inject] public AuthFacebookSuccessSignal authFacebookSuccessSignal { get; set; }
+        [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -37,7 +38,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 // In case of Auth failure, don't dispatch a success signal
-                Release();
+                CommandEnd(false);
             }
         }
 
@@ -49,7 +50,7 @@ namespace TurboLabz.InstantFramework
             }        
             else
             {
-                CommandEnd();
+                CommandEnd(false);
             }        
         }
 
@@ -61,7 +62,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                CommandEnd();
+                CommandEnd(false);
             }
         }
 
@@ -73,7 +74,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                CommandEnd();
+                CommandEnd(true);
             }
         }
 
@@ -84,7 +85,7 @@ namespace TurboLabz.InstantFramework
                 playerModel.socialPic = sprite;
             }
 
-            CommandEnd();
+            CommandEnd(true);
         }
 
         private void CommandBegin()
@@ -92,9 +93,14 @@ namespace TurboLabz.InstantFramework
             Retain();
         }
 
-        private void CommandEnd()
+        private void CommandEnd(bool isSuccessful)
         {
-            authFacebookSuccessSignal.Dispatch();
+            if (!isSuccessful)
+            {
+                facebookService.LogOut();
+            }
+
+            authFacebookResultSignal.Dispatch(isSuccessful, playerModel.socialPic, playerModel.name);
             Release();
         }
     }
