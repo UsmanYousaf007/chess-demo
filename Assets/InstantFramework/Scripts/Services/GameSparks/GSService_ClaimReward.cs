@@ -12,18 +12,26 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        string rewardTypeId;
+
+
+
         public IPromise<BackendResult> ClaimReward(string rewardType)
         {
+            rewardTypeId = rewardType;
             return new GSClaimRewardRequest().Send(rewardType, OnClaimRewardSuccess);
         }
 
         private void OnClaimRewardSuccess(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
-            var res = response.ScriptData.GetGSData("rewardInfo");
-            long bucks = res.GetInt("bucks").Value;
+            var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
 
-            playerModel.bucks += bucks;
+            if (rewardTypeId == GSBackendKeys.ClaimReward.TYPE_AD_BUCKS)
+            {
+                playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
+                playerModel.adLifetimeImpressions = res.GetInt(GSBackendKeys.ClaimReward.AD_LIFETIME_IMPRESSIONS).Value;
+            }
         }
     }
 

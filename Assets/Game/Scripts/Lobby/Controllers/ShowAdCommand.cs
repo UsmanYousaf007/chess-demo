@@ -2,9 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @description
-/// [add_description_here]
 
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
@@ -21,6 +18,8 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public ToggleAdBlockerSignal toggleAdBlockerSignal { get; set; }
+        [Inject] public UpdateAdsSignal updateAdSignal { get; set; }
+        [Inject] public UpdatePlayerBucksDisplaySignal updatePlayerBucksDisplaySignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -45,26 +44,30 @@ namespace TurboLabz.InstantGame
 
         private void OnShowAd(AdsResult result)
         {
-            toggleAdBlockerSignal.Dispatch(false);
-
             if (result == AdsResult.FINISHED)
             {
-                playerModel.adSlotImpressions++;
-
-                // TODO: make below a constant
-                backendService.ClaimReward("rewardAdBucks");
-
-               // updatedFreeBucksRewardSignal.Dispatch(rewardBucks);
-
-                loadLobbySignal.Dispatch();
-
+                backendService.ClaimReward(GSBackendKeys.ClaimReward.TYPE_AD_BUCKS).Then(OnClaimReward);
                 analyticsService.AdComplete(false, UnityAdsPlacementId.REWARDED_VIDEO);
             }
             else if (result == AdsResult.SKIPPED)
             {
+                toggleAdBlockerSignal.Dispatch(false);
                 analyticsService.AdSkip(false, UnityAdsPlacementId.REWARDED_VIDEO);
+                Release();
+            }
+        }
+
+        private void OnClaimReward(BackendResult result)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                playerModel.adSlotImpressions++;
+                updateAdSignal.Dispatch();
+                updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
             }
 
+            toggleAdBlockerSignal.Dispatch(false);
+            loadLobbySignal.Dispatch();
             Release();
         }
     }

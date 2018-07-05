@@ -161,6 +161,15 @@ namespace TurboLabz.InstantFramework
             public const string SHOP_ITEM_TYPE_CURRENCY = "CURRENCY";
             public const string SHOP_ITEM_TYPE_VGOOD = "VGOOD";
         }
+
+        public static class ClaimReward
+        {
+            public const string REWARD_INFO = "rewardInfo";
+            public const string BUCKS = "bucks";
+            public const string AD_LIFETIME_IMPRESSIONS = "adLifetimeImpressions";
+            
+            public const string TYPE_AD_BUCKS = "rewardAdBucks";
+        }
     }
 
     // TODO: Organize these like the event data keys, consider class renaming
