@@ -19,9 +19,45 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public BottomNavView view { get; set; }
 
+        // Dispatch signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
+
+            view.homeButtonClickedSignal.AddListener(HomeButtonClicked);
+            view.profileButtonClickedSignal.AddListener(ProfileButtonClicked);
+            view.shopButtonClickedSignal.AddListener(ShopButtonClicked);
+            view.settingsButtonClickedSignal.AddListener(SettingsButtonClicked);
+        }
+
+        public override void OnRemove()
+        {
+            view.homeButtonClickedSignal.RemoveAllListeners();
+            view.profileButtonClickedSignal.RemoveAllListeners();
+            view.shopButtonClickedSignal.RemoveAllListeners();
+            view.settingsButtonClickedSignal.RemoveAllListeners();
+        }
+
+        void HomeButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+        }
+
+        void ProfileButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
+        }
+
+        void ShopButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
+        }
+
+        void SettingsButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
         }
     }
 }

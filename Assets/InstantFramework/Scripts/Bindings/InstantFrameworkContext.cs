@@ -140,9 +140,10 @@ namespace TurboLabz.InstantFramework
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
-            mediationBinder.Bind<CPUStatsView>().To<CPUStatsMediator>();
+            mediationBinder.Bind<StatsView>().To<StatsMediator>();
 			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();
 			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
+            mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

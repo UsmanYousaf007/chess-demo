@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -20,23 +20,21 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
-    public class CPUStatsMediator : Mediator
+    public class StatsMediator : Mediator
     {
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // View injection
-        [Inject] public CPUStatsView view { get; set; }
+        [Inject] public StatsView view { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
-            view.backButtonClickedSignal.AddListener(OnBackButtonClicked);
         }
 
         public override void OnRemove()
         {
-            view.backButtonClickedSignal.RemoveAllListeners();
             view.CleanUp();
         }
 
@@ -62,11 +60,6 @@ namespace TurboLabz.InstantGame
         public void OnUpdateStats(StatsVO vo)
         {
             view.UpdateView(vo);
-        }
-
-        private void OnBackButtonClicked()
-        {
-            loadLobbySignal.Dispatch();
         }
     }
 }

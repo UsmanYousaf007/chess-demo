@@ -22,12 +22,10 @@ namespace TurboLabz.InstantGame
 		public Text HeadingLabel;
 		public Text playerBucks;
 		public GameObject gallery;
-		public Button backButton;
 		public Button addBucksButton;
 		public SkinShopItemPrefab skinShopItemPrefab;
 
 		// View signals
-		public Signal backButtonClickedSignal = new Signal();
 		public Signal<StoreItem> skinItemClickedSignal = new Signal<StoreItem>();
 		public Signal addBucksButtonClickedSignal = new Signal();
 
@@ -35,7 +33,6 @@ namespace TurboLabz.InstantGame
 
         public void Init()
         {
-			backButton.onClick.AddListener(OnBackButtonClicked);
 			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
 
 			HeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_HEADING);
@@ -70,11 +67,6 @@ namespace TurboLabz.InstantGame
 		public bool IsVisible()
 		{
 			return gameObject.activeSelf;
-		}
-
-		private void OnBackButtonClicked()
-		{
-			backButtonClickedSignal.Dispatch();
 		}
 
 		private void CreatePrefabs(StoreVO vo)
