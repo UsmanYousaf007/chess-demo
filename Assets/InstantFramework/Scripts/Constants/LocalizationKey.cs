@@ -70,6 +70,7 @@ namespace TurboLabz.InstantFramework
 
         public const string CPU_MENU_HEADING = "cpuMenuHeading";
         public const string CPU_MENU_STRENGTH = "cpuMenuStrength";
+        public const string CPU_MENU_IN_PROGRESS = "cpuMenuInProgress";
         public const string CPU_MENU_DURATION = "cpuMenuDuration";
         public const string CPU_MENU_DURATION_NONE = "cpuMenuDurationNone";
         public const string CPU_MENU_PLAYER_COLOR = "cpuMenuPlayerColor";

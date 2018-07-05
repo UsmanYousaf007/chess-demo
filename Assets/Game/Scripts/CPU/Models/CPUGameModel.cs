@@ -21,7 +21,6 @@ namespace TurboLabz.CPU
         public bool inProgress { get; set; }
         public string devFen { get; set; }
         public int totalGames { get; set; }
-        public bool isResuming { get; set; }
 
         public string levelId
         {
@@ -45,7 +44,6 @@ namespace TurboLabz.CPU
             inProgress = false;
             devFen = "";
             totalGames = 0;
-            isResuming = false;
         }
     }
 }

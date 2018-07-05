@@ -57,12 +57,7 @@ namespace TurboLabz.CPU
                 // view needs to be visible for it to function correctly
                 cmd.runTimeControlSignal.Dispatch();
             }
-
-            // If resuming, show the resume menu
-            if (cmd.cpuGameModel.isResuming && !cmd.chessboardModel.isUndo)
-            {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_EXIT_DLG);
-            }
+                
 
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
             IChessboardModel chessboardModel = cmd.chessboardModel;

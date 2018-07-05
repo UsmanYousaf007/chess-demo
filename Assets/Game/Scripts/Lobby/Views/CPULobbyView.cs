@@ -47,6 +47,9 @@ namespace TurboLabz.InstantGame
         public Text eloScoreValue;
         public Image playerFlag;
 
+        public Text inProgressLabel;
+        public GameObject setStrength;
+
         public Text strengthLabel;
         public Button decStrengthButton;
         public Text prevStrengthLabel;
@@ -119,10 +122,12 @@ namespace TurboLabz.InstantGame
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
             strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
+            inProgressLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_IN_PROGRESS);
             playMultiplayerButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
             playCPUButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
             freeBucksRewardOkButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_OK);
             freeBucksRewardTitle.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE);
+
 
 
 			currentStrengthLabel.color = Colors.YELLOW;
@@ -164,6 +169,8 @@ namespace TurboLabz.InstantGame
 
             facebookConnectAnim.SetActive(false);
 
+            inProgressLabel.gameObject.SetActive(vo.inProgress);
+            setStrength.SetActive(!vo.inProgress);
 		}
 
         public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
