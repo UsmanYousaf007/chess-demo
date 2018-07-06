@@ -23,11 +23,6 @@ namespace TurboLabz.InstantGame
         public IOrderedDictionary<string, int> playerVGoods;
 		public string activeSkinId;
 		public string activeSkinDisplayName;
-        public Sprite playerPic;
-        public string playerName;
-        public bool isFacebookLoggedIn;
-        public int eloScore;
-        public string countryId;
 
         public LobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel, IMetaDataModel metaDataModel)
         {
@@ -39,10 +34,6 @@ namespace TurboLabz.InstantGame
 			activeSkinDisplayName = metaDataModel.store.items[activeSkinId].displayName;
 			playerBucks = playerModel.bucks;
             playerVGoods = playerModel.inventory;
-            playerPic = playerModel.socialPic;
-            playerName = playerModel.name;
-            eloScore = playerModel.eloScore;
-            countryId = playerModel.countryId;
         }
     }
 }

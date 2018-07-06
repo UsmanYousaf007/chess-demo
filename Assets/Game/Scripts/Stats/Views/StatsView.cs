@@ -27,6 +27,18 @@ namespace TurboLabz.InstantGame
         [Inject] public IAudioService audioService { get; set; }
 
         // Scene references
+        public Button facebookButton;
+        public GameObject facebookConnectAnim;
+
+        public Image profilePic;
+        public Text profileName;
+        public GameObject noProfilePicBorder;
+        public GameObject hasProfilePicBorder;
+        public Text eloScoreLabel;
+        public Text eloScoreValue;
+        public Image playerFlag;
+
+
         public Text difficultyLabel;
         public Image[] stars;
         public Sprite noStar;

@@ -51,8 +51,7 @@ namespace TurboLabz.InstantGame
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
 
-
-
+            /*
             view.decDurationButtonClickedSignal.AddListener(OnDecTimeButtonClicked);
             view.incDurationButtonClickedSignal.AddListener(OnIncTimeButtonClicked);
             view.decPlayerColorButtonClickedSignal.AddListener(OnDecPlayerColorButtonClicked);
@@ -60,14 +59,14 @@ namespace TurboLabz.InstantGame
 			view.incThemeButtonClickedSignal.AddListener(OnIncThemeButtonClicked);
 			view.decThemeButtonClickedSignal.AddListener(OnDecThemeButtonClicked);
 			view.themesButtonClickedSignal.AddListener(OnThemesButtonClicked);
+   */         
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
-            view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
+     
+            //view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
 
             view.freeBucksButtonClickedSignal.AddListener(OnFreeBucksButtonClicked);
             view.freeBucksRewardOkButtonClickedSignal.AddListener(OnFreeBucksRewardOkButtonClicked);
             view.freeBucksUpdateAdsSignal.AddListener(OnUpdateAdsSignal);
-			
-            view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
         }
 
         public override void OnRemove()
@@ -127,12 +126,6 @@ namespace TurboLabz.InstantGame
             view.UpdateView(vo);
         }
 
-        [ListensTo(typeof(AuthFacebookResultSignal))]
-        public void OnAuthFacebookResult(bool isSuccessful, Sprite pic, string name)
-        {
-            view.FacebookAuthResult(isSuccessful, pic, name);
-        }
-
         [ListensTo(typeof(UpdateStrengthSignal))]
         public void OnUpdateStrength(LobbyVO vo)
         {
@@ -161,6 +154,7 @@ namespace TurboLabz.InstantGame
             adjustStrengthSignal.Dispatch(true);
         }
 
+        /*
         private void OnDecTimeButtonClicked()
         {
             adjustTimerSignal.Dispatch(false);
@@ -190,6 +184,7 @@ namespace TurboLabz.InstantGame
         {
             adjustPlayerColorSignal.Dispatch(true);
         }
+        */
 
         private void OnPlayCPUButtonClicked()
         {
@@ -201,16 +196,17 @@ namespace TurboLabz.InstantGame
             findMatchSignal.Dispatch();
         }
 
+        /*
 		private void OnThemesButtonClicked()
 		{
 			loadStoreSignal.Dispatch();
 		}
-
+*/
         private void OnDevFenValueChanged(string fen)
         {
             devFenValueChangedSignal.Dispatch(fen);
         }
-
+        /*
         private void OnStatsButtonClicked()
         {
             loadStatsSignal.Dispatch();
@@ -220,6 +216,7 @@ namespace TurboLabz.InstantGame
 		{
 			loadStoreSignal.Dispatch ();
 		}
+  */      
 
 		private void OnFacebookButtonClicked()
         {

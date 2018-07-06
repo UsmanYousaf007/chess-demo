@@ -24,6 +24,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ApplySkinSignal applySkinSignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public UpdatePlayerBucksDisplaySignal updatePlayerBucksDisplaySignal { get; set; }
+        [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -41,20 +42,24 @@ namespace TurboLabz.InstantGame
 
 			LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
 
-            // If the social pic is not available yet
-            if (facebookService.isLoggedIn())
-            {
-                vo.isFacebookLoggedIn = true;
-
-                if (vo.playerPic == null)
-                {
-                    vo.playerPic = facebookService.GetCachedPlayerPic();
-                }
-            }
-
             updateMenuViewSignal.Dispatch(vo);
             updateAdsSignal.Dispatch();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+
+            // If the social pic is not available yet
+            ProfileVO pvo = new ProfileVO(playerModel);
+
+            if (facebookService.isLoggedIn())
+            {
+                pvo.isFacebookLoggedIn = true;
+
+                if (pvo.playerPic == null)
+                {
+                    pvo.playerPic = facebookService.GetCachedPlayerPic();
+                }
+            }
+
+            updateProfileSignal.Dispatch(pvo);
         }
     }
 }
