@@ -27,7 +27,6 @@ namespace TurboLabz.InstantGame
         [Inject] public IAudioService audioService { get; set; }
 
         // Scene references
-        public Text titleLabel;
         public Text difficultyLabel;
         public Image[] stars;
         public Sprite noStar;
@@ -49,7 +48,6 @@ namespace TurboLabz.InstantGame
 
         public void Init()
         {
-            titleLabel.text = localizationService.Get(LocalizationKey.STATS_TITLE);
             difficultyLabel.text = localizationService.Get(LocalizationKey.STATS_DIFFICULTY);
 
             for (int i = 0; i < stars.Length; i++)

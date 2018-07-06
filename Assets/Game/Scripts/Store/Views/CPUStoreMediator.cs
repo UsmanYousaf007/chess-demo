@@ -33,7 +33,6 @@ namespace TurboLabz.InstantGame
 		{
 			view.Init();
 			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
-			view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
 
 			OnRegisterBuy();
 			OnRegisterNotEnoughBucks();
@@ -69,12 +68,6 @@ namespace TurboLabz.InstantGame
 		public void OnUpdateStore(StoreVO vo)
 		{
 			view.UpdateView(vo);
-		}
-
-		[ListensTo(typeof(UpdatePlayerBucksDisplaySignal))]
-		public void OnUpdatePlayerBucksDisplay(long playerBucks)
-		{
-			view.UpdatePlayerBucks(playerBucks);
 		}
 
 		[ListensTo(typeof(GameAppEventSignal))]

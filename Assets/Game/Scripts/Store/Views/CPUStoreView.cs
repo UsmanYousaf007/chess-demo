@@ -19,23 +19,17 @@ namespace TurboLabz.InstantGame
     {
 		[Inject] public ILocalizationService localizationService { get; set; }
 
-		public Text HeadingLabel;
-		public Text playerBucks;
 		public GameObject gallery;
-		public Button addBucksButton;
 		public SkinShopItemPrefab skinShopItemPrefab;
 
 		// View signals
 		public Signal<StoreItem> skinItemClickedSignal = new Signal<StoreItem>();
-		public Signal addBucksButtonClickedSignal = new Signal();
 
 		List<SkinShopItemPrefab> prefabs = null;
 
         public void Init()
         {
-			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
 
-			HeadingLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_HEADING);
         }
 
 		public void UpdateView(StoreVO vo)
@@ -45,7 +39,7 @@ namespace TurboLabz.InstantGame
 				CreatePrefabs(vo);	
 			}
 
-			playerBucks.text = vo.playerModel.bucks.ToString();
+		
 			PopulateSkins(vo);
 		}
 
@@ -59,10 +53,6 @@ namespace TurboLabz.InstantGame
 			gameObject.SetActive(false); 
 		}
 
-		public void UpdatePlayerBucks(long bucks)
-		{
-			playerBucks.text = bucks.ToString();
-		}
 
 		public bool IsVisible()
 		{
@@ -135,11 +125,6 @@ namespace TurboLabz.InstantGame
 		private void OnSkinItemClicked(StoreItem item)
 		{
 			skinItemClickedSignal.Dispatch(item);
-		}
-
-		private void OnAddBucksButtonClicked()
-		{
-			addBucksButtonClickedSignal.Dispatch();
 		}
 	}
 }
