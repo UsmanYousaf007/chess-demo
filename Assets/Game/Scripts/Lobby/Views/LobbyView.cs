@@ -34,7 +34,8 @@ namespace TurboLabz.InstantGame
 
         // Scene references
         public Image cover;
-        public Button shareButton;
+
+
 
         public Button facebookButton;
         public GameObject facebookConnectAnim;
@@ -69,9 +70,6 @@ namespace TurboLabz.InstantGame
         public Text adCounterLabel;
         public Text adBonusLabel;
 
-		public Button addBucksButton;
-		public Text playerBucks;
-
         public GameObject adBlocker;
 
         public InputField devFen;
@@ -91,10 +89,9 @@ namespace TurboLabz.InstantGame
         public Signal freeBucksButtonClickedSignal = new Signal();
         public Signal freeBucksRewardOkButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
-        public Signal shareAppButtonClickedSignal = new Signal();
+
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
         public Signal freeBucksUpdateAdsSignal = new Signal();
-		public Signal addBucksButtonClickedSignal = new Signal();
         public Signal facebookButtonClickedSignal = new Signal();
 
         private Coroutine waitCR;
@@ -103,13 +100,11 @@ namespace TurboLabz.InstantGame
 
         public void Init()
         {
-            shareButton.onClick.AddListener(OnShareAppButtonClicked);
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
             playMultiplayerButton.onClick.AddListener(OnPlayMultiplayerButtonClicked);
             playCPUButton.onClick.AddListener(OnPlayCPUButtonClicked);
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
-			addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
             facebookButton.onClick.AddListener(OnFacebookButtonClicked);
 
 
@@ -134,7 +129,6 @@ namespace TurboLabz.InstantGame
 
         public void CleanUp()
         {
-            shareButton.onClick.RemoveAllListeners();
             decStrengthButton.onClick.RemoveAllListeners();
             incStrengthButton.onClick.RemoveAllListeners();
             playMultiplayerButton.onClick.RemoveAllListeners();
@@ -146,7 +140,7 @@ namespace TurboLabz.InstantGame
         public void UpdateView(LobbyVO vo)
         {
             UpdateStrength(vo);
-			UpdatePlayerBucks(vo.playerBucks);
+			
             profileName.text = vo.playerName;
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             eloScoreValue.text = vo.eloScore.ToString();
@@ -229,10 +223,7 @@ namespace TurboLabz.InstantGame
         }
 
 
-		public void UpdatePlayerBucks(long bucks)
-		{
-			playerBucks.text = bucks.ToString();
-		}
+		
 
         public void UpdateAds(AdsVO vo)
         {
@@ -426,18 +417,6 @@ namespace TurboLabz.InstantGame
         {
             statsButtonClickedSignal.Dispatch();
         }
-
-
-
-        private void OnShareAppButtonClicked()
-        {
-            shareAppButtonClickedSignal.Dispatch();
-        }
-
-		private void OnAddBucksButtonClicked()
-		{
-			addBucksButtonClickedSignal.Dispatch();
-		}
 
         private void OnFacebookButtonClicked()
         {

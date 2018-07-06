@@ -23,6 +23,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
         [Inject] public ApplySkinSignal applySkinSignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
+        [Inject] public UpdatePlayerBucksDisplaySignal updatePlayerBucksDisplaySignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -53,6 +54,7 @@ namespace TurboLabz.InstantGame
 
             updateMenuViewSignal.Dispatch(vo);
             updateAdsSignal.Dispatch();
+            updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
         }
     }
 }

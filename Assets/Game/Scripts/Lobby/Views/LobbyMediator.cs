@@ -34,10 +34,8 @@ namespace TurboLabz.InstantGame
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
-        [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
-		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
 
         // View injection
@@ -64,11 +62,11 @@ namespace TurboLabz.InstantGame
 			view.themesButtonClickedSignal.AddListener(OnThemesButtonClicked);
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
             view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
-            view.shareAppButtonClickedSignal.AddListener(OnShareAppButtonClicked);
+
             view.freeBucksButtonClickedSignal.AddListener(OnFreeBucksButtonClicked);
             view.freeBucksRewardOkButtonClickedSignal.AddListener(OnFreeBucksRewardOkButtonClicked);
             view.freeBucksUpdateAdsSignal.AddListener(OnUpdateAdsSignal);
-			view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
+			
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
         }
 
@@ -83,7 +81,7 @@ namespace TurboLabz.InstantGame
             view.playCPUButtonClickedSignal.RemoveAllListeners();
             view.devFenValueChangedSignal.RemoveAllListeners();
             view.statsButtonClickedSignal.RemoveAllListeners();
-            view.shareAppButtonClickedSignal.RemoveAllListeners();
+
             view.freeBucksButtonClickedSignal.RemoveAllListeners();
             view.freeBucksRewardOkButtonClickedSignal.RemoveAllListeners();
             view.freeBucksUpdateAdsSignal.RemoveAllListeners();
@@ -147,13 +145,7 @@ namespace TurboLabz.InstantGame
             view.UpdateAds(vo);
         }
 
-		[ListensTo(typeof(UpdatePlayerBucksDisplaySignal))]
-		public void OnUpdatePlayerBucksDisplay(long playerBucks)
-		{
-			view.UpdatePlayerBucks(playerBucks);
-		}
-
-        [ListensTo(typeof(ToggleAdBlockerSignal))]
+		[ListensTo(typeof(ToggleAdBlockerSignal))]
         public void OnToggleAdBlocker(bool enable)
         {
             view.ToggleAdBlocker(enable);
@@ -229,17 +221,7 @@ namespace TurboLabz.InstantGame
 			loadStoreSignal.Dispatch ();
 		}
 
-		private void OnShareAppButtonClicked()
-        {
-            shareAppSignal.Dispatch();
-        }
-
-		private void OnAddBucksButtonClicked()
-		{
-			loadBuckPacksSignal.Dispatch();
-		}
-
-        private void OnFacebookButtonClicked()
+		private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
         }
