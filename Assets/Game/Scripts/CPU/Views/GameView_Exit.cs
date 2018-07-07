@@ -24,26 +24,31 @@ namespace TurboLabz.CPU
         public Button menuButton;
         public Button resignButton;
         public Button continueButton;
+        public Button saveAndExitButton;
 
         public Signal menuButtonClickedSignal = new Signal();
         public Signal resignButtonClickedSignal = new Signal();
         public Signal continueButtonClickedSignal = new Signal();
+        public Signal saveAndExitButtonClickedSignal = new Signal();
 
         public GameObject gameMenu;
 
         public Text titleLabel;
         public Text resignButtonLabel;
         public Text continueButtonLabel;
+        public Text saveAndExitButtonLabel;
 
         public void InitMenu()
         {
             menuButton.onClick.AddListener(OnMenuButtonClicked);
             resignButton.onClick.AddListener(OnResignButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
+            saveAndExitButton.onClick.AddListener(OnSaveAndExitButtonClicked);
 
             titleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
+            saveAndExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_SAVE_AND_EXIT);
         }
 
         public void OnParentShowMenu()
@@ -133,13 +138,17 @@ namespace TurboLabz.CPU
 
         void OnResignButtonClicked()
         {
-            LogUtil.Log("CLICK!!! VIEW", "cyan");
             resignButtonClickedSignal.Dispatch();
         }
 
         void OnContinueButtonClicked()
         {
             continueButtonClickedSignal.Dispatch();
+        }
+
+        void OnSaveAndExitButtonClicked()
+        {
+            saveAndExitButtonClickedSignal.Dispatch();
         }
     }
 }

@@ -30,6 +30,7 @@ namespace TurboLabz.CPU
             view.menuButtonClickedSignal.AddListener(OnMenuButtonClicked);
             view.resignButtonClickedSignal.AddListener(OnResignClicked);
             view.continueButtonClickedSignal.AddListener(OnContinueButtonClicked);
+            view.saveAndExitButtonClickedSignal.AddListener(OnSaveAndExitButtonClicked);
         }
 
         public void OnRemoveMenu()
@@ -76,13 +77,18 @@ namespace TurboLabz.CPU
 
         private void OnResignClicked()
         {
-            LogUtil.Log("CLICK!!!", "cyan");
             resignSignal.Dispatch();
         }
 
         private void OnContinueButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
+        }
+
+        private void OnSaveAndExitButtonClicked()
+        {
+            saveGameSignal.Dispatch();
+            loadLobbySignal.Dispatch();
         }
     }
 }

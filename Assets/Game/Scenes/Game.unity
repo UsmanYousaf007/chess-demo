@@ -7336,7 +7336,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SAVE & EXIT
+  m_Text: ??
 --- !u!222 &209210950
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26723,10 +26723,12 @@ MonoBehaviour:
   menuButton: {fileID: 1022738969}
   resignButton: {fileID: 339795805}
   continueButton: {fileID: 2032191005}
+  saveAndExitButton: {fileID: 812434957}
   gameMenu: {fileID: 1397189293}
   titleLabel: {fileID: 391738874}
   resignButtonLabel: {fileID: 79272248}
   continueButtonLabel: {fileID: 1923247823}
+  saveAndExitButtonLabel: {fileID: 209210949}
   hintFromIndicator: {fileID: 672206960}
   hintToIndicator: {fileID: 349705917}
   hintButton: {fileID: 454227419}

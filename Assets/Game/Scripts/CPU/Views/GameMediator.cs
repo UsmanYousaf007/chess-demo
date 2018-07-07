@@ -28,6 +28,7 @@ namespace TurboLabz.CPU
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
         [Inject] public PauseTimersSignal pauseTimersSignal { get; set; }
         [Inject] public ResumeTimersSignal resumeTimersSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         public override void OnRegister()
         {
@@ -69,7 +70,6 @@ namespace TurboLabz.CPU
             if (viewId == NavigatorViewId.CPU)
             {
                 stopTimersSignal.Dispatch();
-                saveGameSignal.Dispatch();
                 view.Hide();
             }
         }

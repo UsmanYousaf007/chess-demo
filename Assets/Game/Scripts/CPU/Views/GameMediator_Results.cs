@@ -20,7 +20,6 @@ namespace TurboLabz.CPU
     public partial class GameMediator
     {
         // Dispatch signal
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public EnterPlaybackSignal enterPlaybackSignal { get; set; }

@@ -31,7 +31,6 @@ namespace TurboLabz.InstantGame
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public SaveGameSignal saveGameSignal { get; set; }
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
@@ -101,21 +100,6 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Hide();
-                saveGameSignal.Dispatch();
-            }
-        }
-
-        [ListensTo(typeof(GameAppEventSignal))]
-        public void OnAppEvent(AppEvent evt)
-        {
-            if (!view || !view.IsVisible())
-            {
-                return;
-            }
-
-            if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
-            {
-                saveGameSignal.Dispatch();
             }
         }
 
