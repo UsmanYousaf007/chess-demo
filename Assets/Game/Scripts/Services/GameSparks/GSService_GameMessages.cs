@@ -151,6 +151,12 @@ namespace TurboLabz.InstantFramework
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
             }
+
+            // Finally update the player model
+            playerModel.eloScore = 0;
+            playerModel.totalGamesWon = 0;
+            playerModel.totalGamesLost = 0;
+            playerModel.totalGamesDrawn = 0;
         }
 
         private void UpdateMoveData(GSData gameData)
