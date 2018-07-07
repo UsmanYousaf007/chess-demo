@@ -51,15 +51,8 @@ namespace TurboLabz.CPU
                     chessboardModel.opponentTimer = chessboardModel.gameDuration;
                 }
                     
-                ChessColor playerPreferredColor = CPUSettings.PLAYER_COLORS[cpuGameModel.playerColorIndex];
-
-                if (playerPreferredColor == ChessColor.NONE)
-                {
-                    playerPreferredColor = (UnityEngine.Random.Range(0,2) == 0) ? ChessColor.BLACK : ChessColor.WHITE;
-                }
-
-                chessboardModel.playerColor = playerPreferredColor;
-                chessboardModel.opponentColor = (playerPreferredColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
+                chessboardModel.playerColor = (UnityEngine.Random.Range(0,2) == 0) ? ChessColor.BLACK : ChessColor.WHITE;
+                chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 

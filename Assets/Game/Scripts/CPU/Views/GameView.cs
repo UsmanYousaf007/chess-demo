@@ -46,7 +46,7 @@ namespace TurboLabz.CPU
             OnParentShowCapturedPieces();
             OnParentShowScore();
             OnParentShowClock();
-            OnParentShowNotation();
+            //OnParentShowNotation();
             OnParentShowMatchInfo();
             OnParentShowMenu();
             OnParentShowHint();

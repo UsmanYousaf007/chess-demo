@@ -65,7 +65,7 @@ namespace TurboLabz.CPU
         {
             ResetCapturedPieces();
             HideHint();
-            ClearNotation();
+//            ClearNotation();
             EmptyScores();
             DisableUndoButton();
             undoMoveClickedSignal.Dispatch();

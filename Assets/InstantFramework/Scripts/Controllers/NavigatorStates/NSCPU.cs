@@ -25,14 +25,7 @@ namespace TurboLabz.InstantFramework
             if (evt == NavigatorEvent.SHOW_CPU_EXIT_DLG ||
                 evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.cpuChessboardModel.inPlaybackMode)
-                {
-                    return new NSCPUResultsDlg();
-                }
-                else
-                {
-                    return new NSCPUExitDlg();
-                }
+                return new NSCPUExitDlg();
             }
             else if (evt == NavigatorEvent.SHOW_CPU_RESULTS_DLG)
             {

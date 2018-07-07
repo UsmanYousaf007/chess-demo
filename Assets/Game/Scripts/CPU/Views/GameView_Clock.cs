@@ -18,6 +18,7 @@ using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.CPU
 {
@@ -64,8 +65,8 @@ namespace TurboLabz.CPU
             startingTimer = TimeSpan.Zero;
             playerClockLabel.gameObject.SetActive(false);
             opponentClockLabel.gameObject.SetActive(false);
-            playerInfinityImage.SetActive(true);
-            opponentInfinityImage.SetActive(true);
+//            playerInfinityImage.SetActive(true);
+ //           opponentInfinityImage.SetActive(true);
             playerClockFill.fillAmount = 1f;
             opponentClockFill.fillAmount = 1f;
 
@@ -93,8 +94,8 @@ namespace TurboLabz.CPU
 
             playerTimer = vo.playerTimer;
             opponentTimer = vo.opponentTimer;
-            playerClockLabel.text = FormatTimer(playerTimer);
-            opponentClockLabel.text = FormatTimer(opponentTimer);
+            //playerClockLabel.text = FormatTimer(playerTimer);
+            //opponentClockLabel.text = FormatTimer(opponentTimer);
 
             playerClockFill.fillAmount =(float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
@@ -110,6 +111,11 @@ namespace TurboLabz.CPU
                 DisablePlayerTimer();
                 EnableOpponentTimer();
             }
+
+            string turnText = localizationService.Get(LocalizationKey.CPU_GAME_TURN);
+            playerClockLabel.text = turnText;
+            opponentClockLabel.text = turnText;
+
         }
 
         public void PlayerTurnComplete()
@@ -126,20 +132,24 @@ namespace TurboLabz.CPU
 
         public void TickPlayerTimer(TimeSpan playerTimer)
         {
+            /*
             this.playerTimer = playerTimer;
             playerClockLabel.text = FormatTimer(playerTimer);
             SetPlayerTimerActiveColors();
             StopPlayerClockCR();
             playerClockCR = StartCoroutine(AnimateTimerCR(playerClockFill, playerTimer));
+            */
         }
 
         public void TickOpponentTimer(TimeSpan opponentTimer)
         {
+            /*
             this.opponentTimer = opponentTimer;
             opponentClockLabel.text = FormatTimer(opponentTimer);
             SetOpponentTimerActiveColors();
             StopOpponentClockCR();
             opponentClockCR = StartCoroutine(AnimateTimerCR(opponentClockFill, opponentTimer));
+            */
         }
 
         public void ExpirePlayerTimer()
@@ -166,14 +176,18 @@ namespace TurboLabz.CPU
             {
                 SetPlayerTimerActiveColors();
             }
+
+            playerClockLabel.gameObject.SetActive(true);
         }
 
         private void DisablePlayerTimer()
         {
-            playerClockLabel.color = labelDisabledColor;
+           // playerClockLabel.color = labelDisabledColor;
             playerClockImage.color = imageDisabledColor;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
+
+            playerClockLabel.gameObject.SetActive(false);
         }
 
         private void EnableOpponentTimer()
@@ -186,14 +200,18 @@ namespace TurboLabz.CPU
             {
                 SetOpponentTimerActiveColors();
             }
+
+            opponentClockLabel.gameObject.SetActive(true);
         }
 
         private void DisableOpponentTimer()
         {
-            opponentClockLabel.color = labelDisabledColor;
+         //   opponentClockLabel.color = labelDisabledColor;
             opponentClockImage.color = imageDisabledColor;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
+
+            opponentClockLabel.gameObject.SetActive(false);
         }
 
         private void SetPlayerTimerActiveColors()
@@ -279,10 +297,12 @@ namespace TurboLabz.CPU
 
         private void EmptyClock()
         {
+            /*
             playerClockLabel.text = "";
             opponentClockLabel.text = "";
             playerScore.text = "";
             opponentScore.text = "";
+            */
         }
     }
 }

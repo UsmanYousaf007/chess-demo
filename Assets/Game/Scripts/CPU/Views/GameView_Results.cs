@@ -38,6 +38,8 @@ namespace TurboLabz.CPU
         public Text resultsCloseButtonLabel;
         public Button resultsDialogButton;
 
+        public Button playbackOverlay;
+
         public Signal resultsExitButtonClickedSignal = new Signal();
 		public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
@@ -57,11 +59,14 @@ namespace TurboLabz.CPU
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
+            playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
 		
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
 		
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+
+            playbackOverlay.gameObject.SetActive(false);
         }
 
         public void CleanupResults()
@@ -188,6 +193,14 @@ namespace TurboLabz.CPU
             resultsDialogButton.gameObject.SetActive(true);
         }
 
+        public void ExitPlaybackMode()
+        {
+            if (playbackOverlay.gameObject.activeSelf)
+            {
+                OnPlaybackOverlayClicked();
+            }
+        }
+
         private void AnimateResultsDialog()
         {
             resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
@@ -219,7 +232,8 @@ namespace TurboLabz.CPU
 
         private void OnResultsClosed()
         {
-            enterPlaybackSignal.Dispatch();
+            HideResultsDialog();
+            playbackOverlay.gameObject.SetActive(true);
         }
 
         private void OnResultsDialogButtonClicked()
@@ -231,5 +245,11 @@ namespace TurboLabz.CPU
 		{
 			resultsStatsButtonClickedSignal.Dispatch();
 		}
+
+        private void OnPlaybackOverlayClicked()
+        {
+            playbackOverlay.gameObject.SetActive(false);
+            ShowResultsDialog();
+        }
     }
 }

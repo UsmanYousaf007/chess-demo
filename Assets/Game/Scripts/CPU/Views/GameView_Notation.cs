@@ -21,6 +21,7 @@ namespace TurboLabz.CPU
 {
     public partial class GameView
     {
+        /*
         public Text notation;
         private string defaultNotation;
 
@@ -62,5 +63,6 @@ namespace TurboLabz.CPU
         {
             notation.text = "";
         }
+        */
     }
 }

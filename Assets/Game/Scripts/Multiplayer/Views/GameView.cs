@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowCapturedPieces();
             OnParentShowScore();
             OnParentShowClock();
-            OnParentShowNotation();
+            OnParentShowCommentary();
             OnParentShowMatchInfo();
             OnParentShowMenu();
             OnParentShowWifi();

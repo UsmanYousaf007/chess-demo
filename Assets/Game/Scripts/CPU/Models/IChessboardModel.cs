@@ -58,7 +58,6 @@ namespace TurboLabz.CPU
         int availableHints { get; set; }
         bool usedHelp { get; set; }
         bool isUndo { get; set; }
-        bool inPlaybackMode { get; set; }
 
         void Reset();
     }

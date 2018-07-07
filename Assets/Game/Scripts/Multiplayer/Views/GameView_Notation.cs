@@ -21,6 +21,19 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        public Text commentary;
+
+        public void OnParentShowCommentary()
+        {
+            commentary.text = "";
+        }
+
+        public void UpdateCommentary(string txt)
+        {
+            commentary.text = txt;
+        }
+
+        /*
         public Text notation;
         private string defaultNotation;
 
@@ -62,5 +75,6 @@ namespace TurboLabz.Multiplayer
         {
             notation.text = "";
         }
+        */
     }
 }

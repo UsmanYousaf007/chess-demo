@@ -25,7 +25,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<DevFenValueChangedSignal>().To<DevFenChangedCommand>();
             commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
-            commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<GameView>().To<GameMediator>();

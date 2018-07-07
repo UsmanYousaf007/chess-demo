@@ -27,8 +27,10 @@ namespace TurboLabz.Multiplayer
 
         public void InitMatchInfo()
         {
-            opponentNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_NAME);
-            playerNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_PLAYER_NAME);
+//            opponentNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_NAME);
+ //           playerNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_PLAYER_NAME);
+
+           // string commentary =
         }
 
         public void OnParentShowMatchInfo()

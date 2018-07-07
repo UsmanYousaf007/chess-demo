@@ -26,7 +26,6 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorShowViewSignal showViewSignal { get; set; }
         [Inject] public NavigatorHideViewSignal hideViewSignal { get; set; }
-        [Inject] public TurboLabz.CPU.EnterPlaybackSignal enterCPUPlaybackSignal { get; set; }
         [Inject] public TurboLabz.Multiplayer.EnterPlaybackSignal enterMultiplayerPlaybackSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 

@@ -512,7 +512,7 @@ namespace TurboLabz.Multiplayer
             UpdateScores(vo);
 
             // Update the notation
-            UpdateNotation(vo);
+            //UpdateNotation(vo);
         }
 
         private void UpdateKingCheckIndicator(MoveVO vo, bool isResume)

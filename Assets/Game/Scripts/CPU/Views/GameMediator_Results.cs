@@ -22,14 +22,12 @@ namespace TurboLabz.CPU
         // Dispatch signal
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
-        [Inject] public EnterPlaybackSignal enterPlaybackSignal { get; set; }
 
         public void OnRegisterResults()
         {
             view.InitResults();
             view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
             view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
-            view.enterPlaybackSignal.AddListener(OnEnterPlayback);
             view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
 			view.resultsStatsButtonClickedSignal.AddListener(OnResultsStatsButtonClicked);
         }
@@ -57,6 +55,15 @@ namespace TurboLabz.CPU
             }
         }
 
+        [ListensTo(typeof(AppEventSignal))]
+        public void OnAppEvent(AppEvent evt)
+        {
+            if (evt == AppEvent.ESCAPED)
+            {
+                view.ExitPlaybackMode();
+            }
+        }
+
         [ListensTo(typeof(UpdateResultDialogSignal))]
 		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins)
         {
@@ -79,11 +86,6 @@ namespace TurboLabz.CPU
         private void OnShowAdButtonClicked()
         {
             showAdSignal.Dispatch();
-        }
-
-        private void OnEnterPlayback()
-        {
-            enterPlaybackSignal.Dispatch();
         }
 
         private void OnResultsDialogButtonClicked()
