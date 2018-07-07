@@ -50,8 +50,6 @@ namespace TurboLabz.InstantGame
         public Sprite silverStar;
         public Sprite goldStar;
 
-        private Dictionary<int, PerformanceSet> stats;
-
         public void Init()
         {
             onlineTitle.text = localizationService.Get(LocalizationKey.STATS_ONLINE_TITLE);
@@ -72,7 +70,7 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(StatsVO vo)
         {
-            List<int> pset = stats[0].performance;
+            List<int> pset = vo.stats[0].performance;
 
             for (int i = 0; i < pset.Count; i++)
             {

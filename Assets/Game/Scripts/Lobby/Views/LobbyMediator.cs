@@ -65,7 +65,6 @@ namespace TurboLabz.InstantGame
             //view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
 
             view.freeBucksButtonClickedSignal.AddListener(OnFreeBucksButtonClicked);
-            view.freeBucksRewardOkButtonClickedSignal.AddListener(OnFreeBucksRewardOkButtonClicked);
             view.freeBucksUpdateAdsSignal.AddListener(OnUpdateAdsSignal);
         }
 
@@ -227,11 +226,7 @@ namespace TurboLabz.InstantGame
         {
             showAdSignal.Dispatch();
         }
-
-        private void OnFreeBucksRewardOkButtonClicked()
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-        }
+            
 
         private void OnUpdateAdsSignal()
         {

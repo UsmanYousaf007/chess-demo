@@ -35,6 +35,8 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            LogUtil.Log("LOADING STATS...", "cyan");
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
 
             StatsVO vo = new StatsVO();

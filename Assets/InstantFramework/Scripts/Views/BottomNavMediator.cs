@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -21,6 +22,8 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -42,12 +45,12 @@ namespace TurboLabz.InstantFramework
 
         void HomeButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            loadLobbySignal.Dispatch();
         }
 
         void ProfileButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
+            loadStatsSignal.Dispatch();
         }
 
         void ShopButtonClicked()
