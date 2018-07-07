@@ -29,6 +29,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ILocalizationService localizationService { get; set; }
 
         public Button facebookButton;
+        public Text facebookButtonLabel;
         public GameObject facebookConnectAnim;
 
         public Image profilePic;
@@ -53,6 +54,8 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(ProfileVO vo)
         {
+            facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
+
             profileName.text = vo.playerName;
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             eloScoreValue.text = vo.eloScore.ToString();

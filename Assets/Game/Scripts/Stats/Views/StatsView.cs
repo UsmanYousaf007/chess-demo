@@ -27,115 +27,55 @@ namespace TurboLabz.InstantGame
         [Inject] public IAudioService audioService { get; set; }
 
         // Scene references
-        public Button facebookButton;
-        public GameObject facebookConnectAnim;
 
-        public Image profilePic;
-        public Text profileName;
-        public GameObject noProfilePicBorder;
-        public GameObject hasProfilePicBorder;
-        public Text eloScoreLabel;
-        public Text eloScoreValue;
-        public Image playerFlag;
+        public Text onlineTitle;
+        public Text onlineWinPct;
+        public Text onlineWon;
+        public Text onlineLost;
+        public Text onlineDrawn;
+        public Text onlineTotal;
 
+        public Text onlineWinPctVal;
+        public Text onlineWonVal;
+        public Text onlineLostVal;
+        public Text onlineDrawnVal;
+        public Text onlineTotalVal;
 
-        public Text difficultyLabel;
+        public Text computerTitle;
+        public Text legendGold;
+        public Text legendSilver;
+
         public Image[] stars;
         public Sprite noStar;
         public Sprite silverStar;
         public Sprite goldStar;
-        public Text wonLabel;
-        public Text wonWithHelpLabel;
-        public Text wonWithHelpExplainerLabel;
-        public Text durationLabel;
-        public Button durationDecButton;
-        public Text durationCurrentLabel;
-        public Button durationIncButton;
-        public GameObject infinityIcon;
 
-
-        private int[] durationMinutes;
-        private int selectedDurationIndex;
         private Dictionary<int, PerformanceSet> stats;
 
         public void Init()
         {
-            difficultyLabel.text = localizationService.Get(LocalizationKey.STATS_DIFFICULTY);
+            onlineTitle.text = localizationService.Get(LocalizationKey.STATS_ONLINE_TITLE);
+            onlineWinPct.text = localizationService.Get(LocalizationKey.STATS_ONLINE_WIN_PCT);
+            onlineWon.text = localizationService.Get(LocalizationKey.STATS_ONLINE_WON);
+            onlineLost.text = localizationService.Get(LocalizationKey.STATS_ONLINE_LOST);
+            onlineDrawn.text = localizationService.Get(LocalizationKey.STATS_ONLINE_DRAWN);
+            onlineTotal.text = localizationService.Get(LocalizationKey.STATS_ONLINE_TOTAL);
+            computerTitle.text = localizationService.Get(LocalizationKey.STATS_COMPUTER_TITLE);
+            legendGold.text = localizationService.Get(LocalizationKey.STATS_LEGEND_GOLD);
+            legendSilver.text = localizationService.Get(LocalizationKey.STATS_LEGEND_SILVER);
 
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].sprite = noStar;
             }
-
-            wonLabel.text = localizationService.Get(LocalizationKey.STATS_WON);
-            wonWithHelpLabel.text = localizationService.Get(LocalizationKey.STATS_WON_WITH_HELP);
-            wonWithHelpExplainerLabel.text = localizationService.Get(LocalizationKey.STATS_WON_WITH_HELP_EXPLAINER);
-            durationLabel.text = localizationService.Get(LocalizationKey.STATS_DURATION);
-
-            infinityIcon.SetActive(false);
-
-            durationDecButton.onClick.AddListener(OnDurationDecButtonClicked);
-            durationIncButton.onClick.AddListener(OnDurationIncButtonClicked);
         }
 
         public void UpdateView(StatsVO vo)
         {
-            selectedDurationIndex = vo.selectedDurationIndex;
-            durationMinutes = vo.durationMinutes;
-            stats = vo.stats;
-
-            UpdateStats();
-        }
-
-        public void CleanUp()
-        {
-            durationDecButton.onClick.RemoveAllListeners();
-            durationIncButton.onClick.RemoveAllListeners();
-        }
-
-        public void Show() 
-        { 
-            gameObject.SetActive(true); 
-        }
-
-        public void Hide()
-        { 
-            gameObject.SetActive(false); 
-        }
-
-        void OnDurationDecButtonClicked()
-        {
-            if (selectedDurationIndex > 0)
-            {
-                selectedDurationIndex--;
-            }
-
-            UpdateStats();
-        }
-
-        void OnDurationIncButtonClicked()
-        {
-            if (selectedDurationIndex < durationMinutes.Length - 1)
-            {
-                selectedDurationIndex++;
-            }
-
-            UpdateStats();
-        }
-
-        void UpdateStats()
-        {
-            UpdateStars();
-            UpdateDuration();
-        }
-
-        void UpdateStars()
-        {
-            List<int> pset = stats[selectedDurationIndex].performance;
+            List<int> pset = stats[0].performance;
 
             for (int i = 0; i < pset.Count; i++)
             {
-                LogUtil.Log("DIFFICULTY = " + i + " SCORE = " + pset[i], "cyan"); 
                 if (pset[i] == 1)
                 {
                     stars[i].sprite = silverStar;
@@ -151,34 +91,14 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        void UpdateDuration()
-        {
-            if (selectedDurationIndex == 0)
-            {
-                durationCurrentLabel.gameObject.SetActive(false);
-                infinityIcon.SetActive(true);
-            }
-            else
-            {
-                durationCurrentLabel.text = localizationService.Get(
-                    LocalizationKey.STATS_DURATION_TIME, durationMinutes[selectedDurationIndex]
-                );
+        public void Show() 
+        { 
+            gameObject.SetActive(true); 
+        }
 
-                durationCurrentLabel.gameObject.SetActive(true);
-                infinityIcon.SetActive(false);
-            }
-
-            durationDecButton.interactable = true;
-            durationIncButton.interactable = true;
-
-            if (selectedDurationIndex == 0)
-            {
-                durationDecButton.interactable = false;
-            }
-            else if (selectedDurationIndex == durationMinutes.Length - 1)
-            {
-                durationIncButton.interactable = false;
-            }
+        public void Hide()
+        { 
+            gameObject.SetActive(false); 
         }
     }
 }

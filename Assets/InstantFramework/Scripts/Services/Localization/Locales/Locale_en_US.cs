@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
                 #region Lobby
 
                 { LocalizationKey.ELO_SCORE, "Rating" },
+                { LocalizationKey.FACEBOOK_LOGIN, "Login" },
 
                 #endregion
 
@@ -106,14 +107,15 @@ namespace TurboLabz.InstantFramework
 
                 #region Stats
 
-                { LocalizationKey.STATS_TITLE, "Progress" },
-                { LocalizationKey.STATS_DIFFICULTY, "Against\nDifficulty Level" },
-                { LocalizationKey.STATS_TOTAL_GAMES, "Total Games" },
-                { LocalizationKey.STATS_WON, "Won" },
-                { LocalizationKey.STATS_WON_WITH_HELP, "Won" },
-                { LocalizationKey.STATS_WON_WITH_HELP_EXPLAINER, "With Undos | Hints" },
-                { LocalizationKey.STATS_DURATION, "Duration" },
-                { LocalizationKey.STATS_DURATION_TIME, "{0} m" },
+                { LocalizationKey.STATS_ONLINE_TITLE, "Online Performance" },
+                { LocalizationKey.STATS_ONLINE_WIN_PCT, "Win %" },
+                { LocalizationKey.STATS_ONLINE_WON, "Won" },
+                { LocalizationKey.STATS_ONLINE_LOST, "Lost" },
+                { LocalizationKey.STATS_ONLINE_DRAWN, "Drawn" },
+                { LocalizationKey.STATS_ONLINE_TOTAL, "Total" },
+                { LocalizationKey.STATS_COMPUTER_TITLE, "Computer Difficulty Beaten" },
+                { LocalizationKey.STATS_LEGEND_GOLD, "Beat without Undos or Hints" },
+                { LocalizationKey.STATS_LEGEND_SILVER, "Beat using Undos or Hints" },
 
                 #endregion
 

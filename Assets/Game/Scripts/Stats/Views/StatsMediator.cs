@@ -33,11 +33,6 @@ namespace TurboLabz.InstantGame
             view.Init();
         }
 
-        public override void OnRemove()
-        {
-            view.CleanUp();
-        }
-
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {

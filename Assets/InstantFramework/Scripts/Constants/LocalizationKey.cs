@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         #region Lobby
 
         public const string ELO_SCORE = "eloScore";
+        public const string FACEBOOK_LOGIN = "facebookLogin";
 
         #endregion
 
@@ -108,14 +109,15 @@ namespace TurboLabz.InstantFramework
 
         #region Stats
 
-        public const string STATS_TITLE = "statsTitle";
-        public const string STATS_DIFFICULTY = "statsDifficulty";
-        public const string STATS_TOTAL_GAMES = "statsTotalGames";
-        public const string STATS_WON = "statsWon";
-        public const string STATS_WON_WITH_HELP = "statsWonWithHelp";
-        public const string STATS_WON_WITH_HELP_EXPLAINER = "statsWonWithHelpExplainer";
-        public const string STATS_DURATION = "statsDuration";
-        public const string STATS_DURATION_TIME = "statsDurationTime";
+        public const string STATS_ONLINE_TITLE = "statsOnlineTitle";
+        public const string STATS_ONLINE_WIN_PCT = "statsOnlineWinPct";
+        public const string STATS_ONLINE_WON = "statsOnlineWon";
+        public const string STATS_ONLINE_LOST = "statsOnlineLost";
+        public const string STATS_ONLINE_DRAWN = "statsOnlineDrawn";
+        public const string STATS_ONLINE_TOTAL = "statsOnlineTotal";
+        public const string STATS_COMPUTER_TITLE = "statsComputerTitle";
+        public const string STATS_LEGEND_GOLD = "statsLegendGold";
+        public const string STATS_LEGEND_SILVER = "statsLegendSilver";
 
         #endregion
 
