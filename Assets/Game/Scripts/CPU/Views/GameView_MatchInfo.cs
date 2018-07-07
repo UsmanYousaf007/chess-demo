@@ -30,7 +30,7 @@ namespace TurboLabz.CPU
         public void InitMatchInfo()
         {
             cpuNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_NAME);
-            playerNameLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_PLAYER_NAME);
+
         }
 
         public void OnParentShowMatchInfo()

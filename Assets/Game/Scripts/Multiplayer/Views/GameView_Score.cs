@@ -27,13 +27,13 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateScores(MoveVO moveVO)
         {
-            playerScore.text = (moveVO.playerScore > 0 ) ? ("+" + moveVO.playerScore.ToString()) : "";
-            opponentScore.text = (moveVO.opponentScore > 0 ) ? ("+" + moveVO.opponentScore.ToString()) : "";
+            // playerScore.text = (moveVO.playerScore > 0 ) ? ("+" + moveVO.playerScore.ToString()) : "";
+            // opponentScore.text = (moveVO.opponentScore > 0 ) ? ("+" + moveVO.opponentScore.ToString()) : "";
         }
 
         public void InitScore()
         {
-            EmptyScores();
+            // EmptyScores();
         }
 
         public void CleanupScore()

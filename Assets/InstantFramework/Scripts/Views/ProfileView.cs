@@ -47,9 +47,6 @@ namespace TurboLabz.InstantGame
             if (facebookButton != null)
             {
                 facebookButton.onClick.AddListener(OnFacebookButtonClicked);
-            }
-            else
-            {
                 facebookConnectAnim.SetActive(false);
             }
         }
