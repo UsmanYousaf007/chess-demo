@@ -24,6 +24,7 @@ namespace TurboLabz.CPU
         public Text playerNameLabel;
         public Text cpuNameLabel;
         public Text cpuStrengthLabel;
+        public Text cpuStrengthValue;
         private Image playerProfilePicture;
 
         public void InitMatchInfo()
@@ -39,7 +40,8 @@ namespace TurboLabz.CPU
 
         public void UpdateGameInfo(GameInfoVO vo)
         {
-            cpuStrengthLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_STRENGTH, vo.cpuStrength.ToString());
+            cpuStrengthLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_STRENGTH);
+            cpuStrengthValue.text = vo.cpuStrength.ToString();
         }
 
         /*

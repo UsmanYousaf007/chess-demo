@@ -44,17 +44,30 @@ namespace TurboLabz.InstantGame
 
         public void Init()
         {
-            facebookButton.onClick.AddListener(OnFacebookButtonClicked);
+            if (facebookButton != null)
+            {
+                facebookButton.onClick.AddListener(OnFacebookButtonClicked);
+            }
+            else
+            {
+                facebookConnectAnim.SetActive(false);
+            }
         }
 
         public void CleanUp()
         {
-            facebookButton.onClick.RemoveAllListeners();
+            if (facebookButton != null)
+            {
+                facebookButton.onClick.RemoveAllListeners();
+            }
         }
 
         public void UpdateView(ProfileVO vo)
         {
-            facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
+            if (facebookButtonLabel != null)
+            {
+                facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
+            }
 
             profileName.text = vo.playerName;
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
@@ -63,12 +76,15 @@ namespace TurboLabz.InstantGame
 
             SetProfilePic(vo.playerPic);
 
-            if (vo.isFacebookLoggedIn)
+            if (facebookButton != null)
             {
-                facebookButton.gameObject.SetActive(false);
-            }
+                if (vo.isFacebookLoggedIn)
+                {
+                    facebookButton.gameObject.SetActive(false);
+                }
 
-            facebookConnectAnim.SetActive(false);
+                facebookConnectAnim.SetActive(false);
+            }
         }
 
         public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
@@ -77,14 +93,24 @@ namespace TurboLabz.InstantGame
             {
                 SetProfilePic(pic);
                 profileName.text = name;
-                facebookButton.gameObject.SetActive(false);
+
+                if (facebookButton != null)
+                {
+                    facebookButton.gameObject.SetActive(false);
+                }
             }
             else
             {
-                facebookButton.enabled = true;
+                if (facebookButton != null)
+                {
+                    facebookButton.enabled = true;
+                }
             }
 
-            facebookConnectAnim.SetActive(false);
+            if (facebookButton != null)
+            {
+                facebookConnectAnim.SetActive(false);
+            }
         }
 
         public void Show()
@@ -119,112 +145,5 @@ namespace TurboLabz.InstantGame
             facebookConnectAnim.SetActive(true);
             facebookButton.enabled = false;
         }
-
     }
 }
-
-/*
-        public void UpdateDuration(CPULobbyVO vo)
-        {
-            int duration = vo.durationMinutes[vo.selectedDurationIndex];
-
-            if (duration == 0)
-            {
-                infinityIcon.SetActive(true);
-                currentDurationLabel.gameObject.SetActive(false);
-            }
-            else
-            {
-                infinityIcon.SetActive(false);
-                currentDurationLabel.gameObject.SetActive(true);
-                currentDurationLabel.text = 
-                    localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
-            }
-
-            if (vo.selectedDurationIndex == 0)
-            {
-                decDurationButton.interactable = false;
-                incDurationButton.interactable = true;
-            }
-            else if (vo.selectedDurationIndex == (vo.durationMinutes.Length - 1))
-            {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = false;
-            }
-            else
-            {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = true;
-            }
-        }
-
-        public void UpdatePlayerColor(CPULobbyVO vo)
-        {
-            randomKing.SetActive(false);
-            whiteKing.SetActive(false);
-            blackKing.SetActive(false);
-
-            if (vo.selectedPlayerColorIndex == 0)
-            {
-                whiteKing.SetActive(true);
-                incPlayerColorButton.interactable = true;
-                decPlayerColorButton.interactable = false;
-            }
-            else if (vo.selectedPlayerColorIndex == 1)
-            {
-                blackKing.SetActive(true);
-                incPlayerColorButton.interactable = true;
-                decPlayerColorButton.interactable = true;
-            }
-            else if (vo.selectedPlayerColorIndex == 2)
-            {
-                randomKing.SetActive(true);
-                incPlayerColorButton.interactable = false;
-                decPlayerColorButton.interactable = true;
-            }
-        }
-
-        public void UpdateTheme(CPULobbyVO vo)
-        {
-            currentThemeLabel.text = vo.activeSkinDisplayName;
-
-            int index = vo.playerVGoods.IndexOf(vo.activeSkinId);
-
-            if (index == (vo.playerVGoods.Count - 1)) 
-            {
-                incThemeButton.interactable = false;
-                decThemeButton.interactable = true;
-            } 
-            else if (index == 0) 
-            {
-                incThemeButton.interactable = true;
-                decThemeButton.interactable = false;
-            } 
-            else 
-            {
-                incThemeButton.interactable = true;
-                decThemeButton.interactable = true;
-            }
-        }
-  */      
-
-/*
-private void OnAudioIsOnButtonClicked()
-{
-    audioService.ToggleAudio(false);
-    RefreshAudioButtons();
-}
-
-private void OnAudioIsOffButtonClicked()
-{
-    audioService.ToggleAudio(true);
-    audioService.PlayStandardClick();
-    RefreshAudioButtons();
-}
-
-private void RefreshAudioButtons()
-{
-    audioIsOnButton.gameObject.SetActive(audioService.IsAudioOn());
-    audioIsOffButton.gameObject.SetActive(!audioService.IsAudioOn());
-}
-*/

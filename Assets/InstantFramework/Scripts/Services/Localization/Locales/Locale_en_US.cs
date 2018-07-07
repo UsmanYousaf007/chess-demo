@@ -78,7 +78,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "PLAY COMPUTER" },
                 { LocalizationKey.CPU_MENU_THEMES, "THEMES" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "Computer" },
-                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty {0}" },
+                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
 
                 { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN GAME" },
