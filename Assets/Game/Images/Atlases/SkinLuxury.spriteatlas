@@ -71,10 +71,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f79d2c64c5a7b40c3aa7364b4cc5310d, type: 3}
   - {fileID: 21300000, guid: 4049ae47492dc4d48bd5b030f86e9c7f, type: 3}
   - {fileID: 21300000, guid: 5123e71d1a67d4b70bbbfd31e34aa79f, type: 3}
+  - {fileID: 21300000, guid: 617ec5eeacdfe408ab52dadf221ecaa0, type: 3}
+  - {fileID: 21300000, guid: d17aaab8272224557bb891a9469af136, type: 3}
+  - {fileID: 21300000, guid: fd134102ed17e433da210a5c555f7845, type: 3}
   - {fileID: 21300000, guid: f1502c0dfe5d84655aad50abebe137e0, type: 3}
   - {fileID: 21300000, guid: c8b0cf6e27e0c4076bc34eea47b6b91c, type: 3}
   - {fileID: 21300000, guid: 28e9259b0bd394c9a9df22f19befe9d5, type: 3}
-  - {fileID: 21300000, guid: 617ec5eeacdfe408ab52dadf221ecaa0, type: 3}
   - {fileID: 21300000, guid: 3c6b991abd25e48759c5222dd7bd15ac, type: 3}
   - {fileID: 21300000, guid: d95984b56665441af8ecc297f86d8502, type: 3}
   - {fileID: 21300000, guid: cccf65b37920b455dbbc060e3cc1477b, type: 3}
@@ -84,8 +86,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a97b4391e2b08406a96123e8753966c5, type: 3}
   - {fileID: 21300000, guid: 43d7b5b5c83aa4b93a58d9ee24984c10, type: 3}
   - {fileID: 21300000, guid: 3445ffb1dea294c75a2f493293e7b93c, type: 3}
-  - {fileID: 21300000, guid: d17aaab8272224557bb891a9469af136, type: 3}
-  - {fileID: 21300000, guid: fd134102ed17e433da210a5c555f7845, type: 3}
   - {fileID: 21300000, guid: ba57d228fbd664f9188c40963a6c809f, type: 3}
   - {fileID: 21300000, guid: 8106f447a4f1a4bd0b5fa4cd3e0a61fc, type: 3}
   - {fileID: 21300000, guid: ac8be78ed99df4d23acb689dc342f356, type: 3}
@@ -94,9 +94,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9b222e719efd747c8807f26bd256b9cd, type: 3}
   - {fileID: 21300000, guid: 2e2655d79d5c14c9e908a7d5a7b2fbf2, type: 3}
   - {fileID: 21300000, guid: 2108d968491d84a5f909d6edacf6041b, type: 3}
-  - {fileID: 21300000, guid: 58318a741216f4809989d07c504c5721, type: 3}
   - {fileID: 21300000, guid: 86abc79e6387143d996cfd957fa1945a, type: 3}
   - {fileID: 21300000, guid: 6ad31afa3175249ee8fbabc5c4018be8, type: 3}
+  - {fileID: 21300000, guid: 58318a741216f4809989d07c504c5721, type: 3}
   m_PackedSpriteNamesToIndex:
   - SkinLuxury_StandardTitleBar
   - SkinLuxury_StandardDlg
@@ -105,10 +105,12 @@ SpriteAtlas:
   - SkinLuxury_Promo
   - SkinLuxury_ChessboardBar
   - SkinLuxury_PlayerTo
+  - SkinLuxury_OpponentTo
+  - SkinLuxury_PlayerFrom
+  - SkinLuxury_OpponentFrom
   - SkinLuxury_Wb
   - SkinLuxury_Wn
   - SkinLuxury_Wk
-  - SkinLuxury_OpponentTo
   - SkinLuxury_Wr
   - SkinLuxury_Wq
   - SkinLuxury_Wp
@@ -118,8 +120,6 @@ SpriteAtlas:
   - SkinLuxury_bk
   - SkinLuxury_bn
   - SkinLuxury_bb
-  - SkinLuxury_PlayerFrom
-  - SkinLuxury_OpponentFrom
   - SkinLuxury_IncDecBtn
   - SkinLuxury_cbr
   - SkinLuxury_cbq
@@ -128,8 +128,8 @@ SpriteAtlas:
   - SkinLuxury_cWn
   - SkinLuxury_cbn
   - SkinLuxury_cbb
-  - SkinLuxury_cWp
   - SkinLuxury_cWq
   - SkinLuxury_cWr
+  - SkinLuxury_cWp
   m_Tag: SkinLuxury
   m_IsVariant: 0
