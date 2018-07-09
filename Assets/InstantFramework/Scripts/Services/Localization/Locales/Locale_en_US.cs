@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                 #region CPUMenu
 
                 { LocalizationKey.CPU_MENU_STRENGTH, "Computer\nDifficulty" },
-                { LocalizationKey.CPU_MENU_IN_PROGRESS, "Game In Progress" },
+                { LocalizationKey.CPU_MENU_IN_PROGRESS, "Resume" },
                 { LocalizationKey.CPU_MENU_DURATION, "Time Limit" },
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
