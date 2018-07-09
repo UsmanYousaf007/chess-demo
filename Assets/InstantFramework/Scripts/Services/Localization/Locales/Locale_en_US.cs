@@ -104,7 +104,7 @@ namespace TurboLabz.InstantFramework
                 #region Multiplayer
 
                 { LocalizationKey.MULTIPLAYER_SEARCHING, "Searching..." },
-                { LocalizationKey.MULTIPLAYER_FOUND, "Get Ready" },
+                { LocalizationKey.MULTIPLAYER_FOUND, "Get Ready..." },
 
                 #endregion
 

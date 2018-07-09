@@ -40,7 +40,7 @@ namespace TurboLabz.Multiplayer
         private float clockSpeed;
 
         private readonly Color labelEnabledColor = new Color(1f, 1f, 1f, 1f);
-        private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.6f);
+        private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.3f);
         private readonly Color imageDisabledColor = new Color(0.49f, 0.49f, 0.49f);
         private const double clockEmergencyThresholdSeconds = 10;
 
@@ -245,7 +245,7 @@ namespace TurboLabz.Multiplayer
                 return Colors.RED;
             }
 
-            return labelEnabledColor;
+            return Colors.YELLOW;
         }
 
         private string FormatTimer(TimeSpan timer)
