@@ -15,12 +15,9 @@ namespace TurboLabz.InstantFramework
         public int eloScore;
         public string countryId;
 
-        public ProfileVO(IPlayerModel playerModel)
+        public ProfileVO()
         {
-            playerPic = playerModel.socialPic;
-            playerName = playerModel.name;
-            eloScore = playerModel.eloScore;
-            countryId = playerModel.countryId;
+            
         }
     }
 }

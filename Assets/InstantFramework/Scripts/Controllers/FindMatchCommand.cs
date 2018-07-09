@@ -83,8 +83,21 @@ namespace TurboLabz.InstantFramework
 
         private void MatchFound()
         {
-            matchFoundSignal.Dispatch(matchInfoModel.opponentPublicProfile.profilePicture);
+            // Store the player prematch elo
+            matchInfoModel.playerPrematchElo = playerModel.eloScore;
+
+            // Create and dispatch opponent profile with the match found signal
+            PublicProfile publicProfile = matchInfoModel.opponentPublicProfile;
+
+            ProfileVO pvo = new ProfileVO();
+            pvo.playerPic = publicProfile.profilePicture;
+            pvo.playerName = publicProfile.name;
+            pvo.eloScore = publicProfile.eloScore;
+            pvo.countryId = publicProfile.countryId;
+
+            matchFoundSignal.Dispatch(pvo);
             getGameStartTimeSignal.Dispatch();
+
             Release();
         }
     }

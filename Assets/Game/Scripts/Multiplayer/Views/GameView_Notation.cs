@@ -21,16 +21,16 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-        public Text commentary;
+        //public Text commentary;
 
         public void OnParentShowCommentary()
         {
-            commentary.text = "";
+            //commentary.text = "";
         }
 
         public void UpdateCommentary(string txt)
         {
-            commentary.text = txt;
+            //commentary.text = txt;
         }
 
         /*

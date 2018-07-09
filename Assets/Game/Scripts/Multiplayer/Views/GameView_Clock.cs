@@ -280,8 +280,8 @@ namespace TurboLabz.Multiplayer
         {
             playerClockLabel.text = "";
             opponentClockLabel.text = "";
-            playerScore.text = "";
-            opponentScore.text = "";
+            //playerScore.text = "";
+            //opponentScore.text = "";
         }
     }
 }

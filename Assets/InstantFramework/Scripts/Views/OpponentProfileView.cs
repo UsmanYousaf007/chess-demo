@@ -24,13 +24,9 @@ using DG.Tweening;
 
 namespace TurboLabz.InstantGame
 {
-    public class ProfileView : View
+    public class OpponentProfileView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
-
-        public Button facebookButton;
-        public Text facebookButtonLabel;
-        public GameObject facebookConnectAnim;
 
         public Image profilePic;
         public Text profileName;
@@ -40,75 +36,22 @@ namespace TurboLabz.InstantGame
         public Text eloScoreValue;
         public Image playerFlag;
 
-        public Signal facebookButtonClickedSignal = new Signal();
-
         public void Init()
         {
-            if (facebookButton != null)
-            {
-                facebookButton.onClick.AddListener(OnFacebookButtonClicked);
-                facebookConnectAnim.SetActive(false);
-            }
-
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
         }
 
         public void CleanUp()
         {
-            if (facebookButton != null)
-            {
-                facebookButton.onClick.RemoveAllListeners();
-            }
         }
 
         public void UpdateView(ProfileVO vo)
         {
-            if (facebookButtonLabel != null)
-            {
-                facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
-            }
-
             profileName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
 
             SetProfilePic(vo.playerPic);
-
-            if (facebookButton != null)
-            {
-                if (vo.isFacebookLoggedIn)
-                {
-                    facebookButton.gameObject.SetActive(false);
-                }
-
-                facebookConnectAnim.SetActive(false);
-            }
-        }
-
-        public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
-        {
-            if (isSuccessful)
-            {
-                SetProfilePic(pic);
-                profileName.text = name;
-
-                if (facebookButton != null)
-                {
-                    facebookButton.gameObject.SetActive(false);
-                }
-            }
-            else
-            {
-                if (facebookButton != null)
-                {
-                    facebookButton.enabled = true;
-                }
-            }
-
-            if (facebookButton != null)
-            {
-                facebookConnectAnim.SetActive(false);
-            }
         }
 
         public void Show()
@@ -135,13 +78,6 @@ namespace TurboLabz.InstantGame
                 profilePic.sprite = sprite;
                 hasProfilePicBorder.SetActive(true);
             }
-        }
-
-        private void OnFacebookButtonClicked()
-        {
-            facebookButtonClickedSignal.Dispatch();
-            facebookConnectAnim.SetActive(true);
-            facebookButton.enabled = false;
         }
     }
 }

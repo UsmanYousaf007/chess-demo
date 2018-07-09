@@ -20,16 +20,13 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch signal
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        //[Inject] public EnterPlaybackSignal enterPlaybackSignal { get; set; }
 
         public void OnRegisterResults()
         {
             view.InitResults();
             view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
             view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
-            view.enterPlaybackSignal.AddListener(OnEnterPlayback);
             view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
-			view.resultsStatsButtonClickedSignal.AddListener(OnResultsStatsButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -54,11 +51,20 @@ namespace TurboLabz.Multiplayer
                 view.HideResultsDialog();
             }
         }
+
+        [ListensTo(typeof(AppEventSignal))]
+        public void OnAppEvent(AppEvent evt)
+        {
+            if (evt == AppEvent.ESCAPED)
+            {
+                view.ExitPlaybackMode();
+            }
+        }
             
         [ListensTo(typeof(UpdateResultDialogSignal))]
-		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins)
+        public void OnUpdateResults(ResultsVO vo)
         {
-            view.UpdateResultsDialog(gameEndReason, playerWins);
+            view.UpdateResultsDialog(vo);
         }
 
         [ListensTo(typeof(EnableResultsDialogButtonSignal))]
@@ -77,19 +83,9 @@ namespace TurboLabz.Multiplayer
             //showAdSignal.Dispatch();
         }
 
-        private void OnEnterPlayback()
-        {
-            //enterPlaybackSignal.Dispatch();
-        }
-
         private void OnResultsDialogButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
         }
-
-		private void OnResultsStatsButtonClicked()
-		{
-			//loadStatsSignal.Dispatch();
-		}
     }
 }

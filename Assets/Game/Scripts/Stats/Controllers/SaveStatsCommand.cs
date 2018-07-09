@@ -28,7 +28,7 @@ namespace TurboLabz.InstantGame
         [Inject] public int result { get; set; }
 
         // Models
-        [Inject] public IStatsModel statsModel { get; set; }
+        [Inject] public ICPUStatsModel statsModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         // Services

@@ -5,19 +5,21 @@
 /// 
 /// @author Faraz Ahmed <faraz@turbolabz.com>
 /// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-10-04 13:31:38 UTC+05:00
+/// @date 2016-12-16 16:41:09 UTC+05:00
 /// 
 /// @description
 /// [add_description_here]
-using TurboLabz.Chess;
-using System.Collections.Generic;
 
-namespace TurboLabz.InstantGame
+using UnityEngine;
+using TurboLabz.Chess;
+
+namespace TurboLabz.Multiplayer
 {
-    public interface ICPUStatsModel
+    public struct ResultsVO
     {
-        Dictionary<int, PerformanceSet> stats { get; set; }
-        void Save(int durationIndex, int difficulty, int result);
-        void Reset();
+        public GameEndReason reason;
+        public bool playerWins;
+        public int currentEloScore;
+        public int eloScoreDelta;
     }
 }

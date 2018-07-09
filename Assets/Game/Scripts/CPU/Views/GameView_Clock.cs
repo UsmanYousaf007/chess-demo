@@ -80,6 +80,9 @@ namespace TurboLabz.CPU
                 DisablePlayerTimer();
                 EnableOpponentTimer();
             }
+
+            playerClockLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_TURN_PLAYER);
+            opponentClockLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_TURN_OPPONENT);
         }
 
         public void InitTimers(InitTimerVO vo)
@@ -111,11 +114,6 @@ namespace TurboLabz.CPU
                 DisablePlayerTimer();
                 EnableOpponentTimer();
             }
-
-            string turnText = localizationService.Get(LocalizationKey.CPU_GAME_TURN);
-            playerClockLabel.text = turnText;
-            opponentClockLabel.text = turnText;
-
         }
 
         public void PlayerTurnComplete()

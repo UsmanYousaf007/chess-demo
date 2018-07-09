@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                 #region CPUMenu
 
                 { LocalizationKey.CPU_MENU_STRENGTH, "Computer\nDifficulty" },
-                { LocalizationKey.CPU_MENU_IN_PROGRESS, "Game In Progress" },
+                { LocalizationKey.CPU_MENU_IN_PROGRESS, "Resume" },
                 { LocalizationKey.CPU_MENU_DURATION, "Time Limit" },
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
@@ -84,7 +84,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN GAME" },
                 { LocalizationKey.CPU_GAME_UNDO_BUTTON, "UNDO" },
                 { LocalizationKey.CPU_GAME_HINT_BUTTON, "HINT" },
-                { LocalizationKey.CPU_GAME_TURN, "TURN" },
+                { LocalizationKey.CPU_GAME_TURN_PLAYER, "YOUR MOVE" },
+                { LocalizationKey.CPU_GAME_TURN_OPPONENT, "THEIR MOVE" },
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
                 { LocalizationKey.CPU_GAME_SAVE_AND_EXIT, "SAVE & EXIT" },
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },

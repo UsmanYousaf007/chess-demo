@@ -18,7 +18,7 @@ using TurboLabz.CPU;
 
 namespace TurboLabz.InstantGame
 {
-    public class StatsModel : IStatsModel
+    public class CPUStatsModel : ICPUStatsModel
     {
         [Inject] public ILocalDataService localDataService { get; set; }
 

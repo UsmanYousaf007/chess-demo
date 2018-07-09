@@ -19,6 +19,7 @@ using TurboLabz.Chess;
 using UnityEngine;
 using TurboLabz.Multiplayer;
 using TurboLabz.TLUtils;
+using GameSparks.Api.Responses;
 
 namespace TurboLabz.InstantFramework
 {
@@ -71,22 +72,25 @@ namespace TurboLabz.InstantFramework
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
         {
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
+            GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(gameData, playerModel.id);
+            AnnounceResults(accountDetailsData, gameData, playerModel.id);
         }
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
         {
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
+            GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(gameData, matchInfoModel.opponentPublicProfile.id);
+            AnnounceResults(accountDetailsData, gameData, matchInfoModel.opponentPublicProfile.id);
         }
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
+            GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(gameData, null);
+            AnnounceResults(accountDetailsData, gameData, null);
         }
 
         private void LoadChessboardModel(GSData gameData)
@@ -124,7 +128,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void AnnounceResults(GSData gameData, string winnerId)
+        private void AnnounceResults(GSData accountDetailsData, GSData gameData, string winnerId)
         {
             UpdateTimerData(gameData);
 
@@ -153,10 +157,11 @@ namespace TurboLabz.InstantFramework
             }
 
             // Finally update the player model
-            playerModel.eloScore = 0;
-            playerModel.totalGamesWon = 0;
-            playerModel.totalGamesLost = 0;
-            playerModel.totalGamesDrawn = 0;
+            AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
+            playerModel.eloScore = accountDetailsResponse.ScriptData.GetInt(GSBackendKeys.ELO_SCORE).Value;
+            playerModel.totalGamesWon = accountDetailsResponse.ScriptData.GetInt(GSBackendKeys.GAMES_WON).Value;
+            playerModel.totalGamesLost = accountDetailsResponse.ScriptData.GetInt(GSBackendKeys.GAMES_LOST).Value;
+            playerModel.totalGamesDrawn = accountDetailsResponse.ScriptData.GetInt(GSBackendKeys.GAMES_DRAWN).Value;
         }
 
         private void UpdateMoveData(GSData gameData)

@@ -35,6 +35,7 @@ namespace TurboLabz.InstantGame
         public Image cover;
 
         public Text inProgressLabel;
+        public GameObject inProgressSticker;
         public GameObject setStrength;
 
         public Text strengthLabel;
@@ -124,7 +125,7 @@ namespace TurboLabz.InstantGame
         {
             UpdateStrength(vo);
 			
-            inProgressLabel.gameObject.SetActive(vo.inProgress);
+            inProgressSticker.SetActive(vo.inProgress);
             setStrength.SetActive(!vo.inProgress);
 		}
 

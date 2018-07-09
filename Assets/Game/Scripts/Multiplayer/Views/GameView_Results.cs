@@ -38,6 +38,12 @@ namespace TurboLabz.Multiplayer
         public Text resultsCloseButtonLabel;
         public Button resultsDialogButton;
 
+        public Button playbackOverlay;
+
+        public Text ratingLabel;
+        public Text ratingValue;
+        public Text ratingDelta;
+
         public Signal resultsExitButtonClickedSignal = new Signal();
 		public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
@@ -57,11 +63,15 @@ namespace TurboLabz.Multiplayer
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
+            playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
 		
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
+            ratingLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
 		
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+
+            playbackOverlay.gameObject.SetActive(false);
         }
 
         public void CleanupResults()
@@ -95,15 +105,29 @@ namespace TurboLabz.Multiplayer
             resultsDialog.SetActive(false);
         }
 
-		public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins)
+        public void UpdateResultsDialog(ResultsVO vo)
         {
             HideMenu();
             DisableInteraction();
             EnableModalBlocker();
 
-            this.playerWins = playerWins;
+            ratingValue.text = vo.currentEloScore.ToString();
+
+            if (vo.eloScoreDelta >= 0)
+            {
+                ratingDelta.text = "+" + vo.eloScoreDelta;
+                ratingDelta.color = Colors.GREEN;
+            }
+            else
+            {
+                ratingDelta.text = vo.eloScoreDelta.ToString();
+                ratingDelta.color = Colors.RED;
+            }
+
+            this.playerWins = vo.playerWins;
             isDraw = false;
             float animDelay = RESULTS_DELAY_TIME;
+            GameEndReason gameEndReason = vo.reason;
 
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
             {
@@ -201,6 +225,14 @@ namespace TurboLabz.Multiplayer
             resultsDialogButton.gameObject.SetActive(true);
         }
 
+        public void ExitPlaybackMode()
+        {
+            if (playbackOverlay.gameObject.activeSelf)
+            {
+                OnPlaybackOverlayClicked();
+            }
+        }
+
         private void AnimateResultsDialog()
         {
             resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
@@ -225,14 +257,15 @@ namespace TurboLabz.Multiplayer
             resultsExitButtonClickedSignal.Dispatch();
         }
 
+        private void OnResultsClosed()
+        {
+            HideResultsDialog();
+            playbackOverlay.gameObject.SetActive(true);
+        }
+
         private void OnAdsButtonClicked()
         {
             showAdButtonClickedSignal.Dispatch();
-        }
-
-        private void OnResultsClosed()
-        {
-            enterPlaybackSignal.Dispatch();
         }
 
         private void OnResultsDialogButtonClicked()
@@ -244,5 +277,11 @@ namespace TurboLabz.Multiplayer
 		{
 			resultsStatsButtonClickedSignal.Dispatch();
 		}
+
+        private void OnPlaybackOverlayClicked()
+        {
+            playbackOverlay.gameObject.SetActive(false);
+            ShowResultsDialog();
+        }
     }
 }

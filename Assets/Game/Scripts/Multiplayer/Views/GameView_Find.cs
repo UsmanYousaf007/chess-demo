@@ -84,17 +84,17 @@ namespace TurboLabz.Multiplayer
             EnableModalBlocker();
         }
 
-        public void MatchFound(Sprite opponentPic)
+        public void MatchFound(ProfileVO vo)
         {
             StopRollingOpponentProfilePicture();
 
-            if (opponentPic == null)
+            if (vo.playerPic == null)
             {
                 findAvatar.sprite = defaultAvatar;
             }
             else
             {
-                findAvatar.sprite = opponentPic;
+                findAvatar.sprite = vo.playerPic;
             }
 
             searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);

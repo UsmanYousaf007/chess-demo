@@ -18,5 +18,10 @@ namespace TurboLabz.InstantGame
         public int selectedDurationIndex;
         public int[] durationMinutes;
         public Dictionary<int, PerformanceSet> stats;
+        public double onlineWinPct;
+        public int onlineWon;
+        public int onlineLost;
+        public int onlineDrawn;
+        public int onlineTotal;
     }
 }
