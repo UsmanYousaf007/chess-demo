@@ -17,8 +17,8 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-        public Text playerScore;
-        public Text opponentScore;
+       // public Text playerScore;
+       // public Text opponentScore;
 
         public void OnParentShowScore()
         {
@@ -42,8 +42,8 @@ namespace TurboLabz.Multiplayer
 
         private void EmptyScores()
         {
-            playerScore.text = "";
-            opponentScore.text = "";
+           // playerScore.text = "";
+           // opponentScore.text = "";
         }
 
     }

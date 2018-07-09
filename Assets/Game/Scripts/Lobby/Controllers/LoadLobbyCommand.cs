@@ -47,7 +47,11 @@ namespace TurboLabz.InstantGame
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
             // If the social pic is not available yet
-            ProfileVO pvo = new ProfileVO(playerModel);
+            ProfileVO pvo = new ProfileVO();
+            pvo.playerPic = playerModel.socialPic;
+            pvo.playerName = playerModel.name;
+            pvo.eloScore = playerModel.eloScore;
+            pvo.countryId = playerModel.countryId;
 
             if (facebookService.isLoggedIn())
             {

@@ -84,6 +84,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<BottomNavView>().To<BottomNavMediator>();
             mediationBinder.Bind<TopNavView>().To<TopNavMediator>();
             mediationBinder.Bind<ProfileView>().To<ProfileMediator>();
+            mediationBinder.Bind<OpponentProfileView>().To<OpponentProfileMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

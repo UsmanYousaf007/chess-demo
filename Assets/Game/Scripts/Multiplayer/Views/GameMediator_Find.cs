@@ -13,6 +13,7 @@
 
 using TurboLabz.InstantFramework;
 using UnityEngine;
+using TurboLabz.TLUtils;
 
 
 namespace TurboLabz.Multiplayer 
@@ -43,9 +44,9 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(MatchFoundSignal))]
-        public void OnMatchFound(Sprite opponentPic)
-        {
-            view.MatchFound(opponentPic);
+        public void OnMatchFound(ProfileVO vo)
+        {LogUtil.Log("MATCH FOUND!!! find view", "red");
+            view.MatchFound(vo);
         }
     }
 }
