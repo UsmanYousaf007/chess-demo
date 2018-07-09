@@ -93,7 +93,7 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "BACK TO LOBBY" },
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_OK, "OK" },
-                { LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE, "Reward Bucks" },
+                { LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE, "Reward Coins" },
                 { LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, "FREE COINS" },
                 { LocalizationKey.CPU_FREE_BUCKS_BONUS, "Coin Bonus x{0}" },
                 { LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE, "Available Soon" },
@@ -126,19 +126,19 @@ namespace TurboLabz.InstantFramework
 
 				{ LocalizationKey.CPU_STORE_HEADING, "Themes Shop" },
 				{ LocalizationKey.CPU_STORE_OWNED, "Owned" },
-				{ LocalizationKey.CPU_STORE_BUCKS, "Bucks" },
+				{ LocalizationKey.CPU_STORE_BUCKS, "Coins" },
 
 				{ LocalizationKey.CPU_STORE_BUY_THEME_TITLE, "Buy Theme" },
 				{ LocalizationKey.CPU_STORE_BUY_BUY_BUTTON, "BUY" },
 
-				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE, "Not Enough Bucks" },
-				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING, "Would you like to buy more bucks?" },
+				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE, "Not Enough Coins" },
+				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING, "Would you like to buy more coins?" },
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_BUY, "BUY" },
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON, "YES" },
                 { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON, "NO" },
 
 
-				{ LocalizationKey.CPU_STORE_BUCK_PACKS_TITLE, "Buy Bucks" },
+				{ LocalizationKey.CPU_STORE_BUCK_PACKS_TITLE, "Buy Coins" },
 				{ LocalizationKey.CPU_STORE_BUCK_PACKS_SUB_HEADING, "Value Packs" },
 				{ LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE, "Try Later" },
 
