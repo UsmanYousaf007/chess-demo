@@ -20,14 +20,12 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch signal
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        //[Inject] public EnterPlaybackSignal enterPlaybackSignal { get; set; }
 
         public void OnRegisterResults()
         {
             view.InitResults();
             view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
             view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
-            view.enterPlaybackSignal.AddListener(OnEnterPlayback);
             view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
         }
 
@@ -53,6 +51,15 @@ namespace TurboLabz.Multiplayer
                 view.HideResultsDialog();
             }
         }
+
+        [ListensTo(typeof(AppEventSignal))]
+        public void OnAppEvent(AppEvent evt)
+        {
+            if (evt == AppEvent.ESCAPED)
+            {
+                view.ExitPlaybackMode();
+            }
+        }
             
         [ListensTo(typeof(UpdateResultDialogSignal))]
         public void OnUpdateResults(ResultsVO vo)
@@ -74,11 +81,6 @@ namespace TurboLabz.Multiplayer
         private void OnShowAdButtonClicked()
         {
             //showAdSignal.Dispatch();
-        }
-
-        private void OnEnterPlayback()
-        {
-            //enterPlaybackSignal.Dispatch();
         }
 
         private void OnResultsDialogButtonClicked()

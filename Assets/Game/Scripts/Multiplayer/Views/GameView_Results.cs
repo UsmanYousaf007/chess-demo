@@ -38,6 +38,8 @@ namespace TurboLabz.Multiplayer
         public Text resultsCloseButtonLabel;
         public Button resultsDialogButton;
 
+        public Button playbackOverlay;
+
         public Text ratingLabel;
         public Text ratingValue;
         public Text ratingDelta;
@@ -61,12 +63,15 @@ namespace TurboLabz.Multiplayer
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
+            playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
 		
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             ratingLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
 		
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+
+            playbackOverlay.gameObject.SetActive(false);
         }
 
         public void CleanupResults()
@@ -220,6 +225,14 @@ namespace TurboLabz.Multiplayer
             resultsDialogButton.gameObject.SetActive(true);
         }
 
+        public void ExitPlaybackMode()
+        {
+            if (playbackOverlay.gameObject.activeSelf)
+            {
+                OnPlaybackOverlayClicked();
+            }
+        }
+
         private void AnimateResultsDialog()
         {
             resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
@@ -244,14 +257,15 @@ namespace TurboLabz.Multiplayer
             resultsExitButtonClickedSignal.Dispatch();
         }
 
+        private void OnResultsClosed()
+        {
+            HideResultsDialog();
+            playbackOverlay.gameObject.SetActive(true);
+        }
+
         private void OnAdsButtonClicked()
         {
             showAdButtonClickedSignal.Dispatch();
-        }
-
-        private void OnResultsClosed()
-        {
-            enterPlaybackSignal.Dispatch();
         }
 
         private void OnResultsDialogButtonClicked()
@@ -263,5 +277,11 @@ namespace TurboLabz.Multiplayer
 		{
 			resultsStatsButtonClickedSignal.Dispatch();
 		}
+
+        private void OnPlaybackOverlayClicked()
+        {
+            playbackOverlay.gameObject.SetActive(false);
+            ShowResultsDialog();
+        }
     }
 }

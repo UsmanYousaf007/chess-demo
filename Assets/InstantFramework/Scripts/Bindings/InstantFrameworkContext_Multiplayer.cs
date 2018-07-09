@@ -21,7 +21,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
             commandBinder.Bind<PromoSelectedSignal>().To<ChessboardPromoCommand>();
             commandBinder.Bind<BackendPlayerTurnSignal>().To<PlayerTurnCommand>();
-            commandBinder.Bind<EnterPlaybackSignal>().To<EnterPlaybackCommand>();
 
 
             // Bind signals for dispatching to/from mediators

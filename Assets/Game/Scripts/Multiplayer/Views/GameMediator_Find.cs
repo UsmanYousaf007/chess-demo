@@ -45,7 +45,7 @@ namespace TurboLabz.Multiplayer
 
         [ListensTo(typeof(MatchFoundSignal))]
         public void OnMatchFound(ProfileVO vo)
-        {LogUtil.Log("MATCH FOUND!!! find view", "red");
+        {
             view.MatchFound(vo);
         }
     }
