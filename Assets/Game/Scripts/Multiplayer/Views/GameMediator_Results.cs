@@ -29,7 +29,6 @@ namespace TurboLabz.Multiplayer
             view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
             view.enterPlaybackSignal.AddListener(OnEnterPlayback);
             view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
-			view.resultsStatsButtonClickedSignal.AddListener(OnResultsStatsButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -56,9 +55,9 @@ namespace TurboLabz.Multiplayer
         }
             
         [ListensTo(typeof(UpdateResultDialogSignal))]
-		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins)
+        public void OnUpdateResults(ResultsVO vo)
         {
-            view.UpdateResultsDialog(gameEndReason, playerWins);
+            view.UpdateResultsDialog(vo);
         }
 
         [ListensTo(typeof(EnableResultsDialogButtonSignal))]
@@ -86,10 +85,5 @@ namespace TurboLabz.Multiplayer
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
         }
-
-		private void OnResultsStatsButtonClicked()
-		{
-			//loadStatsSignal.Dispatch();
-		}
     }
 }

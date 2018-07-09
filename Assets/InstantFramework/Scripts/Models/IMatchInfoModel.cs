@@ -15,9 +15,6 @@ namespace TurboLabz.InstantFramework
         bool isBotMatch { get; }
         bool isResuming { get; set; }
         EndGameResult endGameResult { get; set; }
-
-        int eloStatsWin  { get; set; }
-        int eloStatsLose  { get; set; }
-        int eloStatsDraw  { get; set; }
+        int playerPrematchElo { get; set; }
     }
 }

@@ -23,7 +23,14 @@ namespace TurboLabz.Multiplayer
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
 
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
-            cmd.updateResultsDialogSignal.Dispatch(cmd.chessboardModel.gameEndReason, playerWins);
+
+            ResultsVO vo = new ResultsVO();
+            vo.reason = model.gameEndReason;
+            vo.playerWins = playerWins;
+            vo.currentEloScore = cmd.playerModel.eloScore;
+            vo.eloScoreDelta = vo.currentEloScore - cmd.matchInfoModel.playerPrematchElo;
+
+            cmd.updateResultsDialogSignal.Dispatch(vo);
         }
     }
 }

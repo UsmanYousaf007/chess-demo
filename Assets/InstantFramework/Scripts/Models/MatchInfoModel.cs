@@ -11,10 +11,7 @@ namespace TurboLabz.InstantFramework
         public long gameStartTimeMilliseconds { get; set; }
         public PublicProfile opponentPublicProfile { get; set; }
         public string botId { get; set; }
-
-        public int eloStatsWin { get; set; }
-        public int eloStatsLose { get; set; }
-        public int eloStatsDraw { get; set; }
+        public int playerPrematchElo { get; set; }
 
         public bool isBotMatch
         {
@@ -35,10 +32,7 @@ namespace TurboLabz.InstantFramework
             botId = null;
             isResuming = false;
             endGameResult = EndGameResult.NONE;
-
-            eloStatsWin = 0;
-            eloStatsLose = 0;
-            eloStatsDraw = 0;
+            playerPrematchElo = 0;
         }
     }
 }
