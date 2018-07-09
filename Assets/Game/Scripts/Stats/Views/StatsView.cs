@@ -89,7 +89,7 @@ namespace TurboLabz.InstantGame
             }
 
             /// Update online stats
-            onlineWinPctVal.text = vo.onlineWinPct.ToString() + " %";
+            onlineWinPctVal.text = vo.onlineWinPct + " %";
             onlineWonVal.text = vo.onlineWon.ToString();
             onlineLostVal.text = vo.onlineLost.ToString();
             onlineDrawnVal.text = vo.onlineDrawn.ToString();

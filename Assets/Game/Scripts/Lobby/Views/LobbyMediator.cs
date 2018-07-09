@@ -31,8 +31,6 @@ namespace TurboLabz.InstantGame
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
-		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
