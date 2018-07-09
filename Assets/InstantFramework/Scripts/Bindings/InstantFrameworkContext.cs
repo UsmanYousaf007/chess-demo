@@ -173,7 +173,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
 
             // Bind models
-            injectionBinder.Bind<IStatsModel>().To<StatsModel>().ToSingleton();
+            injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();
         }
     }
 }

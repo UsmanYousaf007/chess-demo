@@ -27,23 +27,34 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateStatsSignal updateStatsSignal { get; set; }
 
         // Models
-        [Inject] public IStatsModel statsModel { get; set; }
+        [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
 
         public override void Execute()
         {
-            LogUtil.Log("LOADING STATS...", "cyan");
-
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
 
             StatsVO vo = new StatsVO();
             vo.selectedDurationIndex = cpuGameModel.durationIndex;
             vo.durationMinutes = CPUSettings.DURATION_MINUTES;
-            vo.stats = statsModel.stats;
+            vo.stats = cpuStatsModel.stats;
 
+            int won = playerModel.totalGamesWon;
+            int lost = playerModel.totalGamesLost;
+            int drawn = playerModel.totalGamesDrawn;
+
+            int totalGames = won + lost + drawn;
+            double winPct = (totalGames > 0) ? Math.Round((double)won / (double)totalGames, 1) : 0;
+
+            vo.onlineWinPct = winPct;
+            vo.onlineWon = won;
+            vo.onlineLost = lost;
+            vo.onlineDrawn = drawn;
+            vo.onlineTotal = totalGames;
 
             updateStatsSignal.Dispatch(vo);
         }
