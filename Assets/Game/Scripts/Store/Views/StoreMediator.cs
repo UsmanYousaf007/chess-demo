@@ -11,23 +11,19 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
-    public partial class CPUStoreMediator : Mediator
+    public partial class StoreMediator : Mediator
     {
         // View injection
-		[Inject] public CPUStoreView view { get; set; }
+		[Inject] public StoreView view { get; set; }
 
 		// Dispatch signals
 		[Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
-		[Inject] public ApplySkinSignal applySkinSignal { get; set; }
-		[Inject] public UpdateSkinSignal updateSkinSignal { get; set; }
-        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+		[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
         [Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
-
-        // Listen to signals
-        [Inject] public PurchaseStoreItemResultSignal purchaseResultSignal { get; set; }
+        [Inject] public SetSkinSignal setSkinSignal { get; set; }
 
  		public override void OnRegister()
 		{
@@ -49,6 +45,7 @@ namespace TurboLabz.InstantGame
 		[ListensTo(typeof(NavigatorShowViewSignal))]
 		public void OnShowView(NavigatorViewId viewId)
 		{
+            LogUtil.Log("Received nagivator show signal:" + viewId, "red");
 			if (viewId == NavigatorViewId.STORE) 
 			{
 				view.Show();
@@ -60,6 +57,11 @@ namespace TurboLabz.InstantGame
 		{
 			if (viewId == NavigatorViewId.STORE)
 			{
+                if (view.HasSkinChanged())
+                {
+                    // Dispatch save skin signal
+                }
+
 				view.Hide();
 			}
 		}
@@ -84,10 +86,24 @@ namespace TurboLabz.InstantGame
 			}
 		}
 
-		private void OnBackButtonClicked()
-		{
-			loadLobbySignal.Dispatch();
-		}
+        [ListensTo(typeof(PurchaseStoreItemResultSignal))]
+        public void OnPurchaseResult(StoreItem item, PurchaseResult result)
+        {
+            if (result == PurchaseResult.ALREADY_OWNED || result == PurchaseResult.PURCHASE_SUCCESS)
+            {
+                setSkinSignal.Dispatch(item.key);
+                // Todo: update the item as owned.
+            }
+            else if (result == PurchaseResult.NOT_ENOUGH_BUCKS)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
+            }
+            else if (result == PurchaseResult.PERMISSION_TO_PURCHASE)
+            {
+                updateStoreBuyDlgSignal.Dispatch(item);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_BUY_DLG);
+            }
+        }
 
 		public void OnAddBucksButtonClicked()
 		{
@@ -97,28 +113,12 @@ namespace TurboLabz.InstantGame
 		private void OnSkinItemClicked(StoreItem item)
 		{
 			// Purchase item after confirmation 
-            purchaseResultSignal.AddListener(OnPurchaseResult);
 			purchaseStoreItemSignal.Dispatch(item.key, false);
 		}
 
-        private void OnPurchaseResult(StoreItem item, PurchaseResult result)
+        private void OnBackButtonClicked()
         {
-            purchaseResultSignal.RemoveListener(OnPurchaseResult);
-
-            if (result == PurchaseResult.ALREADY_OWNED)
-            {
-                applySkinSignal.Dispatch(item.key);
-                updateSkinSignal.Dispatch();
-            }
-            else if (result == PurchaseResult.NOT_ENOUGH_BUCKS)
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_NOT_ENOUGH_DLG);
-            }
-            else if (result == PurchaseResult.PERMISSION_TO_PURCHASE)
-            {
-                updateStoreBuyDlgSignal.Dispatch(item);
-                navigatorEventSignal.Dispatch (NavigatorEvent.SHOW_BUY_DLG);
-            }
+            loadLobbySignal.Dispatch();
         }
     }
 }

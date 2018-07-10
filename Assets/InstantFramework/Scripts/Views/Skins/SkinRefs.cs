@@ -21,11 +21,17 @@ namespace TurboLabz.InstantFramework
 {
     public class SkinRefs : View 
     {
+        public Signal refreshSkinLinksSignal = new Signal();
+
         private string currentSkinId;
 
-        public void ApplySkin(string skinId)
+        public void LoadSkin(string skinId)
         {
-            if (skinId == currentSkinId) return;
+            if (skinId == currentSkinId) 
+            {
+                return;
+            }
+
             currentSkinId = skinId;
 
             SkinContainer container = SkinContainer.LoadSkin(skinId);
@@ -35,6 +41,8 @@ namespace TurboLabz.InstantFramework
                 Image img = child.GetComponent<Image>();
                 img.sprite = container.GetSprite(child.name);
             }
+
+            refreshSkinLinksSignal.Dispatch();
         }
     }
 }

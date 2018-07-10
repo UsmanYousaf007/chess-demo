@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public SkinLink view { get; set; }
 
-        [ListensTo(typeof(UpdateSkinSignal))]
+        [ListensTo(typeof(RefreshSkinLinksSignal))]
         public void UpdateSkinSignal()
         {
             view.UpdateSkin();

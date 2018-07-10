@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
-    public partial class CPUStoreView : View
+    public partial class StoreView : View
     {
 		[Inject] public ILocalizationService localizationService { get; set; }
 
@@ -27,6 +27,10 @@ namespace TurboLabz.InstantGame
 
 		List<SkinShopItemPrefab> prefabs = null;
 
+        // Current selected item
+
+        // Original selected item
+
         public void Init()
         {
 
@@ -34,6 +38,8 @@ namespace TurboLabz.InstantGame
 
 		public void UpdateView(StoreVO vo)
 		{
+            // Set original selected item
+            
 			if (prefabs == null) 
 			{
 				CreatePrefabs(vo);	
@@ -59,6 +65,12 @@ namespace TurboLabz.InstantGame
 			return gameObject.activeSelf;
 		}
 
+        public bool HasSkinChanged()
+        {
+            // return orginal != current;
+            return false;
+        }
+            
 		private void CreatePrefabs(StoreVO vo)
 		{
 			SkinThumbsContainer containter = SkinThumbsContainer.Load();

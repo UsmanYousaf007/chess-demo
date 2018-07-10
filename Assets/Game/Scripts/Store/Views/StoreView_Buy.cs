@@ -12,7 +12,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
-	public partial class CPUStoreView
+	public partial class StoreView
 	{
 		public Signal<StoreItem> buyButtonClickedSignal = new Signal<StoreItem>();
         public Signal closeButtonClickedSignal = new Signal();

@@ -26,11 +26,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateSkin()
         {
-            if (gameObject.name == "TagStandardBtn")
-            {
-                sourceImage = GameObject.FindWithTag("StandardBtn").GetComponent<Image>();
-            }
-
+            // Apply alpha if required
             string[] tokens = sourceImage.sprite.name.Split(',');
             float alpha = 1f;
 
@@ -39,6 +35,7 @@ namespace TurboLabz.InstantFramework
                 alpha = float.Parse(tokens[1])/100f;
             }
 
+            // Copy the skin sprite onto the target sprite
             if (targetImage != null)
             {
                 targetImage.sprite = sourceImage.sprite;
@@ -57,11 +54,6 @@ namespace TurboLabz.InstantFramework
         {
             targetImage = gameObject.GetComponent<Image>();
             targetSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        }
-
-        protected override void OnEnable()
-        {
-            UpdateSkin();
         }
     }
 }

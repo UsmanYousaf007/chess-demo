@@ -9,7 +9,7 @@ using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantGame 
 {
-	public partial class CPUStoreMediator
+	public partial class StoreMediator
 	{
 		// Dispatch Signals
 		[Inject] public LoadStoreSignal loadStoreSignal { get; set; }
@@ -57,21 +57,7 @@ namespace TurboLabz.InstantGame
 
 		private void OnBuyButtonClicked(StoreItem item)
 		{
-            // Make the confirmed purchase
-            purchaseResultSignal.AddListener(OnBuyPurchaseResult);
 			purchaseStoreItemSignal.Dispatch(item.key, true);
 		}
-
-        private void OnBuyPurchaseResult(StoreItem item, PurchaseResult result)
-        {
-            purchaseResultSignal.RemoveListener(OnBuyPurchaseResult);
-
-            if (result == PurchaseResult.PURCHASE_FAILURE)
-            {
-                // TODO: Show a message to user in case of purchase failure
-            }
-
-            loadStoreSignal.Dispatch();
-        }
 	}
 }

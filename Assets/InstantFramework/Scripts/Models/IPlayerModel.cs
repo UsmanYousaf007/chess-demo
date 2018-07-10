@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
         long adSlotId { get; set; }            
 
         // Inventory
-        string activeSkinId { get; set; }      
+        string activeSkinId { get; set; }   
         IOrderedDictionary<string, int> inventory { get; set; }
 
         PublicProfile publicProfile { get; }
