@@ -33,10 +33,6 @@ namespace TurboLabz.InstantFramework
 
 		public override void Execute()
 		{
-			Screen.sleepTimeout = SleepTimeout.NeverSleep;
-			Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
-			Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
-
 			Retain();
 
 			ListenForKeyEvents();

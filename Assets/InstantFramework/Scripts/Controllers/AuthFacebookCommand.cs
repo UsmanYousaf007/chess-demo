@@ -70,7 +70,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias()).Then(OnGetSocialPic_AuthConcluded);
+                facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias(), true).Then(OnGetSocialPic_AuthConcluded);
             }
             else
             {

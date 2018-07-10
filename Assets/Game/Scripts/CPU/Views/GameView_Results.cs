@@ -123,11 +123,14 @@ namespace TurboLabz.CPU
             }
             else if (gameEndReason == GameEndReason.RESIGNATION)
             {
-                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION);
-
                 if (!playerWins)
                 {
+                    resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
                     animDelay = RESULTS_SHORT_DELAY_TIME;
+                }
+                else
+                {
+                    resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT);
                 }
             }
             else if (gameEndReason == GameEndReason.STALEMATE)

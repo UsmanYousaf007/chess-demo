@@ -457,23 +457,3 @@ namespace TurboLabz.InstantGame
         }
   */      
 
-/*
-private void OnAudioIsOnButtonClicked()
-{
-    audioService.ToggleAudio(false);
-    RefreshAudioButtons();
-}
-
-private void OnAudioIsOffButtonClicked()
-{
-    audioService.ToggleAudio(true);
-    audioService.PlayStandardClick();
-    RefreshAudioButtons();
-}
-
-private void RefreshAudioButtons()
-{
-    audioIsOnButton.gameObject.SetActive(audioService.IsAudioOn());
-    audioIsOffButton.gameObject.SetActive(!audioService.IsAudioOn());
-}
-*/
