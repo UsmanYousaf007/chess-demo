@@ -58,6 +58,7 @@ namespace TurboLabz.InstantGame
 		private void OnBuyButtonClicked(StoreItem item)
 		{
 			purchaseStoreItemSignal.Dispatch(item.key, true);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
 		}
 	}
 }

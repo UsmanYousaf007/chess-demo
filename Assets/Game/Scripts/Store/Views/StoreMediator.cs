@@ -24,6 +24,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
         [Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
+        [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
 
  		public override void OnRegister()
 		{
@@ -45,7 +46,6 @@ namespace TurboLabz.InstantGame
 		[ListensTo(typeof(NavigatorShowViewSignal))]
 		public void OnShowView(NavigatorViewId viewId)
 		{
-            LogUtil.Log("Received nagivator show signal:" + viewId, "red");
 			if (viewId == NavigatorViewId.STORE) 
 			{
 				view.Show();
@@ -60,6 +60,7 @@ namespace TurboLabz.InstantGame
                 if (view.HasSkinChanged())
                 {
                     // Dispatch save skin signal
+                    savePlayerInventorySignal.Dispatch();
                 }
 
 				view.Hide();
@@ -91,8 +92,10 @@ namespace TurboLabz.InstantGame
         {
             if (result == PurchaseResult.ALREADY_OWNED || result == PurchaseResult.PURCHASE_SUCCESS)
             {
+                view.currentSkinItemId = item.key;
+                view.UpdateItemThumbnail(item.key);
+
                 setSkinSignal.Dispatch(item.key);
-                // Todo: update the item as owned.
             }
             else if (result == PurchaseResult.NOT_ENOUGH_BUCKS)
             {

@@ -22,7 +22,6 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            LogUtil.Log("SetSkinCommand for skin id: " + skinId, "cyan");
             playerModel.activeSkinId = skinId;
             loadSkinRefsSignal.Dispatch(skinId);
         }

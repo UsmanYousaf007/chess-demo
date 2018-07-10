@@ -23,7 +23,6 @@ namespace TurboLabz.InstantFramework
 
         Sprite profilePic { get; set; }
         Sprite socialPic { get; set; }
-        IDictionary<ExternalAuthType, ExternalAuth> externalAuths { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

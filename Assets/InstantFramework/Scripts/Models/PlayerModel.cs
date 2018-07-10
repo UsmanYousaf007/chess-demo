@@ -24,7 +24,6 @@ namespace TurboLabz.InstantFramework
 
         public Sprite profilePic { get; set; }
         public Sprite socialPic { get; set; }
-        public IDictionary<ExternalAuthType, ExternalAuth> externalAuths { get; set; }
 
         // Ads Info
         public int adLifetimeImpressions { get; set; }
@@ -64,8 +63,6 @@ namespace TurboLabz.InstantFramework
 
             profilePic = null;
             socialPic = null;
-            IDictionary<ExternalAuthType, ExternalAuth> externalAuths = 
-                new Dictionary<ExternalAuthType, ExternalAuth>();
 
             // Ads Info
             adLifetimeImpressions = 0;

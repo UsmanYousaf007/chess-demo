@@ -34,10 +34,6 @@ namespace TurboLabz.Multiplayer
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
 
-
-
-        private bool undoButtonWasActive;
-        private bool hintButtonWasActive;
         private bool menuButtonWasActive;
 
         public void Show()

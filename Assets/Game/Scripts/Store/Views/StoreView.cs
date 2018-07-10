@@ -28,8 +28,10 @@ namespace TurboLabz.InstantGame
 		List<SkinShopItemPrefab> prefabs = null;
 
         // Current selected item
+        public string currentSkinItemId;
 
         // Original selected item
+        public string originalSkinItemId;
 
         public void Init()
         {
@@ -39,14 +41,14 @@ namespace TurboLabz.InstantGame
 		public void UpdateView(StoreVO vo)
 		{
             // Set original selected item
+            originalSkinItemId = vo.playerModel.activeSkinId;
             
 			if (prefabs == null) 
 			{
 				CreatePrefabs(vo);	
 			}
 
-		
-			PopulateSkins(vo);
+            PopulateSkins(vo);
 		}
 
 		public void Show() 
@@ -67,8 +69,7 @@ namespace TurboLabz.InstantGame
 
         public bool HasSkinChanged()
         {
-            // return orginal != current;
-            return false;
+            return currentSkinItemId != originalSkinItemId;
         }
             
 		private void CreatePrefabs(StoreVO vo)
@@ -95,18 +96,34 @@ namespace TurboLabz.InstantGame
 				skinThumbnail.button.onClick.AddListener(() => OnSkinItemClicked(item));
 				skinThumbnail.displayName.text = item.displayName;
 				skinThumbnail.thumbnail.sprite = containter.GetSprite(item.key);
+
+                skinThumbnail.itemId = item.key;
 			}
 
 			Destroy(prefab);
 		}
 
+        private void SetItemOwned(SkinShopItemPrefab thumbnail)
+        {
+            Color colorOwned = Colors.YELLOW;
+            thumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_OWNED);
+            thumbnail.price.color = colorOwned;
+            thumbnail.bucksIcon.gameObject.SetActive (false);
+        }
+
+        private void SetItemForPurchase(SkinShopItemPrefab thumbnail, int cost)
+        {
+            Color colorNormal = Colors.WHITE;
+            thumbnail.price.text = cost.ToString();
+            thumbnail.price.color = colorNormal;
+            thumbnail.bucksIcon.gameObject.SetActive (true);
+        }
+
 		private void PopulateSkins(StoreVO vo)
 		{
-            
-            IMetaDataModel metaDataModel = vo.storeSettingsModel;
-            Color colorOwned = Colors.YELLOW;
-            Color colorNormal = Colors.WHITE;
+            TLUtils.LogUtil.Log("PopulateSkins() ", "cyan");
 
+            IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			int i = 0;
 			List<StoreItem> list = metaDataModel.store.lists["Skin"];
 			foreach (StoreItem item in list) 
@@ -120,19 +137,41 @@ namespace TurboLabz.InstantGame
 
                 if (vo.playerModel.OwnsVGood(item.key)) 
 				{
-					skinThumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_OWNED);
-					skinThumbnail.price.color = colorOwned;
-					skinThumbnail.bucksIcon.gameObject.SetActive (false);
+                    SetItemOwned(skinThumbnail);
 				} 
 				else 
 				{
-					skinThumbnail.price.text = item.currency2Cost.ToString();
-					skinThumbnail.price.color = colorNormal;
-					skinThumbnail.bucksIcon.gameObject.SetActive (true);
+                    SetItemForPurchase(skinThumbnail, item.currency2Cost);
 				}
 			}
-            
 		}
+
+        private SkinShopItemPrefab GetThumbnailPrefab(string shopItemId)
+        {
+            int count = prefabs.Count;
+            bool found = false;
+            int i = 0;
+
+            while (!found && i < count) 
+            {
+                found = prefabs[i].itemId == shopItemId;
+                if (!found)
+                {
+                    i++;
+                }
+            }
+
+            return found ? prefabs[i] : null;          
+        }
+
+        public void UpdateItemThumbnail(string shopItemId)
+        {
+            SkinShopItemPrefab thumnail = GetThumbnailPrefab(shopItemId);
+            if (thumnail != null)
+            {
+                SetItemOwned(thumnail);
+            }
+        }
 
 		private void OnSkinItemClicked(StoreItem item)
 		{

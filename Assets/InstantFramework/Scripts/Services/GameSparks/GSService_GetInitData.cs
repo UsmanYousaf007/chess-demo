@@ -75,16 +75,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnAccountDetailsSuccess(AccountDetailsResponse response)
         {
-            GSData externalIds = response.ExternalIds;
-            IDictionary<ExternalAuthType, ExternalAuth> externalAuthentications = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
-
             playerModel.id = response.UserId;
             playerModel.tag = response.ScriptData.GetString(GSBackendKeys.TAG);
             playerModel.name = response.DisplayName;
             playerModel.countryId = response.Location.Country;
 
             playerModel.bucks = response.Currency2.Value;
-            playerModel.externalAuths = externalAuthentications;
             playerModel.eloScore = response.ScriptData.GetInt(GSBackendKeys.ELO_SCORE).Value;
             playerModel.adLifetimeImpressions = response.ScriptData.GetInt(GSBackendKeys.AD_LIFETIME_IMPRESSIONS).Value;
 

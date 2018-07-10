@@ -40,8 +40,8 @@ namespace TurboLabz.CPU
         private TimeSpan opponentTimer;
         private float clockSpeed;
 
-        private readonly Color labelEnabledColor = new Color(1f, 1f, 1f, 1f);
-        private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.3f);
+        //private readonly Color labelEnabledColor = new Color(1f, 1f, 1f, 1f);
+        //private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.3f);
         private readonly Color imageDisabledColor = new Color(0.49f, 0.49f, 0.49f);
         private const double clockEmergencyThresholdSeconds = 10;
 

@@ -63,9 +63,6 @@ namespace TurboLabz.Multiplayer
             EnableModalBlocker();
             gameMenu.SetActive(true);
 
-            undoButtonWasActive = false;
-            hintButtonWasActive = false;
-
             DisableMenuButton();
         }
 

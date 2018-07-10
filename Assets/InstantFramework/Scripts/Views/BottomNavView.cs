@@ -68,7 +68,8 @@ namespace TurboLabz.InstantFramework
             settingsButton.onClick.AddListener(SettingsButtonClicked);
         }
 
-        void OnEnable()
+        [PostConstruct]
+        void Initialize()
         {
             SelectButton(buttonId);
         }
