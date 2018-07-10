@@ -29,9 +29,9 @@ namespace TurboLabz.InstantFramework
             return new FBAuthRequest().Send();
         }
 
-        public IPromise<FacebookResult, Sprite> GetSocialPic(string userId)
+        public IPromise<FacebookResult, Sprite> GetSocialPic(string userId, bool cachePic)
         {
-            return new FBGetSocialPicRequest().Send(userId, CachePlayerPic);
+            return new FBGetSocialPicRequest().Send(userId, OnGetSocialPicSuccess, cachePic);
         }
 
         public IPromise<FacebookResult, string> GetSocialName()
@@ -67,11 +67,14 @@ namespace TurboLabz.InstantFramework
             FB.LogOut();
         }
 
-        private void CachePlayerPic(Sprite sprite)
+        private void OnGetSocialPicSuccess(Sprite sprite, bool cachePic)
         {
-            ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
-            writer.Write(LOCAL_FACEBOOK_DATA_PIC, sprite);
-            writer.Close();
+            if (cachePic)
+            {
+                ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
+                writer.Write(LOCAL_FACEBOOK_DATA_PIC, sprite);
+                writer.Close();
+            }
         }
     }
 }
