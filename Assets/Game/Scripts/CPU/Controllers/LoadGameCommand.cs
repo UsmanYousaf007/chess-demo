@@ -103,7 +103,6 @@ namespace TurboLabz.CPU
 
 		private void ResetAll()
 		{
-            LogUtil.Log("Resetting chessboard model...", "cyan");
 			chessboardModel.Reset();
 			cpuGameModel.Reset();
 			cpuGameModel.inProgress = false;

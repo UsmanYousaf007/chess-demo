@@ -24,6 +24,13 @@ namespace TurboLabz.InstantFramework
         Image targetImage;
         SpriteRenderer targetSpriteRenderer;
 
+        [PostConstruct]
+        public void Initialize()
+        {
+            targetImage = gameObject.GetComponent<Image>();
+            targetSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
+
         public void UpdateSkin()
         {
             // Apply alpha if required
@@ -38,6 +45,8 @@ namespace TurboLabz.InstantFramework
             // Copy the skin sprite onto the target sprite
             if (targetImage != null)
             {
+                
+
                 targetImage.sprite = sourceImage.sprite;
 
                 Color tmp = targetImage.color;
@@ -48,12 +57,6 @@ namespace TurboLabz.InstantFramework
             {
                 targetSpriteRenderer.sprite = sourceImage.sprite;
             }
-        }
-
-        protected override void Awake()
-        {
-            targetImage = gameObject.GetComponent<Image>();
-            targetSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
     }
 }

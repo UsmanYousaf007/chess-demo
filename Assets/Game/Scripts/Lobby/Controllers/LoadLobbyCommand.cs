@@ -37,6 +37,7 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             setSkinSignal.Dispatch(playerModel.activeSkinId);
+
             loadCPUGameDataSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 

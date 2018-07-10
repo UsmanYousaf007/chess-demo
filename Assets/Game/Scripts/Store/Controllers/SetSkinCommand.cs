@@ -5,6 +5,7 @@
 
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
@@ -21,6 +22,7 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            LogUtil.Log("SetSkinCommand for skin id: " + skinId, "cyan");
             playerModel.activeSkinId = skinId;
             loadSkinRefsSignal.Dispatch(skinId);
         }
