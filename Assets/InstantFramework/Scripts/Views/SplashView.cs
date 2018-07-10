@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         public Signal splashAnimationCompletedSignal = new Signal();
         public Image cover;
         public Text connectingLabel;
+        public GameObject originalSplash;
 
         public void Init()
         {
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
+            GameObject.Destroy(originalSplash);
         }
     }
 }
