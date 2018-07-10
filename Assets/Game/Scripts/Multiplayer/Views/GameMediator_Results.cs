@@ -13,6 +13,7 @@
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Multiplayer 
 {
@@ -20,6 +21,7 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch signal
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         public void OnRegisterResults()
         {
@@ -76,6 +78,7 @@ namespace TurboLabz.Multiplayer
         private void OnResultsExitButtonClicked()
         {
             loadLobbySignal.Dispatch();
+            showAdSignal.Dispatch(UnityAdsPlacementId.END_GAME_VIDEO);
         }
 
         private void OnShowAdButtonClicked()

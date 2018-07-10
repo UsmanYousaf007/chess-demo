@@ -31,7 +31,8 @@ namespace TurboLabz.InstantFramework
 	public class SplashAnimCompleteSignal : Signal {}
 	public class ReceptionSignal : Signal {}
     public class LoadLobbySignal : Signal {}
-    public class ApplyPlayerInventorySignal : Signal {}
+    public class SavePlayerInventorySignal : Signal {}
+    public class SetSkinSignal : Signal<string> {}
     public class InitBackendOnceSignal : Signal {}
     public class PurchaseStoreItemSignal : Signal<string, bool> {}
     public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}
@@ -41,7 +42,7 @@ namespace TurboLabz.InstantFramework
     public class HaltSignal: Signal<BackendResult> {}
 
     // SKINS
-    public class ApplySkinSignal : Signal<string> {}
-    public class UpdateSkinSignal : Signal {}
+    public class LoadSkinRefsSignal : Signal<string> {}
+    public class RefreshSkinLinksSignal : Signal {}
 
 }

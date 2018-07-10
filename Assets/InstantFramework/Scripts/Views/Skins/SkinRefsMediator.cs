@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,10 +20,23 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public SkinRefs view { get; set; }
 
-        [ListensTo(typeof(ApplySkinSignal))]
+        // Dispatch signals
+        [Inject] public RefreshSkinLinksSignal refreshSkinLinksSignal { get; set; }
+
+        public override void OnRegister()
+        {
+            view.refreshSkinLinksSignal.AddListener(OnRefreshSkinLinks);
+        }
+
+        [ListensTo(typeof(LoadSkinRefsSignal))]
         public void UpdateSkinSignal(string skinId)
         {
-            view.ApplySkin(skinId);
+            view.LoadSkin(skinId);
+        }
+
+        void OnRefreshSkinLinks()
+        {
+            refreshSkinLinksSignal.Dispatch();
         }
     }
 }

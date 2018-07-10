@@ -21,12 +21,16 @@ namespace TurboLabz.InstantFramework
             Retain();
 
             // TODO: This is hardcoded to only handle skins. Make this generic for new item types
+<<<<<<< HEAD
             TLUtils.LogUtil.Log("SavePlayerInventoryCommand()  " + playerModel.activeSkinId);
+=======
+>>>>>>> origin/devel
             backendService.UpdateActiveInventory(playerModel.activeSkinId).Then(OnComplete);
         }
 
         private void OnComplete(BackendResult result)
         {
+<<<<<<< HEAD
             TLUtils.LogUtil.Log("SavePlayerInventoryCommand::OnComplete()", "cyan");
 
             if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
@@ -34,6 +38,11 @@ namespace TurboLabz.InstantFramework
                 backendErrorSignal.Dispatch(result);
 
                 TLUtils.LogUtil.Log("SavePlayerInventoryCommand::OnComplete() success!", "cyan");
+=======
+            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
+            {
+                backendErrorSignal.Dispatch(result);
+>>>>>>> origin/devel
             }
 
             Release();

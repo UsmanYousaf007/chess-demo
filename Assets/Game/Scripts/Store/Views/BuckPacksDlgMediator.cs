@@ -31,7 +31,7 @@ namespace TurboLabz.InstantGame
 
 		[ListensTo(typeof(NavigatorShowViewSignal))]
 		public void OnShowBuckPacksDlg(NavigatorViewId viewId)
-		{
+        {
 			if (viewId == NavigatorViewId.BUCK_PACKS_DLG) 
 			{
 				view.ShowBuckPacks();

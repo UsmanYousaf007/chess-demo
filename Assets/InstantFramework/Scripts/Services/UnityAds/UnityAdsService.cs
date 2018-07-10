@@ -18,17 +18,14 @@ namespace TurboLabz.InstantFramework
 {
     public class UnityAdsService : IAdsService
     {
-        public bool isRewardedAdAvailable
+        public bool IsAdAvailable(string placementId)
         {
-            get
-            {
-                return Advertisement.IsReady(UnityAdsPlacementId.REWARDED_VIDEO);
-            }
+            return Advertisement.IsReady(placementId);
         }
 
-        public IPromise<AdsResult> ShowRewardedAd()
+        public IPromise<AdsResult> ShowAd(string placementId)
         {
-            return new UnityAdsShowAdRequest().Send(UnityAdsPlacementId.REWARDED_VIDEO);
+            return new UnityAdsShowAdRequest().Send(placementId);
         }
     }
 }

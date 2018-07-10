@@ -206,10 +206,9 @@ namespace TurboLabz.InstantGame
 
         private void OnFreeBucksButtonClicked()
         {
-            showAdSignal.Dispatch();
+            showAdSignal.Dispatch(UnityAdsPlacementId.REWARDED_VIDEO);
         }
-            
-
+ 
         private void OnUpdateAdsSignal()
         {
             updateAdsSignal.Dispatch();

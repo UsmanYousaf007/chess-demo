@@ -21,7 +21,7 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
-        [Inject] public ApplySkinSignal applySkinSignal { get; set; }
+        [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public UpdatePlayerBucksDisplaySignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
@@ -36,7 +36,8 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            applySkinSignal.Dispatch(playerModel.activeSkinId);
+            setSkinSignal.Dispatch(playerModel.activeSkinId);
+
             loadCPUGameDataSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
