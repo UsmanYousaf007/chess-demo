@@ -17,5 +17,6 @@ namespace TurboLabz.InstantFramework
         // Unity settings
         public const bool MULTI_TOUCH_ENABLED = false;
         public const int TARGET_FRAME_RATE = 60;
+        public const string SUPPORT_EMAIL = "support@turbolabz.com";
     }
 }

@@ -23,17 +23,28 @@ namespace TurboLabz.InstantFramework
 {
     public class TopNavView : View
     {
+        [Inject] public IAudioService audioService { get; set; }
+
         public Button shareButton;
+        public Button audioOffButton;
+        public Button audioOnButton;
+        public Button supportButton;
         public Button addBucksButton;
         public Text playerBucks;
 
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal addBucksButtonClickedSignal = new Signal();
 
+
         public void Init()
         {
             shareButton.onClick.AddListener(OnShareAppButtonClicked);
             addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
+            audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
+            audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
+            supportButton.onClick.AddListener(OnSupportButtonClicked);
+
+            RefreshAudioButtons();
         }
 
         public void UpdatePlayerBucks(long bucks)
@@ -49,6 +60,30 @@ namespace TurboLabz.InstantFramework
         private void OnAddBucksButtonClicked()
         {
             addBucksButtonClickedSignal.Dispatch();
+        }
+
+        private void OnAudioOffButtonClicked()
+        {
+            audioService.ToggleAudio(false);
+            RefreshAudioButtons();
+        }
+
+        private void OnAudioOnButtonClicked()
+        {
+            audioService.ToggleAudio(true);
+            audioService.PlayStandardClick();
+            RefreshAudioButtons();
+        }
+
+        private void RefreshAudioButtons()
+        {
+            audioOffButton.gameObject.SetActive(audioService.IsAudioOn());
+            audioOnButton.gameObject.SetActive(!audioService.IsAudioOn());
+        }
+
+        private void OnSupportButtonClicked()
+        {
+            Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
         }
     }
 }

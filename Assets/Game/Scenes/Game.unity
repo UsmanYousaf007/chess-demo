@@ -14184,7 +14184,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ada8a6d4dadc84a47b5d4b7a6e474fa7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -34283,6 +34283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cover: {fileID: 422630783}
   connectingLabel: {fileID: 358552369}
+  originalSplash: {fileID: 0}
 --- !u!1 &1149197395
 GameObject:
   m_ObjectHideFlags: 0
@@ -45944,21 +45945,26 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114590935762026076, guid: 3e9840371a731497786a843bfee65310,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2045259342}
     - target: {fileID: 114884852116927392, guid: 3e9840371a731497786a843bfee65310,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2045259342}
-    - target: {fileID: 224019382453590204, guid: 3e9840371a731497786a843bfee65310,
+    - target: {fileID: 114590935762026076, guid: 3e9840371a731497786a843bfee65310,
         type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 40
-      objectReference: {fileID: 0}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2045259342}
+    - target: {fileID: 114610083099693552, guid: 3e9840371a731497786a843bfee65310,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2045259342}
+    - target: {fileID: 114114475237683398, guid: 3e9840371a731497786a843bfee65310,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2045259342}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e9840371a731497786a843bfee65310, type: 2}
   m_IsPrefabParent: 0
