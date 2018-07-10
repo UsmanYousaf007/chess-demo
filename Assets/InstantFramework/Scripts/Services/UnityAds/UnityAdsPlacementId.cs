@@ -15,6 +15,6 @@ namespace TurboLabz.InstantFramework
     public static class UnityAdsPlacementId
     {
         public const string REWARDED_VIDEO = "rewardedVideo";
-        public const string VIDEO = "video";
+        public const string END_GAME_VIDEO = "endGameVideo";
     }
 }

@@ -62,7 +62,6 @@ namespace TurboLabz.CPU
         [Inject] public TurnSwapSignal turnSwapSignal { get; set; }
         [Inject] public UpdateGameInfoSignal updateGameInfoSignal { get; set; }
         [Inject] public SaveStatsSignal saveStatsSignal { get; set; }
-        [Inject] public ShowAdSignal showAdsSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }

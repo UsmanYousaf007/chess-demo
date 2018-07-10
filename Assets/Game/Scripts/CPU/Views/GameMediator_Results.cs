@@ -27,7 +27,6 @@ namespace TurboLabz.CPU
         {
             view.InitResults();
             view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
-            view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
             view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
 			view.resultsStatsButtonClickedSignal.AddListener(OnResultsStatsButtonClicked);
         }
@@ -70,22 +69,10 @@ namespace TurboLabz.CPU
             view.UpdateResultsDialog(gameEndReason, playerWins);
         }
 
-        /*
-        [ListensTo(typeof(EnableResultsDialogButtonSignal))]
-        public void OnEnableResultsDialogButton()
-        {
-            view.EnableResultsDialogButton();
-        }
-        */
-
         private void OnResultsExitButtonClicked()
         {
             loadLobbySignal.Dispatch();
-        }
-
-        private void OnShowAdButtonClicked()
-        {
-            showAdSignal.Dispatch();
+            showAdSignal.Dispatch(UnityAdsPlacementId.END_GAME_VIDEO);
         }
 
         private void OnResultsDialogButtonClicked()

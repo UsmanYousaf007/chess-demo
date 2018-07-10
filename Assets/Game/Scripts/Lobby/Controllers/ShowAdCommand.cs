@@ -14,6 +14,9 @@ namespace TurboLabz.InstantGame
 {
     public class ShowAdCommand : Command
     {
+        // Parameters
+        [Inject] public string placementId { get; set; }
+
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
@@ -31,12 +34,16 @@ namespace TurboLabz.InstantGame
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 
+        private bool isRewarded;
+
         public override void Execute()
         {
-            if (adsService.isRewardedAdAvailable)
+            isRewarded = (placementId == UnityAdsPlacementId.REWARDED_VIDEO) ? true : false;
+
+            if (adsService.IsAdAvailable(placementId))
             {
-                adsService.ShowRewardedAd().Then(OnShowAd);
-                analyticsService.AdStart(false, UnityAdsPlacementId.REWARDED_VIDEO);
+                adsService.ShowAd(placementId).Then(OnShowAd);
+                analyticsService.AdStart(isRewarded, placementId);
                 toggleAdBlockerSignal.Dispatch(true);
                 Retain();
             }
@@ -44,15 +51,25 @@ namespace TurboLabz.InstantGame
 
         private void OnShowAd(AdsResult result)
         {
+            toggleAdBlockerSignal.Dispatch(false);
+
             if (result == AdsResult.FINISHED)
             {
-                backendService.ClaimReward(GSBackendKeys.ClaimReward.TYPE_AD_BUCKS).Then(OnClaimReward);
-                analyticsService.AdComplete(false, UnityAdsPlacementId.REWARDED_VIDEO);
+                analyticsService.AdComplete(isRewarded, placementId);
+
+                if (isRewarded)
+                {
+                    backendService.ClaimReward(GSBackendKeys.ClaimReward.TYPE_AD_BUCKS).Then(OnClaimReward);
+                }
+                else
+                {
+                    
+                    Release();
+                }
             }
             else if (result == AdsResult.SKIPPED)
             {
-                toggleAdBlockerSignal.Dispatch(false);
-                analyticsService.AdSkip(false, UnityAdsPlacementId.REWARDED_VIDEO);
+                analyticsService.AdSkip(isRewarded, placementId);
                 Release();
             }
         }
@@ -66,7 +83,6 @@ namespace TurboLabz.InstantGame
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
             }
 
-            toggleAdBlockerSignal.Dispatch(false);
             loadLobbySignal.Dispatch();
             Release();
         }

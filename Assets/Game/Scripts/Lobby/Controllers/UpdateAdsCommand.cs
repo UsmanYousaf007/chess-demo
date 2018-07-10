@@ -42,7 +42,7 @@ namespace TurboLabz.InstantGame
             {
                 if (playerModel.adSlotImpressions < metaDataModel.adsSettings.maxImpressionsPerSlot)
                 {
-                    state = adsService.isRewardedAdAvailable ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
+                    state = adsService.IsAdAvailable(UnityAdsPlacementId.REWARDED_VIDEO) ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace TurboLabz.InstantGame
             {
                 playerModel.adSlotId = currentSlotId;
                 playerModel.adSlotImpressions = 0;
-                state = adsService.isRewardedAdAvailable ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
+                state = adsService.IsAdAvailable(UnityAdsPlacementId.REWARDED_VIDEO) ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
             }
 
             Assertions.Assert(state != AdsState.NONE, "Ad state should never be none, something broke in the algorithm");

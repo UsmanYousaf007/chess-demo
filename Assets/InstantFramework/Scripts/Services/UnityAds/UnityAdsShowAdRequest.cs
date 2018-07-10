@@ -45,8 +45,6 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<AdsResult> Send(string placementId)
         {
-            Assertions.Assert(Advertisement.IsReady(placementId), "ShowAd must not be called before ads become available!");
-
             ShowAd(placementId);
 
             return promise;
@@ -54,6 +52,12 @@ namespace TurboLabz.InstantFramework
 
         public void ShowAd(string placementId)
         {
+            if (!Advertisement.IsReady(placementId))
+            {
+                DispatchResponse(AdsResult.FAILED);
+                return;
+            }
+
             ShowOptions showOptions = new ShowOptions();
             showOptions.resultCallback = OnShowAd;
 
@@ -64,17 +68,14 @@ namespace TurboLabz.InstantFramework
         {
             if (result == ShowResult.Finished)
             {
-                LogUtil.Log("Ad successfully shown.", "green");
                 DispatchResponse(AdsResult.FINISHED);
             }
             else if (result == ShowResult.Skipped)
             {
-                LogUtil.Log("Ad skipped before reaching the end.", "yellow");
                 DispatchResponse(AdsResult.SKIPPED);
             }
             else if (result == ShowResult.Failed)
             {
-                LogUtil.Log(this.GetType().Name + ": Ad failed to show.", "red");
                 DispatchResponse(AdsResult.FAILED);
             }
         }

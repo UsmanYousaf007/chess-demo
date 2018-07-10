@@ -273,11 +273,6 @@ namespace TurboLabz.Multiplayer
             resultsDialogButtonClickedSignal.Dispatch();
         }
 
-		private void OnResultsStatsButtonClicked()
-		{
-			resultsStatsButtonClickedSignal.Dispatch();
-		}
-
         private void OnPlaybackOverlayClicked()
         {
             playbackOverlay.gameObject.SetActive(false);

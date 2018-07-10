@@ -16,8 +16,7 @@ namespace TurboLabz.InstantFramework
 {
     public interface IAdsService
     {
-        // Rewarded ads
-        bool isRewardedAdAvailable { get; }
-        IPromise<AdsResult> ShowRewardedAd();
+        bool IsAdAvailable(string placementId);
+        IPromise<AdsResult> ShowAd(string placementId);
     }
 }
