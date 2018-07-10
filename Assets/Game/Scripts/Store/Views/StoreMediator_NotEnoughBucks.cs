@@ -10,7 +10,7 @@ using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantGame 
 {
-	public partial class CPUStoreMediator
+	public partial class StoreMediator
 	{
 		public void OnRegisterNotEnoughBucks()
 		{

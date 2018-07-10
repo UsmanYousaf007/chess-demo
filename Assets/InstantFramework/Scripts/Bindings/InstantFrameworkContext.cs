@@ -54,7 +54,8 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
 
-            commandBinder.Bind<ApplyPlayerInventorySignal>().To<ApplyPlayerInventoryCommand>();
+            commandBinder.Bind<SavePlayerInventorySignal>().To<SavePlayerInventoryCommand>();
+            commandBinder.Bind<SetSkinSignal>().To<SetSkinCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
             commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
@@ -146,15 +147,15 @@ namespace TurboLabz.InstantFramework
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
             mediationBinder.Bind<StatsView>().To<StatsMediator>();
-			mediationBinder.Bind<CPUStoreView>().To<CPUStoreMediator>();
+			mediationBinder.Bind<StoreView>().To<StoreMediator>();
 			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
             mediationBinder.Bind<SkinRefs>().To<SkinRefsMediator>();
-            injectionBinder.Bind<ApplySkinSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateSkinSignal>().ToSingleton();
+            injectionBinder.Bind<LoadSkinRefsSignal>().ToSingleton();
+            injectionBinder.Bind<RefreshSkinLinksSignal>().ToSingleton();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
