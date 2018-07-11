@@ -15,6 +15,7 @@ namespace TurboLabz.InstantGame
 		public Text price;
 		public Button button;
 		public Image bucksIcon;
+        public Image tick;
 
         public string itemId { get; set; }
 	}

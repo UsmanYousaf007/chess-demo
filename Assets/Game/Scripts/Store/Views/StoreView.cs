@@ -96,7 +96,7 @@ namespace TurboLabz.InstantGame
 				skinThumbnail.button.onClick.AddListener(() => OnSkinItemClicked(item));
 				skinThumbnail.displayName.text = item.displayName;
 				skinThumbnail.thumbnail.sprite = containter.GetSprite(item.key);
-
+                skinThumbnail.tick.gameObject.SetActive(false);
                 skinThumbnail.itemId = item.key;
 			}
 
@@ -138,6 +138,10 @@ namespace TurboLabz.InstantGame
                 if (vo.playerModel.OwnsVGood(item.key)) 
 				{
                     SetItemOwned(skinThumbnail);
+                    if (vo.playerModel.activeSkinId == item.key)
+                    {
+                        skinThumbnail.tick.gameObject.SetActive(true);
+                    }
 				} 
 				else 
 				{
@@ -148,11 +152,10 @@ namespace TurboLabz.InstantGame
 
         private SkinShopItemPrefab GetThumbnailPrefab(string shopItemId)
         {
-            int count = prefabs.Count;
             bool found = false;
             int i = 0;
 
-            while (!found && i < count) 
+            while (!found && i < prefabs.Count) 
             {
                 found = prefabs[i].itemId == shopItemId;
                 if (!found)
@@ -164,12 +167,26 @@ namespace TurboLabz.InstantGame
             return found ? prefabs[i] : null;          
         }
 
+        private void ClearThumbailTicks()
+        {
+            for (int i = 0; i < prefabs.Count; i++) 
+            {
+                prefabs[i].tick.gameObject.SetActive(false);
+            }
+        }
+
         public void UpdateItemThumbnail(string shopItemId)
         {
             SkinShopItemPrefab thumnail = GetThumbnailPrefab(shopItemId);
             if (thumnail != null)
             {
                 SetItemOwned(thumnail);
+
+                if (currentSkinItemId == shopItemId)
+                {
+                    ClearThumbailTicks();
+                    thumnail.tick.gameObject.SetActive(true);
+                }
             }
         }
 
