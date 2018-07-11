@@ -133,7 +133,7 @@ namespace TurboLabz.Multiplayer
                     index = 0;
                 }
 
-                yield return new WaitForSeconds(0.15f);
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }
