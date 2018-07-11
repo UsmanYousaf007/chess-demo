@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
 
         void SettingsButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
+            
         }
     }
 }

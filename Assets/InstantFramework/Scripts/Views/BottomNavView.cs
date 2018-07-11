@@ -66,15 +66,11 @@ namespace TurboLabz.InstantFramework
             profileButton.onClick.AddListener(ProfileButtonClicked);
             shopButton.onClick.AddListener(ShopButtonClicked);
             settingsButton.onClick.AddListener(SettingsButtonClicked);
+
+            UpdateButtons();
         }
 
-        [PostConstruct]
-        void Initialize()
-        {
-            SelectButton(buttonId);
-        }
-
-        void SelectButton(ButtonId id)
+        void UpdateButtons()
         {
             homeButton.interactable = true;
             homeIcon.color = Colors.WHITE;
@@ -92,26 +88,26 @@ namespace TurboLabz.InstantFramework
             settingsIcon.color = Colors.WHITE;
             settingsLabel.color = Colors.WHITE;
 
-            if (id == ButtonId.Home)
+            if (buttonId == ButtonId.Home)
             {
                 homeButton.interactable = false;
                 homeIcon.color = Colors.YELLOW;
                 homeLabel.color = Colors.YELLOW;
             }
-            else if (id == ButtonId.Profile)
+            else if (buttonId == ButtonId.Profile)
             {
                 profileButton.interactable = false;
                 profileIcon.color = Colors.YELLOW;
                 profileLabel.color = Colors.YELLOW;
             }
-            else if (id == ButtonId.Shop)
+            else if (buttonId == ButtonId.Shop)
             {
                 shopButton.interactable = false;
                 shopIcon.color = Colors.YELLOW;
                 shopLabel.color = Colors.YELLOW;
 
             }
-            else if (id == ButtonId.Settings)
+            else if (buttonId == ButtonId.Settings)
             {
                 settingsButton.interactable = false;
                 settingsIcon.color = Colors.YELLOW;
