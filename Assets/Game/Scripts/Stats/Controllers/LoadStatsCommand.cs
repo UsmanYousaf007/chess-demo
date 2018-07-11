@@ -48,7 +48,7 @@ namespace TurboLabz.InstantGame
             int drawn = playerModel.totalGamesDrawn;
 
             int totalGames = won + lost + drawn;
-            double winPct = (totalGames > 0) ? Math.Round((double)won / (double)totalGames, 1) : 0;
+            double winPct = (totalGames > 0) ? Math.Round((double)won / (double)totalGames, 2) * 100 : 0;
 
             vo.onlineWinPct = winPct;
             vo.onlineWon = won;
