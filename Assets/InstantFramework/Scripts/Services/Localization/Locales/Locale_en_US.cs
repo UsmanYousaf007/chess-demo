@@ -126,7 +126,7 @@ namespace TurboLabz.InstantFramework
 
 				#region Store
 
-				{ LocalizationKey.CPU_STORE_HEADING, "Themes Shop" },
+				{ LocalizationKey.CPU_STORE_HEADING, "THEMES" },
 				{ LocalizationKey.CPU_STORE_OWNED, "Owned" },
 				{ LocalizationKey.CPU_STORE_BUCKS, "Coins" },
 

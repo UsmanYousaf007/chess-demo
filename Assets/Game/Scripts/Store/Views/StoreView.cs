@@ -19,6 +19,7 @@ namespace TurboLabz.InstantGame
     {
 		[Inject] public ILocalizationService localizationService { get; set; }
 
+        public Text title;
 		public GameObject gallery;
 		public SkinShopItemPrefab skinShopItemPrefab;
 
@@ -35,7 +36,7 @@ namespace TurboLabz.InstantGame
 
         public void Init()
         {
-
+            title.text = localizationService.Get(LocalizationKey.CPU_STORE_HEADING);
         }
 
 		public void UpdateView(StoreVO vo)
