@@ -32,6 +32,7 @@ namespace TurboLabz.InstantGame
 		StoreItem buckPacksStoreItem;
 		Dictionary<string, BuckPackItemPrefab> buckPackPrefabs = null;
 
+
 		public void InitBuckPacks()
 		{
 			closeBuckPacksButton.onClick.AddListener(OnCloseBuckPacksButtonClicked);
@@ -66,16 +67,15 @@ namespace TurboLabz.InstantGame
 					thumbnail.price.text = item.remoteProductPrice;
 				}
 			}
+
+
+
 		}
 
 		public void ShowBuckPacks()
 		{
 			buckPacksDlg.SetActive(true);
 
-            foreach(KeyValuePair<string, BuckPackItemPrefab> entry in buckPackPrefabs)
-            {
-                entry.Value.button.GetComponent<SkinLink>().UpdateSkin();
-            }
 		}
 
 		public void HideBuckPacks()
@@ -104,7 +104,7 @@ namespace TurboLabz.InstantGame
         // TODO: Make it into a normal dialog (non-dynamic)
 		private void CreateBuckPackPrefabs(StoreVO vo)
 		{
-			BuckPackThumbsContainer containter = BuckPackThumbsContainer.Load();
+            BuckPackThumbsContainer containter = BuckPackThumbsContainer.Load();
 
 			IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			BuckPackItemPrefab prefab = Instantiate<BuckPackItemPrefab>(buckPackItemPrefab);
@@ -123,9 +123,12 @@ namespace TurboLabz.InstantGame
 				thumbnail.thumbnail.sprite = containter.GetSprite(item.key);
 
 				thumbnail.button.onClick.AddListener(() => OnBuckPackItemClicked(item));
+                thumbnail.button.GetComponent<SkinLink>().InitPrefabSkin();
 			}
 
             Destroy(prefab.gameObject);
+
+
 		}
 	}
 }
