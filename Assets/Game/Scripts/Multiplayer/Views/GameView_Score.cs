@@ -12,13 +12,14 @@
 
 using UnityEngine.UI;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-       // public Text playerScore;
-       // public Text opponentScore;
+        public Text playerScore;
+        public Text opponentScore;
 
         public void OnParentShowScore()
         {
@@ -27,13 +28,13 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateScores(MoveVO moveVO)
         {
-            // playerScore.text = (moveVO.playerScore > 0 ) ? ("+" + moveVO.playerScore.ToString()) : "";
-            // opponentScore.text = (moveVO.opponentScore > 0 ) ? ("+" + moveVO.opponentScore.ToString()) : "";
+            SetAdvantage(playerScore, moveVO.playerScore);
+            SetAdvantage(opponentScore, moveVO.opponentScore);
         }
 
         public void InitScore()
         {
-            // EmptyScores();
+            EmptyScores();
         }
 
         public void CleanupScore()
@@ -42,9 +43,13 @@ namespace TurboLabz.Multiplayer
 
         private void EmptyScores()
         {
-           // playerScore.text = "";
-           // opponentScore.text = "";
+            playerScore.text = "";
+            opponentScore.text = "";
         }
 
+        private void SetAdvantage(Text label, int score)
+        {
+            label.text = (score > 0 ) ? (localizationService.Get(LocalizationKey.GM_ADVANTAGE) + " +" + score) : "";
+        }
     }
 }
