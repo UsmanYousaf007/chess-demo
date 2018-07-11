@@ -149,7 +149,7 @@ namespace TurboLabz.InstantFramework
                 #region Friends
 
                 { LocalizationKey.FRIENDS_COMING_SOON, "Coming Soon\n\n" +
-                    "Long play and fast online games with your friends.\n\n" +
+                    "Play online Chess with your friends.\n\n" +
                     "Meanwhile, connect with Facebook, share the game\n" +
                     "with your friends and get ready!" },
 

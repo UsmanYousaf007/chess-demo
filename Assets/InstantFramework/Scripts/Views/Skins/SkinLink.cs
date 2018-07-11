@@ -33,12 +33,6 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateSkin()
         {
-            // Skin support for tagged items (like components in prefabs)
-            if (gameObject.name == "TagStandardBtn")
-            {
-                sourceImage = GameObject.FindWithTag("StandardBtn").GetComponent<Image>();
-            }
-
             // Apply alpha if required
             string[] tokens = sourceImage.sprite.name.Split(',');
             float alpha = 1f;
