@@ -25,6 +25,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSCPU();
             }
+            else if (evt == NavigatorEvent.SHOW_UPDATE)
+            {
+                return new NSUpdate();
+            }
 
             return null;
         }
