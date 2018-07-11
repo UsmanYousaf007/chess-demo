@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         SHOW_HARD_STOP,
         SHOW_RECONNECTING,
         ESCAPE,
+        SHOW_UPDATE,
         SHOW_SPLASH,
         SHOW_LOBBY,
         SHOW_CPU,

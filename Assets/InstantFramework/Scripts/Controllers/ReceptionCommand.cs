@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
         [Inject] public InitGameDataSignal loadGameDataSignal  { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
         [Inject] public IMetaDataModel model { get; set; }
@@ -34,7 +35,10 @@ namespace TurboLabz.InstantFramework
             {
                 // TODO: handle application update message
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE_APP);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
+
+
+
                 CommandEnd();
                 return;
             }

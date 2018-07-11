@@ -47,6 +47,12 @@ namespace TurboLabz.InstantFramework
             RefreshAudioButtons();
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            RefreshAudioButtons();
+        }
+
         public void UpdatePlayerBucks(long bucks)
         {
             playerBucks.text = bucks.ToString();

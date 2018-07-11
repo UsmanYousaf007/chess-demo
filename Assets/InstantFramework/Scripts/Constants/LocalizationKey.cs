@@ -19,6 +19,8 @@ namespace TurboLabz.InstantFramework
         public const string SPLASH_CONNECTING = "splashConnecting";
         public const string HARD_STOP = "hardStop";
         public const string RECONNECTING = "reconnecting";
+        public const string UPDATE = "update";
+        public const string UPDATE_BUTTON = "updateButton";
 
         #endregion
 

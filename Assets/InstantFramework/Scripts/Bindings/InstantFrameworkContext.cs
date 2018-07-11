@@ -77,12 +77,14 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
             injectionBinder.Bind<MatchFoundSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileSignal>().ToSingleton();
+            injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
             mediationBinder.Bind<HardStopView>().To<HardStopMediator>();
             mediationBinder.Bind<ReconnectingView>().To<ReconnectingMediator>();
+            mediationBinder.Bind<UpdateView>().To<UpdateMediator>();
             mediationBinder.Bind<BottomNavView>().To<BottomNavMediator>();
             mediationBinder.Bind<TopNavView>().To<TopNavMediator>();
             mediationBinder.Bind<ProfileView>().To<ProfileMediator>();
