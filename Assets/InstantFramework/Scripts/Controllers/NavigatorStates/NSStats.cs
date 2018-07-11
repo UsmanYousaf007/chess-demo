@@ -34,9 +34,9 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSStore();
             }
-            else if (evt == NavigatorEvent.SHOW_SETTINGS)
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
             {
-                return new NSSettings();
+                return new NSFriends();
             }
 
             return null;

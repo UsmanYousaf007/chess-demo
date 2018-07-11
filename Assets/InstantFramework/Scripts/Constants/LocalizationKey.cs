@@ -147,6 +147,12 @@ namespace TurboLabz.InstantFramework
 
 		#endregion
 
+        #region Friends
+
+        public const string FRIENDS_COMING_SOON = "friendsComingSoon";
+
+        #endregion
+
         #region Share
 
         public const string SHARE_STANDARD = "shareStandard";
@@ -159,7 +165,7 @@ namespace TurboLabz.InstantFramework
         public const string NAV_HOME = "navHome";
         public const string NAV_PROFILE = "navProfile";
         public const string NAV_SHOP = "navShop";
-        public const string NAV_SETTINGS = "navSettings";
+        public const string NAV_FRIENDS = "navFriends";
 
         #endregion
     }

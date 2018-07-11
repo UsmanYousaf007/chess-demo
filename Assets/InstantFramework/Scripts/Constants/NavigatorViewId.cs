@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
         LOBBY,
         STATS,
 		STORE,
-        SETTINGS,
+        FRIENDS,
         CPU,
         CPU_EXIT_DLG,
         CPU_RESULTS_DLG,

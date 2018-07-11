@@ -1,4 +1,4 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -20,20 +20,14 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
-    public class SettingsMediator : Mediator
+    public class FriendsMediator : Mediator
     {
         // View injection
-        [Inject] public SettingsView view { get; set; }
-
+        [Inject] public FriendsView view { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
-        }
-
-        public override void OnRemove()
-        {
-           
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]

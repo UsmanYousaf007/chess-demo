@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
             Home,
             Profile,
             Shop,
-            Settings
+            Friends
         }
 
         public ButtonId buttonId;
@@ -38,34 +38,34 @@ namespace TurboLabz.InstantFramework
         public Text homeLabel;
         public Text profileLabel;
         public Text shopLabel;
-        public Text settingsLabel;
+        public Text friendsLabel;
 
         public Image homeIcon;
         public Image profileIcon;
         public Image shopIcon;
-        public Image settingsIcon;
+        public Image friendsIcon;
 
         public Button homeButton;
         public Button profileButton;
         public Button shopButton;
-        public Button settingsButton;
+        public Button friendsButton;
 
         public Signal homeButtonClickedSignal = new Signal();
         public Signal profileButtonClickedSignal = new Signal();
         public Signal shopButtonClickedSignal = new Signal();
-        public Signal settingsButtonClickedSignal = new Signal();
+        public Signal friendsButtonClickedSignal = new Signal();
 
         public void Init()
         {
             homeLabel.text = localizationService.Get(LocalizationKey.NAV_HOME);
             profileLabel.text = localizationService.Get(LocalizationKey.NAV_PROFILE);
             shopLabel.text = localizationService.Get(LocalizationKey.NAV_SHOP);
-            settingsLabel.text = localizationService.Get(LocalizationKey.NAV_SETTINGS);
+            friendsLabel.text = localizationService.Get(LocalizationKey.NAV_FRIENDS);
 
             homeButton.onClick.AddListener(HomeButtonClicked);
             profileButton.onClick.AddListener(ProfileButtonClicked);
             shopButton.onClick.AddListener(ShopButtonClicked);
-            settingsButton.onClick.AddListener(SettingsButtonClicked);
+            friendsButton.onClick.AddListener(SettingsButtonClicked);
 
             UpdateButtons();
         }
@@ -84,9 +84,9 @@ namespace TurboLabz.InstantFramework
             shopIcon.color = Colors.WHITE;
             shopLabel.color = Colors.WHITE;
 
-            settingsButton.interactable = true;
-            settingsIcon.color = Colors.WHITE;
-            settingsLabel.color = Colors.WHITE;
+            friendsButton.interactable = true;
+            friendsIcon.color = Colors.WHITE;
+            friendsLabel.color = Colors.WHITE;
 
             if (buttonId == ButtonId.Home)
             {
@@ -107,11 +107,11 @@ namespace TurboLabz.InstantFramework
                 shopLabel.color = Colors.YELLOW;
 
             }
-            else if (buttonId == ButtonId.Settings)
+            else if (buttonId == ButtonId.Friends)
             {
-                settingsButton.interactable = false;
-                settingsIcon.color = Colors.YELLOW;
-                settingsLabel.color = Colors.YELLOW;
+                friendsButton.interactable = false;
+                friendsIcon.color = Colors.YELLOW;
+                friendsLabel.color = Colors.YELLOW;
             }
         }
 
@@ -132,7 +132,7 @@ namespace TurboLabz.InstantFramework
 
         void SettingsButtonClicked()
         {
-            settingsButtonClickedSignal.Dispatch();
+            friendsButtonClickedSignal.Dispatch();
         }
     }
 }

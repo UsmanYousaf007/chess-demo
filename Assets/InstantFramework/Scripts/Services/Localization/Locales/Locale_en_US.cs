@@ -146,6 +146,15 @@ namespace TurboLabz.InstantFramework
 
 				#endregion
 
+                #region Friends
+
+                { LocalizationKey.FRIENDS_COMING_SOON, "Coming Soon\n\n" +
+                    "Long play and fast online games with your friends.\n\n" +
+                    "Meanwhile, connect with Facebook, share the game\n" +
+                    "with your friends and get ready!" },
+
+                #endregion
+
                 #region Share
 
                 { LocalizationKey.SHARE_STANDARD, "Hey, let's play Chess!" },
@@ -157,7 +166,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_HOME, "Home" },
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "Shop" },
-                { LocalizationKey.NAV_SETTINGS, "Settings" },
+                { LocalizationKey.NAV_FRIENDS, "Friends" },
 
                 #endregion
             };

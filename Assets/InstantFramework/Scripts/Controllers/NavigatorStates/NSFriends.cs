@@ -5,12 +5,12 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSSettings : NS
+    public class NSFriends : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.SETTINGS);
-            cmd.analyticsService.ScreenVisit(NavigatorViewId.SETTINGS);
+            ShowView(NavigatorViewId.FRIENDS);
+            cmd.analyticsService.ScreenVisit(NavigatorViewId.FRIENDS);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
