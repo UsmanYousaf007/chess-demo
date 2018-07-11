@@ -80,6 +80,7 @@ namespace TurboLabz.InstantGame
             IMetaDataModel metaDataModel = vo.storeSettingsModel;
 			SkinShopItemPrefab prefab = Instantiate<SkinShopItemPrefab>(skinShopItemPrefab);
 
+
 			prefabs = new List<SkinShopItemPrefab>();
 
 			List<StoreItem> list = metaDataModel.store.lists["Skin"];
@@ -101,7 +102,7 @@ namespace TurboLabz.InstantGame
                 skinThumbnail.itemId = item.key;
 			}
 
-			Destroy(prefab);
+            Destroy(prefab.gameObject);
 		}
 
         private void SetItemOwned(SkinShopItemPrefab thumbnail)
