@@ -77,20 +77,20 @@ namespace TurboLabz.InstantFramework
         void SelectButton(ButtonId id)
         {
             homeButton.interactable = true;
-            homeIcon.color = Colors.GAME_WHITE;
-            homeLabel.color = Colors.GAME_WHITE;
+            homeIcon.color = Colors.WHITE;
+            homeLabel.color = Colors.WHITE;
 
             profileButton.interactable = true;
-            profileIcon.color = Colors.GAME_WHITE;
-            profileLabel.color = Colors.GAME_WHITE;
+            profileIcon.color = Colors.WHITE;
+            profileLabel.color = Colors.WHITE;
 
             shopButton.interactable = true;
-            shopIcon.color = Colors.GAME_WHITE;
-            shopLabel.color = Colors.GAME_WHITE;
+            shopIcon.color = Colors.WHITE;
+            shopLabel.color = Colors.WHITE;
 
             settingsButton.interactable = true;
-            settingsIcon.color = Colors.GAME_WHITE;
-            settingsLabel.color = Colors.GAME_WHITE;
+            settingsIcon.color = Colors.WHITE;
+            settingsLabel.color = Colors.WHITE;
 
             if (id == ButtonId.Home)
             {

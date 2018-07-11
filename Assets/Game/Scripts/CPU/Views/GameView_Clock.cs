@@ -40,8 +40,6 @@ namespace TurboLabz.CPU
         private TimeSpan opponentTimer;
         private float clockSpeed;
 
-        //private readonly Color labelEnabledColor = new Color(1f, 1f, 1f, 1f);
-        //private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.3f);
         private readonly Color imageDisabledColor = new Color(0.49f, 0.49f, 0.49f);
         private const double clockEmergencyThresholdSeconds = 10;
 
@@ -63,8 +61,6 @@ namespace TurboLabz.CPU
         public void InitInfiniteTimers(bool isPlayerTurn)
         {
             startingTimer = TimeSpan.Zero;
-            playerClockLabel.gameObject.SetActive(false);
-            opponentClockLabel.gameObject.SetActive(false);
 //            playerInfinityImage.SetActive(true);
  //           opponentInfinityImage.SetActive(true);
             playerClockFill.fillAmount = 1f;
@@ -169,13 +165,12 @@ namespace TurboLabz.CPU
             if (startingTimer == TimeSpan.Zero)
             {
                 playerClockImage.color = Colors.YELLOW;
+                playerClockLabel.color = Colors.YELLOW;
             }
             else
             {
                 SetPlayerTimerActiveColors();
             }
-
-            playerClockLabel.gameObject.SetActive(true);
         }
 
         private void DisablePlayerTimer()
@@ -185,7 +180,7 @@ namespace TurboLabz.CPU
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
 
-            playerClockLabel.gameObject.SetActive(false);
+            playerClockLabel.color = Colors.DISABLED_WHITE;
         }
 
         private void EnableOpponentTimer()
@@ -193,13 +188,12 @@ namespace TurboLabz.CPU
             if (startingTimer == TimeSpan.Zero)
             {
                 opponentClockImage.color = Colors.YELLOW;
+                opponentClockLabel.color = Colors.YELLOW;
             }
             else
             {
                 SetOpponentTimerActiveColors();
             }
-
-            opponentClockLabel.gameObject.SetActive(true);
         }
 
         private void DisableOpponentTimer()
@@ -209,7 +203,7 @@ namespace TurboLabz.CPU
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
 
-            opponentClockLabel.gameObject.SetActive(false);
+            opponentClockLabel.color = Colors.DISABLED_WHITE;
         }
 
         private void SetPlayerTimerActiveColors()
