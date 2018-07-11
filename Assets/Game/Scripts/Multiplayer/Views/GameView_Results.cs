@@ -115,12 +115,12 @@ namespace TurboLabz.Multiplayer
 
             if (vo.eloScoreDelta >= 0)
             {
-                ratingDelta.text = "+" + vo.eloScoreDelta;
+                ratingDelta.text = "(+" + vo.eloScoreDelta + ")";
                 ratingDelta.color = Colors.GREEN;
             }
             else
             {
-                ratingDelta.text = vo.eloScoreDelta.ToString();
+                ratingDelta.text = "(" + vo.eloScoreDelta + ")";
                 ratingDelta.color = Colors.RED;
             }
 
