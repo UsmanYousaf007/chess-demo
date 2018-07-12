@@ -16,6 +16,7 @@ using UnityEngine.UI;
 using strange.extensions.signal.impl;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.CPU
 {
@@ -145,13 +146,6 @@ namespace TurboLabz.CPU
             FileRank toFileRank = moveVO.toSquare.fileRank;
             int toSquareIndex = RankFileMap.Map[toFileRank.rank, toFileRank.file];
             GameObject pawn = chessboardPieces[toSquareIndex];
-
-            // It is possible for the pool to create a new parentless object
-            // in the case of promotions. So we add it to the chessContainer here
-            if (promoPieceImage.transform.parent == null)
-            {
-                promoPieceImage.transform.parent = chessContainer.transform;
-            }
 
             // Place the new piece image in the appropriate location
             activatedPieceImages.Add(promoPieceImage);

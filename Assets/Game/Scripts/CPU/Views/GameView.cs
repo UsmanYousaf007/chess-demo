@@ -32,8 +32,6 @@ namespace TurboLabz.CPU
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
 
-
-
         private bool undoButtonWasActive;
         private bool hintButtonWasActive;
         private bool menuButtonWasActive;

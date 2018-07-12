@@ -141,13 +141,6 @@ namespace TurboLabz.Multiplayer
             int toSquareIndex = RankFileMap.Map[toFileRank.rank, toFileRank.file];
             GameObject pawn = chessboardPieces[toSquareIndex];
 
-            // It is possible for the pool to create a new parentless object
-            // in the case of promotions. So we add it to the chessContainer here
-            if (promoPieceImage.transform.parent == null)
-            {
-                promoPieceImage.transform.parent = chessContainer.transform;
-            }
-
             // Place the new piece image in the appropriate location
             activatedPieceImages.Add(promoPieceImage);
             promoPieceImage.transform.position = pawn.transform.position;

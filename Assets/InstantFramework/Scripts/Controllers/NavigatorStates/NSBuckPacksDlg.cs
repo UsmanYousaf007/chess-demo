@@ -14,7 +14,11 @@ namespace TurboLabz.InstantFramework
 
 		public override NS HandleEvent(NavigatorEvent evt)
 		{
-			NavigatorViewId viewId = CameFrom (NavigatorViewId.LOBBY, NavigatorViewId.STORE);
+			NavigatorViewId viewId = CameFrom (
+                NavigatorViewId.LOBBY,
+                NavigatorViewId.STORE,
+                NavigatorViewId.STATS,
+                NavigatorViewId.FRIENDS);
 
 			if (evt == NavigatorEvent.ESCAPE) 
 			{
@@ -26,6 +30,14 @@ namespace TurboLabz.InstantFramework
 				{
 					return new NSStore();
 				}
+                else if (viewId == NavigatorViewId.STATS)
+                {
+                    return new NSStats();
+                }
+                else if (viewId == NavigatorViewId.FRIENDS)
+                {
+                    return new NSFriends();
+                }
 			}
 			return null;
 		}
