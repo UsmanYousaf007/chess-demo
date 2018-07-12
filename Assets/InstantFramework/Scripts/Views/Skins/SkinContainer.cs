@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
 
                 if (spriteName == skinName + "_" + name)
                 {
+                    TurboLabz.TLUtils.LogUtil.Log("SPRITE BORDER IS: " + sprite.border);
                     return sprite;
                 }
             }
@@ -51,14 +52,24 @@ namespace TurboLabz.InstantFramework
         [MenuItem("Assets/Create/Turbolabz/Chess Skin")]
         public static void CreateAsset() 
         {
-            ScriptableObject.CreateInstance<SkinContainer>().Build();
-        }
-
-        public void Build()
-        {
             // Select source skin folder
             string sourceSkinPath = EditorUtility.OpenFolderPanel("Select Skin Folder", SKINS_PATH, "");
 
+            ScriptableObject.CreateInstance<SkinContainer>().Build(sourceSkinPath);
+        }
+
+        [MenuItem("Assets/Create/Turbolabz/Chess Skins All")]
+        public static void CreateAllAssets()
+        {
+            string[] folders = Directory.GetDirectories(SKINS_PATH);
+            foreach (string folder in folders)
+            {
+                ScriptableObject.CreateInstance<SkinContainer>().Build(folder);
+            }
+        }
+
+        public void Build(string sourceSkinPath)
+        {
             if (sourceSkinPath == "")
             {
                 Debug.Log("Skin object populate operation cancelled.");
@@ -77,6 +88,7 @@ namespace TurboLabz.InstantFramework
 
             AssetBuilder.Build(this, skinName, ASSET_PATH);
         }
+
         #endif
     }
 }
