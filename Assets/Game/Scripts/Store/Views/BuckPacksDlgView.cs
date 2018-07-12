@@ -67,9 +67,6 @@ namespace TurboLabz.InstantGame
 					thumbnail.price.text = item.remoteProductPrice;
 				}
 			}
-
-
-
 		}
 
 		public void ShowBuckPacks()
@@ -100,8 +97,7 @@ namespace TurboLabz.InstantGame
 		{
 			closeBuckPacksButtonClickedSignal.Dispatch();
 		}
-
-        // TODO: Make it into a normal dialog (non-dynamic)
+            
 		private void CreateBuckPackPrefabs(StoreVO vo)
 		{
             BuckPackThumbsContainer containter = BuckPackThumbsContainer.Load();
@@ -127,8 +123,6 @@ namespace TurboLabz.InstantGame
 			}
 
             Destroy(prefab.gameObject);
-
-
 		}
 	}
 }
