@@ -16,6 +16,7 @@ using UnityEngine;
 
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Chess
 {
@@ -56,8 +57,17 @@ namespace TurboLabz.Chess
                 {
                     List<GameObject> usedObjList = used[name];
                     GameObject cloneObj = GameObject.Instantiate(usedObjList[0]);
+                    cloneObj.transform.parent = usedObjList[0].transform.parent;
                     cloneObj.name = name;
                     usedObjList.Add(cloneObj);
+
+                    // TODO: this is a skin link hack and this dependency does not
+                    // belong here. we need to figure out how to register cloned
+                    // object mediators for their skinlinks to receive update signals.
+                    // for now its a strange ioc issue.
+                    SkinLink link = usedObjList[0].GetComponent<SkinLink>();
+                    if (link != null) link.AddClone(cloneObj.GetComponent<SkinLink>());
+
                     return cloneObj;
                 }
                 else

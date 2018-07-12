@@ -14,6 +14,7 @@ using strange.extensions.mediation.impl;
 using UnityEngine.UI;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,6 +24,7 @@ namespace TurboLabz.InstantFramework
 
         Image targetImage;
         SpriteRenderer targetSpriteRenderer;
+        List<SkinLink> clonedSkinLinks = new List<SkinLink>();
 
         [PostConstruct]
         public void Initialize()
@@ -61,6 +63,16 @@ namespace TurboLabz.InstantFramework
             {
                 targetSpriteRenderer.sprite = sourceImage.sprite;
             }
+
+            foreach(SkinLink link in clonedSkinLinks)
+            {
+                link.UpdateSkin();
+            }
+        }
+
+        public void AddClone(SkinLink link)
+        {
+            clonedSkinLinks.Add(link);
         }
 
         void Setup()
