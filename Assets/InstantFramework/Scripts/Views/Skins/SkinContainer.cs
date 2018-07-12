@@ -35,7 +35,6 @@ namespace TurboLabz.InstantFramework
 
                 if (spriteName == skinName + "_" + name)
                 {
-                    TurboLabz.TLUtils.LogUtil.Log("SPRITE BORDER IS: " + sprite.border);
                     return sprite;
                 }
             }

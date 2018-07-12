@@ -36,7 +36,8 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            matchInfoModel.Reset();
+            matchInfoModel.opponentPublicProfile = null;
+
             showFindMatchSignal.Dispatch();
             backendService.FindMatch().Then(OnFindMatch);
         }
