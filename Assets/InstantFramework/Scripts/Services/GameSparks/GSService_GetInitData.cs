@@ -95,14 +95,14 @@ namespace TurboLabz.InstantFramework
             playerModel.inventory = inventory;
             GSParser.PopulateActiveInventory(playerModel, playerActiveInventory);
 
-            GSParser.LogPlayerInfo(playerModel);
+            //GSParser.LogPlayerInfo(playerModel);
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)
         {
             adsSettingsModel.adsRewardIncrement = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARD_INCREMENT).Value;
             adsSettingsModel.maxImpressionsPerSlot = adsSettingsData.GetInt(GSBackendKeys.ADS_MAX_IMPRESSIONS_PER_SLOT).Value;
-            adsSettingsModel.slotMinutes = adsSettingsData.GetInt(GSBackendKeys.ADS_SLOT_MINUTES).Value;
+            adsSettingsModel.slotHour = adsSettingsData.GetInt(GSBackendKeys.ADS_SLOT_HOUR).Value;
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

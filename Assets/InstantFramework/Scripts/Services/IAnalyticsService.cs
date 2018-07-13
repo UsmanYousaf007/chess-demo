@@ -24,10 +24,10 @@ namespace TurboLabz.InstantFramework
         void SocialShareComplete();
         void SocialShareDismiss();
         void SocialShareUnknown();
-        void AdOffer(bool rewarded, string placementId);
-        void AdStart(bool rewarded, string placementId);
-        void AdComplete(bool rewarded, string placementId);
-        void AdSkip(bool rewarded, string placementId);
+        void AdOffer(bool rewarded);
+        void AdStart(bool rewarded);
+        void AdComplete(bool rewarded);
+        void AdSkip(bool rewarded);
         void PurchaseSkin(string skinId);
         void BackendError(string error);
     }

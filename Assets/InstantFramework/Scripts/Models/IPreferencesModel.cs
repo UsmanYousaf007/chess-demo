@@ -8,5 +8,7 @@ namespace TurboLabz.InstantFramework
     public interface IPreferencesModel
     {
         bool isAudioOn { get; set; }
+        int adSlotImpressions { get; set; }    
+        long adSlotId { get; set; }
     }
 }

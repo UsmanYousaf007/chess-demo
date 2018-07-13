@@ -15,7 +15,7 @@ namespace TurboLabz.InstantGame
     public class ShowAdCommand : Command
     {
         // Parameters
-        [Inject] public string placementId { get; set; }
+        [Inject] public bool isRewarded { get; set; }
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -33,20 +33,15 @@ namespace TurboLabz.InstantGame
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
-
-        private bool isRewarded;
+        [Inject] public IPreferencesModel prefsModel { get; set; }
 
         public override void Execute()
         {
-            isRewarded = (placementId == UnityAdsPlacementId.REWARDED_VIDEO) ? true : false;
+            adsService.ShowAd().Then(OnShowAd);
 
-            if (adsService.IsAdAvailable(placementId))
-            {
-                adsService.ShowAd(placementId).Then(OnShowAd);
-                analyticsService.AdStart(isRewarded, placementId);
-                toggleAdBlockerSignal.Dispatch(true);
-                Retain();
-            }
+            analyticsService.AdStart(isRewarded);
+            toggleAdBlockerSignal.Dispatch(true);
+            Retain();
         }
 
         private void OnShowAd(AdsResult result)
@@ -55,7 +50,7 @@ namespace TurboLabz.InstantGame
 
             if (result == AdsResult.FINISHED)
             {
-                analyticsService.AdComplete(isRewarded, placementId);
+                analyticsService.AdComplete(isRewarded);
 
                 if (isRewarded)
                 {
@@ -69,7 +64,11 @@ namespace TurboLabz.InstantGame
             }
             else if (result == AdsResult.SKIPPED)
             {
-                analyticsService.AdSkip(isRewarded, placementId);
+                analyticsService.AdSkip(isRewarded);
+                Release();
+            }
+            else if (result == AdsResult.FAILED)
+            {
                 Release();
             }
         }
@@ -78,12 +77,11 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                playerModel.adSlotImpressions++;
+                prefsModel.adSlotImpressions++;
                 updateAdSignal.Dispatch();
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
             }
 
-            loadLobbySignal.Dispatch();
             Release();
         }
     }

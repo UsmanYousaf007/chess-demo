@@ -79,24 +79,24 @@ namespace TurboLabz.InstantFramework
             AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.UNKNOWN, SocialNetwork.None);
         }
 
-        public void AdOffer(bool rewarded, string placementId)
+        public void AdOffer(bool rewarded)
         {
-            AnalyticsEvent.AdOffer(rewarded, null, placementId);
+            AnalyticsEvent.AdOffer(rewarded);
         }
 
-        public void AdStart(bool rewarded, string placementId)
+        public void AdStart(bool rewarded)
         {
-            AnalyticsEvent.AdStart(rewarded, null, placementId);
+            AnalyticsEvent.AdStart(rewarded);
         }
 
-        public void AdComplete(bool rewarded, string placementId)
+        public void AdComplete(bool rewarded)
         {
-            AnalyticsEvent.AdComplete(rewarded, null, placementId);
+            AnalyticsEvent.AdComplete(rewarded);
         }
 
-        public void AdSkip(bool rewarded, string placementId)
+        public void AdSkip(bool rewarded)
         {
-            AnalyticsEvent.AdSkip(rewarded, null, placementId);
+            AnalyticsEvent.AdSkip(rewarded);
         }
 
         public void PurchaseSkin(string skinId)

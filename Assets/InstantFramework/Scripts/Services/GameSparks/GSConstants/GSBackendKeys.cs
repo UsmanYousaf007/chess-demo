@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
         public const string ADS_MAX_IMPRESSIONS_PER_SLOT = "ADS_MAX_IMPRESSIONS_PER_SLOT";
-        public const string ADS_SLOT_MINUTES = "ADS_SLOT_MINUTES";
+        public const string ADS_SLOT_HOUR = "ADS_SLOT_HOUR";
         public const string ADS_REWARD_INCREMENT = "ADS_REWARD_INCREMENT";
 
         // Coin pack purchase
