@@ -28,6 +28,7 @@ namespace TurboLabz.InstantGame
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
+        public Sprite defaultAvatar;
         public Image profilePic;
         public Text profileName;
         public GameObject noProfilePicBorder;
@@ -71,6 +72,7 @@ namespace TurboLabz.InstantGame
 
             if (sprite == null)
             {
+                profilePic.sprite = defaultAvatar;
                 noProfilePicBorder.SetActive(true);
             }
             else

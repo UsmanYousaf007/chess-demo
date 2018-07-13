@@ -32,7 +32,6 @@ namespace TurboLabz.Multiplayer
             OnRegisterPromotions();
             OnRegisterResults();
             OnRegisterScore();
-            OnRegisterMatchInfo();
             OnRegisterMenu();
             OnRegisterFind();
             OnRegisterDraw();

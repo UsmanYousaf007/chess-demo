@@ -32,6 +32,7 @@ namespace TurboLabz.InstantGame
         public Text facebookButtonLabel;
         public GameObject facebookConnectAnim;
 
+        public Sprite defaultAvatar;
         public Image profilePic;
         public Text profileName;
         public GameObject noProfilePicBorder;
@@ -128,6 +129,7 @@ namespace TurboLabz.InstantGame
 
             if (sprite == null)
             {
+                profilePic.sprite = defaultAvatar;
                 noProfilePicBorder.SetActive(true);
             }
             else
