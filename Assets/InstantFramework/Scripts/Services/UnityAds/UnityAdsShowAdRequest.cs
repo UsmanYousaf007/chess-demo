@@ -43,16 +43,16 @@ namespace TurboLabz.InstantFramework
     {
         private IPromise<AdsResult> promise = new Promise<AdsResult>();
 
-        public IPromise<AdsResult> Send(string placementId)
+        public IPromise<AdsResult> Send()
         {
-            ShowAd(placementId);
+            ShowAd();
 
             return promise;
         }
 
-        public void ShowAd(string placementId)
+        public void ShowAd()
         {
-            if (!Advertisement.IsReady(placementId))
+            if (!Advertisement.IsReady())
             {
                 DispatchResponse(AdsResult.FAILED);
                 return;
@@ -61,7 +61,7 @@ namespace TurboLabz.InstantFramework
             ShowOptions showOptions = new ShowOptions();
             showOptions.resultCallback = OnShowAd;
 
-            Advertisement.Show(placementId, showOptions);
+            Advertisement.Show(showOptions);
         }
 
         public void OnShowAd(ShowResult result)

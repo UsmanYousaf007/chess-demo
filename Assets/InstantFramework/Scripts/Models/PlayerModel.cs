@@ -27,8 +27,6 @@ namespace TurboLabz.InstantFramework
 
         // Ads Info
         public int adLifetimeImpressions { get; set; }
-        public int adSlotImpressions { get; set; }    
-        public long adSlotId { get; set; }            
 
         // Inventory
         public string activeSkinId { get; set; }      
@@ -66,8 +64,6 @@ namespace TurboLabz.InstantFramework
 
             // Ads Info
             adLifetimeImpressions = 0;
-            adSlotImpressions = 0;
-            adSlotId  = 0;
 
             // Inventory
             activeSkinId = null;

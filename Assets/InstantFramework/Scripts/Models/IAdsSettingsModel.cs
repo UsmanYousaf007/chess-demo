@@ -10,7 +10,7 @@ namespace TurboLabz.InstantFramework
     public interface IAdsSettingsModel
     {
         int maxImpressionsPerSlot { get; set; }
-        int slotMinutes { get; set; }
+        int slotHour { get; set; }
         int adsRewardIncrement { get; set; }
 
         void Reset();

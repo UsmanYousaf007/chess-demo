@@ -193,8 +193,6 @@ namespace TurboLabz.InstantFramework
 
             // Ads Info
             LogUtil.Log("********** playerModel.adLifetimeImpressions" + " " + playerModel.adLifetimeImpressions);
-            LogUtil.Log("********** playerModel.adSlotImpressions" + " " + playerModel.adSlotImpressions);
-            LogUtil.Log("********** playerModel.adSlotId" + " " + playerModel.adSlotId);
 
             // Inventory
             foreach (KeyValuePair<string, int> item in playerModel.inventory)

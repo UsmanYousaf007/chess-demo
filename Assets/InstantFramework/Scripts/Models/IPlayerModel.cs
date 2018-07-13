@@ -25,9 +25,7 @@ namespace TurboLabz.InstantFramework
         Sprite socialPic { get; set; }
 
         // Ads Info
-        int adLifetimeImpressions { get; set; }
-        int adSlotImpressions { get; set; }    
-        long adSlotId { get; set; }            
+        int adLifetimeImpressions { get; set; }          
 
         // Inventory
         string activeSkinId { get; set; }   

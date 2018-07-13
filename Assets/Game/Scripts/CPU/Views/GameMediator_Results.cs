@@ -72,7 +72,7 @@ namespace TurboLabz.CPU
         private void OnResultsExitButtonClicked()
         {
             loadLobbySignal.Dispatch();
-            showAdSignal.Dispatch(UnityAdsPlacementId.END_GAME_VIDEO);
+            showAdSignal.Dispatch(false);
         }
 
         private void OnResultsDialogButtonClicked()

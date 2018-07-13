@@ -22,6 +22,7 @@ namespace TurboLabz.InstantGame
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IPreferencesModel prefsModel { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -29,20 +30,19 @@ namespace TurboLabz.InstantGame
 
         // Our ad slots will reset every day at 7 PM which is the prime time for gaming
         // https://www.prnewswire.com/news-releases/prime-time-is-peak-time-for-mobile-gaming-and-social-media-199165791.html
-        const int SLOT_HOURS = 19;
 
         public override void Execute()
         {
             // The code below is based on this algo: https://docs.google.com/drawings/d/1fsbwyNYrXJKs5sANyQ47v6wqqE7Ov8GjyN1TMhYvDl8/edit
 
             AdsState state;
-            long currentSlotId = (long)GetCurrentSlotId();
+            long runningSlotMs = (long)GetRunningSlotMs();
 
-            if (playerModel.adSlotId == currentSlotId)
+            if (prefsModel.adSlotId == runningSlotMs)
             {
-                if (playerModel.adSlotImpressions < metaDataModel.adsSettings.maxImpressionsPerSlot)
+                if (prefsModel.adSlotImpressions < metaDataModel.adsSettings.maxImpressionsPerSlot)
                 {
-                    state = adsService.IsAdAvailable(UnityAdsPlacementId.REWARDED_VIDEO) ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
+                    state = adsService.IsAdAvailable() ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
                 }
                 else
                 {
@@ -51,9 +51,11 @@ namespace TurboLabz.InstantGame
             }
             else
             {
-                playerModel.adSlotId = currentSlotId;
-                playerModel.adSlotImpressions = 0;
-                state = adsService.IsAdAvailable(UnityAdsPlacementId.REWARDED_VIDEO) ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
+                LogUtil.Log("Slot id has shifted..", "cyan");
+
+                prefsModel.adSlotId = runningSlotMs;
+                prefsModel.adSlotImpressions = 0;
+                state = adsService.IsAdAvailable() ? AdsState.AVAILABLE : AdsState.NOT_AVAILABLE;
             }
 
             Assertions.Assert(state != AdsState.NONE, "Ad state should never be none, something broke in the algorithm");
@@ -64,39 +66,69 @@ namespace TurboLabz.InstantGame
             if (state == AdsState.AVAILABLE)
             {
                 vo.bucks = (playerModel.adLifetimeImpressions + 1) * metaDataModel.adsSettings.adsRewardIncrement;
-                analyticsService.AdOffer(true, UnityAdsPlacementId.REWARDED_VIDEO);
+                analyticsService.AdOffer(true);
 
-                vo.count = metaDataModel.adsSettings.maxImpressionsPerSlot - playerModel.adSlotImpressions;
+                vo.count = metaDataModel.adsSettings.maxImpressionsPerSlot - prefsModel.adSlotImpressions;
 
             }
             else if (state == AdsState.WAIT)
             {
-                vo.waitMs = GetWaitMs();
+                vo.waitMs = GetWaitMs(runningSlotMs);
             }
 
             updateLobbyAdsSignal.Dispatch(vo);
         }
 
-        private double GetCurrentSlotId()
+        private double GetRunningSlotMs()
         {
-            DateTime slotTime = DateTime.Today.AddHours(SLOT_HOURS);
-            int condition = DateTime.Compare(DateTime.Now, slotTime);
+            // Are we ahead of today's slot reset time?
+            DateTime todaySlotTime = GetTodaySlotTime();
+            int condition = DateTime.Compare(GetCurrentTime(), todaySlotTime);
 
             if (condition >= 0)
             {
-                slotTime = DateTime.Today.AddDays(1).AddHours(SLOT_HOURS);
+                return GetEpochMs(GetTomorrowSlotTime());
             }
-
-            return slotTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+            else
+            {
+                return GetEpochMs(todaySlotTime);
+            }
         }
 
-        private double GetWaitMs()
+        private double GetWaitMs(long runningSlotMs)
         {
-            DateTime nextSlotTime = DateTime.Today.AddDays(1).AddHours(SLOT_HOURS);
-            double nextSlotMs = nextSlotTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
-            double currentMs = DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+            double currentMs = GetEpochMs(GetCurrentTime());
+            return runningSlotMs - currentMs;
+        }
 
-            return nextSlotMs - currentMs;
+        private DateTime GetTodaySlotTime()
+        {
+            // We can directly add hours to Today but we use a timestamp so we
+            // can configure different values for testing.
+            //TimeSpan ts = new TimeSpan(19, 50, 0);
+
+            TimeSpan ts = new TimeSpan(metaDataModel.adsSettings.slotHour, 0, 0);
+            return DateTime.Today.Add(ts);
+        }
+
+        private DateTime GetTomorrowSlotTime()
+        {
+            // We can directly add hours to Today but we use a timestamp so we
+            // can configure different values for testing.
+            //TimeSpan ts = new TimeSpan(19, 50, 0);
+
+            TimeSpan ts = new TimeSpan(metaDataModel.adsSettings.slotHour, 0, 0);
+            return DateTime.Today.AddDays(1).Add(ts);
+        }
+
+        private double GetEpochMs(DateTime dt)
+        {
+            return dt.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+        }
+
+        private DateTime GetCurrentTime()
+        {
+            return DateTime.Now;
         }
     }
 }

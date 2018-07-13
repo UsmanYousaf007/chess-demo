@@ -10,13 +10,13 @@ namespace TurboLabz.InstantFramework
     public class AdsSettingsModel : IAdsSettingsModel
     {
         public int maxImpressionsPerSlot { get; set; }
-        public int slotMinutes { get; set; }
+        public int slotHour { get; set; }
         public int adsRewardIncrement { get; set; }
 
         public void Reset()
         {
             maxImpressionsPerSlot = 0;
-            slotMinutes = 0;
+            slotHour = 0;
             adsRewardIncrement = 0;
         }
     }
