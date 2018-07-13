@@ -65,6 +65,10 @@ namespace TurboLabz.InstantFramework
             matchInfoModel.challengeId = challengeId;
             matchInfoModel.opponentPublicProfile = opponentPublicProfile;
             matchInfoModel.botId = matchData.GetString(GSBackendKeys.MatchData.BOT_ID);
+            if (opponentData.ContainsKey(GSBackendKeys.MatchData.BOT_DIFFICULTY))
+            {
+                matchInfoModel.botDifficulty = opponentData.GetFloat(GSBackendKeys.MatchData.BOT_DIFFICULTY).Value;
+            }
 
             // InitGame() is responsible for filling out all the game models
             // using the game specific data that comes as part of the response

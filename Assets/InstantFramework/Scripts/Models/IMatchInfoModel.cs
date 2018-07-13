@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         long gameStartTimeMilliseconds { get; set; }
         PublicProfile opponentPublicProfile { get; set; }
         string botId { get; set; }
+        float botDifficulty { get; set; }
         bool isBotMatch { get; }
         bool isResuming { get; set; }
         EndGameResult endGameResult { get; set; }

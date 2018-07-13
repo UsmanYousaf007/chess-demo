@@ -11,6 +11,7 @@ namespace TurboLabz.InstantFramework
         public long gameStartTimeMilliseconds { get; set; }
         public PublicProfile opponentPublicProfile { get; set; }
         public string botId { get; set; }
+        public float botDifficulty { get; set; }
         public int playerPrematchElo { get; set; }
 
         public bool isBotMatch
@@ -30,6 +31,7 @@ namespace TurboLabz.InstantFramework
             gameStartTimeMilliseconds = 0;
             opponentPublicProfile = new PublicProfile();
             botId = null;
+            botDifficulty = 0;
             isResuming = false;
             endGameResult = EndGameResult.NONE;
             playerPrematchElo = 0;

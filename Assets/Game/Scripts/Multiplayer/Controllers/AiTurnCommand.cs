@@ -30,6 +30,7 @@ namespace TurboLabz.Multiplayer
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         public override void Execute()
         {
@@ -47,7 +48,7 @@ namespace TurboLabz.Multiplayer
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
 
             // Strength
-            vo.cpuStrengthPct = 0.5f; // TODO: integrate with bot difficulty
+            vo.cpuStrengthPct = matchInfoModel.botDifficulty;
 
             if (chessboardModel.overrideAiStrength == AiOverrideStrength.SMART)
             {
