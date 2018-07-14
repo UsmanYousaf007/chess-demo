@@ -78,6 +78,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<MatchFoundSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePlayerBucksSignal>().ToSingleton();
+            injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -173,9 +175,7 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<UpdateStoreNotEnoughBucksDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
-			injectionBinder.Bind<UpdatePlayerBucksDisplaySignal>().ToSingleton();
             injectionBinder.Bind<ToggleAdBlockerSignal>().ToSingleton();
-            injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

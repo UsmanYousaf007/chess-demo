@@ -22,7 +22,7 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public ToggleAdBlockerSignal toggleAdBlockerSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdSignal { get; set; }
-        [Inject] public UpdatePlayerBucksDisplaySignal updatePlayerBucksDisplaySignal { get; set; }
+        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }

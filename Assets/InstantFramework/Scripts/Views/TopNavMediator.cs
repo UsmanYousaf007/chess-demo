@@ -48,7 +48,7 @@ namespace TurboLabz.InstantFramework
             loadBuckPacksSignal.Dispatch();
         }
 
-        [ListensTo(typeof(UpdatePlayerBucksDisplaySignal))]
+        [ListensTo(typeof(UpdatePlayerBucksSignal))]
         public void OnUpdatePlayerBucksDisplay(long playerBucks)
         {
             view.UpdatePlayerBucks(playerBucks);

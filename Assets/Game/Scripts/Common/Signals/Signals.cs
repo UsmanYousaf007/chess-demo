@@ -33,9 +33,6 @@ namespace TurboLabz.InstantGame
     public class UpdateAdsSignal : Signal {}
     public class ToggleAdBlockerSignal : Signal<bool> {}
 
-	// PLAYER
-	public class UpdatePlayerBucksDisplaySignal : Signal<long> {}
-
     // CPU STATS
     public class LoadStatsSignal : Signal {}
     public class UpdateStatsDurationSignal : Signal<string> {}

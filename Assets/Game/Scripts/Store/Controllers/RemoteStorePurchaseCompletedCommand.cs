@@ -18,7 +18,7 @@ namespace TurboLabz.InstantGame
 		[Inject] public string remoteProductId { get; set; }
 
 		// Dispatch
-		[Inject] public UpdatePlayerBucksDisplaySignal updatePlayerBucksDisplaySignal { get; set; }
+		[Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
 
 		// Models
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
