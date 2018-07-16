@@ -123,7 +123,6 @@ namespace TurboLabz.InstantFramework
                     chessboardModel.overrideFen = testChessConfig.GetString(GSBackendKeys.FEN);
                     chessboardModel.overrideAiStrength = (AiOverrideStrength)testChessConfig.GetInt(GSBackendKeys.AI_DIFFICULTY);
                     chessboardModel.overrideAiResignBehaviour = (AiOverrideResignBehaviour)testChessConfig.GetInt(GSBackendKeys.AI_RESIGN_BEHAVIOUR);
-                    chessboardModel.overrideAiSpeed = (AiOverrideSpeed)testChessConfig.GetInt(GSBackendKeys.AI_SPEED);
                 }
             }
         }

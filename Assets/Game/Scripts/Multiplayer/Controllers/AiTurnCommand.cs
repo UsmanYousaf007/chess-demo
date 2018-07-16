@@ -60,16 +60,19 @@ namespace TurboLabz.Multiplayer
             }
 
             // Speed
-            vo.aiMoveDelay = AiMoveDelay.MEDIUM_BOT;
+            if (vo.opponentTimer.TotalSeconds < 10)
+            {
+                vo.aiMoveDelay = AiMoveDelay.NONE;
+            }
+            else if (vo.opponentTimer.TotalSeconds < 30)
+            {
+                vo.aiMoveDelay = AiMoveDelay.CPU;
+            }
+            else
+            {
+                vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
+            }
 
-            if (chessboardModel.overrideAiSpeed == AiOverrideSpeed.FAST)
-            {
-                vo.aiMoveDelay = AiMoveDelay.FAST_BOT;
-            }
-            else if (chessboardModel.overrideAiSpeed == AiOverrideSpeed.SLOW)
-            {
-                vo.aiMoveDelay = AiMoveDelay.SLOW_BOT;
-            }
                 
             // TODO: In the future, if we add 1 minute games, use the IsOneMinuteGame flag in the vo
             // to make the bots more aggressive so people can't spam the time control.

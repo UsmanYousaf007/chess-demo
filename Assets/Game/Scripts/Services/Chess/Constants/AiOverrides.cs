@@ -19,13 +19,6 @@ namespace TurboLabz.Chess
         SMART
     }
 
-    public enum AiOverrideSpeed
-    {
-        NONE,
-        FAST,
-        SLOW
-    }
-
     public enum AiOverrideResignBehaviour
     {
         NONE,
