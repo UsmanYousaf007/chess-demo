@@ -5,6 +5,7 @@ using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -43,7 +44,19 @@ namespace TurboLabz.InstantFramework
 
         protected void OnRequestFailure(object response)
         {
-            Dispatch(errorCode);
+            LogChallengeEventResponse r = response as LogChallengeEventResponse;
+            if (r != null)
+            {
+                string error = r.Errors.GetString("challengeInstanceId");
+                if (error == "COMPLETE")
+                {
+                    Dispatch(BackendResult.CANCELED);
+                }
+            }
+            else
+            {
+                Dispatch(errorCode);
+            }
         }
 
         protected void Dispatch(BackendResult result)
