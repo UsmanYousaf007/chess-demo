@@ -54,7 +54,6 @@ namespace TurboLabz.Multiplayer
         string overrideFen { get; set; }
         AiOverrideStrength overrideAiStrength { get; set; }
         AiOverrideResignBehaviour overrideAiResignBehaviour { get; set; }
-        AiOverrideSpeed overrideAiSpeed { get; set; }
         bool timersStopped { get; set; }
         List<string> notation { get; set; }
         List<ChessMove> backendMoveList { get; set; }

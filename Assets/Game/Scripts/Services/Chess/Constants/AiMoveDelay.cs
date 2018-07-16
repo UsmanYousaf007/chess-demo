@@ -14,10 +14,8 @@ namespace TurboLabz.Chess
 {
     public enum AiMoveDelay
     {
-        NONE,
-        CPU,
-        FAST_BOT,
-        MEDIUM_BOT,
-        SLOW_BOT
+        NONE,               // Used for hints
+        CPU,                // For play vs computer
+        ONLINE_5M,          // For online 5 m matches
     }
 }

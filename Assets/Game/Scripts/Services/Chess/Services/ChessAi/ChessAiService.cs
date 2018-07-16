@@ -83,15 +83,17 @@ namespace TurboLabz.Chess
                 yield return null;
             }
 
-            float delay;
+            float delay = 0f;
 
-            if (aiMoveInputVO.isHint)
-            {
-                delay = AiMoveTimes.M_HINT;
-            }
-            else
+            if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.CPU)
             {
                 delay = AiMoveTimes.M_CPU;
+            }
+            else if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.ONLINE_5M)
+            {
+                int index = Mathf.Min(aiMoveInputVO.aiMoveNumber, AiMoveTimes.M_5.Length - 1);
+                float[] delayRange = AiMoveTimes.M_5[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
             }
                 
             float timeElapsed = Time.time - startTime;

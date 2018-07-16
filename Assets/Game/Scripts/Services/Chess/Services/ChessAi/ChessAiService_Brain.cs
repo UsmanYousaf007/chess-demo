@@ -30,33 +30,20 @@ namespace TurboLabz.Chess
 
         private int GetSearchDepth()
         {
-            // We set a strong search depth for one minute games because the ai engine
-            // exhibits focused aggressive behaviour with that search depth. Meaning instead
-            // of beating around the bush, it will go straight to attack your prime pieces
-            // which is the general way players approach a 1 min game. This is especially
-            // important to counter time hackers that make random moves so that the opponent's
-            // clock runs out. TODO: verify whether this actually works correctly
-            if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.FAST_BOT)
+            // Upto 60% cpu strength will use a min search depth.
+            // After that we will increase the search depth to 
+            // somewhat match AiFactory's max stated ELO at max difficulty 12 (ELO 2100)
+            // We get our ELO to depth from https://chess.stackexchange.com/questions/8123/stockfish-elo-vs-search-depth
+
+            if (aiMoveInputVO.cpuStrengthPct < 0.6f)
             {
-                return ChessAiConfig.SF_MAX_SEARCH_DEPTH;
+                return ChessAiConfig.SF_MIN_SEARCH_DEPTH;
             }
-            else
-            {
-                // Upto 60% cpu strength will use a min search depth.
-                // After that we will increase the search depth to 
-                // somewhat match AiFactory's max stated ELO at max difficulty 12 (ELO 2100)
-                // We get our ELO to depth from https://chess.stackexchange.com/questions/8123/stockfish-elo-vs-search-depth
 
-                if (aiMoveInputVO.cpuStrengthPct < 0.6f)
-                {
-                    return ChessAiConfig.SF_MIN_SEARCH_DEPTH;
-                }
+            int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
+            int searchDepth = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.cpuStrengthPct * searchDepthRange);
 
-                int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
-                int searchDepth = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.cpuStrengthPct * searchDepthRange);
-
-                return searchDepth;
-            }
+            return searchDepth;
         }
 
         /// <summary>
@@ -363,6 +350,7 @@ namespace TurboLabz.Chess
 
         private bool MakePanicMove()
         {
+            // CPU does not panic
             if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.CPU)
             {
                 return false;
@@ -374,31 +362,11 @@ namespace TurboLabz.Chess
             bool panic = false;
             double clockSeconds = aiMoveInputVO.opponentTimer.TotalSeconds;
 
-            // Panic also applies at 1 min and 30 seconds for ONE MINUTE games
-            // because of their inherent mindset.
-            if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.FAST_BOT)
+            // It applies to the rest of the time controls only at 10 seconds due 
+            // to the mindset when the clock is so low.
+            if (clockSeconds < 10 )
             {
-                if (clockSeconds < 10 )
-                {
-                    panic = RollPercentageDice(ChessAiConfig.TEN_SECOND_PANIC_CHANCE);
-                }
-                else if (clockSeconds < 30)
-                {
-                    panic = RollPercentageDice(ChessAiConfig.THIRTY_SECOND_PANIC_CHANCE);
-                }
-                else if (clockSeconds < 60)
-                {
-                    panic = RollPercentageDice(ChessAiConfig.ONE_MIN_PANIC_CHANCE);
-                }
-            }
-            else
-            {
-                // It applies to the rest of the time controls only at 10 seconds due 
-                // to the mindset when the clock is so low.
-                if (clockSeconds < 10 )
-                {
-                    panic = RollPercentageDice(ChessAiConfig.TEN_SECOND_PANIC_CHANCE);
-                }
+                panic = RollPercentageDice(ChessAiConfig.TEN_SECOND_PANIC_CHANCE);
             }
 
             if (panic)
@@ -414,8 +382,7 @@ namespace TurboLabz.Chess
         private bool MakeEmptyBoardMove()
         {
             // If we have an empty board, we can't expose the Ai. So just
-            // make the best second best move. If this move has some weirdness,
-            // the dispatch move cancel filters will catch it.
+            // make the best move.
             if (ReachedEndGame())
             {
                 AiLog("End game piece count detected.");

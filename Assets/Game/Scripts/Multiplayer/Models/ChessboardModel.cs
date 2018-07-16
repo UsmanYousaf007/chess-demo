@@ -61,7 +61,6 @@ namespace TurboLabz.Multiplayer
         public string overrideFen { get; set; }
         public AiOverrideStrength overrideAiStrength { get; set; }
         public AiOverrideResignBehaviour overrideAiResignBehaviour { get; set; }
-        public AiOverrideSpeed overrideAiSpeed { get; set; }
 
         public void Reset()
         {
@@ -107,7 +106,6 @@ namespace TurboLabz.Multiplayer
             overrideFen = null;
             overrideAiStrength = AiOverrideStrength.NONE;
             overrideAiResignBehaviour = AiOverrideResignBehaviour.NONE;
-            overrideAiSpeed = AiOverrideSpeed.NONE;
         }
     }
 }
