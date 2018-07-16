@@ -87,7 +87,6 @@ namespace TurboLabz.CPU
 
         private void OnSaveAndExitButtonClicked()
         {
-            saveGameSignal.Dispatch();
             loadLobbySignal.Dispatch();
             showAdSignal.Dispatch(false);
         }

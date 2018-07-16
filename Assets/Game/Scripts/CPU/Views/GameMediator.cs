@@ -70,6 +70,7 @@ namespace TurboLabz.CPU
             if (viewId == NavigatorViewId.CPU)
             {
                 stopTimersSignal.Dispatch();
+                saveGameSignal.Dispatch();
                 view.Hide();
             }
         }
