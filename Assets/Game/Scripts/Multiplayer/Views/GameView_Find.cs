@@ -17,6 +17,7 @@ using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System.Collections;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Multiplayer
 {
@@ -32,11 +33,13 @@ namespace TurboLabz.Multiplayer
 
         public void InitFind()
         {
-            searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
         }
 
         public void ShowFind()
         {
+            searchingLabel.color = Colors.WHITE;
+            searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
+
             SetupFindMode();
 
             EnableModalBlocker();
@@ -97,6 +100,7 @@ namespace TurboLabz.Multiplayer
                 findAvatar.sprite = vo.playerPic;
             }
 
+            searchingLabel.color = Colors.GREEN;
             searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
         }
 
