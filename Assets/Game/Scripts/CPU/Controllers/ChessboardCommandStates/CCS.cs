@@ -45,18 +45,8 @@ namespace TurboLabz.CPU
             // Load the game view
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
 
-            // Initialize and launch our time control if not playing an
-            // infinite time game.
-            if (cmd.cpuGameModel.durationIndex == 0)
-            {
-                cmd.initInfiniteTimersSignal.Dispatch(isPlayerTurn);
-            }
-            else
-            {
-                // We kick off the time control signal here because the game
-                // view needs to be visible for it to function correctly
-                cmd.runTimeControlSignal.Dispatch();
-            }
+            // Initialize and launch our time control
+            cmd.initInfiniteTimersSignal.Dispatch(isPlayerTurn);
                 
 
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;

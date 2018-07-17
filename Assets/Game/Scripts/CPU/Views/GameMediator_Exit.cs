@@ -70,6 +70,15 @@ namespace TurboLabz.CPU
             view.DisableMenuButton();
         }
 
+        [ListensTo(typeof(GameDisconnectingSignal))]
+        public void OnGameDisconnecting()
+        {
+            if (view.IsVisible())
+            {
+                saveGameSignal.Dispatch();
+            }
+        }
+
         private void OnMenuButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_EXIT_DLG);
@@ -87,6 +96,7 @@ namespace TurboLabz.CPU
 
         private void OnSaveAndExitButtonClicked()
         {
+            saveGameSignal.Dispatch();
             loadLobbySignal.Dispatch();
             showAdSignal.Dispatch(false);
         }

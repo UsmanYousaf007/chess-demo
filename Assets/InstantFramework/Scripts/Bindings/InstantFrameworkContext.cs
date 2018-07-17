@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerBucksSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
+            injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -142,8 +143,6 @@ namespace TurboLabz.InstantFramework
             // Bind signals to commands
             commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
-            commandBinder.Bind<AdjustDurationSignal>().To<AdjustDurationCommand>();
-            commandBinder.Bind<AdjustPlayerColorSignal>().To<AdjustPlayerColorCommand>();
 			commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
 			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();

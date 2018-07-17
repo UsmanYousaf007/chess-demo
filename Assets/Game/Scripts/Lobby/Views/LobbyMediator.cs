@@ -25,8 +25,6 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch signals
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
-        [Inject] public AdjustDurationSignal adjustTimerSignal { get; set; }
-        [Inject] public AdjustPlayerColorSignal adjustPlayerColorSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }

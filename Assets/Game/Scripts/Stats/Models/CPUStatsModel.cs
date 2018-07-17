@@ -55,10 +55,12 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void Save(int durationIndex, int difficulty, int result)
+        public void Save(int difficulty, int result)
         {
             try
             {
+                int durationIndex = 0; // This value was hardcoded after removing the other time options
+
                 // TODO: This is hacky where the strength index should be a proper independant index
                 // and not calculated based off the strength value.
                 int strengthIndex = difficulty - 1; 
@@ -77,7 +79,6 @@ namespace TurboLabz.InstantGame
                 foreach (KeyValuePair<int, PerformanceSet> entry in stats)
                 {
                     statsSaveData.Add(entry.Key, JsonUtility.ToJson(entry.Value));
-                    LogUtil.Log("Added perf set:" + JsonUtility.ToJson(entry.Value), "cyan");
                 }
 
                 writer.WriteDictionary<int, string>(SaveKeys.STATS_DATA, statsSaveData);

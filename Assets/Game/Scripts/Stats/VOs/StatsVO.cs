@@ -15,7 +15,6 @@ namespace TurboLabz.InstantGame
 {
     public struct StatsVO
     {
-        public int selectedDurationIndex;
         public int[] durationMinutes;
         public Dictionary<int, PerformanceSet> stats;
         public double onlineWinPct;

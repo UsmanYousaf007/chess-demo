@@ -20,9 +20,6 @@ namespace TurboLabz.InstantGame
     // CPU LOBBY
     public class UpdateMenuViewSignal : Signal<LobbyVO> {}
     public class AdjustStrengthSignal : Signal<bool> {}
-    public class AdjustDurationSignal : Signal<bool> {}
-    public class AdjustPlayerColorSignal : Signal<bool> {}
-	//public class AdjustThemeSignal : Signal<bool> {}
     public class UpdateStrengthSignal : Signal<LobbyVO> {}
     public class UpdateDurationSignal : Signal<LobbyVO> {}
     public class UpdatePlayerColorSignal : Signal<LobbyVO> {}

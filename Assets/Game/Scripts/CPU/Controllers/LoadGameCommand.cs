@@ -49,8 +49,6 @@ namespace TurboLabz.CPU
 				// CPU MENU MODEL
 				cpuGameModel.totalGames = reader.Read<int>(SaveKeys.TOTAL_GAMES);
 				cpuGameModel.cpuStrength = reader.Read<int>(SaveKeys.CPU_STRENGTH);
-				cpuGameModel.durationIndex = reader.Read<int>(SaveKeys.DURATION_INDEX);
-				cpuGameModel.playerColorIndex = reader.Read<int>(SaveKeys.PLAYER_COLOR_INDEX);
 				cpuGameModel.inProgress = reader.Read<bool>(SaveKeys.IN_PROGRESS);
 
 				if (!cpuGameModel.inProgress)
@@ -65,9 +63,16 @@ namespace TurboLabz.CPU
 				}
 
 				// CHESSBOARD MODEL
-				chessboardModel.gameDuration = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.GAME_DURATION));
-				chessboardModel.playerTimer = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.PLAYER_TIMER));
-				chessboardModel.opponentTimer = TimeSpan.FromTicks(reader.Read<long>(SaveKeys.OPPONENT_TIMER));
+                long ticks = reader.Read<long>(SaveKeys.GAME_DURATION);
+
+                // abort if reading an old unsupported time control game
+                if (ticks != 0)
+                {
+                    localDataService.DeleteFile(SaveKeys.CPU_SAVE_FILENAME);
+                    ResetAll();
+                    return;
+                }
+
 				chessboardModel.playerColor = reader.Read<ChessColor>(SaveKeys.PLAYER_COLOR);
 				chessboardModel.opponentColor = reader.Read<ChessColor>(SaveKeys.OPPONENT_COLOR);
 				chessboardModel.availableHints = reader.Read<int>(SaveKeys.AVAILABLE_HINTS);

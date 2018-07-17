@@ -39,7 +39,6 @@ namespace TurboLabz.InstantGame
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STATS);
 
             StatsVO vo = new StatsVO();
-            vo.selectedDurationIndex = cpuGameModel.durationIndex;
             vo.durationMinutes = CPUSettings.DURATION_MINUTES;
             vo.stats = cpuStatsModel.stats;
 

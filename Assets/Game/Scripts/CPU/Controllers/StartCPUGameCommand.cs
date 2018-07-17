@@ -37,19 +37,9 @@ namespace TurboLabz.CPU
             }
             else
             {
-                if (cpuGameModel.durationIndex == 0)
-                {
-                    chessboardModel.gameDuration = TimeSpan.Zero;
-                }
-                else
-                {
-                    long gameDuration = CPUSettings.DURATION_MINUTES[cpuGameModel.durationIndex] * 60000;
-                    chessboardModel.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
+                chessboardModel.gameDuration = TimeSpan.Zero;
+                chessboardModel.aiMoveDelay = AiMoveDelay.CPU;
 
-                    chessboardModel.aiMoveDelay = AiMoveDelay.CPU;
-                    chessboardModel.playerTimer = chessboardModel.gameDuration;
-                    chessboardModel.opponentTimer = chessboardModel.gameDuration;
-                }
                     
                 chessboardModel.playerColor = (UnityEngine.Random.Range(0,2) == 0) ? ChessColor.BLACK : ChessColor.WHITE;
                 chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
