@@ -17,7 +17,7 @@ namespace TurboLabz.InstantGame
     public interface ICPUStatsModel
     {
         Dictionary<int, PerformanceSet> stats { get; set; }
-        void Save(int durationIndex, int difficulty, int result);
+        void Save(int difficulty, int result);
         void Reset();
     }
 }

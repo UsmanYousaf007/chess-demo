@@ -36,9 +36,8 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            int durationIndex = cpuGameModel.durationIndex;
             int cpuStrength = cpuGameModel.cpuStrength;
-            statsModel.Save(durationIndex, cpuStrength, result);
+            statsModel.Save(cpuStrength, result);
 
             LogUtil.Log("SAVING STATS...", "cyan");
         }

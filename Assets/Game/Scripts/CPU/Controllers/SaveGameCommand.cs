@@ -40,9 +40,9 @@ namespace TurboLabz.CPU
 				// CPU MENU MODEL
 				writer.Write<int>(SaveKeys.TOTAL_GAMES, cpuGameModel.totalGames);
 				writer.Write<int>(SaveKeys.CPU_STRENGTH, cpuGameModel.cpuStrength);
-				writer.Write<int>(SaveKeys.DURATION_INDEX, cpuGameModel.durationIndex);
 				writer.Write<bool>(SaveKeys.IN_PROGRESS, cpuGameModel.inProgress);
-				writer.Write<int>(SaveKeys.PLAYER_COLOR_INDEX, cpuGameModel.playerColorIndex);
+
+                LogUtil.Log("SAVING GAME... game in progress:" + cpuGameModel.inProgress, "red");
 
 				if (!cpuGameModel.inProgress)
 				{

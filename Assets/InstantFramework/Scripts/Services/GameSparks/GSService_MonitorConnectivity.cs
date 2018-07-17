@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        [Inject] public GameDisconnectingSignal gameDisconnectingSignal { get; set; }
+
         public void MonitorConnectivity()
         {
             GS.GameSparksAvailable += GameSparksAvailable;
@@ -37,6 +39,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 LogUtil.Log("GS DISCONNECTED!", "red");
+                gameDisconnectingSignal.Dispatch();
                 GSFrameworkRequest.CancelRequestSession();
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
             }

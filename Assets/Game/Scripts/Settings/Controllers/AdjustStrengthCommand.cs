@@ -28,6 +28,7 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch Signal
         [Inject] public UpdateStrengthSignal updateStrengthSignal { get; set; }
+        [Inject] public SaveGameSignal saveGameSignal { get; set; }
 
         // Parameters
         [Inject] public bool increase { get; set; }
@@ -50,6 +51,8 @@ namespace TurboLabz.InstantGame
 
 			LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
             updateStrengthSignal.Dispatch(vo);
+
+            saveGameSignal.Dispatch(); // Save our changes to the prefs.
         }
     }
 }

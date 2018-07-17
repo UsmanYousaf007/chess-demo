@@ -17,9 +17,7 @@ namespace TurboLabz.CPU
     public interface ICPUGameModel
     {
         int cpuStrength { get; set; }
-        int durationIndex { get; set; }
         bool inProgress { get; set; }
-        int playerColorIndex { get; set; }
         string devFen { get; set; }
         int totalGames { get; set; }
         string levelId { get; }
