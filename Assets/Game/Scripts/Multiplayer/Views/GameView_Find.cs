@@ -100,7 +100,7 @@ namespace TurboLabz.Multiplayer
                 findAvatar.sprite = vo.playerPic;
             }
 
-            searchingLabel.color = Colors.GREEN;
+            searchingLabel.color = Colors.YELLOW;
             searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
         }
 
