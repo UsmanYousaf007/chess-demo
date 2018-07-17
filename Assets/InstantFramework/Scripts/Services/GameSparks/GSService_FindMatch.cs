@@ -68,6 +68,10 @@ namespace TurboLabz.InstantFramework
             if (opponentData.ContainsKey(GSBackendKeys.MatchData.BOT_DIFFICULTY))
             {
                 matchInfoModel.botDifficulty = opponentData.GetFloat(GSBackendKeys.MatchData.BOT_DIFFICULTY).Value;
+
+                // Assign a random name to the bot
+                int randomSuffix = UnityEngine.Random.Range(100, 10001);
+                matchInfoModel.opponentPublicProfile.name = "Guest" + randomSuffix;
             }
 
             // InitGame() is responsible for filling out all the game models
