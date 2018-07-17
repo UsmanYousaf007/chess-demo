@@ -175,7 +175,6 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<UpdateStoreNotEnoughBucksDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
-            injectionBinder.Bind<ToggleAdBlockerSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

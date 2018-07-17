@@ -119,12 +119,6 @@ namespace TurboLabz.InstantGame
             view.UpdateAds(vo);
         }
 
-		[ListensTo(typeof(ToggleAdBlockerSignal))]
-        public void OnToggleAdBlocker(bool enable)
-        {
-            view.ToggleAdBlocker(enable);
-        }
-
         private void OnDecStrengthButtonClicked()
         {
             adjustStrengthSignal.Dispatch(false);

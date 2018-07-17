@@ -31,7 +31,6 @@ namespace TurboLabz.InstantGame
     public class ShowAdSignal : Signal<bool> {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
     public class UpdateAdsSignal : Signal {}
-    public class ToggleAdBlockerSignal : Signal<bool> {}
 
     // CPU STATS
     public class LoadStatsSignal : Signal {}

@@ -20,7 +20,6 @@ namespace TurboLabz.InstantGame
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public ToggleAdBlockerSignal toggleAdBlockerSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdSignal { get; set; }
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
 
@@ -40,14 +39,11 @@ namespace TurboLabz.InstantGame
             adsService.ShowAd().Then(OnShowAd);
 
             analyticsService.AdStart(isRewarded);
-            toggleAdBlockerSignal.Dispatch(true);
             Retain();
         }
 
         private void OnShowAd(AdsResult result)
         {
-            toggleAdBlockerSignal.Dispatch(false);
-
             if (result == AdsResult.FINISHED)
             {
                 analyticsService.AdComplete(isRewarded);
