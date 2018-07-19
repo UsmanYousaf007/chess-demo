@@ -8,11 +8,14 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform[] scaleDownSet;
     public RectTransform[] stretchWidth;
     public RectTransform[] gameTopStrip;
+    public RectTransform[] opponentInfoPanel;
+    public RectTransform[] playerInfoPanel;
 
     public GameObject notchOverlay;
 
     const float SCALE_DOWN = 0.92f;
     const float GAME_TOP_STRIP_ADJUST = -58f;
+    const float INFO_PANEL_ADJUST = 41f;
 
     void Awake()
     {
@@ -45,6 +48,20 @@ public class NotchHandler : MonoBehaviour {
         {
             Vector3 localPos = tfm.localPosition;
             localPos.y += GAME_TOP_STRIP_ADJUST;
+            tfm.localPosition = localPos;
+        }
+
+        foreach (RectTransform tfm in opponentInfoPanel)
+        {
+            Vector3 localPos = tfm.localPosition;
+            localPos.y += INFO_PANEL_ADJUST;
+            tfm.localPosition = localPos;
+        }
+
+        foreach (RectTransform tfm in playerInfoPanel)
+        {
+            Vector3 localPos = tfm.localPosition;
+            localPos.y -= INFO_PANEL_ADJUST;
             tfm.localPosition = localPos;
         }
     }
