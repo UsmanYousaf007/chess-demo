@@ -50,31 +50,6 @@ namespace TurboLabz.Multiplayer
             IPlayerModel playerModel = cmd.playerModel;
             IMatchInfoModel matchInfoModel = cmd.matchInfoModel;
             IChessboardModel chessboardModel = cmd.chessboardModel;
-            PublicProfile playerPublicProfile = playerModel.publicProfile;
-            PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
-
-            /*
-            string roomId = matchInfoModel.roomId;
-            RoomSetting roomInfo = cmd.roomSettingsModel.settings[roomId];
-
-            // Update the game info areas
-            MatchInfoVO vo;
-            vo.playerName = playerPublicProfile.name;
-            vo.playerRoomTitleId = playerPublicProfile.roomRecords[roomId].roomTitleId;
-            vo.playerLevel = playerPublicProfile.level;
-            vo.playerCountryId = playerPublicProfile.countryId;
-            vo.opponentName = opponentPublicProfile.name;
-            vo.opponentRoomTitleId = opponentPublicProfile.roomRecords[roomId].roomTitleId;
-            vo.opponentLevel = opponentPublicProfile.level;
-            vo.opponentCountryId = opponentPublicProfile.countryId;
-            vo.roomId = roomId;
-            vo.durationMinutes = (int)(roomInfo.gameDuration / 60000f);
-            vo.prize = roomInfo.prize;
-            vo.isPlayerTurn = isPlayerTurn;
-            vo.opponentProfilePictureSprite = opponentPublicProfile.profilePicture;
-
-            cmd.updateMatchInfoSignal.Dispatch(vo);
-            */
 
             // Setup the initial rotation and skin
             bool isPlayerWhite = (chessboardModel.playerColor == ChessColor.WHITE);
