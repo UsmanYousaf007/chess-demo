@@ -26,7 +26,13 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthFacebook(string accessToken)
         {
-            return new GSAuthFacebookRequest().Send(accessToken);
+            return new GSAuthFacebookRequest().Send(accessToken, onFacebookAuthSuccess);
+        }
+
+        private void onFacebookAuthSuccess(object r)
+        {
+            AuthenticationResponse response = (AuthenticationResponse)r;
+            playerModel.id = response.UserId;
         }
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)
@@ -45,8 +51,9 @@ namespace TurboLabz.InstantFramework
 
     public class GSAuthFacebookRequest : GSFrameworkRequest
     {
-        public IPromise<BackendResult> Send(string accessToken)
+        public IPromise<BackendResult> Send(string accessToken, Action<object> onFacebookAuthSuccess)
         {
+            this.onSuccess = onFacebookAuthSuccess;
             this.errorCode = BackendResult.AUTH_FACEBOOK_REQUEST_FAILED;
 
             new FacebookConnectRequest().SetAccessToken(accessToken)

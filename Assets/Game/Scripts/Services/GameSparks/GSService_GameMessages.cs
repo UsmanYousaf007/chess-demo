@@ -99,13 +99,10 @@ namespace TurboLabz.InstantFramework
 
             long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
             chessboardModel.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
-
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfoModel.opponentPublicProfile.id);
-
             long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
             long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
-
             chessboardModel.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
             chessboardModel.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
             chessboardModel.currentTurnPlayerId = gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID);
