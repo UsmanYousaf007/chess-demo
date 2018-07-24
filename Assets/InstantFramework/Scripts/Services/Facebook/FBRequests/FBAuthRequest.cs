@@ -23,8 +23,7 @@ namespace TurboLabz.InstantFramework
         {
              // Login
             List<string> permissions = new List<string>() {
-                FBPermissions.PUBLIC_PROFILE,
-                FBPermissions.USER_FRIENDS
+                FBPermissions.PUBLIC_PROFILE
             };
 
             FB.LogInWithReadPermissions(permissions, OnLogInWithReadPermissions);
