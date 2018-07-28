@@ -45,23 +45,23 @@ namespace TurboLabz.Chess
 
         #if UNITY_IOS
         [DllImport (PLUGIN_NAME)]
-        public static extern void setUnityOutFuncPtr(UnityOutDelegate callback);
+        public static extern void tl_setUnityOutFuncPtr(UnityOutDelegate callback);
         #else
         [DllImport (PLUGIN_NAME)]
         public static extern void setUnityOutFuncPtr(IntPtr fp);
         #endif
 
         [DllImport (PLUGIN_NAME)]
-        private static extern void echo(string arg);
+        private static extern void tl_echo(string arg);
 
         [DllImport (PLUGIN_NAME)]
-        private static extern void init();
+        private static extern void tl_init();
 
         [DllImport (PLUGIN_NAME)]
-        private static extern void cmd(string arg);
+        private static extern void tl_cmd(string arg);
 
         [DllImport (PLUGIN_NAME)]
-        private static extern void shutdown();
+        private static extern void tl_shutdown();
 
         private static bool isInitialized;
 
@@ -71,7 +71,7 @@ namespace TurboLabz.Chess
             {
                 // Set the callback to Unity function
                 #if UNITY_IOS
-                setUnityOutFuncPtr(UnityOutCallback);
+                tl_setUnityOutFuncPtr(UnityOutCallback);
                 #else
                 UnityOutDelegate callback_delegate = new UnityOutDelegate(UnityOutCallback);
                 IntPtr intptr_delegate = Marshal.GetFunctionPointerForDelegate(callback_delegate);
@@ -79,11 +79,11 @@ namespace TurboLabz.Chess
                 #endif
 
                 // Initialize the plugin once
-                init();
+                tl_init();
                 isInitialized = true;
             }
 
-            cmd("ucinewgame");
+            tl_cmd("ucinewgame");
             SetContempt(ChessAiConfig.SF_CONTEMPT);
             SetPonder(ChessAiConfig.SF_PONDER);
             SetMultiPV(ChessAiConfig.SF_MULTIPV);
@@ -97,43 +97,43 @@ namespace TurboLabz.Chess
             if (isInitialized)
             {
                 isInitialized = false;
-                shutdown();
+                tl_shutdown();
             }
         }
 
         public void SetPosition(string FEN)
         {
-            cmd("position fen " + FEN);
+            tl_cmd("position fen " + FEN);
         }
 
         private void SetContempt(string contempt)
         {
-            cmd("setoption name Contempt value " + contempt);
+            tl_cmd("setoption name Contempt value " + contempt);
         }
 
         private void SetPonder(string ponder)
         {
-            cmd("setoption name Ponder value " + ponder);
+            tl_cmd("setoption name Ponder value " + ponder);
         }
 
         private void SetMultiPV(string multiPV)
         {
-            cmd("setoption name MultiPV value " + multiPV);
+            tl_cmd("setoption name MultiPV value " + multiPV);
         }
 
         private void SetSkillLevel(string skill)
         {
-            cmd("setoption name Skill Level value " + skill);
+            tl_cmd("setoption name Skill Level value " + skill);
         }
 
         private void SetSlowMover(string slowMoverAmt)
         {
-            cmd("setoption name Slow Mover value " + slowMoverAmt);
+            tl_cmd("setoption name Slow Mover value " + slowMoverAmt);
         }
 
         private void SetHash(string hash)
         {
-            cmd("setoption name Hash value " + hash);
+            tl_cmd("setoption name Hash value " + hash);
         }
 
         private void SetThreads(string threads)
@@ -148,12 +148,12 @@ namespace TurboLabz.Chess
             results.aiSearchResultMovesStr = null;
             results.aiSearchResultScoresStr = null;
 
-            cmd("go depth " + depth);
+            tl_cmd("go depth " + depth);
         }
 
         public void Stop()
         {
-            cmd("stop");
+            tl_cmd("stop");
         }
 
         #if UNITY_IOS
