@@ -48,7 +48,7 @@ namespace TurboLabz.Chess
         public static extern void tl_setUnityOutFuncPtr(UnityOutDelegate callback);
         #else
         [DllImport (PLUGIN_NAME)]
-        public static extern void setUnityOutFuncPtr(IntPtr fp);
+        public static extern void tl_setUnityOutFuncPtr(IntPtr fp);
         #endif
 
         [DllImport (PLUGIN_NAME)]
@@ -75,7 +75,7 @@ namespace TurboLabz.Chess
                 #else
                 UnityOutDelegate callback_delegate = new UnityOutDelegate(UnityOutCallback);
                 IntPtr intptr_delegate = Marshal.GetFunctionPointerForDelegate(callback_delegate);
-                setUnityOutFuncPtr(intptr_delegate);
+                tl_setUnityOutFuncPtr(intptr_delegate);
                 #endif
 
                 // Initialize the plugin once
