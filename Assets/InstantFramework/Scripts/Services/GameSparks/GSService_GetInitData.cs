@@ -95,6 +95,10 @@ namespace TurboLabz.InstantFramework
             playerModel.inventory = inventory;
             GSParser.PopulateActiveInventory(playerModel, playerActiveInventory);
 
+			// Populate friends data
+			IList<GSData> friendsList = response.ScriptData.GetGSDataList(GSBackendKeys.FRIENDS);
+			playerModel.friends = PopulateFriends(friendsList);
+
             //GSParser.LogPlayerInfo(playerModel);
         }
 
@@ -165,6 +169,21 @@ namespace TurboLabz.InstantFramework
 
             return items;
         }
+
+		private IDictionary<string, Friend> PopulateFriends(IList<GSData> friendsData)
+		{
+			IDictionary<string, Friend> friends = new Dictionary<string, Friend>();
+
+			foreach (GSData friendData in friendsData)
+			{
+				var friend = new Friend();
+				GSParser.PopulateFriend(friend, friendData);
+			}
+
+			GSParser.LogFriends(friends);
+
+			return friends;
+		}
     }
 
     #region REQUEST

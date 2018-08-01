@@ -32,6 +32,9 @@ namespace TurboLabz.InstantFramework
         public string activeSkinId { get; set; }      
         public IOrderedDictionary<string, int> inventory { get; set; }
 
+		// Friends
+		public IDictionary<string, Friend> friends { get; set; }
+
 		public PublicProfile publicProfile
 		{
 			get
@@ -68,6 +71,9 @@ namespace TurboLabz.InstantFramework
             // Inventory
             activeSkinId = null;
             inventory = new OrderedDictionary<string, int>();
+
+			// Friends
+			friends = new Dictionary<string, Friend>();
         }
 
 		public bool OwnsVGood(string key)

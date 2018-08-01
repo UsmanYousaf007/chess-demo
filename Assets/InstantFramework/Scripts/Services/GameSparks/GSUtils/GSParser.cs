@@ -160,6 +160,72 @@ namespace TurboLabz.InstantFramework
                 playerModel.activeSkinId = activeSkinId;
             }
         }
+			
+		public static void PopulatePublicProfile(PublicProfile publicProfile, GSData publicProfileData)
+		{
+			publicProfile.name = publicProfileData.GetString(GSBackendKeys.PublicProfile.NAME);
+			publicProfile.countryId = publicProfileData.GetString(GSBackendKeys.PublicProfile.COUNTRY_ID);
+			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
+
+			IList<GSData> activeInventoryData = publicProfileData.GetGSDataList(GSBackendKeys.PublicProfile.PLAYER_ACTIVE_INVENTORY);
+			string activeChessSkinsId = "unassigned";
+			GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
+
+			GSData externalIds = publicProfileData.GetGSData(GSBackendKeys.PublicProfile.EXTERNAL_IDS);
+			IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
+			if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
+			{
+				ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
+				publicProfile.usingFacebookAuth = true;
+				publicProfile.facebookAuthId = facebookAuthData.id;
+			}
+		}
+
+		public static void PopulateFriend(Friend friend, GSData friendData)
+		{
+			friend.challengeId = friendData.GetString(GSBackendKeys.Friend.CHALLENGE_ID);
+			friend.gamesDrawn = friendData.GetInt(GSBackendKeys.Friend.GAMES_DRAWN).Value;
+			friend.gamesLost = friendData.GetInt(GSBackendKeys.Friend.GAMES_LOST).Value;
+			friend.gamesWon = friendData.GetInt(GSBackendKeys.Friend.GAMES_WON).Value;
+			friend.permission = friendData.GetString(GSBackendKeys.Friend.PERMISSION);
+			friend.playerId = friendData.GetString(GSBackendKeys.Friend.PLAYER_ID);
+			friend.timeStamp = friendData.GetLong(GSBackendKeys.Friend.TIME_STAMP).Value;
+			friend.type = friendData.GetString(GSBackendKeys.Friend.TYPE);
+
+			GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
+			PopulatePublicProfile(friend.publicProfile, publicProfileData);
+		}
+
+		public static void LogPublicProfile(PublicProfile publicProfile)
+		{
+			LogUtil.Log("********** publicProfile.name" + " " + publicProfile.name);
+			LogUtil.Log("********** friend.countryId" + " " + publicProfile.countryId);
+			LogUtil.Log("********** friend.eloScore" + " " + publicProfile.eloScore);
+			LogUtil.Log("********** friend.usingFacebookAuth" + " " + publicProfile.usingFacebookAuth);
+			LogUtil.Log("********** friend.facebookAuthId" + " " + publicProfile.facebookAuthId);
+		}
+
+		public static void LogFriend(Friend friend)
+		{
+			LogUtil.Log("********** friend.challengeId" + " " + friend.challengeId);
+			LogUtil.Log("********** friend.gamesDrawn" + " " + friend.gamesDrawn);
+			LogUtil.Log("********** friend.gamesLost" + " " + friend.gamesLost);
+			LogUtil.Log("********** friend.gamesWon" + " " + friend.gamesWon);
+			LogUtil.Log("********** friend.permission" + " " + friend.permission);
+			LogUtil.Log("********** friend.playerId" + " " + friend.playerId);
+			LogUtil.Log("********** friend.timeStamp" + " " + friend.timeStamp);
+			LogUtil.Log("********** friend.type" + " " + friend.type);
+
+			LogPublicProfile(friend.publicProfile);
+		}
+
+		public static void LogFriends(IDictionary<string, Friend> friends)
+		{
+			foreach (KeyValuePair<string, Friend> friend in friends)
+			{
+				LogFriend(friend.Value);
+			}
+		}
 
         public static void LogPlayerInfo(IPlayerModel playerModel)
         {

@@ -33,6 +33,9 @@ namespace TurboLabz.InstantFramework
 
         PublicProfile publicProfile { get; }
 
+		// Friends
+		IDictionary<string, Friend> friends { get; set; }
+
         void Reset();
         bool OwnsVGood(string key);
 	}

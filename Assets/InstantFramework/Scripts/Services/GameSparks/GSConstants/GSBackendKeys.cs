@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         public const string ACCOUNT_DETAILS = "accountDetails";
         public const string ACCOUNT_VIRTUALGOODS = "virtualGoods";
         public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
+		public const string FRIENDS = "friends";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
@@ -169,6 +170,33 @@ namespace TurboLabz.InstantFramework
             
             public const string TYPE_AD_BUCKS = "rewardAdBucks";
         }
+
+		public static class Friend
+		{
+			public const string PLAYER_ID = "playerId";
+			public const string TYPE = "type";
+			public const string PERMISSION = "permission";
+			public const string CHALLENGE_ID = "challengeId";
+			public const string GAMES_WON = "gamesWon";
+			public const string GAMES_LOST = "gamesLost";
+			public const string GAMES_DRAWN = "gamesDrawn";
+			public const string TIME_STAMP = "timeStamp";
+			public const string PUBLIC_PROFILE = "publicProfile";
+		}
+
+		public static class PublicProfile
+		{
+			public const string PROFILE_NAME = "name";
+			public const string PROFILE_COUNTRY_ID = "countryId";
+			public const string PROFILE_ELO_SCORE = "eloScore";
+			public const string PROFILE_EXTERNAL_IDS = "externalIds";
+
+			public const string NAME = "name";
+			public const string COUNTRY_ID = "countryId";
+			public const string ELO_SCORE = "eloScore";
+			public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
+			public const string EXTERNAL_IDS = "externalIds";
+		}
     }
 
     // TODO: Organize these like the event data keys, consider class renaming
