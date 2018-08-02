@@ -97,7 +97,10 @@ namespace TurboLabz.InstantFramework
 
 			// Populate friends data
 			IList<GSData> friendsList = response.ScriptData.GetGSDataList(GSBackendKeys.FRIENDS);
-			playerModel.friends = PopulateFriends(friendsList);
+			if (friendsList != null) 
+			{
+				playerModel.friends = PopulateFriends(friendsList);
+			}
 
             //GSParser.LogPlayerInfo(playerModel);
         }
@@ -177,7 +180,10 @@ namespace TurboLabz.InstantFramework
 			foreach (GSData friendData in friendsData)
 			{
 				var friend = new Friend();
+				friend.publicProfile = new PublicProfile();
 				GSParser.PopulateFriend(friend, friendData);
+
+				friends.Add(friend.playerId, friend);
 			}
 
 			GSParser.LogFriends(friends);
