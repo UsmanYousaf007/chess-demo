@@ -43,15 +43,12 @@ namespace TurboLabz.Multiplayer
             drawNoButton.onClick.AddListener(OnDrawRejected);
             drawYesButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON);
             drawNoButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON);
-
-            resignButton.onClick.AddListener(OnDrawClaimed);
         }
 
         public void CleanupDraw()
         {
             drawYesButton.onClick.RemoveListener(OnDrawClaimed);
             drawNoButton.onClick.RemoveListener(OnDrawRejected);
-            resignButton.onClick.RemoveListener(OnDrawClaimed);
         }
 
         public void ShowFiftyMoveDraw()

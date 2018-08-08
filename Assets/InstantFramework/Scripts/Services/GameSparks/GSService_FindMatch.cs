@@ -25,17 +25,9 @@ namespace TurboLabz.InstantFramework
         private void OnFindMatchSuccess(object m)
         {
             ChallengeStartedMessage message = (ChallengeStartedMessage)m;
-			if (message == null) {
-				LogUtil.Log ("message is NULL ", "red");
-			}
-
-			GSData challengeData = message.ScriptData.GetGSData("ChallengeData");
-			if (challengeData == null) {
-				LogUtil.Log ("Challenge Data is NULL ", "red");
-			}
-
-			GSData matchData = challengeData.GetGSData(GSBackendKeys.MatchData.KEY);
-			GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
+            GSData challengeData = message.Challenge.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+            GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
+            GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
 
             var challenge = message.Challenge;
             string challengeId = challenge.ChallengeId;
@@ -50,19 +42,19 @@ namespace TurboLabz.InstantFramework
 
             string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
             GSData opponentData = matchData.GetGSData(opponentId);
-            GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.MatchData.PROFILE);
+            GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
 
             PublicProfile opponentPublicProfile = new PublicProfile();
             opponentPublicProfile.id = opponentId;
-            opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.MatchData.PROFILE_NAME);
-            opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.MatchData.PROFILE_COUNTRY_ID);
-            opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.MatchData.PROFILE_ELO_SCORE).Value;
+            opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
+            opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
+            opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
 
             IList<GSData> activeInventoryData = opponentProfile.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
             string activeChessSkinsId = "unassigned";
             GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
 
-            GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.MatchData.PROFILE_EXTERNAL_IDS);
+            GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
             IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
             if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
             {
@@ -73,10 +65,10 @@ namespace TurboLabz.InstantFramework
 
             matchInfoModel.challengeId = challengeId;
             matchInfoModel.opponentPublicProfile = opponentPublicProfile;
-            matchInfoModel.botId = matchData.GetString(GSBackendKeys.MatchData.BOT_ID);
-            if (opponentData.ContainsKey(GSBackendKeys.MatchData.BOT_DIFFICULTY))
+            matchInfoModel.botId = matchData.GetString(GSBackendKeys.ChallengeData.BOT_ID);
+            if (opponentData.ContainsKey(GSBackendKeys.ChallengeData.BOT_DIFFICULTY))
             {
-                matchInfoModel.botDifficulty = opponentData.GetFloat(GSBackendKeys.MatchData.BOT_DIFFICULTY).Value;
+                matchInfoModel.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
 
                 // Assign a random name to the bot
                 int randomSuffix = UnityEngine.Random.Range(100, 10001);

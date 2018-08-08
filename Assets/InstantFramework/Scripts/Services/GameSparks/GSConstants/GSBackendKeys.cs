@@ -13,6 +13,9 @@ using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
 {
+    // TODO: Organize framework/game keys in a better way
+    // TODO: Consider using customer gamesparks SDK for requests
+
     public static partial class GSBackendKeys
     {
         // App Version Settings
@@ -44,6 +47,7 @@ namespace TurboLabz.InstantFramework
         public const string ACCOUNT_VIRTUALGOODS = "virtualGoods";
         public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 		public const string FRIENDS = "friends";
+        public const string UPDATED_STATS = "updatedStats";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
@@ -112,9 +116,10 @@ namespace TurboLabz.InstantFramework
         }
 
         // Match data
-        public static class MatchData
+        public static class ChallengeData
         {
-            public const string KEY = "matchData";
+            public const string CHALLENGE_DATA_KEY = "ChallengeData";
+            public const string MATCH_DATA_KEY = "matchData";
             public const string PROFILE = "profile";
             public const string PROFILE_NAME = "name";
             public const string PROFILE_COUNTRY_ID = "countryId";

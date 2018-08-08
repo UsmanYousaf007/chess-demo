@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
             }
 
             GSData scriptData = message.ScriptData;
-            EndGame(scriptData, matchInfoModel.opponentPublicProfile.id);
+            EndGame(scriptData);
             OnGameChallengeWonMessage(message);
         }
 
@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
             }
 
             GSData scriptData = message.ScriptData;
-            EndGame(scriptData, matchInfoModel.opponentPublicProfile.id);
+            EndGame(scriptData);
             OnGameChallengeLostMessage(message);
         }
 
@@ -74,25 +74,17 @@ namespace TurboLabz.InstantFramework
             }
 
             GSData scriptData = message.ScriptData;
-            EndGame(scriptData, matchInfoModel.opponentPublicProfile.id);
+            EndGame(scriptData);
             OnGameChallengeDrawnMessage(message);
         }
 
-        private void EndGame(GSData data, string winnerId)
+        private void EndGame(GSData data)
         {
             // Update player account details on game end.
-            //GSData accountDetailsData = data.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
-            //AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
-
-            // Call the same method as for successful retrieval of account
-            // details since we process the account details data in exactly the
-            // same manner.
-            //OnAccountDetailsSuccess(accountDetailsResponse);
-
-            // Opponent public profile elo update
-            PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
-            opponentPublicProfile.eloScore = data.GetInt(GSBackendKeys.MatchData.OPPONENT_ELO_SCORE).Value;
-            matchInfoModel.opponentPublicProfile = opponentPublicProfile;
+            GSData updatedStatsData = data.GetGSData(GSBackendKeys.UPDATED_STATS);
+            playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
+            playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
+            playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;
         }
 
         private void OnSessionTerminateMessage(SessionTerminatedMessage message)
