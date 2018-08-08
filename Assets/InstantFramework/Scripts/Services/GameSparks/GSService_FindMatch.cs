@@ -25,8 +25,17 @@ namespace TurboLabz.InstantFramework
         private void OnFindMatchSuccess(object m)
         {
             ChallengeStartedMessage message = (ChallengeStartedMessage)m;
-            GSData matchData = message.ScriptData.GetGSData(GSBackendKeys.MatchData.KEY);
-            GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
+			if (message == null) {
+				LogUtil.Log ("message is NULL ", "red");
+			}
+
+			GSData challengeData = message.ScriptData.GetGSData("ChallengeData");
+			if (challengeData == null) {
+				LogUtil.Log ("Challenge Data is NULL ", "red");
+			}
+
+			GSData matchData = challengeData.GetGSData(GSBackendKeys.MatchData.KEY);
+			GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
 
             var challenge = message.Challenge;
             string challengeId = challenge.ChallengeId;

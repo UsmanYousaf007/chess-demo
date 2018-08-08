@@ -44,10 +44,8 @@ namespace TurboLabz.InstantFramework
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
             FillAdsSettingsModel(adsSettingsData);
 
-            GSData accountDetailsData = response.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
-            AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
-
-            OnAccountDetailsSuccess(accountDetailsResponse);
+			GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
+			FillPlayerDetails(playerDetailsData);
 
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
@@ -73,36 +71,36 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnAccountDetailsSuccess(AccountDetailsResponse response)
+		private void FillPlayerDetails(GSData playerDetailsData)
         {
-            playerModel.id = response.UserId;
-            playerModel.tag = response.ScriptData.GetString(GSBackendKeys.TAG);
-            playerModel.name = response.DisplayName;
-            playerModel.countryId = response.Location.Country;
+			playerModel.id = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.PLAYER_ID);
+			playerModel.tag = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.TAG);
+			playerModel.name = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.DISPLAY_NAME);
+			playerModel.countryId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.COUNTRY_ID);
+			playerModel.bucks = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.BUCKS).Value;
+			playerModel.eloScore = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.ELO_SCORE).Value;
+			playerModel.totalGamesWon = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_WON).Value;
+			playerModel.totalGamesLost = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_LOST).Value;
+			playerModel.totalGamesDrawn = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_DRAWN).Value;
+			playerModel.adLifetimeImpressions = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.AD_LIFETIME_IMPRESSIONS).Value;
 
-            playerModel.bucks = response.Currency2.Value;
-            playerModel.eloScore = response.ScriptData.GetInt(GSBackendKeys.ELO_SCORE).Value;
-            playerModel.adLifetimeImpressions = response.ScriptData.GetInt(GSBackendKeys.AD_LIFETIME_IMPRESSIONS).Value;
-
-            playerModel.totalGamesWon = response.ScriptData.GetInt(GSBackendKeys.GAMES_WON).Value;
-            playerModel.totalGamesLost = response.ScriptData.GetInt(GSBackendKeys.GAMES_LOST).Value;
-            playerModel.totalGamesDrawn = response.ScriptData.GetInt(GSBackendKeys.GAMES_DRAWN).Value;
-
-            // Populate inventory data
-            IList<GSData> playerActiveInventory = response.ScriptData.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
-            IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
-            GSParser.PopulateInventory(inventory, response.VirtualGoods);
+			IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
+			GSData inventoryData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.INVENTORY);
+			GSParser.PopulateInventory(inventory, inventoryData);
             playerModel.inventory = inventory;
-            GSParser.PopulateActiveInventory(playerModel, playerActiveInventory);
+
+			// Populate inventory data
+			IList<GSData> playerActiveInventoryData = playerDetailsData.GetGSDataList(GSBackendKeys.PlayerDetails.PLAYER_ACTIVE_INVENTORY);
+			GSParser.PopulateActiveInventory(playerModel, playerActiveInventoryData);
 
 			// Populate friends data
-			IList<GSData> friendsList = response.ScriptData.GetGSDataList(GSBackendKeys.FRIENDS);
+			IList<GSData> friendsList = playerDetailsData.GetGSDataList(GSBackendKeys.FRIENDS);
 			if (friendsList != null) 
 			{
 				playerModel.friends = PopulateFriends(friendsList);
 			}
 
-            //GSParser.LogPlayerInfo(playerModel);
+            GSParser.LogPlayerInfo(playerModel);
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)

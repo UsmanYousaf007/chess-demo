@@ -72,25 +72,25 @@ namespace TurboLabz.InstantFramework
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
         {
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
-            GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
+            //GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(accountDetailsData, gameData, playerModel.id);
+           // AnnounceResults(accountDetailsData, gameData, playerModel.id);
         }
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
         {
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
-            GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
+            //GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(accountDetailsData, gameData, matchInfoModel.opponentPublicProfile.id);
+           // AnnounceResults(accountDetailsData, gameData, matchInfoModel.opponentPublicProfile.id);
         }
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
             chessboardModel.currentTurnPlayerId = message.Challenge.NextPlayer;
-            GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
+            //GSData accountDetailsData = message.ScriptData.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
             GSData gameData = message.ScriptData.GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(accountDetailsData, gameData, null);
+            //AnnounceResults(accountDetailsData, gameData, null);
         }
 
         private void LoadChessboardModel(GSData gameData)

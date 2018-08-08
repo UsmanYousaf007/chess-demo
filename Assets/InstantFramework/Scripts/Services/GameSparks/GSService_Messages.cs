@@ -81,13 +81,13 @@ namespace TurboLabz.InstantFramework
         private void EndGame(GSData data, string winnerId)
         {
             // Update player account details on game end.
-            GSData accountDetailsData = data.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
-            AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
+            //GSData accountDetailsData = data.GetGSData(GSBackendKeys.ACCOUNT_DETAILS);
+            //AccountDetailsResponse accountDetailsResponse = new AccountDetailsResponse(accountDetailsData);
 
             // Call the same method as for successful retrieval of account
             // details since we process the account details data in exactly the
             // same manner.
-            OnAccountDetailsSuccess(accountDetailsResponse);
+            //OnAccountDetailsSuccess(accountDetailsResponse);
 
             // Opponent public profile elo update
             PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;

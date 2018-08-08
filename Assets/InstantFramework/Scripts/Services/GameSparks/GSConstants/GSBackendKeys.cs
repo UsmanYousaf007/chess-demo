@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
 		public const string SHOP_ITEM_STORE_PRODUCT_ID = "googlePlayProductId";
 
         // Account details
-        public const string ACCOUNT_DETAILS = "accountDetails";
+        public const string PLAYER_DETAILS = "playerDetails";
         public const string ACCOUNT_VIRTUALGOODS = "virtualGoods";
         public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 		public const string FRIENDS = "friends";
@@ -197,6 +197,23 @@ namespace TurboLabz.InstantFramework
 			public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 			public const string EXTERNAL_IDS = "externalIds";
 		}
+
+		public static class  PlayerDetails
+		{
+			public const string PLAYER_ID = "playerId";
+			public const string TAG = "tag";
+			public const string DISPLAY_NAME = "displayName";
+			public const string COUNTRY_ID = "countryId";
+			public const string BUCKS = "bucks";
+			public const string ELO_SCORE = "eloScore";
+			public const string GAMES_WON = "gamesWon";
+			public const string GAMES_LOST = "gamesLost";
+			public const string GAMES_DRAWN = "gamesDrawn";
+			public const string AD_LIFETIME_IMPRESSIONS = "adLifetimeImpressions";
+			public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
+			public const string INVENTORY = "inventory";
+			public const string FRIENDS = "friends";
+		};
     }
 
     // TODO: Organize these like the event data keys, consider class renaming
