@@ -26,7 +26,6 @@ namespace TurboLabz.Multiplayer
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SetupChessboardSignal setupChessboardSignal { get; set; }
-        [Inject] public UpdateMatchInfoSignal updateMatchInfoSignal { get; set; }
         [Inject] public UpdateChessboardSignal updateChessboardSignal { get; set; }
         [Inject] public AiTurnSignal aiTurnSignal { get; set; }
         [Inject] public ShowPlayerFromIndicatorSignal showPlayerFromIndicatorSignal { get; set; }

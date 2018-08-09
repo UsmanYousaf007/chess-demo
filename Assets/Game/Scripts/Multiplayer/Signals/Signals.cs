@@ -42,7 +42,6 @@ namespace TurboLabz.Multiplayer
 
     // View update signals
     public class SetupChessboardSignal : Signal<SetupChessboardVO> {}
-    public class UpdateMatchInfoSignal : Signal<MatchInfoVO> {}
     public class UpdateChessboardSignal : Signal<ChessSquare[,]> {}
     public class InitTimersSignal : Signal<InitTimerVO> {}
     public class UpdatePlayerTimerSignal : Signal<TimeSpan> {}
