@@ -94,13 +94,11 @@ namespace TurboLabz.InstantFramework
 			GSParser.PopulateActiveInventory(playerModel, playerActiveInventoryData);
 
 			// Populate friends data
-			IList<GSData> friendsList = playerDetailsData.GetGSDataList(GSBackendKeys.FRIENDS);
-			if (friendsList != null) 
-			{
-				playerModel.friends = PopulateFriends(friendsList);
-			}
+			GSData friendsList = playerDetailsData.GetGSData(GSBackendKeys.FRIENDS);
+			playerModel.friends = PopulateFriends(friendsList);
 
             GSParser.LogPlayerInfo(playerModel);
+			GSParser.LogFriends(playerModel.friends);
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)
@@ -171,20 +169,20 @@ namespace TurboLabz.InstantFramework
             return items;
         }
 
-		private IDictionary<string, Friend> PopulateFriends(IList<GSData> friendsData)
+		private IDictionary<string, Friend> PopulateFriends(GSData friendsData)
 		{
 			IDictionary<string, Friend> friends = new Dictionary<string, Friend>();
 
-			foreach (GSData friendData in friendsData)
+			foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
 			{
+				GSData friendData = (GSData)obj.Value;
+
 				var friend = new Friend();
 				friend.publicProfile = new PublicProfile();
 				GSParser.PopulateFriend(friend, friendData);
 
 				friends.Add(friend.playerId, friend);
 			}
-
-			GSParser.LogFriends(friends);
 
 			return friends;
 		}
