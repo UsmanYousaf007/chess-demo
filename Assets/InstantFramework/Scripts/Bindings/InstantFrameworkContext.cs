@@ -154,7 +154,6 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<FriendsView>().To<FriendsMediator>();
 			mediationBinder.Bind<StoreView>().To<StoreMediator>();
 			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
-            mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
