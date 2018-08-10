@@ -114,5 +114,8 @@ namespace R2D
         public const string contextSnapToGuideRight = "GameObject/Ruler 2D/Snap To Guide Right";
         public const string contextSnapToGuideUp = "GameObject/Ruler 2D/Snap To Guide Up";
         public const string contextSnapToGuideDown = "GameObject/Ruler 2D/Snap To Guide Down";
+
+        // System warnings
+        public const string detectMonitorChange = "R2D Warning: Monitor change detected. Please restart R2D to avoid unknown artificats.";
 	}
 }

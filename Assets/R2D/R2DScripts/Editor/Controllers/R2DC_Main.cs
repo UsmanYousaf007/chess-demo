@@ -27,6 +27,10 @@ namespace R2D
 
         private R2DC_Main() { }
 
+        public float currentPixelsPerPoint;
+        public bool ignoredFirstPixelsPerPointReading;
+        public bool setSecondPixelsPerPointReading;
+
 		public void EnabledR2D() 
         {
 			R2DC_Utils.Instance.Set2DMode();

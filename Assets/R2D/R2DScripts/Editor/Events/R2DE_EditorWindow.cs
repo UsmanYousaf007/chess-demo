@@ -104,8 +104,23 @@ namespace R2D
 		
             if (Event.current.type != EventType.Used) 
             {
-				R2DC_Main.Instance.DrawScene(sceneView);
-			
+                if (!R2DC_Main.Instance.ignoredFirstPixelsPerPointReading)
+                {
+                    R2DC_Main.Instance.ignoredFirstPixelsPerPointReading = true;
+                }
+                else if (!R2DC_Main.Instance.setSecondPixelsPerPointReading)
+                {
+                    R2DC_Main.Instance.currentPixelsPerPoint = EditorGUIUtility.pixelsPerPoint;
+                    R2DC_Main.Instance.setSecondPixelsPerPointReading = true;
+                }
+                else if (R2DC_Main.Instance.currentPixelsPerPoint != EditorGUIUtility.pixelsPerPoint)
+                {
+                    R2DC_Main.Instance.currentPixelsPerPoint = EditorGUIUtility.pixelsPerPoint;
+                    Debug.LogWarning(R2DD_Lang.detectMonitorChange);
+                }
+
+                R2DC_Main.Instance.DrawScene(sceneView);
+
                 if (Event.current.type != EventType.Layout) 
                 {
 					R2DC_Main.Instance.HandleInteraction();

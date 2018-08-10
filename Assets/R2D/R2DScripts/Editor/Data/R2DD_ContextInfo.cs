@@ -32,7 +32,7 @@ namespace R2D
 		public Vector3 origin;
 		public Vector3  scale;
 		public SceneView sceneView;
-		public Camera cam;
+        public R2DD_VirtualCam cam;
 
 		private R2DD_ContextInfo() 
         { 
@@ -44,8 +44,8 @@ namespace R2D
         {
 			R2DD_State state = R2DD_State.Instance;
 			this.sceneView = sceneView;
-			cam = sceneView.camera;
-			editorCameraSize = cam.orthographicSize;
+            cam = new R2DD_VirtualCam(sceneView.camera);
+            editorCameraSize = cam.orthographicSize;
 			gridPixelSquareSize = cam.WorldToScreenPoint(new Vector3(1, 1)) - cam.WorldToScreenPoint(new Vector3(0, 0));
 			scale = Vector3.one;
 			origin = Vector3.zero;
