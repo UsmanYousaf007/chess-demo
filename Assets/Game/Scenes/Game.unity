@@ -43570,7 +43570,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1312300370}
-  - component: {fileID: 1312300371}
   m_Layer: 5
   m_Name: Opponent
   m_TagString: Untagged
@@ -43600,25 +43599,6 @@ RectTransform:
   m_AnchoredPosition: {x: 200, y: 0.000030517578}
   m_SizeDelta: {x: 369.59998, y: 324.40002}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1312300371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1312300369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bfa85fd2e0914e749a27158de33b44d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultAvatar: {fileID: 21300000, guid: 10c69bb4ef11a4d1b9effcf56a81ec5e, type: 3}
-  profilePic: {fileID: 2135912719}
-  profileName: {fileID: 606123083}
-  noProfilePicBorder: {fileID: 0}
-  hasProfilePicBorder: {fileID: 1992124929}
-  eloScoreLabel: {fileID: 0}
-  eloScoreValue: {fileID: 0}
-  playerFlag: {fileID: 1507452519}
 --- !u!1 &1314847642
 GameObject:
   m_ObjectHideFlags: 0
@@ -43966,7 +43946,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1325107859}
   - component: {fileID: 1325107861}
-  - component: {fileID: 1325107860}
   m_Layer: 5
   m_Name: FriendDlg
   m_TagString: Untagged
@@ -43996,24 +43975,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.00024414062}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1325107860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114160738279216496, guid: 0bf92548e33f14014b8cee5da813c43d,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1325107858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c285b1336e1d341b4b0c43e44371eab2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closeBuckPacksButton: {fileID: 681523401}
-  buckPacksDlg: {fileID: 1325107858}
-  buckPacksGallery: {fileID: 0}
-  buckPackItemPrefab: {fileID: 114070960403392634, guid: 4973ca8673a1b4cd191945a8c41a3545,
-    type: 2}
-  buckPacksHeadingLabel: {fileID: 0}
 --- !u!222 &1325107861
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -55765,7 +55726,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1628078800}
-  - component: {fileID: 1628078801}
   m_Layer: 5
   m_Name: Player
   m_TagString: Untagged
@@ -55795,25 +55755,6 @@ RectTransform:
   m_AnchoredPosition: {x: -200, y: 0}
   m_SizeDelta: {x: 369.59998, y: 324.40002}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1628078801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1628078799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bfa85fd2e0914e749a27158de33b44d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultAvatar: {fileID: 21300000, guid: 10c69bb4ef11a4d1b9effcf56a81ec5e, type: 3}
-  profilePic: {fileID: 1554387140}
-  profileName: {fileID: 83361621}
-  noProfilePicBorder: {fileID: 0}
-  hasProfilePicBorder: {fileID: 1005845956}
-  eloScoreLabel: {fileID: 0}
-  eloScoreValue: {fileID: 0}
-  playerFlag: {fileID: 1562412746}
 --- !u!1 &1631305801
 GameObject:
   m_ObjectHideFlags: 0
