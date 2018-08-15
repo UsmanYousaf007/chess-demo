@@ -13,9 +13,15 @@ namespace TurboLabz.InstantGame
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
+		// Models
+		[Inject] public IPlayerModel playerModel { get; set; }
+
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
+
+
+
         }
     }
 }
