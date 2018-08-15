@@ -33,15 +33,6 @@ namespace TurboLabz.InstantFramework
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
-
-			// Populate friends data
-			GSData friendsList = response.ScriptData.GetGSData(GSBackendKeys.FRIENDS);
-			playerModel.friends = PopulateFriends(friendsList);
-			GSData blockedList = response.ScriptData.GetGSData(GSBackendKeys.BLOCKED);
-			playerModel.blocked = PopulateFriends(blockedList);
-
-			GSParser.LogFriends("friends", playerModel.friends);
-			GSParser.LogFriends("blocked", playerModel.blocked);
         }
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)

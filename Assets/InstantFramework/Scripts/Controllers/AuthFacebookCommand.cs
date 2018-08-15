@@ -11,7 +11,7 @@ namespace TurboLabz.InstantFramework
 {
     public class AuthFacebookCommand : Command
     {
-        // FB Auth -> GS_FB Auth -> FB_GetSocialName -> GS_SetSocialName -> FB_GetSocialPic -> Conclude Auth
+        // FB Auth -> GS_FB Auth -> FB_GetSocialName -> GS_SetSocialName -> GetFriends -> FB_GetSocialPic -> Conclude Auth
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == FacebookResult.SUCCESS)
             {
-                backendService.SetPlayerSocialName(socialName).Then(OnBackendSetSocialName_GetSocialPic);
+                backendService.SetPlayerSocialName(socialName).Then(OnBackendSetSocialName_GetFriends);
             }
             else
             {
@@ -66,19 +66,31 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnBackendSetSocialName_GetSocialPic(BackendResult result)
+        private void OnBackendSetSocialName_GetFriends(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
-                facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias(), true).Then(OnGetSocialPic_AuthConcluded);
+				backendService.FriendsOp("refresh", null).Then(OnGetFriends_GetSocialPic);
             }
             else
             {
-                CommandEnd(true);
+                CommandEnd(false);
             }
         }
 
-        private void OnGetSocialPic_AuthConcluded(FacebookResult result, Sprite sprite)
+		private void OnGetFriends_GetSocialPic(BackendResult result)
+		{
+			if (result == BackendResult.SUCCESS)
+			{
+				facebookService.GetSocialPic(facebookService.GetPlayerUserIdAlias(), true).Then(OnGetSocialPic_AuthConcluded);
+			}
+			else
+			{
+				CommandEnd(true);
+			}
+		}
+
+		private void OnGetSocialPic_AuthConcluded(FacebookResult result, Sprite sprite)
         {
             if (result == FacebookResult.SUCCESS)
             {

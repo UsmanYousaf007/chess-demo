@@ -27,6 +27,9 @@ namespace TurboLabz.InstantFramework
 			playerModel.friends = PopulateFriends(friendsList);
 			GSData blockedList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.BLOCKED);
 			playerModel.blocked = PopulateFriends(blockedList);
+
+			GSParser.LogFriends("friends", playerModel.friends);
+			GSParser.LogFriends("blocked", playerModel.blocked);
 		}
 	}
 
