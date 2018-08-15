@@ -33,12 +33,8 @@ namespace TurboLabz.InstantFramework
             // Check version information. Prompt the player if an update is needed.
             if (model.appInfo.appBackendVersionValid == false)
             {
-                // TODO: handle application update message
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
-
-
-
                 CommandEnd();
                 return;
             }

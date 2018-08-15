@@ -189,6 +189,11 @@ namespace TurboLabz.InstantFramework
 			public const string PUBLIC_PROFILE = "publicProfile";
 		}
 
+		public static class FriendsOp
+		{
+			public const string FRIENDS = "friends";
+		}
+
 		public static class PublicProfile
 		{
 			public const string PROFILE_NAME = "name";
@@ -218,7 +223,7 @@ namespace TurboLabz.InstantFramework
 			public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 			public const string INVENTORY = "inventory";
 			public const string FRIENDS = "friends";
-		};
+		}
     }
 
     // TODO: Organize these like the event data keys, consider class renaming
