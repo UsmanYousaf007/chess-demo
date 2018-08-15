@@ -14,8 +14,6 @@ namespace TurboLabz.InstantFramework
     {
         string rewardTypeId;
 
-
-
         public IPromise<BackendResult> ClaimReward(string rewardType)
         {
             rewardTypeId = rewardType;

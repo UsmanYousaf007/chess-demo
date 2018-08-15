@@ -19,5 +19,6 @@ namespace TurboLabz.InstantFramework
         string GetPlayerUserIdAlias();
         Sprite GetCachedPlayerPic();
         void LogOut();
+		string GetAccessToken();
     }
 }

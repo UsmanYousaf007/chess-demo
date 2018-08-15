@@ -67,6 +67,15 @@ namespace TurboLabz.InstantFramework
             FB.LogOut();
         }
 
+		public string GetAccessToken()
+		{
+			if (isLoggedIn() == false) 
+			{
+				return null;
+			}
+			return AccessToken.CurrentAccessToken != null ? AccessToken.CurrentAccessToken.TokenString : null;
+		}
+
         private void OnGetSocialPicSuccess(Sprite sprite, bool cachePic)
         {
             if (cachePic)

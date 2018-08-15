@@ -87,11 +87,30 @@ namespace TurboLabz.InstantFramework
             StringBuilder json = new StringBuilder();
             json.Append("{");
 
+			json.Append(FBAccessToken_Build());
             json.Append(Patch1_Build());
 
             json.Append("}");
             return json.ToString();
         }
+
+		string FBAccessToken_Build()
+		{
+			string fbToken = facebookService.GetAccessToken();
+			if (fbToken == null) 
+			{
+				return "";
+			}
+
+			StringBuilder json = new StringBuilder();
+			json.Append("\"fbToken\": ");
+
+			json.Append("\"");
+			json.Append(fbToken);
+			json.Append("\"");
+
+			return json.ToString();
+		}
 
         string Patch1_Build()
         {
