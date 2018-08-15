@@ -13,6 +13,7 @@
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -20,12 +21,21 @@ namespace TurboLabz.InstantGame
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
-        // Scene references
-        public Text comingSoonLabel;
+		public Transform friendsSibling;
+		public Transform communitySibling;
+		public GameObject friendBarPrefab;
+		public Text noFriendsBtnText;
+		public Button noFriendsBtn;
+		public Text friendsTitle;
+		public Text inviteText;
+		public Text communityTitle;
+		public Text refreshText;
+
+
 
         public void Init()
         {
-            comingSoonLabel.text = localizationService.Get(LocalizationKey.FRIENDS_COMING_SOON);
+        //    comingSoonLabel.text = localizationService.Get(LocalizationKey.FRIENDS_COMING_SOON);
         }
 
         public void Show() 
