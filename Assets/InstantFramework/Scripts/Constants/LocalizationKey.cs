@@ -151,7 +151,19 @@ namespace TurboLabz.InstantFramework
 
         #region Friends
 
-        public const string FRIENDS_COMING_SOON = "friendsComingSoon";
+		public const string FRIENDS_TITLE = "friendsTitle";
+		public const string FRIENDS_NO_FRIENDS_TEXT = "friendsInviteLabel";
+		public const string FRIENDS_INVITE_TEXT = "friendsInviteText";
+		public const string FRIENDS_COMMUNITY_TITLE = "friendsCommunityTitle";
+		public const string FRIENDS_REFRESH_TEXT = "friendsRefreshText";
+		public const string FRIENDS_CONFIRM_LABEL = "friendsConfirmLabel";
+		public const string FRIENDS_YES_LABEL = "friendsYesLabel";
+		public const string FRIENDS_NO_LABEL = "friendsNoLabel";
+		public const string FRIENDS_VS_LABEL = "friendsVsLabel";
+		public const string FRIENDS_WINS_LABEL = "friendsWinsLabel";
+		public const string FRIENDS_DRAWS_LABEL = "friendsDrawsLabel";
+		public const string FRIENDS_TOTAL_GAMES_LABEL = "friendsTotalGamesLabel";
+		public const string FRIENDS_BLOCK_LABEL = "friendsBlockLabel";
 
         #endregion
 

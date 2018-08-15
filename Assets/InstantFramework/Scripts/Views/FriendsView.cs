@@ -30,12 +30,24 @@ namespace TurboLabz.InstantGame
 		public Text inviteText;
 		public Text communityTitle;
 		public Text refreshText;
-
-
+		public FriendDialog friendDlg;
+		public GameObject confirmDlg;
 
         public void Init()
         {
-        //    comingSoonLabel.text = localizationService.Get(LocalizationKey.FRIENDS_COMING_SOON);
+			noFriendsBtnText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
+			friendsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_TITLE);
+			inviteText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TEXT);
+			communityTitle.text = localizationService.Get(LocalizationKey.FRIENDS_COMMUNITY_TITLE);
+			refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
+			friendDlg.confirmLabel.text = localizationService.Get(LocalizationKey.FRIENDS_CONFIRM_LABEL);
+			friendDlg.yesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_YES_LABEL);
+			friendDlg.noLabel.text = localizationService.Get(LocalizationKey.FRIENDS_NO_LABEL);
+			friendDlg.vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
+			friendDlg.winsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_WINS_LABEL);
+			friendDlg.drawsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
+			friendDlg.totalGamesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL);
+			friendDlg.blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
         }
 
         public void Show() 

@@ -150,7 +150,19 @@ namespace TurboLabz.InstantFramework
 
                 #region Friends
 
-                { LocalizationKey.FRIENDS_COMING_SOON, "Coming Soon!"},
+				{ LocalizationKey.FRIENDS_TITLE, "Friends and Matches" },
+				{ LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite your Facebook friends to play." },
+				{ LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
+				{ LocalizationKey.FRIENDS_COMMUNITY_TITLE, "Play Someone New" },
+				{ LocalizationKey.FRIENDS_REFRESH_TEXT, "Refresh" },
+				{ LocalizationKey.FRIENDS_CONFIRM_LABEL, "Are You Sure?" },
+				{ LocalizationKey.FRIENDS_YES_LABEL, "YES" },
+				{ LocalizationKey.FRIENDS_NO_LABEL, "NO" },
+				{ LocalizationKey.FRIENDS_VS_LABEL, "VS" },
+				{ LocalizationKey.FRIENDS_WINS_LABEL, "Wins" },
+				{ LocalizationKey.FRIENDS_DRAWS_LABEL, "Draws" },
+				{ LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL, "Total Games: " },
+				{ LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
 
                 #endregion
 
