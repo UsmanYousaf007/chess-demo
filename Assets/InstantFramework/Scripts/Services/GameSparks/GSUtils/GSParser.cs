@@ -219,8 +219,9 @@ namespace TurboLabz.InstantFramework
 			LogPublicProfile(friend.publicProfile);
 		}
 
-		public static void LogFriends(IDictionary<string, Friend> friends)
+		public static void LogFriends(string title, IDictionary<string, Friend> friends)
 		{
+			LogUtil.Log("********** " + title);
 			foreach (KeyValuePair<string, Friend> friend in friends)
 			{
 				LogFriend(friend.Value);

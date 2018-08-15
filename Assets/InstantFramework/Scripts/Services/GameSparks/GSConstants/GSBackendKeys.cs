@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         public const string ACCOUNT_VIRTUALGOODS = "virtualGoods";
         public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 		public const string FRIENDS = "friends";
+		public const string BLOCKED = "blocked";
         public const string UPDATED_STATS = "updatedStats";
 
         // Ad Settings
@@ -192,6 +193,7 @@ namespace TurboLabz.InstantFramework
 		public static class FriendsOp
 		{
 			public const string FRIENDS = "friends";
+			public const string BLOCKED = "blocked";
 		}
 
 		public static class PublicProfile

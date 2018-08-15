@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
 
 		// Friends
 		public IDictionary<string, Friend> friends { get; set; }
+		public IDictionary<string, Friend> blocked { get; set; }
 
 		public PublicProfile publicProfile
 		{
@@ -74,6 +75,7 @@ namespace TurboLabz.InstantFramework
 
 			// Friends
 			friends = new Dictionary<string, Friend>();
+			blocked = new Dictionary<string, Friend> ();
         }
 
 		public bool OwnsVGood(string key)

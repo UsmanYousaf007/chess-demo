@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
 
 		// Friends
 		IDictionary<string, Friend> friends { get; set; }
+		IDictionary<string, Friend> blocked { get; set; }
 
         void Reset();
         bool OwnsVGood(string key);
