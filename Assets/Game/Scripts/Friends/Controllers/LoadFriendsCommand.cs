@@ -12,6 +12,7 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+		[Inject] public UpdateFriendsSignal updateFriendsSignal { get; set; }
 
 		// Models
 		[Inject] public IPlayerModel playerModel { get; set; }
@@ -20,8 +21,10 @@ namespace TurboLabz.InstantGame
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
 
+			FriendsVO vo = new FriendsVO();
+			vo.friends = playerModel.friends;
 
-
+			updateFriendsSignal.Dispatch(vo);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
             commandBinder.Bind<LoadFriendsSignal>().To<LoadFriendsCommand>();
-            commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
+			commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
             commandBinder.Bind<GetGameStartTimeSignal>().To<GetGameStartTimeCommand>();
             commandBinder.Bind<ShowFindMatchSignal>().To<ShowFindMatchCommand>();
             commandBinder.Bind<StartGameSignal>().To<StartGameCommand>();
@@ -160,6 +160,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SkinRefs>().To<SkinRefsMediator>();
             injectionBinder.Bind<LoadSkinRefsSignal>().ToSingleton();
             injectionBinder.Bind<RefreshSkinLinksSignal>().ToSingleton();
+			injectionBinder.Bind<UpdateFriendsSignal>().ToSingleton();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();

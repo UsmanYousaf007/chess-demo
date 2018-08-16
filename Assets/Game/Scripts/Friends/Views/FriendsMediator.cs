@@ -47,5 +47,11 @@ namespace TurboLabz.InstantGame
                 view.Hide();
             }
         }
+
+		[ListensTo(typeof(UpdateFriendsSignal))]
+		public void OnUpdateFriends(FriendsVO vo)
+		{
+			view.UpdateFriends(vo);
+		}
     }
 }
