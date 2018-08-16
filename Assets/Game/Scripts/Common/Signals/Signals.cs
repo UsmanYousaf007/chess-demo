@@ -45,6 +45,7 @@ namespace TurboLabz.InstantGame
 
     // FRIENDS
     public class LoadFriendsSignal : Signal {}
+	public class UpdateFriendsSignal : Signal<FriendsVO> {}
 
 
 }

@@ -14,6 +14,8 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using UnityEngine;
+using TurboLabz.TLUtils;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
@@ -21,6 +23,7 @@ namespace TurboLabz.InstantGame
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
+		public Transform listContainer;
 		public Transform friendsSibling;
 		public Transform communitySibling;
 		public GameObject friendBarPrefab;
@@ -32,6 +35,8 @@ namespace TurboLabz.InstantGame
 		public Text refreshText;
 		public FriendDialog friendDlg;
 		public GameObject confirmDlg;
+
+		private List<GameObject> bars = new List<GameObject>();
 
         public void Init()
         {
@@ -49,6 +54,38 @@ namespace TurboLabz.InstantGame
 			friendDlg.totalGamesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL);
 			friendDlg.blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
         }
+
+		public void UpdateFriends(FriendsVO vo)
+		{
+			foreach (GameObject obj in bars) 
+			{
+                GameObject.Destroy(obj);
+			}
+
+            bars.Clear();
+
+            if (vo.friends.Count > 0)
+            {
+                noFriendsBtn.gameObject.SetActive(false);
+            }
+            else
+            {
+                noFriendsBtn.gameObject.SetActive(true);
+            }
+
+			foreach (var friend in vo.friends)
+			{
+				Friend val = friend.Value;
+				GameObject friendBar = GameObject.Instantiate(friendBarPrefab);
+				bars.Add (friendBar);
+				FriendBar barData = friendBar.GetComponent<FriendBar>();
+				barData.profileNameLabel.text = val.publicProfile.name;
+
+				friendBar.transform.SetParent(listContainer, false);
+				friendBar.transform.SetSiblingIndex(friendsSibling.GetSiblingIndex() + 1);
+
+			}
+		}
 
         public void Show() 
         { 
