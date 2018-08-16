@@ -59,8 +59,7 @@ namespace TurboLabz.InstantFramework
             if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
             {
                 ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
-                opponentPublicProfile.usingFacebookAuth = true;
-                opponentPublicProfile.facebookAuthId = facebookAuthData.id;
+                opponentPublicProfile.facebookUserId = facebookAuthData.id;
             }
 
             matchInfoModel.challengeId = challengeId;

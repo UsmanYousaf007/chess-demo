@@ -11,8 +11,7 @@ namespace TurboLabz.InstantFramework
         public string countryId;
         public int eloScore;
         public Sprite profilePicture;
-        public bool usingFacebookAuth;
-        public string facebookAuthId;
+        public string facebookUserId;
     }
 }
 

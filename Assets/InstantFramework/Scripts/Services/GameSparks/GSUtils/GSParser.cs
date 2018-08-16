@@ -176,8 +176,7 @@ namespace TurboLabz.InstantFramework
 			if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
 			{
 				ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
-				publicProfile.usingFacebookAuth = true;
-				publicProfile.facebookAuthId = facebookAuthData.id;
+				publicProfile.facebookUserId = facebookAuthData.id;
 			}
 		}
 
@@ -201,8 +200,7 @@ namespace TurboLabz.InstantFramework
 			LogUtil.Log("********** publicProfile.name" + " " + publicProfile.name);
 			LogUtil.Log("********** publicProfile.countryId" + " " + publicProfile.countryId);
 			LogUtil.Log("********** publicProfile.eloScore" + " " + publicProfile.eloScore);
-			LogUtil.Log("********** publicProfile.usingFacebookAuth" + " " + publicProfile.usingFacebookAuth);
-			LogUtil.Log("********** publicProfile.facebookAuthId" + " " + publicProfile.facebookAuthId);
+			LogUtil.Log("********** publicProfile.facebookAuthId" + " " + publicProfile.facebookUserId);
 		}
 
 		public static void LogFriend(Friend friend)

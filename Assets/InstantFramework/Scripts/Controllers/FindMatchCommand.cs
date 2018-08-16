@@ -47,9 +47,9 @@ namespace TurboLabz.InstantFramework
             {
                 PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
 
-                if (opponentPublicProfile.usingFacebookAuth)
+				if (opponentPublicProfile.facebookUserId != null)
                 {
-                    facebookService.GetSocialPic(opponentPublicProfile.facebookAuthId, false).Then(OnGetOpponentProfilePicture);
+                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, false).Then(OnGetOpponentProfilePicture);
                 }
                 else
                 {
