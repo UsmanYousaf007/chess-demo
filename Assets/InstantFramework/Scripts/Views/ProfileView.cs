@@ -77,11 +77,7 @@ namespace TurboLabz.InstantGame
 
             if (facebookButton != null)
             {
-                if (vo.isFacebookLoggedIn)
-                {
-                    facebookButton.gameObject.SetActive(false);
-                }
-
+                facebookButton.gameObject.SetActive(!vo.isFacebookLoggedIn);
                 facebookConnectAnim.SetActive(false);
             }
         }

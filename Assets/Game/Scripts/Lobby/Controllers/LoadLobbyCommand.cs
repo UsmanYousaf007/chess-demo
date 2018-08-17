@@ -53,12 +53,13 @@ namespace TurboLabz.InstantGame
             pvo.playerName = playerModel.name;
             pvo.eloScore = playerModel.eloScore;
             pvo.countryId = playerModel.countryId;
+            pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
 
-            if (facebookService.isLoggedIn())
+            if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {
                 pvo.playerPic = facebookService.GetCachedPlayerPic(facebookService.GetFacebookId());
             }
-
+                
             updateProfileSignal.Dispatch(pvo);
         }
     }
