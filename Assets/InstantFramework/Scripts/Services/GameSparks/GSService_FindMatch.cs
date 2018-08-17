@@ -45,7 +45,7 @@ namespace TurboLabz.InstantFramework
             GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
 
             PublicProfile opponentPublicProfile = new PublicProfile();
-            opponentPublicProfile.id = opponentId;
+            opponentPublicProfile.playerId = opponentId;
             opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
             opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
             opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;

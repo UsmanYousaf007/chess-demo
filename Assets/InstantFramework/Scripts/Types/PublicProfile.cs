@@ -6,7 +6,7 @@ namespace TurboLabz.InstantFramework
 {
     public class PublicProfile
     {
-        public string id;
+        public string playerId;
         public string name;
         public string countryId;
         public int eloScore;

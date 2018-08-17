@@ -182,9 +182,9 @@ namespace TurboLabz.InstantFramework
 
 				var friend = new Friend();
 				friend.publicProfile = new PublicProfile();
-				GSParser.PopulateFriend(friend, friendData);
+                GSParser.PopulateFriend(friend, friendData, obj.Key);
 
-				friends.Add(friend.playerId, friend);
+                friends.Add(obj.Key, friend);
 			}
 
 			return friends;

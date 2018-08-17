@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
 			get
 			{
                 PublicProfile profile = new PublicProfile();
-				profile.id = id;
+				profile.playerId = id;
 				profile.name = name;
 				profile.countryId = countryId;
 				profile.profilePicture = profilePic;

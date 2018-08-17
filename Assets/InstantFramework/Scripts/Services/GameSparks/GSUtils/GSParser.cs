@@ -161,8 +161,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 			
-		public static void PopulatePublicProfile(PublicProfile publicProfile, GSData publicProfileData)
+        public static void PopulatePublicProfile(PublicProfile publicProfile, GSData publicProfileData, string friendId)
 		{
+            publicProfile.playerId = friendId;
 			publicProfile.name = publicProfileData.GetString(GSBackendKeys.PublicProfile.NAME);
 			publicProfile.countryId = publicProfileData.GetString(GSBackendKeys.PublicProfile.COUNTRY_ID);
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
@@ -180,19 +181,15 @@ namespace TurboLabz.InstantFramework
 			}
 		}
 
-		public static void PopulateFriend(Friend friend, GSData friendData)
+        public static void PopulateFriend(Friend friend, GSData friendData, string friendId)
 		{
-			friend.challengeId = friendData.GetString(GSBackendKeys.Friend.CHALLENGE_ID);
 			friend.gamesDrawn = friendData.GetInt(GSBackendKeys.Friend.GAMES_DRAWN).Value;
 			friend.gamesLost = friendData.GetInt(GSBackendKeys.Friend.GAMES_LOST).Value;
 			friend.gamesWon = friendData.GetInt(GSBackendKeys.Friend.GAMES_WON).Value;
-			friend.permission = friendData.GetString(GSBackendKeys.Friend.PERMISSION);
-			friend.playerId = friendData.GetString(GSBackendKeys.Friend.PLAYER_ID);
-			friend.timeStamp = friendData.GetLong(GSBackendKeys.Friend.TIME_STAMP).Value;
 			friend.type = friendData.GetString(GSBackendKeys.Friend.TYPE);
 
 			GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
-			PopulatePublicProfile(friend.publicProfile, publicProfileData);
+            PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
 		}
 
 		public static void LogPublicProfile(PublicProfile publicProfile)
@@ -205,13 +202,9 @@ namespace TurboLabz.InstantFramework
 
 		public static void LogFriend(Friend friend)
 		{
-			LogUtil.Log("********** friend.challengeId" + " " + friend.challengeId);
 			LogUtil.Log("********** friend.gamesDrawn" + " " + friend.gamesDrawn);
 			LogUtil.Log("********** friend.gamesLost" + " " + friend.gamesLost);
 			LogUtil.Log("********** friend.gamesWon" + " " + friend.gamesWon);
-			LogUtil.Log("********** friend.permission" + " " + friend.permission);
-			LogUtil.Log("********** friend.playerId" + " " + friend.playerId);
-			LogUtil.Log("********** friend.timeStamp" + " " + friend.timeStamp);
 			LogUtil.Log("********** friend.type" + " " + friend.type);
 
 			LogPublicProfile(friend.publicProfile);
