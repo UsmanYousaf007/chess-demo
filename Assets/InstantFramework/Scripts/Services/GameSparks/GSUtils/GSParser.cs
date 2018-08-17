@@ -197,7 +197,7 @@ namespace TurboLabz.InstantFramework
 			LogUtil.Log("********** publicProfile.name" + " " + publicProfile.name);
 			LogUtil.Log("********** publicProfile.countryId" + " " + publicProfile.countryId);
 			LogUtil.Log("********** publicProfile.eloScore" + " " + publicProfile.eloScore);
-			LogUtil.Log("********** publicProfile.facebookAuthId" + " " + publicProfile.facebookUserId);
+            LogUtil.Log("********** publicProfile.facebookUserId" + " " + publicProfile.facebookUserId);
 		}
 
 		public static void LogFriend(Friend friend)
