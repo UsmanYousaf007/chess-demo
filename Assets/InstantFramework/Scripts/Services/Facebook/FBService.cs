@@ -19,6 +19,8 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
 
+        // Dispatch Signals
+
         public IPromise<FacebookResult> Init()
         {
             return new FBInitRequest().Send();
@@ -29,9 +31,9 @@ namespace TurboLabz.InstantFramework
             return new FBAuthRequest().Send();
         }
 
-        public IPromise<FacebookResult, Sprite> GetSocialPic(string userId, bool cachePic)
+        public IPromise<FacebookResult, Sprite> GetSocialPic(string userId)
         {
-            return new FBGetSocialPicRequest().Send(userId, OnGetSocialPicSuccess, cachePic);
+            return new FBGetSocialPicRequest().Send(userId, OnGetSocialPicSuccess);
         }
 
         public IPromise<FacebookResult, string> GetSocialName()
@@ -44,22 +46,9 @@ namespace TurboLabz.InstantFramework
             return FB.IsLoggedIn;
         }
 
-        public string GetPlayerUserIdAlias()
+        public string GetFacebookId()
         {
-            return PLAYER_USER_ID_ALIAS;
-        }
-
-        public Sprite GetCachedPlayerPic()
-        {
-            if (localDataService.FileExists(LOCAL_FACEBOOK_DATA_FILE))
-            {
-                ILocalDataReader reader = localDataService.OpenReader(LOCAL_FACEBOOK_DATA_FILE);
-                Sprite pic = reader.Read<Sprite>(LOCAL_FACEBOOK_DATA_PIC);
-                reader.Close();
-                return pic;
-            }
-
-            return null;
+            return AccessToken.CurrentAccessToken.UserId;
         }
 
         public void LogOut()
@@ -76,14 +65,24 @@ namespace TurboLabz.InstantFramework
 			return AccessToken.CurrentAccessToken != null ? AccessToken.CurrentAccessToken.TokenString : null;
 		}
 
-        private void OnGetSocialPicSuccess(Sprite sprite, bool cachePic)
+        private void OnGetSocialPicSuccess(string userId, Sprite sprite)
         {
-            if (cachePic)
+            ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
+            writer.Write(LOCAL_FACEBOOK_DATA_PIC + userId, sprite);
+            writer.Close();
+        }
+
+        public Sprite GetCachedPlayerPic(string userId)
+        {
+            if (localDataService.FileExists(LOCAL_FACEBOOK_DATA_FILE))
             {
-                ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
-                writer.Write(LOCAL_FACEBOOK_DATA_PIC, sprite);
-                writer.Close();
+                ILocalDataReader reader = localDataService.OpenReader(LOCAL_FACEBOOK_DATA_FILE);
+                Sprite pic = reader.Read<Sprite>(LOCAL_FACEBOOK_DATA_PIC + userId);
+                reader.Close();
+                return pic;
             }
+
+            return null;
         }
     }
 }

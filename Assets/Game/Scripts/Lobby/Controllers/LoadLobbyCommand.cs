@@ -56,12 +56,7 @@ namespace TurboLabz.InstantGame
 
             if (facebookService.isLoggedIn())
             {
-                pvo.isFacebookLoggedIn = true;
-
-                if (pvo.playerPic == null)
-                {
-                    pvo.playerPic = facebookService.GetCachedPlayerPic();
-                }
+                pvo.playerPic = facebookService.GetCachedPlayerPic(facebookService.GetFacebookId());
             }
 
             updateProfileSignal.Dispatch(pvo);

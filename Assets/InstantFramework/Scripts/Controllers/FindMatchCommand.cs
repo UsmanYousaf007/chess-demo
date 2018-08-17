@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
 				if (opponentPublicProfile.facebookUserId != null)
                 {
-                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, false).Then(OnGetOpponentProfilePicture);
+                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId).Then(OnGetOpponentProfilePicture);
                 }
                 else
                 {
