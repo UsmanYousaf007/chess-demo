@@ -78,6 +78,9 @@ namespace TurboLabz.InstantGame
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
+            if (sprite == null)
+                return;
+
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
             barData.avatarImage.sprite = sprite;
         }

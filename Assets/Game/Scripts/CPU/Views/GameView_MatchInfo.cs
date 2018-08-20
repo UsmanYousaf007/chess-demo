@@ -42,13 +42,5 @@ namespace TurboLabz.CPU
             cpuStrengthLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CPU_STRENGTH);
             cpuStrengthValue.text = vo.cpuStrength.ToString();
         }
-
-        /*
-        public void UpdatePlayerProfilePicture(Sprite sprite)
-        {
-            playerProfilePicture.sprite = sprite;
-            playerProfilePicture.gameObject.SetActive(sprite != null);
-        }
-        */
     }
 }
