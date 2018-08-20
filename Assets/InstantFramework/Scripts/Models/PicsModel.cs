@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,6 +26,8 @@ namespace TurboLabz.InstantFramework
                 ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
                 writer.Write(LOCAL_FACEBOOK_DATA_PIC + playerId, sprite);
                 writer.Close();
+
+                LogUtil.Log("Wrote pic for: " + playerId, "cyan");
             }
             catch (Exception e)
             {
@@ -47,6 +50,7 @@ namespace TurboLabz.InstantFramework
                     if (reader.HasKey(key))
                     {
                         pic = reader.Read<Sprite>(key);
+                        LogUtil.Log("Got pic for: " + playerId, "cyan");
                     }
 
                     reader.Close();

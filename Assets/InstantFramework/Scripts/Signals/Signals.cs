@@ -6,6 +6,7 @@
 using UnityEngine;
 
 using strange.extensions.signal.impl;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -44,6 +45,8 @@ namespace TurboLabz.InstantFramework
     public class HaltSignal: Signal<BackendResult> {}
     public class UpdatePlayerBucksSignal : Signal<long> {}
     public class AddFriendSignal : Signal<Friend> {}
+    public class RefreshCommunitySignal : Signal {}
+    public class ClearCommunitySignal : Signal {}
     public class UpdateFriendPicSignal : Signal<string, Sprite> {}
 
 

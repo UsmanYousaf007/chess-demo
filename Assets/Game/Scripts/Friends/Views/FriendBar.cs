@@ -13,5 +13,6 @@ namespace TurboLabz.InstantFramework
         public Text statusLabel;
         public Button viewProfileButton;
         public Button playButton;
+        public string playerId;
     }
 }

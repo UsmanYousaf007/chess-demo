@@ -37,6 +37,7 @@ namespace TurboLabz.InstantGame
 		public GameObject confirmDlg;
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
+        private List<FriendBar> communityBars = new List<FriendBar>();
 
         public void Init()
         {
@@ -65,6 +66,7 @@ namespace TurboLabz.InstantGame
 
             // update bar values
             FriendBar barData = friendBar.GetComponent<FriendBar>();
+            barData.playerId = friend.playerId;
             barData.profileNameLabel.text = friend.publicProfile.name;
 			friendBar.transform.SetParent(listContainer, false);
 
@@ -77,6 +79,12 @@ namespace TurboLabz.InstantGame
             // store bar
             bars.Add(friend.playerId, friendBar);
 
+            // save community bars for refresh
+            if (friend.type == Friend.FRIEND_TYPE_COMMUNITY)
+            {
+                communityBars.Add(barData);
+            }
+
             // hide default message
             noFriendsBtn.gameObject.SetActive(false);
 		}
@@ -88,6 +96,17 @@ namespace TurboLabz.InstantGame
 
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
             barData.avatarImage.sprite = sprite;
+        }
+
+        public void ClearCommunity()
+        {
+            foreach (FriendBar barData in communityBars)
+            {
+                bars.Remove(barData.playerId);
+                GameObject.Destroy(barData.gameObject);
+            }
+
+            communityBars.Clear();
         }
 
         public void Show() 

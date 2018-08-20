@@ -17,6 +17,7 @@ using strange.extensions.mediation.impl;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
@@ -59,5 +60,12 @@ namespace TurboLabz.InstantGame
         {
             view.UpdateFriendPic(playerId, sprite);
         }
+
+        [ListensTo(typeof(ClearCommunitySignal))]
+        public void OnClearCommunity()
+        {
+            view.ClearCommunity();
+        }
+
     }
 }
