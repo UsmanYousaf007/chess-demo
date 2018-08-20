@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -8,6 +8,7 @@ using strange.extensions.promise.api;
 using GameSparks.Api.Requests;
 using System;
 using GameSparks.Core;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -45,6 +46,12 @@ namespace TurboLabz.InstantFramework
                 PopulateFriends(playerModel.community, communityList);
                 GSParser.LogFriends("community", playerModel.community);
             }
+            // Friend added
+            GSData add = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.ADD);
+            if (add != null)
+            {
+                TLUtils.LogUtil.Log("----------------------------------------->" + add.JSON.ToString());
+            }
 		}
 	}
 
@@ -55,6 +62,7 @@ namespace TurboLabz.InstantFramework
 		const string SHORT_CODE = "FriendsOp";
 		const string ATT_FRIEND_ID = "friendId";
 		const string ATT_OP = "op";
+        const string ATT_FBTOKEN = "fbToken";
 
         public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, string fbToken = null)
 		{
@@ -64,6 +72,7 @@ namespace TurboLabz.InstantFramework
 			new LogEventRequest().SetEventKey(SHORT_CODE)
 				.SetEventAttribute(ATT_OP, op)
 				.SetEventAttribute(ATT_FRIEND_ID, friendId)
+                .SetEventAttribute(ATT_FBTOKEN, fbToken)
 				.Send(OnRequestSuccess, OnRequestFailure);
 
 			return promise;
