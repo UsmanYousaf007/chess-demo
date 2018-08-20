@@ -67,7 +67,12 @@ namespace TurboLabz.InstantGame
             FriendBar barData = friendBar.GetComponent<FriendBar>();
             barData.profileNameLabel.text = friend.publicProfile.name;
 			friendBar.transform.SetParent(listContainer, false);
-			friendBar.transform.SetSiblingIndex(friendsSibling.GetSiblingIndex() + 1);
+
+            int siblingIndex = (friend.type == Friend.FRIEND_TYPE_SOCIAL) ? 
+                friendsSibling.GetSiblingIndex() + 1 :
+                communitySibling.GetSiblingIndex() + 1;
+            
+            friendBar.transform.SetSiblingIndex(siblingIndex);
 
             // store bar
             bars.Add(friend.playerId, friendBar);

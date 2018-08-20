@@ -13,10 +13,12 @@ namespace TurboLabz.InstantFramework
 {
 	public partial class GSService
 	{
-		public IPromise<BackendResult> FriendsOp(string op, string friendId)
-		{
-			return new GSFriendsOpRequest().Send(op, friendId, OnFriendOpSuccess);
-		}
+        public IPromise<BackendResult> FriendsOpBlock(string friendId) { return new GSFriendsOpRequest().Send("block", friendId, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpFriends() { return new GSFriendsOpRequest().Send("friends", null, OnFriendOpSuccess); } 
+        public IPromise<BackendResult> FriendsOpRefresh() { return new GSFriendsOpRequest().Send("refresh", null, OnFriendOpSuccess); } 
+        public IPromise<BackendResult> FriendsOpCommunity() { return new GSFriendsOpRequest().Send("community", null, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpRegCommunity() { return new GSFriendsOpRequest().Send("regcommunity", null, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpAdd(string friendId) { return new GSFriendsOpRequest().Send("add", friendId, OnFriendOpSuccess, facebookService.GetAccessToken()); } 
 
 		private void OnFriendOpSuccess(object r)
 		{
@@ -54,7 +56,7 @@ namespace TurboLabz.InstantFramework
 		const string ATT_FRIEND_ID = "friendId";
 		const string ATT_OP = "op";
 
-		public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, string fbToken = null)
 		{
 			this.errorCode = BackendResult.FRIENDS_OP_FAILED;
 			this.onSuccess = onSuccess;

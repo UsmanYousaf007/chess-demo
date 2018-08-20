@@ -26,6 +26,8 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
+
+
         }
 
 

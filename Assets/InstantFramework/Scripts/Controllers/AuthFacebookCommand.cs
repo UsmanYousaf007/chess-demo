@@ -70,8 +70,8 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-				backendService.FriendsOp("refresh", null).Then(OnGetFriends_GetSocialPic);
-                backendService.FriendsOp("regcommunity", null);
+				backendService.FriendsOpRefresh().Then(OnGetFriends_GetSocialPic);
+                backendService.FriendsOpRegCommunity();
             }
             else
             {
