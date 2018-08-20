@@ -43,6 +43,9 @@ namespace TurboLabz.InstantFramework
     public class SetErrorAndHaltSignal : Signal<BackendResult> {}
     public class HaltSignal: Signal<BackendResult> {}
     public class UpdatePlayerBucksSignal : Signal<long> {}
+    public class AddFriendSignal : Signal<Friend> {}
+    public class UpdateFriendPicSignal : Signal<string, Sprite> {}
+
 
 
     // SKINS

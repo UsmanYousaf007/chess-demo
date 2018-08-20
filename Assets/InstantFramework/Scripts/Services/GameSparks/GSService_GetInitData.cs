@@ -95,9 +95,9 @@ namespace TurboLabz.InstantFramework
 
 			// Populate friends data
 			GSData friendsList = playerDetailsData.GetGSData(GSBackendKeys.FRIENDS);
-			playerModel.friends = PopulateFriends(friendsList);
+            PopulateFriends(playerModel.friends, friendsList);
 			GSData blockedList = playerDetailsData.GetGSData(GSBackendKeys.BLOCKED);
-			playerModel.blocked = PopulateFriends(blockedList);
+            PopulateFriends(playerModel.blocked, blockedList);
 
             GSParser.LogPlayerInfo(playerModel);
 			GSParser.LogFriends("friends", playerModel.friends);
@@ -172,23 +172,48 @@ namespace TurboLabz.InstantFramework
             return items;
         }
 
-		private IDictionary<string, Friend> PopulateFriends(GSData friendsData)
+        private void PopulateFriends(IDictionary<string, Friend> friends, GSData friendsData, bool isBlocked = false)
 		{
-			IDictionary<string, Friend> friends = new Dictionary<string, Friend>();
+            friends = new Dictionary<string, Friend>();
 
 			foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
 			{
 				GSData friendData = (GSData)obj.Value;
+                string friendId = obj.Key;
+                Friend friend = new Friend();
 
-				var friend = new Friend();
-				friend.publicProfile = new PublicProfile();
-                GSParser.PopulateFriend(friend, friendData, obj.Key);
+                if (!isBlocked)
+                {
+                    LoadFriend(friendId, friendData);
+                }
 
-                friends.Add(obj.Key, friend);
+                friends.Add(friendId, friend);
 			}
-
-			return friends;
 		}
+
+        private Friend LoadFriend(string friendId, GSData friendData)
+        {
+            Friend friend = new Friend();
+            friend.playerId = friendId;
+
+            friend.publicProfile = new PublicProfile();
+            GSParser.ParseFriend(friend, friendData, friendId);
+
+            addFriendSignal.Dispatch(friend);
+
+            updateFriendPicSignal.Dispatch(friendId, picsModel.GetPic(friendId));
+            facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friendId).Then(OnGetSocialPic);    
+
+            return friend;
+        }
+
+        private void OnGetSocialPic(FacebookResult result, Sprite sprite, string friendId)
+        {
+            if (result == FacebookResult.SUCCESS)
+            {
+                updateFriendPicSignal.Dispatch(friendId, sprite);
+            }
+        }
     }
 
     #region REQUEST

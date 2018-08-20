@@ -36,7 +36,7 @@ namespace TurboLabz.InstantGame
 		public FriendDialog friendDlg;
 		public GameObject confirmDlg;
 
-		private List<GameObject> bars = new List<GameObject>();
+        private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
 
         public void Init()
         {
@@ -55,37 +55,32 @@ namespace TurboLabz.InstantGame
 			friendDlg.blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
         }
 
-		public void UpdateFriends(FriendsVO vo)
+		public void AddFriend(Friend friend)
 		{
-			foreach (GameObject obj in bars) 
-			{
-                GameObject.Destroy(obj);
-			}
+            if (bars.ContainsKey(friend.playerId))
+                return;
 
-            bars.Clear();
+		    // create bar
+			GameObject friendBar = GameObject.Instantiate(friendBarPrefab);
 
-            if (vo.friends.Count > 0)
-            {
-                noFriendsBtn.gameObject.SetActive(false);
-            }
-            else
-            {
-                noFriendsBtn.gameObject.SetActive(true);
-            }
+            // update bar values
+            FriendBar barData = friendBar.GetComponent<FriendBar>();
+            barData.profileNameLabel.text = friend.publicProfile.name;
+			friendBar.transform.SetParent(listContainer, false);
+			friendBar.transform.SetSiblingIndex(friendsSibling.GetSiblingIndex() + 1);
 
-			foreach (var friend in vo.friends)
-			{
-				Friend val = friend.Value;
-				GameObject friendBar = GameObject.Instantiate(friendBarPrefab);
-				bars.Add (friendBar);
-				FriendBar barData = friendBar.GetComponent<FriendBar>();
-				barData.profileNameLabel.text = val.publicProfile.name;
+            // store bar
+            bars.Add(friend.playerId, friendBar);
 
-				friendBar.transform.SetParent(listContainer, false);
-				friendBar.transform.SetSiblingIndex(friendsSibling.GetSiblingIndex() + 1);
-
-			}
+            // hide default message
+            noFriendsBtn.gameObject.SetActive(false);
 		}
+
+        public void UpdateFriendPic(string playerId, Sprite sprite)
+        {
+            FriendBar barData = bars[playerId].GetComponent<FriendBar>();
+            barData.avatarImage.sprite = sprite;
+        }
 
         public void Show() 
         { 

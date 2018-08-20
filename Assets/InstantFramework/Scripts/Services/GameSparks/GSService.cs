@@ -13,6 +13,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ReceptionSignal receptionSignal { get; set; }
+        [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
+        [Inject] public AddFriendSignal addFriendSignal { get; set; }
  
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -21,9 +23,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // Services
         [Inject] public IStoreService storeService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }

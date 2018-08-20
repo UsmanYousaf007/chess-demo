@@ -26,21 +26,21 @@ namespace TurboLabz.InstantFramework
 			GSData friendsList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.FRIENDS);
             if (friendsList != null)
             {
-                playerModel.friends = PopulateFriends(friendsList);
+                PopulateFriends(playerModel.friends, friendsList);
                 GSParser.LogFriends("friends", playerModel.friends);
             }
             // Populate blocked friends data
 			GSData blockedList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.BLOCKED);
             if (blockedList != null)
             {
-                playerModel.blocked = PopulateFriends(blockedList);
+                PopulateFriends(playerModel.blocked, blockedList);
                 GSParser.LogFriends("blocked", playerModel.blocked);
             }
             // Populate community suggested friends data
             GSData communityList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.COMMUNITY);
             if (communityList != null)
             {
-                playerModel.community = PopulateFriends(communityList);
+                PopulateFriends(playerModel.community, communityList);
                 GSParser.LogFriends("community", playerModel.community);
             }
 		}

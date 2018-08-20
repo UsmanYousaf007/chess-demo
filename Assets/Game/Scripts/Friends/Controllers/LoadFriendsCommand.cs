@@ -5,6 +5,9 @@
 
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
+using UnityEngine;
+using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
@@ -12,19 +15,19 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-		[Inject] public UpdateFriendsSignal updateFriendsSignal { get; set; }
 
 		// Models
 		[Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
+
+        // Services
+        [Inject] public IFacebookService facebookService { get; set; }
 
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
-
-			FriendsVO vo = new FriendsVO();
-			vo.friends = playerModel.friends;
-
-			updateFriendsSignal.Dispatch(vo);
         }
+
+
     }
 }

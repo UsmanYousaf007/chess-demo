@@ -117,6 +117,8 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<WifiIsHealthySignal>().ToSingleton();
+            injectionBinder.Bind<UpdateFriendPicSignal>().ToSingleton();
+            injectionBinder.Bind<AddFriendSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
@@ -160,7 +162,6 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SkinRefs>().To<SkinRefsMediator>();
             injectionBinder.Bind<LoadSkinRefsSignal>().ToSingleton();
             injectionBinder.Bind<RefreshSkinLinksSignal>().ToSingleton();
-			injectionBinder.Bind<UpdateFriendsSignal>().ToSingleton();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
@@ -177,6 +178,7 @@ namespace TurboLabz.InstantFramework
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();
+            injectionBinder.Bind<IPicsModel>().To<PicsModel>().ToSingleton();
         }
     }
 }

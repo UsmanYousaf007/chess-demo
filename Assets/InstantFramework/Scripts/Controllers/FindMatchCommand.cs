@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
 				if (opponentPublicProfile.facebookUserId != null)
                 {
-                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId).Then(OnGetOpponentProfilePicture);
+                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
                 }
                 else
                 {
@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite)
+        private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite, string facebookUserId)
         {
             if (result == FacebookResult.SUCCESS)
             {

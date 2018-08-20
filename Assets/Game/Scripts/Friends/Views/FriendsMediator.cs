@@ -48,10 +48,16 @@ namespace TurboLabz.InstantGame
             }
         }
 
-		[ListensTo(typeof(UpdateFriendsSignal))]
-		public void OnUpdateFriends(FriendsVO vo)
+		[ListensTo(typeof(AddFriendSignal))]
+		public void OnUpdateFriends(Friend friend)
 		{
-			view.UpdateFriends(vo);
+			view.AddFriend(friend);
 		}
+
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdateFriendPic(string playerId, Sprite sprite)
+        {
+            view.UpdateFriendPic(playerId, sprite);
+        }
     }
 }

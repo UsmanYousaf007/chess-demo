@@ -83,7 +83,7 @@ namespace TurboLabz.InstantFramework
 		{
 			if (result == BackendResult.SUCCESS)
 			{
-                facebookService.GetSocialPic(facebookService.GetFacebookId()).Then(OnGetSocialPic_AuthConcluded);
+                facebookService.GetSocialPic(facebookService.GetFacebookId(), playerModel.id).Then(OnGetSocialPic_AuthConcluded);
 			}
 			else
 			{
@@ -91,7 +91,7 @@ namespace TurboLabz.InstantFramework
 			}
 		}
 
-		private void OnGetSocialPic_AuthConcluded(FacebookResult result, Sprite sprite)
+        private void OnGetSocialPic_AuthConcluded(FacebookResult result, Sprite sprite, string facebookUserId)
         {
             if (result == FacebookResult.SUCCESS)
             {

@@ -13,11 +13,10 @@ namespace TurboLabz.InstantFramework
     {
         IPromise<FacebookResult> Init();
         IPromise<FacebookResult, string> Auth();
-        IPromise<FacebookResult, Sprite> GetSocialPic(string userId);
+        IPromise<FacebookResult, Sprite, string> GetSocialPic(string facebookUserId, string playerId);
         IPromise<FacebookResult, string> GetSocialName();
         bool isLoggedIn();
         string GetFacebookId();
-        Sprite GetCachedPlayerPic(string userId);
         void LogOut();
 		string GetAccessToken();
     }

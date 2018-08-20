@@ -14,6 +14,7 @@ using System;
 using TurboLabz.Chess;
 using System.Collections.Generic;
 using TurboLabz.InstantFramework;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -45,7 +46,6 @@ namespace TurboLabz.InstantGame
 
     // FRIENDS
     public class LoadFriendsSignal : Signal {}
-	public class UpdateFriendsSignal : Signal<FriendsVO> {}
 
 
 }

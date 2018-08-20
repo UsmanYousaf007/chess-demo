@@ -181,7 +181,7 @@ namespace TurboLabz.InstantFramework
 			}
 		}
 
-        public static void PopulateFriend(Friend friend, GSData friendData, string friendId)
+        public static void ParseFriend(Friend friend, GSData friendData, string friendId)
 		{
 			friend.gamesDrawn = friendData.GetInt(GSBackendKeys.Friend.GAMES_DRAWN).Value;
 			friend.gamesLost = friendData.GetInt(GSBackendKeys.Friend.GAMES_LOST).Value;

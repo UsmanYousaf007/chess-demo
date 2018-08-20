@@ -30,6 +30,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -47,7 +48,6 @@ namespace TurboLabz.InstantGame
             updateAdsSignal.Dispatch();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
-            // If the social pic is not available yet
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = playerModel.socialPic;
             pvo.playerName = playerModel.name;
@@ -57,7 +57,7 @@ namespace TurboLabz.InstantGame
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {
-                pvo.playerPic = facebookService.GetCachedPlayerPic(facebookService.GetFacebookId());
+                pvo.playerPic = picsModel.GetPic(playerModel.id);
             }
                 
             updateProfileSignal.Dispatch(pvo);

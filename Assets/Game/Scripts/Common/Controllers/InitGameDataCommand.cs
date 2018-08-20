@@ -45,7 +45,7 @@ namespace TurboLabz.InstantFramework
             // Fetch facebook pic in parallel with backend init data fetch
             if (facebookService.isLoggedIn())
             {
-                facebookService.GetSocialPic(facebookService.GetFacebookId()).Then(OnGetSocialPic);
+                facebookService.GetSocialPic(facebookService.GetFacebookId(), playerModel.id).Then(OnGetSocialPic);
             }
         }
 
@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void OnGetSocialPic(FacebookResult result, Sprite sprite)
+        void OnGetSocialPic(FacebookResult result, Sprite sprite, string facebookUserId)
         {
             playerModel.socialPic = sprite;
             authFacebookSuccessSignal.Dispatch(true, playerModel.socialPic, playerModel.name);

@@ -16,23 +16,23 @@ namespace TurboLabz.InstantFramework
     public class FBGetSocialPicRequest
     {
         private const string PLAYER_SOCIAL_PIC = "PlayerSocialPic";
-        private IPromise<FacebookResult, Sprite> promise = new Promise<FacebookResult, Sprite>();
+        private IPromise<FacebookResult, Sprite, string> promise = new Promise<FacebookResult, Sprite, string>();
         private IRoutineRunner routineRunner = new NormalRoutineRunner();
         private Action<string, Sprite> onSuccess;
-        private string facebookId;
+        private string playerId;
 
-        public IPromise<FacebookResult, Sprite> Send(string facebookId, Action<string, Sprite> onSuccess)
+        public IPromise<FacebookResult, Sprite, string> Send(string facebookUserId, string playerId, Action<string, Sprite> onSuccess)
         {
-            this.facebookId = facebookId;
+            this.playerId = playerId;
             this.onSuccess = onSuccess;
-            GetProfilePicture(facebookId);
+            GetProfilePicture(facebookUserId);
 
             return promise;
         }
 
-        private void GetProfilePicture(string userId)
+        private void GetProfilePicture(string facebookUserId)
         {
-            FB.API(userId + "/picture?width=256&height=256&redirect=false", HttpMethod.GET, OnGetProfilePicture);
+            FB.API(facebookUserId + "/picture?width=256&height=256&redirect=false", HttpMethod.GET, OnGetProfilePicture);
         }
 
         private void OnGetProfilePicture(IGraphResult result)
@@ -76,10 +76,10 @@ namespace TurboLabz.InstantFramework
         {
             if (result == FacebookResult.SUCCESS && sprite != null)
             {
-                onSuccess(facebookId,sprite);
+                onSuccess(playerId, sprite);
             }
 
-            promise.Dispatch(result, sprite);
+            promise.Dispatch(result, sprite, playerId);
         }
     }
 }
