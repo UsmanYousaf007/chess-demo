@@ -47,10 +47,16 @@ namespace TurboLabz.InstantFramework
                 GSParser.LogFriends("community", playerModel.community);
             }
             // Friend added
-            GSData add = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.ADD);
-            if (add != null)
+            GSData friendsData = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.ADD);
+            if (friendsData != null)
             {
-                TLUtils.LogUtil.Log("----------------------------------------->" + add.JSON.ToString());
+                foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
+                {
+                    GSData friendData = (GSData)obj.Value;
+                    string friendId = obj.Key;
+                    Friend friend = LoadFriend(friendId, friendData);
+                    playerModel.friends.Add(friendId, friend);
+                }
             }
 		}
 	}
