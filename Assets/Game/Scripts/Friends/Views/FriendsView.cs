@@ -28,9 +28,11 @@ namespace TurboLabz.InstantGame
 		public Transform friendsSibling;
 		public Transform communitySibling;
 		public GameObject friendBarPrefab;
-		public Text noFriendsBtnText;
+        public Text[] defaultInviteFriendsNewLines;
+        public Text defaultInviteFriendsText;
+        public Text defaultInviteFriendsButtonText;
+        public Button defaultInviteFriendsButton;
         public Text waitingForPlayersText;
-		public Button noFriendsBtn;
 		public Text friendsTitle;
 		public Text inviteText;
 		public Text communityTitle;
@@ -48,12 +50,14 @@ namespace TurboLabz.InstantGame
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
         private List<FriendBar> communityBars = new List<FriendBar>();
+        private List<GameObject> defaultInvite = new List<GameObject>();
 
         public void Init()
         {
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
-            noFriendsBtnText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
+            defaultInviteFriendsButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TEXT);
+            defaultInviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
 			friendsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_TITLE);
@@ -70,6 +74,11 @@ namespace TurboLabz.InstantGame
 			friendDlg.blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
 
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
+
+            defaultInvite.Add(defaultInviteFriendsText.gameObject);
+            defaultInvite.Add(defaultInviteFriendsButtonText.gameObject);
+            for (int i = 0; i < defaultInviteFriendsNewLines.Length; i++)
+                defaultInvite.Add(defaultInviteFriendsNewLines[i].gameObject);
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -124,7 +133,7 @@ namespace TurboLabz.InstantGame
             if (friend.type == Friend.FRIEND_TYPE_SOCIAL)
             {
                 siblingIndex = friendsSibling.GetSiblingIndex() + 1;
-                noFriendsBtn.gameObject.SetActive(false);
+                DefaultInviteSetActive(false);
             }
             else 
             {
@@ -188,6 +197,14 @@ namespace TurboLabz.InstantGame
             facebookButtonClickedSignal.Dispatch();
             facebookConnectAnim.SetActive(true);
             facebookLoginButton.enabled = false;
+        }
+
+        void DefaultInviteSetActive(bool active)
+        {
+            foreach (GameObject obj in defaultInvite)
+            {
+                obj.SetActive(active);
+            }
         }
     }
 }
