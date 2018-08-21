@@ -77,6 +77,7 @@ namespace TurboLabz.InstantGame
 
             defaultInvite.Add(defaultInviteFriendsText.gameObject);
             defaultInvite.Add(defaultInviteFriendsButtonText.gameObject);
+            defaultInvite.Add(defaultInviteFriendsButton.gameObject);
             for (int i = 0; i < defaultInviteFriendsNewLines.Length; i++)
                 defaultInvite.Add(defaultInviteFriendsNewLines[i].gameObject);
         }
