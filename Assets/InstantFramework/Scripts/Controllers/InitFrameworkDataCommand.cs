@@ -12,7 +12,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-	public class InitGameDataCommand : Command
+	public class InitFrameworkDataCommand : Command
 	{ 
         // Models
         [Inject] public IMetaDataModel model { get; set; }

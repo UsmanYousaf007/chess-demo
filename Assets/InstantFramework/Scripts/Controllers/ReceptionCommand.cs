@@ -13,7 +13,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
-        [Inject] public InitGameDataSignal loadGameDataSignal  { get; set; }
+        [Inject] public InitFrameworkDataSignal loadGameDataSignal  { get; set; }
         [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 

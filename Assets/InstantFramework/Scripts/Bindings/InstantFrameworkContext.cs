@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
 
 			// Bind signals to models data loader commands
-			commandBinder.Bind<InitGameDataSignal>().To<InitGameDataCommand>();
+			commandBinder.Bind<InitFrameworkDataSignal>().To<InitFrameworkDataCommand>();
 
             // Bind signals to social commands
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();

@@ -24,6 +24,7 @@ namespace TurboLabz.InstantGame
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
+        public ProfileView profileView;
 		public Transform listContainer;
 		public Transform friendsSibling;
 		public Transform communitySibling;
@@ -121,13 +122,14 @@ namespace TurboLabz.InstantGame
                 return;
 
 		    // create bar
-			GameObject friendBar = GameObject.Instantiate(friendBarPrefab);
+			GameObject friendBarObj = GameObject.Instantiate(friendBarPrefab);
 
             // update bar values
-            FriendBar barData = friendBar.GetComponent<FriendBar>();
-            barData.playerId = friend.playerId;
-            barData.profileNameLabel.text = friend.publicProfile.name;
-			friendBar.transform.SetParent(listContainer, false);
+            FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
+            friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend, friendBar));
+            friendBar.friendInfo = friend;
+            friendBar.profileNameLabel.text = friend.publicProfile.name;
+			friendBarObj.transform.SetParent(listContainer, false);
 
             int siblingIndex = 0;
 
@@ -142,15 +144,15 @@ namespace TurboLabz.InstantGame
                 waitingForPlayersText.gameObject.SetActive(false);
             }
             
-            friendBar.transform.SetSiblingIndex(siblingIndex);
+            friendBarObj.transform.SetSiblingIndex(siblingIndex);
 
             // store bar
-            bars.Add(friend.playerId, friendBar);
+            bars.Add(friend.playerId, friendBarObj);
 
             // save community bars for refresh
             if (friend.type == Friend.FRIEND_TYPE_COMMUNITY)
             {
-                communityBars.Add(barData);
+                communityBars.Add(friendBar);
             }
 		}
 
@@ -170,7 +172,7 @@ namespace TurboLabz.InstantGame
         {
             foreach (FriendBar barData in communityBars)
             {
-                bars.Remove(barData.playerId);
+                bars.Remove(barData.friendInfo.playerId);
                 GameObject.Destroy(barData.gameObject);
             }
 
@@ -206,6 +208,14 @@ namespace TurboLabz.InstantGame
             {
                 obj.SetActive(active);
             }
+        }
+
+        void ViewProfile(Friend friend, FriendBar bar)
+        {
+            friendDlg.gameObject.SetActive(true);
+
+            friendDlg.playerProfilePic.sprite = profileView.profilePic.sprite;
+
         }
     }
 }
