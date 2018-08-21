@@ -181,6 +181,7 @@ namespace TurboLabz.InstantFramework
 				GSData friendData = (GSData)obj.Value;
                 string friendId = obj.Key;
                 Friend friend = new Friend();
+                friend.publicProfile = new PublicProfile();
 
                 if (!isBlocked)
                 {
@@ -191,7 +192,7 @@ namespace TurboLabz.InstantFramework
 			}
 		}
 
-        private Friend LoadFriend(string friendId, GSData friendData)
+        public Friend LoadFriend(string friendId, GSData friendData)
         {
             Friend friend = new Friend();
             friend.playerId = friendId;
