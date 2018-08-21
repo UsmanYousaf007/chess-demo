@@ -26,9 +26,16 @@ namespace TurboLabz.InstantGame
         // View injection
         [Inject] public FriendsView view { get; set; }
 
+        // Dispatch signals
+        [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
+        [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
+
+            view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
+            view.reloadFriendsSignal.AddOnce(OnReloadFriends);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -65,6 +72,31 @@ namespace TurboLabz.InstantGame
         public void OnClearCommunity()
         {
             view.ClearCommunity();
+        }
+
+        [ListensTo(typeof(FriendsConnectFacebookSignal))]
+        public void OnFriendsConnectFacebook(bool showConnectInfo)
+        {
+            view.ShowConnectFacebook(showConnectInfo);
+        }
+
+        [ListensTo(typeof(AuthFacebookResultSignal))]
+        public void OnAuthFacebookResult(bool isSuccessful, Sprite pic, string name)
+        {
+            if (view.IsVisible())
+            {
+                view.FacebookAuthResult(isSuccessful, pic, name);
+            }
+        }
+
+        private void OnFacebookButtonClicked()
+        {
+            authFacebookSignal.Dispatch();
+        }
+
+        private void OnReloadFriends()
+        {
+            loadFriendsSignal.Dispatch();
         }
 
     }

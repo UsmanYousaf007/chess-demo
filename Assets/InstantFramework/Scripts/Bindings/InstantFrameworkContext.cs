@@ -121,6 +121,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateFriendPicSignal>().ToSingleton();
             injectionBinder.Bind<AddFriendSignal>().ToSingleton();
             injectionBinder.Bind<ClearCommunitySignal>().ToSingleton();
+            injectionBinder.Bind<FriendsConnectFacebookSignal>().ToSingleton();
 
 
             // Bind models
