@@ -213,6 +213,15 @@ namespace TurboLabz.InstantFramework
             if (result == FacebookResult.SUCCESS)
             {
                 updateFriendPicSignal.Dispatch(friendId, sprite);
+
+                if (playerModel.friends.ContainsKey(friendId))
+                {
+                    playerModel.friends[friendId].publicProfile.profilePicture = sprite;
+                }
+                else if (playerModel.community.ContainsKey(friendId))
+                {
+                    playerModel.community[friendId].publicProfile.profilePicture = sprite;
+                }
             }
         }
     }
