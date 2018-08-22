@@ -69,8 +69,8 @@ namespace TurboLabz.InstantFramework
 
         void OnGetSocialPic(FacebookResult result, Sprite sprite, string facebookUserId)
         {
-            playerModel.socialPic = sprite;
-            authFacebookSuccessSignal.Dispatch(true, playerModel.socialPic, playerModel.name);
+            playerModel.profilePic = sprite;
+            authFacebookSuccessSignal.Dispatch(true, playerModel.profilePic, playerModel.name);
             Release();
         }
 

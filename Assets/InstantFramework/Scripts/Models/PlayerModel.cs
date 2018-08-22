@@ -37,22 +37,7 @@ namespace TurboLabz.InstantFramework
 		public IDictionary<string, Friend> blocked { get; set; }
         public IDictionary<string, Friend> community { get; set; }
 
-		public PublicProfile publicProfile
-		{
-			get
-			{
-                PublicProfile profile = new PublicProfile();
-				profile.playerId = id;
-				profile.name = name;
-				profile.countryId = countryId;
-				profile.profilePicture = profilePic;
-				profile.eloScore = eloScore;
-
-				return profile;
-			}
-		}
-
-        public void Reset()
+		public void Reset()
         {
             id = null;
             tag = null;

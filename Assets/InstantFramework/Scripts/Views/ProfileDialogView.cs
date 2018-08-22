@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -45,22 +46,41 @@ namespace TurboLabz.InstantFramework
 
         [Inject] public ILocalizationService localizationService { get; set; }
 
+        string eloPrefix = null;
+        string totalGamesPrefix = null;
+
         public void Init()
         {
-            playerEloLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
-            oppEloLabel.text = playerEloLabel.text;
+            eloPrefix = localizationService.Get(LocalizationKey.ELO_SCORE);
+            totalGamesPrefix = localizationService.Get(LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL);
             confirmLabel.text = localizationService.Get(LocalizationKey.FRIENDS_CONFIRM_LABEL);
             yesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_YES_LABEL);
             noLabel.text = localizationService.Get(LocalizationKey.FRIENDS_NO_LABEL);
             winsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_WINS_LABEL);
             drawsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
-            totalGamesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL);
             vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
+            playerProfilePic.sprite = defaultAvatar;
+            oppProfilePic.sprite = defaultAvatar;
         }
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
         {
+            playerProfilePic.sprite = vo.playerProfilePic;
+            playerProfileName.text = vo.playerProfileName;
+            playerEloLabel.text = eloPrefix + " " + vo.playerElo;
+            playerFlag.sprite = Flags.GetFlag(vo.playerCountryCode);
+
+            oppProfilePic.sprite = vo.oppProfilePic;
+            oppProfileName.text = vo.oppProfileName;
+            oppEloLabel.text = eloPrefix + " " + vo.oppElo;
+            oppFlag.sprite = Flags.GetFlag(vo.oppCountryCode);
+
+            playerWinsLabel.text = vo.playerWinsCount.ToString();
+            playerDrawsLabel.text = vo.playerDrawsCount.ToString();
+            opponentWinsLabel.text = vo.opponentWinsCount.ToString();
+            opponentDrawsLabel.text = vo.opponentDrawsCount.ToString();
+            totalGamesLabel.text = totalGamesPrefix + vo.totalGamesCount;
         }
 
         public void Show()

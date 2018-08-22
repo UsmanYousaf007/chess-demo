@@ -173,29 +173,35 @@ namespace TurboLabz.InstantFramework
         }
 
         private void PopulateFriends(IDictionary<string, Friend> friends, GSData friendsData, bool isBlocked = false)
-		{
-            friends = new Dictionary<string, Friend>();
+        {
+            friends.Clear();
 
-			foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
-			{
-				GSData friendData = (GSData)obj.Value;
+            foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
+            {
+                GSData friendData = (GSData)obj.Value;
                 string friendId = obj.Key;
-                Friend friend = new Friend();
-                friend.publicProfile = new PublicProfile();
+
+                Friend friend = null;
 
                 if (!isBlocked)
                 {
-                    LoadFriend(friendId, friendData);
+                    friend = LoadFriend(friendId, friendData);
+                }
+                else
+                {
+                    friend = new Friend();
+                    friend.publicProfile = new PublicProfile();
                 }
 
                 friends.Add(friendId, friend);
-			}
-		}
+            }
+        }
 
         public Friend LoadFriend(string friendId, GSData friendData)
         {
             Friend friend = new Friend();
             friend.playerId = friendId;
+            friend.publicProfile = new PublicProfile();
 
             friend.publicProfile = new PublicProfile();
             GSParser.ParseFriend(friend, friendData, friendId);

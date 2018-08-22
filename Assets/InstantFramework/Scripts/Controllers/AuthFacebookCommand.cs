@@ -94,7 +94,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == FacebookResult.SUCCESS)
             {
-                playerModel.socialPic = sprite;
+                playerModel.profilePic = sprite;
             }
 
             CommandEnd(true);
@@ -112,7 +112,7 @@ namespace TurboLabz.InstantFramework
                 facebookService.LogOut();
             }
 
-            authFacebookResultSignal.Dispatch(isSuccessful, playerModel.socialPic, playerModel.name);
+            authFacebookResultSignal.Dispatch(isSuccessful, playerModel.profilePic, playerModel.name);
             Release();
         }
     }

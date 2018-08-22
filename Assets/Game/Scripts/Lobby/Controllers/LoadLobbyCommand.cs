@@ -49,7 +49,7 @@ namespace TurboLabz.InstantGame
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
             ProfileVO pvo = new ProfileVO();
-            pvo.playerPic = playerModel.socialPic;
+            pvo.playerPic = playerModel.profilePic;
             pvo.playerName = playerModel.name;
             pvo.eloScore = playerModel.eloScore;
             pvo.countryId = playerModel.countryId;

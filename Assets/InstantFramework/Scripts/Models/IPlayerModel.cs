@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
         int eloScore { get; set; }
 
         Sprite profilePic { get; set; }
-        Sprite socialPic { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }          
@@ -31,7 +30,6 @@ namespace TurboLabz.InstantFramework
         string activeSkinId { get; set; }   
         IOrderedDictionary<string, int> inventory { get; set; }
 
-        PublicProfile publicProfile { get; }
 
 		// Friends
 		IDictionary<string, Friend> friends { get; set; }

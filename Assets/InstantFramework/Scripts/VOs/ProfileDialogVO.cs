@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
 
         public Sprite oppProfilePic;
         public string oppProfileName;
-        public int oppEloLabel;
+        public int oppElo;
         public string oppCountryCode;
 
         public int playerWinsCount;
