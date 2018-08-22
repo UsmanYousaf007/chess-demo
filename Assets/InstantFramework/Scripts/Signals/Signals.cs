@@ -49,6 +49,9 @@ namespace TurboLabz.InstantFramework
     public class ClearCommunitySignal : Signal {}
     public class UpdateFriendPicSignal : Signal<string, Sprite> {}
     public class FriendsConnectFacebookSignal : Signal<bool> {}
+    public class UpdateProfileDialogSignal : Signal<ProfileDialogVO> {}
+    public class ShowProfileDialogSignal : Signal<string> {}
+    public class LoadFriendsSignal : Signal {}
 
 
     // SKINS

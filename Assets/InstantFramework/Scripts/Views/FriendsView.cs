@@ -12,19 +12,17 @@
 
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
-using TurboLabz.InstantFramework;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using strange.extensions.signal.impl;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public class FriendsView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
-        public ProfileView profileView;
 		public Transform listContainer;
 		public Transform friendsSibling;
 		public Transform communitySibling;
@@ -38,7 +36,6 @@ namespace TurboLabz.InstantGame
 		public Text inviteText;
 		public Text communityTitle;
 		public Text refreshText;
-		public FriendDialog friendDlg;
 		public GameObject confirmDlg;
         public Button facebookLoginButton;
         public Text facebookLoginButtonText;
@@ -48,6 +45,7 @@ namespace TurboLabz.InstantGame
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
+        public Signal<string> showProfileDialogSignal = new Signal<string>();
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
         private List<FriendBar> communityBars = new List<FriendBar>();
@@ -65,14 +63,6 @@ namespace TurboLabz.InstantGame
 			inviteText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TEXT);
 			communityTitle.text = localizationService.Get(LocalizationKey.FRIENDS_COMMUNITY_TITLE);
 			refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
-			friendDlg.confirmLabel.text = localizationService.Get(LocalizationKey.FRIENDS_CONFIRM_LABEL);
-			friendDlg.yesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_YES_LABEL);
-			friendDlg.noLabel.text = localizationService.Get(LocalizationKey.FRIENDS_NO_LABEL);
-			friendDlg.vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
-			friendDlg.winsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_WINS_LABEL);
-			friendDlg.drawsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
-			friendDlg.totalGamesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL);
-			friendDlg.blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
 
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
 
@@ -126,7 +116,7 @@ namespace TurboLabz.InstantGame
 
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
-            friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend, friendBar));
+            friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
 			friendBarObj.transform.SetParent(listContainer, false);
@@ -210,12 +200,9 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        void ViewProfile(Friend friend, FriendBar bar)
+        void ViewProfile(string playerId)
         {
-            friendDlg.gameObject.SetActive(true);
-
-            friendDlg.playerProfilePic.sprite = profileView.profilePic.sprite;
-
+            showProfileDialogSignal.Dispatch(playerId);
         }
     }
 }

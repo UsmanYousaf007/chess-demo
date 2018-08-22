@@ -15,7 +15,11 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.SHOW_PROFILE_DLG)
+            {
+                return new NSProfileDlg();
+            }
+            else if (evt == NavigatorEvent.ESCAPE)
             {
                 return null;
             }

@@ -15,11 +15,10 @@ using UnityEngine;
 using strange.extensions.mediation.impl;
 
 using TurboLabz.Chess;
-using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using TurboLabz.CPU;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public class ProfileDialogMediator : Mediator
     {
@@ -31,6 +30,7 @@ namespace TurboLabz.InstantGame
 
         public override void OnRegister()
         {
+            view.Init();
             view.closeBtn.onClick.AddListener(OnClose);
         }
 
@@ -50,6 +50,12 @@ namespace TurboLabz.InstantGame
             {
                 view.Hide();
             }
+        }
+
+        [ListensTo(typeof(UpdateProfileDialogSignal))]
+        public void OnUpdateProfileDialog(ProfileDialogVO vo)
+        {
+            view.UpdateProfileDialog(vo);
         }
 
         private void OnClose()

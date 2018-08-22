@@ -15,11 +15,10 @@ using UnityEngine;
 using strange.extensions.mediation.impl;
 
 using TurboLabz.Chess;
-using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public class FriendsMediator : Mediator
     {
@@ -29,6 +28,7 @@ namespace TurboLabz.InstantGame
         // Dispatch signals
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
+        [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -36,6 +36,7 @@ namespace TurboLabz.InstantGame
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
+            view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -99,5 +100,9 @@ namespace TurboLabz.InstantGame
             loadFriendsSignal.Dispatch();
         }
 
+        private void OnShowProfileDialog(string playerId)
+        {
+            showProfileDialogSignal.Dispatch(playerId);
+        }
     }
 }

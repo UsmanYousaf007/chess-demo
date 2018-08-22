@@ -67,6 +67,7 @@ namespace TurboLabz.InstantFramework
             // Bind signals to social commands
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
             commandBinder.Bind<RefreshCommunitySignal>().To<RefreshCommunityCommand>();
+            commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -93,6 +94,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<TopNavView>().To<TopNavMediator>();
             mediationBinder.Bind<ProfileView>().To<ProfileMediator>();
             mediationBinder.Bind<OpponentProfileView>().To<OpponentProfileMediator>();
+            mediationBinder.Bind<ProfileDialogView>().To<ProfileDialogMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
@@ -122,6 +124,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<AddFriendSignal>().ToSingleton();
             injectionBinder.Bind<ClearCommunitySignal>().ToSingleton();
             injectionBinder.Bind<FriendsConnectFacebookSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateProfileDialogSignal>().ToSingleton();
 
 
             // Bind models
