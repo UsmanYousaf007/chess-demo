@@ -81,6 +81,8 @@ namespace TurboLabz.InstantFramework
             opponentWinsLabel.text = vo.opponentWinsCount.ToString();
             opponentDrawsLabel.text = vo.opponentDrawsCount.ToString();
             totalGamesLabel.text = totalGamesPrefix + vo.totalGamesCount;
+
+            blockBtn.gameObject.SetActive(!vo.isCommunity);
         }
 
         public void Show()

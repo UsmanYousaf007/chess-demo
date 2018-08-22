@@ -119,6 +119,7 @@ namespace TurboLabz.InstantFramework
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
+            friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
 			friendBarObj.transform.SetParent(listContainer, false);
 
             int siblingIndex = 0;

@@ -38,10 +38,12 @@ namespace TurboLabz.InstantFramework
             if (playerModel.friends.ContainsKey(opponentId))
             {
                 friend = playerModel.friends[opponentId];
+                vo.isCommunity = false;
             }
             else if (playerModel.community.ContainsKey(opponentId))
             {
                 friend = playerModel.community[opponentId];
+                vo.isCommunity = true;
             }
             else
             {

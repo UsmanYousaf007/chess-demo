@@ -24,5 +24,7 @@ namespace TurboLabz.InstantFramework
         public int opponentWinsCount;
         public int opponentDrawsCount;
         public int totalGamesCount;
+
+        public bool isCommunity;
     }
 }
