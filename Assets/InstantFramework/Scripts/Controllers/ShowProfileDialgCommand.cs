@@ -6,6 +6,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using System.Text;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -20,6 +21,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         public override void Execute()
         {
@@ -47,7 +49,11 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            vo.oppProfilePic = friend.publicProfile.profilePicture;
+            Sprite pic = friend.publicProfile.profilePicture;
+            if (pic == null)
+                pic = picsModel.GetPic(friend.playerId);
+
+            vo.oppProfilePic = pic;
             vo.oppProfileName = friend.publicProfile.name;
             vo.oppElo = friend.publicProfile.eloScore;
             vo.oppCountryCode = friend.publicProfile.countryId;
