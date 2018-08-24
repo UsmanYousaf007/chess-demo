@@ -196,6 +196,7 @@ namespace TurboLabz.InstantFramework
 			public const string BLOCKED = "blocked";
             public const string COMMUNITY = "community";
             public const string ADD = "add";
+            public const string BLOCK = "block";
 		}
 
 		public static class PublicProfile

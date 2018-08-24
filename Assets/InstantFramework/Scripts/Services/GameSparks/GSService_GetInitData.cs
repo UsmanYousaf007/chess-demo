@@ -97,11 +97,10 @@ namespace TurboLabz.InstantFramework
 			GSData friendsList = playerDetailsData.GetGSData(GSBackendKeys.FRIENDS);
             PopulateFriends(playerModel.friends, friendsList);
 			GSData blockedList = playerDetailsData.GetGSData(GSBackendKeys.BLOCKED);
-            PopulateFriends(playerModel.blocked, blockedList);
+            PopulateFriends(playerModel.blocked, blockedList, true);
 
             GSParser.LogPlayerInfo(playerModel);
-			GSParser.LogFriends("friends", playerModel.friends);
-			GSParser.LogFriends("blocked", playerModel.blocked);
+			//GSParser.LogFriends("friends", playerModel.friends);
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)
