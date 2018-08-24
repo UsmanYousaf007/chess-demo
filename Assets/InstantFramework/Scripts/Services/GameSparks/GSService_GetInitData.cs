@@ -202,8 +202,6 @@ namespace TurboLabz.InstantFramework
             Friend friend = new Friend();
             friend.playerId = friendId;
             friend.publicProfile = new PublicProfile();
-
-            friend.publicProfile = new PublicProfile();
             GSParser.ParseFriend(friend, friendData, friendId);
 
             return friend;
