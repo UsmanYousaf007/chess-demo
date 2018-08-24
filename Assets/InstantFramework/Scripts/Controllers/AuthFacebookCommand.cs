@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
+        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -113,6 +114,8 @@ namespace TurboLabz.InstantFramework
             }
 
             authFacebookResultSignal.Dispatch(isSuccessful, playerModel.profilePic, playerModel.name);
+            refreshFriendsSignal.Dispatch();
+
             Release();
         }
     }

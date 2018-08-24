@@ -190,6 +190,12 @@ namespace TurboLabz.InstantFramework
             friendBars.Clear();
         }
 
+        public void RemoveFriend(string friendId)
+        {
+            bars.Remove(friendId);
+            
+        }
+
         public void Show() 
         { 
             gameObject.SetActive(true); 

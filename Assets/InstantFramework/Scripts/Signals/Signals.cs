@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
     public class AddFriendSignal : Signal<Friend> {}
     public class RefreshCommunitySignal : Signal {}
     public class RefreshFriendsSignal : Signal {}
+    public class BlockFriendSignal : Signal<string> {}
     public class ClearCommunitySignal : Signal {}
     public class ClearFriendsSignal : Signal {}
     public class UpdateFriendPicSignal : Signal<string, Sprite> {}

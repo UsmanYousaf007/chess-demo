@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using TurboLabz.TLUtils;
+using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -22,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public Image oppFlag;
 
         [Header("Confirm Dialog")]
+        public GameObject confirmDialog;
         public Text confirmLabel;
         public Text yesLabel;
         public Text noLabel;
@@ -46,8 +48,11 @@ namespace TurboLabz.InstantFramework
 
         [Inject] public ILocalizationService localizationService { get; set; }
 
+        public Signal<string> blockUserSignal = new Signal<string>();
+
         string eloPrefix = null;
         string totalGamesPrefix = null;
+        string playerId = null;
 
         public void Init()
         {
@@ -62,10 +67,17 @@ namespace TurboLabz.InstantFramework
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
+
+            blockBtn.onClick.AddListener(OnBlockConfirm);
+            noBtn.onClick.AddListener(OnConfirmNo);
+            yesBtn.onClick.AddListener(() => OnBlock(playerId));
+
         }
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
         {
+            playerId = vo.playerId;
+
             playerProfilePic.sprite = vo.playerProfilePic;
             playerProfileName.text = vo.playerProfileName;
             playerEloLabel.text = eloPrefix + " " + vo.playerElo;
@@ -92,7 +104,23 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
+            confirmDialog.SetActive(false);
             gameObject.SetActive(false);
+        }
+
+        private void OnConfirmNo()
+        {
+            confirmDialog.SetActive(false);
+        }
+
+        private void OnBlockConfirm()
+        {
+            confirmDialog.SetActive(true);
+        }
+
+        private void OnBlock(string playerId)
+        {
+            blockUserSignal.Dispatch(playerId);
         }
     }
 }

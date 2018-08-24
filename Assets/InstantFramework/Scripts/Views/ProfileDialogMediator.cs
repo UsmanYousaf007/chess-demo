@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public BlockFriendSignal blockFriendSignal { get; set; }
 
         // View injection
         [Inject] public ProfileDialogView view { get; set; }
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
             view.closeBtn.onClick.AddListener(OnClose);
+            view.blockUserSignal.AddListener(OnBlock);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -61,6 +63,12 @@ namespace TurboLabz.InstantFramework
         private void OnClose()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        private void OnBlock(string playerId)
+        {
+            OnClose();
+            blockFriendSignal.Dispatch(playerId);
         }
     }
 }

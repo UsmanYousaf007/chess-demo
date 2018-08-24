@@ -21,7 +21,6 @@ namespace TurboLabz.InstantGame
         [Inject] public IPicsModel picsModel { get; set; }
 
         // services
-        [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
 
 

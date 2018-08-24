@@ -9,6 +9,8 @@ namespace TurboLabz.InstantFramework
 {
     public class ProfileDialogVO
     {
+        public string playerId;
+
         public Sprite playerProfilePic;
         public string playerProfileName;
         public int playerElo;
