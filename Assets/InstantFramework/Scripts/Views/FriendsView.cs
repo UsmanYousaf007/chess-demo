@@ -33,8 +33,10 @@ namespace TurboLabz.InstantFramework
         public Button defaultInviteFriendsButton;
         public Text waitingForPlayersText;
 		public Text friendsTitle;
-		public Text inviteText;
+        public Button inviteFriendsButton;
+        public Text inviteText;
 		public Text communityTitle;
+        public Button refreshCommunityButton;
 		public Text refreshText;
 		public GameObject confirmDlg;
         public Button facebookLoginButton;
@@ -45,6 +47,7 @@ namespace TurboLabz.InstantFramework
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
+        public Signal refreshCommunitySignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();

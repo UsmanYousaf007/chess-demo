@@ -17,6 +17,7 @@ using strange.extensions.mediation.impl;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,6 +30,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public ShareAppSignal shareAppSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -37,6 +40,9 @@ namespace TurboLabz.InstantFramework
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
             view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
+            view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
+            view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
+            view.inviteFriendsButton.onClick.AddListener(OnShareApp);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -103,6 +109,16 @@ namespace TurboLabz.InstantFramework
         private void OnShowProfileDialog(string playerId)
         {
             showProfileDialogSignal.Dispatch(playerId);
+        }
+
+        private void OnRefreshCommunity()
+        {
+            refreshCommunitySignal.Dispatch();
+        }
+
+        private void OnShareApp()
+        {
+            shareAppSignal.Dispatch();
         }
     }
 }

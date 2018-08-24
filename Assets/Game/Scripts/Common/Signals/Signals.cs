@@ -25,8 +25,6 @@ namespace TurboLabz.InstantGame
     public class UpdateDurationSignal : Signal<LobbyVO> {}
     public class UpdatePlayerColorSignal : Signal<LobbyVO> {}
 	public class UpdateThemeSignal : Signal<LobbyVO> {}
-    public class ShareAppSignal : Signal {}
-    public class ShowAdSignal : Signal<bool> {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
     public class UpdateAdsSignal : Signal {}
 
