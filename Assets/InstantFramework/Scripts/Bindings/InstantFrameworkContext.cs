@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
 
 			// Bind signals to models data loader commands
-			commandBinder.Bind<InitFrameworkDataSignal>().To<InitFrameworkDataCommand>();
+			commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();
 
             // Bind signals to social commands
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
@@ -75,7 +75,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
-            injectionBinder.Bind<LoadMetaDataCompleteSignal>().ToSingleton();
+            injectionBinder.Bind<GetInitDataCompleteSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookResultSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();

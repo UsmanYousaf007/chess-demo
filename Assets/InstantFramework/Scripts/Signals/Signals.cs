@@ -24,8 +24,8 @@ namespace TurboLabz.InstantFramework
     public class NavigatorShowViewSignal : Signal<NavigatorViewId> {}
     public class NavigatorHideViewSignal : Signal<NavigatorViewId> {}
     public class NavigatorIgnoreEventSignal : Signal<NavigatorEvent> {}
-    public class InitFrameworkDataSignal : Signal {}
-    public class LoadMetaDataCompleteSignal : Signal {}
+    public class GetInitDataSignal : Signal {}
+    public class GetInitDataCompleteSignal : Signal {}
     public class AuthFaceBookSignal : Signal {}
     public class AuthFacebookResultSignal : Signal<bool, Sprite, string> {}
     public class UpdateProfileSignal : Signal<ProfileVO> {}

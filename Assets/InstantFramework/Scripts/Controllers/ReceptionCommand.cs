@@ -13,8 +13,8 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
-        [Inject] public InitFrameworkDataSignal loadGameDataSignal  { get; set; }
-        [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
+        [Inject] public GetInitDataSignal getInitDataSignal  { get; set; }
+        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
@@ -24,11 +24,11 @@ namespace TurboLabz.InstantFramework
         {
             CommandBegin();
 
-            loadGameDataSignal.Dispatch();
-            initBackendOnceSignal.Dispatch();
+            getInitDataSignal.Dispatch();
+
         }
             
-        private void OnLoadDataComplete()
+        private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
             if (model.appInfo.appBackendVersionValid == false)
@@ -38,7 +38,10 @@ namespace TurboLabz.InstantFramework
                 CommandEnd();
                 return;
             }
-                
+
+            // TODO: Clear message queue here
+
+            initBackendOnceSignal.Dispatch();
             loadLobbySignal.Dispatch();
             CommandEnd();
         }
@@ -46,12 +49,12 @@ namespace TurboLabz.InstantFramework
         private void CommandBegin()
         {
             Retain();
-            loadMetaDataCompleteSignal.AddListener(OnLoadDataComplete);
+            getInitDataCompleteSignal.AddListener(OnGetInitDataComplete);
         }
 
         private void CommandEnd()
         {
-            loadMetaDataCompleteSignal.RemoveListener(OnLoadDataComplete);
+            getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
             Release();
         }
 

@@ -12,7 +12,7 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-	public class InitFrameworkDataCommand : Command
+	public class GetInitDataCommand : Command
 	{ 
         // Models
         [Inject] public IMetaDataModel model { get; set; }
@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public LoadMetaDataCompleteSignal loadMetaDataCompleteSignal { get; set; }
+        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookSuccessSignal { get; set; }
 
         public override void Execute()
@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
                 model.store = storeSettingsModel;
                 model.adsSettings = adsSettingsModel;
 
-                loadMetaDataCompleteSignal.Dispatch();
+                getInitDataCompleteSignal.Dispatch();
                 Release();
             }
             else if (result != BackendResult.CANCELED)
