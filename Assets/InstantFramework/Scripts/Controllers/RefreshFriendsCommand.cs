@@ -4,15 +4,15 @@
 /// Proprietary and confidential
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
-    public class RefreshCommunityCommand : Command
+    public class RefreshFriendsCommand : Command
     {
         // dispatch signals
-        [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
+        [Inject] public ClearFriendsSignal clearFriendsSignal { get; set; }
         [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
         [Inject] public AddFriendSignal addFriendSignal { get; set; }
 
@@ -24,23 +24,17 @@ namespace TurboLabz.InstantGame
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
 
+
         public override void Execute()
         {
-            backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
-            clearCommunitySignal.Dispatch();
-        }
+            clearFriendsSignal.Dispatch();
 
-        private void OnCommunityRefresh(BackendResult result)
-        {
-            if (result == BackendResult.SUCCESS)
+            foreach (KeyValuePair<string, Friend> obj in playerModel.friends)
             {
-                foreach (KeyValuePair<string, Friend> obj in playerModel.community)
-                {
-                    Friend friend = obj.Value;
-                    addFriendSignal.Dispatch(friend);
-                    updateFriendPicSignal.Dispatch(friend.playerId, picsModel.GetPic(friend.playerId));
-                    facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);    
-                }    
+                Friend friend = obj.Value;
+                addFriendSignal.Dispatch(friend);
+                updateFriendPicSignal.Dispatch(friend.playerId, picsModel.GetPic(friend.playerId));
+                facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);    
             }
         }
 
@@ -49,7 +43,7 @@ namespace TurboLabz.InstantGame
             if (result == FacebookResult.SUCCESS)
             {
                 updateFriendPicSignal.Dispatch(friendId, sprite);
-                playerModel.community[friendId].publicProfile.profilePicture = sprite;
+                playerModel.friends[friendId].publicProfile.profilePicture = sprite;
             }
         }
     }

@@ -46,7 +46,9 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerBucksSignal : Signal<long> {}
     public class AddFriendSignal : Signal<Friend> {}
     public class RefreshCommunitySignal : Signal {}
+    public class RefreshFriendsSignal : Signal {}
     public class ClearCommunitySignal : Signal {}
+    public class ClearFriendsSignal : Signal {}
     public class UpdateFriendPicSignal : Signal<string, Sprite> {}
     public class FriendsConnectFacebookSignal : Signal<bool> {}
     public class UpdateProfileDialogSignal : Signal<ProfileDialogVO> {}

@@ -81,6 +81,12 @@ namespace TurboLabz.InstantFramework
             view.ClearCommunity();
         }
 
+        [ListensTo(typeof(ClearFriendsSignal))]
+        public void OnClearFriends()
+        {
+            view.ClearFriends();
+        }
+
         [ListensTo(typeof(FriendsConnectFacebookSignal))]
         public void OnFriendsConnectFacebook(bool showConnectInfo)
         {

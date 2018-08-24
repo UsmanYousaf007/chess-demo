@@ -52,6 +52,7 @@ namespace TurboLabz.InstantFramework
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
         private List<FriendBar> communityBars = new List<FriendBar>();
+        private List<FriendBar> friendBars = new List<FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
 
         public void Init()
@@ -148,6 +149,10 @@ namespace TurboLabz.InstantFramework
             {
                 communityBars.Add(friendBar);
             }
+            else
+            {
+                friendBars.Add(friendBar);
+            }
 		}
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
@@ -172,6 +177,17 @@ namespace TurboLabz.InstantFramework
 
             communityBars.Clear();
             waitingForPlayersText.gameObject.SetActive(true);
+        }
+
+        public void ClearFriends()
+        {
+            foreach (FriendBar barData in friendBars)
+            {
+                bars.Remove(barData.friendInfo.playerId);
+                GameObject.Destroy(barData.gameObject);
+            }
+
+            friendBars.Clear();
         }
 
         public void Show() 

@@ -206,29 +206,7 @@ namespace TurboLabz.InstantFramework
             friend.publicProfile = new PublicProfile();
             GSParser.ParseFriend(friend, friendData, friendId);
 
-            addFriendSignal.Dispatch(friend);
-
-            updateFriendPicSignal.Dispatch(friendId, picsModel.GetPic(friendId));
-            facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friendId).Then(OnGetSocialPic);    
-
             return friend;
-        }
-
-        private void OnGetSocialPic(FacebookResult result, Sprite sprite, string friendId)
-        {
-            if (result == FacebookResult.SUCCESS)
-            {
-                updateFriendPicSignal.Dispatch(friendId, sprite);
-
-                if (playerModel.friends.ContainsKey(friendId))
-                {
-                    playerModel.friends[friendId].publicProfile.profilePicture = sprite;
-                }
-                else if (playerModel.community.ContainsKey(friendId))
-                {
-                    playerModel.community[friendId].publicProfile.profilePicture = sprite;
-                }
-            }
         }
     }
 

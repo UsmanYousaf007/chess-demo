@@ -13,9 +13,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ReceptionSignal receptionSignal { get; set; }
-        [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
-        [Inject] public AddFriendSignal addFriendSignal { get; set; }
- 
+
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
