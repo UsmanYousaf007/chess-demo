@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
             if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG ||
                 evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.multiplayerChessboardModel.inPlaybackMode)
+                if (cmd.multiplayerChessboardModel.activeChessboard.inPlaybackMode)
                 {
                     return new NSMultiplayerResultsDlg();
                 }

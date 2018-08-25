@@ -21,98 +21,97 @@ namespace TurboLabz.Multiplayer
     {
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
-            IChessboardModel chessboardModel = cmd.chessboardModel;
-            IMatchInfoModel matchInfoModel = cmd.matchInfoModel;
+            Chessboard chessboard = cmd.activeChessboard;
             IChessService chessService = cmd.chessService;
             IChessAiService chessAiService = cmd.chessAiService;
 
             if (cmd.chessboardEvent == ChessboardEvent.GAME_STARTED)
             {
-                if (!matchInfoModel.activeMatch.isResuming || chessboardModel.overrideFen != null)
+                if (!cmd.activeMatchInfo.isResuming || chessboard.overrideFen != null)
                 {
-                    chessService.NewGame(chessboardModel.fen, chessboardModel.squares);
+                    chessService.NewGame(chessboard.fen, chessboard.squares);
                 }
                 else
                 {
                     LogUtil.Log("NORMAL GAME RESUME.", "red");
 
-                    chessService.NewGame(chessboardModel.squares);
-                    bool isPlayerTurn = (chessboardModel.playerColor == chessService.GetNextMoveColor());
-                    chessboardModel.resumeMoves = new List<MoveVO>();
-                    chessboardModel.aiMoveNumber = 0;
+                    chessService.NewGame(chessboard.squares);
+                    bool isPlayerTurn = (chessboard.playerColor == chessService.GetNextMoveColor());
+                    chessboard.resumeMoves = new List<MoveVO>();
+                    chessboard.aiMoveNumber = 0;
 
-                    foreach (ChessMove move in chessboardModel.backendMoveList)
+                    foreach (ChessMove move in chessboard.backendMoveList)
                     {
-                        ChessMoveResult moveResult = chessService.MakeMove(move.from, move.to, move.promo, isPlayerTurn, chessboardModel.squares);
+                        ChessMoveResult moveResult = chessService.MakeMove(move.from, move.to, move.promo, isPlayerTurn, chessboard.squares);
 
                         if (isPlayerTurn)
                         {
-                            chessboardModel.playerMoveFlag = moveResult.moveFlag;
-                            chessboardModel.playerFromSquare = chessboardModel.squares[move.from.file, move.from.rank];
-                            chessboardModel.playerToSquare = chessboardModel.squares[move.to.file, move.to.rank];
+                            chessboard.playerMoveFlag = moveResult.moveFlag;
+                            chessboard.playerFromSquare = chessboard.squares[move.from.file, move.from.rank];
+                            chessboard.playerToSquare = chessboard.squares[move.to.file, move.to.rank];
 
                             ChessMove lastPlayerMove = new ChessMove();
-                            lastPlayerMove.from = chessboardModel.playerFromSquare.fileRank;
-                            lastPlayerMove.to = chessboardModel.playerToSquare.fileRank;
-                            lastPlayerMove.piece = chessboardModel.playerFromSquare.piece;
-                            lastPlayerMove.promo = GetPromoFromMove(chessboardModel.playerMoveFlag);
-                            chessboardModel.lastPlayerMove = lastPlayerMove;
+                            lastPlayerMove.from = chessboard.playerFromSquare.fileRank;
+                            lastPlayerMove.to = chessboard.playerToSquare.fileRank;
+                            lastPlayerMove.piece = chessboard.playerFromSquare.piece;
+                            lastPlayerMove.promo = GetPromoFromMove(chessboard.playerMoveFlag);
+                            chessboard.lastPlayerMove = lastPlayerMove;
                         }
                         else
                         {
-                            chessboardModel.opponentMoveFlag = moveResult.moveFlag;
-                            chessboardModel.opponentFromSquare = chessboardModel.squares[move.from.file, move.from.rank];
-                            chessboardModel.opponentToSquare = chessboardModel.squares[move.to.file, move.to.rank];
+                            chessboard.opponentMoveFlag = moveResult.moveFlag;
+                            chessboard.opponentFromSquare = chessboard.squares[move.from.file, move.from.rank];
+                            chessboard.opponentToSquare = chessboard.squares[move.to.file, move.to.rank];
 
-                            if (chessboardModel.isAiGame)
+                            if (chessboard.isAiGame)
                             {
-                                ++chessboardModel.aiMoveNumber;
+                                ++chessboard.aiMoveNumber;
                             }
                         }
 
-                        chessboardModel.isPlayerInCheck = moveResult.isPlayerInCheck;
-                        chessboardModel.isOpponentInCheck = moveResult.isOpponentInCheck;
-                        chessboardModel.playerScore = cmd.chessService.GetScore(chessboardModel.playerColor);
-                        chessboardModel.opponentScore = cmd.chessService.GetScore(chessboardModel.opponentColor);
-                        chessboardModel.notation.Add(moveResult.description);
-                        chessboardModel.capturedSquare = moveResult.capturedSquare;
-                        chessboardModel.threefoldRepeatDrawAvailable = moveResult.isThreefoldRepeatRuleActive;
-                        chessboardModel.fiftyMoveDrawAvailable = moveResult.isFiftyMoveRuleActive;
+                        chessboard.isPlayerInCheck = moveResult.isPlayerInCheck;
+                        chessboard.isOpponentInCheck = moveResult.isOpponentInCheck;
+                        chessboard.playerScore = cmd.chessService.GetScore(chessboard.playerColor);
+                        chessboard.opponentScore = cmd.chessService.GetScore(chessboard.opponentColor);
+                        chessboard.notation.Add(moveResult.description);
+                        chessboard.capturedSquare = moveResult.capturedSquare;
+                        chessboard.threefoldRepeatDrawAvailable = moveResult.isThreefoldRepeatRuleActive;
+                        chessboard.fiftyMoveDrawAvailable = moveResult.isFiftyMoveRuleActive;
 
-                        MoveVO vo = GetMoveVO(chessboardModel, isPlayerTurn);
-                        chessboardModel.resumeMoves.Add(vo);
+                        MoveVO vo = GetMoveVO(chessboard, isPlayerTurn);
+                        chessboard.resumeMoves.Add(vo);
 
                         isPlayerTurn = !isPlayerTurn;
                     }
                 }
 
                 // Initialize the Ai service
-                if (chessboardModel.isAiGame)
+                if (chessboard.isAiGame)
                 {
-                    if (chessboardModel.overrideAiResignBehaviour == AiOverrideResignBehaviour.ALWAYS)
+                    if (chessboard.overrideAiResignBehaviour == AiOverrideResignBehaviour.ALWAYS)
                     {
-                        chessboardModel.aiWillResign = true;    
+                        chessboard.aiWillResign = true;    
                     }
-                    else if (chessboardModel.overrideAiResignBehaviour == AiOverrideResignBehaviour.NEVER)
+                    else if (chessboard.overrideAiResignBehaviour == AiOverrideResignBehaviour.NEVER)
                     {
-                        chessboardModel.aiWillResign = false;
+                        chessboard.aiWillResign = false;
                     }
                     else 
                     {
-                        chessboardModel.aiWillResign = (UnityEngine.Random.Range(0, 100) < BotSettings.AI_RESIGN_CHANCE);
+                        chessboard.aiWillResign = (UnityEngine.Random.Range(0, 100) < BotSettings.AI_RESIGN_CHANCE);
                     }
 
                     chessAiService.NewGame();
                 }
 
                 // Wait for player turn or execute Ai turn
-                if (chessboardModel.currentTurnPlayerId == cmd.playerModel.id)
+                if (chessboard.currentTurnPlayerId == cmd.playerModel.id)
                 {
-                    if (chessboardModel.threefoldRepeatDrawAvailable)
+                    if (chessboard.threefoldRepeatDrawAvailable)
                     {
                         return new CCSThreefoldRepeatDrawOnOpponentTurnAvailable();
                     }
-                    else if (chessboardModel.fiftyMoveDrawAvailable)
+                    else if (chessboard.fiftyMoveDrawAvailable)
                     {
                         return new CCSFiftyMoveDrawOnOpponentTurnAvailable();
                     }
@@ -121,7 +120,7 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
-                    if (chessboardModel.isAiGame)
+                    if (chessboard.isAiGame)
                     {
                         cmd.aiTurnSignal.Dispatch();
                     }
@@ -133,10 +132,10 @@ namespace TurboLabz.Multiplayer
             {
                 HandleOpponentBackendMoved(cmd);
 
-                MoveVO vo = GetMoveVO(chessboardModel, false);
-                chessboardModel.resumeMoves.Add(vo);
+                MoveVO vo = GetMoveVO(chessboard, false);
+                chessboard.resumeMoves.Add(vo);
 
-                if (chessboardModel.gameEndReason != GameEndReason.NONE)
+                if (chessboard.gameEndReason != GameEndReason.NONE)
                 {
                     HandleGameEnded(cmd);
                     return new CCSOpponentTurnCompletedGameEnded();
@@ -145,11 +144,11 @@ namespace TurboLabz.Multiplayer
                 {
                     cmd.receiveTurnSwapTimeControlSignal.Dispatch();
 
-                    if (chessboardModel.fiftyMoveDrawAvailable)
+                    if (chessboard.fiftyMoveDrawAvailable)
                     {
                         return new CCSFiftyMoveDrawOnOpponentTurnAvailable();
                     }
-                    else if (chessboardModel.threefoldRepeatDrawAvailable)
+                    else if (chessboard.threefoldRepeatDrawAvailable)
                     {
                         return new CCSThreefoldRepeatDrawOnOpponentTurnAvailable();
                     }

@@ -29,12 +29,12 @@ namespace TurboLabz.Multiplayer
 
         protected bool IsPlayerPiece(ChessboardCommand cmd, ChessPiece piece)
         {
-            return ((piece != null) && (piece.color == cmd.chessboardModel.playerColor));
+            return ((piece != null) && (piece.color == cmd.activeChessboard.playerColor));
         }
 
         protected bool CameFromState(ChessboardCommand cmd, Type state)
         {
-            return (cmd.chessboardModel.previousState.GetType() == state);
+            return (cmd.activeChessboard.previousState.GetType() == state);
         }
 
         protected void RenderNewGame(ChessboardCommand cmd, bool isPlayerTurn)
@@ -48,28 +48,28 @@ namespace TurboLabz.Multiplayer
             cmd.runTimeControlSignal.Dispatch();
 
             IPlayerModel playerModel = cmd.playerModel;
-            IMatchInfoModel matchInfoModel = cmd.matchInfoModel;
-            IChessboardModel chessboardModel = cmd.chessboardModel;
+            MatchInfo matchInfo = cmd.activeMatchInfo;
+            Chessboard activeChessboard = cmd.activeChessboard;
 
             // Setup the initial rotation and skin
-            bool isPlayerWhite = (chessboardModel.playerColor == ChessColor.WHITE);
+            bool isPlayerWhite = (activeChessboard.playerColor == ChessColor.WHITE);
             SetupChessboardVO setupVO;
             setupVO.isPlayerWhite = isPlayerWhite;
             cmd.setupChessboardSignal.Dispatch(setupVO);
 
             // Place the pieces
-            cmd.updateChessboardSignal.Dispatch(cmd.chessboardModel.squares);
+            cmd.updateChessboardSignal.Dispatch(cmd.activeChessboard.squares);
 
             // Reset opponent move render value
-            cmd.chessboardModel.opponentMoveRenderComplete = true;
+            cmd.activeChessboard.opponentMoveRenderComplete = true;
 
             // If we are resuming, update the view to account for the moves
             // that were made
-            if (matchInfoModel.activeMatch.isResuming && chessboardModel.overrideFen == null)
+            if (matchInfo.isResuming && activeChessboard.overrideFen == null)
             {
-                bool wasPlayerTurn = (chessboardModel.playerColor == ChessColor.WHITE);
+                bool wasPlayerTurn = (activeChessboard.playerColor == ChessColor.WHITE);
 
-                foreach (MoveVO moveVO in chessboardModel.resumeMoves)
+                foreach (MoveVO moveVO in activeChessboard.resumeMoves)
                 {
                     cmd.updateMoveForResumeSignal.Dispatch(moveVO, wasPlayerTurn);
                     wasPlayerTurn = !wasPlayerTurn;
@@ -80,9 +80,8 @@ namespace TurboLabz.Multiplayer
         protected void RenderOpponentMove(ChessboardCommand cmd)
         {
             // Update the view with the opponent move
-            IChessboardModel model = cmd.chessboardModel;
-            model.opponentMoveRenderComplete = false;
-            cmd.updateOpponentMoveSignal.Dispatch(GetMoveVO(model, false));
+            cmd.activeChessboard.opponentMoveRenderComplete = false;
+            cmd.updateOpponentMoveSignal.Dispatch(GetMoveVO(cmd.activeChessboard, false));
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
             cmd.hidePlayerToIndicatorSignal.Dispatch();
         }
@@ -90,72 +89,70 @@ namespace TurboLabz.Multiplayer
         protected void RenderPlayerMove(ChessboardCommand cmd)
         {
             // Update the view with the player move
-            IChessboardModel model = cmd.chessboardModel;
             cmd.hidePossibleMovesSignal.Dispatch();
-            cmd.updatePlayerMoveSignal.Dispatch(GetMoveVO(model, true));
+            cmd.updatePlayerMoveSignal.Dispatch(GetMoveVO(cmd.activeChessboard, true));
         }
 
         protected void RenderPromo(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
-            cmd.updatePromoSignal.Dispatch(GetMoveVO(model, true));
+            cmd.updatePromoSignal.Dispatch(GetMoveVO(cmd.activeChessboard, true));
         }
 
         protected void HandleOpponentBackendMoved(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
 
             ChessMoveResult moveResult = cmd.chessService.MakeMove(
-                model.opponentFromSquare.fileRank,
-                model.opponentToSquare.fileRank,
-                GetPromoFromMove(model.opponentMoveFlag),
+                chessboard.opponentFromSquare.fileRank,
+                chessboard.opponentToSquare.fileRank,
+                GetPromoFromMove(chessboard.opponentMoveFlag),
                 false, 
-                model.squares);
+                chessboard.squares);
 
             // We just need a few values from the move result, the rest of
             // the values came in from the backend
-            model.isPlayerInCheck = moveResult.isPlayerInCheck;
-            model.isOpponentInCheck = moveResult.isOpponentInCheck;
-            model.playerScore = cmd.chessService.GetScore(model.playerColor);
-            model.opponentScore = cmd.chessService.GetScore(model.opponentColor);
-            model.notation.Add(moveResult.description);
-            model.capturedSquare = moveResult.capturedSquare;
+            chessboard.isPlayerInCheck = moveResult.isPlayerInCheck;
+            chessboard.isOpponentInCheck = moveResult.isOpponentInCheck;
+            chessboard.playerScore = cmd.chessService.GetScore(chessboard.playerColor);
+            chessboard.opponentScore = cmd.chessService.GetScore(chessboard.opponentColor);
+            chessboard.notation.Add(moveResult.description);
+            chessboard.capturedSquare = moveResult.capturedSquare;
 
             // Clear out the player from square if the opponent
             // has captured the piece he had selected
-            if (model.opponentToSquare.Equals(model.playerFromSquare))
+            if (chessboard.opponentToSquare.Equals(chessboard.playerFromSquare))
             {
-                model.playerFromSquare = null;
+                chessboard.playerFromSquare = null;
             }
         }
 
         protected CCS HandlePlayerMove(ChessboardCommand cmd, string promo)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
 
             ChessMoveResult moveResult = cmd.chessService.MakeMove(
-                model.playerFromSquare.fileRank,
-                model.playerToSquare.fileRank,
+                chessboard.playerFromSquare.fileRank,
+                chessboard.playerToSquare.fileRank,
                 promo,
                 true,
-                model.squares);
+                chessboard.squares);
 
             // The from and to squares are already set in the model. We had to make the move
             // inside the chess core engine in order to extract the move flag and then set it
             // to the model.
-            model.playerMoveFlag = moveResult.moveFlag;
-            model.isPlayerInCheck = moveResult.isPlayerInCheck;
-            model.isOpponentInCheck = moveResult.isOpponentInCheck;
-            model.playerScore = cmd.chessService.GetScore(model.playerColor);
-            model.opponentScore = cmd.chessService.GetScore(model.opponentColor);
-            model.notation.Add(moveResult.description);
-            model.capturedSquare = moveResult.capturedSquare;
-            model.threefoldRepeatDrawAvailable = moveResult.isThreefoldRepeatRuleActive;
-            model.fiftyMoveDrawAvailable = moveResult.isFiftyMoveRuleActive;
+            chessboard.playerMoveFlag = moveResult.moveFlag;
+            chessboard.isPlayerInCheck = moveResult.isPlayerInCheck;
+            chessboard.isOpponentInCheck = moveResult.isOpponentInCheck;
+            chessboard.playerScore = cmd.chessService.GetScore(chessboard.playerColor);
+            chessboard.opponentScore = cmd.chessService.GetScore(chessboard.opponentColor);
+            chessboard.notation.Add(moveResult.description);
+            chessboard.capturedSquare = moveResult.capturedSquare;
+            chessboard.threefoldRepeatDrawAvailable = moveResult.isThreefoldRepeatRuleActive;
+            chessboard.fiftyMoveDrawAvailable = moveResult.isFiftyMoveRuleActive;
 
             if (moveResult.gameEndReason != GameEndReason.NONE)
             {
-                SendPlayerTurn(cmd, cmd.chessboardModel.playerMoveFlag, false, false, false, true);
+                SendPlayerTurn(cmd, cmd.activeChessboard.playerMoveFlag, false, false, false, true);
                 return new CCSPlayerTurnCompletedGameEnded();
             }
             else if (moveResult.isThreefoldRepeatRuleActive)
@@ -167,7 +164,7 @@ namespace TurboLabz.Multiplayer
                 return new CCSFiftyMoveDrawOnPlayerTurnAvailable();
             }
 
-            SendPlayerTurn(cmd, model.playerMoveFlag, false, false, false, false);
+            SendPlayerTurn(cmd, chessboard.playerMoveFlag, false, false, false, false);
             return new CCSOpponentTurn();
         }
 
@@ -178,7 +175,7 @@ namespace TurboLabz.Multiplayer
                                       bool rejectThreefoldRepeatDraw,
                                       bool gameEndedByMove)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
 
             // Stop the timers if the game has ended after the player move.
             if (claimFiftyMoveDraw ||
@@ -186,7 +183,7 @@ namespace TurboLabz.Multiplayer
                 gameEndedByMove)
             {
                 cmd.stopTimersSignal.Dispatch();
-                model.timersStopped = true;
+                chessboard.timersStopped = true;
             }
             // The game has not ended, so swap the timers
             else
@@ -195,8 +192,8 @@ namespace TurboLabz.Multiplayer
             }
                 
             PlayerTurnVO vo;
-            vo.fromSquare = model.playerFromSquare;
-            vo.toSquare = model.playerToSquare;
+            vo.fromSquare = chessboard.playerFromSquare;
+            vo.toSquare = chessboard.playerToSquare;
             vo.promo = GetPromoFromMove(moveFlag);
             vo.claimFiftyMoveDraw = claimFiftyMoveDraw;
             vo.claimThreefoldRepeatDraw = claimThreefoldRepeatDraw;
@@ -207,12 +204,12 @@ namespace TurboLabz.Multiplayer
 
         protected void HandleGameEnded(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
 
-            if (!model.timersStopped)
+            if (!chessboard.timersStopped)
             {
                 cmd.stopTimersSignal.Dispatch();
-                model.timersStopped = true;
+                chessboard.timersStopped = true;
             }
         }
 
@@ -240,22 +237,22 @@ namespace TurboLabz.Multiplayer
             return promo;
         }
 
-        protected MoveVO GetMoveVO(IChessboardModel model, bool isPlayerTurn)
+        protected MoveVO GetMoveVO(Chessboard chessboard, bool isPlayerTurn)
         {
             MoveVO moveVO;
 
-            moveVO.fromSquare = isPlayerTurn ? model.playerFromSquare : model.opponentFromSquare;
-            moveVO.toSquare = isPlayerTurn ? model.playerToSquare : model.opponentToSquare;
-            moveVO.moveFlag = isPlayerTurn ? model.playerMoveFlag : model.opponentMoveFlag;
-            moveVO.pieceColor = isPlayerTurn? model.playerColor : model.opponentColor;
+            moveVO.fromSquare = isPlayerTurn ? chessboard.playerFromSquare : chessboard.opponentFromSquare;
+            moveVO.toSquare = isPlayerTurn ? chessboard.playerToSquare : chessboard.opponentToSquare;
+            moveVO.moveFlag = isPlayerTurn ? chessboard.playerMoveFlag : chessboard.opponentMoveFlag;
+            moveVO.pieceColor = isPlayerTurn? chessboard.playerColor : chessboard.opponentColor;
 
-            moveVO.isPlayerInCheck = model.isPlayerInCheck;
-            moveVO.isOpponentInCheck = model.isOpponentInCheck;
-            moveVO.playerScore = model.playerScore;
-            moveVO.opponentScore = model.opponentScore;
-            moveVO.notation = model.notation;
+            moveVO.isPlayerInCheck = chessboard.isPlayerInCheck;
+            moveVO.isOpponentInCheck = chessboard.isOpponentInCheck;
+            moveVO.playerScore = chessboard.playerScore;
+            moveVO.opponentScore = chessboard.opponentScore;
+            moveVO.notation = chessboard.notation;
 
-            moveVO.capturedSquare = model.capturedSquare;
+            moveVO.capturedSquare = chessboard.capturedSquare;
 
             // TODO: track total number of moves if required.
             // This is 'disabled' and set to 0 in multiplayer since it is not used.

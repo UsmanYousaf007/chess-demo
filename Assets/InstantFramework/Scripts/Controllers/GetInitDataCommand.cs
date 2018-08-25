@@ -9,6 +9,7 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,6 +23,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+
+        // Todo: Move this to the game folder
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         // Services
 		[Inject] public IStoreService storeService { get; set; }
@@ -81,6 +85,9 @@ namespace TurboLabz.InstantFramework
             playerModel.Reset();
             storeSettingsModel.Reset();
             adsSettingsModel.Reset();
+
+            // Todo: Move this to the game folder
+            chessboardModel.Reset();
         }
 
         string BuildAppData()

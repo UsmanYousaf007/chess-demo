@@ -13,24 +13,27 @@
 using System.Collections.Generic;
 using GameSparks.Core;
 using TurboLabz.Chess;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        private void InitGame(GSData gameData)
+        private void InitGame(GSData gameData, string challengeId)
         {
-            LoadChessboardModel(gameData);
+            LoadChessboardModel(gameData, challengeId);
         }
-
-        private void InitGameForResume(GSData resumeData)
+            
+        private void InitGameForResume(GSData resumeData, string challengeId)
         {
             GSData gameData = resumeData.GetGSData(GSBackendKeys.GAME_DATA);
-            LoadChessboardModel(gameData);
+            LoadChessboardModel(gameData, challengeId);
+
+            Chessboard chessboard = chessboardModel.activeChessboard;
 
             // Load up the backend moves
             IList<GSData> backendMoveList = resumeData.GetGSDataList(GSBackendKeys.MOVE_LIST);
-            chessboardModel.backendMoveList = new List<ChessMove>();
+            chessboard.backendMoveList = new List<ChessMove>();
 
             foreach (GSData data in backendMoveList)
             {
@@ -41,7 +44,7 @@ namespace TurboLabz.InstantFramework
                 move.from = chessService.GetFileRankLocation(fromSquareStr[0], fromSquareStr[1]);
                 move.to = chessService.GetFileRankLocation(toSquareStr[0], toSquareStr[1]);
                 move.promo = data.GetString(GSBackendKeys.PROMOTION);
-                chessboardModel.backendMoveList.Add(move);
+                chessboard.backendMoveList.Add(move);
             }
         }
     }

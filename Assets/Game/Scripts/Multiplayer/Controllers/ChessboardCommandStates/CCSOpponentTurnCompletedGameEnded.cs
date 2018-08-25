@@ -31,7 +31,7 @@ namespace TurboLabz.Multiplayer
 
             if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
-                cmd.chessboardModel.opponentMoveRenderComplete = true;
+                cmd.activeChessboard.opponentMoveRenderComplete = true;
                 HandleGameEnded(cmd);
                 return new CCSAnnounceResults();
             }

@@ -80,7 +80,7 @@ namespace TurboLabz.InstantFramework
             // in the ChallengeStartedMessage. Since Gamebet is not responsible
             // for any of the game models and reponse data this reponsibility
             // has to be delegated to the game side.
-            InitGame(gameData);
+            InitGame(gameData, challengeId);
         }
     }
 

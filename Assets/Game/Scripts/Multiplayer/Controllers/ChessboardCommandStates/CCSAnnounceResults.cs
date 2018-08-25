@@ -19,13 +19,13 @@ namespace TurboLabz.Multiplayer
     {
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
-            bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
+            Chessboard chessboard = cmd.activeChessboard;
+            bool playerWins = (chessboard.winnerId == cmd.playerModel.id) ? true : false;
 
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
 
             ResultsVO vo = new ResultsVO();
-            vo.reason = model.gameEndReason;
+            vo.reason = chessboard.gameEndReason;
             vo.playerWins = playerWins;
             vo.currentEloScore = cmd.playerModel.eloScore;
             vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.eloScoreDelta;

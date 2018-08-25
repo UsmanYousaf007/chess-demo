@@ -37,25 +37,27 @@ namespace TurboLabz.Multiplayer
         {
             Retain();
 
-            ++chessboardModel.aiMoveNumber;
+            Chessboard chessboard = chessboardModel.activeChessboard;
+
+            ++chessboard.aiMoveNumber;
             chessAiService.SetPosition(chessService.GetFen());
 
             AiMoveInputVO vo = new AiMoveInputVO();
-            vo.aiColor = chessboardModel.opponentColor;
-            vo.playerColor = chessboardModel.playerColor;
-            vo.lastPlayerMove = chessboardModel.lastPlayerMove;
-            vo.squares = chessboardModel.squares;
-            vo.opponentTimer = chessboardModel.backendOpponentTimer;
-            vo.aiMoveNumber = chessboardModel.aiMoveNumber;
+            vo.aiColor = chessboard.opponentColor;
+            vo.playerColor = chessboard.playerColor;
+            vo.lastPlayerMove = chessboard.lastPlayerMove;
+            vo.squares = chessboard.squares;
+            vo.opponentTimer = chessboard.backendOpponentTimer;
+            vo.aiMoveNumber = chessboard.aiMoveNumber;
 
             // Strength
             vo.cpuStrengthPct = matchInfoModel.activeMatch.botDifficulty;
 
-            if (chessboardModel.overrideAiStrength == AiOverrideStrength.SMART)
+            if (chessboard.overrideAiStrength == AiOverrideStrength.SMART)
             {
                 vo.cpuStrengthPct = 1f;
             }
-            else if (chessboardModel.overrideAiStrength == AiOverrideStrength.STUPID)
+            else if (chessboard.overrideAiStrength == AiOverrideStrength.STUPID)
             {
                 vo.cpuStrengthPct = 0f;
             }
@@ -84,8 +86,10 @@ namespace TurboLabz.Multiplayer
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
-            if (chessboardModel.aiWillResign &&
-                chessService.GetScore(chessboardModel.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD)
+            Chessboard chessboard = chessboardModel.activeChessboard;
+
+            if (chessboard.aiWillResign &&
+                chessService.GetScore(chessboard.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD)
             {
                 backendService.AiResign().Then(OnResign);
             }

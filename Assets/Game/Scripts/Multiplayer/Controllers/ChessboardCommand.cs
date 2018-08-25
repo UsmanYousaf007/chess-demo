@@ -60,22 +60,28 @@ namespace TurboLabz.Multiplayer
         [Inject] public IChessService chessService { get; set; }
         [Inject] public IChessAiService chessAiService { get; set; }
 
+        public Chessboard activeChessboard;
+        public MatchInfo activeMatchInfo;
+
         public override void Execute()
         {
             LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
 
-            if (chessboardModel.currentState == null)
+            activeChessboard = chessboardModel.activeChessboard;
+            activeMatchInfo = matchInfoModel.activeMatch;
+
+            if (activeChessboard.currentState == null)
             {
-                chessboardModel.currentState = new CCSDefault();
+                activeChessboard.currentState = new CCSDefault();
             }
 
-            CCS currentState = chessboardModel.currentState;
-            CCS newState = chessboardModel.currentState.HandleEvent(this);
+            CCS currentState = activeChessboard.currentState;
+            CCS newState = activeChessboard.currentState.HandleEvent(this);
 
             if (newState != null)
             {
-                chessboardModel.previousState = currentState;
-                chessboardModel.currentState = newState;
+                activeChessboard.previousState = currentState;
+                activeChessboard.currentState = newState;
                 newState.RenderDisplayOnEnter(this);
 
                 LogUtil.Log(chessboardEvent + ": " + newState.GetType().Name, "white");

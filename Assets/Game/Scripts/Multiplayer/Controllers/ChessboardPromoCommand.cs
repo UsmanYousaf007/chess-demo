@@ -29,7 +29,7 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            chessboardModel.selectedPromo = pieceName;
+            chessboardModel.activeChessboard.selectedPromo = pieceName;
             chessboardEventSignal.Dispatch(ChessboardEvent.PROMO_SELECTED);
         }
 

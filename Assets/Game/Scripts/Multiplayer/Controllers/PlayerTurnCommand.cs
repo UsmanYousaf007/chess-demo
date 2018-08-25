@@ -65,7 +65,7 @@ namespace TurboLabz.Multiplayer
             move.piece = playerTurnVO.fromSquare.piece;
             move.promo = playerTurnVO.promo;
 
-            chessboardModel.lastPlayerMove = move;
+            chessboardModel.activeChessboard.lastPlayerMove = move;
         }
     }
 }

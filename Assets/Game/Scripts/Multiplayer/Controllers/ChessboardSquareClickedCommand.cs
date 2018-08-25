@@ -29,7 +29,8 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            chessboardModel.clickedSquare = chessboardModel.squares[clickedLocation.file, clickedLocation.rank];
+            Chessboard chessboard = chessboardModel.activeChessboard;
+            chessboard.clickedSquare = chessboard.squares[clickedLocation.file, clickedLocation.rank];
             chessboardEventSignal.Dispatch(ChessboardEvent.SQUARE_CLICKED);
         }
 

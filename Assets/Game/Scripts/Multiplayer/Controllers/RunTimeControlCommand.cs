@@ -48,12 +48,14 @@ namespace TurboLabz.Multiplayer
             Retain();
             AddListeners();
 
+            Chessboard chessboard = chessboardModel.activeChessboard;
+
             // Initialize player timer and adjust for joining the game late
-            bool isPlayerTurn = (chessboardModel.currentTurnPlayerId == playerModel.id);
+            bool isPlayerTurn = (chessboard.currentTurnPlayerId == playerModel.id);
             long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
             long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
-            TimeSpan playerTimer = chessboardModel.backendPlayerTimer;
-            TimeSpan opponentTimer = chessboardModel.backendOpponentTimer;
+            TimeSpan playerTimer = chessboard.backendPlayerTimer;
+            TimeSpan opponentTimer = chessboard.backendOpponentTimer;
 
             // If a game is resuming, then the server sends the authoritative times for
             // the players and so we don't need any adjustment
@@ -71,7 +73,7 @@ namespace TurboLabz.Multiplayer
 
             // Update the view for starting values
             InitTimerVO vo;
-            vo.startingTimer = chessboardModel.gameDuration;
+            vo.startingTimer = chessboard.gameDuration;
             vo.playerTimer = playerTimer;
             vo.opponentTimer = opponentTimer;
             vo.isPlayerTurn = isPlayerTurn;
@@ -111,8 +113,10 @@ namespace TurboLabz.Multiplayer
 
         private void AdjustTimersIncoming()
         {
-            timeControl.playerRealTimer = chessboardModel.backendPlayerTimer - TimeSpan.FromMilliseconds(backendService.serverClock.latency);
-            timeControl.opponentRealTimer = chessboardModel.backendOpponentTimer;
+            Chessboard chessboard = chessboardModel.activeChessboard;
+
+            timeControl.playerRealTimer = chessboard.backendPlayerTimer - TimeSpan.FromMilliseconds(backendService.serverClock.latency);
+            timeControl.opponentRealTimer = chessboard.backendOpponentTimer;
         }
 
         private void OnPlayerTimerExpired()
