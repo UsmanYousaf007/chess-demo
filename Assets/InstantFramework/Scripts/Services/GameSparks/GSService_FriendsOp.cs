@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
             if (friendsList != null)
             {
                 PopulateFriends(playerModel.friends, friendsList);
-                //GSParser.LogFriends("friends", playerModel.friends);
+                GSParser.LogFriends("friends", playerModel.friends);
             }
 
             // Populate blocked friends data
@@ -40,15 +40,17 @@ namespace TurboLabz.InstantFramework
             if (blockedList != null)
             {
                 PopulateFriends(playerModel.blocked, blockedList, true);
-                //GSParser.LogFriends("blocked", playerModel.blocked);
+                GSParser.LogFriends("blocked", playerModel.blocked);
             }
+
             // Populate community suggested friends data
             GSData communityList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.COMMUNITY);
             if (communityList != null)
             {
                 PopulateFriends(playerModel.community, communityList);
-                //GSParser.LogFriends("community", playerModel.community);
+                GSParser.LogFriends("community", playerModel.community);
             }
+
             // Friend added
             GSData friendsData = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.ADD);
             if (friendsData != null)

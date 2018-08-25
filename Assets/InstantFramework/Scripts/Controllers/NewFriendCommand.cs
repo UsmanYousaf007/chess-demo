@@ -39,7 +39,7 @@ namespace TurboLabz.InstantGame
                 // remove if existed in community
                 if (playerModel.community.ContainsKey(friendId))
                 {
-                    refreshCommunitySignal.Dispatch();
+                   refreshCommunitySignal.Dispatch();
                 }
             }
         }
