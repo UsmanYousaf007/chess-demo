@@ -35,14 +35,14 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            backendService.GetGameStartTime(matchInfoModel.challengeId).Then(OnGetGameStartTime);
+            backendService.GetGameStartTime(matchInfoModel.activeMatch.challengeId).Then(OnGetGameStartTime);
         }
 
         private void OnGetGameStartTime(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
-                long targetTime = matchInfoModel.gameStartTimeMilliseconds;
+                long targetTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
                 long currentTime = backendService.serverClock.currentTimestamp;
 
                 // If current time is past target time then don't wait at all

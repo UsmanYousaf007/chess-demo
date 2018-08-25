@@ -49,7 +49,7 @@ namespace TurboLabz.Multiplayer
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
 
             // Strength
-            vo.cpuStrengthPct = matchInfoModel.botDifficulty;
+            vo.cpuStrengthPct = matchInfoModel.activeMatch.botDifficulty;
 
             if (chessboardModel.overrideAiStrength == AiOverrideStrength.SMART)
             {

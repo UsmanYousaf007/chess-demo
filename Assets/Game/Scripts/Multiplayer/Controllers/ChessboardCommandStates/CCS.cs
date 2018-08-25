@@ -65,7 +65,7 @@ namespace TurboLabz.Multiplayer
 
             // If we are resuming, update the view to account for the moves
             // that were made
-            if (matchInfoModel.isResuming && chessboardModel.overrideFen == null)
+            if (matchInfoModel.activeMatch.isResuming && chessboardModel.overrideFen == null)
             {
                 bool wasPlayerTurn = (chessboardModel.playerColor == ChessColor.WHITE);
 

@@ -101,7 +101,7 @@ namespace TurboLabz.InstantFramework
 
         private bool IsCurrentChallenge(string challengeId)
         {
-            return (challengeId == matchInfoModel.challengeId);
+            return (challengeId == matchInfoModel.activeMatch.challengeId);
         }
     }
 }

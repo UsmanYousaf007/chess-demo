@@ -36,7 +36,6 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            matchInfoModel.Reset();
             showFindMatchSignal.Dispatch();
             backendService.FindMatch().Then(OnFindMatch);
         }
@@ -45,7 +44,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                PublicProfile opponentPublicProfile = matchInfoModel.opponentPublicProfile;
+                PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
 				if (opponentPublicProfile.facebookUserId != null)
                 {
@@ -71,7 +70,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == FacebookResult.SUCCESS)
             {
-                matchInfoModel.opponentPublicProfile.profilePicture = sprite;
+                matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
             }
             else
             {
@@ -84,11 +83,8 @@ namespace TurboLabz.InstantFramework
 
         private void MatchFound()
         {
-            // Store the player prematch elo
-            matchInfoModel.playerPrematchElo = playerModel.eloScore;
-
             // Create and dispatch opponent profile with the match found signal
-            PublicProfile publicProfile = matchInfoModel.opponentPublicProfile;
+            PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = publicProfile.profilePicture;

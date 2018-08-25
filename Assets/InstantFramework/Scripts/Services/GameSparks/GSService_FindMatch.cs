@@ -38,7 +38,8 @@ namespace TurboLabz.InstantFramework
             Assertions.Assert(hasChallengedPlayer == true, "No challenged player has been returned from the backend!");
 
             string challengedId = enumerator.Current.Id;
-            matchInfoModel.isResuming = false;
+            matchInfoModel.activeMatch = matchInfoModel.AddMatch(challengeId);
+            matchInfoModel.activeMatch.isResuming = false;
 
             string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
             GSData opponentData = matchData.GetGSData(opponentId);
@@ -62,16 +63,16 @@ namespace TurboLabz.InstantFramework
                 opponentPublicProfile.facebookUserId = facebookAuthData.id;
             }
 
-            matchInfoModel.challengeId = challengeId;
-            matchInfoModel.opponentPublicProfile = opponentPublicProfile;
-            matchInfoModel.botId = matchData.GetString(GSBackendKeys.ChallengeData.BOT_ID);
+            matchInfoModel.activeMatch.challengeId = challengeId;
+            matchInfoModel.activeMatch.opponentPublicProfile = opponentPublicProfile;
+            matchInfoModel.activeMatch.botId = matchData.GetString(GSBackendKeys.ChallengeData.BOT_ID);
             if (opponentData.ContainsKey(GSBackendKeys.ChallengeData.BOT_DIFFICULTY))
             {
-                matchInfoModel.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
+                matchInfoModel.activeMatch.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
 
                 // Assign a random name to the bot
                 int randomSuffix = UnityEngine.Random.Range(100, 10001);
-                matchInfoModel.opponentPublicProfile.name = "Guest" + randomSuffix;
+                matchInfoModel.activeMatch.opponentPublicProfile.name = "Guest" + randomSuffix;
             }
 
             // InitGame() is responsible for filling out all the game models

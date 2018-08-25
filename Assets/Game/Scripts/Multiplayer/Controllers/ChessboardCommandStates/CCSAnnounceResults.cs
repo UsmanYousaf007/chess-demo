@@ -28,7 +28,7 @@ namespace TurboLabz.Multiplayer
             vo.reason = model.gameEndReason;
             vo.playerWins = playerWins;
             vo.currentEloScore = cmd.playerModel.eloScore;
-            vo.eloScoreDelta = vo.currentEloScore - cmd.matchInfoModel.playerPrematchElo;
+            vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.eloScoreDelta;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
         }

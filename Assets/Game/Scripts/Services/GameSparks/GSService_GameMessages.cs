@@ -87,7 +87,7 @@ namespace TurboLabz.InstantFramework
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(gameData, matchInfoModel.opponentPublicProfile.playerId);
+            AnnounceResults(gameData, matchInfoModel.activeMatch.opponentPublicProfile.playerId);
         }
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
@@ -106,13 +106,13 @@ namespace TurboLabz.InstantFramework
             long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
             chessboardModel.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
             GSData playerData = gameData.GetGSData(playerModel.id);
-            GSData opponentData = gameData.GetGSData(matchInfoModel.opponentPublicProfile.playerId);
+            GSData opponentData = gameData.GetGSData(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
             long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
             long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
             chessboardModel.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
             chessboardModel.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
             chessboardModel.currentTurnPlayerId = gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID);
-            chessboardModel.isAiGame = matchInfoModel.isBotMatch;
+            chessboardModel.isAiGame = matchInfoModel.activeMatch.isBotMatch;
             chessboardModel.playerColor = GSBackendKeys.PLAYER_COLOR_MAP[playerData.GetString(GSBackendKeys.COLOR)];
             chessboardModel.opponentColor = GSBackendKeys.PLAYER_COLOR_MAP[opponentData.GetString(GSBackendKeys.COLOR)];
             chessboardModel.fen = gameData.GetString(GSBackendKeys.FEN);
@@ -139,7 +139,7 @@ namespace TurboLabz.InstantFramework
             chessboardModel.winnerId = winnerId;
 
             // Add cases where the game ending does not have a move to the checks below
-            bool gameEndHasMove = ((chessboardModel.currentTurnPlayerId == matchInfoModel.opponentPublicProfile.playerId) &&
+            bool gameEndHasMove = ((chessboardModel.currentTurnPlayerId == matchInfoModel.activeMatch.opponentPublicProfile.playerId) &&
                                    (gameEndReason != GameEndReason.PLAYER_DISCONNECTED) &&
                                    (gameEndReason != GameEndReason.RESIGNATION) &&
                                    (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
@@ -183,7 +183,7 @@ namespace TurboLabz.InstantFramework
         private void UpdateTimerData(GSData gameData)
         {
             GSData playerData = gameData.GetGSData(playerModel.id);
-            GSData opponentData = gameData.GetGSData(matchInfoModel.opponentPublicProfile.playerId);
+            GSData opponentData = gameData.GetGSData(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
 
             chessboardModel.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
             chessboardModel.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);

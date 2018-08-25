@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
         private void OnGetGameStartTimeSuccess(object m)
         {
             ScriptMessage message = (ScriptMessage)m;
-            matchInfoModel.gameStartTimeMilliseconds = message.Data.GetLong(GSBackendKeys.GAME_START_TIME).Value;
+            matchInfoModel.activeMatch.gameStartTimeMilliseconds = message.Data.GetLong(GSBackendKeys.GAME_START_TIME).Value;
         }
     }
 

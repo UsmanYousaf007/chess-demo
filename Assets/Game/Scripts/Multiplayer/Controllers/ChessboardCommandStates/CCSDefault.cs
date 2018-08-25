@@ -28,7 +28,7 @@ namespace TurboLabz.Multiplayer
 
             if (cmd.chessboardEvent == ChessboardEvent.GAME_STARTED)
             {
-                if (!matchInfoModel.isResuming || chessboardModel.overrideFen != null)
+                if (!matchInfoModel.activeMatch.isResuming || chessboardModel.overrideFen != null)
                 {
                     chessService.NewGame(chessboardModel.fen, chessboardModel.squares);
                 }
@@ -103,17 +103,6 @@ namespace TurboLabz.Multiplayer
                     }
 
                     chessAiService.NewGame();
-                }
-
-                // If we are resuming the game after a disconnect and it is the Ai turn,
-                // then we need to send an Ai turn to the server as a special case since
-                // the Ai turn was supposed to have taken place in the past.
-                if (chessboardModel.isAiGame &&
-                    matchInfoModel.isResuming &&
-                    chessboardModel.currentTurnPlayerId != cmd.playerModel.id)
-                {
-                    cmd.aiTurnSignal.Dispatch();
-                    return null;
                 }
 
                 // Wait for player turn or execute Ai turn
