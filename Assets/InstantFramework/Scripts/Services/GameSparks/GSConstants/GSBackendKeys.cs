@@ -77,6 +77,9 @@ namespace TurboLabz.InstantFramework
 
         // Message ExtCodes
         public const string START_GAME_MESSAGE = "StartGameMessage";
+        public const string NEW_FRIEND_MESSAGE = "NewFriendMessage";
+
+        // Friend 
 
         // Mesage data keys
         public const string GAME_START_TIME = "gameStartTime";
@@ -188,6 +191,7 @@ namespace TurboLabz.InstantFramework
 			public const string GAMES_DRAWN = "gamesDrawn";
 			public const string TIME_STAMP = "timeStamp";
 			public const string PUBLIC_PROFILE = "publicProfile";
+            public const string FRIEND_ID = "friendId";
 		}
 
 		public static class FriendsOp

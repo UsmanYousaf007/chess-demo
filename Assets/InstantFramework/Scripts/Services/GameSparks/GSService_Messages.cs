@@ -39,7 +39,13 @@ namespace TurboLabz.InstantFramework
 
         private void OnScriptMessage(ScriptMessage message)
         {
-            // Not listening for any messages right now
+            LogUtil.Log("WE GOT MESSAGE:" + message.JSONString, "cyan");
+
+            if (message.ExtCode == GSBackendKeys.NEW_FRIEND_MESSAGE)
+            {
+                string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
+                newFriendSignal.Dispatch(friendId);
+            }
         }
 
         private void OnChallengeWonMessage(ChallengeWonMessage message)

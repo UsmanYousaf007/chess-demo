@@ -177,6 +177,7 @@ namespace TurboLabz.InstantFramework
 
             foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
             {
+                
                 GSData friendData = (GSData)obj.Value;
                 string friendId = obj.Key;
 
