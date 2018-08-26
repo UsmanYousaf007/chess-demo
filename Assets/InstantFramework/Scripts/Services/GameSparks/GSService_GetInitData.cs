@@ -171,13 +171,12 @@ namespace TurboLabz.InstantFramework
             return items;
         }
 
-        private void PopulateFriends(IDictionary<string, Friend> friends, GSData friendsData, bool isBlocked = false)
+        private void PopulateFriends(IDictionary<string, Friend> targetList, GSData targetData, bool isBlocked = false)
         {
-            friends.Clear();
+            targetList.Clear();
 
-            foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
+            foreach(KeyValuePair<string, object> obj in targetData.BaseData)
             {
-                
                 GSData friendData = (GSData)obj.Value;
                 string friendId = obj.Key;
 
@@ -193,7 +192,7 @@ namespace TurboLabz.InstantFramework
                     friend.publicProfile = new PublicProfile();
                 }
 
-                friends.Add(friendId, friend);
+                targetList.Add(friendId, friend);
             }
         }
 

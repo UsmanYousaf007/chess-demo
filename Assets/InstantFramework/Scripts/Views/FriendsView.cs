@@ -51,8 +51,6 @@ namespace TurboLabz.InstantFramework
         public Signal<string> showProfileDialogSignal = new Signal<string>();
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
-        private List<FriendBar> communityBars = new List<FriendBar>();
-        private List<FriendBar> friendBars = new List<FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
 
         public void Init()
@@ -112,9 +110,6 @@ namespace TurboLabz.InstantFramework
 
 		public void AddFriend(Friend friend)
 		{
-            if (bars.ContainsKey(friend.playerId))
-                return;
-
 		    // create bar
 			GameObject friendBarObj = GameObject.Instantiate(friendBarPrefab);
 
@@ -143,16 +138,6 @@ namespace TurboLabz.InstantFramework
 
             // store bar
             bars.Add(friend.playerId, friendBarObj);
-
-            // save community bars for refresh
-            if (friend.type == Friend.FRIEND_TYPE_COMMUNITY)
-            {
-                communityBars.Add(friendBar);
-            }
-            else
-            {
-                friendBars.Add(friendBar);
-            }
 		}
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
@@ -165,35 +150,6 @@ namespace TurboLabz.InstantFramework
 
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
             barData.avatarImage.sprite = sprite;
-        }
-
-        public void ClearCommunity()
-        {
-            foreach (FriendBar barData in communityBars)
-            {
-                bars.Remove(barData.friendInfo.playerId);
-                GameObject.Destroy(barData.gameObject);
-            }
-
-            communityBars.Clear();
-            waitingForPlayersText.gameObject.SetActive(true);
-        }
-
-        public void ClearFriends()
-        {
-            foreach (FriendBar barData in friendBars)
-            {
-                bars.Remove(barData.friendInfo.playerId);
-                GameObject.Destroy(barData.gameObject);
-            }
-
-            friendBars.Clear();
-        }
-
-        public void RemoveFriend(string friendId)
-        {
-            bars.Remove(friendId);
-            
         }
 
         public void Show() 
@@ -209,6 +165,36 @@ namespace TurboLabz.InstantFramework
         public bool IsVisible()
         {
             return gameObject.activeSelf;
+        }
+
+        public void ClearCommunity()
+        {
+            ClearType(Friend.FRIEND_TYPE_COMMUNITY);
+            waitingForPlayersText.gameObject.SetActive(true);
+        }
+
+        public void ClearFriends()
+        {
+            ClearType(Friend.FRIEND_TYPE_SOCIAL);
+        }
+
+        void ClearType(string friendType)
+        {
+            List<string> destroyMe = new List<string>();
+
+            foreach (KeyValuePair<string, GameObject> entry in bars)
+            {
+                if (entry.Value.GetComponent<FriendBar>().friendInfo.type == friendType)
+                {
+                    destroyMe.Add(entry.Key);
+                }    
+            }
+
+            foreach (string key in destroyMe)
+            {
+                GameObject.Destroy(bars[key]);
+                bars.Remove(key);
+            }
         }
 
         void OnFacebookButtonClicked()
@@ -230,5 +216,7 @@ namespace TurboLabz.InstantFramework
         {
             showProfileDialogSignal.Dispatch(playerId);
         }
+
+            
     }
 }
