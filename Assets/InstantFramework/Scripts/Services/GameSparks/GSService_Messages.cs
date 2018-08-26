@@ -138,11 +138,8 @@ namespace TurboLabz.InstantFramework
 
             if (challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE)
             {   
-                matchInfoModel.activeChallengeId = challengeId;
-                findMatchCompleteSignal.Dispatch();
+                findMatchCompleteSignal.Dispatch(challengeId);
             }
-
-
         }
     }
 }

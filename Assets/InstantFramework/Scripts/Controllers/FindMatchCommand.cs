@@ -58,8 +58,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnFindMatchComplete()
+        private void OnFindMatchComplete(string challengeId)
         {
+            matchInfoModel.activeChallengeId = challengeId;
             PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
             if (opponentPublicProfile.facebookUserId != null)
