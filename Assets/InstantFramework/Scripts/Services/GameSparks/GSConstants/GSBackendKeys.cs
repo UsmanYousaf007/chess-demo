@@ -237,6 +237,7 @@ namespace TurboLabz.InstantFramework
         public static class Match
         {
             public const string QUICK_MATCH_SHORT_CODE = "Standard";
+            public const string LONG_MATCH_SHORT_CODE = "LongPlay";
         }
     }
 

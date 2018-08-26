@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId);
         IPromise<BackendResult> SetPlayerSocialName(string name);
         IPromise<BackendResult> FindMatch();
+        IPromise<BackendResult> CreateLongMatch(string opponentId);
         IPromise<BackendResult> GetGameStartTime(string challengeId);
 		
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend

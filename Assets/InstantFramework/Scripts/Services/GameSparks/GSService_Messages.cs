@@ -129,11 +129,6 @@ namespace TurboLabz.InstantFramework
 
             matchInfoModel.matches[challengeId] = matchInfo;
 
-            if (challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE)
-            {
-                matchInfoModel.activeChallengeId = challengeId;
-            }
-
             // InitGame() is responsible for filling out all the game models
             // using the game specific data that comes as part of the response
             // in the ChallengeStartedMessage. Since Gamebet is not responsible
@@ -142,9 +137,12 @@ namespace TurboLabz.InstantFramework
             InitGame(gameData, challengeId);
 
             if (challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE)
-            {    
+            {   
+                matchInfoModel.activeChallengeId = challengeId;
                 findMatchCompleteSignal.Dispatch();
             }
+
+
         }
     }
 }
