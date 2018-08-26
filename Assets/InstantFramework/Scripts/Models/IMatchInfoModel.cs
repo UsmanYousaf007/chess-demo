@@ -9,8 +9,8 @@ namespace TurboLabz.InstantFramework
     public interface IMatchInfoModel
     {
         Dictionary<string, MatchInfo> matches { get; set; }
-        MatchInfo activeMatch { get; set; }
-        void Reset();
-        MatchInfo AddMatch(string challengeId);
+        MatchInfo CreateMatch(string challengeId);
+        string activeChallengeId { get; set; }
+        MatchInfo activeMatch { get; }
     }
 }

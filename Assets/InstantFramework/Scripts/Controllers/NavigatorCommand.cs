@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public TurboLabz.CPU.IChessboardModel cpuChessboardModel { get; set; }
         [Inject] public TurboLabz.Multiplayer.IChessboardModel multiplayerChessboardModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }

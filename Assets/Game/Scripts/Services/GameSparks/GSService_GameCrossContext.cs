@@ -23,7 +23,8 @@ namespace TurboLabz.InstantFramework
         {
             LoadChessboardModel(gameData, challengeId);
         }
-            
+
+        /*
         private void InitGameForResume(GSData resumeData, string challengeId)
         {
             GSData gameData = resumeData.GetGSData(GSBackendKeys.GAME_DATA);
@@ -47,5 +48,6 @@ namespace TurboLabz.InstantFramework
                 chessboard.backendMoveList.Add(move);
             }
         }
+        */
     }
 }

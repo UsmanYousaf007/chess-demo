@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,7 +26,7 @@ namespace TurboLabz.InstantFramework
             if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG ||
                 evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.multiplayerChessboardModel.activeChessboard.inPlaybackMode)
+                if (cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
                 {
                     return new NSMultiplayerResultsDlg();
                 }

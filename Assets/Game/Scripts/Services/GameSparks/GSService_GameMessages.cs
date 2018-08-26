@@ -41,12 +41,10 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeTurnTakenMessage(ChallengeTurnTakenMessage message)
         {
-            if (!IsCurrentChallenge(message.Challenge.ChallengeId))
-            {
-               return;
-            }
+            string challengeId = message.Challenge.ChallengeId;
+            bool isActiveChallenge = (matchInfoModel.activeChallengeId == challengeId) ? true : false;
 
-            Chessboard chessboard = chessboardModel.activeChessboard;
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
             chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
 
             // The player's own move data / models are updated locally on the fly.
@@ -58,47 +56,63 @@ namespace TurboLabz.InstantFramework
                     .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                     .GetGSData(GSBackendKeys.GAME_DATA);
 
-                UpdateTimerData(gameData);
-                UpdateMoveData(gameData);
-                chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+                UpdateTimerData(chessboard, gameData);
+                UpdateMoveData(chessboard, gameData);
+
+                if (isActiveChallenge)
+                {
+                    chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+                }
             }
             else
             {
-                chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
+                if (isActiveChallenge)
+                {
+                    chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
+                }
             }
         }
 
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
         {
-            chessboardModel.activeChessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
+            string challengeId = message.Challenge.ChallengeId;
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
+
+            chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(gameData, playerModel.id);
+            AnnounceResults(challengeId, chessboard, gameData, playerModel.id);
         }
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
         {
-            chessboardModel.activeChessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
+            string challengeId = message.Challenge.ChallengeId;
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
+
+            chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(gameData, matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+            AnnounceResults(challengeId, chessboard, gameData, matchInfoModel.activeMatch.opponentPublicProfile.playerId);
         }
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
-            chessboardModel.activeChessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
+            string challengeId = message.Challenge.ChallengeId;
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
+
+            chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(gameData, null);
+            AnnounceResults(challengeId, chessboard, gameData, null);
         }
 
         private void LoadChessboardModel(GSData gameData, string challengeId)
         {
-            Chessboard chessboard = chessboardModel.AddChessboard(challengeId);
-            chessboardModel.activeChessboard = chessboard;
+            Chessboard chessboard = new Chessboard();
+            chessboardModel.chessboards[challengeId] = chessboard;
 
             long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
             chessboard.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
@@ -127,11 +141,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void AnnounceResults(GSData gameData, string winnerId)
+        private void AnnounceResults(string challengeId, Chessboard chessboard, GSData gameData, string winnerId)
         {
-            Chessboard chessboard = chessboardModel.activeChessboard;
-
-            UpdateTimerData(gameData);
+            UpdateTimerData(chessboard, gameData);
 
             GameEndReason gameEndReason = GSBackendKeys.GAME_END_REASON_MAP[gameData.GetString(GSBackendKeys.GAME_END_REASON)];
             chessboard.gameEndReason = gameEndReason;
@@ -147,21 +159,28 @@ namespace TurboLabz.InstantFramework
 
             // We update move data only if there was a move made that ended this game and
             // it was the opponents turn.
+            bool isActiveChallenge = (matchInfoModel.activeChallengeId == challengeId) ? true : false;
+
             if (gameEndHasMove)
             {
-                UpdateMoveData(gameData);
-                chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+                UpdateMoveData(chessboard, gameData);
+
+                if (isActiveChallenge)
+                {
+                    chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+                }
             }
             else
             {
-                chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+                if (isActiveChallenge)
+                {
+                    chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+                }
             }
         }
 
-        private void UpdateMoveData(GSData gameData)
+        private void UpdateMoveData(Chessboard chessboard, GSData gameData)
         {
-            Chessboard chessboard = chessboardModel.activeChessboard;
-
             GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
             string fromSquare = lastMove.GetString(GSBackendKeys.FROM_SQUARE);
             string toSquare = lastMove.GetString(GSBackendKeys.TO_SQUARE);
@@ -181,9 +200,8 @@ namespace TurboLabz.InstantFramework
             chessboard.threefoldRepeatDrawAvailable = gameData.GetBoolean(GSBackendKeys.IS_THREEFOLD_REPEAT_RULE_ACTIVE).Value;
         }
 
-        private void UpdateTimerData(GSData gameData)
+        private void UpdateTimerData(Chessboard chessboard, GSData gameData)
         {
-            Chessboard chessboard = chessboardModel.activeChessboard;
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
 

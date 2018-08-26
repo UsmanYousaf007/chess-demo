@@ -233,6 +233,11 @@ namespace TurboLabz.InstantFramework
 			public const string INVENTORY = "inventory";
 			public const string FRIENDS = "friends";
 		}
+
+        public static class Match
+        {
+            public const string QUICK_MATCH_SHORT_CODE = "Standard";
+        }
     }
 
     // TODO: Organize these like the event data keys, consider class renaming

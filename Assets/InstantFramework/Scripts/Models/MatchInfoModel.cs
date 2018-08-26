@@ -8,7 +8,6 @@ namespace TurboLabz.InstantFramework
 {
     public class MatchInfo
     {
-        public string challengeId { get; set; }
         public long gameStartTimeMilliseconds { get; set; }
         public PublicProfile opponentPublicProfile { get; set; }
         public string botId { get; set; }
@@ -26,9 +25,8 @@ namespace TurboLabz.InstantFramework
         public bool isResuming { get; set; }
         public EndGameResult endGameResult { get; set; }
 
-        public MatchInfo(string challengeId)
+        public MatchInfo()
         {
-            this.challengeId = challengeId;
             gameStartTimeMilliseconds = 0;
             opponentPublicProfile = new PublicProfile();
             botId = null;
@@ -42,18 +40,28 @@ namespace TurboLabz.InstantFramework
     public class MatchInfoModel : IMatchInfoModel
     {
         public Dictionary<string, MatchInfo> matches { get; set; }
-        public MatchInfo activeMatch { get; set; }
+        public string activeChallengeId { get; set; }
+        public MatchInfo activeMatch 
+        { 
+            get
+            {
+                return matches[activeChallengeId];   
+            }
+        }
 
-        public MatchInfo AddMatch(string challengeId)
+        [PostConstruct]
+        public void PostConstruct()
         {
-            MatchInfo matchInfo = new MatchInfo(challengeId);
+            matches = new Dictionary<string, MatchInfo>();
+        }
+
+        public MatchInfo CreateMatch(string challengeId)
+        {
+            MatchInfo matchInfo = new MatchInfo();
             matches.Add(challengeId, matchInfo);
             return matchInfo;
         }
 
-        public void Reset()
-        {
-            matches = new Dictionary<string, MatchInfo>();
-        }
+
     }
 }

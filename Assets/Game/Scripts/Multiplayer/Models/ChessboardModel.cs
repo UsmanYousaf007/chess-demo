@@ -13,12 +13,12 @@
 using System;
 using System.Collections.Generic;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
     public class Chessboard
     {
-        public string challengeId { get; set; }
         public CCS currentState { get; set; }
         public CCS previousState { get; set; }
         public ChessSquare[,] squares { get; set; }
@@ -63,9 +63,8 @@ namespace TurboLabz.Multiplayer
         public AiOverrideStrength overrideAiStrength { get; set; }
         public AiOverrideResignBehaviour overrideAiResignBehaviour { get; set; }
 
-        public Chessboard(string challengeId)
+        public Chessboard()
         {
-            this.challengeId = challengeId;
             currentState = null;
             previousState = null;
             squares = new ChessSquare[8, 8];
@@ -114,18 +113,18 @@ namespace TurboLabz.Multiplayer
     public class ChessboardModel : IChessboardModel
     {
         public Dictionary<string, Chessboard> chessboards { get; set; }
-        public Chessboard activeChessboard { get; set; }
+
+        [PostConstruct]
+        public void PostConstruct()
+        {
+            chessboards = new Dictionary<string, Chessboard>();
+        }
 
         public Chessboard AddChessboard(string challengeId)
         {
-            Chessboard chessboard = new Chessboard(challengeId);
+            Chessboard chessboard = new Chessboard();
             chessboards.Add(challengeId, chessboard);
             return chessboard;
-        }
-
-        public void Reset()
-        {
-            chessboards = new Dictionary<string, Chessboard>();
         }
     }
 }

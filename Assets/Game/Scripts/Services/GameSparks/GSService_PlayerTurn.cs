@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
             string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
             string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
 
-            return new GSTakeTurnRequest().Send(matchInfoModel.activeMatch.challengeId,
+            return new GSTakeTurnRequest().Send(matchInfoModel.activeChallengeId,
                 fromStr,
                 toStr,
                 GSFormat.GetOptionalString(promotion),

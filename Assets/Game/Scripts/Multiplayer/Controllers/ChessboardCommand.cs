@@ -67,7 +67,7 @@ namespace TurboLabz.Multiplayer
         {
             LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
 
-            activeChessboard = chessboardModel.activeChessboard;
+            activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             activeMatchInfo = matchInfoModel.activeMatch;
 
             if (activeChessboard.currentState == null)

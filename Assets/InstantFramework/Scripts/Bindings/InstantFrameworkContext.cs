@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<AuthFacebookResultSignal>().ToSingleton();
             injectionBinder.Bind<SplashAnimCompleteSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
+            injectionBinder.Bind<FindMatchCompleteSignal>().ToSingleton();
             injectionBinder.Bind<MatchFoundSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();

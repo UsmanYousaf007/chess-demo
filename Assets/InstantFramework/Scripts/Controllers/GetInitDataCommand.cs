@@ -81,13 +81,9 @@ namespace TurboLabz.InstantFramework
         void ResetModels()
         {
             appInfoModel.Reset();
-            matchInfoModel.Reset();
             playerModel.Reset();
             storeSettingsModel.Reset();
             adsSettingsModel.Reset();
-
-            // Todo: Move this to the game folder
-            chessboardModel.Reset();
         }
 
         string BuildAppData()

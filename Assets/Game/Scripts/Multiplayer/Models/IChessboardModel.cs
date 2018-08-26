@@ -19,8 +19,6 @@ namespace TurboLabz.Multiplayer
     public interface IChessboardModel
     {
         Dictionary<string, Chessboard> chessboards { get; set; }
-        Chessboard activeChessboard { get; set; }
-        void Reset();
         Chessboard AddChessboard(string challengeId);
     }
 }

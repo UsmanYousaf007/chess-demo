@@ -25,6 +25,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetGameStartTimeSignal getGameStartTimeSignal { get; set; }
         [Inject] public MatchFoundSignal matchFoundSignal { get; set; }
 
+        // Listen to signal
+        [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
+
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
@@ -38,31 +41,34 @@ namespace TurboLabz.InstantFramework
             Retain();
             showFindMatchSignal.Dispatch();
             backendService.FindMatch().Then(OnFindMatch);
+
+            findMatchCompleteSignal.AddOnce(OnFindMatchComplete);
         }
 
         private void OnFindMatch(BackendResult result)
         {
-            if (result == BackendResult.SUCCESS)
-            {
-                PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
-
-				if (opponentPublicProfile.facebookUserId != null)
-                {
-                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
-                }
-                else
-                {
-                    MatchFound();
-                }
-            }
-            else if (result == BackendResult.CANCELED)
+            if (result == BackendResult.CANCELED)
             {
                 Release();
             }
-            else 
+            else if (result != BackendResult.SUCCESS)
             {
                 backendErrorSignal.Dispatch(result);
                 Release();
+            }
+        }
+
+        private void OnFindMatchComplete()
+        {
+            PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+
+            if (opponentPublicProfile.facebookUserId != null)
+            {
+                facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
+            }
+            else
+            {
+                MatchFound();
             }
         }
 

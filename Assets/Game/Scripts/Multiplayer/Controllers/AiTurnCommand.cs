@@ -33,11 +33,13 @@ namespace TurboLabz.Multiplayer
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
+        private Chessboard chessboard;
+
         public override void Execute()
         {
             Retain();
 
-            Chessboard chessboard = chessboardModel.activeChessboard;
+            chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             ++chessboard.aiMoveNumber;
             chessAiService.SetPosition(chessService.GetFen());
@@ -86,8 +88,6 @@ namespace TurboLabz.Multiplayer
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
-            Chessboard chessboard = chessboardModel.activeChessboard;
-
             if (chessboard.aiWillResign &&
                 chessService.GetScore(chessboard.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD)
             {

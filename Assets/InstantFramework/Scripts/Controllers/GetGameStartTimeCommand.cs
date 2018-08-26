@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            backendService.GetGameStartTime(matchInfoModel.activeMatch.challengeId).Then(OnGetGameStartTime);
+            backendService.GetGameStartTime(matchInfoModel.activeChallengeId).Then(OnGetGameStartTime);
         }
 
         private void OnGetGameStartTime(BackendResult result)

@@ -13,6 +13,7 @@
 using strange.extensions.command.impl;
 
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -26,10 +27,12 @@ namespace TurboLabz.Multiplayer
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         public override void Execute()
         {
-            chessboardModel.activeChessboard.selectedPromo = pieceName;
+            Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
+            chessboard.selectedPromo = pieceName;
             chessboardEventSignal.Dispatch(ChessboardEvent.PROMO_SELECTED);
         }
 

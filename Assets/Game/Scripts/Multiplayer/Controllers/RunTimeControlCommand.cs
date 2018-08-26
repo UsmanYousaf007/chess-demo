@@ -43,12 +43,14 @@ namespace TurboLabz.Multiplayer
         // Utils
         [Inject] public ITimeControl timeControl { get; set; }
 
+        private Chessboard chessboard;
+
         public override void Execute()
         {
             Retain();
             AddListeners();
 
-            Chessboard chessboard = chessboardModel.activeChessboard;
+            chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             // Initialize player timer and adjust for joining the game late
             bool isPlayerTurn = (chessboard.currentTurnPlayerId == playerModel.id);
@@ -113,8 +115,6 @@ namespace TurboLabz.Multiplayer
 
         private void AdjustTimersIncoming()
         {
-            Chessboard chessboard = chessboardModel.activeChessboard;
-
             timeControl.playerRealTimer = chessboard.backendPlayerTimer - TimeSpan.FromMilliseconds(backendService.serverClock.latency);
             timeControl.opponentRealTimer = chessboard.backendOpponentTimer;
         }
