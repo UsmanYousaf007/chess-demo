@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         IServerClock serverClock { get; }
 
+        void AddChallengeListeners();
         void AddMessageListeners();
         void StartPinger();
         void MonitorConnectivity();

@@ -51,9 +51,9 @@ namespace TurboLabz.InstantFramework
             opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
             opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
 
-            IList<GSData> activeInventoryData = opponentProfile.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
-            string activeChessSkinsId = "unassigned";
-            GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
+            //IList<GSData> activeInventoryData = opponentProfile.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
+            //string activeChessSkinsId = "unassigned";
+            //GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
 
             GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
             IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);

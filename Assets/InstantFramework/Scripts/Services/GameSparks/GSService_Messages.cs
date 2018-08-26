@@ -13,28 +13,18 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public void AddMessageListeners()
+        public void AddChallengeListeners()
         {
-            ScriptMessage.Listener += OnScriptMessage;
             ChallengeWonMessage.Listener += OnChallengeWonMessage;
             ChallengeLostMessage.Listener += OnChallengeLostMessage;
             ChallengeDrawnMessage.Listener += OnChallengeDrawnMessage;
-            SessionTerminatedMessage.Listener += OnSessionTerminateMessage;
-
-            // TODO: Eventually move to a game specific module
             AddGameMessageListeners();
         }
 
-        private void RemoveMessageListeners()
+        public void AddMessageListeners()
         {
-            // TODO: Eventually move to a game specific module
-            //RemoveGameMessageListeners();
-
-            ChallengeDrawnMessage.Listener -= OnChallengeDrawnMessage;
-            ChallengeLostMessage.Listener -= OnChallengeLostMessage;
-            ChallengeWonMessage.Listener -= OnChallengeWonMessage;
-            ScriptMessage.Listener -= OnScriptMessage;
-            SessionTerminatedMessage.Listener -= OnSessionTerminateMessage;
+            ScriptMessage.Listener += OnScriptMessage;
+            SessionTerminatedMessage.Listener += OnSessionTerminateMessage;
         }
 
         private void OnScriptMessage(ScriptMessage message)

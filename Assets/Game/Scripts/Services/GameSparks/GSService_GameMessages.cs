@@ -39,11 +39,6 @@ namespace TurboLabz.InstantFramework
             ChallengeTurnTakenMessage.Listener += OnChallengeTurnTakenMessage;
         }
 
-        private void RemoveGameMessageListeners()
-        {
-            ChallengeTurnTakenMessage.Listener -= OnChallengeTurnTakenMessage;
-        }
-
         private void OnChallengeTurnTakenMessage(ChallengeTurnTakenMessage message)
         {
             if (!IsCurrentChallenge(message.Challenge.ChallengeId))
