@@ -185,5 +185,13 @@ namespace TurboLabz.InstantFramework
         public const string NAV_FRIENDS = "navFriends";
 
         #endregion
+
+        #region Multiplayer Bot Nav
+
+        public const string BOT_NAV_PREV = "botNavPrev";
+        public const string BOT_NAV_NEXT = "botNavNext";
+        public const string BOT_NAV_COMPANY = "botNavCompany";
+
+        #endregion
     }
 }

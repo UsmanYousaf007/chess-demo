@@ -23,6 +23,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Find")]
         public GameObject findDlg;
         public Text searchingLabel;
         public Image findAvatar;

@@ -28,6 +28,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        [Header("Main View")]
         public Camera chessboardCamera;
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
@@ -44,7 +45,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowCapturedPieces();
             OnParentShowScore();
             OnParentShowClock();
-            OnParentShowCommentary();
+            OnParentShowBotBar();
             OnParentShowMenu();
             OnParentShowWifi();
         }

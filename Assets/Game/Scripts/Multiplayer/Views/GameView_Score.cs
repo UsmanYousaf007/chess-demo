@@ -13,11 +13,13 @@
 using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using UnityEngine;
 
 namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Score")]
         public Text playerScore;
         public Text opponentScore;
 

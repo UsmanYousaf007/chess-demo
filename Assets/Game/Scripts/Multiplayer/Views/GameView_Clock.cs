@@ -23,6 +23,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Clock")]
         public Text playerClockLabel;
         public Image playerClockFill;
         public Image playerClockImage;

@@ -19,6 +19,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Wifi")]
         public GameObject warning;
 
         public void InitWifi()

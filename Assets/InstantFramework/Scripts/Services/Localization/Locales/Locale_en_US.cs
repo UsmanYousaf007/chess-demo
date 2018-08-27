@@ -183,6 +183,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_FRIENDS, "Friends" },
 
                 #endregion
+
+                #region Multiplayer Bot Nav
+
+                { LocalizationKey.BOT_NAV_PREV, "Prev" },
+                { LocalizationKey.BOT_NAV_NEXT, "Next" },
+                { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
+
+                #endregion
             };
         }
     }

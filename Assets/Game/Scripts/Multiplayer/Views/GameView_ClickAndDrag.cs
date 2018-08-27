@@ -19,6 +19,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Click and Drag")]
         public GameObject dragIndicator;
         public GameObject dragValidIndicator;
         public GameObject dragInvalidIndicator;
