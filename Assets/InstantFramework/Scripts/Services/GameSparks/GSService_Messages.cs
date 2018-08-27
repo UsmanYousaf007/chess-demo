@@ -142,7 +142,10 @@ namespace TurboLabz.InstantFramework
             }
             else if (challenge.ShortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
             {
-                longMatchReadySignal.Dispatch(challengeId);
+                MatchIdVO vo;
+                vo.challengeId = challengeId;
+                vo.opponentId = opponentId;
+                longMatchReadySignal.Dispatch(vo);
             }
         }
     }

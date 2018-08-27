@@ -45,7 +45,10 @@ namespace TurboLabz.Multiplayer
             // 
 
             // Initialize and launch our time control
-            cmd.runTimeControlSignal.Dispatch();
+            if (cmd.activeChessboard.gameDuration.CompareTo(TimeSpan.Zero) != 0)
+            {
+                cmd.runTimeControlSignal.Dispatch();
+            }
 
             IPlayerModel playerModel = cmd.playerModel;
             MatchInfo matchInfo = cmd.activeMatchInfo;

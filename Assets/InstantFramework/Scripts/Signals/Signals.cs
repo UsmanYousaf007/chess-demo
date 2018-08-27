@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
     public class FindMatchCompleteSignal : Signal<string> {}
     public class OpenLongMatchSignal : Signal<string> {}
     public class CreateLongMatchSignal : Signal<string> {}
-    public class LongMatchReadySignal : Signal<string> {}
+    public class LongMatchReadySignal : Signal<MatchIdVO> {}
     public class MatchFoundSignal : Signal<ProfileVO> {}
     public class GetGameStartTimeSignal : Signal {}
     public class ShowFindMatchSignal : Signal {}

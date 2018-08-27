@@ -114,23 +114,24 @@ namespace TurboLabz.InstantFramework
             Chessboard chessboard = new Chessboard();
             chessboardModel.chessboards[challengeId] = chessboard;
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
-
-            long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
-            chessboard.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
-            if (gameDuration > 0)
-            {
-                long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
-                long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
-                chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
-                chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
-            }
+
             chessboard.currentTurnPlayerId = gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID);
             chessboard.isAiGame = matchInfo.isBotMatch;
             chessboard.playerColor = GSBackendKeys.PLAYER_COLOR_MAP[playerData.GetString(GSBackendKeys.COLOR)];
             chessboard.opponentColor = GSBackendKeys.PLAYER_COLOR_MAP[opponentData.GetString(GSBackendKeys.COLOR)];
             chessboard.fen = gameData.GetString(GSBackendKeys.FEN);
+
+            long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
+            if (gameDuration > 0)
+            {
+                chessboard.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
+                long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
+                long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
+                chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
+                chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
+            }
 
             if (Debug.isDebugBuild)
             {

@@ -19,6 +19,9 @@ namespace TurboLabz.InstantFramework
 {
     public class LongMatchReadyCommand : Command
     {
+        // Parameters
+        [Inject] public MatchIdVO matchId { get; set; }
+
         // Dispatch signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
 
@@ -30,13 +33,21 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            LogUtil.Log("Long match ready");
-            //Retain();
+            Retain();
+
+            if (matchId.opponentId == matchInfoModel.activeLongMatchOpponentId)
+            {
+                matchInfoModel.activeChallengeId = matchId.challengeId;
+                startGameSignal.Dispatch();
+            }
+
             //showFindMatchSignal.Dispatch();
             //backendService.FindMatch().Then(OnFindMatch);
 
             //findMatchCompleteSignal.AddOnce(OnFindMatchComplete);
         }
+
+        /*
 
         private void OnFindMatch(BackendResult result)
         {
@@ -97,5 +108,6 @@ namespace TurboLabz.InstantFramework
 
             Release();
         }
+        */
     }
 }
