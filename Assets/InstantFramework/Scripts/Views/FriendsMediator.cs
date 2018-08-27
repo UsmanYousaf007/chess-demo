@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
+        [Inject] public OpenLongMatchSignal openLongMatchSiganl { get; set; }
 
         public override void OnRegister()
         {
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
             view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
             view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.inviteFriendsButton.onClick.AddListener(OnShareApp);
+            view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -125,6 +127,11 @@ namespace TurboLabz.InstantFramework
         private void OnShareApp()
         {
             shareAppSignal.Dispatch();
+        }
+
+        private void OnPlayButtonClicked(string playerId)
+        {
+            openLongMatchSiganl.Dispatch(playerId);
         }
     }
 }

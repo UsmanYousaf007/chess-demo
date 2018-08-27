@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
             commandBinder.Bind<LoadFriendsSignal>().To<LoadFriendsCommand>();
 			commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
+            commandBinder.Bind<OpenLongMatchSignal>().To<OpenLongMatchCommand>();
             commandBinder.Bind<CreateLongMatchSignal>().To<CreateLongMatchCommand>();
             commandBinder.Bind<LongMatchReadySignal>().To<LongMatchReadyCommand>();
             commandBinder.Bind<GetGameStartTimeSignal>().To<GetGameStartTimeCommand>();

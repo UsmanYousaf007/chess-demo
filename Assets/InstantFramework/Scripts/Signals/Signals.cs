@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
     public class SetUpdateURLSignal : Signal<string> {}
     public class FindMatchSignal : Signal {}
     public class FindMatchCompleteSignal : Signal<string> {}
+    public class OpenLongMatchSignal : Signal<string> {}
     public class CreateLongMatchSignal : Signal<string> {}
     public class LongMatchReadySignal : Signal<string> {}
     public class MatchFoundSignal : Signal<ProfileVO> {}

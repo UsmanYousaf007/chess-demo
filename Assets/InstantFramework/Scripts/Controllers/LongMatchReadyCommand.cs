@@ -30,7 +30,8 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            Retain();
+            LogUtil.Log("Long match ready");
+            //Retain();
             //showFindMatchSignal.Dispatch();
             //backendService.FindMatch().Then(OnFindMatch);
 

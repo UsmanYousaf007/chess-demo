@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
         public Signal reloadFriendsSignal = new Signal();
         public Signal refreshCommunitySignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
+        public Signal<string> playButtonClickedSignal = new Signal<string>();
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -116,6 +117,7 @@ namespace TurboLabz.InstantFramework
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
+            friendBar.playButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
@@ -217,6 +219,10 @@ namespace TurboLabz.InstantFramework
             showProfileDialogSignal.Dispatch(playerId);
         }
 
+        void PlayButtonClicked(string playerId)
+        {
+            playButtonClickedSignal.Dispatch(playerId);
+        }
             
     }
 }
