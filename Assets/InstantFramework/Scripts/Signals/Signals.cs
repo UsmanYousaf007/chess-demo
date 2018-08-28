@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
     public class AuthFaceBookSignal : Signal {}
     public class AuthFacebookResultSignal : Signal<bool, Sprite, string> {}
     public class UpdateProfileSignal : Signal<ProfileVO> {}
+    public class UpdateOpponentProfileSignal : Signal<ProfileVO> {}
     public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
     public class BackendErrorSignal : Signal<BackendResult> {}
 	public class SplashAnimCompleteSignal : Signal {}
@@ -63,6 +64,7 @@ namespace TurboLabz.InstantFramework
     public class LoadFriendsSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal<bool> {}
+    public class UpdateFriendBarSignal : Signal<LongPlayStatusVO> {}
 
 
     // SKINS

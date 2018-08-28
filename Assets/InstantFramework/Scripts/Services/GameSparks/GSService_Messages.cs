@@ -127,6 +127,11 @@ namespace TurboLabz.InstantFramework
                 matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
             }
 
+            if (challenge.ShortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
+            {
+                matchInfo.gameStartTimeMilliseconds = matchData.GetLong(GSBackendKeys.GAME_START_TIME).Value;
+            }
+
             matchInfoModel.matches[challengeId] = matchInfo;
 
             // InitGame() is responsible for filling out all the game models

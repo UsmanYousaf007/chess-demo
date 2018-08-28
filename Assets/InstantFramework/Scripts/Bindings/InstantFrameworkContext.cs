@@ -87,6 +87,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<FindMatchCompleteSignal>().ToSingleton();
             injectionBinder.Bind<MatchFoundSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateOpponentProfileSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerBucksSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
@@ -134,6 +135,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ClearFriendsSignal>().ToSingleton();
             injectionBinder.Bind<FriendsShowConnectFacebookSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileDialogSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateFriendBarSignal>().ToSingleton();
+
 
 
             // Bind models

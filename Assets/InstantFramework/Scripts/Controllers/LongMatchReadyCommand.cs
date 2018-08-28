@@ -13,6 +13,8 @@
 using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using System;
+using TurboLabz.Multiplayer;
 
 
 namespace TurboLabz.InstantFramework
@@ -24,27 +26,83 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
+        [Inject] public UpdateOpponentProfileSignal updateOpponentProfileSignal { get; set; }
+        [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
+
+        // TODO: Seperate game specific material to the game folder
         public override void Execute()
         {
             Retain();
 
+            // Is the opponent on the block list? If so, exit
+            if (playerModel.blocked.ContainsKey(matchId.opponentId))
+            {
+                return;
+            }
+
+            // A friend or visible community member starts a new game with you
+            if (playerModel.friends.ContainsKey(matchId.opponentId) ||
+                playerModel.community.ContainsKey(matchId.opponentId))
+            {
+                MatchInfo matchInfo = matchInfoModel.matches[matchId.challengeId];
+                DateTime startTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
+
+                LongPlayStatusVO vo = new LongPlayStatusVO();
+                vo.elapsedTime = startTime;
+
+
+                // If you didn't start this match then this person has challenged you
+                if (matchId.opponentId != matchInfoModel.activeLongMatchOpponentId)
+                {
+                    vo.status = LongPlayStatus.NEW_CHALLENGE;
+                }
+                // else set it to the person who's turn it is
+                else
+                {
+                    Chessboard chessboard = chessboardModel.chessboards[matchId.challengeId];
+                    vo.status = (chessboard.currentTurnPlayerId == matchId.opponentId) ?
+                        LongPlayStatus.OPPONENT_TURN : LongPlayStatus.PLAYER_TURN;
+                }
+
+                vo.playerId = matchId.opponentId;
+                updateFriendBarSignal.Dispatch(vo);
+            }
+
+            // Launch the game if you tapped a player
             if (matchId.opponentId == matchInfoModel.activeLongMatchOpponentId)
             {
                 matchInfoModel.activeChallengeId = matchId.challengeId;
+                MatchInfo matchInfo = matchInfoModel.activeMatch;
+
+                PublicProfile publicProfile = matchInfo.opponentPublicProfile;
+
+                ProfileVO pvo = new ProfileVO();
+                pvo.playerName = publicProfile.name;
+                pvo.eloScore = publicProfile.eloScore;
+                pvo.countryId = publicProfile.countryId;
+
+                if (playerModel.friends.ContainsKey(matchId.opponentId))
+                {
+                    pvo.playerPic = playerModel.friends[matchId.opponentId].publicProfile.profilePicture;
+                }
+                else if (playerModel.community.ContainsKey(matchId.opponentId))
+                {
+                    pvo.playerPic = playerModel.community[matchId.opponentId].publicProfile.profilePicture;
+                }
+
+                updateOpponentProfileSignal.Dispatch(pvo);
+
                 startGameSignal.Dispatch();
             }
-
-            //showFindMatchSignal.Dispatch();
-            //backendService.FindMatch().Then(OnFindMatch);
-
-            //findMatchCompleteSignal.AddOnce(OnFindMatchComplete);
         }
 
         /*

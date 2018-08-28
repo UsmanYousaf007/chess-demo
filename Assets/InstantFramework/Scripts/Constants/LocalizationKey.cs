@@ -186,11 +186,21 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
-        #region Multiplayer Bot Nav
+        #region Multiplayer
 
         public const string BOT_NAV_PREV = "botNavPrev";
         public const string BOT_NAV_NEXT = "botNavNext";
         public const string BOT_NAV_COMPANY = "botNavCompany";
+        public const string LONG_PLAY_MINUTES = "longPlayMinutes";
+        public const string LONG_PLAY_HOURS = "longPlayHours";
+        public const string LONG_PLAY_DAYS = "longPlayDays";
+        public const string LONG_PLAY_CHALLENGED_YOU = "longPlayChallengedYou";
+        public const string LONG_PLAY_YOUR_TURN = "longPlayYourTurn";
+        public const string LONG_PLAY_THEIR_TURN = "longPlayTheirTurn";
+        public const string LONG_PLAY_DECLINED = "longPlayDeclined";
+        public const string LONG_PLAY_YOU_LOST = "longPlayYouLost";
+        public const string LONG_PLAY_YOU_WON = "longPlayYouWon";
+        public const string LONG_PLAY_DRAW = "longPlayDraw";
 
         #endregion
     }

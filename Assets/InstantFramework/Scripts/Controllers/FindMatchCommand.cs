@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowFindMatchSignal showFindMatchSignal { get; set; }
         [Inject] public GetGameStartTimeSignal getGameStartTimeSignal { get; set; }
         [Inject] public MatchFoundSignal matchFoundSignal { get; set; }
+        [Inject] public UpdateOpponentProfileSignal updateOpponentProfileSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -100,6 +101,8 @@ namespace TurboLabz.InstantFramework
             pvo.countryId = publicProfile.countryId;
 
             matchFoundSignal.Dispatch(pvo);
+            updateOpponentProfileSignal.Dispatch(pvo);
+
             getGameStartTimeSignal.Dispatch();
 
             Release();

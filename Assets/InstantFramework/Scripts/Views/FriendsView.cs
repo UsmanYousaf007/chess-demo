@@ -164,6 +164,61 @@ namespace TurboLabz.InstantFramework
             barData.avatarImage.sprite = sprite;
         }
 
+        public void UpdateFriendBar(LongPlayStatusVO vo)
+        {
+            if (!bars.ContainsKey(vo.playerId))
+                return;
+
+            FriendBar barData = bars[vo.playerId].GetComponent<FriendBar>();
+
+            // Update status
+            if (vo.status == LongPlayStatus.NEW_CHALLENGE)
+            {
+                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CHALLENGED_YOU);
+            }
+            else if (vo.status == LongPlayStatus.PLAYER_TURN)
+            {
+                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+            }
+            else if (vo.status == LongPlayStatus.OPPONENT_TURN)
+            {
+                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
+            }
+            else if (vo.status == LongPlayStatus.PLAYER_WON)
+            {
+                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_WON);
+            }
+            else if (vo.status == LongPlayStatus.OPPONENT_WON)
+            {
+                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
+            }
+            else if (vo.status == LongPlayStatus.DRAW)
+            {
+                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
+            }
+            else if (vo.status == LongPlayStatus.DECLINED)
+            {
+                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);
+            }
+
+            // Update time
+            if (vo.elapsedTime.TotalHours < 1)
+            {
+                barData.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_MINUTES, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)vo.elapsedTime.TotalMinutes)));
+            }
+            else if (vo.elapsedTime.TotalDays < 1)
+            {
+                barData.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_HOURS, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)vo.elapsedTime.TotalHours)));
+            }
+            else
+            {
+                barData.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DAYS, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)vo.elapsedTime.TotalDays)));
+            }
+        }
+
         public void Show() 
         { 
             gameObject.SetActive(true); 
@@ -232,6 +287,10 @@ namespace TurboLabz.InstantFramework
         void PlayButtonClicked(string playerId)
         {
             playButtonClickedSignal.Dispatch(playerId);
+        }
+
+        void UpdateTimes()
+        {
         }
             
     }
