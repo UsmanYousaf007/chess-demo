@@ -227,6 +227,9 @@ namespace TurboLabz.InstantGame
         {
             gameObject.SetActive(true);
 
+            // Clear up any texture memory that could be hanging post-game.
+            Resources.UnloadUnusedAssets();
+
             if (cover != null)
             {
                 DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 0.2f).OnComplete(DisableCover);

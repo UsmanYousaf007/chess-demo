@@ -6,6 +6,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -24,6 +25,8 @@ namespace TurboLabz.InstantGame
         {
             playerModel.activeSkinId = skinId;
             loadSkinRefsSignal.Dispatch(skinId);
+
+            Resources.UnloadUnusedAssets();
         }
     }
 }
