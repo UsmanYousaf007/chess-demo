@@ -59,7 +59,6 @@ namespace TurboLabz.InstantFramework
                 LongPlayStatusVO vo = new LongPlayStatusVO();
                 vo.lastActionTime = startTime;
 
-
                 // If you didn't start this match then this person has challenged you
                 if (matchId.opponentId != matchInfoModel.activeLongMatchOpponentId)
                 {

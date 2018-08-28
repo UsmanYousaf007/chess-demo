@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
 		Dictionary<string, Friend> friends { get; set; }
 		Dictionary<string, Friend> blocked { get; set; }
         Dictionary<string, Friend> community { get; set; }
+        bool busyRefreshingCommunity { get; set; }
 
         void Reset();
         bool OwnsVGood(string key);

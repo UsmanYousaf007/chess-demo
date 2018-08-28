@@ -223,6 +223,8 @@ namespace TurboLabz.InstantFramework
                 GameObject.Destroy(bars[key]);
                 bars.Remove(key);
             }
+
+            Resources.UnloadUnusedAssets();
         }
 
         void OnFacebookButtonClicked()

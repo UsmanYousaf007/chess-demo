@@ -25,16 +25,19 @@ namespace TurboLabz.InstantGame
         // services
         [Inject] public IBackendService backendService { get; set; }
 
-        public static bool busy = false;
-
         public override void Execute()
         {
-            if (busy)
+            if (playerModel.busyRefreshingCommunity)
             {
+                LogUtil.Log("IM BUSY EXITING", "red");
                 return;
             }
+            else
+            {
+                LogUtil.Log("IM GOOD PROCEEDING...", "green");
+            }
+            playerModel.busyRefreshingCommunity = true;
 
-            busy = true;
             Retain();
 
             backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
@@ -55,8 +58,8 @@ namespace TurboLabz.InstantGame
             addFriendsSignal.Dispatch(playerModel.community);
             getSocialPicsSignal.Dispatch(playerModel.community);
 
+            playerModel.busyRefreshingCommunity = false;
             Release();
-            busy = false;
         }
     }
 }
