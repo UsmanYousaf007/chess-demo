@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
     public class FriendsView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
 		public Transform listContainer;
 		public Transform friendsSibling;
@@ -241,11 +242,13 @@ namespace TurboLabz.InstantFramework
 
         void ViewProfile(string playerId)
         {
+            audioService.PlayStandardClick();
             showProfileDialogSignal.Dispatch(playerId);
         }
 
         void PlayButtonClicked(string playerId)
         {
+            audioService.PlayStandardClick();
             playButtonClickedSignal.Dispatch(playerId);
         }
 
