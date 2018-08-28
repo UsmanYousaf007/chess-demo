@@ -11,7 +11,7 @@ namespace TurboLabz.InstantFramework
     public struct LongPlayStatusVO
     {
         public string playerId;
-        public LongPlayStatus status;
-        public DateTime elapsedTime;
+        public LongPlayStatus longPlayStatus;
+        public DateTime lastActionTime;
     }
 }

@@ -57,19 +57,19 @@ namespace TurboLabz.InstantFramework
                 DateTime startTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
 
                 LongPlayStatusVO vo = new LongPlayStatusVO();
-                vo.elapsedTime = startTime;
+                vo.lastActionTime = startTime;
 
 
                 // If you didn't start this match then this person has challenged you
                 if (matchId.opponentId != matchInfoModel.activeLongMatchOpponentId)
                 {
-                    vo.status = LongPlayStatus.NEW_CHALLENGE;
+                    vo.longPlayStatus = LongPlayStatus.NEW_CHALLENGE;
                 }
                 // else set it to the person who's turn it is
                 else
                 {
                     Chessboard chessboard = chessboardModel.chessboards[matchId.challengeId];
-                    vo.status = (chessboard.currentTurnPlayerId == matchId.opponentId) ?
+                    vo.longPlayStatus = (chessboard.currentTurnPlayerId == matchId.opponentId) ?
                         LongPlayStatus.OPPONENT_TURN : LongPlayStatus.PLAYER_TURN;
                 }
 

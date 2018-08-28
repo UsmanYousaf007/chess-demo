@@ -16,6 +16,7 @@ using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using strange.extensions.signal.impl;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -116,6 +117,8 @@ namespace TurboLabz.InstantFramework
             {
                 AddFriend(entry.Value);
             }
+
+            UpdateAllStatus();
         }
 
 		void AddFriend(Friend friend)
@@ -169,59 +172,16 @@ namespace TurboLabz.InstantFramework
             if (!bars.ContainsKey(vo.playerId))
                 return;
 
-            FriendBar barData = bars[vo.playerId].GetComponent<FriendBar>();
-
-            // Update status
-            if (vo.status == LongPlayStatus.NEW_CHALLENGE)
-            {
-                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CHALLENGED_YOU);
-            }
-            else if (vo.status == LongPlayStatus.PLAYER_TURN)
-            {
-                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
-            }
-            else if (vo.status == LongPlayStatus.OPPONENT_TURN)
-            {
-                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
-            }
-            else if (vo.status == LongPlayStatus.PLAYER_WON)
-            {
-                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_WON);
-            }
-            else if (vo.status == LongPlayStatus.OPPONENT_WON)
-            {
-                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
-            }
-            else if (vo.status == LongPlayStatus.DRAW)
-            {
-                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
-            }
-            else if (vo.status == LongPlayStatus.DECLINED)
-            {
-                barData.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);
-            }
-
-            // Update time
-            if (vo.elapsedTime.TotalHours < 1)
-            {
-                barData.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_MINUTES, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)vo.elapsedTime.TotalMinutes)));
-            }
-            else if (vo.elapsedTime.TotalDays < 1)
-            {
-                barData.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_HOURS, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)vo.elapsedTime.TotalHours)));
-            }
-            else
-            {
-                barData.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DAYS, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)vo.elapsedTime.TotalDays)));
-            }
+            FriendBar friendBar = bars[vo.playerId].GetComponent<FriendBar>();
+            friendBar.lastActionTime = vo.lastActionTime;
+            friendBar.longPlayStatus = vo.longPlayStatus;
+            UpdateStatus(friendBar);
         }
 
         public void Show() 
         { 
             gameObject.SetActive(true); 
+            UpdateAllStatus();
         }
 
         public void Hide()
@@ -289,8 +249,83 @@ namespace TurboLabz.InstantFramework
             playButtonClickedSignal.Dispatch(playerId);
         }
 
-        void UpdateTimes()
+        void UpdateAllStatus()
         {
+            foreach (KeyValuePair<string, GameObject> entry in bars)
+            {
+                FriendBar friendBar = entry.Value.GetComponent<FriendBar>(); 
+                UpdateStatus(friendBar);
+            }
+        }
+
+        void UpdateStatus(FriendBar friendBar)
+        {
+            friendBar.statusLabel.gameObject.SetActive(true);
+
+            // Update status
+            if (friendBar.longPlayStatus == LongPlayStatus.NONE)
+            {
+                friendBar.statusLabel.gameObject.SetActive(false);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CHALLENGED_YOU);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_TURN)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_TURN)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_WON)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_WON);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.DRAW)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.DECLINED)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);
+            }
+
+            // Update timers
+            if (friendBar.longPlayStatus != LongPlayStatus.NEW_CHALLENGE &&
+                friendBar.longPlayStatus != LongPlayStatus.PLAYER_TURN &&
+                friendBar.longPlayStatus != LongPlayStatus.OPPONENT_TURN)
+            {
+                friendBar.timer.gameObject.SetActive(false);
+                friendBar.timerLabel.gameObject.SetActive(false);
+                return;
+            }
+
+            friendBar.timer.gameObject.SetActive(true);
+            friendBar.timerLabel.gameObject.SetActive(true);
+
+            TimeSpan elapsedTime = DateTime.UtcNow.Subtract(friendBar.lastActionTime);
+
+            if (elapsedTime.TotalHours < 1)
+            {
+                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_MINUTES, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalMinutes)));
+            }
+            else if (elapsedTime.TotalDays < 1)
+            {
+                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_HOURS, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalHours)));
+            }
+            else
+            {
+                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DAYS, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)));
+            }
         }
             
     }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -14,5 +15,7 @@ namespace TurboLabz.InstantFramework
         public Button viewProfileButton;
         public Button playButton;
         public Friend friendInfo;
+        public DateTime lastActionTime;
+        public LongPlayStatus longPlayStatus;
     }
 }
