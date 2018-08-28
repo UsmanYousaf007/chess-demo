@@ -33,9 +33,9 @@ namespace TurboLabz.InstantFramework
         public IOrderedDictionary<string, int> inventory { get; set; }
 
 		// Friends
-		public IDictionary<string, Friend> friends { get; set; }
-		public IDictionary<string, Friend> blocked { get; set; }
-        public IDictionary<string, Friend> community { get; set; }
+		public Dictionary<string, Friend> friends { get; set; }
+		public Dictionary<string, Friend> blocked { get; set; }
+        public Dictionary<string, Friend> community { get; set; }
 
 		public void Reset()
         {

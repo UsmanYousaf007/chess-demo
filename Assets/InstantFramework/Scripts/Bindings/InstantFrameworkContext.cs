@@ -74,6 +74,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NewFriendSignal>().To<NewFriendCommand>();
             commandBinder.Bind<BlockFriendSignal>().To<BlockFriendCommand>();
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
+            commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -128,10 +129,10 @@ namespace TurboLabz.InstantFramework
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<WifiIsHealthySignal>().ToSingleton();
             injectionBinder.Bind<UpdateFriendPicSignal>().ToSingleton();
-            injectionBinder.Bind<AddFriendSignal>().ToSingleton();
+            injectionBinder.Bind<AddFriendsSignal>().ToSingleton();
             injectionBinder.Bind<ClearCommunitySignal>().ToSingleton();
             injectionBinder.Bind<ClearFriendsSignal>().ToSingleton();
-            injectionBinder.Bind<FriendsConnectFacebookSignal>().ToSingleton();
+            injectionBinder.Bind<FriendsShowConnectFacebookSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileDialogSignal>().ToSingleton();
 
 

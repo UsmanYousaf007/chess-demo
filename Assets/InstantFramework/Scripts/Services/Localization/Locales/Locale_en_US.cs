@@ -165,7 +165,7 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
                 { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Connect with Facebook to play\nwith Friends & Community" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
-                { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players." },
+                { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ..." },
 
                 #endregion
 

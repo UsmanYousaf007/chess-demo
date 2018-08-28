@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            Retain();
             backendService.FriendsOpAdd(friendId).Then(OnFriendsOpAdd);
         }
 
@@ -42,6 +43,8 @@ namespace TurboLabz.InstantGame
                    refreshCommunitySignal.Dispatch();
                 }
             }
+
+            Release();
         }
     }
 }

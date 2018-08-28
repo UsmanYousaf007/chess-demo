@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -15,8 +15,7 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public FriendsConnectFacebookSignal friendsConnectFacebookSignal { get; set; }
+        [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -27,13 +26,12 @@ namespace TurboLabz.InstantGame
 
             if (facebookService.isLoggedIn())
             {
-                friendsConnectFacebookSignal.Dispatch(false);
-                refreshCommunitySignal.Dispatch();
+                friendsShowConnectFacebookSignal.Dispatch(false);
 
             }
             else
             {
-                friendsConnectFacebookSignal.Dispatch(true);
+                friendsShowConnectFacebookSignal.Dispatch(true);
             }
         }
     }

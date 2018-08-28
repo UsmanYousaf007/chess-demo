@@ -16,6 +16,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetInitDataSignal getInitDataSignal  { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
+
 
         // Models
         [Inject] public IMetaDataModel model { get; set; }
@@ -39,9 +43,14 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            // TODO: Clear message queue here
-
             initBackendOnceSignal.Dispatch();
+
+            if (facebookService.isLoggedIn())
+            {
+                refreshFriendsSignal.Dispatch();
+                refreshCommunitySignal.Dispatch();
+            }
+
             loadLobbySignal.Dispatch();
             CommandEnd();
         }

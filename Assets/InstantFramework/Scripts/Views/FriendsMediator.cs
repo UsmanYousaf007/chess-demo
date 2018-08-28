@@ -65,10 +65,10 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-		[ListensTo(typeof(AddFriendSignal))]
-		public void OnUpdateFriends(Friend friend)
+		[ListensTo(typeof(AddFriendsSignal))]
+        public void OnUpdateFriends(Dictionary<string, Friend> friends)
 		{
-			view.AddFriend(friend);
+			view.AddFriends(friends);
 		}
 
         [ListensTo(typeof(UpdateFriendPicSignal))]
@@ -89,7 +89,7 @@ namespace TurboLabz.InstantFramework
             view.ClearFriends();
         }
 
-        [ListensTo(typeof(FriendsConnectFacebookSignal))]
+        [ListensTo(typeof(FriendsShowConnectFacebookSignal))]
         public void OnFriendsConnectFacebook(bool showConnectInfo)
         {
             view.ShowConnectFacebook(showConnectInfo);
