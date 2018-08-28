@@ -16,9 +16,7 @@ namespace TurboLabz.InstantGame
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public AddFriendSignal addFriendSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public FriendsConnectFacebookSignal friendsConnectFacebookSignal { get; set; }
+        [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
 
 		// Models
 		[Inject] public IPlayerModel playerModel { get; set; }
@@ -34,13 +32,12 @@ namespace TurboLabz.InstantGame
 
             if (facebookService.isLoggedIn())
             {
-                friendsConnectFacebookSignal.Dispatch(false);
-                refreshCommunitySignal.Dispatch();
+                friendsShowConnectFacebookSignal.Dispatch(false);
 
             }
             else
             {
-                friendsConnectFacebookSignal.Dispatch(true);
+                friendsShowConnectFacebookSignal.Dispatch(true);
             }
         }
     }

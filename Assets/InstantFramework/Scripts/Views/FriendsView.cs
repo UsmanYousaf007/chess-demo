@@ -108,7 +108,16 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-		public void AddFriend(Friend friend)
+
+        public void AddFriends(Dictionary<string, Friend> friends)
+        {
+            foreach (KeyValuePair<string, Friend> entry in friends)
+            {
+                AddFriend(entry.Value);
+            }
+        }
+
+		void AddFriend(Friend friend)
 		{
 		    // create bar
 			GameObject friendBarObj = GameObject.Instantiate(friendBarPrefab);
@@ -136,8 +145,9 @@ namespace TurboLabz.InstantFramework
             
             friendBarObj.transform.SetSiblingIndex(siblingIndex);
 
-            // store bar
             bars.Add(friend.playerId, friendBarObj);
+
+            UpdateFriendPic(friend.playerId, friend.publicProfile.profilePicture);
 		}
 
         public void UpdateFriendPic(string playerId, Sprite sprite)

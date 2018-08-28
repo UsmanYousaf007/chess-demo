@@ -25,7 +25,6 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
-        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -39,8 +38,6 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             setSkinSignal.Dispatch(playerModel.activeSkinId);
-
-            refreshFriendsSignal.Dispatch();
 
             loadCPUGameDataSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
