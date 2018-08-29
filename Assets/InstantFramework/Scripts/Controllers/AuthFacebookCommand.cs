@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IPushNotificationService pushNotificationService { get; set; }
 
         // Dispatch Signals
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
@@ -74,6 +75,11 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
+                string pushToken = pushNotificationService.GetToken();
+                if (pushToken != null)
+                {
+                    backendService.PushNotificationRegistration(pushToken);
+                }
                 backendService.FriendsOpInitialize().Then(OnGetFriends_GetSocialPic);
             }
             else
