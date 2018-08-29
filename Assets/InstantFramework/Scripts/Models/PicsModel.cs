@@ -16,15 +16,16 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
 
-        private const string LOCAL_FACEBOOK_DATA_FILE = "localFacebookDataFile";
-        private const string LOCAL_FACEBOOK_DATA_PIC = "localFacebookDataPic";
+        private const string PLAYER_PIC_FILE = "playerPicFile";
+        private const string PLAYER_PIC_KEY = "playerPicKey";
+        private const string FRIENDS_PICS_FILE = "friendsPicsFile";
 
-        public void SetPic(string playerId, Sprite sprite)
+        public void SetPlayerPic(string playerId, Sprite sprite)
         {
             try
             {
-                ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
-                writer.Write(LOCAL_FACEBOOK_DATA_PIC + playerId, sprite);
+                ILocalDataWriter writer = localDataService.OpenWriter(PLAYER_PIC_FILE);
+                writer.Write(PLAYER_PIC_KEY, sprite);
                 writer.Close();
 
                 LogUtil.Log("Wrote pic for: " + playerId, "cyan");
@@ -32,19 +33,19 @@ namespace TurboLabz.InstantFramework
             catch (Exception e)
             {
                 // something went wrong, get rid of the file
-                localDataService.DeleteFile(LOCAL_FACEBOOK_DATA_FILE);
+                localDataService.DeleteFile(PLAYER_PIC_FILE);
                 Debug.Log(e.ToString());
             }
         }
 
-        public Sprite GetPic(string playerId)
+        public Sprite GetPlayerPic(string playerId)
         {
             try
             {
-                if (localDataService.FileExists(LOCAL_FACEBOOK_DATA_FILE))
+                if (localDataService.FileExists(PLAYER_PIC_FILE))
                 {
-                    ILocalDataReader reader = localDataService.OpenReader(LOCAL_FACEBOOK_DATA_FILE);
-                    string key = LOCAL_FACEBOOK_DATA_PIC + playerId;
+                    ILocalDataReader reader = localDataService.OpenReader(PLAYER_PIC_FILE);
+                    string key = PLAYER_PIC_KEY;
                     Sprite pic = null;
 
                     if (reader.HasKey(key))
@@ -55,6 +56,64 @@ namespace TurboLabz.InstantFramework
 
                     reader.Close();
                     return pic;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
+                return null;
+            }
+
+            return null;
+        }
+
+        public void SetFriendPics(Dictionary<string, Friend> friends)
+        {
+            try
+            {
+                if (localDataService.FileExists(FRIENDS_PICS_FILE))
+                {
+                    localDataService.DeleteFile(FRIENDS_PICS_FILE);
+                }
+
+                ILocalDataWriter writer = localDataService.OpenWriter(FRIENDS_PICS_FILE);
+
+                foreach (KeyValuePair<string, Friend> entry in friends)
+                {
+                    writer.Write(entry.Key, entry.Value.publicProfile.profilePicture);
+                    LogUtil.Log("Wrote pic for: " + entry.Key, "cyan");
+                }
+
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                // something went wrong, get rid of the file
+                localDataService.DeleteFile(FRIENDS_PICS_FILE);
+                Debug.Log(e.ToString());
+            }
+        }
+
+        public Dictionary<string, Sprite> GetFriendPics(List<string> playerIds)
+        {
+            try
+            {
+                if (localDataService.FileExists(FRIENDS_PICS_FILE))
+                {
+                    Dictionary<string, Sprite> pics = new Dictionary<string, Sprite>();
+                    ILocalDataReader reader = localDataService.OpenReader(FRIENDS_PICS_FILE);
+
+                    foreach (string playerId in playerIds)
+                    {
+                        if (reader.HasKey(playerId))
+                        {
+                            pics.Add(playerId, reader.Read<Sprite>(playerId));
+                            LogUtil.Log("Got pic for: " + playerId, "cyan");
+                        }
+                    }
+                   
+                    reader.Close();
+                    return pics;
                 }
             }
             catch (Exception e)

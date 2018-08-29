@@ -26,10 +26,15 @@ namespace TurboLabz.InstantGame
         {
             clearFriendsSignal.Dispatch();
 
-            foreach (KeyValuePair<string, Friend> obj in playerModel.friends)
+            List<string> keyList = new List<string>(playerModel.friends.Keys);
+            Dictionary<string, Sprite> pics = picsModel.GetFriendPics(keyList);
+
+            if (pics != null)
             {
-                Friend friend = obj.Value;
-                friend.publicProfile.profilePicture = picsModel.GetPic(friend.playerId);
+                foreach (KeyValuePair<string, Sprite> pic in pics)
+                {
+                    playerModel.friends[pic.Key].publicProfile.profilePicture = pic.Value;
+                }
             }
 
             addFriendsSignal.Dispatch(playerModel.friends);

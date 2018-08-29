@@ -53,8 +53,6 @@ namespace TurboLabz.InstantFramework
             }
 
             Sprite pic = friend.publicProfile.profilePicture;
-            if (pic == null)
-                pic = picsModel.GetPic(friend.playerId);
 
             vo.oppProfilePic = pic;
             vo.oppProfileName = friend.publicProfile.name;

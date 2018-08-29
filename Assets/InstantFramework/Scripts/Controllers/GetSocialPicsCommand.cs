@@ -19,12 +19,14 @@ namespace TurboLabz.InstantGame
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // services
         [Inject] public IFacebookService facebookService { get; set; }
 
         int picRequestCount = 0;
         int picResponseCount = 0;
+        bool cacheFriendPics = false;
 
         public override void Execute()
         {
@@ -45,12 +47,14 @@ namespace TurboLabz.InstantGame
             {
                 updateFriendPicSignal.Dispatch(friendId, sprite);
 
+
                 if (playerModel.community.ContainsKey(friendId))
                 {
                     playerModel.community[friendId].publicProfile.profilePicture = sprite;
                 }
                 else if (playerModel.friends.ContainsKey(friendId))
                 {
+                    cacheFriendPics = true;
                     playerModel.friends[friendId].publicProfile.profilePicture = sprite;
                 }
             }
@@ -59,6 +63,11 @@ namespace TurboLabz.InstantGame
 
             if (picRequestCount == picResponseCount)
             {
+                if (cacheFriendPics)
+                {
+                    picsModel.SetFriendPics(playerModel.friends);
+                }
+
                 Release();
             }
         }

@@ -29,13 +29,9 @@ namespace TurboLabz.InstantGame
         {
             if (playerModel.busyRefreshingCommunity)
             {
-                LogUtil.Log("IM BUSY EXITING", "red");
                 return;
             }
-            else
-            {
-                LogUtil.Log("IM GOOD PROCEEDING...", "green");
-            }
+
             playerModel.busyRefreshingCommunity = true;
 
             Retain();
@@ -48,15 +44,9 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                foreach (KeyValuePair<string, Friend> obj in playerModel.community)
-                {
-                    Friend friend = obj.Value;
-                    friend.publicProfile.profilePicture = picsModel.GetPic(friend.playerId);
-                }    
+                addFriendsSignal.Dispatch(playerModel.community);
+                getSocialPicsSignal.Dispatch(playerModel.community);
             }
-
-            addFriendsSignal.Dispatch(playerModel.community);
-            getSocialPicsSignal.Dispatch(playerModel.community);
 
             playerModel.busyRefreshingCommunity = false;
             Release();

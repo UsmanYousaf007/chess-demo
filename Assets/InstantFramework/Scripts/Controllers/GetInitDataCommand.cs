@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // Todo: Move this to the game folder
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -74,7 +75,9 @@ namespace TurboLabz.InstantFramework
         void OnGetSocialPic(FacebookResult result, Sprite sprite, string facebookUserId)
         {
             playerModel.profilePic = sprite;
+            picsModel.SetPlayerPic(playerModel.id, sprite);
             authFacebookSuccessSignal.Dispatch(true, playerModel.profilePic, playerModel.name);
+
             Release();
         }
 

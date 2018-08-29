@@ -18,13 +18,11 @@ namespace TurboLabz.InstantFramework
         private const string PLAYER_SOCIAL_PIC = "PlayerSocialPic";
         private IPromise<FacebookResult, Sprite, string> promise = new Promise<FacebookResult, Sprite, string>();
         private IRoutineRunner routineRunner = new NormalRoutineRunner();
-        private Action<string, Sprite> onSuccess;
         private string playerId;
 
-        public IPromise<FacebookResult, Sprite, string> Send(string facebookUserId, string playerId, Action<string, Sprite> onSuccess)
+        public IPromise<FacebookResult, Sprite, string> Send(string facebookUserId, string playerId)
         {
             this.playerId = playerId;
-            this.onSuccess = onSuccess;
             GetProfilePicture(facebookUserId);
 
             return promise;
@@ -74,11 +72,6 @@ namespace TurboLabz.InstantFramework
 
         private void DispatchResponse(FacebookResult result, Sprite sprite)
         {
-            if (result == FacebookResult.SUCCESS && sprite != null)
-            {
-                onSuccess(playerId, sprite);
-            }
-
             promise.Dispatch(result, sprite, playerId);
         }
     }

@@ -57,7 +57,7 @@ namespace TurboLabz.InstantGame
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {
-                pvo.playerPic = picsModel.GetPic(playerModel.id);
+                pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
             }
                 
             updateProfileSignal.Dispatch(pvo);

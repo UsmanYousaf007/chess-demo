@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         public override void Execute()
         {
@@ -97,6 +98,7 @@ namespace TurboLabz.InstantFramework
             if (result == FacebookResult.SUCCESS)
             {
                 playerModel.profilePic = sprite;
+                picsModel.SetPlayerPic(playerModel.id, sprite);
             }
 
             CommandEnd(true);
