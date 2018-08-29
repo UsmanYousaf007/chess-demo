@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> SetPlayerSocialName(string name);
         IPromise<BackendResult> FindMatch();
         IPromise<BackendResult> GetGameStartTime(string challengeId);
+        IPromise<BackendResult> PushNotificationRegistration(string token);
 		
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend
         IPromise<BackendResult> FriendsOpFriends(); // get backend saved friends

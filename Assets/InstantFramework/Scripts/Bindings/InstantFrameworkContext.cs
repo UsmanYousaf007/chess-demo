@@ -108,6 +108,7 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
+            injectionBinder.Bind<IPushNotificationService>().To<FirebasePushNotificationService>().ToSingleton();
 
             #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
