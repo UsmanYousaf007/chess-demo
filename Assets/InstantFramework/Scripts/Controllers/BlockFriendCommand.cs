@@ -19,6 +19,7 @@ namespace TurboLabz.InstantGame
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -26,6 +27,8 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             Retain();
+
+            picsModel.DeleteFriendPic(friendId);
             backendService.FriendsOpBlock(friendId).Then(OnFriendBlock);
         }
 

@@ -68,6 +68,8 @@ namespace TurboLabz.InstantGame
                     picsModel.SetFriendPics(playerModel.friends);
                 }
 
+                Resources.UnloadUnusedAssets();
+
                 Release();
             }
         }

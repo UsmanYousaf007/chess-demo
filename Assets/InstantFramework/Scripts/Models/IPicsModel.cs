@@ -11,6 +11,8 @@ namespace TurboLabz.InstantFramework
 
         Dictionary<string, Sprite> GetFriendPics(List<string> playerIds);
         void SetFriendPics(Dictionary<string, Friend> pics);
+
+        void DeleteFriendPic(string playerId);
     }
 }
 

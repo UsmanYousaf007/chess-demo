@@ -68,6 +68,11 @@ namespace TurboLabz.InstantFramework
             writer.Write(value, key);
         }
 
+        public void DeleteKey(string key)
+        {
+            writer.Delete(key);
+        }
+
         public void Close()
         {
             writer.Save();

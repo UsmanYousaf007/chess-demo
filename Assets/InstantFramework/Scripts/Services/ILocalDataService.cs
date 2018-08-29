@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         void Write<T>(string key, T value);
         void WriteList<T>(string key, List<T> value);
         void WriteDictionary<TKey,TValue>(string key, Dictionary<TKey,TValue> value);
+        void DeleteKey(string key);
         void Close();
     }
 
