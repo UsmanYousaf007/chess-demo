@@ -30,6 +30,7 @@ namespace TurboLabz.Multiplayer
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         public override void Execute()
         {
@@ -65,7 +66,8 @@ namespace TurboLabz.Multiplayer
             move.piece = playerTurnVO.fromSquare.piece;
             move.promo = playerTurnVO.promo;
 
-            chessboardModel.lastPlayerMove = move;
+            Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
+            chessboard.lastPlayerMove = move;
         }
     }
 }

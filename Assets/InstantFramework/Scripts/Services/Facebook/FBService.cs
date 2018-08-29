@@ -15,8 +15,6 @@ namespace TurboLabz.InstantFramework
 {
     public class FBService : IFacebookService
     {
-        [Inject] public IPicsModel picsModel { get; set; }
-
         public IPromise<FacebookResult> Init()
         {
             return new FBInitRequest().Send();
@@ -29,12 +27,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<FacebookResult, Sprite, string> GetSocialPic(string facebookUserId, string playerId)
         {
-            return new FBGetSocialPicRequest().Send(facebookUserId, playerId, OnGetSocialPic);
-        }
-
-        void OnGetSocialPic(string playerId, Sprite pic)
-        {
-            picsModel.SetPic(playerId, pic);
+            return new FBGetSocialPicRequest().Send(facebookUserId, playerId);
         }
 
         public IPromise<FacebookResult, string> GetSocialName()

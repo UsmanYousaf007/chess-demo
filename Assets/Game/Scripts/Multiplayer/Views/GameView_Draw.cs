@@ -30,6 +30,7 @@ namespace TurboLabz.Multiplayer
         public Signal drawClaimedSignal = new Signal();
         public Signal drawRejectedSignal = new Signal();
 
+        [Header("Draw")]
         public GameObject claimDrawDialog;
         public Button drawYesButton;
         public Button drawNoButton;

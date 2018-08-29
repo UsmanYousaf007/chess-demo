@@ -16,16 +16,19 @@ namespace TurboLabz.InstantGame
 
         // dispatch signals
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
-        [Inject] public AddFriendSignal addFriendSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
 
         public override void Execute()
         {
+            Retain();
+
+            picsModel.DeleteFriendPic(friendId);
             backendService.FriendsOpBlock(friendId).Then(OnFriendBlock);
         }
 
@@ -35,6 +38,8 @@ namespace TurboLabz.InstantGame
             {
                 refreshFriendsSignal.Dispatch();
             }
+
+            Release();
         }
     }
 }

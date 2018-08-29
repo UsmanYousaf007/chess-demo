@@ -28,19 +28,19 @@ namespace TurboLabz.Multiplayer
 
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
             ChessboardEvent evt = cmd.chessboardEvent;
 
             if (cmd.chessboardEvent == ChessboardEvent.DRAW_REJECTED)
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-                SendPlayerTurn(cmd, model.playerMoveFlag, false, false, true, false);
+                SendPlayerTurn(cmd, chessboard.playerMoveFlag, false, false, true, false);
                 return new CCSOpponentTurn();
             }
             else if (cmd.chessboardEvent == ChessboardEvent.DRAW_CLAIMED)
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-                SendPlayerTurn(cmd, model.playerMoveFlag, false, true, false, false);
+                SendPlayerTurn(cmd, chessboard.playerMoveFlag, false, true, false, false);
                 return new CCSPlayerTurnCompletedGameEnded();
             }
             else if (evt == ChessboardEvent.GAME_ENDED)

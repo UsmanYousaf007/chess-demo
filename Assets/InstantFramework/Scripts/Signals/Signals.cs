@@ -16,6 +16,10 @@ namespace TurboLabz.InstantFramework
     public class GameDisconnectingSignal : Signal {}
     public class SetUpdateURLSignal : Signal<string> {}
     public class FindMatchSignal : Signal {}
+    public class FindMatchCompleteSignal : Signal<string> {}
+    public class OpenLongMatchSignal : Signal<string> {}
+    public class CreateLongMatchSignal : Signal<string> {}
+    public class LongMatchReadySignal : Signal<MatchIdVO> {}
     public class MatchFoundSignal : Signal<ProfileVO> {}
     public class GetGameStartTimeSignal : Signal {}
     public class ShowFindMatchSignal : Signal {}
@@ -29,6 +33,7 @@ namespace TurboLabz.InstantFramework
     public class AuthFaceBookSignal : Signal {}
     public class AuthFacebookResultSignal : Signal<bool, Sprite, string> {}
     public class UpdateProfileSignal : Signal<ProfileVO> {}
+    public class UpdateOpponentProfileSignal : Signal<ProfileVO> {}
     public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
     public class BackendErrorSignal : Signal<BackendResult> {}
 	public class SplashAnimCompleteSignal : Signal {}
@@ -44,19 +49,23 @@ namespace TurboLabz.InstantFramework
     public class SetErrorAndHaltSignal : Signal<BackendResult> {}
     public class HaltSignal: Signal<BackendResult> {}
     public class UpdatePlayerBucksSignal : Signal<long> {}
-    public class AddFriendSignal : Signal<Friend> {}
+    public class AddFriendsSignal : Signal<Dictionary<string, Friend>, bool> {}
     public class RefreshCommunitySignal : Signal {}
     public class RefreshFriendsSignal : Signal {}
+    public class GetSocialPicsSignal : Signal<Dictionary<string, Friend>> {}
+    public class NewFriendSignal : Signal<string> {}
     public class BlockFriendSignal : Signal<string> {}
     public class ClearCommunitySignal : Signal {}
     public class ClearFriendsSignal : Signal {}
     public class UpdateFriendPicSignal : Signal<string, Sprite> {}
-    public class FriendsConnectFacebookSignal : Signal<bool> {}
+    public class FriendsShowConnectFacebookSignal : Signal<bool> {}
     public class UpdateProfileDialogSignal : Signal<ProfileDialogVO> {}
     public class ShowProfileDialogSignal : Signal<string> {}
     public class LoadFriendsSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal<bool> {}
+    public class UpdateFriendBarSignal : Signal<LongPlayStatusVO> {}
+    public class ToggleFacebookButton : Signal<bool> {}
 
 
     // SKINS

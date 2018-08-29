@@ -9,6 +9,7 @@ using GameSparks.Api.Requests;
 using System;
 using GameSparks.Core;
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,31 +23,34 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpAdd(string friendId) { return new GSFriendsOpRequest().Send("add", friendId, OnFriendOpSuccess, facebookService.GetAccessToken()); } 
         public IPromise<BackendResult> FriendsOpInitialize() { return new GSFriendsOpRequest().Send("initialize", null, OnFriendOpSuccess); } 
 
-		private void OnFriendOpSuccess(object r)
+        private void OnFriendOpSuccess(object r)
 		{
 			LogEventResponse response = (LogEventResponse)r;
 
 			// Populate friends data
-			GSData friendsList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.FRIENDS);
+            GSData friendsList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.FRIENDS);
             if (friendsList != null)
             {
                 PopulateFriends(playerModel.friends, friendsList);
-                //GSParser.LogFriends("friends", playerModel.friends);
+                GSParser.LogFriends("friends", playerModel.friends);
             }
+
             // Populate blocked friends data
 			GSData blockedList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.BLOCKED);
             if (blockedList != null)
             {
                 PopulateFriends(playerModel.blocked, blockedList, true);
-                //GSParser.LogFriends("blocked", playerModel.blocked);
+                GSParser.LogFriends("blocked", playerModel.blocked);
             }
+
             // Populate community suggested friends data
             GSData communityList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.COMMUNITY);
             if (communityList != null)
             {
                 PopulateFriends(playerModel.community, communityList);
-                //GSParser.LogFriends("community", playerModel.community);
+                GSParser.LogFriends("community", playerModel.community);
             }
+
             // Friend added
             GSData friendsData = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.ADD);
             if (friendsData != null)

@@ -21,32 +21,32 @@ namespace TurboLabz.Multiplayer
             if (CameFromState(cmd, typeof(CCSOpponentTurn)) ||
                 CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)))
             {
-                cmd.showPlayerToIndicatorSignal.Dispatch(cmd.chessboardModel.playerFromSquare);
+                cmd.showPlayerToIndicatorSignal.Dispatch(cmd.activeChessboard.playerFromSquare);
                 cmd.hidePlayerFromIndicatorSignal.Dispatch();
             }
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
             ChessboardEvent evt = cmd.chessboardEvent;
 
             // Handle square clicked events
             if (evt == ChessboardEvent.SQUARE_CLICKED)
             {
-                ChessSquare clickedSquare = model.clickedSquare;
+                ChessSquare clickedSquare = chessboard.clickedSquare;
 
                 // See if a new player piece was clicked
                 if (IsPlayerPiece(cmd, clickedSquare.piece) &&
-                    !clickedSquare.Equals(model.playerFromSquare))
+                    !clickedSquare.Equals(chessboard.playerFromSquare))
                 {
-                    model.playerFromSquare = clickedSquare;
+                    chessboard.playerFromSquare = clickedSquare;
                     return this;
                 }
                 // If not, then we go back to the non selected player turn state
                 else
                 {
-                    model.playerFromSquare = null;
+                    chessboard.playerFromSquare = null;
                     return new CCSOpponentTurn();
                 }
             }
@@ -55,7 +55,7 @@ namespace TurboLabz.Multiplayer
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)
             {
                 // Nows when Ai takes its turn
-                if (cmd.chessboardModel.isAiGame)
+                if (cmd.activeChessboard.isAiGame)
                 {
                     cmd.aiTurnSignal.Dispatch();
                 }
@@ -67,7 +67,7 @@ namespace TurboLabz.Multiplayer
             {
                 HandleOpponentBackendMoved(cmd);
 
-                if (model.gameEndReason != GameEndReason.NONE)
+                if (chessboard.gameEndReason != GameEndReason.NONE)
                 {
                     HandleGameEnded(cmd);
                     return new CCSOpponentTurnCompletedGameEnded();
@@ -76,18 +76,18 @@ namespace TurboLabz.Multiplayer
                 {
                     cmd.receiveTurnSwapTimeControlSignal.Dispatch();
 
-                    if (model.fiftyMoveDrawAvailable)
+                    if (chessboard.fiftyMoveDrawAvailable)
                     {
                         return new CCSFiftyMoveDrawOnOpponentTurnAvailablePieceSelected();
                     }
-                    else if (model.threefoldRepeatDrawAvailable)
+                    else if (chessboard.threefoldRepeatDrawAvailable)
                     {
                         return new CCSThreefoldRepeatDrawOnOpponentTurnAvailablePieceSelected();
                     }
 
                     // The opponent move could have deselected our piece due to a capture.
                     // In that case switch to the unselected state.
-                    if (model.playerFromSquare == null)
+                    if (chessboard.playerFromSquare == null)
                     {
                         return new CCSPlayerTurn();
                     }

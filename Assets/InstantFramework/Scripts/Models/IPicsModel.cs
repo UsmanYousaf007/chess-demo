@@ -1,12 +1,18 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IPicsModel
     {
-        Sprite GetPic(string playerId);
-        void SetPic(string playerId, Sprite sprite);
+        Sprite GetPlayerPic(string playerId);
+        void SetPlayerPic(string playerId, Sprite sprite);
+
+        Dictionary<string, Sprite> GetFriendPics(List<string> playerIds);
+        void SetFriendPics(Dictionary<string, Friend> pics);
+
+        void DeleteFriendPic(string playerId);
     }
 }
 

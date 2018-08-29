@@ -20,9 +20,12 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public ToggleFacebookButton toggleFacebookButton { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         public override void Execute()
         {
@@ -96,6 +99,7 @@ namespace TurboLabz.InstantFramework
             if (result == FacebookResult.SUCCESS)
             {
                 playerModel.profilePic = sprite;
+                picsModel.SetPlayerPic(playerModel.id, sprite);
             }
 
             CommandEnd(true);
@@ -104,6 +108,7 @@ namespace TurboLabz.InstantFramework
         private void CommandBegin()
         {
             Retain();
+            toggleFacebookButton.Dispatch(false);
         }
 
         private void CommandEnd(bool isSuccessful)
@@ -115,7 +120,9 @@ namespace TurboLabz.InstantFramework
 
             authFacebookResultSignal.Dispatch(isSuccessful, playerModel.profilePic, playerModel.name);
             refreshFriendsSignal.Dispatch();
+            refreshCommunitySignal.Dispatch();
 
+            toggleFacebookButton.Dispatch(true);
             Release();
         }
     }

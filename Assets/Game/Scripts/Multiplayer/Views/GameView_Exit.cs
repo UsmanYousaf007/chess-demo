@@ -21,6 +21,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Exit")]
         public Button menuButton;
         public Button resignButton;
         public Button continueButton;

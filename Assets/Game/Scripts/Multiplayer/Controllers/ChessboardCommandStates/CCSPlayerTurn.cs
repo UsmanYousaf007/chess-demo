@@ -41,24 +41,24 @@ namespace TurboLabz.Multiplayer
 
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
             ChessboardEvent evt = cmd.chessboardEvent;
 
             // Handle square clicked events
             if (evt == ChessboardEvent.SQUARE_CLICKED)
             {
-                ChessSquare clickedSquare = model.clickedSquare;
+                ChessSquare clickedSquare = chessboard.clickedSquare;
 
                 // See if a player piece was clicked
                 if (IsPlayerPiece(cmd, clickedSquare.piece))
                 {
-                    model.playerFromSquare = clickedSquare;
+                    chessboard.playerFromSquare = clickedSquare;
                     return new CCSPlayerTurnPieceSelected();
                 }
             }
             else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
-                cmd.chessboardModel.opponentMoveRenderComplete = true;
+                cmd.activeChessboard.opponentMoveRenderComplete = true;
                 return null;
             }
             else if (evt == ChessboardEvent.GAME_ENDED)

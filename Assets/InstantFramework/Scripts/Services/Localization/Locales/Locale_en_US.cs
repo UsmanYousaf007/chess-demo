@@ -151,7 +151,7 @@ namespace TurboLabz.InstantFramework
                 #region Friends
 
 				{ LocalizationKey.FRIENDS_TITLE, "Friends and Matches" },
-				{ LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite your Facebook friends to play." },
+				{ LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite your Facebook Friends to Play" },
 				{ LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
 				{ LocalizationKey.FRIENDS_COMMUNITY_TITLE, "Play Someone New" },
 				{ LocalizationKey.FRIENDS_REFRESH_TEXT, "Refresh" },
@@ -165,7 +165,7 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
                 { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Connect with Facebook to play\nwith Friends & Community" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
-                { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players." },
+                { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ..." },
 
                 #endregion
 
@@ -181,6 +181,25 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "Shop" },
                 { LocalizationKey.NAV_FRIENDS, "Friends" },
+
+                #endregion
+
+                #region Long Play
+
+                { LocalizationKey.BOT_NAV_PREV, "Prev" },
+                { LocalizationKey.BOT_NAV_NEXT, "Next" },
+                { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
+
+                { LocalizationKey.LONG_PLAY_MINUTES, "{0}m" },
+                { LocalizationKey.LONG_PLAY_HOURS, "{0}h" },
+                { LocalizationKey.LONG_PLAY_DAYS, "{0}d" },
+                { LocalizationKey.LONG_PLAY_CHALLENGED_YOU, "Challenged You" },
+                { LocalizationKey.LONG_PLAY_YOUR_TURN, "Your Turn" },
+                { LocalizationKey.LONG_PLAY_THEIR_TURN, "Their Turn" },
+                { LocalizationKey.LONG_PLAY_DECLINED, "Declined" },
+                { LocalizationKey.LONG_PLAY_YOU_LOST, "You Lost" },
+                { LocalizationKey.LONG_PLAY_YOU_WON, "You Won" },
+                { LocalizationKey.LONG_PLAY_DRAW, "Draw" },
 
                 #endregion
             };

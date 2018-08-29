@@ -22,7 +22,7 @@ namespace TurboLabz.Multiplayer
             if (CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)))
             {
                 RenderOpponentMove(cmd);
-                cmd.showPlayerToIndicatorSignal.Dispatch(cmd.chessboardModel.playerFromSquare);
+                cmd.showPlayerToIndicatorSignal.Dispatch(cmd.activeChessboard.playerFromSquare);
                 cmd.hidePlayerFromIndicatorSignal.Dispatch();
             }
             else if (CameFromState(cmd, typeof(CCSFiftyMoveDrawOnOpponentTurnAvailablePieceSelected)))
@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
             }
             else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
-                cmd.chessboardModel.opponentMoveRenderComplete = true;
+                cmd.activeChessboard.opponentMoveRenderComplete = true;
                 return new CCSFiftyMoveDrawOnOpponentTurnAvailablePieceSelected();
             }
             else if (evt == ChessboardEvent.GAME_ENDED)

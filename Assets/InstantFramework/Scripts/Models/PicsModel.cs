@@ -5,26 +5,22 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public struct PicResult
-    {
-        public Sprite pic;
-        public bool onlineRefreshRequired;
-    }
-
     public class PicsModel : IPicsModel
     {
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
 
-        private const string LOCAL_FACEBOOK_DATA_FILE = "localFacebookDataFile";
-        private const string LOCAL_FACEBOOK_DATA_PIC = "localFacebookDataPic";
+        private const string PIC_KEY = "pic";
+        private const string PIC_FILE_PREFIX = "fp";
 
-        public void SetPic(string playerId, Sprite sprite)
+        public void SetPlayerPic(string playerId, Sprite sprite)
         {
+            string filename = PIC_FILE_PREFIX + playerId;
+
             try
             {
-                ILocalDataWriter writer = localDataService.OpenWriter(LOCAL_FACEBOOK_DATA_FILE);
-                writer.Write(LOCAL_FACEBOOK_DATA_PIC + playerId, sprite);
+                ILocalDataWriter writer = localDataService.OpenWriter(filename);
+                writer.Write(PIC_KEY, sprite);
                 writer.Close();
 
                 LogUtil.Log("Wrote pic for: " + playerId, "cyan");
@@ -32,24 +28,26 @@ namespace TurboLabz.InstantFramework
             catch (Exception e)
             {
                 // something went wrong, get rid of the file
-                localDataService.DeleteFile(LOCAL_FACEBOOK_DATA_FILE);
+                localDataService.DeleteFile(filename);
                 Debug.Log(e.ToString());
             }
         }
 
-        public Sprite GetPic(string playerId)
+        public Sprite GetPlayerPic(string playerId)
         {
+            string filename = PIC_FILE_PREFIX + playerId;
+
             try
             {
-                if (localDataService.FileExists(LOCAL_FACEBOOK_DATA_FILE))
+                if (localDataService.FileExists(filename))
                 {
-                    ILocalDataReader reader = localDataService.OpenReader(LOCAL_FACEBOOK_DATA_FILE);
-                    string key = LOCAL_FACEBOOK_DATA_PIC + playerId;
+                    ILocalDataReader reader = localDataService.OpenReader(filename);
+    
                     Sprite pic = null;
 
-                    if (reader.HasKey(key))
+                    if (reader.HasKey(PIC_KEY))
                     {
-                        pic = reader.Read<Sprite>(key);
+                        pic = reader.Read<Sprite>(PIC_KEY);
                         LogUtil.Log("Got pic for: " + playerId, "cyan");
                     }
 
@@ -64,6 +62,41 @@ namespace TurboLabz.InstantFramework
             }
 
             return null;
+        }
+
+        public void SetFriendPics(Dictionary<string, Friend> friends)
+        {
+            foreach (KeyValuePair<string, Friend> entry in friends)
+            {
+                SetPlayerPic(entry.Key, entry.Value.publicProfile.profilePicture);
+            }
+        }
+
+        public Dictionary<string, Sprite> GetFriendPics(List<string> playerIds)
+        {
+            Dictionary<string, Sprite> pics = new Dictionary<string, Sprite>();
+
+            foreach (string playerId in playerIds)
+            {
+                Sprite pic = GetPlayerPic(playerId);
+                if (pic != null) pics.Add(playerId, pic);
+            }
+
+            return pics;
+        }
+
+        public void DeleteFriendPic(string playerId)
+        {
+            string filename = PIC_FILE_PREFIX + playerId;
+
+            try
+            {
+                localDataService.DeleteFile(filename);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
+            }
         }
     }
 }

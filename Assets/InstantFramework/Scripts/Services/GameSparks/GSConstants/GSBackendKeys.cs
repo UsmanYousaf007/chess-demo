@@ -77,6 +77,9 @@ namespace TurboLabz.InstantFramework
 
         // Message ExtCodes
         public const string START_GAME_MESSAGE = "StartGameMessage";
+        public const string NEW_FRIEND_MESSAGE = "NewFriendMessage";
+
+        // Friend 
 
         // Mesage data keys
         public const string GAME_START_TIME = "gameStartTime";
@@ -188,6 +191,7 @@ namespace TurboLabz.InstantFramework
 			public const string GAMES_DRAWN = "gamesDrawn";
 			public const string TIME_STAMP = "timeStamp";
 			public const string PUBLIC_PROFILE = "publicProfile";
+            public const string FRIEND_ID = "friendId";
 		}
 
 		public static class FriendsOp
@@ -229,6 +233,12 @@ namespace TurboLabz.InstantFramework
 			public const string INVENTORY = "inventory";
 			public const string FRIENDS = "friends";
 		}
+
+        public static class Match
+        {
+            public const string QUICK_MATCH_SHORT_CODE = "Standard";
+            public const string LONG_MATCH_SHORT_CODE = "LongPlay";
+        }
     }
 
     // TODO: Organize these like the event data keys, consider class renaming

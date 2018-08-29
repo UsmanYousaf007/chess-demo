@@ -23,22 +23,22 @@ namespace TurboLabz.Multiplayer
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_PROMO_DLG);
 
-                IChessboardModel model = cmd.chessboardModel;
+                Chessboard chessboard = cmd.activeChessboard;
                 cmd.hidePossibleMovesSignal.Dispatch();
-                cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(model, true));
-                cmd.updatePromoDialogSignal.Dispatch(cmd.chessboardModel.playerColor);
+                cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(chessboard, true));
+                cmd.updatePromoDialogSignal.Dispatch(cmd.activeChessboard.playerColor);
             }
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)
         {
             ChessboardEvent evt = cmd.chessboardEvent;
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
 
             if (evt == ChessboardEvent.PROMO_SELECTED)
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-                return HandlePlayerMove(cmd, model.selectedPromo);
+                return HandlePlayerMove(cmd, chessboard.selectedPromo);
             }
             else if (evt == ChessboardEvent.GAME_ENDED)
             {

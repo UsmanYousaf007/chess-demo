@@ -18,6 +18,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Ad Cover")]
         public GameObject adCover;
 
         public void ShowAdCover()

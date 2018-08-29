@@ -10,7 +10,6 @@ namespace TurboLabz.InstantFramework
         public const string FRIEND_TYPE_COMMUNITY = "community";
 
 		public string playerId;
-		public string type;
 		public int gamesWon;
 		public int gamesLost;
 		public int gamesDrawn;

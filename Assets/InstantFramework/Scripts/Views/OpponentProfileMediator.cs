@@ -29,7 +29,7 @@ namespace TurboLabz.InstantGame
             view.Init();
         }
 
-        [ListensTo(typeof(MatchFoundSignal))]
+        [ListensTo(typeof(UpdateOpponentProfileSignal))]
         public void OnUpdateProfile(ProfileVO vo)
         {
             view.UpdateView(vo);

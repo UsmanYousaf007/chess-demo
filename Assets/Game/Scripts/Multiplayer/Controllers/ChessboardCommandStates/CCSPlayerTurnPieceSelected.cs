@@ -20,14 +20,14 @@ namespace TurboLabz.Multiplayer
     {
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
-            IChessboardModel model = cmd.chessboardModel;
+            Chessboard chessboard = cmd.activeChessboard;
 
             // If we came here after an opponent has moved
             if (CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)))
             {
                 RenderOpponentMove(cmd);
 
-                cmd.showPlayerToIndicatorSignal.Dispatch(model.playerFromSquare);
+                cmd.showPlayerToIndicatorSignal.Dispatch(chessboard.playerFromSquare);
                 cmd.hidePlayerFromIndicatorSignal.Dispatch();
                 ShowPossibleMoves(cmd);
             }
@@ -35,7 +35,7 @@ namespace TurboLabz.Multiplayer
             else if (CameFromState(cmd, typeof(CCSPlayerTurn)) ||
                      CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {
-                cmd.showPlayerToIndicatorSignal.Dispatch(model.playerFromSquare);
+                cmd.showPlayerToIndicatorSignal.Dispatch(chessboard.playerFromSquare);
                 cmd.hidePlayerFromIndicatorSignal.Dispatch();
                 ShowPossibleMoves(cmd);
             }
@@ -55,30 +55,30 @@ namespace TurboLabz.Multiplayer
             // Handle square clicked events
             if (evt == ChessboardEvent.SQUARE_CLICKED)
             {
-                IChessboardModel model = cmd.chessboardModel;
-                ChessSquare clickedSquare = model.clickedSquare;
+                Chessboard chessboard = cmd.activeChessboard;
+                ChessSquare clickedSquare = chessboard.clickedSquare;
 
                 // See if a new player piece was clicked
                 if (IsPlayerPiece(cmd, clickedSquare.piece) &&
-                    !clickedSquare.Equals(model.playerFromSquare))
+                    !clickedSquare.Equals(chessboard.playerFromSquare))
                 {
-                    model.playerFromSquare = clickedSquare;
+                    chessboard.playerFromSquare = clickedSquare;
                     return this;
                 }
-                else if (IsValidMove(cmd, model.playerFromSquare, clickedSquare)) // Else see if we have made a valid move
+                else if (IsValidMove(cmd, chessboard.playerFromSquare, clickedSquare)) // Else see if we have made a valid move
                 {
-                    if (!model.opponentMoveRenderComplete)
+                    if (!chessboard.opponentMoveRenderComplete)
                     {
                         return null;
                     }
 
-                    model.playerToSquare = clickedSquare;
+                    chessboard.playerToSquare = clickedSquare;
 
-                    if (HasPawnReachedEnd(model))
+                    if (HasPawnReachedEnd(chessboard))
                     {
                         // We set a temp move flag here because we render a temporary
                         // move of the pawn before we know the final promo selection
-                        model.playerMoveFlag = ChessMoveFlag.STANDARD;
+                        chessboard.playerMoveFlag = ChessMoveFlag.STANDARD;
                         return new CCSPromoDialog();
                     }
 
@@ -86,13 +86,13 @@ namespace TurboLabz.Multiplayer
                 }
                 else // Invalid target or same target
                 {
-                    cmd.chessboardModel.playerFromSquare = null;
+                    cmd.activeChessboard.playerFromSquare = null;
                     return new CCSPlayerTurn();
                 }
             }
             else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
-                cmd.chessboardModel.opponentMoveRenderComplete = true;
+                cmd.activeChessboard.opponentMoveRenderComplete = true;
                 return null;
             }
             else if (evt == ChessboardEvent.GAME_ENDED)
@@ -106,14 +106,14 @@ namespace TurboLabz.Multiplayer
 
         private void ShowPossibleMoves(ChessboardCommand cmd)
         {
-            FileRank fromSquare = cmd.chessboardModel.playerFromSquare.fileRank;
-            List<ChessSquare> possibleMoves = cmd.chessService.GetPossibleMoves(fromSquare, cmd.chessboardModel.squares);
+            FileRank fromSquare = cmd.activeChessboard.playerFromSquare.fileRank;
+            List<ChessSquare> possibleMoves = cmd.chessService.GetPossibleMoves(fromSquare, cmd.activeChessboard.squares);
             cmd.showPossibleMovesSignal.Dispatch(fromSquare, possibleMoves);
         }
 
         private bool IsValidMove(ChessboardCommand cmd, ChessSquare fromSquare, ChessSquare toSquare)
         {
-            List<ChessSquare> possibleMoves = cmd.chessService.GetPossibleMoves(fromSquare.fileRank, cmd.chessboardModel.squares);
+            List<ChessSquare> possibleMoves = cmd.chessService.GetPossibleMoves(fromSquare.fileRank, cmd.activeChessboard.squares);
 
             foreach (ChessSquare square in possibleMoves)
             {
@@ -125,10 +125,10 @@ namespace TurboLabz.Multiplayer
             return false;
         }
 
-        private bool HasPawnReachedEnd(IChessboardModel model)
+        private bool HasPawnReachedEnd(Chessboard chessboard)
         {
-            ChessSquare fromSquare = model.playerFromSquare;
-            ChessSquare toSquare = model.playerToSquare;
+            ChessSquare fromSquare = chessboard.playerFromSquare;
+            ChessSquare toSquare = chessboard.playerToSquare;
 
             string pieceName = fromSquare.piece.name;
 

@@ -6,6 +6,7 @@ using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 using UnityEngine;
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
@@ -14,36 +15,30 @@ namespace TurboLabz.InstantGame
         // dispatch signals
         [Inject] public ClearFriendsSignal clearFriendsSignal { get; set; }
         [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
-        [Inject] public AddFriendSignal addFriendSignal { get; set; }
+        [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
+        [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
 
-        // services
-        [Inject] public IFacebookService facebookService { get; set; }
-
-
         public override void Execute()
         {
             clearFriendsSignal.Dispatch();
 
-            foreach (KeyValuePair<string, Friend> obj in playerModel.friends)
-            {
-                Friend friend = obj.Value;
-                addFriendSignal.Dispatch(friend);
-                updateFriendPicSignal.Dispatch(friend.playerId, picsModel.GetPic(friend.playerId));
-                facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);    
-            }
-        }
+            List<string> keyList = new List<string>(playerModel.friends.Keys);
+            Dictionary<string, Sprite> pics = picsModel.GetFriendPics(keyList);
 
-        private void OnGetSocialPic(FacebookResult result, Sprite sprite, string friendId)
-        {
-            if (result == FacebookResult.SUCCESS)
+            if (pics != null)
             {
-                updateFriendPicSignal.Dispatch(friendId, sprite);
-                playerModel.friends[friendId].publicProfile.profilePicture = sprite;
+                foreach (KeyValuePair<string, Sprite> pic in pics)
+                {
+                    playerModel.friends[pic.Key].publicProfile.profilePicture = pic.Value;
+                }
             }
+
+            addFriendsSignal.Dispatch(playerModel.friends, false);
+            getSocialPicsSignal.Dispatch(playerModel.friends);
         }
     }
 }

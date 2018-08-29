@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> AiResign()
         {
-            return new GSAiResignRequest().Send(matchInfoModel.challengeId);
+            return new GSAiResignRequest().Send(matchInfoModel.activeChallengeId);
         }
     }
 

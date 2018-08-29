@@ -21,6 +21,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Promo")]
         public GameObject promoParent;
         public Button promoWhiteQueenButton;
         public Button promoBlackQueenButton;

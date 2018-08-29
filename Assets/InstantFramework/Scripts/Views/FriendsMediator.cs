@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
+        [Inject] public OpenLongMatchSignal openLongMatchSiganl { get; set; }
 
         public override void OnRegister()
         {
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
             view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
             view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.inviteFriendsButton.onClick.AddListener(OnShareApp);
+            view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -63,16 +65,22 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-		[ListensTo(typeof(AddFriendSignal))]
-		public void OnUpdateFriends(Friend friend)
+		[ListensTo(typeof(AddFriendsSignal))]
+        public void OnUpdateFriends(Dictionary<string, Friend> friends, bool isCommunity)
 		{
-			view.AddFriend(friend);
+            view.AddFriends(friends, isCommunity);
 		}
 
         [ListensTo(typeof(UpdateFriendPicSignal))]
         public void OnUpdateFriendPic(string playerId, Sprite sprite)
         {
             view.UpdateFriendPic(playerId, sprite);
+        }
+
+        [ListensTo(typeof(UpdateFriendBarSignal))]
+        public void OnUpdateFriendBar(LongPlayStatusVO vo)
+        {
+            view.UpdateFriendBar(vo);
         }
 
         [ListensTo(typeof(ClearCommunitySignal))]
@@ -87,7 +95,7 @@ namespace TurboLabz.InstantFramework
             view.ClearFriends();
         }
 
-        [ListensTo(typeof(FriendsConnectFacebookSignal))]
+        [ListensTo(typeof(FriendsShowConnectFacebookSignal))]
         public void OnFriendsConnectFacebook(bool showConnectInfo)
         {
             view.ShowConnectFacebook(showConnectInfo);
@@ -100,6 +108,12 @@ namespace TurboLabz.InstantFramework
             {
                 view.FacebookAuthResult(isSuccessful, pic, name);
             }
+        }
+
+        [ListensTo(typeof(ToggleFacebookButton))]
+        public void OnToggleFacebookButton(bool toggle)
+        {
+            view.ToggleFacebookButton(toggle);
         }
 
         private void OnFacebookButtonClicked()
@@ -125,6 +139,11 @@ namespace TurboLabz.InstantFramework
         private void OnShareApp()
         {
             shareAppSignal.Dispatch();
+        }
+
+        private void OnPlayButtonClicked(string playerId)
+        {
+            openLongMatchSiganl.Dispatch(playerId);
         }
     }
 }

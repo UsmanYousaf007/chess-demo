@@ -105,6 +105,7 @@ namespace TurboLabz.InstantFramework
 
 		void ListenForKeyEvents()
 		{
+            backendService.AddChallengeListeners();
 			GS.GameSparksAvailable += GameSparksAvailable;
 			splashAnimCompleteSignal.AddListener(SplashAnimComplete);
 		}

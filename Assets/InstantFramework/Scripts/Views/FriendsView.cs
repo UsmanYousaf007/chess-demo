@@ -16,12 +16,14 @@ using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using strange.extensions.signal.impl;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
     public class FriendsView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
 		public Transform listContainer;
 		public Transform friendsSibling;
@@ -49,10 +51,9 @@ namespace TurboLabz.InstantFramework
         public Signal reloadFriendsSignal = new Signal();
         public Signal refreshCommunitySignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
+        public Signal<string> playButtonClickedSignal = new Signal<string>();
 
         private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
-        private List<FriendBar> communityBars = new List<FriendBar>();
-        private List<FriendBar> friendBars = new List<FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
 
         public void Init()
@@ -110,49 +111,50 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-		public void AddFriend(Friend friend)
-		{
-            if (bars.ContainsKey(friend.playerId))
-                return;
 
+        public void AddFriends(Dictionary<string, Friend> friends, bool isCommunity)
+        {
+            foreach (KeyValuePair<string, Friend> entry in friends)
+            {
+                AddFriend(entry.Value, isCommunity);
+            }
+
+            UpdateAllStatus();
+        }
+
+        void AddFriend(Friend friend, bool isCommunity)
+		{
 		    // create bar
 			GameObject friendBarObj = GameObject.Instantiate(friendBarPrefab);
 
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
+            friendBar.playButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
+            friendBar.isCommunity = isCommunity;
 			friendBarObj.transform.SetParent(listContainer, false);
 
             int siblingIndex = 0;
 
-            if (friend.type == Friend.FRIEND_TYPE_SOCIAL)
-            {
-                siblingIndex = friendsSibling.GetSiblingIndex() + 1;
-                DefaultInviteSetActive(false);
-            }
-            else 
+            if (isCommunity)
             {
                 siblingIndex = communitySibling.GetSiblingIndex() + 1;
                 waitingForPlayersText.gameObject.SetActive(false);
             }
+            else
+            {
+                siblingIndex = friendsSibling.GetSiblingIndex() + 1;
+                DefaultInviteSetActive(false);
+            }
             
             friendBarObj.transform.SetSiblingIndex(siblingIndex);
 
-            // store bar
             bars.Add(friend.playerId, friendBarObj);
 
-            // save community bars for refresh
-            if (friend.type == Friend.FRIEND_TYPE_COMMUNITY)
-            {
-                communityBars.Add(friendBar);
-            }
-            else
-            {
-                friendBars.Add(friendBar);
-            }
+            UpdateFriendPic(friend.playerId, friend.publicProfile.profilePicture);
 		}
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
@@ -167,38 +169,21 @@ namespace TurboLabz.InstantFramework
             barData.avatarImage.sprite = sprite;
         }
 
-        public void ClearCommunity()
+        public void UpdateFriendBar(LongPlayStatusVO vo)
         {
-            foreach (FriendBar barData in communityBars)
-            {
-                bars.Remove(barData.friendInfo.playerId);
-                GameObject.Destroy(barData.gameObject);
-            }
+            if (!bars.ContainsKey(vo.playerId))
+                return;
 
-            communityBars.Clear();
-            waitingForPlayersText.gameObject.SetActive(true);
-        }
-
-        public void ClearFriends()
-        {
-            foreach (FriendBar barData in friendBars)
-            {
-                bars.Remove(barData.friendInfo.playerId);
-                GameObject.Destroy(barData.gameObject);
-            }
-
-            friendBars.Clear();
-        }
-
-        public void RemoveFriend(string friendId)
-        {
-            bars.Remove(friendId);
-            
+            FriendBar friendBar = bars[vo.playerId].GetComponent<FriendBar>();
+            friendBar.lastActionTime = vo.lastActionTime;
+            friendBar.longPlayStatus = vo.longPlayStatus;
+            UpdateStatus(friendBar);
         }
 
         public void Show() 
         { 
             gameObject.SetActive(true); 
+            UpdateAllStatus();
         }
 
         public void Hide()
@@ -209,6 +194,44 @@ namespace TurboLabz.InstantFramework
         public bool IsVisible()
         {
             return gameObject.activeSelf;
+        }
+
+        public void ClearCommunity()
+        {
+            ClearType(true);
+            waitingForPlayersText.gameObject.SetActive(true);
+        }
+
+        public void ClearFriends()
+        {
+            ClearType(false);
+            DefaultInviteSetActive(true);
+        }
+
+        public void ToggleFacebookButton(bool toggle)
+        {
+            facebookLoginButton.interactable = toggle;
+        }
+
+        void ClearType(bool isCommunity)
+        {
+            List<string> destroyMe = new List<string>();
+
+            foreach (KeyValuePair<string, GameObject> entry in bars)
+            {
+                if (entry.Value.GetComponent<FriendBar>().isCommunity == isCommunity)
+                {
+                    destroyMe.Add(entry.Key);
+                }    
+            }
+
+            foreach (string key in destroyMe)
+            {
+                GameObject.Destroy(bars[key]);
+                bars.Remove(key);
+            }
+
+            Resources.UnloadUnusedAssets();
         }
 
         void OnFacebookButtonClicked()
@@ -228,7 +251,94 @@ namespace TurboLabz.InstantFramework
 
         void ViewProfile(string playerId)
         {
+            audioService.PlayStandardClick();
             showProfileDialogSignal.Dispatch(playerId);
         }
+
+        void PlayButtonClicked(string playerId)
+        {
+            audioService.PlayStandardClick();
+            playButtonClickedSignal.Dispatch(playerId);
+        }
+
+        void UpdateAllStatus()
+        {
+            foreach (KeyValuePair<string, GameObject> entry in bars)
+            {
+                FriendBar friendBar = entry.Value.GetComponent<FriendBar>(); 
+                UpdateStatus(friendBar);
+            }
+        }
+
+        void UpdateStatus(FriendBar friendBar)
+        {
+            friendBar.statusLabel.gameObject.SetActive(true);
+
+            // Update status
+            if (friendBar.longPlayStatus == LongPlayStatus.NONE)
+            {
+                friendBar.statusLabel.gameObject.SetActive(false);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CHALLENGED_YOU);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_TURN)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_TURN)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_WON)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_WON);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.DRAW)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.DECLINED)
+            {
+                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);
+            }
+
+            // Update timers
+            if (friendBar.longPlayStatus != LongPlayStatus.NEW_CHALLENGE &&
+                friendBar.longPlayStatus != LongPlayStatus.PLAYER_TURN &&
+                friendBar.longPlayStatus != LongPlayStatus.OPPONENT_TURN)
+            {
+                friendBar.timer.gameObject.SetActive(false);
+                friendBar.timerLabel.gameObject.SetActive(false);
+                return;
+            }
+
+            friendBar.timer.gameObject.SetActive(true);
+            friendBar.timerLabel.gameObject.SetActive(true);
+
+            TimeSpan elapsedTime = DateTime.UtcNow.Subtract(friendBar.lastActionTime);
+
+            if (elapsedTime.TotalHours < 1)
+            {
+                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_MINUTES, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalMinutes)));
+            }
+            else if (elapsedTime.TotalDays < 1)
+            {
+                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_HOURS, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalHours)));
+            }
+            else
+            {
+                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DAYS, 
+                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)));
+            }
+        }
+            
     }
 }

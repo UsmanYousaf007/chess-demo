@@ -15,6 +15,10 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
+            if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
             if (evt == NavigatorEvent.SHOW_PROFILE_DLG)
             {
                 return new NSProfileDlg();

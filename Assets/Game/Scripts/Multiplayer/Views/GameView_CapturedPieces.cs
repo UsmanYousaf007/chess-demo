@@ -18,6 +18,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Captured Pieces")]
         public GameObject[] capturedPieces; // Holds references to all piece sprites
         public Transform[] capturedSlotsOpponent; // Holds references to positional empty game objects
         public Transform[] capturedSlotsPlayer; // Holds references to positional empty game objects

@@ -27,6 +27,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Chessboard")]
         public GameObject[] pieces;
         public GameObject[] possibleMoveIndicators;
         public Transform[] chessboardSquares;
