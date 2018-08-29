@@ -11,5 +11,6 @@ namespace TurboLabz.InstantFramework
     public interface IPushNotificationService
     {
         void Init();
+        string GetToken();
     }
 }

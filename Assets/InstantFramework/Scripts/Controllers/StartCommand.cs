@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IFacebookService facebookService { get; set; }
 		[Inject] public IAudioService audioService { get; set; }
 		[Inject] public IShareService shareService { get; set; }
-        [Inject] public IPushNotificationService pushNotificationService { get; set; }
 		[Inject] public IBackendService backendService { get; set; }
 
 		// Listen to Signals
@@ -41,7 +40,6 @@ namespace TurboLabz.InstantFramework
 			facebookService.Init().Then(OnFacebookInit);
 			audioService.Init();
 			shareService.Init();
-            pushNotificationService.Init();
 		}
 
 		void GameSparksAvailable(bool isAvailable)

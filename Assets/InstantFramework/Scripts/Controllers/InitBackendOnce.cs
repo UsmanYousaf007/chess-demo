@@ -24,9 +24,11 @@ namespace TurboLabz.InstantFramework
     {
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IPushNotificationService pushNotificationService { get; set; }
 
         public override void Execute()
         {
+            pushNotificationService.Init();
             backendService.StartPinger();
             backendService.MonitorConnectivity();
             backendService.AddMessageListeners();

@@ -15,6 +15,8 @@ namespace TurboLabz.InstantFramework
 {
     public class FirebasePushNotificationService : IPushNotificationService
     {
+        private string pushToken = null;
+
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
@@ -38,10 +40,16 @@ namespace TurboLabz.InstantFramework
             );
         }
 
-        public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token) {
+        public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token) 
+        {
             Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
             backendService.PushNotificationRegistration(token.Token);
-            TLUtils.LogUtil.Log("Firebase received Registration Token: " + token.Token);
+            pushToken = token.Token;
+        }
+
+        public string GetToken()
+        {
+            return pushToken;
         }
     }
 }
