@@ -208,6 +208,11 @@ namespace TurboLabz.InstantFramework
             DefaultInviteSetActive(true);
         }
 
+        public void ToggleFacebookButton(bool toggle)
+        {
+            facebookLoginButton.interactable = toggle;
+        }
+
         void ClearType(bool isCommunity)
         {
             List<string> destroyMe = new List<string>();

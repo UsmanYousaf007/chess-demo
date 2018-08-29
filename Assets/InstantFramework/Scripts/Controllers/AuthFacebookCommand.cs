@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public ToggleFacebookButton toggleFacebookButton { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -107,6 +108,7 @@ namespace TurboLabz.InstantFramework
         private void CommandBegin()
         {
             Retain();
+            toggleFacebookButton.Dispatch(false);
         }
 
         private void CommandEnd(bool isSuccessful)
@@ -120,6 +122,7 @@ namespace TurboLabz.InstantFramework
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
 
+            toggleFacebookButton.Dispatch(true);
             Release();
         }
     }

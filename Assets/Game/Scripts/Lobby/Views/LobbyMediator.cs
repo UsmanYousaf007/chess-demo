@@ -127,38 +127,6 @@ namespace TurboLabz.InstantGame
             adjustStrengthSignal.Dispatch(true);
         }
 
-        /*
-        private void OnDecTimeButtonClicked()
-        {
-            adjustTimerSignal.Dispatch(false);
-        }
-
-        private void OnIncTimeButtonClicked()
-        {
-            adjustTimerSignal.Dispatch(true);
-        }
-
-        private void OnDecPlayerColorButtonClicked()
-        {
-            adjustPlayerColorSignal.Dispatch(false);
-        }
-
-		private void OnIncThemeButtonClicked()
-		{
-			//adjustThemeSignal.Dispatch(true);
-		}
-
-		private void OnDecThemeButtonClicked()
-		{
-			//adjustThemeSignal.Dispatch(false);
-		}
-
-        private void OnIncPlayerColorButtonClicked()
-        {
-            adjustPlayerColorSignal.Dispatch(true);
-        }
-        */
-
         private void OnPlayCPUButtonClicked()
         {
             startCPUGameSignal.Dispatch();
@@ -169,27 +137,12 @@ namespace TurboLabz.InstantGame
             findMatchSignal.Dispatch();
         }
 
-        /*
-		private void OnThemesButtonClicked()
-		{
-			loadStoreSignal.Dispatch();
-		}
-*/
+
         private void OnDevFenValueChanged(string fen)
         {
             devFenValueChangedSignal.Dispatch(fen);
         }
-        /*
-        private void OnStatsButtonClicked()
-        {
-            loadStatsSignal.Dispatch();
-        }
-
-		private void OnStoreButtonClicked()
-		{
-			loadStoreSignal.Dispatch ();
-		}
-  */      
+      
 
 		private void OnFacebookButtonClicked()
         {
@@ -208,22 +161,3 @@ namespace TurboLabz.InstantGame
     }
 }
 
-/*
- * [ListensTo(typeof(UpdateDurationSignal))]
-        public void OnUpdateDuration(CPULobbyVO vo)
-        {
-            view.UpdateDuration(vo);
-        }
-
-        [ListensTo(typeof(UpdatePlayerColorSignal))]
-        public void OnUpdatePlayerColor(CPULobbyVO vo)
-        {
-            view.UpdatePlayerColor(vo);
-        }
-
-        [ListensTo(typeof(UpdateThemeSignal))]
-        public void OnThemePlayerColor(CPULobbyVO vo)
-        {
-            view.UpdateTheme(vo);
-        }
-        */

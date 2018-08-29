@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal<bool> {}
     public class UpdateFriendBarSignal : Signal<LongPlayStatusVO> {}
+    public class ToggleFacebookButton : Signal<bool> {}
 
 
     // SKINS

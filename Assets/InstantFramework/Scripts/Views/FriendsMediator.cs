@@ -110,6 +110,12 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(ToggleFacebookButton))]
+        public void OnToggleFacebookButton(bool toggle)
+        {
+            view.ToggleFacebookButton(toggle);
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();

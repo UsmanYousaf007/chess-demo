@@ -57,8 +57,6 @@ namespace TurboLabz.InstantGame
         public Text adCounterLabel;
         public Text adBonusLabel;
 
-        public GameObject adBlocker;
-
         public InputField devFen;
 
         // View signals
@@ -267,16 +265,6 @@ namespace TurboLabz.InstantGame
         public bool IsVisible()
         {
             return gameObject.activeSelf;
-        }
-
-        public void ToggleAdBlocker(bool enable)
-        {
-            adBlocker.SetActive(enable);
-        }
-
-        public void HideAdBlocker()
-        {
-            adBlocker.SetActive(false);
         }
 
         void OnDecStrengthButtonClicked()

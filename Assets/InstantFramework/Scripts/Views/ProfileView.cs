@@ -94,13 +94,6 @@ namespace TurboLabz.InstantGame
                     facebookButton.gameObject.SetActive(false);
                 }
             }
-            else
-            {
-                if (facebookButton != null)
-                {
-                    facebookButton.enabled = true;
-                }
-            }
 
             if (facebookButton != null)
             {
@@ -116,6 +109,14 @@ namespace TurboLabz.InstantGame
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        public void ToggleFacebookButton(bool toggle)
+        {
+            if (facebookButton != null)
+            {
+                facebookButton.interactable = toggle;
+            }
         }
 
         private void SetProfilePic(Sprite sprite)
@@ -139,7 +140,6 @@ namespace TurboLabz.InstantGame
         {
             facebookButtonClickedSignal.Dispatch();
             facebookConnectAnim.SetActive(true);
-            facebookButton.enabled = false;
         }
     }
 }

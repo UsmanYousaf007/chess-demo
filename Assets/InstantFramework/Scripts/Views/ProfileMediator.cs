@@ -48,6 +48,12 @@ namespace TurboLabz.InstantGame
             view.FacebookAuthResult(isSuccessful, pic, name);
         }
 
+        [ListensTo(typeof(ToggleFacebookButton))]
+        public void OnToggleFacebookButton(bool toggle)
+        {
+            view.ToggleFacebookButton(toggle);
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
