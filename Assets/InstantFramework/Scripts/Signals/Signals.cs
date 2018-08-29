@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
     public class SetErrorAndHaltSignal : Signal<BackendResult> {}
     public class HaltSignal: Signal<BackendResult> {}
     public class UpdatePlayerBucksSignal : Signal<long> {}
-    public class AddFriendsSignal : Signal<Dictionary<string, Friend>> {}
+    public class AddFriendsSignal : Signal<Dictionary<string, Friend>, bool> {}
     public class RefreshCommunitySignal : Signal {}
     public class RefreshFriendsSignal : Signal {}
     public class GetSocialPicsSignal : Signal<Dictionary<string, Friend>> {}

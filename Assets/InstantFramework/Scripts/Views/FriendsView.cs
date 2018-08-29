@@ -112,17 +112,17 @@ namespace TurboLabz.InstantFramework
         }
 
 
-        public void AddFriends(Dictionary<string, Friend> friends)
+        public void AddFriends(Dictionary<string, Friend> friends, bool isCommunity)
         {
             foreach (KeyValuePair<string, Friend> entry in friends)
             {
-                AddFriend(entry.Value);
+                AddFriend(entry.Value, isCommunity);
             }
 
             UpdateAllStatus();
         }
 
-		void AddFriend(Friend friend)
+        void AddFriend(Friend friend, bool isCommunity)
 		{
 		    // create bar
 			GameObject friendBarObj = GameObject.Instantiate(friendBarPrefab);
@@ -134,19 +134,20 @@ namespace TurboLabz.InstantFramework
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
+            friendBar.isCommunity = isCommunity;
 			friendBarObj.transform.SetParent(listContainer, false);
 
             int siblingIndex = 0;
 
-            if (friend.type == Friend.FRIEND_TYPE_SOCIAL)
-            {
-                siblingIndex = friendsSibling.GetSiblingIndex() + 1;
-                DefaultInviteSetActive(false);
-            }
-            else 
+            if (isCommunity)
             {
                 siblingIndex = communitySibling.GetSiblingIndex() + 1;
                 waitingForPlayersText.gameObject.SetActive(false);
+            }
+            else
+            {
+                siblingIndex = friendsSibling.GetSiblingIndex() + 1;
+                DefaultInviteSetActive(false);
             }
             
             friendBarObj.transform.SetSiblingIndex(siblingIndex);
@@ -197,22 +198,23 @@ namespace TurboLabz.InstantFramework
 
         public void ClearCommunity()
         {
-            ClearType(Friend.FRIEND_TYPE_COMMUNITY);
+            ClearType(true);
             waitingForPlayersText.gameObject.SetActive(true);
         }
 
         public void ClearFriends()
         {
-            ClearType(Friend.FRIEND_TYPE_SOCIAL);
+            ClearType(false);
+            DefaultInviteSetActive(true);
         }
 
-        void ClearType(string friendType)
+        void ClearType(bool isCommunity)
         {
             List<string> destroyMe = new List<string>();
 
             foreach (KeyValuePair<string, GameObject> entry in bars)
             {
-                if (entry.Value.GetComponent<FriendBar>().friendInfo.type == friendType)
+                if (entry.Value.GetComponent<FriendBar>().isCommunity == isCommunity)
                 {
                     destroyMe.Add(entry.Key);
                 }    

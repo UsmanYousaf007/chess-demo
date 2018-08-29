@@ -66,9 +66,9 @@ namespace TurboLabz.InstantFramework
         }
 
 		[ListensTo(typeof(AddFriendsSignal))]
-        public void OnUpdateFriends(Dictionary<string, Friend> friends)
+        public void OnUpdateFriends(Dictionary<string, Friend> friends, bool isCommunity)
 		{
-			view.AddFriends(friends);
+            view.AddFriends(friends, isCommunity);
 		}
 
         [ListensTo(typeof(UpdateFriendPicSignal))]

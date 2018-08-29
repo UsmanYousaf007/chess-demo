@@ -44,7 +44,7 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                addFriendsSignal.Dispatch(playerModel.community);
+                addFriendsSignal.Dispatch(playerModel.community, true);
                 getSocialPicsSignal.Dispatch(playerModel.community);
             }
 

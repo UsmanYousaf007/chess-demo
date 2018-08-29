@@ -17,5 +17,6 @@ namespace TurboLabz.InstantFramework
         public Friend friendInfo;
         public DateTime lastActionTime;
         public LongPlayStatus longPlayStatus;
+        public bool isCommunity;
     }
 }
