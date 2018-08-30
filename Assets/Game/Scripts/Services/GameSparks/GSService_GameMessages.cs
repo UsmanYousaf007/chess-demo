@@ -54,7 +54,6 @@ namespace TurboLabz.InstantFramework
                     UpdateTimerData(chessboard, gameData);
                 }
 
-
                 UpdateMoveData(chessboard, gameData);
 
                 if (isActiveChallenge)
@@ -68,11 +67,6 @@ namespace TurboLabz.InstantFramework
                 {
                     chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
                 }
-            }
-
-            if (!isActiveChallenge)
-            {
-                matchInfoModel.matches[challengeId].isResuming = true;
             }
         }
 

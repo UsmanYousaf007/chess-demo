@@ -53,7 +53,6 @@ namespace TurboLabz.Multiplayer
             }
 
             IPlayerModel playerModel = cmd.playerModel;
-            MatchInfo matchInfo = cmd.activeMatchInfo;
             Chessboard activeChessboard = cmd.activeChessboard;
 
             // Setup the initial rotation and skin
@@ -66,11 +65,11 @@ namespace TurboLabz.Multiplayer
             cmd.updateChessboardSignal.Dispatch(cmd.activeChessboard.squares);
 
             // Reset opponent move render value
-            cmd.activeChessboard.opponentMoveRenderComplete = true;
+            activeChessboard.opponentMoveRenderComplete = true;
 
             // If we are resuming, update the view to account for the moves
             // that were made
-            if (matchInfo.isResuming && activeChessboard.overrideFen == null)
+            if (activeChessboard.moveVOCache.Count > 0 && activeChessboard.overrideFen == null)
             {
                 bool wasPlayerTurn = (activeChessboard.playerColor == ChessColor.WHITE);
 

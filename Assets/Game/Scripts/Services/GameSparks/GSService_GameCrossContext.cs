@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2017-05-18 16:40:43 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using System.Collections.Generic;
 using GameSparks.Core;
@@ -24,10 +17,8 @@ namespace TurboLabz.InstantFramework
             LoadChessboardModel(gameData, challengeId);
         }
 
-        private void UpdateLongPlayGame(GSData gameData, string challengeId)
+        private void InitResumeData(GSData gameData, string challengeId)
         {
-            LoadChessboardModel(gameData, challengeId);
-
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
             // Load up the backend moves

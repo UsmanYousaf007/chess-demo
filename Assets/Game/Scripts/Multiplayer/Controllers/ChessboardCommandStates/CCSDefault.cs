@@ -33,8 +33,6 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
-                    LogUtil.Log("NORMAL GAME RESUME.", "green");
-
                     chessService.NewGame(chessboard.squares);
                     ProcessResume(cmd);
                 }

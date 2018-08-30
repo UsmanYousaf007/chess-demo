@@ -59,18 +59,13 @@ namespace TurboLabz.Multiplayer
             TimeSpan playerTimer = chessboard.backendPlayerTimer;
             TimeSpan opponentTimer = chessboard.backendOpponentTimer;
 
-            // If a game is resuming, then the server sends the authoritative times for
-            // the players and so we don't need any adjustment
-            if (!matchInfoModel.activeMatch.isResuming)
+            if (isPlayerTurn)
             {
-                if (isPlayerTurn)
-                {
-                    playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
-                }
-                else
-                {
-                    opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
-                }
+                playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+            }
+            else
+            {
+                opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
             }
 
             // Update the view for starting values
