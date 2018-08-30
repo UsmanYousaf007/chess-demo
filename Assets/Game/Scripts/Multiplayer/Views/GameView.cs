@@ -48,6 +48,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowBotBar();
             OnParentShowMenu();
             OnParentShowWifi();
+            OnParentShowAccept();
         }
 
         public void Hide()
