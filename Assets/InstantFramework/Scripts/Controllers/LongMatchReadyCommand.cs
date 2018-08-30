@@ -53,35 +53,35 @@ namespace TurboLabz.InstantFramework
             if (playerModel.friends.ContainsKey(matchId.opponentId) ||
                 playerModel.community.ContainsKey(matchId.opponentId))
             {
-                MatchInfo matchInfo = matchInfoModel.matches[matchId.challengeId];
-                DateTime startTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
-
-                LongPlayStatusVO vo = new LongPlayStatusVO();
-                vo.lastActionTime = startTime;
-
-                // If you didn't start this match then this person has challenged you
-                if (matchId.opponentId != matchInfoModel.activeLongMatchOpponentId)
-                {
-                    vo.longPlayStatus = LongPlayStatus.NEW_CHALLENGE;
-                }
-                // else set it to the person who's turn it is
-                else
-                {
-                    Chessboard chessboard = chessboardModel.chessboards[matchId.challengeId];
-                    vo.longPlayStatus = (chessboard.currentTurnPlayerId == matchId.opponentId) ?
-                        LongPlayStatus.OPPONENT_TURN : LongPlayStatus.PLAYER_TURN;
-                }
-
-                vo.playerId = matchId.opponentId;
-                updateFriendBarSignal.Dispatch(vo);
+                
             }
+
+            MatchInfo matchInfo = matchInfoModel.matches[matchId.challengeId];
+            DateTime startTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
+
+            LongPlayStatusVO vo = new LongPlayStatusVO();
+            vo.lastActionTime = startTime;
+
+            // If you didn't start this match then this person has challenged you
+            if (matchId.opponentId != matchInfoModel.activeLongMatchOpponentId)
+            {
+                vo.longPlayStatus = LongPlayStatus.NEW_CHALLENGE;
+            }
+            // else set it to the person who's turn it is
+            else
+            {
+                Chessboard chessboard = chessboardModel.chessboards[matchId.challengeId];
+                vo.longPlayStatus = (chessboard.currentTurnPlayerId == matchId.opponentId) ?
+                    LongPlayStatus.OPPONENT_TURN : LongPlayStatus.PLAYER_TURN;
+            }
+
+            vo.playerId = matchId.opponentId;
+            updateFriendBarSignal.Dispatch(vo);
 
             // Launch the game if you tapped a player
             if (matchId.opponentId == matchInfoModel.activeLongMatchOpponentId)
             {
                 matchInfoModel.activeChallengeId = matchId.challengeId;
-                MatchInfo matchInfo = matchInfoModel.activeMatch;
-
                 PublicProfile publicProfile = matchInfo.opponentPublicProfile;
 
                 ProfileVO pvo = new ProfileVO();

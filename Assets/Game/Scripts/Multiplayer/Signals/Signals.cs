@@ -70,4 +70,5 @@ namespace TurboLabz.Multiplayer
     public class EnableOpponentTurnInteractionSignal : Signal {}
     public class UpdateMoveForResumeSignal : Signal<MoveVO, bool> {}
     public class EnableResultsDialogButtonSignal : Signal {}
+    public class InitInfiniteTimersSignal : Signal<bool> {}
 }

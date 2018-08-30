@@ -50,6 +50,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public EnablePlayerTurnInteractionSignal enablePlayerTurnInteraction { get; set; }
         [Inject] public EnableOpponentTurnInteractionSignal enableOpponentTurnInteraction { get; set; }
         [Inject] public UpdateMoveForResumeSignal updateMoveForResumeSignal { get; set; }
+        [Inject] public InitInfiniteTimersSignal initInfiniteTimersSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }

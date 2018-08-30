@@ -34,6 +34,12 @@ namespace TurboLabz.Multiplayer
             view.InitTimers(vo);
         }
 
+        [ListensTo(typeof(InitInfiniteTimersSignal))]
+        public void InitInfiniteTimersSignal(bool isPlayerTurn)
+        {
+            view.InitInfiniteTimers(isPlayerTurn);
+        }
+
         [ListensTo(typeof(TakeTurnSwapTimeControlSignal))]
         public void OnTakeTurnSwapTimeControl()
         {

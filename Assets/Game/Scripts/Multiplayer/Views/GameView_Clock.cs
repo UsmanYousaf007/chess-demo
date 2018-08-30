@@ -18,6 +18,7 @@ using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -27,11 +28,11 @@ namespace TurboLabz.Multiplayer
         public Text playerClockLabel;
         public Image playerClockFill;
         public Image playerClockImage;
-        public GameObject playerInfinityImage;
+        public Text playerTurnLabel;
         public Text opponentClockLabel;
         public Image opponentClockFill;
         public Image opponentClockImage;
-        public GameObject opponentInfinityImage;
+        public Text opponentTurnLabel;
 
         private Coroutine playerClockCR;
         private Coroutine opponentClockCR;
@@ -40,7 +41,6 @@ namespace TurboLabz.Multiplayer
         private TimeSpan opponentTimer;
         private float clockSpeed;
 
-        private readonly Color labelDisabledColor = new Color(1f, 1f, 1f, 0.3f);
         private readonly Color imageDisabledColor = new Color(0.49f, 0.49f, 0.49f);
         private const double clockEmergencyThresholdSeconds = 10;
 
@@ -64,8 +64,8 @@ namespace TurboLabz.Multiplayer
             startingTimer = TimeSpan.Zero;
             playerClockLabel.gameObject.SetActive(false);
             opponentClockLabel.gameObject.SetActive(false);
-            playerInfinityImage.SetActive(true);
-            opponentInfinityImage.SetActive(true);
+            playerTurnLabel.gameObject.SetActive(true);
+            opponentTurnLabel.gameObject.SetActive(true);
             playerClockFill.fillAmount = 1f;
             opponentClockFill.fillAmount = 1f;
 
@@ -79,6 +79,9 @@ namespace TurboLabz.Multiplayer
                 DisablePlayerTimer();
                 EnableOpponentTimer();
             }
+
+            playerTurnLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+            opponentTurnLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
         }
 
         public void InitTimers(InitTimerVO vo)
@@ -88,8 +91,8 @@ namespace TurboLabz.Multiplayer
             opponentClockFill.gameObject.SetActive(true);
             playerClockLabel.gameObject.SetActive(true);
             opponentClockLabel.gameObject.SetActive(true);
-            playerInfinityImage.SetActive(false);
-            opponentInfinityImage.SetActive(false);
+            playerTurnLabel.gameObject.SetActive(false);
+            opponentTurnLabel.gameObject.SetActive(false);
 
             playerTimer = vo.playerTimer;
             opponentTimer = vo.opponentTimer;
@@ -161,6 +164,7 @@ namespace TurboLabz.Multiplayer
             if (startingTimer == TimeSpan.Zero)
             {
                 playerClockImage.color = Colors.YELLOW;
+                playerTurnLabel.color = Colors.YELLOW;
             }
             else
             {
@@ -170,7 +174,7 @@ namespace TurboLabz.Multiplayer
 
         private void DisablePlayerTimer()
         {
-            playerClockLabel.color = labelDisabledColor;
+            playerTurnLabel.color = Colors.DISABLED_WHITE;
             playerClockImage.color = imageDisabledColor;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
@@ -181,6 +185,7 @@ namespace TurboLabz.Multiplayer
             if (startingTimer == TimeSpan.Zero)
             {
                 opponentClockImage.color = Colors.YELLOW;
+                opponentTurnLabel.color = Colors.YELLOW;
             }
             else
             {
@@ -190,7 +195,7 @@ namespace TurboLabz.Multiplayer
 
         private void DisableOpponentTimer()
         {
-            opponentClockLabel.color = labelDisabledColor;
+            opponentTurnLabel.color = Colors.DISABLED_WHITE;
             opponentClockImage.color = imageDisabledColor;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
