@@ -147,6 +147,8 @@ namespace TurboLabz.InstantFramework
             }
             else if (challenge.ShortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
             {
+                LogUtil.Log("LONG MATCH MESSAGE: " + challengeId, "red");
+
                 MatchIdVO vo;
                 vo.challengeId = challengeId;
                 vo.opponentId = opponentId;

@@ -12,6 +12,7 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -27,6 +28,10 @@ namespace TurboLabz.Multiplayer
             if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
             }
 
             Release();

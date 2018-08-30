@@ -73,7 +73,8 @@ namespace TurboLabz.InstantFramework
             { "drawByFiftyMovesWithoutMove", GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE },
             { "drawByThreefoldRepetitionWithMove", GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE },
             { "drawByThreefoldRepetitionWithoutMove", GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE },
-            { "playerDisconnected", GameEndReason.PLAYER_DISCONNECTED }
+            { "playerDisconnected", GameEndReason.PLAYER_DISCONNECTED },
+            { "declined", GameEndReason.DECLINED }
         };
 
         public static readonly Dictionary<string, ChessColor> PLAYER_COLOR_MAP = new Dictionary<string, ChessColor>() {

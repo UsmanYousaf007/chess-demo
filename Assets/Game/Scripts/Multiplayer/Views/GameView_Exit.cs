@@ -32,7 +32,7 @@ namespace TurboLabz.Multiplayer
 
         public GameObject gameMenu;
 
-        public Text acceptTitleLabel;
+        public Text exitTitleLabel;
         public Text resignButtonLabel;
         public Text continueButtonLabel;
 
@@ -42,7 +42,7 @@ namespace TurboLabz.Multiplayer
             resignButton.onClick.AddListener(OnResignButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
 
-            acceptTitleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
+            exitTitleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
         }

@@ -41,7 +41,7 @@ namespace TurboLabz.Multiplayer
         private void OnDeclineClicked()
         {
             declineSignal.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
+        
         }
 
         private void OnAcceptClicked()

@@ -48,7 +48,13 @@ namespace TurboLabz.InstantFramework
                     .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                     .GetGSData(GSBackendKeys.GAME_DATA);
 
-                UpdateTimerData(chessboard, gameData);
+
+                if (message.Challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE)
+                {
+                    UpdateTimerData(chessboard, gameData);
+                }
+
+
                 UpdateMoveData(chessboard, gameData);
 
                 if (isActiveChallenge)
@@ -74,7 +80,11 @@ namespace TurboLabz.InstantFramework
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(challengeId, chessboard, gameData, playerModel.id);
+
+            bool isQuickMatch = (message.Challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE) ?
+                true : false;
+
+            AnnounceResults(challengeId, chessboard, gameData, playerModel.id, isQuickMatch);
         }
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
@@ -86,7 +96,11 @@ namespace TurboLabz.InstantFramework
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(challengeId, chessboard, gameData, matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+
+            bool isQuickMatch = (message.Challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE) ?
+                true : false;
+            
+            AnnounceResults(challengeId, chessboard, gameData, matchInfoModel.activeMatch.opponentPublicProfile.playerId, isQuickMatch);
         }
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
@@ -98,7 +112,11 @@ namespace TurboLabz.InstantFramework
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
-            AnnounceResults(challengeId, chessboard, gameData, null);
+
+            bool isQuickMatch = (message.Challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE) ?
+                true : false;
+            
+            AnnounceResults(challengeId, chessboard, gameData, null, isQuickMatch);
         }
 
         private void LoadChessboardModel(GSData gameData, string challengeId)
@@ -138,9 +156,12 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void AnnounceResults(string challengeId, Chessboard chessboard, GSData gameData, string winnerId)
+        private void AnnounceResults(string challengeId, Chessboard chessboard, GSData gameData, string winnerId, bool isQuickMatch)
         {
-            UpdateTimerData(chessboard, gameData);
+            if (isQuickMatch)
+            {
+                UpdateTimerData(chessboard, gameData);
+            }
 
             GameEndReason gameEndReason = GSBackendKeys.GAME_END_REASON_MAP[gameData.GetString(GSBackendKeys.GAME_END_REASON)];
             chessboard.gameEndReason = gameEndReason;

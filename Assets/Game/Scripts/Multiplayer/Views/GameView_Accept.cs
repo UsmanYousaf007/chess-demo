@@ -47,6 +47,7 @@ namespace TurboLabz.Multiplayer
             EnableModalBlocker();
 
             dialog.SetActive(true);
+            declineButton.interactable = true;
 
             DisableMenuButton();
         }
@@ -67,6 +68,7 @@ namespace TurboLabz.Multiplayer
 
         void OnDeclineButtonClicked()
         {
+            declineButton.interactable = false;
             declineButtonClickedSignal.Dispatch();
         }
     }

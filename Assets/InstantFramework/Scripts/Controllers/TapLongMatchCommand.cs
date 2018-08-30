@@ -10,13 +10,14 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
-    public class OpenLongMatchCommand : Command
+    public class TapLongMatchCommand : Command
     {
         // Parameters
         [Inject] public string opponentId { get; set; }
 
         // Dispatch signals
         [Inject] public CreateLongMatchSignal createLongMatchSignal { get; set; }
+        [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -25,30 +26,32 @@ namespace TurboLabz.InstantFramework
         {
             matchInfoModel.activeLongMatchOpponentId = opponentId;
 
-            bool matchExists = GetMatchExists();
+            string challengeId = GetMatchExists();
 
-            if (!matchExists)
+            if (challengeId == null)
             {
                 createLongMatchSignal.Dispatch(opponentId);
             }
+            else
+            {
+                startLongMatchSignal.Dispatch(challengeId);
+            }
         }
 
-        private bool GetMatchExists()
+        private string GetMatchExists()
         {
-            bool matchExists = false;
             foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
             {
                 if (entry.Value.opponentPublicProfile.playerId == opponentId)
                 {
                     if (!entry.Value.concluded)
                     {
-                        matchExists = true;
-                        break;
+                        return entry.Key;
                     }
                 }
             }
 
-            return matchExists;
+            return null;
         }
     }
 }
