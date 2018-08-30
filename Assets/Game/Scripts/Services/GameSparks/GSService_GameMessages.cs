@@ -37,12 +37,12 @@ namespace TurboLabz.InstantFramework
             bool isActiveChallenge = (matchInfoModel.activeChallengeId == challengeId) ? true : false;
 
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
-            chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
+            chessboard.isPlayerTurn = (message.Challenge.NextPlayer == playerModel.id) ? true : false;
 
             // The player's own move data / models are updated locally on the fly.
             // If the current turn player id is the local player, that means that
             // this message is related to the opponents move
-            if (chessboard.currentTurnPlayerId == playerModel.id)
+            if (chessboard.isPlayerTurn)
             {
                 GSData gameData = message.Challenge.ScriptData
                     .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
@@ -69,6 +69,11 @@ namespace TurboLabz.InstantFramework
                     chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
                 }
             }
+
+            if (!isActiveChallenge)
+            {
+                matchInfoModel.matches[challengeId].isResuming = true;
+            }
         }
 
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
@@ -76,7 +81,7 @@ namespace TurboLabz.InstantFramework
             string challengeId = message.Challenge.ChallengeId;
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
-            chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
+            chessboard.isPlayerTurn = (message.Challenge.NextPlayer == playerModel.id) ? true : false;
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
@@ -92,7 +97,7 @@ namespace TurboLabz.InstantFramework
             string challengeId = message.Challenge.ChallengeId;
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
-            chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
+            chessboard.isPlayerTurn = (message.Challenge.NextPlayer == playerModel.id) ? true : false;
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
@@ -108,7 +113,7 @@ namespace TurboLabz.InstantFramework
             string challengeId = message.Challenge.ChallengeId;
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
-            chessboard.currentTurnPlayerId = message.Challenge.NextPlayer;
+            chessboard.isPlayerTurn = (message.Challenge.NextPlayer == playerModel.id) ? true : false;
             GSData gameData = message.Challenge.ScriptData
                 .GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY)
                 .GetGSData(GSBackendKeys.GAME_DATA);
@@ -127,7 +132,7 @@ namespace TurboLabz.InstantFramework
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
 
-            chessboard.currentTurnPlayerId = gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID);
+            chessboard.isPlayerTurn = (gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID) == playerModel.id) ? true : false;
             chessboard.isAiGame = matchInfo.isBotMatch;
             chessboard.playerColor = GSBackendKeys.PLAYER_COLOR_MAP[playerData.GetString(GSBackendKeys.COLOR)];
             chessboard.opponentColor = GSBackendKeys.PLAYER_COLOR_MAP[opponentData.GetString(GSBackendKeys.COLOR)];
@@ -168,7 +173,7 @@ namespace TurboLabz.InstantFramework
             chessboard.winnerId = winnerId;
 
             // Add cases where the game ending does not have a move to the checks below
-            bool gameEndHasMove = ((chessboard.currentTurnPlayerId == matchInfoModel.activeMatch.opponentPublicProfile.playerId) &&
+            bool gameEndHasMove = ((!chessboard.isPlayerTurn) &&
                                    (gameEndReason != GameEndReason.PLAYER_DISCONNECTED) &&
                                    (gameEndReason != GameEndReason.RESIGNATION) &&
                                    (gameEndReason != GameEndReason.TIMER_EXPIRED) &&

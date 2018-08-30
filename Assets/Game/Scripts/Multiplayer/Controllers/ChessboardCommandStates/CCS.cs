@@ -74,7 +74,7 @@ namespace TurboLabz.Multiplayer
             {
                 bool wasPlayerTurn = (activeChessboard.playerColor == ChessColor.WHITE);
 
-                foreach (MoveVO moveVO in activeChessboard.resumeMoves)
+                foreach (MoveVO moveVO in activeChessboard.moveVOCache)
                 {
                     cmd.updateMoveForResumeSignal.Dispatch(moveVO, wasPlayerTurn);
                     wasPlayerTurn = !wasPlayerTurn;

@@ -24,17 +24,15 @@ namespace TurboLabz.InstantFramework
             LoadChessboardModel(gameData, challengeId);
         }
 
-        /*
-        private void InitGameForResume(GSData resumeData, string challengeId)
+        private void UpdateLongPlayGame(GSData gameData, string challengeId)
         {
-            GSData gameData = resumeData.GetGSData(GSBackendKeys.GAME_DATA);
             LoadChessboardModel(gameData, challengeId);
 
-            Chessboard chessboard = chessboardModel.activeChessboard;
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
             // Load up the backend moves
-            IList<GSData> backendMoveList = resumeData.GetGSDataList(GSBackendKeys.MOVE_LIST);
-            chessboard.backendMoveList = new List<ChessMove>();
+            IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
+            chessboard.moveList = new List<ChessMove>();
 
             foreach (GSData data in backendMoveList)
             {
@@ -45,9 +43,8 @@ namespace TurboLabz.InstantFramework
                 move.from = chessService.GetFileRankLocation(fromSquareStr[0], fromSquareStr[1]);
                 move.to = chessService.GetFileRankLocation(toSquareStr[0], toSquareStr[1]);
                 move.promo = data.GetString(GSBackendKeys.PROMOTION);
-                chessboard.backendMoveList.Add(move);
+                chessboard.moveList.Add(move);
             }
         }
-        */
     }
 }

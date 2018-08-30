@@ -41,13 +41,6 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            // A friend or visible community member starts a new game with you
-            if (playerModel.friends.ContainsKey(matchId.opponentId) ||
-                playerModel.community.ContainsKey(matchId.opponentId))
-            {
-                
-            }
-
             MatchInfo matchInfo = matchInfoModel.matches[matchId.challengeId];
             DateTime startTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
 
@@ -63,14 +56,12 @@ namespace TurboLabz.InstantFramework
             else
             {
                 Chessboard chessboard = chessboardModel.chessboards[matchId.challengeId];
-                vo.longPlayStatus = (chessboard.currentTurnPlayerId == matchId.opponentId) ?
-                    LongPlayStatus.OPPONENT_TURN : LongPlayStatus.PLAYER_TURN;
+                vo.longPlayStatus = (chessboard.isPlayerTurn) ?
+                    LongPlayStatus.PLAYER_TURN : LongPlayStatus.OPPONENT_TURN;
             }
 
             vo.playerId = matchId.opponentId;
             updateFriendBarSignal.Dispatch(vo);
-
-            LogUtil.Log("LONG MATCH READY: " + matchId.challengeId, "red");
 
             // Launch the game if you tapped a player
             if (matchId.opponentId == matchInfoModel.activeLongMatchOpponentId)

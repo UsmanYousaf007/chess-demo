@@ -53,7 +53,7 @@ namespace TurboLabz.Multiplayer
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             // Initialize player timer and adjust for joining the game late
-            bool isPlayerTurn = (chessboard.currentTurnPlayerId == playerModel.id);
+            bool isPlayerTurn = chessboard.isPlayerTurn;
             long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
             long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
             TimeSpan playerTimer = chessboard.backendPlayerTimer;
