@@ -96,7 +96,6 @@ namespace TurboLabz.InstantFramework
             GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
 
             MatchInfo matchInfo = matchInfoModel.CreateMatch(challengeId);
-            matchInfo.isResuming = false;
 
             PublicProfile opponentPublicProfile = new PublicProfile();
             opponentPublicProfile.playerId = opponentId;

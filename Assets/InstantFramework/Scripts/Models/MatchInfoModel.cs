@@ -21,8 +21,7 @@ namespace TurboLabz.InstantFramework
                 return (botId != null);
             }
         }
-
-        public bool isResuming { get; set; }
+            
         public EndGameResult endGameResult { get; set; }
         public bool concluded { get; set; }
 
@@ -32,7 +31,6 @@ namespace TurboLabz.InstantFramework
             opponentPublicProfile = new PublicProfile();
             botId = null;
             botDifficulty = 0;
-            isResuming = false;
             endGameResult = EndGameResult.NONE;
             eloScoreDelta = 0;
         }

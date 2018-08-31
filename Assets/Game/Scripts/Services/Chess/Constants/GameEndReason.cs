@@ -24,6 +24,7 @@ namespace TurboLabz.Chess
         DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE,
         TIMER_EXPIRED,
         RESIGNATION,
-        PLAYER_DISCONNECTED
+        PLAYER_DISCONNECTED,
+        DECLINED
     }
 }

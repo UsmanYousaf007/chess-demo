@@ -53,24 +53,19 @@ namespace TurboLabz.Multiplayer
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             // Initialize player timer and adjust for joining the game late
-            bool isPlayerTurn = (chessboard.currentTurnPlayerId == playerModel.id);
+            bool isPlayerTurn = chessboard.isPlayerTurn;
             long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
             long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
             TimeSpan playerTimer = chessboard.backendPlayerTimer;
             TimeSpan opponentTimer = chessboard.backendOpponentTimer;
 
-            // If a game is resuming, then the server sends the authoritative times for
-            // the players and so we don't need any adjustment
-            if (!matchInfoModel.activeMatch.isResuming)
+            if (isPlayerTurn)
             {
-                if (isPlayerTurn)
-                {
-                    playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
-                }
-                else
-                {
-                    opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
-                }
+                playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+            }
+            else
+            {
+                opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
             }
 
             // Update the view for starting values

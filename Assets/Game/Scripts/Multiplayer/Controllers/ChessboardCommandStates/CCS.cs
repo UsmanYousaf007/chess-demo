@@ -42,16 +42,17 @@ namespace TurboLabz.Multiplayer
             // Load the game view
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
 
-            // 
-
             // Initialize and launch our time control
             if (cmd.activeChessboard.gameDuration.CompareTo(TimeSpan.Zero) != 0)
             {
                 cmd.runTimeControlSignal.Dispatch();
             }
+            else
+            {
+                cmd.initInfiniteTimersSignal.Dispatch(isPlayerTurn);
+            }
 
             IPlayerModel playerModel = cmd.playerModel;
-            MatchInfo matchInfo = cmd.activeMatchInfo;
             Chessboard activeChessboard = cmd.activeChessboard;
 
             // Setup the initial rotation and skin
@@ -64,15 +65,15 @@ namespace TurboLabz.Multiplayer
             cmd.updateChessboardSignal.Dispatch(cmd.activeChessboard.squares);
 
             // Reset opponent move render value
-            cmd.activeChessboard.opponentMoveRenderComplete = true;
+            activeChessboard.opponentMoveRenderComplete = true;
 
             // If we are resuming, update the view to account for the moves
             // that were made
-            if (matchInfo.isResuming && activeChessboard.overrideFen == null)
+            if (activeChessboard.moveVOCache.Count > 0 && activeChessboard.overrideFen == null)
             {
                 bool wasPlayerTurn = (activeChessboard.playerColor == ChessColor.WHITE);
 
-                foreach (MoveVO moveVO in activeChessboard.resumeMoves)
+                foreach (MoveVO moveVO in activeChessboard.moveVOCache)
                 {
                     cmd.updateMoveForResumeSignal.Dispatch(moveVO, wasPlayerTurn);
                     wasPlayerTurn = !wasPlayerTurn;

@@ -201,6 +201,9 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_YOU_LOST = "longPlayYouLost";
         public const string LONG_PLAY_YOU_WON = "longPlayYouWon";
         public const string LONG_PLAY_DRAW = "longPlayDraw";
+        public const string LONG_PLAY_ACCEPT_TITLE = "longPlayAcceptTitle";
+        public const string LONG_PLAY_ACCEPT_YES = "longPlayAcceptYes";
+        public const string LONG_PLAY_ACCEPT_NO = "longPlayAcceptNo";
 
         #endregion
     }

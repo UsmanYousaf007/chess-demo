@@ -194,12 +194,15 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_HOURS, "{0}h" },
                 { LocalizationKey.LONG_PLAY_DAYS, "{0}d" },
                 { LocalizationKey.LONG_PLAY_CHALLENGED_YOU, "Challenged You" },
-                { LocalizationKey.LONG_PLAY_YOUR_TURN, "Your Turn" },
-                { LocalizationKey.LONG_PLAY_THEIR_TURN, "Their Turn" },
+                { LocalizationKey.LONG_PLAY_YOUR_TURN, "Your Move" },
+                { LocalizationKey.LONG_PLAY_THEIR_TURN, "Their Move" },
                 { LocalizationKey.LONG_PLAY_DECLINED, "Declined" },
                 { LocalizationKey.LONG_PLAY_YOU_LOST, "You Lost" },
                 { LocalizationKey.LONG_PLAY_YOU_WON, "You Won" },
                 { LocalizationKey.LONG_PLAY_DRAW, "Draw" },
+                { LocalizationKey.LONG_PLAY_ACCEPT_TITLE, "Accept Challenge?" },
+                { LocalizationKey.LONG_PLAY_ACCEPT_YES, "ACCEPT" },
+                { LocalizationKey.LONG_PLAY_ACCEPT_NO, "DECLINE" },
 
                 #endregion
             };

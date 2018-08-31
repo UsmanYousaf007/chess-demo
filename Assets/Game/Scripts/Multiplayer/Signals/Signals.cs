@@ -34,6 +34,7 @@ namespace TurboLabz.Multiplayer
     public class HideDrawDialogSignal : Signal {}
 
     public class ResignSignal : Signal {}
+    public class DeclineSignal : Signal {}
     public class AiTurnSignal : Signal {}
 
     // Command to command signals
@@ -70,4 +71,5 @@ namespace TurboLabz.Multiplayer
     public class EnableOpponentTurnInteractionSignal : Signal {}
     public class UpdateMoveForResumeSignal : Signal<MoveVO, bool> {}
     public class EnableResultsDialogButtonSignal : Signal {}
+    public class InitInfiniteTimersSignal : Signal<bool> {}
 }

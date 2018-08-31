@@ -37,7 +37,7 @@ namespace TurboLabz.Multiplayer
         public bool threefoldRepeatDrawAvailable { get; set; }
         public ChessSquare clickedSquare { get; set; }
         public string selectedPromo { get; set; }
-        public string currentTurnPlayerId { get; set; }
+        public bool isPlayerTurn { get; set; }
         public TimeSpan backendPlayerTimer { get; set; }
         public TimeSpan backendOpponentTimer { get; set; }
         public TimeSpan gameDuration { get; set; }
@@ -54,8 +54,8 @@ namespace TurboLabz.Multiplayer
         public string fen { get; set; }
         public bool timersStopped { get; set; }
         public List<string> notation { get; set; }
-        public List<ChessMove> backendMoveList { get; set; }
-        public List<MoveVO> resumeMoves { get; set; }
+        public List<ChessMove> moveList { get; set; }
+        public List<MoveVO> moveVOCache { get; set; }
         public bool inPlaybackMode { get; set; }
 
         // Overrides
@@ -83,7 +83,7 @@ namespace TurboLabz.Multiplayer
             threefoldRepeatDrawAvailable = false;
             clickedSquare = null;
             selectedPromo = null;
-            currentTurnPlayerId = null;
+            isPlayerTurn = false;
             backendPlayerTimer = TimeSpan.Zero;
             backendOpponentTimer = TimeSpan.Zero;
             gameDuration = TimeSpan.Zero;
@@ -100,8 +100,8 @@ namespace TurboLabz.Multiplayer
             fen = null;
             timersStopped = false;
             notation = new List<string>();
-            backendMoveList = new List<ChessMove>();
-            resumeMoves = new List<MoveVO>();
+            moveList = new List<ChessMove>();
+            moveVOCache = new List<MoveVO>();
             inPlaybackMode = false;
 
             overrideFen = null;

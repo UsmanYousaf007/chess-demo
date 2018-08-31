@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
-        [Inject] public OpenLongMatchSignal openLongMatchSiganl { get; set; }
+        [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -143,7 +143,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId)
         {
-            openLongMatchSiganl.Dispatch(playerId);
+            tapLongMatchSignal.Dispatch(playerId);
         }
     }
 }
