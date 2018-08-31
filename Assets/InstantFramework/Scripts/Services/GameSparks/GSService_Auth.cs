@@ -33,6 +33,9 @@ namespace TurboLabz.InstantFramework
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
+
+            GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
+            FillPlayerDetails(playerDetailsData);
         }
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)
@@ -58,8 +61,6 @@ namespace TurboLabz.InstantFramework
 
             new FacebookConnectRequest()
                 .SetAccessToken(accessToken)                // fb access token
-                .SetDoNotCreateNewPlayer(true)              // do not create a new player account
-                .SetDoNotLinkToCurrentPlayer(false)         // link to the current player
                 .SetSyncDisplayName(true)                   // change current name to fb name
                 .Send(OnRequestSuccess, OnRequestFailure);
 
