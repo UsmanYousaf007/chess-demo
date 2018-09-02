@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> FindMatch();
         IPromise<BackendResult> CreateLongMatch(string opponentId);
         IPromise<BackendResult> GetGameStartTime(string challengeId);
+        IPromise<BackendResult> RegisterChallenge(string challengeId);
 		
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend
         IPromise<BackendResult> FriendsOpFriends(); // get backend saved friends
