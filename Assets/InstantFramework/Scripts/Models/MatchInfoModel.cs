@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
             
         public EndGameResult endGameResult { get; set; }
         public bool concluded { get; set; }
+        public bool sourceIsMessage { get; set; }
 
         public MatchInfo()
         {

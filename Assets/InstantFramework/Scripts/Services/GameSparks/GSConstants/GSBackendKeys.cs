@@ -236,8 +236,12 @@ namespace TurboLabz.InstantFramework
 
         public static class Match
         {
+            public const string ACTIVE_CHALLENGES = "activeChallenges";
+            public const string SHORT_CODE = "shortCode";
             public const string QUICK_MATCH_SHORT_CODE = "Standard";
             public const string LONG_MATCH_SHORT_CODE = "LongPlay";
+            public const string CHALLENGER_ID = "challengerId";
+            public const string CHALLENGED_ID = "challengedId";
         }
     }
 
