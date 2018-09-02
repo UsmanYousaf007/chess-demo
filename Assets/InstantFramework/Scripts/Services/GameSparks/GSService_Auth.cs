@@ -33,6 +33,9 @@ namespace TurboLabz.InstantFramework
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
+
+            GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
+            FillPlayerDetails(playerDetailsData);
         }
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)

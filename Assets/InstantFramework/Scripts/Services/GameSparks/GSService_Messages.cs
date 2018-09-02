@@ -30,8 +30,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnScriptMessage(ScriptMessage message)
         {
-            LogUtil.Log("WE GOT MESSAGE:" + message.JSONString, "cyan");
-
             if (message.ExtCode == GSBackendKeys.NEW_FRIEND_MESSAGE)
             {
                 string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
@@ -78,79 +76,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeStartedMessage(ChallengeStartedMessage message)
         {
-            GSData challengeData = message.Challenge.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
-            GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
-            GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
-
-            var challenge = message.Challenge;
-            string challengeId = challenge.ChallengeId;
-            string challengerId = challenge.Challenger.Id;
-            var enumerator = challenge.Challenged.GetEnumerator();
-            bool hasChallengedPlayer = enumerator.MoveNext();
-
-            Assertions.Assert(hasChallengedPlayer == true, "No challenged player has been returned from the backend!");
-
-            string challengedId = enumerator.Current.Id;
-            string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
-            GSData opponentData = matchData.GetGSData(opponentId);
-            GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
-
-            MatchInfo matchInfo = matchInfoModel.CreateMatch(challengeId);
-
-            PublicProfile opponentPublicProfile = new PublicProfile();
-            opponentPublicProfile.playerId = opponentId;
-            opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
-            opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
-            opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
-
-            //IList<GSData> activeInventoryData = opponentProfile.GetGSDataList(GSBackendKeys.PLAYER_ACTIVE_INVENTORY);
-            //string activeChessSkinsId = "unassigned";
-            //GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
-
-            GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
-            IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
-            if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
-            {
-                ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
-                opponentPublicProfile.facebookUserId = facebookAuthData.id;
-            }
-                
-            matchInfo.opponentPublicProfile = opponentPublicProfile;
-            matchInfo.botId = matchData.GetString(GSBackendKeys.ChallengeData.BOT_ID);
-            if (opponentData.ContainsKey(GSBackendKeys.ChallengeData.BOT_DIFFICULTY))
-            {
-                matchInfo.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
-
-                // Assign a random name to the bot
-                int randomSuffix = UnityEngine.Random.Range(100, 10001);
-                matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
-            }
-
-            if (challenge.ShortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
-            {
-                matchInfo.gameStartTimeMilliseconds = matchData.GetLong(GSBackendKeys.GAME_START_TIME).Value;
-            }
-
-            matchInfoModel.matches[challengeId] = matchInfo;
-
-            // InitGame() is responsible for filling out all the game models
-            // using the game specific data that comes as part of the response
-            // in the ChallengeStartedMessage. Since Gamebet is not responsible
-            // for any of the game models and reponse data this reponsibility
-            // has to be delegated to the game side.
-            InitGame(gameData, challengeId);
-
-            if (challenge.ShortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE)
-            {   
-                findMatchCompleteSignal.Dispatch(challengeId);
-            }
-            else if (challenge.ShortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
-            {
-                MatchIdVO vo;
-                vo.challengeId = challengeId;
-                vo.opponentId = opponentId;
-                longMatchReadySignal.Dispatch(vo);
-            }
+            InitChallengeMessage(message.Challenge.ChallengeId, message.Challenge.ScriptData);
         }
     }
 }

@@ -52,6 +52,10 @@ namespace TurboLabz.InstantFramework
             {
                 promise.Then(OnStoreInit);
             }
+
+
+            ParseActiveChallenges(response.ScriptData);
+           
         }
 
         private void OnStoreInit(bool success)
@@ -205,6 +209,8 @@ namespace TurboLabz.InstantFramework
 
             return friend;
         }
+
+
     }
 
     #region REQUEST
