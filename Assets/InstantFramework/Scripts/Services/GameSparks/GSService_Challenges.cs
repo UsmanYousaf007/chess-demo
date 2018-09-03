@@ -20,8 +20,16 @@ namespace TurboLabz.InstantFramework
     {
         private void InitChallengeMessage(string challengeId, GSData scriptData)
         {
-            GSData matchData = scriptData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
-            GSData gameData = scriptData.GetGSData(GSBackendKeys.GAME_DATA);
+            // Because we preprocess messages upon GS connect, the player model
+            // might not have set the player id. So we use the platform player id.
+            if (playerModel.id == null)
+            {
+                playerModel.id = GS.GSPlatform.UserId;
+            }
+            LogUtil.Log("SCRIPT DATA: " + scriptData.JSON, "white");
+            GSData challengeData = scriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+            GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
+            GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
             ParseChallengeData(challengeId, matchData, gameData, true);
         }
 
