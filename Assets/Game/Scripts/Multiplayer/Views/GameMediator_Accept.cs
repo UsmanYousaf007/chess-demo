@@ -40,7 +40,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnDeclineClicked()
         {
-            declineSignal.Dispatch();
+         //   declineSignal.Dispatch();
         
         }
 

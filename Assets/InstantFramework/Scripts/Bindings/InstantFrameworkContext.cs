@@ -77,6 +77,9 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
 
+            commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
+            commandBinder.Bind<DeclineSignal>().To<DeclineCommand>();
+
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();

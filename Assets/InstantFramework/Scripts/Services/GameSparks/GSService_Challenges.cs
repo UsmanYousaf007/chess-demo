@@ -76,6 +76,7 @@ namespace TurboLabz.InstantFramework
 
             MatchInfo matchInfo = matchInfoModel.CreateMatch(challengeId);
             matchInfo.sourceIsMessage = sourceIsMessage;
+            matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
 
             string challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
             string challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);

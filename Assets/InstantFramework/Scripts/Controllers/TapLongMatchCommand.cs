@@ -26,7 +26,7 @@ namespace TurboLabz.InstantFramework
         {
             matchInfoModel.activeLongMatchOpponentId = opponentId;
 
-            string challengeId = GetMatchExists();
+            string challengeId = GetChallengeId();
 
             if (challengeId == null)
             {
@@ -38,16 +38,13 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private string GetMatchExists()
+        private string GetChallengeId()
         {
             foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
             {
                 if (entry.Value.opponentPublicProfile.playerId == opponentId)
                 {
-                    if (!entry.Value.concluded)
-                    {
-                        return entry.Key;
-                    }
+                    return entry.Key;
                 }
             }
 

@@ -44,8 +44,13 @@ namespace TurboLabz.InstantFramework
         VERIFY_REMOTE_STORE_PURCHASE_FAILED,
 		FRIENDS_OP_FAILED,
         PUSH_NOTIFICATION_REGISTRATION_FAILED,
+        ACCEPT_FAILED,
+        DECLINE_FAILED,
+
+
         // Testing code
         SEND_TEST_REQUEST_FAILED,
         SEND_BACKEND_ERROR_SIGNAL,
+
     }
 }
