@@ -116,6 +116,8 @@ namespace TurboLabz.InstantFramework
         {
             foreach (KeyValuePair<string, Friend> entry in friends)
             {
+                LogUtil.Log("Adding friend.. " + entry.Value.playerId, "white");
+
                 AddFriend(entry.Value, isCommunity);
             }
 
@@ -169,10 +171,15 @@ namespace TurboLabz.InstantFramework
             barData.avatarImage.sprite = sprite;
         }
 
-        public void UpdateFriendBar(LongPlayStatusVO vo)
+        public void UpdateFriendBarStatus(LongPlayStatusVO vo)
         {
+            LogUtil.Log("Updating friend bar for " + vo.playerId, "white");
+
             if (!bars.ContainsKey(vo.playerId))
+            {
+                LogUtil.Log("No bar exists.", "white");
                 return;
+            }
 
             FriendBar friendBar = bars[vo.playerId].GetComponent<FriendBar>();
             friendBar.lastActionTime = vo.lastActionTime;

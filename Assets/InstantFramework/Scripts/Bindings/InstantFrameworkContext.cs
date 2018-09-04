@@ -48,7 +48,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<TapLongMatchSignal>().To<TapLongMatchCommand>();
             commandBinder.Bind<StartLongMatchSignal>().To<StartLongMatchCommand>();
             commandBinder.Bind<CreateLongMatchSignal>().To<CreateLongMatchCommand>();
-            commandBinder.Bind<LongMatchReadySignal>().To<LongMatchReadyCommand>();
             commandBinder.Bind<GetGameStartTimeSignal>().To<GetGameStartTimeCommand>();
             commandBinder.Bind<ShowFindMatchSignal>().To<ShowFindMatchCommand>();
             commandBinder.Bind<StartGameSignal>().To<StartGameCommand>();
@@ -58,6 +57,7 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
+            commandBinder.Bind<UpdateFriendBarSignal>().To<UpdateFriendBarCommand>();
 
             commandBinder.Bind<SavePlayerInventorySignal>().To<SavePlayerInventoryCommand>();
             commandBinder.Bind<SetSkinSignal>().To<SetSkinCommand>();
@@ -138,7 +138,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ClearFriendsSignal>().ToSingleton();
             injectionBinder.Bind<FriendsShowConnectFacebookSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileDialogSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateFriendBarSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateFriendBarStatusSignal>().ToSingleton();
 
 
 

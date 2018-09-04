@@ -19,7 +19,6 @@ namespace TurboLabz.InstantFramework
     public class FindMatchCompleteSignal : Signal<string> {}
     public class TapLongMatchSignal : Signal<string> {}
     public class CreateLongMatchSignal : Signal<string> {}
-    public class LongMatchReadySignal : Signal<MatchIdVO> {}
     public class StartLongMatchSignal : Signal<string> {}
     public class MatchFoundSignal : Signal<ProfileVO> {}
     public class GetGameStartTimeSignal : Signal {}
@@ -65,7 +64,8 @@ namespace TurboLabz.InstantFramework
     public class LoadFriendsSignal : Signal {}
     public class ShareAppSignal : Signal {}
     public class ShowAdSignal : Signal<bool> {}
-    public class UpdateFriendBarSignal : Signal<LongPlayStatusVO> {}
+    public class UpdateFriendBarStatusSignal : Signal<LongPlayStatusVO> {}
+    public class UpdateFriendBarSignal: Signal<string> {}
     public class ToggleFacebookButton : Signal<bool> {}
 
 

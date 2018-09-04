@@ -77,10 +77,10 @@ namespace TurboLabz.InstantFramework
             view.UpdateFriendPic(playerId, sprite);
         }
 
-        [ListensTo(typeof(UpdateFriendBarSignal))]
-        public void OnUpdateFriendBar(LongPlayStatusVO vo)
+        [ListensTo(typeof(UpdateFriendBarStatusSignal))]
+        public void OnUpdateFriendBarStatus(LongPlayStatusVO vo)
         {
-            view.UpdateFriendBar(vo);
+            view.UpdateFriendBarStatus(vo);
         }
 
         [ListensTo(typeof(ClearCommunitySignal))]

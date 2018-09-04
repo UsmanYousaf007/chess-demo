@@ -53,9 +53,7 @@ namespace TurboLabz.InstantFramework
                 promise.Then(OnStoreInit);
             }
 
-
-            ParseActiveChallenges(response.ScriptData);
-           
+            ParseActiveChallenges(response.ScriptData);           
         }
 
         private void OnStoreInit(bool success)
