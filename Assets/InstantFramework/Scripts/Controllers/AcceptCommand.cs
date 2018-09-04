@@ -1,18 +1,22 @@
 ﻿/// @license Propriety <http://license.url>
-/// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
+/// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System.Collections;
+using UnityEngine;
 using strange.extensions.command.impl;
-using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.Multiplayer
+namespace TurboLabz.InstantFramework 
 {
-    public class DeclineCommand : Command
+    public class AcceptCommand : Command
     {
+        // Parameters
+        [Inject] public string challengeId { get; set; }
+
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -20,18 +24,14 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             Retain();
-            backendService.Decline().Then(OnDecline);
+            backendService.Accept(challengeId).Then(OnAccept);
         }
 
-        private void OnDecline(BackendResult result)
+        private void OnAccept(BackendResult result)
         {
-            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
+            if (result != BackendResult.CANCELED && result != BackendResult.SUCCESS)
             {
                 backendErrorSignal.Dispatch(result);
-            }
-            else
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
             }
 
             Release();

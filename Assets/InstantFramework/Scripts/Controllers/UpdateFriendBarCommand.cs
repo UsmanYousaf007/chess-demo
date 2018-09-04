@@ -28,19 +28,15 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            LogUtil.Log("Looking for matches...", "white");
+            bool friendHasMatch = false;
 
             foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
             {
-                LogUtil.Log("Found a match...", "white");
-
                 MatchInfo matchInfo = entry.Value;
                 string opponentId = matchInfo.opponentPublicProfile.playerId;
 
-                if (playerModel.friends.ContainsKey(opponentId))
+                if (friendId == opponentId)
                 {
-                    LogUtil.Log("Updating friend bar: " + friendId, "white");
-
                     Chessboard chessboard = chessboardModel.chessboards[entry.Key];
                     LongPlayStatusVO vo;
                     vo.longPlayStatus = LongPlayStatus.NEW_CHALLENGE;
@@ -48,8 +44,20 @@ namespace TurboLabz.InstantFramework
                     vo.playerId = opponentId;
 
                     updateFriendBarStatusSignal.Dispatch(vo);
+                    friendHasMatch = true;
 
+                    break;
                 }
+            }
+
+            if (!friendHasMatch)
+            {
+                LongPlayStatusVO vo;
+                vo.longPlayStatus = LongPlayStatus.NONE;
+                vo.lastActionTime = DateTime.UtcNow;
+                vo.playerId = friendId;
+
+                updateFriendBarStatusSignal.Dispatch(vo);
             }
         }
     }

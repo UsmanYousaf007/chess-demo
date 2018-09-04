@@ -12,7 +12,10 @@ namespace TurboLabz.InstantFramework
         public PublicProfile opponentPublicProfile { get; set; }
         public string botId { get; set; }
         public float botDifficulty { get; set; }
+        public EndGameResult endGameResult { get; set; }
         public int eloScoreDelta { get; set; }
+        public bool sourceIsMessage { get; set; }
+        public string acceptStatus { get; set; }
 
         public bool isBotMatch
         {
@@ -21,10 +24,6 @@ namespace TurboLabz.InstantFramework
                 return (botId != null);
             }
         }
-            
-        public EndGameResult endGameResult { get; set; }
-        public bool concluded { get; set; }
-        public bool sourceIsMessage { get; set; }
 
         public MatchInfo()
         {
@@ -34,6 +33,8 @@ namespace TurboLabz.InstantFramework
             botDifficulty = 0;
             endGameResult = EndGameResult.NONE;
             eloScoreDelta = 0;
+            sourceIsMessage = false;
+            acceptStatus = null;
         }
     }
 

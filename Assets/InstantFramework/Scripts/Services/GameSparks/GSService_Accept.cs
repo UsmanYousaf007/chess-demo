@@ -1,34 +1,33 @@
 ﻿/// @license Propriety <http://license.url>
-/// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
+/// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using strange.extensions.promise.api;
-using TurboLabz.InstantFramework;
-using System;
 using GameSparks.Api.Responses;
+using strange.extensions.promise.api;
+using System;
 using GameSparks.Api.Requests;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> Decline()
+        public IPromise<BackendResult> Accept(string challengeId)
         {
-            return new GSDeclineRequest().Send(matchInfoModel.activeChallengeId);
+            return new GSAcceptRequest().Send(challengeId);
         }
     }
 
     #region REQUEST
 
-    public class GSDeclineRequest : GSFrameworkRequest
+    public class GSAcceptRequest : GSFrameworkRequest
     {
-        const string SHORT_CODE = "Decline";
+        const string SHORT_CODE = "Accept";
         const string ATT_CHALLENGE_ID = "challengeId";
 
         public IPromise<BackendResult> Send(string challengeId)
         {
-            this.errorCode = BackendResult.DECLINE_REQUEST_FAILED;
+            this.errorCode = BackendResult.ACCEPT_FAILED;
 
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)

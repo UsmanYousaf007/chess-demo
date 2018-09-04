@@ -29,6 +29,5 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> ClaimFiftyMoveDraw();
         IPromise<BackendResult> ClaimThreefoldRepeatDraw();
         IPromise<BackendResult> PlayerResign();
-        IPromise<BackendResult> Decline();
     }
 }
