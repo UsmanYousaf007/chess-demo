@@ -39,7 +39,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeWonMessage(ChallengeWonMessage message)
         {
-
             GSData scriptData = message.ScriptData;
             EndGame(scriptData);
             OnGameChallengeWonMessage(message);
@@ -76,7 +75,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeStartedMessage(ChallengeStartedMessage message)
         {
-            InitChallengeMessage(message.Challenge.ChallengeId, message.Challenge.ScriptData);
+            InitChallengeMessage(message.Challenge.ChallengeId, message.ScriptData);
         }
     }
 }

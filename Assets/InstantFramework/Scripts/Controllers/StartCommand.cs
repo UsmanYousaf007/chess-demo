@@ -27,6 +27,9 @@ namespace TurboLabz.InstantFramework
 		// Listen to Signals
 		[Inject] public SplashAnimCompleteSignal splashAnimCompleteSignal { get; set; }
 
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+
 		bool gameSparksAvailable;
 		bool splashAnimComplete;
 		bool facebookInitialized;
@@ -70,7 +73,7 @@ namespace TurboLabz.InstantFramework
 				facebookInitialized)
 			{
 				if (GS.Authenticated)
-				{
+                {
 					GotoReception();
 				}
 				else

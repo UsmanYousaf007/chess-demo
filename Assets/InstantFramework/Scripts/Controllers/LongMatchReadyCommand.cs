@@ -69,6 +69,5 @@ namespace TurboLabz.InstantFramework
                 startLongMatchSignal.Dispatch(matchId.challengeId);
             }
         }
-
     }
 }
