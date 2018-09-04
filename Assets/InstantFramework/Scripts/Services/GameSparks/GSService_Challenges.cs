@@ -18,6 +18,26 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        // Called by get init data and facebook auth commands
+        private void ParseActiveChallenges(GSData data)
+        {
+            GSData activeChallengesData = data.GetGSData(GSBackendKeys.Match.ACTIVE_CHALLENGES);
+            if (activeChallengesData == null)
+                return;
+
+            Dictionary<string, object> activeChallenges = GSJson.From(activeChallengesData.JSON) as Dictionary<string, object>;
+
+            LogUtil.Log("Challenge count: " + activeChallenges.Count, "white");
+
+            foreach (KeyValuePair<string, object> entry in activeChallenges)
+            {
+                GSData challengeData = activeChallengesData.GetGSData(entry.Key);
+                GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
+                GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
+                ParseChallengeData(entry.Key, matchData, gameData, false);
+            }
+        }
+
         private void InitChallengeMessage(string challengeId, GSData scriptData)
         {
             // Because we preprocess messages upon GS connect, the player model
@@ -33,34 +53,23 @@ namespace TurboLabz.InstantFramework
             ParseChallengeData(challengeId, matchData, gameData, true);
         }
 
-        private void ParseActiveChallenges(GSData response)
-        {
-            GSData activeChallengesData = response.GetGSData(GSBackendKeys.Match.ACTIVE_CHALLENGES);
-            if (activeChallengesData == null)
-                return;
-            
-            Dictionary<string, object> activeChallenges = GSJson.From(activeChallengesData.JSON) as Dictionary<string, object>;
-
-            LogUtil.Log("Challenge count: " + activeChallenges.Count, "white");
-
-            foreach (KeyValuePair<string, object> entry in activeChallenges)
-            {
-                GSData challengeData = activeChallengesData.GetGSData(entry.Key);
-                GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
-                GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
-                ParseChallengeData(entry.Key, matchData, gameData, false);
-            }
-        }
-
         private void ParseChallengeData(string challengeId, GSData matchData, GSData gameData, bool sourceIsMessage)
         {
+            string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
+
+            // If you are not logged into facebook, long match challenge messages should be ignored. You
+            // have probably just launched the editor at this stage.
+            if ((shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) && !facebookService.isLoggedIn())
+            {
+                return;
+            }
+
             // The sourceIsMessage flag tells us whether this was an auto game generated message or whether we are parsing
             // via init data. This is an important distinction because init data is not allowed to override anything
             // inside matches or challenges if they have been pre-filled via an auto game generated message.
             // In addition message sources are allowed to only update matchinfo once.
             // In other words, leave if a source message has populated our model.
-            if (matchInfoModel.matches.ContainsKey(challengeId) &&
-                matchInfoModel.matches[challengeId].sourceIsMessage)
+            if (matchInfoModel.matches.ContainsKey(challengeId) && matchInfoModel.matches[challengeId].sourceIsMessage)
             {
                 return;
             }
@@ -100,8 +109,6 @@ namespace TurboLabz.InstantFramework
                 int randomSuffix = UnityEngine.Random.Range(100, 10001);
                 matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
             }
-
-            string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
 
             if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
             {
