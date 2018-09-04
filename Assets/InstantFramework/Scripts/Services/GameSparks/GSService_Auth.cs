@@ -60,8 +60,7 @@ namespace TurboLabz.InstantFramework
             this.errorCode = BackendResult.AUTH_FACEBOOK_REQUEST_FAILED;
 
             new FacebookConnectRequest()
-                .SetAccessToken(accessToken)                // fb access token
-                .SetSyncDisplayName(true)                   // change current name to fb name
+                .SetAccessToken(accessToken)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;
