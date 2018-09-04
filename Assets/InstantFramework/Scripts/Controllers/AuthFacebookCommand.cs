@@ -125,6 +125,7 @@ namespace TurboLabz.InstantFramework
             }
 
             authFacebookResultSignal.Dispatch(isSuccessful, playerModel.profilePic, playerModel.name);
+
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
 
