@@ -35,6 +35,9 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+            LogUtil.Log("Long match ready...", "white");
+
+
             // Is the opponent on the block list? If so, exit
             if (playerModel.blocked.ContainsKey(matchId.opponentId))
             {

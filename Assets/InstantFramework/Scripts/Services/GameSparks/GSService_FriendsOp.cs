@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
             {
                 PopulateFriends(playerModel.friends, friendsList);
                 GSParser.LogFriends("friends", playerModel.friends);
+                ParseActiveChallenges(response.ScriptData);
             }
 
             // Populate blocked friends data
