@@ -9,14 +9,14 @@ namespace TurboLabz.InstantFramework
 	{
 		public override void RenderDisplayOnEnter()
 		{
-            ShowDialog(NavigatorViewId.PROFILE_DLG);
+            ShowDialog(NavigatorViewId.BUY_DLG);
 		}
 
 		public override NS HandleEvent(NavigatorEvent evt)
 		{
-			if (evt == NavigatorEvent.ESCAPE)
+			if (evt == NavigatorEvent.ESCAPE ||
+                evt == NavigatorEvent.SHOW_STORE)
 			{
-                
 				return new NSStore();
 			}
 
