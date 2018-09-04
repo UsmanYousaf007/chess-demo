@@ -27,7 +27,6 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
-        [Inject] public RegisterChallengeSignal registerChallengeSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -69,12 +68,6 @@ namespace TurboLabz.InstantFramework
             {
                 startLongMatchSignal.Dispatch(matchId.challengeId);
             }
-            // Add this match to our init data since someone else sent it to us
-            else
-            {
-                registerChallengeSignal.Dispatch(matchId.challengeId);
-            }
         }
-
     }
 }
