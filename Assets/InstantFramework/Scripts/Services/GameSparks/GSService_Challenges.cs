@@ -18,6 +18,26 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        // Called by get init data and facebook auth commands
+        private void ParseActiveChallenges(GSData data)
+        {
+            GSData activeChallengesData = data.GetGSData(GSBackendKeys.Match.ACTIVE_CHALLENGES);
+            if (activeChallengesData == null)
+                return;
+
+            Dictionary<string, object> activeChallenges = GSJson.From(activeChallengesData.JSON) as Dictionary<string, object>;
+
+            LogUtil.Log("Challenge count: " + activeChallenges.Count, "white");
+
+            foreach (KeyValuePair<string, object> entry in activeChallenges)
+            {
+                GSData challengeData = activeChallengesData.GetGSData(entry.Key);
+                GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
+                GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
+                ParseChallengeData(entry.Key, matchData, gameData, false);
+            }
+        }
+
         private void InitChallengeMessage(string challengeId, GSData scriptData)
         {
             // Because we preprocess messages upon GS connect, the player model
@@ -33,25 +53,6 @@ namespace TurboLabz.InstantFramework
             ParseChallengeData(challengeId, matchData, gameData, true);
         }
 
-        private void ParseActiveChallenges(GSData response)
-        {
-            GSData activeChallengesData = response.GetGSData(GSBackendKeys.Match.ACTIVE_CHALLENGES);
-            if (activeChallengesData == null)
-                return;
-            
-            Dictionary<string, object> activeChallenges = GSJson.From(activeChallengesData.JSON) as Dictionary<string, object>;
-
-            LogUtil.Log("Challenge count: " + activeChallenges.Count, "white");
-
-            foreach (KeyValuePair<string, object> entry in activeChallenges)
-            {
-                GSData challengeData = activeChallengesData.GetGSData(entry.Key);
-                GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
-                GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
-                ParseChallengeData(entry.Key, matchData, gameData, false);
-            }
-        }
-
         private void ParseChallengeData(string challengeId, GSData matchData, GSData gameData, bool sourceIsMessage)
         {
             // The sourceIsMessage flag tells us whether this was an auto game generated message or whether we are parsing
@@ -61,6 +62,13 @@ namespace TurboLabz.InstantFramework
             // In other words, leave if a source message has populated our model.
             if (matchInfoModel.matches.ContainsKey(challengeId) &&
                 matchInfoModel.matches[challengeId].sourceIsMessage)
+            {
+                return;
+            }
+
+            // For the editor, the is also a case where active challenges are parsed twice because we manually authenticate
+            // with gamesparks
+            if (!sourceIsMessage && matchInfoModel.matches.ContainsKey(challengeId))
             {
                 return;
             }

@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
 
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
+            ParseActiveChallenges(response.ScriptData);
         }
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)
