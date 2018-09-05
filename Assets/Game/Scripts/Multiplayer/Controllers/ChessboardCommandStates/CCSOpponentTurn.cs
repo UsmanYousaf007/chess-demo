@@ -117,6 +117,11 @@ namespace TurboLabz.Multiplayer
                 HandleGameEnded(cmd);
                 return new CCSAnnounceResults();
             }
+            else if (evt == ChessboardEvent.GAME_ACCEPT_REQUESTED)
+            {
+                return new CCSAcceptDialog();
+            }
+
 
             return null;
         }
