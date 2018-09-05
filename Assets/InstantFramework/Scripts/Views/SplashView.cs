@@ -15,6 +15,7 @@ using strange.extensions.signal.impl;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,17 +23,9 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
-        public Image cover;
-        public Text connectingLabel;
-        public GameObject originalSplash;
 
         public void Init()
         {
-        }
-
-        public void OnSplashAnimationComplete()
-        {
-            DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 1f);
         }
 
         public void Show()
@@ -43,6 +36,8 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
+
+            GameObject originalSplash = GameObject.FindGameObjectWithTag("OriginalSplash");
             GameObject.Destroy(originalSplash);
         }
     }
