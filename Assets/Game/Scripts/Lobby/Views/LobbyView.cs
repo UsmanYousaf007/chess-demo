@@ -48,11 +48,15 @@ namespace TurboLabz.InstantGame
         public Button playMultiplayerButton;
         public Text playMultiplayerButtonLabel;
 
+        public Button playFriendsButton;
+        public Text playFriendsButtonLabel;
+
         public Button playCPUButton;
         public Text playCPUButtonLabel;
 
         public Button freeBucksButton;
         public Text freeBucksButtonLabel;
+        public Text freeBucksButtonSubLabel;
         public GameObject adCounter;
         public Text adCounterLabel;
         public Text adBonusLabel;
@@ -71,6 +75,7 @@ namespace TurboLabz.InstantGame
 		public Signal decThemeButtonClickedSignal = new Signal();
         public Signal playCPUButtonClickedSignal = new Signal();
         public Signal playMultiplayerButtonClickedSignal = new Signal();
+        public Signal playFriendsButtonClickedSignal = new Signal();
 		public Signal themesButtonClickedSignal = new Signal();
         public Signal freeBucksButtonClickedSignal = new Signal();
         public Signal freeBucksRewardOkButtonClickedSignal = new Signal();
@@ -88,6 +93,7 @@ namespace TurboLabz.InstantGame
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
             playMultiplayerButton.onClick.AddListener(OnPlayMultiplayerButtonClicked);
+            playFriendsButton.onClick.AddListener(OnPlayFriendsButtonClicked);
             playCPUButton.onClick.AddListener(OnPlayCPUButtonClicked);
 		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
         
@@ -96,9 +102,9 @@ namespace TurboLabz.InstantGame
             strengthLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_STRENGTH);
             inProgressLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_IN_PROGRESS);
             playMultiplayerButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
+            playFriendsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_FRIENDS);
             playCPUButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
-
-
+            freeBucksButtonSubLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_SUBLABEL);
 
 			currentStrengthLabel.color = Colors.YELLOW;
 			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
@@ -115,6 +121,7 @@ namespace TurboLabz.InstantGame
             decStrengthButton.onClick.RemoveAllListeners();
             incStrengthButton.onClick.RemoveAllListeners();
             playMultiplayerButton.onClick.RemoveAllListeners();
+            playFriendsButton.onClick.RemoveAllListeners();
             playCPUButton.onClick.RemoveAllListeners();
             devFen.onValueChanged.RemoveAllListeners();
         }
@@ -175,16 +182,18 @@ namespace TurboLabz.InstantGame
             if (vo.state == AdsState.AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET);
+                freeBucksButtonSubLabel.gameObject.SetActive(true);
                 freeBucksButton.interactable = true;
 
                 adCounter.SetActive(true);
                 adCounterLabel.text = vo.count.ToString();
-                adBonusLabel.gameObject.SetActive(true);
+                //adBonusLabel.gameObject.SetActive(true);
                 adBonusLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BONUS, vo.bucks);
             }
             else if (vo.state == AdsState.NOT_AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE);
+                freeBucksButtonSubLabel.gameObject.SetActive(false);
                 waitForAdsAvailabilityCR = StartCoroutine(WaitForAdsAvailabilityCR());
             }
             else if (vo.state == AdsState.WAIT)
@@ -326,6 +335,11 @@ namespace TurboLabz.InstantGame
         private void OnPlayMultiplayerButtonClicked()
         {
             playMultiplayerButtonClickedSignal.Dispatch();
+        }
+
+        private void OnPlayFriendsButtonClicked()
+        {
+            playFriendsButtonClickedSignal.Dispatch();
         }
 
         /*

@@ -22,19 +22,16 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
-        public Signal splashAnimationCompletedSignal = new Signal();
         public Image cover;
         public Text connectingLabel;
         public GameObject originalSplash;
 
         public void Init()
         {
-            connectingLabel.text = localizationService.Get(LocalizationKey.SPLASH_CONNECTING);
         }
 
         public void OnSplashAnimationComplete()
         {
-            splashAnimationCompletedSignal.Dispatch();
             DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 1f);
         }
 

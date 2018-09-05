@@ -44,6 +44,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6531c66afb50f4ae485a4be398117020, type: 3}
   - {fileID: 21300000, guid: 93f701363339b44e6b6eee9ad9b94abb, type: 3}
   - {fileID: 21300000, guid: 177c825d5265e47e6b59f6d1130c95c4, type: 3}
+  - {fileID: 21300000, guid: f5996381c062f46bfaf14460ae9f9f49, type: 3}
   - {fileID: 21300000, guid: 5a6970e2b75f745248fe09d351b23616, type: 3}
   - {fileID: 21300000, guid: 29908d8c15caf44e8bc1833068b0e474, type: 3}
   - {fileID: 21300000, guid: 9579a910d0f6347ee9786833e99a8247, type: 3}
@@ -62,7 +63,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6b404ed06a2504dc68b1f84e1a2d734e, type: 3}
   - {fileID: 21300000, guid: aecbdc1088b5f47a589fc25d3b851bd6, type: 3}
   - {fileID: 21300000, guid: 7a6a4bd6a075d4af389ec9750fa3ce1a, type: 3}
-  - {fileID: 21300000, guid: 57fc4f8c36c8048adb248a711ea1b5da, type: 3}
   - {fileID: 21300000, guid: a297361d0729641f8bbadbed713c5620, type: 3}
   - {fileID: 21300000, guid: 7c9641864158e4cacb9aa4f929b05a3d, type: 3}
   - {fileID: 21300000, guid: 57fb4f305816148a7968dce8846ba273, type: 3}
@@ -70,19 +70,22 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 504d5364e198b46a68b9acb87155a8f6, type: 3}
   - {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
   - {fileID: 21300000, guid: f769c84c9fc314a74baa81bd620e4b88, type: 3}
+  - {fileID: 21300000, guid: 610441bca674d4b5a9ae5ac01381aabf, type: 3}
   - {fileID: 21300000, guid: 9020df48e317742baaa64cdb30ca2113, type: 3}
   - {fileID: 21300000, guid: 23660d219a98e477899e476efb6204cf, type: 3}
   - {fileID: 21300000, guid: 35ae75768389f43c795d66b09faab1d9, type: 3}
-  - {fileID: 21300000, guid: 6fc5bfebb751d485d99ca3b3d74cb669, type: 3}
+  - {fileID: 21300000, guid: feb032e04b1854a99bc2672f82cb5a28, type: 3}
   - {fileID: 21300000, guid: b19a7aa46b1034c92826082decfe225f, type: 3}
   - {fileID: 21300000, guid: 0ab7ba1c888d4440c910f465e5d7892c, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
-  - {fileID: 21300000, guid: feb032e04b1854a99bc2672f82cb5a28, type: 3}
   - {fileID: 21300000, guid: 2ab5648995f684723aa61105f1c7e2f1, type: 3}
-  - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
-  - {fileID: 21300000, guid: 6a479efebb79f4d45a0ffff1c84f4f41, type: 3}
   - {fileID: 21300000, guid: d38505243154b46f483cec8c61ba521f, type: 3}
+  - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
+  - {fileID: 21300000, guid: 6fc5bfebb751d485d99ca3b3d74cb669, type: 3}
+  - {fileID: 21300000, guid: 6a479efebb79f4d45a0ffff1c84f4f41, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
+  - {fileID: 21300000, guid: 467db0f957a4347d08d5cffc8ca9fa79, type: 3}
+  - {fileID: 21300000, guid: 57fc4f8c36c8048adb248a711ea1b5da, type: 3}
   - {fileID: 21300000, guid: 389fc1fc648cb42c1a680bba327ced10, type: 3}
   - {fileID: 21300000, guid: 8e1acdf30cd854d35891383225e8c61f, type: 3}
   - {fileID: 21300000, guid: 4d71572a5c766406f81efec6c0335425, type: 3}
@@ -119,6 +122,7 @@ SpriteAtlas:
   - AvatarMask
   - AvatarOutline
   - ChessLogo
+  - WhiteButton
   - ClockBorderBg
   - ClockBorder
   - FacebookLoginButton
@@ -137,7 +141,6 @@ SpriteAtlas:
   - ProfileFlagBorder
   - FriendBar
   - ProfileFlagMask
-  - NotificationBg
   - AudioOn
   - AudioOff
   - HomeIcon
@@ -145,19 +148,22 @@ SpriteAtlas:
   - WifiWarning
   - NoStar
   - SilverStar
+  - QuickMatchIcon
   - Coins
   - ShareIcon
   - InGameMenuIcon
-  - SupportIcon
+  - TVIcon
   - ShopIcon
   - ProfileIcon
   - SettingsIcon
-  - TVIcon
   - ComputerIcon
-  - ProgressIcon
-  - PlayIcon
   - AddIcon
+  - ProgressIcon
+  - SupportIcon
+  - PlayIcon
   - PossibleMovesIndicator
+  - Sparkle
+  - NotificationBg
   - e
   - d
   - g

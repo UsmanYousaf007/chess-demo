@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
@@ -41,7 +42,7 @@ namespace TurboLabz.InstantGame
             view.Init();
 
             view.playMultiplayerButtonClickedSignal.AddListener(OnPlayMultiplayerButtonClicked);
-
+            view.playFriendsButtonClickedSignal.AddListener(OnPlayFriendsButtonClicked);
             view.playCPUButtonClickedSignal.AddListener(OnPlayCPUButtonClicked);
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
@@ -71,6 +72,8 @@ namespace TurboLabz.InstantGame
             view.incDurationButtonClickedSignal.RemoveAllListeners();
             view.decPlayerColorButtonClickedSignal.RemoveAllListeners();
             view.incPlayerColorButtonClickedSignal.RemoveAllListeners();
+            view.playMultiplayerButtonClickedSignal.RemoveAllListeners();
+            view.playFriendsButtonClickedSignal.RemoveAllListeners();
             view.playCPUButtonClickedSignal.RemoveAllListeners();
             view.devFenValueChangedSignal.RemoveAllListeners();
             view.statsButtonClickedSignal.RemoveAllListeners();
@@ -137,6 +140,10 @@ namespace TurboLabz.InstantGame
             findMatchSignal.Dispatch();
         }
 
+        private void OnPlayFriendsButtonClicked()
+        {
+            loadFriendsSignal.Dispatch();
+        }
 
         private void OnDevFenValueChanged(string fen)
         {

@@ -13,20 +13,17 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         //[Inject] public LoadCPUGameSignal loadGameSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public SplashAnimCompleteSignal splashAnimCompleteSignal { get; set; }
 
         // View injection
         [Inject] public SplashView view { get; set; }
         
         public override void OnRegister()
         {
-            view.splashAnimationCompletedSignal.AddListener(OnSplashAnimationCompleted);
             view.Init();
         }
 
         public override void OnRemove()
         {
-            view.splashAnimationCompletedSignal.RemoveListener(OnSplashAnimationCompleted);
         }
         
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -45,11 +42,6 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
-        }
-
-        private void OnSplashAnimationCompleted()
-        {
-            splashAnimCompleteSignal.Dispatch();
         }
     }
 }

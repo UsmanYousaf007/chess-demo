@@ -36,7 +36,6 @@ namespace TurboLabz.InstantFramework
     public class UpdateOpponentProfileSignal : Signal<ProfileVO> {}
     public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
     public class BackendErrorSignal : Signal<BackendResult> {}
-	public class SplashAnimCompleteSignal : Signal {}
 	public class ReceptionSignal : Signal {}
     public class LoadLobbySignal : Signal {}
     public class SavePlayerInventorySignal : Signal {}

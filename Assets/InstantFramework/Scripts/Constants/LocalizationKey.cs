@@ -81,6 +81,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_PLAYER_COLOR = "cpuMenuPlayerColor";
 		public const string CPU_MENU_THEME = "cpuMenuTheme";
         public const string CPU_MENU_PLAY_ONLINE = "cpuMenuPlayOnline";
+        public const string CPU_MENU_PLAY_FRIENDS = "cpuMenuPlayFriends";
         public const string CPU_MENU_PLAY_CPU = "cpuMenuPlayCPU";
         public const string CPU_MENU_THEMES = "cpuMenuThemes";
         public const string CPU_GAME_CPU_NAME = "cpuGameCpuName";
@@ -101,6 +102,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_FREE_BUCKS_REWARD_OK = "cpuFreeBucksRewardOk";
         public const string CPU_FREE_BUCKS_REWARD_TITLE = "cpuFreeBucksRewardTitle";
         public const string CPU_FREE_BUCKS_BUTTON_GET = "cpuFreeBucksButtonGet";
+        public const string CPU_FREE_BUCKS_BUTTON_SUBLABEL = "cpuFreeBucksButtonSubLabel";
         public const string CPU_FREE_BUCKS_BONUS = "cpuFreeBucksBonus";
         public const string CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE = "cpuFreeBucksButtonNotAvailable";
         public const string CPU_FREE_BUCKS_BUTTON_AVAILABLE = "cpuFreeBucksButtonAvailable";

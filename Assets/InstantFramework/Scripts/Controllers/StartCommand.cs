@@ -24,14 +24,10 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IShareService shareService { get; set; }
 		[Inject] public IBackendService backendService { get; set; }
 
-		// Listen to Signals
-		[Inject] public SplashAnimCompleteSignal splashAnimCompleteSignal { get; set; }
-
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
 		bool gameSparksAvailable;
-		bool splashAnimComplete;
 		bool facebookInitialized;
 
 		public override void Execute()
@@ -60,16 +56,9 @@ namespace TurboLabz.InstantFramework
 			}
 		}
 
-		void SplashAnimComplete()
-        {
-			splashAnimComplete = true;
-			ProcessStartup();
-		}
-
 		void ProcessStartup()
 		{
  			if (gameSparksAvailable &&
-				splashAnimComplete &&
 				facebookInitialized)
 			{
 				if (GS.Authenticated)
@@ -108,13 +97,11 @@ namespace TurboLabz.InstantFramework
 		{
             backendService.AddChallengeListeners();
 			GS.GameSparksAvailable += GameSparksAvailable;
-			splashAnimCompleteSignal.AddListener(SplashAnimComplete);
 		}
 
 		void RemoveListeners()
 		{
 			GS.GameSparksAvailable -= GameSparksAvailable;
-			splashAnimCompleteSignal.RemoveAllListeners();
 		}
 	}
 }
