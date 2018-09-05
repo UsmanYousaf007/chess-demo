@@ -9,7 +9,6 @@ namespace TurboLabz.Multiplayer
     public partial class GameMediator
     {
         // Dispatch Signals
-        [Inject] public DeclineSignal declineSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public void OnRegisterAccept()
@@ -40,13 +39,12 @@ namespace TurboLabz.Multiplayer
 
         private void OnDeclineClicked()
         {
-         //   declineSignal.Dispatch();
-        
+            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_DECLINED);
         }
 
         private void OnAcceptClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ACCEPTED);
         }
     }
 }

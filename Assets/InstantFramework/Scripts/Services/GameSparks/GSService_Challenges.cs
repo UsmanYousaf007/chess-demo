@@ -18,6 +18,8 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
+
         // Called by get init data and facebook auth commands
         private void ParseActiveChallenges(GSData data)
         {
@@ -65,9 +67,9 @@ namespace TurboLabz.InstantFramework
             // The sourceIsMessage flag tells us whether this was an auto game generated message or whether we are parsing
             // via init data. This is an important distinction because init data is not allowed to override anything
             // inside matches or challenges if they have been pre-filled via an auto game generated message.
-            // In addition message sources are allowed to only update matchinfo once.
-            // In other words, leave if a source message has populated our model.
-            if (matchInfoModel.matches.ContainsKey(challengeId) && matchInfoModel.matches[challengeId].sourceIsMessage)
+            if (matchInfoModel.matches.ContainsKey(challengeId) && 
+                matchInfoModel.matches[challengeId].sourceIsMessage &&
+                !sourceIsMessage)
             {
                 return;
             }
@@ -75,6 +77,7 @@ namespace TurboLabz.InstantFramework
             MatchInfo matchInfo = matchInfoModel.UpdateMatch(challengeId);
             matchInfo.sourceIsMessage = sourceIsMessage;
             matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
+            matchInfo.isLongPlay = (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) ? true : false;
 
             string challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
             string challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
@@ -133,6 +136,8 @@ namespace TurboLabz.InstantFramework
                     startLongMatchSignal.Dispatch(challengeId);
                 }
             }
+
+            updateFriendBarSignal.Dispatch(opponentId);
         }
     }
 }

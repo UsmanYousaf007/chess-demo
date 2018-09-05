@@ -15,6 +15,9 @@ namespace TurboLabz.Multiplayer
     public enum ChessboardEvent
     {
         GAME_STARTED,
+        GAME_ACCEPT_REQUESTED,
+        GAME_ACCEPTED,
+        GAME_DECLINED,
         SQUARE_CLICKED,
         PLAYER_MOVE_COMPLETE,
         OPPONENT_MOVE_COMPLETE,

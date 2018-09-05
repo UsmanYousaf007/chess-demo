@@ -101,6 +101,8 @@ namespace TurboLabz.Multiplayer
 
             bool isPlayerTurn = (chessboard.playerColor == chessService.GetNextMoveColor());
 
+            LogUtil.Log("PROCESSING RESUME. MOVE LIST COUNT = " + chessboard.moveList.Count, "white");
+
             foreach (ChessMove move in chessboard.moveList)
             {
                 ChessMoveResult moveResult = chessService.MakeMove(move.from,
