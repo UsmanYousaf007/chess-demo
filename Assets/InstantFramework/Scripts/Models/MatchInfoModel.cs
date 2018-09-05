@@ -16,6 +16,8 @@ namespace TurboLabz.InstantFramework
         public int eloScoreDelta { get; set; }
         public bool sourceIsMessage { get; set; }
         public string acceptStatus { get; set; }
+        public string challengerId { get; set; }
+        public string challengedId { get; set; }
 
         public bool isBotMatch
         {
@@ -35,6 +37,8 @@ namespace TurboLabz.InstantFramework
             eloScoreDelta = 0;
             sourceIsMessage = false;
             acceptStatus = null;
+            challengedId = null;
+            challengedId = null;
         }
     }
 
@@ -57,8 +61,13 @@ namespace TurboLabz.InstantFramework
             matches = new Dictionary<string, MatchInfo>();
         }
 
-        public MatchInfo CreateMatch(string challengeId)
+        public MatchInfo UpdateMatch(string challengeId)
         {
+            if (matches.ContainsKey(challengeId))
+            {
+                matches.Remove(challengeId);
+            }
+
             MatchInfo matchInfo = new MatchInfo();
             matches.Add(challengeId, matchInfo);
             return matchInfo;

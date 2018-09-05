@@ -21,6 +21,9 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
+        // Models
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
         public override void Execute()
         {
             Retain();

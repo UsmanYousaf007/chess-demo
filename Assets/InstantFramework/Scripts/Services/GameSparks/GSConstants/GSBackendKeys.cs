@@ -189,7 +189,6 @@ namespace TurboLabz.InstantFramework
 			public const string GAMES_WON = "gamesWon";
 			public const string GAMES_LOST = "gamesLost";
 			public const string GAMES_DRAWN = "gamesDrawn";
-			public const string TIME_STAMP = "timeStamp";
 			public const string PUBLIC_PROFILE = "publicProfile";
             public const string FRIEND_ID = "friendId";
 		}

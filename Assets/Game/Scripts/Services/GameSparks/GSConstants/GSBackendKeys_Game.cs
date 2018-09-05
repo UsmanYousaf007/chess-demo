@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         public const string AI_DIFFICULTY = "aiDifficulty";
         public const string AI_RESIGN_BEHAVIOUR = "aiResignBehaviour";
         public const string AI_SPEED = "aiSpeed";
+        public const string TIME_STAMP = "timestamp";
 
         // Challenge response keys
         public const string CHALLENGE_INSTANCE_ID = "challengeInstanceId";

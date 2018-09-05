@@ -99,15 +99,17 @@ namespace TurboLabz.Multiplayer
             chessboard.moveVOCache = new List<MoveVO>();
             chessboard.aiMoveNumber = 0;
 
+            bool isPlayerTurn = (chessboard.playerColor == chessService.GetNextMoveColor());
+
             foreach (ChessMove move in chessboard.moveList)
             {
                 ChessMoveResult moveResult = chessService.MakeMove(move.from,
                                                  move.to, 
                                                  move.promo, 
-                                                 chessboard.isPlayerTurn, 
+                                                 isPlayerTurn, 
                                                  chessboard.squares);
 
-                if (chessboard.isPlayerTurn)
+                if (isPlayerTurn)
                 {
                     chessboard.playerMoveFlag = moveResult.moveFlag;
                     chessboard.playerFromSquare = chessboard.squares[move.from.file, move.from.rank];
@@ -137,10 +139,10 @@ namespace TurboLabz.Multiplayer
                 chessboard.threefoldRepeatDrawAvailable = moveResult.isThreefoldRepeatRuleActive;
                 chessboard.fiftyMoveDrawAvailable = moveResult.isFiftyMoveRuleActive;
 
-                MoveVO vo = GetMoveVO(chessboard, chessboard.isPlayerTurn);
+                MoveVO vo = GetMoveVO(chessboard, isPlayerTurn);
                 chessboard.moveVOCache.Add(vo);
 
-                chessboard.isPlayerTurn = !chessboard.isPlayerTurn;
+                isPlayerTurn = !isPlayerTurn;
             }
         }
     }
