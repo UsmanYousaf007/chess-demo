@@ -29,7 +29,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
-            /*
+
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             MatchInfo matchInfo = matchInfoModel.activeMatch;
 
@@ -39,7 +39,6 @@ namespace TurboLabz.InstantFramework
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ACCEPT_REQUESTED);
             }
-            */
         }
     }
 }

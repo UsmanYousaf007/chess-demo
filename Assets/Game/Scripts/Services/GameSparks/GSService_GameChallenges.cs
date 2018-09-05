@@ -112,7 +112,8 @@ namespace TurboLabz.InstantFramework
                 (gameEndReason != GameEndReason.RESIGNATION) &&
                 (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
                 (gameEndReason != GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) &&
-                (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE));
+                (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) &&
+                (gameEndReason != GameEndReason.DECLINED));
 
             // We update move data only if there was a move made that ended this game and
             // it was the opponents turn.

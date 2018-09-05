@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_RESULT_DIALOG_HEADING_WIN = "gmResultDialogHeadingWin";
         public const string GM_RESULT_DIALOG_HEADING_LOSE = "gmResultDialogHeadingLose";
         public const string GM_RESULT_DIALOG_HEADING_DRAW = "gmResultDialogHeadingDraw";
+        public const string GM_RESULT_DIALOG_HEADING_DECLINED = "gmResultDialogHeadingDeclined";
         public const string GM_RESULT_DIALOG_REASON_CHECKMATE = "gmResultDialogReasonCheckmate";
         public const string GM_RESULT_DIALOG_REASON_STALEMATE = "gmResultDialogReasonStalemate";
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL = "gmResultDialogReasonDrawByInsufficientMaterial";
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE = "gmResultDialogReasonDrawByThreefoldRepeatRule";
         public const string GM_RESULT_DIALOG_REASON_TIMER_EXPIRED = "gmResultDialogReasonTimerExpired";
         public const string GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED = "gmPlayerDisconnected";
+        public const string GM_RESULT_DIALOG_REASON_PLAYER_DECLINED = "gmPlayerDeclined";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER = "gmResultDialogReasonResignationPlayer";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT = "gmResultDialogReasonResignationOpponent";
         public const string GM_DRAW_DIALOG_HEADING = "gmDrawDialogHeading";

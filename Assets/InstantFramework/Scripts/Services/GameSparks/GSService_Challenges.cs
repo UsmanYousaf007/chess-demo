@@ -65,8 +65,7 @@ namespace TurboLabz.InstantFramework
             }
 
             // The sourceIsMessage flag tells us whether this was an auto game generated message or whether we are parsing
-            // via init data. This is an important distinction because init data is not allowed to override anything
-            // inside matches or challenges if they have been pre-filled via an auto game generated message.
+            // via init data. Init data is not allowed to overwrite source messages.
             if (matchInfoModel.matches.ContainsKey(challengeId) && 
                 matchInfoModel.matches[challengeId].sourceIsMessage &&
                 !sourceIsMessage)
