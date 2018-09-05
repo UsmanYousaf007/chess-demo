@@ -9,6 +9,8 @@ using UnityEngine.UI;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
+using DG.Tweening;
 
 namespace TurboLabz.Multiplayer
 {
@@ -27,6 +29,9 @@ namespace TurboLabz.Multiplayer
         public Text acceptButtonLabel;
         public Text declineButtonLabel;
 
+        private float acceptDialogHalfHeight;
+        private const float ACCEPT_DIALOG_DURATION = 0.5f;
+
         public void InitAccept()
         {
             acceptButton.onClick.AddListener(OnAcceptButtonClicked);
@@ -35,6 +40,9 @@ namespace TurboLabz.Multiplayer
             titleLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT_TITLE);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT_YES);
             declineButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT_NO);
+
+            titleLabel.color = Colors.YELLOW;
+            acceptDialogHalfHeight = dialog.GetComponent<RectTransform>().rect.height / 2f;
         }
 
         public void OnParentShowAccept()
@@ -50,6 +58,10 @@ namespace TurboLabz.Multiplayer
             declineButton.interactable = true;
 
             DisableMenuButton();
+
+            dialog.transform.localPosition = new Vector3(0f, Screen.height + acceptDialogHalfHeight, 0f);
+            dialog.transform.DOLocalMove(Vector3.zero, ACCEPT_DIALOG_DURATION).SetEase(Ease.OutBack);
+            audioService.Play(audioService.sounds.SFX_DEFEAT);
         }
 
         public void HideAccept()

@@ -110,13 +110,20 @@ namespace TurboLabz.Multiplayer
             HideMenu();
             DisableInteraction();
             EnableModalBlocker();
+            ratingDelta.gameObject.SetActive(true);
+            resultsCloseButton.interactable = true;
+
 
             ratingValue.text = vo.currentEloScore.ToString();
 
-            if (vo.eloScoreDelta >= 0)
+            if (vo.eloScoreDelta > 0)
             {
                 ratingDelta.text = "(+" + vo.eloScoreDelta + ")";
                 ratingDelta.color = Colors.GREEN;
+            }
+            else if (vo.eloScoreDelta == 0)
+            {
+                ratingDelta.gameObject.SetActive(false);
             }
             else
             {
@@ -127,6 +134,7 @@ namespace TurboLabz.Multiplayer
             this.playerWins = vo.playerWins;
             isDraw = false;
             float animDelay = RESULTS_DELAY_TIME;
+            bool declined = false;
             GameEndReason gameEndReason = vo.reason;
 
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -160,13 +168,13 @@ namespace TurboLabz.Multiplayer
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL);
             }
             else if (gameEndReason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE ||
-                gameEndReason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE)
+                     gameEndReason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE)
             {
                 isDraw = true;
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE);
             }
             else if (gameEndReason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE ||
-                gameEndReason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE)
+                     gameEndReason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE)
             {
                 isDraw = true;
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE);
@@ -175,15 +183,26 @@ namespace TurboLabz.Multiplayer
             {
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
             }
+            else if (gameEndReason == GameEndReason.DECLINED)
+            {
+                declined = true;
+                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
+            }
             else
             {
-                Assertions.Assert(false, "Unknown game end reason: " + gameEndReason);
+                resultsDialogReason.text = "Unknown Reason";
             }
 
             if (isDraw)
             {
                 resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
                 resultsDialogHeading.color = Colors.YELLOW;
+            }
+            if (declined)
+            {
+                resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
+                resultsDialogHeading.color = Colors.YELLOW;
+                resultsCloseButton.interactable = false;
             }
             else
             {
