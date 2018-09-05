@@ -57,6 +57,7 @@ namespace TurboLabz.Multiplayer
         public List<ChessMove> moveList { get; set; }
         public List<MoveVO> moveVOCache { get; set; }
         public bool inPlaybackMode { get; set; }
+        public DateTime lastMoveTime { get; set; }
 
         // Overrides
         public string overrideFen { get; set; }
@@ -103,6 +104,7 @@ namespace TurboLabz.Multiplayer
             moveList = new List<ChessMove>();
             moveVOCache = new List<MoveVO>();
             inPlaybackMode = false;
+            lastMoveTime = DateTime.UtcNow;
 
             overrideFen = null;
             overrideAiStrength = AiOverrideStrength.NONE;

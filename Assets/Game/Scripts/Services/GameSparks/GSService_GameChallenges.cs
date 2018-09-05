@@ -35,6 +35,18 @@ namespace TurboLabz.InstantFramework
             chessboard.opponentColor = GSBackendKeys.PLAYER_COLOR_MAP[opponentData.GetString(GSBackendKeys.COLOR)];
             chessboard.fen = gameData.GetString(GSBackendKeys.FEN);
 
+            GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
+
+            if (lastMove == null)
+            {
+                chessboard.lastMoveTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
+            }
+            else
+            {
+                long lastMoveTimestamp = lastMove.GetLong(GSBackendKeys.TIME_STAMP).Value;
+                chessboard.lastMoveTime = TimeUtil.ToDateTime(lastMoveTimestamp);
+            }
+
             long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
             if (gameDuration > 0)
             {

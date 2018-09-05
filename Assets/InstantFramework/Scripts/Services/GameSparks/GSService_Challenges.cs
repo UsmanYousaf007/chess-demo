@@ -27,8 +27,6 @@ namespace TurboLabz.InstantFramework
 
             Dictionary<string, object> activeChallenges = GSJson.From(activeChallengesData.JSON) as Dictionary<string, object>;
 
-            LogUtil.Log("Challenge count: " + activeChallenges.Count, "white");
-
             foreach (KeyValuePair<string, object> entry in activeChallenges)
             {
                 GSData challengeData = activeChallengesData.GetGSData(entry.Key);
@@ -46,7 +44,7 @@ namespace TurboLabz.InstantFramework
             {
                 playerModel.id = GS.GSPlatform.UserId;
             }
-            LogUtil.Log("SCRIPT DATA: " + scriptData.JSON, "white");
+
             GSData challengeData = scriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
@@ -74,12 +72,15 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            MatchInfo matchInfo = matchInfoModel.CreateMatch(challengeId);
+            MatchInfo matchInfo = matchInfoModel.UpdateMatch(challengeId);
             matchInfo.sourceIsMessage = sourceIsMessage;
             matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
 
             string challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
             string challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
+            matchInfo.challengedId = challengedId;
+            matchInfo.challengerId = challengerId;
+
             string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
             GSData opponentData = matchData.GetGSData(opponentId);
             GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);

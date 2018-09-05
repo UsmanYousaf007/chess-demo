@@ -21,6 +21,9 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
+        // Models
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
         public override void Execute()
         {
             Retain();
@@ -32,6 +35,11 @@ namespace TurboLabz.InstantFramework
             if (result != BackendResult.CANCELED && result != BackendResult.SUCCESS)
             {
                 backendErrorSignal.Dispatch(result);
+            }
+
+            if (result == BackendResult.SUCCESS)
+            {
+                matchInfoModel.matches[challengeId].acceptStatus = GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
             }
 
             Release();
