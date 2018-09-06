@@ -133,11 +133,18 @@ namespace TurboLabz.InstantFramework
         private void UpdateMoveData(Chessboard chessboard, GSData gameData)
         {
             GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
+
+            // Leave if last move is null
             if (lastMove == null)
                 return;
-            
+
             string fromSquare = lastMove.GetString(GSBackendKeys.FROM_SQUARE);
             string toSquare = lastMove.GetString(GSBackendKeys.TO_SQUARE);
+
+            // Leave if no piece has moved yet (the last move might have a timestamp so we get to this point)
+            // Not the cleanest code on the server.
+            if (fromSquare == null)
+                return;
 
             FileRank fromFileRank;
             fromFileRank.file = Array.IndexOf(GSFileRank.GSFiles, fromSquare[0].ToString());
