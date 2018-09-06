@@ -21,46 +21,30 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IChessService chessService { get; set; }
 
-        private void LoadGameData(GSData gameData, string challengeId)
+        private void SetupGame(string challengeId, GSData gameData)
         {
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Create new chessboard
             Chessboard chessboard = new Chessboard();
             chessboardModel.chessboards[challengeId] = chessboard;
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Initialize fixed game data
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
-
-            chessboard.isPlayerTurn = (gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID) == playerModel.id) ? true : false;
             chessboard.isAiGame = matchInfo.isBotMatch;
             chessboard.playerColor = GSBackendKeys.PLAYER_COLOR_MAP[playerData.GetString(GSBackendKeys.COLOR)];
             chessboard.opponentColor = GSBackendKeys.PLAYER_COLOR_MAP[opponentData.GetString(GSBackendKeys.COLOR)];
-            chessboard.fen = gameData.GetString(GSBackendKeys.FEN);
-
-            GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
-
-            if (lastMove == null)
+            chessboard.lastMoveTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
+            if (!matchInfo.isLongPlay)
             {
-                chessboard.lastMoveTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
-            }
-            else
-            {
-                long lastMoveTimestamp = lastMove.GetLong(GSBackendKeys.TIME_STAMP).Value;
-                chessboard.lastMoveTime = TimeUtil.ToDateTime(lastMoveTimestamp);
-            }
-
-            long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
-            if (gameDuration > 0)
-            {
+                long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
                 chessboard.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
-                long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
-                long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
-                chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
-                chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
-            }
-            else
-            {
-                LoadResumeData(gameData, challengeId);
             }
 
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Handle test panel configuration
             if (Debug.isDebugBuild)
             {
                 GSData testChessConfig = gameData.GetGSData(GSBackendKeys.TEST_CHESS_CONFIG);
@@ -74,26 +58,52 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void LoadResumeData(GSData gameData, string challengeId)
+        private void UpdateGame(string challengeId, GSData gameData)
         {
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Update dynamic game data
+            MatchInfo matchInfo = matchInfoModel.matches[challengeId];
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
+            GSData playerData = gameData.GetGSData(playerModel.id);
+            GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
 
-            // Load up the backend moves
-            IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
-            chessboard.moveList = new List<ChessMove>();
+            chessboard.isPlayerTurn = (gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID) == playerModel.id) ? true : false;
+            chessboard.fen = gameData.GetString(GSBackendKeys.FEN);
+            GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
 
-            foreach (GSData data in backendMoveList)
+            if (lastMove != null)
             {
-                ChessMove move = new ChessMove();
-                string fromSquareStr = data.GetString(GSBackendKeys.FROM_SQUARE);
-                string toSquareStr = data.GetString(GSBackendKeys.TO_SQUARE);
+                long lastMoveTimestamp = lastMove.GetLong(GSBackendKeys.TIME_STAMP).Value;
+                chessboard.lastMoveTime = TimeUtil.ToDateTime(lastMoveTimestamp);
+            }
 
-                move.from = chessService.GetFileRankLocation(fromSquareStr[0], fromSquareStr[1]);
-                move.to = chessService.GetFileRankLocation(toSquareStr[0], toSquareStr[1]);
-                move.promo = data.GetString(GSBackendKeys.PROMOTION);
-                chessboard.moveList.Add(move);
+            if (!matchInfo.isLongPlay)
+            {    
+                long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
+                long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
+                chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
+                chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
+            }
+            else
+            {
+                // Load move history
+                IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
+                chessboard.moveList = new List<ChessMove>();
+
+                foreach (GSData data in backendMoveList)
+                {
+                    ChessMove move = new ChessMove();
+                    string fromSquareStr = data.GetString(GSBackendKeys.FROM_SQUARE);
+                    string toSquareStr = data.GetString(GSBackendKeys.TO_SQUARE);
+
+                    move.from = chessService.GetFileRankLocation(fromSquareStr[0], fromSquareStr[1]);
+                    move.to = chessService.GetFileRankLocation(toSquareStr[0], toSquareStr[1]);
+                    move.promo = data.GetString(GSBackendKeys.PROMOTION);
+                    chessboard.moveList.Add(move);
+                }
             }
         }
+
 
         private void AnnounceResults(string challengeId, Chessboard chessboard, GSData gameData, string winnerId, bool isQuickMatch)
         {

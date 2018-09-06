@@ -32,94 +32,28 @@ namespace TurboLabz.InstantFramework
             foreach (KeyValuePair<string, object> entry in activeChallenges)
             {
                 GSData challengeData = activeChallengesData.GetGSData(entry.Key);
-                GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
-                GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
-                ParseChallengeData(entry.Key, matchData, gameData, false);
+                ParseChallengeData(entry.Key, challengeData);
             }
         }
 
-        private void InitChallengeMessage(string challengeId, GSData scriptData)
+        private void ParseChallengeData(string challengeId, GSData challengeData)
         {
-            // Because we preprocess messages upon GS connect, the player model
-            // might not have set the player id. So we use the platform player id.
-            if (playerModel.id == null)
-            {
-                playerModel.id = GS.GSPlatform.UserId;
-            }
-
-            GSData challengeData = scriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
-            ParseChallengeData(challengeId, matchData, gameData, true);
-        }
+            if (playerModel.id == null) playerModel.id = GS.GSPlatform.UserId; // Player id is not set during backlog messages
 
-        private void ParseChallengeData(string challengeId, GSData matchData, GSData gameData, bool sourceIsMessage)
-        {
-            string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
-
-            // If you are not logged into facebook, long match challenge messages should be ignored. You
-            // have probably just launched the editor at this stage.
-            if ((shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) && !facebookService.isLoggedIn())
+            if (!matchInfoModel.matches.ContainsKey(challengeId))
             {
-                return;
+                SetupMatch(challengeId, GSData matchData, GSData gameData);
+                SetupGame(challengeId, gameData);
             }
 
-            // The sourceIsMessage flag tells us whether this was an auto game generated message or whether we are parsing
-            // via init data. Init data is not allowed to overwrite source messages.
-            if (matchInfoModel.matches.ContainsKey(challengeId) && 
-                matchInfoModel.matches[challengeId].sourceIsMessage &&
-                !sourceIsMessage)
-            {
-                return;
-            }
-
-            MatchInfo matchInfo = matchInfoModel.UpdateMatch(challengeId);
-            matchInfo.sourceIsMessage = sourceIsMessage;
-            matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
-            matchInfo.isLongPlay = (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) ? true : false;
-
-            string challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
-            string challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
-            matchInfo.challengedId = challengedId;
-            matchInfo.challengerId = challengerId;
-
-            string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
-            GSData opponentData = matchData.GetGSData(opponentId);
-            GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
 
 
-            PublicProfile opponentPublicProfile = new PublicProfile();
-            opponentPublicProfile.playerId = opponentId;
-            opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
-            opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
-            opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
-            LogUtil.Log("Source Message:" + sourceIsMessage + " Parsed challenge vs " + opponentPublicProfile.name, "white");
 
-            GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
-            IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
-            if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
-            {
-                ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
-                opponentPublicProfile.facebookUserId = facebookAuthData.id;
-            }
 
-            matchInfo.opponentPublicProfile = opponentPublicProfile;
-            matchInfo.botId = matchData.GetString(GSBackendKeys.ChallengeData.BOT_ID);
-            if (opponentData.ContainsKey(GSBackendKeys.ChallengeData.BOT_DIFFICULTY))
-            {
-                matchInfo.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
 
-                // Assign a random name to the bot
-                int randomSuffix = UnityEngine.Random.Range(100, 10001);
-                matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
-            }
 
-            if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
-            {
-                matchInfo.gameStartTimeMilliseconds = matchData.GetLong(GSBackendKeys.GAME_START_TIME).Value;
-            }
-
-            matchInfoModel.matches[challengeId] = matchInfo;
 
             LoadGameData(gameData, challengeId);
 
@@ -137,6 +71,73 @@ namespace TurboLabz.InstantFramework
             }
 
             updateFriendBarSignal.Dispatch(opponentId);
+
+
+
+            //////////////////////////////
+            /// SETUP MATCH
+            //////////////////////////////
+
+
+
+
+
+            //////////////////////////////
+            /// UPDATE MATCH
+            //////////////////////////////
+            matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
+
+
+
+        }
+
+        private void SetupMatch(string challengeId, GSData matchData, GSData gameData)
+        {
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Create new match
+            MatchInfo matchInfo = matchInfoModel.CreateMatch(challengeId);
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Initialize fixed match data
+            string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
+            matchInfo.isLongPlay = (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) ? true : false;
+            matchInfo.challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
+            matchInfo.challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
+            if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
+            {
+                matchInfo.gameStartTimeMilliseconds = matchData.GetLong(GSBackendKeys.GAME_START_TIME).Value;
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Initialize opponent profile
+            string opponentId = (playerModel.id == matchInfo.challengerId) ? matchInfo.challengedId : matchInfo.challengerId;
+            GSData opponentData = matchData.GetGSData(opponentId);
+            GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
+            PublicProfile opponentPublicProfile = new PublicProfile();
+            opponentPublicProfile.playerId = opponentId;
+            opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
+            opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
+            opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
+            GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
+            IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
+            if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
+            {
+                ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
+                opponentPublicProfile.facebookUserId = facebookAuthData.id;
+            }
+            matchInfo.opponentPublicProfile = opponentPublicProfile;
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Initialize bots
+            matchInfo.botId = matchData.GetString(GSBackendKeys.ChallengeData.BOT_ID);
+            if (opponentData.ContainsKey(GSBackendKeys.ChallengeData.BOT_DIFFICULTY))
+            {
+                matchInfo.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
+
+                // Assign a random name to the bot
+                int randomSuffix = UnityEngine.Random.Range(100, 10001);
+                matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
+            }
         }
     }
 }
