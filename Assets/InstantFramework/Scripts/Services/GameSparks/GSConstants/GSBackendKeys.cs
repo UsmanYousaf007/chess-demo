@@ -245,6 +245,7 @@ namespace TurboLabz.InstantFramework
             public const string ACCEPT_STATUS_NEW = "new";
             public const string ACCEPT_STATUS_ACCEPTED = "accepted";
             public const string ACCEPT_STATUS_DECLINED = "declined";
+            public const string WINNER_ID = "winnerId";
 
         }
     }

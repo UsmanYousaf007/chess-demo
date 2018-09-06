@@ -37,45 +37,38 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnChallengeWonMessage(ChallengeWonMessage message)
-        {
-            GSData scriptData = message.ScriptData;
-            EndGame(scriptData);
-            OnGameChallengeWonMessage(message);
-        }
-
-        private void OnChallengeLostMessage(ChallengeLostMessage message)
-        {
-            GSData scriptData = message.ScriptData;
-            EndGame(scriptData);
-            OnGameChallengeLostMessage(message);
-        }
-
-        private void OnChallengeDrawnMessage(ChallengeDrawnMessage message)
-        {
-            GSData scriptData = message.ScriptData;
-            EndGame(scriptData);
-            OnGameChallengeDrawnMessage(message);
-        }
-
-        private void EndGame(GSData data)
-        {
-            // Update player account details on game end.
-            GSData updatedStatsData = data.GetGSData(GSBackendKeys.UPDATED_STATS);
-            playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
-            playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
-            playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;
-        }
-
         private void OnSessionTerminateMessage(SessionTerminatedMessage message)
         {
             // Session terminated because this user authenticated on another device
             backendErrorSignal.Dispatch(BackendResult.SESSION_TERMINATED_ON_MULTIPLE_AUTH);
         }
 
+        ///////////////////////////////////////////////////////////////////////////////////////
+        // Handle challenge messages
+
         private void OnChallengeStartedMessage(ChallengeStartedMessage message)
         {
-            InitChallengeMessage(message.Challenge.ChallengeId, message.ScriptData);
+            GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+            ParseChallengeData(message.Challenge.ChallengeId, challengeData);
+            HandleActiveNewMatch(message.Challenge.ChallengeId);
+        }
+
+        private void OnChallengeWonMessage(ChallengeWonMessage message)
+        {
+            UpdateEndGameStats(message.ScriptData);
+            OnGameChallengeWonMessage(message);
+        }
+
+        private void OnChallengeLostMessage(ChallengeLostMessage message)
+        {
+            UpdateEndGameStats(message.ScriptData);
+            OnGameChallengeLostMessage(message);
+        }
+
+        private void OnChallengeDrawnMessage(ChallengeDrawnMessage message)
+        {
+            UpdateEndGameStats(message.ScriptData);
+            OnGameChallengeDrawnMessage(message);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         public string challengerId { get; set; }
         public string challengedId { get; set; }
         public bool isLongPlay { get; set; }
+        public string winnerId { get; set; }
 
         public bool isBotMatch
         {

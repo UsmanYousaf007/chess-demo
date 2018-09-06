@@ -102,54 +102,40 @@ namespace TurboLabz.InstantFramework
                     chessboard.moveList.Add(move);
                 }
             }
-        }
 
-
-        private void AnnounceResults(string challengeId, Chessboard chessboard, GSData gameData, string winnerId, bool isQuickMatch)
-        {
-            if (isQuickMatch)
-            {
-                UpdateTimerData(chessboard, gameData);
-            }
-
-            GameEndReason gameEndReason = GSBackendKeys.GAME_END_REASON_MAP[gameData.GetString(GSBackendKeys.GAME_END_REASON)];
-            chessboard.gameEndReason = gameEndReason;
-            chessboard.winnerId = winnerId;
-
-            // Add cases where the game ending does not have a move to the checks below
-            bool gameEndHasMove = ((!chessboard.isPlayerTurn) &&
-                (gameEndReason != GameEndReason.PLAYER_DISCONNECTED) &&
-                (gameEndReason != GameEndReason.RESIGNATION) &&
-                (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
-                (gameEndReason != GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) &&
-                (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) &&
-                (gameEndReason != GameEndReason.DECLINED));
-
-            // We update move data only if there was a move made that ended this game and
-            // it was the opponents turn.
-            bool isActiveChallenge = (matchInfoModel.activeChallengeId == challengeId) ? true : false;
-
-            if (gameEndHasMove)
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Handle player turn
+            //
+            // The player's own move data / models are updated locally on the fly.
+            // If the current turn player id is the local player, that means that
+            // this message is related to the opponents move
+            if (chessboard.isPlayerTurn)
             {
                 UpdateMoveData(chessboard, gameData);
 
-                if (isActiveChallenge)
+                if (!matchInfo.isLongPlay)
                 {
-                    chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+                    // Update quick match timers
+                    chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
+                    chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);
                 }
             }
-            else
+
+            // Store the game end reason and reason (if any)
+            string gameEndReasonKey = gameData.GetString(GSBackendKeys.GAME_END_REASON);
+            if (gameEndReasonKey != null)
             {
-                if (isActiveChallenge)
-                {
-                    chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
-                }
+                GameEndReason gameEndReason = GSBackendKeys.GAME_END_REASON_MAP[gameEndReasonKey];
+                chessboard.gameEndReason = gameEndReason;
             }
         }
 
         private void UpdateMoveData(Chessboard chessboard, GSData gameData)
         {
             GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
+            if (lastMove == null)
+                return;
+            
             string fromSquare = lastMove.GetString(GSBackendKeys.FROM_SQUARE);
             string toSquare = lastMove.GetString(GSBackendKeys.TO_SQUARE);
 
@@ -168,15 +154,43 @@ namespace TurboLabz.InstantFramework
             chessboard.threefoldRepeatDrawAvailable = gameData.GetBoolean(GSBackendKeys.IS_THREEFOLD_REPEAT_RULE_ACTIVE).Value;
         }
 
-        private void UpdateTimerData(Chessboard chessboard, GSData gameData)
+        private void HandleActiveMove(string challengeId)
         {
-            GSData playerData = gameData.GetGSData(playerModel.id);
-            GSData opponentData = gameData.GetGSData(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+            if (challengeId != matchInfoModel.activeChallengeId)
+                return;
 
-            chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
-            chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
+            if (chessboard.isPlayerTurn)
+            {
+                chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+            }
+            else
+            {
+                chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
+            }
         }
 
+        private void HandleActiveGameEnd(string challengeId)
+        {
+            if (challengeId != matchInfoModel.activeChallengeId)
+                return;
 
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
+            GameEndReason gameEndReason = chessboard.gameEndReason;
+
+            // Add cases where the game ending does not have a move to the checks below
+            if ((!chessboard.isPlayerTurn) &&
+                (gameEndReason != GameEndReason.PLAYER_DISCONNECTED) &&
+                (gameEndReason != GameEndReason.RESIGNATION) &&
+                (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
+                (gameEndReason != GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) &&
+                (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) &&
+                (gameEndReason != GameEndReason.DECLINED))
+            {
+                chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+            }
+
+            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
 
             foreach (KeyValuePair<string, object> entry in activeChallenges)
             {
-                GSData challengeData = activeChallengesData.GetGSData(entry.Key);
+                GSData challengeData = activeChallengesData.GetGSData(entry.Key);    
                 ParseChallengeData(entry.Key, challengeData);
             }
         }
@@ -40,55 +40,17 @@ namespace TurboLabz.InstantFramework
         {
             GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
-            if (playerModel.id == null) playerModel.id = GS.GSPlatform.UserId; // Player id is not set during backlog messages
 
-            if (!matchInfoModel.matches.ContainsKey(challengeId))
+            bool isNewMatch = !matchInfoModel.matches.ContainsKey(challengeId);
+
+            if (isNewMatch)
             {
-                SetupMatch(challengeId, GSData matchData, GSData gameData);
+                SetupMatch(challengeId, matchData, gameData);
                 SetupGame(challengeId, gameData);
             }
 
-
-
-
-
-
-
-
-            LoadGameData(gameData, challengeId);
-
-            if (shortCode == GSBackendKeys.Match.QUICK_MATCH_SHORT_CODE)
-            {   
-                findMatchCompleteSignal.Dispatch(challengeId);
-            }
-            else if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
-            {
-                if (opponentId == matchInfoModel.activeLongMatchOpponentId &&
-                    !playerModel.blocked.ContainsKey(opponentId))
-                {
-                    startLongMatchSignal.Dispatch(challengeId);
-                }
-            }
-
-            updateFriendBarSignal.Dispatch(opponentId);
-
-
-
-            //////////////////////////////
-            /// SETUP MATCH
-            //////////////////////////////
-
-
-
-
-
-            //////////////////////////////
-            /// UPDATE MATCH
-            //////////////////////////////
-            matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
-
-
-
+            UpdateMatch(challengeId, matchData);
+            UpdateGame(challengeId, gameData);
         }
 
         private void SetupMatch(string challengeId, GSData matchData, GSData gameData)
@@ -137,6 +99,54 @@ namespace TurboLabz.InstantFramework
                 // Assign a random name to the bot
                 int randomSuffix = UnityEngine.Random.Range(100, 10001);
                 matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
+            }
+        }
+
+        private void UpdateMatch(string challengeId, GSData matchData)
+        {
+            MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+            string opponentId = (playerModel.id == matchInfo.challengerId) ? matchInfo.challengedId : matchInfo.challengerId;
+
+            // Update accept status
+            matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
+
+            // Update winner if any
+            matchInfo.winnerId = matchData.GetString(GSBackendKeys.Match.WINNER_ID);
+
+            // Update the bars
+            updateFriendBarSignal.Dispatch(opponentId);
+        }
+
+        private void HandleActiveNewMatch(string challengeId)
+        {
+            MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+
+            if (matchInfo.isLongPlay)
+            {   
+                string opponentId = (playerModel.id == matchInfo.challengerId) ?
+                    matchInfo.challengedId : matchInfo.challengerId;
+
+                if (opponentId == matchInfoModel.activeLongMatchOpponentId)
+                {
+                    startLongMatchSignal.Dispatch(challengeId);
+                }
+            }
+            else
+            {
+                findMatchCompleteSignal.Dispatch(challengeId);
+            }
+        }
+
+        private void UpdateEndGameStats(GSData data)
+        {
+            GSData updatedStatsData = data.GetGSData(GSBackendKeys.UPDATED_STATS);
+
+            // Handle end game stats
+            if (updatedStatsData != null)
+            {
+                playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
+                playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
+                playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;    
             }
         }
     }
