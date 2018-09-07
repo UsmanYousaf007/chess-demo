@@ -60,7 +60,6 @@ namespace TurboLabz.InstantFramework
         public const string GM_DISCONNECTED = "gmDisconnected";
         public const string GM_ADVANTAGE = "gmAdvantage";
         public const string GM_EXIT_BUTTON_LOBBY = "gsmExitButtonLobby";
-        public const string GM_EXIT_BUTTON_FRIENDS = "gsmExitButtonFriends";
 
         #endregion
 
@@ -194,7 +193,7 @@ namespace TurboLabz.InstantFramework
 
         #region Multiplayer
 
-        public const string BACK_TO_FRIENDS = "backToFriends";
+        public const string LONG_PLAY_BACK_TO_FRIENDS = "longPlayBackToFriends";
         public const string BOT_NAV_NEXT = "botNavNext";
         public const string BOT_NAV_COMPANY = "botNavCompany";
         public const string LONG_PLAY_MINUTES = "longPlayMinutes";

@@ -10,8 +10,6 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
-        [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
-
         public void OnRegisterBotBar()
         {
             view.InitBotBar();

@@ -29,7 +29,19 @@ namespace TurboLabz.Multiplayer
 
         public void InitBotBar()
         {
-            backToFriendsLabel.text = localizationService.Get(LocalizationKey.BACK_TO_FRIENDS);
+            backToFriendsLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS);
+        }
+
+        void OnParentShowBotBar()
+        {
+            backToFriendsButton.gameObject.SetActive(false);
+            backToFriendsLabel.gameObject.SetActive(false);
+        }
+
+        void UpdateBotBar()
+        {
+            backToFriendsButton.gameObject.SetActive(isLongPlay);
+            backToFriendsLabel.gameObject.SetActive(isLongPlay);
         }
     }
 }

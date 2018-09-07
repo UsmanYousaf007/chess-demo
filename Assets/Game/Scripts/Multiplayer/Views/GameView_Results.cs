@@ -51,11 +51,12 @@ namespace TurboLabz.Multiplayer
         public Text ratingValue;
         public Text ratingDelta;
 
-        public Signal resultsExitButtonClickedSignal = new Signal();
-		public Signal resultsStatsButtonClickedSignal = new Signal();
+        public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
         public Signal enterPlaybackSignal = new Signal();
         public Signal resultsDialogButtonClickedSignal = new Signal();
+        public Signal backToLobbySignal = new Signal();
+        public Signal backToFriendsSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -75,13 +76,12 @@ namespace TurboLabz.Multiplayer
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
             playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
 		
-            resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             ratingLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
 
             declinedHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
             declinedReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
-            declinedLobbyButtonLabel.text = localizationService.Get(LocalizationKey.GM_EXIT_BUTTON_FRIENDS);
+            declinedLobbyButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS).ToUpper();
 		
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
             declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
@@ -130,6 +130,15 @@ namespace TurboLabz.Multiplayer
             {
                 HandleDeclinedDialog();
                 return;
+            }
+
+            if (isLongPlay)
+            {
+                resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS).ToUpper();
+            }
+            else
+            {
+                resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             }
 
             resultsDialog.SetActive(true);
@@ -299,7 +308,14 @@ namespace TurboLabz.Multiplayer
 			
         private void OnResultsExitButtonClicked()
         {
-            resultsExitButtonClickedSignal.Dispatch();
+            if (isLongPlay)
+            {
+                backToFriendsSignal.Dispatch();
+            }
+            else
+            {
+                backToLobbySignal.Dispatch();
+            }
         }
 
         private void OnResultsClosed()

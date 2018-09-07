@@ -26,8 +26,8 @@ namespace TurboLabz.Multiplayer
         public void OnRegisterResults()
         {
             view.InitResults();
-            view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
-            view.showAdButtonClickedSignal.AddListener(OnShowAdButtonClicked);
+            view.backToLobbySignal.AddListener(OnBackToLobby);
+            view.backToFriendsSignal.AddListener(OnBackToFriends);
             view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
         }
 
@@ -75,15 +75,10 @@ namespace TurboLabz.Multiplayer
             view.EnableResultsDialogButton();
         }
 
-        private void OnResultsExitButtonClicked()
+        private void OnBackToLobby()
         {
             loadLobbySignal.Dispatch();
             showAdSignal.Dispatch(false);
-        }
-
-        private void OnShowAdButtonClicked()
-        {
-
         }
 
         private void OnResultsDialogButtonClicked()

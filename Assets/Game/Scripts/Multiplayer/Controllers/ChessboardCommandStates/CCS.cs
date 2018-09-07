@@ -60,6 +60,7 @@ namespace TurboLabz.Multiplayer
             bool isPlayerWhite = (activeChessboard.playerColor == ChessColor.WHITE);
             SetupChessboardVO setupVO;
             setupVO.isPlayerWhite = isPlayerWhite;
+            setupVO.isLongPlay = cmd.activeMatchInfo.isLongPlay;
             cmd.setupChessboardSignal.Dispatch(setupVO);
 
             // Place the pieces

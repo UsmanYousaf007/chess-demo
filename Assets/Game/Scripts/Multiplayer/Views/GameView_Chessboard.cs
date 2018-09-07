@@ -470,6 +470,8 @@ namespace TurboLabz.Multiplayer
 
         public void SetupChessboard(SetupChessboardVO vo)
         {
+            isLongPlay = vo.isLongPlay;
+
             if (vo.isPlayerWhite)
             {
                 chessboard.localRotation = WHITE_BOARD_ROTATION;
@@ -502,6 +504,7 @@ namespace TurboLabz.Multiplayer
             EnableMenuButton();
             playerInfoPanel.SetActive(true);
             opponentInfoPanel.SetActive(true);
+            UpdateBotBar();
         }
 
         private void UpdateInfoPostMove(MoveVO vo, bool isResume = false)

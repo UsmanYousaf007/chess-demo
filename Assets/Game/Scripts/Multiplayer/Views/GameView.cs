@@ -29,6 +29,7 @@ namespace TurboLabz.Multiplayer
         public GameObject opponentInfoPanel;
 
         private bool menuButtonWasActive;
+        private bool isLongPlay;
 
         public void Show()
         {
@@ -41,6 +42,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowMenu();
             OnParentShowWifi();
             OnParentShowAccept();
+            OnParentShowBotBar();
         }
 
         public void Hide()

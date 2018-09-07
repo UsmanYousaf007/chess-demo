@@ -24,6 +24,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
+        [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
 
         public override void OnRegister()
         {

@@ -5,6 +5,7 @@ namespace TurboLabz.Multiplayer
     public struct SetupChessboardVO
     {
         public bool isPlayerWhite;
+        public bool isLongPlay;
     }
 }
 

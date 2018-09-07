@@ -66,8 +66,6 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_ADVANTAGE, "Advantage" },
                 { LocalizationKey.GM_WIFI_WARNING, "Slow Connection" },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
-                { LocalizationKey.GM_EXIT_BUTTON_FRIENDS, "OK" },
-
                 #endregion
 
                 //
@@ -192,7 +190,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Long Play
 
-                { LocalizationKey.BACK_TO_FRIENDS, "Back To Friends" },
+                { LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS, "Back To Friends" },
                 { LocalizationKey.BOT_NAV_NEXT, "Next" },
                 { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
 
