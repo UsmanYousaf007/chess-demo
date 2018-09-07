@@ -23,7 +23,7 @@ namespace TurboLabz.Multiplayer
         public Signal acceptButtonClickedSignal = new Signal();
         public Signal declineButtonClickedSignal = new Signal();
 
-        public GameObject dialog;
+        public GameObject acceptDialog;
 
         public Text titleLabel;
         public Text acceptButtonLabel;
@@ -42,7 +42,7 @@ namespace TurboLabz.Multiplayer
             declineButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT_NO);
 
             titleLabel.color = Colors.YELLOW;
-            acceptDialogHalfHeight = dialog.GetComponent<RectTransform>().rect.height / 2f;
+            acceptDialogHalfHeight = acceptDialog.GetComponent<RectTransform>().rect.height / 2f;
         }
 
         public void OnParentShowAccept()
@@ -54,13 +54,18 @@ namespace TurboLabz.Multiplayer
         {
             EnableModalBlocker();
 
-            dialog.SetActive(true);
+            acceptDialog.SetActive(true);
             declineButton.interactable = true;
 
             DisableMenuButton();
 
-            dialog.transform.localPosition = new Vector3(0f, Screen.height + acceptDialogHalfHeight, 0f);
-            dialog.transform.DOLocalMove(Vector3.zero, ACCEPT_DIALOG_DURATION).SetEase(Ease.OutBack);
+            acceptDialog.transform.localPosition = new Vector3(0f, Screen.height + acceptDialogHalfHeight, 0f);
+            Invoke("AnimateAcceptDialog", RESULTS_SHORT_DELAY_TIME);
+        }
+
+        void AnimateAcceptDialog()
+        {
+            acceptDialog.transform.DOLocalMove(Vector3.zero, ACCEPT_DIALOG_DURATION).SetEase(Ease.OutBack);
             audioService.Play(audioService.sounds.SFX_DEFEAT);
         }
 
@@ -68,7 +73,7 @@ namespace TurboLabz.Multiplayer
         {
             DisableModalBlocker();
 
-            dialog.SetActive(false);
+            acceptDialog.SetActive(false);
 
             EnableMenuButton();
         }
