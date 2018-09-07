@@ -36,6 +36,7 @@ using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -43,16 +44,15 @@ namespace TurboLabz.InstantFramework
     {
         private IPromise<AdsResult> promise = new Promise<AdsResult>();
 
-        public IPromise<AdsResult> Send()
+        public IPromise<AdsResult> Send(string placementId)
         {
-            ShowAd();
-
+            ShowAd(placementId);
             return promise;
         }
 
-        public void ShowAd()
+        public void ShowAd(string placementId)
         {
-            if (!Advertisement.IsReady())
+            if (!Advertisement.IsReady(placementId))
             {
                 DispatchResponse(AdsResult.FAILED);
                 return;
@@ -60,8 +60,7 @@ namespace TurboLabz.InstantFramework
 
             ShowOptions showOptions = new ShowOptions();
             showOptions.resultCallback = OnShowAd;
-
-            Advertisement.Show(showOptions);
+            Advertisement.Show(placementId, showOptions);
         }
 
         public void OnShowAd(ShowResult result)

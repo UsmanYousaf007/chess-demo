@@ -16,6 +16,7 @@ namespace TurboLabz.InstantGame
     {
         // Parameters
         [Inject] public bool isRewarded { get; set; }
+        [Inject] public string placementId { get; set; }
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -36,7 +37,7 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            adsService.ShowAd().Then(OnShowAd);
+            adsService.ShowAd(placementId).Then(OnShowAd);
 
             analyticsService.AdStart(isRewarded);
             Retain();

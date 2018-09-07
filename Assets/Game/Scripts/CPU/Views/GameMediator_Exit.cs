@@ -14,6 +14,7 @@
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.CPU 
 {
@@ -98,7 +99,7 @@ namespace TurboLabz.CPU
         {
             saveGameSignal.Dispatch();
             loadLobbySignal.Dispatch();
-            showAdSignal.Dispatch(false);
+            showAdSignal.Dispatch(false, AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
         }
     }
 }
