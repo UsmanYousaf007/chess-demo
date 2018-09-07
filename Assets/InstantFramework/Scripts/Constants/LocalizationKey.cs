@@ -59,6 +59,8 @@ namespace TurboLabz.InstantFramework
         public const string GM_WIFI_WARNING = "gmWifiWarning";
         public const string GM_DISCONNECTED = "gmDisconnected";
         public const string GM_ADVANTAGE = "gmAdvantage";
+        public const string GM_EXIT_BUTTON_LOBBY = "gsmExitButtonLobby";
+        public const string GM_EXIT_BUTTON_FRIENDS = "gsmExitButtonFriends";
 
         #endregion
 

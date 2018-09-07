@@ -27,6 +27,13 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Declined Dialog")]
+        public GameObject declinedDialog;
+        public Text declinedHeading;
+        public Text declinedReason;
+        public Button declinedLobbyButton;
+        public Text declinedLobbyButtonLabel;
+
 		[Header("Results Dialog")]
 
         public GameObject resultsDialog;
@@ -54,6 +61,7 @@ namespace TurboLabz.Multiplayer
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
         private float resultsDialogHalfHeight;
+        private float declinedDialogHalfHeight;
 
         private bool playerWins;
         private bool isDraw;
@@ -61,6 +69,8 @@ namespace TurboLabz.Multiplayer
         public void InitResults()
         {
             resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
+            declinedLobbyButton.onClick.AddListener(OnResultsExitButtonClicked);
+
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
             playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
@@ -68,8 +78,13 @@ namespace TurboLabz.Multiplayer
             resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             ratingLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+
+            declinedHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
+            declinedReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
+            declinedLobbyButtonLabel.text = localizationService.Get(LocalizationKey.GM_EXIT_BUTTON_FRIENDS);
 		
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+            declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
 
             playbackOverlay.gameObject.SetActive(false);
         }
@@ -88,7 +103,6 @@ namespace TurboLabz.Multiplayer
         public void ShowResultsDialog()
         {
             EnableModalBlocker();
-            resultsDialog.SetActive(true);
             resultsDialogButton.gameObject.SetActive(false);
 
             DisableMenuButton();
@@ -103,6 +117,7 @@ namespace TurboLabz.Multiplayer
         public void HideResultsDialog()
         {
             resultsDialog.SetActive(false);
+            declinedDialog.SetActive(false);
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
@@ -110,8 +125,15 @@ namespace TurboLabz.Multiplayer
             HideMenu();
             DisableInteraction();
             EnableModalBlocker();
+
+            if (vo.reason == GameEndReason.DECLINED)
+            {
+                HandleDeclinedDialog();
+                return;
+            }
+
+            resultsDialog.SetActive(true);
             ratingDelta.gameObject.SetActive(true);
-            resultsCloseButton.interactable = true;
 
 
             ratingValue.text = vo.currentEloScore.ToString();
@@ -134,7 +156,6 @@ namespace TurboLabz.Multiplayer
             this.playerWins = vo.playerWins;
             isDraw = false;
             float animDelay = RESULTS_DELAY_TIME;
-            bool declined = false;
             GameEndReason gameEndReason = vo.reason;
 
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -183,11 +204,6 @@ namespace TurboLabz.Multiplayer
             {
                 resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
             }
-            else if (gameEndReason == GameEndReason.DECLINED)
-            {
-                declined = true;
-                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
-            }
             else
             {
                 resultsDialogReason.text = "Unknown Reason";
@@ -197,12 +213,6 @@ namespace TurboLabz.Multiplayer
             {
                 resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
                 resultsDialogHeading.color = Colors.YELLOW;
-            }
-            if (declined)
-            {
-                resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
-                resultsDialogHeading.color = Colors.YELLOW;
-                resultsCloseButton.interactable = false;
             }
             else
             {
@@ -267,6 +277,19 @@ namespace TurboLabz.Multiplayer
             {
                 audioService.Play(audioService.sounds.SFX_VICTORY);
             }
+        }
+
+        private void HandleDeclinedDialog()
+        {
+            declinedDialog.SetActive(true);
+            declinedDialog.transform.localPosition = new Vector3(0f, Screen.height + declinedDialogHalfHeight, 0f);
+            Invoke("AnimateDeclinedDialog", RESULTS_SHORT_DELAY_TIME);
+        }
+
+        private void AnimateDeclinedDialog()
+        {
+            declinedDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
+            audioService.Play(audioService.sounds.SFX_DEFEAT);
         }
 
         private bool IsResultsDialogActive()
