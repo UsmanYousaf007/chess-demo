@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
             commandBinder.Bind<PromoSelectedSignal>().To<ChessboardPromoCommand>();
             commandBinder.Bind<BackendPlayerTurnSignal>().To<PlayerTurnCommand>();
+            commandBinder.Bind<ExitLongMatchSignal>().To<ExitLongMatchCommand>();
 
 
             // Bind signals for dispatching to/from mediators
@@ -55,6 +56,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateMoveForResumeSignal>().ToSingleton();
             injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
             injectionBinder.Bind<InitInfiniteTimersSignal>().ToSingleton();
+
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

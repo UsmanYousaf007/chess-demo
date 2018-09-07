@@ -194,7 +194,7 @@ namespace TurboLabz.InstantFramework
 
         #region Multiplayer
 
-        public const string BOT_NAV_PREV = "botNavPrev";
+        public const string BACK_TO_FRIENDS = "backToFriends";
         public const string BOT_NAV_NEXT = "botNavNext";
         public const string BOT_NAV_COMPANY = "botNavCompany";
         public const string LONG_PLAY_MINUTES = "longPlayMinutes";

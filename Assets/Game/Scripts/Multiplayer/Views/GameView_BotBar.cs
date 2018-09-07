@@ -24,21 +24,12 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         [Header("Bot Bar")]
-        public Text company;
-        public Text prev;
-        public Text next;
-        public Button prevButton;
-        public Button nextButton;
+        public Text backToFriendsLabel;
+        public Button backToFriendsButton;
 
-        public void OnParentShowBotBar()
+        public void InitBotBar()
         {
-            company.text = localizationService.Get(LocalizationKey.BOT_NAV_COMPANY);
-            prev.text = localizationService.Get(LocalizationKey.BOT_NAV_PREV);
-            next.text = localizationService.Get(LocalizationKey.BOT_NAV_NEXT);
-        }
-
-        public void UpdateBotBar()
-        {
+            backToFriendsLabel.text = localizationService.Get(LocalizationKey.BACK_TO_FRIENDS);
         }
     }
 }

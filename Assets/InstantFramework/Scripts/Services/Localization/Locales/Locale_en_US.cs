@@ -192,7 +192,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Long Play
 
-                { LocalizationKey.BOT_NAV_PREV, "Prev" },
+                { LocalizationKey.BACK_TO_FRIENDS, "Back To Friends" },
                 { LocalizationKey.BOT_NAV_NEXT, "Next" },
                 { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
 
