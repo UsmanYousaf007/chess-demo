@@ -49,8 +49,13 @@ namespace TurboLabz.InstantFramework
         private void OnChallengeStartedMessage(ChallengeStartedMessage message)
         {
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
-            ParseChallengeData(message.Challenge.ChallengeId, challengeData);
-            HandleActiveNewMatch(message.Challenge.ChallengeId);
+
+            // Challenge data will be null for pending challenges
+            if (challengeData != null)
+            {
+                ParseChallengeData(message.Challenge.ChallengeId, challengeData);
+                HandleActiveNewMatch(message.Challenge.ChallengeId);
+            }
         }
 
         private void OnChallengeWonMessage(ChallengeWonMessage message)
