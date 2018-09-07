@@ -182,7 +182,6 @@ namespace TurboLabz.InstantGame
             if (vo.state == AdsState.AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET);
-                freeBucksButtonSubLabel.gameObject.SetActive(true);
                 freeBucksButton.interactable = true;
 
                 adCounter.SetActive(true);
@@ -193,7 +192,6 @@ namespace TurboLabz.InstantGame
             else if (vo.state == AdsState.NOT_AVAILABLE)
             {
                 freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE);
-                freeBucksButtonSubLabel.gameObject.SetActive(false);
                 waitForAdsAvailabilityCR = StartCoroutine(WaitForAdsAvailabilityCR());
             }
             else if (vo.state == AdsState.WAIT)
