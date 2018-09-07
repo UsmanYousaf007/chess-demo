@@ -254,6 +254,20 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        private void AnimateResultsDialog()
+        {
+            resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
+
+            if (isDraw || !playerWins)
+            {
+                audioService.Play(audioService.sounds.SFX_DEFEAT);
+            }
+            else
+            {
+                audioService.Play(audioService.sounds.SFX_VICTORY);
+            }
+        }
+
         public bool IsResultsDialogVisible()
         {
             return resultsDialog.activeSelf;
@@ -271,20 +285,6 @@ namespace TurboLabz.Multiplayer
             if (playbackOverlay.gameObject.activeSelf)
             {
                 OnPlaybackOverlayClicked();
-            }
-        }
-
-        private void AnimateResultsDialog()
-        {
-            resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
-
-            if (isDraw || !playerWins)
-            {
-                audioService.Play(audioService.sounds.SFX_DEFEAT);
-            }
-            else
-            {
-                audioService.Play(audioService.sounds.SFX_VICTORY);
             }
         }
 

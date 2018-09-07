@@ -34,7 +34,9 @@ namespace TurboLabz.InstantFramework
 
         public void ScreenVisit(NavigatorViewId viewId)
         {
-            AnalyticsEvent.ScreenVisit(viewId.ToString());
+            // TODO: This is disabled because it throws a "too many events" error.
+            // Please remove this.
+            // AnalyticsEvent.ScreenVisit(viewId.ToString());
         }
 
         public void LevelStart(string levelId)
