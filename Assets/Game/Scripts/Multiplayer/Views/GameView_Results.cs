@@ -273,13 +273,6 @@ namespace TurboLabz.Multiplayer
             return resultsDialog.activeSelf;
         }
 
-        public void EnableResultsDialogButton()
-        {
-            DisableModalBlocker();
-            EnableMenuButton();
-            resultsDialogButton.gameObject.SetActive(true);
-        }
-
         public void ExitPlaybackMode()
         {
             if (playbackOverlay.gameObject.activeSelf)
