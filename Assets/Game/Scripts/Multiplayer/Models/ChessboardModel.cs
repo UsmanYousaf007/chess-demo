@@ -42,7 +42,6 @@ namespace TurboLabz.Multiplayer
         public TimeSpan backendOpponentTimer { get; set; }
         public TimeSpan gameDuration { get; set; }
         public GameEndReason gameEndReason { get; set; }
-        public string winnerId { get; set; }
         public bool isAiGame { get; set; }
         public int aiMoveNumber { get; set; }
         public ChessMove lastPlayerMove { get; set; }
@@ -89,7 +88,6 @@ namespace TurboLabz.Multiplayer
             backendOpponentTimer = TimeSpan.Zero;
             gameDuration = TimeSpan.Zero;
             gameEndReason = GameEndReason.NONE;
-            winnerId = null;
             isAiGame = false;
             aiMoveNumber = 0;
             lastPlayerMove = null;

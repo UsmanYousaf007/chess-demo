@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> PushNotificationRegistration(string token);
         IPromise<BackendResult> Accept(string challengeId);
         IPromise<BackendResult> Decline(string challengeId);
+        IPromise<BackendResult> Unregister(string challengeId);
 		
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend
         IPromise<BackendResult> FriendsOpFriends(); // get backend saved friends

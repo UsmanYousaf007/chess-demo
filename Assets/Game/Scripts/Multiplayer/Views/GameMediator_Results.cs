@@ -69,12 +69,6 @@ namespace TurboLabz.Multiplayer
             view.UpdateResultsDialog(vo);
         }
 
-        [ListensTo(typeof(EnableResultsDialogButtonSignal))]
-        public void OnEnableResultsDialogButton()
-        {
-            view.EnableResultsDialogButton();
-        }
-
         private void OnBackToLobby()
         {
             loadLobbySignal.Dispatch();

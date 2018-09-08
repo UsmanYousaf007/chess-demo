@@ -20,7 +20,7 @@ namespace TurboLabz.Multiplayer
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
             Chessboard chessboard = cmd.activeChessboard;
-            bool playerWins = (chessboard.winnerId == cmd.playerModel.id) ? true : false;
+            bool playerWins = (cmd.matchInfoModel.activeMatch.winnerId == cmd.playerModel.id) ? true : false;
 
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
 

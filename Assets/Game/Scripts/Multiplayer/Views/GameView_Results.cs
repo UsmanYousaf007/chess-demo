@@ -43,7 +43,6 @@ namespace TurboLabz.Multiplayer
         public Text resultsExitButtonLabel;
         public Button resultsCloseButton;
         public Text resultsCloseButtonLabel;
-        public Button resultsDialogButton;
 
         public Button playbackOverlay;
 
@@ -73,7 +72,6 @@ namespace TurboLabz.Multiplayer
             declinedLobbyButton.onClick.AddListener(OnResultsExitButtonClicked);
 
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
-            resultsDialogButton.onClick.AddListener(OnResultsDialogButtonClicked);
             playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
 		
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
@@ -103,7 +101,7 @@ namespace TurboLabz.Multiplayer
         public void ShowResultsDialog()
         {
             EnableModalBlocker();
-            resultsDialogButton.gameObject.SetActive(false);
+            resultsDialog.SetActive(true);
 
             DisableMenuButton();
             HidePossibleMoves();
@@ -122,7 +120,6 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateResultsDialog(ResultsVO vo)
         {
-            HideMenu();
             DisableInteraction();
             EnableModalBlocker();
 
@@ -140,8 +137,7 @@ namespace TurboLabz.Multiplayer
             {
                 resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             }
-
-            resultsDialog.SetActive(true);
+                
             ratingDelta.gameObject.SetActive(true);
 
 
@@ -271,13 +267,6 @@ namespace TurboLabz.Multiplayer
         public bool IsResultsDialogVisible()
         {
             return resultsDialog.activeSelf;
-        }
-
-        public void EnableResultsDialogButton()
-        {
-            DisableModalBlocker();
-            EnableMenuButton();
-            resultsDialogButton.gameObject.SetActive(true);
         }
 
         public void ExitPlaybackMode()

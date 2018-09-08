@@ -7,32 +7,26 @@ using System.Collections;
 using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
-using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework 
 {
-    public class DeclineCommand : Command
+    public class UnregisterCommand : Command
     {
         // Parameters
         [Inject] public string challengeId { get; set; }
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
-        // Models
-        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
-
         public override void Execute()
         {
-            Retain();
-            backendService.Decline(challengeId).Then(OnDecline);
+            backendService.Unregister(challengeId).Then(OnUnregister);
         }
 
-        private void OnDecline(BackendResult result)
+        private void OnUnregister(BackendResult result)
         {
             if (result != BackendResult.CANCELED && result != BackendResult.SUCCESS)
             {
@@ -41,7 +35,7 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                exitLongMatchSignal.Dispatch();
+                // Update friend bar to default state
             }
 
             Release();

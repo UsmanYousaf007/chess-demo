@@ -79,6 +79,7 @@ namespace TurboLabz.InstantFramework
 
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
             commandBinder.Bind<DeclineSignal>().To<DeclineCommand>();
+            commandBinder.Bind<UnregisterSignal>().To<UnregisterCommand>();
 
 
             // Bind signals for dispatching to mediators

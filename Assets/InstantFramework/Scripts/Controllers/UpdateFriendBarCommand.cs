@@ -76,7 +76,7 @@ namespace TurboLabz.InstantFramework
                             chessboard.gameEndReason == GameEndReason.RESIGNATION ||
                             chessboard.gameEndReason == GameEndReason.TIMER_EXPIRED)
                         {
-                            vo.longPlayStatus = (chessboard.winnerId == playerModel.id) ? LongPlayStatus.PLAYER_WON : LongPlayStatus.OPPONENT_WON;
+                            vo.longPlayStatus = (matchInfo.winnerId == playerModel.id) ? LongPlayStatus.PLAYER_WON : LongPlayStatus.OPPONENT_WON;
                         }
                         else
                         {

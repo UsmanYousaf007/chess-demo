@@ -27,7 +27,6 @@ namespace TurboLabz.CPU
         {
             view.InitResults();
             view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
-            view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
 			view.resultsStatsButtonClickedSignal.AddListener(OnResultsStatsButtonClicked);
         }
 
@@ -73,11 +72,6 @@ namespace TurboLabz.CPU
         {
             loadLobbySignal.Dispatch();
             showAdSignal.Dispatch(false, AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
-        }
-
-        private void OnResultsDialogButtonClicked()
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
         }
 
 		private void OnResultsStatsButtonClicked()

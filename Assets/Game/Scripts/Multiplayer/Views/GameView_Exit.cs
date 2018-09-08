@@ -98,18 +98,6 @@ namespace TurboLabz.Multiplayer
             return gameMenu.activeSelf;
         }
 
-        public void ToggleMenuButton(bool isPlayerTurn)
-        {
-            if (isPlayerTurn)
-            {
-                EnableMenuButton();
-            }
-            else
-            {
-                DisableMenuButton();
-            }
-        }
-
         public void DisableMenuButton()
         {
             menuButton.interactable = false;
@@ -117,6 +105,7 @@ namespace TurboLabz.Multiplayer
 
         public void EnableMenuButton()
         {
+            LogUtil.Log("ENABLING MENU BUTTON", "red");
             menuButton.interactable = true;
         }
 

@@ -54,7 +54,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<EnablePlayerTurnInteractionSignal>().ToSingleton();
             injectionBinder.Bind<EnableOpponentTurnInteractionSignal>().ToSingleton();
             injectionBinder.Bind<UpdateMoveForResumeSignal>().ToSingleton();
-            injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
             injectionBinder.Bind<InitInfiniteTimersSignal>().ToSingleton();
 
 
