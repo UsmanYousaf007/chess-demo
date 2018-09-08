@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
 
             view.shareAppButtonClickedSignal.AddListener(OnShareAppButtonClicked);
             view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
+            view.removeAdsButtonClickedSignal.AddListener(OnRemoveAdsButtonClicked);
         }
 
         public override void OnRemove()
@@ -48,10 +49,16 @@ namespace TurboLabz.InstantFramework
             loadBuckPacksSignal.Dispatch();
         }
 
+        private void OnRemoveAdsButtonClicked()
+        {
+            TLUtils.LogUtil.Log("OnRemoveAdsButtonClicked", "cyan");
+        }
+
         [ListensTo(typeof(UpdatePlayerBucksSignal))]
         public void OnUpdatePlayerBucksDisplay(long playerBucks)
         {
             view.UpdatePlayerBucks(playerBucks);
         }
+
     }
 }

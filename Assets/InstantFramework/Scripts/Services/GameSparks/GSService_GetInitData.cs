@@ -114,15 +114,19 @@ namespace TurboLabz.InstantFramework
 
         private void FillStoreSettingsModel(GSData storeSettingsData)
         {
-            List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList("skinShopItems");
+            List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SKIN_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> skinItems = PopulateSkinStoreItems(skinShopItemsData);
 
-            List<GSData> currencyShopItemsData = storeSettingsData.GetGSDataList("coinsShopItems");
+            List<GSData> currencyShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.COINS_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> currencyItems = PopulateCurrencyStoreItems(currencyShopItemsData);
+
+            List<GSData> featureShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.FEATURE_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> featureItems = PopulateFeatureStoreItems(featureShopItemsData);
 
             storeSettingsModel.Initialize();
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.FEATURE_SHOP_TAG, featureItems);
         }
 
         private IOrderedDictionary<string, StoreItem> PopulateSkinStoreItems(List<GSData> skinSettingsData)
@@ -167,6 +171,20 @@ namespace TurboLabz.InstantFramework
                     item.bonusAmount = GSParser.GetSafeInt(properties,GSBackendKeys.SHOP_ITEM_BONUS_AMOUNT);
                 }
 
+                items.Add(item.key, item);
+            }
+
+            return items;
+        }
+
+        private IOrderedDictionary<string, StoreItem> PopulateFeatureStoreItems(List<GSData> featureSetingsData)
+        {
+            IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
+
+            foreach (GSData itemData in featureSetingsData)
+            {
+                var item = new StoreItem();
+                GSParser.PopulateStoreItem(item, itemData);
                 items.Add(item.key, item);
             }
 

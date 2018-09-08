@@ -158,9 +158,11 @@ namespace TurboLabz.InstantFramework
             public const string SHOP_SETTINGS = "shopSettings";
             public const string SKIN_SHOP_ITEMS = "skinShopItems";
             public const string COINS_SHOP_ITEMS = "coinsShopItems";
+            public const string FEATURE_SHOP_ITEMS = "featureShopItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
+            public const string FEATURE_SHOP_TAG = "Feature";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";

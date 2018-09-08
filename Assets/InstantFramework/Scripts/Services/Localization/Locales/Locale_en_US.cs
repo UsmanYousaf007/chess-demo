@@ -34,10 +34,17 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
+                #region TopNav
+
+                { LocalizationKey.REMOVE_ADS, "Remove Ads" },
+
+                #endregion
+
                 #region Lobby
 
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
+
 
                 #endregion
 

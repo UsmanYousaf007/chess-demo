@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
 {
     public class TopNavView : View
     {
+        // Services
+        [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
         public Button shareButton;
@@ -31,10 +33,12 @@ namespace TurboLabz.InstantFramework
         public Button supportButton;
         public Button addBucksButton;
         public Text playerBucks;
+        public Button removeAdsButton;
+        public Text removeAdsLabel;
 
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal addBucksButtonClickedSignal = new Signal();
-
+        public Signal removeAdsButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -43,6 +47,9 @@ namespace TurboLabz.InstantFramework
             audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
             audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
             supportButton.onClick.AddListener(OnSupportButtonClicked);
+            removeAdsButton.onClick.AddListener(OnRemoveAdsButtonClicked);
+
+            removeAdsLabel.text = localizationService.Get(LocalizationKey.REMOVE_ADS);
 
             RefreshAudioButtons();
         }
@@ -90,6 +97,12 @@ namespace TurboLabz.InstantFramework
         private void OnSupportButtonClicked()
         {
             Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
+        }
+
+        private void OnRemoveAdsButtonClicked()
+        {
+            removeAdsButtonClickedSignal.Dispatch();
+            LogUtil.Log("OnRemoveAdsButtonClicked", "cyan");
         }
     }
 }

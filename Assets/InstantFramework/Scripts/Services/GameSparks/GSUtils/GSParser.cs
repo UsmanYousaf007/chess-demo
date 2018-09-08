@@ -79,7 +79,8 @@ namespace TurboLabz.InstantFramework
                 
             string[] tagKinds = {
                 GSBackendKeys.ShopItem.SKIN_SHOP_TAG,
-                GSBackendKeys.ShopItem.COINS_SHOP_TAG
+                GSBackendKeys.ShopItem.COINS_SHOP_TAG,
+                GSBackendKeys.ShopItem.FEATURE_SHOP_TAG
             };
 
             string[] tagState = {

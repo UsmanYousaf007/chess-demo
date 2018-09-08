@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
 
         public const string ELO_SCORE = "eloScore";
         public const string FACEBOOK_LOGIN = "facebookLogin";
+        public const string REMOVE_ADS = "removeAds";
 
         #endregion
 
