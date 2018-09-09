@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -17,9 +18,14 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+
+        // Models
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         public override void Execute()
         {
@@ -35,7 +41,13 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                // Update friend bar to default state
+                string opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
+                matchInfoModel.matches.Remove(challengeId);
+                chessboardModel.chessboards.Remove(challengeId);
+                matchInfoModel.activeLongMatchOpponentId = null;
+                matchInfoModel.activeChallengeId = null;
+
+                updateFriendBarSignal.Dispatch(opponentId);
             }
 
             Release();

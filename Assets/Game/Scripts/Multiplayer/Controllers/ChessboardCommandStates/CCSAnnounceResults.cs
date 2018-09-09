@@ -28,6 +28,7 @@ namespace TurboLabz.Multiplayer
             }
 
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
+            cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
 
             ResultsVO vo = new ResultsVO();
             vo.reason = chessboard.gameEndReason;

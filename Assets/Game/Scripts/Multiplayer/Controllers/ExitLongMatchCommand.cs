@@ -21,7 +21,11 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            chessboardModel.chessboards[matchInfoModel.activeChallengeId].currentState = null;
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                chessboardModel.chessboards[matchInfoModel.activeChallengeId].currentState = null;
+            }
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
         }
     }
