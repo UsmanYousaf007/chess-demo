@@ -978,7 +978,6 @@ MonoBehaviour:
   resultsExitButtonLabel: {fileID: 908046652}
   resultsCloseButton: {fileID: 2131706052}
   resultsCloseButtonLabel: {fileID: 1037793304}
-  resultsDialogButton: {fileID: 1239878571}
   playbackOverlay: {fileID: 1357399377}
   ratingLabel: {fileID: 1661698867}
   ratingValue: {fileID: 1388671676}
@@ -30263,7 +30262,6 @@ MonoBehaviour:
   resultsExitButtonLabel: {fileID: 2091126321}
   resultsCloseButton: {fileID: 797957363}
   resultsCloseButtonLabel: {fileID: 624733696}
-  resultsDialogButton: {fileID: 1595588485}
   playbackOverlay: {fileID: 1655328009}
   playerScore: {fileID: 330153257}
   opponentScore: {fileID: 1792746193}
@@ -53180,6 +53178,21 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2045259342}
+    - target: {fileID: 224715035098710156, guid: 3e9840371a731497786a843bfee65310,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 224715035098710156, guid: 3e9840371a731497786a843bfee65310,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 224019382453590204, guid: 3e9840371a731497786a843bfee65310,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 26
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e9840371a731497786a843bfee65310, type: 2}
   m_IsPrefabParent: 0
