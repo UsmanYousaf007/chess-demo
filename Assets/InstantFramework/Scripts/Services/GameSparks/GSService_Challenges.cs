@@ -51,6 +51,9 @@ namespace TurboLabz.InstantFramework
 
             UpdateMatch(challengeId, matchData);
             UpdateGame(challengeId, gameData);
+
+            // Update the bars
+            updateFriendBarSignal.Dispatch(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
         }
 
         private void SetupMatch(string challengeId, GSData matchData, GSData gameData)
@@ -105,16 +108,12 @@ namespace TurboLabz.InstantFramework
         private void UpdateMatch(string challengeId, GSData matchData)
         {
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
-            string opponentId = (playerModel.id == matchInfo.challengerId) ? matchInfo.challengedId : matchInfo.challengerId;
-
+        
             // Update accept status
             matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
 
             // Update winner if any
             matchInfo.winnerId = matchData.GetString(GSBackendKeys.Match.WINNER_ID);
-
-            // Update the bars
-            updateFriendBarSignal.Dispatch(opponentId);
         }
 
         private void HandleActiveNewMatch(string challengeId)

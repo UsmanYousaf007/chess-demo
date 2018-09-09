@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -39,7 +40,9 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                matchInfoModel.matches[challengeId].acceptStatus = GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
+                MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+                matchInfo.acceptStatus = GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
+                updateFriendBarSignal.Dispatch(matchInfo.opponentPublicProfile.playerId);
             }
 
             Release();
