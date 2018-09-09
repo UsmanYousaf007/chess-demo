@@ -81,6 +81,12 @@ namespace TurboLabz.Multiplayer
                     wasPlayerTurn = !wasPlayerTurn;
                 }
             }
+
+            // If we are resuming, check if the game had ended.
+            if (activeChessboard.gameEndReason != GameEndReason.NONE)
+            {
+                cmd.chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+            }
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)

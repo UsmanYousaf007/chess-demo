@@ -103,13 +103,27 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            // Store the game end reason and reason (if any)
+            string gameEndReasonKey = gameData.GetString(GSBackendKeys.GAME_END_REASON);
+
+            if (gameEndReasonKey != null)
+            {
+                GameEndReason gameEndReason = GSBackendKeys.GAME_END_REASON_MAP[gameEndReasonKey];
+                chessboard.gameEndReason = gameEndReason;
+            }
+
             ///////////////////////////////////////////////////////////////////////////////////////
             // Handle player turn
             //
             // The player's own move data / models are updated locally on the fly.
             // If the current turn player id is the local player, that means that
-            // this message is related to the opponents move
-            if (chessboard.isPlayerTurn)
+            // this message is related to the opponents move/
+            //
+            // Also handle the case where the game ended but the turns were not swapped since it 
+            // was game over.
+            bool isPlayerTurn = chessboard.isPlayerTurn;
+
+            if (chessboard.isPlayerTurn || GameEndHasMove(chessboard))
             {
                 UpdateMoveData(chessboard, gameData);
 
@@ -119,14 +133,6 @@ namespace TurboLabz.InstantFramework
                     chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
                     chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);
                 }
-            }
-
-            // Store the game end reason and reason (if any)
-            string gameEndReasonKey = gameData.GetString(GSBackendKeys.GAME_END_REASON);
-            if (gameEndReasonKey != null)
-            {
-                GameEndReason gameEndReason = GSBackendKeys.GAME_END_REASON_MAP[gameEndReasonKey];
-                chessboard.gameEndReason = gameEndReason;
             }
         }
 
@@ -163,6 +169,7 @@ namespace TurboLabz.InstantFramework
 
         private void HandleActiveMove(string challengeId)
         {
+            // Always update the bar
             if (challengeId != matchInfoModel.activeChallengeId)
                 return;
 
@@ -183,21 +190,33 @@ namespace TurboLabz.InstantFramework
                 return;
 
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
-            GameEndReason gameEndReason = chessboard.gameEndReason;
 
             // Add cases where the game ending does not have a move to the checks below
+            if (GameEndHasMove(chessboard))
+            {
+                chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+            }
+
+            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+        }
+
+        private bool GameEndHasMove(Chessboard chessboard)
+        {
+            GameEndReason gameEndReason = chessboard.gameEndReason;
+
             if ((!chessboard.isPlayerTurn) &&
                 (gameEndReason != GameEndReason.PLAYER_DISCONNECTED) &&
                 (gameEndReason != GameEndReason.RESIGNATION) &&
                 (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
                 (gameEndReason != GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) &&
                 (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) &&
-                (gameEndReason != GameEndReason.DECLINED))
+                (gameEndReason != GameEndReason.DECLINED) &&
+                (gameEndReason != GameEndReason.NONE))
             {
-                chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+                return true;
             }
 
-            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+            return false;
         }
     }
 }
