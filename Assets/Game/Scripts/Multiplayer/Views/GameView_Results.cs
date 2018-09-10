@@ -279,6 +279,7 @@ namespace TurboLabz.Multiplayer
 
         private void HandleDeclinedDialog()
         {
+            resultsDialog.SetActive(false);
             declinedDialog.SetActive(true);
             declinedDialog.transform.localPosition = new Vector3(0f, Screen.height + declinedDialogHalfHeight, 0f);
             Invoke("AnimateDeclinedDialog", RESULTS_SHORT_DELAY_TIME);

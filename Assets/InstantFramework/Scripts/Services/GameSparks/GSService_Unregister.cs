@@ -14,9 +14,20 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> Unregister(string challengeId)
         {
-            return new GSUnregisterRequest().Send(challengeId);
+            return new GSUnregisterRequest().Send(challengeId, OnUnregisterSuccess);
+        }
+
+        private void OnUnregisterSuccess(object r)
+        {
+            LogEventResponse response = (LogEventResponse)r;
+
+            if (response.ScriptData != null)
+            {
+                ParseActiveChallenges(response.ScriptData);
+            }
         }
     }
+
 
     #region REQUEST
 
@@ -25,9 +36,10 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "Unregister";
         const string ATT_CHALLENGE_ID = "challengeId";
 
-        public IPromise<BackendResult> Send(string challengeId)
+        public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
         {
             this.errorCode = BackendResult.ACCEPT_FAILED;
+            this.onSuccess = onSuccess;
 
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)
