@@ -42,7 +42,9 @@ namespace TurboLabz.Multiplayer
             }
             else if (evt == ChessboardEvent.GAME_DECLINED)
             {
-                cmd.declineSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
+                string challengeId = cmd.matchInfoModel.activeChallengeId;
+                cmd.declineSignal.Dispatch(challengeId);
+                cmd.unregisterSignal.Dispatch(challengeId);
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
 
                 return null;
