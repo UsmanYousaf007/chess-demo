@@ -59,7 +59,8 @@ namespace TurboLabz.InstantFramework
                         vo.lastActionTime = chessboard.lastMoveTime;
                     }
                     // DECLINED
-                    else if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_DECLINED)
+                    else if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_DECLINED &&
+                        matchInfo.challengerId == playerModel.id)
                     {
                         vo.longPlayStatus = LongPlayStatus.DECLINED;
                     }

@@ -62,36 +62,46 @@ namespace TurboLabz.InstantFramework
         private void OnFindMatchComplete(string challengeId)
         {
             matchInfoModel.activeChallengeId = challengeId;
-            PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+            MatchFound();
 
+            PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
             if (opponentPublicProfile.facebookUserId != null)
             {
                 facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
-            }
-            else
-            {
-                MatchFound();
             }
         }
 
         private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite, string facebookUserId)
         {
+            // Todo: create a separate signal for just updating the opponent picture.
             if (result == FacebookResult.SUCCESS)
             {
                 matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
-            }
-            else
-            {
-                // In case of a failure we just don't set the profile picture.
-                LogUtil.LogWarning("Unable to get the profile picture. FacebookResult: " + result);
+                ProfileVO pvo = GetOpponentProfile();
+                updateOpponentProfileSignal.Dispatch(pvo);
             }
 
-            MatchFound();
+            Release();
         }
 
         private void MatchFound()
         {
             // Create and dispatch opponent profile with the match found signal
+            ProfileVO pvo = GetOpponentProfile();
+
+            matchFoundSignal.Dispatch(pvo);
+            updateOpponentProfileSignal.Dispatch(pvo);
+
+            getGameStartTimeSignal.Dispatch();
+
+            if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId == null)
+            {
+                Release();
+            }
+        }
+
+        private ProfileVO GetOpponentProfile()
+        {
             PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
             ProfileVO pvo = new ProfileVO();
@@ -100,12 +110,7 @@ namespace TurboLabz.InstantFramework
             pvo.eloScore = publicProfile.eloScore;
             pvo.countryId = publicProfile.countryId;
 
-            matchFoundSignal.Dispatch(pvo);
-            updateOpponentProfileSignal.Dispatch(pvo);
-
-            getGameStartTimeSignal.Dispatch();
-
-            Release();
+            return pvo;
         }
     }
 }

@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2017-02-21 15:56:44 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
@@ -28,7 +21,6 @@ namespace TurboLabz.Multiplayer
             }
 
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
-            cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
 
             ResultsVO vo = new ResultsVO();
             vo.reason = chessboard.gameEndReason;
@@ -37,6 +29,11 @@ namespace TurboLabz.Multiplayer
             vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.eloScoreDelta;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
+
+            if (cmd.matchInfoModel.activeMatch.isLongPlay)
+            {
+                cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
+            }
         }
     }
 }

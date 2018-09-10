@@ -27,8 +27,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
 
+        private string opponentId;
+
         public override void Execute()
         {
+            opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
             backendService.Unregister(challengeId).Then(OnUnregister);
         }
 
@@ -41,11 +44,10 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                string opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
                 matchInfoModel.matches.Remove(challengeId);
                 chessboardModel.chessboards.Remove(challengeId);
-                matchInfoModel.activeLongMatchOpponentId = null;
                 matchInfoModel.activeChallengeId = null;
+                matchInfoModel.activeLongMatchOpponentId = null;
 
                 updateFriendBarSignal.Dispatch(opponentId);
             }
