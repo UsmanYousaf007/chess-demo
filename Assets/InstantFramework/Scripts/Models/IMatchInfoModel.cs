@@ -13,5 +13,6 @@ namespace TurboLabz.InstantFramework
         string activeChallengeId { get; set; }
         MatchInfo activeMatch { get; }
         string activeLongMatchOpponentId { get; set; }
+        List<string> unregisteredChallengeIds { get; set; }
     }
 }

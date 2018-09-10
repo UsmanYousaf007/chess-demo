@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public Dictionary<string, MatchInfo> matches { get; set; }
         public string activeChallengeId { get; set; }
         public string activeLongMatchOpponentId { get; set; }
+        public List<string> unregisteredChallengeIds { get; set; }
         public MatchInfo activeMatch 
         { 
             get
@@ -60,6 +61,7 @@ namespace TurboLabz.InstantFramework
         public void PostConstruct()
         {
             matches = new Dictionary<string, MatchInfo>();
+            unregisteredChallengeIds = new List<string>();
         }
 
         public MatchInfo CreateMatch(string challengeId)

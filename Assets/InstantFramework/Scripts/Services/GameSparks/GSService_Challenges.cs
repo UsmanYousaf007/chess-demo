@@ -13,6 +13,7 @@ using TurboLabz.TLUtils;
 using System;
 using GameSparks.Api.Requests;
 using UnityEngine;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework
 {
@@ -38,6 +39,12 @@ namespace TurboLabz.InstantFramework
 
         private void ParseChallengeData(string challengeId, GSData challengeData)
         {
+            foreach (string cid in matchInfoModel.unregisteredChallengeIds)
+            {
+                if (cid == challengeId)
+                    return;
+            }
+
             GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
 
@@ -51,7 +58,7 @@ namespace TurboLabz.InstantFramework
 
             UpdateMatch(challengeId, matchData);
             UpdateGame(challengeId, gameData);
-
+ 
             // Update the bars
             updateFriendBarSignal.Dispatch(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
         }

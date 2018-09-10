@@ -8,6 +8,7 @@ using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using TurboLabz.Multiplayer;
+using System;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -19,6 +20,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
+        [Inject] public UpdateFriendBarStatusSignal updateFriendBarStatusSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -32,6 +34,15 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
+            matchInfoModel.unregisteredChallengeIds.Add(challengeId);
+
+            LongPlayStatusVO vo;
+            vo.playerId = opponentId;
+            vo.lastActionTime = DateTime.UtcNow;
+            vo.longPlayStatus = LongPlayStatus.NONE;
+            updateFriendBarStatusSignal.Dispatch(vo);
+
+
             backendService.Unregister(challengeId).Then(OnUnregister);
         }
 
@@ -41,7 +52,7 @@ namespace TurboLabz.InstantFramework
             {
                 backendErrorSignal.Dispatch(result);
             }
-
+                
             if (result == BackendResult.SUCCESS)
             {
                 matchInfoModel.matches.Remove(challengeId);
