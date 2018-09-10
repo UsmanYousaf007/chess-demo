@@ -15,7 +15,6 @@ namespace TurboLabz.InstantFramework
 		[Inject] public bool clearForPurchase { get; set; }
 
 		// Dispatch Signals
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public PurchaseStoreItemResultSignal purchaseResultSignal { get; set; }
 
 		// Models
@@ -81,7 +80,6 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
             }
 

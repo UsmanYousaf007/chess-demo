@@ -1,14 +1,8 @@
 ﻿/// @license Propriety <http://license.url>
-/// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
+/// @copyright Copyright (C) Turbo Labz 2018 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-09-19 18:54:42 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
+
 
 using UnityEngine.UI;
 
@@ -65,6 +59,11 @@ namespace TurboLabz.InstantFramework
             playerBucks.text = bucks.ToString();
         }
 
+        public void UpdateRemoveAds(bool isRemoved)
+        {
+            removeAdsButton.gameObject.SetActive(!isRemoved);
+        }
+
         private void OnShareAppButtonClicked()
         {
             shareAppButtonClickedSignal.Dispatch();
@@ -102,7 +101,6 @@ namespace TurboLabz.InstantFramework
         private void OnRemoveAdsButtonClicked()
         {
             removeAdsButtonClickedSignal.Dispatch();
-            LogUtil.Log("OnRemoveAdsButtonClicked", "cyan");
         }
     }
 }

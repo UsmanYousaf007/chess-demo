@@ -95,6 +95,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateOpponentProfileSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerBucksSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateRemoveAdsSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
 

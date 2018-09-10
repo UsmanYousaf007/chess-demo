@@ -37,6 +37,12 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            // All non-rewarded ads skipped if player owns the remove ads feature
+            if (!isRewarded && playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS))
+            {
+                return;
+            }
+
             adsService.ShowAd(placementId).Then(OnShowAd);
 
             analyticsService.AdStart(isRewarded);
