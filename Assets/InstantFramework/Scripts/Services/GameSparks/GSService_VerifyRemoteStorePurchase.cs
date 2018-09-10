@@ -10,11 +10,15 @@ using TurboLabz.TLUtils;
 using System;
 using GameSparks.Api.Requests;
 using strange.extensions.promise.impl;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
+        [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
+
         public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt)
         {
             return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, 
@@ -24,9 +28,28 @@ namespace TurboLabz.InstantFramework
         private void OnVerifyRemoteStorePurchaseSuccess(LogEventResponse response)
         {
             var res = response.ScriptData.GetGSData("remotePurchase");
-            long bucks = res.GetInt("bucks").Value;
 
-            playerModel.bucks += bucks;
+            // Process bucks
+            int? bucks = res.GetInt("bucks");
+            playerModel.bucks += bucks != null ? bucks.Value : 0;
+
+            // Process goods
+            GSData boughtItem = res.GetGSData("boughtItem");
+            if (boughtItem != null)
+            {
+                string shopItemId = boughtItem.GetString("shortCode");
+                if (playersModel.inventory.ContainsKey(shopItemId))
+                {
+                    playersModel.inventory[shopItemId] = playersModel.inventory[shopItemId] + 1;
+                }
+                else
+                {
+                    playersModel.inventory.Add(shopItemId, 1); 
+                }
+            }
+
+            updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+            updateRemoveAdsDisplaySignal.Dispatch(playersModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
         }
     }
 

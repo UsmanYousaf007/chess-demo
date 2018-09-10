@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-09-19 18:53:20 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
@@ -23,6 +16,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -51,13 +45,19 @@ namespace TurboLabz.InstantFramework
 
         private void OnRemoveAdsButtonClicked()
         {
-            TLUtils.LogUtil.Log("OnRemoveAdsButtonClicked", "cyan");
+            purchaseStoreItemSignal.Dispatch(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS, true);
         }
 
         [ListensTo(typeof(UpdatePlayerBucksSignal))]
         public void OnUpdatePlayerBucksDisplay(long playerBucks)
         {
             view.UpdatePlayerBucks(playerBucks);
+        }
+
+        [ListensTo(typeof(UpdateRemoveAdsSignal))]
+        public void OnUpdateRemoveAdsDisplay(bool isRemoved)
+        {
+            view.UpdateRemoveAds(isRemoved);
         }
 
     }

@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
+        [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -47,6 +48,7 @@ namespace TurboLabz.InstantGame
             updateMenuViewSignal.Dispatch(vo);
             updateAdsSignal.Dispatch();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+            updateRemoveAdsDisplaySignal.Dispatch(playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = playerModel.profilePic;
