@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
+        [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
 
         // Called by get init data and facebook auth commands
         private void ParseActiveChallenges(GSData data)
@@ -61,6 +62,7 @@ namespace TurboLabz.InstantFramework
  
             // Update the bars
             updateFriendBarSignal.Dispatch(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
+            sortFriendsSignal.Dispatch();
         }
 
         private void SetupMatch(string challengeId, GSData matchData, GSData gameData)

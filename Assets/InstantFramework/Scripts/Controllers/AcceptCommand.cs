@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
+        [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
                 MatchInfo matchInfo = matchInfoModel.matches[challengeId];
                 matchInfo.acceptStatus = GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
                 updateFriendBarSignal.Dispatch(matchInfo.opponentPublicProfile.playerId);
+                sortFriendsSignal.Dispatch();
             }
 
             Release();

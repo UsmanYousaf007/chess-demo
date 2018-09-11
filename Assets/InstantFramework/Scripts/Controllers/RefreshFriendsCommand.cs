@@ -18,6 +18,7 @@ namespace TurboLabz.InstantGame
         [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
         [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
+        [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -45,6 +46,8 @@ namespace TurboLabz.InstantGame
             {
                 updateFriendBarSignal.Dispatch(key);
             }
+
+            sortFriendsSignal.Dispatch();
         }
     }
 }

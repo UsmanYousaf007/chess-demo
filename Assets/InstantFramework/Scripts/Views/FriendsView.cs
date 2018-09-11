@@ -17,10 +17,11 @@ using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using strange.extensions.signal.impl;
 using System;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
-    public class FriendsView : View
+    public partial class FriendsView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -53,7 +54,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string> showProfileDialogSignal = new Signal<string>();
         public Signal<string> playButtonClickedSignal = new Signal<string>();
 
-        private Dictionary<string, GameObject> bars = new Dictionary<string, GameObject>();
+        private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
 
         public void Init()
@@ -154,7 +155,7 @@ namespace TurboLabz.InstantFramework
             
             friendBarObj.transform.SetSiblingIndex(siblingIndex);
 
-            bars.Add(friend.playerId, friendBarObj);
+            bars.Add(friend.playerId, friendBar);
 
             UpdateFriendPic(friend.playerId, friend.publicProfile.profilePicture);
 		}
@@ -237,9 +238,9 @@ namespace TurboLabz.InstantFramework
         {
             List<string> destroyMe = new List<string>();
 
-            foreach (KeyValuePair<string, GameObject> entry in bars)
+            foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
-                if (entry.Value.GetComponent<FriendBar>().isCommunity == isCommunity)
+                if (entry.Value.isCommunity == isCommunity)
                 {
                     destroyMe.Add(entry.Key);
                 }    
@@ -247,7 +248,7 @@ namespace TurboLabz.InstantFramework
 
             foreach (string key in destroyMe)
             {
-                GameObject.Destroy(bars[key]);
+                GameObject.Destroy(bars[key].gameObject);
                 bars.Remove(key);
             }
 
@@ -283,10 +284,9 @@ namespace TurboLabz.InstantFramework
 
         void UpdateAllStatus()
         {
-            foreach (KeyValuePair<string, GameObject> entry in bars)
+            foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
-                FriendBar friendBar = entry.Value.GetComponent<FriendBar>(); 
-                UpdateStatus(friendBar);
+                UpdateStatus(entry.Value);
             }
         }
 
@@ -302,14 +302,17 @@ namespace TurboLabz.InstantFramework
             else if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE)
             {
                 friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CHALLENGED_YOU);
+                friendBar.statusLabel.color = Colors.YELLOW;
             }
             else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_TURN)
             {
                 friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+                friendBar.statusLabel.color = Colors.GREEN;
             }
             else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_TURN)
             {
                 friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
+                friendBar.statusLabel.color = Colors.WHITE;
             }
             else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_WON)
             {

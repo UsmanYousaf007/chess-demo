@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public UpdateFriendBarStatusSignal updateFriendBarStatusSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
+        [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -62,8 +63,7 @@ namespace TurboLabz.InstantFramework
 
                 friendBarBusySignal.Dispatch(opponentId, false);
                 updateFriendBarSignal.Dispatch(opponentId);
-
-
+                sortFriendsSignal.Dispatch();
             }
 
             Release();

@@ -31,15 +31,9 @@ namespace TurboLabz.TLUtils
             return UNIX_EPOCH.AddMilliseconds(unixTimeStampMilliseconds);
         }
 
-        /*public static DateTime ConvertFromUnixEpoch(double epochSeconds)
+        public static long ToUnixTimestamp(DateTime dateTime)
         {
-            return UNIX_EPOCH.AddSeconds(epochSeconds);
+            return (long)(dateTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
-
-        public static double ConvertToUnixEpoch(DateTime date)
-        {
-            TimeSpan diff = date.ToUniversalTime() - UNIX_EPOCH;
-            return diff.TotalSeconds;
-        }*/
     }
 }
