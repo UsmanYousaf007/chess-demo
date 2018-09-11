@@ -83,6 +83,12 @@ namespace TurboLabz.InstantFramework
             view.UpdateFriendBarStatus(vo);
         }
 
+        [ListensTo(typeof(FriendBarBusySignal))]
+        public void OnFriendBarBusy(string playerId, bool busy)
+        {
+            view.UpdateFriendBarBusy(playerId, busy);
+        }
+
         [ListensTo(typeof(ClearCommunitySignal))]
         public void OnClearCommunity()
         {

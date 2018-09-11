@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -26,6 +27,8 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
+
+            friendBarBusySignal.Dispatch(opponentId, true);
             backendService.CreateLongMatch(opponentId).Then(OnCreateLongMatch);
         }
 

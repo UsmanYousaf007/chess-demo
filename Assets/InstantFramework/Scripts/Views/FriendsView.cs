@@ -187,6 +187,19 @@ namespace TurboLabz.InstantFramework
             UpdateStatus(friendBar);
         }
 
+        public void UpdateFriendBarBusy(string playerId, bool busy)
+        {
+            if (!bars.ContainsKey(playerId))
+            {
+                LogUtil.Log("No bar exists.", "white");
+                return;
+            }
+
+            FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
+            friendBar.thinking.SetActive(busy);
+            friendBar.playButton.gameObject.SetActive(!busy);
+        }
+
         public void Show() 
         { 
             gameObject.SetActive(true); 

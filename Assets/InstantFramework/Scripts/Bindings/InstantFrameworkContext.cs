@@ -98,6 +98,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateRemoveAdsSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
+            injectionBinder.Bind<FriendBarBusySignal>().ToSingleton();
+
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

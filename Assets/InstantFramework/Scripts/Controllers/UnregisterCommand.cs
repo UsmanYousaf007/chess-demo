@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public UpdateFriendBarStatusSignal updateFriendBarStatusSignal { get; set; }
+        [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -42,7 +43,7 @@ namespace TurboLabz.InstantFramework
             vo.longPlayStatus = LongPlayStatus.NONE;
             updateFriendBarStatusSignal.Dispatch(vo);
 
-
+            friendBarBusySignal.Dispatch(opponentId, true);
             backendService.Unregister(challengeId).Then(OnUnregister);
         }
 
@@ -57,10 +58,12 @@ namespace TurboLabz.InstantFramework
             {
                 matchInfoModel.matches.Remove(challengeId);
                 chessboardModel.chessboards.Remove(challengeId);
-                matchInfoModel.activeChallengeId = null;
-                matchInfoModel.activeLongMatchOpponentId = null;
 
+
+                friendBarBusySignal.Dispatch(opponentId, false);
                 updateFriendBarSignal.Dispatch(opponentId);
+
+
             }
 
             Release();

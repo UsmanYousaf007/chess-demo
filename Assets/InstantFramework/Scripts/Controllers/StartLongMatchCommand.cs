@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
         [Inject] public UpdateOpponentProfileSignal updateOpponentProfileSignal { get; set; }
+        [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -48,6 +49,8 @@ namespace TurboLabz.InstantFramework
 
             updateOpponentProfileSignal.Dispatch(pvo);
 
+
+            friendBarBusySignal.Dispatch(opponentId, false);
             startGameSignal.Dispatch();
         }
     }
