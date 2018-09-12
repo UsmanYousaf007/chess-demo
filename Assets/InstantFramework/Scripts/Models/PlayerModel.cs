@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
 		public void Reset()
         {
             id = null;
+            creationDate = 0;
             tag = null;
             name = null;
             countryId = null;

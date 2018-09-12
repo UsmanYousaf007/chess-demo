@@ -47,10 +47,10 @@ namespace TurboLabz.InstantFramework
 			GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
 			FillPlayerDetails(playerDetailsData);
 
+            storeAvailableSignal.Dispatch(false);
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
             {
-                storeAvailableSignal.Dispatch(false);
                 promise.Then(OnStoreInit);
             }
 
@@ -114,6 +114,7 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.adsRewardIncrement = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARD_INCREMENT).Value;
             adsSettingsModel.maxImpressionsPerSlot = adsSettingsData.GetInt(GSBackendKeys.ADS_MAX_IMPRESSIONS_PER_SLOT).Value;
             adsSettingsModel.slotHour = adsSettingsData.GetInt(GSBackendKeys.ADS_SLOT_HOUR).Value;
+            adsSettingsModel.freeNoAdsPeriod = adsSettingsData.GetInt(GSBackendKeys.ADS_FREE_NO_ADS_PERIOD).Value;
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

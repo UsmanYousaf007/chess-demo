@@ -12,12 +12,14 @@ namespace TurboLabz.InstantFramework
         public int maxImpressionsPerSlot { get; set; }
         public int slotHour { get; set; }
         public int adsRewardIncrement { get; set; }
+        public int freeNoAdsPeriod { get; set; }
 
         public void Reset()
         {
             maxImpressionsPerSlot = 0;
             slotHour = 0;
             adsRewardIncrement = 0;
+            freeNoAdsPeriod = 0;
         }
     }
 }

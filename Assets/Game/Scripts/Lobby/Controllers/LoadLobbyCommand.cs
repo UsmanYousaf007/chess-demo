@@ -12,6 +12,7 @@ using System;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -35,6 +36,7 @@ namespace TurboLabz.InstantGame
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
 
         public override void Execute()
         {
@@ -48,7 +50,14 @@ namespace TurboLabz.InstantGame
             updateMenuViewSignal.Dispatch(vo);
             updateAdsSignal.Dispatch();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
-            updateRemoveAdsDisplaySignal.Dispatch(playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
+
+            string localizedMins = localizationService.Get(LocalizationKey.FREE_NO_ADS_MINUTES);
+            string localizedHours = localizationService.Get(LocalizationKey.FREE_NO_ADS_HOURS);
+            string localizedDays = localizationService.Get(LocalizationKey.FREE_NO_ADS_DAYS);
+            string timeRemain =  TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod, 
+                localizedMins, localizedHours, localizedDays);
+
+            updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = playerModel.profilePic;

@@ -55,9 +55,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(UpdateRemoveAdsSignal))]
-        public void OnUpdateRemoveAdsDisplay(bool isRemoved)
+        public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
         {
-            view.UpdateRemoveAds(isRemoved);
+            view.UpdateRemoveAds(freePeriod, isRemoved);
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]
