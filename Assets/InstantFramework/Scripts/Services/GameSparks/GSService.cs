@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
         [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
+        [Inject] public StoreAvailableSignal storeAvailableSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }

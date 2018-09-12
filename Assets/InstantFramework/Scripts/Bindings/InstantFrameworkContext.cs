@@ -81,7 +81,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<DeclineSignal>().To<DeclineCommand>();
             commandBinder.Bind<UnregisterSignal>().To<UnregisterCommand>();
 
-
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
@@ -100,7 +99,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
             injectionBinder.Bind<FriendBarBusySignal>().ToSingleton();
             injectionBinder.Bind<SortFriendsSignal>().ToSingleton();
-
+            injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

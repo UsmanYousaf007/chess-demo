@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
     public interface IPlayerModel
     {
         string id { get; set; }
+        long creationDate { get; set; }
         string tag { get; set; } 
         string name { get; set; }
         string countryId { get; set; }

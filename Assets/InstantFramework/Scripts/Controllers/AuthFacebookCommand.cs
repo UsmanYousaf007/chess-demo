@@ -123,13 +123,16 @@ namespace TurboLabz.InstantFramework
             {
                 facebookService.LogOut();
             }
+            else
+            {
+                refreshFriendsSignal.Dispatch();
+                refreshCommunitySignal.Dispatch();
+            }
 
             authFacebookResultSignal.Dispatch(isSuccessful, playerModel.profilePic, playerModel.name);
-
-            refreshFriendsSignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
-
             toggleFacebookButton.Dispatch(true);
+
+
             Release();
         }
     }

@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
             {
+                storeAvailableSignal.Dispatch(false);
                 promise.Then(OnStoreInit);
             }
 
@@ -70,12 +71,15 @@ namespace TurboLabz.InstantFramework
                         storeItem.remoteProductPrice = storeService.GetItemLocalizedPrice (storeItem.remoteProductId);
                     }
                 }
+
+                storeAvailableSignal.Dispatch(true);
             }
         }
 
 		private void FillPlayerDetails(GSData playerDetailsData)
         {
 			playerModel.id = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.PLAYER_ID);
+            playerModel.creationDate = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.CREATION_DATE).Value;
 			playerModel.tag = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.TAG);
 			playerModel.name = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.DISPLAY_NAME);
 			playerModel.countryId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.COUNTRY_ID);

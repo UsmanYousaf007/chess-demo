@@ -60,5 +60,10 @@ namespace TurboLabz.InstantFramework
             view.UpdateRemoveAds(isRemoved);
         }
 
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            view.OnStoreAvailable(isAvailable);
+        }
     }
 }

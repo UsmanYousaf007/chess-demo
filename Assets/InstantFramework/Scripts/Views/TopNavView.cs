@@ -64,6 +64,15 @@ namespace TurboLabz.InstantFramework
             removeAdsButton.gameObject.SetActive(!isRemoved);
         }
 
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            removeAdsLabel.color = isAvailable ? Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA) :
+                Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+            
+            removeAdsButton.interactable = isAvailable;
+            addBucksButton.interactable = isAvailable;
+        }
+
         private void OnShareAppButtonClicked()
         {
             shareAppButtonClickedSignal.Dispatch();

@@ -150,12 +150,6 @@ namespace TurboLabz.InstantGame
             devFenValueChangedSignal.Dispatch(fen);
         }
       
-
-		private void OnFacebookButtonClicked()
-        {
-            authFacebookSignal.Dispatch();
-        }
-
         private void OnFreeBucksButtonClicked()
         {
             showAdSignal.Dispatch(true, AdPlacementIds.AD_PLACEMENT_REWARDED_VIDEO);

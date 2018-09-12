@@ -222,6 +222,7 @@ namespace TurboLabz.InstantFramework
 		public static class  PlayerDetails
 		{
 			public const string PLAYER_ID = "playerId";
+            public const string CREATION_DATE = "creationDate";
 			public const string TAG = "tag";
 			public const string DISPLAY_NAME = "displayName";
 			public const string COUNTRY_ID = "countryId";

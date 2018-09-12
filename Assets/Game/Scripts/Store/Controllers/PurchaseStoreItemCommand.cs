@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
             {
                 purchaseResult = PurchaseResult.ALREADY_OWNED;
             }
-            else if (playerModel.bucks < item.currency2Cost) 
+            else if (item.currency2Cost != 0 && playerModel.bucks < item.currency2Cost) 
             {
                 purchaseResult = PurchaseResult.NOT_ENOUGH_BUCKS;
             } 
