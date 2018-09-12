@@ -44,7 +44,7 @@ namespace TurboLabz.InstantGame
             }
 
             string freeNoAdsExpiration = TLUtils.TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod);
-            if (freeNoAdsExpiration != null)
+            if (!isRewarded && freeNoAdsExpiration != null)
             {
                 return;
             }
