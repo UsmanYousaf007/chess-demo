@@ -51,7 +51,12 @@ namespace TurboLabz.InstantGame
             updateAdsSignal.Dispatch();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
-            string timeRemain = GetFreeNoAdsPeriodString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod);
+            string localizedMins = localizationService.Get(LocalizationKey.FREE_NO_ADS_MINUTES);
+            string localizedHours = localizationService.Get(LocalizationKey.FREE_NO_ADS_HOURS);
+            string localizedDays = localizationService.Get(LocalizationKey.FREE_NO_ADS_DAYS);
+            string timeRemain =  TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod, 
+                localizedMins, localizedHours, localizedDays);
+
             updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
 
             ProfileVO pvo = new ProfileVO();
@@ -67,38 +72,6 @@ namespace TurboLabz.InstantGame
             }
                 
             updateProfileSignal.Dispatch(pvo);
-        }
-
-        private string GetFreeNoAdsPeriodString(long msUTC, int expireDays)
-        {
-            DateTime expireDate = TurboLabz.TLUtils.TimeUtil.ToDateTime(msUTC);
-            expireDate = expireDate.AddDays(expireDays);
-
-            TimeSpan elapsedTime;
-            if (DateTime.Compare(expireDate, DateTime.UtcNow) > 0)
-            {
-                elapsedTime = expireDate.Subtract(DateTime.UtcNow);
-            }
-            else
-            {
-                return null;
-            }
-
-            if (elapsedTime.TotalHours < 1)
-            {
-                return localizationService.Get(LocalizationKey.LONG_PLAY_MINUTES, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalMinutes)));
-            }
-            else if (elapsedTime.TotalDays < 1)
-            {
-                return localizationService.Get(LocalizationKey.LONG_PLAY_HOURS, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalHours)));
-            }
-            else
-            {
-                return localizationService.Get(LocalizationKey.LONG_PLAY_DAYS, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)));
-            }
         }
     }
 }

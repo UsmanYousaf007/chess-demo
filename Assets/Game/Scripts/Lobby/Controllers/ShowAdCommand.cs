@@ -43,6 +43,12 @@ namespace TurboLabz.InstantGame
                 return;
             }
 
+            string freeNoAdsExpiration = TLUtils.TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod);
+            if (freeNoAdsExpiration != null)
+            {
+                return;
+            }
+
             adsService.ShowAd(placementId).Then(OnShowAd);
 
             analyticsService.AdStart(isRewarded);
