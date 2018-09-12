@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         public Text playerBucks;
         public Button removeAdsButton;
         public Text removeAdsLabel;
+        public Text freeNoAdsPeriodLabel;
 
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal addBucksButtonClickedSignal = new Signal();
@@ -59,9 +60,22 @@ namespace TurboLabz.InstantFramework
             playerBucks.text = bucks.ToString();
         }
 
-        public void UpdateRemoveAds(bool isRemoved)
+        public void UpdateRemoveAds(string freePeriod, bool isRemoved)
         {
+            freeNoAdsPeriodLabel.text = localizationService.Get(LocalizationKey.FREE_NO_ADS_PERIOD);
+
             removeAdsButton.gameObject.SetActive(!isRemoved);
+
+            if (isRemoved || freePeriod == null)
+            {
+                freeNoAdsPeriodLabel.gameObject.SetActive(false);
+            }
+            else
+            {
+                freeNoAdsPeriodLabel.gameObject.SetActive(true);
+                removeAdsButton.gameObject.SetActive(false);
+                freeNoAdsPeriodLabel.text += " " + freePeriod;
+            }
         }
 
         public void OnStoreAvailable(bool isAvailable)

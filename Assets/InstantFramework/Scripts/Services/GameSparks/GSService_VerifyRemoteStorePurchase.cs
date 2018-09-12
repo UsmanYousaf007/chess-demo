@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
             }
 
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
-            updateRemoveAdsDisplaySignal.Dispatch(playersModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
+            updateRemoveAdsDisplaySignal.Dispatch(null, playersModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
         }
     }
 

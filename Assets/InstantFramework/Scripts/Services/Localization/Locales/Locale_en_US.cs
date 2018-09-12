@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
                 #region TopNav
 
                 { LocalizationKey.REMOVE_ADS, "Remove Ads" },
+                { LocalizationKey.FREE_NO_ADS_PERIOD, "Enjoy NO ADs for" },
 
                 #endregion
 
