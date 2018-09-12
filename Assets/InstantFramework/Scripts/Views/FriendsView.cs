@@ -293,6 +293,7 @@ namespace TurboLabz.InstantFramework
         void UpdateStatus(FriendBar friendBar)
         {
             friendBar.statusLabel.gameObject.SetActive(true);
+            friendBar.statusLabel.color = Colors.DULL_WHITE;
 
             // Update status
             if (friendBar.longPlayStatus == LongPlayStatus.NONE)

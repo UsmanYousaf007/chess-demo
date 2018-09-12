@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -26,7 +27,8 @@ namespace TurboLabz.Multiplayer
             }
             // If we came here after an opponent has moved
             else if (CameFromState(cmd, typeof(CCSOpponentTurn)) ||  
-                     CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)))
+                     CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)) ||
+                     CameFromState(cmd, typeof(CCSAcceptDialog)))
             {
                 RenderOpponentMove(cmd);
                 cmd.enablePlayerTurnInteraction.Dispatch();
@@ -69,6 +71,29 @@ namespace TurboLabz.Multiplayer
             else if (evt == ChessboardEvent.GAME_ACCEPT_REQUESTED)
             {
                 return new CCSAcceptDialog();
+            }
+            else if (evt == ChessboardEvent.GAME_ACCEPTED)
+            {
+                cmd.acceptSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+
+                if (cmd.activeChessboard.isPlayerTurn)
+                {
+                    return new CCSPlayerTurn();
+                }
+                else
+                {
+                    return new CCSOpponentTurn();
+                }
+            }
+            else if (evt == ChessboardEvent.GAME_DECLINED)
+            {
+                string challengeId = cmd.matchInfoModel.activeChallengeId;
+                cmd.declineSignal.Dispatch(challengeId);
+                cmd.unregisterSignal.Dispatch(challengeId);
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+
+                return null;
             }
 
             return null;

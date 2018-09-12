@@ -54,6 +54,12 @@ namespace TurboLabz.Multiplayer
                 HandleGameEnded(cmd);
                 return new CCSAnnounceResults();
             }
+            // We received an opponent moved event from the backend service
+            else if (evt == ChessboardEvent.OPPONENT_MOVE_COMPLETE)
+            {
+                HandleOpponentBackendMoved(cmd);
+                return new CCSPlayerTurn();
+            }
 
             return null;
         }

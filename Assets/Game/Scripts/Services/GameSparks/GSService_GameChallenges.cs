@@ -169,7 +169,6 @@ namespace TurboLabz.InstantFramework
 
         private void HandleActiveMove(string challengeId)
         {
-            // Always update the bar
             if (challengeId != matchInfoModel.activeChallengeId)
                 return;
 

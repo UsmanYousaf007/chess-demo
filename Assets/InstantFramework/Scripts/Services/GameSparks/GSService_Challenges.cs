@@ -40,10 +40,13 @@ namespace TurboLabz.InstantFramework
 
         private void ParseChallengeData(string challengeId, GSData challengeData)
         {
-            foreach (string cid in matchInfoModel.unregisteredChallengeIds)
+            if (challengeId != matchInfoModel.activeChallengeId)
             {
-                if (cid == challengeId)
-                    return;
+                foreach (string cid in matchInfoModel.unregisteredChallengeIds)
+                {
+                    if (cid == challengeId)
+                        return;
+                }
             }
 
             GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
@@ -134,7 +137,8 @@ namespace TurboLabz.InstantFramework
                 string opponentId = (playerModel.id == matchInfo.challengerId) ?
                     matchInfo.challengedId : matchInfo.challengerId;
 
-                if (opponentId == matchInfoModel.activeLongMatchOpponentId)
+                if (opponentId == matchInfoModel.activeLongMatchOpponentId &&
+                    matchInfoModel.activeChallengeId == null)
                 {
                     startLongMatchSignal.Dispatch(challengeId);
                 }
