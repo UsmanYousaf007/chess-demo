@@ -41,7 +41,6 @@ namespace TurboLabz.Multiplayer
         private TimeSpan opponentTimer;
         private float clockSpeed;
 
-        private readonly Color imageDisabledColor = new Color(0.49f, 0.49f, 0.49f);
         private const double clockEmergencyThresholdSeconds = 10;
 
         public void InitClock()
@@ -174,8 +173,9 @@ namespace TurboLabz.Multiplayer
 
         private void DisablePlayerTimer()
         {
+            playerClockLabel.color = Colors.DISABLED_WHITE;
             playerTurnLabel.color = Colors.DISABLED_WHITE;
-            playerClockImage.color = imageDisabledColor;
+            playerClockImage.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
         }
@@ -195,8 +195,9 @@ namespace TurboLabz.Multiplayer
 
         private void DisableOpponentTimer()
         {
+            opponentClockLabel.color = Colors.DISABLED_WHITE;
             opponentTurnLabel.color = Colors.DISABLED_WHITE;
-            opponentClockImage.color = imageDisabledColor;
+            opponentClockImage.color = Colors.DISABLED_WHITE;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
         }

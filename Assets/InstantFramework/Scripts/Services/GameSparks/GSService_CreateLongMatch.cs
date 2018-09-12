@@ -14,7 +14,19 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> CreateLongMatch(string opponentId)
         {
-            return new GSCreateLongMatchRequest().Send(opponentId);
+            return new GSCreateLongMatchRequest().Send(opponentId, OnCreateLongMatchResponse);
+        }
+
+        private void OnCreateLongMatchResponse(object r)
+        {
+            LogEventResponse response = (LogEventResponse)r;
+
+            if (response != null &&
+                response.ScriptData != null && 
+                response.ScriptData.ContainsKey(GSBackendKeys.Match.ABORT_KEY))
+            {
+                matchInfoModel.createLongMatchAborted = true;
+            }
         }
     }
 
@@ -25,8 +37,9 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "CreateLongMatch";
         const string ATT_OPPONENT_ID = "opponentId";
 
-        public IPromise<BackendResult> Send(string opponentId)
+        public IPromise<BackendResult> Send(string opponentId, Action<object> onSuccess)
         {
+            this.onSuccess = onSuccess;
             this.errorCode = BackendResult.CREATE_LONG_MATCH_FAILED;
 
             new LogEventRequest()  

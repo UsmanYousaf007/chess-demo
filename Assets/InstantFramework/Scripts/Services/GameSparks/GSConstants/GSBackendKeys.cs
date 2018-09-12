@@ -239,6 +239,7 @@ namespace TurboLabz.InstantFramework
 
         public static class Match
         {
+            public const string ABORT_KEY = "abort";
             public const string ACTIVE_CHALLENGES = "activeChallenges";
             public const string SHORT_CODE = "shortCode";
             public const string QUICK_MATCH_SHORT_CODE = "Standard";

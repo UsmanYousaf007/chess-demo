@@ -49,10 +49,17 @@ namespace TurboLabz.InstantFramework
         public string activeChallengeId { get; set; }
         public string activeLongMatchOpponentId { get; set; }
         public List<string> unregisteredChallengeIds { get; set; }
+        public bool createLongMatchAborted { get; set; }
         public MatchInfo activeMatch 
         { 
             get
             {
+                if (activeChallengeId == null ||
+                    !matches.ContainsKey(activeChallengeId))
+                {
+                    return null;
+                }
+
                 return matches[activeChallengeId];   
             }
         }

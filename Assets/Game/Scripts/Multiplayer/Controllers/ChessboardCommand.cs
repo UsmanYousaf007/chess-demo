@@ -69,8 +69,6 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
-
             activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             activeMatchInfo = matchInfoModel.activeMatch;
 
@@ -78,6 +76,9 @@ namespace TurboLabz.Multiplayer
             {
                 activeChessboard.currentState = new CCSDefault();
             }
+
+            LogUtil.Log("Current State: " + activeChessboard.currentState.GetType().Name, "white");
+            LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
 
             CCS currentState = activeChessboard.currentState;
             CCS newState = activeChessboard.currentState.HandleEvent(this);
@@ -88,7 +89,7 @@ namespace TurboLabz.Multiplayer
                 activeChessboard.currentState = newState;
                 newState.RenderDisplayOnEnter(this);
 
-                LogUtil.Log(chessboardEvent + ": " + newState.GetType().Name, "white");
+                LogUtil.Log("New State: " + newState.GetType().Name, "white");
             }
             else
             {

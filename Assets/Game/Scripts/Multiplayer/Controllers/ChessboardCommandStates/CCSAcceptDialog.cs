@@ -58,7 +58,14 @@ namespace TurboLabz.Multiplayer
             else if (evt == ChessboardEvent.OPPONENT_MOVE_COMPLETE)
             {
                 HandleOpponentBackendMoved(cmd);
-                return new CCSPlayerTurn();
+                cmd.receiveTurnSwapTimeControlSignal.Dispatch();
+                RenderOpponentMove(cmd);
+                cmd.enablePlayerTurnInteraction.Dispatch();
+            }
+            else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
+            {
+                cmd.activeChessboard.opponentMoveRenderComplete = true;
+                return null;
             }
 
             return null;

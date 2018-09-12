@@ -15,6 +15,9 @@ namespace TurboLabz.InstantFramework
 
         public void SetPlayerPic(string playerId, Sprite sprite)
         {
+            if (sprite == null)
+                return;
+
             string filename = PIC_FILE_PREFIX + playerId;
 
             try

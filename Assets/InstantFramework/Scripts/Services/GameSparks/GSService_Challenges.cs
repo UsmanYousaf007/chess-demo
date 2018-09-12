@@ -64,8 +64,11 @@ namespace TurboLabz.InstantFramework
             UpdateGame(challengeId, gameData);
  
             // Update the bars
-            updateFriendBarSignal.Dispatch(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
-            sortFriendsSignal.Dispatch();
+            if (matchInfoModel.matches[challengeId].isLongPlay)
+            {
+                updateFriendBarSignal.Dispatch(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
+                sortFriendsSignal.Dispatch();
+            }
         }
 
         private void SetupMatch(string challengeId, GSData matchData, GSData gameData)

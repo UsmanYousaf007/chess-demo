@@ -27,8 +27,7 @@ namespace TurboLabz.Multiplayer
             }
             // If we came here after an opponent has moved
             else if (CameFromState(cmd, typeof(CCSOpponentTurn)) ||  
-                     CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)) ||
-                     CameFromState(cmd, typeof(CCSAcceptDialog)))
+                     CameFromState(cmd, typeof(CCSOpponentTurnPieceSelected)))
             {
                 RenderOpponentMove(cmd);
                 cmd.enablePlayerTurnInteraction.Dispatch();

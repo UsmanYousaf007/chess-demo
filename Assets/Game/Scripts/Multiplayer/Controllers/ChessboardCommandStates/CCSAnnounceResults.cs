@@ -34,6 +34,13 @@ namespace TurboLabz.Multiplayer
             {
                 cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
             }
+            else
+            {
+                cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);
+                cmd.chessboardModel.chessboards.Remove(cmd.matchInfoModel.activeChallengeId);
+                cmd.matchInfoModel.activeChallengeId = null;
+                cmd.matchInfoModel.activeLongMatchOpponentId = null;
+            }
         }
     }
 }

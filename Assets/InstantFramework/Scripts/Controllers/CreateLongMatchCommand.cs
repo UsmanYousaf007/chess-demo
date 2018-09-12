@@ -29,20 +29,25 @@ namespace TurboLabz.InstantFramework
             Retain();
 
             friendBarBusySignal.Dispatch(opponentId, true);
+            matchInfoModel.createLongMatchAborted = false;
             backendService.CreateLongMatch(opponentId).Then(OnCreateLongMatch);
         }
 
         private void OnCreateLongMatch(BackendResult result)
         {
-            if (result == BackendResult.CANCELED)
+            if (result == BackendResult.SUCCESS)
             {
-                Release();
+                if (matchInfoModel.createLongMatchAborted)
+                {
+                    friendBarBusySignal.Dispatch(opponentId, false);    
+                }
             }
-            else if (result != BackendResult.SUCCESS)
+            else if (result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
-                Release();
             }
+
+            Release();
         }
     }
 }
