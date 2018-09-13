@@ -4,8 +4,8 @@ namespace TurboLabz.InstantFramework
 {
     public struct EloVO
     {
-        public string friendId;
-        public int friendEloScore;
+        public string opponentId;
+        public int opponentEloScore;
         public int playerEloScore;
     }
 }

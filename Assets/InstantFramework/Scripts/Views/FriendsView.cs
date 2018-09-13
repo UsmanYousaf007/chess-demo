@@ -174,11 +174,11 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateEloScores(EloVO vo)
         {
-            if (vo.friendId == null || !bars.ContainsKey(vo.friendId))
+            if (vo.opponentId == null || !bars.ContainsKey(vo.opponentId))
                 return;
             
-            FriendBar barData = bars[vo.friendId].GetComponent<FriendBar>();
-            barData.eloScoreLabel.text = vo.friendEloScore.ToString();
+            FriendBar barData = bars[vo.opponentId].GetComponent<FriendBar>();
+            barData.eloScoreLabel.text = vo.opponentEloScore.ToString();
         }   
             
 

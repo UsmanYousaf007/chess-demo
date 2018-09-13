@@ -50,6 +50,8 @@ namespace TurboLabz.InstantFramework
 		public const string BLOCKED = "blocked";
         public const string UPDATED_STATS = "updatedStats";
         public const string FRIEND = "friend";
+        public const string OPPONENT_ID = "opponentId";
+        public const string OPPONENT_ELO = "opponentElo";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
