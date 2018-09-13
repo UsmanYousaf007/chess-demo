@@ -145,7 +145,7 @@ namespace TurboLabz.Multiplayer
 
             if (vo.eloScoreDelta > 0)
             {
-                ratingDelta.text = "(+" + vo.eloScoreDelta + ")";
+                ratingDelta.text = "";//"(+" + vo.eloScoreDelta + ")";
                 ratingDelta.color = Colors.GREEN;
             }
             else if (vo.eloScoreDelta == 0)
@@ -154,7 +154,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                ratingDelta.text = "(" + vo.eloScoreDelta + ")";
+                ratingDelta.text = "";//"(" + vo.eloScoreDelta + ")";
                 ratingDelta.color = Colors.RED;
             }
 
