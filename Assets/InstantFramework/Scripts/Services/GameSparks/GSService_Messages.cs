@@ -59,19 +59,19 @@ namespace TurboLabz.InstantFramework
 
         private void OnChallengeWonMessage(ChallengeWonMessage message)
         {
-            UpdateEndGameStats(message.ScriptData);
+            UpdateEndGameStats(message.Challenge.ChallengeId, message.ScriptData);
             OnGameChallengeWonMessage(message);
         }
 
         private void OnChallengeLostMessage(ChallengeLostMessage message)
         {
-            UpdateEndGameStats(message.ScriptData);
+            UpdateEndGameStats(message.Challenge.ChallengeId, message.ScriptData);
             OnGameChallengeLostMessage(message);
         }
 
         private void OnChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
-            UpdateEndGameStats(message.ScriptData);
+            UpdateEndGameStats(message.Challenge.ChallengeId, message.ScriptData);
             OnGameChallengeDrawnMessage(message);
         }
     }

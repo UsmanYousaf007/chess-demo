@@ -153,7 +153,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void UpdateEndGameStats(GSData data)
+        private void UpdateEndGameStats(string challengeId, GSData data)
         {
             GSData updatedStatsData = data.GetGSData(GSBackendKeys.UPDATED_STATS);
 
@@ -163,7 +163,7 @@ namespace TurboLabz.InstantFramework
                 playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
                 playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
                 playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;    
-                matchInfoModel.activeMatch.playerEloScoreDelta = updatedStatsData.GetInt(GSBackendKeys.Match.ELO_CHANGE).Value;
+                matchInfoModel.matches[challengeId].playerEloScoreDelta = updatedStatsData.GetInt(GSBackendKeys.Match.ELO_CHANGE).Value;
 
                 if (updatedStatsData.ContainsKey(GSBackendKeys.FRIEND))
                 {
