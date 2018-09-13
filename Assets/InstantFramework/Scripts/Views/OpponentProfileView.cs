@@ -37,6 +37,8 @@ namespace TurboLabz.InstantGame
         public Text eloScoreValue;
         public Image playerFlag;
 
+        private string opponentId;
+
         public void Init()
         {
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
@@ -51,8 +53,17 @@ namespace TurboLabz.InstantGame
             profileName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
+            opponentId = vo.playerId;
 
             SetProfilePic(vo.playerPic);
+        }
+
+        public void UpdateEloScores(EloVO vo)
+        {
+            if (vo.friendId == opponentId)
+            {
+                eloScoreValue.text = vo.friendEloScore.ToString();
+            }
         }
 
         public void Show()

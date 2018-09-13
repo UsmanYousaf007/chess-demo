@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         public bool isFacebookLoggedIn;
         public int eloScore;
         public string countryId;
+        public string playerId;
 
         public ProfileVO()
         {

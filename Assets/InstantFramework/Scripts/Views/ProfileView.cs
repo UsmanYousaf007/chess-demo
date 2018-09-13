@@ -101,6 +101,11 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        public void UpdateEloScores(EloVO vo)
+        {
+            eloScoreValue.text = vo.playerEloScore.ToString();
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);

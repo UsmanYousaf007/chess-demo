@@ -109,6 +109,7 @@ namespace TurboLabz.InstantFramework
             pvo.playerName = publicProfile.name;
             pvo.eloScore = publicProfile.eloScore;
             pvo.countryId = publicProfile.countryId;
+            pvo.playerId = publicProfile.playerId;
 
             return pvo;
         }

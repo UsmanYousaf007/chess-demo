@@ -172,13 +172,13 @@ namespace TurboLabz.InstantFramework
             barData.avatarImage.sprite = sprite;
         }
 
-        public void UpdateFriendElo(string playerId, int elo)
+        public void UpdateEloScores(EloVO vo)
         {
-            if (!bars.ContainsKey(playerId))
+            if (vo.friendId == null || !bars.ContainsKey(vo.friendId))
                 return;
             
-            FriendBar barData = bars[playerId].GetComponent<FriendBar>();
-            barData.eloScoreLabel.text = elo.ToString();
+            FriendBar barData = bars[vo.friendId].GetComponent<FriendBar>();
+            barData.eloScoreLabel.text = vo.friendEloScore.ToString();
         }   
             
 

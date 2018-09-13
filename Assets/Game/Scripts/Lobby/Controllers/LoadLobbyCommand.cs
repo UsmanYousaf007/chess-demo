@@ -65,6 +65,7 @@ namespace TurboLabz.InstantGame
             pvo.eloScore = playerModel.eloScore;
             pvo.countryId = playerModel.countryId;
             pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
+            pvo.playerId = playerModel.id;
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {

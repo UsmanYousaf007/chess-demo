@@ -42,6 +42,12 @@ namespace TurboLabz.InstantGame
             view.UpdateView(vo);
         }
 
+        [ListensTo(typeof(UpdateEloScoresSignal))]
+        public void OnUpdateEloScoresSignal(EloVO vo)
+        {
+            view.UpdateEloScores(vo);
+        }
+
         [ListensTo(typeof(AuthFacebookResultSignal))]
         public void OnAuthFacebookResult(bool isSuccessful, Sprite pic, string name)
         {

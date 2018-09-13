@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
+        [Inject] public UpdateEloScoresSignal updateEloScoresSignal { get; set; }
 
         // Called by get init data and facebook auth commands
         private void ParseActiveChallenges(GSData data)
@@ -163,7 +164,6 @@ namespace TurboLabz.InstantFramework
                 playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
                 playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
                 playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;    
-                matchInfoModel.matches[challengeId].playerEloScoreDelta = updatedStatsData.GetInt(GSBackendKeys.Match.ELO_CHANGE).Value;
 
                 if (updatedStatsData.ContainsKey(GSBackendKeys.FRIEND))
                 {
@@ -176,7 +176,20 @@ namespace TurboLabz.InstantFramework
                     savedFriend.gamesLost = updatedFriend.gamesLost;
                     savedFriend.gamesDrawn = updatedFriend.gamesDrawn;
                     savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
-                    updateFriendBarSignal.Dispatch(savedFriend, friendId);
+
+                    EloVO vo;
+                    vo.friendId = friendId;
+                    vo.friendEloScore = savedFriend.publicProfile.eloScore;
+                    vo.playerEloScore = playerModel.eloScore;
+                    updateEloScoresSignal.Dispatch(vo);
+                }
+                else
+                {
+                    EloVO vo;
+                    vo.friendId = null;
+                    vo.friendEloScore = 0;
+                    vo.playerEloScore = playerModel.eloScore;
+                    updateEloScoresSignal.Dispatch(vo);
                 }
             }
         }

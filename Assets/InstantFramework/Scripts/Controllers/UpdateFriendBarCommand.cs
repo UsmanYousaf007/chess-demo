@@ -17,12 +17,10 @@ namespace TurboLabz.InstantFramework
     public class UpdateFriendBarCommand : Command
     {
         // Parameters
-        [Inject] public Friend friend { get; set; }
         [Inject] public string friendId { get; set; }
 
         // Dispatch signals
         [Inject] public UpdateFriendBarStatusSignal updateFriendBarStatusSignal { get; set; }
-        [Inject] public UpdateFriendEloSignal updateFriendEloSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -88,7 +86,6 @@ namespace TurboLabz.InstantFramework
                     }
 
                     updateFriendBarStatusSignal.Dispatch(vo);
-                    updateFriendEloSignal.Dispatch(friendId, friend.publicProfile.eloScore);
                     friendHasMatch = true;
 
                     break;
@@ -103,7 +100,6 @@ namespace TurboLabz.InstantFramework
                 vo.playerId = friendId;
 
                 updateFriendBarStatusSignal.Dispatch(vo);
-                updateFriendEloSignal.Dispatch(friendId, friend.publicProfile.eloScore);
             }
 
 
