@@ -133,8 +133,11 @@ namespace TurboLabz.InstantFramework
             matchInfo.winnerId = matchData.GetString(GSBackendKeys.Match.WINNER_ID);
 
             // Update elo numbers
-            matchInfo.playerEloScoreDelta = matchData.GetGSData(GSBackendKeys.Match.ELO_CHANGE).GetInt(playerModel.id).Value;
-
+            GSData eloChangeData = matchData.GetGSData(GSBackendKeys.Match.ELO_CHANGE);
+            if (eloChangeData.ContainsKey(playerModel.id))
+            {
+                matchInfo.playerEloScoreDelta = eloChangeData.GetInt(playerModel.id).Value;
+            }
         }
 
         private void HandleActiveNewMatch(string challengeId)
