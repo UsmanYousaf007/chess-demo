@@ -331,9 +331,13 @@ namespace TurboLabz.Multiplayer
             {
                 HideOpponentFromIndicator();
                 HideOpponentToIndicator();
+                ShowPlayerFromIndicator(vo.fromSquare);
+                ShowPlayerToIndicator(vo.toSquare);
             }
             else
             {
+                HidePlayerFromIndicator();
+                HidePlayerToIndicator();
                 ShowOpponentFromIndicator(vo.fromSquare);
                 ShowOpponentToIndicator(vo.toSquare);
             }

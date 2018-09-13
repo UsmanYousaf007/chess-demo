@@ -44,7 +44,7 @@ namespace TurboLabz.InstantGame
 
             foreach (string key in playerModel.friends.Keys)
             {
-                updateFriendBarSignal.Dispatch(key);
+                updateFriendBarSignal.Dispatch(playerModel.friends[key], key);
             }
 
             sortFriendsSignal.Dispatch();

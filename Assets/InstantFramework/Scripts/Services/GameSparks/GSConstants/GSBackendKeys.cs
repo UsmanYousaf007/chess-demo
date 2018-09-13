@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
 		public const string FRIENDS = "friends";
 		public const string BLOCKED = "blocked";
         public const string UPDATED_STATS = "updatedStats";
+        public const string FRIEND = "friend";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
@@ -252,7 +253,7 @@ namespace TurboLabz.InstantFramework
             public const string ACCEPT_STATUS_ACCEPTED = "accepted";
             public const string ACCEPT_STATUS_DECLINED = "declined";
             public const string WINNER_ID = "winnerId";
-
+            public const string ELO_CHANGE = "eloChange";
         }
     }
 

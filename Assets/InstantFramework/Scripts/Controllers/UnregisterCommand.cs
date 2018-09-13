@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         private string opponentId;
 
@@ -62,7 +63,7 @@ namespace TurboLabz.InstantFramework
 
 
                 friendBarBusySignal.Dispatch(opponentId, false);
-                updateFriendBarSignal.Dispatch(opponentId);
+                updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                 sortFriendsSignal.Dispatch();
             }
 

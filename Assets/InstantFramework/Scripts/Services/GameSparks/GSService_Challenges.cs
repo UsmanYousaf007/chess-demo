@@ -66,7 +66,8 @@ namespace TurboLabz.InstantFramework
             // Update the bars
             if (matchInfoModel.matches[challengeId].isLongPlay)
             {
-                updateFriendBarSignal.Dispatch(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
+                string opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
+                updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                 sortFriendsSignal.Dispatch();
             }
         }
@@ -162,6 +163,21 @@ namespace TurboLabz.InstantFramework
                 playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
                 playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
                 playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;    
+                matchInfoModel.activeMatch.playerEloScoreDelta = updatedStatsData.GetInt(GSBackendKeys.Match.ELO_CHANGE).Value;
+
+                if (updatedStatsData.ContainsKey(GSBackendKeys.FRIEND))
+                {
+                    GSData friendData = updatedStatsData.GetGSData(GSBackendKeys.FRIEND);
+                    string friendId = updatedStatsData.GetString(GSBackendKeys.Friend.FRIEND_ID);
+                    Friend updatedFriend = LoadFriend(friendId, friendData);
+
+                    Friend savedFriend = playerModel.friends[friendId];
+                    savedFriend.gamesWon = updatedFriend.gamesWon;
+                    savedFriend.gamesLost = updatedFriend.gamesLost;
+                    savedFriend.gamesDrawn = updatedFriend.gamesDrawn;
+                    savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
+                    updateFriendBarSignal.Dispatch(savedFriend, friendId);
+                }
             }
         }
     }

@@ -26,7 +26,7 @@ namespace TurboLabz.Multiplayer
             vo.reason = chessboard.gameEndReason;
             vo.playerWins = playerWins;
             vo.currentEloScore = cmd.playerModel.eloScore;
-            vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.eloScoreDelta;
+            vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.playerEloScoreDelta;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
 

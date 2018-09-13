@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
@@ -43,7 +44,8 @@ namespace TurboLabz.InstantFramework
             {
                 MatchInfo matchInfo = matchInfoModel.matches[challengeId];
                 matchInfo.acceptStatus = GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
-                updateFriendBarSignal.Dispatch(matchInfo.opponentPublicProfile.playerId);
+                string opponentId = matchInfo.opponentPublicProfile.playerId;
+                updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                 sortFriendsSignal.Dispatch();
             }
 

@@ -13,7 +13,7 @@ namespace TurboLabz.InstantFramework
         public string botId { get; set; }
         public float botDifficulty { get; set; }
         public EndGameResult endGameResult { get; set; }
-        public int eloScoreDelta { get; set; }
+        public int playerEloScoreDelta { get; set; }
         public string acceptStatus { get; set; }
         public string challengerId { get; set; }
         public string challengedId { get; set; }
@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
             botId = null;
             botDifficulty = 0;
             endGameResult = EndGameResult.NONE;
-            eloScoreDelta = 0;
+            playerEloScoreDelta = 0;
             acceptStatus = null;
             challengedId = null;
             challengedId = null;
