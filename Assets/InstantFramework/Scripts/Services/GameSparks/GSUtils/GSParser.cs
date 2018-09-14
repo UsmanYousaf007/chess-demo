@@ -180,6 +180,7 @@ namespace TurboLabz.InstantFramework
 			friend.gamesDrawn = friendData.GetInt(GSBackendKeys.Friend.GAMES_DRAWN).Value;
 			friend.gamesLost = friendData.GetInt(GSBackendKeys.Friend.GAMES_LOST).Value;
 			friend.gamesWon = friendData.GetInt(GSBackendKeys.Friend.GAMES_WON).Value;
+            friend.friendType = friendData.GetString(GSBackendKeys.Friend.TYPE);
 
 			GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);

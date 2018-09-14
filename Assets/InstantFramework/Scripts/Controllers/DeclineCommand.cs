@@ -19,12 +19,14 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
+        [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
@@ -41,6 +43,19 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
+                string friendId = matchInfoModel.activeLongMatchOpponentId;
+                Friend friend = playerModel.friends[friendId];
+                if (friend.friendType == Friend.FRIEND_TYPE_COMMUNITY)
+                {
+                    if (friend.gamesWon == 0 &&
+                        friend.gamesLost == 0 &&
+                        friend.gamesDrawn == 0)
+                    {
+                        clearFriendSignal.Dispatch(friendId);
+                        playerModel.friends.Remove(friendId);
+                    }
+                }
+
                 exitLongMatchSignal.Dispatch();
             }
 

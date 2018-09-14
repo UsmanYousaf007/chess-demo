@@ -15,7 +15,7 @@ namespace TurboLabz.InstantGame
         [Inject] public string friendId { get; set; }
 
         // dispatch signals
-        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
+        [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -36,7 +36,7 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                refreshFriendsSignal.Dispatch();
+                clearFriendSignal.Dispatch(friendId);
             }
 
             Release();
