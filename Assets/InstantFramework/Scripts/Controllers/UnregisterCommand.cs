@@ -61,10 +61,12 @@ namespace TurboLabz.InstantFramework
                 matchInfoModel.matches.Remove(challengeId);
                 chessboardModel.chessboards.Remove(challengeId);
 
-
-                friendBarBusySignal.Dispatch(opponentId, false);
-                updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
-                sortFriendsSignal.Dispatch();
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    friendBarBusySignal.Dispatch(opponentId, false);
+                    updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
+                    sortFriendsSignal.Dispatch();
+                }
             }
 
             Release();
