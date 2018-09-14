@@ -59,16 +59,15 @@ namespace TurboLabz.InstantFramework
                 
             if (result == BackendResult.SUCCESS)
             {
-                string friendId = matchInfoModel.activeLongMatchOpponentId;
-                Friend friend = playerModel.friends[friendId];
+                Friend friend = playerModel.friends[opponentId];
                 if (friend.friendType == Friend.FRIEND_TYPE_COMMUNITY)
                 {
                     if (friend.gamesWon == 0 &&
                         friend.gamesLost == 0 &&
                         friend.gamesDrawn == 0)
                     {
-                        clearFriendSignal.Dispatch(friendId);
-                        playerModel.friends.Remove(friendId);
+                        clearFriendSignal.Dispatch(opponentId);
+                        playerModel.friends.Remove(opponentId);
                     }
                 }
 

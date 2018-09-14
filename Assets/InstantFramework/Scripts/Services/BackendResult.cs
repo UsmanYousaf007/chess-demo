@@ -46,6 +46,7 @@ namespace TurboLabz.InstantFramework
         PUSH_NOTIFICATION_REGISTRATION_FAILED,
         ACCEPT_FAILED,
         DECLINE_FAILED,
+        UNREGISTER_FAILED,
 
 
         // Testing code

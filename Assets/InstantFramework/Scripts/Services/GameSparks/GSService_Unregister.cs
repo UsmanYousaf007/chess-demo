@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
         {
-            this.errorCode = BackendResult.ACCEPT_FAILED;
+            this.errorCode = BackendResult.UNREGISTER_FAILED;
             this.onSuccess = onSuccess;
 
             new LogEventRequest()  
