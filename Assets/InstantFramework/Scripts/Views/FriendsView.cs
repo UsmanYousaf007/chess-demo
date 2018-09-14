@@ -117,12 +117,11 @@ namespace TurboLabz.InstantFramework
         {
             foreach (KeyValuePair<string, Friend> entry in friends)
             {
-                LogUtil.Log("Adding friend.. " + entry.Value.playerId, "white");
-
                 AddFriend(entry.Value, isCommunity);
             }
 
             UpdateAllStatus();
+            RefreshDefaultMessages();
         }
 
         void AddFriend(Friend friend, bool isCommunity)
@@ -145,12 +144,10 @@ namespace TurboLabz.InstantFramework
             if (isCommunity)
             {
                 siblingIndex = communitySibling.GetSiblingIndex() + 1;
-                waitingForPlayersText.gameObject.SetActive(false);
             }
             else
             {
                 siblingIndex = friendsSibling.GetSiblingIndex() + 1;
-                DefaultInviteSetActive(false);
             }
             
             friendBarObj.transform.SetSiblingIndex(siblingIndex);
@@ -184,11 +181,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarStatus(LongPlayStatusVO vo)
         {
-            LogUtil.Log("Updating friend bar for " + vo.playerId, "white");
-
             if (!bars.ContainsKey(vo.playerId))
             {
-                LogUtil.Log("No bar exists.", "white");
                 return;
             }
 
@@ -202,7 +196,6 @@ namespace TurboLabz.InstantFramework
         {
             if (!bars.ContainsKey(playerId))
             {
-                LogUtil.Log("No bar exists.", "white");
                 return;
             }
 
@@ -246,6 +239,8 @@ namespace TurboLabz.InstantFramework
                 GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
             }
+
+            RefreshDefaultMessages();
         }
 
         public void ToggleFacebookButton(bool toggle)
@@ -381,6 +376,30 @@ namespace TurboLabz.InstantFramework
                 friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DAYS, 
                     Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)));
             }
+        }
+
+        void RefreshDefaultMessages()
+        {
+            bool friendsEmpty = true;
+            bool communityEmpty = true;
+
+            foreach (KeyValuePair<string, FriendBar> entry in bars)
+            {
+                if (entry.Value.isCommunity)
+                {
+                    communityEmpty = false;
+                }
+                else
+                {
+                    friendsEmpty = false;
+                }
+
+                if (!communityEmpty && !friendsEmpty)
+                    break;
+            }
+
+            waitingForPlayersText.gameObject.SetActive(communityEmpty);
+            DefaultInviteSetActive(friendsEmpty);
         }
             
     }
