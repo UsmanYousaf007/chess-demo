@@ -180,19 +180,23 @@ namespace TurboLabz.InstantFramework
                 {
                     GSData friendData = updatedStatsData.GetGSData(GSBackendKeys.FRIEND);
                     string friendId = updatedStatsData.GetString(GSBackendKeys.Friend.FRIEND_ID);
-                    Friend updatedFriend = LoadFriend(friendId, friendData);
 
-                    Friend savedFriend = playerModel.friends[friendId];
-                    savedFriend.gamesWon = updatedFriend.gamesWon;
-                    savedFriend.gamesLost = updatedFriend.gamesLost;
-                    savedFriend.gamesDrawn = updatedFriend.gamesDrawn;
-                    savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
+                    if (playerModel.friends.ContainsKey(friendId))
+                    {
+                        Friend updatedFriend = LoadFriend(friendId, friendData);
 
-                    EloVO vo;
-                    vo.opponentId = friendId;
-                    vo.opponentEloScore = savedFriend.publicProfile.eloScore;
-                    vo.playerEloScore = playerModel.eloScore;
-                    updateEloScoresSignal.Dispatch(vo);
+                        Friend savedFriend = playerModel.friends[friendId];
+                        savedFriend.gamesWon = updatedFriend.gamesWon;
+                        savedFriend.gamesLost = updatedFriend.gamesLost;
+                        savedFriend.gamesDrawn = updatedFriend.gamesDrawn;
+                        savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
+
+                        EloVO vo;
+                        vo.opponentId = friendId;
+                        vo.opponentEloScore = savedFriend.publicProfile.eloScore;
+                        vo.playerEloScore = playerModel.eloScore;
+                        updateEloScoresSignal.Dispatch(vo);
+                    }
                 }
                 else
                 {
