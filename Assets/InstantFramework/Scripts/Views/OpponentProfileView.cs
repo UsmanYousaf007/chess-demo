@@ -60,9 +60,9 @@ namespace TurboLabz.InstantGame
 
         public void UpdateEloScores(EloVO vo)
         {
-            if (vo.friendId == opponentId)
+            if (vo.opponentId == opponentId)
             {
-                eloScoreValue.text = vo.friendEloScore.ToString();
+                eloScoreValue.text = vo.opponentEloScore.ToString();
             }
         }
 

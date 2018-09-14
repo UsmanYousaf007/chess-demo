@@ -131,6 +131,13 @@ namespace TurboLabz.InstantFramework
 
             // Update winner if any
             matchInfo.winnerId = matchData.GetString(GSBackendKeys.Match.WINNER_ID);
+
+            // Update elo numbers
+            GSData eloChangeData = matchData.GetGSData(GSBackendKeys.Match.ELO_CHANGE);
+            if (eloChangeData.ContainsKey(playerModel.id))
+            {
+                matchInfo.playerEloScoreDelta = eloChangeData.GetInt(playerModel.id).Value;
+            }
         }
 
         private void HandleActiveNewMatch(string challengeId)
@@ -178,16 +185,16 @@ namespace TurboLabz.InstantFramework
                     savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
 
                     EloVO vo;
-                    vo.friendId = friendId;
-                    vo.friendEloScore = savedFriend.publicProfile.eloScore;
+                    vo.opponentId = friendId;
+                    vo.opponentEloScore = savedFriend.publicProfile.eloScore;
                     vo.playerEloScore = playerModel.eloScore;
                     updateEloScoresSignal.Dispatch(vo);
                 }
                 else
                 {
                     EloVO vo;
-                    vo.friendId = null;
-                    vo.friendEloScore = 0;
+                    vo.opponentId = updatedStatsData.GetString(GSBackendKeys.OPPONENT_ID);
+                    vo.opponentEloScore = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO).Value;
                     vo.playerEloScore = playerModel.eloScore;
                     updateEloScoresSignal.Dispatch(vo);
                 }
