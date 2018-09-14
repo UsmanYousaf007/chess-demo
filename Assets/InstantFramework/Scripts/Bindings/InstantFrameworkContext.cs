@@ -144,6 +144,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<AddFriendsSignal>().ToSingleton();
             injectionBinder.Bind<ClearCommunitySignal>().ToSingleton();
             injectionBinder.Bind<ClearFriendsSignal>().ToSingleton();
+            injectionBinder.Bind<ClearFriendSignal>().ToSingleton();
             injectionBinder.Bind<FriendsShowConnectFacebookSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileDialogSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFriendBarStatusSignal>().ToSingleton();
