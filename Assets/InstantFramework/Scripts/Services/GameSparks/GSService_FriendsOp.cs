@@ -27,6 +27,11 @@ namespace TurboLabz.InstantFramework
 		{
 			LogEventResponse response = (LogEventResponse)r;
 
+            if (response.ScriptData == null)
+            {
+                return;
+            }
+
 			// Populate friends data
             GSData friendsList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.FRIENDS);
             if (friendsList != null)
