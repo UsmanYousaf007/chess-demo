@@ -53,17 +53,9 @@ namespace TurboLabz.InstantFramework
             }
 
             // Friend added
-            GSData friendsData = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.ADD);
-            if (friendsData != null)
-            {
-                foreach(KeyValuePair<string, object> obj in friendsData.BaseData)
-                {
-                    GSData friendData = (GSData)obj.Value;
-                    string friendId = obj.Key;
-                    Friend friend = LoadFriend(friendId, friendData);
-                    playerModel.friends.Add(friendId, friend);
-                }
-            }
+            GSData friendDict = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.ADD);
+            AddFriend(friendDict);
+
             // Friend blocked
             string blockedId = response.ScriptData.GetString(GSBackendKeys.FriendsOp.BLOCK);
             if (blockedId != null)
@@ -73,6 +65,27 @@ namespace TurboLabz.InstantFramework
                 playerModel.friends.Remove(blockedId);
             }
 		}
+
+        private void AddFriend(GSData friendDict)
+        {
+            if (friendDict != null)
+            {
+                foreach(KeyValuePair<string, object> obj in friendDict.BaseData)
+                {
+                    GSData friendData = (GSData)obj.Value;
+                    string friendId = obj.Key;
+                    Friend friend = LoadFriend(friendId, friendData);
+                    playerModel.friends.Add(friendId, friend);
+
+                    refreshFriendsSignal.Dispatch();
+                    // remove if existed in community
+                    if (playerModel.community.ContainsKey(friendId))
+                    {
+                        refreshCommunitySignal.Dispatch();
+                    }
+                }
+            }
+        }
 	}
 
 	#region REQUEST

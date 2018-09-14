@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
         // Message ExtCodes
         public const string START_GAME_MESSAGE = "StartGameMessage";
         public const string NEW_FRIEND_MESSAGE = "NewFriendMessage";
+        public const string NEW_COMMUNITY_FRIEND_MESSAGE = "NewCommnunityFriendMessage";
 
         // Feature Shop Items
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS = "FeatureRemoveAds";

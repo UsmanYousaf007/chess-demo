@@ -15,8 +15,7 @@ namespace TurboLabz.InstantGame
         [Inject] public string friendId { get; set; }
 
         // dispatch signals
-        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -33,16 +32,11 @@ namespace TurboLabz.InstantGame
 
         private void OnFriendsOpAdd(BackendResult result)
         {
-            if (result == BackendResult.SUCCESS)
+            if (result != BackendResult.CANCELED && result != BackendResult.SUCCESS)
             {
-                refreshFriendsSignal.Dispatch();
-
-                // remove if existed in community
-                if (playerModel.community.ContainsKey(friendId))
-                {
-                   refreshCommunitySignal.Dispatch();
-                }
+                backendErrorSignal.Dispatch(result);
             }
+                
 
             Release();
         }

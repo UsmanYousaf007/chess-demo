@@ -35,6 +35,10 @@ namespace TurboLabz.InstantFramework
                 string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
                 newFriendSignal.Dispatch(friendId);
             }
+            else if (message.ExtCode == GSBackendKeys.NEW_COMMUNITY_FRIEND_MESSAGE)
+            {
+                AddFriend(message.Data);
+            }
         }
 
         private void OnSessionTerminateMessage(SessionTerminatedMessage message)
