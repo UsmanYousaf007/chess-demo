@@ -74,15 +74,16 @@ namespace TurboLabz.InstantFramework
                 {
                     GSData friendData = (GSData)obj.Value;
                     string friendId = obj.Key;
-                    Friend friend = LoadFriend(friendId, friendData);
-                    playerModel.friends.Add(friendId, friend);
 
-                    refreshFriendsSignal.Dispatch();
                     // remove if existed in community
                     if (playerModel.community.ContainsKey(friendId))
                     {
-                        refreshCommunitySignal.Dispatch();
+                        removeFriendSignal.Dispatch(friendId);
                     }
+
+                    Friend friend = LoadFriend(friendId, friendData);
+                    playerModel.friends.Add(friendId, friend);
+                    refreshFriendsSignal.Dispatch();
                 }
             }
         }

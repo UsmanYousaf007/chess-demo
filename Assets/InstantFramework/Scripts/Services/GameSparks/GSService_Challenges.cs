@@ -68,8 +68,12 @@ namespace TurboLabz.InstantFramework
             if (matchInfoModel.matches[challengeId].isLongPlay)
             {
                 string opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
-                updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
-                sortFriendsSignal.Dispatch();
+
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
+                    sortFriendsSignal.Dispatch();
+                }
             }
         }
 

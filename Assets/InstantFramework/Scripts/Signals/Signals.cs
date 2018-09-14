@@ -52,11 +52,13 @@ namespace TurboLabz.InstantFramework
     public class AddFriendsSignal : Signal<Dictionary<string, Friend>, bool> {}
     public class RefreshCommunitySignal : Signal {}
     public class RefreshFriendsSignal : Signal {}
+    public class RemoveFriendSignal : Signal<string> {}
     public class GetSocialPicsSignal : Signal<Dictionary<string, Friend>> {}
     public class NewFriendSignal : Signal<string> {}
     public class BlockFriendSignal : Signal<string> {}
     public class ClearCommunitySignal : Signal {}
     public class ClearFriendsSignal : Signal {}
+    public class ClearFriendSignal : Signal<string> {}
     public class UpdateFriendPicSignal : Signal<string, Sprite> {}
     public class UpdateEloScoresSignal : Signal<EloVO> {}
     public class FriendsShowConnectFacebookSignal : Signal<bool> {}

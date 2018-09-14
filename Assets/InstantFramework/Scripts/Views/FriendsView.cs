@@ -239,6 +239,15 @@ namespace TurboLabz.InstantFramework
             DefaultInviteSetActive(true);
         }
 
+        public void ClearFriend(string friendId)
+        {
+            if (bars.ContainsKey(friendId))
+            {
+                GameObject.Destroy(bars[friendId].gameObject);
+                bars.Remove(friendId);
+            }
+        }
+
         public void ToggleFacebookButton(bool toggle)
         {
             facebookLoginButton.interactable = toggle;
