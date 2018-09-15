@@ -5,17 +5,18 @@ using TurboLabz.TLUtils;
 
 public class NotchHandler : MonoBehaviour {
 
-    public RectTransform[] scaleDownSet;
-    public RectTransform[] stretchWidth;
-    public RectTransform[] gameTopStrip;
-    public RectTransform[] opponentInfoPanel;
-    public RectTransform[] playerInfoPanel;
+    [Header("Navs")]
+    public RectTransform[] topNavs;
+    public RectTransform[] botNavs;
 
+    [Header("Lobby")]
+    public RectTransform facebookButton;
+    public RectTransform centerContent;
+    public RectTransform freeBucksButton;
+    public RectTransform devFen;
+
+    [Header("Editor")]
     public GameObject notchOverlay;
-
-    const float SCALE_DOWN = 0.92f;
-    const float GAME_TOP_STRIP_ADJUST = -58f;
-    const float INFO_PANEL_ADJUST = 41f;
 
     void Awake()
     {
@@ -30,39 +31,37 @@ public class NotchHandler : MonoBehaviour {
         if (!(Screen.safeArea.height < Screen.height)) return;
         #endif
 
-        // Make the adjustments
-        foreach (RectTransform tfm in scaleDownSet)
+        // Do all the notchy adjustments
+        // TOP NAVS
+        foreach (RectTransform tfm in topNavs)
         {
-            tfm.localScale *= SCALE_DOWN;
+            SetY(tfm, -131f);
+        }
+        foreach (RectTransform tfm in botNavs)
+        {
+            SetY(tfm, 166f);
         }
 
-        foreach (RectTransform tfm in stretchWidth)
-        {
-            Vector3 localScale = tfm.localScale;
-            localScale.y *= SCALE_DOWN;
-            localScale.x *= (1/SCALE_DOWN);
-            tfm.localScale = localScale;
-        }
+        // LOBBY
+        SetY(facebookButton, -270f);
+        SetY(centerContent, -66f);
+        SetY(freeBucksButton, 427f);
+        SetY(devFen, -448);
 
-        foreach (RectTransform tfm in gameTopStrip)
-        {
-            Vector3 localPos = tfm.localPosition;
-            localPos.y += GAME_TOP_STRIP_ADJUST;
-            tfm.localPosition = localPos;
-        }
-
-        foreach (RectTransform tfm in opponentInfoPanel)
-        {
-            Vector3 localPos = tfm.localPosition;
-            localPos.y += INFO_PANEL_ADJUST;
-            tfm.localPosition = localPos;
-        }
-
-        foreach (RectTransform tfm in playerInfoPanel)
-        {
-            Vector3 localPos = tfm.localPosition;
-            localPos.y -= INFO_PANEL_ADJUST;
-            tfm.localPosition = localPos;
-        }
     }
+
+    void SetY(RectTransform tfm, float y)
+    {
+        Vector2 anchoredPos = tfm.anchoredPosition;
+        anchoredPos.y = y;
+        tfm.anchoredPosition = anchoredPos;
+    }
+
+    void SetX(RectTransform tfm, float x)
+    {
+        Vector3 localPos = tfm.localPosition;
+        localPos.x = x;
+        tfm.localPosition = localPos;
+    }
+
 }
