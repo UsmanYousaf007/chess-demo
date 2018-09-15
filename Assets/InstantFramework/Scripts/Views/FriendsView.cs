@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         public GameObject facebookConnectAnim;
         public Text facebookConnectText;
         public ScrollRect scrollRect;
+        public GameObject uiBlocker;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -205,6 +206,8 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
             friendBar.thinking.SetActive(busy);
             friendBar.playButton.gameObject.SetActive(!busy);
+
+            uiBlocker.SetActive(busy);
         }
 
         public void Show() 

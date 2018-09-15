@@ -44,14 +44,14 @@ namespace TurboLabz.InstantFramework
             }
 
             initBackendOnceSignal.Dispatch();
+            loadLobbySignal.Dispatch();
 
             if (facebookService.isLoggedIn())
             {
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
             }
-
-            loadLobbySignal.Dispatch();
+                
             CommandEnd();
         }
 
