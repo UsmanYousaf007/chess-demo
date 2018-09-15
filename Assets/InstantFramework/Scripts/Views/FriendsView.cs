@@ -128,9 +128,12 @@ namespace TurboLabz.InstantFramework
 		{
 		    // create bar
 			GameObject friendBarObj = GameObject.Instantiate(friendBarPrefab);
+            friendBarObj.GetComponent<SkinLink>().InitPrefabSkin();
 
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
+            friendBar.incDecSkinLink.InitPrefabSkin();
+
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.playButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;

@@ -192,9 +192,10 @@ GameObject:
   - component: {fileID: 222666307821063844}
   - component: {fileID: 114157364104416970}
   - component: {fileID: 114333027315664814}
+  - component: {fileID: 114453230027933380}
   m_Layer: 5
   m_Name: FriendBar
-  m_TagString: Untagged
+  m_TagString: FriendStrip.Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -261,9 +262,10 @@ GameObject:
   - component: {fileID: 224644390232526450}
   - component: {fileID: 222776624490807242}
   - component: {fileID: 114051132823811754}
+  - component: {fileID: 114468370449000372}
   m_Layer: 5
   m_Name: PlayStatus
-  m_TagString: Untagged
+  m_TagString: IncDecBtn.Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -848,6 +850,7 @@ MonoBehaviour:
   playButton: {fileID: 114221150040877984}
   longPlayStatus: 0
   thinking: {fileID: 1394679646611074}
+  incDecSkinLink: {fileID: 114468370449000372}
   isCommunity: 0
 --- !u!114 &114347499061902898
 MonoBehaviour:
@@ -882,6 +885,30 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114453230027933380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791824185925394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 0}
+--- !u!114 &114468370449000372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1816732099600652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 0}
 --- !u!114 &114525830320400354
 MonoBehaviour:
   m_ObjectHideFlags: 1

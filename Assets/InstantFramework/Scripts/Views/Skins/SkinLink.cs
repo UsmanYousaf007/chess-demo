@@ -41,6 +41,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateSkin()
         {
+            LogUtil.Log("updating skin for: " + gameObject.name, "yellow");
+
             // Apply alpha if required
             string[] tokens = sourceImage.sprite.name.Split(',');
             float alpha = 1f;

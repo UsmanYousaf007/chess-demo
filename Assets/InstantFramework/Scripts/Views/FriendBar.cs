@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         public DateTime lastActionTime;
         public LongPlayStatus longPlayStatus;
         public GameObject thinking;
+        public SkinLink incDecSkinLink;
         public bool isCommunity;
 
     }
