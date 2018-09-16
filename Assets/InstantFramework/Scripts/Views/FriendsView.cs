@@ -123,6 +123,8 @@ namespace TurboLabz.InstantFramework
 
             UpdateAllStatus();
             RefreshDefaultMessages();
+
+            //AddTestBars();
         }
 
         void AddFriend(Friend friend, bool isCommunity)

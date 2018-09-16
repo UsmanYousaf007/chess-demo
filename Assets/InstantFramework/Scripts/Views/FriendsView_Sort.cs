@@ -24,8 +24,6 @@ namespace TurboLabz.InstantFramework
     {
         public void Sort()
         {
-            // AddTestBars();
-
             // Create holders
             List<FriendBar> newChallenges = new List<FriendBar>();
             List<FriendBar> yourMove = new List<FriendBar>();

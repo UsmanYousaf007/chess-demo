@@ -15,6 +15,14 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform freeBucksButton;
     public RectTransform devFen;
 
+    [Header("Profile")]
+    public RectTransform profileFacebookButton;
+    public RectTransform profileCenterContent;
+
+    [Header("Friends")]
+    public RectTransform friendsScrollView;
+    public RectTransform friendsViewPort;
+
     [Header("Editor")]
     public GameObject notchOverlay;
 
@@ -48,6 +56,14 @@ public class NotchHandler : MonoBehaviour {
         SetY(freeBucksButton, 427f);
         SetY(devFen, -448);
 
+        // PROFILE
+        SetY(profileFacebookButton, -270f);
+        SetY(profileCenterContent, -66f);
+
+        // FRIENDS
+        SetY(friendsScrollView, -41f);
+        SetTop(friendsViewPort, 17f);
+        SetBottom(friendsViewPort, 104f);
     }
 
     void SetY(RectTransform tfm, float y)
@@ -62,6 +78,16 @@ public class NotchHandler : MonoBehaviour {
         Vector3 localPos = tfm.localPosition;
         localPos.x = x;
         tfm.localPosition = localPos;
+    }
+
+    void SetTop(RectTransform tfm, float top)
+    {
+        tfm.offsetMax = new Vector2(tfm.offsetMax.x, top);
+    }
+
+    void SetBottom(RectTransform tfm, float bottom)
+    {
+        tfm.offsetMin = new Vector2(tfm.offsetMin.x, bottom);
     }
 
 }
