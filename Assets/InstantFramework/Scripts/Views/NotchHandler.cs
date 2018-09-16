@@ -23,6 +23,11 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform friendsScrollView;
     public RectTransform friendsViewPort;
 
+    [Header("Store")]
+    public RectTransform storeTitle;
+    public RectTransform storeScrollView;
+    public RectTransform storeViewPort;
+
     [Header("Editor")]
     public GameObject notchOverlay;
 
@@ -64,6 +69,12 @@ public class NotchHandler : MonoBehaviour {
         SetY(friendsScrollView, -41f);
         SetTop(friendsViewPort, 17f);
         SetBottom(friendsViewPort, 104f);
+
+        // STORE
+        SetY(storeTitle, -243f);
+        SetY(storeScrollView, -12.5f);
+        SetLocalScale(storeScrollView, 0.92f);
+        SetBottom(storeViewPort, -27f);
     }
 
     void SetY(RectTransform tfm, float y)
@@ -90,4 +101,8 @@ public class NotchHandler : MonoBehaviour {
         tfm.offsetMin = new Vector2(tfm.offsetMin.x, bottom);
     }
 
+    void SetLocalScale(RectTransform tfm, float scale)
+    {
+        tfm.localScale = new Vector3(scale, scale, tfm.localScale.z);
+    }
 }
