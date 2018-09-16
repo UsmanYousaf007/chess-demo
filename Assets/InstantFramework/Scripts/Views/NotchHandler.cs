@@ -28,6 +28,20 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform storeScrollView;
     public RectTransform storeViewPort;
 
+    [Header("CPU Game")]
+    public RectTransform cpuTopPanel;
+    public RectTransform cpuTopBar;
+    public RectTransform cpuBotBar;
+    public RectTransform[] cpuLeft;
+    public RectTransform[] cpuRight;
+
+    [Header("Multiplayer Game")]
+    public RectTransform mpTopPanel;
+    public RectTransform mpTopBar;
+    public RectTransform mpBotBar;
+    public RectTransform[] mpLeft;
+    public RectTransform[] mpRight;
+
     [Header("Editor")]
     public GameObject notchOverlay;
 
@@ -75,6 +89,24 @@ public class NotchHandler : MonoBehaviour {
         SetY(storeScrollView, -12.5f);
         SetLocalScale(storeScrollView, 0.92f);
         SetBottom(storeViewPort, -27f);
+
+        // CPU GAME
+        SetY(cpuTopPanel, -97f);
+        SetY(cpuTopBar, -158f);
+        SetY(cpuBotBar, 141f);
+        foreach (RectTransform tfm in cpuLeft)
+            ShiftX(tfm, 10f);
+        foreach (RectTransform tfm in cpuRight)
+            ShiftX(tfm, -10f);
+
+        // FRIENDS GAME
+        SetY(mpTopPanel, -97f);
+        SetY(mpTopBar, -158f);
+        SetY(mpBotBar, 141f);
+        foreach (RectTransform tfm in mpLeft)
+            ShiftX(tfm, 10f);
+        foreach (RectTransform tfm in mpRight)
+            ShiftX(tfm, -10f);
     }
 
     void SetY(RectTransform tfm, float y)
@@ -86,9 +118,16 @@ public class NotchHandler : MonoBehaviour {
 
     void SetX(RectTransform tfm, float x)
     {
-        Vector3 localPos = tfm.localPosition;
-        localPos.x = x;
-        tfm.localPosition = localPos;
+        Vector2 anchoredPos = tfm.anchoredPosition;
+        anchoredPos.x = x;
+        tfm.anchoredPosition = anchoredPos;
+    }
+
+    void ShiftX(RectTransform tfm, float x)
+    {
+        Vector2 anchoredPos = tfm.anchoredPosition;
+        anchoredPos.x += x;
+        tfm.anchoredPosition = anchoredPos;
     }
 
     void SetTop(RectTransform tfm, float top)
