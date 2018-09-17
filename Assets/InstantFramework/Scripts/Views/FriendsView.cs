@@ -200,6 +200,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarBusy(string playerId, bool busy)
         {
+            uiBlocker.SetActive(busy);
+
             if (!bars.ContainsKey(playerId))
             {
                 return;
@@ -208,8 +210,6 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
             friendBar.thinking.SetActive(busy);
             friendBar.playButton.gameObject.SetActive(!busy);
-
-            uiBlocker.SetActive(busy);
         }
 
         public void Show() 

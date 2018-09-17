@@ -76,10 +76,11 @@ namespace TurboLabz.InstantFramework
 
                 if (playerModel.friends.ContainsKey(opponentId))
                 {
-                    friendBarBusySignal.Dispatch(opponentId, false);
                     updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
-                    sortFriendsSignal.Dispatch();
                 }
+
+                friendBarBusySignal.Dispatch(opponentId, false);
+                sortFriendsSignal.Dispatch();
             }
 
             Release();
