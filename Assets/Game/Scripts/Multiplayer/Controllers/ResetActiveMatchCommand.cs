@@ -10,20 +10,24 @@ using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer 
 {
-    public class ExitLongMatchCommand : Command
+    public class ResetActiveMatchCommand : Command
     {
-        // Dispatch signals
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ResetActiveMatchSignal resetActiveMatchSignal{ get; set; }
-
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         public override void Execute()
         {
-            resetActiveMatchSignal.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                if (chessboardModel.chessboards.ContainsKey(matchInfoModel.activeChallengeId))
+                {
+                    chessboardModel.chessboards[matchInfoModel.activeChallengeId].currentState = null;
+                }
+
+                matchInfoModel.activeChallengeId = null;
+                matchInfoModel.activeLongMatchOpponentId = null;
+            }
         }
     }
 }

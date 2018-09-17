@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<PromoSelectedSignal>().To<ChessboardPromoCommand>();
             commandBinder.Bind<BackendPlayerTurnSignal>().To<PlayerTurnCommand>();
             commandBinder.Bind<ExitLongMatchSignal>().To<ExitLongMatchCommand>();
+            commandBinder.Bind<ResetActiveMatchSignal>().To<ResetActiveMatchCommand>();
 
 
             // Bind signals for dispatching to/from mediators

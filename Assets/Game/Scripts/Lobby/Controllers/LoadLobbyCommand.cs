@@ -13,6 +13,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
 using UnityEngine;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantGame
 {
@@ -27,6 +28,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
+        [Inject] public ResetActiveMatchSignal resetActiveMatchSignal{ get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -42,6 +44,7 @@ namespace TurboLabz.InstantGame
         {
             setSkinSignal.Dispatch(playerModel.activeSkinId);
 
+            resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
