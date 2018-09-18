@@ -76,6 +76,7 @@ namespace TurboLabz.InstantFramework
     public class UnregisterSignal : Signal<string> {}
     public class SortFriendsSignal : Signal {}
     public class StoreAvailableSignal : Signal<bool> {}
+    public class SetActionCountSignal : Signal<int> {}
  
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}

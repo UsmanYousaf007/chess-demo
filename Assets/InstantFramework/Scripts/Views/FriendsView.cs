@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-10-03 16:10:44 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
@@ -54,6 +47,7 @@ namespace TurboLabz.InstantFramework
         public Signal refreshCommunitySignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
         public Signal<string> playButtonClickedSignal = new Signal<string>();
+        public Signal<int> actionCountUpdatedSignal = new Signal<int>();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -196,6 +190,7 @@ namespace TurboLabz.InstantFramework
             friendBar.lastActionTime = vo.lastActionTime;
             friendBar.longPlayStatus = vo.longPlayStatus;
             UpdateStatus(friendBar);
+            UpdateActionCount();
         }
 
         public void UpdateFriendBarBusy(string playerId, bool busy)
@@ -310,6 +305,8 @@ namespace TurboLabz.InstantFramework
             {
                 UpdateStatus(entry.Value);
             }
+
+            UpdateActionCount();
         }
 
         void UpdateStatus(FriendBar friendBar)
@@ -408,6 +405,25 @@ namespace TurboLabz.InstantFramework
 
             waitingForPlayersText.gameObject.SetActive(communityEmpty);
             DefaultInviteSetActive(friendsEmpty);
+        }
+
+        void UpdateActionCount()
+        {
+            int actionCount = 0;
+
+            foreach (KeyValuePair<string, FriendBar> entry in bars)
+            {
+                LongPlayStatus status = entry.Value.longPlayStatus;
+
+                if (status == LongPlayStatus.PLAYER_TURN ||
+                    status == LongPlayStatus.NEW_CHALLENGE)
+                {
+                    actionCount++;
+                }
+            }
+
+            actionCountUpdatedSignal.Dispatch(actionCount);
+
         }
             
     }

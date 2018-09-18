@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-10-03 16:10:44 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,6 +43,8 @@ namespace TurboLabz.InstantGame
 
         public Button playFriendsButton;
         public Text playFriendsButtonLabel;
+        public GameObject actionCounter;
+        public Text actionCounterLabel;
 
         public Button playCPUButton;
         public Text playCPUButtonLabel;
@@ -114,6 +109,8 @@ namespace TurboLabz.InstantGame
             {
                 cover.gameObject.SetActive(true);
             }
+
+            actionCounterLabel.text = "0";
         }
 
         public void CleanUp()
@@ -240,6 +237,8 @@ namespace TurboLabz.InstantGame
                 DOTween.ToAlpha(()=> cover.color, x=> cover.color = x, 0f, 0.2f).OnComplete(DisableCover);
             }
 
+            actionCounter.SetActive(actionCounterLabel.text != "0");
+
             if (Debug.isDebugBuild)
             {
                 devFen.gameObject.SetActive(true);
@@ -274,6 +273,12 @@ namespace TurboLabz.InstantGame
             return gameObject.activeSelf;
         }
 
+        public void SetActionCount(int count)
+        {
+            actionCounter.SetActive(count > 0);
+            actionCounterLabel.text = count.ToString();
+        }
+
         void OnDecStrengthButtonClicked()
         {
             decStrengthButtonClickedSignal.Dispatch();
@@ -287,44 +292,7 @@ namespace TurboLabz.InstantGame
         }
 
 
-        /*
-        private void OnDecDurationButtonClicked()
-        {
-            decDurationButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-        }
-
-        private void OnIncDurationButtonClicked()
-        {
-            incDurationButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-        }
-
-        private void OnDecPlayerColorButtonClicked()
-        {
-            decPlayerColorButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-        }
-
-        private void OnIncPlayerColorButtonClicked()
-        {
-            incPlayerColorButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-        }
-
-		private void OnIncThemeButtonClicked()
-		{
-			incThemeButtonClickedSignal.Dispatch();
-			audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-		}
-
-		private void OnDecThemeButtonClicked()
-		{
-			decThemeButtonClickedSignal.Dispatch();
-			audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-		}
-  */      
-
+       
         private void OnPlayCPUButtonClicked()
         {
             playCPUButtonClickedSignal.Dispatch();
@@ -339,13 +307,6 @@ namespace TurboLabz.InstantGame
         {
             playFriendsButtonClickedSignal.Dispatch();
         }
-
-        /*
-		private void OnThemesButtonClicked()
-		{
-			themesButtonClickedSignal.Dispatch();
-		}
-  */      
 
         private void OnFreeBucksButtonClicked()
         {
@@ -372,91 +333,9 @@ namespace TurboLabz.InstantGame
             cover.gameObject.SetActive(false);
             cover = null;
         }
+
+
     }
 }
 
-/*
-        public void UpdateDuration(CPULobbyVO vo)
-        {
-            int duration = vo.durationMinutes[vo.selectedDurationIndex];
-
-            if (duration == 0)
-            {
-                infinityIcon.SetActive(true);
-                currentDurationLabel.gameObject.SetActive(false);
-            }
-            else
-            {
-                infinityIcon.SetActive(false);
-                currentDurationLabel.gameObject.SetActive(true);
-                currentDurationLabel.text = 
-                    localizationService.Get(LocalizationKey.GM_ROOM_DURATION, vo.durationMinutes[vo.selectedDurationIndex]);
-            }
-
-            if (vo.selectedDurationIndex == 0)
-            {
-                decDurationButton.interactable = false;
-                incDurationButton.interactable = true;
-            }
-            else if (vo.selectedDurationIndex == (vo.durationMinutes.Length - 1))
-            {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = false;
-            }
-            else
-            {
-                decDurationButton.interactable = true;
-                incDurationButton.interactable = true;
-            }
-        }
-
-        public void UpdatePlayerColor(CPULobbyVO vo)
-        {
-            randomKing.SetActive(false);
-            whiteKing.SetActive(false);
-            blackKing.SetActive(false);
-
-            if (vo.selectedPlayerColorIndex == 0)
-            {
-                whiteKing.SetActive(true);
-                incPlayerColorButton.interactable = true;
-                decPlayerColorButton.interactable = false;
-            }
-            else if (vo.selectedPlayerColorIndex == 1)
-            {
-                blackKing.SetActive(true);
-                incPlayerColorButton.interactable = true;
-                decPlayerColorButton.interactable = true;
-            }
-            else if (vo.selectedPlayerColorIndex == 2)
-            {
-                randomKing.SetActive(true);
-                incPlayerColorButton.interactable = false;
-                decPlayerColorButton.interactable = true;
-            }
-        }
-
-        public void UpdateTheme(CPULobbyVO vo)
-        {
-            currentThemeLabel.text = vo.activeSkinDisplayName;
-
-            int index = vo.playerVGoods.IndexOf(vo.activeSkinId);
-
-            if (index == (vo.playerVGoods.Count - 1)) 
-            {
-                incThemeButton.interactable = false;
-                decThemeButton.interactable = true;
-            } 
-            else if (index == 0) 
-            {
-                incThemeButton.interactable = true;
-                decThemeButton.interactable = false;
-            } 
-            else 
-            {
-                incThemeButton.interactable = true;
-                decThemeButton.interactable = true;
-            }
-        }
-  */      
 

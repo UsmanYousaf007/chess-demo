@@ -88,6 +88,8 @@ namespace TurboLabz.InstantFramework
                     updateFriendBarStatusSignal.Dispatch(vo);
                     friendHasMatch = true;
 
+
+
                     break;
                 }
             }

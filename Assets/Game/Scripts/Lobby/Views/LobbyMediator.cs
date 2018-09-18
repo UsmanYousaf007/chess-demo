@@ -62,6 +62,8 @@ namespace TurboLabz.InstantGame
 
             view.freeBucksButtonClickedSignal.AddListener(OnFreeBucksButtonClicked);
             view.freeBucksUpdateAdsSignal.AddListener(OnUpdateAdsSignal);
+
+
         }
 
         public override void OnRemove()
@@ -118,6 +120,12 @@ namespace TurboLabz.InstantGame
         public void OnUpdateAds(AdsVO vo)
         {
             view.UpdateAds(vo);
+        }
+
+        [ListensTo(typeof(SetActionCountSignal))]
+        public void OnSetActionCount(int count)
+        {
+            view.SetActionCount(count);
         }
 
         private void OnDecStrengthButtonClicked()

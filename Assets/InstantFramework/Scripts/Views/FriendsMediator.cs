@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
+        [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
             view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.inviteFriendsButton.onClick.AddListener(OnShareApp);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
+            view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -168,6 +170,11 @@ namespace TurboLabz.InstantFramework
         private void OnPlayButtonClicked(string playerId)
         {
             tapLongMatchSignal.Dispatch(playerId);
+        }
+
+        private void OnActionCountUpdated(int count)
+        {
+            setActionCountSignal.Dispatch(count);
         }
     }
 }
