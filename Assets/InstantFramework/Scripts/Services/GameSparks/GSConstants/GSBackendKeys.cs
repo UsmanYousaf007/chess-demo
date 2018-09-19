@@ -83,6 +83,7 @@ namespace TurboLabz.InstantFramework
         public const string START_GAME_MESSAGE = "StartGameMessage";
         public const string NEW_FRIEND_MESSAGE = "NewFriendMessage";
         public const string NEW_COMMUNITY_FRIEND_MESSAGE = "NewCommnunityFriendMessage";
+        public const string ONLINE_STATUS_FRIEND_MESSAGE = "OnlineStatusFriendMessage";
 
         // Feature Shop Items
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS = "FeatureRemoveAds";
@@ -199,6 +200,7 @@ namespace TurboLabz.InstantFramework
 			public const string GAMES_DRAWN = "gamesDrawn";
 			public const string PUBLIC_PROFILE = "publicProfile";
             public const string FRIEND_ID = "friendId";
+            public const string IS_ONLINE = "isOnline";
 		}
 
 		public static class FriendsOp

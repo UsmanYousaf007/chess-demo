@@ -39,6 +39,12 @@ namespace TurboLabz.InstantFramework
             {
                 AddFriend(message.Data);
             }
+            else if (message.ExtCode == GSBackendKeys.ONLINE_STATUS_FRIEND_MESSAGE)
+            {
+                string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
+                bool isOnline = message.Data.GetBoolean(GSBackendKeys.Friend.IS_ONLINE).Value;
+                updtateFriendOnlineStatusSignal.Dispatch(friendId, isOnline);
+            }
         }
 
         private void OnSessionTerminateMessage(SessionTerminatedMessage message)

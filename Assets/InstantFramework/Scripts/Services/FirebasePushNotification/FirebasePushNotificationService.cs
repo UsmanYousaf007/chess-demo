@@ -20,8 +20,13 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
+        // Listen to signals
+        [Inject] public AppEventSignal appEventSignal { get; set; }
+
         public void Init() 
         {
+            appEventSignal.AddListener(OnAppEvent);
+
             Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
             Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
                 {
@@ -50,6 +55,11 @@ namespace TurboLabz.InstantFramework
         public string GetToken()
         {
             return pushToken;
+        }
+
+        private void OnAppEvent(AppEvent evt)
+        {
+            // Clear all notifications from device
         }
     }
 }
