@@ -5,7 +5,7 @@
 
 using TurboLabz.Chess;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public class AdPlacementIds
     {
