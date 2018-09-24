@@ -224,6 +224,7 @@ namespace TurboLabz.InstantFramework
 			public const string ELO_SCORE = "eloScore";
 			public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 			public const string EXTERNAL_IDS = "externalIds";
+            public const string IS_ONLINE = "isOnline";
 		}
 
 		public static class  PlayerDetails

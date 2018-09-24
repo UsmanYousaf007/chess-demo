@@ -155,12 +155,13 @@ namespace TurboLabz.InstantFramework
             }
         }
 			
-        public static void PopulatePublicProfile(PublicProfile publicProfile, GSData publicProfileData, string friendId)
+        public static void PopulatePublicProfile(PublicProfile publicProfile, GSData publicProfileData, string playerId)
 		{
-            publicProfile.playerId = friendId;
+            publicProfile.playerId = playerId;
 			publicProfile.name = publicProfileData.GetString(GSBackendKeys.PublicProfile.NAME);
 			publicProfile.countryId = publicProfileData.GetString(GSBackendKeys.PublicProfile.COUNTRY_ID);
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
+            publicProfile.isOnline = publicProfileData.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
 
 			IList<GSData> activeInventoryData = publicProfileData.GetGSDataList(GSBackendKeys.PublicProfile.PLAYER_ACTIVE_INVENTORY);
 			string activeChessSkinsId = "unassigned";

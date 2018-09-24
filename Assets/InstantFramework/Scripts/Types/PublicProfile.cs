@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         public int eloScore;
         public Sprite profilePicture;
         public string facebookUserId;
+        public bool isOnline;
     }
 }
 
