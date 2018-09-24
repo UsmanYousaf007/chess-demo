@@ -137,7 +137,9 @@ namespace TurboLabz.InstantFramework
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
             friendBar.isCommunity = isCommunity;
-			friendBarObj.transform.SetParent(listContainer, false);
+            friendBar.onlineStatus.sprite = friend.publicProfile.isOnline ? friendBar.online : friendBar.offline;
+
+            friendBarObj.transform.SetParent(listContainer, false);
 
             int siblingIndex = 0;
 
@@ -191,6 +193,17 @@ namespace TurboLabz.InstantFramework
             friendBar.longPlayStatus = vo.longPlayStatus;
             UpdateStatus(friendBar);
             UpdateActionCount();
+        }
+
+        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        {
+            if (!bars.ContainsKey(friendId))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[friendId].GetComponent<FriendBar>();
+            friendBar.onlineStatus.sprite = isOnline ? friendBar.online : friendBar.offline;
         }
 
         public void UpdateFriendBarBusy(string playerId, bool busy)

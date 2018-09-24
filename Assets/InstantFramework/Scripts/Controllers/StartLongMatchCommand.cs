@@ -29,15 +29,18 @@ namespace TurboLabz.InstantFramework
             matchInfoModel.activeChallengeId = challengeId;
 
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
-            PublicProfile publicProfile = matchInfo.opponentPublicProfile;
+            string opponentId = matchInfo.opponentPublicProfile.playerId;
+
+            PublicProfile publicProfile = playerModel.friends.ContainsKey(opponentId) ?
+                playerModel.friends[opponentId].publicProfile :
+                playerModel.community[opponentId].publicProfile;
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerName = publicProfile.name;
             pvo.eloScore = publicProfile.eloScore;
             pvo.countryId = publicProfile.countryId;
             pvo.playerId = publicProfile.playerId;
-
-            string opponentId = matchInfo.opponentPublicProfile.playerId;
+            pvo.isOnline = publicProfile.isOnline;
 
             if (playerModel.friends.ContainsKey(opponentId))
             {

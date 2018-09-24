@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         public int eloScore;
         public string countryId;
         public string playerId;
+        public bool isOnline;
 
         public ProfileVO()
         {

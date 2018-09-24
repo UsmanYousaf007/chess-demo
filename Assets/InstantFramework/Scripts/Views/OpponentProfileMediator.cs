@@ -35,6 +35,12 @@ namespace TurboLabz.InstantGame
             view.UpdateView(vo);
         }
 
+        [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
+        public void OnUpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        {
+            view.UpdateFriendOnlineStatusSignal(friendId, isOnline);
+        }
+
         [ListensTo(typeof(UpdateEloScoresSignal))]
         public void OnUpdateEloScoresSignal(EloVO vo)
         {

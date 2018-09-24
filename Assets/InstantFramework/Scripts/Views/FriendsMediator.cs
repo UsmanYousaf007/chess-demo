@@ -91,6 +91,12 @@ namespace TurboLabz.InstantFramework
             view.UpdateFriendBarStatus(vo);
         }
 
+        [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
+        public void OnUpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        {
+            view.UpdateFriendOnlineStatusSignal(friendId, isOnline);
+        }
+
         [ListensTo(typeof(FriendBarBusySignal))]
         public void OnFriendBarBusy(string playerId, bool busy)
         {

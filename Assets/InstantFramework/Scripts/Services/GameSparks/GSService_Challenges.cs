@@ -100,7 +100,17 @@ namespace TurboLabz.InstantFramework
             GSData opponentData = matchData.GetGSData(opponentId);
             GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
             PublicProfile opponentPublicProfile = new PublicProfile();
-            GSParser.PopulatePublicProfile(opponentPublicProfile, opponentProfile, opponentId);
+            opponentPublicProfile.playerId = opponentId;
+            opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
+            opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
+            opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
+            GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
+            IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
+            if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
+            {
+                ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
+                opponentPublicProfile.facebookUserId = facebookAuthData.id;
+            }
             matchInfo.opponentPublicProfile = opponentPublicProfile;
 
             ///////////////////////////////////////////////////////////////////////////////////////

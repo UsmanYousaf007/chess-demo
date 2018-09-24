@@ -57,6 +57,7 @@ namespace TurboLabz.InstantGame
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
             opponentId = vo.playerId;
+            onlineStatus.sprite = vo.isOnline ? online : offline;
 
             SetProfilePic(vo.playerPic);
         }
@@ -66,6 +67,14 @@ namespace TurboLabz.InstantGame
             if (vo.opponentId == opponentId)
             {
                 eloScoreValue.text = vo.opponentEloScore.ToString();
+            }
+        }
+
+        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        {
+            if (friendId == opponentId)
+            {
+                onlineStatus.sprite = isOnline ? online : offline;
             }
         }
 
