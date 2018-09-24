@@ -43,6 +43,12 @@ namespace TurboLabz.InstantFramework
             {
                 string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
                 bool isOnline = message.Data.GetBoolean(GSBackendKeys.Friend.IS_ONLINE).Value;
+
+                if (playerModel.friends.ContainsKey(friendId))
+                {
+                    playerModel.friends[friendId].publicProfile.isOnline = isOnline;
+                }
+
                 updtateFriendOnlineStatusSignal.Dispatch(friendId, isOnline);
             }
         }
