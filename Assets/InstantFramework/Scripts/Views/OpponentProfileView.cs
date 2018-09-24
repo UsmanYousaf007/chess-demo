@@ -36,6 +36,9 @@ namespace TurboLabz.InstantGame
         public Text eloScoreLabel;
         public Text eloScoreValue;
         public Image playerFlag;
+        public Image onlineStatus;
+        public Sprite online;
+        public Sprite offline;
 
         private string opponentId;
 

@@ -20,6 +20,9 @@ namespace TurboLabz.InstantFramework
         public GameObject thinking;
         public SkinLink incDecSkinLink;
         public bool isCommunity;
+        public Image onlineStatus;
+        public Sprite online;
+        public Sprite offline;
 
     }
 }
