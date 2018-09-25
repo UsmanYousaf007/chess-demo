@@ -3,12 +3,13 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IMatchInfoModel
     {
-        Dictionary<string, MatchInfo> matches { get; set; }
+        OrderedDictionary<string, MatchInfo> matches { get; set; }
         MatchInfo CreateMatch(string challengeId);
         string activeChallengeId { get; set; }
         MatchInfo activeMatch { get; }

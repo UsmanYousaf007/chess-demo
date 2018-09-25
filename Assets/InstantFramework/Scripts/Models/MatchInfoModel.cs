@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -45,7 +46,7 @@ namespace TurboLabz.InstantFramework
 
     public class MatchInfoModel : IMatchInfoModel
     {
-        public Dictionary<string, MatchInfo> matches { get; set; }
+        public OrderedDictionary<string, MatchInfo> matches { get; set; }
         public string activeChallengeId { get; set; }
         public string activeLongMatchOpponentId { get; set; }
         public List<string> unregisteredChallengeIds { get; set; }
@@ -67,7 +68,7 @@ namespace TurboLabz.InstantFramework
         [PostConstruct]
         public void PostConstruct()
         {
-            matches = new Dictionary<string, MatchInfo>();
+            matches = new OrderedDictionary<string, MatchInfo>();
             unregisteredChallengeIds = new List<string>();
         }
 
