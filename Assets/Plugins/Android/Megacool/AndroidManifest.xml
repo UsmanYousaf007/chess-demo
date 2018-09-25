@@ -36,7 +36,7 @@
         <!-- Register Megacool as a file provider to enable sharing GIFs -->
         <provider
             android:name="co.megacool.megacool.MegacoolFileProvider"
-            android:authorities="com.Company.ProductName.megacool_file_provider"
+            android:authorities="id.googleplay.instantchess.android.googleplay.megacool_file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
