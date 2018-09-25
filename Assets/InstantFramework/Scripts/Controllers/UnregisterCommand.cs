@@ -31,7 +31,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
 
         private string opponentId;
 
@@ -59,21 +58,6 @@ namespace TurboLabz.InstantFramework
                 
             if (result == BackendResult.SUCCESS)
             {
-                Friend friend = playerModel.friends[opponentId];
-                if (friend.friendType == Friend.FRIEND_TYPE_COMMUNITY)
-                {
-                    if (friend.gamesWon == 0 &&
-                        friend.gamesLost == 0 &&
-                        friend.gamesDrawn == 0)
-                    {
-                        clearFriendSignal.Dispatch(opponentId);
-                        playerModel.friends.Remove(opponentId);
-                    }
-                }
-
-                matchInfoModel.matches.Remove(challengeId);
-                chessboardModel.chessboards.Remove(challengeId);
-
                 if (playerModel.friends.ContainsKey(opponentId))
                 {
                     updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
