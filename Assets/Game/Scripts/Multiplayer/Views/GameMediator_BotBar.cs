@@ -13,7 +13,7 @@ namespace TurboLabz.Multiplayer
         public void OnRegisterBotBar()
         {
             view.InitBotBar();
-            view.backToFriendsButton.onClick.AddListener(OnBackToFriends);
+            view.backToFriendsSignal.AddListener(OnBackToFriends);
         }
 
         public void OnBackToFriends()

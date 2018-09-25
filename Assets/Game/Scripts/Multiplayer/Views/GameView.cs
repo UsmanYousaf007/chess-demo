@@ -20,6 +20,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         [Header("Main View")]
         public Camera chessboardCamera;
@@ -30,6 +31,7 @@ namespace TurboLabz.Multiplayer
 
         private bool menuButtonWasActive;
         private bool isLongPlay;
+        private bool showAd;
 
         public void Show()
         {

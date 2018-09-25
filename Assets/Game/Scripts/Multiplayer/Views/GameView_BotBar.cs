@@ -18,6 +18,7 @@ using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using UnityEngine;
+using strange.extensions.signal.impl;
 
 namespace TurboLabz.Multiplayer
 {
@@ -27,9 +28,12 @@ namespace TurboLabz.Multiplayer
         public Text backToFriendsLabel;
         public Button backToFriendsButton;
 
+        public Signal backToFriendsClicked = new Signal();
+
         public void InitBotBar()
         {
             backToFriendsLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS);
+            backToFriendsButton.onClick.AddListener(OnBackToFriendsClicked);
         }
 
         void OnParentShowBotBar()
@@ -42,6 +46,17 @@ namespace TurboLabz.Multiplayer
         {
             backToFriendsButton.gameObject.SetActive(isLongPlay);
             backToFriendsLabel.gameObject.SetActive(isLongPlay);
+        }
+
+        void OnBackToFriendsClicked()
+        {
+            if (showAd)
+            {
+                adsService.ShowAd(AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
+                showAd = false;
+            }
+
+            backToFriendsSignal.Dispatch();
         }
     }
 }

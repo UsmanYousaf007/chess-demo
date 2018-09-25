@@ -105,7 +105,6 @@ namespace TurboLabz.Multiplayer
 
         public void EnableMenuButton()
         {
-            LogUtil.Log("ENABLING MENU BUTTON", "red");
             menuButton.interactable = true;
         }
 
