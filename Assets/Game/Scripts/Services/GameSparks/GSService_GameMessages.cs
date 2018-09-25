@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
 
+
         private void AddGameMessageListeners()
         {
             ChallengeTurnTakenMessage.Listener += OnChallengeTurnTakenMessage;
@@ -32,6 +33,13 @@ namespace TurboLabz.InstantFramework
         private void OnChallengeTurnTakenMessage(ChallengeTurnTakenMessage message)
         {
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+
+            if (GameSparksOutOfOrderPatchFailed(message.Challenge.ChallengeId, challengeData))
+            {
+                LogUtil.Log("OUT OF ORDER MESSAGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                return;
+            }
+
             ParseChallengeData(message.Challenge.ChallengeId, challengeData);
             HandleActiveMove(message.Challenge.ChallengeId);
         }
@@ -55,6 +63,19 @@ namespace TurboLabz.InstantFramework
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             ParseChallengeData(message.Challenge.ChallengeId, challengeData);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
+        }
+
+        private bool GameSparksOutOfOrderPatchFailed(string challengeId, GSData challengeData)
+        {
+            GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
+            IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
+
+            if (chessboardModel.chessboards[challengeId].moveList.Count >= backendMoveList.Count)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
