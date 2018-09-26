@@ -20,6 +20,7 @@ namespace TurboLabz.InstantGame
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IChatModel chatModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -27,6 +28,11 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             Retain();
+
+            if (chatModel.chatHistory.ContainsKey(friendId))
+            {
+                chatModel.chatHistory.Remove(friendId);
+            }
 
             picsModel.DeleteFriendPic(friendId);
             backendService.FriendsOpBlock(friendId).Then(OnFriendBlock);

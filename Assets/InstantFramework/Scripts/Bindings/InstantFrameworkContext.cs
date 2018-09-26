@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
             commandBinder.Bind<LoadFriendsSignal>().To<LoadFriendsCommand>();
+            commandBinder.Bind<LoadChatSignal>().To<LoadChatCommand>();
 			commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
             commandBinder.Bind<TapLongMatchSignal>().To<TapLongMatchCommand>();
             commandBinder.Bind<StartLongMatchSignal>().To<StartLongMatchCommand>();
@@ -154,6 +155,7 @@ namespace TurboLabz.InstantFramework
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
+            injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton();
 			injectionBinder.Bind<IMetaDataModel>().To<MetaDataModel>().ToSingleton();
             injectionBinder.Bind<IPlayerModel>().To<PlayerModel>().ToSingleton();
             injectionBinder.Bind<IMatchInfoModel>().To<MatchInfoModel>().ToSingleton();
