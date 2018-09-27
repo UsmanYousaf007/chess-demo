@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         ACCEPT_FAILED,
         DECLINE_FAILED,
         UNREGISTER_FAILED,
+        SEND_CHAT_MESSAGE_FAILED,
 
 
         // Testing code

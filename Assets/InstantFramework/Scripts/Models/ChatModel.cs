@@ -120,7 +120,7 @@ namespace TurboLabz.InstantFramework
     [Serializable]
     public struct ChatMessage
     {
-        public string playerId;
+        public string recipientId;
         public string text;
         public long timestamp;
     }

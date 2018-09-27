@@ -82,6 +82,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
             commandBinder.Bind<DeclineSignal>().To<DeclineCommand>();
             commandBinder.Bind<UnregisterSignal>().To<UnregisterCommand>();
+            commandBinder.Bind<SendChatMessageSignal>().To<SendChatMessageCommand>();
+            commandBinder.Bind<ReceiveChatMessageSignal>().To<ReceiveChatMessageCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();

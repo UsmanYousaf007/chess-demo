@@ -76,9 +76,12 @@ namespace TurboLabz.InstantFramework
     public class AcceptSignal : Signal<string> {}
     public class DeclineSignal : Signal<string> {}
     public class UnregisterSignal : Signal<string> {}
+    public class SendChatMessageSignal : Signal<ChatMessageVO> {}
     public class SortFriendsSignal : Signal {}
     public class StoreAvailableSignal : Signal<bool> {}
     public class SetActionCountSignal : Signal<int> {}
+    public class ReceiveChatMessageSignal : Signal<ChatMessageVO> {}
+    public class DisplayChatMessageSignal : Signal<ChatMessage> {}
  
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}
