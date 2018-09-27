@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         NOT_ENOUGH_BUCKS_DLG,
 		BUCK_PACKS_DLG,
         PROFILE_DLG,
+        CHAT,
 
         // TODO: I am possibly unused so remove me.
         AD_COVER
