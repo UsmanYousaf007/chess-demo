@@ -72,4 +72,5 @@ namespace TurboLabz.Multiplayer
     public class InitInfiniteTimersSignal : Signal<bool> {}
     public class ExitLongMatchSignal : Signal {}
     public class ResetActiveMatchSignal : Signal {}
+    public class EnableGameChatSignal : Signal<bool> {}
 }

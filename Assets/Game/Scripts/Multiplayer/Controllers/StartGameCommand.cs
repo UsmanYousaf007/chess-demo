@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public EnableGameChatSignal enableGameChatSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -39,6 +40,8 @@ namespace TurboLabz.InstantFramework
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ACCEPT_REQUESTED);
             }
+
+            enableGameChatSignal.Dispatch(matchInfo.isLongPlay);
         }
     }
 }

@@ -31,6 +31,22 @@ namespace TurboLabz.Multiplayer
             
         }
 
+        public void EnableGameChat(bool enable)
+        {
+            RectTransform wifiIcon = warning.GetComponent<RectTransform>();
+
+            if (enable)
+            {
+                chatButton.gameObject.SetActive(true);
+                wifiIcon.anchoredPosition = new Vector2(-171f, 0f);
+            }
+            else
+            {
+                chatButton.gameObject.SetActive(false);
+                wifiIcon.anchoredPosition = new Vector2(-64, 0f);
+            }
+        }
+
         void OnChatButtonClicked()
         {
             chatButtonClickedSignal.Dispatch();
