@@ -16,8 +16,12 @@ namespace TurboLabz.Multiplayer
             view.backToFriendsSignal.AddListener(OnBackToFriends);
         }
 
-        public void OnBackToFriends()
+        public void OnBackToFriends(bool showAd)
         {
+            if (showAd)
+            {
+                showAdSignal.Dispatch(false, AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
+            }
             exitLongMatchSignal.Dispatch();
         }
     }

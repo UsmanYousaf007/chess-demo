@@ -39,7 +39,7 @@ namespace TurboLabz.InstantFramework
 		{
             if (isStoreAvailable())
             {
-                return null;
+                return promise;
             }
 
 			// Create a builder, first passing in a suite of Unity provided stores.
