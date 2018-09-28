@@ -10,6 +10,7 @@ using System;
 using GameSparks.Core;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -80,14 +81,21 @@ namespace TurboLabz.InstantFramework
                     GSData friendData = (GSData)obj.Value;
                     string friendId = obj.Key;
 
-                    // remove if existed in community
+                    // remove if existed in community 
+                    Sprite communityPic = null;
                     if (playerModel.community.ContainsKey(friendId))
                     {
+                        // Cache the community player profile picture
+                        communityPic = playerModel.community[friendId].publicProfile.profilePicture;
                         removeFriendSignal.Dispatch(friendId);
                     }
 
                     Friend friend = LoadFriend(friendId, friendData);
                     playerModel.friends.Add(friendId, friend);
+                    if (communityPic == null)
+                    {
+                        playerModel.friends[friendId].publicProfile.profilePicture = communityPic;
+                    }
                     refreshFriendsSignal.Dispatch();
                 }
             }

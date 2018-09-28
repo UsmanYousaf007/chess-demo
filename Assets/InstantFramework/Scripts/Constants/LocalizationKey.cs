@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public const string RECONNECTING = "reconnecting";
         public const string UPDATE = "update";
         public const string UPDATE_BUTTON = "updateButton";
+        public const string CHECK_INTERNET_CONNECTION = "checkInternetConnection";
 
         #endregion
 

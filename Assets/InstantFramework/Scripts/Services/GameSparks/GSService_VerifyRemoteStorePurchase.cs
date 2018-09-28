@@ -46,10 +46,15 @@ namespace TurboLabz.InstantFramework
                 {
                     playersModel.inventory.Add(shopItemId, 1); 
                 }
+
+                if (shopItemId == GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS)
+                {
+                    updateRemoveAdsDisplaySignal.Dispatch(null, playersModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
+                }
             }
 
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
-            updateRemoveAdsDisplaySignal.Dispatch(null, playersModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
+
         }
     }
 

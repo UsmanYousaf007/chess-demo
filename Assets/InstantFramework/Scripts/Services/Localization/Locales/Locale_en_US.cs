@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.UPDATE, "Update Requred...\n\n" +
                     "Please download the latest version." },
                 { LocalizationKey.UPDATE_BUTTON, "UPDATE" },
+                { LocalizationKey.CHECK_INTERNET_CONNECTION, "Please check your internet connection." },
+
 
                 #endregion
 
