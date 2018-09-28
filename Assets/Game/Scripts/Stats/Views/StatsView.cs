@@ -2,13 +2,7 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-10-03 16:10:44 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
+
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,6 +44,8 @@ namespace TurboLabz.InstantGame
         public Sprite silverStar;
         public Sprite goldStar;
 
+        public Button privacyPolicy;
+
         public void Init()
         {
             onlineTitle.text = localizationService.Get(LocalizationKey.STATS_ONLINE_TITLE);
@@ -66,6 +62,8 @@ namespace TurboLabz.InstantGame
             {
                 stars[i].sprite = noStar;
             }
+
+            privacyPolicy.onClick.AddListener(OnPrivacyPolicyClicked);
         }
 
         public void UpdateView(StatsVO vo)
@@ -104,6 +102,11 @@ namespace TurboLabz.InstantGame
         public void Hide()
         { 
             gameObject.SetActive(false); 
+        }
+
+        private void OnPrivacyPolicyClicked()
+        {
+            Application.OpenURL("https://turbolabz.com/privacy-policy/");
         }
     }
 }
