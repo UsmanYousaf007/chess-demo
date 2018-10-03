@@ -58,12 +58,19 @@ namespace TurboLabz.InstantFramework
 
 		void ProcessStartup()
 		{
- 			if (gameSparksAvailable &&
-				facebookInitialized)
+ 			if (gameSparksAvailable && facebookInitialized)
 			{
 				if (GS.Authenticated)
                 {
-					GotoReception();
+                    if (facebookService.isLoggedIn())
+                    {
+                        bool isSync = true;
+                        backendService.AuthFacebook(facebookService.GetAccessToken(), isSync).Then(OnFacebookAuthSyncComplete);
+                    }
+                    else
+                    {
+                        GotoReception();
+                    }
 				}
 				else
 				{
@@ -71,6 +78,18 @@ namespace TurboLabz.InstantFramework
 				}
 			}
 		}
+
+        private void OnFacebookAuthSyncComplete(BackendResult result)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                GotoReception();
+            }        
+            else
+            {
+                backendErrorSignal.Dispatch(result);
+            } 
+        }
 
 		private void OnAuthGuest(BackendResult result)
 		{

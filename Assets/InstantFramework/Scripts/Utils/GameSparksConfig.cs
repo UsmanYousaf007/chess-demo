@@ -6,6 +6,8 @@ public class GameSparksConfig : MonoBehaviour {
 
     public GameObject Live;
     public GameObject Preview;
+    public GameObject Dev;
+
     public string configURL = "";
 
     // URL such as https://turbolabz.com/wp-content/uploads/2018/09/chessstar-3-3-2-1.odt;
@@ -13,6 +15,22 @@ public class GameSparksConfig : MonoBehaviour {
 	// Use this for initialization
 	void Awake () 
     {
+        Live.SetActive(false);
+        Preview.SetActive(false);
+        Dev.SetActive(false);
+
+        #if UNITY_EDITOR
+        Dev.SetActive(true);
+        return;
+        #endif
+
+        // This code activates when a debug build is made for device
+        if (UnityEngine.Debug.isDebugBuild)
+        {
+            Dev.SetActive(true);
+            return;
+        }
+
         StartCoroutine(CheckStageURL(configURL));
 	}
 
