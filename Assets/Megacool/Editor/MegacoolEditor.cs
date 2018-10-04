@@ -67,7 +67,10 @@ public class MegacoolEditor : Editor {
         serializedConfiguration.Update();
 
         addHeader("Core config");
-        addProperty(serializedAppIdentifier, "App identifier");
+        addProperty(serializedAppIdentifier, "Megacool identifier");
+        addHelpBox("This is the identifier you picked for your app. It must match what " +
+            "you've entered on the dashboard.");
+
         addProperty(serializedAppConfigAndroid, "Android key");
         addProperty(serializedAppConfigIos, "iOS key");
         addHelpBox("The properties above are required, you can find them on your dashboard at " +

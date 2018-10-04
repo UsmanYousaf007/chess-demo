@@ -26,27 +26,12 @@ typedef NS_ENUM(NSInteger, MCLShareState) {
 NS_ASSUME_NONNULL_BEGIN
 
 /*!
- @brief Instantiate a new share object with url
- */
-+ (instancetype)shareWithURL:(NSURL *)URL
-    __deprecated_msg("Set URL on the MCLShareConfig directly instead");
-
-
-/*!
- @brief Instantiate a new share object with url and data
- */
-+ (instancetype)shareWithURL:(NSURL *)URL
-                        data:(nullable NSDictionary *)data
-    __deprecated_msg("Set the URL and data on the MCLShareConfig directly instead");
-
-
-/*!
  @brief Unique referral code for each share which is part of the link.
 
  @discussion The referral code is assigned when the share is shared, thus not available when you've
  instantiated the share yourself.
  */
-@property(readonly) MCLReferralCode *referralCode;
+@property(readonly, strong) MCLReferralCode *referralCode;
 
 
 /*!
@@ -59,19 +44,19 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  @brief Timestamp of when the share was created
  */
-@property(readonly) NSDate *createdAt;
+@property(readonly, strong) NSDate *createdAt;
 
 
 /*!
  @brief Timestamp of the last update to the share
  */
-@property(readonly) NSDate *updatedAt;
+@property(readonly, strong) NSDate *updatedAt;
 
 
 /*!
  @brief Data associated with the share object
  */
-@property(readonly) NSDictionary *data;
+@property(readonly, strong) NSDictionary *data;
 
 
 /*!
@@ -82,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  given defaults to <tt>@"/"</tt>. The URL will be normalized by adding leading slash to the path if
  absent, and stripping any trailing slash.
  */
-@property(nonatomic, readonly) NSURL *URL;
+@property(nonatomic, readonly, strong) NSURL *URL;
 
 NS_ASSUME_NONNULL_END
 @end

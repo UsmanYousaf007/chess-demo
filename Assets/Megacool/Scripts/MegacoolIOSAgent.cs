@@ -20,7 +20,7 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     private static extern void mcl_set_texture_read_complete_callback([MarshalAs(UnmanagedType.FunctionPtr)] Megacool.TextureReadComplete callbackPointer);
 
     [DllImport("__Internal")]
-    private static extern void startWithAppConfig(string config);
+    private static extern void startWithAppConfig(string config, string wrapper, string wrapperVersion);
 
     [DllImport("__Internal")]
     private static extern void startRecording();
@@ -67,31 +67,31 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     private static extern void mclFree(IntPtr stringPtr);
 
     [DllImport("__Internal")]
-    private static extern void presentShareWithConfig(string recordingId, string lastFrameOverlay, string fallbackImage, string url, string data);
+    private static extern void presentShareWithConfig(string recordingId, string fallbackImage, string url, string data);
 
     [DllImport("__Internal")]
     private static extern void presentShareToMessenger();
 
     [DllImport("__Internal")]
-    private static extern void presentShareToMessengerWithConfig(string recordingId, string lastFrameOverlay, string fallbackImage, string url, string data);
+    private static extern void presentShareToMessengerWithConfig(string recordingId, string fallbackImage, string url, string data);
 
     [DllImport("__Internal")]
     private static extern void presentShareToTwitter();
 
     [DllImport("__Internal")]
-    private static extern void presentShareToTwitterWithConfig(string recordingId, string lastFrameOverlay, string fallbackImage, string url, string data);
+    private static extern void presentShareToTwitterWithConfig(string recordingId, string fallbackImage, string url, string data);
 
     [DllImport("__Internal")]
     private static extern void presentShareToMessages();
 
     [DllImport("__Internal")]
-    private static extern void presentShareToMessagesWithConfig(string recordingId, string lastFrameOverlay, string fallbackImage, string url, string data);
+    private static extern void presentShareToMessagesWithConfig(string recordingId, string fallbackImage, string url, string data);
 
     [DllImport("__Internal")]
     private static extern void presentShareToMail();
 
     [DllImport("__Internal")]
-    private static extern void presentShareToMailWithConfig(string recordingId, string lastFrameOverlay, string fallbackImage, string url, string data);
+    private static extern void presentShareToMailWithConfig(string recordingId, string fallbackImage, string url, string data);
 
     [DllImport("__Internal")]
     private static extern void setSharingText(string text);
@@ -247,18 +247,9 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     }
 #endregion
 
-    // Used to preserve functionality from deprecated ShareConfig lastFrameOverlay
-    private void SetLastFrameOverlayFromShareConfig(MegacoolShareConfig config) {
-        #pragma warning disable 618
-        if (config.LastFrameOverlay != null){
-            SetLastFrameOverlay(config.LastFrameOverlay);
-        }
-        #pragma warning restore 618
-    }
-
     //****************** API Implementation  ******************//
     public void Start(Action<MegacoolEvent> eventHandler) {
-        startWithAppConfig(MegacoolConfiguration.Instance.appConfigIos);
+        startWithAppConfig(MegacoolConfiguration.Instance.appConfigIos, "Unity", Application.unityVersion);
         manualApplicationDidBecomeActive();
     }
 
@@ -333,11 +324,8 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     }
 
     public void Share(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-        #pragma warning disable 618
-        presentShareWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
-        #pragma warning restore 618
+        string absoluteFallback = GetAbsolutePathToFallback(config.FallbackImage);
+        presentShareWithConfig(config.RecordingId, absoluteFallback, config.UrlString(), config.DataSerialized());
     }
 
     public void ShareToMessenger() {
@@ -345,11 +333,8 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     }
 
     public void ShareToMessenger(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-        #pragma warning disable 618
-        presentShareToMessengerWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
-        #pragma warning restore 618
+        string absoluteFallback = GetAbsolutePathToFallback(config.FallbackImage);
+        presentShareToMessengerWithConfig(config.RecordingId, absoluteFallback, config.UrlString(), config.DataSerialized());
     }
 
     public void ShareToTwitter() {
@@ -357,11 +342,8 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     }
 
     public void ShareToTwitter(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-        #pragma warning disable 618
-        presentShareToTwitterWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
-        #pragma warning restore 618
+        string absoluteFallback = GetAbsolutePathToFallback(config.FallbackImage);
+        presentShareToTwitterWithConfig(config.RecordingId, absoluteFallback, config.UrlString(), config.DataSerialized());
     }
 
     public void ShareToMessages() {
@@ -369,11 +351,8 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     }
 
     public void ShareToMessages(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-        #pragma warning disable 618
-        presentShareToMessagesWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
-        #pragma warning restore 618
+        string absoluteFallback = GetAbsolutePathToFallback(config.FallbackImage);
+        presentShareToMessagesWithConfig(config.RecordingId, absoluteFallback, config.UrlString(), config.DataSerialized());
     }
 
     public void ShareToMail() {
@@ -381,11 +360,15 @@ public class MegacoolIOSAgent : MegacoolIAgent {
     }
 
     public void ShareToMail(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-        #pragma warning disable 618
-        presentShareToMailWithConfig(config.RecordingId, config.LastFrameOverlay, config.FallbackImage, config.UrlString(), config.DataSerialized());
-        #pragma warning restore 618
+        string absoluteFallback = GetAbsolutePathToFallback(config.FallbackImage);
+        presentShareToMailWithConfig(config.RecordingId, absoluteFallback, config.UrlString(), config.DataSerialized());
+    }
+
+    private static string GetAbsolutePathToFallback(string fallback) {
+        if (fallback == null) {
+            return null;
+        }
+        return Application.streamingAssetsPath + "/" + fallback;
     }
 
     public void SetSharingText(string text) {

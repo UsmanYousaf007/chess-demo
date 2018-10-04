@@ -47,12 +47,12 @@ public class MegacoolConfiguration : ScriptableObject {
     public double peakLocation = 0.7;
 
     [ContextMenuItem("Default", "defaultFrameRate")]
-    [Tooltip("Set numbers of frames per second to record.")]
+    [Tooltip("Set number of frames per second to record.")]
     public float recordingFrameRate = 10.0f;
 
     [ContextMenuItem("Default", "defaultPlaybackFrameRate")]
-    [Tooltip("Set numbers of frames per second to play.")]
-    public float playbackFrameRate = 10.0f;
+    [Tooltip("Set playback speed in number of frames per second")]
+    public float playbackFrameRate = 12.0f;
 
     [ContextMenuItem("Default", "defaultLastFrameDelay")]
     [Tooltip("Set a delay (in milliseconds) on the last frame in the animation.")]
@@ -79,7 +79,7 @@ public class MegacoolConfiguration : ScriptableObject {
     }
 
     private void defaultPlaybackFrameRate() {
-        playbackFrameRate = 10.0f;
+        playbackFrameRate = 12.0f;
     }
 
     private void defaultLastFrameDelay() {

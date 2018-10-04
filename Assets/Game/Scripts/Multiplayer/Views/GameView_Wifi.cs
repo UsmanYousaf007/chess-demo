@@ -21,11 +21,11 @@ namespace TurboLabz.Multiplayer
     {
         [Header("Wifi")]
         public GameObject warning;
+        public Text warningLabel;
 
         public void InitWifi()
         {
-            // Not using for now
-            // warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_WARNING);
+            warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_WARNING);
         }
 
         public void OnParentShowWifi()

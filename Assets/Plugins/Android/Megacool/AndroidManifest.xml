@@ -4,7 +4,7 @@
 
     <application>
         <!-- The main activity, capable of opening Megacool deep links -->
-        <activity android:name="co.megacool.megacool.MegacoolUnityDeepLinkActivity" android:exported="true">
+        <activity android:name="com.unity3d.player.UnityPlayerActivity">
 
             <!-- Normal https:// links -->
             <intent-filter>
@@ -36,7 +36,7 @@
         <!-- Register Megacool as a file provider to enable sharing GIFs -->
         <provider
             android:name="co.megacool.megacool.MegacoolFileProvider"
-            android:authorities="id.googleplay.instantchess.android.googleplay.megacool_file_provider"
+            android:authorities="com.Company.ProductName.megacool_file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

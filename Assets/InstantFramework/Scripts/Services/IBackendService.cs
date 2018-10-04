@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
         void MonitorConnectivity();
 
         IPromise<BackendResult> GetInitData(int appVersion, string dataJson);
-        IPromise<BackendResult> AuthFacebook(string accessToken, bool isSync = false);
+        IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer);
         IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
         IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt);

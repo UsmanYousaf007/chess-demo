@@ -3,38 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public struct MegacoolShareConfig {
-
-    private static string dataPath = Application.streamingAssetsPath + "/";
-
     public string RecordingId { get; set; }
 
-
-    private String lastFrameOverlay;
-
-    [System.Obsolete("Use Megacool.SetLastFrameOverlay(string filename)")]
-    public string LastFrameOverlay {
-        get {
-            return lastFrameOverlay;
-        }
-        set {
-            lastFrameOverlay = (dataPath + value);
-        }
-    }
-
-    private String fallbackImage;
-
-    public string FallbackImage {
-        get {
-            return fallbackImage;
-        }
-        set {
-#if UNITY_IOS && !UNITY_EDITOR
-            fallbackImage = dataPath + value;
-#else
-            fallbackImage = value;
-#endif
-        }
-    }
+    public string FallbackImage { get; set; }
 
     /// <summary>
     /// Set extra share data that will be present on the received MegacoolShare.
@@ -60,19 +31,5 @@ public struct MegacoolShareConfig {
             return Url.ToString();
         }
         return null;
-    }
-
-    /// <summary>
-    /// Deprecated way to customize the Url and Data on the share.
-    /// </summary>
-    /// <value>The share.</value>
-    [System.Obsolete("Set .Url and .Data directly on the ShareConfig instead")]
-    public MegacoolShare Share {
-        set {
-            if (value != null) {
-                Url = value.Url;
-                Data = value.Data;
-            }
-        }
     }
 }

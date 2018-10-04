@@ -25,13 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  @brief The device/app specific part of the URL. Can be used to identify other users of the app.
  */
-@property(nonatomic, readonly, nullable) NSString *userId;
+@property(nonatomic, readonly, nullable, strong) NSString *userId;
 
 
 /*!
  @brief The share-specific part of the URL, used to track one specific share.
  */
-@property(nonatomic, readonly, nullable) NSString *shareId;
+@property(nonatomic, readonly, nullable, strong) NSString *shareId;
 
 NS_ASSUME_NONNULL_END
 @end

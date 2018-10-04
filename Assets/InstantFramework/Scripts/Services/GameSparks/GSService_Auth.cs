@@ -24,9 +24,9 @@ namespace TurboLabz.InstantFramework
             return new GSAuthGuestRequest().Send();
         }
 
-        public IPromise<BackendResult> AuthFacebook(string accessToken, bool isSync)
+        public IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer)
         {
-            return new GSAuthFacebookRequest().Send(accessToken, isSync, (isSync == true ? (Action<object>)null : onFacebookAuthSuccess));
+            return new GSAuthFacebookRequest().Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
         }
 
         private void onFacebookAuthSuccess(object r)
@@ -54,13 +54,13 @@ namespace TurboLabz.InstantFramework
 
     public class GSAuthFacebookRequest : GSFrameworkRequest
     {
-        public IPromise<BackendResult> Send(string accessToken, bool isSync, Action<object> onFacebookAuthSuccess)
+        public IPromise<BackendResult> Send(string accessToken, bool existingPlayer, Action<object> onFacebookAuthSuccess)
         {
             this.onSuccess = onFacebookAuthSuccess;
             this.errorCode = BackendResult.AUTH_FACEBOOK_REQUEST_FAILED;
 
             GSRequestData scriptData = new GSRequestData();
-            scriptData.AddBoolean("isSync", isSync);
+            scriptData.AddBoolean("existingPlayer", existingPlayer);
 
             new FacebookConnectRequest()
                 .SetScriptData(scriptData)

@@ -23,7 +23,7 @@ public class MegacoolEvent {
         try {
             Share = new MegacoolShare(jEvent.Call<AndroidJavaObject>("getShare"));
         } catch (Exception) {}
-        string jType = jEvent.Get<AndroidJavaObject>("type").Call<string>("toString");
+        string jType = jEvent.Get<AndroidJavaObject>("type").Call<string>("name");
         if (jType == "LINK_CLICKED") {
             Type = MegacoolEventType.LinkClicked;
         } else if (jType == "SENT_SHARE_OPENED") {

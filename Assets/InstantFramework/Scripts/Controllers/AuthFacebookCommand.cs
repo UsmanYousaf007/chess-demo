@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == FacebookResult.SUCCESS)
             {
-                backendService.AuthFacebook(accessToken).Then(OnBackendAuth_GetSocialName);
+                backendService.AuthFacebook(accessToken, false).Then(OnBackendAuth_GetSocialName);
             }
             else
             {

@@ -41,8 +41,5 @@ class MegacoolBlittingCamera : MonoBehaviour {
 
         // This has to happen after the other blit, otherwise you might end up with UI flickering
         Graphics.Blit(src, dest);
-#if UNITY_EDITOR
-        MegacoolEditorRecordingManager.CaptureFrame();
-#endif
     }
 }

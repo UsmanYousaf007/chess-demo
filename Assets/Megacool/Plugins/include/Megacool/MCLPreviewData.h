@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(atomic, readonly) int lastFrameDelayMs;
 @property(atomic, readonly) float playbackFrameRate;
-@property(atomic, readonly) NSArray<NSURL *> *framePaths;
+@property(atomic, readonly, strong) NSArray<NSURL *> *framePaths;
 
 NS_ASSUME_NONNULL_END
 @end

@@ -23,36 +23,36 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  @brief Which recording to share. Will use default if nil.
  */
-@property(nonatomic, null_resettable) NSString *recordingId;
+@property(nonatomic, null_resettable, strong) NSString *recordingId;
 
 /*!
  @brief A fallback to share if there are no frames in the given recording
  or something fails. Mutually exclusive with @c fallbackImage.
  */
-@property(nonatomic, nullable) NSURL *fallbackImageUrl;
+@property(nonatomic, nullable, strong) NSURL *fallbackImageUrl;
 
 /*!
  @brief A fallback to to share if there are no frames in the given recording
  or something fails. Mutually exclusive with @c fallbackImageUrl.
  */
-@property(nonatomic, nullable) UIImage *fallbackImage;
+@property(nonatomic, nullable, strong) UIImage *fallbackImage;
 
 /*!
  @brief Customize the url included in the share to navigate to a specific section
  of your app.
  @discussion The link given here can be extracted from the link-clicked event on the receiving side. Note that only the path and query parameters will be respected. If set to f. ex [NSURL URLWithString:@"/level2?difficulty=ludicruous", the final url will end up as <tt>https://mgcl.co/<your-app-identifier>/level2?difficulty=ludicruous&_m=<referral-code></tt>.
  */
-@property(nonatomic, nullable) NSURL *url;
+@property(nonatomic, nullable, strong) NSURL *url;
 
 /*!
  @brief Additional data to include with the share. This will be available to the receiver in the receivedShareOpened event.
  */
-@property(nonatomic, nullable) NSDictionary<NSString *, NSString *> *data;
+@property(nonatomic, nullable, strong) NSDictionary<NSString *, NSString *> *data;
 
 /*!
  @brief On iPads, which view should present the popover.
  */
-@property(nonatomic, nullable) UIView *sourceView;
+@property(nonatomic, nullable, strong) UIView *sourceView;
 
 /*!
  @brief When using @c shareToMessenger, you can force to show the composer view instead of replying directly to a friend.
@@ -60,11 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) BOOL messengerForceCompose;
 
-/*!
- @brief Deprecated, was used to configure the url and data, but you should now
- set those directly on the MCLShareConfig.
- */
-@property(nonatomic, nullable) MCLShare *share __deprecated_msg("Set the url and data directly on the config");
 
 NS_ASSUME_NONNULL_END
 @end

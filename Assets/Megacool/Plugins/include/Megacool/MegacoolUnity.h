@@ -68,7 +68,7 @@ typedef void (*OnReceivedShareOpenedEvent)(MegacoolReceivedShareOpenedEvent);
 typedef void (*OnSentShareOpenedEvent)(MegacoolSentShareOpenedEvent);
 typedef void (*OnRetrievedShares)(MegacoolUnityShare[], int);
 
-void startWithAppConfig(const char *appConfig);
+void startWithAppConfig(const char *appConfig, const char* wrapper, const char* version);
 
 void setTexturePointer(void *texturePointer, int width, int height, const char *graphicsDeviceType);
 
@@ -93,38 +93,30 @@ char *getPreviewInfoForRecording(const char *recordingIdCString);
 
 void removePreviewOfGif();
 
-void openShareModal();
-
-void openShareModalWithConfig(const char *recordingId, const char *lastFrameOverlay,
-                              const char *fallbackImage, const char *url, const char *jsonData);
-
 void presentShare();
 
-void presentShareWithConfig(const char *recordingId, const char *lastFrameOverlay,
-                            const char *fallbackImage, const char *url, const char *jsonData);
+void presentShareWithConfig(const char *recordingId, const char *fallbackImage, const char *url,
+                            const char *jsonData);
 
 void presentShareToMessenger();
 
-void presentShareToMessengerWithConfig(const char *recordingId, const char *lastFrameOverlay,
-                                       const char *fallbackImage, const char *url,
-                                       const char *jsonData);
+void presentShareToMessengerWithConfig(const char *recordingId, const char *fallbackImage,
+                                       const char *url, const char *jsonData);
 
 void presentShareToTwitter();
 
-void presentShareToTwitterWithConfig(const char *recordingId, const char *lastFrameOverlay,
-                                     const char *fallbackImage, const char *url,
-                                     const char *jsonData);
+void presentShareToTwitterWithConfig(const char *recordingId, const char *fallbackImage,
+                                     const char *url, const char *jsonData);
 
 void presentShareToMessages();
 
-void presentShareToMessagesWithConfig(const char *recordingId, const char *lastFrameOverlay,
-                                      const char *fallbackImage, const char *url,
-                                      const char *jsonData);
+void presentShareToMessagesWithConfig(const char *recordingId, const char *fallbackImage,
+                                      const char *url, const char *jsonData);
 
 void presentShareToMail();
 
-void presentShareToMailWithConfig(const char *recordingId, const char *lastFrameOverlay,
-                                  const char *fallbackImage, const char *url, const char *jsonData);
+void presentShareToMailWithConfig(const char *recordingId, const char *fallbackImage,
+                                  const char *url, const char *jsonData);
 
 void setSharingText(const char *text);
 

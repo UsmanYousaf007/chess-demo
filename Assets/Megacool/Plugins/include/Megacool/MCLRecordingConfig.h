@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Can be used to retrieve the same recording later, for previews or shares, or to resume
  a paused recording.
  */
-@property(nonatomic, null_resettable) NSString *recordingId;
+@property(nonatomic, null_resettable, strong) NSString *recordingId;
 
 
 /*!

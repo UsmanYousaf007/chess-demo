@@ -44,15 +44,6 @@ public class MegacoolAndroidAgent : MegacoolIAgent {
         UnityEngine.Debug.LogWarning(message + " is not implemented on Android");
     }
 
-    // Used to preserve functionality from deprecated ShareConfig lastFrameOverlay
-    private void SetLastFrameOverlayFromShareConfig(MegacoolShareConfig config) {
-        #pragma warning disable 618
-        if (config.LastFrameOverlay != null){
-            SetLastFrameOverlay(config.LastFrameOverlay);
-        }
-        #pragma warning restore 618
-    }
-
     //*******************  Native Libraries  *******************//
     [DllImport("megacool")]
     private static extern void mcl_init_capture(int width, int height, string graphicsDeviceType);
@@ -68,7 +59,8 @@ public class MegacoolAndroidAgent : MegacoolIAgent {
 
     //****************** API Implementation  ******************//
     public void Start(Action<MegacoolEvent> eventHandler) {
-        Android.CallStatic("start", CurrentActivity, MegacoolConfiguration.Instance.appConfigAndroid, new OnEventsReceivedListener(eventHandler));
+        Android.CallStatic("start", CurrentActivity, MegacoolConfiguration.Instance.appConfigAndroid,
+            new OnEventsReceivedListener(eventHandler), "Unity", Application.unityVersion);
         AndroidJavaClass captureMethodEnum = new AndroidJavaClass("co.megacool.megacool.Megacool$CaptureMethod");
         AndroidJavaObject captureMethod = captureMethodEnum.GetStatic<AndroidJavaObject>("OPENGL");
         Android.CallStatic("setCaptureMethod", captureMethod);
@@ -164,62 +156,48 @@ public class MegacoolAndroidAgent : MegacoolIAgent {
     }
 
     public void Share() {
-        Android.CallStatic("share");
+        Android.CallStatic("share", CurrentActivity);
     }
 
     public void Share(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-
         AndroidJavaObject jConfig = ConfigToJavaObject(config);
-        Android.CallStatic("share", jConfig);
+        Android.CallStatic("share", CurrentActivity, jConfig);
     }
 
     public void ShareToMessenger() {
-        Android.CallStatic("shareToMessenger");
+        Android.CallStatic("shareToMessenger", CurrentActivity);
     }
 
     public void ShareToMessenger(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-
         AndroidJavaObject jConfig = ConfigToJavaObject(config);
-        Android.CallStatic("shareToMessenger", jConfig);
+        Android.CallStatic("shareToMessenger", CurrentActivity, jConfig);
     }
 
     public void ShareToTwitter() {
-        Android.CallStatic("shareToTwitter");
+        Android.CallStatic("shareToTwitter", CurrentActivity);
     }
 
     public void ShareToTwitter(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-
         AndroidJavaObject jConfig = ConfigToJavaObject(config);
-        Android.CallStatic("shareToTwitter", jConfig);
+        Android.CallStatic("shareToTwitter", CurrentActivity, jConfig);
     }
 
     public void ShareToMessages() {
-        Android.CallStatic("shareToMessages");
+        Android.CallStatic("shareToMessages", this.CurrentActivity);
     }
 
     public void ShareToMessages(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
         AndroidJavaObject jConfig = ConfigToJavaObject(config);
-        Android.CallStatic("shareToMessages", jConfig);
+        Android.CallStatic("shareToMessages", CurrentActivity, jConfig);
     }
 
     public void ShareToMail() {
-        Android.CallStatic("shareToMail");
+        Android.CallStatic("shareToMail", CurrentActivity);
     }
 
     public void ShareToMail(MegacoolShareConfig config) {
-        // keep functionality until lastframeOverlay in shareConfig is removed
-        SetLastFrameOverlayFromShareConfig(config);
-
         AndroidJavaObject jConfig = ConfigToJavaObject(config);
-        Android.CallStatic("shareToMail", jConfig);
+        Android.CallStatic("shareToMail", CurrentActivity, jConfig);
     }
 
     private AndroidJavaObject ConfigToJavaObject(MegacoolShareConfig config) {
@@ -340,7 +318,14 @@ public class MegacoolAndroidAgent : MegacoolIAgent {
     }
 
     public void SetSharingStrategy(MegacoolSharingStrategy sharingStrategy) {
-        // All Android channels support both GIFs and links already, thus nothing to prioritize.
+        AndroidJavaClass strategyClass = new AndroidJavaClass("co.megacool.megacool.SharingStrategy");
+        AndroidJavaObject strategy;
+        if (sharingStrategy == MegacoolSharingStrategy.LINK) {
+            strategy = strategyClass.GetStatic<AndroidJavaObject>("LINK");
+        } else {
+            strategy = strategyClass.GetStatic<AndroidJavaObject>("MEDIA");
+        }
+        Android.CallStatic("setSharingStrategy", strategy);
     }
 
     public void SignalRenderTexture(RenderTexture texture) {

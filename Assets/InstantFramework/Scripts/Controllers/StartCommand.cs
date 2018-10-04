@@ -62,16 +62,19 @@ namespace TurboLabz.InstantFramework
 			{
 				if (GS.Authenticated)
                 {
+                    // Existing facebook account
                     if (facebookService.isLoggedIn())
                     {
-                        bool isSync = true;
-                        backendService.AuthFacebook(facebookService.GetAccessToken(), isSync).Then(OnFacebookAuthSyncComplete);
+                        bool existingPlayer = true;
+                        backendService.AuthFacebook(facebookService.GetAccessToken(), existingPlayer).Then(OnFacebookAuthComplete);
                     }
+                    // Exising guest account
                     else
                     {
                         GotoReception();
                     }
 				}
+                // New guest account
 				else
 				{
 					backendService.AuthGuest().Then(OnAuthGuest);
@@ -79,7 +82,7 @@ namespace TurboLabz.InstantFramework
 			}
 		}
 
-        private void OnFacebookAuthSyncComplete(BackendResult result)
+        private void OnFacebookAuthComplete(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {

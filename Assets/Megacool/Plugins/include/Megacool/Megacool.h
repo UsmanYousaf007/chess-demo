@@ -22,7 +22,7 @@
 #import "MCLShareConfig.h"
 
 #ifndef MEGACOOL_SDK_VERSION
-#define MEGACOOL_SDK_VERSION @"3.1.9"
+#define MEGACOOL_SDK_VERSION @"3.3.5"
 #endif
 
 // clang-format off
@@ -184,17 +184,50 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  */
 + (void)startWithAppConfig:(NSString *)appConfig andEventHandler:(nullable MCLEventHandlerCallback)callback;
 
-
 /*!
- @brief Handle background upload/download tasks
+ @brief Initializer dedicated for wrappers.
 
- @discussion This is necessary to properly handle uploading of gifs in the background, and to
- download new fallback images defined through the dashboard.
+ @param appConfig NSString with the format @c \@"prefix.appSecret"
+ @param wrapper The name of the wrapper, ie. "Unity" or "Cocos2dx". This helps us identify issues in
+ different wrappers and versions.
+ @param wrapperVersion The version of the wrapper, ie. for Unity this could be "2018.2" "5.6".
+ @param callback A block that is called when a Megacool event occurs. The callback is passed a
+ @c NSArray<MCLEvent *> with the events that have occured. A @c MCLEvent may
+ contain a @c MCLShare. There are 3 main events to handle:
+ <ul>
+ <li>
+ <b> MCLEventLinkClicked </b> : <p>The app was opened from a link click. @c MCLEvent.type is
+ MCLEventLinkClicked and @c event.data contains the path, query, referralCode and full URL, to
+ send the user to the right scene. A request is sent to the server asap, and a @c MCLEvent
+ with type @c receivedShareOpened will be passed to the callback with the associated share.</p>
+ <p>
+ Note that if you are using any other SDKs alongside Megacool, @c MCLEventLinkClicked events
+ might also be sent for URLs that were intended for the other SDKs. Since these events are
+ intended for navigation within the app, you should validate that the path makes sense before
+ routing the user to it, otherwise you can probably just ignore this event as the other SDKs
+ will probably handle it.
+ </p>
+ </li>
+ <li>
+ <b> MCLEventReceivedShareOpened </b>: When a shared link is clicked to either open or install
+ the app, the eventHandler will receive the @c MCLEvent from the server. The @c
+ MCLEvent.type is MCLEventReceivedShareOpened. @c isFirstSession is a boolean telling if the
+ app was opened for the first time (new install) or just opened. The @c MCLShare is the
+ object that was sent to this user.
+ </li>
+ <li>
+ <b> MCLEventSentShareOpened </b>: When a shared link is clicked by <i>another</i> user and the
+ app opens, a @c MCLEvent will be triggered. The @c event.type is @c
+ MCLEventSentShareOpened, and the event contains the share object that was sent from this user.
+ It also indicates if it was a first session and the @c event.data contains the other users
+ referral code @c MCLEventDataReceiverReferralCode so you can match the users on your own.
+ </li>
+ </ul>
  */
-- (void)handleEventsForBackgroundURLSession:(NSString *)identifier
-                          completionHandler:(void (^)(void))completionHandler
-__deprecated_msg("Use the class method instead to prevent race conditions on init");
-
++ (void)startWithAppConfig:(NSString *)appConfig
+                   wrapper:(nullable NSString*)wrapper
+            wrapperVersion:(nullable NSString*)wrapperVersion
+           andEventHandler:(nullable MCLEventHandlerCallback)callback;
 
 /*!
  @brief Handle background upload/download tasks
@@ -241,20 +274,6 @@ __deprecated_msg("Use the class method instead to prevent race conditions on ini
  @param sourceApplication The @c bundleId of the sending application.
  */
 - (BOOL)openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication;
-
-
-/*!
- @brief Allow Megacool to handle a universal link opening the app, returning whether it was from a
- Megacool link or not. Add this to <tt>- application:continueUserActivity:restorationHandler:</tt>
- in your
- AppDelegate.
-
- @param userActivity that caused the app to open.
- */
-- (BOOL)continueUserActivity:(NSUserActivity *)userActivity
-    __deprecated_msg(
-        "Use the class method instead, this is error prone if called before start() "
-        "as the sharedMegacool will not be instantiated");
 
 
 /*!
@@ -702,7 +721,7 @@ __deprecated_msg("Use the class method instead to prevent race conditions on ini
 /*!
  @brief Set numbers of frames per second to play.
 
- @discussion Default is 10 frames / second. The GIF will be exported with this frame rate.
+ @discussion Default is 20% more than the capture frame rate. The GIF will be exported with this frame rate.
  */
 @property(nonatomic) float playbackFrameRate;
 
@@ -781,7 +800,7 @@ __deprecated_msg("Use the class method instead to prevent race conditions on ini
 /*!
  @brief Set which Metal texture to capture from.
  */
-@property(nonatomic, nullable) id<MTLTexture> metalCaptureTexture;
+@property(nonatomic, nullable, strong) id<MTLTexture> metalCaptureTexture;
 
 
 /*!
@@ -836,7 +855,7 @@ __deprecated_msg("Use the class method instead to prevent race conditions on ini
  of bandwidth you can disable this. Include the constant @c kMCLFeatureGifUpload.
  * <b>Analytics</b>: To be able to determine whether an install or an app open event came from a
  link we have to submit some events to our servers to be able to match the event to a link click
- detected by us, which involves submitting the users IDFA to us. If you are very concerned about
+ detected by us. If you are very concerned about
  your user's privacy or don't want to incur the extra networking required, you can disable this
  feature. Note that users will not be credited for inviting friends if this feature is off. Include
  the constant @c kMCLFeatureAnalytics.

@@ -46,12 +46,12 @@ typedef NS_ENUM(int, MCLGIFColorTable) {
  */
 typedef NS_ENUM(unsigned long, MCLSharingStrategy) {
     /*!
-     @brief Prioritize GIFs (this is the default)
+     @brief Prioritize GIFs. This setting will currently only affect WhatsApp.
      */
     kMCLSharingStrategyGIF = 0,
 
     /*!
-     @brief Prioritize links. This setting will currently only affect WhatsApp.
+     @brief Prioritize links (this is the default).
      */
     kMCLSharingStrategyLink,
 };

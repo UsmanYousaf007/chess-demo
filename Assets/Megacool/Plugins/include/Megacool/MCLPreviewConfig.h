@@ -22,7 +22,7 @@
 
  @discussion Will use the default recording if nil.
  */
-@property(nonatomic, null_resettable) NSString *recordingId;
+@property(nonatomic, null_resettable, strong) NSString *recordingId;
 
 /**
  @brief Where in the view the preview should be.
@@ -32,7 +32,7 @@
 /**
  @brief Whether to include the last frame overlay in the preview or not. Default is false.
  */
-@property(nonatomic) BOOL includeLastFrameOverlay;
+@property(nonatomic) BOOL includeLastFrameOverlay __deprecated;
 
 @end
 

@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
-        private const string APP_PROMO_IMAGE = "Share.png";
+        private const string APP_PROMO_IMAGE = "Share1.png";
 
         public void Init()
         {

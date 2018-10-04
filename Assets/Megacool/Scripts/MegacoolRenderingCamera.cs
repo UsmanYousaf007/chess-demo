@@ -48,8 +48,5 @@ class MegacoolRenderingCamera : MonoBehaviour {
         Megacool.Instance.IssuePluginEvent(MCTR);
 
         timeToNextCapture = 1.0f/Megacool.Instance.FrameRate;
-#if UNITY_EDITOR
-        MegacoolEditorRecordingManager.CaptureFrame();
-#endif
     }
 }

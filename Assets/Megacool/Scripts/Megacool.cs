@@ -241,10 +241,10 @@ public sealed class Megacool {
     }
 
     /// <summary>
-    /// Set number of frames per second to play.
+    /// Set playback speed in number of frames per second.
     /// </summary>
     /// <remarks>
-    /// Default is 10 frames / second. The GIF will be exported with this frame rate.
+    /// Default is 12 frames / second. The GIF will be exported with this frame rate.
     /// </remarks>
     /// <value>The playback frame rate.</value>
     public float PlaybackFrameRate {
@@ -289,10 +289,10 @@ public sealed class Megacool {
     }
 
     /// <summary>
-    /// Set a delay (in seconds) on the last frame in the animation.
+    /// Set a delay (in milliseconds) on the last frame in the animation.
     /// </summary>
     /// <remarks>
-    /// Default is 1 second
+    /// Default is 1000 milliseconds
     /// </remarks>
     /// <value>The last frame delay.</value>
     public int LastFrameDelay {
@@ -381,14 +381,14 @@ public sealed class Megacool {
     private static float getDefaultScaleFactor() {
         // Default to half of the screen size to strike a balance between quality and memory
         // usage/performance, while ensuring at least 200x200 for compatibility with Facebook
-        int shortestEdge = Math.Min(Screen.width, Screen.height);
-        int targetShortestEdge = Math.Max(shortestEdge / 2, 200);
+        int largestEdge = Math.Max(Screen.width, Screen.height);
+        int targetLargestEdge = Math.Max(largestEdge / 2, 200);
 
         // Screen sizes bigger than 1500px (like iPad mini 3) will be divided by 4
-        if (shortestEdge > 1500) {
-            targetShortestEdge = shortestEdge / 4;
+        if (largestEdge > 1500) {
+            targetLargestEdge = largestEdge / 4;
         }
-        return (float)shortestEdge / targetShortestEdge;
+        return (float)largestEdge / targetLargestEdge;
     }
 
     private RenderTexture renderTexture;
@@ -498,25 +498,12 @@ public sealed class Megacool {
     private bool hasStarted = false;
 
     /// <summary>
-    /// Deprecated initialization of SDK with an event handler
-    /// </summary>
-    [System.Obsolete("Use Start() and add callbacks to their respective delegates. See https://docs.megacool.co/customize")]
-    public void Start(Action<MegacoolEvent> eventHandler) {
-        _Start(eventHandler);
-    }
-
-
-    /// <summary>
     /// Initialize the SDK.
     /// </summary>
     public void Start() {
          // Create a main thread action for every asynchronous callback
         Action<MegacoolEvent> eventHandler = ((MegacoolEvent e) => Megacool.Instance.CreateMainThreadAction (e));
-        _Start(eventHandler);
-    }
 
-    // Temporary extracted method to initialize SDK until deprecated Start is removed
-    private void _Start(Action<MegacoolEvent> eventHandler){
         if (hasStarted) {
             // Allowing multiple initializations would make it hard to maintain both thread-safety and performance
             // of the underlying capture code, and doesn't have any good use case for allowing it, thus ignoring.

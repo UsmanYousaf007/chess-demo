@@ -10,6 +10,8 @@ public class MegacoolEditorAgent : MegacoolIAgent {
 
     MegacoolEditorRecordingManager recordingManager;
 
+    private const int MCTR = 0x6d637472;
+
     private void ImplementationWarning(string message) {
         Debug.LogWarning("Megacool: " + message + " is not implemented in the Editor");
     }
@@ -197,6 +199,9 @@ public class MegacoolEditorAgent : MegacoolIAgent {
     }
 
     public void IssuePluginEvent(ref IntPtr nativePluginCallbackPointer, int eventId) {
+        if (eventId == MCTR) {
+            CaptureFrame();
+        }
     }
 
     public void InitializeSharingDelegate() {

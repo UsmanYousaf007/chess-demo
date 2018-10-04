@@ -77,13 +77,13 @@ extern MCLEventDataKey *const MCLEventDataSenderUserId;
  Might be @c nil if a share could not be found for the event, which can happen if a user removes the
  last characters of the referral code before clicking or similar.
  */
-@property(readonly, nullable) MCLShare *share;
+@property(readonly, nullable, strong) MCLShare *share;
 
 
 /*!
  @brief When the event occured.
  */
-@property(readonly) NSDate *createdAt;
+@property(readonly, strong) NSDate *createdAt;
 
 
 /*!
@@ -104,7 +104,7 @@ extern MCLEventDataKey *const MCLEventDataSenderUserId;
  @discussion Which values is present will vary with the type of event, but will be available under
  the keys @c MCLEventDataURL, @c MCLEventDataReferralCode or @c MCLEventDataReceiverReferralCode.
  */
-@property(readonly) NSDictionary *data;
+@property(readonly, strong) NSDictionary *data;
 
 NS_ASSUME_NONNULL_END
 @end

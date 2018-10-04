@@ -33,18 +33,6 @@ public class MegacoolShare {
         return _epoch.AddSeconds(unixTime);
     }
 
-    [System.Obsolete("Set .Url and .Data directly on the ShareConfig instead")]
-    public MegacoolShare(string url, Dictionary<string, string> data = null) {
-        if (string.IsNullOrEmpty(url)) {
-            Url = new Uri("/", UriKind.Relative);
-        } else {
-            Url = !url.StartsWith("/") ? 
-                new Uri(string.Format("/{0}", url), UriKind.Relative) : 
-                new Uri(url, UriKind.Relative);
-        }
-        Data = data;
-    }
-
     public MegacoolShare(AndroidJavaObject jShare) {
         try {
             ReferralCode = new MegacoolReferralCode(jShare.Call<AndroidJavaObject>("getReferralCode"));
