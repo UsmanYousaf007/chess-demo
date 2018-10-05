@@ -31,7 +31,9 @@ public class GameSparksConfig : MonoBehaviour {
             return;
         }
 
-        StartCoroutine(CheckStageURL(configURL));
+        Live.SetActive(true);
+
+        //StartCoroutine(CheckStageURL(configURL));
 	}
 
     IEnumerator CheckStageURL(string url)
