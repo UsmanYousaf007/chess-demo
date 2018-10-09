@@ -1,37 +1,42 @@
 {
+  "project_info": {
+    "project_number": "1097695887212",
+    "firebase_url": "https://chess-dev-7d79d.firebaseio.com",
+    "project_id": "chess-dev-7d79d",
+    "storage_bucket": "chess-dev-7d79d.appspot.com"
+  },
   "client": [
     {
-      "services": {
-        "appinvite_service": {
-          "status": 0
-        }, 
-        "analytics_service": {
-          "status": 0
+      "client_info": {
+        "mobilesdk_app_id": "1:1097695887212:android:b96dc8f2158add19",
+        "android_client_info": {
+          "package_name": "id.googleplay.instantchess.android.googleplay"
         }
-      }, 
+      },
       "oauth_client": [
         {
-          "client_id": "1097695887212-ad0alfvdtvg1sn7me4r9t3urtj3054n5.apps.googleusercontent.com"
+          "client_id": "1097695887212-8binmtbaabbf145ahfrrjch66um535ng.apps.googleusercontent.com",
+          "client_type": 3
         }
-      ], 
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCfmVNlSnTGGvRw7SBfWczhflj-SYfJcJk"
+          "current_key": "AIzaSyCz4-sUd-k_xkUl3-wq67COE6IENGnFlVk"
         }
-      ], 
-      "client_info": {
-        "mobilesdk_app_id": "1:1097695887212:ios:3bcb110640defcbe", 
-        "android_client_info": {
-          "package_name": "com.turbolabz.instantchess.ios"
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
         }
       }
     }
-  ], 
-  "configuration_version": "1", 
-  "project_info": {
-    "storage_bucket": "chess-dev-7d79d.appspot.com", 
-    "project_id": "chess-dev-7d79d", 
-    "firebase_url": "https://chess-dev-7d79d.firebaseio.com", 
-    "project_number": "1097695887212"
-  }
+  ],
+  "configuration_version": "1"
 }
