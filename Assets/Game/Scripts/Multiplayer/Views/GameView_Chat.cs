@@ -33,6 +33,7 @@ namespace TurboLabz.Multiplayer
 
         public void EnableGameChat(bool enable)
         {
+            /*
             RectTransform wifiIcon = warning.GetComponent<RectTransform>();
 
             if (enable)
@@ -45,6 +46,7 @@ namespace TurboLabz.Multiplayer
                 chatButton.gameObject.SetActive(false);
                 wifiIcon.anchoredPosition = new Vector2(-64, 0f);
             }
+            */
         }
 
         void OnChatButtonClicked()
