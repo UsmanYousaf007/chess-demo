@@ -7,23 +7,25 @@ using UnityEngine.UI;
 public class ChatBubble : MonoBehaviour 
 {
     public TextMeshProUGUI text;
+    public RectTransform textRectTransform;
     public RectTransform bg;
 
-    const float xOffset = 50f;
-    const float yOffset = 22f;
-
-
 	// Use this for initialization
-	void Start () 
+	void OnEnable() 
     {
         text.ForceMeshUpdate();
         Vector3 textBoundsSize = text.textBounds.size;
-        bg.sizeDelta = new Vector2(textBoundsSize.x + xOffset, textBoundsSize.y + yOffset);
-        GetComponent<RectTransform>().sizeDelta = bg.sizeDelta;
+        bg.sizeDelta = new Vector2(
+            textBoundsSize.x + 57.65f, 
+            textBoundsSize.y + 41.63f);
+        //GetComponent<RectTransform>().sizeDelta = bg.sizeDelta;
+
+        Debug.Log("TEXT BOUNDS = " + textBoundsSize);
+
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update() 
     {
         
 
