@@ -9,6 +9,7 @@ public class ChatBubble : MonoBehaviour
     public TextMeshProUGUI text;
     public RectTransform textRectTransform;
     public RectTransform bg;
+    public bool isFlipped;
 
 	// Use this for initialization
 	void OnEnable() 
