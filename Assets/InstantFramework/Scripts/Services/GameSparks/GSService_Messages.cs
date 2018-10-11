@@ -51,6 +51,16 @@ namespace TurboLabz.InstantFramework
 
                 updtateFriendOnlineStatusSignal.Dispatch(friendId, isOnline);
             }
+            else if (message.ExtCode == GSBackendKeys.Chat.CHAT_EXT_CODE)
+            {
+                ChatMessage msg;
+                msg.senderId = message.Data.GetString(GSBackendKeys.Chat.SENDER_ID);
+                msg.recipientId = playerModel.id;
+                msg.text = message.Data.GetString(GSBackendKeys.Chat.TEXT);
+                msg.timestamp = message.Data.GetLong(GSBackendKeys.Chat.TIMESTAMP).Value;
+
+                receiveChatMessageSignal.Dispatch(msg);
+            }
         }
 
         private void OnSessionTerminateMessage(SessionTerminatedMessage message)

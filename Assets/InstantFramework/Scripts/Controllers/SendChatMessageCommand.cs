@@ -16,39 +16,44 @@ namespace TurboLabz.InstantFramework
     public class SendChatMessageCommand : Command
     {
         // Parameters
-        [Inject] public ChatMessageVO chatMessage { get; set; }
+        [Inject] public string chatMessage { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
         // Models
         [Inject] public IChatModel chatModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
-        private string opponentId;
+        private string recipientId;
 
         public override void Execute()
         {
             Retain();
-            backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text);
+
+            recipientId = matchInfoModel.activeLongMatchOpponentId;
+            backendService.SendChatMessage(recipientId, chatMessage).Then(OnMessageSent);
         }
 
-        private void OnUnregister(BackendResult result)
+        private void OnMessageSent(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
                 Dictionary<string, ChatMessages> chatHistory = chatModel.chatHistory;
 
                 ChatMessage message;
-                message.recipientId = chatMessage.recipientId;
-                message.text = chatMessage.text;
+                message.senderId = playerModel.id;
+                message.recipientId = recipientId;
+                message.text = chatMessage;
                 message.timestamp = TimeUtil.unixTimestampMilliseconds;
 
-                if (!chatHistory.ContainsKey(chatMessage.recipientId))
+                if (!chatHistory.ContainsKey(recipientId))
                 {
                     chatHistory.Add(message.recipientId, new ChatMessages());
                 }
 
-                chatHistory[chatMessage.recipientId].messageList.Add(message);
+                chatHistory[recipientId].messageList.Add(message);
             }
 
             Release();

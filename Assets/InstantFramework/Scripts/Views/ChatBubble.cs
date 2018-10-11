@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
+using DG.Tweening;
+using TurboLabz.InstantGame;
 
 public class ChatBubble : MonoBehaviour 
 {
@@ -11,19 +13,27 @@ public class ChatBubble : MonoBehaviour
     public TextMeshProUGUI text;
     public bool flipped;
 
-    void OnAwake()
-    {
-        GetComponent<Button>().onClick.AddListener(OpenChat);
-    }
+    Image bgImage;
+    Coroutine fadeRoutine;
 
-    void OnEnable() 
+    public void Refresh()
     {
         // Nothing to do if there is no text
         if (text.text.Length == 0)
         {
-            LogUtil.Log("Leaving...", "cyan");
+            gameObject.SetActive(false);
             return;
         }
+
+        LogUtil.Log("GOT MESSAGE:......." + text.text, "red");
+
+        // Kick off the fade cycle
+        if (fadeRoutine != null)
+        {
+            StopCoroutine(fadeRoutine);
+        }
+
+        fadeRoutine = StartCoroutine(DoFade());
 
         // Resise the text mesh based on the text
         text.ForceMeshUpdate();
@@ -37,12 +47,33 @@ public class ChatBubble : MonoBehaviour
         // Move the background into the center of the container
         float flipDiv = flipped ? -2f : 2f;
         bg.anchoredPosition = new Vector2(bg.anchoredPosition.x, bg.sizeDelta.y / flipDiv);
+    }
 
-        LogUtil.Log("Howdy...", "cyan");
-	}
+    void Awake()
+    {
+        GetComponent<Button>().onClick.AddListener(OpenChat);
+        bgImage = GetComponent<Image>();
+    }
 	
+    IEnumerator DoFade()
+    {
+        bgImage.DOFade(0f, 0f);
+        text.DOFade(0f, 0f);
+        bgImage.DOFade(1f, 0.5f);
+        text.DOFade(1f, 0.5f);
+
+        yield return new WaitForSeconds(7f);
+
+        bgImage.DOFade(0f, 0.5f);
+        text.DOFade(0f, 0.5f);
+
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
+    }
+
+
 	void OpenChat()
     {
-        LogUtil.Log("Opening chat...", "cyan");
+        
     }
 }

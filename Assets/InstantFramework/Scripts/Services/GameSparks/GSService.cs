@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RemoveFriendSignal removeFriendSignal { get; set; }
         [Inject] public UpdateFriendOnlineStatusSignal updtateFriendOnlineStatusSignal { get; set; }
         [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
+        [Inject] public ReceiveChatMessageSignal receiveChatMessageSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }

@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateMoveForResumeSignal>().ToSingleton();
             injectionBinder.Bind<InitInfiniteTimersSignal>().ToSingleton();
             injectionBinder.Bind<EnableGameChatSignal>().ToSingleton();
+            injectionBinder.Bind<DisplayChatMessageSignal>().ToSingleton();
 
 
             // Bind signals for dipatching from command to command

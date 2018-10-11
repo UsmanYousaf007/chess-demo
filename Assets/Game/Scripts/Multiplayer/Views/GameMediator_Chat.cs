@@ -12,11 +12,12 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch Signals
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
+        [Inject] public SendChatMessageSignal sendChatMessageSignal { get; set; }
 
         public void OnRegisterChat()
         {
             view.InitChat();
-            view.chatSubmitSignal.AddListener(OnChatButtonClicked);
+            view.chatSubmitSignal.AddListener(OnChatSubmit);
         }
 
         [ListensTo(typeof(EnableGameChatSignal))]
@@ -25,9 +26,15 @@ namespace TurboLabz.Multiplayer
           //  view.EnableGameChat(enable);
         }
 
-        private void OnChatButtonClicked()
+        [ListensTo(typeof(DisplayChatMessageSignal))]
+        public void OnDisplayChatMessage(ChatMessage msg)
         {
-            //loadChatSignal.Dispatch();
+            view.OnReceive(msg.text);
+        }
+
+        private void OnChatSubmit(string text)
+        {
+            sendChatMessageSignal.Dispatch(text);
         }
 
 

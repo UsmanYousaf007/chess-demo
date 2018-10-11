@@ -35,13 +35,24 @@ namespace TurboLabz.Multiplayer
             
         }
 
+        public void OnReceive(string message)
+        {
+            if (message.Length > 0)
+            {
+                opponentChatBubble.gameObject.SetActive(true);
+                opponentChatBubble.text.text = message;
+                opponentChatBubble.Refresh();
+            }
+        }
+
         void OnSubmit(string message)
         {
             if (message.Length > 0)
             {
-                playerChatBubble.gameObject.SetActive(false);
-                playerChatBubble.text.text = message;
                 playerChatBubble.gameObject.SetActive(true);
+                playerChatBubble.text.text = message;
+                playerChatBubble.Refresh();
+
                 inputField.text = "";
 
                 chatSubmitSignal.Dispatch(message);
