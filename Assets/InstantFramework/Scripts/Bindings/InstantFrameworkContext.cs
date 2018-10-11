@@ -189,7 +189,6 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
             mediationBinder.Bind<StatsView>().To<StatsMediator>();
             mediationBinder.Bind<FriendsView>().To<FriendsMediator>();
-            mediationBinder.Bind<ChatView>().To<ChatMediator>();
 			mediationBinder.Bind<StoreView>().To<StoreMediator>();
 			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
 

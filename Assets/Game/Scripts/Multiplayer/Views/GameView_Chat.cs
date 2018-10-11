@@ -9,13 +9,16 @@ using UnityEngine.UI;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using TMPro;
 
 namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
         [Header("Chat")]
-        public Button chatButton;
+        public ChatBubble opponentChatBubble;
+        public ChatBubble playerChatBubble;
+        public TMP_InputField inputField; 
         public GameObject chatCounter;
         public Text chatCounterLabel;
 
@@ -23,7 +26,7 @@ namespace TurboLabz.Multiplayer
 
         public void InitChat()
         {
-            chatButton.onClick.AddListener(OnChatButtonClicked);
+            inputField.onEndEdit.AddListener(EndEdit);
         }
 
         public void OnParentShowChat()
@@ -31,27 +34,11 @@ namespace TurboLabz.Multiplayer
             
         }
 
-        public void EnableGameChat(bool enable)
+        void EndEdit(string message)
         {
-            /*
-            RectTransform wifiIcon = warning.GetComponent<RectTransform>();
-
-            if (enable)
-            {
-                chatButton.gameObject.SetActive(true);
-                wifiIcon.anchoredPosition = new Vector2(-171f, 0f);
-            }
-            else
-            {
-                chatButton.gameObject.SetActive(false);
-                wifiIcon.anchoredPosition = new Vector2(-64, 0f);
-            }
-            */
-        }
-
-        void OnChatButtonClicked()
-        {
-            chatButtonClickedSignal.Dispatch();
+            playerChatBubble.gameObject.SetActive(false);
+            playerChatBubble.text.text = message;
+            playerChatBubble.gameObject.SetActive(true);
         }
     }
 }

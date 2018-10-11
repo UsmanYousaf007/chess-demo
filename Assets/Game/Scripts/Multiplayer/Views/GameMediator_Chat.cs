@@ -22,12 +22,12 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(EnableGameChatSignal))]
         public void OnEnableGameChat(bool enable)
         {
-            view.EnableGameChat(enable);
+          //  view.EnableGameChat(enable);
         }
 
         private void OnChatButtonClicked()
         {
-            loadChatSignal.Dispatch();
+            //loadChatSignal.Dispatch();
         }
 
 
