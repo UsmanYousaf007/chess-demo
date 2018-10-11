@@ -16,7 +16,7 @@ namespace TurboLabz.Multiplayer
         public void OnRegisterChat()
         {
             view.InitChat();
-            view.chatButtonClickedSignal.AddListener(OnChatButtonClicked);
+            view.chatSubmitSignal.AddListener(OnChatButtonClicked);
         }
 
         [ListensTo(typeof(EnableGameChatSignal))]

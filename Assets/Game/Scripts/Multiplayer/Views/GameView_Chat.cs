@@ -23,7 +23,7 @@ namespace TurboLabz.Multiplayer
         public GameObject chatCounter;
         public Text chatCounterLabel;
 
-        public Signal chatButtonClickedSignal = new Signal();
+        public Signal<string> chatSubmitSignal = new Signal<string>();
 
         public void InitChat()
         {
@@ -43,6 +43,8 @@ namespace TurboLabz.Multiplayer
                 playerChatBubble.text.text = message;
                 playerChatBubble.gameObject.SetActive(true);
                 inputField.text = "";
+
+                chatSubmitSignal.Dispatch(message);
             }
         }
     }
