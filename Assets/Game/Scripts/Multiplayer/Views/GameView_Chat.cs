@@ -10,6 +10,7 @@ using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using TMPro;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
@@ -26,7 +27,7 @@ namespace TurboLabz.Multiplayer
 
         public void InitChat()
         {
-            inputField.onEndEdit.AddListener(EndEdit);
+            inputField.onSubmit.AddListener(OnSubmit);
         }
 
         public void OnParentShowChat()
@@ -34,11 +35,15 @@ namespace TurboLabz.Multiplayer
             
         }
 
-        void EndEdit(string message)
+        void OnSubmit(string message)
         {
-            playerChatBubble.gameObject.SetActive(false);
-            playerChatBubble.text.text = message;
-            playerChatBubble.gameObject.SetActive(true);
+            if (message.Length > 0)
+            {
+                playerChatBubble.gameObject.SetActive(false);
+                playerChatBubble.text.text = message;
+                playerChatBubble.gameObject.SetActive(true);
+                inputField.text = "";
+            }
         }
     }
 }
