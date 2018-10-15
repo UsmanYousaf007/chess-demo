@@ -35,11 +35,11 @@ namespace TurboLabz.InstantFramework
         MULTIPLAYER_FIFTY_MOVE_DRAW_DLG,
         MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG,
         MULTIPLAYER_ACCEPT_DLG,
+        MULTIPLAYER_CHAT_DLG,
         BUY_DLG,
         NOT_ENOUGH_BUCKS_DLG,
 		BUCK_PACKS_DLG,
         PROFILE_DLG,
-        CHAT,
 
         // TODO: I am possibly unused so remove me.
         AD_COVER

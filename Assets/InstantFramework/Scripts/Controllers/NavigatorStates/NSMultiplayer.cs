@@ -63,9 +63,9 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_CHAT)
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_CHAT_DLG)
             {
-                return new NSChat();
+                return new NSMultiplayerChatDlg();
             }
 
             return null;

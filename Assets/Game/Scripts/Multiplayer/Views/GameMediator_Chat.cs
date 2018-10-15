@@ -11,14 +11,34 @@ namespace TurboLabz.Multiplayer
     public partial class GameMediator
     {
         // Dispatch Signals
-        [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public SendChatMessageSignal sendChatMessageSignal { get; set; }
 
         public void OnRegisterChat()
         {
             view.InitChat();
             view.chatSubmitSignal.AddListener(OnChatSubmit);
+            view.openChatDlgSignal.AddListener(OnOpenChatDlg);
+            view.closeChatDlgSignal.AddListener(OnCloseChatDlg);
         }
+
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowChatDlg(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.MULTIPLAYER_CHAT_DLG) 
+            {
+                view.ShowChatDlg();
+            }
+        }
+
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideChatDlg(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.MULTIPLAYER_CHAT_DLG)
+            {
+                view.HideChatDlg();
+            }
+        }
+
 
         [ListensTo(typeof(EnableGameChatSignal))]
         public void OnEnableGameChat(bool enable)
@@ -32,11 +52,19 @@ namespace TurboLabz.Multiplayer
             view.OnReceive(msg.text);
         }
 
-        private void OnChatSubmit(string text)
+        void OnChatSubmit(string text)
         {
             sendChatMessageSignal.Dispatch(text);
         }
 
+        void OnOpenChatDlg()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_CHAT_DLG);
+        }
 
+        void OnCloseChatDlg()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+        }
     }
 }

@@ -23,16 +23,40 @@ namespace TurboLabz.Multiplayer
         public GameObject chatCounter;
         public Text chatCounterLabel;
 
+        public GameObject chatDlgBg;
+        public Button maximizeChatDlgBtn;
+        //public Button minimizeChatDlgBtnX;
+        public Button minimizeChatDlgBtn;
+
         public Signal<string> chatSubmitSignal = new Signal<string>();
+        public Signal openChatDlgSignal = new Signal();
+        public Signal closeChatDlgSignal = new Signal();
 
         public void InitChat()
         {
             inputField.onSubmit.AddListener(OnSubmit);
+            maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
+          //  minimizeChatDlgBtnX.onClick.AddListener(OnCloseChatDlg);
+            minimizeChatDlgBtn.onClick.AddListener(OnCloseChatDlg);
         }
 
         public void OnParentShowChat()
         {
             
+        }
+
+        public void ShowChatDlg()
+        {
+            chatDlgBg.SetActive(true);
+            minimizeChatDlgBtn.gameObject.SetActive(true);
+            maximizeChatDlgBtn.gameObject.SetActive(false);
+        }
+
+        public void HideChatDlg()
+        {
+            chatDlgBg.SetActive(false);
+            minimizeChatDlgBtn.gameObject.SetActive(false);
+            maximizeChatDlgBtn.gameObject.SetActive(true);
         }
 
         public void OnReceive(string message)
@@ -57,6 +81,16 @@ namespace TurboLabz.Multiplayer
 
                 chatSubmitSignal.Dispatch(message);
             }
+        }
+
+        void OnOpenChatDlg()
+        {
+            openChatDlgSignal.Dispatch();
+        }
+
+        void OnCloseChatDlg()
+        {
+            closeChatDlgSignal.Dispatch();
         }
     }
 }
