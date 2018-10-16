@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
 
         void AddChallengeListeners();
         void AddMessageListeners();
+        void AddChatMessageListener();
         void StartPinger();
         void MonitorConnectivity();
 
