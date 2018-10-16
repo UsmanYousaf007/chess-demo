@@ -41,9 +41,9 @@ namespace TurboLabz.Multiplayer
 
 
         [ListensTo(typeof(EnableGameChatSignal))]
-        public void OnEnableGameChat(bool enable)
+        public void OnEnableGameChat(ChatMessages chatMessages, string playerId)
         {
-          //  view.EnableGameChat(enable);
+            view.EnableGameChat(chatMessages, playerId);
         }
 
         [ListensTo(typeof(DisplayChatMessageSignal))]

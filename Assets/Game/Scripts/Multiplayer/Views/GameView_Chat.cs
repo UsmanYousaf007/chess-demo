@@ -25,18 +25,21 @@ namespace TurboLabz.Multiplayer
 
         public GameObject chatDlgBg;
         public Button maximizeChatDlgBtn;
-        //public Button minimizeChatDlgBtnX;
         public Button minimizeChatDlgBtn;
 
         public Signal<string> chatSubmitSignal = new Signal<string>();
         public Signal openChatDlgSignal = new Signal();
         public Signal closeChatDlgSignal = new Signal();
 
+        public Transform scrollViewContent;
+        public ScrollRect scrollRect;
+        public GameObject chatBubblePrefab;
+        GameObject chatBubbleCloneSource;
+
         public void InitChat()
         {
             inputField.onSubmit.AddListener(OnSubmit);
             maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
-          //  minimizeChatDlgBtnX.onClick.AddListener(OnCloseChatDlg);
             minimizeChatDlgBtn.onClick.AddListener(OnCloseChatDlg);
         }
 
@@ -45,11 +48,22 @@ namespace TurboLabz.Multiplayer
             
         }
 
+        public void EnableGameChat(ChatMessages chatMessages, string playerId)
+        {
+            LogUtil.Log("*************************************** RECEIVED CHAT HISTORY ***************************************", "cyan");
+
+            foreach (ChatMessage message in chatMessages.messageList)
+            {
+                AddChatBubble(message.text, playerId == message.senderId);
+            }
+        }
+
         public void ShowChatDlg()
         {
             chatDlgBg.SetActive(true);
             minimizeChatDlgBtn.gameObject.SetActive(true);
             maximizeChatDlgBtn.gameObject.SetActive(false);
+            StartCoroutine(SetScrollPosition());
         }
 
         public void HideChatDlg()
@@ -59,27 +73,27 @@ namespace TurboLabz.Multiplayer
             maximizeChatDlgBtn.gameObject.SetActive(true);
         }
 
-        public void OnReceive(string message)
+        public void OnReceive(string text)
         {
-            if (message.Length > 0)
+            if (text.Length > 0)
             {
                 opponentChatBubble.gameObject.SetActive(true);
-                opponentChatBubble.text.text = message;
-                opponentChatBubble.Refresh();
+                opponentChatBubble.SetText(text);
+                AddChatBubble(text, false);
             }
         }
 
-        void OnSubmit(string message)
+        void OnSubmit(string text)
         {
-            if (message.Length > 0)
+            if (text.Length > 0)
             {
                 playerChatBubble.gameObject.SetActive(true);
-                playerChatBubble.text.text = message;
-                playerChatBubble.Refresh();
+                playerChatBubble.SetText(text);
+                AddChatBubble(text, true);
 
                 inputField.text = "";
 
-                chatSubmitSignal.Dispatch(message);
+                chatSubmitSignal.Dispatch(text);
             }
         }
 
@@ -91,6 +105,32 @@ namespace TurboLabz.Multiplayer
         void OnCloseChatDlg()
         {
             closeChatDlgSignal.Dispatch();
+        }
+
+        void AddChatBubble(string text, bool isPlayer)
+        {
+            GameObject chatBubbleContainer;
+            if (chatBubbleCloneSource == null)
+            {
+                chatBubbleContainer = GameObject.Instantiate(chatBubblePrefab);
+                chatBubbleCloneSource = chatBubbleContainer;
+            }
+            else
+            {
+                chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSource);
+            }
+
+            chatBubbleContainer.transform.SetParent(scrollViewContent, false);
+            ChatBubble bubble = chatBubbleContainer.transform.GetChild(0).GetComponent<ChatBubble>();
+            bubble.SetText(text);
+
+            StartCoroutine(SetScrollPosition());
+        }
+
+        IEnumerator SetScrollPosition()
+        {
+            yield return null;
+            scrollRect.verticalNormalizedPosition = 0f;
         }
     }
 }

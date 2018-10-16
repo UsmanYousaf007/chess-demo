@@ -15,6 +15,7 @@ using System.Collections.Generic;
 
 using strange.extensions.signal.impl;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -72,5 +73,5 @@ namespace TurboLabz.Multiplayer
     public class InitInfiniteTimersSignal : Signal<bool> {}
     public class ExitLongMatchSignal : Signal {}
     public class ResetActiveMatchSignal : Signal {}
-    public class EnableGameChatSignal : Signal<bool> {}
+    public class EnableGameChatSignal : Signal<ChatMessages, string> {}
 }

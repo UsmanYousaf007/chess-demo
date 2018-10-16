@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
                     Dictionary<string, string> savedChat = reader.ReadDictionary<string, string>(CHAT_SAVE_KEY);
                     foreach (KeyValuePair<string, string> entry in savedChat)
                     {
+                        LogUtil.Log("Adding from chat history " + entry.Key + ":" + entry.Value, "red");
                         chatHistory.Add(entry.Key, JsonUtility.FromJson<ChatMessages>(entry.Value));
                     }
                 }

@@ -30,12 +30,12 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Dictionary<string, ChatMessages> chatHistory = chatModel.chatHistory;
-            if (!chatHistory.ContainsKey(chatMessage.recipientId))
+            if (!chatHistory.ContainsKey(chatMessage.senderId))
             {
-                chatHistory.Add(chatMessage.recipientId, new ChatMessages());
+                chatHistory.Add(chatMessage.senderId, new ChatMessages());
             }
 
-            chatHistory[chatMessage.recipientId].messageList.Add(chatMessage);
+            chatHistory[chatMessage.senderId].messageList.Add(chatMessage);
 
             if (chatMessage.senderId == matchInfoModel.activeLongMatchOpponentId)
             {

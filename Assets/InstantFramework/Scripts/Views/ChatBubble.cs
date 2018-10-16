@@ -12,28 +12,32 @@ public class ChatBubble : MonoBehaviour
     public RectTransform bg;
     public TextMeshProUGUI text;
     public bool flipped;
+    public bool inGameBubble;
 
     Image bgImage;
     Coroutine fadeRoutine;
 
-    public void Refresh()
+    public void SetText(string newText)
     {
         // Nothing to do if there is no text
-        if (text.text.Length == 0)
+        if (newText.Length == 0)
         {
             gameObject.SetActive(false);
             return;
         }
 
-        LogUtil.Log("GOT MESSAGE:......." + text.text, "red");
+        text.text = newText;
 
         // Kick off the fade cycle
-        if (fadeRoutine != null)
+        if (inGameBubble)
         {
-            StopCoroutine(fadeRoutine);
-        }
+            if (fadeRoutine != null)
+            {
+                StopCoroutine(fadeRoutine);
+            }
 
-        fadeRoutine = StartCoroutine(DoFade());
+            fadeRoutine = StartCoroutine(DoFade());
+        }
 
         // Resise the text mesh based on the text
         text.ForceMeshUpdate();
@@ -51,7 +55,11 @@ public class ChatBubble : MonoBehaviour
 
     void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(OpenChat);
+        if (inGameBubble)
+        {
+            GetComponent<Button>().onClick.AddListener(OpenChat);
+        }
+
         bgImage = GetComponent<Image>();
     }
 	
@@ -69,6 +77,15 @@ public class ChatBubble : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        if (fadeRoutine != null)
+        {
+            StopCoroutine(fadeRoutine);
+            gameObject.SetActive(false);
+        }
     }
 
 

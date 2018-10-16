@@ -6,6 +6,7 @@
 using strange.extensions.command.impl;
 using strange.extensions.mediation.api;
 using TurboLabz.Multiplayer;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IChatModel chatModel { get; set; }
 
         public override void Execute()
         {
@@ -34,7 +36,14 @@ namespace TurboLabz.InstantFramework
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ACCEPT_REQUESTED);
             }
 
-            enableGameChatSignal.Dispatch(matchInfo.isLongPlay);
+            LogUtil.Log("Active opponent id: " + matchInfoModel.activeLongMatchOpponentId, "cyan");
+
+            if (matchInfo.isLongPlay)
+            {
+                ChatMessages chatMessages = chatModel.chatHistory.ContainsKey(matchInfoModel.activeLongMatchOpponentId) ?
+                    chatModel.chatHistory[matchInfoModel.activeLongMatchOpponentId] : new ChatMessages();
+                enableGameChatSignal.Dispatch(chatMessages, playerModel.id);
+            }
         }
     }
 }
