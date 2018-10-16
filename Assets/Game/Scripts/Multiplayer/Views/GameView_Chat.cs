@@ -33,14 +33,26 @@ namespace TurboLabz.Multiplayer
 
         public Transform scrollViewContent;
         public ScrollRect scrollRect;
-        public GameObject chatBubblePrefab;
-        GameObject chatBubbleCloneSource;
+        public GameObject chatBubblePrefabLeft;
+        public GameObject chatBubblePrefabRight;
+        public Button editorSubmit;
+
+
+        GameObject chatBubbleCloneSourceLeft;
+        GameObject chatBubbleCloneSourceRight;
 
         public void InitChat()
         {
             inputField.onSubmit.AddListener(OnSubmit);
             maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
             minimizeChatDlgBtn.onClick.AddListener(OnCloseChatDlg);
+
+            #if UNITY_EDITOR
+            editorSubmit.gameObject.SetActive(true);
+            editorSubmit.onClick.AddListener(()=>{OnSubmit(inputField.text);});
+            #else
+            editorSubmit.gameObject.SetActive(false);
+            #endif
         }
 
         public void OnParentShowChat()
@@ -112,18 +124,40 @@ namespace TurboLabz.Multiplayer
         void AddChatBubble(string text, bool isPlayer)
         {
             GameObject chatBubbleContainer;
-            if (chatBubbleCloneSource == null)
+            ChatBubble bubble;
+
+            if (isPlayer)
             {
-                chatBubbleContainer = GameObject.Instantiate(chatBubblePrefab);
-                chatBubbleCloneSource = chatBubbleContainer;
+                if (chatBubbleCloneSourceRight == null)
+                {
+                    chatBubbleContainer = GameObject.Instantiate(chatBubblePrefabRight);
+                    chatBubbleCloneSourceRight = chatBubbleContainer;
+                }
+                else
+                {
+                    chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSourceRight);
+                }
+
+                bubble = chatBubbleContainer.transform.GetChild(0).GetComponent<ChatBubble>();
             }
             else
             {
-                chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSource);
+                if (chatBubbleCloneSourceLeft == null)
+                {
+                    chatBubbleContainer = GameObject.Instantiate(chatBubblePrefabLeft);
+                    chatBubbleCloneSourceLeft = chatBubbleContainer;
+                }
+                else
+                {
+                    chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSourceLeft);
+                }
+
+                bubble = chatBubbleContainer.transform.GetChild(1).GetComponent<ChatBubble>();
             }
 
+
+
             chatBubbleContainer.transform.SetParent(scrollViewContent, false);
-            ChatBubble bubble = chatBubbleContainer.transform.GetChild(0).GetComponent<ChatBubble>();
             bubble.SetText(text, isPlayer);
 
             StartCoroutine(SetScrollPosition());
