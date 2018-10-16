@@ -11,13 +11,19 @@ public class ChatBubble : MonoBehaviour
 {
     public RectTransform bg;
     public TextMeshProUGUI text;
-    public bool flipped;
-    public bool inGameBubble;
+    public bool flipped; // Set from the scene inspector
+    public bool inGameBubble; // Set from the  scene inspector
+    public RectTransform container;
+
+    public Sprite bgFullChatOpponent;
+    public Sprite bgFullChatPlayer;
 
     Image bgImage;
     Coroutine fadeRoutine;
 
-    public void SetText(string newText)
+    const float CONTAINER_OFFSET = 45f;
+
+    public void SetText(string newText, bool isPlayer)
     {
         // Nothing to do if there is no text
         if (newText.Length == 0)
@@ -48,9 +54,25 @@ public class ChatBubble : MonoBehaviour
             textBoundsSize.x + 57.65f, 
             textBoundsSize.y + 41.63f);
 
-        // Move the background into the center of the container
-        float flipDiv = flipped ? -2f : 2f;
-        bg.anchoredPosition = new Vector2(bg.anchoredPosition.x, bg.sizeDelta.y / flipDiv);
+
+        // Apply the correct bg if this is full chat mode
+        if (inGameBubble)
+        {
+            // Move the background into the center of the container
+            float flipDiv = flipped ? -2f : 2f;
+            bg.anchoredPosition = new Vector2(bg.anchoredPosition.x, bg.sizeDelta.y / flipDiv);
+        }
+        else
+        {
+            bgImage.sprite = (isPlayer) ? bgFullChatPlayer : bgFullChatOpponent;
+
+            // Move the background to the top of the container
+            bg.anchoredPosition = new Vector2(bg.anchoredPosition.x, -1 * bg.sizeDelta.y);
+
+            // Set the size of container to that the scroll view can stack elements correctly
+            container.sizeDelta = new Vector2(container.sizeDelta.x, bg.sizeDelta.y + CONTAINER_OFFSET);
+
+        }
     }
 
     void Awake()

@@ -5520,7 +5520,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 200
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -19391,11 +19391,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -22665,6 +22665,9 @@ MonoBehaviour:
   text: {fileID: 535509753}
   flipped: 0
   inGameBubble: 1
+  container: {fileID: 0}
+  bgFullChatOpponent: {fileID: 0}
+  bgFullChatPlayer: {fileID: 0}
 --- !u!114 &645981647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30726,7 +30729,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 20.7}
-  m_SizeDelta: {x: 0, y: -13.9}
+  m_SizeDelta: {x: 0, y: 123.49999}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &886030801
 MonoBehaviour:
@@ -48627,11 +48630,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -56629,7 +56632,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -473, y: 851.5001}
+  m_AnchoredPosition: {x: -473, y: 920.2}
   m_SizeDelta: {x: 946, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1552477760
@@ -56651,7 +56654,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!114 &1552477761
@@ -66445,6 +66448,9 @@ MonoBehaviour:
   text: {fileID: 1345396850}
   flipped: 1
   inGameBubble: 1
+  container: {fileID: 0}
+  bgFullChatOpponent: {fileID: 0}
+  bgFullChatPlayer: {fileID: 0}
 --- !u!114 &1804044552
 MonoBehaviour:
   m_ObjectHideFlags: 0

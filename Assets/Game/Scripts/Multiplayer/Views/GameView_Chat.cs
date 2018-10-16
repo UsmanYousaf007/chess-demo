@@ -78,7 +78,7 @@ namespace TurboLabz.Multiplayer
             if (text.Length > 0)
             {
                 opponentChatBubble.gameObject.SetActive(true);
-                opponentChatBubble.SetText(text);
+                opponentChatBubble.SetText(text, false);
                 AddChatBubble(text, false);
             }
         }
@@ -88,7 +88,7 @@ namespace TurboLabz.Multiplayer
             if (text.Length > 0)
             {
                 playerChatBubble.gameObject.SetActive(true);
-                playerChatBubble.SetText(text);
+                playerChatBubble.SetText(text, true);
                 AddChatBubble(text, true);
 
                 inputField.text = "";
@@ -122,7 +122,7 @@ namespace TurboLabz.Multiplayer
 
             chatBubbleContainer.transform.SetParent(scrollViewContent, false);
             ChatBubble bubble = chatBubbleContainer.transform.GetChild(0).GetComponent<ChatBubble>();
-            bubble.SetText(text);
+            bubble.SetText(text, isPlayer);
 
             StartCoroutine(SetScrollPosition());
         }
