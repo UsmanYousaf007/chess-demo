@@ -100,11 +100,13 @@ namespace TurboLabz.Multiplayer
         void OnOpenChatDlg()
         {
             openChatDlgSignal.Dispatch();
+            chessboardBlocker.SetActive(true);
         }
 
         void OnCloseChatDlg()
         {
             closeChatDlgSignal.Dispatch();
+            chessboardBlocker.SetActive(false);
         }
 
         void AddChatBubble(string text, bool isPlayer)
