@@ -22,5 +22,6 @@ namespace TurboLabz.InstantGame
         public const string AUDIO_STATE = "audioState";
         public const string AD_SLOT_ID = "adSlotId";
         public const string AD_SLOT_IMPRESSIONS = "adSlotImpressions";
+        public const string HAS_RATED = "hasRated";
     }
 }

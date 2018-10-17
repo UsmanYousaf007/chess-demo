@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
             appInfoModel.appBackendVersionValid = true;
+            appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);

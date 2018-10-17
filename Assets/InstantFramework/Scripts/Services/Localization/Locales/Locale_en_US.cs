@@ -222,6 +222,16 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_ACCEPT_NO, "DECLINE" },
 
                 #endregion
+
+
+                #region Rate App
+
+                { LocalizationKey.RATE_APP_TITLE, "Enjoying" },
+                { LocalizationKey.RATE_APP_SUB_TITLE, "Rate it on the Store." },
+                { LocalizationKey.RATE_APP_RATE, "Rate" },
+                { LocalizationKey.RATE_APP_NOT_NOW, "Not Now" },
+
+                #endregion
             };
         }
     }

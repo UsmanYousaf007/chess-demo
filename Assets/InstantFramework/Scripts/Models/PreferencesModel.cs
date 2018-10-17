@@ -20,6 +20,7 @@ namespace TurboLabz.InstantGame
         public bool isAudioOn { get; set; }
         public long adSlotId { get; set; }            
         public int adSlotImpressions { get; set; }   
+        public bool hasRated { get; set; }  
 
         [PostConstruct]
         public void Load()
@@ -49,6 +50,11 @@ namespace TurboLabz.InstantGame
                     adSlotId = reader.Read<long>(PrefKeys.AD_SLOT_ID);
                     adSlotImpressions = reader.Read<int>(PrefKeys.AD_SLOT_IMPRESSIONS);
                 }
+
+                if (reader.HasKey(PrefKeys.HAS_RATED))
+                {
+                    hasRated = reader.Read<bool>(PrefKeys.HAS_RATED);
+                }
                 
 
                 reader.Close();
@@ -71,6 +77,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.AUDIO_STATE, isAudioOn);
                 writer.Write<long>(PrefKeys.AD_SLOT_ID, adSlotId);
                 writer.Write<int>(PrefKeys.AD_SLOT_IMPRESSIONS, adSlotImpressions);
+                writer.Write<bool>(PrefKeys.HAS_RATED, hasRated);
 
                 writer.Close();
             }
@@ -88,6 +95,9 @@ namespace TurboLabz.InstantGame
         private void Reset()
         {
             isAudioOn = true;
+            adSlotId = 0;            
+            adSlotImpressions = 0;   
+            hasRated = false; 
         }
 
         private void OnAppEvent(AppEvent evt)

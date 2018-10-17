@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         void AddChallengeListeners();
         void AddMessageListeners();
         void StartPinger();
+        void StopPinger();
         void MonitorConnectivity();
 
         IPromise<BackendResult> GetInitData(int appVersion, string dataJson);
@@ -42,6 +43,5 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> FriendsOpRegCommunity(); // registers player into community searches
         IPromise<BackendResult> FriendsOpAdd(string friendId); // get community suggested friends list
         IPromise<BackendResult> FriendsOpInitialize(); // initial setup after first facebook login
-
 	}
 }

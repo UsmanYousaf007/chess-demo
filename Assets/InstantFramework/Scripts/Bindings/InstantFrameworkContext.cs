@@ -114,6 +114,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ProfileView>().To<ProfileMediator>();
             mediationBinder.Bind<OpponentProfileView>().To<OpponentProfileMediator>();
             mediationBinder.Bind<ProfileDialogView>().To<ProfileDialogMediator>();
+            mediationBinder.Bind<RateAppDialogView>().To<RateAppDialogMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
@@ -126,6 +127,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
             injectionBinder.Bind<IPushNotificationService>().To<FirebasePushNotificationService>().ToSingleton();
+            injectionBinder.Bind<IRateAppService>().To<RateAppService>().ToSingleton();
 
             #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();

@@ -10,5 +10,6 @@ namespace TurboLabz.InstantFramework
         bool isAudioOn { get; set; }
         int adSlotImpressions { get; set; }    
         long adSlotId { get; set; }
+        bool hasRated { get; set; }
     }
 }

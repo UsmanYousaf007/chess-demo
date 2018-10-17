@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
+            backendService.StartPinger();
             showFindMatchSignal.Dispatch();
             backendService.FindMatch().Then(OnFindMatch);
 

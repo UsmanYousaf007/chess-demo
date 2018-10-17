@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             Megacool.Instance.Start();
+            Megacool.Instance.SharingStrategy = MegacoolSharingStrategy.LINK;
 
             Megacool.Instance.CompletedSharing += () => {
                 analyticsService.SocialShareComplete();
@@ -35,9 +36,9 @@ namespace TurboLabz.InstantFramework
 
         public void ShareApp(string message)
         {
-            Megacool.Instance.SharingText = message;
+            Megacool.Instance.SharingText = "\ud83d\ude42" + " " + message + '\n';
             Megacool.Instance.Share(new MegacoolShareConfig {
-                FallbackImage = APP_PROMO_IMAGE,
+            //    FallbackImage = APP_PROMO_IMAGE,
                 Url = new Uri("?_autoopen=true", UriKind.Relative)
             });
         }

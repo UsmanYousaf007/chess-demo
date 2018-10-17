@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
         public bool appBackendVersionValid { get; set; }
         public string iosURL { get; set; }
         public string androidURL { get; set; }
+        public int rateAppThreshold { get; set; }
 
         enum subVersionIndex
         {
@@ -26,6 +27,7 @@ namespace TurboLabz.InstantFramework
             appBackendVersionValid = false;
             iosURL = "";
             androidURL = "";
+            rateAppThreshold = 0;
 
             string[] version = Application.version.Split('.');
             appBackendVersion = int.Parse(version[(int)subVersionIndex.BACKEND]);

@@ -11,6 +11,7 @@ namespace TurboLabz.InstantFramework
         bool appBackendVersionValid { get; set; }
         string iosURL { get; set; }
         string androidURL { get; set; }
+        int rateAppThreshold { get; set; }
 
         void Reset();
     }

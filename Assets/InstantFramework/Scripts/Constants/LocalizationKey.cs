@@ -217,5 +217,14 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_ACCEPT_NO = "longPlayAcceptNo";
 
         #endregion
+
+        #region RateApp
+
+        public const string RATE_APP_TITLE = "rateAppTitle";
+        public const string RATE_APP_SUB_TITLE = "rateAppSubTitle";
+        public const string RATE_APP_RATE = "rate";
+        public const string RATE_APP_NOT_NOW = "notNow";
+
+        #endregion
     }
 }

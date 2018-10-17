@@ -30,10 +30,20 @@ namespace TurboLabz.InstantFramework
         private int initialPingCount;
         private long sendTime;
         private Coroutine wifiHealthCheckCR;
+        private Coroutine pingerCR;
 
         public void StartPinger()
         {
-            routineRunner.StartCoroutine(StartPingerCR());
+            pingerCR = routineRunner.StartCoroutine(StartPingerCR());
+        }
+
+        public void StopPinger()
+        {
+            if (pingerCR != null)
+            {
+                routineRunner.StopCoroutine(pingerCR);
+            }
+            pingerCR = null;
         }
 
         private IEnumerator StartPingerCR()

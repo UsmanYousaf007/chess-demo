@@ -29,7 +29,6 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             pushNotificationService.Init();
-            backendService.StartPinger();
             backendService.MonitorConnectivity();
             backendService.AddMessageListeners();
             backendService.AddChallengeListeners();
