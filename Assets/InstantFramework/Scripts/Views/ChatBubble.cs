@@ -18,10 +18,13 @@ public class ChatBubble : MonoBehaviour
     public Sprite bgFullChatOpponent;
     public Sprite bgFullChatPlayer;
 
+    public Image profilePic;
+    public Text timer;
+
     Image bgImage;
     Coroutine fadeRoutine;
 
-    const float CONTAINER_OFFSET = 45f;
+    const float CONTAINER_OFFSET = 65f;
 
     public void SetText(string newText, bool isPlayer)
     {
@@ -51,8 +54,8 @@ public class ChatBubble : MonoBehaviour
         // Resize the background based on the text mesh
         Vector3 textBoundsSize = text.textBounds.size;
         bg.sizeDelta = new Vector2(
-            textBoundsSize.x + 57.65f, 
-            textBoundsSize.y + 41.63f);
+            textBoundsSize.x + 65f, 
+            textBoundsSize.y + 30f);
 
 
         // Apply the correct bg if this is full chat mode

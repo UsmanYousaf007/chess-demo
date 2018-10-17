@@ -39,11 +39,10 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-
         [ListensTo(typeof(EnableGameChatSignal))]
-        public void OnEnableGameChat(ChatMessages chatMessages, string playerId)
+        public void OnEnableGameChat(ChatVO vo)
         {
-            view.EnableGameChat(chatMessages, playerId);
+            view.EnableGameChat(vo);
         }
 
         [ListensTo(typeof(DisplayChatMessageSignal))]
@@ -51,7 +50,6 @@ namespace TurboLabz.Multiplayer
         {
             view.OnReceive(msg.text);
         }
-
         void OnChatSubmit(string text)
         {
             sendChatMessageSignal.Dispatch(text);

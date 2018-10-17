@@ -36,13 +36,28 @@ namespace TurboLabz.InstantFramework
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ACCEPT_REQUESTED);
             }
 
-            LogUtil.Log("Active opponent id: " + matchInfoModel.activeLongMatchOpponentId, "cyan");
-
             if (matchInfo.isLongPlay)
             {
-                ChatMessages chatMessages = chatModel.chatHistory.ContainsKey(matchInfoModel.activeLongMatchOpponentId) ?
+                string opponentId = matchInfoModel.activeLongMatchOpponentId;
+
+                ChatMessages chatMessages = chatModel.chatHistory.ContainsKey(opponentId) ?
                     chatModel.chatHistory[matchInfoModel.activeLongMatchOpponentId] : new ChatMessages();
-                enableGameChatSignal.Dispatch(chatMessages, playerModel.id);
+
+                ChatVO vo = new ChatVO();
+                vo.chatMessages = chatMessages;
+                vo.playerId = playerModel.id;
+                vo.playerProfilePic = playerModel.profilePic;
+
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
+                }
+                else if (playerModel.community.ContainsKey(opponentId))
+                {
+                    vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
+                }
+
+                enableGameChatSignal.Dispatch(vo);
             }
         }
     }

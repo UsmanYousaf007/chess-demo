@@ -743,6 +743,8 @@ MonoBehaviour:
   chatBubblePrefabRight: {fileID: 1820629375384846, guid: 219627ad23ad6400cb1299a73d9cfaf8,
     type: 2}
   editorSubmit: {fileID: 530940941}
+  opponentProfilePic: {fileID: 0}
+  playerProfilePic: {fileID: 0}
   pieces:
   - {fileID: 1531427414}
   - {fileID: 1928121576}
@@ -22782,6 +22784,7 @@ MonoBehaviour:
   container: {fileID: 0}
   bgFullChatOpponent: {fileID: 0}
   bgFullChatPlayer: {fileID: 0}
+  profilePic: {fileID: 0}
 --- !u!114 &645981647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30842,7 +30845,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 30.4}
+  m_AnchoredPosition: {x: 0, y: 30.400024}
   m_SizeDelta: {x: 0, y: 133.2}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &886030801
@@ -66640,6 +66643,7 @@ MonoBehaviour:
   container: {fileID: 0}
   bgFullChatOpponent: {fileID: 0}
   bgFullChatPlayer: {fileID: 0}
+  profilePic: {fileID: 0}
 --- !u!114 &1804044552
 MonoBehaviour:
   m_ObjectHideFlags: 0

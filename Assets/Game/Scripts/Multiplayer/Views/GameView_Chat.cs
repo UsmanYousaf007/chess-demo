@@ -37,6 +37,9 @@ namespace TurboLabz.Multiplayer
         public GameObject chatBubblePrefabRight;
         public Button editorSubmit;
 
+        public Sprite opponentProfilePic;
+        public Sprite playerProfilePic;
+
 
         GameObject chatBubbleCloneSourceLeft;
         GameObject chatBubbleCloneSourceRight;
@@ -60,13 +63,14 @@ namespace TurboLabz.Multiplayer
             
         }
 
-        public void EnableGameChat(ChatMessages chatMessages, string playerId)
+        public void EnableGameChat(ChatVO vo)
         {
-            LogUtil.Log("*************************************** RECEIVED CHAT HISTORY ***************************************", "cyan");
+            playerProfilePic = vo.playerProfilePic;
+            opponentProfilePic = vo.opponentProfilePic;
 
-            foreach (ChatMessage message in chatMessages.messageList)
+            foreach (ChatMessage message in vo.chatMessages.messageList)
             {
-                AddChatBubble(message.text, playerId == message.senderId);
+                AddChatBubble(message.text, vo.playerId == message.senderId);
             }
         }
 
@@ -139,6 +143,7 @@ namespace TurboLabz.Multiplayer
                 }
 
                 bubble = chatBubbleContainer.transform.GetChild(0).GetComponent<ChatBubble>();
+                bubble.profilePic.sprite = playerProfilePic;
             }
             else
             {
@@ -152,7 +157,8 @@ namespace TurboLabz.Multiplayer
                     chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSourceLeft);
                 }
 
-                bubble = chatBubbleContainer.transform.GetChild(1).GetComponent<ChatBubble>();
+                bubble = chatBubbleContainer.GetComponent<ChatBubble>();
+                bubble.profilePic.sprite = opponentProfilePic;
             }
 
 
