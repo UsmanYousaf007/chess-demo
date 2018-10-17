@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(DisplayChatMessageSignal))]
         public void OnDisplayChatMessage(ChatMessage msg)
         {
-            view.OnReceive(msg.text);
+            view.OnReceive(msg);
         }
         void OnChatSubmit(string text)
         {

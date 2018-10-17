@@ -11,6 +11,8 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using TMPro;
 using System.Collections;
+using System;
+using System.Collections.Generic;
 
 namespace TurboLabz.Multiplayer
 {
@@ -35,9 +37,15 @@ namespace TurboLabz.Multiplayer
         public ScrollRect scrollRect;
         public GameObject chatBubblePrefabLeft;
         public GameObject chatBubblePrefabRight;
+        public GameObject chatDayLinePrefab;
         public Button editorSubmit;
 
+        public List<GameObject> chatObjs = new List<GameObject>();
+        public List<int> dayLines = new List<int>();
+
+        [HideInInspector]
         public Sprite opponentProfilePic;
+        [HideInInspector] 
         public Sprite playerProfilePic;
 
 
@@ -65,12 +73,20 @@ namespace TurboLabz.Multiplayer
 
         public void EnableGameChat(ChatVO vo)
         {
+            foreach (GameObject obj in chatObjs)
+            {
+                GameObject.Destroy(obj);
+            }
+
+            chatObjs.Clear();
+            dayLines.Clear();
+
             playerProfilePic = vo.playerProfilePic;
             opponentProfilePic = vo.opponentProfilePic;
 
             foreach (ChatMessage message in vo.chatMessages.messageList)
             {
-                AddChatBubble(message.text, vo.playerId == message.senderId);
+                AddChatBubble(message, vo.playerId == message.senderId);
             }
         }
 
@@ -89,23 +105,29 @@ namespace TurboLabz.Multiplayer
             maximizeChatDlgBtn.gameObject.SetActive(true);
         }
 
-        public void OnReceive(string text)
+        public void OnReceive(ChatMessage message)
         {
-            if (text.Length > 0)
+            if (message.text.Length > 0)
             {
                 opponentChatBubble.gameObject.SetActive(true);
-                opponentChatBubble.SetText(text, false);
-                AddChatBubble(text, false);
+                opponentChatBubble.SetText(message.text, false);
+                AddChatBubble(message, false);
             }
         }
 
         void OnSubmit(string text)
         {
+            ChatMessage message;
+            message.recipientId = null;
+            message.senderId = null;
+            message.text = text;
+            message.timestamp = TimeUtil.unixTimestampMilliseconds;
+
             if (text.Length > 0)
             {
                 playerChatBubble.gameObject.SetActive(true);
                 playerChatBubble.SetText(text, true);
-                AddChatBubble(text, true);
+                AddChatBubble(message, true);
 
                 inputField.text = "";
 
@@ -125,9 +147,38 @@ namespace TurboLabz.Multiplayer
             chessboardBlocker.SetActive(false);
         }
 
-        void AddChatBubble(string text, bool isPlayer)
+        void AddChatBubble(ChatMessage message, bool isPlayer)
         {
             GameObject chatBubbleContainer;
+            DateTime dt = TimeUtil.ToDateTime(message.timestamp);
+
+            // Handle daylines
+            int daysSinceNow = DateTime.UtcNow.Subtract(dt).Days;
+
+            if (dayLines.IndexOf(daysSinceNow) < 0)
+            {
+                dayLines.Add(daysSinceNow);
+                GameObject dayLine = GameObject.Instantiate(chatDayLinePrefab);
+                chatObjs.Add(dayLine);
+                Text dayLineText = dayLine.GetComponent<Text>();
+
+                if (daysSinceNow == 0)
+                {
+                    dayLineText.text = localizationService.Get(LocalizationKey.CHAT_TODAY);
+                }
+                else if (daysSinceNow == 1)
+                {
+                    dayLineText.text = localizationService.Get(LocalizationKey.CHAT_YESTERDAY);
+                }
+                else if (daysSinceNow > 1)
+                {
+                    dayLineText.text = dt.ToString("MMMM dd");
+                }
+
+                dayLine.transform.SetParent(scrollViewContent, false);
+            }
+                
+            // Now render the text
             ChatBubble bubble;
 
             if (isPlayer)
@@ -164,7 +215,8 @@ namespace TurboLabz.Multiplayer
 
 
             chatBubbleContainer.transform.SetParent(scrollViewContent, false);
-            bubble.SetText(text, isPlayer);
+            bubble.SetText(message.text, isPlayer);
+            bubble.timer.text = dt.ToString("h:mm tt");
 
             StartCoroutine(SetScrollPosition());
         }

@@ -219,6 +219,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_ACCEPT_TITLE, "Accept Challenge?" },
                 { LocalizationKey.LONG_PLAY_ACCEPT_YES, "ACCEPT" },
                 { LocalizationKey.LONG_PLAY_ACCEPT_NO, "DECLINE" },
+                { LocalizationKey.CHAT_TODAY, "TODAY" },
+                { LocalizationKey.CHAT_YESTERDAY, "YESTERDAY" },
+
 
                 #endregion
             };

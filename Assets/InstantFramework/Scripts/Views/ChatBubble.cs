@@ -51,22 +51,27 @@ public class ChatBubble : MonoBehaviour
         // Resise the text mesh based on the text
         text.ForceMeshUpdate();
 
-        // Resize the background based on the text mesh
-        Vector3 textBoundsSize = text.textBounds.size;
-        bg.sizeDelta = new Vector2(
-            textBoundsSize.x + 65f, 
-            textBoundsSize.y + 30f);
-
-
         // Apply the correct bg if this is full chat mode
         if (inGameBubble)
         {
+            // Resize the background based on the text mesh
+            Vector3 textBoundsSize = text.textBounds.size;
+            bg.sizeDelta = new Vector2(
+                textBoundsSize.x + 57.65f, 
+                textBoundsSize.y + 41.63f);
+            
             // Move the background into the center of the container
             float flipDiv = flipped ? -2f : 2f;
             bg.anchoredPosition = new Vector2(bg.anchoredPosition.x, bg.sizeDelta.y / flipDiv);
         }
         else
         {
+            // Resize the background based on the text mesh
+            Vector3 textBoundsSize = text.textBounds.size;
+            bg.sizeDelta = new Vector2(
+                textBoundsSize.x + 65f, 
+                textBoundsSize.y + 30f);
+            
             bgImage.sprite = (isPlayer) ? bgFullChatPlayer : bgFullChatOpponent;
 
             // Move the background to the top of the container
