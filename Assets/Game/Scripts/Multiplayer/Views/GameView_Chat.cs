@@ -142,7 +142,7 @@ namespace TurboLabz.Multiplayer
                     chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSourceRight);
                 }
 
-                bubble = chatBubbleContainer.transform.GetChild(0).GetComponent<ChatBubble>();
+                bubble = chatBubbleContainer.GetComponent<ChatBubble>();
                 bubble.profilePic.sprite = playerProfilePic;
             }
             else
