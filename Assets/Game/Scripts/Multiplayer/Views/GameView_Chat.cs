@@ -78,6 +78,9 @@ namespace TurboLabz.Multiplayer
                 GameObject.Destroy(obj);
             }
 
+            chatBubbleCloneSourceLeft = null;
+            chatBubbleCloneSourceRight = null;
+
             chatObjs.Clear();
             dayLines.Clear();
 
@@ -215,6 +218,7 @@ namespace TurboLabz.Multiplayer
 
 
             chatBubbleContainer.transform.SetParent(scrollViewContent, false);
+            chatObjs.Add(chatBubbleContainer);
             bubble.SetText(message.text, isPlayer);
             bubble.timer.text = dt.ToString("h:mm tt");
 
