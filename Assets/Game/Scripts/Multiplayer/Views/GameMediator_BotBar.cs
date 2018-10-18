@@ -20,5 +20,14 @@ namespace TurboLabz.Multiplayer
         {
             exitLongMatchSignal.Dispatch();
         }
+
+        [ListensTo(typeof(AppEventSignal))]
+        public void OnLongPlayEscape(AppEvent evt)
+        {
+            if (evt == AppEvent.ESCAPED && view.isLongPlay)
+            {
+                OnBackToFriends();
+            }
+        }
     }
 }

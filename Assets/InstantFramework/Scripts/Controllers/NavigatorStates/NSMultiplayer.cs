@@ -32,7 +32,10 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    return new NSMultiplayerExitDlg();
+                    if (!cmd.matchInfoModel.activeMatch.isLongPlay)
+                    {
+                        return new NSMultiplayerExitDlg();
+                    }
                 }
             }
             else if (evt == NavigatorEvent.SHOW_FRIENDS)

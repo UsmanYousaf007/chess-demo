@@ -39,6 +39,8 @@ namespace TurboLabz.Multiplayer
         public GameObject chatBubblePrefabRight;
         public GameObject chatDayLinePrefab;
         public Button editorSubmit;
+        public Button backToGameBtn;
+        public Text backToGameBtnTxt;
 
         public List<GameObject> chatObjs = new List<GameObject>();
         public List<int> dayLines = new List<int>();
@@ -54,9 +56,12 @@ namespace TurboLabz.Multiplayer
 
         public void InitChat()
         {
+            backToGameBtnTxt.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
+
             inputField.onSubmit.AddListener(OnSubmit);
             maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
             minimizeChatDlgBtn.onClick.AddListener(OnCloseChatDlg);
+            backToGameBtn.onClick.AddListener(OnCloseChatDlg);
 
             #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
@@ -98,6 +103,8 @@ namespace TurboLabz.Multiplayer
             chatDlgBg.SetActive(true);
             minimizeChatDlgBtn.gameObject.SetActive(true);
             maximizeChatDlgBtn.gameObject.SetActive(false);
+            backToFriendsLabel.gameObject.SetActive(false);
+            backToGameBtnTxt.gameObject.SetActive(true);
             StartCoroutine(SetScrollPosition());
         }
 
@@ -106,6 +113,8 @@ namespace TurboLabz.Multiplayer
             chatDlgBg.SetActive(false);
             minimizeChatDlgBtn.gameObject.SetActive(false);
             maximizeChatDlgBtn.gameObject.SetActive(true);
+            backToFriendsLabel.gameObject.SetActive(true);
+            backToGameBtnTxt.gameObject.SetActive(false);
         }
 
         public void OnReceive(ChatMessage message)
@@ -153,7 +162,7 @@ namespace TurboLabz.Multiplayer
         void AddChatBubble(ChatMessage message, bool isPlayer)
         {
             GameObject chatBubbleContainer;
-            DateTime dt = TimeUtil.ToDateTime(message.timestamp);
+            DateTime dt = TimeUtil.ToDateTime(message.timestamp).ToLocalTime();
 
             // Handle daylines
             int daysSinceNow = DateTime.UtcNow.Subtract(dt).Days;

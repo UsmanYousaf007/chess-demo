@@ -50,12 +50,6 @@ namespace TurboLabz.Multiplayer
 
         void OnBackToFriendsClicked()
         {
-            if (showAd)
-            {
-                adsService.ShowAd(AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
-                showAd = false;
-            }
-
             backToFriendsSignal.Dispatch();
         }
     }
