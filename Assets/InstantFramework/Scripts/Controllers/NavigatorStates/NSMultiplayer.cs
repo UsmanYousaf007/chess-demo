@@ -23,8 +23,18 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG ||
-                evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG)
+            {
+                if (cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
+                {
+                    return new NSMultiplayerResultsDlg();
+                }
+                else
+                {
+                    return new NSMultiplayerExitDlg();
+                }
+            }
+            else if (evt == NavigatorEvent.ESCAPE)
             {
                 if (cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
                 {

@@ -8,6 +8,7 @@ namespace TurboLabz.InstantFramework
 {
     public interface IChatModel
     {
-        Dictionary<string, ChatMessages> chatHistory { get; set; }
+        void AddChat(string playerId, ChatMessage message);
+        ChatMessages GetChat(string playerId);
     }
 }

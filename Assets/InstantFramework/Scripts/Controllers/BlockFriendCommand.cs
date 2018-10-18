@@ -29,11 +29,6 @@ namespace TurboLabz.InstantGame
         {
             Retain();
 
-            if (chatModel.chatHistory.ContainsKey(friendId))
-            {
-                chatModel.chatHistory.Remove(friendId);
-            }
-
             picsModel.DeleteFriendPic(friendId);
             backendService.FriendsOpBlock(friendId).Then(OnFriendBlock);
         }

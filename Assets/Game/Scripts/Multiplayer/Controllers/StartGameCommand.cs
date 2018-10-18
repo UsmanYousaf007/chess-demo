@@ -40,8 +40,7 @@ namespace TurboLabz.InstantFramework
             {
                 string opponentId = matchInfoModel.activeLongMatchOpponentId;
 
-                ChatMessages chatMessages = chatModel.chatHistory.ContainsKey(opponentId) ?
-                    chatModel.chatHistory[matchInfoModel.activeLongMatchOpponentId] : new ChatMessages();
+                ChatMessages chatMessages = chatModel.GetChat(opponentId);
 
                 ChatVO vo = new ChatVO();
                 vo.chatMessages = chatMessages;

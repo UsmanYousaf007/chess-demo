@@ -18,9 +18,9 @@ namespace TurboLabz.InstantFramework
         // Listen to signals
         [Inject] public AppEventSignal appEventSignal { get; set; }
 
-        public Dictionary<string, ChatMessages> chatHistory { get; set; }
+        private Dictionary<string, ChatMessages> chatHistory { get; set; }
 
-        const string CHAT_SAVE_FILENAME = "chatSaveFilename";
+        const string CHAT_SAVE_FILE = "chatSaveFile";
         const string CHAT_SAVE_KEY = "chatSaveKey";
         const int CHAT_HISTORY_SIZE = 25;
 
@@ -28,73 +28,87 @@ namespace TurboLabz.InstantFramework
         public void Load()
         {
             Reset();
-            LoadFromFile();
-
             appEventSignal.AddListener(OnAppEvent);
         }
 
-        private void LoadFromFile()
+        public void AddChat(string playerId, ChatMessage message)
         {
-            if (!localDataService.FileExists(CHAT_SAVE_FILENAME))
+            if (!chatHistory.ContainsKey(playerId))
             {
-                return;
+                chatHistory[playerId] = new ChatMessages();
+            }
+
+            chatHistory[playerId].messageList.Add(message);
+        }
+
+        public ChatMessages GetChat(string playerId)
+        {
+            if (chatHistory.ContainsKey(playerId))
+            {
+                return chatHistory[playerId];
+            }
+
+            string filename = CHAT_SAVE_FILE + playerId;
+
+            if (!localDataService.FileExists(filename))
+            {
+                chatHistory[playerId] = new ChatMessages();
+                return chatHistory[playerId];
             }
 
             try
             {
-                ILocalDataReader reader = localDataService.OpenReader(CHAT_SAVE_FILENAME);
+                ILocalDataReader reader = localDataService.OpenReader(filename);
 
                 // Read chat here
                 if (reader.HasKey(CHAT_SAVE_KEY))
                 {
-                    Dictionary<string, string> savedChat = reader.ReadDictionary<string, string>(CHAT_SAVE_KEY);
-                    foreach (KeyValuePair<string, string> entry in savedChat)
-                    {
-                        LogUtil.Log("Adding from chat history " + entry.Key + ":" + entry.Value, "red");
-                        chatHistory.Add(entry.Key, JsonUtility.FromJson<ChatMessages>(entry.Value));
-                    }
+                    string savedChat = reader.Read<string>(CHAT_SAVE_KEY);
+                    chatHistory.Add(playerId, JsonUtility.FromJson<ChatMessages>(savedChat));
                 }
                     
                 reader.Close();
+                return chatHistory[playerId];
             }
             catch (Exception e)
             {
                 LogUtil.Log("Corrupt chat history! " + e, "red");
-                localDataService.DeleteFile(CHAT_SAVE_FILENAME);
-                Reset();
+                localDataService.DeleteFile(filename);
             }
+
+            chatHistory[playerId] = new ChatMessages();
+            return chatHistory[playerId];
         }
 
         private void SaveToFile()
         {
-            try
+            // Write chat here
+            foreach (KeyValuePair<string, ChatMessages> entry in chatHistory)
             {
-                ILocalDataWriter writer = localDataService.OpenWriter(CHAT_SAVE_FILENAME);
+                string filename = CHAT_SAVE_FILE + entry.Key;
 
-                // Write chat here
-                Dictionary<string, string> savedChat = new Dictionary<string, string>();
-                foreach (KeyValuePair<string, ChatMessages> entry in chatHistory)
+                try
                 {
+                    ILocalDataWriter writer = localDataService.OpenWriter(filename);
+
                     int messageCount = entry.Value.messageList.Count;
                     if (messageCount > CHAT_HISTORY_SIZE)
                     {
                         entry.Value.messageList.RemoveRange(0, messageCount - CHAT_HISTORY_SIZE);
                     }
 
-                    savedChat.Add(entry.Key, JsonUtility.ToJson(entry.Value));
+                    writer.Write<string>(CHAT_SAVE_KEY, JsonUtility.ToJson(entry.Value));
+                    writer.Close();
                 }
-
-                writer.WriteDictionary<string, string>(CHAT_SAVE_KEY, savedChat);
-                writer.Close();
-            }
-            catch (Exception e)
-            {
-                if (localDataService.FileExists(CHAT_SAVE_FILENAME))
+                catch (Exception e)
                 {
-                    localDataService.DeleteFile(CHAT_SAVE_FILENAME);
-                }
+                    if (localDataService.FileExists(filename))
+                    {
+                        localDataService.DeleteFile(filename);
+                    }
 
-                LogUtil.Log("Critical error when saving chat history. File deleted. " + e, "red");
+                    LogUtil.Log("Critical error when saving chat history. File deleted. " + e, "red");
+                }
             }
         }
 

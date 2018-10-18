@@ -40,20 +40,13 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                Dictionary<string, ChatMessages> chatHistory = chatModel.chatHistory;
-
                 ChatMessage message;
                 message.senderId = playerModel.id;
                 message.recipientId = recipientId;
                 message.text = chatMessage;
                 message.timestamp = TimeUtil.unixTimestampMilliseconds;
 
-                if (!chatHistory.ContainsKey(recipientId))
-                {
-                    chatHistory.Add(message.recipientId, new ChatMessages());
-                }
-
-                chatHistory[recipientId].messageList.Add(message);
+                chatModel.AddChat(recipientId, message);
             }
 
             Release();
