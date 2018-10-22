@@ -42,6 +42,8 @@ namespace TurboLabz.Multiplayer
         public Button backToGameBtn;
         public Text backToGameBtnTxt;
 
+        public GameObject[] chatInputSet;
+
         public List<GameObject> chatObjs = new List<GameObject>();
         public List<int> dayLines = new List<int>();
 

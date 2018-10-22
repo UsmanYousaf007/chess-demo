@@ -49,6 +49,12 @@ namespace TurboLabz.Multiplayer
             DisableMenuButton();
 
             RollOpponentProfilePicture();
+
+            // disable chat thingies
+            foreach (GameObject obj in chatInputSet)
+            {
+                obj.SetActive(false);
+            }
         }
 
         public void HideFind()
@@ -57,6 +63,12 @@ namespace TurboLabz.Multiplayer
             findDlg.SetActive(false);
 
             EnableMenuButton();
+
+            // enable chat thingies
+            foreach (GameObject obj in chatInputSet)
+            {
+                obj.SetActive(true);
+            }
         }
 
         void SetupFindMode()
