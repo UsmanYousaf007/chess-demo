@@ -28,6 +28,11 @@ namespace TurboLabz.InstantFramework
             SessionTerminatedMessage.Listener += OnSessionTerminateMessage;
         }
 
+        public void AddChatMessageListener()
+        {
+            ScriptMessage.Listener += OnChatScriptMessage;
+        }
+
         private void OnScriptMessage(ScriptMessage message)
         {
             if (message.ExtCode == GSBackendKeys.NEW_FRIEND_MESSAGE)
@@ -51,6 +56,20 @@ namespace TurboLabz.InstantFramework
 
                 updtateFriendOnlineStatusSignal.Dispatch(friendId, isOnline);
             }
+        }
+
+        private void OnChatScriptMessage(ScriptMessage message)
+        {
+            if (message.ExtCode == GSBackendKeys.Chat.CHAT_EXT_CODE)
+            {
+                ChatMessage msg;
+                msg.senderId = message.Data.GetString(GSBackendKeys.Chat.SENDER_ID);
+                msg.recipientId = playerModel.id;
+                msg.text = message.Data.GetString(GSBackendKeys.Chat.TEXT);
+                msg.timestamp = message.Data.GetLong(GSBackendKeys.Chat.TIMESTAMP).Value;
+
+                receiveChatMessageSignal.Dispatch(msg);
+            } 
         }
 
         private void OnSessionTerminateMessage(SessionTerminatedMessage message)

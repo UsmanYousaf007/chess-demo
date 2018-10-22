@@ -263,6 +263,14 @@ namespace TurboLabz.InstantFramework
             public const string WINNER_ID = "winnerId";
             public const string ELO_CHANGE = "eloChange";
         }
+
+        public static class Chat
+        {
+            public const string CHAT_EXT_CODE = "ChatMessage";
+            public const string SENDER_ID = "senderId";
+            public const string TEXT = "text";
+            public const string TIMESTAMP = "timestamp";
+        }
     }
 
     // TODO: Organize these like the event data keys, consider class renaming

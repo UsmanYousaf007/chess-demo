@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
 
         void AddChallengeListeners();
         void AddMessageListeners();
+        void AddChatMessageListener();
         void StartPinger();
         void StopPinger();
         void MonitorConnectivity();
@@ -35,6 +36,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> Accept(string challengeId);
         IPromise<BackendResult> Decline(string challengeId);
         IPromise<BackendResult> Unregister(string challengeId);
+        IPromise<BackendResult> SendChatMessage(string recipientId, string text);
 		
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend
         IPromise<BackendResult> FriendsOpFriends(); // get backend saved friends

@@ -151,9 +151,6 @@ namespace TurboLabz.Multiplayer
             ShowPlayerToIndicator(moveVO.toSquare);
             HideOpponentFromIndicator();
             HideOpponentToIndicator();
-
-            // Show an ad if a player moves
-            showAd = true;
         }
 
         public void UpdatePlayerPrePromoMove(MoveVO moveVO)

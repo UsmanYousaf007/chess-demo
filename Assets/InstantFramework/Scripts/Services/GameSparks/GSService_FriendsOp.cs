@@ -81,21 +81,18 @@ namespace TurboLabz.InstantFramework
                     GSData friendData = (GSData)obj.Value;
                     string friendId = obj.Key;
 
-                    // remove if existed in community 
-                    Sprite communityPic = null;
+                    Friend friend = LoadFriend(friendId, friendData);
+
+                    // Remove if existed in community. Also, copy the community person's
+                    // picture before removing
                     if (playerModel.community.ContainsKey(friendId))
                     {
-                        // Cache the community player profile picture
-                        communityPic = playerModel.community[friendId].publicProfile.profilePicture;
+                        friend.publicProfile.profilePicture = playerModel.community[friendId].publicProfile.profilePicture;
                         removeFriendSignal.Dispatch(friendId);
                     }
 
-                    Friend friend = LoadFriend(friendId, friendData);
                     playerModel.friends.Add(friendId, friend);
-                    if (communityPic == null)
-                    {
-                        playerModel.friends[friendId].publicProfile.profilePicture = communityPic;
-                    }
+
                     refreshFriendsSignal.Dispatch();
                 }
             }

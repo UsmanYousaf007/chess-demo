@@ -117,6 +117,7 @@ namespace TurboLabz.InstantFramework
 
 		void ListenForKeyEvents()
 		{
+            backendService.AddChatMessageListener();
 			GS.GameSparksAvailable += GameSparksAvailable;
 		}
 

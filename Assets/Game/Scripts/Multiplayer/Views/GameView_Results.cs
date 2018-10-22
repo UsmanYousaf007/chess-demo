@@ -55,7 +55,7 @@ namespace TurboLabz.Multiplayer
         public Signal enterPlaybackSignal = new Signal();
         public Signal resultsDialogButtonClickedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
-        public Signal<bool> backToFriendsSignal = new Signal<bool>();
+        public Signal backToFriendsSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -300,7 +300,7 @@ namespace TurboLabz.Multiplayer
         {
             if (isLongPlay)
             {
-                backToFriendsSignal.Dispatch(showAd);
+                backToFriendsSignal.Dispatch();
             }
             else
             {

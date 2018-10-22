@@ -39,6 +39,7 @@ namespace TurboLabz.Multiplayer
             OnRegisterWifi();
             OnRegisterAccept();
             OnRegisterBotBar();
+            OnRegisterChat();
         }
 
         public override void OnRemove()

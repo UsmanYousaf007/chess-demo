@@ -31,9 +31,7 @@ namespace TurboLabz.InstantFramework
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
             string opponentId = matchInfo.opponentPublicProfile.playerId;
 
-            PublicProfile publicProfile = playerModel.friends.ContainsKey(opponentId) ?
-                playerModel.friends[opponentId].publicProfile :
-                playerModel.community[opponentId].publicProfile;
+            PublicProfile publicProfile =  playerModel.friends[opponentId].publicProfile;
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerName = publicProfile.name;
@@ -41,18 +39,9 @@ namespace TurboLabz.InstantFramework
             pvo.countryId = publicProfile.countryId;
             pvo.playerId = publicProfile.playerId;
             pvo.isOnline = publicProfile.isOnline;
-
-            if (playerModel.friends.ContainsKey(opponentId))
-            {
-                pvo.playerPic = playerModel.friends[opponentId].publicProfile.profilePicture;
-            }
-            else if (playerModel.community.ContainsKey(opponentId))
-            {
-                pvo.playerPic = playerModel.community[opponentId].publicProfile.profilePicture;
-            }
+            pvo.playerPic = publicProfile.profilePicture;
 
             updateOpponentProfileSignal.Dispatch(pvo);
-
 
             friendBarBusySignal.Dispatch(opponentId, false);
             startGameSignal.Dispatch();

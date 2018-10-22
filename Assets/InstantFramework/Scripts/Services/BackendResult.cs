@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         DECLINE_FAILED,
         UNREGISTER_FAILED,
         SYNC_FACEBOOK_AUTH_REQUEST_FAILED,
+        SEND_CHAT_MESSAGE_FAILED,
 
         // Testing code
         SEND_TEST_REQUEST_FAILED,

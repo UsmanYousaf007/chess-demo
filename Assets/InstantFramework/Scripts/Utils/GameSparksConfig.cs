@@ -22,7 +22,7 @@ public class GameSparksConfig : MonoBehaviour {
         #if UNITY_EDITOR
         Dev.SetActive(true);
         return;
-        #endif
+        #else
 
         // This code activates when a debug build is made for device
         if (UnityEngine.Debug.isDebugBuild)
@@ -32,6 +32,7 @@ public class GameSparksConfig : MonoBehaviour {
         }
 
         Live.SetActive(true);
+        #endif
 
         //StartCoroutine(CheckStageURL(configURL));
 	}

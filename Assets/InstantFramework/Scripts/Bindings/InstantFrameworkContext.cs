@@ -81,6 +81,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
             commandBinder.Bind<DeclineSignal>().To<DeclineCommand>();
             commandBinder.Bind<UnregisterSignal>().To<UnregisterCommand>();
+            commandBinder.Bind<SendChatMessageSignal>().To<SendChatMessageCommand>();
+            commandBinder.Bind<ReceiveChatMessageSignal>().To<ReceiveChatMessageCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -162,6 +164,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
             injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton();
             injectionBinder.Bind<IAdsSettingsModel>().To<AdsSettingsModel>().ToSingleton();
+            injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();

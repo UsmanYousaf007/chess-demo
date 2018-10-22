@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2017-02-16 13:12:17 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 namespace TurboLabz.InstantFramework
 {
@@ -33,6 +26,7 @@ namespace TurboLabz.InstantFramework
         SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG,
         SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG,
         SHOW_MULTIPLAYER_ACCEPT_DLG,
+        SHOW_MULTIPLAYER_CHAT_DLG,
         SHOW_STATS,
 		SHOW_STORE,
         SHOW_FRIENDS,

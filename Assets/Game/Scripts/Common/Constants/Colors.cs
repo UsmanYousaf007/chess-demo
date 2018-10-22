@@ -23,6 +23,8 @@ namespace TurboLabz.InstantGame
         public static readonly Color WHITE = new Color(1f, 1f, 1f, 222f/255f);
         public static readonly Color DULL_WHITE = new Color(1f, 1f, 1f, 150f/255f);
         public static readonly Color DISABLED_WHITE = new Color(1f, 1f, 1f, 50f/255f);
+        public static readonly Color TRANSPARENT = new Color(1f, 1f, 1f, 0f);
+        public static readonly Color PLAYER_MESSAGE = new Color(215f/255f, 247f/255f, 191f/255f);
         public const float DISABLED_TEXT_ALPHA = 128f/255f;
         public const float ENABLED_TEXT_ALPHA = 222f/255f;
 

@@ -43,7 +43,6 @@ namespace TurboLabz.InstantFramework
             }
             else // Failure
             {
-                TLUtils.LogUtil.Log("OnGetProfilePicture():" + result.RawResult);
                 DispatchResponse(FacebookResult.FAILURE, null);
             }
         }

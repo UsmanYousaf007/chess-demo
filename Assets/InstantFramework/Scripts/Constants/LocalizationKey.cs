@@ -197,7 +197,7 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
-        #region Multiplayer
+        #region Long Play
 
         public const string LONG_PLAY_BACK_TO_FRIENDS = "longPlayBackToFriends";
         public const string BOT_NAV_NEXT = "botNavNext";
@@ -215,8 +215,12 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_ACCEPT_TITLE = "longPlayAcceptTitle";
         public const string LONG_PLAY_ACCEPT_YES = "longPlayAcceptYes";
         public const string LONG_PLAY_ACCEPT_NO = "longPlayAcceptNo";
+        public const string LONG_PLAY_BACK_TO_GAME = "longPlayBackToGame";
+        public const string CHAT_TODAY = "chatToday";
+        public const string CHAT_YESTERDAY = "chatYesterday";
 
         #endregion
+
 
         #region RateApp
 
