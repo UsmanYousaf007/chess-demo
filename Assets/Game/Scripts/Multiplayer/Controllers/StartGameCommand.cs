@@ -36,28 +36,26 @@ namespace TurboLabz.InstantFramework
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ACCEPT_REQUESTED);
             }
 
-            if (matchInfo.isLongPlay)
+            // PREPARE CHAT
+            string opponentId = matchInfoModel.activeLongMatchOpponentId;
+
+            ChatMessages chatMessages = chatModel.GetChat(opponentId);
+
+            ChatVO vo = new ChatVO();
+            vo.chatMessages = chatMessages;
+            vo.playerId = playerModel.id;
+            vo.playerProfilePic = playerModel.profilePic;
+
+            if (playerModel.friends.ContainsKey(opponentId))
             {
-                string opponentId = matchInfoModel.activeLongMatchOpponentId;
-
-                ChatMessages chatMessages = chatModel.GetChat(opponentId);
-
-                ChatVO vo = new ChatVO();
-                vo.chatMessages = chatMessages;
-                vo.playerId = playerModel.id;
-                vo.playerProfilePic = playerModel.profilePic;
-
-                if (playerModel.friends.ContainsKey(opponentId))
-                {
-                    vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
-                }
-                else if (playerModel.community.ContainsKey(opponentId))
-                {
-                    vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
-                }
-
-                enableGameChatSignal.Dispatch(vo);
+                vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
             }
+            else if (playerModel.community.ContainsKey(opponentId))
+            {
+                vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
+            }
+
+            enableGameChatSignal.Dispatch(vo);
         }
     }
 }

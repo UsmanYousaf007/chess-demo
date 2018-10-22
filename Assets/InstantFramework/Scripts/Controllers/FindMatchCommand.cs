@@ -41,33 +41,44 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
             showFindMatchSignal.Dispatch();
-            backendService.FindMatch().Then(OnFindMatch);
 
+            // This sends the backend request
+            backendService.FindMatch().Then(HandleFindMatchErrors);
+
+            // The actual found match message arrives through a different pipeline
+            // from the backend
             findMatchCompleteSignal.AddOnce(OnFindMatchComplete);
-        }
-
-        private void OnFindMatch(BackendResult result)
-        {
-            if (result == BackendResult.CANCELED)
-            {
-                Release();
-            }
-            else if (result != BackendResult.SUCCESS)
-            {
-                backendErrorSignal.Dispatch(result);
-                Release();
-            }
         }
 
         private void OnFindMatchComplete(string challengeId)
         {
             matchInfoModel.activeChallengeId = challengeId;
-            MatchFound();
 
-            PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
-            if (opponentPublicProfile.facebookUserId != null)
+            // Create and fill the opponent profile
+            ProfileVO pvo = GetOpponentProfile();
+
+            // Set the opponent info in the game view
+            updateOpponentProfileSignal.Dispatch(pvo);
+
+            // Set the finding match view to a found match state
+            matchFoundSignal.Dispatch(pvo);
+
+            // For quick match games, the flow continues from the get game start time signal
+            // where both clients start at a synch time stamp
+            getGameStartTimeSignal.Dispatch();
+
+            // Grab the opponent profile pic if any
+            if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
             {
-                facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
+                PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                if (opponentPublicProfile.facebookUserId != null)
+                {
+                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
+                }
+            }
+            else
+            {
+                Release();
             }
         }
 
@@ -84,22 +95,6 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
-        private void MatchFound()
-        {
-            // Create and dispatch opponent profile with the match found signal
-            ProfileVO pvo = GetOpponentProfile();
-
-            matchFoundSignal.Dispatch(pvo);
-            updateOpponentProfileSignal.Dispatch(pvo);
-
-            getGameStartTimeSignal.Dispatch();
-
-            if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId == null)
-            {
-                Release();
-            }
-        }
-
         private ProfileVO GetOpponentProfile()
         {
             PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
@@ -113,6 +108,21 @@ namespace TurboLabz.InstantFramework
             pvo.isOnline = true;
 
             return pvo;
+        }
+
+        // Handle errors if any from the original backend request
+        // Release ONLY on error condition
+        private void HandleFindMatchErrors(BackendResult result)
+        {
+            if (result == BackendResult.CANCELED)
+            {
+                Release();
+            }
+            else if (result != BackendResult.SUCCESS)
+            {
+                backendErrorSignal.Dispatch(result);
+                Release();
+            }
         }
     }
 }
