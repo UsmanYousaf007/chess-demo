@@ -25,7 +25,7 @@ namespace TurboLabz.Multiplayer
         public GameObject chatCounter;
         public Text chatCounterLabel;
 
-        public GameObject chatDlgBg;
+        public GameObject chatPanel;
         public Button maximizeChatDlgBtn;
         public Button minimizeChatDlgBtn;
 
@@ -44,15 +44,14 @@ namespace TurboLabz.Multiplayer
 
         public GameObject[] chatInputSet;
 
-        public List<GameObject> chatObjs = new List<GameObject>();
-        public List<int> dayLines = new List<int>();
-
         [HideInInspector]
         public Sprite opponentProfilePic;
         [HideInInspector] 
         public Sprite playerProfilePic;
 
 
+        List<GameObject> chatObjs = new List<GameObject>();
+        List<int> dayLines = new List<int>();
         GameObject chatBubbleCloneSourceLeft;
         GameObject chatBubbleCloneSourceRight;
 
@@ -102,7 +101,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowChatDlg()
         {
-            chatDlgBg.SetActive(true);
+            chatPanel.SetActive(true);
             minimizeChatDlgBtn.gameObject.SetActive(true);
             maximizeChatDlgBtn.gameObject.SetActive(false);
             backToFriendsLabel.gameObject.SetActive(false);
@@ -112,7 +111,7 @@ namespace TurboLabz.Multiplayer
 
         public void HideChatDlg()
         {
-            chatDlgBg.SetActive(false);
+            chatPanel.SetActive(false);
             minimizeChatDlgBtn.gameObject.SetActive(false);
             maximizeChatDlgBtn.gameObject.SetActive(true);
             backToFriendsLabel.gameObject.SetActive(true);

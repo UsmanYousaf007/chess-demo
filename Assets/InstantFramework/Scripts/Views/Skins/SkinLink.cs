@@ -42,6 +42,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateSkin()
         {
+            Assertions.Assert(sourceImage != null, "Source Image Not Set For Skin Link: " + gameObject.name);
+
             // Apply alpha if required
             string[] tokens = sourceImage.sprite.name.Split(',');
             float alpha = 1f;
