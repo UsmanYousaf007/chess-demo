@@ -77,12 +77,12 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<BlockFriendSignal>().To<BlockFriendCommand>();
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
-
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
             commandBinder.Bind<DeclineSignal>().To<DeclineCommand>();
             commandBinder.Bind<UnregisterSignal>().To<UnregisterCommand>();
             commandBinder.Bind<SendChatMessageSignal>().To<SendChatMessageCommand>();
             commandBinder.Bind<ReceiveChatMessageSignal>().To<ReceiveChatMessageCommand>();
+            commandBinder.Bind<ClearActiveChatSignal>().To<ClearActiveChatCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();

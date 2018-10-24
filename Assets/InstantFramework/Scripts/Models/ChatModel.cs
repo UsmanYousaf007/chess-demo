@@ -80,6 +80,13 @@ namespace TurboLabz.InstantFramework
             return chatHistory[playerId];
         }
 
+        public void ClearChat(string playerId)
+        {
+            string filename = CHAT_SAVE_FILE + playerId;
+            localDataService.DeleteFile(filename);
+            chatHistory[playerId] = new ChatMessages();
+        }
+
         private void SaveToFile()
         {
             // Write chat here

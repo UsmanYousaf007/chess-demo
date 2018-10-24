@@ -30,10 +30,13 @@ namespace TurboLabz.Multiplayer
         public GameObject chatPanel;
         public Button maximizeChatDlgBtn;
         public Button minimizeChatDlgBtn;
+        public Button clearActiveChatBtn;
+        public Text clearChatBtnTxt;
 
         public Signal<string> chatSubmitSignal = new Signal<string>();
         public Signal openChatDlgSignal = new Signal();
         public Signal closeChatDlgSignal = new Signal();
+        public Signal clearActiveChatSignal = new Signal();
 
         public Transform scrollViewContent;
         public ScrollRect scrollRect;
@@ -60,6 +63,7 @@ namespace TurboLabz.Multiplayer
         public void InitChat()
         {
             backToGameBtnTxt.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
+            clearChatBtnTxt.text = localizationService.Get(LocalizationKey.CHAT_CLEAR);
 
             inputField.onSubmit.AddListener(OnSubmit);
             maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
@@ -67,6 +71,7 @@ namespace TurboLabz.Multiplayer
             backToGameBtn.onClick.AddListener(OnCloseChatDlg);
             opponentChatBubbleButton.onClick.AddListener(OnOpenChatDlg);
             playerChatBubbleButton.onClick.AddListener(OnOpenChatDlg);
+            clearActiveChatBtn.onClick.AddListener(OnClearActiveChat);
 
             #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
@@ -83,16 +88,11 @@ namespace TurboLabz.Multiplayer
 
         public void EnableGameChat(ChatVO vo)
         {
-            foreach (GameObject obj in chatObjs)
-            {
-                GameObject.Destroy(obj);
-            }
+            CleanUpChat();
 
             chatBubbleCloneSourceLeft = null;
             chatBubbleCloneSourceRight = null;
 
-            chatObjs.Clear();
-            dayLines.Clear();
 
             if (vo.playerProfilePic != null) playerProfilePic = vo.playerProfilePic;
             if (vo.opponentProfilePic != null) opponentProfilePic = vo.opponentProfilePic;
@@ -250,6 +250,23 @@ namespace TurboLabz.Multiplayer
         {
             yield return null;
             scrollRect.verticalNormalizedPosition = 0f;
+        }
+
+        void CleanUpChat()
+        {
+            foreach (GameObject obj in chatObjs)
+            {
+                GameObject.Destroy(obj);
+            }
+
+            chatObjs.Clear();
+            dayLines.Clear();
+        }
+
+        void OnClearActiveChat()
+        {
+            CleanUpChat();
+            clearActiveChatSignal.Dispatch();
         }
     }
 }

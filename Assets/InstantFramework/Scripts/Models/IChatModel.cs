@@ -10,5 +10,6 @@ namespace TurboLabz.InstantFramework
     {
         void AddChat(string playerId, ChatMessage message);
         ChatMessages GetChat(string playerId);
+        void ClearChat(string playerId);
     }
 }

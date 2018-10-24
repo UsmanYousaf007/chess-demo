@@ -13,6 +13,7 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch Signals
         [Inject] public SendChatMessageSignal sendChatMessageSignal { get; set; }
+        [Inject] public ClearActiveChatSignal clearActiveChatSignal { get; set; }
 
         public void OnRegisterChat()
         {
@@ -20,6 +21,7 @@ namespace TurboLabz.Multiplayer
             view.chatSubmitSignal.AddListener(OnChatSubmit);
             view.openChatDlgSignal.AddListener(OnOpenChatDlg);
             view.closeChatDlgSignal.AddListener(OnCloseChatDlg);
+            view.clearActiveChatSignal.AddListener(OnClearActiveChat);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -71,6 +73,11 @@ namespace TurboLabz.Multiplayer
         void OnCloseChatDlg()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+        }
+
+        void OnClearActiveChat()
+        {
+            clearActiveChatSignal.Dispatch();
         }
     }
 }

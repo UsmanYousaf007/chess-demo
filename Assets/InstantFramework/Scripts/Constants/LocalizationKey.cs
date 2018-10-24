@@ -218,6 +218,7 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_BACK_TO_GAME = "longPlayBackToGame";
         public const string CHAT_TODAY = "chatToday";
         public const string CHAT_YESTERDAY = "chatYesterday";
+        public const string CHAT_CLEAR = "chatClear";
 
         #endregion
 
