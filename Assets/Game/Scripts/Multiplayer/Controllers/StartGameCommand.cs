@@ -6,6 +6,7 @@
 using strange.extensions.command.impl;
 using strange.extensions.mediation.api;
 using TurboLabz.Multiplayer;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -36,22 +37,24 @@ namespace TurboLabz.InstantFramework
             }
 
             // PREPARE CHAT
-            string opponentId = matchInfoModel.activeLongMatchOpponentId;
-
-            ChatMessages chatMessages = chatModel.GetChat(opponentId);
-
             ChatVO vo = new ChatVO();
-            vo.chatMessages = chatMessages;
+            vo.chatMessages = chatModel.GetChat(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
             vo.playerId = playerModel.id;
             vo.playerProfilePic = playerModel.profilePic;
 
-            if (playerModel.friends.ContainsKey(opponentId))
+            // Handle long match pictures
+            if (matchInfoModel.activeMatch.isLongPlay)
             {
-                vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
-            }
-            else if (playerModel.community.ContainsKey(opponentId))
-            {
-                vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
+                string opponentId = matchInfoModel.activeLongMatchOpponentId;
+
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
+                }
+                else if (playerModel.community.ContainsKey(opponentId))
+                {
+                    vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
+                }
             }
 
             enableGameChatSignal.Dispatch(vo);

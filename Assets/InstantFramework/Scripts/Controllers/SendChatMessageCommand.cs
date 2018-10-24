@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-            recipientId = matchInfoModel.activeLongMatchOpponentId;
+            recipientId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
             backendService.SendChatMessage(recipientId, chatMessage).Then(OnMessageSent);
         }
 

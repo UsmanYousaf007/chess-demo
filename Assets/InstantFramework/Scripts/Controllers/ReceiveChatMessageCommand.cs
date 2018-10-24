@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
         {
             chatModel.AddChat(chatMessage.senderId, chatMessage);
 
-            if (chatMessage.senderId == matchInfoModel.activeLongMatchOpponentId)
+            if (chatMessage.senderId == matchInfoModel.activeMatch.opponentPublicProfile.playerId)
             {
                 displayChatMessageSignal.Dispatch(chatMessage);
             }

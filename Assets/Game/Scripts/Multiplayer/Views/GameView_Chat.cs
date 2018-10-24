@@ -74,7 +74,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnParentShowChat()
         {
-            
+            // Nothing to do for now
         }
 
         public void EnableGameChat(ChatVO vo)
@@ -90,13 +90,18 @@ namespace TurboLabz.Multiplayer
             chatObjs.Clear();
             dayLines.Clear();
 
-            playerProfilePic = vo.playerProfilePic;
-            opponentProfilePic = vo.opponentProfilePic;
+            if (vo.playerProfilePic != null) playerProfilePic = vo.playerProfilePic;
+            if (vo.opponentProfilePic != null) opponentProfilePic = vo.opponentProfilePic;
 
             foreach (ChatMessage message in vo.chatMessages.messageList)
             {
                 AddChatBubble(message, vo.playerId == message.senderId);
             }
+        }
+
+        public void UpdateChatOpponentPic(Sprite sprite)
+        {
+            if (sprite != null) opponentProfilePic = sprite;
         }
 
         public void ShowChatDlg()
@@ -207,7 +212,7 @@ namespace TurboLabz.Multiplayer
                 }
 
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
-                bubble.profilePic.sprite = playerProfilePic;
+                if (playerProfilePic != null) bubble.profilePic.sprite = playerProfilePic;
             }
             else
             {
@@ -222,7 +227,7 @@ namespace TurboLabz.Multiplayer
                 }
 
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
-                bubble.profilePic.sprite = opponentProfilePic;
+                if (opponentProfilePic != null) bubble.profilePic.sprite = opponentProfilePic;
             }
 
 

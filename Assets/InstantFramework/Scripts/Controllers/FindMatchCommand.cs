@@ -2,13 +2,7 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-///
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-10-11 13:42:52 UTC+05:00
-///
-/// @description
-/// [add_description_here]
+
 
 using UnityEngine;
 using strange.extensions.command.impl;
@@ -25,6 +19,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetGameStartTimeSignal getGameStartTimeSignal { get; set; }
         [Inject] public MatchFoundSignal matchFoundSignal { get; set; }
         [Inject] public UpdateOpponentProfileSignal updateOpponentProfileSignal { get; set; }
+        [Inject] public UpdateChatOpponentPicSignal updateChatOpponentPicSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -91,6 +86,7 @@ namespace TurboLabz.InstantFramework
                 matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
                 ProfileVO pvo = GetOpponentProfile();
                 updateOpponentProfileSignal.Dispatch(pvo);
+                updateChatOpponentPicSignal.Dispatch(sprite);
             }
 
             Release();

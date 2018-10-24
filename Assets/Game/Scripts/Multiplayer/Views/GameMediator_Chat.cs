@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using TurboLabz.InstantFramework;
+using UnityEngine;
 
 
 namespace TurboLabz.Multiplayer 
@@ -50,6 +51,13 @@ namespace TurboLabz.Multiplayer
         {
             view.OnReceive(msg);
         }
+
+        [ListensTo(typeof(UpdateChatOpponentPicSignal))]
+        public void OnUpdateChatOpponentPic(Sprite sprite)
+        {
+            view.UpdateChatOpponentPic(sprite);
+        }
+
         void OnChatSubmit(string text)
         {
             sendChatMessageSignal.Dispatch(text);
