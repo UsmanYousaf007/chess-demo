@@ -24,6 +24,7 @@ namespace TurboLabz.Multiplayer
         public GameObject[] defaultInfoSet;
         public Text defaultDayLineHeader;
         public TMP_Text defaultSystemMessage;
+        public GameObject unreadMessagesIndicator;
 
 
         public ChatBubble opponentChatBubble;
@@ -117,7 +118,8 @@ namespace TurboLabz.Multiplayer
 
             foreach (ChatMessage message in vo.chatMessages.messageList)
             {
-                AddChatBubble(message, vo.playerId == message.senderId);
+                bool isPlayerMessage = vo.playerId == message.senderId;
+                AddChatBubble(message, isPlayerMessage);
             }
         }
 
@@ -185,6 +187,8 @@ namespace TurboLabz.Multiplayer
         {
             openChatDlgSignal.Dispatch();
             chessboardBlocker.SetActive(true);
+
+
         }
 
         void OnCloseChatDlg()

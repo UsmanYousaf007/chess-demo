@@ -11,5 +11,6 @@ namespace TurboLabz.Multiplayer
         public Sprite playerProfilePic;
         public Sprite opponentProfilePic;
         public string opponentName;
+        public bool hasUnreadMessages;
     }
 }

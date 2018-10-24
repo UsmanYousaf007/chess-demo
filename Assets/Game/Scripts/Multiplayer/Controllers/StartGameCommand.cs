@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            //vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
             enableGameChatSignal.Dispatch(vo);
         }
     }

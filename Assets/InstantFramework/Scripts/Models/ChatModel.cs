@@ -18,8 +18,14 @@ namespace TurboLabz.InstantFramework
         // Listen to signals
         [Inject] public AppEventSignal appEventSignal { get; set; }
 
-        private Dictionary<string, ChatMessages> chatHistory { get; set; }
+        // Models
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
+        private Dictionary<string, ChatMessages> chatHistory { get; set; }
+        //public Dictionary<string, bool> hasUnreadMessages { get; set; }
+
+        const string CHAT_META_FILE = "chatMetaFile";
+        const string CHAT_LAST_READ_TIMESTAMP = "chatLastReadTimestamp";
         const string CHAT_SAVE_FILE = "chatSaveFile";
         const string CHAT_SAVE_KEY = "chatSaveKey";
         const int CHAT_HISTORY_SIZE = 25;
@@ -39,6 +45,21 @@ namespace TurboLabz.InstantFramework
             }
 
             chatHistory[playerId].messageList.Add(message);
+
+            /*
+            if (matchInfoModel.activeMatch == null ||
+                message.senderId != matchInfoModel.activeMatch.opponentPublicProfile.playerId)
+            {
+                if (hasUnreadMessages.ContainsKey(message.senderId))
+                {
+                    hasUnreadMessages[message.senderId] = true;
+                }
+                else
+                {
+                    hasUnreadMessages.Add(message.senderId, true);
+                }
+            }
+            */
         }
 
         public ChatMessages GetChat(string playerId)
@@ -122,6 +143,7 @@ namespace TurboLabz.InstantFramework
         private void Reset()
         {
             chatHistory = new Dictionary<string, ChatMessages>();
+            //hasUnreadMessages = new Dictionary<string, bool>();
         }
 
         private void OnAppEvent(AppEvent evt)
