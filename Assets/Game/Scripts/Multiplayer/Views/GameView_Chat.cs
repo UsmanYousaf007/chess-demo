@@ -21,6 +21,8 @@ namespace TurboLabz.Multiplayer
         [Header("Chat")]
         public ChatBubble opponentChatBubble;
         public ChatBubble playerChatBubble;
+        public Button opponentChatBubbleButton;
+        public Button playerChatBubbleButton;
         public TMP_InputField inputField; 
         public GameObject chatCounter;
         public Text chatCounterLabel;
@@ -63,6 +65,8 @@ namespace TurboLabz.Multiplayer
             maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
             minimizeChatDlgBtn.onClick.AddListener(OnCloseChatDlg);
             backToGameBtn.onClick.AddListener(OnCloseChatDlg);
+            opponentChatBubbleButton.onClick.AddListener(OnOpenChatDlg);
+            playerChatBubbleButton.onClick.AddListener(OnOpenChatDlg);
 
             #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
@@ -109,6 +113,7 @@ namespace TurboLabz.Multiplayer
             chatPanel.SetActive(true);
             minimizeChatDlgBtn.gameObject.SetActive(true);
             maximizeChatDlgBtn.gameObject.SetActive(false);
+            backToFriendsButton.gameObject.SetActive(false);
             backToFriendsLabel.gameObject.SetActive(false);
             backToGameBtnTxt.gameObject.SetActive(true);
             StartCoroutine(SetScrollPosition());
@@ -119,7 +124,8 @@ namespace TurboLabz.Multiplayer
             chatPanel.SetActive(false);
             minimizeChatDlgBtn.gameObject.SetActive(false);
             maximizeChatDlgBtn.gameObject.SetActive(true);
-            backToFriendsLabel.gameObject.SetActive(true);
+            backToFriendsButton.gameObject.SetActive(isLongPlay);
+            backToFriendsLabel.gameObject.SetActive(isLongPlay);
             backToGameBtnTxt.gameObject.SetActive(false);
         }
 
