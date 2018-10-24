@@ -49,13 +49,13 @@ namespace TurboLabz.InstantFramework
 
         private void OnNotNow()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         private void OnRate()
         {
             rateAppService.RateApp();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }
 }

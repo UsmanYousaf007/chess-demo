@@ -13,12 +13,18 @@ namespace TurboLabz.InstantGame
 {
     public class LoadFriendsCommand : Command
     {
+        // Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IRateAppService rateAppService { get; set; }
 
         public override void Execute()
         {
@@ -28,6 +34,10 @@ namespace TurboLabz.InstantGame
             {
                 friendsShowConnectFacebookSignal.Dispatch(false);
 
+                if (!preferencesModel.hasRated && playerModel.totalGamesWon >= metaDataModel.appInfo.rateAppThreshold)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
+                }
             }
             else
             {
