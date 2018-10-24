@@ -32,6 +32,13 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
+            // Safety, this should never be the case
+            if (matchInfoModel.activeMatch == null)
+            {
+                Release();
+                return;
+            }
+
             recipientId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
             backendService.SendChatMessage(recipientId, chatMessage).Then(OnMessageSent);
         }

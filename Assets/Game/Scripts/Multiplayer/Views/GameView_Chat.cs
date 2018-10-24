@@ -19,6 +19,13 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         [Header("Chat")]
+        public Image opponentHeaderProfilePic;
+        public Text opponentHeaderName;
+        public GameObject[] defaultInfoSet;
+        public Text defaultDayLineHeader;
+        public TMP_Text defaultSystemMessage;
+
+
         public ChatBubble opponentChatBubble;
         public ChatBubble playerChatBubble;
         public Button opponentChatBubbleButton;
@@ -64,6 +71,8 @@ namespace TurboLabz.Multiplayer
         {
             backToGameBtnTxt.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
             clearChatBtnTxt.text = localizationService.Get(LocalizationKey.CHAT_CLEAR);
+            defaultDayLineHeader.text = localizationService.Get(LocalizationKey.CHAT_DEFAULT_DAY_LINE);
+            defaultSystemMessage.text = localizationService.Get(LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE);
 
             inputField.onSubmit.AddListener(OnSubmit);
             maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
@@ -93,9 +102,18 @@ namespace TurboLabz.Multiplayer
             chatBubbleCloneSourceLeft = null;
             chatBubbleCloneSourceRight = null;
 
+            opponentHeaderName.text = vo.opponentName;
 
-            if (vo.playerProfilePic != null) playerProfilePic = vo.playerProfilePic;
-            if (vo.opponentProfilePic != null) opponentProfilePic = vo.opponentProfilePic;
+            if (vo.playerProfilePic != null)
+            {
+                playerProfilePic = vo.playerProfilePic;
+            }
+
+            if (vo.opponentProfilePic != null)
+            {
+                opponentProfilePic = vo.opponentProfilePic;
+                opponentHeaderProfilePic.sprite = vo.opponentProfilePic;
+            }
 
             foreach (ChatMessage message in vo.chatMessages.messageList)
             {
@@ -105,7 +123,11 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateChatOpponentPic(Sprite sprite)
         {
-            if (sprite != null) opponentProfilePic = sprite;
+            if (sprite != null)
+            {
+                opponentProfilePic = sprite;
+                opponentHeaderProfilePic.sprite = sprite;
+            }
         }
 
         public void ShowChatDlg()
@@ -173,6 +195,11 @@ namespace TurboLabz.Multiplayer
 
         void AddChatBubble(ChatMessage message, bool isPlayer)
         {
+            foreach (GameObject obj in defaultInfoSet)
+            {
+                obj.SetActive(false);
+            }
+
             GameObject chatBubbleContainer;
             DateTime dt = TimeUtil.ToDateTime(message.timestamp).ToLocalTime();
 
@@ -261,6 +288,11 @@ namespace TurboLabz.Multiplayer
 
             chatObjs.Clear();
             dayLines.Clear();
+
+            foreach (GameObject obj in defaultInfoSet)
+            {
+                obj.SetActive(true);
+            }
         }
 
         void OnClearActiveChat()

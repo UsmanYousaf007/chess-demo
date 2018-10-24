@@ -224,6 +224,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_TODAY, "TODAY" },
                 { LocalizationKey.CHAT_YESTERDAY, "YESTERDAY" },
                 { LocalizationKey.CHAT_CLEAR, "CLEAR" },
+                { LocalizationKey.CHAT_DEFAULT_DAY_LINE, "TODAY" },
+                { LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE, "Please be courteous to other players." },
 
 
                 #endregion

@@ -10,5 +10,6 @@ namespace TurboLabz.Multiplayer
         public string playerId;
         public Sprite playerProfilePic;
         public Sprite opponentProfilePic;
+        public string opponentName;
     }
 }

@@ -219,6 +219,8 @@ namespace TurboLabz.InstantFramework
         public const string CHAT_TODAY = "chatToday";
         public const string CHAT_YESTERDAY = "chatYesterday";
         public const string CHAT_CLEAR = "chatClear";
+        public const string CHAT_DEFAULT_DAY_LINE = "chatDefaultDayLine";
+        public const string CHAT_DEFAULT_SYSTEM_MESSAGE = "chatDefaultSystemMessage";
 
         #endregion
 

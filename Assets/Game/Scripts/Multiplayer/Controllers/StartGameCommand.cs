@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
             // PREPARE CHAT
             ChatVO vo = new ChatVO();
             vo.chatMessages = chatModel.GetChat(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+            vo.opponentName = matchInfoModel.activeMatch.opponentPublicProfile.name;
             vo.playerId = playerModel.id;
             vo.playerProfilePic = playerModel.profilePic;
 

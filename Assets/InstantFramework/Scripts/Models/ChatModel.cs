@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
         {
             if (!chatHistory.ContainsKey(playerId))
             {
-                chatHistory[playerId] = new ChatMessages();
+                chatHistory[playerId] = GetChat(playerId);
             }
 
             chatHistory[playerId].messageList.Add(message);
