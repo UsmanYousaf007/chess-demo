@@ -14,6 +14,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch Signals
         [Inject] public SendChatMessageSignal sendChatMessageSignal { get; set; }
         [Inject] public ClearActiveChatSignal clearActiveChatSignal { get; set; }
+        [Inject] public ClearUnreadMessagesSignal clearUnreadMessagesSignal { get; set; }
 
         public void OnRegisterChat()
         {
@@ -22,6 +23,7 @@ namespace TurboLabz.Multiplayer
             view.openChatDlgSignal.AddListener(OnOpenChatDlg);
             view.closeChatDlgSignal.AddListener(OnCloseChatDlg);
             view.clearActiveChatSignal.AddListener(OnClearActiveChat);
+            view.clearUnreadMessagesSignal.AddListener(OnClearUnreadMessages);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -79,5 +81,11 @@ namespace TurboLabz.Multiplayer
         {
             clearActiveChatSignal.Dispatch();
         }
+
+        void OnClearUnreadMessages()
+        {
+            clearUnreadMessagesSignal.Dispatch();
+        }
+
     }
 }

@@ -20,12 +20,11 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public DisplayChatMessageSignal displayChatMessageSignal { get; set; }
+        [Inject] public AddUnreadMessagesToBarSignal addUnreadMessagesSignal { get; set; }
 
         // Models
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
-
-        private string opponentId;
 
         public override void Execute()
         {
@@ -35,6 +34,19 @@ namespace TurboLabz.InstantFramework
                 chatMessage.senderId == matchInfoModel.activeMatch.opponentPublicProfile.playerId)
             {
                 displayChatMessageSignal.Dispatch(chatMessage);
+            }
+            else
+            {
+                if (chatModel.hasUnreadMessages.ContainsKey(chatMessage.senderId))
+                {
+                    chatModel.hasUnreadMessages[chatMessage.senderId] = true;
+                }
+                else
+                {
+                    chatModel.hasUnreadMessages.Add(chatMessage.senderId, true);
+                }
+
+                addUnreadMessagesSignal.Dispatch(chatMessage.senderId);
             }
         }
     }

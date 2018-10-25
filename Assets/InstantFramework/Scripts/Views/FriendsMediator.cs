@@ -148,6 +148,18 @@ namespace TurboLabz.InstantFramework
             view.ToggleFacebookButton(toggle);
         }
 
+        [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
+        public void OnAddUnreadMessages(string friendId)
+        {
+            view.AddUnreadMessages(friendId);
+        }
+
+        [ListensTo(typeof(ClearUnreadMessagesFromBarSignal))]
+        public void OnClearUnreadMessages(string friendId)
+        {
+            view.ClearUnreadMessages(friendId);
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();

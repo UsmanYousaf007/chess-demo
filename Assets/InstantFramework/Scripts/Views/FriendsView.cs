@@ -259,6 +259,22 @@ namespace TurboLabz.InstantFramework
             RefreshDefaultMessages();
         }
 
+        public void AddUnreadMessages(string friendId)
+        {
+            if (bars.ContainsKey(friendId))
+            {
+                bars[friendId].unreadChat.SetActive(true);
+            }
+        }
+
+        public void ClearUnreadMessages(string friendId)
+        {
+            if (bars.ContainsKey(friendId))
+            {
+                bars[friendId].unreadChat.SetActive(false);
+            }
+        }
+
         public void ToggleFacebookButton(bool toggle)
         {
             facebookLoginButton.interactable = toggle;

@@ -24,16 +24,14 @@ namespace TurboLabz.Multiplayer
         public GameObject[] defaultInfoSet;
         public Text defaultDayLineHeader;
         public TMP_Text defaultSystemMessage;
-        public GameObject unreadMessagesIndicator;
-
 
         public ChatBubble opponentChatBubble;
         public ChatBubble playerChatBubble;
         public Button opponentChatBubbleButton;
         public Button playerChatBubbleButton;
         public TMP_InputField inputField; 
-        public GameObject chatCounter;
-        public Text chatCounterLabel;
+        public GameObject unreadMessagesIndicator;
+
 
         public GameObject chatPanel;
         public Button maximizeChatDlgBtn;
@@ -45,6 +43,7 @@ namespace TurboLabz.Multiplayer
         public Signal openChatDlgSignal = new Signal();
         public Signal closeChatDlgSignal = new Signal();
         public Signal clearActiveChatSignal = new Signal();
+        public Signal clearUnreadMessagesSignal = new Signal();
 
         public Transform scrollViewContent;
         public ScrollRect scrollRect;
@@ -121,6 +120,8 @@ namespace TurboLabz.Multiplayer
                 bool isPlayerMessage = vo.playerId == message.senderId;
                 AddChatBubble(message, isPlayerMessage);
             }
+
+            unreadMessagesIndicator.SetActive(vo.hasUnreadMessages);
         }
 
         public void UpdateChatOpponentPic(Sprite sprite)
@@ -141,6 +142,9 @@ namespace TurboLabz.Multiplayer
             backToFriendsLabel.gameObject.SetActive(false);
             backToGameBtnTxt.gameObject.SetActive(true);
             StartCoroutine(SetScrollPosition());
+
+            unreadMessagesIndicator.SetActive(false);
+            clearUnreadMessagesSignal.Dispatch();
         }
 
         public void HideChatDlg()

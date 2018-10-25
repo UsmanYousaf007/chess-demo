@@ -84,6 +84,8 @@ namespace TurboLabz.InstantFramework
     public class DisplayChatMessageSignal : Signal<ChatMessage> {}
     public class ClearActiveChatSignal : Signal {}
     public class ClearUnreadMessagesSignal : Signal {}
+    public class AddUnreadMessagesToBarSignal : Signal<string> {}
+    public class ClearUnreadMessagesFromBarSignal : Signal<string> {}
  
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}

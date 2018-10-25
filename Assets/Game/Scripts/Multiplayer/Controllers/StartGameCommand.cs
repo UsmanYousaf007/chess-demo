@@ -36,9 +36,11 @@ namespace TurboLabz.InstantFramework
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ACCEPT_REQUESTED);
             }
 
+            string opponentId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
+
             // PREPARE CHAT
             ChatVO vo = new ChatVO();
-            vo.chatMessages = chatModel.GetChat(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+            vo.chatMessages = chatModel.GetChat(opponentId);
             vo.opponentName = matchInfoModel.activeMatch.opponentPublicProfile.name;
             vo.playerId = playerModel.id;
             vo.playerProfilePic = playerModel.profilePic;
@@ -46,8 +48,6 @@ namespace TurboLabz.InstantFramework
             // Handle long match pictures
             if (matchInfoModel.activeMatch.isLongPlay)
             {
-                string opponentId = matchInfoModel.activeLongMatchOpponentId;
-
                 if (playerModel.friends.ContainsKey(opponentId))
                 {
                     vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
@@ -58,7 +58,8 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            //vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+            vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(opponentId);
+
             enableGameChatSignal.Dispatch(vo);
         }
     }

@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public Image onlineStatus;
         public Sprite online;
         public Sprite offline;
+        public GameObject unreadChat;
 
     }
 }

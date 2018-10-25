@@ -15,20 +15,22 @@ namespace TurboLabz.InstantFramework
 {
     public class ClearUnreadMessagesCommand : Command
     {
+        // Dispatch Signals
+        [Inject] public ClearUnreadMessagesFromBarSignal clearUnreadMessagesFromBarSignal { get; set; }
+
         // Models
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
-        private string opponentId;
-
         public override void Execute()
         {
-            /*
-            if (chatModel.hasUnreadMessages.ContainsKey(matchInfoModel.activeMatch.opponentPublicProfile.playerId))
+            string opponentId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
+
+            if (chatModel.hasUnreadMessages.ContainsKey(opponentId))
             {
-                chatModel.hasUnreadMessages.Remove(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+                chatModel.hasUnreadMessages.Remove(opponentId);
+                clearUnreadMessagesFromBarSignal.Dispatch(opponentId);
             }
-            */
         }
     }
 }

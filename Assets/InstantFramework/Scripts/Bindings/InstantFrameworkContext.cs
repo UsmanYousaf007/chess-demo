@@ -106,6 +106,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SortFriendsSignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<SetActionCountSignal>().ToSingleton();
+            injectionBinder.Bind<AddUnreadMessagesToBarSignal>().ToSingleton();
+            injectionBinder.Bind<ClearUnreadMessagesFromBarSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
