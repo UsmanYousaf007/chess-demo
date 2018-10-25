@@ -42,6 +42,12 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform[] mpLeft;
     public RectTransform[] mpRight;
 
+    [Header("Chat")]
+    public RectTransform chatTopBar;
+    public RectTransform chatBackLabel;
+    public RectTransform chatScrollView;
+    public RectTransform chatViewPort;
+
     [Header("Editor")]
     public GameObject notchOverlay;
 
@@ -99,7 +105,7 @@ public class NotchHandler : MonoBehaviour {
         foreach (RectTransform tfm in cpuRight)
             ShiftX(tfm, -10f);
 
-        // FRIENDS GAME
+        // MULTIPLAYER GAME
         SetY(mpTopPanel, -97f);
         SetY(mpTopBar, -158f);
         SetY(mpBotBar, 141f);
@@ -107,6 +113,13 @@ public class NotchHandler : MonoBehaviour {
             ShiftX(tfm, 10f);
         foreach (RectTransform tfm in mpRight)
             ShiftX(tfm, -10f);
+
+        // CHAT
+        SetY(chatTopBar, -193.1f);
+        SetY(chatBackLabel, -883f);
+        SetY(chatScrollView, -39.55f);
+        SetHeight(chatScrollView, 1565.9f);
+        SetBottom(chatViewPort, -11f);
     }
 
     void SetY(RectTransform tfm, float y)
@@ -143,5 +156,10 @@ public class NotchHandler : MonoBehaviour {
     void SetLocalScale(RectTransform tfm, float scale)
     {
         tfm.localScale = new Vector3(scale, scale, tfm.localScale.z);
+    }
+
+    void SetHeight(RectTransform tfm, float height)
+    {
+        tfm.sizeDelta = new Vector2(tfm.sizeDelta.x, height);
     }
 }

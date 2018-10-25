@@ -21,6 +21,10 @@ namespace TurboLabz.Multiplayer
         [Header("Chat")]
         public Image opponentHeaderProfilePic;
         public Text opponentHeaderName;
+        public Image opponentOnlineStatus;
+        public Image opponentInGameOnlineStatus;
+        public Sprite online;
+        public Sprite offline;
         public GameObject[] defaultInfoSet;
         public Text defaultDayLineHeader;
         public TMP_Text defaultSystemMessage;
@@ -66,6 +70,7 @@ namespace TurboLabz.Multiplayer
         List<int> dayLines = new List<int>();
         GameObject chatBubbleCloneSourceLeft;
         GameObject chatBubbleCloneSourceRight;
+        string opponentId;
 
         public void InitChat()
         {
@@ -122,6 +127,10 @@ namespace TurboLabz.Multiplayer
             }
 
             unreadMessagesIndicator.SetActive(vo.hasUnreadMessages);
+            opponentId = vo.opponentId;
+
+            opponentOnlineStatus.sprite = opponentInGameOnlineStatus.sprite;
+
         }
 
         public void UpdateChatOpponentPic(Sprite sprite)
@@ -130,6 +139,14 @@ namespace TurboLabz.Multiplayer
             {
                 opponentProfilePic = sprite;
                 opponentHeaderProfilePic.sprite = sprite;
+            }
+        }
+
+        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        {
+            if (friendId == opponentId)
+            {
+                opponentOnlineStatus.sprite = isOnline ? online : offline;
             }
         }
 
@@ -212,24 +229,25 @@ namespace TurboLabz.Multiplayer
             DateTime dt = TimeUtil.ToDateTime(message.timestamp).ToLocalTime();
 
             // Handle daylines
-            int daysSinceNow = DateTime.UtcNow.Subtract(dt).Days;
+            double daysSinceNow = DateTime.UtcNow.Subtract(dt).TotalDays;
+            int dayLineIndex = Mathf.FloorToInt((float)daysSinceNow);
 
-            if (dayLines.IndexOf(daysSinceNow) < 0)
+            if (dayLines.IndexOf(dayLineIndex) < 0)
             {
-                dayLines.Add(daysSinceNow);
+                dayLines.Add(dayLineIndex);
                 GameObject dayLine = GameObject.Instantiate(chatDayLinePrefab);
                 chatObjs.Add(dayLine);
                 Text dayLineText = dayLine.GetComponent<Text>();
 
-                if (daysSinceNow == 0)
+                if (daysSinceNow < 1)
                 {
                     dayLineText.text = localizationService.Get(LocalizationKey.CHAT_TODAY);
                 }
-                else if (daysSinceNow == 1)
+                else if (daysSinceNow < 2)
                 {
                     dayLineText.text = localizationService.Get(LocalizationKey.CHAT_YESTERDAY);
                 }
-                else if (daysSinceNow > 1)
+                else
                 {
                     dayLineText.text = dt.ToString("MMMM dd");
                 }

@@ -24,6 +24,13 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+            // Safety
+            if (matchInfoModel.activeMatch == null)
+            {
+                return;
+            }
+
+
             string opponentId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
 
             if (chatModel.hasUnreadMessages.ContainsKey(opponentId))

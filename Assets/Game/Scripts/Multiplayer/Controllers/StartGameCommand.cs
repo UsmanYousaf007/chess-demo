@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
             vo.opponentName = matchInfoModel.activeMatch.opponentPublicProfile.name;
             vo.playerId = playerModel.id;
             vo.playerProfilePic = playerModel.profilePic;
+            vo.opponentId = opponentId;
 
             // Handle long match pictures
             if (matchInfoModel.activeMatch.isLongPlay)

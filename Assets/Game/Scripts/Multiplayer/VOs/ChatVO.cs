@@ -8,6 +8,7 @@ namespace TurboLabz.Multiplayer
     {
         public ChatMessages chatMessages;
         public string playerId;
+        public string opponentId;
         public Sprite playerProfilePic;
         public Sprite opponentProfilePic;
         public string opponentName;
