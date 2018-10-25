@@ -19,11 +19,19 @@ namespace TurboLabz.Multiplayer
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void Execute()
         {
             resetActiveMatchSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
+
+            if (!preferencesModel.hasRated && playerModel.totalGamesWon >= metaDataModel.appInfo.rateAppThreshold)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
+            }
         }
     }
 }

@@ -47505,8 +47505,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1585946390}
+  m_Children: []
   m_Father: {fileID: 1302150908}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49971,7 +49970,7 @@ RectTransform:
   - {fileID: 1089695881}
   - {fileID: 2064624907}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -58777,6 +58776,7 @@ RectTransform:
   - {fileID: 1584410071}
   - {fileID: 886611726}
   - {fileID: 15691873}
+  - {fileID: 1585946390}
   - {fileID: 2071510899}
   - {fileID: 1325107859}
   - {fileID: 1900671252}
@@ -60489,7 +60489,7 @@ GameObject:
   - component: {fileID: 1585946391}
   - component: {fileID: 1585946393}
   m_Layer: 5
-  m_Name: RateApp
+  m_Name: RateAppDlg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60507,13 +60507,13 @@ RectTransform:
   m_LocalScale: {x: 1.5875229, y: 1.0000118, z: 1.0000118}
   m_Children:
   - {fileID: 1227361227}
-  m_Father: {fileID: 1252146183}
-  m_RootOrder: 0
+  m_Father: {fileID: 1542369593}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 924, y: 1948}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1585946391
 MonoBehaviour:
@@ -60932,7 +60932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -391}
+  m_AnchoredPosition: {x: 0, y: -402.88098}
   m_SizeDelta: {x: 800, y: 169}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1590955218
@@ -60956,7 +60956,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 28942cad5eb19471f854ded142325af7, type: 3}
+    m_Font: {fileID: 12800000, guid: 11baf4b87a60d4bd09b6cb3128f59de2, type: 3}
     m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 1
@@ -73948,7 +73948,7 @@ RectTransform:
   m_Children:
   - {fileID: 1129350259}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -80320,7 +80320,7 @@ RectTransform:
   - {fileID: 110071681}
   - {fileID: 2046790556}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
