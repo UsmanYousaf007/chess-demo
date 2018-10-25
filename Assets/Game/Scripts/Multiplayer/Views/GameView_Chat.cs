@@ -81,7 +81,8 @@ namespace TurboLabz.Multiplayer
             defaultDayLineHeader.text = localizationService.Get(LocalizationKey.CHAT_DEFAULT_DAY_LINE);
             defaultSystemMessage.text = localizationService.Get(LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE);
 
-            inputField.onSubmit.AddListener(OnSubmit);
+            inputField.onEndEdit.AddListener(OnSubmit);
+
             maximizeChatDlgBtn.onClick.AddListener(OnOpenChatDlg);
             minimizeChatDlgBtn.onClick.AddListener(OnCloseChatDlg);
             backToGameBtn.onClick.AddListener(OnCloseChatDlg);
@@ -111,12 +112,14 @@ namespace TurboLabz.Multiplayer
 
             opponentHeaderName.text = vo.opponentName;
 
-            if (vo.playerProfilePic != null)
-            {
-                playerProfilePic = vo.playerProfilePic;
-            }
+            playerProfilePic = (vo.playerProfilePic == null) ? defaultAvatar : vo.playerProfilePic;
 
-            if (vo.opponentProfilePic != null)
+            if (vo.opponentProfilePic == null)
+            {
+                opponentProfilePic = defaultAvatar;
+                opponentHeaderProfilePic.sprite = defaultAvatar;
+            }
+            else
             {
                 opponentProfilePic = vo.opponentProfilePic;
                 opponentHeaderProfilePic.sprite = vo.opponentProfilePic;
@@ -137,7 +140,12 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateChatOpponentPic(Sprite sprite)
         {
-            if (sprite != null)
+            if (sprite == null)
+            {
+                opponentProfilePic = defaultAvatar;
+                opponentHeaderProfilePic.sprite = defaultAvatar;
+            }
+            else
             {
                 opponentProfilePic = sprite;
                 opponentHeaderProfilePic.sprite = sprite;
@@ -273,7 +281,15 @@ namespace TurboLabz.Multiplayer
                 }
 
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
-                if (playerProfilePic != null) bubble.profilePic.sprite = playerProfilePic;
+
+                if (playerProfilePic == null)
+                {
+                    bubble.profilePic.sprite = defaultAvatar;
+                }
+                else
+                {
+                    bubble.profilePic.sprite = playerProfilePic;
+                }
             }
             else
             {
@@ -288,7 +304,15 @@ namespace TurboLabz.Multiplayer
                 }
 
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
-                if (opponentProfilePic != null) bubble.profilePic.sprite = opponentProfilePic;
+
+                if (opponentProfilePic == null)
+                {
+                    bubble.profilePic.sprite = defaultAvatar;
+                }
+                else
+                {
+                    bubble.profilePic.sprite = opponentProfilePic;
+                }
             }
 
 
