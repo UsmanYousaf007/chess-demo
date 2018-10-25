@@ -13,6 +13,7 @@ using TMPro;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Multiplayer
 {
@@ -42,6 +43,7 @@ namespace TurboLabz.Multiplayer
         public Button minimizeChatDlgBtn;
         public Button clearActiveChatBtn;
         public Text clearChatBtnTxt;
+        public Image chatPanelBackground;
 
         public Signal<string> chatSubmitSignal = new Signal<string>();
         public Signal openChatDlgSignal = new Signal();
@@ -97,7 +99,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnParentShowChat()
         {
-            // Nothing to do for now
+            chatPanelBackground.color = Colors.ColorAlpha(chatPanelBackground.color, Colors.FULL_ALPHA);
         }
 
         public void EnableGameChat(ChatVO vo)

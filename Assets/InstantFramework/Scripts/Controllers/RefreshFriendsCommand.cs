@@ -19,10 +19,12 @@ namespace TurboLabz.InstantGame
         [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
+        [Inject] public AddUnreadMessagesToBarSignal addUnreadMessagesSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IChatModel chatModel { get; set; }
 
         public override void Execute()
         {
@@ -45,6 +47,11 @@ namespace TurboLabz.InstantGame
             foreach (string key in playerModel.friends.Keys)
             {
                 updateFriendBarSignal.Dispatch(playerModel.friends[key], key);
+
+                if (chatModel.hasUnreadMessages.ContainsKey(key))
+                {
+                    addUnreadMessagesSignal.Dispatch(key);
+                }
             }
 
             sortFriendsSignal.Dispatch();

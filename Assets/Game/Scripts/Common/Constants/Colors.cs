@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         public static readonly Color PLAYER_MESSAGE = new Color(215f/255f, 247f/255f, 191f/255f);
         public const float DISABLED_TEXT_ALPHA = 128f/255f;
         public const float ENABLED_TEXT_ALPHA = 222f/255f;
+        public const float FULL_ALPHA = 1f;
 
 		public static Color ColorAlpha(Color c, float a) 
 		{

@@ -109,7 +109,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
                 { LocalizationKey.CPU_GAME_SAVE_AND_EXIT, "SAVE & EXIT" },
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },
-                { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "VIEW GAME" },
+                { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "BACK TO GAME" },
 				{ LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "HOME" },
                 { LocalizationKey.CPU_FREE_BUCKS_REWARD_OK, "OK" },
@@ -205,6 +205,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS, "BACK" },
                 { LocalizationKey.LONG_PLAY_BACK_TO_GAME, "BACK" },
+                { LocalizationKey.LONG_PLAY_RESULTS_BACK, "BACK TO FRIENDS" },
                 { LocalizationKey.BOT_NAV_NEXT, "Next" },
                 { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
 

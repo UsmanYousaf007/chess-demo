@@ -79,7 +79,7 @@ namespace TurboLabz.Multiplayer
 
             declinedHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
             declinedReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
-            declinedLobbyButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS).ToUpper();
+            declinedLobbyButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_RESULTS_BACK);
 		
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
             declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
@@ -131,7 +131,7 @@ namespace TurboLabz.Multiplayer
 
             if (isLongPlay)
             {
-                resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS).ToUpper();
+                resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_RESULTS_BACK).ToUpper();
             }
             else
             {
