@@ -12,8 +12,16 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 
-        public void RateApp()
+        public void RateApp(bool goRate)
         {
+            preferencesModel.hasRated = true;
+
+            // Bail if not going to rate
+            if (!goRate)
+            {
+                return;
+            }
+
             #if UNITY_IOS
             //UnityEngine.iOS.Device.RequestStoreReview();
             Application.OpenURL(metaDataModel.appInfo.iosURL + "?action=write-review");
@@ -27,8 +35,6 @@ namespace TurboLabz.InstantFramework
             Application.OpenURL("https://itunes.apple.com/us/app/chess/id1386718098?mt=8");
             Application.OpenURL("https://play.google.com/store/apps/details?id=com.turbolabz.instantchess.android.googleplay");
             #endif
-
-            preferencesModel.hasRated = true;
         }
     }
 }

@@ -7,6 +7,6 @@ namespace TurboLabz.InstantFramework
 {
     public interface IRateAppService
     {
-        void RateApp();
+        void RateApp(bool goRate);
     }
 }
