@@ -46,17 +46,19 @@ namespace TurboLabz.InstantFramework
             vo.playerProfilePic = playerModel.profilePic;
             vo.opponentId = opponentId;
 
-            // Handle long match pictures
-            if (matchInfoModel.activeMatch.isLongPlay)
+            // Try your best to grab the picture
+            if (playerModel.friends.ContainsKey(opponentId))
             {
-                if (playerModel.friends.ContainsKey(opponentId))
-                {
-                    vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
-                }
-                else if (playerModel.community.ContainsKey(opponentId))
-                {
-                    vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
-                }
+                vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
+            }
+            else if (playerModel.community.ContainsKey(opponentId))
+            {
+                vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
+            }
+
+            if (vo.opponentProfilePic == null)
+            {
+                vo.opponentProfilePic = matchInfoModel.activeMatch.opponentPublicProfile.profilePicture;
             }
 
             vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(opponentId);

@@ -15,6 +15,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using System.Text;
 using TurboLabz.CPU;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
@@ -27,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorShowViewSignal showViewSignal { get; set; }
         [Inject] public NavigatorHideViewSignal hideViewSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }

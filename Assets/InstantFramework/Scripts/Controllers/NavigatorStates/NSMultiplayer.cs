@@ -36,7 +36,12 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    if (!cmd.matchInfoModel.activeMatch.isLongPlay)
+                    if (cmd.matchInfoModel.activeMatch.isLongPlay)
+                    {
+                        cmd.exitLongMatchSignal.Dispatch();
+                        return null;
+                    }
+                    else
                     {
                         return new NSMultiplayerExitDlg();
                     }

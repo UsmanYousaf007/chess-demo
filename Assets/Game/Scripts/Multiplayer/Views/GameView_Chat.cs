@@ -73,6 +73,7 @@ namespace TurboLabz.Multiplayer
         GameObject chatBubbleCloneSourceLeft;
         GameObject chatBubbleCloneSourceRight;
         string opponentId;
+        List<Image> opponentEmptyPics = new List<Image>();
 
         public void InitChat()
         {
@@ -149,6 +150,11 @@ namespace TurboLabz.Multiplayer
             {
                 opponentProfilePic = sprite;
                 opponentHeaderProfilePic.sprite = sprite;
+
+                foreach (Image img in opponentEmptyPics)
+                {
+                    img.sprite = sprite;
+                }
             }
         }
 
@@ -313,6 +319,11 @@ namespace TurboLabz.Multiplayer
                 {
                     bubble.profilePic.sprite = opponentProfilePic;
                 }
+
+                if (bubble.profilePic.sprite.name == defaultAvatar.name)
+                {
+                    opponentEmptyPics.Add(bubble.profilePic);
+                }
             }
 
 
@@ -340,6 +351,7 @@ namespace TurboLabz.Multiplayer
 
             chatObjs.Clear();
             dayLines.Clear();
+            opponentEmptyPics.Clear();
 
             foreach (GameObject obj in defaultInfoSet)
             {

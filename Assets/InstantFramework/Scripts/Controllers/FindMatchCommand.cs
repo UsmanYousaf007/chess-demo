@@ -86,6 +86,8 @@ namespace TurboLabz.InstantFramework
                 matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
                 ProfileVO pvo = GetOpponentProfile();
                 updateOpponentProfileSignal.Dispatch(pvo);
+
+                LogUtil.Log("UPDATING OPPONENT PIC " + sprite.name, "cyan");
                 updateChatOpponentPicSignal.Dispatch(sprite);
             }
 
