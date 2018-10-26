@@ -178,6 +178,8 @@ namespace TurboLabz.Multiplayer
 
             unreadMessagesIndicator.SetActive(false);
             clearUnreadMessagesSignal.Dispatch();
+
+            chessboardBlocker.SetActive(true);
         }
 
         public void HideChatDlg()
@@ -188,6 +190,8 @@ namespace TurboLabz.Multiplayer
             backToFriendsButton.gameObject.SetActive(isLongPlay);
             backToFriendsLabel.gameObject.SetActive(isLongPlay);
             backToGameBtnTxt.gameObject.SetActive(false);
+
+            chessboardBlocker.SetActive(false);
         }
 
         public void OnReceive(ChatMessage message)
@@ -223,15 +227,12 @@ namespace TurboLabz.Multiplayer
         void OnOpenChatDlg()
         {
             openChatDlgSignal.Dispatch();
-            chessboardBlocker.SetActive(true);
-
-
         }
 
         void OnCloseChatDlg()
         {
             closeChatDlgSignal.Dispatch();
-            chessboardBlocker.SetActive(false);
+            
         }
 
         void AddChatBubble(ChatMessage message, bool isPlayer)
