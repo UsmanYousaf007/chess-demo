@@ -9,6 +9,7 @@ public class GameSparksConfig : MonoBehaviour {
     public GameObject Dev;
 
     public string configURL = "";
+    public bool checkStagingURL = false;
 
     // URL such as https://turbolabz.com/wp-content/uploads/2018/09/chessstar-3-3-2-1.odt;
 
@@ -31,10 +32,15 @@ public class GameSparksConfig : MonoBehaviour {
             return;
         }
 
-        Live.SetActive(true);
+        if (checkStagingURL)
+        {
+            StartCoroutine(CheckStageURL(configURL));
+        }
+        else
+        {
+            Live.SetActive(true);
+        }
         #endif
-
-        //StartCoroutine(CheckStageURL(configURL));
 	}
 
     IEnumerator CheckStageURL(string url)

@@ -57,6 +57,17 @@ namespace TurboLabz.InstantFramework
 
             if (isNewMatch)
             {
+                ///////////////////////////////////////////////////////////////////////////////////////
+                // Leave if this is a long match challenge by a blocked user
+                string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
+                string challengedId = matchData.GetString (GSBackendKeys.Match.CHALLENGED_ID);
+                string challengerId = matchData.GetString (GSBackendKeys.Match.CHALLENGER_ID);
+                string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
+                if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE &&
+                    playerModel.blocked.ContainsKey(opponentId)) {
+                    return;
+                }
+
                 SetupMatch(challengeId, matchData, gameData);
                 SetupGame(challengeId, gameData);
             }

@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
 		[Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
 
         IStoreController storeController = null;
+        IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
 		IPromise<bool> promise = null;
 		purchaseProcessState purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
 
@@ -60,6 +61,7 @@ namespace TurboLabz.InstantFramework
 		public void OnInitialized (IStoreController controller, IExtensionProvider extensions)
 		{
 			storeController = controller;
+            m_StoreExtensionProvider = extensions;
 			promise.Dispatch(true);
 		}
 
@@ -160,5 +162,28 @@ namespace TurboLabz.InstantFramework
 				
 			}
 		}
+
+        // Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google. 
+        // Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
+        public void RestorePurchases()
+        {
+            #if UNITY_IOS
+
+            if (storeController == null || m_StoreExtensionProvider == null) 
+            {
+                return;
+            }
+
+            // Fetch the Apple store-specific subsystem.
+            var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
+            // Begin the asynchronous process of restoring purchases. Expect a confirmation response in 
+            // the Action<bool> below, and ProcessPurchase if there are previously purchased products to restore.
+            apple.RestoreTransactions((result) => {
+                // The first phase of restoration. If no more responses are received on ProcessPurchase then 
+                // no purchases are available to be restored.
+            });
+
+            #endif
+        }
 	}
 }

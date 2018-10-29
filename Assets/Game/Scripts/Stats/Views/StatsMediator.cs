@@ -23,6 +23,7 @@ namespace TurboLabz.InstantGame
     public class StatsMediator : Mediator
     {
         // Dispatch signals
+        [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // View injection
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantGame
         public override void OnRegister()
         {
             view.Init();
+            view.restorePurchasesSignal.AddListener(OnRestorePurchases);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -55,6 +57,11 @@ namespace TurboLabz.InstantGame
         public void OnUpdateStats(StatsVO vo)
         {
             view.UpdateView(vo);
+        }
+
+        void OnRestorePurchases()
+        {
+            restorePurchasesSignal.Dispatch();
         }
     }
 }

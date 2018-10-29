@@ -189,6 +189,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
 			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
+            commandBinder.Bind<RestorePurchasesSignal>().To<RestorePurchasesCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();

@@ -17,8 +17,8 @@ namespace TurboLabz.InstantGame
 {
     public class StatsView : View
     {
+        // Services
         [Inject] public ILocalizationService localizationService { get; set; }
-        [Inject] public IAudioService audioService { get; set; }
 
         // Scene references
 
@@ -45,6 +45,9 @@ namespace TurboLabz.InstantGame
         public Sprite goldStar;
 
         public Button privacyPolicy;
+        public Button restorePurchases;
+
+        public Signal restorePurchasesSignal = new Signal();
 
         public void Init()
         {
@@ -64,6 +67,13 @@ namespace TurboLabz.InstantGame
             }
 
             privacyPolicy.onClick.AddListener(OnPrivacyPolicyClicked);
+
+            #if UNITY_IOS
+            restorePurchases.gameObject.SetActive(true);
+            restorePurchases.onClick.AddListener(OnRestorePurchasesClicked);
+            #else
+            restorePurchases.gameObject.SetActive(false);
+            #endif
         }
 
         public void UpdateView(StatsVO vo)
@@ -107,6 +117,11 @@ namespace TurboLabz.InstantGame
         private void OnPrivacyPolicyClicked()
         {
             Application.OpenURL("https://turbolabz.com/privacy-policy/");
+        }
+
+        private void OnRestorePurchasesClicked()
+        {
+            restorePurchasesSignal.Dispatch();
         }
     }
 }
