@@ -65,8 +65,7 @@ namespace TurboLabz.InstantFramework
 			{
 				string filepath = sourcePath + Path.DirectorySeparatorChar + Path.GetFileName(filePath);
 
-				Sprite sprite = new Sprite();
-				sprite = AssetDatabase.LoadAssetAtPath<Sprite>(filepath);
+				Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(filepath);
 				sprites.Add(sprite);
 			}
 				

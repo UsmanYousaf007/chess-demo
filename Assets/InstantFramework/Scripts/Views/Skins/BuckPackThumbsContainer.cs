@@ -55,8 +55,7 @@ namespace TurboLabz.InstantFramework
 
 			foreach(string filePath in files)
 			{
-				Sprite sprite = new Sprite();
-				sprite = AssetDatabase.LoadAssetAtPath<Sprite>(filePath);
+				Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(filePath);
 				sprites.Add(sprite);
 			}
 
