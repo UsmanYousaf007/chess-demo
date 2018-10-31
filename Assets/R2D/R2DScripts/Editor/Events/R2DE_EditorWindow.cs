@@ -60,14 +60,14 @@ namespace R2D
 			R2DC_Main.Instance.EnabledR2D();
 
 			SceneView.onSceneGUIDelegate += OnSceneGUI;
-			EditorApplication.hierarchyWindowChanged += OnHierarchyChanged;
+            EditorApplication.hierarchyChanged += OnHierarchyChanged;
 			AppDomain.CurrentDomain.DomainUnload += OnDomainUnload;
 		}
 
 		void OnDisable() 
         {
 			SceneView.onSceneGUIDelegate -= OnSceneGUI;
-			EditorApplication.hierarchyWindowChanged -= OnHierarchyChanged;
+			EditorApplication.hierarchyChanged -= OnHierarchyChanged;
 
 			R2DC_Main.Instance.DisableR2D();
 		}

@@ -70,8 +70,6 @@ namespace TurboLabz.Multiplayer
 
         List<GameObject> chatObjs = new List<GameObject>();
         List<int> dayLines = new List<int>();
-        GameObject chatBubbleCloneSourceLeft;
-        GameObject chatBubbleCloneSourceRight;
         string opponentId;
         List<Image> opponentEmptyPics = new List<Image>();
 
@@ -108,12 +106,9 @@ namespace TurboLabz.Multiplayer
         {
             CleanUpChat();
 
-            chatBubbleCloneSourceLeft = null;
-            chatBubbleCloneSourceRight = null;
-
             opponentHeaderName.text = vo.opponentName;
 
-            playerProfilePic = (vo.playerProfilePic == null) ? defaultAvatar : vo.playerProfilePic;
+            playerProfilePic = vo.playerProfilePic ?? defaultAvatar;
 
             if (vo.opponentProfilePic == null)
             {
@@ -252,7 +247,8 @@ namespace TurboLabz.Multiplayer
             if (dayLines.IndexOf(dayLineIndex) < 0)
             {
                 dayLines.Add(dayLineIndex);
-                GameObject dayLine = GameObject.Instantiate(chatDayLinePrefab);
+                GameObject dayLine = Instantiate(chatDayLinePrefab);
+                dayLine.SetActive(true);
                 chatObjs.Add(dayLine);
                 Text dayLineText = dayLine.GetComponent<Text>();
 
@@ -277,57 +273,23 @@ namespace TurboLabz.Multiplayer
 
             if (isPlayer)
             {
-                if (chatBubbleCloneSourceRight == null)
-                {
-                    chatBubbleContainer = GameObject.Instantiate(chatBubblePrefabRight);
-                    chatBubbleCloneSourceRight = chatBubbleContainer;
-                }
-                else
-                {
-                    chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSourceRight);
-                }
-
+                chatBubbleContainer = Instantiate(chatBubblePrefabRight);
+                chatBubbleContainer.SetActive(true);
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
-
-                if (playerProfilePic == null)
-                {
-                    bubble.profilePic.sprite = defaultAvatar;
-                }
-                else
-                {
-                    bubble.profilePic.sprite = playerProfilePic;
-                }
+                bubble.profilePic.sprite = playerProfilePic ?? defaultAvatar;
             }
             else
             {
-                if (chatBubbleCloneSourceLeft == null)
-                {
-                    chatBubbleContainer = GameObject.Instantiate(chatBubblePrefabLeft);
-                    chatBubbleCloneSourceLeft = chatBubbleContainer;
-                }
-                else
-                {
-                    chatBubbleContainer = GameObject.Instantiate(chatBubbleCloneSourceLeft);
-                }
-
+                chatBubbleContainer = Instantiate(chatBubblePrefabLeft);
+                chatBubbleContainer.SetActive(true);
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
-
-                if (opponentProfilePic == null)
-                {
-                    bubble.profilePic.sprite = defaultAvatar;
-                }
-                else
-                {
-                    bubble.profilePic.sprite = opponentProfilePic;
-                }
+                bubble.profilePic.sprite = opponentProfilePic ?? defaultAvatar;
 
                 if (bubble.profilePic.sprite.name == defaultAvatar.name)
                 {
                     opponentEmptyPics.Add(bubble.profilePic);
                 }
             }
-
-
 
             chatBubbleContainer.transform.SetParent(scrollViewContent, false);
             chatObjs.Add(chatBubbleContainer);
@@ -347,7 +309,7 @@ namespace TurboLabz.Multiplayer
         {
             foreach (GameObject obj in chatObjs)
             {
-                GameObject.Destroy(obj);
+                Destroy(obj);
             }
 
             chatObjs.Clear();

@@ -11,19 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Ubuntu-Regular
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -1414184678
   material: {fileID: 21656622988898326}
-  materialHashCode: 0
+  materialHashCode: -1644421039
   fontAssetType: 2
   m_fontInfo:
     Name: Ubuntu
     PointSize: 36
-    Scale: 0
+    Scale: 1
     CharacterCount: 210
     LineHeight: 41
     Baseline: 0
     Ascender: 34
-    CapHeight: 0
+    CapHeight: 23.999998
     Descender: -7
     CenterLine: 0
     SuperscriptOffset: 34
@@ -33,7 +33,7 @@ MonoBehaviour:
     UnderlineThickness: 2.844
     strikethrough: 9.818182
     strikethroughThickness: 2.844
-    TabWidth: 0
+    TabWidth: 80
     Padding: 5
     AtlasWidth: 512
     AtlasHeight: 512
@@ -42,10 +42,10 @@ MonoBehaviour:
   - id: 32
     x: 5
     y: 507
-    width: 0
-    height: 0
+    width: 8
+    height: 41
     xOffset: 0
-    yOffset: 0
+    yOffset: 34
     xAdvance: 8
     scale: 1
   - id: 33
@@ -2029,7 +2029,7 @@ Material:
     - _VertexOffsetY: 0
     m_Colors:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
-    - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FaceColor: {r: 0, g: 0, b: 0, a: 0.87058824}
 --- !u!28 &28587610052262330
 Texture2D:
   m_ObjectHideFlags: 0
