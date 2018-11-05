@@ -69,8 +69,10 @@ namespace TurboLabz.InstantGame
             privacyPolicy.onClick.AddListener(OnPrivacyPolicyClicked);
 
             #if UNITY_IOS
-            restorePurchases.gameObject.SetActive(true);
-            restorePurchases.onClick.AddListener(OnRestorePurchasesClicked);
+            // PLACE BACK IN WHEN REMOVE ADS IS ENABLED
+            restorePurchases.gameObject.SetActive(false);
+            //restorePurchases.gameObject.SetActive(true);
+            //restorePurchases.onClick.AddListener(OnRestorePurchasesClicked);
             #else
             restorePurchases.gameObject.SetActive(false);
             #endif

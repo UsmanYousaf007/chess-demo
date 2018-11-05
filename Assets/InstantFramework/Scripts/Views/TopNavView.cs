@@ -47,6 +47,9 @@ namespace TurboLabz.InstantFramework
             removeAdsLabel.text = localizationService.Get(LocalizationKey.REMOVE_ADS);
 
             RefreshAudioButtons();
+
+            // REMOVE WHEN ADS ARE SWITCHED ON
+            removeAdsButton.gameObject.SetActive(false);
         }
 
         protected override void OnEnable()
@@ -64,7 +67,8 @@ namespace TurboLabz.InstantFramework
         {
             freeNoAdsPeriodLabel.text = localizationService.Get(LocalizationKey.FREE_NO_ADS_PERIOD);
 
-            removeAdsButton.gameObject.SetActive(!isRemoved);
+            // UNCOMMNENT WHEN ADS FEATURE BECOMES AVAILABLE
+            //removeAdsButton.gameObject.SetActive(!isRemoved);
 
             if (isRemoved || freePeriod == null)
             {
