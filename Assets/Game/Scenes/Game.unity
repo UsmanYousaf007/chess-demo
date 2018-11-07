@@ -11925,9 +11925,9 @@ RectTransform:
   m_Children:
   - {fileID: 848027596}
   - {fileID: 739817019}
+  - {fileID: 983374614}
   - {fileID: 1037790133}
   - {fileID: 540490839}
-  - {fileID: 983374614}
   - {fileID: 2114619435}
   - {fileID: 1708956978}
   - {fileID: 41355601}
@@ -21190,7 +21190,7 @@ RectTransform:
   - {fileID: 1140091964}
   - {fileID: 1420992049}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -37823,7 +37823,7 @@ RectTransform:
   - {fileID: 551201853}
   - {fileID: 2034790131}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -40406,7 +40406,7 @@ RectTransform:
   - {fileID: 459263425}
   - {fileID: 1621961045}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -64521,8 +64521,8 @@ MonoBehaviour:
   Live: {fileID: 461324019}
   Preview: {fileID: 157905972}
   Dev: {fileID: 233865067}
+  environment: 0
   configURL: https://turbolabz.com/wp-content/uploads/2018/10/chessstar-3-5-3-1.odt
-  checkStagingURL: 1
 --- !u!4 &1628862473
 Transform:
   m_ObjectHideFlags: 0
