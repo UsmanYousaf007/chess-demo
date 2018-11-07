@@ -69,7 +69,7 @@ namespace TurboLabz.Multiplayer
 
 
         List<GameObject> chatObjs = new List<GameObject>();
-        List<int> dayLines = new List<int>();
+        List<DateTime> handledDayLines = new List<DateTime>();
         string opponentId;
         List<Image> opponentEmptyPics = new List<Image>();
 
@@ -237,39 +237,50 @@ namespace TurboLabz.Multiplayer
                 obj.SetActive(false);
             }
 
-            GameObject chatBubbleContainer;
-            DateTime dt = TimeUtil.ToDateTime(message.timestamp).ToLocalTime();
-
             // Handle daylines
-            double daysSinceNow = DateTime.UtcNow.Subtract(dt).TotalDays;
-            int dayLineIndex = Mathf.FloorToInt((float)daysSinceNow);
+            DateTime messageLocalTime = TimeUtil.ToDateTime(message.timestamp).ToLocalTime();
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+            bool createDayLine = true;
 
-            if (dayLines.IndexOf(dayLineIndex) < 0)
+            foreach (DateTime dt in handledDayLines)
             {
-                dayLines.Add(dayLineIndex);
-                GameObject dayLine = Instantiate(chatDayLinePrefab);
-                dayLine.SetActive(true);
-                chatObjs.Add(dayLine);
-                Text dayLineText = dayLine.GetComponent<Text>();
-
-                if (daysSinceNow < 1)
+                if (dt.Date == messageLocalTime.Date)
                 {
-                    dayLineText.text = localizationService.Get(LocalizationKey.CHAT_TODAY);
+                    createDayLine = false;
+                    break;
                 }
-                else if (daysSinceNow < 2)
+            }
+
+            if (createDayLine)
+            {
+                string dayLineText = "";
+
+                if (messageLocalTime.Date == DateTime.Now.Date)
                 {
-                    dayLineText.text = localizationService.Get(LocalizationKey.CHAT_YESTERDAY);
+                    dayLineText = localizationService.Get(LocalizationKey.CHAT_TODAY);
+                }
+                else if (messageLocalTime.Date == DateTime.Now.Date.Subtract(oneDay))
+                {
+                    dayLineText = localizationService.Get(LocalizationKey.CHAT_YESTERDAY);
                 }
                 else
                 {
-                    dayLineText.text = dt.ToString("MMMM dd");
+                    dayLineText = messageLocalTime.ToString("MMMM dd");
                 }
 
+                GameObject dayLine = Instantiate(chatDayLinePrefab);
+                dayLine.SetActive(true);
+                chatObjs.Add(dayLine);
+                dayLine.GetComponent<Text>().text = dayLineText;
                 dayLine.transform.SetParent(scrollViewContent, false);
+
+                handledDayLines.Add(messageLocalTime.Date);
             }
-                
+
+
             // Now render the text
             ChatBubble bubble;
+            GameObject chatBubbleContainer;
 
             if (isPlayer)
             {
@@ -294,7 +305,7 @@ namespace TurboLabz.Multiplayer
             chatBubbleContainer.transform.SetParent(scrollViewContent, false);
             chatObjs.Add(chatBubbleContainer);
             bubble.SetText(message.text, isPlayer);
-            bubble.timer.text = dt.ToString("h:mm tt");
+            bubble.timer.text = messageLocalTime.ToString("h:mm tt");
 
             StartCoroutine(SetScrollPosition());
         }
@@ -313,7 +324,7 @@ namespace TurboLabz.Multiplayer
             }
 
             chatObjs.Clear();
-            dayLines.Clear();
+            handledDayLines.Clear();
             opponentEmptyPics.Clear();
 
             foreach (GameObject obj in defaultInfoSet)
