@@ -8,8 +8,16 @@ public class GameSparksConfig : MonoBehaviour {
     public GameObject Preview;
     public GameObject Dev;
 
+    public Environment environment;
+    public enum Environment
+    {
+        Development,
+        LivePreview,
+        Live,
+        URLBased
+    }
+
     public string configURL = "";
-    public bool checkStagingURL = false;
 
     // URL such as https://turbolabz.com/wp-content/uploads/2018/09/chessstar-3-3-2-1.odt;
 
@@ -20,28 +28,23 @@ public class GameSparksConfig : MonoBehaviour {
         Preview.SetActive(false);
         Dev.SetActive(false);
 
-        #if UNITY_EDITOR
-        Dev.SetActive(true);
-        return;
-        #else
-
-        // This code activates when a debug build is made for device
-        if (UnityEngine.Debug.isDebugBuild)
-        {
-            Dev.SetActive(true);
-            return;
-        }
-
-        if (checkStagingURL)
+        if (environment == Environment.URLBased)
         {
             StartCoroutine(CheckStageURL(configURL));
         }
-        else
+        else if (environment == Environment.Live)
         {
             Live.SetActive(true);
         }
-        #endif
-	}
+        else if (environment == Environment.LivePreview)
+        {
+            Preview.SetActive(true);
+        }
+        else if (environment == Environment.Development)
+        {
+            Dev.SetActive(true);
+        }
+    }
 
     IEnumerator CheckStageURL(string url)
     {

@@ -21,9 +21,8 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
-        public Dictionary<string, bool> hasUnreadMessages { get; set; }
-        private Dictionary<string, ChatMessages> chatHistory { get; set; }
-
+        public Dictionary<string, bool> hasUnreadMessages { get; set; } = new Dictionary<string, bool>();
+        Dictionary<string, ChatMessages> chatHistory { get; set; } = new Dictionary<string, ChatMessages>();
 
         const string CHAT_META_FILE = "chatMetaFile";
         const string CHAT_LAST_READ_TIMESTAMP = "chatLastReadTimestamp";
@@ -34,7 +33,6 @@ namespace TurboLabz.InstantFramework
         [PostConstruct]
         public void Load()
         {
-            Reset();
             appEventSignal.AddListener(OnAppEvent);
         }
 
@@ -124,12 +122,6 @@ namespace TurboLabz.InstantFramework
                     LogUtil.Log("Critical error when saving chat history. File deleted. " + e, "red");
                 }
             }
-        }
-
-        private void Reset()
-        {
-            chatHistory = new Dictionary<string, ChatMessages>();
-            hasUnreadMessages = new Dictionary<string, bool>();
         }
 
         private void OnAppEvent(AppEvent evt)
