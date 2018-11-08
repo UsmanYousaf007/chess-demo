@@ -57,7 +57,6 @@ namespace TurboLabz.InstantFramework
                 softReconnectingSignal.Dispatch(true);
                 Retain();
 
-                LogUtil.Log("Unity   : GS: DISCONNECT REQUESTED*************************************************************************************************");
             }
             else if (appEvent == AppEvent.RESUMED)
             {
