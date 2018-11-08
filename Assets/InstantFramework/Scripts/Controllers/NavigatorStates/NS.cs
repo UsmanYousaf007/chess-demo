@@ -80,6 +80,11 @@ namespace TurboLabz.InstantFramework
             return NavigatorViewId.NONE;
         }
 
+        protected NS GetPreviousState()
+        {
+            return cmd.navigatorModel.previousState;
+        }
+
         protected bool IsPreviousView(NavigatorViewId id)
         {
             List<NavigatorViewId> history = cmd.navigatorModel.history;

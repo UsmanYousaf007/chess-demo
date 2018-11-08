@@ -29,7 +29,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             pushNotificationService.Init();
-            backendService.MonitorConnectivity();
+            backendService.MonitorConnectivity(true);
             backendService.AddMessageListeners();
             backendService.AddChallengeListeners();
         }

@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         List<NavigatorViewId> history { get; set; }
         List<NavigatorViewId> viewStack { get; set; }
         NavigatorEvent ignoreEvent { get; set; }
+        NavigatorViewId currentViewId { get; }
 
         void Reset();
     }

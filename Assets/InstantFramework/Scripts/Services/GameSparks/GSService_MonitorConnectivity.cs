@@ -25,9 +25,14 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public GameDisconnectingSignal gameDisconnectingSignal { get; set; }
 
-        public void MonitorConnectivity()
+        public void MonitorConnectivity(bool enable)
         {
-            GS.GameSparksAvailable += GameSparksAvailable;
+            GS.GameSparksAvailable -= GameSparksAvailable;
+
+            if (enable)
+            {
+                GS.GameSparksAvailable += GameSparksAvailable;
+            }
         }
 
         void GameSparksAvailable(bool isAvailable)
