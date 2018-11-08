@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public Sprite online;
         public Sprite offline;
         public GameObject unreadChat;
+        public bool isOnline;
 
     }
 }
