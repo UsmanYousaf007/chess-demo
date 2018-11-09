@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -47,7 +48,10 @@ namespace TurboLabz.InstantFramework
                      navigatorModel.currentViewId != NavigatorViewId.RECONNECTING &&
                      navigatorModel.currentViewId != NavigatorViewId.SPLASH &&
                      navigatorModel.currentViewId != NavigatorViewId.HARD_STOP &&
-                     navigatorModel.currentViewId != NavigatorViewId.UPDATE)
+                     navigatorModel.currentViewId != NavigatorViewId.UPDATE &&
+                     navigatorModel.currentViewId != NavigatorViewId.MULTIPLAYER_FIND_DLG &&
+                     !(navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER && !matchInfoModel.activeMatch.isLongPlay)
+                    )
             {
                 softReconnecting = true;
                 backendService.MonitorConnectivity(false);

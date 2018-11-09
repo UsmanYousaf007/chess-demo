@@ -73,20 +73,6 @@ namespace TurboLabz.InstantGame
 			view.UpdateView(vo);
 		}
 
-		[ListensTo(typeof(GameAppEventSignal))]
-		public void OnAppEvent(AppEvent evt)
-		{
-			if (!view || !view.IsVisible())
-			{
-				return;
-			}
-
-			if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
-			{
-                return;
-			}
-		}
-
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]
         public void OnPurchaseResult(StoreItem item, PurchaseResult result)
         {
