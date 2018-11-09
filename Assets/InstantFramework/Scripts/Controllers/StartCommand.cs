@@ -27,8 +27,8 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
-		bool gameSparksAvailable;
-		bool facebookInitialized;
+		bool gameSparksAvailable = false;
+        bool gsAuthenticated = false;
 
 		public override void Execute()
 		{
@@ -36,7 +36,6 @@ namespace TurboLabz.InstantFramework
 
 			ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
-			facebookService.Init().Then(OnFacebookInit);
 			audioService.Init();
 			shareService.Init();
 		}
@@ -47,32 +46,14 @@ namespace TurboLabz.InstantFramework
 			ProcessStartup();
 		}
 
-		void OnFacebookInit(FacebookResult result)
-		{
-			if (result == FacebookResult.SUCCESS)
-            {
-				facebookInitialized = true;
-				ProcessStartup();
-			}
-		}
-
 		void ProcessStartup()
 		{
- 			if (gameSparksAvailable && facebookInitialized)
+            if (gameSparksAvailable)
 			{
 				if (GS.Authenticated)
                 {
-                    // Existing facebook account
-                    if (facebookService.isLoggedIn())
-                    {
-                        bool existingPlayer = true;
-                        backendService.AuthFacebook(facebookService.GetAccessToken(), existingPlayer).Then(OnFacebookAuthComplete);
-                    }
-                    // Exising guest account
-                    else
-                    {
-                        GotoReception();
-                    }
+                    gsAuthenticated = true;
+                    GotoReception();
 				}
                 // New guest account
 				else
@@ -81,18 +62,6 @@ namespace TurboLabz.InstantFramework
 				}
 			}
 		}
-
-        private void OnFacebookAuthComplete(BackendResult result)
-        {
-            if (result == BackendResult.SUCCESS)
-            {
-                GotoReception();
-            }        
-            else
-            {
-                backendErrorSignal.Dispatch(result);
-            } 
-        }
 
 		private void OnAuthGuest(BackendResult result)
 		{
@@ -103,19 +72,42 @@ namespace TurboLabz.InstantFramework
             else if (result != BackendResult.CANCELED)
 			{
 				backendErrorSignal.Dispatch(result);
-			}
-
-			Release();
+                Release();
+            }
 		}
 
 		void GotoReception()
 		{
-			receptionSignal.Dispatch();
+            facebookService.Init().Then(OnFacebookInit);
+            receptionSignal.Dispatch();
 			RemoveListeners();
-			Release();
 		}
 
-		void ListenForKeyEvents()
+        void OnFacebookInit(FacebookResult result)
+        {
+            // Existing facebook account
+            if ((result == FacebookResult.SUCCESS) && gsAuthenticated && facebookService.isLoggedIn())
+            {
+                bool existingPlayer = true;
+                backendService.AuthFacebook(facebookService.GetAccessToken(), existingPlayer).Then(OnFacebookAuthComplete);
+            }
+            else
+            {
+                Release();
+            }
+        }
+
+        private void OnFacebookAuthComplete(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                backendErrorSignal.Dispatch(result);
+            }
+
+            Release();
+        }
+
+        void ListenForKeyEvents()
 		{
             backendService.AddChatMessageListener();
             GS.GameSparksAvailable += GameSparksAvailable;

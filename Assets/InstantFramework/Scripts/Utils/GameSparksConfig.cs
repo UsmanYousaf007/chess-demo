@@ -7,6 +7,7 @@ public class GameSparksConfig : MonoBehaviour {
     public GameObject Live;
     public GameObject Preview;
     public GameObject Dev;
+    public GameObject Sandbox;
 
     public Environment environment;
     public enum Environment
@@ -14,7 +15,8 @@ public class GameSparksConfig : MonoBehaviour {
         Development,
         LivePreview,
         Live,
-        URLBased
+        URLBased,
+        Sandbox
     }
 
     public string configURL = "";
@@ -27,6 +29,7 @@ public class GameSparksConfig : MonoBehaviour {
         Live.SetActive(false);
         Preview.SetActive(false);
         Dev.SetActive(false);
+        Sandbox.SetActive(false);
 
         if (environment == Environment.URLBased)
         {
@@ -43,6 +46,10 @@ public class GameSparksConfig : MonoBehaviour {
         else if (environment == Environment.Development)
         {
             Dev.SetActive(true);
+        }
+        else if (environment == Environment.Sandbox)
+        {
+            Sandbox.SetActive(true);
         }
     }
 
