@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 
+using GameSparks.Core;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 
@@ -23,15 +24,65 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public GameAppEventSignal gameAppEventSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public SoftReconnectingSignal softReconnectingSignal { get; set; }
+
+        // Models
+        [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
+        // Services
+        [Inject] public IBackendService backendService { get; set; }
+
+        bool softReconnecting = false;
 
         public override void Execute()
         {
             gameAppEventSignal.Dispatch(appEvent);
 
+
             if (appEvent == AppEvent.ESCAPED)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }
+            else if (appEvent == AppEvent.PAUSED &&
+                     navigatorModel.currentViewId != NavigatorViewId.RECONNECTING &&
+                     navigatorModel.currentViewId != NavigatorViewId.SPLASH &&
+                     navigatorModel.currentViewId != NavigatorViewId.HARD_STOP &&
+                     navigatorModel.currentViewId != NavigatorViewId.UPDATE &&
+                     navigatorModel.currentViewId != NavigatorViewId.MULTIPLAYER_FIND_DLG &&
+                     !(navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER && !matchInfoModel.activeMatch.isLongPlay)
+                    )
+            {
+                softReconnecting = true;
+                backendService.MonitorConnectivity(false);
+                GS.Disconnect();
+                GS.GameSparksAvailable -= GameSparksAvailable;
+                GS.GameSparksAvailable += GameSparksAvailable;
+                softReconnectingSignal.Dispatch(true);
+                Retain();
+
+            }
+            else if (appEvent == AppEvent.RESUMED)
+            {
+                if (softReconnecting)
+                {
+                    GS.Reconnect();
+                }
+            }
+        }
+
+        void GameSparksAvailable(bool isAvailable)
+        {
+            if (isAvailable)
+            {
+                backendService.MonitorConnectivity(true);
+                softReconnectingSignal.Dispatch(false);
+                GS.GameSparksAvailable -= GameSparksAvailable;
+                softReconnecting = false;
+                Release();
+            }
+
+            // Do not release here, this is deliberate.
         }
     }
 }

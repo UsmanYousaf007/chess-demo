@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
     public class NavigatorShowViewSignal : Signal<NavigatorViewId> {}
     public class NavigatorHideViewSignal : Signal<NavigatorViewId> {}
     public class NavigatorIgnoreEventSignal : Signal<NavigatorEvent> {}
+    public class SoftReconnectingSignal : Signal<bool> {}
     public class GetInitDataSignal : Signal {}
     public class GetInitDataCompleteSignal : Signal {}
     public class AuthFaceBookSignal : Signal {}
@@ -77,6 +78,7 @@ namespace TurboLabz.InstantFramework
     public class DeclineSignal : Signal<string> {}
     public class UnregisterSignal : Signal<string> {}
     public class SortFriendsSignal : Signal {}
+    public class SortCommunitySignal : Signal { }
     public class StoreAvailableSignal : Signal<bool> {}
     public class SetActionCountSignal : Signal<int> {}
     public class SendChatMessageSignal : Signal<string> {}

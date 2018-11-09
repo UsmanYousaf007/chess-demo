@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
         void AddChatMessageListener();
         void StartPinger();
         void StopPinger();
-        void MonitorConnectivity();
+        void MonitorConnectivity(bool enable);
 
         IPromise<BackendResult> GetInitData(int appVersion, string dataJson);
         IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer);

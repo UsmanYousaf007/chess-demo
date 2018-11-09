@@ -124,7 +124,7 @@ namespace TurboLabz.InstantFramework
         void AddFriend(Friend friend, bool isCommunity)
 		{
 		    // create bar
-			GameObject friendBarObj = GameObject.Instantiate(friendBarPrefab);
+			GameObject friendBarObj = Instantiate(friendBarPrefab);
             friendBarObj.GetComponent<SkinLink>().InitPrefabSkin();
 
             // update bar values
@@ -138,22 +138,9 @@ namespace TurboLabz.InstantFramework
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
             friendBar.isCommunity = isCommunity;
             friendBar.onlineStatus.sprite = friend.publicProfile.isOnline ? friendBar.online : friendBar.offline;
+            friendBar.isOnline = friend.publicProfile.isOnline;
 
             friendBarObj.transform.SetParent(listContainer, false);
-
-            int siblingIndex = 0;
-
-            if (isCommunity)
-            {
-                siblingIndex = communitySibling.GetSiblingIndex() + 1;
-            }
-            else
-            {
-                siblingIndex = friendsSibling.GetSiblingIndex() + 1;
-            }
-            
-            friendBarObj.transform.SetSiblingIndex(siblingIndex);
-
             bars.Add(friend.playerId, friendBar);
 
             UpdateFriendPic(friend.playerId, friend.publicProfile.profilePicture);
@@ -294,7 +281,7 @@ namespace TurboLabz.InstantFramework
 
             foreach (string key in destroyMe)
             {
-                GameObject.Destroy(bars[key].gameObject);
+                Destroy(bars[key].gameObject);
                 bars.Remove(key);
             }
 

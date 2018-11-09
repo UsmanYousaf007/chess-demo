@@ -106,7 +106,13 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SortFriendsSignal))]
         public void OnSortFriends()
         {
-            view.Sort();
+            view.SortFriends();
+        }
+
+        [ListensTo(typeof(SortCommunitySignal))]
+        public void OnSortCommunity()
+        {
+            view.SortCommunity();
         }
 
         [ListensTo(typeof(ClearCommunitySignal))]

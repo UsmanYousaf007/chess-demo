@@ -14,6 +14,13 @@ namespace TurboLabz.InstantFramework
         public List<NavigatorViewId> history { get; set; }
         public List<NavigatorViewId> viewStack { get; set; }
         public NavigatorEvent ignoreEvent { get; set; }
+        public NavigatorViewId currentViewId
+        {
+            get
+            {
+                return viewStack.Count == 0 ? NavigatorViewId.NONE : viewStack[viewStack.Count - 1];
+            }
+        }
 
         public void Reset()
         {

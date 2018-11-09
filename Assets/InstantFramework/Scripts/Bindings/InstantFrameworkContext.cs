@@ -104,16 +104,19 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
             injectionBinder.Bind<FriendBarBusySignal>().ToSingleton();
             injectionBinder.Bind<SortFriendsSignal>().ToSingleton();
+            injectionBinder.Bind<SortCommunitySignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<SetActionCountSignal>().ToSingleton();
             injectionBinder.Bind<AddUnreadMessagesToBarSignal>().ToSingleton();
             injectionBinder.Bind<ClearUnreadMessagesFromBarSignal>().ToSingleton();
+            injectionBinder.Bind<SoftReconnectingSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
             mediationBinder.Bind<HardStopView>().To<HardStopMediator>();
             mediationBinder.Bind<ReconnectingView>().To<ReconnectingMediator>();
+            mediationBinder.Bind<SoftReconnectingView>().To<SoftReconnectingMediator>();
             mediationBinder.Bind<UpdateView>().To<UpdateMediator>();
             mediationBinder.Bind<BottomNavView>().To<BottomNavMediator>();
             mediationBinder.Bind<TopNavView>().To<TopNavMediator>();

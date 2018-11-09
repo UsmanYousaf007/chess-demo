@@ -84,7 +84,6 @@ namespace TurboLabz.CPU
 
             if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_EXIT_DLG);
                 saveGameSignal.Dispatch();
             }
         }

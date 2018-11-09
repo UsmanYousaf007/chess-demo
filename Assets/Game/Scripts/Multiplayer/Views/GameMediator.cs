@@ -71,19 +71,5 @@ namespace TurboLabz.Multiplayer
                 view.Hide();
             }
         }
-
-        [ListensTo(typeof(GameAppEventSignal))]
-        public void OnAppEventChessboard(AppEvent evt)
-        {
-            if (!view || !view.IsVisible())
-            {
-                return;
-            }
-
-            if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG);
-            }
-        }
     }
 }
