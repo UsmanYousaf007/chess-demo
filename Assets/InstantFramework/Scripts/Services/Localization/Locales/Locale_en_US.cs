@@ -52,7 +52,6 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
 
-
                 #endregion
 
                 #region Game

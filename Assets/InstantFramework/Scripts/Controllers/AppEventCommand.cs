@@ -33,7 +33,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
-        bool softReconnecting = false;
+        //bool softReconnecting = false;
 
         public override void Execute()
         {
@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }
+            /*
             else if (appEvent == AppEvent.PAUSED &&
                      navigatorModel.currentViewId != NavigatorViewId.RECONNECTING &&
                      navigatorModel.currentViewId != NavigatorViewId.SPLASH &&
@@ -69,8 +70,10 @@ namespace TurboLabz.InstantFramework
                     GS.Reconnect();
                 }
             }
+            */
         }
 
+        /*
         void GameSparksAvailable(bool isAvailable)
         {
             if (isAvailable)
@@ -84,5 +87,6 @@ namespace TurboLabz.InstantFramework
 
             // Do not release here, this is deliberate.
         }
+        */
     }
 }
