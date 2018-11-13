@@ -44,19 +44,19 @@ namespace TurboLabz.InstantFramework
             }
 
 
-            Debug.Log("AddingChat:" + message.text);
+            //Debug.Log("AddingChat:" + message.text);
 
             List<ChatMessage> messageList = chatHistory[opponentId].messageList;
             foreach (ChatMessage savedMessage in messageList)
             {
                 if (message.timestamp == savedMessage.timestamp)
                 {
-                    Debug.Log("AddingChat: duplicate detected");
+                    //Debug.Log("AddingChat: duplicate detected");
                     return;
                 }
             }
 
-            Debug.Log("AddingChat: Success.");
+            //Debug.Log("AddingChat: Success.");
             chatHistory[opponentId].messageList.Add(message);
         }
 
