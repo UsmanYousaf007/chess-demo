@@ -21,7 +21,10 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> GetInitData(int appVersion, string appData)
         {
             // Fetch init data from server
-            return new GSGetInitDataRequest().Send(appVersion, appData, OnGetInitDataSuccess);
+            return new GSGetInitDataRequest().Send(appVersion,
+                                                   appData, 
+                                                   preferencesModel.pauseTimestamp,
+                                                   OnGetInitDataSuccess);
         }
 
         void OnGetInitDataSuccess(object r)
@@ -47,6 +50,9 @@ namespace TurboLabz.InstantFramework
 
 			GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
 			FillPlayerDetails(playerDetailsData);
+
+            GSData chatData = response.ScriptData.GetGSData(GSBackendKeys.CHAT);
+            FillChatModel(chatData);
 
             storeAvailableSignal.Dispatch(false);
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
@@ -232,7 +238,22 @@ namespace TurboLabz.InstantFramework
             return friend;
         }
 
+        void FillChatModel(GSData chatData)
+        {
+            foreach (KeyValuePair<string, object> pair in chatData.BaseData)
+            {
+                long timestamp = long.Parse(pair.Key);
+                GSData messageData = (GSData)pair.Value;
 
+                ChatMessage msg;
+                msg.senderId = messageData.GetString(GSBackendKeys.Chat.SENDER_ID);
+                msg.recipientId = playerModel.id;
+                msg.text = messageData.GetString(GSBackendKeys.Chat.TEXT);
+                msg.timestamp = timestamp;
+
+                receiveChatMessageSignal.Dispatch(msg);
+            }
+        }
     }
 
     #region REQUEST
@@ -242,8 +263,12 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "GetInitData";
         const string ATT_APP_VERSION = "appVersion";
         const string ATT_APP_DATA = "appData";
+        const string ATT_CHAT_TIMESTAMP = "chatTimestamp";
 
-        public IPromise<BackendResult> Send(int appVersion, string appData, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(int appVersion, 
+                                            string appData, 
+                                            long chatTimestamp,
+                                            Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
@@ -252,6 +277,7 @@ namespace TurboLabz.InstantFramework
                 .SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_APP_VERSION, appVersion)
                 .SetEventAttribute(ATT_APP_DATA, appData)
+                .SetEventAttribute(ATT_CHAT_TIMESTAMP, chatTimestamp)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
         public const string FRIEND = "friend";
         public const string OPPONENT_ID = "opponentId";
         public const string OPPONENT_ELO = "opponentElo";
+        public const string CHAT = "chat";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";

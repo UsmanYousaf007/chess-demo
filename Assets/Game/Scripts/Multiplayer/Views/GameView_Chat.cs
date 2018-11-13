@@ -45,7 +45,7 @@ namespace TurboLabz.Multiplayer
         public Text clearChatBtnTxt;
         public Image chatPanelBackground;
 
-        public Signal<string> chatSubmitSignal = new Signal<string>();
+        public Signal<ChatMessage> chatSubmitSignal = new Signal<ChatMessage>();
         public Signal openChatDlgSignal = new Signal();
         public Signal closeChatDlgSignal = new Signal();
         public Signal clearActiveChatSignal = new Signal();
@@ -71,6 +71,7 @@ namespace TurboLabz.Multiplayer
         List<GameObject> chatObjs = new List<GameObject>();
         List<DateTime> handledDayLines = new List<DateTime>();
         string opponentId;
+        string playerId;
         List<Image> opponentEmptyPics = new List<Image>();
 
         public void InitChat()
@@ -129,6 +130,7 @@ namespace TurboLabz.Multiplayer
 
             unreadMessagesIndicator.SetActive(vo.hasUnreadMessages);
             opponentId = vo.opponentId;
+            playerId = vo.playerId;
 
             opponentOnlineStatus.sprite = opponentInGameOnlineStatus.sprite;
 
@@ -202,8 +204,8 @@ namespace TurboLabz.Multiplayer
         void OnSubmit(string text)
         {
             ChatMessage message;
-            message.recipientId = null;
-            message.senderId = null;
+            message.recipientId = opponentId;
+            message.senderId = playerId;
             message.text = text;
             message.timestamp = TimeUtil.unixTimestampMilliseconds;
 
@@ -215,7 +217,7 @@ namespace TurboLabz.Multiplayer
 
                 inputField.text = "";
 
-                chatSubmitSignal.Dispatch(text);
+                chatSubmitSignal.Dispatch(message);
             }
         }
 

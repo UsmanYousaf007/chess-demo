@@ -20,7 +20,8 @@ namespace TurboLabz.InstantGame
         public bool isAudioOn { get; set; }
         public long adSlotId { get; set; }            
         public int adSlotImpressions { get; set; }   
-        public bool hasRated { get; set; }  
+        public bool hasRated { get; set; }
+        public long pauseTimestamp { get; set; }
 
         [PostConstruct]
         public void Load()
@@ -55,7 +56,11 @@ namespace TurboLabz.InstantGame
                 {
                     hasRated = reader.Read<bool>(PrefKeys.HAS_RATED);
                 }
-                
+
+                if (reader.HasKey(PrefKeys.PAUSE_TIMESTAMP))
+                {
+                    pauseTimestamp = reader.Read<long>(PrefKeys.PAUSE_TIMESTAMP);
+                }                
 
                 reader.Close();
             }
@@ -78,7 +83,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<long>(PrefKeys.AD_SLOT_ID, adSlotId);
                 writer.Write<int>(PrefKeys.AD_SLOT_IMPRESSIONS, adSlotImpressions);
                 writer.Write<bool>(PrefKeys.HAS_RATED, hasRated);
-
+                writer.Write<long>(PrefKeys.PAUSE_TIMESTAMP, pauseTimestamp);
                 writer.Close();
             }
             catch (Exception e)
@@ -104,6 +109,11 @@ namespace TurboLabz.InstantGame
         {
             if (evt == AppEvent.QUIT || evt == AppEvent.PAUSED)
             {
+                if (evt == AppEvent.PAUSED)
+                {
+                    pauseTimestamp = TimeUtil.unixTimestampMilliseconds;
+                }
+
                 SaveToFile();
             }
         }

@@ -68,9 +68,9 @@ namespace TurboLabz.Multiplayer
             view.UpdateFriendOnlineStatusSignal(friendId, isOnline);
         }
 
-        void OnChatSubmit(string text)
+        void OnChatSubmit(ChatMessage message)
         {
-            sendChatMessageSignal.Dispatch(text);
+            sendChatMessageSignal.Dispatch(message);
         }
 
         void OnOpenChatDlg()

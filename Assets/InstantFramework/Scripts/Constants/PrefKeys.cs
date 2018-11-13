@@ -23,5 +23,6 @@ namespace TurboLabz.InstantGame
         public const string AD_SLOT_ID = "adSlotId";
         public const string AD_SLOT_IMPRESSIONS = "adSlotImpressions";
         public const string HAS_RATED = "hasRated";
+        public const string PAUSE_TIMESTAMP = "pauseTimestamp";
     }
 }

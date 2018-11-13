@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     public class SendChatMessageCommand : Command
     {
         // Parameters
-        [Inject] public string chatMessage { get; set; }
+        [Inject] public ChatMessage chatMessage { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -26,37 +26,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
-        private string recipientId;
-
         public override void Execute()
         {
-            Retain();
-
-            // Safety, this should never be the case
-            if (matchInfoModel.activeMatch == null)
-            {
-                Release();
-                return;
-            }
-
-            recipientId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
-            backendService.SendChatMessage(recipientId, chatMessage).Then(OnMessageSent);
-        }
-
-        private void OnMessageSent(BackendResult result)
-        {
-            if (result == BackendResult.SUCCESS)
-            {
-                ChatMessage message;
-                message.senderId = playerModel.id;
-                message.recipientId = recipientId;
-                message.text = chatMessage;
-                message.timestamp = TimeUtil.unixTimestampMilliseconds;
-
-                chatModel.AddChat(recipientId, message);
-            }
-
-            Release();
+            chatModel.AddChat(chatMessage.recipientId, chatMessage);
+            backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text);
         }
     }
 }
