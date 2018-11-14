@@ -17,9 +17,9 @@ namespace TurboLabz.InstantFramework
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 		[Inject] public ReceptionSignal receptionSignal { get; set; }
 		[Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public InitFacebookSignal initFacebookSignal { get; set; }
 
-		// Services
-		[Inject] public IFacebookService facebookService { get; set; }
+        // Services
 		[Inject] public IAudioService audioService { get; set; }
 		[Inject] public IShareService shareService { get; set; }
 		[Inject] public IBackendService backendService { get; set; }
@@ -78,34 +78,13 @@ namespace TurboLabz.InstantFramework
 
 		void GotoReception()
 		{
-            facebookService.Init().Then(OnFacebookInit);
+            initFacebookSignal.Dispatch();
             receptionSignal.Dispatch();
 			RemoveListeners();
+            Release();
 		}
 
-        void OnFacebookInit(FacebookResult result)
-        {
-            // Existing facebook account
-            if ((result == FacebookResult.SUCCESS) && gsAuthenticated && facebookService.isLoggedIn())
-            {
-                bool existingPlayer = true;
-                backendService.AuthFacebook(facebookService.GetAccessToken(), existingPlayer).Then(OnFacebookAuthComplete);
-            }
-            else
-            {
-                Release();
-            }
-        }
-
-        private void OnFacebookAuthComplete(BackendResult result)
-        {
-            if (result != BackendResult.SUCCESS)
-            {
-                backendErrorSignal.Dispatch(result);
-            }
-
-            Release();
-        }
+       
 
         void ListenForKeyEvents()
 		{

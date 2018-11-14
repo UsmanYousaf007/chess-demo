@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
+            commandBinder.Bind<InitFacebookSignal>().To<InitFacebookCommand>();
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
