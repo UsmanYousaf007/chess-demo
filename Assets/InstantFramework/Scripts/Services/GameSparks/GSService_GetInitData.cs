@@ -22,8 +22,7 @@ namespace TurboLabz.InstantFramework
         {
             // Fetch init data from server
             return new GSGetInitDataRequest().Send(appVersion,
-                                                   appData, 
-                                                   preferencesModel.pauseTimestamp,
+                                                   appData,
                                                    OnGetInitDataSuccess);
         }
 
@@ -242,16 +241,16 @@ namespace TurboLabz.InstantFramework
         {
             foreach (KeyValuePair<string, object> pair in chatData.BaseData)
             {
-                long timestamp = long.Parse(pair.Key);
                 GSData messageData = (GSData)pair.Value;
 
                 ChatMessage msg;
                 msg.senderId = messageData.GetString(GSBackendKeys.Chat.SENDER_ID);
                 msg.recipientId = playerModel.id;
                 msg.text = messageData.GetString(GSBackendKeys.Chat.TEXT);
-                msg.timestamp = timestamp;
+                msg.timestamp = messageData.GetLong(GSBackendKeys.Chat.TIMESTAMP).Value;
+                msg.guid = pair.Key;
 
-                receiveChatMessageSignal.Dispatch(msg);
+                receiveChatMessageSignal.Dispatch(msg, true);
             }
         }
     }
@@ -263,11 +262,9 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "GetInitData";
         const string ATT_APP_VERSION = "appVersion";
         const string ATT_APP_DATA = "appData";
-        const string ATT_CHAT_TIMESTAMP = "chatTimestamp";
 
         public IPromise<BackendResult> Send(int appVersion, 
-                                            string appData, 
-                                            long chatTimestamp,
+                                            string appData,
                                             Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
@@ -277,7 +274,6 @@ namespace TurboLabz.InstantFramework
                 .SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_APP_VERSION, appVersion)
                 .SetEventAttribute(ATT_APP_DATA, appData)
-                .SetEventAttribute(ATT_CHAT_TIMESTAMP, chatTimestamp)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

@@ -28,8 +28,8 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            chatModel.AddChat(chatMessage.recipientId, chatMessage);
-            backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text);
+            chatModel.AddChat(chatMessage.recipientId, chatMessage, false);
+            backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text, chatMessage.guid);
         }
     }
 }

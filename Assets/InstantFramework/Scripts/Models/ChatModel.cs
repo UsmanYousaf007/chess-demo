@@ -16,59 +16,91 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalDataService localDataService { get; set; }
 
         // Listen to signals
-        [Inject] public AppEventSignal appEventSignal { get; set; }
+        [Inject] public SaveToDiskSignal saveToDiskSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         public Dictionary<string, bool> hasUnreadMessages { get; set; } = new Dictionary<string, bool>();
+        public string lastSavedChatId { get; set; } = "";
+
         Dictionary<string, ChatMessages> chatHistory { get; set; } = new Dictionary<string, ChatMessages>();
 
         const string CHAT_META_FILE = "chatMetaFile";
-        const string CHAT_LAST_READ_TIMESTAMP = "chatLastReadTimestamp";
-        const string CHAT_SAVE_FILE = "chatSaveFile";
-        const string CHAT_SAVE_KEY = "chatSaveKey";
-        const int CHAT_HISTORY_SIZE = 25;
+        const string CHAT_META_LAST_SAVE_KEY = "chatMetaLastSaveKey";
+        const string CHAT_HISTORY_FILE = "chatHistoryFile";
+        const string CHAT_HISTORY_SAVE_KEY = "chatHistorySaveKey";
+        const int CHAT_HISTORY_SIZE = 50;
 
         [PostConstruct]
         public void Load()
         {
-            appEventSignal.AddListener(OnAppEvent);
+            saveToDiskSignal.AddListener(SaveChatHistoryFile);
+            saveToDiskSignal.AddListener(SaveChatMetaFile);
+            LoadMetaFile();
         }
 
-        public void AddChat(string opponentId, ChatMessage message)
+        public void Reset()
         {
-            if (!chatHistory.ContainsKey(opponentId))
+            hasUnreadMessages = new Dictionary<string, bool>();
+            chatHistory = new Dictionary<string, ChatMessages>();
+        }
+
+
+        public bool AddChat(string opponentId, ChatMessage message, bool isBackupMessage)
+        {
+            List<ChatMessage> messageList = GetChat(opponentId).messageList;
+
+            if (isBackupMessage && messageList.Count > 0)
             {
-                chatHistory[opponentId] = GetChat(opponentId);
-            }
-
-
-            //Debug.Log("AddingChat:" + message.text);
-
-            List<ChatMessage> messageList = chatHistory[opponentId].messageList;
-            foreach (ChatMessage savedMessage in messageList)
-            {
-                if (message.timestamp == savedMessage.timestamp)
+                // Leave if our message list already contains the backup message
+                for (int i = 0; i < messageList.Count; i++)
                 {
-                    //Debug.Log("AddingChat: duplicate detected");
-                    return;
+                    if (message.guid == messageList[i].guid)
+                    {
+                        return false;
+                    }
                 }
+
+                // Looks like we have found a dropped message so insert this to
+                // the approriate slot according to timestamp
+                int insertIndex = -1;
+                for (int i = 0; i < messageList.Count; i++)
+                {
+                    if (message.timestamp < messageList[i].timestamp)
+                    {
+                        insertIndex = i;
+                    }
+                }
+
+                if (insertIndex == -1)
+                {
+                    messageList.Add(message);
+                }
+                else
+                {
+                    messageList.Insert(insertIndex, message);
+                }
+
+            }
+            else
+            {
+                messageList.Add(message);
             }
 
-            //Debug.Log("AddingChat: Success.");
-            chatHistory[opponentId].messageList.Add(message);
+            lastSavedChatId = message.guid;
+
+            return true;
         }
 
         public ChatMessages GetChat(string opponentId)
         {
             if (chatHistory.ContainsKey(opponentId))
             {
-                Sort(chatHistory[opponentId]);
                 return chatHistory[opponentId];
             }
 
-            string filename = CHAT_SAVE_FILE + opponentId;
+            string filename = CHAT_HISTORY_FILE + opponentId;
 
             if (!localDataService.FileExists(filename))
             {
@@ -81,14 +113,13 @@ namespace TurboLabz.InstantFramework
                 ILocalDataReader reader = localDataService.OpenReader(filename);
 
                 // Read chat here
-                if (reader.HasKey(CHAT_SAVE_KEY))
+                if (reader.HasKey(CHAT_HISTORY_SAVE_KEY))
                 {
-                    string savedChat = reader.Read<string>(CHAT_SAVE_KEY);
+                    string savedChat = reader.Read<string>(CHAT_HISTORY_SAVE_KEY);
                     chatHistory.Add(opponentId, JsonUtility.FromJson<ChatMessages>(savedChat));
                 }
                     
                 reader.Close();
-                Sort(chatHistory[opponentId]);
                 return chatHistory[opponentId];
             }
             catch (Exception e)
@@ -103,17 +134,17 @@ namespace TurboLabz.InstantFramework
 
         public void ClearChat(string opponentId)
         {
-            string filename = CHAT_SAVE_FILE + opponentId;
+            string filename = CHAT_HISTORY_FILE + opponentId;
             localDataService.DeleteFile(filename);
             chatHistory[opponentId] = new ChatMessages();
         }
 
-        private void SaveToFile()
+        void SaveChatHistoryFile()
         {
             // Write chat here
             foreach (KeyValuePair<string, ChatMessages> entry in chatHistory)
             {
-                string filename = CHAT_SAVE_FILE + entry.Key;
+                string filename = CHAT_HISTORY_FILE + entry.Key;
 
                 try
                 {
@@ -125,7 +156,7 @@ namespace TurboLabz.InstantFramework
                         entry.Value.messageList.RemoveRange(0, messageCount - CHAT_HISTORY_SIZE);
                     }
 
-                    writer.Write<string>(CHAT_SAVE_KEY, JsonUtility.ToJson(entry.Value));
+                    writer.Write<string>(CHAT_HISTORY_SAVE_KEY, JsonUtility.ToJson(entry.Value));
                     writer.Close();
                 }
                 catch (Exception e)
@@ -140,18 +171,50 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnAppEvent(AppEvent evt)
+        void SaveChatMetaFile()
         {
-            if (evt == AppEvent.QUIT || evt == AppEvent.PAUSED)
+            try
             {
-                SaveToFile();
+                ILocalDataWriter writer = localDataService.OpenWriter(CHAT_META_FILE);
+                writer.Write<string>(CHAT_META_LAST_SAVE_KEY, lastSavedChatId);
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                if (localDataService.FileExists(CHAT_META_FILE))
+                {
+                    localDataService.DeleteFile(CHAT_META_FILE);
+                }
             }
         }
 
-        private void Sort(ChatMessages chatMessages)
+        void LoadMetaFile()
         {
-            chatMessages.messageList.Sort((x, y) => x.timestamp.CompareTo(y.timestamp));
+            if (!localDataService.FileExists(CHAT_META_FILE))
+            {
+                return;
+            }
+
+            try
+            {
+                ILocalDataReader reader = localDataService.OpenReader(CHAT_META_FILE);
+
+                // Read chat here
+                if (reader.HasKey(CHAT_META_LAST_SAVE_KEY))
+                {
+                    lastSavedChatId = reader.Read<string>(CHAT_META_LAST_SAVE_KEY);
+                }
+
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                lastSavedChatId = "";
+                localDataService.DeleteFile(CHAT_META_FILE);
+            }
         }
+
+        
     }
 
     [Serializable]
@@ -167,5 +230,6 @@ namespace TurboLabz.InstantFramework
         public string recipientId;
         public string text;
         public long timestamp;
+        public string guid;
     }
 }

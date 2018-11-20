@@ -38,8 +38,6 @@ namespace TurboLabz.InstantGame
         {
             int cpuStrength = cpuGameModel.cpuStrength;
             statsModel.Save(cpuStrength, result);
-
-            LogUtil.Log("SAVING STATS...", "cyan");
         }
     }
 }

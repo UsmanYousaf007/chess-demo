@@ -12,9 +12,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> SendChatMessage(string recipientId, string text)
+        public IPromise<BackendResult> SendChatMessage(string recipientId, string text, string guid)
         {
-            return new GSSendChatMessageRequest().Send(recipientId, text);
+            return new GSSendChatMessageRequest().Send(recipientId, text, guid);
         }
     }
 
@@ -26,8 +26,9 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "SendChatMessage";
         const string ATT_RECIPIENT_ID = "recipientId";
         const string ATT_TEXT = "text";
+        const string ATT_GUID = "guid";
 
-        public IPromise<BackendResult> Send(string recipientId, string text)
+        public IPromise<BackendResult> Send(string recipientId, string text, string guid)
         {
             this.errorCode = BackendResult.SEND_CHAT_MESSAGE_FAILED;
 
@@ -35,6 +36,7 @@ namespace TurboLabz.InstantFramework
                 .SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_RECIPIENT_ID, recipientId)
                 .SetEventAttribute(ATT_TEXT, text)
+                .SetEventAttribute(ATT_GUID, guid)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

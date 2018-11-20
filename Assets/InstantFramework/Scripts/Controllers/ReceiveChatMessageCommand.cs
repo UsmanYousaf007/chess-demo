@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
     {
         // Parameters
         [Inject] public ChatMessage chatMessage { get; set; }
+        [Inject] public bool isBackupMessage { get; set; }
 
         // Dispatch signals
         [Inject] public DisplayChatMessageSignal displayChatMessageSignal { get; set; }
@@ -28,7 +29,10 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            chatModel.AddChat(chatMessage.senderId, chatMessage);
+            if (!chatModel.AddChat(chatMessage.senderId, chatMessage, isBackupMessage))
+            {
+                return;
+            }
 
             if (matchInfoModel.activeMatch != null &&
                 chatMessage.senderId == matchInfoModel.activeMatch.opponentPublicProfile.playerId)

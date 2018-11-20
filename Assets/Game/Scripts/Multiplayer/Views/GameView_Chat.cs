@@ -208,6 +208,7 @@ namespace TurboLabz.Multiplayer
             message.senderId = playerId;
             message.text = text;
             message.timestamp = TimeUtil.unixTimestampMilliseconds;
+            message.guid = Guid.NewGuid().ToString();
 
             if (text.Length > 0)
             {

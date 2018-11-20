@@ -271,6 +271,8 @@ namespace TurboLabz.InstantFramework
             public const string SENDER_ID = "senderId";
             public const string TEXT = "text";
             public const string TIMESTAMP = "timestamp";
+            public const string GUID = "guid";
+            public const string CHAT_DATA = "chatData";
         }
     }
 

@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public GameDisconnectingSignal gameDisconnectingSignal { get; set; }
+        [Inject] public AppEventSignal appEventSignal { get; set;  }
 
         public void MonitorConnectivity(bool enable)
         {
@@ -47,6 +48,9 @@ namespace TurboLabz.InstantFramework
                 gameDisconnectingSignal.Dispatch();
                 GSFrameworkRequest.CancelRequestSession();
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
+
+                // We are going to reset the game now so make sure that the models
+                // save to disk as we would when going to the background
             }
         }
     }

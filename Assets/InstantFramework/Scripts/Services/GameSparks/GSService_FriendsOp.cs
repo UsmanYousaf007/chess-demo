@@ -70,7 +70,14 @@ namespace TurboLabz.InstantFramework
                 playerModel.blocked.Add(blockedId, friend);
                 playerModel.friends.Remove(blockedId);
             }
-		}
+
+            // Populate chat if any
+            GSData chatData = response.ScriptData.GetGSData(GSBackendKeys.CHAT);
+            if (chatData != null)
+            {
+                FillChatModel(chatData);
+            }
+        }
 
         private void AddFriend(GSData friendDict)
         {

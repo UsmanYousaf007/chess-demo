@@ -28,7 +28,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
 
 		bool gameSparksAvailable = false;
-        bool gsAuthenticated = false;
 
 		public override void Execute()
 		{
@@ -52,7 +51,6 @@ namespace TurboLabz.InstantFramework
 			{
 				if (GS.Authenticated)
                 {
-                    gsAuthenticated = true;
                     GotoReception();
 				}
                 // New guest account

@@ -63,12 +63,15 @@ namespace TurboLabz.InstantFramework
             if (message.ExtCode == GSBackendKeys.Chat.CHAT_EXT_CODE)
             {
                 ChatMessage msg;
-                msg.senderId = message.Data.GetString(GSBackendKeys.Chat.SENDER_ID);
                 msg.recipientId = playerModel.id;
-                msg.text = message.Data.GetString(GSBackendKeys.Chat.TEXT);
-                msg.timestamp = message.Data.GetLong(GSBackendKeys.Chat.TIMESTAMP).Value;
+                msg.guid = message.Data.GetString(GSBackendKeys.Chat.GUID);
 
-                receiveChatMessageSignal.Dispatch(msg);
+                GSData chatData = message.Data.GetGSData(GSBackendKeys.Chat.CHAT_DATA);
+                msg.senderId = chatData.GetString(GSBackendKeys.Chat.SENDER_ID);
+                msg.text = chatData.GetString(GSBackendKeys.Chat.TEXT);
+                msg.timestamp = chatData.GetLong(GSBackendKeys.Chat.TIMESTAMP).Value;
+
+                receiveChatMessageSignal.Dispatch(msg, false);
             } 
         }
 

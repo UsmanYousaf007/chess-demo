@@ -8,9 +8,11 @@ namespace TurboLabz.InstantFramework
 {
     public interface IChatModel
     {
-        void AddChat(string opponentId, ChatMessage message);
+        void Reset();
+        bool AddChat(string opponentId, ChatMessage message, bool isBackupMessage);
         ChatMessages GetChat(string opponentId);
         void ClearChat(string opponentId);
         Dictionary<string, bool> hasUnreadMessages { get; set; }
+        string lastSavedChatId { get; set; }
     }
 }

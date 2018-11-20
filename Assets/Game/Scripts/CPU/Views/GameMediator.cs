@@ -74,18 +74,15 @@ namespace TurboLabz.CPU
             }
         }
 
-        [ListensTo(typeof(GameAppEventSignal))]
-        public void OnAppEventChessboard(AppEvent evt)
+        [ListensTo(typeof(SaveToDiskSignal))]
+        public void OnSaveToDisk()
         {
             if (!view || !view.IsVisible())
             {
                 return;
             }
 
-            if (evt == AppEvent.PAUSED || evt == AppEvent.QUIT)
-            {
-                saveGameSignal.Dispatch();
-            }
+            saveGameSignal.Dispatch();
         }
     }
 }

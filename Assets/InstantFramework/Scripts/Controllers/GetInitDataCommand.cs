@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IChatModel chatModel { get; set; }
 
         // Todo: Move this to the game folder
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -32,13 +33,16 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public ILocalDataService localDataService { get; set; }
+
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+        [Inject] public SaveToDiskSignal saveToDiskSignal { get; set;  }
 
         public override void Execute()
         {
             Retain();
+            saveToDiskSignal.Dispatch();
             ResetModels();
 
             string appData = BuildAppData();
@@ -69,17 +73,22 @@ namespace TurboLabz.InstantFramework
             playerModel.Reset();
             storeSettingsModel.Reset();
             adsSettingsModel.Reset();
+            chatModel.Reset();
+
         }
 
         string BuildAppData()
         {
-            StringBuilder json = new StringBuilder();
-            json.Append("{");
+            AppData appData;
+            appData.lastSavedChatId = chatModel.lastSavedChatId;
 
-            //json.Append(<call build patch function from here>);
-
-            json.Append("}");
-            return json.ToString();
+            return JsonUtility.ToJson(appData);
         }
 	}
+
+    [Serializable]
+    public struct AppData
+    {
+        public string lastSavedChatId;
+    }
 }
