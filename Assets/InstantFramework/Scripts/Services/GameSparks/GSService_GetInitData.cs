@@ -252,6 +252,8 @@ namespace TurboLabz.InstantFramework
 
                 receiveChatMessageSignal.Dispatch(msg, true);
             }
+
+            chatModel.preloadingMessagesCompleted = true;
         }
     }
 

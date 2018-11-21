@@ -7,6 +7,7 @@ using TurboLabz.TLUtils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 namespace TurboLabz.InstantFramework
 {
@@ -20,9 +21,11 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set;  }
 
         public Dictionary<string, bool> hasUnreadMessages { get; set; } = new Dictionary<string, bool>();
         public string lastSavedChatId { get; set; } = "";
+        public bool preloadingMessagesCompleted { get; set; } = false;
 
         Dictionary<string, ChatMessages> chatHistory { get; set; } = new Dictionary<string, ChatMessages>();
 
@@ -70,6 +73,7 @@ namespace TurboLabz.InstantFramework
                     if (message.timestamp < messageList[i].timestamp)
                     {
                         insertIndex = i;
+                        break;
                     }
                 }
 
@@ -88,7 +92,13 @@ namespace TurboLabz.InstantFramework
                 messageList.Add(message);
             }
 
-            lastSavedChatId = message.guid;
+            // The last saved chat id must only be that of chats
+            // sent by the opponennt
+            if (message.senderId != playerModel.id &&
+                preloadingMessagesCompleted)
+            {
+                lastSavedChatId = message.guid;
+            }
 
             return true;
         }
