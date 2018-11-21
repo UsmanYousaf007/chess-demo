@@ -243,7 +243,7 @@ namespace TurboLabz.InstantFramework
             {
                 GSData messageData = (GSData)pair.Value;
 
-                ChatMessage msg;
+                ChatMessage msg = new ChatMessage();
                 msg.senderId = messageData.GetString(GSBackendKeys.Chat.SENDER_ID);
                 msg.recipientId = playerModel.id;
                 msg.text = messageData.GetString(GSBackendKeys.Chat.TEXT);
@@ -252,8 +252,6 @@ namespace TurboLabz.InstantFramework
 
                 receiveChatMessageSignal.Dispatch(msg, true);
             }
-
-            chatModel.preloadingMessagesCompleted = true;
         }
     }
 

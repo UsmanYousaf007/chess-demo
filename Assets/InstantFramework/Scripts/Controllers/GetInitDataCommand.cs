@@ -80,7 +80,7 @@ namespace TurboLabz.InstantFramework
         string BuildAppData()
         {
             AppData appData;
-            appData.lastSavedChatId = chatModel.lastSavedChatId;
+            appData.lastSavedChatId = chatModel.lastSavedChatIdOnLaunch;
 
             return JsonUtility.ToJson(appData);
         }

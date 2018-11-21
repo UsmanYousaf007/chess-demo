@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
         {
             if (message.ExtCode == GSBackendKeys.Chat.CHAT_EXT_CODE)
             {
-                ChatMessage msg;
+                ChatMessage msg = new ChatMessage();
                 msg.recipientId = playerModel.id;
                 msg.guid = message.Data.GetString(GSBackendKeys.Chat.GUID);
 

@@ -203,7 +203,7 @@ namespace TurboLabz.Multiplayer
 
         void OnSubmit(string text)
         {
-            ChatMessage message;
+            ChatMessage message = new ChatMessage();
             message.recipientId = opponentId;
             message.senderId = playerId;
             message.text = text;

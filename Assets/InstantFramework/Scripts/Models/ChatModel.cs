@@ -24,8 +24,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set;  }
 
         public Dictionary<string, bool> hasUnreadMessages { get; set; } = new Dictionary<string, bool>();
-        public string lastSavedChatId { get; set; } = "";
-        public bool preloadingMessagesCompleted { get; set; } = false;
+        public string lastSavedChatIdOnLaunch { get; set; }
+
+        string lastSavedChatId = "";
+        ChatMessage lastSavedMessage = null;
 
         Dictionary<string, ChatMessages> chatHistory { get; set; } = new Dictionary<string, ChatMessages>();
 
@@ -93,11 +95,15 @@ namespace TurboLabz.InstantFramework
             }
 
             // The last saved chat id must only be that of chats
-            // sent by the opponennt
-            if (message.senderId != playerModel.id &&
-                preloadingMessagesCompleted)
+            // sent by the opponent.
+            if (message.senderId != playerModel.id)
             {
-                lastSavedChatId = message.guid;
+                if (lastSavedMessage == null ||
+                    lastSavedMessage.timestamp <= message.timestamp)
+                {
+                    lastSavedChatId = message.guid;
+                    lastSavedMessage = message;
+                }
             }
 
             return true;
@@ -213,6 +219,7 @@ namespace TurboLabz.InstantFramework
                 if (reader.HasKey(CHAT_META_LAST_SAVE_KEY))
                 {
                     lastSavedChatId = reader.Read<string>(CHAT_META_LAST_SAVE_KEY);
+                    lastSavedChatIdOnLaunch = lastSavedChatId;
                 }
 
                 reader.Close();
@@ -234,7 +241,7 @@ namespace TurboLabz.InstantFramework
     }
 
     [Serializable]
-    public struct ChatMessage
+    public class ChatMessage
     {
         public string senderId;
         public string recipientId;
