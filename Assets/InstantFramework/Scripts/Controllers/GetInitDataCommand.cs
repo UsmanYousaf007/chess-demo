@@ -73,7 +73,6 @@ namespace TurboLabz.InstantFramework
             playerModel.Reset();
             storeSettingsModel.Reset();
             adsSettingsModel.Reset();
-            chatModel.Reset();
 
         }
 

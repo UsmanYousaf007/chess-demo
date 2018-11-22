@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
 
         const string CHAT_META_FILE = "chatMetaFile";
         const string CHAT_META_LAST_SAVE_KEY = "chatMetaLastSaveKey";
+        const string CHAT_META_UNREAD_MESSAGES = "chatMetaUnreadMessages";
         const string CHAT_HISTORY_FILE = "chatHistoryFile";
         const string CHAT_HISTORY_SAVE_KEY = "chatHistorySaveKey";
         const int CHAT_HISTORY_SIZE = 50;
@@ -47,8 +48,10 @@ namespace TurboLabz.InstantFramework
 
         public void Reset()
         {
-            hasUnreadMessages = new Dictionary<string, bool>();
-            chatHistory = new Dictionary<string, ChatMessages>();
+            // DO NOT RESET THIS MODEL. 
+            // CHAT NEEDS TO REMAIN PERSISTENT BETWEEN RECONNECTS BECAUSE ITS STATE
+            // DEPENDS UPON LIVE MESSAGES FROM GAMESPARKS AND IT WRITES TO DISK
+            // ONLY ON PAUSE.
         }
 
 
@@ -193,6 +196,7 @@ namespace TurboLabz.InstantFramework
             {
                 ILocalDataWriter writer = localDataService.OpenWriter(CHAT_META_FILE);
                 writer.Write<string>(CHAT_META_LAST_SAVE_KEY, lastSavedChatId);
+                writer.WriteDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES, hasUnreadMessages);
                 writer.Close();
             }
             catch (Exception e)
@@ -219,6 +223,7 @@ namespace TurboLabz.InstantFramework
                 if (reader.HasKey(CHAT_META_LAST_SAVE_KEY))
                 {
                     lastSavedChatId = reader.Read<string>(CHAT_META_LAST_SAVE_KEY);
+                    hasUnreadMessages = reader.ReadDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES);
                     lastSavedChatIdOnLaunch = lastSavedChatId;
                 }
 

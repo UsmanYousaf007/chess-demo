@@ -136,6 +136,14 @@ namespace TurboLabz.Multiplayer
 
         }
 
+        public void EnableUnreadIndicator(string friendId)
+        {
+            if (friendId == opponentId)
+            {
+                unreadMessagesIndicator.SetActive(true);
+            }
+        }
+
         public void UpdateChatOpponentPic(Sprite sprite)
         {
             if (sprite == null)

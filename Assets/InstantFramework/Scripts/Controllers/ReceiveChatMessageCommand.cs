@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         public override void Execute()
         {
@@ -34,12 +35,15 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            // Send message to view
             if (matchInfoModel.activeMatch != null &&
                 chatMessage.senderId == matchInfoModel.activeMatch.opponentPublicProfile.playerId)
             {
                 displayChatMessageSignal.Dispatch(chatMessage);
             }
-            else
+
+            // Setup the unread indicator
+            if (navigatorModel.currentViewId != NavigatorViewId.MULTIPLAYER_CHAT_DLG)
             {
                 if (chatModel.hasUnreadMessages.ContainsKey(chatMessage.senderId))
                 {
