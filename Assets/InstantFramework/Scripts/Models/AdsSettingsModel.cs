@@ -14,7 +14,16 @@ namespace TurboLabz.InstantFramework
         public int adsRewardIncrement { get; set; }
         public int freeNoAdsPeriod { get; set; }
 
-        public void Reset()
+        // Listen to signals
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+
+        [PostConstruct]
+        public void PostConstruct()
+        {
+            modelsResetSignal.AddListener(Reset);
+        }
+
+        private void Reset()
         {
             maxImpressionsPerSlot = 0;
             slotHour = 0;

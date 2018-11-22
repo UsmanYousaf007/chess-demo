@@ -114,17 +114,17 @@ namespace TurboLabz.Multiplayer
     {
         public Dictionary<string, Chessboard> chessboards { get; set; }
 
+        // Listen to signals
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+
         [PostConstruct]
         public void PostConstruct()
         {
-            chessboards = new Dictionary<string, Chessboard>();
+            modelsResetSignal.AddListener(Reset);
         }
-
-        public Chessboard AddChessboard(string challengeId)
+        private void Reset()
         {
-            Chessboard chessboard = new Chessboard();
-            chessboards.Add(challengeId, chessboard);
-            return chessboard;
+            chessboards = new Dictionary<string, Chessboard>();
         }
     }
 }

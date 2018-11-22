@@ -74,7 +74,7 @@ namespace TurboLabz.CPU
             }
         }
 
-        [ListensTo(typeof(SaveToDiskSignal))]
+        [ListensTo(typeof(ModelsSaveToDiskSignal))]
         public void OnSaveToDisk()
         {
             if (!view || !view.IsVisible())

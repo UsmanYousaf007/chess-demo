@@ -26,6 +26,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public GameDisconnectingSignal gameDisconnectingSignal { get; set; }
         [Inject] public AppEventSignal appEventSignal { get; set;  }
 
+
+        [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
+
         public void MonitorConnectivity(bool enable)
         {
             GS.GameSparksAvailable -= GameSparksAvailable;
@@ -45,6 +50,11 @@ namespace TurboLabz.InstantFramework
             else
             {
                 LogUtil.Log("GS DISCONNECTED!", "red");
+
+                modelsSaveToDiskSignal.Dispatch();
+                modelsResetSignal.Dispatch();
+                modelsLoadFromDiskSignal.Dispatch();
+
                 gameDisconnectingSignal.Dispatch();
                 GSFrameworkRequest.CancelRequestSession();
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);

@@ -39,7 +39,16 @@ namespace TurboLabz.InstantFramework
         public Dictionary<string, Friend> community { get; set; }
         public bool busyRefreshingCommunity { get; set; }
 
-		public void Reset()
+        // Listen to signals
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+
+        [PostConstruct]
+        public void PostConstruct()
+        {
+            modelsResetSignal.AddListener(Reset);
+        }
+
+        private void Reset()
         {
             id = null;
             creationDate = 0;

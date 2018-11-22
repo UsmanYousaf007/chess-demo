@@ -110,7 +110,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SetActionCountSignal>().ToSingleton();
             injectionBinder.Bind<AddUnreadMessagesToBarSignal>().ToSingleton();
             injectionBinder.Bind<ClearUnreadMessagesFromBarSignal>().ToSingleton();
-            injectionBinder.Bind<SaveToDiskSignal>().ToSingleton();
+            injectionBinder.Bind<ModelsSaveToDiskSignal>().ToSingleton();
+            injectionBinder.Bind<ModelsLoadFromDiskSignal>().ToSingleton();
+            injectionBinder.Bind<ModelsResetSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -163,15 +165,15 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateFriendOnlineStatusSignal>().ToSingleton();
 
             // Bind models
-            injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton();
-            injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton();
-			injectionBinder.Bind<IMetaDataModel>().To<MetaDataModel>().ToSingleton();
-            injectionBinder.Bind<IPlayerModel>().To<PlayerModel>().ToSingleton();
-            injectionBinder.Bind<IMatchInfoModel>().To<MatchInfoModel>().ToSingleton();
-            injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton();
-            injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton();
-            injectionBinder.Bind<IAdsSettingsModel>().To<AdsSettingsModel>().ToSingleton();
-            injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton();
+            injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
+            injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton(); // Lifecycle handled
+            injectionBinder.Bind<IMetaDataModel>().To<MetaDataModel>().ToSingleton(); // Lifecycle handled
+            injectionBinder.Bind<IPlayerModel>().To<PlayerModel>().ToSingleton(); // Lifecyle handled
+            injectionBinder.Bind<IMatchInfoModel>().To<MatchInfoModel>().ToSingleton(); // Lifecyle handled
+            injectionBinder.Bind<IStoreSettingsModel>().To<StoreSettingsModel>().ToSingleton(); // Lifecyle handled
+            injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton(); // Lifecyle handled
+            injectionBinder.Bind<IAdsSettingsModel>().To<AdsSettingsModel>().ToSingleton(); // Lifecyle handled
+            injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton(); // Lifecyle handled
 
             MapGameBindings();
             MapCPUGameBindings();

@@ -17,20 +17,16 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalDataService localDataService { get; set; }
 
         // Listen to signals
-        [Inject] public SaveToDiskSignal saveToDiskSignal { get; set; }
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
+        [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
+
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set;  }
 
-        public Dictionary<string, bool> hasUnreadMessages { get; set; } = new Dictionary<string, bool>();
-        public string lastSavedChatIdOnLaunch { get; set; }
-
-        string lastSavedChatId = "";
-        ChatMessage lastSavedMessage = null;
-
-        Dictionary<string, ChatMessages> chatHistory { get; set; } = new Dictionary<string, ChatMessages>();
-
+        // Constants
         const string CHAT_META_FILE = "chatMetaFile";
         const string CHAT_META_LAST_SAVE_KEY = "chatMetaLastSaveKey";
         const string CHAT_META_UNREAD_MESSAGES = "chatMetaUnreadMessages";
@@ -38,22 +34,30 @@ namespace TurboLabz.InstantFramework
         const string CHAT_HISTORY_SAVE_KEY = "chatHistorySaveKey";
         const int CHAT_HISTORY_SIZE = 50;
 
+        // Variables
+        public Dictionary<string, bool> hasUnreadMessages { get; set; }
+        public string lastSavedChatIdOnLaunch { get; set; }
+        string lastSavedChatId;
+        ChatMessage lastSavedMessage;
+        Dictionary<string, ChatMessages> chatHistory { get; set; }
+
+
         [PostConstruct]
-        public void Load()
+        public void PostConstruct()
         {
-            saveToDiskSignal.AddListener(SaveChatHistoryFile);
-            saveToDiskSignal.AddListener(SaveChatMetaFile);
-            LoadMetaFile();
+            modelsResetSignal.AddListener(Reset);
+            modelsLoadFromDiskSignal.AddListener(LoadFromDisk);
+            modelsSaveToDiskSignal.AddListener(SaveToDisk);
         }
 
-        public void Reset()
+        private void Reset()
         {
-            // DO NOT RESET THIS MODEL. 
-            // CHAT NEEDS TO REMAIN PERSISTENT BETWEEN RECONNECTS BECAUSE ITS STATE
-            // DEPENDS UPON LIVE MESSAGES FROM GAMESPARKS AND IT WRITES TO DISK
-            // ONLY ON PAUSE.
+            hasUnreadMessages = new Dictionary<string, bool>();
+            lastSavedChatIdOnLaunch = "";
+            lastSavedChatId = "";
+            lastSavedMessage = null;
+            chatHistory = new Dictionary<string, ChatMessages>();
         }
-
 
         public bool AddChat(string opponentId, ChatMessage message, bool isBackupMessage)
         {
@@ -158,6 +162,55 @@ namespace TurboLabz.InstantFramework
             chatHistory[opponentId] = new ChatMessages();
         }
 
+        void SaveToDisk()
+        {
+            // Save Meta File
+            try
+            {
+                ILocalDataWriter writer = localDataService.OpenWriter(CHAT_META_FILE);
+                writer.Write<string>(CHAT_META_LAST_SAVE_KEY, lastSavedChatId);
+                writer.WriteDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES, hasUnreadMessages);
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                if (localDataService.FileExists(CHAT_META_FILE))
+                {
+                    localDataService.DeleteFile(CHAT_META_FILE);
+                }
+            }
+
+            SaveChatHistoryFile();
+        }
+
+        void LoadFromDisk()
+        {
+            if (!localDataService.FileExists(CHAT_META_FILE))
+            {
+                return;
+            }
+
+            try
+            {
+                ILocalDataReader reader = localDataService.OpenReader(CHAT_META_FILE);
+
+                // Read chat here
+                if (reader.HasKey(CHAT_META_LAST_SAVE_KEY))
+                {
+                    lastSavedChatId = reader.Read<string>(CHAT_META_LAST_SAVE_KEY);
+                    hasUnreadMessages = reader.ReadDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES);
+                    lastSavedChatIdOnLaunch = lastSavedChatId;
+                }
+
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                lastSavedChatId = "";
+                localDataService.DeleteFile(CHAT_META_FILE);
+            }
+        }
+
         void SaveChatHistoryFile()
         {
             // Write chat here
@@ -190,53 +243,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void SaveChatMetaFile()
-        {
-            try
-            {
-                ILocalDataWriter writer = localDataService.OpenWriter(CHAT_META_FILE);
-                writer.Write<string>(CHAT_META_LAST_SAVE_KEY, lastSavedChatId);
-                writer.WriteDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES, hasUnreadMessages);
-                writer.Close();
-            }
-            catch (Exception e)
-            {
-                if (localDataService.FileExists(CHAT_META_FILE))
-                {
-                    localDataService.DeleteFile(CHAT_META_FILE);
-                }
-            }
-        }
 
-        void LoadMetaFile()
-        {
-            if (!localDataService.FileExists(CHAT_META_FILE))
-            {
-                return;
-            }
-
-            try
-            {
-                ILocalDataReader reader = localDataService.OpenReader(CHAT_META_FILE);
-
-                // Read chat here
-                if (reader.HasKey(CHAT_META_LAST_SAVE_KEY))
-                {
-                    lastSavedChatId = reader.Read<string>(CHAT_META_LAST_SAVE_KEY);
-                    hasUnreadMessages = reader.ReadDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES);
-                    lastSavedChatIdOnLaunch = lastSavedChatId;
-                }
-
-                reader.Close();
-            }
-            catch (Exception e)
-            {
-                lastSavedChatId = "";
-                localDataService.DeleteFile(CHAT_META_FILE);
-            }
-        }
-
-        
     }
 
     [Serializable]

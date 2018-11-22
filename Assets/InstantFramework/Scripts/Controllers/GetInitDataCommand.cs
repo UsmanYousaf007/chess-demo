@@ -37,13 +37,10 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
-        [Inject] public SaveToDiskSignal saveToDiskSignal { get; set;  }
 
         public override void Execute()
         {
             Retain();
-            saveToDiskSignal.Dispatch();
-            ResetModels();
 
             string appData = BuildAppData();
             backendService.GetInitData(appInfoModel.appBackendVersion, appData).Then(OnComplete);
@@ -67,14 +64,6 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
-        void ResetModels()
-        {
-            appInfoModel.Reset();
-            playerModel.Reset();
-            storeSettingsModel.Reset();
-            adsSettingsModel.Reset();
-
-        }
 
         string BuildAppData()
         {

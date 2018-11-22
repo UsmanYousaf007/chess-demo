@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public GameAppEventSignal gameAppEventSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public SaveToDiskSignal saveToDiskSignal { get; set; }
+        [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
 
             if (appEvent == AppEvent.PAUSED || appEvent == AppEvent.QUIT)
             {
-                saveToDiskSignal.Dispatch();
+                modelsSaveToDiskSignal.Dispatch();
             }
             else if (appEvent == AppEvent.ESCAPED)
             {

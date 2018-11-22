@@ -22,15 +22,24 @@ namespace TurboLabz.InstantFramework
             BACKEND = 2
         }
 
-        public void Reset()
+        // Listen to signals
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+
+        [PostConstruct]
+        public void PostConstruct()
+        {
+            string[] version = Application.version.Split('.');
+            appBackendVersion = int.Parse(version[(int)subVersionIndex.BACKEND]);
+
+            modelsResetSignal.AddListener(Reset);
+        }
+
+        private void Reset()
         {
             appBackendVersionValid = false;
             iosURL = "";
             androidURL = "";
             rateAppThreshold = 0;
-
-            string[] version = Application.version.Split('.');
-            appBackendVersion = int.Parse(version[(int)subVersionIndex.BACKEND]);
         }
     }
 }

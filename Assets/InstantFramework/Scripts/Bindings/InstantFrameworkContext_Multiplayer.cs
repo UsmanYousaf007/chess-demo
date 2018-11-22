@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<StopTimersSignal>().ToSingleton();
 
             // Bind models
-            injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton();
+            injectionBinder.Bind<IChessboardModel>().To<ChessboardModel>().ToSingleton(); // Lifecycle handled
 
             // Bind mediator to view
             mediationBinder.Bind<GameView>().To<GameMediator>();

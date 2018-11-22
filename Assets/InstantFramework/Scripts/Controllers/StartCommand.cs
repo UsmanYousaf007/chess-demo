@@ -18,9 +18,11 @@ namespace TurboLabz.InstantFramework
 		[Inject] public ReceptionSignal receptionSignal { get; set; }
 		[Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public InitFacebookSignal initFacebookSignal { get; set; }
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
 
         // Services
-		[Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 		[Inject] public IShareService shareService { get; set; }
 		[Inject] public IBackendService backendService { get; set; }
 
@@ -32,6 +34,9 @@ namespace TurboLabz.InstantFramework
 		public override void Execute()
 		{
 			Retain();
+
+            modelsResetSignal.Dispatch();
+            modelsLoadFromDiskSignal.Dispatch();
 
 			ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);

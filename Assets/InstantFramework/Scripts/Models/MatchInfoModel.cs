@@ -46,6 +46,9 @@ namespace TurboLabz.InstantFramework
 
     public class MatchInfoModel : IMatchInfoModel
     {
+        // Listen to signals
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+
         public OrderedDictionary<string, MatchInfo> matches { get; set; }
         public string activeChallengeId { get; set; }
         public string activeLongMatchOpponentId { get; set; }
@@ -68,8 +71,17 @@ namespace TurboLabz.InstantFramework
         [PostConstruct]
         public void PostConstruct()
         {
+            modelsResetSignal.AddListener(Reset);
+        }
+
+        private void Reset()
+        {
             matches = new OrderedDictionary<string, MatchInfo>();
+            activeChallengeId = null;
+            activeLongMatchOpponentId = null;
             unregisteredChallengeIds = new List<string>();
+            createLongMatchAborted = false;
+
         }
 
         public MatchInfo CreateMatch(string challengeId)
@@ -78,7 +90,5 @@ namespace TurboLabz.InstantFramework
             matches.Add(challengeId, matchInfo);
             return matchInfo;
         }
-
-
     }
 }

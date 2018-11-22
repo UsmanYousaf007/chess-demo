@@ -22,6 +22,10 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        /*
+         * This is called only once by the NavigatorCommand and should not be called
+         * again for the lifetime of the app including reconnects.
+         */
         public void Reset()
         {
             currentState = null;

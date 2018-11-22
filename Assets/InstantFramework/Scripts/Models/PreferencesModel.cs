@@ -15,8 +15,9 @@ namespace TurboLabz.InstantGame
         [Inject] public ILocalDataService localDataService { get; set; }
 
         // Listen to signals
-        [Inject] public AppEventSignal appEventSignal { get; set; }
-        [Inject] public SaveToDiskSignal saveToDiskSignal { get; set; }
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
+        [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
 
         public bool isAudioOn { get; set; }
         public long adSlotId { get; set; }
@@ -24,15 +25,22 @@ namespace TurboLabz.InstantGame
         public bool hasRated { get; set; }
 
         [PostConstruct]
-        public void Load()
+        public void PostConstruct()
         {
-            Reset();
-            LoadFromFile();
-
-            saveToDiskSignal.AddListener(SaveToFile);
+            modelsResetSignal.AddListener(Reset);
+            modelsLoadFromDiskSignal.AddListener(LoadFromDisk);
+            modelsSaveToDiskSignal.AddListener(SaveToDisk);
         }
 
-        private void LoadFromFile()
+        private void Reset()
+        {
+            isAudioOn = true;
+            adSlotId = 0;
+            adSlotImpressions = 0;
+            hasRated = false;
+        }
+
+        private void LoadFromDisk()
         {
             if (!localDataService.FileExists(PrefKeys.PREFS_SAVE_FILENAME))
             {
@@ -67,7 +75,7 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        private void SaveToFile()
+        private void SaveToDisk()
         {
             try
             {
@@ -89,14 +97,6 @@ namespace TurboLabz.InstantGame
 
                 LogUtil.Log("Critical error when saving prefs. File deleted. " + e, "red");
             }
-        }
-
-        private void Reset()
-        {
-            isAudioOn = true;
-            adSlotId = 0;
-            adSlotImpressions = 0;
-            hasRated = false;
         }
     }
 }

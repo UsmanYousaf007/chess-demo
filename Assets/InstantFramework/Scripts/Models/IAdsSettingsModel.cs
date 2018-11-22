@@ -13,8 +13,6 @@ namespace TurboLabz.InstantFramework
         int slotHour { get; set; }
         int adsRewardIncrement { get; set; }
         int freeNoAdsPeriod { get; set; }
-
-        void Reset();
     }
 }
 

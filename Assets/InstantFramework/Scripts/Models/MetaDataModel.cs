@@ -8,17 +8,12 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
+    // This is a convenience grouping model.
+    // Does not have a lifecycle (reset/load etc)
     public class MetaDataModel : IMetaDataModel
     {
-        public IAppInfoModel appInfo  { get; set; }
-        public IStoreSettingsModel store { get; set; }
-        public IAdsSettingsModel adsSettings { get; set; }
-
-        public void Reset()
-        {
-            appInfo = null;
-            store = null;
-            adsSettings = null;
-        }
+        public IAppInfoModel appInfo { get; set; } = null;
+        public IStoreSettingsModel store { get; set; } = null;
+        public IAdsSettingsModel adsSettings { get; set; } = null;
     }
 }

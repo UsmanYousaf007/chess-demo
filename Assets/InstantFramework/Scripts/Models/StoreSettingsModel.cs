@@ -14,13 +14,17 @@ namespace TurboLabz.InstantFramework
         public IDictionary<string, List<StoreItem>> lists { get; set; }
         public IOrderedDictionary<string, StoreItem> items { get; set; }
 
-        public void Reset()
+        // Listen to signals
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+
+        [PostConstruct]
+        public void PostConstruct()
         {
-            lists = null;
-            items = null;
+            remoteStoreAvailable = false;
+            modelsResetSignal.AddListener(Reset);
         }
 
-        public void Initialize()
+        private void Reset()
         {
             lists = new Dictionary<string, List<StoreItem>>();
             items = new OrderedDictionary<string, StoreItem>();

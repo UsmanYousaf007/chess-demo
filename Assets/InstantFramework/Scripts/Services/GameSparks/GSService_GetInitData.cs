@@ -134,7 +134,6 @@ namespace TurboLabz.InstantFramework
             List<GSData> featureShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.FEATURE_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> featureItems = PopulateFeatureStoreItems(featureShopItemsData);
 
-            storeSettingsModel.Initialize();
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.FEATURE_SHOP_TAG, featureItems);

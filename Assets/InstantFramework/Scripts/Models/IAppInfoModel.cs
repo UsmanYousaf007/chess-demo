@@ -12,7 +12,5 @@ namespace TurboLabz.InstantFramework
         string iosURL { get; set; }
         string androidURL { get; set; }
         int rateAppThreshold { get; set; }
-
-        void Reset();
     }
 }
