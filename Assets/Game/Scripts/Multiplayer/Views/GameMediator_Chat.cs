@@ -89,9 +89,9 @@ namespace TurboLabz.Multiplayer
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
         }
 
-        void OnClearActiveChat()
+        void OnClearActiveChat(string opponentId)
         {
-            clearActiveChatSignal.Dispatch();
+            clearActiveChatSignal.Dispatch(opponentId);
         }
 
         void OnClearUnreadMessages(string opponentId)

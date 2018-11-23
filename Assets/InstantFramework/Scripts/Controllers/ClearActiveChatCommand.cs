@@ -15,15 +15,16 @@ namespace TurboLabz.InstantFramework
 {
     public class ClearActiveChatCommand : Command
     {
+        // Parameters
+        [Inject] public string opponentId { get; set;  }
+
         // Models
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
-        private string opponentId;
-
         public override void Execute()
         {
-            chatModel.ClearChat(matchInfoModel.activeMatch.opponentPublicProfile.playerId);
+            chatModel.ClearChat(opponentId);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
         public Signal<ChatMessage> chatSubmitSignal = new Signal<ChatMessage>();
         public Signal openChatDlgSignal = new Signal();
         public Signal closeChatDlgSignal = new Signal();
-        public Signal clearActiveChatSignal = new Signal();
+        public Signal<string> clearActiveChatSignal = new Signal<string>();
         public Signal<string> clearUnreadMessagesSignal = new Signal<string>();
 
         public Transform scrollViewContent;
@@ -351,7 +351,7 @@ namespace TurboLabz.Multiplayer
         void OnClearActiveChat()
         {
             CleanUpChat();
-            clearActiveChatSignal.Dispatch();
+            clearActiveChatSignal.Dispatch(opponentId);
         }
     }
 }
