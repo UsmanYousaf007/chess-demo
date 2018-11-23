@@ -28,7 +28,8 @@ namespace TurboLabz.Multiplayer
             view.InitResults();
             view.backToLobbySignal.AddListener(OnBackToLobby);
             view.backToFriendsSignal.AddListener(OnBackToFriends);
-            view.resultsDialogButtonClickedSignal.AddListener(OnResultsDialogButtonClicked);
+            view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
+            view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
         }
 
         public void OnRemoveResults()
@@ -53,15 +54,6 @@ namespace TurboLabz.Multiplayer
                 view.HideResultsDialog();
             }
         }
-
-        [ListensTo(typeof(AppEventSignal))]
-        public void OnAppEvent(AppEvent evt)
-        {
-            if (evt == AppEvent.ESCAPED)
-            {
-                view.ExitPlaybackMode();
-            }
-        }
             
         [ListensTo(typeof(UpdateResultDialogSignal))]
         public void OnUpdateResults(ResultsVO vo)
@@ -75,7 +67,12 @@ namespace TurboLabz.Multiplayer
             showAdSignal.Dispatch(false, AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
         }
 
-        private void OnResultsDialogButtonClicked()
+        private void OnResultsDialogClosedSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+        }
+
+        private void OnResultsDialogOpenedSignal()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
         }

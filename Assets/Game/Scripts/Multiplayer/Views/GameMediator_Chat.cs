@@ -94,9 +94,9 @@ namespace TurboLabz.Multiplayer
             clearActiveChatSignal.Dispatch();
         }
 
-        void OnClearUnreadMessages()
+        void OnClearUnreadMessages(string opponentId)
         {
-            clearUnreadMessagesSignal.Dispatch();
+            clearUnreadMessagesSignal.Dispatch(opponentId);
         }
 
     }

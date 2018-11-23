@@ -15,6 +15,9 @@ namespace TurboLabz.InstantFramework
 {
     public class ClearUnreadMessagesCommand : Command
     {
+        // Parameters
+        [Inject] public string opponentId { get; set; }
+
         // Dispatch Signals
         [Inject] public ClearUnreadMessagesFromBarSignal clearUnreadMessagesFromBarSignal { get; set; }
 
@@ -24,15 +27,6 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            // Safety
-            if (matchInfoModel.activeMatch == null)
-            {
-                return;
-            }
-
-
-            string opponentId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
-
             if (chatModel.hasUnreadMessages.ContainsKey(opponentId))
             {
                 chatModel.hasUnreadMessages.Remove(opponentId);

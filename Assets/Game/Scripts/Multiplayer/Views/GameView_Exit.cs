@@ -110,7 +110,14 @@ namespace TurboLabz.Multiplayer
 
         void OnMenuButtonClicked()
         {
-            menuButtonClickedSignal.Dispatch();
+            if (chessboardBlocker.activeSelf)
+            {
+                resultsDialogOpenedSignal.Dispatch();
+            }
+            else
+            {
+                menuButtonClickedSignal.Dispatch();
+            }
         }
 
         void OnResignButtonClicked()

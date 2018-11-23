@@ -36,16 +36,14 @@ namespace TurboLabz.Multiplayer
         public Button resultsCloseButton;
         public Text resultsCloseButtonLabel;
 
-        public Button playbackOverlay;
-
         public Text ratingLabel;
         public Text ratingValue;
         public Text ratingDelta;
 
         public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
-        public Signal enterPlaybackSignal = new Signal();
-        public Signal resultsDialogButtonClickedSignal = new Signal();
+        public Signal resultsDialogClosedSignal = new Signal();
+        public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
         public Signal backToFriendsSignal = new Signal();
 
@@ -64,7 +62,6 @@ namespace TurboLabz.Multiplayer
             declinedLobbyButton.onClick.AddListener(OnResultsExitButtonClicked);
 
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
-            playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
 		
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             ratingLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
@@ -76,7 +73,6 @@ namespace TurboLabz.Multiplayer
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
             declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
 
-            playbackOverlay.gameObject.SetActive(false);
         }
 
         public void CleanupResults()
@@ -95,7 +91,6 @@ namespace TurboLabz.Multiplayer
             EnableModalBlocker();
             resultsDialog.SetActive(true);
 
-            DisableMenuButton();
             HidePossibleMoves();
 
             if (!ArePlayerMoveIndicatorsVisible())
@@ -261,13 +256,6 @@ namespace TurboLabz.Multiplayer
             return resultsDialog.activeSelf;
         }
 
-        public void ExitPlaybackMode()
-        {
-            if (playbackOverlay.gameObject.activeSelf)
-            {
-                OnPlaybackOverlayClicked();
-            }
-        }
 
         private void HandleDeclinedDialog()
         {
@@ -302,8 +290,8 @@ namespace TurboLabz.Multiplayer
 
         private void OnResultsClosed()
         {
-            HideResultsDialog();
-            playbackOverlay.gameObject.SetActive(true);
+            uiBlocker.SetActive(false);
+            resultsDialogClosedSignal.Dispatch();
         }
 
         private void OnAdsButtonClicked()
@@ -311,15 +299,6 @@ namespace TurboLabz.Multiplayer
             showAdButtonClickedSignal.Dispatch();
         }
 
-        private void OnResultsDialogButtonClicked()
-        {
-            resultsDialogButtonClickedSignal.Dispatch();
-        }
 
-        private void OnPlaybackOverlayClicked()
-        {
-            playbackOverlay.gameObject.SetActive(false);
-            ShowResultsDialog();
-        }
     }
 }

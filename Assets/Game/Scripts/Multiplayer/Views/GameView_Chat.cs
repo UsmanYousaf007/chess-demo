@@ -49,7 +49,7 @@ namespace TurboLabz.Multiplayer
         public Signal openChatDlgSignal = new Signal();
         public Signal closeChatDlgSignal = new Signal();
         public Signal clearActiveChatSignal = new Signal();
-        public Signal clearUnreadMessagesSignal = new Signal();
+        public Signal<string> clearUnreadMessagesSignal = new Signal<string>();
 
         public Transform scrollViewContent;
         public ScrollRect scrollRect;
@@ -73,6 +73,8 @@ namespace TurboLabz.Multiplayer
         string opponentId;
         string playerId;
         List<Image> opponentEmptyPics = new List<Image>();
+
+        bool chessboardBlockerRestoreState = false;
 
         public void InitChat()
         {
@@ -182,8 +184,9 @@ namespace TurboLabz.Multiplayer
             StartCoroutine(SetScrollPosition());
 
             unreadMessagesIndicator.SetActive(false);
-            clearUnreadMessagesSignal.Dispatch();
+            clearUnreadMessagesSignal.Dispatch(opponentId);
 
+            chessboardBlockerRestoreState = chessboardBlocker.activeSelf;
             chessboardBlocker.SetActive(true);
         }
 
@@ -196,12 +199,13 @@ namespace TurboLabz.Multiplayer
             backToFriendsLabel.gameObject.SetActive(isLongPlay);
             backToGameBtnTxt.gameObject.SetActive(false);
 
-            chessboardBlocker.SetActive(false);
+            chessboardBlocker.SetActive(chessboardBlockerRestoreState);
         }
 
         public void OnReceive(ChatMessage message)
         {
-            if (message.text.Length > 0)
+            if (opponentId == message.senderId && 
+                message.text.Length > 0)
             {
                 opponentChatBubble.gameObject.SetActive(true);
                 opponentChatBubble.SetText(message.text, false);

@@ -56,6 +56,7 @@ namespace TurboLabz.Multiplayer
             chessboardBlocker.SetActive(false);
             OnParentHideChessboard();
             OnParentHideClickAndDrag();
+            opponentId = null;
         }
 
         public bool IsVisible()

@@ -36,11 +36,7 @@ namespace TurboLabz.InstantFramework
             }
 
             // Send message to view
-            if (matchInfoModel.activeMatch != null &&
-                chatMessage.senderId == matchInfoModel.activeMatch.opponentPublicProfile.playerId)
-            {
-                displayChatMessageSignal.Dispatch(chatMessage);
-            }
+            displayChatMessageSignal.Dispatch(chatMessage);
 
             // Setup the unread indicator
             if (navigatorModel.currentViewId != NavigatorViewId.MULTIPLAYER_CHAT_DLG)
