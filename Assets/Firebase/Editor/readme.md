@@ -162,6 +162,35 @@ Support
 
 Release Notes
 -------------
+### 5.4.2
+  - Overview
+    - Updated iOS and Android dependency versions, and fixed issues in the
+      Android Resolver, FirebaseApp, Auth on Android, Database, and Dynamic
+      Links on iOS.
+  - Changes
+    - General (Android): Fixed an infinite loop in Android Resolver when using
+      auto-resolution.
+    - App: Fixed a race condition causing an occasional crash when FirebaseApp
+      is garbage collected.
+    - Auth (Android): Removed an irrelevant error about the Java class
+      FirebaseAuthWebException.
+    - Database: Fixed a race condition causing an occasional crash when
+      FirebaseDatabase is garbage collected.
+    - Dynamic Links (iOS): Fixed Dynamic Links iOS when using Unity Cloud
+      builds.
+  - Known Issues
+    - The garbage collection race condition mentioned above still occurs in
+      Firebase Auth, Storage, and Instance ID. To work around the issue until a
+      fixed is released, keep a reference to the Firebase object instance (for
+      example, FirebaseAuth.DefaultInstance) to prevent garbage collection.
+
+### 5.4.1
+  - Overview
+    - Fix for Google Analytics iOS dependency.
+  - Changes
+    - Analytics (iOS): Fixed issue with Google Analytics and Google App
+      Measurement mismatch.
+
 ### 5.4.0
   - Overview
     - Improved support for .NET 4.x Unity projects, exposed method to enable
