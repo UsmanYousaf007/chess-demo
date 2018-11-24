@@ -66,7 +66,7 @@ namespace TurboLabz.InstantGame
             updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
 
             ProfileVO pvo = new ProfileVO();
-            pvo.playerPic = playerModel.profilePic;
+            pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
             pvo.playerName = playerModel.name;
             pvo.eloScore = playerModel.eloScore;
             pvo.countryId = playerModel.countryId;

@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IChatModel chatModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         public override void Execute()
         {
@@ -43,7 +44,7 @@ namespace TurboLabz.InstantFramework
             vo.chatMessages = chatModel.GetChat(opponentId);
             vo.opponentName = matchInfoModel.activeMatch.opponentPublicProfile.name;
             vo.playerId = playerModel.id;
-            vo.playerProfilePic = playerModel.profilePic;
+            vo.playerProfilePic = picsModel.GetPlayerPic(playerModel.id);
             vo.opponentId = opponentId;
 
             // Try your best to grab the picture

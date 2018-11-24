@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
         long bucks { get; set; }
         int eloScore { get; set; }
 
-        Sprite profilePic { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }          

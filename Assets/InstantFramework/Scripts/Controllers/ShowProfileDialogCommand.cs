@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
             ProfileDialogVO vo = new ProfileDialogVO();
 
             vo.playerId = opponentId;
-            vo.playerProfilePic = playerModel.profilePic;
+            vo.playerProfilePic = picsModel.GetPlayerPic(playerModel.id);
             vo.playerProfileName = playerModel.name;
             vo.playerElo = playerModel.eloScore;
             vo.playerCountryCode = playerModel.countryId;

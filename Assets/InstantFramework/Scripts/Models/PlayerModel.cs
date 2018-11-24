@@ -23,9 +23,6 @@ namespace TurboLabz.InstantFramework
         public long bucks { get; set; }
         public int eloScore { get; set; }
 
-        public Sprite profilePic { get; set; }
-        public Sprite socialPic { get; set; }
-
         // Ads Info
         public int adLifetimeImpressions { get; set; }
 
@@ -61,8 +58,6 @@ namespace TurboLabz.InstantFramework
             bucks = 0;
             eloScore = 0;
 
-            profilePic = null;
-            socialPic = null;
 
             // Ads Info
             adLifetimeImpressions = 0;

@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
 
         private const string PIC_KEY = "pic";
         private const string PIC_FILE_PREFIX = "fp";
+        private Dictionary<string, Sprite> memCache = new Dictionary<string, Sprite>();
 
         public void SetPlayerPic(string playerId, Sprite sprite)
         {
@@ -26,6 +27,15 @@ namespace TurboLabz.InstantFramework
                 writer.Write(PIC_KEY, sprite);
                 writer.Close();
 
+                if (memCache.ContainsKey(playerId))
+                {
+                    memCache[playerId] = sprite;
+                }
+                else
+                {
+                    memCache.Add(playerId, sprite);
+                }
+
                 LogUtil.Log("Wrote pic for: " + playerId, "cyan");
             }
             catch (Exception e)
@@ -38,6 +48,11 @@ namespace TurboLabz.InstantFramework
 
         public Sprite GetPlayerPic(string playerId)
         {
+            if (memCache.ContainsKey(playerId))
+            {
+                return memCache[playerId];
+            }
+
             string filename = PIC_FILE_PREFIX + playerId;
 
             try
@@ -55,6 +70,7 @@ namespace TurboLabz.InstantFramework
                     }
 
                     reader.Close();
+                    memCache.Add(playerId, pic);
                     return pic;
                 }
             }
