@@ -123,6 +123,8 @@ public sealed class Megacool {
     }
 #pragma warning restore 0414
 
+    private MegacoolManager captureManager = null;
+
 #region Platform Agent
     private MegacoolIAgent _platformAgent;
 #endregion
@@ -540,7 +542,11 @@ public sealed class Megacool {
     /// This will keep a buffer of 50 frames (default). The frames are overwritten until <c>StopRecording</c> gets called.
     /// </remarks>
     public void StartRecording() {
-        InitializeManager();
+        captureManager = GetManager();
+        if (!captureManager) {
+            return;
+        }
+        captureManager.StartWrites();
         _platformAgent.StartRecording();
         _isRecording = true;
         SafeReleaseTextureReady();
@@ -565,14 +571,18 @@ public sealed class Megacool {
     /// </remarks>
     /// <param name="config">Config to customize the recording.</param>
     public void StartRecording(MegacoolRecordingConfig config) {
+        captureManager = GetManager();
+        if (!captureManager) {
+            return;
+        }
+        captureManager.StartWrites();
         config.SetDefaults();
-        InitializeManager();
         _platformAgent.StartRecording(config);
         _isRecording = true;
         SafeReleaseTextureReady();
     }
 
-    private void InitializeManager() {
+    private MegacoolManager GetManager() {
         MegacoolManager manager = null;
         foreach (Camera cam in Camera.allCameras) {
             MegacoolManager foundManager = cam.GetComponent<MegacoolManager>();
@@ -586,15 +596,13 @@ public sealed class Megacool {
             if (!mainCamera) {
                 UnityEngine.Debug.Log("No MegacoolManager already in the scene and no main camera to attach to, " +
                     "either attach it manually to a camera or tag one of the cameras as MainCamera");
-                return;
+                return null;
             }
             mainCamera.gameObject.AddComponent<MegacoolManager>();
             manager = mainCamera.GetComponent<MegacoolManager>();
         }
-        // Doing an explicit initialize ensures that if the capture method was customized the changes
-        // are respected even if the manager was explicitly added to a camera and thus awoke before the
-        // capture method was set.
-        manager.Initialize();
+
+        return manager;
     }
 
     /// <summary>
@@ -644,29 +652,43 @@ public sealed class Megacool {
     /// The total number of frames can be customized by setting the <c>MaxFrames</c> property.
     /// </remarks>
     public void CaptureFrame() {
-        InitializeManager();
+        captureManager = GetManager();
+        if (!captureManager) {
+            return;
+        }
+        captureManager.StartWrites();
         RenderThisFrame = true;
         _platformAgent.CaptureFrame();
     }
 
     public void CaptureFrame(MegacoolFrameCaptureConfig config) {
+        captureManager = GetManager();
+        if (!captureManager) {
+            return;
+        }
+        captureManager.StartWrites();
         config.SetDefaults();
-        InitializeManager();
         RenderThisFrame = true;
         _platformAgent.CaptureFrame(config);
     }
 
     public void PauseRecording() {
-        _platformAgent.PauseRecording();
+        if (captureManager) {
+            captureManager.StopWrites();
+        }
         _isRecording = false;
+        _platformAgent.PauseRecording();
     }
 
     /// <summary>
     /// Stops the recording.
     /// </summary>
     public void StopRecording() {
-        _platformAgent.StopRecording();
+        if (captureManager) {
+            captureManager.StopWrites();
+        }
         _isRecording = false;
+        _platformAgent.StopRecording();
     }
 
     /// <summary>

@@ -5,28 +5,19 @@ using System.Runtime.InteropServices;
 
 public class MegacoolManager : MonoBehaviour {
     private const int MCRC = 0x6d637263;
+    private Coroutine writeCoroutine = null;
     private Nullable<MegacoolCaptureMethod> previousCaptureMethod = null;
 #if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
     private WaitForEndOfFrame endOfFrame;
-#if UNITY_5_4_OR_NEWER
-    private WaitForSecondsRealtime waitTime;
-#else
-    private WaitForSeconds waitTime;
-#endif
 #endif
 
     public void Awake() {
 #if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
         endOfFrame = new WaitForEndOfFrame();
-#if UNITY_5_4_OR_NEWER
-        waitTime = new WaitForSecondsRealtime(1);
-#else
-        waitTime = new WaitForSeconds(1);
-#endif
 #endif
     }
 
-    public void Initialize() {
+    public void StartWrites() {
         // Make sure old cameras are cleaned if the capture method changes
         if (previousCaptureMethod != null && previousCaptureMethod != Megacool.Instance.CaptureMethod) {
             RemoveCameras();
@@ -39,6 +30,18 @@ public class MegacoolManager : MonoBehaviour {
             RemoveCameras();
         }
         previousCaptureMethod = Megacool.Instance.CaptureMethod;
+
+        StopWrites();
+        if (Megacool.Instance.CaptureMethod == MegacoolCaptureMethod.SCREEN) {
+            writeCoroutine = StartCoroutine(StartWriteCoroutine());
+        }
+    }
+
+    public void StopWrites() {
+        if (writeCoroutine != null) {
+            StopCoroutine(writeCoroutine);
+            writeCoroutine = null;
+        }
     }
 
     private void InitializeRenderingCamera() {
@@ -65,17 +68,11 @@ public class MegacoolManager : MonoBehaviour {
     }
 
 
-    public IEnumerator Start() {
+    public IEnumerator StartWriteCoroutine() {
 #if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
         while (true) {
-            if (Megacool.Instance.CaptureMethod == MegacoolCaptureMethod.SCREEN) {
-                yield return endOfFrame;
-                Megacool.Instance.IssuePluginEvent(MCRC);
-            } else {
-                // Wait for a bit longer to prevent re-evaluating this every frame, while still staying fairly
-                // responsive to changes
-                yield return waitTime;
-            }
+            yield return endOfFrame;
+            Megacool.Instance.IssuePluginEvent(MCRC);
         }
 #else
         yield break;

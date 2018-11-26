@@ -22,7 +22,7 @@
 #import "MCLShareConfig.h"
 
 #ifndef MEGACOOL_SDK_VERSION
-#define MEGACOOL_SDK_VERSION @"3.3.5"
+#define MEGACOOL_SDK_VERSION @"3.3.7"
 #endif
 
 // clang-format off
@@ -485,8 +485,30 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
 
  @discussion Shows a native share modal view with supported sharing channels like SMS, Twitter,
  Facebook etc.
+
  @note This method must be called from the main thread of your application.
 
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShare];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShare;
 
@@ -498,7 +520,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  Facebook etc.
 
  @param configBlock configures how the share is performed.
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    }];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareWithConfig:(nullable MCLShareConfigBlock)configBlock;
 
@@ -511,7 +558,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
 
  @param configBlock configures how the share is performed.
  @param viewController The view controller that will present the share modal view
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    } inViewController:self];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareWithConfig:(nullable MCLShareConfigBlock)configBlock
               inViewController:(nullable UIViewController *)viewController;
@@ -526,6 +598,28 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  installed, a notification will tell the user to install it.
 
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToTwitter];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
 */
 - (void)presentShareToTwitter;
 
@@ -539,7 +633,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  installed, a notification will tell the user to install it.
 
  @param configBlock configures how the share is performed.
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToTwitterWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    }];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToTwitterWithConfig:(nullable MCLShareConfigBlock)configBlock;
 
@@ -551,6 +670,28 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  link to your app and the recorded GIF.
 
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMessenger];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMessenger;
 
@@ -562,7 +703,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  link to your app and the recorded GIF.
 
  @param configBlock configures how the share is performed.
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMessengerWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    }];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMessengerWithConfig:(nullable MCLShareConfigBlock)configBlock;
 
@@ -571,6 +737,28 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  @brief Present a native iMessage share view
 
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMessages];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMessages;
 
@@ -579,7 +767,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  @brief Present a native iMessage share view
 
  @param configBlock configures how the share is performed.
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMessagesWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    }];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMessagesWithConfig:(nullable MCLShareConfigBlock)configBlock;
 
@@ -589,7 +802,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
 
  @param configBlock configures how the share is performed.
  @param viewController The view controller that will present the iMessage view
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMessagesWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    } inViewController:self];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMessagesWithConfig:(nullable MCLShareConfigBlock)configBlock
                         inViewController:(nullable UIViewController *)viewController;
@@ -599,6 +837,28 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  @brief Present a native Mail share view
 
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMail];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMail;
 
@@ -606,7 +866,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
  @brief Present a native Mail share view
 
  @param configBlock configures how the share is performed.
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMailWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    }];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMailWithConfig:(nullable MCLShareConfigBlock)configBlock;
 
@@ -616,7 +901,32 @@ typedef void (^MCLReferralCodeCallback)(NSString *referralCode);
 
  @param configBlock configures how the share is performed.
  @param viewController The view controller that will present the Mail share view
+
  @note This method must be called from the main thread of your application.
+
+ On some devices this might block for some time, to prevent user frustration we recommend showing a
+ spinner and calling this method from a selector with
+ <tt>[self performSelector:withObject:afterDelay:]</tt>, using a delay of .1 (otherwise some
+ devices won't show the spinner at all before blocking). You should then stop and remove the
+ spinner once this method returns. Example:
+
+ @code
+ - (void)share {
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    self.spinner.center = self.view.center;
+    [self performSelector:@selector(shareAfterSpinner)
+               withObject:nil
+               afterDelay:.1];
+ }
+
+ - (void)shareAfterSpinner {
+    [[Megacool sharedMegacool] presentShareToMailWithConfig:^(MCLShareConfig *config) {
+        config.recordingId = @"level1";
+    } inViewController:self];
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+ }
  */
 - (void)presentShareToMailWithConfig:(nullable MCLShareConfigBlock)configBlock
                     inViewController:(nullable UIViewController *)viewController;
