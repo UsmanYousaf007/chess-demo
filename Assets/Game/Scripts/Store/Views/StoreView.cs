@@ -43,8 +43,9 @@ namespace TurboLabz.InstantGame
 		{
             // Set original selected item
             originalSkinItemId = vo.playerModel.activeSkinId;
-            
-			if (prefabs == null) 
+            currentSkinItemId = originalSkinItemId;
+
+            if (prefabs == null) 
 			{
 				CreatePrefabs(vo);	
 			}

@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
         public int adLifetimeImpressions { get; set; }
 
         // Inventory
-        public string activeSkinId { get; set; }      
+        public string activeSkinId { get; set; } = null;    
         public IOrderedDictionary<string, int> inventory { get; set; }
 
 		// Friends
@@ -63,7 +63,6 @@ namespace TurboLabz.InstantFramework
             adLifetimeImpressions = 0;
 
             // Inventory
-            activeSkinId = null;
             inventory = new OrderedDictionary<string, int>();
 
 			// Friends
