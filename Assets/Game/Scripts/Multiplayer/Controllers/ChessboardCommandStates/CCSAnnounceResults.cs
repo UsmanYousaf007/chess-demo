@@ -32,15 +32,28 @@ namespace TurboLabz.Multiplayer
 
             if (cmd.matchInfoModel.activeMatch.isLongPlay)
             {
+                cmd.analyticsService.LongMatchCompleted(chessboard.gameEndReason.ToString(), cmd.matchInfoModel.activeMatch.gameDurationMs);
                 cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
             }
             else
             {
+                // Analytics
+                if (cmd.matchInfoModel.activeMatch.isBotMatch)
+                {
+                    cmd.analyticsService.QuickBotMatchCompleted(cmd.matchInfoModel.activeMatch.botDifficulty, chessboard.gameEndReason.ToString());
+                }
+                else
+                {
+                    cmd.analyticsService.QuickMatchCompleted(chessboard.gameEndReason.ToString());
+                }
+
                 cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.chessboardModel.chessboards.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.matchInfoModel.activeChallengeId = null;
                 cmd.matchInfoModel.activeLongMatchOpponentId = null;
             }
+
+
         }
     }
 }

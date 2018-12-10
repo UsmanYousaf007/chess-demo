@@ -15,20 +15,42 @@ namespace TurboLabz.InstantFramework
 {
     public interface IAnalyticsService
     {
-        void ScreenVisit(NavigatorViewId viewId);
-        void LevelStart(string levelId);
-        void LevelComplete(string levelId, string gameEndReason);
-        void LevelFail(string levelId, string gameEndReason);
-        void LevelQuit(string levelId);
-        void SocialShareTapped();
-        void SocialShareComplete();
-        void SocialShareDismiss();
-        void SocialShareUnknown();
-        void AdOffer(bool rewarded);
+        // These events are sent once per session after init data
+        void FacebookLoggedIn();
+        void FacebookFriendCount(int count);
+        void CommunityFriendCount(int count);
+        void PlayerRating(int rating);
+        void ActiveLongMatchCount(int count);
+
+        // These events are sent each time they occur
         void AdStart(bool rewarded);
         void AdComplete(bool rewarded);
         void AdSkip(bool rewarded);
-        void PurchaseSkin(string skinId);
-        void BackendError(string error);
+
+        void VisitProfile();
+        void VisitShop();
+        void VisitFriends();
+        void VisitFriendsProfile();
+
+        void TapShopSkin(string name);
+        void TapCommunityRefresh();
+        void TapShare();
+        void TapHelp();
+        void TapInvite();
+        void TapComputerUndo();
+
+        void ComputerMatchStarted(string level);
+        void ComputerMatchContinued(string level);
+        void ComputerMatchCompleted(string level, string result);
+
+        void QuickBotMatchStarted(float botDifficulty);
+        void QuickBotMatchCompleted(float botDifficulty, string result);
+        void QuickMatchStarted();
+        void QuickMatchCompleted(string result);
+
+        void LongMatchEngaged();
+        void LongMatchCompleted(string result, double duration);
+
+        void ChatEngaged();
     }
 }

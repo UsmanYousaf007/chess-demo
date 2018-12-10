@@ -13,5 +13,7 @@ namespace TurboLabz.InstantFramework
         void ClearChat(string opponentId);
         Dictionary<string, bool> hasUnreadMessages { get; set; }
         string lastSavedChatIdOnLaunch { get; set; }
+
+        bool hasEngagedChat { get; set; }
     }
 }

@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System.Collections.Generic;
 using strange.extensions.command.impl;
 using UnityEngine;
 
@@ -18,11 +19,16 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public IFacebookService facebookService { get; set; }
 
 
         // Models
-        [Inject] public IMetaDataModel model { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
+        // Services
+        [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void Execute()
         {
@@ -35,7 +41,7 @@ namespace TurboLabz.InstantFramework
         private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
-            if (model.appInfo.appBackendVersionValid == false)
+            if (metaDataModel.appInfo.appBackendVersionValid == false)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
@@ -51,8 +57,39 @@ namespace TurboLabz.InstantFramework
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
             }
-                
+
+            SendAnalytics();
+
             CommandEnd();
+        }
+
+        private void SendAnalytics()
+        {
+            if (facebookService.isLoggedIn())
+            {
+                analyticsService.FacebookLoggedIn();
+
+                int facebookFriendCount = 0;
+                int communityFriendCount = 0;
+                foreach (KeyValuePair<string, Friend> kvp in playerModel.friends)
+                {
+                    Friend friend = kvp.Value;
+                    if (friend.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
+                    {
+                        facebookFriendCount++;
+                    }
+                    else if (friend.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
+                    {
+                        communityFriendCount++;
+                    }
+                }
+
+                analyticsService.FacebookFriendCount(facebookFriendCount);
+                analyticsService.CommunityFriendCount(communityFriendCount);
+            }
+
+            analyticsService.PlayerRating(playerModel.eloScore);
+            analyticsService.ActiveLongMatchCount(matchInfoModel.matches.Count);
         }
 
         private void CommandBegin()

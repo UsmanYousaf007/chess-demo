@@ -26,7 +26,10 @@ namespace TurboLabz.InstantGame
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
 
- 		public override void OnRegister()
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
+        public override void OnRegister()
 		{
 			view.Init();
 			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
@@ -49,7 +52,8 @@ namespace TurboLabz.InstantGame
 			if (viewId == NavigatorViewId.STORE) 
 			{
 				view.Show();
-			}
+                analyticsService.VisitShop();
+            }
 		}
 
 		[ListensTo(typeof(NavigatorHideViewSignal))]
@@ -101,8 +105,10 @@ namespace TurboLabz.InstantGame
 
 		private void OnSkinItemClicked(StoreItem item)
 		{
-			// Purchase item after confirmation 
-			purchaseStoreItemSignal.Dispatch(item.key, false);
+            analyticsService.TapShopSkin(item.displayName);
+
+            // Purchase item after confirmation 
+            purchaseStoreItemSignal.Dispatch(item.key, false);
 		}
 
         private void OnBackButtonClicked()

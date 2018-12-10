@@ -23,8 +23,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void Execute()
         {
+           
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
@@ -65,6 +69,24 @@ namespace TurboLabz.InstantFramework
             vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(opponentId);
 
             enableGameChatSignal.Dispatch(vo);
+
+            // Analytics
+            if (matchInfo.isLongPlay)
+            {
+                analyticsService.LongMatchEngaged();
+            }
+            else
+            {
+                if (matchInfo.isBotMatch)
+                {
+                    analyticsService.QuickBotMatchStarted(matchInfo.botDifficulty);
+                }
+                else
+                {
+                    analyticsService.QuickMatchStarted();
+                }
+            }
+
         }
     }
 }

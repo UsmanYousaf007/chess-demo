@@ -17,7 +17,6 @@ namespace TurboLabz.InstantFramework
         public override void RenderDisplayOnEnter()
         {
             ShowView(NavigatorViewId.CPU);
-            cmd.analyticsService.ScreenVisit(NavigatorViewId.CPU);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)

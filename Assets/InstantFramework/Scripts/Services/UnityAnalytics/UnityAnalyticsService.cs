@@ -15,75 +15,80 @@ namespace TurboLabz.InstantFramework
 {
     public class UnityAnalyticsService : IAnalyticsService
     {
-        private const string EVT_BACKEND_ERROR = "backendError";
 
-        private const string GAME_END_REASON = "gameEndReason";
-        private const string SHOP_SKIN_CONTEXT = "shopSkinContext";
-        private enum SocialShareEvent
+        [Inject] public IFacebookService facebookService { get; set; }
+
+        // These events are sent once per session
+        public void FacebookLoggedIn()
         {
-            TAPPED,
-            COMPLETE,
-            DISMISS,
-            UNKNOWN
+            Analytics.CustomEvent("facebook_loggedin");
         }
 
-        private Dictionary<string, object> gameEndReasonParam = new Dictionary<string, object>
+        private void CountEvent(string name, int count)
         {
-            { GAME_END_REASON, "Unknown" }
-        };
-
-        public void ScreenVisit(NavigatorViewId viewId)
-        {
-            // TODO: This is disabled because it throws a "too many events" error.
-            // Please remove this.
-            // AnalyticsEvent.ScreenVisit(viewId.ToString());
+            Analytics.CustomEvent(name, new Dictionary<string, object>
+                {
+                    { "total", count }
+                });
         }
 
-        public void LevelStart(string levelId)
+        public void TapShare()
         {
-            AnalyticsEvent.LevelStart(levelId);
+            Analytics.CustomEvent("tap_share");
         }
 
-        public void LevelComplete(string levelId, string gameEndReason)
+        public void TapHelp()
         {
-            gameEndReasonParam[GAME_END_REASON] = gameEndReason;
-            AnalyticsEvent.LevelComplete(levelId, gameEndReasonParam);
+            Analytics.CustomEvent("tap_help");
         }
 
-        public void LevelFail(string levelId, string gameEndReason)
+        public void TapInvite()
         {
-            gameEndReasonParam[GAME_END_REASON] = gameEndReason;
-            AnalyticsEvent.LevelFail(levelId, gameEndReasonParam);
+            Analytics.CustomEvent("tap_invite");
         }
 
-        public void LevelQuit(string levelId)
+        public void TapShopSkin(string name)
         {
-            AnalyticsEvent.LevelQuit(levelId);
-        }
-            
-        public void SocialShareTapped()
-        {
-            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.TAPPED, SocialNetwork.None);
+            Analytics.CustomEvent("tap_shop_skin", new Dictionary<string, object>
+                {
+                    { "name", name }
+                });
         }
 
-        public void SocialShareComplete()
+        public void TapCommunityRefresh()
         {
-            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.COMPLETE, SocialNetwork.None);
+            Analytics.CustomEvent("tap_community_refresh");
         }
 
-        public void SocialShareDismiss()
+        public void TapComputerUndo()
         {
-            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.DISMISS, SocialNetwork.None);
+            Analytics.CustomEvent("tap_computer_undo");
         }
 
-        public void SocialShareUnknown()
+        public void FacebookFriendCount(int count)
         {
-            AnalyticsEvent.SocialShare(ShareContext.MAIN_MENU + "_" + SocialShareEvent.UNKNOWN, SocialNetwork.None);
+            CountEvent("facebook_friend_count", count);
         }
 
-        public void AdOffer(bool rewarded)
+        public void CommunityFriendCount(int count)
         {
-            AnalyticsEvent.AdOffer(rewarded);
+            CountEvent("community_friend_count", count);
+        }
+
+        public void PlayerRating(int rating)
+        {
+            int bucket = rating - (rating % 500);
+            string bucketStr = "rating_" + bucket;
+
+            Analytics.CustomEvent("player_rating", new Dictionary<string, object>
+                {
+                    { "bucket", bucketStr }
+                });
+        }
+
+        public void ActiveLongMatchCount(int count)
+        {
+            CountEvent("active_long_match_count", count);
         }
 
         public void AdStart(bool rewarded)
@@ -101,17 +106,107 @@ namespace TurboLabz.InstantFramework
             AnalyticsEvent.AdSkip(rewarded);
         }
 
-        public void PurchaseSkin(string skinId)
+        public void VisitProfile()
         {
-            AnalyticsEvent.ItemAcquired(AcquisitionType.Soft, SHOP_SKIN_CONTEXT, 1, skinId);
+            AnalyticsEvent.ScreenVisit("profile");
         }
 
-        public void BackendError(string error)
+        public void VisitShop()
         {
-            Analytics.CustomEvent(EVT_BACKEND_ERROR, new Dictionary<string, object>
+            AnalyticsEvent.ScreenVisit("shop");
+        }
+
+        public void VisitFriends()
+        {
+            AnalyticsEvent.ScreenVisit("friends");
+        }
+
+        public void VisitFriendsProfile()
+        {
+            AnalyticsEvent.ScreenVisit("friends_profile");
+        }
+
+        public void ComputerMatchStarted(string level)
+        {
+            Analytics.CustomEvent("computer_match_started", new Dictionary<string, object>
                 {
-                    { "error", error }
+                    { "level", level },
+                { "fb_logged_in", facebookService.isLoggedIn() }
                 });
+        }
+
+        public void ComputerMatchContinued(string level)
+        {
+            Analytics.CustomEvent("computer_match_continued", new Dictionary<string, object>
+                {
+                    { "level", level },
+                    { "fb_logged_in", facebookService.isLoggedIn() }
+                });
+        }
+
+        public void ComputerMatchCompleted(string level, string result)
+        {
+            Analytics.CustomEvent("computer_match_completed", new Dictionary<string, object>
+                {
+                    { "level", level },
+                    { "fb_logged_in", facebookService.isLoggedIn() },
+                    { "result", result }
+                });
+        }
+
+        public void QuickBotMatchStarted(float botDifficulty)
+        {
+            Analytics.CustomEvent("quick_bot_match_started", new Dictionary<string, object>
+                {
+                    { "bot_difficulty", botDifficulty },
+                    { "fb_logged_in", facebookService.isLoggedIn() }
+                });
+        }
+
+        public void QuickBotMatchCompleted(float botDifficulty, string result)
+        {
+            Analytics.CustomEvent("quick_bot_match_completed", new Dictionary<string, object>
+                {
+                    { "bot_difficulty", botDifficulty },
+                    { "fb_logged_in", facebookService.isLoggedIn() },
+                    { "result", result }
+                });
+        }
+
+        public void QuickMatchStarted()
+        {
+            Analytics.CustomEvent("quick_match_started", new Dictionary<string, object>
+                {
+                    { "fb_logged_in", facebookService.isLoggedIn() }
+                });
+        }
+
+        public void QuickMatchCompleted(string result)
+        {
+            Analytics.CustomEvent("quick_match_completed", new Dictionary<string, object>
+                {
+                    { "fb_logged_in", facebookService.isLoggedIn() },
+                    { "result", result }
+                });
+        }
+
+        public void LongMatchEngaged()
+        {
+            Analytics.CustomEvent("long_match_engaged");
+        }
+
+        public void LongMatchCompleted(string result, double duration)
+        {
+            Analytics.CustomEvent("long_match_completed", new Dictionary<string, object>
+                {
+                    { "result", result },
+                    { "duration", duration }
+                });
+        }
+
+        public void ChatEngaged()
+        {
+            Analytics.CustomEvent("chat_engaged");
         }
     }
 }

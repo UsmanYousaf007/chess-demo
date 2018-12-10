@@ -35,6 +35,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -55,6 +58,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.FRIENDS) 
             {
                 view.Show();
+                analyticsService.VisitFriends();
             }
         }
 
@@ -183,6 +187,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnRefreshCommunity()
         {
+            analyticsService.TapCommunityRefresh();
+
             refreshCommunitySignal.Dispatch();
         }
 

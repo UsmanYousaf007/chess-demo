@@ -29,6 +29,9 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public ProfileDialogView view { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -42,6 +45,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.PROFILE_DLG) 
             {
                 view.Show();
+                analyticsService.VisitFriendsProfile();
             }
         }
 

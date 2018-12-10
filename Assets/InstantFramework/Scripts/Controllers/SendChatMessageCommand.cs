@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IChatModel chatModel { get; set; }
@@ -30,6 +31,12 @@ namespace TurboLabz.InstantFramework
         {
             chatModel.AddChat(chatMessage.recipientId, chatMessage, false);
             backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text, chatMessage.guid);
+
+            if (!chatModel.hasEngagedChat) 
+            {
+                chatModel.hasEngagedChat = true;
+                analyticsService.ChatEngaged();
+            }
         }
     }
 }

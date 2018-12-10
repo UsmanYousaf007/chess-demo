@@ -33,20 +33,21 @@ namespace TurboLabz.CPU
         {
             if (cpuGameModel.inProgress)
             {
+                analyticsService.ComputerMatchContinued(cpuGameModel.levelId);
+
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
             }
             else
             {
+                analyticsService.ComputerMatchStarted(cpuGameModel.levelId);
+
                 chessboardModel.gameDuration = TimeSpan.Zero;
                 chessboardModel.aiMoveDelay = AiMoveDelay.CPU;
-
                     
                 chessboardModel.playerColor = (UnityEngine.Random.Range(0,2) == 0) ? ChessColor.BLACK : ChessColor.WHITE;
                 chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
-
-                analyticsService.LevelStart(cpuGameModel.levelId);
             }
         }
     }

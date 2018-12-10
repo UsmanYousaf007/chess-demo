@@ -73,12 +73,12 @@ namespace TurboLabz.CPU
                     statResult = StatResult.GOLD;
                 }
 
-                cmd.analyticsService.LevelComplete(cmd.cpuGameModel.levelId, gameEndReason.ToString());
+                cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
             }
             else if (isDraw)
             {
                 statResult = StatResult.NONE;
-                cmd.analyticsService.LevelFail(cmd.cpuGameModel.levelId, gameEndReason.ToString());
+                cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
             }
             else
             {
@@ -86,11 +86,11 @@ namespace TurboLabz.CPU
 
                 if (gameEndReason == GameEndReason.RESIGNATION)
                 {
-                    cmd.analyticsService.LevelQuit(cmd.cpuGameModel.levelId);
+                    cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
                 }
                 else
                 {
-                    cmd.analyticsService.LevelFail(cmd.cpuGameModel.levelId, gameEndReason.ToString());
+                    cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
                 }
             }
 

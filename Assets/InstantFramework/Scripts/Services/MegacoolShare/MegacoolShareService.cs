@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
             Megacool.Instance.Start();
             Megacool.Instance.SharingStrategy = MegacoolSharingStrategy.LINK;
 
+            /*
             Megacool.Instance.CompletedSharing += () => {
                 analyticsService.SocialShareComplete();
             };
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
             Megacool.Instance.PossiblyCompletedSharing += () => {
                 analyticsService.SocialShareUnknown();
             };
+            */
         }
 
         public void ShareApp(string message)

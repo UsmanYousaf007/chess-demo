@@ -10,7 +10,6 @@ namespace TurboLabz.InstantFramework
 		public override void RenderDisplayOnEnter()
 		{
 			ShowView(NavigatorViewId.STORE);
-			cmd.analyticsService.ScreenVisit(NavigatorViewId.STORE);
 		}
 
 		public override NS HandleEvent(NavigatorEvent evt)

@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public Button shareButton;
         public Button audioOffButton;
@@ -122,6 +123,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnSupportButtonClicked()
         {
+            analyticsService.TapHelp();
+
             Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
         }
 

@@ -29,7 +29,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_HARD_STOP);
-            analytics.BackendError(backendResult.ToString());
+            //analytics.BackendError(backendResult.ToString());
             setErrorAndHaltSignal.Dispatch(backendResult);
         }
     }

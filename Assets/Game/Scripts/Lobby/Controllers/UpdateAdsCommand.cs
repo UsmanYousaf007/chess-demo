@@ -66,10 +66,7 @@ namespace TurboLabz.InstantGame
             if (state == AdsState.AVAILABLE)
             {
                 vo.bucks = (playerModel.adLifetimeImpressions + 1) * metaDataModel.adsSettings.adsRewardIncrement;
-                analyticsService.AdOffer(true);
-
                 vo.count = metaDataModel.adsSettings.maxImpressionsPerSlot - prefsModel.adSlotImpressions;
-
             }
             else if (state == AdsState.WAIT)
             {

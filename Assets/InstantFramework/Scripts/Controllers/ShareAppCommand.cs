@@ -25,8 +25,6 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             shareService.ShareApp(localizationService.Get(LocalizationKey.SHARE_STANDARD));
-
-            analyticsService.SocialShareTapped();
         }
     }
 }

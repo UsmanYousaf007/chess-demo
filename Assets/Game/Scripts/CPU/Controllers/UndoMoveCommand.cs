@@ -13,6 +13,7 @@
 using strange.extensions.command.impl;
 using System.Collections.Generic;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 
 
@@ -27,8 +28,13 @@ namespace TurboLabz.CPU
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void Execute()
         {
+            analyticsService.TapComputerUndo();
+
             // Trim the last 2 moves from the model
             List<ChessMove> moveList = chessboardModel.moveList;
             moveList.RemoveRange(moveList.Count - 2, 2);

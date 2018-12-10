@@ -37,9 +37,11 @@ namespace TurboLabz.InstantFramework
         // Variables
         public Dictionary<string, bool> hasUnreadMessages { get; set; }
         public string lastSavedChatIdOnLaunch { get; set; }
+        public bool hasEngagedChat { get; set; } = false;
         string lastSavedChatId;
         ChatMessage lastSavedMessage;
         Dictionary<string, ChatMessages> chatHistory { get; set; }
+
 
 
         [PostConstruct]
@@ -172,7 +174,7 @@ namespace TurboLabz.InstantFramework
                 writer.WriteDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES, hasUnreadMessages);
                 writer.Close();
             }
-            catch (Exception e)
+            catch
             {
                 if (localDataService.FileExists(CHAT_META_FILE))
                 {
@@ -204,7 +206,7 @@ namespace TurboLabz.InstantFramework
 
                 reader.Close();
             }
-            catch (Exception e)
+            catch
             {
                 lastSavedChatId = "";
                 localDataService.DeleteFile(CHAT_META_FILE);

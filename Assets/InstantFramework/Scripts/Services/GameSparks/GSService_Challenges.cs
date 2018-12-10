@@ -39,7 +39,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void ParseChallengeData(string challengeId, GSData challengeData)
+        private void ParseChallengeData(string challengeId, GSData challengeData, double gameDurationMs = 0)
         {
             if (challengeId != matchInfoModel.activeChallengeId)
             {
@@ -86,6 +86,13 @@ namespace TurboLabz.InstantFramework
                     sortFriendsSignal.Dispatch();
                 }
             }
+
+            // Add game duration for completed matches.
+            if (matchInfoModel.matches.ContainsKey(challengeId))
+            {
+                matchInfoModel.matches[challengeId].gameDurationMs = gameDurationMs;
+            }
+
         }
 
         private void SetupMatch(string challengeId, GSData matchData, GSData gameData)

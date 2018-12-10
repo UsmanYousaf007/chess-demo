@@ -204,6 +204,8 @@ namespace TurboLabz.InstantFramework
 			public const string PUBLIC_PROFILE = "publicProfile";
             public const string FRIEND_ID = "friendId";
             public const string IS_ONLINE = "isOnline";
+            public const string TYPE_SOCIAL = "social";
+            public const string TYPE_COMMUNITY = "community";
 		}
 
 		public static class FriendsOp

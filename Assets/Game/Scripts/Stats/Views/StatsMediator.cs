@@ -29,6 +29,9 @@ namespace TurboLabz.InstantGame
         // View injection
         [Inject] public StatsView view { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -41,6 +44,7 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.STATS) 
             {
                 view.Show();
+                analyticsService.VisitProfile();
             }
         }
 
