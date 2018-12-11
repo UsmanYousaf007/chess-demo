@@ -293,7 +293,7 @@ namespace TurboLabz.InstantFramework
             {
                 foreach (KeyValuePair<string, object> kvp in parameters)
                 {
-                    LogUtil.Log(">>>>>>>>>>>" + kvp.Key + ":" + kvp.Value, "yellow");
+                    LogUtil.Log("---------" + kvp.Key + ":" + kvp.Value, "yellow");
                 }
             }
         }
