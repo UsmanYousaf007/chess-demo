@@ -46,28 +46,22 @@ namespace TurboLabz.InstantFramework
 
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
         {
-            TimeSpan gameDuration = message.Challenge.EndDate.Value.Subtract(message.Challenge.StartDate.Value);
-
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
-            ParseChallengeData(message.Challenge.ChallengeId, challengeData, gameDuration.TotalMilliseconds);
+            ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
         }
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
         {
-            TimeSpan gameDuration = message.Challenge.EndDate.Value.Subtract(message.Challenge.StartDate.Value);
-
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
-            ParseChallengeData(message.Challenge.ChallengeId, challengeData, gameDuration.TotalMilliseconds);
+            ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
         }
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
-            TimeSpan gameDuration = message.Challenge.EndDate.Value.Subtract(message.Challenge.StartDate.Value);
-
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
-            ParseChallengeData(message.Challenge.ChallengeId, challengeData, gameDuration.TotalMilliseconds);
+            ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
         }
 

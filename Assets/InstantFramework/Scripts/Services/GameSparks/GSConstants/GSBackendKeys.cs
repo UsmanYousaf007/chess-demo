@@ -141,6 +141,7 @@ namespace TurboLabz.InstantFramework
             public const string PROFILE_EXTERNAL_IDS = "externalIds";
             public const string BOT_ID = "botId";
             public const string GAME_START_TIME = "gameStartTime";
+            public const string GAME_END_TIME = "gameEndTime";
             public const string OPPONENT_ELO_SCORE = "opponentEloScore";
             public const string BOT_DIFFICULTY = "botDifficulty";
         }

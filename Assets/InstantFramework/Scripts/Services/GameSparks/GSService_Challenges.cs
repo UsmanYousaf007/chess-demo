@@ -39,7 +39,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void ParseChallengeData(string challengeId, GSData challengeData, double gameDurationMs = 0)
+        private void ParseChallengeData(string challengeId, GSData challengeData, bool hasGameEnded = false)
         {
             if (challengeId != matchInfoModel.activeChallengeId)
             {
@@ -85,14 +85,13 @@ namespace TurboLabz.InstantFramework
                     updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                     sortFriendsSignal.Dispatch();
                 }
-            }
 
-            // Add game duration for completed matches.
-            if (matchInfoModel.matches.ContainsKey(challengeId))
-            {
-                matchInfoModel.matches[challengeId].gameDurationMs = gameDurationMs;
+                if (hasGameEnded)
+                {
+                    long elapsedTime = matchData.GetLong(GSBackendKeys.ChallengeData.GAME_END_TIME).Value - matchData.GetLong(GSBackendKeys.ChallengeData.GAME_START_TIME).Value;
+                    matchInfoModel.matches[challengeId].gameDurationMs = elapsedTime;
+                }
             }
-
         }
 
         private void SetupMatch(string challengeId, GSData matchData, GSData gameData)

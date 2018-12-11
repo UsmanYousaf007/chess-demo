@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
+using System.Text;
 
 namespace TurboLabz.InstantFramework
 {
@@ -274,7 +275,7 @@ namespace TurboLabz.InstantFramework
 
             Analytics.CustomEvent("long_match_completed", p);
 
-            Print("long_match_completed");
+            Print("long_match_completed", p);
         }
 
         public void ChatEngaged()
@@ -287,15 +288,25 @@ namespace TurboLabz.InstantFramework
 
         void Print(string name, Dictionary<string, object> parameters = null)
         {
-            LogUtil.Log(">>>>>>>>>>>" + name, "yellow");
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+      
+            StringBuilder builder = new StringBuilder();
+            builder.Append("[TLANALYTICS] ");
+            builder.Append(name);
 
             if (parameters != null)
             {
+                builder.Append(" [PARAMS] ");
+
                 foreach (KeyValuePair<string, object> kvp in parameters)
                 {
-                    LogUtil.Log("---------" + kvp.Key + ":" + kvp.Value, "yellow");
+                    builder.Append(kvp.Key + ":" + kvp.Value);
+                    builder.Append(" , ");
                 }
             }
+
+            LogUtil.Log(builder, "yellow");
         }
+#endif
     }
 }
