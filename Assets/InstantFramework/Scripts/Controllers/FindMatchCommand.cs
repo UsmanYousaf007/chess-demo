@@ -35,7 +35,6 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            backendService.StartPinger();
             showFindMatchSignal.Dispatch();
 
             // This sends the backend request

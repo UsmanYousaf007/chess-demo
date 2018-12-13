@@ -79,7 +79,6 @@ namespace TurboLabz.InstantGame
             }
                 
             updateProfileSignal.Dispatch(pvo);
-            backendService.StopPinger();
 
             if (!preferencesModel.hasRated && playerModel.totalGamesWon >= metaDataModel.appInfo.rateAppThreshold)
             {
