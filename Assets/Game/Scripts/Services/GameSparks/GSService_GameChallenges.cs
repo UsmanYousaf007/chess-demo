@@ -37,11 +37,11 @@ namespace TurboLabz.InstantFramework
             chessboard.playerColor = GSBackendKeys.PLAYER_COLOR_MAP[playerData.GetString(GSBackendKeys.COLOR)];
             chessboard.opponentColor = GSBackendKeys.PLAYER_COLOR_MAP[opponentData.GetString(GSBackendKeys.COLOR)];
             chessboard.lastMoveTime = TimeUtil.ToDateTime(matchInfo.gameStartTimeMilliseconds);
-            if (!matchInfo.isLongPlay)
-            {
+            //if (!matchInfo.isLongPlay)
+            //{
                 long gameDuration = gameData.GetLong(GSBackendKeys.GAME_DURATION).Value;
                 chessboard.gameDuration = TimeSpan.FromMilliseconds(gameDuration);
-            }
+            //}
 
             ///////////////////////////////////////////////////////////////////////////////////////
             // Handle test panel configuration
