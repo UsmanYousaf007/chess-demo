@@ -52,21 +52,27 @@ namespace TurboLabz.Multiplayer
 
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
-            // Initialize player timer and adjust for joining the game late
-            bool isPlayerTurn = chessboard.isPlayerTurn;
-            long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
-            long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
+            // Initialize player timer
             TimeSpan playerTimer = chessboard.backendPlayerTimer;
             TimeSpan opponentTimer = chessboard.backendOpponentTimer;
+            bool isPlayerTurn = chessboard.isPlayerTurn;
 
-            if (isPlayerTurn)
+            // For quick matches, adjust for joining the game late
+            if (!matchInfoModel.activeMatch.isLongPlay)
             {
-                playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
+                long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
+
+                if (isPlayerTurn)
+                {
+                    playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                }
+                else
+                {
+                    opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                }
             }
-            else
-            {
-                opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
-            }
+
 
             // Update the view for starting values
             InitTimerVO vo;

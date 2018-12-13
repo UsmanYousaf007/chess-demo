@@ -44,14 +44,7 @@ namespace TurboLabz.Multiplayer
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
 
             // Initialize and launch our time control
-            if (cmd.activeChessboard.gameDuration.CompareTo(TimeSpan.Zero) != 0)
-            {
-                cmd.runTimeControlSignal.Dispatch();
-            }
-            else
-            {
-                cmd.initInfiniteTimersSignal.Dispatch(isPlayerTurn);
-            }
+            cmd.runTimeControlSignal.Dispatch();
 
             IPlayerModel playerModel = cmd.playerModel;
             Chessboard activeChessboard = cmd.activeChessboard;

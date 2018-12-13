@@ -58,31 +58,6 @@ namespace TurboLabz.Multiplayer
             // Do nothing
         }
 
-        public void InitInfiniteTimers(bool isPlayerTurn)
-        {
-            startingTimer = TimeSpan.Zero;
-            playerClockLabel.gameObject.SetActive(false);
-            opponentClockLabel.gameObject.SetActive(false);
-            playerTurnLabel.gameObject.SetActive(true);
-            opponentTurnLabel.gameObject.SetActive(true);
-            playerClockFill.fillAmount = 1f;
-            opponentClockFill.fillAmount = 1f;
-
-            if (isPlayerTurn)
-            {
-                EnablePlayerTimer();
-                DisableOpponentTimer();
-            }
-            else
-            {
-                DisablePlayerTimer();
-                EnableOpponentTimer();
-            }
-
-            playerTurnLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
-            opponentTurnLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
-        }
-
         public void InitTimers(InitTimerVO vo)
         {
             startingTimer = vo.startingTimer;
