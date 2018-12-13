@@ -77,14 +77,12 @@ namespace TurboLabz.InstantFramework
                 chessboard.lastMoveTime = TimeUtil.ToDateTime(lastMoveTimestamp);
             }
 
-            if (!matchInfo.isLongPlay)
-            {    
-                long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
-                long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
-                chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
-                chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
-            }
-            else
+            long playerTimerMs = playerData.GetLong(GSBackendKeys.TIMER).Value;
+            long opponentTimerMs = opponentData.GetLong(GSBackendKeys.TIMER).Value;
+            chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
+            chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
+
+            if (matchInfo.isLongPlay)
             {
                 // Load move history
                 IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
@@ -127,12 +125,8 @@ namespace TurboLabz.InstantFramework
             {
                 UpdateMoveData(chessboard, gameData);
 
-                if (!matchInfo.isLongPlay)
-                {
-                    // Update quick match timers
-                    chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
-                    chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);
-                }
+                chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
+                chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);
             }
         }
 
