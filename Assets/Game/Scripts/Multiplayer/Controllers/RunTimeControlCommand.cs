@@ -20,6 +20,10 @@ namespace TurboLabz.Multiplayer
 {
     public class RunTimeControlCommand : Command
     {
+        // Parameters
+        [Inject] public bool pauseAfterSwap { get; set; }
+
+
         // Dispatch signals
         [Inject] public UpdatePlayerTimerSignal updatePlayerTimerSignal { get; set; }
         [Inject] public UpdateOpponentTimerSignal updateOpponentTimerSignal { get; set; }
@@ -65,7 +69,10 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                if (!pauseAfterSwap)
+                {
+                    opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                }
             }
 
             // Update the view for starting values
@@ -79,6 +86,11 @@ namespace TurboLabz.Multiplayer
             // Kick off
             timeControl.SetTimers(playerTimer, opponentTimer);
             timeControl.StartTimers(isPlayerTurn);
+
+            if (pauseAfterSwap)
+            {
+                timeControl.PauseTimers();
+            }
         }
 
         private void OnPlayerTimerTick()
@@ -91,10 +103,15 @@ namespace TurboLabz.Multiplayer
             updateOpponentTimerSignal.Dispatch(timeControl.opponentDisplayTimer);
         }
 
-        private void OnTakeTurnSwapTimeControl()
+        private void OnTakeTurnSwapTimeControl(bool pauseAfterSwap)
         {
             AdjustTimersOutgoing();
             timeControl.SwapTimers();
+
+            if (pauseAfterSwap)
+            {
+                timeControl.PauseTimers();
+            }
         }
 
         private void OnReceiveTurnSwapTimeControl()

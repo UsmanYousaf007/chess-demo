@@ -24,7 +24,7 @@ namespace TurboLabz.Multiplayer
     public class SquareClickedSignal : Signal<FileRank> {}
     public class BackendPlayerTurnSignal : Signal<PlayerTurnVO> {}
 
-    public class RunTimeControlSignal : Signal {}
+    public class RunTimeControlSignal : Signal<bool> {}
     public class PromoSelectedSignal : Signal<string> {}
     public class ClaimDrawSignal : Signal {}
     public class RejectDrawSignal : Signal {}
@@ -38,7 +38,7 @@ namespace TurboLabz.Multiplayer
     public class AiTurnSignal : Signal {}
 
     // Command to command signals
-    public class TakeTurnSwapTimeControlSignal : Signal {}
+    public class TakeTurnSwapTimeControlSignal : Signal<bool> {}
     public class ReceiveTurnSwapTimeControlSignal : Signal {}
 
     // View update signals

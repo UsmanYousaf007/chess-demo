@@ -35,7 +35,7 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(TakeTurnSwapTimeControlSignal))]
-        public void OnTakeTurnSwapTimeControl()
+        public void OnTakeTurnSwapTimeControl(bool pauseAfterSwap)
         {
             view.PlayerTurnComplete();
         }
