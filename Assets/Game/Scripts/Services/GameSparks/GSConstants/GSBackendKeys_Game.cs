@@ -45,6 +45,9 @@ namespace TurboLabz.InstantFramework
         public const string AI_SPEED = "aiSpeed";
         public const string TIME_STAMP = "timestamp";
 
+        // Message ExtCodes
+        public const string CHALLENGE_ACCEPT_MESSAGE = "ChallengeAcceptMessage";
+
         // Challenge response keys
         public const string CHALLENGE_INSTANCE_ID = "challengeInstanceId";
 

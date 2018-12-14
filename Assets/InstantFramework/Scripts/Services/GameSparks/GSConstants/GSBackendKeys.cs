@@ -133,6 +133,7 @@ namespace TurboLabz.InstantFramework
         public static class ChallengeData
         {
             public const string CHALLENGE_DATA_KEY = "ChallengeData";
+            public const string CHALLENGE_ID = "challengeId";
             public const string MATCH_DATA_KEY = "matchData";
             public const string PROFILE = "profile";
             public const string PROFILE_NAME = "name";
