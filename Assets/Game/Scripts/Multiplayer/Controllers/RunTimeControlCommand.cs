@@ -62,7 +62,7 @@ namespace TurboLabz.Multiplayer
             // If long match, then adjust the player timer using the last move time
             if (matchInfoModel.activeMatch.isLongPlay)
             {
-                long elapsedTimeSinceLastMove = backendService.serverClock.currentTimestamp - TimeUtil.ToUnixTimestamp(chessboard.lastMoveTime);
+                long elapsedTimeSinceLastMove = matchInfoModel.activeMatch.gameStartTimeMilliseconds - TimeUtil.ToUnixTimestamp(chessboard.lastMoveTime);
 
                 if (isPlayerTurn)
                 {
@@ -70,7 +70,10 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
-                    opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceLastMove);
+                    if (!pauseAfterSwap)
+                    {
+                        opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceLastMove);
+                    }
                 }
             }
             // If quick match, then adjust for joining the game late

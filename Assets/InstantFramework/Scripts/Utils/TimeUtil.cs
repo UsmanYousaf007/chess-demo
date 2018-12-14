@@ -27,7 +27,7 @@ namespace TurboLabz.TLUtils
 
         public static long ToUnixTimestamp(DateTime dateTime)
         {
-            return (long)(dateTime.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            return (long)(dateTime.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds;
         }
 
         public static string TimeToExpireString(long msUTC, int expireDays, 
