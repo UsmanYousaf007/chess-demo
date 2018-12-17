@@ -49,31 +49,6 @@ namespace TurboLabz.Multiplayer
 
             EmptyClock();
 
-            TimeSpan t1 = new TimeSpan(2, 0, 0, 0);        // 2d
-            TimeSpan t2 = new TimeSpan(3, 23, 59, 59);    // 2d
-            TimeSpan t3 = new TimeSpan(1, 23, 0, 0);    // 1d 23h
-            TimeSpan t4 = new TimeSpan(1, 22, 59, 59);    // 1d 23h
-            TimeSpan t5 = new TimeSpan(1, 0, 59, 59);    // 1d 1h
-            TimeSpan t6 = new TimeSpan(1, 0, 0, 59);    // 1d 1h
-            TimeSpan t7 = new TimeSpan(1, 0, 0, 0);        // 1d
-            TimeSpan t8 = new TimeSpan(23, 59, 59);        // 1d
-            TimeSpan t9 = new TimeSpan(1, 1, 0);        // 1h 1m
-            TimeSpan t10 = new TimeSpan(1, 0, 1);        // 1h 1m
-            TimeSpan t11 = new TimeSpan(1, 0, 0);        // 1h
-            TimeSpan t12 = new TimeSpan(0, 59, 59);        // 59:59
-
-            Debug.Log("t1=" + FormatTimer(t1));
-            Debug.Log("t2=" + FormatTimer(t2));
-            Debug.Log("t3=" + FormatTimer(t3));
-            Debug.Log("t4=" + FormatTimer(t4));
-            Debug.Log("t5=" + FormatTimer(t5));
-            Debug.Log("t6=" + FormatTimer(t6));
-            Debug.Log("t7=" + FormatTimer(t7));
-            Debug.Log("t8=" + FormatTimer(t8));
-            Debug.Log("t9=" + FormatTimer(t9));
-            Debug.Log("t10=" + FormatTimer(t10));
-            Debug.Log("t11=" + FormatTimer(t11));
-            Debug.Log("t12=" + FormatTimer(t12));
         }
 
         private string FormatTimer(TimeSpan timer)
@@ -97,7 +72,12 @@ namespace TurboLabz.Multiplayer
                 else if (timer.Minutes == 59 && timer.Seconds > 0)
                 {
                     hours++;
-                    minutes = 0; 
+                    minutes = 0;
+                }
+                else if (days > 0 && (timer.Minutes > 0 || timer.Seconds > 0))
+                {
+                    hours++;
+                    minutes = 0;
                 }
                 // Minutes calculation
                 else if (timer.Seconds > 0)
@@ -123,7 +103,7 @@ namespace TurboLabz.Multiplayer
                     sb.Append("h");
                 }
 
-                if (minutes > 0)
+                if (minutes > 0 && (days == 0))
                 {
                     if (hours > 0)
                     {
