@@ -20,5 +20,6 @@ namespace TurboLabz.Chess
         public TimeSpan playerTimer;
         public TimeSpan opponentTimer;
         public bool isPlayerTurn;
+        public bool waitingForOpponentToAccept;
     }
 }

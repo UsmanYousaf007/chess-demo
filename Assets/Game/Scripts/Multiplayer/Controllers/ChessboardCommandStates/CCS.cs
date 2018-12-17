@@ -44,13 +44,18 @@ namespace TurboLabz.Multiplayer
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
 
             // Detect if opponent clock should be paused
-            bool pauseAfterSwap =
+
+            RunTimeControlVO runTimeControlVO;
+
+            runTimeControlVO.pauseAfterSwap =
                 cmd.activeMatchInfo.isLongPlay &&
                 cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW &&
                 !isPlayerTurn;
-                
+
+            runTimeControlVO.waitingForOpponentToAccept = cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW;
+
             // Initialize and launch our time control
-            cmd.runTimeControlSignal.Dispatch(pauseAfterSwap);
+            cmd.runTimeControlSignal.Dispatch(runTimeControlVO);
 
             IPlayerModel playerModel = cmd.playerModel;
             Chessboard activeChessboard = cmd.activeChessboard;

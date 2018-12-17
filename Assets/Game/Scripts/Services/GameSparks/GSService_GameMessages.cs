@@ -81,9 +81,11 @@ namespace TurboLabz.InstantFramework
 
                 // If I'm the challenger and viewing the board, and it is the opponents move,
                 // then the opponents clock should start ticking.
-                runTimeControlSignal.Dispatch(false);
 
-
+                RunTimeControlVO vo;
+                vo.pauseAfterSwap = false;
+                vo.waitingForOpponentToAccept = false;
+                runTimeControlSignal.Dispatch(vo);
             }
         }
 

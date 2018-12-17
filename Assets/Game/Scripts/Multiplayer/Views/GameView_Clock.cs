@@ -28,11 +28,10 @@ namespace TurboLabz.Multiplayer
         public Text playerClockLabel;
         public Image playerClockFill;
         public Image playerClockImage;
-        public Text playerTurnLabel;
         public Text opponentClockLabel;
         public Image opponentClockFill;
         public Image opponentClockImage;
-        public Text opponentTurnLabel;
+        public Text waitingLabel;
 
         private Coroutine playerClockCR;
         private Coroutine opponentClockCR;
@@ -45,6 +44,9 @@ namespace TurboLabz.Multiplayer
 
         public void InitClock()
         {
+
+            waitingLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING_FOR_ACCEPT);
+
             EmptyClock();
         }
 
@@ -65,8 +67,7 @@ namespace TurboLabz.Multiplayer
             opponentClockFill.gameObject.SetActive(true);
             playerClockLabel.gameObject.SetActive(true);
             opponentClockLabel.gameObject.SetActive(true);
-            playerTurnLabel.gameObject.SetActive(false);
-            opponentTurnLabel.gameObject.SetActive(false);
+            waitingLabel.gameObject.SetActive(false);
 
             playerTimer = vo.playerTimer;
             opponentTimer = vo.opponentTimer;
@@ -86,6 +87,11 @@ namespace TurboLabz.Multiplayer
             {
                 DisablePlayerTimer();
                 EnableOpponentTimer();
+            }
+
+            if (vo.waitingForOpponentToAccept)
+            {
+                SetOpponentTimerWaitingState(vo.isPlayerTurn);
             }
         }
 
@@ -135,21 +141,12 @@ namespace TurboLabz.Multiplayer
 
         private void EnablePlayerTimer()
         {
-            if (startingTimer == TimeSpan.Zero)
-            {
-                playerClockImage.color = Colors.YELLOW;
-                playerTurnLabel.color = Colors.YELLOW;
-            }
-            else
-            {
-                SetPlayerTimerActiveColors();
-            }
+            SetPlayerTimerActiveColors();
         }
 
         private void DisablePlayerTimer()
         {
             playerClockLabel.color = Colors.DISABLED_WHITE;
-            playerTurnLabel.color = Colors.DISABLED_WHITE;
             playerClockImage.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
@@ -157,21 +154,23 @@ namespace TurboLabz.Multiplayer
 
         private void EnableOpponentTimer()
         {
-            if (startingTimer == TimeSpan.Zero)
+            SetOpponentTimerActiveColors();
+        }
+
+        private void SetOpponentTimerWaitingState(bool isPlayerTurn)
+        {
+            opponentClockLabel.gameObject.SetActive(false);
+            waitingLabel.gameObject.SetActive(true);
+
+            if (isPlayerTurn)
             {
-                opponentClockImage.color = Colors.YELLOW;
-                opponentTurnLabel.color = Colors.YELLOW;
-            }
-            else
-            {
-                SetOpponentTimerActiveColors();
+                waitingLabel.color = Colors.DISABLED_WHITE;
             }
         }
 
         private void DisableOpponentTimer()
         {
             opponentClockLabel.color = Colors.DISABLED_WHITE;
-            opponentTurnLabel.color = Colors.DISABLED_WHITE;
             opponentClockImage.color = Colors.DISABLED_WHITE;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
@@ -187,6 +186,7 @@ namespace TurboLabz.Multiplayer
         {
             opponentClockLabel.color = GetLabelColor(opponentTimer);
             opponentClockImage.color = GetClockColor(opponentTimer);
+            waitingLabel.color = opponentClockLabel.color;
         }
 
         private IEnumerator AnimateTimerCR(Image filler, TimeSpan currentTimer)
@@ -231,10 +231,13 @@ namespace TurboLabz.Multiplayer
 
         private string FormatTimer(TimeSpan timer)
         {
+            // This code is similar to rounding the seconds to a ceiling
             if (timer.TotalMilliseconds > 0)
             {
                 timer = TimeSpan.FromMilliseconds(timer.TotalMilliseconds + 999);
             }
+
+            // If there is more than 24 hours, then show eg. 1D:3H
 
             return string.Format("{0:00}:{1:00}", Mathf.FloorToInt((float)timer.TotalMinutes), timer.Seconds);
         }

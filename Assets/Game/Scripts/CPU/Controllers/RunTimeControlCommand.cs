@@ -61,6 +61,7 @@ namespace TurboLabz.CPU
             vo.playerTimer = playerTimer;
             vo.opponentTimer = opponentTimer;
             vo.isPlayerTurn = chessboardModel.isPlayerTurn;
+            vo.waitingForOpponentToAccept = false;
             initTimersSignal.Dispatch(vo);
 
             // Kick off

@@ -24,7 +24,7 @@ namespace TurboLabz.Multiplayer
     public class SquareClickedSignal : Signal<FileRank> {}
     public class BackendPlayerTurnSignal : Signal<PlayerTurnVO> {}
 
-    public class RunTimeControlSignal : Signal<bool> {}
+    public class RunTimeControlSignal : Signal<RunTimeControlVO> {}
     public class PromoSelectedSignal : Signal<string> {}
     public class ClaimDrawSignal : Signal {}
     public class RejectDrawSignal : Signal {}

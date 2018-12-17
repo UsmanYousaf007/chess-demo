@@ -21,8 +21,7 @@ namespace TurboLabz.Multiplayer
     public class RunTimeControlCommand : Command
     {
         // Parameters
-        [Inject] public bool pauseAfterSwap { get; set; }
-
+        [Inject] public RunTimeControlVO runTimeControlVO { get; set; }
 
         // Dispatch signals
         [Inject] public UpdatePlayerTimerSignal updatePlayerTimerSignal { get; set; }
@@ -69,7 +68,7 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
-                    if (!pauseAfterSwap)
+                    if (!runTimeControlVO.pauseAfterSwap)
                     {
                         opponentTimer -= TimeSpan.FromMilliseconds(timeElapsedSinceLastMove);
                     }
@@ -96,13 +95,14 @@ namespace TurboLabz.Multiplayer
             vo.playerTimer = playerTimer;
             vo.opponentTimer = opponentTimer;
             vo.isPlayerTurn = isPlayerTurn;
+            vo.waitingForOpponentToAccept = runTimeControlVO.waitingForOpponentToAccept;
             initTimersSignal.Dispatch(vo);
 
             // Kick off
             timeControl.SetTimers(playerTimer, opponentTimer);
             timeControl.StartTimers(isPlayerTurn);
 
-            if (pauseAfterSwap)
+            if (runTimeControlVO.pauseAfterSwap)
             {
                 timeControl.PauseTimers();
             }

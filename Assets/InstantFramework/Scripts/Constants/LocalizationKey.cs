@@ -208,6 +208,7 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_CHALLENGED_YOU = "longPlayChallengedYou";
         public const string LONG_PLAY_YOUR_TURN = "longPlayYourTurn";
         public const string LONG_PLAY_THEIR_TURN = "longPlayTheirTurn";
+        public const string LONG_PLAY_WAITING_FOR_ACCEPT = "longPlayWaitingForAccept";
         public const string LONG_PLAY_DECLINED = "longPlayDeclined";
         public const string LONG_PLAY_YOU_LOST = "longPlayYouLost";
         public const string LONG_PLAY_YOU_WON = "longPlayYouWon";
