@@ -50,7 +50,7 @@ namespace TurboLabz.Multiplayer
             EmptyClock();
 
             TimeSpan t1 = new TimeSpan(2, 0, 0, 0);        // 2d
-            TimeSpan t2 = new TimeSpan(1, 23, 59, 59);    // 2d
+            TimeSpan t2 = new TimeSpan(3, 23, 59, 59);    // 2d
             TimeSpan t3 = new TimeSpan(1, 23, 0, 0);    // 1d 23h
             TimeSpan t4 = new TimeSpan(1, 22, 59, 59);    // 1d 23h
             TimeSpan t5 = new TimeSpan(1, 0, 59, 59);    // 1d 1h
@@ -90,15 +90,17 @@ namespace TurboLabz.Multiplayer
                 if (timer.Hours == 23 && (timer.Minutes > 0 || timer.Seconds > 0))
                 {
                     days++;
-                    return days + "d ";
+                    hours = 0;
+                    minutes = 0;
                 }
                 // Hours calculation
-                if (timer.Minutes > 0 || timer.Seconds > 0)
+                else if (timer.Minutes == 59 && timer.Seconds > 0)
                 {
                     hours++;
+                    minutes = 0; 
                 }
                 // Minutes calculation
-                if (timer.Seconds > 0)
+                else if (timer.Seconds > 0)
                 {
                     minutes++;
                 }
