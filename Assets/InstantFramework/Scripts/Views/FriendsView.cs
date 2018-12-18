@@ -122,8 +122,8 @@ namespace TurboLabz.InstantFramework
                 AddFriend(entry.Value, isCommunity);
             }
 
-            UpdateAllStatus();
-            RefreshDefaultMessages();
+            //UpdateAllStatus();
+            //RefreshDefaultMessages();
 
             //AddTestBars();
         }
@@ -136,6 +136,7 @@ namespace TurboLabz.InstantFramework
 
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
+            friendBar.Init(localizationService);
 
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
@@ -216,7 +217,6 @@ namespace TurboLabz.InstantFramework
         public void Show() 
         { 
             gameObject.SetActive(true); 
-            UpdateAllStatus();
         }
 
         public void Hide()

@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -58,6 +59,7 @@ namespace TurboLabz.InstantFramework
             thinking.gameObject.SetActive(false);
             playArrow.gameObject.SetActive(false);
             timerLabel.gameObject.SetActive(false);
+            okButton.gameObject.SetActive(false);
 
             // Now enable required ones
             switch (longPlayStatus)
@@ -124,9 +126,6 @@ namespace TurboLabz.InstantFramework
                     playArrow.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
                     break;
-
-
-
             }
 
             /*
