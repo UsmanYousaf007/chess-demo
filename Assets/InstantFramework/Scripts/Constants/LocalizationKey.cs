@@ -162,10 +162,13 @@ namespace TurboLabz.InstantFramework
 
         #region Friends
 
-		public const string FRIENDS_TITLE = "friendsTitle";
-		public const string FRIENDS_NO_FRIENDS_TEXT = "friendsInviteLabel";
+		public const string FRIENDS_SECTION_NEW_MATCHES = "friendsNewMatches";
+        public const string FRIENDS_SECTION_ACTIVE_MATCHES = "friendsActiveMatches";
+        public const string FRIENDS_SECTION_PLAY_A_FRIEND = "friendsPlayAFriend";
+        public const string FRIENDS_SECTION_PLAY_SOMEONE_NEW = "friendsPlaySomeoneNew";
+
+        public const string FRIENDS_NO_FRIENDS_TEXT = "friendsInviteLabel";
 		public const string FRIENDS_INVITE_TEXT = "friendsInviteText";
-		public const string FRIENDS_COMMUNITY_TITLE = "friendsCommunityTitle";
 		public const string FRIENDS_REFRESH_TEXT = "friendsRefreshText";
 		public const string FRIENDS_CONFIRM_LABEL = "friendsConfirmLabel";
 		public const string FRIENDS_YES_LABEL = "friendsYesLabel";
@@ -202,6 +205,11 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_BACK_TO_FRIENDS = "longPlayBackToFriends";
         public const string BOT_NAV_NEXT = "botNavNext";
         public const string BOT_NAV_COMPANY = "botNavCompany";
+        public const string LONG_PLAY_NOT_NOW = "longPlayNotNow";
+        public const string LONG_PLAY_ACCEPT = "longPlayAccept";
+        public const string LONG_PLAY_CANCEL = "longPlayCancel";
+        public const string LONG_PLAY_OK = "longPlayOk";
+        public const string LONG_PLAY_WAITING = "longPlayWaiting";
         public const string LONG_PLAY_MINUTES = "longPlayMinutes";
         public const string LONG_PLAY_HOURS = "longPlayHours";
         public const string LONG_PLAY_DAYS = "longPlayDays";

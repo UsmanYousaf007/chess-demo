@@ -166,10 +166,12 @@ namespace TurboLabz.InstantFramework
 
                 #region Friends
 
-				{ LocalizationKey.FRIENDS_TITLE, "Friends and Matches" },
-				{ LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite your Facebook Friends to Play" },
+				{ LocalizationKey.FRIENDS_SECTION_NEW_MATCHES, "NEW MATCHES" },
+                { LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES, "ACTIVE MATCHES" },
+                { LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND, "PLAY A FRIEND" },
+                { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW" },
+                { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite your Facebook Friends to Play" },
 				{ LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
-				{ LocalizationKey.FRIENDS_COMMUNITY_TITLE, "Play Someone New" },
 				{ LocalizationKey.FRIENDS_REFRESH_TEXT, "Refresh" },
 				{ LocalizationKey.FRIENDS_CONFIRM_LABEL, "Are You Sure?" },
 				{ LocalizationKey.FRIENDS_YES_LABEL, "YES" },
@@ -207,7 +209,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_RESULTS_BACK, "BACK TO FRIENDS" },
                 { LocalizationKey.BOT_NAV_NEXT, "Next" },
                 { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
-
+                { LocalizationKey.LONG_PLAY_NOT_NOW, "Not Now" },
+                { LocalizationKey.LONG_PLAY_ACCEPT, "Accept" },
+                { LocalizationKey.LONG_PLAY_CANCEL, "Cancel" },
+                { LocalizationKey.LONG_PLAY_OK, "Ok" },
+                { LocalizationKey.LONG_PLAY_WAITING, "Waiting" },
                 { LocalizationKey.LONG_PLAY_MINUTES, "{0}m" },
                 { LocalizationKey.LONG_PLAY_HOURS, "{0}h" },
                 { LocalizationKey.LONG_PLAY_DAYS, "{0}d" },

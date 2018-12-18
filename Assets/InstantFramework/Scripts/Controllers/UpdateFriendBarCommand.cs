@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
                     LongPlayStatusVO vo;
                     vo.playerId = friendId;
                     vo.lastActionTime = DateTime.UtcNow;
-                    vo.longPlayStatus = LongPlayStatus.NONE;
+                    vo.longPlayStatus = LongPlayStatus.DEFAULT;
 
                     // NEW_CHALLENGE
                     if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW)
@@ -97,7 +97,7 @@ namespace TurboLabz.InstantFramework
             if (!friendHasMatch)
             {
                 LongPlayStatusVO vo;
-                vo.longPlayStatus = LongPlayStatus.NONE;
+                vo.longPlayStatus = LongPlayStatus.DEFAULT;
                 vo.lastActionTime = DateTime.UtcNow;
                 vo.playerId = friendId;
 

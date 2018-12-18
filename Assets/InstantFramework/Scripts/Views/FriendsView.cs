@@ -20,18 +20,23 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
 
 		public Transform listContainer;
-		public Transform friendsSibling;
-		public Transform communitySibling;
 		public GameObject friendBarPrefab;
         public Text[] defaultInviteFriendsNewLines;
         public Text defaultInviteFriendsText;
         public Text defaultInviteFriendsButtonText;
         public Button defaultInviteFriendsButton;
         public Text waitingForPlayersText;
-		public Text friendsTitle;
-        public Button inviteFriendsButton;
-        public Text inviteText;
-		public Text communityTitle;
+
+        public Transform sectionNewMatches;
+        public Transform sectionActiveMatches;
+        public Transform sectionPlayAFriend;
+        public Transform sectionPlaySomeoneNew;
+
+        public Text sectionNewMatchesTitle;
+        public Text sectionActiveMatchesTitle;
+        public Text sectionPlayAFriendTitle;
+        public Text sectionPlaySomeoneNewTitle;
+
         public Button refreshCommunityButton;
 		public Text refreshText;
 		public GameObject confirmDlg;
@@ -60,10 +65,12 @@ namespace TurboLabz.InstantFramework
             defaultInviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
-			friendsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_TITLE);
-			inviteText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TEXT);
-			communityTitle.text = localizationService.Get(LocalizationKey.FRIENDS_COMMUNITY_TITLE);
 			refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
+
+            sectionNewMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_NEW_MATCHES);
+            sectionActiveMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES);
+            sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
+            sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
 
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
 
@@ -129,10 +136,9 @@ namespace TurboLabz.InstantFramework
 
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
-            friendBar.incDecSkinLink.InitPrefabSkin();
 
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
-            friendBar.playButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
+            friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
@@ -178,7 +184,7 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = bars[vo.playerId].GetComponent<FriendBar>();
             friendBar.lastActionTime = vo.lastActionTime;
             friendBar.longPlayStatus = vo.longPlayStatus;
-            UpdateStatus(friendBar);
+            friendBar.UpdateStatus();
             UpdateActionCount();
         }
 
@@ -204,7 +210,7 @@ namespace TurboLabz.InstantFramework
 
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
             friendBar.thinking.SetActive(busy);
-            friendBar.playButton.gameObject.SetActive(!busy);
+            friendBar.stripButton.gameObject.SetActive(!busy);
         }
 
         public void Show() 
@@ -319,84 +325,10 @@ namespace TurboLabz.InstantFramework
         {
             foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
-                UpdateStatus(entry.Value);
+                entry.Value.UpdateStatus();
             }
 
             UpdateActionCount();
-        }
-
-        void UpdateStatus(FriendBar friendBar)
-        {
-            friendBar.statusLabel.gameObject.SetActive(true);
-            friendBar.statusLabel.color = Colors.DULL_WHITE;
-
-            // Update status
-            if (friendBar.longPlayStatus == LongPlayStatus.NONE)
-            {
-                friendBar.statusLabel.gameObject.SetActive(false);
-            }
-            else if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE)
-            {
-                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CHALLENGED_YOU);
-                friendBar.statusLabel.color = Colors.YELLOW;
-            }
-            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_TURN)
-            {
-                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
-                friendBar.statusLabel.color = Colors.GREEN;
-            }
-            else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_TURN)
-            {
-                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
-                friendBar.statusLabel.color = Colors.WHITE;
-            }
-            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_WON)
-            {
-                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_WON);
-            }
-            else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
-            {
-                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
-            }
-            else if (friendBar.longPlayStatus == LongPlayStatus.DRAW)
-            {
-                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
-            }
-            else if (friendBar.longPlayStatus == LongPlayStatus.DECLINED)
-            {
-                friendBar.statusLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);
-            }
-
-            // Update timers
-            if (friendBar.longPlayStatus != LongPlayStatus.NEW_CHALLENGE &&
-                friendBar.longPlayStatus != LongPlayStatus.PLAYER_TURN &&
-                friendBar.longPlayStatus != LongPlayStatus.OPPONENT_TURN)
-            {
-                friendBar.timer.gameObject.SetActive(false);
-                friendBar.timerLabel.gameObject.SetActive(false);
-                return;
-            }
-
-            friendBar.timer.gameObject.SetActive(true);
-            friendBar.timerLabel.gameObject.SetActive(true);
-
-            TimeSpan elapsedTime = DateTime.UtcNow.Subtract(friendBar.lastActionTime);
-
-            if (elapsedTime.TotalHours < 1)
-            {
-                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_MINUTES, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalMinutes)));
-            }
-            else if (elapsedTime.TotalDays < 1)
-            {
-                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_HOURS, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalHours)));
-            }
-            else
-            {
-                friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DAYS, 
-                    Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)));
-            }
         }
 
         void RefreshDefaultMessages()

@@ -47,7 +47,6 @@ namespace TurboLabz.InstantFramework
             view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
             view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
             view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
-            view.inviteFriendsButton.onClick.AddListener(OnShareApp);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
         }

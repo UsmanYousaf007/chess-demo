@@ -4,11 +4,12 @@ namespace TurboLabz.InstantFramework
 {
     public enum LongPlayStatus
     {
-        NONE,
+        DEFAULT,
         NEW_CHALLENGE,
+        WAITING_FOR_ACCEPT,
+        DECLINED,
         PLAYER_TURN,
         OPPONENT_TURN,
-        DECLINED,
         PLAYER_WON,
         OPPONENT_WON,
         DRAW
