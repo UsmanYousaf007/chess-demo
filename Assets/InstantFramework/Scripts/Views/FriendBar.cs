@@ -71,7 +71,9 @@ namespace TurboLabz.InstantFramework
 
                 case LongPlayStatus.NEW_CHALLENGE:
                     notNowButton.gameObject.SetActive(true);
+                    notNowButton.interactable = true;
                     acceptButton.gameObject.SetActive(true);
+                    acceptButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     break;
 
@@ -79,6 +81,7 @@ namespace TurboLabz.InstantFramework
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strWaiting;
                     cancelButton.gameObject.SetActive(true);
+                    cancelButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     break;
 
@@ -101,24 +104,28 @@ namespace TurboLabz.InstantFramework
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strYouWon;
                     okButton.gameObject.SetActive(true);
+                    okButton.interactable = true;
                     break;
 
                 case LongPlayStatus.OPPONENT_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strYouLost;
                     okButton.gameObject.SetActive(true);
+                    okButton.interactable = true;
                     break;
 
                 case LongPlayStatus.DRAW:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strDraw;
                     okButton.gameObject.SetActive(true);
+                    okButton.interactable = true;
                     break;
 
                 case LongPlayStatus.DECLINED:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strDeclined;
                     okButton.gameObject.SetActive(true);
+                    okButton.interactable = true;
                     break;
             }
 

@@ -144,10 +144,10 @@ namespace TurboLabz.InstantFramework
 
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
-            friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId));
-            friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId));
-            friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId));
-            friendBar.okButton.onClick.AddListener(() => OkButtonClicked(friend.playerId));
+            friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId, friendBar.acceptButton));
+            friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId, friendBar.notNowButton));
+            friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId, friendBar.cancelButton));
+            friendBar.okButton.onClick.AddListener(() => OkButtonClicked(friend.playerId, friendBar.okButton));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
@@ -220,6 +220,7 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
             friendBar.thinking.SetActive(busy);
             friendBar.stripButton.gameObject.SetActive(!busy);
+            friendBar.playArrow.SetActive(!busy);
         }
 
         public void Show() 
@@ -329,28 +330,32 @@ namespace TurboLabz.InstantFramework
             playButtonClickedSignal.Dispatch(playerId);
         }
 
-        void AcceptButtonClicked(string playerId)
+        void AcceptButtonClicked(string playerId, Button button)
         {
             audioService.PlayStandardClick();
             acceptButtonClickedSignal.Dispatch(playerId);
+            button.interactable = false;
         }
 
-        void DeclineButtonClicked(string playerId)
+        void DeclineButtonClicked(string playerId, Button button)
         {
             audioService.PlayStandardClick();
             declineButtonClickedSignal.Dispatch(playerId);
+            button.interactable = false;
         }
 
-        void CancelButtonClicked(string playerId)
+        void CancelButtonClicked(string playerId, Button button)
         {
             audioService.PlayStandardClick();
             cancelButtonClickedSignal.Dispatch(playerId);
+            button.interactable = false;
         }
 
-        void OkButtonClicked(string playerId)
+        void OkButtonClicked(string playerId, Button button)
         {
             audioService.PlayStandardClick();
             okButtonClickedSignal.Dispatch(playerId);
+            button.interactable = false;
         }
 
         void UpdateAllStatus()
