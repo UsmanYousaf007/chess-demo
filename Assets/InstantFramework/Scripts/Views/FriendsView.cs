@@ -218,6 +218,17 @@ namespace TurboLabz.InstantFramework
             }
 
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
+
+            if (busy == true && friendBar.stripButton.gameObject.activeSelf == false)
+            {
+                return;
+            }
+            else if (busy == false && friendBar.stripButton.gameObject.activeSelf == true)
+            {
+                return;
+            }
+
+
             friendBar.thinking.SetActive(busy);
             friendBar.stripButton.gameObject.SetActive(!busy);
             friendBar.playArrow.SetActive(!busy);
