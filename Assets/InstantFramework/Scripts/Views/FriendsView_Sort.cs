@@ -87,8 +87,9 @@ namespace TurboLabz.InstantFramework
             // Set sibling indexes
             int index = 0;
             sectionNewMatches.gameObject.SetActive(false);
-            sectionPlayAFriend.gameObject.SetActive(false);
-            sectionActiveMatches.gameObject.SetActive(false);
+            sectionPlayAFriendEmpty.gameObject.SetActive(false);
+            sectionActiveMatchesEmpty.gameObject.SetActive(false);
+
 
             if (newMatches.Count > 0)
             {
@@ -106,7 +107,6 @@ namespace TurboLabz.InstantFramework
                 theirMove.Count > 0 ||
                 ended.Count > 0)
             {
-                sectionActiveMatches.gameObject.SetActive(true);
                 index = sectionActiveMatches.GetSiblingIndex() + 1;
 
                 foreach (FriendBar bar in yourMove)
@@ -127,10 +127,13 @@ namespace TurboLabz.InstantFramework
                     index++;
                 }
             }
+            else
+            {
+                sectionActiveMatchesEmpty.gameObject.SetActive(true);
+            }
 
             if (emptyOnline.Count > 0 || emptyOffline.Count > 0)
             {
-                sectionPlayAFriend.gameObject.SetActive(true);
                 index = sectionPlayAFriend.GetSiblingIndex() + 1;
 
                 foreach (FriendBar bar in emptyOnline)
@@ -144,6 +147,10 @@ namespace TurboLabz.InstantFramework
                     bar.transform.SetSiblingIndex(index);
                     index++;
                 }
+            }
+            else
+            {
+                sectionPlayAFriendEmpty.gameObject.SetActive(true);
             }
         }
 
@@ -179,11 +186,11 @@ namespace TurboLabz.InstantFramework
 
             // Set sibling indexes
             int index = 0;
-            sectionPlaySomeoneNew.gameObject.SetActive(false);
+            sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
+
 
             if (communityOnline.Count > 0 || communityOffline.Count > 0)
             {
-                sectionPlaySomeoneNew.gameObject.SetActive(true);
                 index = sectionPlaySomeoneNew.GetSiblingIndex() + 1;
 
                 foreach (FriendBar bar in communityOnline)
@@ -198,6 +205,10 @@ namespace TurboLabz.InstantFramework
                     index++;
 
                 }
+            }
+            else
+            {
+                sectionPlaySomeoneNewEmpty.gameObject.SetActive(true);
             }
         }
         /*

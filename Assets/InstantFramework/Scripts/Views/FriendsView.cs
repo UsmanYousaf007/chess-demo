@@ -21,16 +21,18 @@ namespace TurboLabz.InstantFramework
 
 		public Transform listContainer;
 		public GameObject friendBarPrefab;
-        public Text[] defaultInviteFriendsNewLines;
-        public Text defaultInviteFriendsText;
-        public Text defaultInviteFriendsButtonText;
-        public Button defaultInviteFriendsButton;
+
+        public Text noActiveMatchesText;
+        public Text inviteFriendsText;
         public Text waitingForPlayersText;
 
         public Transform sectionNewMatches;
         public Transform sectionActiveMatches;
+        public GameObject sectionActiveMatchesEmpty;
         public Transform sectionPlayAFriend;
+        public GameObject sectionPlayAFriendEmpty;
         public Transform sectionPlaySomeoneNew;
+        public GameObject sectionPlaySomeoneNewEmpty;
 
         public Text sectionNewMatchesTitle;
         public Text sectionActiveMatchesTitle;
@@ -65,8 +67,8 @@ namespace TurboLabz.InstantFramework
         {
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
-            defaultInviteFriendsButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TEXT);
-            defaultInviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
+            noActiveMatchesText.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY);
+            inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
 			refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
@@ -77,12 +79,6 @@ namespace TurboLabz.InstantFramework
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
 
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
-
-            defaultInvite.Add(defaultInviteFriendsText.gameObject);
-            defaultInvite.Add(defaultInviteFriendsButtonText.gameObject);
-            defaultInvite.Add(defaultInviteFriendsButton.gameObject);
-            for (int i = 0; i < defaultInviteFriendsNewLines.Length; i++)
-                defaultInvite.Add(defaultInviteFriendsNewLines[i].gameObject);
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -219,16 +215,6 @@ namespace TurboLabz.InstantFramework
 
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
 
-            if (busy == true && friendBar.stripButton.gameObject.activeSelf == false)
-            {
-                return;
-            }
-            else if (busy == false && friendBar.stripButton.gameObject.activeSelf == true)
-            {
-                return;
-            }
-
-
             friendBar.thinking.SetActive(busy);
             friendBar.stripButton.gameObject.SetActive(!busy);
             friendBar.playArrow.SetActive(!busy);
@@ -268,8 +254,6 @@ namespace TurboLabz.InstantFramework
                 GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
             }
-
-            RefreshDefaultMessages();
         }
 
         public void AddUnreadMessages(string friendId)
@@ -377,30 +361,6 @@ namespace TurboLabz.InstantFramework
             }
 
             UpdateActionCount();
-        }
-
-        void RefreshDefaultMessages()
-        {
-            bool friendsEmpty = true;
-            bool communityEmpty = true;
-
-            foreach (KeyValuePair<string, FriendBar> entry in bars)
-            {
-                if (entry.Value.isCommunity)
-                {
-                    communityEmpty = false;
-                }
-                else
-                {
-                    friendsEmpty = false;
-                }
-
-                if (!communityEmpty && !friendsEmpty)
-                    break;
-            }
-
-            waitingForPlayersText.gameObject.SetActive(communityEmpty);
-            DefaultInviteSetActive(friendsEmpty);
         }
 
         void UpdateActionCount()
