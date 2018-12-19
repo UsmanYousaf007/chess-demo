@@ -34,6 +34,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
+        [Inject] public AcceptSignal acceptSignal { get; set; }
+        [Inject] public DeclineSignal declineSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -49,6 +51,9 @@ namespace TurboLabz.InstantFramework
             view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
+            view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
+            view.declineButtonClickedSignal.AddListener(OnDeclineButtonClicked);
+            view.cancelButtonClickedSignal.AddListener(OnCancelButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -199,6 +204,21 @@ namespace TurboLabz.InstantFramework
         private void OnPlayButtonClicked(string playerId)
         {
             tapLongMatchSignal.Dispatch(playerId);
+        }
+
+        private void OnAcceptButtonClicked(string playerId)
+        {
+            acceptSignal.Dispatch(playerId);
+        }
+
+        private void OnDeclineButtonClicked(string playerId)
+        {
+            declineSignal.Dispatch(playerId);
+        }
+
+        private void OnCancelButtonClicked(string playerId)
+        {
+
         }
 
         private void OnActionCountUpdated(int count)

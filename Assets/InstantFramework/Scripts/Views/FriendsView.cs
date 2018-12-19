@@ -52,6 +52,9 @@ namespace TurboLabz.InstantFramework
         public Signal refreshCommunitySignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
         public Signal<string> playButtonClickedSignal = new Signal<string>();
+        public Signal<string> acceptButtonClickedSignal = new Signal<string>();
+        public Signal<string> declineButtonClickedSignal = new Signal<string>();
+        public Signal<string> cancelButtonClickedSignal = new Signal<string>();
         public Signal<int> actionCountUpdatedSignal = new Signal<int>();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -140,6 +143,9 @@ namespace TurboLabz.InstantFramework
 
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
+            friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId));
+            friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId));
+            friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
@@ -319,6 +325,24 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             playButtonClickedSignal.Dispatch(playerId);
+        }
+
+        void AcceptButtonClicked(string playerId)
+        {
+            audioService.PlayStandardClick();
+            acceptButtonClickedSignal.Dispatch(playerId);
+        }
+
+        void DeclineButtonClicked(string playerId)
+        {
+            audioService.PlayStandardClick();
+            declineButtonClickedSignal.Dispatch(playerId);
+        }
+
+        void CancelButtonClicked(string playerId)
+        {
+            audioService.PlayStandardClick();
+            cancelButtonClickedSignal.Dispatch(playerId);
         }
 
         void UpdateAllStatus()

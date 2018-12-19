@@ -15,11 +15,6 @@ namespace TurboLabz.Multiplayer
             Chessboard chessboard = cmd.activeChessboard;
             bool playerWins = (cmd.matchInfoModel.activeMatch.winnerId == cmd.playerModel.id) ? true : false;
 
-            if (CameFromState(cmd, typeof(CCSAcceptDialog)))
-            {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-            }
-
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
 
             ResultsVO vo = new ResultsVO();

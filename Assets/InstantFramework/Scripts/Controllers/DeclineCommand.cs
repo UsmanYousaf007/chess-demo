@@ -18,8 +18,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
-        [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
+        [Inject] public UnregisterSignal unregisterSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -43,7 +42,7 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                exitLongMatchSignal.Dispatch();
+                unregisterSignal.Dispatch(challengeId);
             }
 
             Release();

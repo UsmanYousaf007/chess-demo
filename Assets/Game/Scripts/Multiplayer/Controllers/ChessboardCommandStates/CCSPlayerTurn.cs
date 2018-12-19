@@ -67,33 +67,6 @@ namespace TurboLabz.Multiplayer
                 HandleGameEnded(cmd);
                 return new CCSAnnounceResults();
             }
-            else if (evt == ChessboardEvent.GAME_ACCEPT_REQUESTED)
-            {
-                return new CCSAcceptDialog();
-            }
-            else if (evt == ChessboardEvent.GAME_ACCEPTED)
-            {
-                cmd.acceptSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-
-                if (cmd.activeChessboard.isPlayerTurn)
-                {
-                    return new CCSPlayerTurn();
-                }
-                else
-                {
-                    return new CCSOpponentTurn();
-                }
-            }
-            else if (evt == ChessboardEvent.GAME_DECLINED)
-            {
-                string challengeId = cmd.matchInfoModel.activeChallengeId;
-                cmd.declineSignal.Dispatch(challengeId);
-                cmd.unregisterSignal.Dispatch(challengeId);
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-
-                return null;
-            }
 
             return null;
         }
