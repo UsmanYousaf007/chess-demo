@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
         [Inject] public AcceptSignal acceptSignal { get; set; }
         [Inject] public DeclineSignal declineSignal { get; set; }
+        [Inject] public CloseStripSignal closeStripSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -54,6 +55,7 @@ namespace TurboLabz.InstantFramework
             view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
             view.declineButtonClickedSignal.AddListener(OnDeclineButtonClicked);
             view.cancelButtonClickedSignal.AddListener(OnCancelButtonClicked);
+            view.okButtonClickedSignal.AddListener(OnOkButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -219,6 +221,11 @@ namespace TurboLabz.InstantFramework
         private void OnCancelButtonClicked(string playerId)
         {
 
+        }
+
+        private void OnOkButtonClicked(string playerId)
+        {
+            closeStripSignal.Dispatch(playerId);
         }
 
         private void OnActionCountUpdated(int count)

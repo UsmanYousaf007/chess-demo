@@ -82,12 +82,6 @@ namespace TurboLabz.InstantFramework
                     timerLabel.gameObject.SetActive(true);
                     break;
 
-                case LongPlayStatus.DECLINED:
-                    generalStatus.gameObject.SetActive(true);
-                    generalStatus.text = strDeclined;
-                    okButton.gameObject.SetActive(true);
-                    break;
-
                 case LongPlayStatus.PLAYER_TURN:
                     yourMoveStatus.gameObject.SetActive(true);
                     stripButton.gameObject.SetActive(true);
@@ -106,25 +100,25 @@ namespace TurboLabz.InstantFramework
                 case LongPlayStatus.PLAYER_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strYouWon;
-                    stripButton.gameObject.SetActive(true);
-                    playArrow.gameObject.SetActive(true);
-                    timerLabel.gameObject.SetActive(true);
+                    okButton.gameObject.SetActive(true);
                     break;
 
                 case LongPlayStatus.OPPONENT_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strYouLost;
-                    stripButton.gameObject.SetActive(true);
-                    playArrow.gameObject.SetActive(true);
-                    timerLabel.gameObject.SetActive(true);
+                    okButton.gameObject.SetActive(true);
                     break;
 
                 case LongPlayStatus.DRAW:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strDraw;
-                    stripButton.gameObject.SetActive(true);
-                    playArrow.gameObject.SetActive(true);
-                    timerLabel.gameObject.SetActive(true);
+                    okButton.gameObject.SetActive(true);
+                    break;
+
+                case LongPlayStatus.DECLINED:
+                    generalStatus.gameObject.SetActive(true);
+                    generalStatus.text = strDeclined;
+                    okButton.gameObject.SetActive(true);
                     break;
             }
 
@@ -211,6 +205,7 @@ namespace TurboLabz.InstantFramework
             notNowButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NOT_NOW);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT);
             cancelButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
+            okButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
             yourMoveStatus.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
             strWaiting = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING);
             strDeclined = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);

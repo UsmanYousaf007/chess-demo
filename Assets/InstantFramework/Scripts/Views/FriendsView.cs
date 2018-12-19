@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string> acceptButtonClickedSignal = new Signal<string>();
         public Signal<string> declineButtonClickedSignal = new Signal<string>();
         public Signal<string> cancelButtonClickedSignal = new Signal<string>();
+        public Signal<string> okButtonClickedSignal = new Signal<string>();
         public Signal<int> actionCountUpdatedSignal = new Signal<int>();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -146,6 +147,7 @@ namespace TurboLabz.InstantFramework
             friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId));
             friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId));
             friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId));
+            friendBar.okButton.onClick.AddListener(() => OkButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
@@ -343,6 +345,12 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             cancelButtonClickedSignal.Dispatch(playerId);
+        }
+
+        void OkButtonClicked(string playerId)
+        {
+            audioService.PlayStandardClick();
+            okButtonClickedSignal.Dispatch(playerId);
         }
 
         void UpdateAllStatus()

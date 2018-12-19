@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
             commandBinder.Bind<DeclineSignal>().To<DeclineCommand>();
+            commandBinder.Bind<CloseStripSignal>().To<CloseStripCommand>();
             commandBinder.Bind<UnregisterSignal>().To<UnregisterCommand>();
             commandBinder.Bind<SendChatMessageSignal>().To<SendChatMessageCommand>();
             commandBinder.Bind<ReceiveChatMessageSignal>().To<ReceiveChatMessageCommand>();
