@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public bool isLongPlay { get; set; }
         public string winnerId { get; set; }
         public double gameDurationMs { get; set; }
+        public long createTimeMs { get; set; }
 
         public bool isBotMatch
         {
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
             challengedId = null;
             isLongPlay = false;
             gameDurationMs = 0;
+            createTimeMs = 0;
         }
     }
 

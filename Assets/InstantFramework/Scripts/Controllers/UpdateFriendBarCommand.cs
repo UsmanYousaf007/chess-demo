@@ -49,20 +49,21 @@ namespace TurboLabz.InstantFramework
                     {
                         if (matchInfo.challengerId == playerModel.id)
                         {
-                            vo.longPlayStatus = (chessboard.isPlayerTurn) ? LongPlayStatus.PLAYER_TURN : LongPlayStatus.OPPONENT_TURN;
+                            vo.longPlayStatus = LongPlayStatus.WAITING_FOR_ACCEPT;
                         }
                         else
                         {
                             vo.longPlayStatus = LongPlayStatus.NEW_CHALLENGE;
                         }
 
-                        vo.lastActionTime = chessboard.lastMoveTime;
+                        vo.lastActionTime = TimeUtil.ToDateTime(matchInfo.createTimeMs);
                     }
                     // DECLINED
                     else if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_DECLINED &&
                         matchInfo.challengerId == playerModel.id)
                     {
                         vo.longPlayStatus = LongPlayStatus.DECLINED;
+
                     }
                     // PLAYER_TURN OR OPPONENT_TURN
                     else if (chessboard.gameEndReason == GameEndReason.NONE)

@@ -194,7 +194,8 @@ namespace TurboLabz.InstantFramework
 
             // Set the timer clocks
             if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||
-                friendBar.longPlayStatus == LongPlayStatus.DECLINED)
+                friendBar.longPlayStatus == LongPlayStatus.DECLINED ||
+                friendBar.longPlayStatus == LongPlayStatus.WAITING_FOR_ACCEPT)
             {
                 TimeSpan elapsedTime = DateTime.UtcNow.Subtract(friendBar.lastActionTime);
 
@@ -262,8 +263,6 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
 
             friendBar.thinking.SetActive(busy);
-            friendBar.stripButton.gameObject.SetActive(!busy);
-            friendBar.playArrow.SetActive(!busy);
         }
 
         public void Show() 

@@ -110,6 +110,14 @@ namespace TurboLabz.InstantFramework
             {
                 matchInfo.gameStartTimeMilliseconds = matchData.GetLong(GSBackendKeys.GAME_START_TIME).Value;
             }
+            if (matchData.ContainsKey(GSBackendKeys.Match.CREATE_TIME))
+            {
+                matchInfo.createTimeMs = matchData.GetLong(GSBackendKeys.Match.CREATE_TIME).Value;
+            }
+            else
+            {
+                matchInfo.createTimeMs = TimeUtil.unixTimestampMilliseconds;
+            }
 
             ///////////////////////////////////////////////////////////////////////////////////////
             // Initialize opponent profile

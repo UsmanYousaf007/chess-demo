@@ -61,6 +61,8 @@ namespace TurboLabz.InstantFramework
             timerLabel.gameObject.SetActive(false);
             okButton.gameObject.SetActive(false);
 
+            LogUtil.Log("LONGPLAYSTATUS:" + longPlayStatus, "red");
+
             // Now enable required ones
             switch (longPlayStatus)
             {
