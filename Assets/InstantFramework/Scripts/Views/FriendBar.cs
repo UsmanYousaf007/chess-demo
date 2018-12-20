@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
         public Button okButton;
         public Text okButtonLabel;
 
-        static bool stringsLoaded = false;
+        bool stringsLoaded = false;
         static string strWaiting = "";
         static string strDeclined = "";
         static string strTheirMove = "";
@@ -48,20 +48,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateStatus()
         {
-            // Hide all optional elements (except unread indicator, which is controlled 
-            // by another pipeline)
-            stripButton.gameObject.SetActive(false);
-            generalStatus.gameObject.SetActive(false);
-            yourMoveStatus.gameObject.SetActive(false);
-            notNowButton.gameObject.SetActive(false);
-            acceptButton.gameObject.SetActive(false);
-            cancelButton.gameObject.SetActive(false);
-            thinking.gameObject.SetActive(false);
-            playArrow.gameObject.SetActive(false);
-            timerLabel.gameObject.SetActive(false);
-            okButton.gameObject.SetActive(false);
-
-            LogUtil.Log("LONGPLAYSTATUS:" + longPlayStatus, "red");
+            DisableOptionalElements();
 
             // Now enable required ones
             switch (longPlayStatus)
@@ -130,6 +117,29 @@ namespace TurboLabz.InstantFramework
                     okButton.interactable = true;
                     break;
             }
+        }
+
+        public void UpdateCommmunityStrip()
+        {
+            DisableOptionalElements();
+            stripButton.gameObject.SetActive(true);
+            playArrow.gameObject.SetActive(true);
+        }
+
+        private void DisableOptionalElements()
+        {
+            // Hide all optional elements (except unread indicator, which is controlled 
+            // by another pipeline)
+            stripButton.gameObject.SetActive(false);
+            generalStatus.gameObject.SetActive(false);
+            yourMoveStatus.gameObject.SetActive(false);
+            notNowButton.gameObject.SetActive(false);
+            acceptButton.gameObject.SetActive(false);
+            cancelButton.gameObject.SetActive(false);
+            thinking.gameObject.SetActive(false);
+            playArrow.gameObject.SetActive(false);
+            timerLabel.gameObject.SetActive(false);
+            okButton.gameObject.SetActive(false);
         }
 
         public void Init(ILocalizationService localizationService)
