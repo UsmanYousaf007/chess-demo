@@ -53,7 +53,7 @@ namespace TurboLabz.Multiplayer
         private void OnResignClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-            resignSignal.Dispatch();
+            resignSignal.Dispatch(null);
         }
 
         private void OnContinueButtonClicked()

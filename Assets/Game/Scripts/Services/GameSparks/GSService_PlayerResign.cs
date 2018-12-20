@@ -19,9 +19,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> PlayerResign()
+        public IPromise<BackendResult> PlayerResign(string challengeId)
         {
-            return new GSPlayerResignRequest().Send(matchInfoModel.activeChallengeId);
+            return new GSPlayerResignRequest().Send(challengeId);
         }
     }
 

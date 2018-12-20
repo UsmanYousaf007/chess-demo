@@ -263,6 +263,7 @@ namespace TurboLabz.InstantFramework
             public const string CHALLENGED_ID = "challengedId";
             public const string ACCEPT_STATUS_KEY = "status";
             public const string ACCEPT_STATUS_NEW = "new";
+            public const string ACCEPT_STATUS_CANCELED = "canceled";
             public const string ACCEPT_STATUS_ACCEPTED = "accepted";
             public const string ACCEPT_STATUS_DECLINED = "declined";
             public const string WINNER_ID = "winnerId";

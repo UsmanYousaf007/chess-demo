@@ -28,6 +28,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> AiResign();
         IPromise<BackendResult> ClaimFiftyMoveDraw();
         IPromise<BackendResult> ClaimThreefoldRepeatDraw();
-        IPromise<BackendResult> PlayerResign();
+        IPromise<BackendResult> PlayerResign(string challengeId);
     }
 }

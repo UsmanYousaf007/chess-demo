@@ -1,15 +1,4 @@
-/// @license Propriety <http://license.url>
-/// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
-/// Unauthorized copying of this file, via any medium is strictly prohibited
-/// Proprietary and confidential
-///
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2017-01-11 11:42:52 UTC+05:00
-///
-/// @description
-/// [add_description_here]
-
+using System.Collections.Generic;
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 
@@ -17,16 +6,35 @@ namespace TurboLabz.Multiplayer
 {
     public class ResignCommand : Command
     {
+        // Parameters
+        [Inject] public string opponentId { get; set; }
+
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
+        // Models
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
         public override void Execute()
         {
             Retain();
-            backendService.PlayerResign().Then(OnResign);
+
+            string challengeId;
+
+            if (opponentId == null)
+            {
+                challengeId = matchInfoModel.activeChallengeId;
+            }
+            else
+            {
+                challengeId = GetChallengeId();
+            }
+
+
+            backendService.PlayerResign(challengeId).Then(OnResign);
         }
 
         private void OnResign(BackendResult result)
@@ -37,6 +45,19 @@ namespace TurboLabz.Multiplayer
             }
 
             Release();
+        }
+
+        private string GetChallengeId()
+        {
+            foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
+            {
+                if (entry.Value.opponentPublicProfile.playerId == opponentId)
+                {
+                    return entry.Key;
+                }
+            }
+
+            return null;
         }
     }
 }

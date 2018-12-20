@@ -34,7 +34,7 @@ namespace TurboLabz.Multiplayer
     public class ShowThreefoldRepeatDrawDialogSignal : Signal {}
     public class HideDrawDialogSignal : Signal {}
 
-    public class ResignSignal : Signal {}
+    public class ResignSignal : Signal<string> {}
     public class AiTurnSignal : Signal {}
 
     // Command to command signals

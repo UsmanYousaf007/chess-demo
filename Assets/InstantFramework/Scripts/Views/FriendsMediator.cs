@@ -18,6 +18,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using TurboLabz.InstantGame;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public AcceptSignal acceptSignal { get; set; }
         [Inject] public DeclineSignal declineSignal { get; set; }
         [Inject] public CloseStripSignal closeStripSignal { get; set; }
+        [Inject] public ResignSignal resignSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -220,7 +222,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnCancelButtonClicked(string playerId)
         {
-
+            resignSignal.Dispatch(playerId);
         }
 
         private void OnOkButtonClicked(string playerId)

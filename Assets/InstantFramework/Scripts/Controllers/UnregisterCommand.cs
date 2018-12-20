@@ -60,6 +60,7 @@ namespace TurboLabz.InstantFramework
             {
                 if (playerModel.friends.ContainsKey(opponentId))
                 {
+                    //TODO: The update friend bar signal is fired twice when canceling a match, investigate and optimize.
                     updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                 }
 
