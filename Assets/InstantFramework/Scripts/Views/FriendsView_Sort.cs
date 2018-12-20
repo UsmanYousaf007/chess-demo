@@ -43,7 +43,8 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                if (status == LongPlayStatus.NEW_CHALLENGE)
+                if (status == LongPlayStatus.NEW_CHALLENGE ||
+                    status == LongPlayStatus.WAITING_FOR_ACCEPT)
                 {
                     newMatches.Add(bar);
                 }

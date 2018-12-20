@@ -24,7 +24,7 @@ namespace TurboLabz.Multiplayer
 
             string challengeId;
 
-            if (opponentId == null)
+            if (opponentId == "")
             {
                 challengeId = matchInfoModel.activeChallengeId;
             }
