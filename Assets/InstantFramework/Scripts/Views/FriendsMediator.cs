@@ -198,6 +198,8 @@ namespace TurboLabz.InstantFramework
             analyticsService.TapCommunityRefresh();
 
             refreshCommunitySignal.Dispatch();
+
+            LogUtil.Log("REFRESHING COMMUNITY:", "red");
         }
 
         private void OnShareApp()
