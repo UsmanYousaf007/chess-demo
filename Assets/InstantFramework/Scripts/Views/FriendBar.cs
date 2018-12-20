@@ -146,7 +146,7 @@ namespace TurboLabz.InstantFramework
             strWaiting = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING);
             strDeclined = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);
             strTheirMove = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);
-            strYouWon = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+            strYouWon = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_WON);
             strYouLost = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
             strDraw = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
 
