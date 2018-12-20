@@ -85,6 +85,10 @@ namespace TurboLabz.InstantFramework
                         }
                     }
 
+                    // Set player timers
+                    vo.playerTimer = chessboard.backendPlayerTimer;
+                    vo.opponentTimer = chessboard.backendOpponentTimer;
+
                     updateFriendBarStatusSignal.Dispatch(vo);
                     friendHasMatch = true;
 

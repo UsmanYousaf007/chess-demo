@@ -13,5 +13,7 @@ namespace TurboLabz.InstantFramework
         public string playerId;
         public LongPlayStatus longPlayStatus;
         public DateTime lastActionTime;
+        public TimeSpan playerTimer;
+        public TimeSpan opponentTimer;
     }
 }

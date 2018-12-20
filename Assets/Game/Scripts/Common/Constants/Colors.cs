@@ -12,6 +12,7 @@
 using TurboLabz.Chess;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 namespace TurboLabz.InstantGame
 {
@@ -21,7 +22,9 @@ namespace TurboLabz.InstantGame
         public static readonly Color RED = new Color(209f/255f, 43f/255f, 43f/255f, 1f);
         public static readonly Color GREEN = new Color(92f/255f, 186f/255f, 45f/255f, 1f);
         public static readonly Color WHITE = new Color(1f, 1f, 1f, 222f/255f);
-        public static readonly Color DULL_WHITE = new Color(1f, 1f, 1f, 150f/255f);
+        public static readonly Color WHITE_150 = new Color(1f, 1f, 1f, 150f/255f);
+        public static readonly Color WHITE_76 = new Color(1f, 1f, 1f, 76f / 255f);
+
         public static readonly Color DISABLED_WHITE = new Color(1f, 1f, 1f, 50f/255f);
         public static readonly Color TRANSPARENT = new Color(1f, 1f, 1f, 0f);
         public static readonly Color PLAYER_MESSAGE = new Color(215f/255f, 247f/255f, 191f/255f);
@@ -29,14 +32,22 @@ namespace TurboLabz.InstantGame
         public const float ENABLED_TEXT_ALPHA = 222f/255f;
         public const float FULL_ALPHA = 1f;
 
-		public static Color ColorAlpha(Color c, float a) 
+
+
+        public static Color ColorAlpha(Color c, float a) 
 		{
 			return new Color (c.a, c.g, c.b, a);
 		}
 
-        /*
-         *         private readonly Color redColor = new Color(0.82f, 0.18f, 0.18f);
-        private readonly Color yellowColor = new Color(0.98f, 0.66f, 0.15f);
-        private readonly Color greenColor = new Color(0.04f, 0.6f, 0.4f);*/
+        public static string GetColorString(string text, Color color)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<color=#");
+            sb.Append(ColorUtility.ToHtmlStringRGBA(color));
+            sb.Append(">");
+            sb.Append(text);
+            sb.Append("</color>");
+            return sb.ToString();
+        }
     }
 }

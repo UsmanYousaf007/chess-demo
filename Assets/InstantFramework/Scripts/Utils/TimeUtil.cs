@@ -59,5 +59,50 @@ namespace TurboLabz.TLUtils
                 return Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)) + " " + localizeDays;
             }
         }
+
+        public static string FormatPlayerClock(TimeSpan timer)
+        {
+            // TODO: localize clock
+
+            long seconds = timer.Seconds;
+            long minutes = timer.Minutes;
+            long hours = timer.Hours;
+
+            if (timer.Days > 0)
+            {
+                hours += timer.Days * 24;
+            }
+
+            if (timer.TotalHours >= 1)
+            {
+                return string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+            }
+
+            // else show 00:00 format
+            // This code is similar to rounding the seconds to a ceiling
+            if (timer.TotalMilliseconds > 0)
+            {
+                timer = TimeSpan.FromMilliseconds(timer.TotalMilliseconds + 999);
+            }
+
+            return string.Format("{0:00}:{1:00}", Mathf.FloorToInt((float)timer.TotalMinutes), timer.Seconds);
+        }
+
+        public static string FormatStripClock(TimeSpan timer)
+        {
+            if (Mathf.FloorToInt((float)timer.TotalHours) == 48)
+            {
+                return "48h";
+            }
+            else if (timer.TotalHours >= 1)
+            {
+                return Mathf.FloorToInt((float)timer.TotalHours) + "h+";
+            }
+            else 
+            {
+                return "< 1h";
+            }
+
+        }
     }
 }

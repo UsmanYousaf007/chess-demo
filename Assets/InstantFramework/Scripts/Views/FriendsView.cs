@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using strange.extensions.signal.impl;
 using System;
 using TurboLabz.InstantGame;
+using System.Text;
 
 namespace TurboLabz.InstantFramework
 {
@@ -190,6 +191,51 @@ namespace TurboLabz.InstantFramework
             friendBar.lastActionTime = vo.lastActionTime;
             friendBar.longPlayStatus = vo.longPlayStatus;
             friendBar.UpdateStatus();
+
+            // Set the timer clocks
+            if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||
+                friendBar.longPlayStatus == LongPlayStatus.DECLINED)
+            {
+                TimeSpan elapsedTime = DateTime.UtcNow.Subtract(friendBar.lastActionTime);
+
+                if (elapsedTime.TotalHours < 1)
+                {
+                    friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_MINUTES,
+                        Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalMinutes)));
+                }
+                else if (elapsedTime.TotalDays < 1)
+                {
+                    friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_HOURS,
+                        Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalHours)));
+                }
+                else
+                {
+                    friendBar.timerLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_DAYS,
+                        Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)));
+                }
+            } 
+            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_TURN)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer), Colors.WHITE));
+                sb.Append(Colors.GetColorString(" | " + TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE_76));
+                friendBar.timerLabel.text = sb.ToString();
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_TURN)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer) + " | ", Colors.WHITE_76));
+                sb.Append(Colors.GetColorString(TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE));
+                friendBar.timerLabel.text = sb.ToString();
+            }
+            else if (friendBar.longPlayStatus == LongPlayStatus.PLAYER_WON ||
+                friendBar.longPlayStatus == LongPlayStatus.OPPONENT_WON ||
+                friendBar.longPlayStatus == LongPlayStatus.DRAW)
+            {
+                friendBar.timerLabel.text = 
+                    Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer) + "|" + TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE_76);
+            }
+
             UpdateActionCount();
         }
 
