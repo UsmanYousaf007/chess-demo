@@ -235,6 +235,10 @@ namespace TurboLabz.InstantFramework
         public const string NEW_GAME_CONFIRM_YES = "newGameConfirmYes";
         public const string NEW_GAME_CONFIRM_NO = "newGameConfirmnNo";
         public const string NEW_GAME_CONFIRM_TITLE = "newGameConfirmTitle";
+        public const string REMOVE_COMMUNITY_FRIEND_YES = "removeCommunityFriendYes";
+        public const string REMOVE_COMMUNITY_FRIEND_NO = "removeCommunityFriendNo";
+        public const string REMOVE_COMMUNITY_FRIEND_TITLE = "removeCommunityFriendTitle";
+
 
         #endregion
 

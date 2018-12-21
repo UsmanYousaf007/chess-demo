@@ -237,6 +237,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NEW_GAME_CONFIRM_NO, "NO"},
                 { LocalizationKey.NEW_GAME_CONFIRM_YES, "YES"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "Start a new game?"},
+                { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "NO"},
+                { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "YES"},
+                { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove Player?"},
 
                 #endregion
 

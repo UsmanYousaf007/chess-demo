@@ -50,13 +50,22 @@ namespace TurboLabz.InstantFramework
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
 
-        // Confirm new game dialog
+        [Header("Confirm new game dialog")]
         public GameObject confirmNewGameDlg;
-        public Button yesButton;
-        public Button noButton;
-        public Text yesButtonText;
-        public Text noButtonText;
-        public Text titleText;
+        public Button confirmNewGameYesBtn;
+        public Button confirmNewGameNoBtn;
+        public Text confirmNewGameYesBtnText;
+        public Text confirmNewGameNoBtnText;
+        public Text confirmNewGameTitleText;
+
+        [Header("Confirm remove community friend")]
+        public GameObject removeCommunityFriendDlg;
+        public Button removeCommunityFriendYesBtn;
+        public Button removeCommunityFriendNoBtn;
+        public Text removeCommunityFriendYesBtnText;
+        public Text removeCommunityFriendNoBtnText;
+        public Text removeCommunityFriendTitleText;
+
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -68,10 +77,11 @@ namespace TurboLabz.InstantFramework
         public Signal<string> cancelButtonClickedSignal = new Signal<string>();
         public Signal<string> okButtonClickedSignal = new Signal<string>();
         public Signal<int> actionCountUpdatedSignal = new Signal<int>();
+        public Signal<string> removeCommunityFriendSignal = new Signal<string>();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
-        private string newGameConfirmOpponentId;
+        private string stripActionOpponentId;
 
         public void Init()
         {
@@ -88,14 +98,22 @@ namespace TurboLabz.InstantFramework
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
 
-            yesButtonText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_YES);
-            noButtonText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_NO);
-            titleText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_TITLE);
+            confirmNewGameYesBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_YES);
+            confirmNewGameNoBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_NO);
+            confirmNewGameTitleText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_TITLE);
+
+            removeCommunityFriendYesBtnText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES);
+            removeCommunityFriendNoBtnText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO);
+            removeCommunityFriendTitleText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE);
+
 
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
 
-            yesButton.onClick.AddListener(ConfirmDlgYes);
-            noButton.onClick.AddListener(ConfirmDlgNo);
+            confirmNewGameYesBtn.onClick.AddListener(ConfirmNewGameDlgYes);
+            confirmNewGameNoBtn.onClick.AddListener(ConfirmNewGameDlgNo);
+
+            removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
+            removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -161,10 +179,12 @@ namespace TurboLabz.InstantFramework
             friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId, friendBar.notNowButton));
             friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId, friendBar.cancelButton));
             friendBar.okButton.onClick.AddListener(() => OkButtonClicked(friend.playerId, friendBar.okButton));
+            friendBar.removeCommunityFriendButton.onClick.AddListener(() => RemoveCommunityFriendButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
             friendBar.isCommunity = isCommunity;
+            friendBar.isCommunityFriend = friend.friendType == Friend.FRIEND_TYPE_COMMUNITY;
             friendBar.onlineStatus.sprite = friend.publicProfile.isOnline ? friendBar.online : friendBar.offline;
             friendBar.isOnline = friend.publicProfile.isOnline;
 
@@ -290,6 +310,7 @@ namespace TurboLabz.InstantFramework
         { 
             gameObject.SetActive(true);
             confirmNewGameDlg.SetActive(false);
+            removeCommunityFriendDlg.SetActive(false);
         }
 
         public void Hide()
@@ -392,7 +413,7 @@ namespace TurboLabz.InstantFramework
 
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
-                newGameConfirmOpponentId = playerId;
+                stripActionOpponentId = playerId;
                 confirmNewGameDlg.SetActive(true);
             }
             else
@@ -401,14 +422,32 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void ConfirmDlgYes()
+        void ConfirmNewGameDlgYes()
         {
-            playButtonClickedSignal.Dispatch(newGameConfirmOpponentId);
+            playButtonClickedSignal.Dispatch(stripActionOpponentId);
         }
 
-        void ConfirmDlgNo()
+        void ConfirmNewGameDlgNo()
         {
             confirmNewGameDlg.SetActive(false);
+        }
+
+        void RemoveCommunityFriendButtonClicked(string playerId)
+        {
+            audioService.PlayStandardClick();
+            stripActionOpponentId = playerId;
+            removeCommunityFriendDlg.SetActive(true);
+        }
+
+        void RemoveCommunityFriendDlgYes()
+        {
+            removeCommunityFriendDlg.SetActive(false);
+            removeCommunityFriendSignal.Dispatch(stripActionOpponentId);
+        }
+
+        void RemoveCommunityFriendDlgNo()
+        {
+            removeCommunityFriendDlg.SetActive(false);
         }
 
         void AcceptButtonClicked(string playerId, Button button)

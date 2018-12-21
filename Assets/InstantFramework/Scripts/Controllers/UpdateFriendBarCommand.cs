@@ -45,14 +45,6 @@ namespace TurboLabz.InstantFramework
                     vo.lastActionTime = DateTime.UtcNow;
                     vo.longPlayStatus = LongPlayStatus.DEFAULT;
 
-                    // ABORT AND CLOSE STRIP IF CANCELED
-                    if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_CANCELED)
-                    {
-                        closeStripSignal.Dispatch(friendId);
-                        return;
-                    }
-
-
                     // NEW_CHALLENGE
                     if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW)
                     {

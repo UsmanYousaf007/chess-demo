@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+            LogUtil.Log("UNREGISTER", "red");
             opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
             matchInfoModel.unregisteredChallengeIds.Add(challengeId);
 

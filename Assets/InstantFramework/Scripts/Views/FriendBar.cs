@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public Text cancelButtonLabel;
         public Button okButton;
         public Text okButtonLabel;
+        public Button removeCommunityFriendButton;
 
         bool stringsLoaded = false;
         static string strWaiting = "";
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
 
         [HideInInspector] public LongPlayStatus longPlayStatus;
         [HideInInspector] public bool isCommunity;
+        [HideInInspector] public bool isCommunityFriend;
 
         public void UpdateStatus()
         {
@@ -56,6 +58,11 @@ namespace TurboLabz.InstantFramework
                 case LongPlayStatus.DEFAULT:
                     stripButton.gameObject.SetActive(true);
                     playArrow.gameObject.SetActive(true);
+
+                    if (isCommunityFriend)
+                    {
+                        removeCommunityFriendButton.gameObject.SetActive(true);
+                    }
                     break;
 
                 case LongPlayStatus.NEW_CHALLENGE:
@@ -140,6 +147,7 @@ namespace TurboLabz.InstantFramework
             playArrow.gameObject.SetActive(false);
             timerLabel.gameObject.SetActive(false);
             okButton.gameObject.SetActive(false);
+            removeCommunityFriendButton.gameObject.SetActive(false);
         }
 
         public void Init(ILocalizationService localizationService)

@@ -22,7 +22,8 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpCommunity() { return new GSFriendsOpRequest().Send("community", null, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpRegCommunity() { return new GSFriendsOpRequest().Send("regcommunity", null, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpAdd(string friendId) { return new GSFriendsOpRequest().Send("add", friendId, OnFriendOpSuccess, facebookService.GetAccessToken()); } 
-        public IPromise<BackendResult> FriendsOpInitialize() { return new GSFriendsOpRequest().Send("initialize", null, OnFriendOpSuccess); } 
+        public IPromise<BackendResult> FriendsOpInitialize() { return new GSFriendsOpRequest().Send("initialize", null, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpRemove(string friendId) { return new GSFriendsOpRequest().Send("remove", friendId, OnFriendOpSuccess); }
 
         private void OnFriendOpSuccess(object r)
 		{

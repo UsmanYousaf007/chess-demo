@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
             return new GSUnregisterRequest().Send(challengeId, OnUnregisterSuccess);
         }
 
+        // TODO: move this logic into the unregister command
         private void OnUnregisterSuccess(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
