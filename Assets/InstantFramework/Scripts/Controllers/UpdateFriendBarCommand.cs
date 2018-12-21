@@ -44,6 +44,8 @@ namespace TurboLabz.InstantFramework
                     vo.playerId = friendId;
                     vo.lastActionTime = DateTime.UtcNow;
                     vo.longPlayStatus = LongPlayStatus.DEFAULT;
+                    vo.isGameCanceled = matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_CANCELED;
+
 
                     // NEW_CHALLENGE
                     if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW)
@@ -106,6 +108,7 @@ namespace TurboLabz.InstantFramework
                 vo.longPlayStatus = LongPlayStatus.DEFAULT;
                 vo.lastActionTime = DateTime.UtcNow;
                 vo.playerId = friendId;
+                vo.isGameCanceled = false;
 
                 updateFriendBarStatusSignal.Dispatch(vo);
             }

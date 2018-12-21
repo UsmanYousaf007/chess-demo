@@ -225,6 +225,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_DECLINED, "Declined" },
                 { LocalizationKey.LONG_PLAY_YOU_LOST, "You Lost" },
                 { LocalizationKey.LONG_PLAY_YOU_WON, "You Won" },
+                { LocalizationKey.LONG_PLAY_CANCELED, "Canceled" },
                 { LocalizationKey.LONG_PLAY_DRAW, "Draw" },
                 { LocalizationKey.LONG_PLAY_ACCEPT_TITLE, "Accept Challenge?" },
                 { LocalizationKey.LONG_PLAY_ACCEPT_YES, "ACCEPT" },

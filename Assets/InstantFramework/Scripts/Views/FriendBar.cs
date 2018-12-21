@@ -43,10 +43,12 @@ namespace TurboLabz.InstantFramework
         static string strYouWon = "";
         static string strYouLost = "";
         static string strDraw = "";
+        static string strCanceled = "";
 
         [HideInInspector] public LongPlayStatus longPlayStatus;
         [HideInInspector] public bool isCommunity;
         [HideInInspector] public bool isCommunityFriend;
+        [HideInInspector] public bool isGameCanceled;
 
         public void UpdateStatus()
         {
@@ -98,14 +100,14 @@ namespace TurboLabz.InstantFramework
 
                 case LongPlayStatus.PLAYER_WON:
                     generalStatus.gameObject.SetActive(true);
-                    generalStatus.text = strYouWon;
+                    generalStatus.text = isGameCanceled ? strCanceled: strYouWon;
                     okButton.gameObject.SetActive(true);
                     okButton.interactable = true;
                     break;
 
                 case LongPlayStatus.OPPONENT_WON:
                     generalStatus.gameObject.SetActive(true);
-                    generalStatus.text = strYouLost;
+                    generalStatus.text = isGameCanceled ? strCanceled : strYouLost;
                     okButton.gameObject.SetActive(true);
                     okButton.interactable = true;
                     break;
@@ -167,6 +169,7 @@ namespace TurboLabz.InstantFramework
             strYouWon = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_WON);
             strYouLost = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
             strDraw = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
+            strCanceled = localizationService.Get(LocalizationKey.LONG_PLAY_CANCELED);
 
             stringsLoaded = true;
         }
