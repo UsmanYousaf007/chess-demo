@@ -177,7 +177,7 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.FRIENDS_CONFIRM_LABEL, "Are You Sure?" },
 				{ LocalizationKey.FRIENDS_YES_LABEL, "YES" },
 				{ LocalizationKey.FRIENDS_NO_LABEL, "NO" },
-				{ LocalizationKey.FRIENDS_VS_LABEL, "VS" },
+				{ LocalizationKey.FRIENDS_VS_LABEL, "You VS Them" },
 				{ LocalizationKey.FRIENDS_WINS_LABEL, "Wins" },
 				{ LocalizationKey.FRIENDS_DRAWS_LABEL, "Draws" },
 				{ LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL, "Total Games: " },
