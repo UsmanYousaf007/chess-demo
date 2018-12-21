@@ -52,7 +52,15 @@ namespace TurboLabz.Multiplayer
                 cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW &&
                 !isPlayerTurn;
 
-            runTimeControlVO.waitingForOpponentToAccept = cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW;
+
+            if (cmd.activeMatchInfo.isLongPlay)
+            {
+                runTimeControlVO.waitingForOpponentToAccept = cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW;
+            }
+            else
+            {
+                runTimeControlVO.waitingForOpponentToAccept = false;
+            }
 
             // Initialize and launch our time control
             cmd.runTimeControlSignal.Dispatch(runTimeControlVO);
