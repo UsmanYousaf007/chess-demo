@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
 		BUCK_PACKS_DLG,
         PROFILE_DLG,
         RATE_APP_DLG,
+        CONFIRM_NEW_GAME_DLG,
 
         // TODO: I am possibly unused so remove me.
         AD_COVER

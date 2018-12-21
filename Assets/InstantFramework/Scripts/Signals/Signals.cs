@@ -69,6 +69,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateEloScoresSignal : Signal<EloVO> {}
     public class FriendsShowConnectFacebookSignal : Signal<bool> {}
     public class UpdateProfileDialogSignal : Signal<ProfileDialogVO> {}
+    public class UpdateNewGameDialogSignal : Signal<string> {}
     public class ShowProfileDialogSignal : Signal<string> {}
     public class LoadFriendsSignal : Signal {}
     public class ShareAppSignal : Signal {}

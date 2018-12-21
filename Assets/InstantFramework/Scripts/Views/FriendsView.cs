@@ -50,6 +50,14 @@ namespace TurboLabz.InstantFramework
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
 
+        // Confirm new game dialog
+        public GameObject confirmNewGameDlg;
+        public Button yesButton;
+        public Button noButton;
+        public Text yesButtonText;
+        public Text noButtonText;
+        public Text titleText;
+
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
         public Signal refreshCommunitySignal = new Signal();
@@ -63,6 +71,7 @@ namespace TurboLabz.InstantFramework
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
+        private string newGameConfirmOpponentId;
 
         public void Init()
         {
@@ -79,7 +88,14 @@ namespace TurboLabz.InstantFramework
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
 
+            yesButtonText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_YES);
+            noButtonText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_NO);
+            titleText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_TITLE);
+
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
+
+            yesButton.onClick.AddListener(ConfirmDlgYes);
+            noButton.onClick.AddListener(ConfirmDlgNo);
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -140,7 +156,7 @@ namespace TurboLabz.InstantFramework
             friendBar.Init(localizationService);
 
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
-            friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId));
+            friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId, friendBar));
             friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId, friendBar.acceptButton));
             friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId, friendBar.notNowButton));
             friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId, friendBar.cancelButton));
@@ -272,7 +288,8 @@ namespace TurboLabz.InstantFramework
 
         public void Show() 
         { 
-            gameObject.SetActive(true); 
+            gameObject.SetActive(true);
+            confirmNewGameDlg.SetActive(false);
         }
 
         public void Hide()
@@ -369,10 +386,29 @@ namespace TurboLabz.InstantFramework
             showProfileDialogSignal.Dispatch(playerId);
         }
 
-        void PlayButtonClicked(string playerId)
+        void PlayButtonClicked(string playerId, FriendBar bar)
         {
             audioService.PlayStandardClick();
-            playButtonClickedSignal.Dispatch(playerId);
+
+            if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
+            {
+                newGameConfirmOpponentId = playerId;
+                confirmNewGameDlg.SetActive(true);
+            }
+            else
+            {
+                playButtonClickedSignal.Dispatch(playerId);
+            }
+        }
+
+        void ConfirmDlgYes()
+        {
+            playButtonClickedSignal.Dispatch(newGameConfirmOpponentId);
+        }
+
+        void ConfirmDlgNo()
+        {
+            confirmNewGameDlg.SetActive(false);
         }
 
         void AcceptButtonClicked(string playerId, Button button)

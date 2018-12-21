@@ -234,7 +234,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_CLEAR, "CLEAR" },
                 { LocalizationKey.CHAT_DEFAULT_DAY_LINE, "TODAY" },
                 { LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE, "Start a new conversation. Say hello." },
-
+                { LocalizationKey.NEW_GAME_CONFIRM_NO, "NO"},
+                { LocalizationKey.NEW_GAME_CONFIRM_YES, "YES"},
+                { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "Start a new game?"},
 
                 #endregion
 

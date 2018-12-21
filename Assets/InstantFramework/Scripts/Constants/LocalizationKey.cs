@@ -232,6 +232,9 @@ namespace TurboLabz.InstantFramework
         public const string CHAT_CLEAR = "chatClear";
         public const string CHAT_DEFAULT_DAY_LINE = "chatDefaultDayLine";
         public const string CHAT_DEFAULT_SYSTEM_MESSAGE = "chatDefaultSystemMessage";
+        public const string NEW_GAME_CONFIRM_YES = "newGameConfirmYes";
+        public const string NEW_GAME_CONFIRM_NO = "newGameConfirmnNo";
+        public const string NEW_GAME_CONFIRM_TITLE = "newGameConfirmTitle";
 
         #endregion
 
