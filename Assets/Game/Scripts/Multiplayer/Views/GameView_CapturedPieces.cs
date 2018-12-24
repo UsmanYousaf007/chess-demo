@@ -22,6 +22,8 @@ namespace TurboLabz.Multiplayer
         public GameObject[] capturedPieces; // Holds references to all piece sprites
         public Transform[] capturedSlotsOpponent; // Holds references to positional empty game objects
         public Transform[] capturedSlotsPlayer; // Holds references to positional empty game objects
+        public Image[] capturedIndicatorsOpponent; // Holds references to captured piece indicators
+        public Image[] capturedIndicatorsPlayer; // Holds references to captured piece indicators
         public Text[] capturedCountersOpponent; // Holds references to the counter text on each position
         public Text[] capturedCountersPlayer; // Holds references to the counter text on each position
 
@@ -51,6 +53,17 @@ namespace TurboLabz.Multiplayer
             {
                 obj.SetActive(false);
             }
+
+            ResetCapturedIndicators(capturedIndicatorsOpponent);
+            ResetCapturedIndicators(capturedIndicatorsPlayer);
+        }
+
+        private void ResetCapturedIndicators(Image[] captureIndicators)
+        {
+            for (int i = 0; i < 5; ++i)
+            {
+                captureIndicators[i].gameObject.SetActive(false);
+            }
         }
 
         private void HandleCapturePieceGraphic(string pieceName, bool isPlayerTurn)
@@ -59,6 +72,7 @@ namespace TurboLabz.Multiplayer
             Text[] targetCounters;
             int[] targetCount;
             string[] targetSlotTracker;
+            Image[] targetCaptureIndicators;
 
             if (isPlayerTurn)
             {
@@ -66,6 +80,7 @@ namespace TurboLabz.Multiplayer
                 targetCounters = capturedCountersPlayer;
                 targetCount = capturedCountPlayer;
                 targetSlotTracker = slotTrackerPlayer;
+                targetCaptureIndicators = capturedIndicatorsPlayer;
             }
             else
             {
@@ -73,6 +88,7 @@ namespace TurboLabz.Multiplayer
                 targetCounters = capturedCountersOpponent;
                 targetCount = capturedCountOpponent;
                 targetSlotTracker = slotTrackerOpponent;
+                targetCaptureIndicators = capturedIndicatorsOpponent;
             }
 
             // Find the slot for this piece
@@ -93,6 +109,7 @@ namespace TurboLabz.Multiplayer
                 }
             }
 
+
             // Activate the piece graphic and set its position
             foreach (GameObject piece in capturedPieces)
             {
@@ -100,6 +117,9 @@ namespace TurboLabz.Multiplayer
                 {
                     piece.SetActive(true);
                     piece.transform.position = targetSlots[slotIndex].position;
+
+                    ResetCapturedIndicators(targetCaptureIndicators);
+                    targetCaptureIndicators[slotIndex].gameObject.SetActive(true);
                     break;
                 }
             }
