@@ -35,6 +35,8 @@ namespace TurboLabz.InstantFramework
         public Button okButton;
         public Text okButtonLabel;
         public Button removeCommunityFriendButton;
+        public Text newMatchGreetingLabel;
+        public GameObject newMatchGreeting;
 
         bool stringsLoaded = false;
         static string strWaiting = "";
@@ -73,6 +75,7 @@ namespace TurboLabz.InstantFramework
                     acceptButton.gameObject.SetActive(true);
                     acceptButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
+                    newMatchGreeting.gameObject.SetActive(true);
                     break;
 
                 case LongPlayStatus.WAITING_FOR_ACCEPT:
@@ -150,6 +153,7 @@ namespace TurboLabz.InstantFramework
             timerLabel.gameObject.SetActive(false);
             okButton.gameObject.SetActive(false);
             removeCommunityFriendButton.gameObject.SetActive(false);
+            newMatchGreeting.gameObject.SetActive(false);
         }
 
         public void Init(ILocalizationService localizationService)
@@ -161,6 +165,7 @@ namespace TurboLabz.InstantFramework
             notNowButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NOT_NOW);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT);
             cancelButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
+            newMatchGreetingLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
             okButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
             yourMoveStatus.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
             strWaiting = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING);

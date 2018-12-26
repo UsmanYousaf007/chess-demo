@@ -198,7 +198,7 @@ namespace TurboLabz.InstantFramework
         private void OnRefreshCommunity()
         {
             analyticsService.TapCommunityRefresh();
-
+           
             refreshCommunitySignal.Dispatch();
         }
 
@@ -225,6 +225,7 @@ namespace TurboLabz.InstantFramework
         private void OnCancelButtonClicked(string playerId)
         {
             resignSignal.Dispatch(playerId);
+            analyticsService.LongMatchCanceled();
         }
 
         private void OnOkButtonClicked(string playerId)

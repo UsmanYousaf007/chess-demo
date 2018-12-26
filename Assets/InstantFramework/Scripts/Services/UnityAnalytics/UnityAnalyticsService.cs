@@ -265,6 +265,13 @@ namespace TurboLabz.InstantFramework
             Print("long_match_engaged");
         }
 
+        public void LongMatchCanceled()
+        {
+            Analytics.CustomEvent("long_match_canceled");
+
+            Print("long_match_canceled");
+        }
+
         public void LongMatchCompleted(string result, double duration)
         {
             Dictionary<string, object> p = new Dictionary<string, object>

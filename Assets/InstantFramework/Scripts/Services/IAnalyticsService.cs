@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
         void QuickMatchCompleted(string result);
 
         void LongMatchEngaged();
+        void LongMatchCanceled();
         void LongMatchCompleted(string result, double duration);
 
         void ChatEngaged();
