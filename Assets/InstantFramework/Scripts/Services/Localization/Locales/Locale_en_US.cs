@@ -171,7 +171,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY, "There are no active matches." },
                 { LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND, "PLAY A FRIEND" },
                 { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW" },
-                { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite your Facebook Friends to Play" },
+                { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite Facebook Friends" },
 				{ LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
 				{ LocalizationKey.FRIENDS_REFRESH_TEXT, "Refresh" },
 				{ LocalizationKey.FRIENDS_CONFIRM_LABEL, "Are You Sure?" },
@@ -182,7 +182,7 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.FRIENDS_DRAWS_LABEL, "Draws" },
 				{ LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL, "Total Games: " },
 				{ LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
-                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Connect with Facebook to play\nwith Friends & Community" },
+                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Log in to Facebook to play\nwith Friends & Community" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
 

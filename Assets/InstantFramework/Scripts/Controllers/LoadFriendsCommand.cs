@@ -16,6 +16,7 @@ namespace TurboLabz.InstantGame
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantGame
             else
             {
                 friendsShowConnectFacebookSignal.Dispatch(true);
+                refreshCommunitySignal.Dispatch();
             }
         }
     }

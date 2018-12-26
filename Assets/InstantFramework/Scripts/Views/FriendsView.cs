@@ -19,8 +19,9 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
-		public Transform listContainer;
+        public Transform listContainer;
 		public GameObject friendBarPrefab;
 
         public Text noActiveMatchesText;
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
         public GameObject sectionActiveMatchesEmpty;
         public Transform sectionPlayAFriend;
         public GameObject sectionPlayAFriendEmpty;
+        public GameObject sectionPlayAFriendEmptyNotLoggedIn;
         public Transform sectionPlaySomeoneNew;
         public GameObject sectionPlaySomeoneNewEmpty;
 
@@ -120,7 +122,16 @@ namespace TurboLabz.InstantFramework
         {
             if (showConnectInfo)
             {
-                listContainer.gameObject.SetActive(false);
+                listContainer.gameObject.SetActive(true);
+                facebookLoginButton.gameObject.SetActive(false);
+                facebookLoginButton.enabled = false;
+                facebookConnectText.gameObject.SetActive(false);
+                facebookConnectAnim.SetActive(false);
+                scrollRect.verticalNormalizedPosition = 1f;
+
+                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
+
+                //listContainer.gameObject.SetActive(false);
                 facebookLoginButton.gameObject.SetActive(true);
                 facebookLoginButton.enabled = true;
                 facebookConnectText.gameObject.SetActive(true);
@@ -142,6 +153,12 @@ namespace TurboLabz.InstantFramework
             if (isSuccessful)
             {
                 reloadFriendsSignal.Dispatch();
+
+                // Player attempted to start a game
+                if (stripActionOpponentId != null)
+                {
+                    confirmNewGameDlg.SetActive(true);
+                }
             }
             else
             {
@@ -411,11 +428,20 @@ namespace TurboLabz.InstantFramework
         void PlayButtonClicked(string playerId, FriendBar bar)
         {
             audioService.PlayStandardClick();
+            stripActionOpponentId = null;
 
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
-                stripActionOpponentId = playerId;
-                confirmNewGameDlg.SetActive(true);
+                if (!facebookService.isLoggedIn())
+                {
+                    OnFacebookButtonClicked();
+                    stripActionOpponentId = playerId;
+                }
+                else
+                {
+                    stripActionOpponentId = playerId;
+                    confirmNewGameDlg.SetActive(true);
+                }
             }
             else
             {

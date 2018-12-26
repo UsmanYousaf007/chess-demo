@@ -44,7 +44,8 @@ namespace TurboLabz.InstantFramework
                 }
 
                 if (status == LongPlayStatus.NEW_CHALLENGE ||
-                    status == LongPlayStatus.WAITING_FOR_ACCEPT)
+                    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
+                    entry.Value.isGameCanceled)
                 {
                     newMatches.Add(bar);
                 }
@@ -89,6 +90,7 @@ namespace TurboLabz.InstantFramework
             int index = 0;
             sectionNewMatches.gameObject.SetActive(false);
             sectionPlayAFriendEmpty.gameObject.SetActive(false);
+            sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
             sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
 
@@ -108,6 +110,8 @@ namespace TurboLabz.InstantFramework
                 theirMove.Count > 0 ||
                 ended.Count > 0)
             {
+                sectionActiveMatches.gameObject.SetActive(true);
+
                 index = sectionActiveMatches.GetSiblingIndex() + 1;
 
                 foreach (FriendBar bar in yourMove)
@@ -130,7 +134,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                sectionActiveMatchesEmpty.gameObject.SetActive(true);
+                sectionActiveMatches.gameObject.SetActive(false);
             }
 
             if (emptyOnline.Count > 0 || emptyOffline.Count > 0)
@@ -151,7 +155,14 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                sectionPlayAFriendEmpty.gameObject.SetActive(true);
+                if (facebookService.isLoggedIn())
+                {
+                    sectionPlayAFriendEmpty.gameObject.SetActive(true);
+                }
+                else
+                {
+                    sectionPlayAFriendEmptyNotLoggedIn.SetActive(true);
+                }
             }
         }
 
