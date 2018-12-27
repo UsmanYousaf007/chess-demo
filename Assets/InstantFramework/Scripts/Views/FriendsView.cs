@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
 
         public Text noActiveMatchesText;
         public Text inviteFriendsText;
+        public Button defaultInviteFriendsButton;
         public Text waitingForPlayersText;
 
         public Transform sectionNewMatches;
