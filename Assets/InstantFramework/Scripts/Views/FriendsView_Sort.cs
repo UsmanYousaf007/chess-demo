@@ -222,19 +222,8 @@ namespace TurboLabz.InstantFramework
             {
                 sectionPlaySomeoneNewEmpty.gameObject.SetActive(true);
             }
-
-            ScrollTo(sectionPlaySomeoneNew.GetComponent<RectTransform>());
         }
 
-        private void ScrollTo(RectTransform target)
-        {
-            Canvas.ForceUpdateCanvases();
-
-            RectTransform contentPanel = scrollRect.content;
-            Vector2 pos = (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
-            contentPanel.anchoredPosition.Set(contentPanel.anchoredPosition.x, pos.y);
-
-        }
         /*
         void AddTestBars()
         {

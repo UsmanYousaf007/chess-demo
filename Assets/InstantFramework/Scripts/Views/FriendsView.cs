@@ -127,6 +127,7 @@ namespace TurboLabz.InstantFramework
                 facebookLoginButton.enabled = false;
                 facebookConnectText.gameObject.SetActive(false);
                 facebookConnectAnim.SetActive(false);
+                uiBlocker.SetActive(false);
                 scrollRect.verticalNormalizedPosition = 1f;
 
                 sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
@@ -143,7 +144,8 @@ namespace TurboLabz.InstantFramework
                 facebookLoginButton.gameObject.SetActive(false);
                 facebookLoginButton.enabled = false;
                 facebookConnectText.gameObject.SetActive(false);
-                facebookConnectAnim.SetActive(false); 
+                facebookConnectAnim.SetActive(false);
+                uiBlocker.SetActive(false);
                 scrollRect.verticalNormalizedPosition = 1f;
             }
         }
@@ -218,17 +220,17 @@ namespace TurboLabz.InstantFramework
                 ///////// REMOVE ME
                 /// 
                 /// 
-                for (int i = 0; i < 20; i++)
-                {
-                    GameObject remove = Instantiate(friendBarPrefab);
-                    remove.transform.SetParent(listContainer, false);
-                    removeBars.Add(remove);
-                }
+                //for (int i = 0; i < 20; i++)
+                //{
+                //    GameObject remove = Instantiate(friendBarPrefab);
+                //    remove.transform.SetParent(listContainer, false);
+                //    removeBars.Add(remove);
+                //}
                 ///////////////////////
             }
         }
 
-        private List<GameObject> removeBars = new List<GameObject>();
+        //private List<GameObject> removeBars = new List<GameObject>();
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
@@ -336,6 +338,7 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
 
             friendBar.thinking.SetActive(busy);
+            uiBlocker.SetActive(busy);
         }
 
         public void Show() 
@@ -360,10 +363,10 @@ namespace TurboLabz.InstantFramework
             ClearType(true);
             waitingForPlayersText.gameObject.SetActive(true);
 
-            foreach(GameObject obj in removeBars)
-            {
-                Destroy(obj);
-            }
+            //foreach(GameObject obj in removeBars)
+            //{
+            //    Destroy(obj);
+            //}
         }
 
         public void ClearFriends()
@@ -427,6 +430,7 @@ namespace TurboLabz.InstantFramework
         {
             facebookButtonClickedSignal.Dispatch();
             facebookConnectAnim.SetActive(true);
+            uiBlocker.SetActive(true);
             facebookLoginButton.enabled = false;
         }
 

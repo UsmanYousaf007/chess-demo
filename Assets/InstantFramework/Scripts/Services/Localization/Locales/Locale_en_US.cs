@@ -214,7 +214,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_ACCEPT, "Accept" },
                 { LocalizationKey.LONG_PLAY_CANCEL, "Cancel" },
                 { LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING, "Hey, let's play :)" },
-                { LocalizationKey.LONG_PLAY_OK, "Ok" },
+                { LocalizationKey.LONG_PLAY_OK, "OK" },
                 { LocalizationKey.LONG_PLAY_WAITING, "Waiting" },
                 { LocalizationKey.LONG_PLAY_MINUTES, "{0}m" },
                 { LocalizationKey.LONG_PLAY_HOURS, "{0}h" },
