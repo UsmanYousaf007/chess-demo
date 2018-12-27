@@ -223,7 +223,7 @@ namespace TurboLabz.InstantFramework
                 sectionPlaySomeoneNewEmpty.gameObject.SetActive(true);
             }
 
-           // ScrollTo(sectionPlaySomeoneNew.GetComponent<RectTransform>());
+            ScrollTo(sectionPlaySomeoneNew.GetComponent<RectTransform>());
         }
 
         private void ScrollTo(RectTransform target)

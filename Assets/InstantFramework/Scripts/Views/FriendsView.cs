@@ -213,8 +213,22 @@ namespace TurboLabz.InstantFramework
             if (isCommunity)
             {
                 friendBar.UpdateCommmunityStrip();
+
+
+                ///////// REMOVE ME
+                /// 
+                /// 
+                for (int i = 0; i < 20; i++)
+                {
+                    GameObject remove = Instantiate(friendBarPrefab);
+                    remove.transform.SetParent(listContainer, false);
+                    removeBars.Add(remove);
+                }
+                ///////////////////////
             }
         }
+
+        private List<GameObject> removeBars = new List<GameObject>();
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
@@ -345,6 +359,11 @@ namespace TurboLabz.InstantFramework
         {
             ClearType(true);
             waitingForPlayersText.gameObject.SetActive(true);
+
+            foreach(GameObject obj in removeBars)
+            {
+                Destroy(obj);
+            }
         }
 
         public void ClearFriends()
