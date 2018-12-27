@@ -165,7 +165,7 @@ namespace TurboLabz.InstantFramework
             notNowButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NOT_NOW);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT);
             cancelButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
-            newMatchGreetingLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
+            newMatchGreetingLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING);
             okButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
             yourMoveStatus.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
             strWaiting = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING);
