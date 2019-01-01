@@ -266,6 +266,7 @@ namespace TurboLabz.InstantFramework
             friendBar.lastActionTime = vo.lastActionTime;
             friendBar.longPlayStatus = vo.longPlayStatus;
             friendBar.isGameCanceled = vo.isGameCanceled;
+            friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.UpdateStatus();
 
             // Set the timer clocks

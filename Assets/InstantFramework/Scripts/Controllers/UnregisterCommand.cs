@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
             vo.lastActionTime = DateTime.UtcNow;
             vo.longPlayStatus = LongPlayStatus.DEFAULT;
             vo.isGameCanceled = false;
+            vo.isPlayerTurn = false;
             updateFriendBarStatusSignal.Dispatch(vo);
 
             friendBarBusySignal.Dispatch(opponentId, true);

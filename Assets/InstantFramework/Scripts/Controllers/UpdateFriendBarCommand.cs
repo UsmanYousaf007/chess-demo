@@ -46,7 +46,6 @@ namespace TurboLabz.InstantFramework
                     vo.longPlayStatus = LongPlayStatus.DEFAULT;
                     vo.isGameCanceled = matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_CANCELED;
 
-
                     // NEW_CHALLENGE
                     if (matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW)
                     {
@@ -92,11 +91,10 @@ namespace TurboLabz.InstantFramework
                     // Set player timers
                     vo.playerTimer = chessboard.backendPlayerTimer;
                     vo.opponentTimer = chessboard.backendOpponentTimer;
+                    vo.isPlayerTurn = chessboard.isPlayerTurn;
 
                     updateFriendBarStatusSignal.Dispatch(vo);
                     friendHasMatch = true;
-
-
 
                     break;
                 }
@@ -109,6 +107,7 @@ namespace TurboLabz.InstantFramework
                 vo.lastActionTime = DateTime.UtcNow;
                 vo.playerId = friendId;
                 vo.isGameCanceled = false;
+                vo.isPlayerTurn = false;
 
                 updateFriendBarStatusSignal.Dispatch(vo);
             }

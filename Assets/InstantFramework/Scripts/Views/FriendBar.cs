@@ -46,11 +46,13 @@ namespace TurboLabz.InstantFramework
         static string strYouLost = "";
         static string strDraw = "";
         static string strCanceled = "";
+        static string strYourMove = "";
 
         [HideInInspector] public LongPlayStatus longPlayStatus;
         [HideInInspector] public bool isCommunity;
         [HideInInspector] public bool isCommunityFriend;
         [HideInInspector] public bool isGameCanceled;
+        [HideInInspector] public bool isPlayerTurn;
 
         public void UpdateStatus()
         {
@@ -84,6 +86,12 @@ namespace TurboLabz.InstantFramework
                     cancelButton.gameObject.SetActive(true);
                     cancelButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
+                    stripButton.gameObject.SetActive(true);
+
+                    if (isPlayerTurn)
+                    {
+                        generalStatus.text = strYourMove;
+                    }
                     break;
 
                 case LongPlayStatus.PLAYER_TURN:
@@ -175,6 +183,7 @@ namespace TurboLabz.InstantFramework
             strYouLost = localizationService.Get(LocalizationKey.LONG_PLAY_YOU_LOST);
             strDraw = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
             strCanceled = localizationService.Get(LocalizationKey.LONG_PLAY_CANCELED);
+            strYourMove = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
 
             stringsLoaded = true;
         }
