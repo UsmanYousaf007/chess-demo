@@ -82,10 +82,14 @@ namespace TurboLabz.InstantGame
         {
             if (result == PurchaseResult.ALREADY_OWNED || result == PurchaseResult.PURCHASE_SUCCESS)
             {
-                view.currentSkinItemId = item.key;
-                view.UpdateItemThumbnail(item.key);
+                if (item.kind == GSBackendKeys.ShopItem.SKIN_SHOP_TAG)
+                {
+                    view.currentSkinItemId = item.key;
+                    view.UpdateItemThumbnail(item.key);
 
-                setSkinSignal.Dispatch(item.key);
+                    setSkinSignal.Dispatch(item.key);
+                }
+
             }
             else if (result == PurchaseResult.NOT_ENOUGH_BUCKS)
             {
@@ -108,8 +112,10 @@ namespace TurboLabz.InstantGame
             analyticsService.TapShopSkin(item.displayName);
 
             // Purchase item after confirmation 
-            purchaseStoreItemSignal.Dispatch(item.key, false);
-		}
+            //purchaseStoreItemSignal.Dispatch(item.key, false);
+
+            purchaseStoreItemSignal.Dispatch("SpecialBundleStandard", false);
+        }
 
         private void OnBackButtonClicked()
         {

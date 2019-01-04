@@ -171,10 +171,18 @@ namespace TurboLabz.InstantFramework
             public const string SKIN_SHOP_ITEMS = "skinShopItems";
             public const string COINS_SHOP_ITEMS = "coinsShopItems";
             public const string FEATURE_SHOP_ITEMS = "featureShopItems";
+            public const string UNDO_SHOP_ITEMS = "undoShopItems";
+            public const string HINT_SHOP_ITEMS = "hintShopItems";
+            public const string HINDSIGHT_SHOP_ITEMS = "hindsightShopItems";
+            public const string SPECIAL_BUNDLE_SHOP_ITEMS = "specialBundleShopItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
             public const string FEATURE_SHOP_TAG = "Feature";
+            public const string UNDO_SHOP_TAG = "UndoPack";
+            public const string HINT_SHOP_TAG = "HintPack";
+            public const string HINDSIGHT_SHOP_TAG = "HindsightPack";
+            public const string SPECIAL_BUNDLE_SHOP_TAG = "SpecialBundle";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";
@@ -280,6 +288,16 @@ namespace TurboLabz.InstantFramework
             public const string GUID = "guid";
             public const string CHAT_DATA = "chatData";
         }
+
+        public static class Rewards
+        {
+            public const string REWARDS_SETTINGS = "rewardsSettings";
+            public const string MATCH_WIN_REWARD = "matchWinReward";
+            public const string MATCH_WIN_AD_REWARD = "matchWinAdReward";
+            public const string MATCH_RUNNER_UP_REWARD = "matchRunnerUpReward";
+            public const string MATCH_RUNNER_UP_AD_REWARD = "matchRunnerUpAdReward";
+        }
+
     }
 
     // TODO: Organize these like the event data keys, consider class renaming

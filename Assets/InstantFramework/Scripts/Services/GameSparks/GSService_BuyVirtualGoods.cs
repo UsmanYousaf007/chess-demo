@@ -15,8 +15,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        [Inject] public IPlayerModel playersModel { get; set; }
-
         public IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode)
         {
             return new GSBuyVirtualGoodsRequest().Send(currencyType, quantity, shortCode, OnBuyVirtualGoodsSuccess);
@@ -29,7 +27,7 @@ namespace TurboLabz.InstantFramework
             // Consume bucks
             if (response.CurrencyType == 2 && response.CurrencyConsumed.HasValue)
             {
-                playersModel.bucks -= response.CurrencyConsumed.Value;
+                playerModel.bucks -= response.CurrencyConsumed.Value;
             }
 
             GSEnumerable<BuyVirtualGoodResponse._Boughtitem> virtualGoods = response.BoughtItems;
@@ -39,14 +37,14 @@ namespace TurboLabz.InstantFramework
                 string shopItemId = v.ShortCode;
 
                 int count = 0;
-                if (playersModel.inventory.ContainsKey(shopItemId))
+                if (playerModel.inventory.ContainsKey(shopItemId))
                 {
-                    count = playersModel.inventory[shopItemId] + 1;
-                    playersModel.inventory[shopItemId] = count;
+                    count = playerModel.inventory[shopItemId] + 1;
+                    playerModel.inventory[shopItemId] = count;
                 }
                 else
                 {
-                    playersModel.inventory.Add(shopItemId, 1); 
+                    playerModel.inventory.Add(shopItemId, 1); 
                 }
             }
         }

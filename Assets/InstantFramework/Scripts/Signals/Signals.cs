@@ -48,11 +48,13 @@ namespace TurboLabz.InstantFramework
     public class InitBackendOnceSignal : Signal {}
     public class PurchaseStoreItemSignal : Signal<string, bool> {}
     public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}
+    public class ConsumeVirtualGoodSignal : Signal<string, int> {}
     public class StartGameSignal : Signal {}
     public class WifiIsHealthySignal : Signal<bool> {}
     public class SetErrorAndHaltSignal : Signal<BackendResult> {}
     public class HaltSignal: Signal<BackendResult> {}
     public class UpdatePlayerBucksSignal : Signal<long> {}
+    public class UpdatePlayerConsumablesSignal : Signal {}
     public class UpdateRemoveAdsSignal : Signal<string, bool> {}
     public class AddFriendsSignal : Signal<Dictionary<string, Friend>, bool> {}
     public class RefreshCommunitySignal : Signal {}

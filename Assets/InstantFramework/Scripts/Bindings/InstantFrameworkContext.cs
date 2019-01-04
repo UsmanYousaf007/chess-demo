@@ -56,6 +56,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorEventSignal>().To<NavigatorCommand>();
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
 			commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
+            commandBinder.Bind<ConsumeVirtualGoodSignal>().To<ConsumeVirtualGoodCommand>();
 			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
             commandBinder.Bind<UpdateFriendBarSignal>().To<UpdateFriendBarCommand>();
@@ -102,6 +103,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateChatOpponentPicSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerBucksSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePlayerConsumablesSignal>().ToSingleton();
             injectionBinder.Bind<UpdateRemoveAdsSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
@@ -176,6 +178,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAppInfoModel>().To<AppInfoModel>().ToSingleton(); // Lifecyle handled
             injectionBinder.Bind<IAdsSettingsModel>().To<AdsSettingsModel>().ToSingleton(); // Lifecyle handled
             injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton(); // Lifecyle handled
+            injectionBinder.Bind<IRewardsSettingsModel>().To<RewardsSettingsModel>().ToSingleton(); // Lifecycle handled
+           
 
             MapGameBindings();
             MapCPUGameBindings();

@@ -53,6 +53,9 @@ namespace TurboLabz.InstantFramework
             GSData chatData = response.ScriptData.GetGSData(GSBackendKeys.CHAT);
             FillChatModel(chatData);
 
+            GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
+            FillRewardsSettingsModel(rewardsSettingsData);
+
             storeAvailableSignal.Dispatch(false);
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
@@ -123,6 +126,14 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.freeNoAdsPeriod = adsSettingsData.GetInt(GSBackendKeys.ADS_FREE_NO_ADS_PERIOD).Value;
         }
 
+        private void FillRewardsSettingsModel(GSData rewardsSettingsData)
+        {
+            rewardsSettingsModel.matchWinReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_WIN_REWARD).Value;
+            rewardsSettingsModel.matchWinAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_WIN_AD_REWARD).Value;
+            rewardsSettingsModel.matchRunnerUpReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_REWARD).Value;
+            rewardsSettingsModel.matchRunnerUpAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_AD_REWARD).Value;
+        }
+
         private void FillStoreSettingsModel(GSData storeSettingsData)
         {
             List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SKIN_SHOP_ITEMS);
@@ -134,9 +145,25 @@ namespace TurboLabz.InstantFramework
             List<GSData> featureShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.FEATURE_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> featureItems = PopulateFeatureStoreItems(featureShopItemsData);
 
+            List<GSData> undoShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.UNDO_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> undoItems = PopulateCurrencyStoreItems(undoShopItemsData);
+
+            List<GSData> hintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.HINT_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> hintItems = PopulateCurrencyStoreItems(hintShopItemsData);
+
+            List<GSData> hindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> hindsightItems = PopulateCurrencyStoreItems(hindsightShopItemsData);
+
+            List<GSData> specialBundleShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> specialBundleItems = PopulateCurrencyStoreItems(specialBundleShopItemsData);
+
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.FEATURE_SHOP_TAG, featureItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.UNDO_SHOP_TAG, undoItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.HINT_SHOP_TAG, hintItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG, hindsightItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG, specialBundleItems);
         }
 
         private IOrderedDictionary<string, StoreItem> PopulateSkinStoreItems(List<GSData> skinSettingsData)

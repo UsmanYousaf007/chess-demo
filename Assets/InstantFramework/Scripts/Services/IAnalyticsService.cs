@@ -53,5 +53,7 @@ namespace TurboLabz.InstantFramework
         void LongMatchCompleted(string result, double duration);
 
         void ChatEngaged();
+
+        void VirtualGoodConsumed(string itemKey, int quantity);
     }
 }

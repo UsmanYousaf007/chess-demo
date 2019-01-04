@@ -11,6 +11,7 @@ using System;
 using GameSparks.Api.Requests;
 using strange.extensions.promise.impl;
 using GameSparks.Core;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -18,6 +19,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
+        [Inject] public UpdatePlayerConsumablesSignal updatePlayerConsumablesSignal { get; set; }
 
         public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt)
         {
@@ -38,23 +40,42 @@ namespace TurboLabz.InstantFramework
             if (boughtItem != null)
             {
                 string shopItemId = boughtItem.GetString("shortCode");
-                if (playersModel.inventory.ContainsKey(shopItemId))
+                if (playerModel.inventory.ContainsKey(shopItemId))
                 {
-                    playersModel.inventory[shopItemId] = playersModel.inventory[shopItemId] + 1;
+                    playerModel.inventory[shopItemId] = playerModel.inventory[shopItemId] + 1;
                 }
                 else
                 {
-                    playersModel.inventory.Add(shopItemId, 1); 
+                    playerModel.inventory.Add(shopItemId, 1); 
                 }
 
                 if (shopItemId == GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS)
                 {
-                    updateRemoveAdsDisplaySignal.Dispatch(null, playersModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
+                    updateRemoveAdsDisplaySignal.Dispatch(null, playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
+                }
+            }
+
+            // Process bundled goods
+            IList<GSData> bundledGoods = res.GetGSDataList("bundledGoods");
+            if (bundledGoods != null)
+            {
+                foreach (GSData item in bundledGoods)
+                {
+                    string shortCode = item.GetString("shortCode");
+                    int qty = item.GetInt("qty").Value;
+                    if (playerModel.inventory.ContainsKey(shortCode))
+                    {
+                        playerModel.inventory[shortCode] = playerModel.inventory[shortCode] + qty;
+                    }
+                    else
+                    {
+                        playerModel.inventory.Add(shortCode, qty);
+                    }
                 }
             }
 
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
-
+            updatePlayerConsumablesSignal.Dispatch();
         }
     }
 

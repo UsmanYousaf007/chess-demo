@@ -292,6 +292,12 @@ namespace TurboLabz.InstantFramework
             Print("chat_engaged");
         }
 
+        public void VirtualGoodConsumed(string itemKey, int quantity)
+        {
+            string key = itemKey + "_count";
+            CountEvent(key, quantity);
+        }
+
 
         void Print(string name, Dictionary<string, object> parameters = null)
         {
