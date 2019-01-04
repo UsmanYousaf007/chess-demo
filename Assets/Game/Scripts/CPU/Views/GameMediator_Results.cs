@@ -14,6 +14,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using UnityEngine;
 
 namespace TurboLabz.CPU 
 {
@@ -71,7 +72,8 @@ namespace TurboLabz.CPU
         private void OnResultsExitButtonClicked()
         {
             loadLobbySignal.Dispatch();
-            showAdSignal.Dispatch(false, AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
+            Debug.Log("[TLADS]: Firing interstitial request");
+            showAdSignal.Dispatch(AdType.Interstitial);
         }
 
 		private void OnResultsStatsButtonClicked()

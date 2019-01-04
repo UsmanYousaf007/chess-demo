@@ -34,7 +34,7 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             // The code below is based on this algo: https://docs.google.com/drawings/d/1fsbwyNYrXJKs5sANyQ47v6wqqE7Ov8GjyN1TMhYvDl8/edit
-
+            /*
             AdsState state;
             long runningSlotMs = (long)GetRunningSlotMs();
 
@@ -74,6 +74,7 @@ namespace TurboLabz.InstantGame
             }
 
             updateLobbyAdsSignal.Dispatch(vo);
+            */           
         }
 
         private double GetRunningSlotMs()

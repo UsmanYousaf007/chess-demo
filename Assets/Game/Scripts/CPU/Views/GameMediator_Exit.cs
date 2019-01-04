@@ -99,7 +99,7 @@ namespace TurboLabz.CPU
         {
             saveGameSignal.Dispatch();
             loadLobbySignal.Dispatch();
-            showAdSignal.Dispatch(false, AdPlacementIds.AD_PLACEMENT_ENDGAME_VIDEO);
+            showAdSignal.Dispatch(AdType.Interstitial);
         }
     }
 }

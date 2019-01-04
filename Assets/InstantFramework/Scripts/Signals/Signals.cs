@@ -74,7 +74,7 @@ namespace TurboLabz.InstantFramework
     public class ShowProfileDialogSignal : Signal<string> {}
     public class LoadFriendsSignal : Signal {}
     public class ShareAppSignal : Signal {}
-    public class ShowAdSignal : Signal<bool, string> {}
+    public class ShowAdSignal : Signal<AdType> {}
     public class UpdateFriendBarStatusSignal : Signal<LongPlayStatusVO> {}
     public class UpdateFriendBarSignal: Signal<Friend, string> {}
     public class FriendBarBusySignal : Signal<string, bool> {}

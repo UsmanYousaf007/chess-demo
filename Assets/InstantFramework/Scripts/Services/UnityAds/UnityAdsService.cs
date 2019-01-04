@@ -16,6 +16,7 @@ using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
+    /*
     public class UnityAdsService : IAdsService
     {
         public bool IsAdAvailable(string placementId)
@@ -28,4 +29,5 @@ namespace TurboLabz.InstantFramework
             return new UnityAdsShowAdRequest().Send(placementId);
         }
     }
+    */
 }

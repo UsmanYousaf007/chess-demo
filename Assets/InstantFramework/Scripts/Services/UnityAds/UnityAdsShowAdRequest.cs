@@ -40,6 +40,7 @@ using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
+    /*
     public class UnityAdsShowAdRequest
     {
         private IPromise<AdsResult> promise = new Promise<AdsResult>();
@@ -84,4 +85,5 @@ namespace TurboLabz.InstantFramework
             promise.Dispatch(result);
         }
     }
+    */
 }

@@ -9,74 +9,65 @@ using System;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
     public class ShowAdCommand : Command
     {
         // Parameters
-        [Inject] public bool isRewarded { get; set; }
-        [Inject] public string placementId { get; set; }
+        [Inject] public AdType adType { get; set; }
 
         // Dispatch signals
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public UpdateAdsSignal updateAdSignal { get; set; }
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
-        [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IMetaDataModel metaDataModel { get; set; }
-        [Inject] public IPreferencesModel prefsModel { get; set; }
 
         public override void Execute()
         {
-            // All non-rewarded ads skipped if player owns the remove ads feature
-            if (!isRewarded && playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS))
+            if (adType == AdType.Interstitial)
             {
-                return;
-            }
-
-            string freeNoAdsExpiration = TLUtils.TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod);
-            if (!isRewarded && freeNoAdsExpiration != null)
-            {
-                return;
-            }
-
-            adsService.ShowAd(placementId).Then(OnShowAd);
-
-            analyticsService.AdStart(isRewarded);
-            Retain();
-        }
-
-        private void OnShowAd(AdsResult result)
-        {
-            if (result == AdsResult.FINISHED)
-            {
-                analyticsService.AdComplete(isRewarded);
-
-                if (isRewarded)
+                if (adsService.IsInterstitialAvailable())
                 {
-                    backendService.ClaimReward(GSBackendKeys.ClaimReward.TYPE_AD_BUCKS).Then(OnClaimReward);
+                    Debug.Log("[TLADS]: Interstitial is available");
+                    adsService.ShowInterstitial();
                 }
                 else
                 {
-                    
+                    Debug.Log("[TLADS]: Interstitial is NOT available");
+                }
+
+                Release();
+                return;
+            }
+            else
+            {
+                if (adsService.IsRewardedVideoAvailable())
+                {
+                    adsService.ShowRewardedVideo().Then(OnShowRewardedVideo);
+                    Retain();
+                }
+                else
+                {
                     Release();
+                    return;
                 }
             }
-            else if (result == AdsResult.SKIPPED)
+        }
+
+        private void OnShowRewardedVideo(AdsResult result)
+        {
+            if (result == AdsResult.FINISHED)
             {
-                analyticsService.AdSkip(isRewarded);
-                Release();
+                backendService.ClaimReward(GSBackendKeys.ClaimReward.TYPE_AD_BUCKS).Then(OnClaimReward);
             }
-            else if (result == AdsResult.FAILED)
+            else
             {
                 Release();
             }
@@ -86,8 +77,6 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                prefsModel.adSlotImpressions++;
-                updateAdSignal.Dispatch();
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
             }
 

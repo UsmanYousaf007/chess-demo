@@ -313,7 +313,8 @@ namespace TurboLabz.InstantFramework
             }
 
             LogUtil.Log(builder, "yellow");
-        }
 #endif
+        }
+
     }
 }
