@@ -50,11 +50,13 @@ namespace TurboLabz.InstantGame
             {
                 if (adsService.IsRewardedVideoAvailable())
                 {
+                    Debug.Log("[TLADS]: Rewarded video is available");
                     adsService.ShowRewardedVideo().Then(OnShowRewardedVideo);
                     Retain();
                 }
                 else
                 {
+                    Debug.Log("[TLADS]: Rewarded video is NOT available");
                     Release();
                     return;
                 }
@@ -65,10 +67,12 @@ namespace TurboLabz.InstantGame
         {
             if (result == AdsResult.FINISHED)
             {
+                Debug.Log("[TLADS]: Rewarded video completed.");
                 backendService.ClaimReward(GSBackendKeys.ClaimReward.TYPE_AD_BUCKS).Then(OnClaimReward);
             }
             else
             {
+                Debug.Log("[TLADS]: Rewarded video did not complete.");
                 Release();
             }
         }
@@ -77,6 +81,7 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
+                Debug.Log("[TLADS]: Rewarding players coins...");
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
             }
 

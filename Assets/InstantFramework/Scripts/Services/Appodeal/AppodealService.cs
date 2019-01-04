@@ -8,18 +8,24 @@ namespace TurboLabz.InstantFramework
 {
     public class AppodealService : IAdsService
     {
+#if UNITY_IOS
+        const string APP_KEY = "97dc6148eef6651b724592d50c75923d3d59caaa87ee217d";
+#elif UNITY_ANDROID
         const string APP_KEY = "45b85e74beb4cde289a49529e56579676f5185185e85ac0d";
+#endif
         RewardedVideoListener rewardedVideoListener = new RewardedVideoListener();
 
         public void Init()
         {
+            //Debug.Log("[TLADS]: Initializing Appodeal with APP KEY:" + APP_KEY);
+
             // TODO: Get the consent bool from a GDPR popup for European countries
             Appodeal.initialize(APP_KEY, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL, true);
             Appodeal.setRewardedVideoCallbacks(rewardedVideoListener);
 
-            #if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
             Appodeal.setTesting(true);
-            #endif
+#endif
         }
 
         public bool IsRewardedVideoAvailable()
@@ -30,6 +36,8 @@ namespace TurboLabz.InstantFramework
         public IPromise<AdsResult> ShowRewardedVideo()
         {
             rewardedVideoListener.rewardedVideoFinishedPromise = new Promise<AdsResult>();
+            //Debug.Log("[TLADS]: Showing rewarded video");
+            Appodeal.show(Appodeal.REWARDED_VIDEO);
             return rewardedVideoListener.rewardedVideoFinishedPromise;
         }
 
@@ -40,7 +48,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowInterstitial()
         {
-            Debug.Log("ShowInterstitial");
+            //Debug.Log("[TLADS]: Showing interstitial");
             Appodeal.show(Appodeal.INTERSTITIAL);
         }
     }
@@ -49,11 +57,11 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<AdsResult> rewardedVideoFinishedPromise;
 
-        #region Rewarded Video callback handlers
+#region Rewarded Video callback handlers
         public void onRewardedVideoFinished(double amount, string name) 
         {
             rewardedVideoFinishedPromise.Dispatch(AdsResult.FINISHED);
-            Debug.Log("onRewardedVideoFinished amount:" + amount + " name:" + name);
+            //Debug.Log("[TLADS]: onRewardedVideoFinished amount:" + amount + " name:" + name);
         }
 
         public void onRewardedVideoClosed(bool finished)
@@ -63,30 +71,30 @@ namespace TurboLabz.InstantFramework
                 rewardedVideoFinishedPromise.Dispatch(AdsResult.FAILED);
             }
 
-            Debug.Log("onRewardedVideoClosed finished:" + finished);
+            //Debug.Log("[TLADS]: onRewardedVideoClosed finished:" + finished);
         }
 
         public void onRewardedVideoFailedToLoad()
         {
             rewardedVideoFinishedPromise.Dispatch(AdsResult.FAILED);
-            Debug.Log("onRewardedVideoFailedToLoad");
+            //Debug.Log("[TLADS]: onRewardedVideoFailedToLoad");
         }
 
         public void onRewardedVideoExpired()
         {
             rewardedVideoFinishedPromise.Dispatch(AdsResult.FAILED);
-            Debug.Log("onRewardedVideoExpired");
+            //Debug.Log("[TLADS]: onRewardedVideoExpired");
         }
 
         public void onRewardedVideoLoaded(bool isPrecache) 
         {
-            Debug.Log("onRewardedVideoLoaded isPrecache:" + isPrecache);
+            //Debug.Log("[TLADS]: onRewardedVideoLoaded isPrecache:" + isPrecache);
         }
 
         public void onRewardedVideoShown() 
         {
-            Debug.Log("onRewardedVideoShown");
+            //Debug.Log("[TLADS]: onRewardedVideoShown");
         }
-        #endregion
+#endregion
     }
 }

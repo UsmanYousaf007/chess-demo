@@ -72,7 +72,6 @@ namespace TurboLabz.CPU
         private void OnResultsExitButtonClicked()
         {
             loadLobbySignal.Dispatch();
-            Debug.Log("[TLADS]: Firing interstitial request");
             showAdSignal.Dispatch(AdType.Interstitial);
         }
 
