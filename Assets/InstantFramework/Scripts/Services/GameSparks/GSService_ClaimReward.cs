@@ -25,11 +25,7 @@ namespace TurboLabz.InstantFramework
             LogEventResponse response = (LogEventResponse)r;
             var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
 
-            if (rewardTypeId == GSBackendKeys.ClaimReward.TYPE_AD_BUCKS)
-            {
-                playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
-                playerModel.adLifetimeImpressions = res.GetInt(GSBackendKeys.ClaimReward.AD_LIFETIME_IMPRESSIONS).Value;
-            }
+            playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
         }
     }
 

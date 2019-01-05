@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
         IAppInfoModel appInfo  { get; set; }
         IStoreSettingsModel store { get; set; }
         IAdsSettingsModel adsSettings { get; set; }
-	}
+        IRewardsSettingsModel rewardsSettings { get; set; }
+    }
 }
 

@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IChatModel chatModel { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+
 
         // Todo: Move this to the game folder
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -53,6 +55,7 @@ namespace TurboLabz.InstantFramework
                 model.appInfo = appInfoModel;
                 model.store = storeSettingsModel;
                 model.adsSettings = adsSettingsModel;
+                model.rewardsSettings = rewardsSettingsModel;
 
                 getInitDataCompleteSignal.Dispatch();
             }

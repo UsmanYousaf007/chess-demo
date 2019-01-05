@@ -200,6 +200,11 @@ namespace TurboLabz.InstantFramework
             public const string AD_LIFETIME_IMPRESSIONS = "adLifetimeImpressions";
             
             public const string TYPE_AD_BUCKS = "rewardAdBucks";
+
+            public const string TYPE_MATCH_WIN = "rewardMatchWin";
+            public const string TYPE_MATCH_WIN_AD = "rewardMatchWinAd";
+            public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
+            public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
         }
 
 		public static class Friend
