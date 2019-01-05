@@ -207,9 +207,9 @@ namespace TurboLabz.InstantFramework
             shareAppSignal.Dispatch();
         }
 
-        private void OnPlayButtonClicked(string playerId)
+        private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
-            tapLongMatchSignal.Dispatch(playerId);
+            tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
         private void OnAcceptButtonClicked(string playerId)

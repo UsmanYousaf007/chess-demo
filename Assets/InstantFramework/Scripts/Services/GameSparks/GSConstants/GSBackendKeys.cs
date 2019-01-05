@@ -277,6 +277,7 @@ namespace TurboLabz.InstantFramework
             public const string WINNER_ID = "winnerId";
             public const string ELO_CHANGE = "eloChange";
             public const string CREATE_TIME = "createTime";
+            public const string IS_RANKED = "isRanked";
         }
 
         public static class Chat

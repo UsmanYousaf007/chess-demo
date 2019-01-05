@@ -17,5 +17,6 @@ namespace TurboLabz.InstantFramework
         public TimeSpan opponentTimer;
         public bool isGameCanceled;
         public bool isPlayerTurn;
+        public bool isRanked;
     }
 }

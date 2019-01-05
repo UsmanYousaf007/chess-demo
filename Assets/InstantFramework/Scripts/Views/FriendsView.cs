@@ -55,11 +55,16 @@ namespace TurboLabz.InstantFramework
 
         [Header("Confirm new game dialog")]
         public GameObject confirmNewGameDlg;
-        public Button confirmNewGameYesBtn;
-        public Button confirmNewGameNoBtn;
-        public Text confirmNewGameYesBtnText;
-        public Text confirmNewGameNoBtnText;
-        public Text confirmNewGameTitleText;
+        public Button confirmGameCloseBtn;
+        public Text confirmNewGameDlgTitleText;
+        public Image opponentProfilePic;
+        public Text opponentProfileName;
+        public Text opponentEloLabel;
+        public Image opponentFlag;
+        public Button confirmRankedGameBtn;
+        public Text confirmRankedGameBtnText;
+        public Button confirmFriendlyGameBtn;
+        public Text confirmFriendlyGameBtnText;
 
         [Header("Confirm remove community friend")]
         public GameObject removeCommunityFriendDlg;
@@ -74,7 +79,7 @@ namespace TurboLabz.InstantFramework
         public Signal reloadFriendsSignal = new Signal();
         public Signal refreshCommunitySignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
-        public Signal<string> playButtonClickedSignal = new Signal<string>();
+        public Signal<string, bool> playButtonClickedSignal = new Signal<string, bool>();
         public Signal<string> acceptButtonClickedSignal = new Signal<string>();
         public Signal<string> declineButtonClickedSignal = new Signal<string>();
         public Signal<string> cancelButtonClickedSignal = new Signal<string>();
@@ -84,7 +89,8 @@ namespace TurboLabz.InstantFramework
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
-        private string stripActionOpponentId;
+        private FriendBar actionBar;
+        private string eloPrefix;
 
         public void Init()
         {
@@ -101,9 +107,10 @@ namespace TurboLabz.InstantFramework
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
 
-            confirmNewGameYesBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_YES);
-            confirmNewGameNoBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_NO);
-            confirmNewGameTitleText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_TITLE);
+            confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
+            confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
+            confirmNewGameDlgTitleText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_TITLE);
+            eloPrefix = localizationService.Get(LocalizationKey.ELO_SCORE);
 
             removeCommunityFriendYesBtnText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES);
             removeCommunityFriendNoBtnText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO);
@@ -112,8 +119,9 @@ namespace TurboLabz.InstantFramework
 
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
 
-            confirmNewGameYesBtn.onClick.AddListener(ConfirmNewGameDlgYes);
-            confirmNewGameNoBtn.onClick.AddListener(ConfirmNewGameDlgNo);
+            confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
+            confirmFriendlyGameBtn.onClick.AddListener(ConfirmFriendlyGameBtnClicked);
+            confirmGameCloseBtn.onClick.AddListener(ConfirmNewGameDlgNo);
 
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
@@ -158,9 +166,9 @@ namespace TurboLabz.InstantFramework
                 reloadFriendsSignal.Dispatch();
 
                 // Player attempted to start a game
-                if (stripActionOpponentId != null)
+                if (actionBar != null)
                 {
-                    confirmNewGameDlg.SetActive(true);
+                    ShowConfirmGameDlg(actionBar);
                 }
             }
             else
@@ -194,7 +202,7 @@ namespace TurboLabz.InstantFramework
             friendBar.Init(localizationService);
 
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
-            friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friend.playerId, friendBar));
+            friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friendBar));
             friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId, friendBar.acceptButton));
             friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId, friendBar.notNowButton));
             friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId, friendBar.cancelButton));
@@ -267,6 +275,7 @@ namespace TurboLabz.InstantFramework
             friendBar.longPlayStatus = vo.longPlayStatus;
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
+            friendBar.isRanked = vo.isRanked;
             friendBar.UpdateStatus();
 
             // Set the timer clocks
@@ -450,51 +459,42 @@ namespace TurboLabz.InstantFramework
             showProfileDialogSignal.Dispatch(playerId);
         }
 
-        void PlayButtonClicked(string playerId, FriendBar bar)
+        void PlayButtonClicked(FriendBar bar)
         {
             audioService.PlayStandardClick();
-            stripActionOpponentId = null;
+            actionBar = null;
 
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
+                actionBar = bar;
+
                 if (!facebookService.isLoggedIn())
                 {
                     OnFacebookButtonClicked();
-                    stripActionOpponentId = playerId;
                 }
                 else
                 {
-                    stripActionOpponentId = playerId;
-                    confirmNewGameDlg.SetActive(true);
+                    ShowConfirmGameDlg(actionBar);
                 }
             }
             else
             {
-                playButtonClickedSignal.Dispatch(playerId);
+                playButtonClickedSignal.Dispatch(bar.friendInfo.playerId, bar.isRanked);
             }
         }
 
-        void ConfirmNewGameDlgYes()
-        {
-            playButtonClickedSignal.Dispatch(stripActionOpponentId);
-        }
-
-        void ConfirmNewGameDlgNo()
-        {
-            confirmNewGameDlg.SetActive(false);
-        }
 
         void RemoveCommunityFriendButtonClicked(string playerId)
         {
             audioService.PlayStandardClick();
-            stripActionOpponentId = playerId;
+            actionBar = bars[playerId];
             removeCommunityFriendDlg.SetActive(true);
         }
 
         void RemoveCommunityFriendDlgYes()
         {
             removeCommunityFriendDlg.SetActive(false);
-            removeCommunityFriendSignal.Dispatch(stripActionOpponentId);
+            removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
         }
 
         void RemoveCommunityFriendDlgNo()
@@ -558,6 +558,32 @@ namespace TurboLabz.InstantFramework
             actionCountUpdatedSignal.Dispatch(actionCount);
 
         }
-            
+
+        void ShowConfirmGameDlg(FriendBar bar)
+        {
+            PublicProfile opponentProfile = bar.friendInfo.publicProfile;
+
+            opponentProfilePic.sprite = opponentProfile.profilePicture;
+            opponentProfileName.text = opponentProfile.name;
+            opponentEloLabel.text = eloPrefix + " " + opponentProfile.eloScore;
+            opponentFlag.sprite = Flags.GetFlag(opponentProfile.countryId);
+
+            confirmNewGameDlg.SetActive(true);
+        }
+
+        void ConfirmRankedGameBtnClicked()
+        {
+            playButtonClickedSignal.Dispatch(actionBar.friendInfo.playerId, true);
+        }
+
+        void ConfirmFriendlyGameBtnClicked()
+        {
+            playButtonClickedSignal.Dispatch(actionBar.friendInfo.playerId, false);
+        }
+
+        void ConfirmNewGameDlgNo()
+        {
+            confirmNewGameDlg.SetActive(false);
+        }
     }
 }

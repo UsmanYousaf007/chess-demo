@@ -12,9 +12,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> CreateLongMatch(string opponentId)
+        public IPromise<BackendResult> CreateLongMatch(string opponentId, bool isRanked)
         {
-            return new GSCreateLongMatchRequest().Send(opponentId, OnCreateLongMatchResponse);
+            return new GSCreateLongMatchRequest().Send(opponentId, isRanked, OnCreateLongMatchResponse);
         }
 
         private void OnCreateLongMatchResponse(object r)
@@ -36,8 +36,9 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "CreateLongMatch";
         const string ATT_OPPONENT_ID = "opponentId";
+        const string ATT_IS_RANKED = "isRanked";
 
-        public IPromise<BackendResult> Send(string opponentId, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string opponentId, bool isRanked, Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.CREATE_LONG_MATCH_FAILED;
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_OPPONENT_ID, opponentId)
+                .SetEventAttribute(ATT_IS_RANKED, GSFormat.GetBool(isRanked))
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

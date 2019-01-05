@@ -37,6 +37,8 @@ namespace TurboLabz.InstantFramework
         public Button removeCommunityFriendButton;
         public Text newMatchGreetingLabel;
         public GameObject newMatchGreeting;
+        public GameObject rankedIcon;
+        public GameObject friendlyIcon;
 
         bool stringsLoaded = false;
         static string strWaiting = "";
@@ -53,6 +55,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector] public bool isCommunityFriend;
         [HideInInspector] public bool isGameCanceled;
         [HideInInspector] public bool isPlayerTurn;
+        [HideInInspector] public bool isRanked;
 
         public void UpdateStatus()
         {
@@ -78,6 +81,8 @@ namespace TurboLabz.InstantFramework
                     acceptButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     newMatchGreeting.gameObject.SetActive(true);
+                    rankedIcon.SetActive(isRanked);
+                    friendlyIcon.SetActive(!isRanked);
                     break;
 
                 case LongPlayStatus.WAITING_FOR_ACCEPT:
@@ -87,6 +92,9 @@ namespace TurboLabz.InstantFramework
                     cancelButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     stripButton.gameObject.SetActive(true);
+                    rankedIcon.SetActive(isRanked);
+                    friendlyIcon.SetActive(!isRanked);
+
 
                     if (isPlayerTurn)
                     {
@@ -99,6 +107,9 @@ namespace TurboLabz.InstantFramework
                     stripButton.gameObject.SetActive(true);
                     playArrow.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
+                    rankedIcon.SetActive(isRanked);
+                    friendlyIcon.SetActive(!isRanked);
+
                     break;
 
                 case LongPlayStatus.OPPONENT_TURN:
@@ -107,6 +118,9 @@ namespace TurboLabz.InstantFramework
                     stripButton.gameObject.SetActive(true);
                     playArrow.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
+                    rankedIcon.SetActive(isRanked);
+                    friendlyIcon.SetActive(!isRanked);
+
                     break;
 
                 case LongPlayStatus.PLAYER_WON:
@@ -114,6 +128,9 @@ namespace TurboLabz.InstantFramework
                     generalStatus.text = isGameCanceled ? strCanceled: strYouWon;
                     okButton.gameObject.SetActive(true);
                     okButton.interactable = true;
+                    rankedIcon.SetActive(isRanked);
+                    friendlyIcon.SetActive(!isRanked);
+
                     break;
 
                 case LongPlayStatus.OPPONENT_WON:
@@ -121,6 +138,9 @@ namespace TurboLabz.InstantFramework
                     generalStatus.text = isGameCanceled ? strCanceled : strYouLost;
                     okButton.gameObject.SetActive(true);
                     okButton.interactable = true;
+                    rankedIcon.SetActive(isRanked);
+                    friendlyIcon.SetActive(!isRanked);
+
                     break;
 
                 case LongPlayStatus.DRAW:
@@ -128,6 +148,9 @@ namespace TurboLabz.InstantFramework
                     generalStatus.text = strDraw;
                     okButton.gameObject.SetActive(true);
                     okButton.interactable = true;
+                    rankedIcon.SetActive(isRanked);
+                    friendlyIcon.SetActive(!isRanked);
+
                     break;
 
                 case LongPlayStatus.DECLINED:
@@ -162,6 +185,8 @@ namespace TurboLabz.InstantFramework
             okButton.gameObject.SetActive(false);
             removeCommunityFriendButton.gameObject.SetActive(false);
             newMatchGreeting.gameObject.SetActive(false);
+            rankedIcon.SetActive(false);
+            friendlyIcon.SetActive(false);
         }
 
         public void Init(ILocalizationService localizationService)

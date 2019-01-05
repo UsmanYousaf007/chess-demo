@@ -92,6 +92,7 @@ namespace TurboLabz.InstantFramework
                     vo.playerTimer = chessboard.backendPlayerTimer;
                     vo.opponentTimer = chessboard.backendOpponentTimer;
                     vo.isPlayerTurn = chessboard.isPlayerTurn;
+                    vo.isRanked = matchInfo.isRanked;
 
                     updateFriendBarStatusSignal.Dispatch(vo);
                     friendHasMatch = true;
@@ -108,6 +109,7 @@ namespace TurboLabz.InstantFramework
                 vo.playerId = friendId;
                 vo.isGameCanceled = false;
                 vo.isPlayerTurn = false;
+                vo.isRanked = false;
 
                 updateFriendBarStatusSignal.Dispatch(vo);
             }

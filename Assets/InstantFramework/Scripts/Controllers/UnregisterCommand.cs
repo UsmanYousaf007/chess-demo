@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
             vo.longPlayStatus = LongPlayStatus.DEFAULT;
             vo.isGameCanceled = false;
             vo.isPlayerTurn = false;
+            vo.isRanked = false;
             updateFriendBarStatusSignal.Dispatch(vo);
 
             friendBarBusySignal.Dispatch(opponentId, true);

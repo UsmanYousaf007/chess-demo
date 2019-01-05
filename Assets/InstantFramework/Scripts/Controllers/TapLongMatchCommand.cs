@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         // Parameters
         [Inject] public string opponentId { get; set; }
+        [Inject] public bool isRanked { get; set; }
 
         // Dispatch signals
         [Inject] public CreateLongMatchSignal createLongMatchSignal { get; set; }
@@ -30,7 +31,7 @@ namespace TurboLabz.InstantFramework
 
             if (challengeId == null)
             {
-                createLongMatchSignal.Dispatch(opponentId);
+                createLongMatchSignal.Dispatch(opponentId, isRanked);
             }
             else
             {

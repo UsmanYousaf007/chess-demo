@@ -109,6 +109,16 @@ namespace TurboLabz.InstantFramework
             if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
             {
                 matchInfo.gameStartTimeMilliseconds = matchData.GetLong(GSBackendKeys.GAME_START_TIME).Value;
+
+                if (matchData.ContainsKey(GSBackendKeys.Match.IS_RANKED))
+                {
+                    matchInfo.isRanked = matchData.GetBoolean(GSBackendKeys.Match.IS_RANKED).Value;
+                }
+                // else legacy long matches were always ranked
+                else
+                {
+                    matchInfo.isRanked = true;
+                }
             }
             if (matchData.ContainsKey(GSBackendKeys.Match.CREATE_TIME))
             {

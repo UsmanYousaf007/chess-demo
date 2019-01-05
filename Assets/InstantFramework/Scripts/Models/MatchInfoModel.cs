@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public string winnerId { get; set; }
         public double gameDurationMs { get; set; }
         public long createTimeMs { get; set; }
+        public bool isRanked { get; set; }
 
         public bool isBotMatch
         {

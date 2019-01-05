@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         // Parameters
         [Inject] public string opponentId { get; set; }
+        [Inject] public bool isRanked { get; set; }
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
@@ -30,7 +31,7 @@ namespace TurboLabz.InstantFramework
 
             friendBarBusySignal.Dispatch(opponentId, true);
             matchInfoModel.createLongMatchAborted = false;
-            backendService.CreateLongMatch(opponentId).Then(OnCreateLongMatch);
+            backendService.CreateLongMatch(opponentId, isRanked).Then(OnCreateLongMatch);
         }
 
         private void OnCreateLongMatch(BackendResult result)
