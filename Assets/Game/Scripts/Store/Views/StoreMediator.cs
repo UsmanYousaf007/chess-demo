@@ -112,9 +112,7 @@ namespace TurboLabz.InstantGame
             analyticsService.TapShopSkin(item.displayName);
 
             // Purchase item after confirmation 
-            //purchaseStoreItemSignal.Dispatch(item.key, false);
-
-            purchaseStoreItemSignal.Dispatch("SpecialBundleStandard", false);
+            purchaseStoreItemSignal.Dispatch(item.key, false);
         }
 
         private void OnBackButtonClicked()
