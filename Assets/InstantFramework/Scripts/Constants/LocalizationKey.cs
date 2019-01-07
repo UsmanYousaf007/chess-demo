@@ -240,6 +240,7 @@ namespace TurboLabz.InstantFramework
         public const string NEW_GAME_CONFIRM_RANKED = "newGameConfirmRanked";
         public const string NEW_GAME_CONFIRM_FRIENDLY = "newGameConfirmnFriendly";
         public const string NEW_GAME_CONFIRM_TITLE = "newGameConfirmTitle";
+        public const string FRIENDLY_GAME_CAPTION = "friendlyGameCaption";
 
 
         #endregion

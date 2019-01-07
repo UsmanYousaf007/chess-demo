@@ -64,7 +64,6 @@ namespace TurboLabz.Multiplayer
         private void OnBackToLobby()
         {
             loadLobbySignal.Dispatch();
-
         }
 
         private void OnResultsDialogClosedSignal()

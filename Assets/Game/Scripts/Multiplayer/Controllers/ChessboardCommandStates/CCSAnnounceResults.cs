@@ -22,6 +22,7 @@ namespace TurboLabz.Multiplayer
             vo.playerWins = playerWins;
             vo.currentEloScore = cmd.playerModel.eloScore;
             vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.playerEloScoreDelta;
+            vo.isRanked = cmd.activeMatchInfo.isRanked;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
 

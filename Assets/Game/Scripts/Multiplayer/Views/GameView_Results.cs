@@ -39,6 +39,7 @@ namespace TurboLabz.Multiplayer
         public Text ratingLabel;
         public Text ratingValue;
         public Text ratingDelta;
+        public Text friendlyCaption;
 
         public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
@@ -65,6 +66,7 @@ namespace TurboLabz.Multiplayer
 		
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
             ratingLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+            friendlyCaption.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
 
             declinedHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
             declinedReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
@@ -124,25 +126,38 @@ namespace TurboLabz.Multiplayer
             {
                 resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
             }
-                
-            ratingDelta.gameObject.SetActive(true);
 
+            friendlyCaption.gameObject.SetActive(false);
+            ratingLabel.gameObject.SetActive(false);
+            ratingValue.gameObject.SetActive(false);
+            ratingDelta.gameObject.SetActive(false);
 
-            ratingValue.text = vo.currentEloScore.ToString();
-
-            if (vo.eloScoreDelta > 0)
+            if (vo.isRanked)
             {
-                ratingDelta.text = "(+" + vo.eloScoreDelta + ")";
-                ratingDelta.color = Colors.GREEN;
-            }
-            else if (vo.eloScoreDelta == 0)
-            {
-                ratingDelta.gameObject.SetActive(false);
+                ratingLabel.gameObject.SetActive(true);
+                ratingValue.gameObject.SetActive(true);
+                ratingDelta.gameObject.SetActive(true);
+
+                ratingValue.text = vo.currentEloScore.ToString();
+
+                if (vo.eloScoreDelta > 0)
+                {
+                    ratingDelta.text = "(+" + vo.eloScoreDelta + ")";
+                    ratingDelta.color = Colors.GREEN;
+                }
+                else if (vo.eloScoreDelta == 0)
+                {
+                    ratingDelta.gameObject.SetActive(false);
+                }
+                else
+                {
+                    ratingDelta.text = "(" + vo.eloScoreDelta + ")";
+                    ratingDelta.color = Colors.RED;
+                }
             }
             else
             {
-                ratingDelta.text = "(" + vo.eloScoreDelta + ")";
-                ratingDelta.color = Colors.RED;
+                friendlyCaption.gameObject.SetActive(true);
             }
 
             this.playerWins = vo.playerWins;

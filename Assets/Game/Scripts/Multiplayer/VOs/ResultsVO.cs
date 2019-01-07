@@ -21,5 +21,6 @@ namespace TurboLabz.Multiplayer
         public bool playerWins;
         public int currentEloScore;
         public int eloScoreDelta;
+        public bool isRanked;
     }
 }

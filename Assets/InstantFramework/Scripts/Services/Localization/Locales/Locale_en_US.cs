@@ -239,6 +239,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "FRIENDLY"},
                 { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "RANKED"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A NEW GAME"},
+                { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly Game"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "NO"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "YES"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove Player?"},
