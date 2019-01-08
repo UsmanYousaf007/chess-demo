@@ -41,8 +41,6 @@ namespace TurboLabz.InstantFramework
             pvo.isOnline = publicProfile.isOnline;
             pvo.playerPic = publicProfile.profilePicture;
 
-            LogUtil.Log("OPPONENT IS ONLINE (LONGMATCH): " + pvo.isOnline, "cyan");
-
             updateOpponentProfileSignal.Dispatch(pvo);
 
             friendBarBusySignal.Dispatch(opponentId, false);

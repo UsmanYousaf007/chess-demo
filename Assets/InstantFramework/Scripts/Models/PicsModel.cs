@@ -36,7 +36,6 @@ namespace TurboLabz.InstantFramework
                     memCache.Add(playerId, sprite);
                 }
 
-                LogUtil.Log("Wrote pic for: " + playerId, "cyan");
             }
             catch (Exception e)
             {
@@ -66,7 +65,6 @@ namespace TurboLabz.InstantFramework
                     if (reader.HasKey(PIC_KEY))
                     {
                         pic = reader.Read<Sprite>(PIC_KEY);
-                        LogUtil.Log("Got pic for: " + playerId, "cyan");
                     }
 
                     reader.Close();

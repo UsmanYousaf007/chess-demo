@@ -20,7 +20,8 @@ namespace TurboLabz.Multiplayer
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
             // If we're starting a new game
-            if (CameFromState(cmd, typeof(CCSDefault)))
+            if (CameFromState(cmd, typeof(CCSDefault)) ||
+                CameFromState(cmd, typeof(CCSSafeMoveDialog)))
             {
                 RenderNewGame(cmd, true);
                 cmd.enablePlayerTurnInteraction.Dispatch();

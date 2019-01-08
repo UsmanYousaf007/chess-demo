@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<BackendPlayerTurnSignal>().To<PlayerTurnCommand>();
             commandBinder.Bind<ExitLongMatchSignal>().To<ExitLongMatchCommand>();
             commandBinder.Bind<ResetActiveMatchSignal>().To<ResetActiveMatchCommand>();
+            commandBinder.Bind<SetSafeModeSignal>().To<SetSafeModeCommand>();
+            commandBinder.Bind<SafeMoveSignal>().To<SafeMoveCommand>();
 
 
             // Bind signals for dispatching to/from mediators

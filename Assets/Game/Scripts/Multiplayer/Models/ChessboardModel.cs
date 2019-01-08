@@ -57,6 +57,7 @@ namespace TurboLabz.Multiplayer
         public List<MoveVO> moveVOCache { get; set; }
         public bool inPlaybackMode { get; set; }
         public DateTime lastMoveTime { get; set; }
+        public bool inSafeMode { get; set; }
 
         // Overrides
         public string overrideFen { get; set; }
@@ -103,6 +104,7 @@ namespace TurboLabz.Multiplayer
             moveVOCache = new List<MoveVO>();
             inPlaybackMode = false;
             lastMoveTime = DateTime.UtcNow;
+            inSafeMode = false;
 
             overrideFen = null;
             overrideAiStrength = AiOverrideStrength.NONE;

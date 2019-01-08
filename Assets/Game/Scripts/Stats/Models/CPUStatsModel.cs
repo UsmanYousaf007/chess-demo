@@ -31,7 +31,6 @@ namespace TurboLabz.InstantGame
          
             if (!localDataService.FileExists(SaveKeys.STATS_SAVE_FILENAME))
             {
-                LogUtil.Log("No stats file found.", "cyan");
                 return;
             }
 

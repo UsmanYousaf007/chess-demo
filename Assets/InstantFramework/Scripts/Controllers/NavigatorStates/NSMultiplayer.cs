@@ -66,6 +66,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayerAcceptDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_SAFE_MOVE_DLG)
+            {
+                return new NSMultiplayerSafeMoveDlg();
+            }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG)
             {
                 return new NSMultiplayerFiftyMoveDrawDlg();

@@ -82,23 +82,20 @@ namespace TurboLabz.InstantFramework
             chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerTimerMs);
             chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentTimerMs);
 
-            if (matchInfo.isLongPlay)
+            // Load move history
+            IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
+            chessboard.moveList = new List<ChessMove>();
+
+            foreach (GSData data in backendMoveList)
             {
-                // Load move history
-                IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
-                chessboard.moveList = new List<ChessMove>();
+                ChessMove move = new ChessMove();
+                string fromSquareStr = data.GetString(GSBackendKeys.FROM_SQUARE);
+                string toSquareStr = data.GetString(GSBackendKeys.TO_SQUARE);
 
-                foreach (GSData data in backendMoveList)
-                {
-                    ChessMove move = new ChessMove();
-                    string fromSquareStr = data.GetString(GSBackendKeys.FROM_SQUARE);
-                    string toSquareStr = data.GetString(GSBackendKeys.TO_SQUARE);
-
-                    move.from = chessService.GetFileRankLocation(fromSquareStr[0], fromSquareStr[1]);
-                    move.to = chessService.GetFileRankLocation(toSquareStr[0], toSquareStr[1]);
-                    move.promo = data.GetString(GSBackendKeys.PROMOTION);
-                    chessboard.moveList.Add(move);
-                }
+                move.from = chessService.GetFileRankLocation(fromSquareStr[0], fromSquareStr[1]);
+                move.to = chessService.GetFileRankLocation(toSquareStr[0], toSquareStr[1]);
+                move.promo = data.GetString(GSBackendKeys.PROMOTION);
+                chessboard.moveList.Add(move);
             }
 
             // Store the game end reason and reason (if any)

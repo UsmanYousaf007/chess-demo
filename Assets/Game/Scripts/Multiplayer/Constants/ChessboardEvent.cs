@@ -25,6 +25,8 @@ namespace TurboLabz.Multiplayer
         DRAW_CLAIMED,
         DRAW_REJECTED,
         GAME_ENDED,
-        PROMO_SELECTED
+        PROMO_SELECTED,
+        MOVE_CONFIRMED,
+        MOVE_UNDO
     }
 }
