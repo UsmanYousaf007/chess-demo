@@ -157,6 +157,7 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<WifiIsHealthySignal>().ToSingleton();
+            injectionBinder.Bind<ResetCapturedPiecesSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFriendPicSignal>().ToSingleton();
             injectionBinder.Bind<UpdateEloScoresSignal>().ToSingleton();
             injectionBinder.Bind<AddFriendsSignal>().ToSingleton();

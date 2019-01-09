@@ -39,32 +39,35 @@ namespace TurboLabz.Multiplayer
             return (cmd.activeChessboard.previousState.GetType() == state);
         }
 
-        protected void RenderNewGame(ChessboardCommand cmd, bool isPlayerTurn)
+        protected void RenderNewGame(ChessboardCommand cmd, bool isPlayerTurn, bool isUndo = false)
         {
             // Load the game view
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
 
             // Detect if opponent clock should be paused
-
-            RunTimeControlVO runTimeControlVO;
-
-            runTimeControlVO.pauseAfterSwap =
-                cmd.activeMatchInfo.isLongPlay &&
-                cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW &&
-                !isPlayerTurn;
-
-
-            if (cmd.activeMatchInfo.isLongPlay)
+            if (!isUndo)
             {
-                runTimeControlVO.waitingForOpponentToAccept = cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW;
-            }
-            else
-            {
-                runTimeControlVO.waitingForOpponentToAccept = false;
-            }
+                RunTimeControlVO runTimeControlVO;
 
-            // Initialize and launch our time control
-            cmd.runTimeControlSignal.Dispatch(runTimeControlVO);
+                runTimeControlVO.pauseAfterSwap =
+                    cmd.activeMatchInfo.isLongPlay &&
+                    cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW &&
+                    !isPlayerTurn;
+
+
+                if (cmd.activeMatchInfo.isLongPlay)
+                {
+                    runTimeControlVO.waitingForOpponentToAccept = cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW;
+                }
+                else
+                {
+                    runTimeControlVO.waitingForOpponentToAccept = false;
+                }
+
+
+                // Initialize and launch our time control
+                cmd.runTimeControlSignal.Dispatch(runTimeControlVO);
+            }
 
             IPlayerModel playerModel = cmd.playerModel;
             Chessboard activeChessboard = cmd.activeChessboard;
@@ -96,9 +99,12 @@ namespace TurboLabz.Multiplayer
             }
 
             // If we are resuming, check if the game had ended.
-            if (activeChessboard.gameEndReason != GameEndReason.NONE)
+            if (!isUndo)
             {
-                cmd.chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+                if (activeChessboard.gameEndReason != GameEndReason.NONE)
+                {
+                    cmd.chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
+                }
             }
         }
 

@@ -37,7 +37,7 @@ namespace TurboLabz.Multiplayer
             ResetCapturedPieces();
         }
 
-        private void ResetCapturedPieces()
+        public void ResetCapturedPieces()
         {
             for (int i = 0; i < 5; ++i)
             {

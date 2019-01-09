@@ -50,7 +50,6 @@ namespace TurboLabz.Multiplayer
         public bool aiWillResign { get; set; }
         public int opponentLevel { get; set; }
         public bool opponentMoveRenderComplete { get; set; }
-        public string fen { get; set; }
         public bool timersStopped { get; set; }
         public List<string> notation { get; set; }
         public List<ChessMove> moveList { get; set; }
@@ -58,6 +57,7 @@ namespace TurboLabz.Multiplayer
         public bool inPlaybackMode { get; set; }
         public DateTime lastMoveTime { get; set; }
         public bool inSafeMode { get; set; }
+        public string fen { get; set; }
 
         // Overrides
         public string overrideFen { get; set; }

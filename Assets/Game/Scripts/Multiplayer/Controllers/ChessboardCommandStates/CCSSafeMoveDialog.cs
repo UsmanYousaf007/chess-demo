@@ -38,8 +38,11 @@ namespace TurboLabz.Multiplayer
             }
             else if (evt == ChessboardEvent.MOVE_UNDO)
             {
+                cmd.resetCapturedPiecesSignal.Dispatch();
                 cmd.chessService.NewGame(chessboard.squares);
                 ProcessResume(cmd);
+                RenderNewGame(cmd, true, true);
+                cmd.enablePlayerTurnInteraction.Dispatch();
                 return new CCSPlayerTurn();
             }
             else if (evt == ChessboardEvent.GAME_ENDED)
