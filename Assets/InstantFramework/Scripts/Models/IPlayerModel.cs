@@ -24,7 +24,8 @@ namespace TurboLabz.InstantFramework
 
 
         // Ads Info
-        int adLifetimeImpressions { get; set; }          
+        int adLifetimeImpressions { get; set; }
+        long removeAdsTimeStamp { get; set; }
 
         // Inventory
         string activeSkinId { get; set; }   

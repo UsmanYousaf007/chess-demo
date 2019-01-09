@@ -20,6 +20,7 @@ namespace TurboLabz.Multiplayer
         [Header("Bot Bar")]
         public Text backToFriendsLabel;
         public Button backToFriendsButton;
+        private bool showAdOnBack;
 
         public void InitBotBar()
         {
@@ -31,6 +32,7 @@ namespace TurboLabz.Multiplayer
         {
             backToFriendsButton.gameObject.SetActive(false);
             backToFriendsLabel.gameObject.SetActive(false);
+            showAdOnBack = false;
         }
 
         void UpdateBotBar()
@@ -41,6 +43,11 @@ namespace TurboLabz.Multiplayer
 
         void OnBackToFriendsClicked()
         {
+            if (showAdOnBack)
+            {
+                showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
+                showAdOnBack = false;
+            }
             backToFriendsSignal.Dispatch(); 
         }
     }

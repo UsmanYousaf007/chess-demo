@@ -68,6 +68,7 @@ namespace TurboLabz.CPU
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ICPUStatsModel statsModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }

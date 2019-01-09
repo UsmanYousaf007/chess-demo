@@ -17,6 +17,7 @@ namespace TurboLabz.InstantGame
     {
         // Parameters
         [Inject] public AdType adType { get; set; }
+        [Inject] public string claimRewardType { get; set; }
 
         // Dispatch signals
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
@@ -28,9 +29,29 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void Execute()
         {
+            // All non-rewarded ads skipped if player owns the remove ads feature
+            bool removeAds =
+                playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS) || 
+                playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
+                                        (TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod) != null) || 
+                                        (playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30) && (TimeUtil.TimeToExpireString(playerModel.removeAdsTimeStamp, 30) != null));
+
+            // Case: Ads removed
+            if (removeAds)
+            {
+                if (adType == AdType.RewardedVideo)
+                {
+                    Retain();
+                    ClaimReward(AdsResult.BYPASS);
+                }
+                return;
+            }
+
+            // Case: Show Ads
             if (adType == AdType.Interstitial)
             {
                 if (adsService.IsInterstitialAvailable())
@@ -43,7 +64,6 @@ namespace TurboLabz.InstantGame
                     Debug.Log("[TLADS]: Interstitial is NOT available");
                 }
 
-                Release();
                 return;
             }
             else
@@ -51,24 +71,23 @@ namespace TurboLabz.InstantGame
                 if (adsService.IsRewardedVideoAvailable())
                 {
                     Debug.Log("[TLADS]: Rewarded video is available");
-                    adsService.ShowRewardedVideo().Then(OnShowRewardedVideo);
                     Retain();
+                    adsService.ShowRewardedVideo().Then(ClaimReward);
                 }
                 else
                 {
                     Debug.Log("[TLADS]: Rewarded video is NOT available");
-                    Release();
                     return;
                 }
             }
         }
 
-        private void OnShowRewardedVideo(AdsResult result)
+        private void ClaimReward(AdsResult result)
         {
-            if (result == AdsResult.FINISHED)
+            if (result == AdsResult.FINISHED || result == AdsResult.BYPASS)
             {
                 Debug.Log("[TLADS]: Rewarded video completed.");
-                backendService.ClaimReward(GSBackendKeys.ClaimReward.TYPE_AD_BUCKS).Then(OnClaimReward);
+                backendService.ClaimReward(claimRewardType).Then(OnClaimReward);
             }
             else
             {

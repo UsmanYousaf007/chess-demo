@@ -89,6 +89,8 @@ namespace TurboLabz.InstantFramework
 
         // Feature Shop Items
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS = "FeatureRemoveAds";
+        public const string SHOP_ITEM_FEATURE_REMOVE_ADS_30 = "FeatureRemoveAds30";
+        public const string SHOP_ITEM_FEATURE_REMOVE_ADS_PERM = "FeatureRemoveAdsPerm";
 
         // Mesage data keys
         public const string GAME_START_TIME = "gameStartTime";
@@ -205,6 +207,8 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_MATCH_WIN_AD = "rewardMatchWinAd";
             public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
             public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
+
+            public const string NONE = "";
         }
 
 		public static class Friend
@@ -263,7 +267,8 @@ namespace TurboLabz.InstantFramework
 			public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 			public const string INVENTORY = "inventory";
 			public const string FRIENDS = "friends";
-		}
+            public const string REMOVE_ADS_TIMESTAMP = "removeAdsTimeStamp";
+        }
 
         public static class Match
         {

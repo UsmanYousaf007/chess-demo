@@ -151,6 +151,8 @@ namespace TurboLabz.CPU
             HideOpponentFromIndicator();
             HideOpponentToIndicator();
             HideHint();
+
+            showAdOnBack = true;
         }
 
         public void UpdatePlayerPrePromoMove(MoveVO moveVO)
@@ -193,6 +195,8 @@ namespace TurboLabz.CPU
             HideOpponentFromIndicator();
             HideOpponentToIndicator();
             HideHint();
+
+            showAdOnBack = true;
         }
 
         public void UpdateOpponentMove(MoveVO moveVO)

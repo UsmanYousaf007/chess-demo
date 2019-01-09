@@ -99,7 +99,6 @@ namespace TurboLabz.CPU
         {
             saveGameSignal.Dispatch();
             loadLobbySignal.Dispatch();
-            showAdSignal.Dispatch(AdType.RewardedVideo);
         }
     }
 }

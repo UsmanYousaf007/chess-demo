@@ -56,6 +56,7 @@ namespace TurboLabz.Multiplayer
 
         private bool playerWins;
         private bool isDraw;
+        private string adRewardType;
 
         public void InitResults()
         {
@@ -250,6 +251,10 @@ namespace TurboLabz.Multiplayer
                     ExpirePlayerTimer();
                 }
             }
+
+            // Reward
+            resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD) + " +" + vo.rewardCoins;
+            adRewardType = vo.adRewardType;
         }
 
         private void AnimateResultsDialog()
@@ -295,6 +300,7 @@ namespace TurboLabz.Multiplayer
         {
             if (isLongPlay)
             {
+                showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
                 backToFriendsSignal.Dispatch();
             }
             else

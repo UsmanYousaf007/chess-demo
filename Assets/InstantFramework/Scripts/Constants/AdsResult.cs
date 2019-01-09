@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
     public enum AdsResult
     {
         FINISHED,
+        BYPASS,
         FAILED
     }
 }
