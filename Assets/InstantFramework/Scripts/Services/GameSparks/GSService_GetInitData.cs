@@ -146,7 +146,7 @@ namespace TurboLabz.InstantFramework
             List<GSData> featureShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.FEATURE_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> featureItems = PopulateFeatureStoreItems(featureShopItemsData);
 
-            List<GSData> undoShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.UNDO_SHOP_ITEMS);
+            List<GSData> undoShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SAFE_MOVE_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> undoItems = PopulateCurrencyStoreItems(undoShopItemsData);
 
             List<GSData> hintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.HINT_SHOP_ITEMS);

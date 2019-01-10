@@ -173,7 +173,7 @@ namespace TurboLabz.InstantFramework
             public const string SKIN_SHOP_ITEMS = "skinShopItems";
             public const string COINS_SHOP_ITEMS = "coinsShopItems";
             public const string FEATURE_SHOP_ITEMS = "featureShopItems";
-            public const string UNDO_SHOP_ITEMS = "undoShopItems";
+            public const string SAFE_MOVE_SHOP_ITEMS = "safeMoveShopItems";
             public const string HINT_SHOP_ITEMS = "hintShopItems";
             public const string HINDSIGHT_SHOP_ITEMS = "hindsightShopItems";
             public const string SPECIAL_BUNDLE_SHOP_ITEMS = "specialBundleShopItems";
