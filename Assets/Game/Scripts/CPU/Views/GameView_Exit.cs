@@ -38,6 +38,8 @@ namespace TurboLabz.CPU
         public Text continueButtonLabel;
         public Text saveAndExitButtonLabel;
 
+        private bool showAdOnBack;
+
         public void InitMenu()
         {
             menuButton.onClick.AddListener(OnMenuButtonClicked);
@@ -148,6 +150,11 @@ namespace TurboLabz.CPU
 
         void OnSaveAndExitButtonClicked()
         {
+            if (showAdOnBack)
+            {
+                showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
+                showAdOnBack = false;
+            }
             saveAndExitButtonClickedSignal.Dispatch();
         }
     }

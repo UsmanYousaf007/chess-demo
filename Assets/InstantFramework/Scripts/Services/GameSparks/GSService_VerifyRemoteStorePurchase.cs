@@ -48,11 +48,6 @@ namespace TurboLabz.InstantFramework
                 {
                     playerModel.inventory.Add(shopItemId, 1); 
                 }
-
-                if (shopItemId == GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS)
-                {
-                    updateRemoveAdsDisplaySignal.Dispatch(null, playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
-                }
             }
 
             // Process bundled goods
@@ -71,6 +66,11 @@ namespace TurboLabz.InstantFramework
                     {
                         playerModel.inventory.Add(shortCode, qty);
                     }
+                }
+
+                if (res.ContainsKey(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP))
+                {
+                    playerModel.removeAdsTimeStamp = res.GetLong(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP).Value;
                 }
             }
 

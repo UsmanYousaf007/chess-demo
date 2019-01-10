@@ -22,7 +22,6 @@ namespace TurboLabz.CPU
     {
         // Dispatch signal
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         public void OnRegisterResults()
         {
@@ -64,15 +63,14 @@ namespace TurboLabz.CPU
         }
 
         [ListensTo(typeof(UpdateResultDialogSignal))]
-		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins)
+		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int rewardCoins)
         {
-            view.UpdateResultsDialog(gameEndReason, playerWins);
+            view.UpdateResultsDialog(gameEndReason, playerWins, rewardCoins);
         }
 
         private void OnResultsExitButtonClicked()
         {
             loadLobbySignal.Dispatch();
-            showAdSignal.Dispatch(AdType.Interstitial);
         }
 
 		private void OnResultsStatsButtonClicked()

@@ -100,7 +100,7 @@ namespace TurboLabz.CPU
             resultsDialog.SetActive(false);
         }
 
-		public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins)
+		public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins, int rewardCoins)
         {
             DisableInteraction();
             EnableModalBlocker();
@@ -178,6 +178,9 @@ namespace TurboLabz.CPU
                     ExpirePlayerTimer();
                 }
             }
+
+            // Reward
+            resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD) + " +" + rewardCoins;
         }
 
         public bool IsResultsDialogVisible()
@@ -214,6 +217,8 @@ namespace TurboLabz.CPU
 			
         private void OnResultsExitButtonClicked()
         {
+            string adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
+            showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             resultsExitButtonClickedSignal.Dispatch();
         }
 

@@ -98,8 +98,9 @@ namespace TurboLabz.InstantFramework
 			playerModel.totalGamesLost = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_LOST).Value;
 			playerModel.totalGamesDrawn = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_DRAWN).Value;
 			playerModel.adLifetimeImpressions = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.AD_LIFETIME_IMPRESSIONS).Value;
+            playerModel.removeAdsTimeStamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP).Value;
 
-			IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
+            IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
 			GSData inventoryData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.INVENTORY);
 			GSParser.PopulateInventory(inventory, inventoryData);
             playerModel.inventory = inventory;

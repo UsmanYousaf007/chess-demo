@@ -28,6 +28,8 @@ namespace TurboLabz.CPU
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
+
         public Camera chessboardCamera;
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
@@ -48,6 +50,8 @@ namespace TurboLabz.CPU
             OnParentShowMatchInfo();
             OnParentShowMenu();
             OnParentShowHint();
+
+            showAdOnBack = false;
         }
 
         public void Hide()

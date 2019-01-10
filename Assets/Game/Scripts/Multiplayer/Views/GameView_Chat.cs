@@ -188,6 +188,8 @@ namespace TurboLabz.Multiplayer
 
             chessboardBlockerRestoreState = chessboardBlocker.activeSelf;
             chessboardBlocker.SetActive(true);
+
+            showAdOnBack = true;
         }
 
         public void HideChatDlg()

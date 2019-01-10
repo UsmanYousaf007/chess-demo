@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
 
         // Ads Info
         public int adLifetimeImpressions { get; set; }
+        public long removeAdsTimeStamp { get; set; }
 
         // Inventory
         public string activeSkinId { get; set; } = null;    
@@ -61,6 +62,7 @@ namespace TurboLabz.InstantFramework
 
             // Ads Info
             adLifetimeImpressions = 0;
+            removeAdsTimeStamp = 0;
 
             // Inventory
             inventory = new OrderedDictionary<string, int>();

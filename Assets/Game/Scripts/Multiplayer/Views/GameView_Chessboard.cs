@@ -152,6 +152,8 @@ namespace TurboLabz.Multiplayer
             HideOpponentFromIndicator();
             HideOpponentToIndicator();
             HideHint();
+
+            showAdOnBack = true;
         }
 
         public void UpdatePlayerPrePromoMove(MoveVO moveVO)
@@ -193,7 +195,8 @@ namespace TurboLabz.Multiplayer
             ShowPlayerToIndicator(moveVO.toSquare);
             HideOpponentFromIndicator();
             HideOpponentToIndicator();
-            HideHint();
+
+            showAdOnBack = true;
         }
 
         public void UpdateOpponentMove(MoveVO moveVO)

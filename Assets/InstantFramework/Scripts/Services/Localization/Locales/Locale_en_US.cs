@@ -78,6 +78,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_ADVANTAGE, "Advantage" },
                 { LocalizationKey.GM_WIFI_WARNING, "Slow Internet" },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
+                { LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD, "COLLECT REWARD" },
+
                 #endregion
 
                 //

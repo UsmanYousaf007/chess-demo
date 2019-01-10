@@ -22,9 +22,12 @@ namespace TurboLabz.Multiplayer
             vo.playerWins = playerWins;
             vo.currentEloScore = cmd.playerModel.eloScore;
             vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.playerEloScoreDelta;
+<<<<<<< Updated upstream
             vo.isRanked = cmd.activeMatchInfo.isRanked;
+=======
             vo.rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinAdReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpAdReward;
             vo.adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
+>>>>>>> Stashed changes
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
 

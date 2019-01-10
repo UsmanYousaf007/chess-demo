@@ -94,10 +94,12 @@ namespace TurboLabz.CPU
                 }
             }
 
+            int  rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinAdReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpAdReward;
+
             cmd.saveStatsSignal.Dispatch(statResult);
 
 			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
-			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins);
+			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, rewardCoins);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

@@ -21,7 +21,6 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch signal
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         public void OnRegisterResults()
         {
