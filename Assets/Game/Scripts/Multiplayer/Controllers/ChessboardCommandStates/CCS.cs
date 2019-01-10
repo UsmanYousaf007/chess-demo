@@ -106,6 +106,10 @@ namespace TurboLabz.Multiplayer
                     cmd.chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
                 }
             }
+
+            // Initialize the hint button
+            cmd.updateHintCountSignal.Dispatch(playerModel.inventory[GSBackendKeys.PowerUp.HINT]);
+            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)
@@ -207,6 +211,7 @@ namespace TurboLabz.Multiplayer
             }
 
             SendPlayerTurn(cmd, chessboard.playerMoveFlag, false, false, false, false);
+            cmd.turnSwapSignal.Dispatch(false);
             return new CCSOpponentTurn();
         }
 
@@ -366,6 +371,12 @@ namespace TurboLabz.Multiplayer
 
                 isPlayerTurn = !isPlayerTurn;
             }
+        }
+
+        protected void OpponentMoveRenderCompleted(ChessboardCommand cmd)
+        {
+            cmd.activeChessboard.opponentMoveRenderComplete = true;
+            cmd.turnSwapSignal.Dispatch(true);
         }
     }
 }

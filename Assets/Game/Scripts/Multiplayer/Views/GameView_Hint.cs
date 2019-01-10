@@ -25,8 +25,12 @@ namespace TurboLabz.Multiplayer
         public Button hindsightButton;
         public Text hintButtonLabel;
         public Text hintCountLabel;
-
+        public GameObject hintAdd;
         public GameObject hintThinking;
+
+
+
+
         public GameObject hindsightThinking;
 
         private int availableHints;
@@ -62,6 +66,7 @@ namespace TurboLabz.Multiplayer
             hintThinking.SetActive(false);
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
+            DisableHintButton();
         }
 
         public void HideHint()
@@ -88,22 +93,9 @@ namespace TurboLabz.Multiplayer
             hintClickedSignal.Dispatch(true);
         }
 
-        /*
-        public void UpdateHintCount(int count)
-        {
-            availableHints = count;
-
-            if (availableHints == 0)
-            {
-                DisableHintButton();
-            }
-
-            hintCountLabel.text = count.ToString();
-        }
-
         public void ToggleHintButton(bool isPlayerTurn)
         {
-            if (isPlayerTurn && availableHints > 0)
+            if (isPlayerTurn)
             {
                 EnableHintButton();
             }
@@ -116,26 +108,27 @@ namespace TurboLabz.Multiplayer
         public void DisableHintButton()
         {
             hintButton.interactable = false;
-            DisableLabel(hintButtonLabel);
-            DisableLabel(hintCountLabel);
         }
-
-        public bool IsHintButtonActive()
-        {
-            return hintButton.interactable;
-        }
-
-
 
         private void EnableHintButton()
         {
-            if (availableHints > 0)
-            {
-                hintButton.interactable = true;
-                EnableLabel(hintButtonLabel);
-                EnableLabel(hintCountLabel);
-            }
+            hintButton.interactable = true;
         }
-        */
+
+        public void UpdateHintCount(int count)
+        {
+            if (count == 0)
+            {
+                DisableHintButton();
+                hintAdd.SetActive(true);
+            }
+            else
+            {
+                EnableHintButton();
+                hintAdd.SetActive(false);
+            }
+
+            hintCountLabel.text = count.ToString();
+        }
     }
 }

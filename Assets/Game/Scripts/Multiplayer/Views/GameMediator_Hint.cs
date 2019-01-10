@@ -34,18 +34,20 @@ namespace TurboLabz.Multiplayer
             navigatorIgnoreEventSignal.Dispatch(NavigatorEvent.NONE);
         }
 
-        /*
+        [ListensTo(typeof(TurnSwapSignal))]
+        public void OnToggleHintButton(bool isPlayerTurn)
+        {
+            view.ToggleHintButton(isPlayerTurn);
+        }
+
         [ListensTo(typeof(UpdateHintCountSignal))]
         public void OnUpdateHintCount(int count)
         {
             view.UpdateHintCount(count);
         }
 
-        [ListensTo(typeof(TurnSwapSignal))]
-        public void OnToggleHintButton(bool isPlayerTurn)
-        {
-            view.ToggleHintButton(isPlayerTurn);
-        }
+
+        /*
 
         [ListensTo(typeof(DisableHintButtonSignal))]
         public void OnDisableHintButton()

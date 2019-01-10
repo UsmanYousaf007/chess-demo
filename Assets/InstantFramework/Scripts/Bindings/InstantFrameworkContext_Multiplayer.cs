@@ -61,6 +61,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<EnableGameChatSignal>().ToSingleton();
             injectionBinder.Bind<DisplayChatMessageSignal>().ToSingleton();
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
+            injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
 
 
             // Bind signals for dipatching from command to command
