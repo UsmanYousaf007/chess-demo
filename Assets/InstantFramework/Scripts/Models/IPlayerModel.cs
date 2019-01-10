@@ -39,5 +39,7 @@ namespace TurboLabz.InstantFramework
         bool busyRefreshingCommunity { get; set; }
 
         bool OwnsVGood(string key);
-	}
+
+        int PowerUpHintCount { get; }
+    }
 }

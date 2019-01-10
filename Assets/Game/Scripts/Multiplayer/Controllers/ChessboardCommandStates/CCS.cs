@@ -108,7 +108,7 @@ namespace TurboLabz.Multiplayer
             }
 
             // Initialize the hint button
-            cmd.updateHintCountSignal.Dispatch(playerModel.inventory[GSBackendKeys.PowerUp.HINT]);
+            cmd.updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount);
             cmd.turnSwapSignal.Dispatch(isPlayerTurn);
         }
 
@@ -325,8 +325,6 @@ namespace TurboLabz.Multiplayer
             chessboard.aiMoveNumber = 0;
 
             bool isPlayerTurn = (chessboard.playerColor == chessService.GetNextMoveColor());
-
-            LogUtil.Log("Processing resume... move list count:" + chessboard.moveList.Count, "cyan");
 
             foreach (ChessMove move in chessboard.moveList)
             {

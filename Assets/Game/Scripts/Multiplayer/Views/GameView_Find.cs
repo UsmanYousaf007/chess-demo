@@ -98,6 +98,8 @@ namespace TurboLabz.Multiplayer
 
             activatedPieceImages.Clear();
 
+            ToggleTopPanel(false);
+
             EnableModalBlocker();
         }
 

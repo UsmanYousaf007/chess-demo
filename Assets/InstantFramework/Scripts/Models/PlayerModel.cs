@@ -78,6 +78,31 @@ namespace TurboLabz.InstantFramework
 		{
             return inventory.ContainsKey(key);
 		}
+
+        public int PowerUpHintCount
+        {
+            get
+            {
+                return OwnsVGood(GSBackendKeys.PowerUp.HINT) ? inventory[GSBackendKeys.PowerUp.HINT] : 0;
+            }
+        }
+
+        public int PowerUpHindsightCount
+        {
+            get
+            {
+                return OwnsVGood(GSBackendKeys.PowerUp.HINDSIGHT) ? inventory[GSBackendKeys.PowerUp.HINDSIGHT] : 0;
+            }
+        }
+
+        public int PowerUpSafeMoveCount
+        {
+            get
+            {
+                return OwnsVGood(GSBackendKeys.PowerUp.SAFE_MOVE) ? inventory[GSBackendKeys.PowerUp.SAFE_MOVE] : 0;
+            }
+        }
+
     }
 }
 

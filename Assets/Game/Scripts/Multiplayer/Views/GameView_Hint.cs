@@ -28,9 +28,6 @@ namespace TurboLabz.Multiplayer
         public GameObject hintAdd;
         public GameObject hintThinking;
 
-
-
-
         public GameObject hindsightThinking;
 
         private int availableHints;
@@ -79,15 +76,20 @@ namespace TurboLabz.Multiplayer
 
         private void HintButtonClicked()
         {
-          //  DisableHintButton();
-            hintThinking.SetActive(true);
-            EnableModalBlocker(false);
-            hintClickedSignal.Dispatch(false);
+            if (hintAdd.activeSelf)
+            {
+                LogUtil.Log("Show hint spot purchase", "cyan");
+            }
+            else
+            {
+                hintThinking.SetActive(true);
+                EnableModalBlocker(false);
+                hintClickedSignal.Dispatch(false);
+            }
         }
 
         private void HindsightButtonClicked()
         {
-            //  DisableHintButton();
             hindsightThinking.SetActive(true);
             EnableModalBlocker(false);
             hintClickedSignal.Dispatch(true);
@@ -121,14 +123,16 @@ namespace TurboLabz.Multiplayer
             {
                 DisableHintButton();
                 hintAdd.SetActive(true);
+                hintCountLabel.gameObject.SetActive(false);
             }
             else
             {
-                EnableHintButton();
                 hintAdd.SetActive(false);
+                hintCountLabel.gameObject.SetActive(true);
             }
 
             hintCountLabel.text = count.ToString();
         }
+
     }
 }

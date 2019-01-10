@@ -514,6 +514,8 @@ namespace TurboLabz.Multiplayer
             playerInfoPanel.SetActive(true);
             opponentInfoPanel.SetActive(true);
             UpdateBotBar();
+
+            ToggleTopPanel(true);
         }
 
         private void UpdateInfoPostMove(MoveVO vo, bool isResume = false)

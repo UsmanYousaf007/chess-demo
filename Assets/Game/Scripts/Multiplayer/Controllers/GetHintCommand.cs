@@ -26,6 +26,8 @@ namespace TurboLabz.Multiplayer
 
         // Dispatch Signals
         [Inject] public RenderHintSignal renderHintSignal { get; set; }
+        [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
+        [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
 
         // Services
         [Inject] public IChessAiService chessAiService { get; set; }
@@ -33,6 +35,7 @@ namespace TurboLabz.Multiplayer
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         Chessboard chessboard;
 
@@ -63,6 +66,9 @@ namespace TurboLabz.Multiplayer
             vo.toSquare = chessboard.squares[to.file, to.rank];
             vo.availableHints = 0;
             renderHintSignal.Dispatch(vo);
+
+            updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+            consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
 
             Release();
         }
