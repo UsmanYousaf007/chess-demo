@@ -160,7 +160,7 @@ namespace TurboLabz.InstantFramework
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.FEATURE_SHOP_TAG, featureItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.UNDO_SHOP_TAG, undoItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.SAFE_MOVE_SHOP_TAG, undoItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.HINT_SHOP_TAG, hintItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG, hindsightItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG, specialBundleItems);

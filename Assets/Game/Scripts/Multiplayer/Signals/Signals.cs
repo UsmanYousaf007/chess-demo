@@ -75,4 +75,6 @@ namespace TurboLabz.Multiplayer
     public class EnableGameChatSignal : Signal<ChatVO> {}
     public class SetSafeModeSignal : Signal { }
     public class SafeMoveSignal : Signal<bool> { }
+    public class RenderHintSignal : Signal<HintVO> { }
+    public class GetHintSignal : Signal<bool> { }
 }

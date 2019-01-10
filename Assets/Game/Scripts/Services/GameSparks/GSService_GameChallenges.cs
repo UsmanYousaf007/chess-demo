@@ -68,6 +68,10 @@ namespace TurboLabz.InstantFramework
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
 
             chessboard.isPlayerTurn = (gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID) == playerModel.id) ? true : false;
+            if (!chessboard.isPlayerTurn)
+            {
+                chessboard.previousPlayerTurnFen = chessboard.fen;
+            }
             chessboard.fen = gameData.GetString(GSBackendKeys.FEN);
             GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
 

@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ResetActiveMatchSignal>().To<ResetActiveMatchCommand>();
             commandBinder.Bind<SetSafeModeSignal>().To<SetSafeModeCommand>();
             commandBinder.Bind<SafeMoveSignal>().To<SafeMoveCommand>();
+            commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
 
 
             // Bind signals for dispatching to/from mediators
@@ -59,6 +60,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateMoveForResumeSignal>().ToSingleton();
             injectionBinder.Bind<EnableGameChatSignal>().ToSingleton();
             injectionBinder.Bind<DisplayChatMessageSignal>().ToSingleton();
+            injectionBinder.Bind<RenderHintSignal>().ToSingleton();
 
 
             // Bind signals for dipatching from command to command

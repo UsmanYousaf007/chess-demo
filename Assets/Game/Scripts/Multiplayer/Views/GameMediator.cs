@@ -41,6 +41,7 @@ namespace TurboLabz.Multiplayer
             OnRegisterBotBar();
             OnRegisterChat();
             OnRegisterSafeMove();
+            OnRegisterHint();
         }
 
         public override void OnRemove()

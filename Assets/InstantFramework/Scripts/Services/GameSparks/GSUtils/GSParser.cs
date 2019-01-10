@@ -74,7 +74,7 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.SKIN_SHOP_TAG,
                 GSBackendKeys.ShopItem.COINS_SHOP_TAG,
                 GSBackendKeys.ShopItem.FEATURE_SHOP_TAG,
-                GSBackendKeys.ShopItem.UNDO_SHOP_TAG,
+                GSBackendKeys.ShopItem.SAFE_MOVE_SHOP_TAG,
                 GSBackendKeys.ShopItem.HINT_SHOP_TAG,
                 GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG
             };

@@ -179,7 +179,7 @@ namespace TurboLabz.InstantFramework
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
             public const string FEATURE_SHOP_TAG = "Feature";
-            public const string UNDO_SHOP_TAG = "UndoPack";
+            public const string SAFE_MOVE_SHOP_TAG = "SafeMovePack";
             public const string HINT_SHOP_TAG = "HintPack";
             public const string HINDSIGHT_SHOP_TAG = "HindsightPack";
             public const string SPECIAL_BUNDLE_SHOP_TAG = "SpecialBundle";
@@ -304,6 +304,12 @@ namespace TurboLabz.InstantFramework
             public const string MATCH_RUNNER_UP_AD_REWARD = "matchRunnerUpAdReward";
         }
 
+        public static class PowerUp
+        {
+            public const string SAFE_MOVE = "PowerUpSafeMove";
+            public const string HINT = "PowerUpHint";
+            public const string HINDSIGHT = "PowerUpHindsight";
+        }
     }
 
     // TODO: Organize these like the event data keys, consider class renaming

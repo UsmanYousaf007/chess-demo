@@ -58,6 +58,7 @@ namespace TurboLabz.Multiplayer
         public DateTime lastMoveTime { get; set; }
         public bool inSafeMode { get; set; }
         public string fen { get; set; }
+        public string previousPlayerTurnFen { get; set; }
 
         // Overrides
         public string overrideFen { get; set; }
@@ -98,6 +99,7 @@ namespace TurboLabz.Multiplayer
             opponentLevel = 0;
             opponentMoveRenderComplete = false;
             fen = null;
+            previousPlayerTurnFen = null;
             timersStopped = false;
             notation = new List<string>();
             moveList = new List<ChessMove>();
