@@ -21,6 +21,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
 
+        [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
+        [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
+        [Inject] public NewFriendSignal newFriendSignal { get; set; }
+
         public Transform listContainer;
 		public GameObject friendBarPrefab;
 
@@ -91,6 +95,8 @@ namespace TurboLabz.InstantFramework
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
         private string eloPrefix;
+        private string startGameFriendId;
+        private bool startGameRanked;
 
         public void Init()
         {
@@ -129,6 +135,8 @@ namespace TurboLabz.InstantFramework
 
         public void ShowConnectFacebook(bool showConnectInfo)
         {
+            startGameFriendId = null;
+
             if (showConnectInfo)
             {
                 listContainer.gameObject.SetActive(true);
@@ -156,27 +164,64 @@ namespace TurboLabz.InstantFramework
                 facebookConnectAnim.SetActive(false);
                 uiBlocker.SetActive(false);
                 scrollRect.verticalNormalizedPosition = 1f;
+
+                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
+            }
+        }
+
+        public void CreateGame(string friendId, bool isRanked)
+        {
+            // Facebook not logged in
+            if (!facebookService.isLoggedIn())
+            {
+                startGameFriendId = friendId;
+                startGameRanked = isRanked;
+                OnFacebookButtonClicked();
+                return;
+            }
+
+            // Friend needs to be added
+            if (friendId != null && !bars.ContainsKey(friendId))
+            {
+                newFriendSignal.Dispatch(friendId);
+                return;
+            }
+
+            // Start this game
+            if (friendId != null)
+            {
+                playButtonClickedSignal.Dispatch(friendId, isRanked);
+                startGameFriendId = null;
             }
         }
 
         public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
         {
+            facebookConnectAnim.SetActive(false);
+            uiBlocker.SetActive(false);
+
             if (isSuccessful)
             {
-                reloadFriendsSignal.Dispatch();
-
                 // Player attempted to start a game
-                if (actionBar != null)
+                if (startGameFriendId != null)
                 {
-                    ShowConfirmGameDlg(actionBar);
+                    CreateGame(startGameFriendId, startGameRanked);
                 }
             }
             else
             {
                 ShowConnectFacebook(true);
+                refreshCommunitySignal.Dispatch();
             }
         }
 
+        public void NewFriendAdded(string friendId)
+        {
+            if (startGameFriendId == friendId)
+            {
+                CreateGame(startGameFriendId, startGameRanked);
+            }
+        }
 
         public void AddFriends(Dictionary<string, Friend> friends, bool isCommunity)
         {
@@ -193,8 +238,8 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity)
 		{
-		    // create bar
-			GameObject friendBarObj = Instantiate(friendBarPrefab);
+            // create bar
+            GameObject friendBarObj = Instantiate(friendBarPrefab);
             friendBarObj.GetComponent<SkinLink>().InitPrefabSkin();
 
             // update bar values
@@ -207,6 +252,7 @@ namespace TurboLabz.InstantFramework
             friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId, friendBar.notNowButton));
             friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId, friendBar.cancelButton));
             friendBar.okButton.onClick.AddListener(() => OkButtonClicked(friend.playerId, friendBar.okButton));
+            friendBar.viewButton.onClick.AddListener(() => PlayButtonClicked(friendBar));
             friendBar.removeCommunityFriendButton.onClick.AddListener(() => RemoveCommunityFriendButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
@@ -269,6 +315,8 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
+
+            CloseNewGameDlg(vo.playerId);
 
             FriendBar friendBar = bars[vo.playerId].GetComponent<FriendBar>();
             friendBar.lastActionTime = vo.lastActionTime;
@@ -439,6 +487,7 @@ namespace TurboLabz.InstantFramework
 
         void OnFacebookButtonClicked()
         {
+            ClearCommunity();
             facebookButtonClickedSignal.Dispatch();
             facebookConnectAnim.SetActive(true);
             uiBlocker.SetActive(true);
@@ -467,15 +516,7 @@ namespace TurboLabz.InstantFramework
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
                 actionBar = bar;
-
-                if (!facebookService.isLoggedIn())
-                {
-                    OnFacebookButtonClicked();
-                }
-                else
-                {
-                    ShowConfirmGameDlg(actionBar);
-                }
+                ShowConfirmGameDlg(actionBar);
             }
             else
             {
@@ -573,17 +614,27 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmRankedGameBtnClicked()
         {
-            playButtonClickedSignal.Dispatch(actionBar.friendInfo.playerId, true);
+            confirmNewGameDlg.SetActive(false);
+            CreateGame(actionBar.friendInfo.playerId, true);
         }
 
         void ConfirmFriendlyGameBtnClicked()
         {
-            playButtonClickedSignal.Dispatch(actionBar.friendInfo.playerId, false);
+            confirmNewGameDlg.SetActive(false);
+            CreateGame(actionBar.friendInfo.playerId, false);
         }
 
         void ConfirmNewGameDlgNo()
         {
             confirmNewGameDlg.SetActive(false);
+        }
+
+        void CloseNewGameDlg(string friendId)
+        {
+            if (confirmNewGameDlg.activeSelf && actionBar != null && actionBar.friendInfo.playerId == friendId)
+            {
+                confirmNewGameDlg.SetActive(false);
+            }
         }
     }
 }

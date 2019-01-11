@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
     public class AddUnreadMessagesToBarSignal : Signal<string> {}
     public class ClearUnreadMessagesFromBarSignal : Signal<string> {}
     public class RestorePurchasesSignal : Signal {}
+    public class NewFriendAddedSignal : Signal<string> {}
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}

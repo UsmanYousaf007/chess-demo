@@ -75,6 +75,7 @@ namespace TurboLabz.Multiplayer
         List<Image> opponentEmptyPics = new List<Image>();
 
         bool chessboardBlockerRestoreState = false;
+        bool hasUnreadMessages = false;
 
         public void InitChat()
         {
@@ -95,9 +96,11 @@ namespace TurboLabz.Multiplayer
             #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
             editorSubmit.onClick.AddListener(()=>{OnSubmit(inputField.text);});
-            #else
+#else
             editorSubmit.gameObject.SetActive(false);
-            #endif
+#endif
+
+            hasUnreadMessages = false;
         }
 
         public void OnParentShowChat()
@@ -133,6 +136,7 @@ namespace TurboLabz.Multiplayer
             unreadMessagesIndicator.SetActive(vo.hasUnreadMessages);
             opponentId = vo.opponentId;
             playerId = vo.playerId;
+            hasUnreadMessages = vo.hasUnreadMessages;
 
             opponentOnlineStatus.sprite = opponentInGameOnlineStatus.sprite;
 
@@ -175,6 +179,12 @@ namespace TurboLabz.Multiplayer
 
         public void ShowChatDlg()
         {
+            if (hasUnreadMessages)
+            {
+                showAdOnBack = true;
+                hasUnreadMessages = false;
+            }
+
             chatPanel.SetActive(true);
             minimizeChatDlgBtn.gameObject.SetActive(true);
             maximizeChatDlgBtn.gameObject.SetActive(false);
@@ -188,8 +198,6 @@ namespace TurboLabz.Multiplayer
 
             chessboardBlockerRestoreState = chessboardBlocker.activeSelf;
             chessboardBlocker.SetActive(true);
-
-            showAdOnBack = true;
         }
 
         public void HideChatDlg()
@@ -233,6 +241,8 @@ namespace TurboLabz.Multiplayer
                 inputField.text = "";
 
                 chatSubmitSignal.Dispatch(message);
+
+                showAdOnBack = true;
             }
         }
 

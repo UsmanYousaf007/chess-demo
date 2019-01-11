@@ -117,6 +117,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ModelsSaveToDiskSignal>().ToSingleton();
             injectionBinder.Bind<ModelsLoadFromDiskSignal>().ToSingleton();
             injectionBinder.Bind<ModelsResetSignal>().ToSingleton();
+            injectionBinder.Bind<NewFriendAddedSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

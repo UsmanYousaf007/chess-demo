@@ -34,6 +34,8 @@ namespace TurboLabz.InstantFramework
         public Text cancelButtonLabel;
         public Button okButton;
         public Text okButtonLabel;
+        public Button viewButton;
+        public Text viewButtonLabel;
         public Button removeCommunityFriendButton;
         public Text newMatchGreetingLabel;
         public GameObject newMatchGreeting;
@@ -95,7 +97,6 @@ namespace TurboLabz.InstantFramework
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
 
-
                     if (isPlayerTurn)
                     {
                         generalStatus.text = strYourMove;
@@ -126,30 +127,57 @@ namespace TurboLabz.InstantFramework
                 case LongPlayStatus.PLAYER_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = isGameCanceled ? strCanceled: strYouWon;
-                    okButton.gameObject.SetActive(true);
-                    okButton.interactable = true;
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
+
+                    if (isGameCanceled)
+                    {
+                        okButton.gameObject.SetActive(true);
+                        okButton.interactable = true;
+                    }
+                    else
+                    {
+                        viewButton.gameObject.SetActive(true);
+                        viewButton.interactable = true;
+                    }
 
                     break;
 
                 case LongPlayStatus.OPPONENT_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = isGameCanceled ? strCanceled : strYouLost;
-                    okButton.gameObject.SetActive(true);
-                    okButton.interactable = true;
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
+
+                    if (isGameCanceled)
+                    {
+                        okButton.gameObject.SetActive(true);
+                        okButton.interactable = true;
+                    }
+                    else
+                    {
+                        viewButton.gameObject.SetActive(true);
+                        viewButton.interactable = true;
+                    }
 
                     break;
 
                 case LongPlayStatus.DRAW:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strDraw;
-                    okButton.gameObject.SetActive(true);
-                    okButton.interactable = true;
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
+
+                    if (isGameCanceled)
+                    {
+                        okButton.gameObject.SetActive(true);
+                        okButton.interactable = true;
+                    }
+                    else
+                    {
+                        viewButton.gameObject.SetActive(true);
+                        viewButton.interactable = true;
+                    }
 
                     break;
 
@@ -187,6 +215,7 @@ namespace TurboLabz.InstantFramework
             newMatchGreeting.gameObject.SetActive(false);
             rankedIcon.SetActive(false);
             friendlyIcon.SetActive(false);
+            viewButton.gameObject.SetActive(false);
         }
 
         public void Init(ILocalizationService localizationService)
@@ -209,6 +238,7 @@ namespace TurboLabz.InstantFramework
             strDraw = localizationService.Get(LocalizationKey.LONG_PLAY_DRAW);
             strCanceled = localizationService.Get(LocalizationKey.LONG_PLAY_CANCELED);
             strYourMove = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+            viewButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_VIEW);
 
             stringsLoaded = true;
         }

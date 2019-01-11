@@ -298,9 +298,10 @@ namespace TurboLabz.Multiplayer
 			
         private void OnResultsExitButtonClicked()
         {
+            showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
+
             if (isLongPlay)
             {
-                showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
                 backToFriendsSignal.Dispatch();
             }
             else

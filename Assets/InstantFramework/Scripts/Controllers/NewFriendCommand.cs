@@ -16,6 +16,7 @@ namespace TurboLabz.InstantGame
 
         // dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public NewFriendAddedSignal newFriendAddedSignal { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -36,7 +37,10 @@ namespace TurboLabz.InstantGame
             {
                 backendErrorSignal.Dispatch(result);
             }
-                
+            else
+            {
+                newFriendAddedSignal.Dispatch(friendId);
+            }    
 
             Release();
         }

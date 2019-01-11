@@ -87,6 +87,12 @@ namespace TurboLabz.InstantFramework
             view.AddFriends(friends, isCommunity);
 		}
 
+        [ListensTo(typeof(NewFriendAddedSignal))]
+        public void OnNewFriendAdded(string friendId)
+        {
+            view.NewFriendAdded(friendId);
+        }
+
         [ListensTo(typeof(UpdateFriendPicSignal))]
         public void OnUpdateFriendPic(string playerId, Sprite sprite)
         {

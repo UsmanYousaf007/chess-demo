@@ -77,11 +77,17 @@ namespace TurboLabz.InstantFramework
 
                 // If it is not the active challenge, we are done updating the challenge state
                 if (challengeId != matchInfoModel.activeChallengeId)
+                {
                     return;
+                }
+
+                if (matchInfoModel.activeMatch != null && playerModel.id == matchInfoModel.activeMatch.challengedId)
+                {
+                    return;
+                }
 
                 // If I'm the challenger and viewing the board, and it is the opponents move,
                 // then the opponents clock should start ticking.
-
                 RunTimeControlVO vo;
                 vo.pauseAfterSwap = false;
                 vo.waitingForOpponentToAccept = false;
