@@ -107,9 +107,12 @@ namespace TurboLabz.Multiplayer
                 }
             }
 
-            // Initialize the hint button
+            // Initialize the game powerups
             cmd.updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount);
             cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+
+            cmd.updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount);
+            cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)
@@ -211,7 +214,6 @@ namespace TurboLabz.Multiplayer
             }
 
             SendPlayerTurn(cmd, chessboard.playerMoveFlag, false, false, false, false);
-            cmd.turnSwapSignal.Dispatch(false);
             return new CCSOpponentTurn();
         }
 
@@ -375,6 +377,18 @@ namespace TurboLabz.Multiplayer
         {
             cmd.activeChessboard.opponentMoveRenderComplete = true;
             cmd.turnSwapSignal.Dispatch(true);
+        }
+
+        protected void PlayerMoveCompleted(ChessboardCommand cmd)
+        {
+            // Nows when Ai takes its turn
+            if (cmd.activeChessboard.isAiGame)
+            {
+                cmd.aiTurnSignal.Dispatch();
+            }
+
+            cmd.turnSwapSignal.Dispatch(false);
+            cmd.hindsightAvailableSignal.Dispatch(true);
         }
     }
 }

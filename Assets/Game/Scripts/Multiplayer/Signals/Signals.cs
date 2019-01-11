@@ -79,4 +79,6 @@ namespace TurboLabz.Multiplayer
     public class GetHintSignal : Signal<bool> { }
     public class TurnSwapSignal : Signal<bool> { }
     public class UpdateHintCountSignal : Signal<int> { }
+    public class UpdateHindsightCountSignal : Signal<int> { }
+    public class HindsightAvailableSignal : Signal<bool> { }
 }

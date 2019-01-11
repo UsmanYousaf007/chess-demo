@@ -63,6 +63,7 @@ namespace TurboLabz.CPU
             vo.fromSquare = chessboardModel.squares[from.file, from.rank];
             vo.toSquare = chessboardModel.squares[to.file, to.rank];
             vo.availableHints = chessboardModel.availableHints;
+            vo.isHindsight = false;
             renderHintSignal.Dispatch(vo);
 
             Release();

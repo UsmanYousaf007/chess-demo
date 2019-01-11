@@ -53,7 +53,9 @@ namespace TurboLabz.Multiplayer
         [Inject] public UnregisterSignal unregisterSignal { get; set; }
         [Inject] public ResetCapturedPiecesSignal resetCapturedPiecesSignal { get; set; }
         [Inject] public TurnSwapSignal turnSwapSignal { get; set; }
+        [Inject] public HindsightAvailableSignal hindsightAvailableSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
+        [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }

@@ -28,6 +28,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public RenderHintSignal renderHintSignal { get; set; }
         [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
+        [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
 
         // Services
         [Inject] public IChessAiService chessAiService { get; set; }
@@ -45,6 +46,7 @@ namespace TurboLabz.Multiplayer
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             string fen = isHindsight ? chessboard.previousPlayerTurnFen : chessboard.fen;
+            LogUtil.Log("Previous player turn fen:" + chessboard.previousPlayerTurnFen);
 
             chessAiService.SetPosition(fen);
 
@@ -65,10 +67,19 @@ namespace TurboLabz.Multiplayer
             vo.fromSquare = chessboard.squares[from.file, from.rank];
             vo.toSquare = chessboard.squares[to.file, to.rank];
             vo.availableHints = 0;
+            vo.isHindsight = isHindsight;
             renderHintSignal.Dispatch(vo);
 
-            updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-            consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+            if (isHindsight)
+            {
+                updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+            }
+            else
+            {
+                updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+            }
 
             Release();
         }

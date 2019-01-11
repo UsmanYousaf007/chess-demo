@@ -41,5 +41,7 @@ namespace TurboLabz.InstantFramework
         bool OwnsVGood(string key);
 
         int PowerUpHintCount { get; }
+        int PowerUpHindsightCount { get; }
+        int PowerUpSafeMoveCount { get; }
     }
 }

@@ -16,19 +16,16 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-        public Signal<bool> hintClickedSignal = new Signal<bool>();
+        public Signal hintClickedSignal = new Signal();
 
         [Header("Hint")]
         public GameObject hintFromIndicator;
         public GameObject hintToIndicator;
         public Button hintButton;
-        public Button hindsightButton;
         public Text hintButtonLabel;
         public Text hintCountLabel;
         public GameObject hintAdd;
         public GameObject hintThinking;
-
-        public GameObject hindsightThinking;
 
         private int availableHints;
 
@@ -36,9 +33,7 @@ namespace TurboLabz.Multiplayer
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hintButton.onClick.AddListener(HintButtonClicked);
-            hindsightButton.onClick.AddListener(HindsightButtonClicked);
             hintThinking.SetActive(false);
-            hindsightThinking.SetActive(false);
         }
 
         public void OnParentShowHint()
@@ -61,7 +56,6 @@ namespace TurboLabz.Multiplayer
             //UpdateHintCount(vo.availableHints);
             //DisableHintButton();
             hintThinking.SetActive(false);
-            hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
         }
@@ -71,7 +65,6 @@ namespace TurboLabz.Multiplayer
             hintFromIndicator.SetActive(false);
             hintToIndicator.SetActive(false);
             hintThinking.SetActive(false);
-            hindsightThinking.SetActive(false);
         }
 
         private void HintButtonClicked()
@@ -84,15 +77,8 @@ namespace TurboLabz.Multiplayer
             {
                 hintThinking.SetActive(true);
                 EnableModalBlocker(false);
-                hintClickedSignal.Dispatch(false);
+                hintClickedSignal.Dispatch();
             }
-        }
-
-        private void HindsightButtonClicked()
-        {
-            hindsightThinking.SetActive(true);
-            EnableModalBlocker(false);
-            hintClickedSignal.Dispatch(true);
         }
 
         public void ToggleHintButton(bool isPlayerTurn)

@@ -120,6 +120,12 @@ namespace TurboLabz.InstantFramework
                     matchInfo.isRanked = true;
                 }
             }
+            // quick matches are always ranked (for now)
+            else
+            {
+                matchInfo.isRanked = true;
+            }
+
             if (matchData.ContainsKey(GSBackendKeys.Match.CREATE_TIME))
             {
                 matchInfo.createTimeMs = matchData.GetLong(GSBackendKeys.Match.CREATE_TIME).Value;

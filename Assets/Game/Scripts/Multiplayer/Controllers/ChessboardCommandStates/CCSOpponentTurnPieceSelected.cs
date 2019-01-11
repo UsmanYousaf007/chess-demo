@@ -54,12 +54,7 @@ namespace TurboLabz.Multiplayer
             // on the backend
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)
             {
-                // Nows when Ai takes its turn
-                if (cmd.activeChessboard.isAiGame)
-                {
-                    cmd.aiTurnSignal.Dispatch();
-                }
-
+                PlayerMoveCompleted(cmd);
                 return null;
             }
             // We received an opponent moved event from the backend service

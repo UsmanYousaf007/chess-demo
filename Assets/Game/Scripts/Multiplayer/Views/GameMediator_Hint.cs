@@ -13,7 +13,6 @@ namespace TurboLabz.Multiplayer
     {
         //Dispatch Signals
         [Inject] public GetHintSignal getHintSignal { get; set; }
-        [Inject] public NavigatorIgnoreEventSignal navigatorIgnoreEventSignal { get; set; }
 
         private void OnRegisterHint()
         {
@@ -21,17 +20,18 @@ namespace TurboLabz.Multiplayer
             view.hintClickedSignal.AddListener(OnGetHint);
         }
 
-        private void OnGetHint(bool isHindsight)
+        private void OnGetHint()
         {
-            navigatorIgnoreEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            getHintSignal.Dispatch(isHindsight);
+            getHintSignal.Dispatch(false);
         }
 
         [ListensTo(typeof(RenderHintSignal))]
         public void OnRenderHint(HintVO vo)
         {
-            view.RenderHint(vo);
-            navigatorIgnoreEventSignal.Dispatch(NavigatorEvent.NONE);
+            if (!vo.isHindsight)
+            {
+                view.RenderHint(vo);
+            }
         }
 
         [ListensTo(typeof(TurnSwapSignal))]
@@ -45,23 +45,5 @@ namespace TurboLabz.Multiplayer
         {
             view.UpdateHintCount(count);
         }
-
-
-        /*
-
-        [ListensTo(typeof(DisableHintButtonSignal))]
-        public void OnDisableHintButton()
-        {
-            view.DisableHintButton();
-        }
-
-       
-
-        private void OnRemoveHint()
-        {
-            view.hintClickedSignal.RemoveAllListeners();
-        }
-        */
-
     }
 }
