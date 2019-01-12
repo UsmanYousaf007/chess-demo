@@ -61,7 +61,7 @@ namespace TurboLabz.InstantFramework
             Print("tap_invite");
         }
 
-        public void TapShopSkin(string name)
+        public void TapShopItem(string name)
         {
             Dictionary<string, object> p = new Dictionary<string, object>
             {

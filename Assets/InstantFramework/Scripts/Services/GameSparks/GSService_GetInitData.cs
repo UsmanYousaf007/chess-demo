@@ -138,7 +138,7 @@ namespace TurboLabz.InstantFramework
         private void FillStoreSettingsModel(GSData storeSettingsData)
         {
             List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SKIN_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> skinItems = PopulateSkinStoreItems(skinShopItemsData);
+            IOrderedDictionary<string, StoreItem> skinItems = PopulateStoreItems(skinShopItemsData);
 
             List<GSData> currencyShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.COINS_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> currencyItems = PopulateCurrencyStoreItems(currencyShopItemsData);
@@ -147,13 +147,13 @@ namespace TurboLabz.InstantFramework
             IOrderedDictionary<string, StoreItem> featureItems = PopulateFeatureStoreItems(featureShopItemsData);
 
             List<GSData> undoShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SAFE_MOVE_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> undoItems = PopulateCurrencyStoreItems(undoShopItemsData);
+            IOrderedDictionary<string, StoreItem> undoItems = PopulateStoreItems(undoShopItemsData);
 
             List<GSData> hintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.HINT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> hintItems = PopulateCurrencyStoreItems(hintShopItemsData);
+            IOrderedDictionary<string, StoreItem> hintItems = PopulateStoreItems(hintShopItemsData);
 
             List<GSData> hindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> hindsightItems = PopulateCurrencyStoreItems(hindsightShopItemsData);
+            IOrderedDictionary<string, StoreItem> hindsightItems = PopulateStoreItems(hindsightShopItemsData);
 
             List<GSData> specialBundleShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> specialBundleItems = PopulateCurrencyStoreItems(specialBundleShopItemsData);
@@ -167,20 +167,14 @@ namespace TurboLabz.InstantFramework
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG, specialBundleItems);
         }
 
-        private IOrderedDictionary<string, StoreItem> PopulateSkinStoreItems(List<GSData> skinSettingsData)
+        private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData)
         {
             IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
 
-            foreach (GSData itemData in skinSettingsData)
+            foreach (GSData itemData in itemSettingsData)
             {
-                var item = new SkinStoreItem();
+                var item = new StoreItem();
                 GSParser.PopulateStoreItem(item, itemData);
-                GSData properties = GSParser.GetVGoodProperties(itemData);
-                if (properties != null)
-                {
-                    item.unlockAtLevel = GSParser.GetSafeInt(properties, GSBackendKeys.SHOP_ITEM_UNLOCKATLEVEL);
-                }
-
                 items.Add(item.key, item);
             }
 
@@ -193,21 +187,11 @@ namespace TurboLabz.InstantFramework
 
             foreach (GSData itemData in currencySetingsData)
             {
-                var item = new CurrencyStoreItem();
+                var item = new StoreItem();
                 GSParser.PopulateStoreItem(item, itemData);
 
                 item.currency2Payout = item.currency2Cost;
                 item.currency2Cost = 0;
-
-                GSData properties = GSParser.GetVGoodProperties(itemData);
-                if (properties != null)
-                {
-                    item.promotionId = GSParser.GetSafeString(properties, GSBackendKeys.SHOP_ITEM_PROMOTION_ID);
-                    item.bonusXpPercentage = GSParser.GetSafeFloat(properties, GSBackendKeys.SHOP_ITEM_BONUS_XP_PERCENTAGE);
-                    item.hintsCount = GSParser.GetSafeInt(properties, GSBackendKeys.SHOP_ITEM_HINTS_COUNT);
-                    item.lossRecoveryPercentage = GSParser.GetSafeFloat(properties, GSBackendKeys.SHOP_ITEM_LOSS_RECOVERY_PERCENTAGE);
-                    item.bonusAmount = GSParser.GetSafeInt(properties,GSBackendKeys.SHOP_ITEM_BONUS_AMOUNT);
-                }
 
                 items.Add(item.key, item);
             }

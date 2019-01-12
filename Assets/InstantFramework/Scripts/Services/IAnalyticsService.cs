@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
         void VisitFriends();
         void VisitFriendsProfile();
 
-        void TapShopSkin(string name);
+        void TapShopItem(string name);
         void TapCommunityRefresh();
         void TapShare();
         void TapHelp();

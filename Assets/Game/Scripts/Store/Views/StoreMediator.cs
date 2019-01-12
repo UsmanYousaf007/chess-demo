@@ -32,7 +32,7 @@ namespace TurboLabz.InstantGame
         public override void OnRegister()
 		{
 			view.Init();
-			view.skinItemClickedSignal.AddListener(OnSkinItemClicked);
+			view.storeItemClickedSignal.AddListener(OnStoreItemClicked);
 
 			OnRegisterBuy();
 			OnRegisterNotEnoughBucks();
@@ -40,7 +40,7 @@ namespace TurboLabz.InstantGame
 
 		public override void OnRemove()
 		{
-			view.skinItemClickedSignal.RemoveAllListeners ();
+			view.storeItemClickedSignal.RemoveAllListeners ();
 
 			OnRemoveBuy();
 			OnRemoveNotEnoughBucks();
@@ -107,9 +107,9 @@ namespace TurboLabz.InstantGame
 			loadBuckPacksSignal.Dispatch();
 		}
 
-		private void OnSkinItemClicked(StoreItem item)
+		private void OnStoreItemClicked(StoreItem item)
 		{
-            analyticsService.TapShopSkin(item.displayName);
+            analyticsService.TapShopItem(item.displayName);
 
             // Purchase item after confirmation 
             purchaseStoreItemSignal.Dispatch(item.key, false);

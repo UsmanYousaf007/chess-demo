@@ -8,15 +8,15 @@ using UnityEngine.UI;
 
 namespace TurboLabz.InstantGame
 {
-	public class SkinShopItemPrefab : MonoBehaviour 
-	{
+    public class CoinShopItemPrefab : MonoBehaviour
+    {
         public string key;
 
         public Image thumbnail;
-		public Text displayName;
-		public Text price;
-		public Button button;
-		public Image bucksIcon;
-        public Image tick;
-	}
+        public Text displayName;
+        public Text price;
+        public Button button;
+        public Image bucksIcon;
+        public Text payout;
+    }
 }

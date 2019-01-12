@@ -104,18 +104,4 @@ namespace TurboLabz.InstantFramework
             remoteProductPrice = null;
         }
     }
-
-    public class SkinStoreItem : StoreItem
-    {
-        public int unlockAtLevel;
-    }
-
-    public class CurrencyStoreItem : StoreItem
-    {
-        public string promotionId;
-        public float bonusXpPercentage;
-        public int hintsCount;
-        public float lossRecoveryPercentage;
-        public int bonusAmount;
-    }
 }
