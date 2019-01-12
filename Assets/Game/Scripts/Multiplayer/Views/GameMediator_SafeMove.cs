@@ -53,5 +53,17 @@ namespace TurboLabz.Multiplayer
                 view.HideSafeMoveDlg();
             }
         }
+
+        [ListensTo(typeof(TurnSwapSignal))]
+        public void OnToggleSafeMoveButton(bool isPlayerTurn)
+        {
+            view.ToggleSafeMoveButton(isPlayerTurn);
+        }
+
+        [ListensTo(typeof(UpdateSafeMoveCountSignal))]
+        public void OnUpdateSafeMoveCount(int count)
+        {
+            view.UpdateSafeMoveCount(count);
+        }
     }
 }
