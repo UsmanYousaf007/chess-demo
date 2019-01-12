@@ -10,11 +10,13 @@
 /// @description
 /// [add_description_here]
 
+using System.Collections;
 using strange.extensions.command.impl;
 using strange.extensions.promise.api;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.Multiplayer
 {
@@ -33,18 +35,24 @@ namespace TurboLabz.Multiplayer
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
-        private Chessboard chessboard;
+        // Utils
+        [Inject] public IRoutineRunner routineRunner { get; set; }
+
+        Chessboard chessboard;
+        float startTime;
+        AiMoveInputVO vo;
 
         public override void Execute()
         {
             Retain();
+            startTime = Time.time;
 
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             ++chessboard.aiMoveNumber;
             chessAiService.SetPosition(chessService.GetFen());
 
-            AiMoveInputVO vo = new AiMoveInputVO();
+            vo = new AiMoveInputVO();
             vo.aiColor = chessboard.opponentColor;
             vo.playerColor = chessboard.playerColor;
             vo.lastPlayerMove = chessboard.lastPlayerMove;
@@ -88,6 +96,29 @@ namespace TurboLabz.Multiplayer
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
+            routineRunner.StartCoroutine(SimulateDelay(from, to, promo));
+        }
+
+        IEnumerator SimulateDelay(FileRank from, FileRank to, string promo)
+        {
+            float delay = 0f;
+
+            if (vo.aiMoveDelay == AiMoveDelay.CPU)
+            {
+                delay = AiMoveTimes.M_CPU;
+            }
+            else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_5M)
+            {
+                int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_5.Length - 1);
+                float[] delayRange = AiMoveTimes.M_5[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
+            }
+
+            float timeElapsed = Time.time - startTime;
+            delay -= timeElapsed;
+            delay = Mathf.Max(0, delay);
+            yield return new WaitForSecondsRealtime(delay);
+
             if (chessboard.aiWillResign &&
                 chessService.GetScore(chessboard.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD)
             {

@@ -27,6 +27,20 @@ namespace TurboLabz.Chess
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IChessService chessService { get; set; }
 
+        struct MoveRequest
+        {
+            public IPromise<FileRank, FileRank, string> promise;
+            public AiMoveInputVO vo;
+        }
+
+        public bool Busy
+        {
+            get
+            {
+                return aiMovePromise != null;
+            }
+        }
+
         private IPromise<FileRank, FileRank, string> aiMovePromise; 
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
@@ -41,21 +55,43 @@ namespace TurboLabz.Chess
 
         public IPromise<FileRank, FileRank, string> GetAiMove(AiMoveInputVO vo)
         {
-            // Save inputs
-            this.aiMoveInputVO = vo;
+            MoveRequest request;
+            request.promise = new Promise<FileRank, FileRank, string>();
+            request.vo = vo;
 
+            routineRunner.StartCoroutine(ProcessQueue(request));
+
+            return aiMovePromise;
+        }
+
+        private IEnumerator ProcessQueue(MoveRequest request)
+        {
+            while(Busy)
+            {
+                yield return null;
+            }
+
+            aiMoveInputVO = request.vo;
+            aiMovePromise = request.promise;
+            routineRunner.StartCoroutine(GetAiResult());
+        }
+
+        private IEnumerator GetAiResult()
+        {
             // Clear the results flag
             resultsReady = false;
 
             // Execute the move
-            string searchDepth = vo.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+            string searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
             AiLog("searchDepth = " + searchDepth);
             plugin.GoDepth(searchDepth);
 
-            // Read the results
-            aiMovePromise = new Promise<FileRank, FileRank, string>();
-            routineRunner.StartCoroutine(GetAiResult());
-            return aiMovePromise;
+            while (!resultsReady)
+            {
+                yield return null;
+            }
+
+            ExecuteAiMove();
         }
 
         public void Shutdown()
@@ -72,36 +108,6 @@ namespace TurboLabz.Chess
         private void ResultsReady()
         {
             resultsReady = true;
-        }
-
-        private IEnumerator GetAiResult()
-        {
-            float startTime = Time.time;
-
-            while (!resultsReady)
-            {
-                yield return null;
-            }
-
-            float delay = 0f;
-
-            if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.CPU)
-            {
-                delay = AiMoveTimes.M_CPU;
-            }
-            else if (aiMoveInputVO.aiMoveDelay == AiMoveDelay.ONLINE_5M)
-            {
-                int index = Mathf.Min(aiMoveInputVO.aiMoveNumber, AiMoveTimes.M_5.Length - 1);
-                float[] delayRange = AiMoveTimes.M_5[index];
-                delay = Random.Range(delayRange[0], delayRange[1]);
-            }
-                
-            float timeElapsed = Time.time - startTime;
-            delay -= timeElapsed;
-            delay = Mathf.Max(0, delay);
-            yield return new WaitForSecondsRealtime(delay);
-
-            ExecuteAiMove();
         }
 
         private void ExecuteAiMove()
