@@ -60,6 +60,7 @@ namespace TurboLabz.Multiplayer
         void OnSafeMoveBtnClicked()
         {
             safeMoveBtnClickedSignal.Dispatch();
+            DisableSafeMoveButton();
         }
 
         void OnSafeMoveConfirmClicked()
@@ -70,6 +71,45 @@ namespace TurboLabz.Multiplayer
         void OnSafeMoveUndoClicked()
         {
             safeMoveUndoClickedSignal.Dispatch();
+        }
+
+        public void ToggleSafeMoveButton(bool isPlayerTurn)
+        {
+            if (isPlayerTurn)
+            {
+                EnableSafeMoveButton();
+            }
+            else
+            {
+                DisableSafeMoveButton();
+            }
+        }
+
+        public void DisableSafeMoveButton()
+        {
+            safeMoveBtn.interactable = false;
+        }
+
+        private void EnableSafeMoveButton()
+        {
+            safeMoveBtn.interactable = true;
+        }
+
+        public void UpdateSafeMoveCount(int count)
+        {
+            if (count == 0)
+            {
+                DisableSafeMoveButton();
+                safeMoveAdd.SetActive(true);
+                safeMoveCountTxt.gameObject.SetActive(false);
+            }
+            else
+            {
+                safeMoveAdd.SetActive(false);
+                safeMoveCountTxt.gameObject.SetActive(true);
+            }
+
+            safeMoveCountTxt.text = count.ToString();
         }
     }
 }

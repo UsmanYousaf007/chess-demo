@@ -113,6 +113,8 @@ namespace TurboLabz.Multiplayer
 
             cmd.updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount);
             cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
+
+            cmd.updateSafeMoveCountSignal.Dispatch(playerModel.PowerUpSafeMoveCount);
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)
