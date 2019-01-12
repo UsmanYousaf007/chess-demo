@@ -113,13 +113,6 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "BACK TO GAME" },
 				{ LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "HOME" },
-                { LocalizationKey.CPU_FREE_BUCKS_REWARD_OK, "OK" },
-                { LocalizationKey.CPU_FREE_BUCKS_REWARD_TITLE, "Reward Coins" },
-                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET, "Free Coins" },
-                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_SUBLABEL, "Unlock Themes" },
-                { LocalizationKey.CPU_FREE_BUCKS_BONUS, "Coin Bonus x{0}" },
-                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE, "Available Soon" },
-                { LocalizationKey.CPU_FREE_BUCKS_BUTTON_AVAILABLE, "Available In" },
 
                 #endregion
 

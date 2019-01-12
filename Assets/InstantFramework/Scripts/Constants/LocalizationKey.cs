@@ -109,13 +109,6 @@ namespace TurboLabz.InstantFramework
         public const string CPU_RESULTS_CLOSE_BUTTON = "cpuResultsCloseButton";
 		public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
         public const string CPU_RESULTS_EXIT_BUTTON = "cpuResultsExitButton";
-        public const string CPU_FREE_BUCKS_REWARD_OK = "cpuFreeBucksRewardOk";
-        public const string CPU_FREE_BUCKS_REWARD_TITLE = "cpuFreeBucksRewardTitle";
-        public const string CPU_FREE_BUCKS_BUTTON_GET = "cpuFreeBucksButtonGet";
-        public const string CPU_FREE_BUCKS_BUTTON_SUBLABEL = "cpuFreeBucksButtonSubLabel";
-        public const string CPU_FREE_BUCKS_BONUS = "cpuFreeBucksBonus";
-        public const string CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE = "cpuFreeBucksButtonNotAvailable";
-        public const string CPU_FREE_BUCKS_BUTTON_AVAILABLE = "cpuFreeBucksButtonAvailable";
 
         #endregion 
 

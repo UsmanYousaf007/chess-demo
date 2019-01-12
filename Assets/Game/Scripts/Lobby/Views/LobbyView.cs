@@ -49,9 +49,6 @@ namespace TurboLabz.InstantGame
         public Button playCPUButton;
         public Text playCPUButtonLabel;
 
-        public Button freeBucksButton;
-        public Text freeBucksButtonLabel;
-        public Text freeBucksButtonSubLabel;
         public GameObject adCounter;
         public Text adCounterLabel;
         public Text adBonusLabel;
@@ -72,16 +69,9 @@ namespace TurboLabz.InstantGame
         public Signal playMultiplayerButtonClickedSignal = new Signal();
         public Signal playFriendsButtonClickedSignal = new Signal();
 		public Signal themesButtonClickedSignal = new Signal();
-        public Signal freeBucksButtonClickedSignal = new Signal();
-        public Signal freeBucksRewardOkButtonClickedSignal = new Signal();
         public Signal statsButtonClickedSignal = new Signal();
 
         public Signal<string> devFenValueChangedSignal = new Signal<string>();
-        public Signal freeBucksUpdateAdsSignal = new Signal();
-
-        private Coroutine waitCR;
-        private Coroutine waitForAdsAvailabilityCR;
-        private const int ADS_AVAILABILITY_RETRY_SECONDS = 3;
 
         public void Init()
         {
@@ -90,7 +80,6 @@ namespace TurboLabz.InstantGame
             playMultiplayerButton.onClick.AddListener(OnPlayMultiplayerButtonClicked);
             playFriendsButton.onClick.AddListener(OnPlayFriendsButtonClicked);
             playCPUButton.onClick.AddListener(OnPlayCPUButtonClicked);
-		    freeBucksButton.onClick.AddListener(OnFreeBucksButtonClicked);
         
             devFen.onValueChanged.AddListener(OnDevFenValueChanged);
 
@@ -99,7 +88,6 @@ namespace TurboLabz.InstantGame
             playMultiplayerButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
             playFriendsButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_FRIENDS);
             playCPUButtonLabel.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
-            freeBucksButtonSubLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_SUBLABEL);
 
 			currentStrengthLabel.color = Colors.YELLOW;
 			prevStrengthLabel.color = Colors.ColorAlpha (Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
@@ -163,68 +151,6 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateAds(AdsVO vo)
-        {
-            freeBucksButton.interactable = false;
-
-            if (waitCR != null)
-            {
-                StopCoroutine(waitCR);
-                waitCR = null;
-            }
-
-            adCounter.SetActive(false);
-            adBonusLabel.gameObject.SetActive(false);
-
-            if (vo.state == AdsState.AVAILABLE)
-            {
-                freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_GET);
-                freeBucksButton.interactable = true;
-
-                adCounter.SetActive(true);
-                adCounterLabel.text = vo.count.ToString();
-                //adBonusLabel.gameObject.SetActive(true);
-                adBonusLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BONUS, vo.bucks);
-            }
-            else if (vo.state == AdsState.NOT_AVAILABLE)
-            {
-                freeBucksButtonLabel.text = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_NOT_AVAILABLE);
-                waitForAdsAvailabilityCR = StartCoroutine(WaitForAdsAvailabilityCR());
-            }
-            else if (vo.state == AdsState.WAIT)
-            {
-                TimeSpan wait = TimeSpan.FromMilliseconds(vo.waitMs);
-                waitCR = StartCoroutine(WaitCR(wait));
-            }
-        }
-
-        IEnumerator WaitCR(TimeSpan wait)
-        {
-            string availableText = localizationService.Get(LocalizationKey.CPU_FREE_BUCKS_BUTTON_AVAILABLE) + " ";
-
-            while (true)
-            {
-                if (wait.TotalSeconds <= 0)
-                {
-                    freeBucksUpdateAdsSignal.Dispatch();
-                    waitCR = null;
-                    yield break;
-                }
-
-                freeBucksButtonLabel.text = availableText +
-                string.Format("{0:D2}:{1:D2}:{2:D2}", wait.Hours, wait.Minutes, wait.Seconds);
-
-                yield return new WaitForSeconds(1);
-                wait = wait.Subtract(TimeSpan.FromSeconds(1));
-            }
-        }
-
-        IEnumerator WaitForAdsAvailabilityCR()
-        {
-            yield return new WaitForSeconds(ADS_AVAILABILITY_RETRY_SECONDS);
-            freeBucksUpdateAdsSignal.Dispatch();
-        }
-
         public void Show()
         {
             gameObject.SetActive(true);
@@ -252,18 +178,6 @@ namespace TurboLabz.InstantGame
         public void Hide()
         {
             gameObject.SetActive(false);
-
-            if (waitCR != null)
-            {
-                StopCoroutine(waitCR);
-                waitCR = null;
-            }
-
-            if (waitForAdsAvailabilityCR != null)
-            {
-                StopCoroutine(waitForAdsAvailabilityCR);
-                waitForAdsAvailabilityCR = null;
-            }
 
             return;
         }
@@ -306,16 +220,6 @@ namespace TurboLabz.InstantGame
         private void OnPlayFriendsButtonClicked()
         {
             playFriendsButtonClickedSignal.Dispatch();
-        }
-
-        private void OnFreeBucksButtonClicked()
-        {
-            freeBucksButtonClickedSignal.Dispatch();
-        }
-
-        private void OnFreeBucksRewardOkButtonClicked()
-        {
-            freeBucksRewardOkButtonClickedSignal.Dispatch();
         }
 
         private void OnStatsButtonClicked()

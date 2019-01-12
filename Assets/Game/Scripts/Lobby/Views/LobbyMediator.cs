@@ -46,24 +46,9 @@ namespace TurboLabz.InstantGame
             view.playCPUButtonClickedSignal.AddListener(OnPlayCPUButtonClicked);
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
-
-            /*
-            view.decDurationButtonClickedSignal.AddListener(OnDecTimeButtonClicked);
-            view.incDurationButtonClickedSignal.AddListener(OnIncTimeButtonClicked);
-            view.decPlayerColorButtonClickedSignal.AddListener(OnDecPlayerColorButtonClicked);
-            view.incPlayerColorButtonClickedSignal.AddListener(OnIncPlayerColorButtonClicked);
-			view.incThemeButtonClickedSignal.AddListener(OnIncThemeButtonClicked);
-			view.decThemeButtonClickedSignal.AddListener(OnDecThemeButtonClicked);
-			view.themesButtonClickedSignal.AddListener(OnThemesButtonClicked);
-   */         
+        
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
      
-            //view.statsButtonClickedSignal.AddListener(OnStatsButtonClicked);
-
-            view.freeBucksButtonClickedSignal.AddListener(OnFreeBucksButtonClicked);
-            view.freeBucksUpdateAdsSignal.AddListener(OnUpdateAdsSignal);
-
-
         }
 
         public override void OnRemove()
@@ -80,9 +65,6 @@ namespace TurboLabz.InstantGame
             view.devFenValueChangedSignal.RemoveAllListeners();
             view.statsButtonClickedSignal.RemoveAllListeners();
 
-            view.freeBucksButtonClickedSignal.RemoveAllListeners();
-            view.freeBucksRewardOkButtonClickedSignal.RemoveAllListeners();
-            view.freeBucksUpdateAdsSignal.RemoveAllListeners();
             view.CleanUp();
         }
             
@@ -114,12 +96,6 @@ namespace TurboLabz.InstantGame
         public void OnUpdateStrength(LobbyVO vo)
         {
             view.UpdateStrength(vo);
-        }
-
-        [ListensTo(typeof(UpdateLobbyAdsSignal))]
-        public void OnUpdateAds(AdsVO vo)
-        {
-            view.UpdateAds(vo);
         }
 
         [ListensTo(typeof(SetActionCountSignal))]
@@ -156,11 +132,6 @@ namespace TurboLabz.InstantGame
         private void OnDevFenValueChanged(string fen)
         {
             devFenValueChangedSignal.Dispatch(fen);
-        }
-      
-        private void OnFreeBucksButtonClicked()
-        {
-
         }
  
         private void OnUpdateAdsSignal()
