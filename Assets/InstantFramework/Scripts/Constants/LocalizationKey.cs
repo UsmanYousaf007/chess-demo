@@ -133,9 +133,14 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
-		#region Store
+        #region Store
 
-		public const string CPU_STORE_HEADING = "storeHeading";
+        public const string STORE_TITLE_BUNDLES = "storeTitleBundles";
+        public const string STORE_TAB_POWERUPS = "storeTabPowerUps";
+        public const string STORE_TAB_THEMES = "storeTabThemes";
+        public const string STORE_TAB_COINS = "storeTabCoins";
+
+        public const string CPU_STORE_HEADING = "storeHeading";
 		public const string CPU_STORE_OWNED = "storeItemOwned";
 		public const string CPU_STORE_BUCKS = "bucks";
 

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl ;
 using TurboLabz.InstantFramework;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -24,17 +25,36 @@ namespace TurboLabz.InstantGame
         // View signals
         public Signal<StoreItem> storeItemClickedSignal = new Signal<StoreItem>();
 
-        public Text title;
+        public Text titleBundlesLabel;
+        public Text tabPowerUpsLabel;
+        public Text tabThemesLabel;
+        public Text tabCoinsLabel;
+
+        public Button tabButtonPowerUps;
+        public Button tabButtonThemes;
+        public Button tabButtonCoins;
+
+        public GameObject tabUnderlinePowerUps;
+        public GameObject tabUnderlineThemes;
+        public GameObject tabUnderlineCoins;
+
 
         private StoreThumbsContainer thumbsContainer;
 
         public void Init()
         {
             thumbsContainer = StoreThumbsContainer.Load();
-            title.text = localizationService.Get(LocalizationKey.CPU_STORE_HEADING);
-        }
+            titleBundlesLabel.text = localizationService.Get(LocalizationKey.STORE_TITLE_BUNDLES);
+            tabPowerUpsLabel.text = localizationService.Get(LocalizationKey.STORE_TAB_POWERUPS);
+            tabThemesLabel.text = localizationService.Get(LocalizationKey.STORE_TAB_THEMES);
+            tabCoinsLabel.text = localizationService.Get(LocalizationKey.STORE_TAB_COINS);
 
-        public void UpdateView(StoreVO vo)
+            tabButtonPowerUps.onClick.AddListener(OnTabPowerUpsClicked);
+            tabButtonThemes.onClick.AddListener(OnTabThemesClicked);
+            tabButtonCoins.onClick.AddListener(OnTabCoinsClicked);
+    }
+
+    public void UpdateView(StoreVO vo)
         {
             UpdateViewSkins(vo);
             UpdateViewPowerUps(vo);
@@ -65,9 +85,29 @@ namespace TurboLabz.InstantGame
 
         public void ShowTab(StoreTabs tab)
         {
+            scrollViewPowerUps.gameObject.SetActive(tab == StoreTabs.POWERUPS);
             scrollViewSkins.gameObject.SetActive(tab == StoreTabs.SKINS);
             scrollViewCoins.gameObject.SetActive(tab == StoreTabs.COINS);
-            scrollViewPowerUps.gameObject.SetActive(tab == StoreTabs.POWERUPS);
+
+            tabUnderlinePowerUps.gameObject.SetActive(tab == StoreTabs.POWERUPS);
+            tabUnderlineThemes.gameObject.SetActive(tab == StoreTabs.SKINS);
+            tabUnderlineCoins.gameObject.SetActive(tab == StoreTabs.COINS);
         }
+
+        public void OnTabPowerUpsClicked()
+        {
+            ShowTab(StoreTabs.POWERUPS);
+        }
+
+        public void OnTabThemesClicked()
+        {
+            ShowTab(StoreTabs.SKINS);
+        }
+
+        public void OnTabCoinsClicked()
+        {
+            ShowTab(StoreTabs.COINS);
+        }
+
     }
 }

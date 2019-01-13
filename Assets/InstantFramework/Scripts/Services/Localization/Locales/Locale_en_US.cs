@@ -137,7 +137,12 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
-				#region Store
+                #region Store
+
+                { LocalizationKey.STORE_TITLE_BUNDLES, "SPECIAL BUNDLES" },
+                { LocalizationKey.STORE_TAB_POWERUPS, "POWERUPS" },
+                { LocalizationKey.STORE_TAB_THEMES, "THEMES" },
+                { LocalizationKey.STORE_TAB_COINS, "COINS" },
 
 				{ LocalizationKey.CPU_STORE_HEADING, "THEMES" },
 				{ LocalizationKey.CPU_STORE_OWNED, "Owned" },
