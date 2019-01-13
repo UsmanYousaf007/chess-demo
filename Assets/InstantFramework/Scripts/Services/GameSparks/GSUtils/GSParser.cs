@@ -61,15 +61,7 @@ namespace TurboLabz.InstantFramework
         public static void PopulateStoreItem(StoreItem item, GSData itemData)
         {
             const string unrecognized = "unrecognized";
-            const string defaultTier = GSBackendKeys.ShopItem.SHOP_ITEM_TIER_COMMON;
- 
-            string[] tagTiers = { 
-                GSBackendKeys.ShopItem.SHOP_ITEM_TIER_COMMON, 
-                GSBackendKeys.ShopItem.SHOP_ITEM_TIER_RARE, 
-                GSBackendKeys.ShopItem.SHOP_ITEM_TIER_EPIC, 
-                GSBackendKeys.ShopItem.SHOP_ITEM_TIER_LEGENDARY 
-            };
-                
+
             string[] tagKinds = {
                 GSBackendKeys.ShopItem.SKIN_SHOP_TAG,
                 GSBackendKeys.ShopItem.COINS_SHOP_TAG,
@@ -85,14 +77,12 @@ namespace TurboLabz.InstantFramework
 
             string tags = itemData.GetString(GSBackendKeys.SHOP_ITEM_TAGS);
             string kind = SearchTags(tags, tagKinds);
-            string tier = SearchTags(tags, tagTiers);
             string state = SearchTags(tags, tagState);
 
             item.state = state == null ? StoreItem.State.ENABLED : StoreItem.State.DISABLED;
             item.key = itemData.GetString(GSBackendKeys.SHOP_ITEM_ID);
             item.type = itemData.GetString(GSBackendKeys.SHOP_ITEM_TYPE) == "VGOOD" ? StoreItem.Type.VGOOD : StoreItem.Type.CURRENCY;
             item.kind = kind ?? unrecognized;
-            item.tier = tier ?? defaultTier;
             item.displayName = itemData.GetString(GSBackendKeys.SHOP_ITEM_DISPLAYNAME);
             item.description = itemData.GetString(GSBackendKeys.SHOP_ITEM_DESCRIPTION);
             item.currency1Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY1COST);

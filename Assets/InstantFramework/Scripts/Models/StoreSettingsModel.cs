@@ -63,7 +63,6 @@ namespace TurboLabz.InstantFramework
         public State state;                 // Disabled/Enabled
         public string kind;                 // Classification
         public Type type;                   // VGOOD or CURRENCY
-        public string tier;                 // common, rare, epic, legendary
         public int maxQuantity;             // Max quantity allowed to purchase
         public string displayName;          // Name to display in store          
         public string description;          // Description to display in store     
@@ -92,7 +91,6 @@ namespace TurboLabz.InstantFramework
             state = State.ENABLED;
             kind = null;
             type = Type.VGOOD;
-            tier = null;
             maxQuantity = 1;
             displayName = null;
             description = null;
