@@ -3,15 +3,10 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-
-using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl ;
-using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
-using TurboLabz.TLUtils;
-using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
@@ -31,8 +26,11 @@ namespace TurboLabz.InstantGame
 
         public Text title;
 
+        private StoreThumbsContainer thumbsContainer;
+
         public void Init()
         {
+            thumbsContainer = StoreThumbsContainer.Load();
             title.text = localizationService.Get(LocalizationKey.CPU_STORE_HEADING);
         }
 

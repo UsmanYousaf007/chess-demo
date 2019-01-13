@@ -38,8 +38,6 @@ namespace TurboLabz.InstantGame
 
         private void InitPrefabsSkins(StoreVO vo, GameObject content)
         {
-            SkinThumbsContainer containter = SkinThumbsContainer.Load();
-
             foreach (Transform child in content.transform)
             {
                 SkinShopItemPrefab skinPrefab = child.GetComponent<SkinShopItemPrefab>();
@@ -50,7 +48,7 @@ namespace TurboLabz.InstantGame
 
                 skinPrefab.button.onClick.AddListener(() => OnStoreItemClicked(sourceSkinItem));
                 skinPrefab.displayName.text = sourceItem.displayName;
-                skinPrefab.thumbnail.sprite = containter.GetSprite(skinPrefab.key);
+                skinPrefab.thumbnail.sprite = thumbsContainer.GetSprite(skinPrefab.key);
                 skinPrefab.tick.gameObject.SetActive(false);
             }
         }

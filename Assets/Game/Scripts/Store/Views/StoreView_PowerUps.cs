@@ -32,8 +32,6 @@ namespace TurboLabz.InstantGame
 
         private void InitPrefabsPowerUps(StoreVO vo, GameObject content)
         {
-            SkinThumbsContainer containter = SkinThumbsContainer.Load();
-
             foreach (Transform child in content.transform)
             {
                 PowerUpShopItemPrefab powerUpPrefab = child.GetComponent<PowerUpShopItemPrefab>();
@@ -43,7 +41,7 @@ namespace TurboLabz.InstantGame
 
                 powerUpPrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
                 powerUpPrefab.displayName.text = storeItem.displayName;
-                powerUpPrefab.thumbnail.sprite = containter.GetSprite("SkinSlate");//containter.GetSprite(powerUpPrefab.key);
+                powerUpPrefab.thumbnail.sprite = thumbsContainer.GetSprite(powerUpPrefab.key);
                 powerUpPrefab.price.text = storeItem.currency2Cost.ToString();
             }
         }

@@ -31,8 +31,6 @@ namespace TurboLabz.InstantGame
 
         private void InitPrefabsCoins(StoreVO vo, GameObject content)
         {
-            SkinThumbsContainer containter = SkinThumbsContainer.Load();
-
             foreach (Transform child in content.transform)
             {
                 CoinShopItemPrefab coinPrefab = child.GetComponent<CoinShopItemPrefab>();
@@ -42,7 +40,7 @@ namespace TurboLabz.InstantGame
 
                 coinPrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
                 coinPrefab.displayName.text = storeItem.displayName;
-                coinPrefab.thumbnail.sprite = containter.GetSprite("SkinSlate");//containter.GetSprite(coinPrefab.key);
+                coinPrefab.thumbnail.sprite = thumbsContainer.GetSprite(coinPrefab.key);
                 coinPrefab.price.text = storeItem.remoteProductPrice;
                 coinPrefab.payout.text = storeItem.currency2Payout.ToString();
             }
