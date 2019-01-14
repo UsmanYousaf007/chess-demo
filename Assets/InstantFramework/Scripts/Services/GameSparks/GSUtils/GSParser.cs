@@ -58,6 +58,16 @@ namespace TurboLabz.InstantFramework
             return found ? knownTags[i]: null;
         }
 
+        public static void ParseBundledGoods(StoreItem item, IList<GSData> bundleData)
+        {
+            foreach (GSData bundledGoodData in bundleData)
+            {
+                int qty = bundledGoodData.GetInt(GSBackendKeys.SHOP_ITEM_QUANTITY).Value;
+                string itemKey = bundledGoodData.GetString(GSBackendKeys.SHOP_ITEM_ID);
+                item.bundledItems.Add(itemKey, qty);
+            }
+        }
+
         public static void PopulateStoreItem(StoreItem item, GSData itemData)
         {
             const string unrecognized = "unrecognized";
@@ -68,7 +78,10 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.FEATURE_SHOP_TAG,
                 GSBackendKeys.ShopItem.SAFE_MOVE_SHOP_TAG,
                 GSBackendKeys.ShopItem.HINT_SHOP_TAG,
-                GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG
+                GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG,
+                GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
+                GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
+                GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG
             };
 
             string[] tagState = {
@@ -89,6 +102,13 @@ namespace TurboLabz.InstantFramework
             item.currency2Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY2COST);
             item.maxQuantity = GetSafeInt(itemData,GSBackendKeys.SHOP_ITEM_MAX_QUANTITY);
             item.remoteProductId = GSParser.GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_STORE_PRODUCT_ID, null);
+
+            IList <GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
+            if (bundleData !=  null)
+            {
+                item.bundledItems = new Dictionary<string, int>();
+                ParseBundledGoods(item, bundleData);
+            }
 
             LogUtil.Log("********** PopulateShopItem: " + item.key);
         }

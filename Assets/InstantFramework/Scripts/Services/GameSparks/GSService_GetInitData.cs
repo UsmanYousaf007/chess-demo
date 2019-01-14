@@ -158,6 +158,15 @@ namespace TurboLabz.InstantFramework
             List<GSData> specialBundleShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> specialBundleItems = PopulateCurrencyStoreItems(specialBundleShopItemsData);
 
+            List<GSData> powerUpHintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> powerUpHintItems = PopulateStoreItems(powerUpHintShopItemsData);
+
+            List<GSData> powerUpHindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> powerUpHindsightItems = PopulateStoreItems(powerUpHindsightShopItemsData);
+
+            List<GSData> powerUpSafeMoveShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> powerUpSafeMoveItems = PopulateStoreItems(powerUpSafeMoveShopItemsData);
+
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.FEATURE_SHOP_TAG, featureItems);
@@ -165,6 +174,9 @@ namespace TurboLabz.InstantFramework
             storeSettingsModel.Add(GSBackendKeys.ShopItem.HINT_SHOP_TAG, hintItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG, hindsightItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG, specialBundleItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG, powerUpHintItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG, powerUpHindsightItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG, powerUpSafeMoveItems);
         }
 
         private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData)

@@ -143,8 +143,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_TAB_POWERUPS, "POWERUPS" },
                 { LocalizationKey.STORE_TAB_THEMES, "THEMES" },
                 { LocalizationKey.STORE_TAB_COINS, "COINS" },
+                { LocalizationKey.STORE_BUNDLE_YOU_ENJOY, "YOU ENJOY" },
 
-				{ LocalizationKey.CPU_STORE_HEADING, "THEMES" },
+                { LocalizationKey.CPU_STORE_HEADING, "THEMES" },
 				{ LocalizationKey.CPU_STORE_OWNED, "Owned" },
 				{ LocalizationKey.CPU_STORE_BUCKS, "Coins" },
 

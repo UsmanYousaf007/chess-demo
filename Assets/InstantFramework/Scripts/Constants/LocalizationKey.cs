@@ -139,6 +139,8 @@ namespace TurboLabz.InstantFramework
         public const string STORE_TAB_POWERUPS = "storeTabPowerUps";
         public const string STORE_TAB_THEMES = "storeTabThemes";
         public const string STORE_TAB_COINS = "storeTabCoins";
+        public const string STORE_BUNDLE_YOU_ENJOY = "storeBundleYouEnjoy";
+
 
         public const string CPU_STORE_HEADING = "storeHeading";
 		public const string CPU_STORE_OWNED = "storeItemOwned";

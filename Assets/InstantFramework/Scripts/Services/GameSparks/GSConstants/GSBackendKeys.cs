@@ -36,12 +36,9 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_ITEM_MAX_QUANTITY = "maxQuantity";
         public const string SHOP_ITEM_UNLOCKATLEVEL = "unlockAtLevel";
         public const string SHOP_ITEM_CURRENCY1PAYOUT = "currency1Cost";
-        public const string SHOP_ITEM_PROMOTION_ID = "promotionId";
-        public const string SHOP_ITEM_BONUS_XP_PERCENTAGE = "bonusXpPercentage";
-        public const string SHOP_ITEM_HINTS_COUNT = "hintsCount";
-        public const string SHOP_ITEM_LOSS_RECOVERY_PERCENTAGE = "lossRecoveryPercentage";
-        public const string SHOP_ITEM_BONUS_AMOUNT = "bonusAmount";
 		public const string SHOP_ITEM_STORE_PRODUCT_ID = "googlePlayProductId";
+        public const string SHOP_ITEM_STORE_BUNDLED_GOODS = "bundledGoods";
+        public const string SHOP_ITEM_QUANTITY = "qty";
 
         // Account details
         public const string PLAYER_DETAILS = "playerDetails";
@@ -177,6 +174,9 @@ namespace TurboLabz.InstantFramework
             public const string HINT_SHOP_ITEMS = "hintShopItems";
             public const string HINDSIGHT_SHOP_ITEMS = "hindsightShopItems";
             public const string SPECIAL_BUNDLE_SHOP_ITEMS = "specialBundleShopItems";
+            public const string POWERUP_HINT_SHOP_ITEMS = "powerUpHintShopItems";
+            public const string POWERUP_HINDSIGHT_SHOP_ITEMS = "powerUpHindsightShopItems";
+            public const string POWERUP_SAFEMOVE_SHOP_ITEMS = "powerUpSafeMoveShopItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -185,6 +185,13 @@ namespace TurboLabz.InstantFramework
             public const string HINT_SHOP_TAG = "HintPack";
             public const string HINDSIGHT_SHOP_TAG = "HindsightPack";
             public const string SPECIAL_BUNDLE_SHOP_TAG = "SpecialBundle";
+
+            public const string POWERUP_HINT_SHOP_TAG = "PowerUpHint";
+            public const string POWERUP_HINDSIGHT_SHOP_TAG = "PowerUpHindsight";
+            public const string POWERUP_SAFEMOVE_SHOP_TAG = "PowerUpSafeMove";
+
+            public const string FEATURE_REMOVEAD_PERM_SHOP_TAG = "FeatureRemoveAdsPerm";
+            public const string FEATURE_REMOVEAD_30_SHOP_TAG = "FeatureRemoveAds30";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";

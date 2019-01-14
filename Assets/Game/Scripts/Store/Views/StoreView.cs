@@ -59,6 +59,7 @@ namespace TurboLabz.InstantGame
             UpdateViewSkins(vo);
             UpdateViewPowerUps(vo);
             UpdateViewCoins(vo);
+            UpdateViewBundles(vo);
         }
 
         public void Show()

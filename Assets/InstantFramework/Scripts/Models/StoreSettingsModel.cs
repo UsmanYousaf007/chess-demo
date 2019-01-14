@@ -57,21 +57,31 @@ namespace TurboLabz.InstantFramework
         }
     }
 
+    //public class BundledItem
+    //{
+    //    public string Description;
+    //    public int quantity;
+   // }
+
     public class StoreItem
     {
-        public string key;                  // Identifier
-        public State state;                 // Disabled/Enabled
-        public string kind;                 // Classification
-        public Type type;                   // VGOOD or CURRENCY
-        public int maxQuantity;             // Max quantity allowed to purchase
-        public string displayName;          // Name to display in store          
-        public string description;          // Description to display in store     
-        public int currency1Cost;           // Cost in currency1
-        public int currency2Cost;           // Cost in currency2
-        public int currency1Payout;         // Payout in currency1
-        public int currency2Payout;         // Payout in currency2
-        public string remoteProductId;      // Remote store product id
-        public string remoteProductPrice;   // Remote store product localized price
+        public string key;                      // Identifier
+        public State state;                     // Disabled/Enabled
+        public string kind;                     // Classification
+        public Type type;                       // VGOOD or CURRENCY
+        public int maxQuantity;                 // Max quantity allowed to purchase
+        public string displayName;              // Name to display in store          
+        public string description;              // Description to display in store     
+        public int currency1Cost;               // Cost in currency1
+        public int currency2Cost;               // Cost in currency2
+        public int currency1Payout;             // Payout in currency1
+        public int currency2Payout;             // Payout in currency2
+        public string remoteProductId;          // Remote store product id
+        public string remoteProductPrice;       // Remote store product localized price
+
+        public IDictionary<string, int> bundledItems;  // Bundled items
+        //public IDictionary<string, BundledItem> bundleDescriptions;  // Bundled item descriptions
+
 
         public enum State
         {
@@ -100,6 +110,7 @@ namespace TurboLabz.InstantFramework
             currency2Payout = 0;
             remoteProductId = null;
             remoteProductPrice = null;
+            bundledItems = null;
         }
     }
 }
