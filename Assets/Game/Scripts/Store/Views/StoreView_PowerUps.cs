@@ -30,6 +30,25 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        private string GetPowerUpBundledItemDisplayText(StoreVO vo, StoreItem storeItem)
+        {
+            var e = storeItem.bundledItems.GetEnumerator();
+            e.MoveNext();
+            KeyValuePair<string, int> val = e.Current;
+            StoreItem bundleStoreItem = vo.storeSettingsModel.store.items[val.Key];
+
+            return bundleStoreItem.displayName;
+        }
+
+        private string GetPowerUpBundledItemQuantityText(StoreItem storeItem)
+        {
+            var e = storeItem.bundledItems.GetEnumerator();
+            e.MoveNext();
+            KeyValuePair<string, int> val = e.Current;
+
+            return "x" + val.Value.ToString();
+        }
+
         private void InitPrefabsPowerUps(StoreVO vo, GameObject content)
         {
             foreach (Transform child in content.transform)
@@ -40,9 +59,10 @@ namespace TurboLabz.InstantGame
                 prefabsPowerUps.Add(powerUpPrefab.key, powerUpPrefab);
 
                 powerUpPrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
-                powerUpPrefab.displayName.text = storeItem.displayName;
+                powerUpPrefab.displayName.text = GetPowerUpBundledItemDisplayText(vo, storeItem);
                 powerUpPrefab.thumbnail.sprite = thumbsContainer.GetSprite(powerUpPrefab.key);
                 powerUpPrefab.price.text = storeItem.currency2Cost.ToString();
+                powerUpPrefab.quantity.text = GetPowerUpBundledItemQuantityText(storeItem);
             }
         }
     }
