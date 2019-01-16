@@ -5,6 +5,7 @@
 
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.Multiplayer
 {
@@ -25,6 +26,7 @@ namespace TurboLabz.Multiplayer
             vo.isRanked = cmd.activeMatchInfo.isRanked;
             vo.rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinAdReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpAdReward;
             vo.adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
+            vo.removeAds = cmd.playerModel.hasRemoveAds(cmd.metaDataModel.adsSettings);
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
 

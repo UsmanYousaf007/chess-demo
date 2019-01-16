@@ -34,11 +34,7 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             // All non-rewarded ads skipped if player owns the remove ads feature
-            bool removeAds =
-                playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS) || 
-                playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
-                                        (TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod) != null) || 
-                                        (playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30) && (TimeUtil.TimeToExpireString(playerModel.removeAdsTimeStamp, 30) != null));
+            bool removeAds = playerModel.hasRemoveAds(metaDataModel.adsSettings);
 
             // Case: Ads removed
             if (removeAds)

@@ -116,6 +116,15 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
+                #region GameResults
+
+                { LocalizationKey.RESULTS_CLOSE_BUTTON, "VIEW BOARD" },
+                { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "COLLECT" },
+                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Skip Reward" },
+                { LocalizationKey.RESULTS_EARNED, "Earned" },
+
+                #endregion
+
                 #region Multiplayer
 
                 { LocalizationKey.MULTIPLAYER_SEARCHING, "Searching..." },

@@ -107,10 +107,19 @@ namespace TurboLabz.InstantFramework
         public const string CPU_GAME_CONTINUE_BUTTON = "cpuGameContinueButton";
         public const string CPU_GAME_EXIT_EXPLAINATION = "cpuGameExitExplanation";
         public const string CPU_RESULTS_CLOSE_BUTTON = "cpuResultsCloseButton";
-		public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
+        public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
         public const string CPU_RESULTS_EXIT_BUTTON = "cpuResultsExitButton";
 
         #endregion 
+
+        #region GameResults
+
+        public const string RESULTS_CLOSE_BUTTON = "resultsCloseButton";
+        public const string RESULTS_COLLECT_REWARD_BUTTON = "resultsCollectRewardButton";
+        public const string RESULTS_SKIP_REWARD_BUTTON = "resultsSkipRewardButton";
+        public const string RESULTS_EARNED = "resultsEarned";
+
+        #endregion
 
         #region Multiplayer
 
