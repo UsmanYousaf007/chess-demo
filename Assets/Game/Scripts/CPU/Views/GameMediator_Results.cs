@@ -26,8 +26,7 @@ namespace TurboLabz.CPU
         public void OnRegisterResults()
         {
             view.InitResults();
-            view.resultsExitButtonClickedSignal.AddListener(OnResultsExitButtonClicked);
-			view.resultsStatsButtonClickedSignal.AddListener(OnResultsStatsButtonClicked);
+            view.backToLobbySignal.AddListener(OnResultsExitButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -63,19 +62,14 @@ namespace TurboLabz.CPU
         }
 
         [ListensTo(typeof(UpdateResultDialogSignal))]
-		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int rewardCoins)
+		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int rewardCoins, bool isRemoveAds)
         {
-            view.UpdateResultsDialog(gameEndReason, playerWins, rewardCoins);
+            view.UpdateResultsDialog(gameEndReason, playerWins, rewardCoins, isRemoveAds);
         }
 
         private void OnResultsExitButtonClicked()
         {
             loadLobbySignal.Dispatch();
         }
-
-		private void OnResultsStatsButtonClicked()
-		{
-			loadStatsSignal.Dispatch();
-		}
     }
 }

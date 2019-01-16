@@ -3,15 +3,11 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using System.Collections;
 
 using UnityEngine;
 using UnityEngine.UI;
-
 using DG.Tweening;
 using strange.extensions.signal.impl;
-
-using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
@@ -128,7 +124,7 @@ namespace TurboLabz.Multiplayer
         private void UpdateResultRatingSection(bool isRanked, int currentEloScore, int eloScoreDelta)
         {
             resultsFriendlyLabel.gameObject.SetActive(false);
-            resultsRatingTitleLabel.gameObject.SetActive(false);
+            resultsRatingTitleLabel.gameObject.SetActive(true);
             resultsRatingValueLabel.gameObject.SetActive(false);
             resultsRatingChangeLabel.gameObject.SetActive(false);
 
@@ -139,7 +135,6 @@ namespace TurboLabz.Multiplayer
             }
 
             // Ranked Game
-            resultsRatingTitleLabel.gameObject.SetActive(true);
             resultsRatingValueLabel.gameObject.SetActive(true);
             resultsRatingChangeLabel.gameObject.SetActive(true);
             resultsRatingChangeLabel.gameObject.SetActive(false);
@@ -353,7 +348,5 @@ namespace TurboLabz.Multiplayer
                 backToLobbySignal.Dispatch();
             }
         }
-
-
     }
 }

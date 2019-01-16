@@ -93,11 +93,12 @@ namespace TurboLabz.CPU
             }
 
             int  rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinAdReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpAdReward;
+            bool isRemoveAds = cmd.playerModel.hasRemoveAds(cmd.metaDataModel.adsSettings);
 
             cmd.saveStatsSignal.Dispatch(statResult);
 
 			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
-			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, rewardCoins);
+			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, rewardCoins, isRemoveAds);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

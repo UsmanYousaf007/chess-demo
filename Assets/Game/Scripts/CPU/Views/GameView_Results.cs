@@ -10,7 +10,6 @@
 /// @description
 /// [add_description_here]
 
-using System.Collections;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,49 +27,85 @@ namespace TurboLabz.CPU
     public partial class GameView
     {
 		[Header("Results Dialog")]
+        public Button playbackOverlay;
 
         public GameObject resultsDialog;
-        public Text resultsDialogHeading;
-        public Text resultsDialogReason;
-		public Button resultsExitButton;
-        public Text resultsExitButtonLabel;
+        public Text resultsGameResultLabel;
+        public Text resultsGameResultReasonLabel;
+        public Text resultsFriendlyLabel;
+
+        public Text resultsRatingTitleLabel;
+        public Text resultsRatingValueLabel;
+        public Text resultsRatingChangeLabel;
+
+        public Button resultsCollectRewardButton;
+        public Text resultsCollectRewardButtonLabel;
         public Button resultsCloseButton;
         public Text resultsCloseButtonLabel;
 
-        public Button playbackOverlay;
+        public Image resultsAdTVImage;
+        public Text resultsRewardCoinsLabel;
+        public Image resultsVictoryRewardImage;
+        public Image resultsDefeatRewardImage;
+        public Text resultsEarnedLabel;
 
-        public Signal resultsExitButtonClickedSignal = new Signal();
-		public Signal resultsStatsButtonClickedSignal = new Signal();
+        public Button resultsSkipRewardButton;
+        public Text resultsSkipRewardButtonLabel;
+
+        public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
-        public Signal enterPlaybackSignal = new Signal();
-        public Signal resultsDialogButtonClickedSignal = new Signal();
+        public Signal resultsDialogClosedSignal = new Signal();
+        public Signal resultsDialogOpenedSignal = new Signal();
+        public Signal backToLobbySignal = new Signal();
+        public Signal backToFriendsSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
         private float resultsDialogHalfHeight;
+        private float declinedDialogHalfHeight;
 
         private bool playerWins;
         private bool isDraw;
+        private string adRewardType;
+        private float animDelay;
+
+        private void InitResultsCPU()
+        {
+            playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
+            playbackOverlay.gameObject.SetActive(false);
+        }
+
+        private void ShowResultsDialogCPU()
+        {
+            DeactivateThink();
+        }
 
         public void InitResults()
         {
-            resultsExitButton.onClick.AddListener(OnResultsExitButtonClicked);
-            resultsCloseButton.onClick.AddListener(OnResultsClosed);
-            playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
-		
-            resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_EXIT_BUTTON);
-            resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.CPU_RESULTS_CLOSE_BUTTON);
-		
-            resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+            InitResultsCPU();
 
-            playbackOverlay.gameObject.SetActive(false);
+            // Button listeners
+            resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
+            resultsCloseButton.onClick.AddListener(OnResultsClosed);
+            resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
+
+            // Text Labels
+            resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
+            resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
+            resultsRatingTitleLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+            resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
+            resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
+            resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
+
+            resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
         }
 
         public void CleanupResults()
         {
+            resultsCollectRewardButton.onClick.RemoveAllListeners();
             resultsCloseButton.onClick.RemoveAllListeners();
-            resultsExitButton.onClick.RemoveAllListeners();
+            resultsSkipRewardButton.onClick.RemoveAllListeners();
         }
 
         public void OnParentShowResults()
@@ -80,11 +115,11 @@ namespace TurboLabz.CPU
 
         public void ShowResultsDialog()
         {
+            ShowResultsDialogCPU();
+
             EnableModalBlocker();
             resultsDialog.SetActive(true);
-
             DisableMenuButton();
-            DeactivateThink();
             HidePossibleMoves();
 
             if (!ArePlayerMoveIndicatorsVisible())
@@ -98,68 +133,129 @@ namespace TurboLabz.CPU
             resultsDialog.SetActive(false);
         }
 
-		public void UpdateResultsDialog(GameEndReason gameEndReason, bool playerWins, int rewardCoins)
+        private void UpdateResultRatingSection(bool isRanked, int currentEloScore, int eloScoreDelta)
         {
-            DisableInteraction();
-            EnableModalBlocker();
+            resultsFriendlyLabel.gameObject.SetActive(false);
+            resultsRatingTitleLabel.gameObject.SetActive(true);
+            resultsRatingValueLabel.gameObject.SetActive(false);
+            resultsRatingChangeLabel.gameObject.SetActive(false);
 
-            this.playerWins = playerWins;
-            isDraw = false;
-            float animDelay = RESULTS_DELAY_TIME;
+            if (!isRanked)
+            {
+                resultsFriendlyLabel.gameObject.SetActive(true);
+                return;
+            }
 
-            if (gameEndReason == GameEndReason.TIMER_EXPIRED)
+            // Ranked Game
+            resultsRatingValueLabel.gameObject.SetActive(true);
+            resultsRatingChangeLabel.gameObject.SetActive(true);
+            resultsRatingChangeLabel.gameObject.SetActive(false);
+
+            resultsRatingValueLabel.text = currentEloScore.ToString();
+
+            if (eloScoreDelta > 0)
             {
-                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_TIMER_EXPIRED);
+                resultsRatingChangeLabel.text = "(+" + eloScoreDelta + ")";
+                resultsRatingChangeLabel.color = Colors.GREEN;
             }
-            else if (gameEndReason == GameEndReason.CHECKMATE)
+            else if (eloScoreDelta < 0)
             {
-                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE);
+                resultsRatingChangeLabel.text = "(" + eloScoreDelta + ")";
+                resultsRatingChangeLabel.color = Colors.RED;
             }
-            else if (gameEndReason == GameEndReason.RESIGNATION)
+        }
+
+        private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
+        {
+            switch (gameEndReason)
             {
-                if (!playerWins)
-                {
-                    resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
-                    animDelay = RESULTS_SHORT_DELAY_TIME;
-                }
-                else
-                {
-                    resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT);
-                }
+                case GameEndReason.TIMER_EXPIRED:
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_TIMER_EXPIRED);
+                    break;
+
+                case GameEndReason.CHECKMATE:
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE);
+                    break;
+
+                case GameEndReason.RESIGNATION:
+                    if (!playerWins)
+                    {
+                        resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
+                        animDelay = RESULTS_SHORT_DELAY_TIME;
+                    }
+                    else
+                    {
+                        resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT);
+                    }
+                    break;
+
+                case GameEndReason.STALEMATE:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_STALEMATE);
+                    break;
+
+                case GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL);
+                    break;
+
+                case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE:
+                case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE);
+                    break;
+
+                case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE:
+                case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE);
+                    break;
+
+                case GameEndReason.PLAYER_DISCONNECTED:
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
+                    break;
+
+                default:
+                    resultsGameResultReasonLabel.text = "Unknown Reason";
+                    break;
             }
-            else if (gameEndReason == GameEndReason.STALEMATE)
-            {
-                isDraw = true;
-                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_STALEMATE);
-            }
-            else if (gameEndReason == GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL)
-            {
-                isDraw = true;
-                resultsDialogReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL);
-            }
-            else
-            {
-                Assertions.Assert(false, "Unknown game end reason.");
-            }
+        }
+
+        private void UpdateGameResultHeadingSection()
+        {
 
             if (isDraw)
             {
-                resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
-                resultsDialogHeading.color = Colors.YELLOW;
+                resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
+                resultsGameResultLabel.color = Colors.YELLOW;
             }
             else
             {
                 if (playerWins)
                 {
-                    resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
-                    resultsDialogHeading.color = Colors.GREEN;
+                    resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
+                    resultsGameResultLabel.color = Colors.GREEN;
                 }
                 else
                 {
-                    resultsDialogHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
-                    resultsDialogHeading.color = Colors.RED;
+                    resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
+                    resultsGameResultLabel.color = Colors.RED;
                 }
             }
+        }
+
+        public void UpdateResultsDialog(GameEndReason gameEndReason, bool isPlayerWins, int rewardCoins, bool removeAds)
+        {
+            DisableInteraction();
+            EnableModalBlocker();
+
+            isDraw = false;
+            animDelay = RESULTS_DELAY_TIME;
+            playerWins = isPlayerWins;
+
+            UpdateResultRatingSection(false, 1, 0);
+            UpdateGameEndReasonSection(gameEndReason);
+            UpdateGameResultHeadingSection();
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
@@ -177,8 +273,13 @@ namespace TurboLabz.CPU
                 }
             }
 
+            resultsVictoryRewardImage.gameObject.SetActive(playerWins);
+            resultsDefeatRewardImage.gameObject.SetActive(!playerWins);
+            resultsAdTVImage.gameObject.SetActive(!removeAds);
+
             // Reward
-            resultsExitButtonLabel.text = localizationService.Get(LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD) + " +" + rewardCoins;
+            resultsRewardCoinsLabel.text = "+" + rewardCoins;
+            adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
         }
 
         public bool IsResultsDialogVisible()
@@ -212,17 +313,17 @@ namespace TurboLabz.CPU
         {
             return resultsDialog.activeSelf;
         }
-			
-        private void OnResultsExitButtonClicked()
+
+        private void OnResultsCollectRewardButtonClicked()
         {
-            string adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
-            resultsExitButtonClickedSignal.Dispatch();
+            backToLobbySignal.Dispatch();
         }
 
-        private void OnAdsButtonClicked()
+        public void OnResultsSkipRewardButtonClicked()
         {
-            showAdButtonClickedSignal.Dispatch();
+            showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
+            backToLobbySignal.Dispatch();
         }
 
         private void OnResultsClosed()
@@ -230,11 +331,6 @@ namespace TurboLabz.CPU
             HideResultsDialog();
             playbackOverlay.gameObject.SetActive(true);
         }
-
-		private void OnResultsStatsButtonClicked()
-		{
-			resultsStatsButtonClickedSignal.Dispatch();
-		}
 
         private void OnPlaybackOverlayClicked()
         {
