@@ -34,9 +34,10 @@ namespace TurboLabz.CPU
             }
             else
             {
-                // Trim the last 2 moves from the model
+                // Trim the last move from the model
                 List<ChessMove> moveList = chessboardModel.moveList;
-                moveList.RemoveRange(moveList.Count - 2, 2);
+                moveList.RemoveRange(moveList.Count - 1, 1);
+
 
                 // Reset the notation stored in the model
                 chessboardModel.notation = new List<string>();
