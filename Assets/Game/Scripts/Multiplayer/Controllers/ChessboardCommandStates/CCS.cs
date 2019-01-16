@@ -216,6 +216,7 @@ namespace TurboLabz.Multiplayer
             }
 
             SendPlayerTurn(cmd, chessboard.playerMoveFlag, false, false, false, false);
+            cmd.turnSwapSignal.Dispatch(false);
             return new CCSOpponentTurn();
         }
 
@@ -389,7 +390,6 @@ namespace TurboLabz.Multiplayer
                 cmd.aiTurnSignal.Dispatch();
             }
 
-            cmd.turnSwapSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(true);
         }
     }

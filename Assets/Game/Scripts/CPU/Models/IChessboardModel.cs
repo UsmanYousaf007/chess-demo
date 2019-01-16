@@ -55,9 +55,10 @@ namespace TurboLabz.CPU
         List<ChessMove> moveList { get; set; }
         List<MoveVO> moveVOCache { get; set; }
         float defaultMoveDelay { get; set; }
-        int availableHints { get; set; }
         bool usedHelp { get; set; }
         bool isUndo { get; set; }
+        bool inSafeMode { get; set; }
+        string previousPlayerTurnFen { get; set; }
 
         void Reset();
     }

@@ -22,9 +22,17 @@ namespace TurboLabz.InstantFramework
         [Inject] public IShareService shareService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        const string SHARE_URL = "https://chess.app.link/invite";
+
+        // TODO: localize share text
+
         public override void Execute()
         {
-            shareService.ShareApp(localizationService.Get(LocalizationKey.SHARE_STANDARD));
+            shareService.ShareApp(
+            "Let's Play Chess",
+            "Hey, let's play Chess!\n" + SHARE_URL,
+            "Invite a friend to play Chess"
+            );
         }
     }
 }

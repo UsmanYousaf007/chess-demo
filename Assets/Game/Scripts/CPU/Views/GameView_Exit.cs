@@ -70,11 +70,6 @@ namespace TurboLabz.CPU
             EnableModalBlocker();
             gameMenu.SetActive(true);
 
-            undoButtonWasActive = false;
-            hintButtonWasActive = false;
-
-            StashHintButton();
-            StashUndoButton();
             DisableMenuButton();
         }
 
@@ -83,8 +78,6 @@ namespace TurboLabz.CPU
             DisableModalBlocker();
             gameMenu.SetActive(false);
 
-            PopHintButton();
-            PopUndoButton();
             EnableMenuButton();
         }
 

@@ -64,14 +64,8 @@ namespace TurboLabz.CPU
             // Reset opponent move render value
             cmd.chessboardModel.opponentMoveRenderComplete = true;
 
-            // Set the available hints counter
-            cmd.updateHintCountSignal.Dispatch(cmd.chessboardModel.availableHints);
-
             // Toggle the hint button based on player turn
             cmd.turnSwapSignal.Dispatch(isPlayerTurn);
-
-            // Set the undo button's default state
-            cmd.disableUndoButtonSignal.Dispatch();
 
             // Update the game info
             GameInfoVO gameInfoVO = new GameInfoVO();
@@ -91,9 +85,16 @@ namespace TurboLabz.CPU
                     cmd.updateMoveForResumeSignal.Dispatch(moveVO, wasPlayerTurn);
                     wasPlayerTurn = !wasPlayerTurn;
                 }
-
-                cmd.updateUndoButtonSignal.Dispatch(wasPlayerTurn, chessboardModel.moveVOCache.Count);
             }
+
+            // Initialize the game powerups
+            cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
+            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+
+            cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
+            cmd.hindsightAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
+
+            cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)
@@ -142,6 +143,7 @@ namespace TurboLabz.CPU
             move.promo = promo;
             chessboardModel.lastPlayerMove = move;
             chessboardModel.moveList.Add(move);
+            chessboardModel.previousPlayerTurnFen = cmd.chessService.GetFen();
 
             ChessMoveResult moveResult = cmd.chessService.MakeMove(
                 chessboardModel.playerFromSquare.fileRank,
@@ -162,9 +164,19 @@ namespace TurboLabz.CPU
             chessboardModel.capturedSquare = moveResult.capturedSquare;
             chessboardModel.gameEndReason = moveResult.gameEndReason;
 
-            if (moveResult.gameEndReason != GameEndReason.NONE)
+            if (chessboardModel.inSafeMode)
             {
-               if (moveResult.gameEndReason == GameEndReason.CHECKMATE)
+                return new CCSSafeMoveDialog();
+            }
+
+            return ConfirmPlayerMove(cmd, chessboardModel);
+        }
+
+        protected CCS ConfirmPlayerMove(ChessboardCommand cmd, IChessboardModel chessboardModel)
+        {
+            if (chessboardModel.gameEndReason != GameEndReason.NONE)
+            {
+                if (chessboardModel.gameEndReason == GameEndReason.CHECKMATE)
                 {
                     chessboardModel.winnerId = cmd.playerModel.id;
                 }
@@ -175,6 +187,7 @@ namespace TurboLabz.CPU
 
             cmd.takeTurnSwapTimeControlSignal.Dispatch();
             cmd.turnSwapSignal.Dispatch(false);
+            cmd.hindsightAvailableSignal.Dispatch(true);
             return new CCSOpponentTurn();
         }
 
@@ -183,7 +196,6 @@ namespace TurboLabz.CPU
             cmd.receiveTurnSwapTimeControlSignal.Dispatch();
             cmd.chessboardModel.opponentMoveRenderComplete = true;
             cmd.turnSwapSignal.Dispatch(true);
-            cmd.updateUndoButtonSignal.Dispatch(true, cmd.chessboardModel.moveList.Count);
         }
 
         protected void ProcessGameEndTimers(ChessboardCommand cmd)

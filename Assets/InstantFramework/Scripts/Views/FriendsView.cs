@@ -398,6 +398,11 @@ namespace TurboLabz.InstantFramework
 
             friendBar.thinking.SetActive(busy);
             uiBlocker.SetActive(busy);
+
+            if (busy)
+            {
+                friendBar.playArrow.SetActive(false);
+            }
         }
 
         public void Show() 
@@ -569,16 +574,6 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             okButtonClickedSignal.Dispatch(playerId);
             button.interactable = false;
-        }
-
-        void UpdateAllStatus()
-        {
-            foreach (KeyValuePair<string, FriendBar> entry in bars)
-            {
-                entry.Value.UpdateStatus();
-            }
-
-            UpdateActionCount();
         }
 
         void UpdateActionCount()

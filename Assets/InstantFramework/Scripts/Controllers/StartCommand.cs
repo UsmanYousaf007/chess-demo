@@ -42,7 +42,6 @@ namespace TurboLabz.InstantFramework
 			ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
 			audioService.Init();
-			shareService.Init();
             adsService.Init();
 		}
 

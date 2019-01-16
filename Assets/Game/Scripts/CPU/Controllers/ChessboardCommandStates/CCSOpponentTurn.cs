@@ -49,8 +49,11 @@ namespace TurboLabz.CPU
                 cmd.hidePlayerFromIndicatorSignal.Dispatch();
                 cmd.hidePlayerToIndicatorSignal.Dispatch();
             }
-
-            cmd.disableUndoButtonSignal.Dispatch();
+            else if (CameFromState(cmd, typeof(CCSSafeMoveDialog)))
+            {
+                cmd.chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
+                cmd.enableOpponentTurnInteraction.Dispatch();
+            }
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

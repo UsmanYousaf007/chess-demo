@@ -15,7 +15,9 @@ namespace TurboLabz.InstantFramework
 {
     public interface IShareService
     {
-        void Init();
-        void ShareApp(string message);
+         void ShareApp(
+            string emailSubject,
+            string text,
+            string androidSharePopupTitle);
     }
 }

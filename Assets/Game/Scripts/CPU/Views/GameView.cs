@@ -34,8 +34,6 @@ namespace TurboLabz.CPU
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
 
-        private bool undoButtonWasActive;
-        private bool hintButtonWasActive;
         private bool menuButtonWasActive;
 
         public void Show()
@@ -106,26 +104,6 @@ namespace TurboLabz.CPU
             label.color = new Color(oldColor.r, oldColor.g, oldColor.b, alpha);
         }
 
-        private void StashUndoButton()
-        {
-            if (IsUndoButtonActive())
-            {
-                undoButtonWasActive = true;
-            }
-
-            DisableUndoButton();
-        }
-
-        private void StashHintButton()
-        {
-            if (IsHintButtonActive())
-            {
-                hintButtonWasActive = true;
-            }
-
-            DisableHintButton();
-        }
-
         private void StashMenuButton()
         {
             if (IsMenuButtonActive())
@@ -136,21 +114,7 @@ namespace TurboLabz.CPU
             DisableMenuButton();
         }
 
-        private void PopUndoButton()
-        {
-            if (undoButtonWasActive)
-            {
-                EnableUndoButton();
-            }
-        }
 
-        private void PopHintButton()
-        {
-            if (hintButtonWasActive)
-            {
-                EnableHintButton();
-            }
-        }
 
         private void PopMenuButton()
         {

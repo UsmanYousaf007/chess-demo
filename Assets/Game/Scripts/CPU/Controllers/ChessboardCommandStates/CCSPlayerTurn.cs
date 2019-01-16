@@ -65,10 +65,6 @@ namespace TurboLabz.CPU
                 ProcessGameEndTimers(cmd);
                 return new CCSAnnounceResults();
             }
-            else if (evt == ChessboardEvent.MOVE_UNDO)
-            {
-                return new CCSDefault();
-            }
 
             return null;
         }

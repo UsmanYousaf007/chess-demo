@@ -20,7 +20,6 @@ namespace TurboLabz.Chess
     {
         public ChessSquare fromSquare;
         public ChessSquare toSquare;
-        public int availableHints;
         public bool isHindsight;
     }
 }

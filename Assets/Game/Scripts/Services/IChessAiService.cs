@@ -16,7 +16,6 @@ namespace TurboLabz.Chess
 {
     public interface IChessAiService
     {
-        bool Busy { get; }
         void NewGame();
         void Shutdown();
         void SetPosition(string FEN);

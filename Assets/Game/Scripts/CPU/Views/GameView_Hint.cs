@@ -2,13 +2,7 @@
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2017-01-06 17:38:06 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
+
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,19 +18,20 @@ namespace TurboLabz.CPU
     {
         public Signal hintClickedSignal = new Signal();
 
+        [Header("Hint")]
         public GameObject hintFromIndicator;
         public GameObject hintToIndicator;
         public Button hintButton;
         public Text hintButtonLabel;
         public Text hintCountLabel;
-
+        public GameObject hintAdd;
         public GameObject hintThinking;
 
         private int availableHints;
 
         public void InitHint()
         {
-            hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
+            //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hintButton.onClick.AddListener(HintButtonClicked);
             hintThinking.SetActive(false);
         }
@@ -58,33 +53,37 @@ namespace TurboLabz.CPU
 
             audioService.Play(audioService.sounds.SFX_HINT);
 
-            UpdateHintCount(vo.availableHints);
-            DisableHintButton();
+            //UpdateHintCount(vo.availableHints);
+            //DisableHintButton();
             hintThinking.SetActive(false);
             DisableModalBlocker();
+            DisableHintButton();
         }
 
         public void HideHint()
         {
             hintFromIndicator.SetActive(false);
             hintToIndicator.SetActive(false);
+            hintThinking.SetActive(false);
         }
 
-        public void UpdateHintCount(int count)
+        private void HintButtonClicked()
         {
-            availableHints = count;
-
-            if (availableHints == 0)
+            if (hintAdd.activeSelf)
             {
-                DisableHintButton();
+                LogUtil.Log("Show hint spot purchase", "cyan");
             }
-
-            hintCountLabel.text = count.ToString();
+            else
+            {
+                hintThinking.SetActive(true);
+                EnableModalBlocker(false);
+                hintClickedSignal.Dispatch();
+            }
         }
 
         public void ToggleHintButton(bool isPlayerTurn)
         {
-            if (isPlayerTurn && availableHints > 0)
+            if (isPlayerTurn)
             {
                 EnableHintButton();
             }
@@ -97,31 +96,29 @@ namespace TurboLabz.CPU
         public void DisableHintButton()
         {
             hintButton.interactable = false;
-            DisableLabel(hintButtonLabel);
-            DisableLabel(hintCountLabel);
-        }
-
-        public bool IsHintButtonActive()
-        {
-            return hintButton.interactable;
-        }
-
-        private void HintButtonClicked()
-        {
-            DisableHintButton();
-            hintThinking.SetActive(true);
-            EnableModalBlocker(false);
-            hintClickedSignal.Dispatch();
         }
 
         private void EnableHintButton()
         {
-            if (availableHints > 0)
-            {
-                hintButton.interactable = true;
-                EnableLabel(hintButtonLabel);
-                EnableLabel(hintCountLabel);
-            }
+            hintButton.interactable = true;
         }
+
+        public void UpdateHintCount(int count)
+        {
+            if (count == 0)
+            {
+                DisableHintButton();
+                hintAdd.SetActive(true);
+                hintCountLabel.gameObject.SetActive(false);
+            }
+            else
+            {
+                hintAdd.SetActive(false);
+                hintCountLabel.gameObject.SetActive(true);
+            }
+
+            hintCountLabel.text = count.ToString();
+        }
+
     }
 }

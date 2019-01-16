@@ -12,7 +12,6 @@ public class NotchHandler : MonoBehaviour {
     [Header("Lobby")]
     public RectTransform facebookButton;
     public RectTransform centerContent;
-    public RectTransform freeBucksButton;
     public RectTransform devFen;
 
     [Header("Profile")]
@@ -78,7 +77,6 @@ public class NotchHandler : MonoBehaviour {
         // LOBBY
         SetY(facebookButton, -270f);
         SetY(centerContent, -66f);
-        SetY(freeBucksButton, 427f);
         SetY(devFen, -448);
 
         // PROFILE

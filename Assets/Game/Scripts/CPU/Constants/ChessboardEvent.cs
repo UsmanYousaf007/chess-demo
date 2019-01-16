@@ -23,6 +23,7 @@ namespace TurboLabz.CPU
         DRAW_REJECTED,
         GAME_ENDED,
         PROMO_SELECTED,
-        MOVE_UNDO
+        MOVE_UNDO,
+        MOVE_CONFIRMED
     }
 }

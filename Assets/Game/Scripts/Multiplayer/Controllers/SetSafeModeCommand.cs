@@ -12,7 +12,7 @@ namespace TurboLabz.Multiplayer
     public class SetSafeModeCommand : Command
     {
         // Dispatch Signals
-        [Inject] public UpdateHintCountSignal updateSafeMoveCountSignal { get; set; }
+        [Inject] public UpdateSafeMoveCountSignal updateSafeMoveCountSignal { get; set; }
         [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
 
         // Models

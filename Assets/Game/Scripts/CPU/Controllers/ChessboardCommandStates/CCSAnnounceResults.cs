@@ -43,9 +43,7 @@ namespace TurboLabz.CPU
 
             GameEndReason gameEndReason = model.gameEndReason;
 
-            cmd.disableUndoButtonSignal.Dispatch();
             cmd.disableMenuButtonSignal.Dispatch();
-            cmd.disableHintButtonSignal.Dispatch();
 
             cmd.cpuGameModel.inProgress = false;
             cmd.cpuGameModel.totalGames++;

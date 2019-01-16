@@ -21,6 +21,7 @@ namespace TurboLabz.CPU
 {
     public partial class GameView
     {
+        [Header("CPU Profile")]
         public Text cpuNameLabel;
         public Text cpuStrengthLabel;
         public Text cpuStrengthValue;

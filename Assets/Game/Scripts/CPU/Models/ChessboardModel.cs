@@ -55,10 +55,11 @@ namespace TurboLabz.CPU
         public List<ChessMove> moveList { get; set; }
         public List<MoveVO> moveVOCache { get; set; }
         public float defaultMoveDelay { get; set; }
-        public int availableHints { get; set; }
         public bool usedHelp { get; set; }
         public bool isUndo { get; set; }
         public bool inPlaybackMode { get; set; }
+        public bool inSafeMode { get; set; }
+        public string previousPlayerTurnFen { get; set; }
 
         public void Reset()
         {
@@ -97,10 +98,11 @@ namespace TurboLabz.CPU
             notation = new List<string>();
             moveList = new List<ChessMove>();
             moveVOCache = new List<MoveVO>();
-            availableHints = CPUSettings.DEFAULT_HINT_COUNT;
             usedHelp = false;
             isUndo = false;
             inPlaybackMode = false;
+            inSafeMode = false;
+            previousPlayerTurnFen = null;
         }
     }
 }

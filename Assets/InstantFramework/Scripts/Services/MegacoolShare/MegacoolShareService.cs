@@ -6,7 +6,7 @@
 /// @author Faraz Ahmed <faraz@turbolabz.com>
 /// @company Turbo Labz <http://turbolabz.com>
 /// @date 2018-01-10 10:52:49 UTC+05:00
-
+/*
 using UnityEngine;
 using System;
 
@@ -23,17 +23,7 @@ namespace TurboLabz.InstantFramework
             Megacool.Instance.Start();
             Megacool.Instance.SharingStrategy = MegacoolSharingStrategy.LINK;
 
-            /*
-            Megacool.Instance.CompletedSharing += () => {
-                analyticsService.SocialShareComplete();
-            };
-            Megacool.Instance.DismissedSharing += () => {
-                analyticsService.SocialShareDismiss();
-            };
-            Megacool.Instance.PossiblyCompletedSharing += () => {
-                analyticsService.SocialShareUnknown();
-            };
-            */
+           
         }
 
         public void ShareApp(string message)
@@ -46,3 +36,4 @@ namespace TurboLabz.InstantFramework
         }
     }
 }
+*/

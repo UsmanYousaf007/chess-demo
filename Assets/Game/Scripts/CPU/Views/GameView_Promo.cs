@@ -22,6 +22,7 @@ namespace TurboLabz.CPU
 {
     public partial class GameView
     {
+        [Header("Promo")]
         public GameObject promoParent;
         public Button promoWhiteQueenButton;
         public Button promoBlackQueenButton;
@@ -87,8 +88,6 @@ namespace TurboLabz.CPU
             promoBlackRookButton.gameObject.SetActive(blackActive);
             promoBlackBishopButton.gameObject.SetActive(blackActive);
             promoBlackKnightButton.gameObject.SetActive(blackActive);
-
-            DisableUndoButton();
         }
 
         public void ShowPromoDialog()
@@ -96,9 +95,7 @@ namespace TurboLabz.CPU
             EnableModalBlocker();
             promoParent.SetActive(true);
 
-            DisableHintButton();
             StashMenuButton();
-            StashUndoButton();
         }
 
         public void HidePromoDialog()
@@ -107,7 +104,6 @@ namespace TurboLabz.CPU
             promoParent.SetActive(false);
 
             PopMenuButton();
-            PopUndoButton();
         }
 
         public bool IsPromoActive()

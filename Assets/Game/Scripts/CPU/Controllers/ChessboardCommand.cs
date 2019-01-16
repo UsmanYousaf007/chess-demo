@@ -52,13 +52,13 @@ namespace TurboLabz.CPU
         [Inject] public EnablePlayerTurnInteractionSignal enablePlayerTurnInteraction { get; set; }
         [Inject] public EnableOpponentTurnInteractionSignal enableOpponentTurnInteraction { get; set; }
         [Inject] public UpdateMoveForResumeSignal updateMoveForResumeSignal { get; set; }
-        [Inject] public UpdateUndoButtonSignal updateUndoButtonSignal { get; set; }
-        [Inject] public DisableUndoButtonSignal disableUndoButtonSignal { get; set; }
         [Inject] public DisableMenuButtonSignal disableMenuButtonSignal { get; set; }
-        [Inject] public DisableHintButtonSignal disableHintButtonSignal { get; set; }
         [Inject] public InitInfiniteTimersSignal initInfiniteTimersSignal { get; set; }
         [Inject] public SaveGameSignal saveGameSignal { get; set; }
+        [Inject] public HindsightAvailableSignal hindsightAvailableSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
+        [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
+        [Inject] public UpdateSafeMoveCountSignal updateSafeMoveCountSignal { get; set; }
         [Inject] public TurnSwapSignal turnSwapSignal { get; set; }
         [Inject] public UpdateGameInfoSignal updateGameInfoSignal { get; set; }
         [Inject] public SaveStatsSignal saveStatsSignal { get; set; }
@@ -83,6 +83,9 @@ namespace TurboLabz.CPU
                 chessboardModel.currentState = new CCSDefault();
             }
 
+            LogUtil.Log("Current State: " + chessboardModel.currentState.GetType().Name, "white");
+            LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
+
             CCS currentState = chessboardModel.currentState;
             CCS newState = chessboardModel.currentState.HandleEvent(this);
 
@@ -91,6 +94,12 @@ namespace TurboLabz.CPU
                 chessboardModel.previousState = currentState;
                 chessboardModel.currentState = newState;
                 newState.RenderDisplayOnEnter(this);
+
+                LogUtil.Log("New State: " + newState.GetType().Name, "white");
+            }
+            else
+            {
+                LogUtil.Log("Event ignored.", "white");
             }
         }
     }

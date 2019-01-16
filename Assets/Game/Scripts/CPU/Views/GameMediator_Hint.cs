@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2017-01-06 22:03:07 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
@@ -20,19 +13,25 @@ namespace TurboLabz.CPU
     {
         //Dispatch Signals
         [Inject] public GetHintSignal getHintSignal { get; set; }
-        [Inject] public NavigatorIgnoreEventSignal navigatorIgnoreEventSignal { get; set; }
+
+        private void OnRegisterHint()
+        {
+            view.InitHint();
+            view.hintClickedSignal.AddListener(OnGetHint);
+        }
+
+        private void OnGetHint()
+        {
+            getHintSignal.Dispatch(false);
+        }
 
         [ListensTo(typeof(RenderHintSignal))]
         public void OnRenderHint(HintVO vo)
         {
-            view.RenderHint(vo);
-            navigatorIgnoreEventSignal.Dispatch(NavigatorEvent.NONE);
-        }
-
-        [ListensTo(typeof(UpdateHintCountSignal))]
-        public void OnUpdateHintCount(int count)
-        {
-            view.UpdateHintCount(count);
+            if (!vo.isHindsight)
+            {
+                view.RenderHint(vo);
+            }
         }
 
         [ListensTo(typeof(TurnSwapSignal))]
@@ -41,27 +40,10 @@ namespace TurboLabz.CPU
             view.ToggleHintButton(isPlayerTurn);
         }
 
-        [ListensTo(typeof(DisableHintButtonSignal))]
-        public void OnDisableHintButton()
+        [ListensTo(typeof(UpdateHintCountSignal))]
+        public void OnUpdateHintCount(int count)
         {
-            view.DisableHintButton();
-        }
-
-        private void OnRegisterHint()
-        {
-            view.InitHint();
-            view.hintClickedSignal.AddListener(OnGetHint);
-        }
-
-        private void OnRemoveHint()
-        {
-            view.hintClickedSignal.RemoveAllListeners();
-        }
-
-        private void OnGetHint()
-        {
-            navigatorIgnoreEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            getHintSignal.Dispatch();
+            view.UpdateHintCount(count);
         }
     }
 }

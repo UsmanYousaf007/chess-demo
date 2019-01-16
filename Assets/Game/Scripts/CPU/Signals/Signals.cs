@@ -50,7 +50,6 @@ namespace TurboLabz.CPU
     public class EnablePlayerTurnInteractionSignal : Signal {}
     public class EnableOpponentTurnInteractionSignal : Signal {}
     public class UpdateMoveForResumeSignal : Signal<MoveVO, bool> {}
-    public class UpdateUndoButtonSignal : Signal<bool, int> {}
     public class DisableUndoButtonSignal : Signal {}
     public class DisableMenuButtonSignal : Signal {}
     public class DisableHintButtonSignal : Signal {}
@@ -69,12 +68,16 @@ namespace TurboLabz.CPU
     public class ShowOpponentToIndicatorSignal : Signal<ChessSquare> {}
     public class HideOpponentFromIndicatorSignal : Signal {}
     public class HideOpponentToIndicatorSignal : Signal {}
-    public class UndoMoveSignal : Signal {}
     public class RenderHintSignal : Signal<HintVO> {}
-    public class GetHintSignal : Signal {}
+    public class GetHintSignal : Signal<bool> {}
+    public class SetSafeModeSignal : Signal { }
+    public class SafeMoveSignal : Signal<bool> { }
     public class UpdateHintCountSignal : Signal<int> {}
+    public class UpdateHindsightCountSignal : Signal<int> { }
+    public class UpdateSafeMoveCountSignal : Signal<int> { }
     public class TurnSwapSignal : Signal<bool> {}
     public class UpdateGameInfoSignal : Signal<GameInfoVO> {}
     public class EnableResultsDialogButtonSignal : Signal {}
+    public class HindsightAvailableSignal : Signal<bool> { }
 
 }

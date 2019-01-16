@@ -22,6 +22,7 @@ namespace TurboLabz.CPU
 {
     public partial class GameView
     {
+        [Header("CPU Thinking")]
         public GameObject think;
 
         public void ToggleThink(bool isPlayerTurn)

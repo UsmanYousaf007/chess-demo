@@ -83,9 +83,7 @@ namespace TurboLabz.CPU
             EnableModalBlocker();
             resultsDialog.SetActive(true);
 
-            DisableUndoButton();
             DisableMenuButton();
-            DisableHintButton();
             DeactivateThink();
             HidePossibleMoves();
 

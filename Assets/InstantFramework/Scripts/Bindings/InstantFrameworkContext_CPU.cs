@@ -23,8 +23,9 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();
             commandBinder.Bind<PromoSelectedSignal>().To<ChessboardPromoCommand>();
             commandBinder.Bind<DevFenValueChangedSignal>().To<DevFenChangedCommand>();
-            commandBinder.Bind<UndoMoveSignal>().To<UndoMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
+            commandBinder.Bind<SafeMoveSignal>().To<SafeMoveCommand>();
+            commandBinder.Bind<SetSafeModeSignal>().To<SetSafeModeCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<GameView>().To<GameMediator>();
@@ -61,12 +62,14 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<EnablePlayerTurnInteractionSignal>().ToSingleton();
             injectionBinder.Bind<EnableOpponentTurnInteractionSignal>().ToSingleton();
             injectionBinder.Bind<UpdateMoveForResumeSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateUndoButtonSignal>().ToSingleton();
             injectionBinder.Bind<DisableUndoButtonSignal>().ToSingleton();
             injectionBinder.Bind<DisableMenuButtonSignal>().ToSingleton();
             injectionBinder.Bind<DisableHintButtonSignal>().ToSingleton();
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateHindsightCountSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSafeMoveCountSignal>().ToSingleton();
+            injectionBinder.Bind<HindsightAvailableSignal>().ToSingleton();
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
             injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
 

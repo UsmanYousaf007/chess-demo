@@ -3,6 +3,7 @@ using TurboLabz.Chess;
 using UnityEngine;
 using TurboLabz.InstantFramework;
 using strange.extensions.signal.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.Multiplayer
 {
@@ -24,8 +25,6 @@ namespace TurboLabz.Multiplayer
         public Signal safeMoveConfirmClickedSignal = new Signal();
         public Signal safeMoveUndoClickedSignal = new Signal();
 
-        int safeMoveCount;
-
         public void InitSafeMove()
         {
             safeMoveBtn.onClick.AddListener(OnSafeMoveBtnClicked);
@@ -40,7 +39,6 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateSafeMoves(int count)
         {
-            safeMoveCount = count;
             safeMoveCountTxt.gameObject.SetActive(count > 0);
             safeMoveAdd.SetActive(count <= 0);
         }
@@ -59,8 +57,15 @@ namespace TurboLabz.Multiplayer
 
         void OnSafeMoveBtnClicked()
         {
-            safeMoveBtnClickedSignal.Dispatch();
-            DisableSafeMoveButton();
+            if (safeMoveAdd.activeSelf)
+            {
+                LogUtil.Log("Show safe move spot purchase", "cyan");
+            }
+            else
+            {
+                safeMoveBtnClickedSignal.Dispatch();
+                DisableSafeMoveButton();
+            }
         }
 
         void OnSafeMoveConfirmClicked()

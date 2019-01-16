@@ -46,8 +46,7 @@ namespace TurboLabz.Multiplayer
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             string fen = isHindsight ? chessboard.previousPlayerTurnFen : chessboard.fen;
-            LogUtil.Log("Previous player turn fen:" + chessboard.previousPlayerTurnFen);
-
+            chessAiService.NewGame();
             chessAiService.SetPosition(fen);
 
             AiMoveInputVO vo = new AiMoveInputVO();
@@ -66,7 +65,6 @@ namespace TurboLabz.Multiplayer
             HintVO vo;
             vo.fromSquare = chessboard.squares[from.file, from.rank];
             vo.toSquare = chessboard.squares[to.file, to.rank];
-            vo.availableHints = 0;
             vo.isHindsight = isHindsight;
             renderHintSignal.Dispatch(vo);
 

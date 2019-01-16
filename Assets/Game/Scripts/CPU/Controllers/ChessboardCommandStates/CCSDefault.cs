@@ -23,7 +23,8 @@ namespace TurboLabz.CPU
             // selected turn, that means we are undoing the move. So we
             // just fire a game started event.
             if (CameFromState(cmd, typeof(CCSPlayerTurn)) ||
-                CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
+                CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)) ||
+                CameFromState(cmd, typeof(CCSSafeMoveDialog)))
             {
                 cmd.chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
             }
@@ -95,6 +96,11 @@ namespace TurboLabz.CPU
 
             foreach (ChessMove move in chessboardModel.moveList)
             {
+                if (chessboardModel.isPlayerTurn)
+                {
+                    chessboardModel.previousPlayerTurnFen = chessService.GetFen();
+                }
+
                 ChessMoveResult moveResult = chessService.MakeMove(move.from,
                     move.to, 
                     move.promo, 

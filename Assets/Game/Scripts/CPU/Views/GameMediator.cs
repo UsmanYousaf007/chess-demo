@@ -39,8 +39,9 @@ namespace TurboLabz.CPU
             OnRegisterScore();
             OnRegisterMatchInfo();
             OnRegisterMenu();
+            OnRegisterSafeMove();
             OnRegisterHint();
-            OnRegisterUndo();
+            OnRegisterHindsight();
         }
 
         public override void OnRemove()
@@ -51,8 +52,6 @@ namespace TurboLabz.CPU
             OnRemoveResults();
             OnRemoveScore();
             OnRemoveMenu();
-            OnRemoveHint();
-            OnRemoveUndo();
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
