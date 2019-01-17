@@ -95,7 +95,6 @@ namespace TurboLabz.CPU
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
             resultsRatingTitleLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
-            resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
             resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
 
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
@@ -279,6 +278,15 @@ namespace TurboLabz.CPU
 
             // Reward
             resultsRewardCoinsLabel.text = "+" + rewardCoins;
+            if (playerWins)
+            {
+                resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_REWARD);
+            }
+            else
+            {
+                resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
+            }
+
             adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
         }
 

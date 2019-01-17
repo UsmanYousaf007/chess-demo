@@ -122,6 +122,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "COLLECT" },
                 { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Skip Reward" },
                 { LocalizationKey.RESULTS_EARNED, "Earned" },
+                { LocalizationKey.RESULTS_REWARD, "Reward" },
 
                 #endregion
 

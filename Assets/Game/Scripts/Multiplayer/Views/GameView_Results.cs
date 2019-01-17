@@ -78,7 +78,6 @@ namespace TurboLabz.Multiplayer
             resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
             resultsRatingTitleLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
-            resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
             resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
 
             declinedHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
@@ -275,6 +274,14 @@ namespace TurboLabz.Multiplayer
             // Reward
             resultsRewardCoinsLabel.text = "+" + vo.rewardCoins;
             adRewardType = vo.adRewardType;
+            if (playerWins)
+            {
+                resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_REWARD);
+            }
+            else
+            {
+                resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
+            }
         }
 
         private void AnimateResultsDialog()
