@@ -85,7 +85,6 @@ namespace TurboLabz.InstantFramework
         public const string ONLINE_STATUS_FRIEND_MESSAGE = "OnlineStatusFriendMessage";
 
         // Feature Shop Items
-        public const string SHOP_ITEM_FEATURE_REMOVE_ADS = "FeatureRemoveAds";
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS_30 = "FeatureRemoveAds30";
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS_PERM = "FeatureRemoveAdsPerm";
 
