@@ -54,7 +54,7 @@ namespace TurboLabz.CPU
             vo.aiColor = chessboardModel.playerColor;
             vo.playerColor = chessboardModel.opponentColor;
             vo.squares = chessboardModel.squares;
-            vo.aiMoveDelay = AiMoveDelay.CPU;
+            vo.aiMoveDelay = AiMoveDelay.NONE;
             vo.isHint = true;
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);

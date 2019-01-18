@@ -16,6 +16,8 @@ using TurboLabz.InstantFramework;
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
 using TurboLabz.Chess;
+using System.Collections;
+using UnityEngine;
 
 namespace TurboLabz.CPU
 {
@@ -32,9 +34,15 @@ namespace TurboLabz.CPU
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
+        // Utils
+        [Inject] public IRoutineRunner routineRunner { get; set; }
+
+        float startTime;
+
         public override void Execute()
         {
             Retain();
+            startTime = Time.time;
 
             ++chessboardModel.aiMoveNumber;
             chessAiService.SetPosition(chessService.GetFen());
@@ -69,6 +77,23 @@ namespace TurboLabz.CPU
         }
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
+        {
+            routineRunner.StartCoroutine(SimulateDelay(from, to, promo));
+        }
+
+        IEnumerator SimulateDelay(FileRank from, FileRank to, string promo)
+        {
+            float delay = AiMoveTimes.M_CPU;
+
+            float timeElapsed = Time.time - startTime;
+            delay -= timeElapsed;
+            delay = Mathf.Max(0, delay);
+            yield return new WaitForSecondsRealtime(delay);
+
+            ExecOnAiMove(from, to, promo);
+        }
+
+        private void ExecOnAiMove(FileRank from, FileRank to, string promo)
         {
             FileRank fromFileRank = from;
             FileRank toFileRank = to;
