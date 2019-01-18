@@ -27,7 +27,6 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
-        [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal{ get; set; }
 
         // Models
@@ -62,8 +61,6 @@ namespace TurboLabz.InstantGame
             string localizedDays = localizationService.Get(LocalizationKey.FREE_NO_ADS_DAYS);
             string timeRemain =  TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod, 
                 localizedMins, localizedHours, localizedDays);
-
-            updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS));
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);

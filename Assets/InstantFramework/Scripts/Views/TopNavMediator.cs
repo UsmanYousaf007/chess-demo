@@ -24,7 +24,6 @@ namespace TurboLabz.InstantFramework
 
             view.shareAppButtonClickedSignal.AddListener(OnShareAppButtonClicked);
             view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
-            view.removeAdsButtonClickedSignal.AddListener(OnRemoveAdsButtonClicked);
         }
 
         public override void OnRemove()
@@ -41,11 +40,6 @@ namespace TurboLabz.InstantFramework
         private void OnAddBucksButtonClicked()
         {
             loadBuckPacksSignal.Dispatch();
-        }
-
-        private void OnRemoveAdsButtonClicked()
-        {
-            purchaseStoreItemSignal.Dispatch(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS, true);
         }
 
         [ListensTo(typeof(UpdatePlayerBucksSignal))]
