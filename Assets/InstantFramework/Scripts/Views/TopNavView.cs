@@ -28,9 +28,6 @@ namespace TurboLabz.InstantFramework
         public Button supportButton;
         public Button addBucksButton;
         public Text playerBucks;
-        public Button removeAdsButton;
-        public Text removeAdsLabel;
-        public Text freeNoAdsPeriodLabel;
 
         public Signal shareAppButtonClickedSignal = new Signal();
         public Signal addBucksButtonClickedSignal = new Signal();
@@ -43,14 +40,8 @@ namespace TurboLabz.InstantFramework
             audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
             audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
             supportButton.onClick.AddListener(OnSupportButtonClicked);
-            removeAdsButton.onClick.AddListener(OnRemoveAdsButtonClicked);
-
-            removeAdsLabel.text = localizationService.Get(LocalizationKey.REMOVE_ADS);
 
             RefreshAudioButtons();
-
-            // REMOVE WHEN ADS ARE SWITCHED ON
-            removeAdsButton.gameObject.SetActive(false);
         }
 
         protected override void OnEnable()
@@ -66,6 +57,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateRemoveAds(string freePeriod, bool isRemoved)
         {
+            /*
             freeNoAdsPeriodLabel.text = localizationService.Get(LocalizationKey.FREE_NO_ADS_PERIOD);
 
             // UNCOMMNENT WHEN ADS FEATURE BECOMES AVAILABLE
@@ -81,14 +73,12 @@ namespace TurboLabz.InstantFramework
                 removeAdsButton.gameObject.SetActive(false);
                 freeNoAdsPeriodLabel.text += " " + freePeriod;
             }
+            */
         }
+
 
         public void OnStoreAvailable(bool isAvailable)
         {
-            removeAdsLabel.color = isAvailable ? Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA) :
-                Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
-            
-            removeAdsButton.interactable = isAvailable;
             addBucksButton.interactable = isAvailable;
         }
 

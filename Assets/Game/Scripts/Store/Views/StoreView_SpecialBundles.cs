@@ -15,7 +15,7 @@ namespace TurboLabz.InstantGame
     public partial class StoreView : View
     {
         [Header("Bundles Tab")]
-        public GameObject galleryBundles;
+        public GameObject[] galleryBundles;
 
         private IDictionary<string, SpecialBundleShopItemPrefab> prefabsBundles = null;
 
@@ -38,7 +38,7 @@ namespace TurboLabz.InstantGame
             int qty = storeItem.bundledItems[itemKey];
             string displayName = vo.storeSettingsModel.store.items[itemKey].displayName;
 
-            return displayName + " " + "x" + qty;
+            return qty + " " + displayName;
         }
 
         private string GetBundleFeatureAdRemoveText(StoreVO vo, StoreItem storeItem)
@@ -75,16 +75,25 @@ namespace TurboLabz.InstantGame
             return null;
         }
 
-        private void InitPrefabsBundles(StoreVO vo, GameObject content)
+        private string GetBundleThemesText(StoreItem storeItem)
         {
-            foreach (Transform child in content.transform)
+            if (storeItem.key == GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG)
+            {
+                return "All Themes";
+            }
+
+            return "";
+        }
+
+        private void InitPrefabsBundles(StoreVO vo, GameObject[] content)
+        {
+            foreach (GameObject child in content)
             {
                 SpecialBundleShopItemPrefab bundlePrefab = child.GetComponent<SpecialBundleShopItemPrefab>();
                 StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
 
                 prefabsBundles.Add(bundlePrefab.key, bundlePrefab);
 
-                bundlePrefab.youEnjoy.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_YOU_ENJOY);
                 bundlePrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
 
                 bundlePrefab.displayName.text = storeItem.displayName;
@@ -95,8 +104,8 @@ namespace TurboLabz.InstantGame
                 bundlePrefab.payout2.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG);
                 bundlePrefab.payout3.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG);
                 bundlePrefab.payout4.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG);
-                bundlePrefab.payout5.text = "Coins x" + storeItem.currency2Payout;
-                bundlePrefab.payout6.text = ""; // TODO: Exclusive Skins
+                bundlePrefab.payout5.text = storeItem.currency2Payout + " " + "Coins";
+                bundlePrefab.payout6.text = GetBundleThemesText(storeItem);
 
                 bundlePrefab.discount.text = GetBundleDiscountText(vo, storeItem);
             }

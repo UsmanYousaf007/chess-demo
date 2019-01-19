@@ -192,6 +192,9 @@ namespace TurboLabz.InstantFramework
             public const string FEATURE_REMOVEAD_PERM_SHOP_TAG = "FeatureRemoveAdsPerm";
             public const string FEATURE_REMOVEAD_30_SHOP_TAG = "FeatureRemoveAds30";
 
+            public const string SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG = "SpecialBundleUltimate";
+            public const string SPECIAL_BUNDLE_STANDARD_SHOP_TAG = "SpecialBundleStandard";
+
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";
             public const string SHOP_ITEM_TIER_EPIC = "Epic";

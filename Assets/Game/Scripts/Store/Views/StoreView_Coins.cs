@@ -16,7 +16,7 @@ namespace TurboLabz.InstantGame
     {
         [Header("Coins Tab")]
         public GameObject scrollViewCoins;
-        public GameObject galleryCoins;
+        public GameObject[] galleryCoins;
 
         private IDictionary<string, CoinShopItemPrefab> prefabsCoins = null;
 
@@ -29,9 +29,9 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        private void InitPrefabsCoins(StoreVO vo, GameObject content)
+        private void InitPrefabsCoins(StoreVO vo, GameObject[] content)
         {
-            foreach (Transform child in content.transform)
+            foreach (GameObject child in content)
             {
                 CoinShopItemPrefab coinPrefab = child.GetComponent<CoinShopItemPrefab>();
                 StoreItem storeItem = vo.storeSettingsModel.store.items[coinPrefab.key];               
@@ -42,7 +42,7 @@ namespace TurboLabz.InstantGame
                 coinPrefab.displayName.text = storeItem.displayName;
                 coinPrefab.thumbnail.sprite = thumbsContainer.GetSprite(coinPrefab.key);
                 coinPrefab.price.text = storeItem.remoteProductPrice;
-                coinPrefab.payout.text = storeItem.currency2Payout.ToString();
+                //coinPrefab.payout.text = storeItem.currency2Payout.ToString();
             }
         }
     }

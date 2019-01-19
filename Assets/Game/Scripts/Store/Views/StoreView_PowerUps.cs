@@ -17,7 +17,10 @@ namespace TurboLabz.InstantGame
     {
         [Header("PowerUps Tab")]
         public GameObject scrollViewPowerUps;
-        public GameObject galleryPowerUps;
+        public Text titleSafeMove;
+        public Text titleHint;
+        public Text titleHindsight;
+        public GameObject[] galleryPowerUps;
 
         private IDictionary<string, PowerUpShopItemPrefab> prefabsPowerUps = null;
 
@@ -49,9 +52,13 @@ namespace TurboLabz.InstantGame
             return "x" + val.Value.ToString();
         }
 
-        private void InitPrefabsPowerUps(StoreVO vo, GameObject content)
+        private void InitPrefabsPowerUps(StoreVO vo, GameObject[] content)
         {
-            foreach (Transform child in content.transform)
+            titleSafeMove.text = localizationService.Get(LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE);
+            titleHint.text = localizationService.Get(LocalizationKey.STORE_POWERUP_TITLE_HINT);
+            titleHindsight.text = localizationService.Get(LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT);
+
+            foreach (GameObject child in content)
             {
                 PowerUpShopItemPrefab powerUpPrefab = child.GetComponent<PowerUpShopItemPrefab>();
                 StoreItem storeItem = vo.storeSettingsModel.store.items[powerUpPrefab.key];

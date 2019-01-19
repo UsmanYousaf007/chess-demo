@@ -15,7 +15,7 @@ namespace TurboLabz.InstantGame
     {
         [Header("Skins Tab")]
         public GameObject scrollViewSkins;
-        public GameObject gallerySkins;
+        public GameObject[] gallerySkins;
 
         private IDictionary<string, SkinShopItemPrefab> prefabsSkins = null;
 
@@ -36,9 +36,9 @@ namespace TurboLabz.InstantGame
             UpdateSkins(vo);
         }
 
-        private void InitPrefabsSkins(StoreVO vo, GameObject content)
+        private void InitPrefabsSkins(StoreVO vo, GameObject[] content)
         {
-            foreach (Transform child in content.transform)
+            foreach (GameObject child in content)
             {
                 SkinShopItemPrefab skinPrefab = child.GetComponent<SkinShopItemPrefab>();
                 StoreItem sourceItem = vo.storeSettingsModel.store.items[skinPrefab.key];

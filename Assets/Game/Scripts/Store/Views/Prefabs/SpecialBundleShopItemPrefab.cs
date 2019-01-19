@@ -14,7 +14,6 @@ namespace TurboLabz.InstantGame
 
         public Image thumbnail;
         public Text displayName;
-        public Text youEnjoy;
         public Text price;
         public Text discount;
         public Button button;
