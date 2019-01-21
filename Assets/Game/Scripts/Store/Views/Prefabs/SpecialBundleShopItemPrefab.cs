@@ -16,6 +16,10 @@ namespace TurboLabz.InstantGame
         public Text displayName;
         public Text price;
         public Text discount;
+        public Text owned;
+        public Text remainingDays;
+        public Text remaining;
+        public Image tick;
         public Button button;
         public Text payout1;
         public Text payout2;

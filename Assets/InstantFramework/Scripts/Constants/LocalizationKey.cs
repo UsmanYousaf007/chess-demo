@@ -154,6 +154,12 @@ namespace TurboLabz.InstantFramework
         public const string STORE_POWERUP_TITLE_HINT = "storePowerUpTitleHint";
         public const string STORE_POWERUP_TITLE_HINDSIGHT = "storePowerUpTitleHindsight";
 
+        public const string STORE_BUNDLE_FIELD_OWNED = "storeBundleFieldOwned";
+        public const string STORE_BUNDLE_FIELD_REMAINING = "storeBundleFieldRemaining";
+        public const string STORE_BUNDLE_FIELD_DAYS = "storeBundleFieldDays";
+
+        public const string STORE_CONFIRM_DLG_TITLE_BUY = "storeConfirmDlgTitleBuy";
+
         public const string CPU_STORE_HEADING = "storeHeading";
 		public const string CPU_STORE_OWNED = "storeItemOwned";
 		public const string CPU_STORE_BUCKS = "bucks";

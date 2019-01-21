@@ -13,6 +13,6 @@ namespace TurboLabz.InstantGame
         public int hindsightCount;
         public long coinCount;
 
-        //public bool 
+        public bool isStore;
     }
 }

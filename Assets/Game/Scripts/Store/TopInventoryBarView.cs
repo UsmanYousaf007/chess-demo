@@ -34,13 +34,13 @@ namespace TurboLabz.InstantGame
 
         public void UpdateTopInventoryBar(TopInventoryBarVO vo)
         {
-            inventoryBar.safeMoveCountText.gameObject.SetActive(vo.safeMoveCount >= 0);
-            inventoryBar.hintCountText.gameObject.SetActive(vo.hintCount >= 0); 
-            inventoryBar.hindsightCountText.gameObject.SetActive(vo.hindsightCount >= 0);
+            inventoryBar.safeMoveCountText.gameObject.SetActive(vo.safeMoveCount >= 0 || vo.isStore);
+            inventoryBar.hintCountText.gameObject.SetActive(vo.hintCount >= 0 || vo.isStore); 
+            inventoryBar.hindsightCountText.gameObject.SetActive(vo.hindsightCount >= 0 || vo.isStore);
 
-            inventoryBar.safeMovePlus.gameObject.SetActive(vo.safeMoveCount <= 0);
-            inventoryBar.hintPlus.gameObject.SetActive(vo.hintCount <= 0); 
-            inventoryBar.hindsightPlus.gameObject.SetActive(vo.hindsightCount <= 0);
+            inventoryBar.safeMovePlus.gameObject.SetActive(vo.safeMoveCount <= 0 && !vo.isStore);
+            inventoryBar.hintPlus.gameObject.SetActive(vo.hintCount <= 0 && !vo.isStore); 
+            inventoryBar.hindsightPlus.gameObject.SetActive(vo.hindsightCount <= 0 && !vo.isStore);
 
             inventoryBar.safeMoveCountText.text = vo.safeMoveCount.ToString();
             inventoryBar.hintCountText.text = vo.hintCount.ToString();

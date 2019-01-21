@@ -33,11 +33,8 @@ namespace TurboLabz.InstantGame
 			yesButton.onClick.AddListener(OnYesButtonClicked);
 			noButton.onClick.AddListener(OnNoButtonClicked);
 
-			titleLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_THEME_TITLE);
-            yesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON);
+            yesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_BUY_BUTTON);
             noButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON);
-
-			itemNameLabel.color = Colors.YELLOW;
 		}
 
 		public void CleanupBuy() 
@@ -48,8 +45,10 @@ namespace TurboLabz.InstantGame
 
 		public void UpdateStoreBuyDlg(StoreItem item)
 		{
-			buyStoreItem = item;
-			itemNameLabel.text = item.displayName;
+            titleLabel.text = localizationService.Get(LocalizationKey.STORE_CONFIRM_DLG_TITLE_BUY) + " " + item.displayName;
+            itemNameLabel.text = item.description;
+
+            buyStoreItem = item;
 		}
 
 		public void ShowBuy()

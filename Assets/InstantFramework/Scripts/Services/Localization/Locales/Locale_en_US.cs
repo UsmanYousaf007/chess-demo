@@ -158,8 +158,15 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_POWERUP_TITLE_HINT, "HINT" },
                 { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "HINDSIGHT" },
 
+                { LocalizationKey.STORE_BUNDLE_FIELD_OWNED, "OWNED" },
+                { LocalizationKey.STORE_BUNDLE_FIELD_REMAINING, "Remaining" },
+                { LocalizationKey.STORE_BUNDLE_FIELD_DAYS, "Days" },
+
+                { LocalizationKey.STORE_CONFIRM_DLG_TITLE_BUY, "Buy" },
+
+
                 { LocalizationKey.CPU_STORE_HEADING, "THEMES" },
-				{ LocalizationKey.CPU_STORE_OWNED, "Owned" },
+				{ LocalizationKey.CPU_STORE_OWNED, "OWNED" },
 				{ LocalizationKey.CPU_STORE_BUCKS, "Coins" },
 
 				{ LocalizationKey.CPU_STORE_BUY_THEME_TITLE, "Buy Theme" },

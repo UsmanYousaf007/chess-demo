@@ -85,6 +85,74 @@ namespace TurboLabz.InstantGame
             return "";
         }
 
+        private void SetBundleStateResets(SpecialBundleShopItemPrefab bundlePrefab)
+        {
+            bundlePrefab.price.gameObject.SetActive(false);
+            bundlePrefab.tick.gameObject.SetActive(false);
+            bundlePrefab.remaining.gameObject.SetActive(false);
+            bundlePrefab.remainingDays.gameObject.SetActive(false);
+            bundlePrefab.discount.gameObject.SetActive(false);
+            bundlePrefab.owned.gameObject.SetActive(false);
+        }
+
+        private void SetBundleStateUltimate(StoreVO vo, SpecialBundleShopItemPrefab bundlePrefab)
+        {
+            StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
+            bool isOwned = vo.playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
+
+            SetBundleStateResets(bundlePrefab);
+
+            if (isOwned)
+            {
+                bundlePrefab.owned.gameObject.SetActive(true);
+                bundlePrefab.tick.gameObject.SetActive(true);
+            }
+            else
+            {
+                bundlePrefab.price.text = storeItem.remoteProductPrice;
+                bundlePrefab.discount.gameObject.SetActive(true);
+            }
+        }
+
+        private void SetBundleStateStandard(StoreVO vo, SpecialBundleShopItemPrefab bundlePrefab)
+        {
+            StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
+            bool isOwned = vo.playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_STANDARD_SHOP_TAG);
+
+            SetBundleStateResets(bundlePrefab);
+
+            if (isOwned)
+            {
+                string remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, 30);
+                remaining = remaining + " " + localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
+
+                bundlePrefab.remainingDays.text = remaining;
+                bundlePrefab.tick.gameObject.SetActive(true);
+                bundlePrefab.remaining.gameObject.SetActive(true);
+                bundlePrefab.remainingDays.gameObject.SetActive(true);
+            }
+            else
+            {
+                bundlePrefab.price.text = storeItem.remoteProductPrice;
+                bundlePrefab.price.gameObject.SetActive(true);
+                bundlePrefab.discount.gameObject.SetActive(true);
+            }
+        }
+
+        private void SetBundleState(StoreVO vo, SpecialBundleShopItemPrefab bundlePrefab)
+        {
+            switch(bundlePrefab.key)
+            {
+                case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG:
+                    SetBundleStateUltimate(vo, bundlePrefab);
+                    break;
+
+                    case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_STANDARD_SHOP_TAG:
+                    SetBundleStateStandard(vo, bundlePrefab);
+                    break;
+            }
+        }
+
         private void InitPrefabsBundles(StoreVO vo, GameObject[] content)
         {
             foreach (GameObject child in content)
@@ -98,7 +166,6 @@ namespace TurboLabz.InstantGame
 
                 bundlePrefab.displayName.text = storeItem.displayName;
                 bundlePrefab.thumbnail.sprite = thumbsContainer.GetSprite(bundlePrefab.key);
-                bundlePrefab.price.text = storeItem.remoteProductPrice;
 
                 bundlePrefab.payout1.text = GetBundleFeatureAdRemoveText(vo, storeItem);
                 bundlePrefab.payout2.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG);
@@ -108,6 +175,11 @@ namespace TurboLabz.InstantGame
                 bundlePrefab.payout6.text = GetBundleThemesText(storeItem);
 
                 bundlePrefab.discount.text = GetBundleDiscountText(vo, storeItem);
+
+                bundlePrefab.owned.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
+                bundlePrefab.remaining.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
+
+                SetBundleState(vo, bundlePrefab);
             }
         }
     }

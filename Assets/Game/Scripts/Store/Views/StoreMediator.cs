@@ -14,12 +14,12 @@ namespace TurboLabz.InstantGame
     public partial class StoreMediator : Mediator
     {
         // View injection
-		[Inject] public StoreView view { get; set; }
+        [Inject] public StoreView view { get; set; }
 
-		// Dispatch signals
-		[Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-		[Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
-		[Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        // Dispatch signals
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
         [Inject] public UpdateStoreNotEnoughBucksDlgSignal updateStoreNotEnoughBucksDlgSignal { get; set; }
@@ -30,52 +30,52 @@ namespace TurboLabz.InstantGame
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void OnRegister()
-		{
-			view.Init();
-			view.storeItemClickedSignal.AddListener(OnStoreItemClicked);
+        {
+            view.Init();
+            view.storeItemClickedSignal.AddListener(OnStoreItemClicked);
 
-			OnRegisterBuy();
-			OnRegisterNotEnoughBucks();
-		}
+            OnRegisterBuy();
+            OnRegisterNotEnoughBucks();
+        }
 
-		public override void OnRemove()
-		{
-			view.storeItemClickedSignal.RemoveAllListeners ();
+        public override void OnRemove()
+        {
+            view.storeItemClickedSignal.RemoveAllListeners ();
 
-			OnRemoveBuy();
-			OnRemoveNotEnoughBucks();
-		}
+            OnRemoveBuy();
+            OnRemoveNotEnoughBucks();
+        }
 
-		[ListensTo(typeof(NavigatorShowViewSignal))]
-		public void OnShowView(NavigatorViewId viewId)
-		{
-			if (viewId == NavigatorViewId.STORE) 
-			{
-				view.Show();
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.STORE) 
+            {
+                view.Show();
                 analyticsService.VisitShop();
             }
-		}
+        }
 
-		[ListensTo(typeof(NavigatorHideViewSignal))]
-		public void OnHideView(NavigatorViewId viewId)
-		{
-			if (viewId == NavigatorViewId.STORE)
-			{
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.STORE)
+            {
                 if (view.HasSkinChanged())
                 {
                     // Dispatch save skin signal
                     savePlayerInventorySignal.Dispatch();
                 }
 
-				view.Hide();
-			}
-		}
+                view.Hide();
+            }
+        }
 
-		[ListensTo(typeof(UpdateStoreSignal))]
-		public void OnUpdateStore(StoreVO vo)
-		{
-			view.UpdateView(vo);
-		}
+        [ListensTo(typeof(UpdateStoreSignal))]
+        public void OnUpdateStore(StoreVO vo)
+        {
+            view.UpdateView(vo);
+        }
 
         [ListensTo(typeof(ShowStoreTabSignal))]
         public void OnShowTab(StoreView.StoreTabs tab)
@@ -111,17 +111,17 @@ namespace TurboLabz.InstantGame
             }
         }
 
-		public void OnAddBucksButtonClicked()
-		{
-			loadBuckPacksSignal.Dispatch();
-		}
+        public void OnAddBucksButtonClicked()
+        {
+            loadBuckPacksSignal.Dispatch();
+        }
 
-		private void OnStoreItemClicked(StoreItem item)
-		{
+        private void OnStoreItemClicked(StoreItem item)
+        {
             analyticsService.TapShopItem(item.displayName);
 
-            // Purchase item after confirmation 
-            purchaseStoreItemSignal.Dispatch(item.key, false);
+            // Purchase item after confirmation
+            purchaseStoreItemSignal.Dispatch(item.key, item.remoteProductId != null);
         }
 
         private void OnBackButtonClicked()
