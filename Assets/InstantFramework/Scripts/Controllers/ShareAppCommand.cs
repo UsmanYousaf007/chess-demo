@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
             shareService.ShareApp(
             "Let's Play Chess",
             "Hey, let's play Chess!\n" + SHARE_URL,
-            "Invite a friend to play Chess"
+            "Invite a friend to play chess"
             );
         }
     }
