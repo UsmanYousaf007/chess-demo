@@ -54,6 +54,10 @@ namespace TurboLabz.Multiplayer
                     cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW &&
                     !isPlayerTurn;
 
+                runTimeControlVO.playerJustAcceptedOnPlayerTurn =
+                    cmd.activeMatchInfo.isLongPlay &&
+                    cmd.activeMatchInfo.acceptedThisSession &&
+                    isPlayerTurn;
 
                 if (cmd.activeMatchInfo.isLongPlay)
                 {
