@@ -12,5 +12,6 @@ namespace TurboLabz.Chess
     {
         public bool pauseAfterSwap;
         public bool waitingForOpponentToAccept;
+        public bool playerJustAcceptedOnPlayerTurn;
     }
 }

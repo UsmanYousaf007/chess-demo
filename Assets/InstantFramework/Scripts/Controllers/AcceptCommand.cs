@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+                matchInfo.acceptedThisSession = true;
                 matchInfo.acceptStatus = GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
                 updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                 sortFriendsSignal.Dispatch();

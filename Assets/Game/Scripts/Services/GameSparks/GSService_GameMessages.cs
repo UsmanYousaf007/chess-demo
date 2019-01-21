@@ -91,6 +91,7 @@ namespace TurboLabz.InstantFramework
                 RunTimeControlVO vo;
                 vo.pauseAfterSwap = false;
                 vo.waitingForOpponentToAccept = false;
+                vo.playerJustAcceptedOnPlayerTurn = false;
                 runTimeControlSignal.Dispatch(vo);
             }
         }

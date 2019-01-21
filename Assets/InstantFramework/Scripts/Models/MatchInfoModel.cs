@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public double gameDurationMs { get; set; }
         public long createTimeMs { get; set; }
         public bool isRanked { get; set; }
+        public bool acceptedThisSession { get; set; }
 
         public bool isBotMatch
         {
@@ -46,6 +47,8 @@ namespace TurboLabz.InstantFramework
             isLongPlay = false;
             gameDurationMs = 0;
             createTimeMs = 0;
+            isRanked = false;
+            acceptedThisSession = false;
         }
     }
 
