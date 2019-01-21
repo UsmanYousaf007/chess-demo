@@ -25,6 +25,8 @@ namespace TurboLabz.InstantGame
         // View signals
         public Signal<StoreItem> storeItemClickedSignal = new Signal<StoreItem>();
 
+        public TopInventoryBarPrefab topInventoryBar;
+
         public Text titleBundlesLabel;
         public Text tabPowerUpsLabel;
         public Text tabThemesLabel;
@@ -37,7 +39,6 @@ namespace TurboLabz.InstantGame
         public GameObject tabUnderlinePowerUps;
         public GameObject tabUnderlineThemes;
         public GameObject tabUnderlineCoins;
-
 
         private StoreThumbsContainer thumbsContainer;
 

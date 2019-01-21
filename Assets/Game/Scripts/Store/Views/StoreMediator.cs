@@ -77,6 +77,15 @@ namespace TurboLabz.InstantGame
 			view.UpdateView(vo);
 		}
 
+        [ListensTo(typeof(ShowStoreTabSignal))]
+        public void OnShowTab(StoreView.StoreTabs tab)
+        {
+            if (view.IsVisible())
+            {
+                view.ShowTab(tab);
+            }
+        }
+
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]
         public void OnPurchaseResult(StoreItem item, PurchaseResult result)
         {

@@ -131,6 +131,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<OpponentProfileView>().To<OpponentProfileMediator>();
             mediationBinder.Bind<ProfileDialogView>().To<ProfileDialogMediator>();
             mediationBinder.Bind<RateAppDialogView>().To<RateAppDialogMediator>();
+            mediationBinder.Bind<TopInventoryBarView>().To<TopInventoryBarMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
@@ -230,6 +231,8 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
             injectionBinder.Bind<ToggleFacebookButton>().ToSingleton();
+            injectionBinder.Bind<UpdateTopInventoryBarSignal>().ToSingleton();
+            injectionBinder.Bind<ShowStoreTabSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

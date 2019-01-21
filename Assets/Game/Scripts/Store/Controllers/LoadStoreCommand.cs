@@ -17,9 +17,10 @@ namespace TurboLabz.InstantGame
  		// Dispatch Signals
 		[Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 		[Inject] public UpdateStoreSignal updateStoreSignal { get; set; }
+        [Inject] public UpdateTopInventoryBarSignal updateTopInventoryBarSignal { get; set; }
 
-		// Models
-		[Inject] public IMetaDataModel metaDataModel { get; set; }
+        // Models
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
 
 
@@ -30,8 +31,14 @@ namespace TurboLabz.InstantGame
 			StoreVO vo = new StoreVO();
 			vo.storeSettingsModel = metaDataModel;
 			vo.playerModel = playerModel;
-
 			updateStoreSignal.Dispatch(vo);
- 		}
+
+            TopInventoryBarVO topInventoryBarVO  = new TopInventoryBarVO();
+            topInventoryBarVO.safeMoveCount = playerModel.PowerUpSafeMoveCount;
+            topInventoryBarVO.hintCount = playerModel.PowerUpHintCount;
+            topInventoryBarVO.hindsightCount = playerModel.PowerUpHindsightCount;
+            topInventoryBarVO.coinCount = playerModel.bucks;
+            updateTopInventoryBarSignal.Dispatch(topInventoryBarVO);
+         }
 	}
 }
