@@ -8,6 +8,7 @@ using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections;
 using GameSparks.Core;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
 			audioService.Init();
             adsService.Init();
+            GameAnalytics.Initialize();
 		}
 
 		void GameSparksAvailable(bool isAvailable)
