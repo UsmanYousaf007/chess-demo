@@ -123,8 +123,11 @@ namespace TurboLabz.InstantGame
 
             if (isOwned)
             {
-                string remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, 30);
-                remaining = remaining + " " + localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
+                string dayString = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
+                string hourString = "h";
+                string minString = "m";
+
+                string remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, 30, minString, hourString, dayString);
 
                 bundlePrefab.remainingDays.text = remaining;
                 bundlePrefab.tick.gameObject.SetActive(true);

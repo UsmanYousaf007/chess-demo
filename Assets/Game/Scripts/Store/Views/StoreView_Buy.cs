@@ -24,7 +24,6 @@ namespace TurboLabz.InstantGame
         public Button yesButton;
 		public Button noButton;
         public Text yesButtonLabel;
-        public Text noButtonLabel;
 
 		private StoreItem buyStoreItem;
 
@@ -34,7 +33,6 @@ namespace TurboLabz.InstantGame
 			noButton.onClick.AddListener(OnNoButtonClicked);
 
             yesButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_BUY_BUY_BUTTON);
-            noButtonLabel.text = localizationService.Get(LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON);
 		}
 
 		public void CleanupBuy() 
