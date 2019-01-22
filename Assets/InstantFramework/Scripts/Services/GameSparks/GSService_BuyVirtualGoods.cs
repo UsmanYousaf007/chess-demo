@@ -33,18 +33,18 @@ namespace TurboLabz.InstantFramework
             GSEnumerable<BuyVirtualGoodResponse._Boughtitem> virtualGoods = response.BoughtItems;
             foreach (var v in virtualGoods)
             {
-                //long quantity = v.Quantity.Value;
+                int quantity = (int) v.Quantity.Value;
                 string shopItemId = v.ShortCode;
 
                 int count = 0;
                 if (playerModel.inventory.ContainsKey(shopItemId))
                 {
-                    count = playerModel.inventory[shopItemId] + 1;
+                    count = playerModel.inventory[shopItemId] + quantity;
                     playerModel.inventory[shopItemId] = count;
                 }
                 else
                 {
-                    playerModel.inventory.Add(shopItemId, 1); 
+                    playerModel.inventory.Add(shopItemId, quantity); 
                 }
             }
         }

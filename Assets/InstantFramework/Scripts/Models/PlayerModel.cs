@@ -110,6 +110,16 @@ namespace TurboLabz.InstantFramework
                     (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30) && (TimeUtil.TimeToExpireString(removeAdsTimeStamp, 30) != null));
         }
 
+        public PlayerInventoryVO GetPlayerInventory()
+        {
+            PlayerInventoryVO playerInventoryVO = new PlayerInventoryVO();
+            playerInventoryVO.coinCount = bucks;
+            playerInventoryVO.hintCount = PowerUpHintCount;
+            playerInventoryVO.safeMoveCount = PowerUpSafeMoveCount;
+            playerInventoryVO.hindsightCount = PowerUpHindsightCount;
+
+            return playerInventoryVO;
+        }
     }
 }
 

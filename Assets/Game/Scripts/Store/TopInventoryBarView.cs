@@ -16,6 +16,9 @@ namespace TurboLabz.InstantGame
 
         [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
 
+        [HideInInspector]
+        public NavigatorViewId parentViewId;
+
         public void InitTopInventoryBar()
         {
             inventoryBar.safeMoveButton.onClick.AddListener(OnSafeMoveButtonClicked);
@@ -32,15 +35,17 @@ namespace TurboLabz.InstantGame
             inventoryBar.addCoinsButton.onClick.RemoveAllListeners();
         }
 
-        public void UpdateTopInventoryBar(TopInventoryBarVO vo)
+        public void UpdateTopInventoryBar(PlayerInventoryVO vo)
         {
-            inventoryBar.safeMoveCountText.gameObject.SetActive(vo.safeMoveCount >= 0 || vo.isStore);
-            inventoryBar.hintCountText.gameObject.SetActive(vo.hintCount >= 0 || vo.isStore); 
-            inventoryBar.hindsightCountText.gameObject.SetActive(vo.hindsightCount >= 0 || vo.isStore);
+            bool isStore = parentViewId == NavigatorViewId.STORE;
 
-            inventoryBar.safeMovePlus.gameObject.SetActive(vo.safeMoveCount <= 0 && !vo.isStore);
-            inventoryBar.hintPlus.gameObject.SetActive(vo.hintCount <= 0 && !vo.isStore); 
-            inventoryBar.hindsightPlus.gameObject.SetActive(vo.hindsightCount <= 0 && !vo.isStore);
+            inventoryBar.safeMoveCountText.gameObject.SetActive(vo.safeMoveCount >= 0 || isStore);
+            inventoryBar.hintCountText.gameObject.SetActive(vo.hintCount >= 0 || isStore); 
+            inventoryBar.hindsightCountText.gameObject.SetActive(vo.hindsightCount >= 0 || isStore);
+
+            inventoryBar.safeMovePlus.gameObject.SetActive(vo.safeMoveCount <= 0 && !isStore);
+            inventoryBar.hintPlus.gameObject.SetActive(vo.hintCount <= 0 && !isStore); 
+            inventoryBar.hindsightPlus.gameObject.SetActive(vo.hindsightCount <= 0 && !isStore);
 
             inventoryBar.safeMoveCountText.text = vo.safeMoveCount.ToString();
             inventoryBar.hintCountText.text = vo.hintCount.ToString();

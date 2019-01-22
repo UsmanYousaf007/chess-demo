@@ -103,9 +103,10 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateChatOpponentPicSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerBucksSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayerConsumablesSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateRemoveAdsSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePlayerInventorySignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePurchasedStoreItemSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePurchasedBundleStoreItemSignal>().ToSingleton();
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
             injectionBinder.Bind<FriendBarBusySignal>().ToSingleton();
             injectionBinder.Bind<SortFriendsSignal>().ToSingleton();

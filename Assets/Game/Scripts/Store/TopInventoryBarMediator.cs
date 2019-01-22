@@ -5,6 +5,7 @@
 
 
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantGame
 {
@@ -23,7 +24,20 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(UpdateTopInventoryBarSignal))]
-        public void OnUpdateTopInventoryBar(TopInventoryBarVO vo)
+        public void OnUpdateTopInventoryBar(PlayerInventoryVO vo)
+        {
+            view.UpdateTopInventoryBar(vo);
+        }
+
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
+        {
+            view.parentViewId = viewId;
+        }
+
+
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnUpdatePlayerInventory(PlayerInventoryVO vo)
         {
             view.UpdateTopInventoryBar(vo);
         }

@@ -17,8 +17,9 @@ namespace TurboLabz.InstantFramework
 		// Dispatch Signals
         [Inject] public PurchaseStoreItemResultSignal purchaseResultSignal { get; set; }
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
 
-		// Models
+        // Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
 
@@ -83,6 +84,7 @@ namespace TurboLabz.InstantFramework
             {
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
 
             Release();

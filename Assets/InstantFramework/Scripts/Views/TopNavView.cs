@@ -55,28 +55,6 @@ namespace TurboLabz.InstantFramework
             playerBucks.text = bucks.ToString();
         }
 
-        public void UpdateRemoveAds(string freePeriod, bool isRemoved)
-        {
-            /*
-            freeNoAdsPeriodLabel.text = localizationService.Get(LocalizationKey.FREE_NO_ADS_PERIOD);
-
-            // UNCOMMNENT WHEN ADS FEATURE BECOMES AVAILABLE
-            //removeAdsButton.gameObject.SetActive(!isRemoved);
-
-            if (isRemoved || freePeriod == null)
-            {
-                freeNoAdsPeriodLabel.gameObject.SetActive(false);
-            }
-            else
-            {
-                freeNoAdsPeriodLabel.gameObject.SetActive(true);
-                removeAdsButton.gameObject.SetActive(false);
-                freeNoAdsPeriodLabel.text += " " + freePeriod;
-            }
-            */
-        }
-
-
         public void OnStoreAvailable(bool isAvailable)
         {
             addBucksButton.interactable = isAvailable;

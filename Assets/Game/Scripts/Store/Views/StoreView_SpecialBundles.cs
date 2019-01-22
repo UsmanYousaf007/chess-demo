@@ -26,6 +26,12 @@ namespace TurboLabz.InstantGame
                 prefabsBundles = new Dictionary<string, SpecialBundleShopItemPrefab>();
                 InitPrefabsBundles(vo, galleryBundles);
             }
+
+            foreach (GameObject child in galleryBundles)
+            {
+                SpecialBundleShopItemPrefab bundlePrefab = child.GetComponent<SpecialBundleShopItemPrefab>();
+                SetBundleState(vo, bundlePrefab);
+            }
         }
 
         private string GetBundledItemDisplayText(StoreVO vo, StoreItem storeItem, string itemKey)
@@ -110,6 +116,7 @@ namespace TurboLabz.InstantGame
             else
             {
                 bundlePrefab.price.text = storeItem.remoteProductPrice;
+                bundlePrefab.price.gameObject.SetActive(true);
                 bundlePrefab.discount.gameObject.SetActive(true);
             }
         }
@@ -118,8 +125,7 @@ namespace TurboLabz.InstantGame
         {
             StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
             bool isOwned = vo.playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_STANDARD_SHOP_TAG);
-
-            SetBundleStateResets(bundlePrefab);
+            string remaining = null;
 
             if (isOwned)
             {
@@ -127,8 +133,18 @@ namespace TurboLabz.InstantGame
                 string hourString = "h";
                 string minString = "m";
 
-                string remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, 30, minString, hourString, dayString);
+                remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, 30, minString, hourString, dayString);
 
+                if (remaining == null)
+                {
+                    isOwned = false;
+                }
+            }
+
+            SetBundleStateResets(bundlePrefab);
+
+            if (isOwned)
+            {
                 bundlePrefab.remainingDays.text = remaining;
                 bundlePrefab.tick.gameObject.SetActive(true);
                 bundlePrefab.remaining.gameObject.SetActive(true);
@@ -162,23 +178,17 @@ namespace TurboLabz.InstantGame
             {
                 SpecialBundleShopItemPrefab bundlePrefab = child.GetComponent<SpecialBundleShopItemPrefab>();
                 StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
-
                 prefabsBundles.Add(bundlePrefab.key, bundlePrefab);
-
                 bundlePrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
-
                 bundlePrefab.displayName.text = storeItem.displayName;
                 bundlePrefab.thumbnail.sprite = thumbsContainer.GetSprite(bundlePrefab.key);
-
                 bundlePrefab.payout1.text = GetBundleFeatureAdRemoveText(vo, storeItem);
                 bundlePrefab.payout2.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG);
                 bundlePrefab.payout3.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG);
                 bundlePrefab.payout4.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG);
                 bundlePrefab.payout5.text = storeItem.currency2Payout + " " + "Coins";
                 bundlePrefab.payout6.text = GetBundleThemesText(storeItem);
-
                 bundlePrefab.discount.text = GetBundleDiscountText(vo, storeItem);
-
                 bundlePrefab.owned.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
                 bundlePrefab.remaining.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
 

@@ -3,10 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using System.Collections.Generic;
-using TurboLabz.InstantFramework;
-
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
 	public struct StoreVO
 	{

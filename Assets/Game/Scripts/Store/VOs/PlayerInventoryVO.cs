@@ -4,15 +4,13 @@
 /// Proprietary and confidential
 
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
-    public struct TopInventoryBarVO
+    public struct PlayerInventoryVO
     {
         public int safeMoveCount;
         public int hintCount;
         public int hindsightCount;
         public long coinCount;
-
-        public bool isStore;
     }
 }

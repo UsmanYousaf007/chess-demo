@@ -56,7 +56,7 @@ namespace TurboLabz.TLUtils
             }
             else
             {
-                return Mathf.Max(1, Mathf.FloorToInt((float)elapsedTime.TotalDays)) + " " + localizeDays;
+                return Mathf.Max(1, Mathf.CeilToInt((float)elapsedTime.TotalDays)) + " " + localizeDays;
             }
         }
 

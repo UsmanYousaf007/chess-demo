@@ -17,9 +17,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
-        [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
-        [Inject] public UpdatePlayerConsumablesSignal updatePlayerConsumablesSignal { get; set; }
+
+        [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
+        [Inject] public UpdatePurchasedBundleStoreItemSignal updatePurchasedBundleStoreItemSignal { get; set; }
 
         public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt)
         {
@@ -36,10 +36,11 @@ namespace TurboLabz.InstantFramework
             playerModel.bucks += bucks != null ? bucks.Value : 0;
 
             // Process goods
+            string shopItemId = "";
             GSData boughtItem = res.GetGSData("boughtItem");
             if (boughtItem != null)
             {
-                string shopItemId = boughtItem.GetString("shortCode");
+                shopItemId = boughtItem.GetString("shortCode");
                 if (playerModel.inventory.ContainsKey(shopItemId))
                 {
                     playerModel.inventory[shopItemId] = playerModel.inventory[shopItemId] + 1;
@@ -48,6 +49,8 @@ namespace TurboLabz.InstantFramework
                 {
                     playerModel.inventory.Add(shopItemId, 1); 
                 }
+
+                updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shopItemId]);
             }
 
             // Process bundled goods
@@ -66,6 +69,8 @@ namespace TurboLabz.InstantFramework
                     {
                         playerModel.inventory.Add(shortCode, qty);
                     }
+
+                    updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shortCode]);
                 }
 
                 if (res.ContainsKey(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP))
@@ -75,7 +80,16 @@ namespace TurboLabz.InstantFramework
             }
 
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
-            updatePlayerConsumablesSignal.Dispatch();
+            updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+
+            if (bundledGoods != null)
+            {
+                StoreVO storeVO = new StoreVO();
+                storeVO.playerModel = playerModel;
+                storeVO.storeSettingsModel = metaDataModel;
+
+                updatePurchasedBundleStoreItemSignal.Dispatch(storeVO, metaDataModel.store.items[shopItemId]);
+            }
         }
     }
 

@@ -53,9 +53,9 @@ namespace TurboLabz.InstantGame
             tabButtonPowerUps.onClick.AddListener(OnTabPowerUpsClicked);
             tabButtonThemes.onClick.AddListener(OnTabThemesClicked);
             tabButtonCoins.onClick.AddListener(OnTabCoinsClicked);
-    }
+        }
 
-    public void UpdateView(StoreVO vo)
+        public void UpdateView(StoreVO vo)
         {
             UpdateViewSkins(vo);
             UpdateViewPowerUps(vo);
@@ -66,7 +66,6 @@ namespace TurboLabz.InstantGame
         public void Show()
         {
             gameObject.SetActive(true);
-
             ShowTab(StoreTabs.POWERUPS); // test
         }
 

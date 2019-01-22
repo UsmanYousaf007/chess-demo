@@ -33,12 +33,11 @@ namespace TurboLabz.InstantGame
 			vo.playerModel = playerModel;
 			updateStoreSignal.Dispatch(vo);
 
-            TopInventoryBarVO topInventoryBarVO  = new TopInventoryBarVO();
+            PlayerInventoryVO topInventoryBarVO  = new PlayerInventoryVO();
             topInventoryBarVO.safeMoveCount = playerModel.PowerUpSafeMoveCount;
             topInventoryBarVO.hintCount = playerModel.PowerUpHintCount;
             topInventoryBarVO.hindsightCount = playerModel.PowerUpHindsightCount;
             topInventoryBarVO.coinCount = playerModel.bucks;
-            topInventoryBarVO.isStore = true;
             updateTopInventoryBarSignal.Dispatch(topInventoryBarVO);
          }
 	}

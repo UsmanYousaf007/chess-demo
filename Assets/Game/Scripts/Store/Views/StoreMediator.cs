@@ -86,6 +86,12 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        [ListensTo(typeof(UpdatePurchasedBundleStoreItemSignal))]
+        public void OnUpdatePurchasedBundleStoreItem(StoreVO vo, StoreItem item)
+        {
+            view.UpdateView(vo);
+        }
+
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]
         public void OnPurchaseResult(StoreItem item, PurchaseResult result)
         {
@@ -98,7 +104,6 @@ namespace TurboLabz.InstantGame
 
                     setSkinSignal.Dispatch(item.key);
                 }
-
             }
             else if (result == PurchaseResult.NOT_ENOUGH_BUCKS)
             {
@@ -120,7 +125,7 @@ namespace TurboLabz.InstantGame
         {
             analyticsService.TapShopItem(item.displayName);
 
-            // Purchase item after confirmation
+            // Purchase item after confirmation. No confirmation for remote store items
             purchaseStoreItemSignal.Dispatch(item.key, item.remoteProductId != null);
         }
 

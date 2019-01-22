@@ -44,7 +44,7 @@ namespace TurboLabz.InstantGame
     public class ShowStoreTabSignal : Signal<StoreView.StoreTabs> {}
 
     // Top Inventory Bar
-    public class UpdateTopInventoryBarSignal : Signal<TopInventoryBarVO> {}
+    public class UpdateTopInventoryBarSignal : Signal<PlayerInventoryVO> {}
 
 
 

@@ -14,9 +14,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public int quantity { get; set; }
 
         // Dispatch Signals
-        [Inject] public UpdatePlayerConsumablesSignal updatePlayerConsumableDisplaySignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
 
         // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -38,7 +39,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                updatePlayerConsumableDisplaySignal.Dispatch();
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
                 analyticsService.VirtualGoodConsumed(itemKey, itemQuantity);
             }
 
