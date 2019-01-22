@@ -98,7 +98,7 @@ namespace TurboLabz.Multiplayer
             hintButton.interactable = false;
         }
 
-        private void EnableHintButton()
+        public void EnableHintButton()
         {
             hintButton.interactable = true;
         }

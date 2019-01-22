@@ -69,11 +69,18 @@ namespace TurboLabz.CPU
         private bool isDraw;
         private string adRewardType;
         private float animDelay;
+        private bool menuOpensResultsDlg;
 
         private void InitResultsCPU()
         {
             playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
             playbackOverlay.gameObject.SetActive(false);
+        }
+
+        public void OnParentShowResults()
+        {
+            menuOpensResultsDlg = false;
+            HideResultsDialog();
         }
 
         private void ShowResultsDialogCPU()
@@ -107,10 +114,7 @@ namespace TurboLabz.CPU
             resultsSkipRewardButton.onClick.RemoveAllListeners();
         }
 
-        public void OnParentShowResults()
-        {
-            HideResultsDialog();
-        }
+
 
         public void ShowResultsDialog()
         {
@@ -337,7 +341,10 @@ namespace TurboLabz.CPU
         private void OnResultsClosed()
         {
             HideResultsDialog();
-            playbackOverlay.gameObject.SetActive(true);
+            //playbackOverlay.gameObject.SetActive(true);
+            menuOpensResultsDlg = true;
+            EnableMenuButton();
+            DisableModalBlocker();
         }
 
         private void OnPlaybackOverlayClicked()

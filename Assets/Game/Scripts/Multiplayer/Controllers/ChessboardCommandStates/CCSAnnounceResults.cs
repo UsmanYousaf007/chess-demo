@@ -52,6 +52,10 @@ namespace TurboLabz.Multiplayer
                 cmd.matchInfoModel.activeChallengeId = null;
                 cmd.matchInfoModel.activeLongMatchOpponentId = null;
             }
+
+            cmd.hintAvailableSignal.Dispatch(false);
+            cmd.hindsightAvailableSignal.Dispatch(false);
+            cmd.safeMoveAvailableSignal.Dispatch(false);
         }
     }
 }

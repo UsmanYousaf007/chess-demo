@@ -71,6 +71,11 @@ namespace TurboLabz.Multiplayer
 
                 // Initialize and launch our time control
                 cmd.runTimeControlSignal.Dispatch(runTimeControlVO);
+
+                if (cmd.activeMatchInfo.acceptedThisSession)
+                {
+                    cmd.activeMatchInfo.acceptedThisSession = false;
+                }
             }
 
             IPlayerModel playerModel = cmd.playerModel;

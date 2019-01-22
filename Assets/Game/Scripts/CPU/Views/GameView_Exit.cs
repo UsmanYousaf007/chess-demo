@@ -128,7 +128,14 @@ namespace TurboLabz.CPU
 
         void OnMenuButtonClicked()
         {
-            menuButtonClickedSignal.Dispatch();
+            if (menuOpensResultsDlg)
+            {
+                ShowResultsDialog();
+            }
+            else
+            {
+                menuButtonClickedSignal.Dispatch();
+            }
         }
 
         void OnResignButtonClicked()

@@ -101,7 +101,6 @@ namespace TurboLabz.CPU
 
         public void UpdateHindsightCount(int count)
         {
-            LogUtil.Log("Updating hindsight count:" + count, "cyan");
             if (count == 0)
             {
                 DisableHindsightButton();

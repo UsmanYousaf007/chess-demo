@@ -45,5 +45,18 @@ namespace TurboLabz.Multiplayer
         {
             view.UpdateHintCount(count);
         }
+
+        [ListensTo(typeof(HintAvailableSignal))]
+        public void OnHintAvailable(bool available)
+        {
+            if (available)
+            {
+                view.EnableHintButton();
+            }
+            else
+            {
+                view.DisableHintButton();
+            }
+        }
     }
 }

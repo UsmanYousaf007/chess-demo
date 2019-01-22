@@ -99,6 +99,11 @@ namespace TurboLabz.CPU
 
 			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
 			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, rewardCoins, isRemoveAds);
+
+            cmd.hintAvailableSignal.Dispatch(false);
+            cmd.hindsightAvailableSignal.Dispatch(false);
+            cmd.safeMoveAvailableSignal.Dispatch(false);
+
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)
