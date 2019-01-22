@@ -83,17 +83,13 @@ namespace TurboLabz.InstantGame
 
         private void SetItemOwned(SkinShopItemPrefab thumbnail)
         {
-            Color colorOwned = Colors.YELLOW;
             thumbnail.price.text = localizationService.Get(LocalizationKey.CPU_STORE_OWNED);
-            thumbnail.price.color = colorOwned;
             thumbnail.bucksIcon.gameObject.SetActive(false);
         }
 
         private void SetItemForPurchase(SkinShopItemPrefab thumbnail, int cost)
         {
-            Color colorNormal = Colors.WHITE;
             thumbnail.price.text = cost.ToString();
-            thumbnail.price.color = colorNormal;
             thumbnail.bucksIcon.gameObject.SetActive(true);
         }
 
