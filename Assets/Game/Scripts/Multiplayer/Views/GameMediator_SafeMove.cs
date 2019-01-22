@@ -65,5 +65,18 @@ namespace TurboLabz.Multiplayer
         {
             view.UpdateSafeMoveCount(count);
         }
+
+        [ListensTo(typeof(SafeMoveAvailableSignal))]
+        public void OnSafeMoveAvailable(bool available)
+        {
+            if (available)
+            {
+                view.EnableSafeMoveButton();
+            }
+            else
+            {
+                view.DisableSafeMoveButton();
+            }
+        }
     }
 }

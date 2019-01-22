@@ -95,7 +95,7 @@ namespace TurboLabz.Multiplayer
             safeMoveBtn.interactable = false;
         }
 
-        private void EnableSafeMoveButton()
+        public void EnableSafeMoveButton()
         {
             safeMoveBtn.interactable = true;
         }
