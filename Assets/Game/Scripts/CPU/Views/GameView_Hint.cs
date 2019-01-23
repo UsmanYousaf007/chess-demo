@@ -23,6 +23,7 @@ namespace TurboLabz.CPU
         [Header("Hint")]
         public GameObject hintFromIndicator;
         public GameObject hintToIndicator;
+
         public Button hintButton;
         public TextMeshProUGUI hintCountLabel;
         public Image hintAdd;

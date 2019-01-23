@@ -151,6 +151,7 @@ namespace TurboLabz.CPU
             HideOpponentFromIndicator();
             HideOpponentToIndicator();
             HideHint();
+            HideHindsight();
 
             showAdOnBack = true;
         }
@@ -195,6 +196,7 @@ namespace TurboLabz.CPU
             HideOpponentFromIndicator();
             HideOpponentToIndicator();
             HideHint();
+            HideHindsight();
 
             showAdOnBack = true;
         }
