@@ -36,7 +36,7 @@ namespace TurboLabz.InstantGame
 
         public static Color ColorAlpha(Color c, float a) 
 		{
-			return new Color (c.a, c.g, c.b, a);
+			return new Color (c.r, c.g, c.b, a);
 		}
 
         public static string GetColorString(string text, Color color)

@@ -11,6 +11,8 @@ using strange.extensions.signal.impl;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using TMPro;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.CPU
 {
@@ -22,9 +24,8 @@ namespace TurboLabz.CPU
         public GameObject hintFromIndicator;
         public GameObject hintToIndicator;
         public Button hintButton;
-        public Text hintButtonLabel;
-        public Text hintCountLabel;
-        public GameObject hintAdd;
+        public TextMeshProUGUI hintCountLabel;
+        public Image hintAdd;
         public GameObject hintThinking;
 
         private int availableHints;
@@ -69,7 +70,7 @@ namespace TurboLabz.CPU
 
         private void HintButtonClicked()
         {
-            if (hintAdd.activeSelf)
+            if (hintAdd.gameObject.activeSelf)
             {
                 LogUtil.Log("Show hint spot purchase", "cyan");
             }
@@ -96,24 +97,29 @@ namespace TurboLabz.CPU
         public void DisableHintButton()
         {
             hintButton.interactable = false;
+            hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 0.5f);
+            hintAdd.color = Colors.ColorAlpha(hintAdd.color, 0.5f);
         }
 
         public void EnableHintButton()
         {
             hintButton.interactable = true;
+            hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 1f);
+            hintAdd.color = Colors.ColorAlpha(hintAdd.color, 1f);
         }
+    
 
         public void UpdateHintCount(int count)
         {
             if (count == 0)
             {
                 DisableHintButton();
-                hintAdd.SetActive(true);
+                hintAdd.gameObject.SetActive(true);
                 hintCountLabel.gameObject.SetActive(false);
             }
             else
             {
-                hintAdd.SetActive(false);
+                hintAdd.gameObject.SetActive(false);
                 hintCountLabel.gameObject.SetActive(true);
             }
 

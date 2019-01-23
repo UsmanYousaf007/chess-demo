@@ -4,6 +4,8 @@ using UnityEngine;
 using TurboLabz.InstantFramework;
 using strange.extensions.signal.impl;
 using TurboLabz.TLUtils;
+using TMPro;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.CPU
 {
@@ -11,8 +13,8 @@ namespace TurboLabz.CPU
     {
         [Header("Safe Move")]
         public Button safeMoveBtn;
-        public Text safeMoveCountTxt;
-        public GameObject safeMoveAdd;
+        public TextMeshProUGUI safeMoveCountTxt;
+        public Image safeMoveAdd;
 
         public GameObject safeMoveDlg;
         public Text safeMoveDlgTitleTxt;
@@ -40,7 +42,7 @@ namespace TurboLabz.CPU
         public void UpdateSafeMoves(int count)
         {
             safeMoveCountTxt.gameObject.SetActive(count > 0);
-            safeMoveAdd.SetActive(count <= 0);
+            safeMoveAdd.gameObject.SetActive(count <= 0);
         }
 
         public void ShowSafeMoveDlg()
@@ -57,7 +59,7 @@ namespace TurboLabz.CPU
 
         void OnSafeMoveBtnClicked()
         {
-            if (safeMoveAdd.activeSelf)
+            if (safeMoveAdd.gameObject.activeSelf)
             {
                 LogUtil.Log("Show safe move spot purchase", "cyan");
             }
@@ -93,11 +95,15 @@ namespace TurboLabz.CPU
         public void DisableSafeMoveButton()
         {
             safeMoveBtn.interactable = false;
+            safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 0.5f);
+            safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 0.5f);
         }
 
         public void EnableSafeMoveButton()
         {
             safeMoveBtn.interactable = true;
+            safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 1f);
+            safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 1f);
         }
 
         public void UpdateSafeMoveCount(int count)
@@ -105,12 +111,12 @@ namespace TurboLabz.CPU
             if (count == 0)
             {
                 DisableSafeMoveButton();
-                safeMoveAdd.SetActive(true);
+                safeMoveAdd.gameObject.SetActive(true);
                 safeMoveCountTxt.gameObject.SetActive(false);
             }
             else
             {
-                safeMoveAdd.SetActive(false);
+                safeMoveAdd.gameObject.SetActive(false);
                 safeMoveCountTxt.gameObject.SetActive(true);
             }
 

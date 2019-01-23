@@ -11,6 +11,8 @@ using strange.extensions.signal.impl;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using TMPro;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.CPU
 {
@@ -22,9 +24,8 @@ namespace TurboLabz.CPU
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
         public Button hindsightButton;
-        public Text hindsightButtonLabel;
-        public Text hindsightCountLabel;
-        public GameObject hindsightAdd;
+        public TextMeshProUGUI hindsightCountLabel;
+        public Image hindsightAdd;
         public GameObject hindsightThinking;
 
         public void InitHindsight()
@@ -65,7 +66,7 @@ namespace TurboLabz.CPU
 
         private void HindsightButtonClicked()
         {
-            if (hindsightAdd.activeSelf)
+            if (hindsightAdd.gameObject.activeSelf)
             {
                 LogUtil.Log("Show hindsight spot purchase", "cyan");
             }
@@ -92,11 +93,15 @@ namespace TurboLabz.CPU
         public void DisableHindsightButton()
         {
             hindsightButton.interactable = false;
+            hindsightCountLabel.color = Colors.ColorAlpha(hindsightCountLabel.color, 0.5f);
+            hindsightAdd.color = Colors.ColorAlpha(hindsightAdd.color, 0.5f);
         }
 
         private void EnableHindsightButton()
         {
             hindsightButton.interactable = true;
+            hindsightCountLabel.color = Colors.ColorAlpha(hindsightCountLabel.color, 1f);
+            hindsightAdd.color = Colors.ColorAlpha(hindsightAdd.color, 1f);
         }
 
         public void UpdateHindsightCount(int count)
@@ -104,12 +109,12 @@ namespace TurboLabz.CPU
             if (count == 0)
             {
                 DisableHindsightButton();
-                hindsightAdd.SetActive(true);
+                hindsightAdd.gameObject.SetActive(true);
                 hindsightCountLabel.gameObject.SetActive(false);
             }
             else
             {
-                hindsightAdd.SetActive(false);
+                hindsightAdd.gameObject.SetActive(false);
                 hindsightCountLabel.gameObject.SetActive(true);
             }
 
