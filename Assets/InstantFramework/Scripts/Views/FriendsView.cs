@@ -599,7 +599,10 @@ namespace TurboLabz.InstantFramework
         {
             PublicProfile opponentProfile = bar.friendInfo.publicProfile;
 
-            opponentProfilePic.sprite = opponentProfile.profilePicture;
+            if (opponentProfile.profilePicture != null)
+            {
+                opponentProfilePic.sprite = opponentProfile.profilePicture;
+            }
             opponentProfileName.text = opponentProfile.name;
             opponentEloLabel.text = eloPrefix + " " + opponentProfile.eloScore;
             opponentFlag.sprite = Flags.GetFlag(opponentProfile.countryId);
