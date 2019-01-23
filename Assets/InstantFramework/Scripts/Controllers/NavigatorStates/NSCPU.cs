@@ -38,6 +38,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSCPUSafeMoveDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_CPU_INFO_DLG)
+            {
+                return new NSCPUInfoDlg();
+            }
 
             return null;
         }

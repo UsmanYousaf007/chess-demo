@@ -42,6 +42,7 @@ namespace TurboLabz.CPU
             OnRegisterSafeMove();
             OnRegisterHint();
             OnRegisterHindsight();
+            OnRegisterInfo();
         }
 
         public override void OnRemove()

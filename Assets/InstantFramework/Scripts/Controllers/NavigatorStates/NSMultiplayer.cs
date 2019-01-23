@@ -82,6 +82,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayerChatDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_INFO_DLG)
+            {
+                return new NSMultiplayerInfoDlg();
+            }
 
             return null;
         }
