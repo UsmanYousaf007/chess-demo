@@ -49,9 +49,9 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(AuthFacebookResultSignal))]
-        public void OnAuthFacebookResult(bool isSuccessful, Sprite pic, string name)
+        public void OnAuthFacebookResult(AuthFacebookResultVO vo)
         {
-            view.FacebookAuthResult(isSuccessful, pic, name);
+            view.FacebookAuthResult(vo);
         }
 
         [ListensTo(typeof(ToggleFacebookButton))]

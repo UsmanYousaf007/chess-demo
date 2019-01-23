@@ -195,17 +195,23 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
+        public void FacebookAuthResult(AuthFacebookResultVO vo)
         {
             facebookConnectAnim.SetActive(false);
             uiBlocker.SetActive(false);
 
-            if (isSuccessful)
+            if (vo.isSuccessful)
             {
                 // Player attempted to start a game
-                if (startGameFriendId != null)
+                if ((startGameFriendId != null) && (vo.playerId != startGameFriendId))
                 {
                     CreateGame(startGameFriendId, startGameRanked);
+                }
+
+                // Freak case where player started a game with themselves while they were a community player
+                if ((startGameFriendId != null) && (vo.playerId == startGameFriendId))
+                {
+                    startGameFriendId = null;
                 }
             }
             else

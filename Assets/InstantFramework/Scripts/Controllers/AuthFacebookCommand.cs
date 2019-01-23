@@ -129,7 +129,14 @@ namespace TurboLabz.InstantFramework
             }
 
             Sprite playerPic = picsModel.GetPlayerPic(playerModel.id);
-            authFacebookResultSignal.Dispatch(isSuccessful, playerPic, playerModel.name);
+
+            AuthFacebookResultVO vo = new AuthFacebookResultVO();
+            vo.isSuccessful = isSuccessful;
+            vo.pic = playerPic;
+            vo.name = playerModel.name;
+            vo.playerId = playerModel.id;
+
+            authFacebookResultSignal.Dispatch(vo);
             toggleFacebookButton.Dispatch(true);
 
 

@@ -160,11 +160,11 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(AuthFacebookResultSignal))]
-        public void OnAuthFacebookResult(bool isSuccessful, Sprite pic, string name)
+        public void OnAuthFacebookResult(AuthFacebookResultVO vo)
         {
             if (view.IsVisible())
             {
-                view.FacebookAuthResult(isSuccessful, pic, name);
+                view.FacebookAuthResult(vo);
             }
         }
 

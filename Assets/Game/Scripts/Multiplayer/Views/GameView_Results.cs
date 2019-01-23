@@ -135,7 +135,6 @@ namespace TurboLabz.Multiplayer
 
             // Ranked Game
             resultsRatingValueLabel.gameObject.SetActive(true);
-            resultsRatingChangeLabel.gameObject.SetActive(true);
             resultsRatingChangeLabel.gameObject.SetActive(false);
 
             resultsRatingValueLabel.text = currentEloScore.ToString();
@@ -144,11 +143,13 @@ namespace TurboLabz.Multiplayer
             {
                 resultsRatingChangeLabel.text = "(+" + eloScoreDelta + ")";
                 resultsRatingChangeLabel.color = Colors.GREEN;
+                resultsRatingChangeLabel.gameObject.SetActive(true);
             }
             else if (eloScoreDelta < 0)
             {
                 resultsRatingChangeLabel.text = "(" + eloScoreDelta + ")";
                 resultsRatingChangeLabel.color = Colors.RED;
+                resultsRatingChangeLabel.gameObject.SetActive(true);
             }
         }
 

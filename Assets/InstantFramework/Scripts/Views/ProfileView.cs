@@ -82,12 +82,12 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void FacebookAuthResult(bool isSuccessful, Sprite pic, string name)
+        public void FacebookAuthResult(AuthFacebookResultVO vo)
         {
-            if (isSuccessful)
+            if (vo.isSuccessful)
             {
-                SetProfilePic(pic);
-                profileName.text = name;
+                SetProfilePic(vo.pic);
+                profileName.text = vo.name;
 
                 if (facebookButton != null)
                 {
