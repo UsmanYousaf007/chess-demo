@@ -101,6 +101,16 @@ namespace TurboLabz.InstantGame
             bundlePrefab.owned.gameObject.SetActive(false);
         }
 
+        private string GetBundlePrice(StoreItem storeItem)
+        {
+            if (storeItem.remoteProductPrice == null)
+            {
+                return localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
+            }
+
+            return storeItem.remoteProductPrice;
+        }
+                
         private void SetBundleStateUltimate(StoreVO vo, SpecialBundleShopItemPrefab bundlePrefab)
         {
             StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
@@ -115,7 +125,7 @@ namespace TurboLabz.InstantGame
             }
             else
             {
-                bundlePrefab.price.text = storeItem.remoteProductPrice;
+                bundlePrefab.price.text = GetBundlePrice(storeItem);
                 bundlePrefab.price.gameObject.SetActive(true);
                 bundlePrefab.discount.gameObject.SetActive(true);
             }
@@ -152,7 +162,7 @@ namespace TurboLabz.InstantGame
             }
             else
             {
-                bundlePrefab.price.text = storeItem.remoteProductPrice;
+                bundlePrefab.price.text = GetBundlePrice(storeItem);
                 bundlePrefab.price.gameObject.SetActive(true);
                 bundlePrefab.discount.gameObject.SetActive(true);
             }
@@ -191,8 +201,6 @@ namespace TurboLabz.InstantGame
                 bundlePrefab.discount.text = GetBundleDiscountText(vo, storeItem);
                 bundlePrefab.owned.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
                 bundlePrefab.remaining.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
-
-                SetBundleState(vo, bundlePrefab);
             }
         }
     }

@@ -27,6 +27,21 @@ namespace TurboLabz.InstantGame
                 prefabsCoins = new Dictionary<string, CoinShopItemPrefab>();
                 InitPrefabsCoins(vo, galleryCoins);
             }
+
+            // Update prices
+            foreach (GameObject child in galleryCoins)
+            {
+                CoinShopItemPrefab coinPrefab = child.GetComponent<CoinShopItemPrefab>();
+                StoreItem storeItem = vo.storeSettingsModel.store.items[coinPrefab.key];
+                if (storeItem.remoteProductPrice == null)
+                {
+                    coinPrefab.price.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
+                }
+                else
+                {
+                    coinPrefab.price.text = storeItem.remoteProductPrice;
+                }
+            }
         }
 
         private void InitPrefabsCoins(StoreVO vo, GameObject[] content)
@@ -41,17 +56,6 @@ namespace TurboLabz.InstantGame
                 coinPrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
                 coinPrefab.displayName.text = storeItem.displayName;
                 coinPrefab.thumbnail.sprite = thumbsContainer.GetSprite(coinPrefab.key);
-                //coinPrefab.price.text = storeItem.remoteProductPrice;
-
-                if (storeItem.remoteProductPrice == null)
-                {
-                    coinPrefab.price.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
-                }
-                else
-                {
-                    coinPrefab.price.text = storeItem.remoteProductPrice;
-                }
-                //coinPrefab.payout.text = storeItem.currency2Payout.ToString();
             }
         }
     }
