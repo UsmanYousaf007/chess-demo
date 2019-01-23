@@ -15,6 +15,7 @@ namespace TurboLabz.CPU
         public Button safeMoveBtn;
         public TextMeshProUGUI safeMoveCountTxt;
         public Image safeMoveAdd;
+        public GameObject safeMoveBorder;
 
         public GameObject safeMoveDlg;
         public Text safeMoveDlgTitleTxt;
@@ -55,6 +56,7 @@ namespace TurboLabz.CPU
         {
             safeMoveDlg.SetActive(false);
             DisableModalBlocker();
+            safeMoveBorder.SetActive(false);
         }
 
         void OnSafeMoveBtnClicked()
@@ -67,6 +69,8 @@ namespace TurboLabz.CPU
             {
                 safeMoveBtnClickedSignal.Dispatch();
                 DisableSafeMoveButton();
+                safeMoveBorder.SetActive(true);
+                audioService.Play(audioService.sounds.SFX_HINT);
             }
         }
 
