@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_CPU ||
+            if (evt == NavigatorEvent.SHOW_MULTIPLAYER ||
                 evt == NavigatorEvent.ESCAPE)
             {
                 return new NSMultiplayer();

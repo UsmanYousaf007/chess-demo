@@ -50,6 +50,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowSafeMove();
             OnParentShowHint();
             OnParentShowHindsight();
+            OnParentShowInfo();
         }
 
         public void Hide()
