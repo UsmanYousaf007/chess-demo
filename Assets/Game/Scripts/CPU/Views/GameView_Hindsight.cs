@@ -68,7 +68,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                LogUtil.Log("Show hindsight spot purchase", "cyan");
+                openSpotPurchaseSignal.Dispatch();
             }
             else
             {

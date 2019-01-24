@@ -63,7 +63,7 @@ namespace TurboLabz.CPU
         {
             if (safeMoveAdd.gameObject.activeSelf)
             {
-                LogUtil.Log("Show safe move spot purchase", "cyan");
+                openSpotPurchaseSignal.Dispatch();
             }
             else
             {

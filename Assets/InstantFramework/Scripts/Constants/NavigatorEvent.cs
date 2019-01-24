@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         SHOW_MULTIPLAYER_SAFE_MOVE_DLG,
         SHOW_STATS,
 		SHOW_STORE,
+        SHOW_SPOT_PURCHASE,
         SHOW_FRIENDS,
 		SHOW_BUY_DLG,
 		SHOW_NOT_ENOUGH_DLG,

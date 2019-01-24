@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
 			commandBinder.Bind<LoadStoreSignal>().To<LoadStoreCommand>();
+            commandBinder.Bind<LoadSpotPurchaseSignal>().To<LoadSpotPurchaseCommand>();
             commandBinder.Bind<LoadFriendsSignal>().To<LoadFriendsCommand>();
 			commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
             commandBinder.Bind<TapLongMatchSignal>().To<TapLongMatchCommand>();
@@ -211,6 +212,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<StatsView>().To<StatsMediator>();
             mediationBinder.Bind<FriendsView>().To<FriendsMediator>();
 			mediationBinder.Bind<StoreView>().To<StoreMediator>();
+            mediationBinder.Bind<SpotPurchaseView>().To<SpotPurchaseMediator>();
 			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
 
             // Skinning view/mediators

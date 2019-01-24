@@ -73,7 +73,7 @@ namespace TurboLabz.CPU
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                LogUtil.Log("Show hint spot purchase", "cyan");
+                openSpotPurchaseSignal.Dispatch();
             }
             else
             {
