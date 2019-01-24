@@ -29,13 +29,6 @@ namespace TurboLabz.InstantGame
             view.UpdateTopInventoryBar(vo);
         }
 
-        [ListensTo(typeof(NavigatorShowViewSignal))]
-        public void OnShowView(NavigatorViewId viewId)
-        {
-            view.parentViewId = viewId;
-        }
-
-
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
         public void OnUpdatePlayerInventory(PlayerInventoryVO vo)
         {

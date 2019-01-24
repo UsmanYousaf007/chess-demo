@@ -6,51 +6,65 @@
 using UnityEngine;
 using TurboLabz.InstantFramework;
 using strange.extensions.mediation.impl;
+using UnityEngine.UI;
+using TMPro;
 
 namespace TurboLabz.InstantGame
 {
     public class TopInventoryBarView : View
     {
         [Header("TopInventoryBar")]
-        public TopInventoryBarPrefab inventoryBar;
+        public Button safeMoveButton;
+        public Button hintButton;
+        public Button hindsightButton;
+        public Button infoButton;
+        public Button addCoinsButton;
+
+        public TextMeshProUGUI safeMoveCountText;
+        public TextMeshProUGUI hintCountText;
+        public TextMeshProUGUI hindsightCountText;
+        public Text coinsCountText;
+
+        public Image safeMovePlus;
+        public Image hintPlus;
+        public Image hindsightPlus;
 
         [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
 
-        [HideInInspector]
-        public NavigatorViewId parentViewId;
+
 
         public void InitTopInventoryBar()
         {
-            inventoryBar.safeMoveButton.onClick.AddListener(OnSafeMoveButtonClicked);
-            inventoryBar.hintButton.onClick.AddListener(OnHintButtonClicked);
-            inventoryBar.hindsightButton.onClick.AddListener(OnHindsightButtonClicked);
-            inventoryBar.addCoinsButton.onClick.AddListener(OnAddCoinsButtonClicked);
+            safeMoveButton.onClick.AddListener(OnSafeMoveButtonClicked);
+            hintButton.onClick.AddListener(OnHintButtonClicked);
+            hindsightButton.onClick.AddListener(OnHindsightButtonClicked);
+            addCoinsButton.onClick.AddListener(OnAddCoinsButtonClicked);
         }
 
         public void CleanupTopInventoryBar()
         {
-            inventoryBar.safeMoveButton.onClick.RemoveAllListeners();
-            inventoryBar.hintButton.onClick.RemoveAllListeners();
-            inventoryBar.hindsightButton.onClick.RemoveAllListeners();
-            inventoryBar.addCoinsButton.onClick.RemoveAllListeners();
+            safeMoveButton.onClick.RemoveAllListeners();
+            hintButton.onClick.RemoveAllListeners();
+            hindsightButton.onClick.RemoveAllListeners();
+            addCoinsButton.onClick.RemoveAllListeners();
         }
 
         public void UpdateTopInventoryBar(PlayerInventoryVO vo)
         {
-            bool isStore = parentViewId == NavigatorViewId.STORE;
+     
 
-            inventoryBar.safeMoveCountText.gameObject.SetActive(vo.safeMoveCount >= 0 || isStore);
-            inventoryBar.hintCountText.gameObject.SetActive(vo.hintCount >= 0 || isStore); 
-            inventoryBar.hindsightCountText.gameObject.SetActive(vo.hindsightCount >= 0 || isStore);
+            safeMoveCountText.gameObject.SetActive(true);
+            hintCountText.gameObject.SetActive(true); 
+            hindsightCountText.gameObject.SetActive(true);
 
-            inventoryBar.safeMovePlus.gameObject.SetActive(vo.safeMoveCount <= 0 && !isStore);
-            inventoryBar.hintPlus.gameObject.SetActive(vo.hintCount <= 0 && !isStore); 
-            inventoryBar.hindsightPlus.gameObject.SetActive(vo.hindsightCount <= 0 && !isStore);
+            safeMovePlus.gameObject.SetActive(false);
+            hintPlus.gameObject.SetActive(false); 
+            hindsightPlus.gameObject.SetActive(false);
 
-            inventoryBar.safeMoveCountText.text = vo.safeMoveCount.ToString();
-            inventoryBar.hintCountText.text = vo.hintCount.ToString();
-            inventoryBar.hindsightCountText.text = vo.hindsightCount.ToString();
-            inventoryBar.coinsCountText.text = vo.coinCount.ToString();
+            safeMoveCountText.text = vo.safeMoveCount.ToString();
+            hintCountText.text = vo.hintCount.ToString();
+            hindsightCountText.text = vo.hindsightCount.ToString();
+            coinsCountText.text = vo.coinCount.ToString();
         }
 
         public void OnSafeMoveButtonClicked()

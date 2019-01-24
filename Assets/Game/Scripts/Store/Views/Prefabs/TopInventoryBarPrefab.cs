@@ -3,13 +3,14 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using strange.extensions.mediation.impl;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace TurboLabz.InstantGame
 {
-    public class TopInventoryBarPrefab : MonoBehaviour
+    public class TopInventoryBarPrefab : View
     {
         public Button safeMoveButton;
         public Button hintButton;
