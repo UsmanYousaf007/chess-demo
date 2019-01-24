@@ -39,10 +39,10 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        [ListensTo(typeof(UpdateStoreSignal))]
-        public void OnUpdateStore(StoreVO vo)
+        [ListensTo(typeof(UpdateSpotPurchaseSignal))]
+        public void OnUpdateStore(StoreVO vo, SpotPurchaseView.PowerUpSections activeSection)
         {
-            view.UpdateView(vo);
+            view.UpdateView(vo, activeSection);
         }
 
         private void OnCloseClicked()

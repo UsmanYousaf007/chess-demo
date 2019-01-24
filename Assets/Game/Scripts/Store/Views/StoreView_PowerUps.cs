@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
-using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantGame
@@ -33,25 +32,6 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        private string GetPowerUpBundledItemDisplayText(StoreVO vo, StoreItem storeItem)
-        {
-            var e = storeItem.bundledItems.GetEnumerator();
-            e.MoveNext();
-            KeyValuePair<string, int> val = e.Current;
-            StoreItem bundleStoreItem = vo.storeSettingsModel.store.items[val.Key];
-
-            return bundleStoreItem.displayName;
-        }
-
-        private string GetPowerUpBundledItemQuantityText(StoreItem storeItem)
-        {
-            var e = storeItem.bundledItems.GetEnumerator();
-            e.MoveNext();
-            KeyValuePair<string, int> val = e.Current;
-
-            return "x" + val.Value.ToString();
-        }
-
         private void InitPrefabsPowerUps(StoreVO vo, GameObject[] content)
         {
             titleSafeMove.text = localizationService.Get(LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE);
@@ -61,15 +41,12 @@ namespace TurboLabz.InstantGame
             foreach (GameObject child in content)
             {
                 PowerUpShopItemPrefab powerUpPrefab = child.GetComponent<PowerUpShopItemPrefab>();
-                StoreItem storeItem = vo.storeSettingsModel.store.items[powerUpPrefab.key];
-
                 prefabsPowerUps.Add(powerUpPrefab.key, powerUpPrefab);
-
+                StoreItem storeItem = vo.storeSettingsModel.store.items[powerUpPrefab.key];
                 powerUpPrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
-                powerUpPrefab.displayName.text = GetPowerUpBundledItemDisplayText(vo, storeItem);
-                powerUpPrefab.thumbnail.sprite = thumbsContainer.GetSprite(powerUpPrefab.key);
-                powerUpPrefab.price.text = storeItem.currency2Cost.ToString();
-                powerUpPrefab.quantity.text = GetPowerUpBundledItemQuantityText(storeItem);
+
+                Sprite sprite = thumbsContainer.GetSprite(powerUpPrefab.key);
+                powerUpPrefab.Populate(vo, sprite);
             }
         }
     }

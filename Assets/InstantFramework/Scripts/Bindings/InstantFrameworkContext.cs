@@ -236,6 +236,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ToggleFacebookButton>().ToSingleton();
             injectionBinder.Bind<UpdateTopInventoryBarSignal>().ToSingleton();
             injectionBinder.Bind<ShowStoreTabSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSpotPurchaseSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

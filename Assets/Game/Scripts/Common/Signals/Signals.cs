@@ -43,6 +43,7 @@ namespace TurboLabz.InstantGame
 	public class UpdateStoreBuckPacksDlgSignal : Signal<StoreVO> {}
 	public class LoadBuckPacksSignal : Signal {}
     public class ShowStoreTabSignal : Signal<StoreView.StoreTabs> {}
+    public class UpdateSpotPurchaseSignal : Signal<StoreVO, SpotPurchaseView.PowerUpSections> { }
 
     // Top Inventory Bar
     public class UpdateTopInventoryBarSignal : Signal<PlayerInventoryVO> {}

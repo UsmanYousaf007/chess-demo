@@ -4,10 +4,8 @@
 /// Proprietary and confidential
 
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
-using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantGame
