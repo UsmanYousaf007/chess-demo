@@ -114,7 +114,6 @@ namespace TurboLabz.CPU
         {
             if (count == 0)
             {
-                DisableSafeMoveButton();
                 safeMoveAdd.gameObject.SetActive(true);
                 safeMoveCountTxt.gameObject.SetActive(false);
             }
