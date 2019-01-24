@@ -49,6 +49,7 @@ namespace TurboLabz.CPU
             OnParentShowMenu();
             OnParentShowHint();
             OnParentShowInfo();
+            OnParentShowSafeMove();
 
             showAdOnBack = false;
         }

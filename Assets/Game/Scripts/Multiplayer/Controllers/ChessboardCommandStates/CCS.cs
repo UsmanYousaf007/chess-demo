@@ -86,6 +86,7 @@ namespace TurboLabz.Multiplayer
             SetupChessboardVO setupVO;
             setupVO.isPlayerWhite = isPlayerWhite;
             setupVO.isLongPlay = cmd.activeMatchInfo.isLongPlay;
+            setupVO.isRanked = cmd.activeMatchInfo.isRanked;
             cmd.setupChessboardSignal.Dispatch(setupVO);
 
             // Place the pieces

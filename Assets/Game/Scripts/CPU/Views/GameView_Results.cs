@@ -129,6 +129,8 @@ namespace TurboLabz.CPU
             {
                 HidePlayerToIndicator();
             }
+
+            HideSafeMoveBorder();
         }
 
         public void HideResultsDialog()
