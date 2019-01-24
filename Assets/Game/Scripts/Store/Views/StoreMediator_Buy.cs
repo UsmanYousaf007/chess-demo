@@ -52,13 +52,13 @@ namespace TurboLabz.InstantGame
 
 		private void OnCloseButtonClicked()
 		{
-			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
+			navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 		}
 
 		private void OnBuyButtonClicked(StoreItem item)
 		{
 			purchaseStoreItemSignal.Dispatch(item.key, true);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 		}
 	}
 }

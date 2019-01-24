@@ -14,13 +14,41 @@ namespace TurboLabz.InstantFramework
 
 		public override NS HandleEvent(NavigatorEvent evt)
 		{
-			if (evt == NavigatorEvent.ESCAPE ||
-                evt == NavigatorEvent.SHOW_STORE)
-			{
-				return new NSStore();
-			}
+            NavigatorViewId viewId = CameFrom(
+                NavigatorViewId.STORE,
+                NavigatorViewId.SPOT_PURCHASE_DLG);
 
-			return null;
+            if (evt == NavigatorEvent.ESCAPE)
+            {
+                if (viewId == NavigatorViewId.STORE)
+                {
+                    return new NSStore();
+                }
+                else if (viewId == NavigatorViewId.SPOT_PURCHASE_DLG)
+                {
+                    NavigatorViewId spotParentViewId = CameFrom( NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU);
+
+                    if (spotParentViewId == NavigatorViewId.CPU)
+                    {
+                        cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
+                    }
+                    else if (spotParentViewId == NavigatorViewId.MULTIPLAYER)
+                    {
+                        cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                    }
+                    return new NSSpotPurchaseDlg();
+                }
+            }
+            else if (evt == NavigatorEvent.SHOW_CPU)
+            {
+                return new NSCPU();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
+
+            return null;
 		}
 	}
 }
