@@ -9,7 +9,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-        public Signal openSpotPurchaseSignal = new Signal();
+        public Signal<SpotPurchaseView.PowerUpSections> openSpotPurchaseSignal = new Signal<SpotPurchaseView.PowerUpSections>();
 
 
     }

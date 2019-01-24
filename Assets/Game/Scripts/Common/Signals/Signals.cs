@@ -36,7 +36,7 @@ namespace TurboLabz.InstantGame
 
 	// CPU STORE
 	public class LoadStoreSignal : Signal {}
-    public class LoadSpotPurchaseSignal : Signal { }
+    public class LoadSpotPurchaseSignal : Signal<SpotPurchaseView.PowerUpSections> { }
     public class UpdateStoreSignal : Signal<StoreVO> {}
 	public class UpdateStoreBuyDlgSignal : Signal<StoreItem> {}
 	public class UpdateStoreNotEnoughBucksDlgSignal : Signal<StoreItem> {}

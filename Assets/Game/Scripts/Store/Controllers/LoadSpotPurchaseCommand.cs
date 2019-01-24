@@ -14,13 +14,25 @@ namespace TurboLabz.InstantGame
 {
     public class LoadSpotPurchaseCommand : Command
     {
+        [Inject] public SpotPurchaseView.PowerUpSections activeSection { get; set; }
+
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateSpotPurchaseSignal updateSpotPurchaseSignal { get; set; }
 
+        // Models
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+
+            StoreVO vo = new StoreVO();
+            vo.playerModel = playerModel;
+            vo.storeSettingsModel = metaDataModel;
+
+            updateSpotPurchaseSignal.Dispatch(vo, activeSection);
         }
     }
 }

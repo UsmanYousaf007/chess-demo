@@ -12,9 +12,9 @@ namespace TurboLabz.CPU
             view.openSpotPurchaseSignal.AddListener(OnOpenSpotPurchase);
         }
 
-        void OnOpenSpotPurchase()
+        void OnOpenSpotPurchase(SpotPurchaseView.PowerUpSections activeSection)
         {
-            loadSpotPurchaseSignal.Dispatch();
+            loadSpotPurchaseSignal.Dispatch(activeSection);
         }
     }
 }
