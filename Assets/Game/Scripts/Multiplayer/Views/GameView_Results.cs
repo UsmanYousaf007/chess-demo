@@ -112,6 +112,8 @@ namespace TurboLabz.Multiplayer
             {
                 HidePlayerToIndicator();
             }
+
+            HideSafeMoveBorder();
         }
 
         public void HideResultsDialog()

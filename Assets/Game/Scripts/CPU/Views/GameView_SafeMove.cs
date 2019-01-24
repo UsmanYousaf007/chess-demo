@@ -37,7 +37,7 @@ namespace TurboLabz.CPU
 
         public void OnParentShowSafeMove()
         {
-            // Nothing here yet
+            safeMoveBorder.SetActive(false);
         }
 
         public void UpdateSafeMoves(int count)
@@ -125,6 +125,11 @@ namespace TurboLabz.CPU
             }
 
             safeMoveCountTxt.text = count.ToString();
+        }
+
+        void HideSafeMoveBorder()
+        {
+            safeMoveBorder.SetActive(false);
         }
     }
 }
