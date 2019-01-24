@@ -483,6 +483,7 @@ namespace TurboLabz.Multiplayer
         public void SetupChessboard(SetupChessboardVO vo)
         {
             isLongPlay = vo.isLongPlay;
+            isRankedGame = vo.isRanked;
 
             if (vo.isPlayerWhite)
             {

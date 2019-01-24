@@ -29,8 +29,8 @@ namespace TurboLabz.Multiplayer
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
 
-        [HideInInspector]
-        public bool isLongPlay;
+        [HideInInspector] public bool isLongPlay;
+        [HideInInspector] public bool isRankedGame;
 
         private bool menuButtonWasActive;
 

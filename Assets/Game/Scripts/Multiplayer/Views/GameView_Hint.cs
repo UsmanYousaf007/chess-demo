@@ -29,8 +29,6 @@ namespace TurboLabz.Multiplayer
         public Image hintAdd;
         public GameObject hintThinking;
 
-        private int availableHints;
-
         public void InitHint()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
@@ -41,6 +39,7 @@ namespace TurboLabz.Multiplayer
         public void OnParentShowHint()
         {
             HideHint();
+            DisableHintButton();
         }
 
         public void RenderHint(HintVO vo)
@@ -104,9 +103,12 @@ namespace TurboLabz.Multiplayer
 
         public void EnableHintButton()
         {
-            hintButton.interactable = true;
-            hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 1f);
-            hintAdd.color = Colors.ColorAlpha(hintAdd.color, 1f);
+            if (isLongPlay && !isRankedGame)
+            {
+                hintButton.interactable = true;
+                hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 1f);
+                hintAdd.color = Colors.ColorAlpha(hintAdd.color, 1f);
+            }
         }
 
 

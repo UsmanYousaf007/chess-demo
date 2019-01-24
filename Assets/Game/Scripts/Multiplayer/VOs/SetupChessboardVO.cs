@@ -6,6 +6,7 @@ namespace TurboLabz.Multiplayer
     {
         public bool isPlayerWhite;
         public bool isLongPlay;
+        public bool isRanked;
     }
 }
 
