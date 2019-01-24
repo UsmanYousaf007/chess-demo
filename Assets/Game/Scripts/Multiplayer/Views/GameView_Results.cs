@@ -103,7 +103,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowResultsDialog()
         {
-            EnableModalBlocker();
+            EnableModalBlocker(Colors.UI_BLOCKER_DARK_ALPHA);
             resultsDialog.SetActive(true);
 
             HidePossibleMoves();
@@ -235,7 +235,6 @@ namespace TurboLabz.Multiplayer
         public void UpdateResultsDialog(ResultsVO vo)
         {
             DisableInteraction();
-            EnableModalBlocker();
 
             if (vo.reason == GameEndReason.DECLINED)
             {

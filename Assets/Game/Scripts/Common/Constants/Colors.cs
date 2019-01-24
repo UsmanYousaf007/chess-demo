@@ -32,7 +32,9 @@ namespace TurboLabz.InstantGame
         public const float ENABLED_TEXT_ALPHA = 222f/255f;
         public const float FULL_ALPHA = 1f;
 
-
+        public const float UI_BLOCKER_INVISIBLE_ALPHA = 1f / 255f;
+        public const float UI_BLOCKER_LIGHT_ALPHA = 50f / 255f;
+        public const float UI_BLOCKER_DARK_ALPHA = 150f / 255f;
 
         public static Color ColorAlpha(Color c, float a) 
 		{

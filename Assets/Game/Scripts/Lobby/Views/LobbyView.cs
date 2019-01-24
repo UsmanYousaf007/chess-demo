@@ -18,11 +18,14 @@ using DG.Tweening;
 
 namespace TurboLabz.InstantGame
 {
-    public class LobbyView : View
+    public partial class LobbyView : View
     {
+        // Services
         [Inject] public ILocalizationService localizationService { get; set; }
-
         [Inject] public IAudioService audioService { get; set; }
+
+        // View signals
+        public Signal<StoreItem> storeItemClickedSignal = new Signal<StoreItem>();
 
         // Scene references
         public Image cover;
@@ -52,6 +55,8 @@ namespace TurboLabz.InstantGame
         public GameObject adCounter;
         public Text adCounterLabel;
         public Text adBonusLabel;
+
+        private StoreThumbsContainer thumbsContainer;
 
         public InputField devFen;
 
@@ -99,6 +104,7 @@ namespace TurboLabz.InstantGame
             }
 
             actionCounterLabel.text = "0";
+            thumbsContainer = StoreThumbsContainer.Load();
         }
 
         public void CleanUp()
@@ -167,7 +173,7 @@ namespace TurboLabz.InstantGame
 
             if (Debug.isDebugBuild)
             {
-                devFen.gameObject.SetActive(true);
+                //devFen.gameObject.SetActive(true);
             }
             else
             {
@@ -238,7 +244,10 @@ namespace TurboLabz.InstantGame
             cover = null;
         }
 
-
+        void OnStoreItemClicked(StoreItem item)
+        {
+            storeItemClickedSignal.Dispatch(item);
+        }
     }
 }
 

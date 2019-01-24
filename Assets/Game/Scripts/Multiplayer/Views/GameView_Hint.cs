@@ -78,7 +78,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 hintThinking.SetActive(true);
-                EnableModalBlocker(false);
+                EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
             }
         }
