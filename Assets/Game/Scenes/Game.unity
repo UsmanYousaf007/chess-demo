@@ -13203,7 +13203,6 @@ GameObject:
   - component: {fileID: 257016554}
   - component: {fileID: 257016553}
   - component: {fileID: 257016552}
-  - component: {fileID: 257016551}
   m_Layer: 5
   m_Name: ConfirmBtn
   m_TagString: Untagged
@@ -13231,18 +13230,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 51}
   m_SizeDelta: {x: 589, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &257016551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114969956363178456, guid: 470bd0b3a1b37466fb657b4a832e4939,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 257016549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d9ce62509bd440685ffaf2f8f0afe2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &257016552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13358,7 +13345,6 @@ GameObject:
   - component: {fileID: 257814152}
   - component: {fileID: 257814151}
   - component: {fileID: 257814150}
-  - component: {fileID: 257814149}
   m_Layer: 5
   m_Name: UndoBtn
   m_TagString: Untagged
@@ -13386,18 +13372,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00012207031, y: -106}
   m_SizeDelta: {x: 589, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &257814149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114251967081597632, guid: 470bd0b3a1b37466fb657b4a832e4939,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 257814147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d9ce62509bd440685ffaf2f8f0afe2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &257814150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41446,7 +41420,6 @@ GameObject:
   - component: {fileID: 854593015}
   - component: {fileID: 854593014}
   - component: {fileID: 854593013}
-  - component: {fileID: 854593012}
   m_Layer: 5
   m_Name: ConfirmBtn
   m_TagString: Untagged
@@ -41474,18 +41447,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 51}
   m_SizeDelta: {x: 589, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &854593012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114969956363178456, guid: 470bd0b3a1b37466fb657b4a832e4939,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 854593010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d9ce62509bd440685ffaf2f8f0afe2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &854593013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66517,7 +66478,6 @@ GameObject:
   - component: {fileID: 1335521394}
   - component: {fileID: 1335521393}
   - component: {fileID: 1335521392}
-  - component: {fileID: 1335521391}
   m_Layer: 5
   m_Name: UndoBtn
   m_TagString: Untagged
@@ -66545,18 +66505,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00012207031, y: -106}
   m_SizeDelta: {x: 589, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1335521391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114251967081597632, guid: 470bd0b3a1b37466fb657b4a832e4939,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1335521389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d9ce62509bd440685ffaf2f8f0afe2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1335521392
 MonoBehaviour:
   m_ObjectHideFlags: 0
