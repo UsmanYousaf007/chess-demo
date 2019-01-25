@@ -64,7 +64,7 @@ namespace TurboLabz.InstantGame
             string timeRemain =  TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod, 
                 localizedMins, localizedHours, localizedDays);
 
-            updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.hasRemoveAdsFreePeriod(metaDataModel.adsSettings));
+            updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.HasAdsFreePeriod(metaDataModel.adsSettings));
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);

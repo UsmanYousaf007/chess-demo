@@ -92,7 +92,7 @@ namespace TurboLabz.InstantFramework
                 updatePurchasedBundleStoreItemSignal.Dispatch(storeVO, metaDataModel.store.items[shopItemId]);
             }
 
-            if (playerModel.hasRemoveAdsFreePeriod(metaDataModel.adsSettings))
+            if (!playerModel.HasAdsFreePeriod(metaDataModel.adsSettings))
             {
                 updateRemoveAdsDisplaySignal.Dispatch(null, false);
             }

@@ -103,14 +103,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public bool hasRemoveAds(IAdsSettingsModel adsSettingsModel)
+        public bool HasRemoveAds(IAdsSettingsModel adsSettingsModel)
         {
             return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
                     (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
                     (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30) && (TimeUtil.TimeToExpireString(removeAdsTimeStamp, 30) != null));
         }
 
-        public bool hasRemoveAdsFreePeriod(IAdsSettingsModel adsSettingsModel)
+        public bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel)
         {
             if (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM))
             {

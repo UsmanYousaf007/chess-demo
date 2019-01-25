@@ -93,7 +93,7 @@ namespace TurboLabz.CPU
             }
 
             int  rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinAdReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpAdReward;
-            bool isRemoveAds = cmd.playerModel.hasRemoveAds(cmd.metaDataModel.adsSettings);
+            bool isRemoveAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
 
             cmd.saveStatsSignal.Dispatch(statResult);
 

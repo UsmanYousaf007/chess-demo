@@ -44,8 +44,8 @@ namespace TurboLabz.InstantFramework
         int PowerUpHindsightCount { get; }
         int PowerUpSafeMoveCount { get; }
 
-        bool hasRemoveAds(IAdsSettingsModel adsSettingsModel);
-        bool hasRemoveAdsFreePeriod(IAdsSettingsModel adsSettingsModel);
+        bool HasRemoveAds(IAdsSettingsModel adsSettingsModel);
+        bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel);
         PlayerInventoryVO GetPlayerInventory();
     }
 }

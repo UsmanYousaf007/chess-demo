@@ -34,7 +34,7 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             // All non-rewarded ads skipped if player owns the remove ads feature
-            bool removeAds = playerModel.hasRemoveAds(metaDataModel.adsSettings);
+            bool removeAds = playerModel.HasRemoveAds(metaDataModel.adsSettings);
 
             // Case: Ads removed
             if (removeAds)
