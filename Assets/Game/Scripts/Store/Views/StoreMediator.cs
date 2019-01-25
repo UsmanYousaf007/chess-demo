@@ -32,6 +32,7 @@ namespace TurboLabz.InstantGame
         public override void OnRegister()
         {
             view.Init();
+            view.InitInfo();
             view.storeItemClickedSignal.AddListener(OnStoreItemClicked);
 
             OnRegisterBuy();

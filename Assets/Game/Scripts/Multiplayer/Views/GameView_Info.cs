@@ -1,4 +1,5 @@
 ﻿using strange.extensions.signal.impl;
+using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowInfo()
         {
-            EnableModalBlocker();
+            EnableModalBlocker(Colors.UI_BLOCKER_DARK_ALPHA);
             infoDlg.SetActive(true);
         }
 
