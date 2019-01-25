@@ -24,18 +24,19 @@ public class NotchHandler : MonoBehaviour {
 
     [Header("Store")]
     public RectTransform storeTitle;
-    public RectTransform storeScrollView;
-    public RectTransform storeViewPort;
+    public RectTransform bundle1;
+    public RectTransform bundle2;
+    public RectTransform tabsBar;
+    public RectTransform[] storeScrollView;
+    public RectTransform[] storeViewPort;
 
     [Header("CPU Game")]
-    public RectTransform cpuTopPanel;
     public RectTransform cpuTopBar;
     public RectTransform cpuBotBar;
     public RectTransform[] cpuLeft;
     public RectTransform[] cpuRight;
 
     [Header("Multiplayer Game")]
-    public RectTransform mpTopPanel;
     public RectTransform mpTopBar;
     public RectTransform mpBotBar;
     public RectTransform[] mpLeft;
@@ -84,18 +85,21 @@ public class NotchHandler : MonoBehaviour {
         SetY(profileCenterContent, -66f);
 
         // FRIENDS
-        SetY(friendsScrollView, -41f);
+        SetY(friendsScrollView, -48f);
         SetTop(friendsViewPort, 17f);
-        SetBottom(friendsViewPort, 104f);
+        SetBottom(friendsViewPort, 111f);
 
         // STORE
-        SetY(storeTitle, -243f);
-        SetY(storeScrollView, -12.5f);
-        SetLocalScale(storeScrollView, 0.92f);
-        SetBottom(storeViewPort, -27f);
+        SetY(storeTitle, 777f);
+        SetY(bundle1, -428f);
+        SetY(bundle2, -677f);
+        SetY(tabsBar, 179f);
+        foreach (RectTransform tfm in storeScrollView)        
+            SetY(tfm, -393f);
+        foreach (RectTransform tfm in storeViewPort)
+            SetBottom(tfm, 127f);
 
         // CPU GAME
-        SetY(cpuTopPanel, -97f);
         SetY(cpuTopBar, -158f);
         SetY(cpuBotBar, 141f);
         foreach (RectTransform tfm in cpuLeft)
@@ -104,7 +108,6 @@ public class NotchHandler : MonoBehaviour {
             ShiftX(tfm, -10f);
 
         // MULTIPLAYER GAME
-        SetY(mpTopPanel, -97f);
         SetY(mpTopBar, -158f);
         SetY(mpBotBar, 141f);
         foreach (RectTransform tfm in mpLeft)

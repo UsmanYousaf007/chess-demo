@@ -2716,7 +2716,7 @@ RectTransform:
   - {fileID: 1748930188}
   - {fileID: 2050191260}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7806,7 +7806,7 @@ RectTransform:
   - {fileID: 772709830}
   - {fileID: 1846981125}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -14787,7 +14787,6 @@ RectTransform:
   m_Children:
   - {fileID: 750328844}
   - {fileID: 1104169959}
-  - {fileID: 848027596}
   - {fileID: 983374614}
   - {fileID: 1037790133}
   - {fileID: 540490839}
@@ -26922,7 +26921,7 @@ RectTransform:
   - {fileID: 1140091964}
   - {fileID: 1420992049}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -40550,88 +40549,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 847846369}
   m_CullTransparentMesh: 0
---- !u!1 &848027595
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 848027596}
-  - component: {fileID: 848027599}
-  - component: {fileID: 848027598}
-  - component: {fileID: 848027597}
-  m_Layer: 5
-  m_Name: TopBar
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &848027596
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 848027595}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 292687923}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50.30005}
-  m_SizeDelta: {x: 0, y: 100.1}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &848027597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 848027595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourceImage: {fileID: 368999174}
---- !u!114 &848027598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 848027595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 072b8e96246ac48feb7097cc4933e596, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &848027599
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 848027595}
-  m_CullTransparentMesh: 0
 --- !u!1 &848277297
 GameObject:
   m_ObjectHideFlags: 0
@@ -47877,7 +47794,7 @@ RectTransform:
   - {fileID: 551201853}
   - {fileID: 2034790131}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -50638,7 +50555,7 @@ RectTransform:
   - {fileID: 459263425}
   - {fileID: 1621961045}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -55705,6 +55622,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1131114876}
   m_CullTransparentMesh: 0
+--- !u!224 &1132254269 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224322877830635866, guid: b17df7d4a31184b969d1e85732aadf77,
+    type: 2}
+  m_PrefabInternal: {fileID: 1714130181}
 --- !u!1001 &1133968842
 Prefab:
   m_ObjectHideFlags: 0
@@ -61548,7 +61470,7 @@ RectTransform:
   m_Children:
   - {fileID: 1120017984}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -84675,7 +84597,7 @@ RectTransform:
   - {fileID: 967243941}
   - {fileID: 369647944}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -94514,10 +94436,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topNavs:
-  - {fileID: 0}
+  - {fileID: 1171426061}
   - {fileID: 1297401542}
   - {fileID: 1108163601}
   - {fileID: 22339317}
+  - {fileID: 1132254269}
   botNavs:
   - {fileID: 1697306882}
   - {fileID: 1045375486}
@@ -94531,9 +94454,17 @@ MonoBehaviour:
   friendsScrollView: {fileID: 1684146533}
   friendsViewPort: {fileID: 1674480800}
   storeTitle: {fileID: 1884732489}
-  storeScrollView: {fileID: 1811580653}
-  storeViewPort: {fileID: 432562413}
-  cpuTopPanel: {fileID: 0}
+  bundle1: {fileID: 444592395}
+  bundle2: {fileID: 201660465}
+  tabsBar: {fileID: 1954097290}
+  storeScrollView:
+  - {fileID: 1811580653}
+  - {fileID: 1036389968}
+  - {fileID: 1774873005}
+  storeViewPort:
+  - {fileID: 432562413}
+  - {fileID: 236538385}
+  - {fileID: 598777144}
   cpuTopBar: {fileID: 1414056608}
   cpuBotBar: {fileID: 761092150}
   cpuLeft:
@@ -94544,8 +94475,7 @@ MonoBehaviour:
   - {fileID: 1931856022}
   - {fileID: 1594153123}
   - {fileID: 1511546385}
-  mpTopPanel: {fileID: 0}
-  mpTopBar: {fileID: 848027596}
+  mpTopBar: {fileID: 1104169959}
   mpBotBar: {fileID: 151485762}
   mpLeft:
   - {fileID: 1338742958}
@@ -105260,7 +105190,7 @@ RectTransform:
   - {fileID: 123806316}
   - {fileID: 853097084}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
