@@ -29,6 +29,7 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform tabsBar;
     public RectTransform[] storeScrollView;
     public RectTransform[] storeViewPort;
+    public RectTransform[] storeScrollContents;
 
     [Header("CPU Game")]
     public RectTransform cpuTopBar;
@@ -98,6 +99,8 @@ public class NotchHandler : MonoBehaviour {
             SetY(tfm, -393f);
         foreach (RectTransform tfm in storeViewPort)
             SetBottom(tfm, 127f);
+        foreach (RectTransform tfm in storeScrollContents)
+            SetY(tfm, 517f);
 
         // CPU GAME
         SetY(cpuTopBar, -158f);
