@@ -19,5 +19,6 @@ namespace TurboLabz.InstantGame
         Dictionary<int, PerformanceSet> stats { get; set; }
         void Save(int difficulty, int result);
         void Reset();
+        int GetStarsCount();
     }
 }

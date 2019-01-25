@@ -6,7 +6,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
-
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Multiplayer 
 {
@@ -22,13 +22,14 @@ namespace TurboLabz.Multiplayer
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
 
         public override void Execute()
         {
             resetActiveMatchSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
 
-            if (!preferencesModel.hasRated && playerModel.totalGamesWon >= metaDataModel.appInfo.rateAppThreshold)
+            if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
             }
