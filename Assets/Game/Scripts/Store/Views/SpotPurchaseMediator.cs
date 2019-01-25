@@ -55,6 +55,10 @@ namespace TurboLabz.InstantGame
                 updateStoreBuyDlgSignal.Dispatch(item);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_BUY_DLG);
             }
+            else if (result == PurchaseResult.PURCHASE_SUCCESS )
+            {
+                OnCloseClicked();
+            }
         }
 
         private void OnCloseClicked()

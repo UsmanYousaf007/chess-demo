@@ -12,7 +12,9 @@ namespace TurboLabz.InstantGame
 {
 	public partial class StoreMediator
 	{
-		public void OnRegisterNotEnoughBucks()
+        [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
+
+        public void OnRegisterNotEnoughBucks()
 		{
 			view.InitNotEnoughBucks();
 			view.yesNotEnoughBucksButtonClickedSignal.AddListener(OnYesNotEnoughBucksButtonClicked);
@@ -51,7 +53,7 @@ namespace TurboLabz.InstantGame
 		private void OnYesNotEnoughBucksButtonClicked()
 		{
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_STORE);
-			loadBuckPacksSignal.Dispatch();
+            showStoreTabSignal.Dispatch(StoreView.StoreTabs.COINS);
 		}
 
 		private void OnCloseNotEnoughBucksButtonClicked()

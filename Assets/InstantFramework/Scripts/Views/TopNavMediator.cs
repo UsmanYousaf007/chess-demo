@@ -15,8 +15,10 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
-        [Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        [Inject] public LoadStoreSignal loadStoreSignal { get; set; }
+        [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
+
 
         public override void OnRegister()
         {
@@ -39,7 +41,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnAddBucksButtonClicked()
         {
-            loadBuckPacksSignal.Dispatch();
+            loadStoreSignal.Dispatch();
+            showStoreTabSignal.Dispatch(StoreView.StoreTabs.COINS);
         }
 
         [ListensTo(typeof(UpdatePlayerBucksSignal))]

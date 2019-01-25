@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         public GameObject[] galleryPowerUps;
         private IDictionary<string, PowerUpShopItemPrefab> prefabsPowerUps = null;
 
+
         public GameObject[] galleryCoins;
         private IDictionary<string, CoinShopItemPrefab> prefabsCoins = null;
 
@@ -47,6 +48,7 @@ namespace TurboLabz.InstantGame
         {
             UpdateViewPowerUps(vo);
             UpdateViewCoins(vo);
+            UpdatePowerUpNotEnoughCoinsLabels(vo, galleryPowerUps);
 
             safeMovePowerUpSection.gameObject.SetActive(activeSection == PowerUpSections.SAFEMOVES);
             hintPowerUpSection.gameObject.SetActive(activeSection == PowerUpSections.HINTS);
@@ -133,6 +135,20 @@ namespace TurboLabz.InstantGame
         public void OnStoreItemClicked(StoreItem item)
         {
             storeItemClickedSignal.Dispatch(item);
+        }
+
+        private void UpdatePowerUpNotEnoughCoinsLabels(StoreVO vo, GameObject[] content)
+        {
+            long coins = vo.playerModel.bucks;
+
+            foreach (GameObject child in content)
+            {
+                PowerUpShopItemPrefab powerUpPrefab = child.GetComponent<PowerUpShopItemPrefab>();
+                StoreItem storeItem = vo.storeSettingsModel.store.items[powerUpPrefab.key];
+
+                GameObject notEnoughCoinsLabel = child.transform.Find("NotEnoughCoinsLabel").gameObject;
+                notEnoughCoinsLabel.gameObject.SetActive(coins < storeItem.currency2Cost);
+            }
         }
 
     }
