@@ -114,7 +114,6 @@ namespace TurboLabz.CPU
         {
             if (count == 0)
             {
-                DisableHintButton();
                 hintAdd.gameObject.SetActive(true);
                 hintCountLabel.gameObject.SetActive(false);
             }

@@ -108,7 +108,6 @@ namespace TurboLabz.CPU
         {
             if (count == 0)
             {
-                DisableHindsightButton();
                 hindsightAdd.gameObject.SetActive(true);
                 hindsightCountLabel.gameObject.SetActive(false);
             }
