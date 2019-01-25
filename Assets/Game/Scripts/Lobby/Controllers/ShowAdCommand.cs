@@ -73,6 +73,8 @@ namespace TurboLabz.InstantGame
                 else
                 {
                     Debug.Log("[TLADS]: Rewarded video is NOT available");
+                    Retain();
+                    ClaimReward(AdsResult.BYPASS);
                     return;
                 }
             }
