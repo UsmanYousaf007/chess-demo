@@ -17,9 +17,10 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-
+        // Dispatch Signals
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdatePurchasedBundleStoreItemSignal updatePurchasedBundleStoreItemSignal { get; set; }
+        [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
 
         public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt)
         {
@@ -89,6 +90,11 @@ namespace TurboLabz.InstantFramework
                 storeVO.storeSettingsModel = metaDataModel;
 
                 updatePurchasedBundleStoreItemSignal.Dispatch(storeVO, metaDataModel.store.items[shopItemId]);
+            }
+
+            if (playerModel.hasRemoveAdsFreePeriod(metaDataModel.adsSettings))
+            {
+                updateRemoveAdsDisplaySignal.Dispatch(null, false);
             }
         }
     }
