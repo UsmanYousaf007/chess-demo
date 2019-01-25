@@ -73,14 +73,14 @@ namespace TurboLabz.CPU
             OnApplicationFocusClickAndDrag(focus);
         }
 
-        private void EnableModalBlocker(bool showAlphaCurtain = true)
+        private void EnableModalBlocker(float curtainAlpha = Colors.UI_BLOCKER_LIGHT_ALPHA)
         {
             uiBlocker.SetActive(true);
             chessboardBlocker.SetActive(true);
 
             Image uiBlockerImage = uiBlocker.GetComponent<Image>();
             Color c = uiBlockerImage.color;
-            c.a = showAlphaCurtain ? 50f/255f : 1f/255f; // Todo: These should be constants somewhere
+            c.a = curtainAlpha;
             uiBlockerImage.color = c;
         }
 

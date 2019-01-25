@@ -73,7 +73,7 @@ namespace TurboLabz.CPU
             else
             {
                 hindsightThinking.SetActive(true);
-                EnableModalBlocker(false);
+                EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hindsightClickedSignal.Dispatch();
             }
         }

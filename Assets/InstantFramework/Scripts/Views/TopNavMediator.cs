@@ -48,6 +48,12 @@ namespace TurboLabz.InstantFramework
             view.UpdatePlayerBucks(playerBucks);
         }
 
+        [ListensTo(typeof(UpdateRemoveAdsSignal))]
+        public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
+        {
+            view.UpdateRemoveAds(freePeriod, isRemoved);
+        }
+
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)
         {

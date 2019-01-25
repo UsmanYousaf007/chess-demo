@@ -110,6 +110,29 @@ namespace TurboLabz.InstantFramework
                     (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30) && (TimeUtil.TimeToExpireString(removeAdsTimeStamp, 30) != null));
         }
 
+        public bool hasRemoveAdsFreePeriod(IAdsSettingsModel adsSettingsModel)
+        {
+            if (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM))
+            {
+                return false;
+            }
+
+            if (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30))
+            {
+                if (TimeUtil.TimeToExpireString(removeAdsTimeStamp, 30) != null)
+                {
+                    return false;
+                }
+            }
+
+            if (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public PlayerInventoryVO GetPlayerInventory()
         {
             PlayerInventoryVO playerInventoryVO = new PlayerInventoryVO();
