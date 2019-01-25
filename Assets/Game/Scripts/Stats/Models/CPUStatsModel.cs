@@ -114,5 +114,21 @@ namespace TurboLabz.InstantGame
                 stats.Add(i, pset);
             }
         }
+
+        public int GetStarsCount()
+        {
+            int count = 0;
+            List<int> pset = stats[0].performance;
+
+            for (int i = 0; i < pset.Count; i++)
+            {
+                if (pset[i] > 0)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
     }
 }

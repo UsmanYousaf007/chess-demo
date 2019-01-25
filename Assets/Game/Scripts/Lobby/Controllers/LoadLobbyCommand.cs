@@ -36,6 +36,7 @@ namespace TurboLabz.InstantGame
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -80,7 +81,7 @@ namespace TurboLabz.InstantGame
                 
             updateProfileSignal.Dispatch(pvo);
 
-            if (!preferencesModel.hasRated && playerModel.totalGamesWon >= metaDataModel.appInfo.rateAppThreshold)
+            if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
             }
