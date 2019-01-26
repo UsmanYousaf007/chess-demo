@@ -78,6 +78,10 @@ namespace TurboLabz.InstantFramework
                 {
                     playerModel.removeAdsTimeStamp = res.GetLong(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP).Value;
                 }
+                if (res.ContainsKey(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMEPERIOD))
+                {
+                    playerModel.removeAdsTimePeriod = res.GetInt(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMEPERIOD).Value;
+                }
             }
 
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);

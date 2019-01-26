@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         // Ads Info
         public int adLifetimeImpressions { get; set; }
         public long removeAdsTimeStamp { get; set; }
+        public int removeAdsTimePeriod { get; set; }
 
         // Inventory
         public string activeSkinId { get; set; } = null;    
@@ -63,6 +64,7 @@ namespace TurboLabz.InstantFramework
             // Ads Info
             adLifetimeImpressions = 0;
             removeAdsTimeStamp = 0;
+            removeAdsTimePeriod = 0;
 
             // Inventory
             inventory = new OrderedDictionary<string, int>();
@@ -107,7 +109,7 @@ namespace TurboLabz.InstantFramework
         {
             return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
                     (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
-                    (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30) && (TimeUtil.TimeToExpireString(removeAdsTimeStamp, 30) != null));
+                    (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
         }
 
         public bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel)
@@ -117,12 +119,9 @@ namespace TurboLabz.InstantFramework
                 return false;
             }
 
-            if (OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_30))
+            if (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null)
             {
-                if (TimeUtil.TimeToExpireString(removeAdsTimeStamp, 30) != null)
-                {
-                    return false;
-                }
+                return false;
             }
 
             if (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null)

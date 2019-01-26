@@ -143,7 +143,7 @@ namespace TurboLabz.InstantGame
                 string hourString = "h";
                 string minString = "m";
 
-                remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, 30, minString, hourString, dayString);
+                remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, vo.playerModel.removeAdsTimePeriod, minString, hourString, dayString);
 
                 if (remaining == null)
                 {

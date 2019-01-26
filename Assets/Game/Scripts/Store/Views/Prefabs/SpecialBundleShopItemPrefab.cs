@@ -53,7 +53,10 @@ namespace TurboLabz.InstantGame
             itemKey = GSBackendKeys.ShopItem.FEATURE_REMOVEAD_30_SHOP_TAG;
             if (storeItem.bundledItems.ContainsKey(itemKey))
             {
-                return vo.storeSettingsModel.store.items[itemKey].displayName;
+                int numDays = storeItem.bundledItems[itemKey] * 30;
+                return numDays.ToString() + " Days No Ads";
+                // TODO: localize or naming
+                //return vo.storeSettingsModel.store.items[itemKey].displayName;
             }
 
             return null;
@@ -138,7 +141,7 @@ namespace TurboLabz.InstantGame
                 string hourString = "h";
                 string minString = "m";
 
-                remainingStr = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, 30, minString, hourString, dayString);
+                remainingStr = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, vo.playerModel.removeAdsTimePeriod, minString, hourString, dayString);
 
                 if (remainingStr == null)
                 {

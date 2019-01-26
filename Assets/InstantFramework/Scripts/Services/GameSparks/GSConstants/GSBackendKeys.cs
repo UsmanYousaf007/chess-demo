@@ -85,7 +85,6 @@ namespace TurboLabz.InstantFramework
         public const string ONLINE_STATUS_FRIEND_MESSAGE = "OnlineStatusFriendMessage";
 
         // Feature Shop Items
-        public const string SHOP_ITEM_FEATURE_REMOVE_ADS_30 = "FeatureRemoveAds30";
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS_PERM = "FeatureRemoveAdsPerm";
 
         // Mesage data keys
@@ -277,6 +276,7 @@ namespace TurboLabz.InstantFramework
 			public const string INVENTORY = "inventory";
 			public const string FRIENDS = "friends";
             public const string REMOVE_ADS_TIMESTAMP = "removeAdsTimeStamp";
+            public const string REMOVE_ADS_TIMEPERIOD = "removeAdsTimePeriod";
         }
 
         public static class Match
