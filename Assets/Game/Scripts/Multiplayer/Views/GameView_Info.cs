@@ -41,7 +41,9 @@ namespace TurboLabz.Multiplayer
 
         void OnInfoButtonClicked()
         {
-            LogUtil.Log("SHOW MULTIPLAYER INFO", "red");
+            if (chessboardBlocker.activeSelf)
+                return;
+
             infoButtonClickedSignal.Dispatch();
         }
 
