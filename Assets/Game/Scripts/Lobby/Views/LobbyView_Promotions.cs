@@ -65,7 +65,7 @@ namespace TurboLabz.InstantGame
                 string textStoreNotAvailable = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
                 string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
 
-                bundlePrefab.Populate(vo, sprite, textStoreNotAvailable, textDays, textOwned, textRemaining);
+                bundlePrefab.Populate(vo, null, textStoreNotAvailable, textDays, textOwned, textRemaining);
             }
         }
     }

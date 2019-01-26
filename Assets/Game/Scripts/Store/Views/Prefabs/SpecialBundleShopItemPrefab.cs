@@ -185,7 +185,10 @@ namespace TurboLabz.InstantGame
             StoreItem storeItem = vo.storeSettingsModel.store.items[key];
 
             displayName.text = storeItem.displayName;
-            thumbnail.sprite = sprite;
+            if (sprite)
+            {
+                thumbnail.sprite = sprite;
+            }
             payout1.text = GetBundleFeatureAdRemoveText(vo, storeItem);
             payout2.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG);
             payout3.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG);
