@@ -14,6 +14,11 @@
             {
                 return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerResultsDlg();
+            }
 
             return null;
         }

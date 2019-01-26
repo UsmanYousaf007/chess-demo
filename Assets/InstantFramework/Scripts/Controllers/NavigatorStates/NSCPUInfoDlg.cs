@@ -14,6 +14,11 @@
             {
                 return new NSCPU();
             }
+            else if (evt == NavigatorEvent.SHOW_CPU_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
+                return new NSCPUResultsDlg();
+            }
 
             return null;
         }
