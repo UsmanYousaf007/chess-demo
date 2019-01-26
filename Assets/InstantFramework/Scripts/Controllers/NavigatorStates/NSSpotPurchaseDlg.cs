@@ -29,6 +29,16 @@ namespace TurboLabz.InstantFramework
                     return new NSCPU();
                 }
             }
+            else if (evt == NavigatorEvent.SHOW_CPU_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
+                return new NSCPUResultsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerResultsDlg();
+            }
             else if (evt == NavigatorEvent.SHOW_BUY_DLG)
             {
                 return new NSBuyDlg();
