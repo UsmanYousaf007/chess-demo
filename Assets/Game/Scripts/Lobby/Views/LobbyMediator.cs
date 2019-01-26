@@ -33,6 +33,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
         // View injection
         [Inject] public LobbyView view { get; set; }
@@ -46,7 +47,8 @@ namespace TurboLabz.InstantGame
             view.playCPUButtonClickedSignal.AddListener(OnPlayCPUButtonClicked);
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
-        
+
+            view.storeItemClickedSignal.AddListener(OnStoreItemClicked);
             view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
      
         }
@@ -137,6 +139,27 @@ namespace TurboLabz.InstantGame
         private void OnUpdateAdsSignal()
         {
             updateAdsSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable, StoreVO vo)
+        {
+            if (isAvailable)
+            {
+                view.UpdateViewBundles(vo);
+            }
+        }
+
+        [ListensTo(typeof(UpdatePurchasedBundleStoreItemSignal))]
+        public void OnUpdatePurchasedBundleStoreItem(StoreVO vo, StoreItem item)
+        { 
+            view.HideBundles();
+        }
+
+        private void OnStoreItemClicked(StoreItem item)
+        {
+            // Purchase item after confirmation. No confirmation for remote store items
+            purchaseStoreItemSignal.Dispatch(item.key, item.remoteProductId != null);
         }
     }
 }

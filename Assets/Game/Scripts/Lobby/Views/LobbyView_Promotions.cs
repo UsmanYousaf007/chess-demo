@@ -19,6 +19,14 @@ namespace TurboLabz.InstantGame
 
         private IDictionary<string, SpecialBundleShopItemPrefab> prefabsBundles = null;
 
+        public void HideBundles()
+        {
+            foreach (GameObject child in galleryBundles)
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+
         public void UpdateViewBundles(StoreVO vo)
         {
             if (prefabsBundles == null)
@@ -27,158 +35,18 @@ namespace TurboLabz.InstantGame
                 InitPrefabsBundles(vo, galleryBundles);
             }
 
-            foreach (GameObject child in galleryBundles)
+            foreach (KeyValuePair<string, SpecialBundleShopItemPrefab> child in prefabsBundles)
             {
-                SpecialBundleShopItemPrefab bundlePrefab = child.GetComponent<SpecialBundleShopItemPrefab>();
-                SetBundleState(vo, bundlePrefab);
-            }
-        }
+                SpecialBundleShopItemPrefab bundlePrefab = child.Value;
 
-        private string GetBundledItemDisplayText(StoreVO vo, StoreItem storeItem, string itemKey)
-        {
-            if (!vo.storeSettingsModel.store.items.ContainsKey(itemKey))
-            {
-                return null;
-            }
+                string textStoreNotAvailable = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
+                string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
+                bundlePrefab.SetBundleState(vo, textStoreNotAvailable, textDays);
 
-            int qty = storeItem.bundledItems[itemKey];
-            string displayName = vo.storeSettingsModel.store.items[itemKey].displayName;
-
-            return qty + " " + displayName;
-        }
-
-        private string GetBundleFeatureAdRemoveText(StoreVO vo, StoreItem storeItem)
-        {
-            string key = GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG;
-            if (storeItem.bundledItems.ContainsKey(key))
-            {
-                return vo.storeSettingsModel.store.items[key].displayName;
-            }
-
-            key = GSBackendKeys.ShopItem.FEATURE_REMOVEAD_30_SHOP_TAG;
-            if (storeItem.bundledItems.ContainsKey(key))
-            {
-                return vo.storeSettingsModel.store.items[key].displayName;
-            }
-
-            return null;
-        }
-
-        private string GetBundleDiscountText(StoreVO vo, StoreItem storeItem)
-        {
-            string key = GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG;
-            if (storeItem.bundledItems.ContainsKey(key))
-            {
-                return "+50%";
-            }
-
-            key = GSBackendKeys.ShopItem.FEATURE_REMOVEAD_30_SHOP_TAG;
-            if (storeItem.bundledItems.ContainsKey(key))
-            {
-                return "+40%";
-            }
-
-            return null;
-        }
-
-        private string GetBundleThemesText(StoreItem storeItem)
-        {
-            if (storeItem.key == GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG)
-            {
-                return "All Themes";
-            }
-
-            return "";
-        }
-
-        private void SetBundleStateResets(SpecialBundleShopItemPrefab bundlePrefab)
-        {
-            bundlePrefab.price.gameObject.SetActive(false);
-            bundlePrefab.tick.gameObject.SetActive(false);
-            bundlePrefab.remaining.gameObject.SetActive(false);
-            bundlePrefab.remainingDays.gameObject.SetActive(false);
-            bundlePrefab.discount.gameObject.SetActive(false);
-            bundlePrefab.owned.gameObject.SetActive(false);
-        }
-
-        private string GetBundlePrice(StoreItem storeItem)
-        {
-            if (storeItem.remoteProductPrice == null)
-            {
-                return localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
-            }
-
-            return storeItem.remoteProductPrice;
-        }
-
-        private void SetBundleStateUltimate(StoreVO vo, SpecialBundleShopItemPrefab bundlePrefab)
-        {
-            StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
-            bool isOwned = vo.playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
-
-            SetBundleStateResets(bundlePrefab);
-
-            if (isOwned)
-            {
-                bundlePrefab.owned.gameObject.SetActive(true);
-                bundlePrefab.tick.gameObject.SetActive(true);
-            }
-            else
-            {
-                bundlePrefab.price.text = GetBundlePrice(storeItem);
-                bundlePrefab.price.gameObject.SetActive(true);
-                bundlePrefab.discount.gameObject.SetActive(true);
-            }
-        }
-
-        private void SetBundleStateStandard(StoreVO vo, SpecialBundleShopItemPrefab bundlePrefab)
-        {
-            StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
-            bool isOwned = vo.playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_STANDARD_SHOP_TAG);
-            string remaining = null;
-
-            if (isOwned)
-            {
-                string dayString = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
-                string hourString = "h";
-                string minString = "m";
-
-                remaining = TLUtils.TimeUtil.TimeToExpireString(vo.playerModel.removeAdsTimeStamp, vo.playerModel.removeAdsTimePeriod, minString, hourString, dayString);
-
-                if (remaining == null)
+                if (vo.playerModel.OwnsVGood(bundlePrefab.key))
                 {
-                    isOwned = false;
+                    bundlePrefab.gameObject.SetActive(false);
                 }
-            }
-
-            SetBundleStateResets(bundlePrefab);
-
-            if (isOwned)
-            {
-                bundlePrefab.remainingDays.text = remaining;
-                bundlePrefab.tick.gameObject.SetActive(true);
-                bundlePrefab.remaining.gameObject.SetActive(true);
-                bundlePrefab.remainingDays.gameObject.SetActive(true);
-            }
-            else
-            {
-                bundlePrefab.price.text = GetBundlePrice(storeItem);
-                bundlePrefab.price.gameObject.SetActive(true);
-                bundlePrefab.discount.gameObject.SetActive(true);
-            }
-        }
-
-        private void SetBundleState(StoreVO vo, SpecialBundleShopItemPrefab bundlePrefab)
-        {
-            switch (bundlePrefab.key)
-            {
-                case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG:
-                    SetBundleStateUltimate(vo, bundlePrefab);
-                    break;
-
-                case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_STANDARD_SHOP_TAG:
-                    SetBundleStateStandard(vo, bundlePrefab);
-                    break;
             }
         }
 
@@ -190,17 +58,14 @@ namespace TurboLabz.InstantGame
                 StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
                 prefabsBundles.Add(bundlePrefab.key, bundlePrefab);
                 bundlePrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
-                bundlePrefab.displayName.text = storeItem.displayName;
-                bundlePrefab.thumbnail.sprite = thumbsContainer.GetSprite(bundlePrefab.key);
-                bundlePrefab.payout1.text = GetBundleFeatureAdRemoveText(vo, storeItem);
-                bundlePrefab.payout2.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG);
-                bundlePrefab.payout3.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG);
-                bundlePrefab.payout4.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG);
-                bundlePrefab.payout5.text = storeItem.currency2Payout + " " + "Coins";
-                bundlePrefab.payout6.text = GetBundleThemesText(storeItem);
-                bundlePrefab.discount.text = GetBundleDiscountText(vo, storeItem);
-                bundlePrefab.owned.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
-                bundlePrefab.remaining.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
+
+                Sprite sprite = thumbsContainer.GetSprite(bundlePrefab.key);
+                string textOwned = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
+                string textRemaining = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
+                string textStoreNotAvailable = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
+                string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
+
+                bundlePrefab.Populate(vo, sprite, textStoreNotAvailable, textDays, textOwned, textRemaining);
             }
         }
     }

@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
 
-            storeAvailableSignal.Dispatch(false);
+            storeAvailableSignal.Dispatch(false, new StoreVO());
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
             {
@@ -81,7 +81,10 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
-                storeAvailableSignal.Dispatch(true);
+                StoreVO storeVO = new StoreVO();
+                storeVO.playerModel = playerModel;
+                storeVO.storeSettingsModel = metaDataModel;
+                storeAvailableSignal.Dispatch(true, storeVO);
             }
         }
 
