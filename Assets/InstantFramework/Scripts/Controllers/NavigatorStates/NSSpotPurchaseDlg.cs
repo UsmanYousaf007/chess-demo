@@ -14,6 +14,15 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
+            if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
+            else if (evt == NavigatorEvent.SHOW_CPU)
+            {
+                return new NSCPU();
+            }
+
             NavigatorViewId viewId = CameFrom(
                 NavigatorViewId.MULTIPLAYER,
                 NavigatorViewId.CPU);
