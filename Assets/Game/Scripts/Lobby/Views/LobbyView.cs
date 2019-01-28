@@ -52,10 +52,6 @@ namespace TurboLabz.InstantGame
         public Button playCPUButton;
         public Text playCPUButtonLabel;
 
-        public GameObject adCounter;
-        public Text adCounterLabel;
-        public Text adBonusLabel;
-
         private StoreThumbsContainer thumbsContainer;
 
         public InputField devFen;
@@ -120,7 +116,8 @@ namespace TurboLabz.InstantGame
         public void UpdateView(LobbyVO vo)
         {
             UpdateStrength(vo);
-			
+            UpdateViewBundles(vo.storeVO);
+
             inProgressSticker.SetActive(vo.inProgress);
             setStrength.SetActive(!vo.inProgress);
 		}

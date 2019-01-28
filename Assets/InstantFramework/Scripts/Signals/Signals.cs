@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
     public class UnregisterSignal : Signal<string> {}
     public class SortFriendsSignal : Signal {}
     public class SortCommunitySignal : Signal { }
-    public class StoreAvailableSignal : Signal<bool> {}
+    public class StoreAvailableSignal : Signal<bool, StoreVO> {}
     public class SetActionCountSignal : Signal<int> {}
     public class SendChatMessageSignal : Signal<ChatMessage> {}
     public class ReceiveChatMessageSignal : Signal<ChatMessage, bool> {}
