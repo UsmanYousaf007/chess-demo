@@ -71,7 +71,7 @@ namespace TurboLabz.InstantGame
             analyticsService.TapShopItem(item.displayName);
 
             // Purchase item after confirmation. No confirmation for remote store items
-            purchaseStoreItemSignal.Dispatch(item.key, item.remoteProductId != null);
+            purchaseStoreItemSignal.Dispatch(item.key, true);
         }
     }
 }

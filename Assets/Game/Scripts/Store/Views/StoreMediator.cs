@@ -18,7 +18,6 @@ namespace TurboLabz.InstantGame
 
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public LoadBuckPacksSignal loadBuckPacksSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
@@ -117,17 +116,12 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void OnAddBucksButtonClicked()
-        {
-            loadBuckPacksSignal.Dispatch();
-        }
-
         private void OnStoreItemClicked(StoreItem item)
         {
             analyticsService.TapShopItem(item.displayName);
 
             // Purchase item after confirmation. No confirmation for remote store items
-            purchaseStoreItemSignal.Dispatch(item.key, item.remoteProductId != null);
+            purchaseStoreItemSignal.Dispatch(item.key, true);
         }
 
         private void OnBackButtonClicked()

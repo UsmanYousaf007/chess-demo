@@ -39,7 +39,7 @@ namespace TurboLabz.InstantGame
             {
                 SpecialBundleShopItemPrefab bundlePrefab = child.Value;
 
-                string textStoreNotAvailable = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
+                string textStoreNotAvailable = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
                 string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
                 bundlePrefab.SetBundleState(vo, textStoreNotAvailable, textDays);
 
@@ -62,7 +62,7 @@ namespace TurboLabz.InstantGame
                 Sprite sprite = thumbsContainer.GetSprite(bundlePrefab.key);
                 string textOwned = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
                 string textRemaining = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
-                string textStoreNotAvailable = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
+                string textStoreNotAvailable = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
                 string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
 
                 bundlePrefab.Populate(vo, null, textStoreNotAvailable, textDays, textOwned, textRemaining);

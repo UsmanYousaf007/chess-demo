@@ -154,7 +154,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_TAB_THEMES, "THEMES" },
                 { LocalizationKey.STORE_TAB_COINS, "COINS" },
 
-                { LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE, "TRY MOVE" },
+                { LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE, "ENABLE UNDO" },
                 { LocalizationKey.STORE_POWERUP_TITLE_HINT, "HINT" },
                 { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "HINDSIGHT" },
 
@@ -163,6 +163,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_BUNDLE_FIELD_DAYS, "Days" },
 
                 { LocalizationKey.STORE_CONFIRM_DLG_TITLE_BUY, "Buy" },
+                { LocalizationKey.STORE_NOT_AVAILABLE, "Try Later" },
 
 
                 { LocalizationKey.CPU_STORE_HEADING, "THEMES" },
@@ -177,11 +178,6 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_BUY, "BUY" },
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON, "YES" },
                 { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON, "NO" },
-
-
-				{ LocalizationKey.CPU_STORE_BUCK_PACKS_TITLE, "Buy Coins" },
-				{ LocalizationKey.CPU_STORE_BUCK_PACKS_SUB_HEADING, "Value Packs" },
-				{ LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE, "Try Later" },
 
 				#endregion
 

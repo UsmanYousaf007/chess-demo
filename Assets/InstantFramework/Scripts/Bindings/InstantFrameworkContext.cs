@@ -58,7 +58,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ShareAppSignal>().To<ShareAppCommand>();
 			commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
             commandBinder.Bind<ConsumeVirtualGoodSignal>().To<ConsumeVirtualGoodCommand>();
-			commandBinder.Bind<LoadBuckPacksSignal>().To<LoadBuckPacksCommand>();
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
             commandBinder.Bind<UpdateFriendBarSignal>().To<UpdateFriendBarCommand>();
 
@@ -214,7 +213,6 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<FriendsView>().To<FriendsMediator>();
 			mediationBinder.Bind<StoreView>().To<StoreMediator>();
             mediationBinder.Bind<SpotPurchaseView>().To<SpotPurchaseMediator>();
-			mediationBinder.Bind<BuckPacksDlgView>().To<BuckPacksDlgMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -232,7 +230,6 @@ namespace TurboLabz.InstantFramework
 			injectionBinder.Bind<UpdateStoreSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStoreBuyDlgSignal>().ToSingleton();
 			injectionBinder.Bind<UpdateStoreNotEnoughBucksDlgSignal>().ToSingleton();
-			injectionBinder.Bind<UpdateStoreBuckPacksDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
             injectionBinder.Bind<ToggleFacebookButton>().ToSingleton();
             injectionBinder.Bind<UpdateTopInventoryBarSignal>().ToSingleton();
