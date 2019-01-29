@@ -24,6 +24,9 @@ namespace TurboLabz.CPU
         public Button safeMoveDlgUndoBtn;
         public Text safeMoveDlgUndoBtnTxt;
 
+        public Text safeMoveONLabel;
+        public Text safeMoveOFFLabel;
+
         public Signal safeMoveBtnClickedSignal = new Signal();
         public Signal safeMoveConfirmClickedSignal = new Signal();
         public Signal safeMoveUndoClickedSignal = new Signal();
@@ -38,6 +41,8 @@ namespace TurboLabz.CPU
         public void OnParentShowSafeMove()
         {
             safeMoveBorder.SetActive(false);
+            safeMoveONLabel.gameObject.SetActive(false);
+            safeMoveOFFLabel.gameObject.SetActive(true);
         }
 
         public void UpdateSafeMoves(int count)
@@ -57,6 +62,8 @@ namespace TurboLabz.CPU
             safeMoveDlg.SetActive(false);
             DisableModalBlocker();
             safeMoveBorder.SetActive(false);
+            safeMoveONLabel.gameObject.SetActive(false);
+            safeMoveOFFLabel.gameObject.SetActive(true);
         }
 
         void OnSafeMoveBtnClicked()
@@ -70,6 +77,8 @@ namespace TurboLabz.CPU
                 safeMoveBtnClickedSignal.Dispatch();
                 DisableSafeMoveButton();
                 safeMoveBorder.SetActive(true);
+                safeMoveONLabel.gameObject.SetActive(true);
+                safeMoveOFFLabel.gameObject.SetActive(false);
                 audioService.Play(audioService.sounds.SFX_HINT);
             }
         }
@@ -129,6 +138,8 @@ namespace TurboLabz.CPU
         void HideSafeMoveBorder()
         {
             safeMoveBorder.SetActive(false);
+            safeMoveONLabel.gameObject.SetActive(false);
+            safeMoveOFFLabel.gameObject.SetActive(true);
         }
     }
 }
