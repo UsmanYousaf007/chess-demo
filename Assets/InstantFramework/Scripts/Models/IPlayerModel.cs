@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         int totalGamesDrawn { get; set; }
         long bucks { get; set; }
         int eloScore { get; set; }
+        bool isPremium { get; set; }
 
 
         // Ads Info

@@ -251,6 +251,9 @@ namespace TurboLabz.InstantFramework
             // League & Rating
             LogUtil.Log("********** playerModel.eloScore" + " " + playerModel.eloScore);
 
+
+            LogUtil.Log("********** playerModel.isPremium" + " " + playerModel.isPremium);
+
             // The keys of the dictionary are the IDs of the rooms.
             //IDictionary<string, RoomRecord> roomRecords { get; set; }
 

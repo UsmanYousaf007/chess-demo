@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public int totalGamesDrawn { get; set; }
         public long bucks { get; set; }
         public int eloScore { get; set; }
+        public bool isPremium { get; set; }
 
         // Ads Info
         public int adLifetimeImpressions { get; set; }
@@ -59,7 +60,7 @@ namespace TurboLabz.InstantFramework
             totalGamesDrawn = 0;
             bucks = 0;
             eloScore = 0;
-
+            isPremium = false;
 
             // Ads Info
             adLifetimeImpressions = 0;
