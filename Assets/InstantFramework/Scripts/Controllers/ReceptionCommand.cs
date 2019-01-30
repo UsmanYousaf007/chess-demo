@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.player_elo, AnalyticsParameter.elo, playerModel.eloScore);
             analyticsService.Event(AnalyticsEventId.selected_theme, AnalyticsParameter.theme_name, playerModel.activeSkinId);
 
-            /*
+            /* TODO: Noor
             if (playerModel.isPremium)
             {
                 analyticsService.Event(AnalyticsEventId.session_premium);
