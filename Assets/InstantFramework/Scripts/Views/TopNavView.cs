@@ -103,9 +103,9 @@ namespace TurboLabz.InstantFramework
 
         private void OnSupportButtonClicked()
         {
-            analyticsService.TapHelp();
-
             Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
+
+            analyticsService.Event(AnalyticsEvent.tap_support);
         }
 
         private void OnRemoveAdsButtonClicked()

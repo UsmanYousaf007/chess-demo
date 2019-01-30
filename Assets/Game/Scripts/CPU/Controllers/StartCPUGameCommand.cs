@@ -33,14 +33,10 @@ namespace TurboLabz.CPU
         {
             if (cpuGameModel.inProgress)
             {
-                analyticsService.ComputerMatchContinued(cpuGameModel.levelId);
-
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
             }
             else
             {
-                analyticsService.ComputerMatchStarted(cpuGameModel.levelId);
-
                 chessboardModel.gameDuration = TimeSpan.Zero;
                 chessboardModel.aiMoveDelay = AiMoveDelay.CPU;
                     
@@ -49,6 +45,8 @@ namespace TurboLabz.CPU
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
             }
+
+            analyticsService.ScreenVisit(AnalyticsScreen.computer_match);
         }
     }
 }

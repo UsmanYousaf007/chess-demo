@@ -65,31 +65,23 @@ namespace TurboLabz.CPU
                 if (cmd.chessboardModel.usedHelp)
                 {
                     statResult = StatResult.SILVER;
+                    cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength);
                 }
                 else
                 {
                     statResult = StatResult.GOLD;
+                    cmd.analyticsService.LevelComplete(cmd.cpuGameModel.cpuStrength);
                 }
-
-                cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
             }
             else if (isDraw)
             {
                 statResult = StatResult.NONE;
-                cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
+                cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength);
             }
             else
             {
                 statResult = StatResult.NONE;
-
-                if (gameEndReason == GameEndReason.RESIGNATION)
-                {
-                    cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
-                }
-                else
-                {
-                    cmd.analyticsService.ComputerMatchCompleted(cmd.cpuGameModel.levelId, gameEndReason.ToString());
-                }
+                cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength);
             }
 
             int  rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinAdReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpAdReward;

@@ -32,10 +32,20 @@ namespace TurboLabz.InstantFramework
             chatModel.AddChat(chatMessage.recipientId, chatMessage, false);
             backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text, chatMessage.guid);
 
+
+            // Analytics
             if (!chatModel.hasEngagedChat) 
             {
                 chatModel.hasEngagedChat = true;
-                analyticsService.ChatEngaged();
+
+                if (matchInfoModel.activeMatch.isLongPlay)
+                {
+                    analyticsService.Event(AnalyticsEvent.tap_chat_message_send, AnalyticsContext.long_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEvent.tap_chat_message_send, AnalyticsContext.quick_match);
+                }
             }
         }
     }

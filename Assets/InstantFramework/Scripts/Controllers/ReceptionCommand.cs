@@ -67,8 +67,6 @@ namespace TurboLabz.InstantFramework
         {
             if (facebookService.isLoggedIn())
             {
-                analyticsService.FacebookLoggedIn();
-
                 int facebookFriendCount = 0;
                 int communityFriendCount = 0;
                 foreach (KeyValuePair<string, Friend> kvp in playerModel.friends)
@@ -84,12 +82,17 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
-                analyticsService.FacebookFriendCount(facebookFriendCount);
-                analyticsService.CommunityFriendCount(communityFriendCount);
+                analyticsService.Event(AnalyticsEvent.session_fb);
+                analyticsService.Event(AnalyticsEvent.friends_community, AnalyticsParameter.count, communityFriendCount);
+                analyticsService.Event(AnalyticsEvent.friends_facebook, AnalyticsParameter.count, facebookFriendCount);
+                analyticsService.Event(AnalyticsEvent.friends_active_games, AnalyticsParameter.count, matchInfoModel.matches.Count);
+            }
+            else
+            {
+                analyticsService.Event(AnalyticsEvent.session_guest);
             }
 
-            analyticsService.PlayerRating(playerModel.eloScore);
-            analyticsService.ActiveLongMatchCount(matchInfoModel.matches.Count);
+            analyticsService.Event(AnalyticsEvent.player_elo, AnalyticsParameter.elo, playerModel.eloScore);
         }
 
         private void CommandBegin()

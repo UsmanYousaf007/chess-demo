@@ -45,7 +45,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.PROFILE_DLG) 
             {
                 view.Show();
-                analyticsService.VisitFriendsProfile();
+                analyticsService.Event(AnalyticsEvent.tap_long_match_profile);
             }
         }
 

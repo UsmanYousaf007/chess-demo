@@ -53,7 +53,7 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.STORE) 
             {
                 view.Show();
-                analyticsService.VisitShop();
+                analyticsService.ScreenVisit(AnalyticsScreen.shop);
             }
         }
 
@@ -124,8 +124,6 @@ namespace TurboLabz.InstantGame
 
         private void OnStoreItemClicked(StoreItem item)
         {
-            analyticsService.TapShopItem(item.displayName);
-
             // Purchase item after confirmation. No confirmation for remote store items
             purchaseStoreItemSignal.Dispatch(item.key, item.remoteProductId != null);
         }

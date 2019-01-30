@@ -20,7 +20,6 @@ namespace TurboLabz.CPU
         bool inProgress { get; set; }
         string devFen { get; set; }
         int totalGames { get; set; }
-        string levelId { get; }
 
         void Reset();
     }

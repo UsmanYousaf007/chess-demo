@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -32,6 +33,11 @@ namespace TurboLabz.InstantFramework
             friendBarBusySignal.Dispatch(opponentId, true);
             matchInfoModel.createLongMatchAborted = false;
             backendService.CreateLongMatch(opponentId, isRanked).Then(OnCreateLongMatch);
+
+            // Analytics
+            analyticsService.Event(AnalyticsEvent.tap_long_match_create, 
+                AnalyticsParameter.is_ranked,
+                isRanked);
         }
 
         private void OnCreateLongMatch(BackendResult result)

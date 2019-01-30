@@ -22,13 +22,6 @@ namespace TurboLabz.CPU
         public string devFen { get; set; }
         public int totalGames { get; set; }
 
-        public string levelId
-        {
-            get
-            {
-                return durationIndex + "_" + cpuStrength;
-            }
-        }
 
         [PostConstruct]
         public void LoadDefault()
