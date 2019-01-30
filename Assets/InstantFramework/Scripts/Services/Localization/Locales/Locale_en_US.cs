@@ -154,7 +154,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_TAB_THEMES, "THEMES" },
                 { LocalizationKey.STORE_TAB_COINS, "COINS" },
 
-                { LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE, "ENABLE UNDO" },
+                { LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE, "UNDO" },
                 { LocalizationKey.STORE_POWERUP_TITLE_HINT, "HINT" },
                 { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "HINDSIGHT" },
 
