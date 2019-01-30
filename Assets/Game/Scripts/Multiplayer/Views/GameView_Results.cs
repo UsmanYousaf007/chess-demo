@@ -69,7 +69,7 @@ namespace TurboLabz.Multiplayer
         {
             // Button listeners
             resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
-            declinedLobbyButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
+            declinedLobbyButton.onClick.AddListener(OnResultsDeclinedButtonClicked);
             resultsCloseButton.onClick.AddListener(OnResultsClosed);
             resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
 
@@ -328,6 +328,18 @@ namespace TurboLabz.Multiplayer
         {
             showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
 
+            if (isLongPlay)
+            {
+                backToFriendsSignal.Dispatch();
+            }
+            else
+            {
+                backToLobbySignal.Dispatch();
+            }
+        }
+
+        private void OnResultsDeclinedButtonClicked()
+        {
             if (isLongPlay)
             {
                 backToFriendsSignal.Dispatch();

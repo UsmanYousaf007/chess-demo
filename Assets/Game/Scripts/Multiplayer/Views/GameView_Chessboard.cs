@@ -287,6 +287,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
+                ResetCapturedIndicators(isPlayerTurn);
             }
 
             // Update chessboard piece image array
@@ -316,7 +317,11 @@ namespace TurboLabz.Multiplayer
                 // Show the captured piece in the captured pieces slots
                 HandleCapturePieceGraphic(capturedSquare.piece.name, true);
             }
-                
+            else
+            {
+                ResetCapturedIndicators(true);
+            }
+
             // Destroy the pawn and put the new image in place
             UpdatePromoDialog(vo);
 
@@ -331,6 +336,10 @@ namespace TurboLabz.Multiplayer
             if (capturedSquare != null)
             {
                 HandleCapturePieceGraphic(capturedSquare.piece.name, isPlayerTurn);
+            }
+            else
+            {
+                ResetCapturedIndicators(isPlayerTurn);
             }
 
             UpdateInfoPostMove(vo, true);

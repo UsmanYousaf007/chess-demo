@@ -53,12 +53,13 @@ namespace TurboLabz.CPU
                 obj.SetActive(false);
             }
 
-            ResetCapturedIndicators(capturedIndicatorsOpponent);
-            ResetCapturedIndicators(capturedIndicatorsPlayer);
+            ResetCapturedIndicators(true);
+            ResetCapturedIndicators(false);
         }
 
-        private void ResetCapturedIndicators(Image[] captureIndicators)
+        private void ResetCapturedIndicators(bool isPlayerTurn)
         {
+            Image[]  captureIndicators = isPlayerTurn ? capturedIndicatorsPlayer : capturedIndicatorsOpponent;
             for (int i = 0; i < 5; ++i)
             {
                 captureIndicators[i].gameObject.SetActive(false);
@@ -116,7 +117,7 @@ namespace TurboLabz.CPU
                     piece.SetActive(true);
                     piece.transform.position = targetSlots[slotIndex].position;
 
-                    ResetCapturedIndicators(targetCaptureIndicators);
+                    ResetCapturedIndicators(isPlayerTurn);
                     targetCaptureIndicators[slotIndex].gameObject.SetActive(true);
                     break;
                 }
