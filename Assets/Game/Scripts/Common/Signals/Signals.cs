@@ -10,11 +10,8 @@
 /// @description
 /// [add_description_here]
 using strange.extensions.signal.impl;
-using System;
-using TurboLabz.Chess;
-using System.Collections.Generic;
 using TurboLabz.InstantFramework;
-using UnityEngine;
+
 
 namespace TurboLabz.InstantGame
 {
@@ -40,8 +37,6 @@ namespace TurboLabz.InstantGame
     public class UpdateStoreSignal : Signal<StoreVO> {}
 	public class UpdateStoreBuyDlgSignal : Signal<StoreItem> {}
 	public class UpdateStoreNotEnoughBucksDlgSignal : Signal<StoreItem> {}
-	public class UpdateStoreBuckPacksDlgSignal : Signal<StoreVO> {}
-	public class LoadBuckPacksSignal : Signal {}
     public class ShowStoreTabSignal : Signal<StoreView.StoreTabs> {}
     public class UpdateSpotPurchaseSignal : Signal<StoreVO, SpotPurchaseView.PowerUpSections> { }
 

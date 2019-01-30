@@ -38,10 +38,6 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSStats();
             }
-            else if (evt == NavigatorEvent.SHOW_BUCK_PACKS_DLG)
-            {
-                return new NSBuckPacksDlg();
-            }
             else if (evt == NavigatorEvent.SHOW_RATE_APP_DLG)
             {
                 return new NSRateAppDlg();

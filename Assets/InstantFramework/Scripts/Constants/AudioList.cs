@@ -27,6 +27,7 @@ public class AudioList : MonoBehaviour {
     public AudioClip SFX_PLACE_PIECE;
     public AudioClip SFX_PROMO;
     public AudioClip SFX_VICTORY;
+    public AudioClip SFX_SHOP_PURCHASE_ITEM;
 
     // Dispatch Signal
     public Signal playStandardClickSignal = new Signal();

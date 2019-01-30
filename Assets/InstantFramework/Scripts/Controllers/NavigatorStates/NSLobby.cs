@@ -31,11 +31,7 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_FRIENDS)
             {
                 return new NSFriends();
-            }
-			else if (evt == NavigatorEvent.SHOW_BUCK_PACKS_DLG)
-			{
-				return new NSBuckPacksDlg();
-			}	
+            }	
 			else if (evt == NavigatorEvent.ESCAPE)
 			{
 				cmd.androidNativeService.SendToBackground();

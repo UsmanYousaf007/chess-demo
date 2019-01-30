@@ -159,6 +159,7 @@ namespace TurboLabz.InstantFramework
         public const string STORE_BUNDLE_FIELD_DAYS = "storeBundleFieldDays";
 
         public const string STORE_CONFIRM_DLG_TITLE_BUY = "storeConfirmDlgTitleBuy";
+        public const string STORE_NOT_AVAILABLE = "storeNotAvailable";
 
         public const string CPU_STORE_HEADING = "storeHeading";
 		public const string CPU_STORE_OWNED = "storeItemOwned";
@@ -172,10 +173,6 @@ namespace TurboLabz.InstantFramework
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_BUY = "storeNotEnoughBucksBuy";
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON = "storeNotEnoughBucksYes";
         public const string CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON = "storeNotEnoughBucksNo";
-
-		public const string CPU_STORE_BUCK_PACKS_TITLE = "storeBuckPacksTitle";
-		public const string CPU_STORE_BUCK_PACKS_SUB_HEADING = "storeBuckPacksSubHeading";
-		public const string CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE = "storeBuckPacksStoreNotAvailable";
 
 		#endregion
 

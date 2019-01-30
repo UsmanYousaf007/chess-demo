@@ -37,10 +37,6 @@ namespace TurboLabz.InstantFramework
 			else if (evt == NavigatorEvent.SHOW_NOT_ENOUGH_DLG)
 			{
 				return new NSNotEnoughBucksDlg();
-			}
-			else if (evt == NavigatorEvent.SHOW_BUCK_PACKS_DLG)
-			{
-                return new NSBuckPacksDlg();
 			}	
 
 			return null;

@@ -108,7 +108,7 @@ namespace TurboLabz.InstantGame
                 StoreItem storeItem = vo.storeSettingsModel.store.items[coinPrefab.key];
                 if (storeItem.remoteProductPrice == null)
                 {
-                    coinPrefab.price.text = localizationService.Get(LocalizationKey.CPU_STORE_BUCK_PACKS_STORE_NOT_AVAILABLE);
+                    coinPrefab.price.text = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
                 }
                 else
                 {

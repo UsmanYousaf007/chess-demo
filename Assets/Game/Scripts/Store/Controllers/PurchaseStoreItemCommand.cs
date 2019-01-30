@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         private StoreItem item;
 
@@ -59,18 +60,18 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void Purchase(StoreItem item)
+        private void Purchase(StoreItem storeItem)
         {
-            if (item.remoteProductId != null) 
+            if (storeItem.remoteProductId != null) 
             {
                 // Purchase from remote store
-                storeService.BuyProduct(item.remoteProductId);
+                storeService.BuyProduct(storeItem.remoteProductId);
             } 
             else 
             {
                 // Virtual good purchase
                 Retain();
-                backendService.BuyVirtualGoods(2, 1, item.key).Then(OnPurchase);
+                backendService.BuyVirtualGoods(2, 1, storeItem.key).Then(OnPurchase);
             }
         }
 
@@ -85,6 +86,7 @@ namespace TurboLabz.InstantFramework
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                audioService.Play(audioService.sounds.SFX_SHOP_PURCHASE_ITEM);
             }
 
             Release();
