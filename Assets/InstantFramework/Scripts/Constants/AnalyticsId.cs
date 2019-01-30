@@ -12,9 +12,81 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public enum ShareContext
+    public enum AnalyticsScreen
     {
-        MAIN_MENU
+        lobby,
+        profile,
+        friends,
+        shop,
+        themes,
+        coins,
+        quick_match,
+        computer_match,
+        long_match,
+        rate_dialog,
+        spot_purchase_safe_move,
+        spot_purchase_hint,
+        spot_purchase_hindsight
     }
+
+    public enum AnalyticsEvent
+    {
+        tap_share,
+        tap_support,
+        tap_coins,
+        tap_lobby_bundle,
+        tap_community_refresh,
+        tap_long_match_create,
+        tap_long_match_accept,
+        tap_long_match_decline,
+        tap_long_match_remove,
+        tap_long_match_profile,
+        tap_long_match_block,
+        tap_rate_yes,
+        tap_rate_no,
+        tap_chat_message_send,
+        tap_pow_info,
+        tap_pow_safe_move,
+        tap_pow_hint,
+        tap_pow_hindsight,
+        spot_purchase_complete,
+        store_purchase_complete,
+        ads_collect_reward,
+        ads_skip_reward,
+        ads_friends_back,
+        session_fb,
+        session_guest,
+        session_premium,
+        friends_community,
+        friends_facebook,
+        friends_active_games,
+        level_complete,
+        level_fail,
+        player_elo,
+        bot_quick_match_won,
+        bot_quick_match_lost,
+        long_match_complete_duration,
+        selected_theme
+    }
+
+    public enum AnalyticsContext
+    {
+        long_match,
+        quick_match,
+        computer_match,
+        shop
+    }
+
+    public enum AnalyticsParameter
+    {
+        is_ranked,
+        item_id,
+        count,
+        level_difficulty,
+        elo,
+        bot_difficulty,
+        duration
+    }
+
 }
 

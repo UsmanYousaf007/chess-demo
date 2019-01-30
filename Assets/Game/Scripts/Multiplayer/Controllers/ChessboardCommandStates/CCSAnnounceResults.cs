@@ -32,7 +32,6 @@ namespace TurboLabz.Multiplayer
 
             if (cmd.matchInfoModel.activeMatch.isLongPlay)
             {
-                cmd.analyticsService.LongMatchCompleted(chessboard.gameEndReason.ToString(), cmd.matchInfoModel.activeMatch.gameDurationMs);
                 cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
             }
             else
@@ -40,11 +39,18 @@ namespace TurboLabz.Multiplayer
                 // Analytics
                 if (cmd.matchInfoModel.activeMatch.isBotMatch)
                 {
-                    cmd.analyticsService.QuickBotMatchCompleted(cmd.matchInfoModel.activeMatch.botDifficulty, chessboard.gameEndReason.ToString());
-                }
-                else
-                {
-                    cmd.analyticsService.QuickMatchCompleted(chessboard.gameEndReason.ToString());
+                    if (playerWins)
+                    {
+                        cmd.analyticsService.Event(AnalyticsEvent.bot_quick_match_won, 
+                            AnalyticsParameter.bot_difficulty, 
+                            cmd.activeMatchInfo.botDifficulty);
+                    }
+                    else
+                    {
+                        cmd.analyticsService.Event(AnalyticsEvent.bot_quick_match_lost,
+                            AnalyticsParameter.bot_difficulty,
+                            cmd.activeMatchInfo.botDifficulty);
+                    }
                 }
 
                 cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);

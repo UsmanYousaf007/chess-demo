@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         public override void Execute()
         {
@@ -74,20 +75,14 @@ namespace TurboLabz.InstantFramework
             // Analytics
             if (matchInfo.isLongPlay)
             {
-                analyticsService.LongMatchEngaged();
+                analyticsService.ScreenVisit(AnalyticsScreen.long_match);
             }
             else
             {
-                if (matchInfo.isBotMatch)
-                {
-                    analyticsService.QuickBotMatchStarted(matchInfo.botDifficulty);
-                }
-                else
-                {
-                    analyticsService.QuickMatchStarted();
-                }
+                analyticsService.ScreenVisit(AnalyticsScreen.quick_match, facebookService.isLoggedIn(), matchInfo.isBotMatch);
             }
 
+            chatModel.hasEngagedChat = false;
         }
     }
 }

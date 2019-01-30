@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         public override void OnRegister()
         {
@@ -68,7 +69,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.FRIENDS) 
             {
                 view.Show();
-                analyticsService.VisitFriends();
+                analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
             }
         }
 
@@ -203,9 +204,10 @@ namespace TurboLabz.InstantFramework
 
         private void OnRefreshCommunity()
         {
-            analyticsService.TapCommunityRefresh();
-           
             refreshCommunitySignal.Dispatch();
+
+            // Analytics
+            analyticsService.Event(AnalyticsEvent.tap_community_refresh);
         }
 
         private void OnShareApp()
@@ -231,7 +233,6 @@ namespace TurboLabz.InstantFramework
         private void OnCancelButtonClicked(string playerId)
         {
             resignSignal.Dispatch(playerId);
-            analyticsService.LongMatchCanceled();
         }
 
         private void OnOkButtonClicked(string playerId)

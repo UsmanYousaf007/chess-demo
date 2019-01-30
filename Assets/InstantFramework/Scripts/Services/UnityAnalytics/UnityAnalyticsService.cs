@@ -17,7 +17,20 @@ namespace TurboLabz.InstantFramework
 {
     public class UnityAnalyticsService : IAnalyticsService
     {
+        public void ScreenVisit(AnalyticsScreen screen) { }
+        public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in) { }
+        public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in, bool is_bot) { }
+        public void ScreenVisit(AnalyticsScreen screen, AnalyticsContext context) { }
+        public void Event(AnalyticsEvent evt) { }
+        public void Event(AnalyticsEvent evt, AnalyticsParameter param, bool val) { }
+        public void Event(AnalyticsEvent evt, AnalyticsParameter param, string val) { }
+        public void Event(AnalyticsEvent evt, AnalyticsParameter param, int val) { }
+        public void Event(AnalyticsEvent evt, AnalyticsParameter param, float val) { }
+        public void Event(AnalyticsEvent evt, AnalyticsContext context) { }
+        public void LevelComplete(int difficulty) { }
+        public void LevelFail(int difficulty) { }
 
+        /*
         [Inject] public IFacebookService facebookService { get; set; }
 
         // These events are sent once per session
@@ -321,6 +334,7 @@ namespace TurboLabz.InstantFramework
             LogUtil.Log(builder, "yellow");
 #endif
         }
+        */
 
     }
 }

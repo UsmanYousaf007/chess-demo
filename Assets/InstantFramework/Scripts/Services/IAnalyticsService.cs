@@ -15,6 +15,37 @@ namespace TurboLabz.InstantFramework
 {
     public interface IAnalyticsService
     {
+        void ScreenVisit(AnalyticsScreen screen);
+        void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in);
+        void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in, bool is_bot);
+        void ScreenVisit(AnalyticsScreen screen, AnalyticsContext context);
+
+        void Event(AnalyticsEvent evt);
+        void Event(AnalyticsEvent evt, AnalyticsContext context);
+        void Event(AnalyticsEvent evt, AnalyticsParameter param, bool val);
+        void Event(AnalyticsEvent evt, AnalyticsParameter param, string val);
+        void Event(AnalyticsEvent evt, AnalyticsParameter param, int val);
+        void Event(AnalyticsEvent evt, AnalyticsParameter param, float val);
+
+        void LevelComplete(int difficulty);
+        void LevelFail(int difficulty);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
         // These events are sent once per session after init data
         void FacebookLoggedIn();
         void FacebookFriendCount(int count);
@@ -55,5 +86,6 @@ namespace TurboLabz.InstantFramework
         void ChatEngaged();
 
         void VirtualGoodConsumed(string itemKey, int quantity);
+        */
     }
 }

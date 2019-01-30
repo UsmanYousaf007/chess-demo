@@ -40,7 +40,6 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
-                analyticsService.VirtualGoodConsumed(itemKey, itemQuantity);
             }
 
             Release();

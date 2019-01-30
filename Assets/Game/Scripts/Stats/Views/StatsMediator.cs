@@ -44,7 +44,7 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.STATS) 
             {
                 view.Show();
-                analyticsService.VisitProfile();
+                analyticsService.ScreenVisit(AnalyticsScreen.profile);
             }
         }
 
