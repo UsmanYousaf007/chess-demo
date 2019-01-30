@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IRateAppService rateAppService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void OnRegister()
         {
@@ -35,6 +36,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.RATE_APP_DLG) 
             {
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.rate_dialog);
             }
         }
 
@@ -51,12 +53,14 @@ namespace TurboLabz.InstantFramework
         {
             rateAppService.RateApp(false);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            analyticsService.Event(AnalyticsEventId.tap_rate_no);
         }
 
         private void OnRate()
         {
             rateAppService.RateApp(true);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            analyticsService.Event(AnalyticsEventId.tap_rate_yes);
         }
     }
 }

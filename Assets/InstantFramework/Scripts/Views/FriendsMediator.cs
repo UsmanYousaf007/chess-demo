@@ -207,7 +207,7 @@ namespace TurboLabz.InstantFramework
             refreshCommunitySignal.Dispatch();
 
             // Analytics
-            analyticsService.Event(AnalyticsEvent.tap_community_refresh);
+            analyticsService.Event(AnalyticsEventId.tap_community_refresh);
         }
 
         private void OnShareApp()

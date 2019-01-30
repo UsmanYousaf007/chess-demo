@@ -21,6 +21,7 @@ namespace TurboLabz.InstantGame
         };
 
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // View signals
         public Signal<StoreItem> storeItemClickedSignal = new Signal<StoreItem>();
@@ -98,16 +99,19 @@ namespace TurboLabz.InstantGame
         public void OnTabPowerUpsClicked()
         {
             ShowTab(StoreTabs.POWERUPS);
+            analyticsService.ScreenVisit(AnalyticsScreen.powerups);
         }
 
         public void OnTabThemesClicked()
         {
             ShowTab(StoreTabs.SKINS);
+            analyticsService.ScreenVisit(AnalyticsScreen.themes);
         }
 
         public void OnTabCoinsClicked()
         {
             ShowTab(StoreTabs.COINS);
+            analyticsService.ScreenVisit(AnalyticsScreen.coins);
         }
 
     }

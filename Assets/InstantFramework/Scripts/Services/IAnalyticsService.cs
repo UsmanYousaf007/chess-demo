@@ -20,72 +20,11 @@ namespace TurboLabz.InstantFramework
         void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in, bool is_bot);
         void ScreenVisit(AnalyticsScreen screen, AnalyticsContext context);
 
-        void Event(AnalyticsEvent evt);
-        void Event(AnalyticsEvent evt, AnalyticsContext context);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, bool val);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, string val);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, int val);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, float val);
+        void Event(AnalyticsEventId evt);
+        void Event(AnalyticsEventId evt, AnalyticsContext context);
+        void Event(AnalyticsEventId evt, AnalyticsParameter param, object val);
 
         void LevelComplete(int difficulty);
         void LevelFail(int difficulty);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-
-        // These events are sent once per session after init data
-        void FacebookLoggedIn();
-        void FacebookFriendCount(int count);
-        void CommunityFriendCount(int count);
-        void PlayerRating(int rating);
-        void ActiveLongMatchCount(int count);
-
-        // These events are sent each time they occur
-        void AdStart(bool rewarded);
-        void AdComplete(bool rewarded);
-        void AdSkip(bool rewarded);
-
-        void VisitProfile();
-        void VisitShop();
-        void VisitFriends();
-        void VisitFriendsProfile();
-
-        void TapShopItem(string name);
-        void TapCommunityRefresh();
-        void TapShare();
-        void TapHelp();
-        void TapInvite();
-        void TapComputerUndo();
-
-        void ComputerMatchStarted(string level);
-        void ComputerMatchContinued(string level);
-        void ComputerMatchCompleted(string level, string result);
-
-        void QuickBotMatchStarted(float botDifficulty);
-        void QuickBotMatchCompleted(float botDifficulty, string result);
-        void QuickMatchStarted();
-        void QuickMatchCompleted(string result);
-
-        void LongMatchEngaged();
-        void LongMatchCanceled();
-        void LongMatchCompleted(string result, double duration);
-
-        void ChatEngaged();
-
-        void VirtualGoodConsumed(string itemKey, int quantity);
-        */
     }
 }

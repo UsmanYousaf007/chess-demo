@@ -332,12 +332,16 @@ namespace TurboLabz.CPU
         {
             showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             backToLobbySignal.Dispatch();
+
+            analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);
         }
 
         public void OnResultsSkipRewardButtonClicked()
         {
             showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
             backToLobbySignal.Dispatch();
+
+            analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
         }
 
         private void OnResultsClosed()

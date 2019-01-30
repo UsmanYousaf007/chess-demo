@@ -80,6 +80,8 @@ namespace TurboLabz.CPU
                 safeMoveONLabel.gameObject.SetActive(true);
                 safeMoveOFFLabel.gameObject.SetActive(false);
                 audioService.Play(audioService.sounds.SFX_HINT);
+
+                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move, AnalyticsContext.computer_match);
             }
         }
 

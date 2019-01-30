@@ -1,4 +1,5 @@
 ﻿using strange.extensions.signal.impl;
+using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 using UnityEngine;
@@ -45,6 +46,16 @@ namespace TurboLabz.Multiplayer
                 return;
 
             infoButtonClickedSignal.Dispatch();
+
+            if (isLongPlay)
+            {
+                analyticsService.Event(AnalyticsEventId.tap_pow_info, AnalyticsContext.long_match);
+            }
+            else
+            {
+                analyticsService.Event(AnalyticsEventId.tap_pow_info, AnalyticsContext.quick_match);
+            }
+
         }
 
         void OnCloseButtonClicked()

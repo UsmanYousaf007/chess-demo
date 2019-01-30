@@ -40,11 +40,11 @@ namespace TurboLabz.InstantFramework
 
                 if (matchInfoModel.activeMatch.isLongPlay)
                 {
-                    analyticsService.Event(AnalyticsEvent.tap_chat_message_send, AnalyticsContext.long_match);
+                    analyticsService.Event(AnalyticsEventId.tap_chat_message_send, AnalyticsContext.long_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEvent.tap_chat_message_send, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.tap_chat_message_send, AnalyticsContext.quick_match);
                 }
             }
         }

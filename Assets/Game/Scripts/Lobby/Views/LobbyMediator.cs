@@ -38,6 +38,9 @@ namespace TurboLabz.InstantGame
         // View injection
         [Inject] public LobbyView view { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -75,6 +78,7 @@ namespace TurboLabz.InstantGame
         {
             if (viewId == NavigatorViewId.LOBBY) 
             {
+                analyticsService.ScreenVisit(AnalyticsScreen.lobby);
                 view.Show();
             }
         }

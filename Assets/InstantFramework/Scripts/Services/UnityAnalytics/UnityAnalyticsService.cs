@@ -12,310 +12,118 @@ using UnityEngine.Analytics;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using System.Text;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
     public class UnityAnalyticsService : IAnalyticsService
     {
-        public void ScreenVisit(AnalyticsScreen screen) { }
-        public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in) { }
-        public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in, bool is_bot) { }
-        public void ScreenVisit(AnalyticsScreen screen, AnalyticsContext context) { }
-        public void Event(AnalyticsEvent evt) { }
-        public void Event(AnalyticsEvent evt, AnalyticsParameter param, bool val) { }
-        public void Event(AnalyticsEvent evt, AnalyticsParameter param, string val) { }
-        public void Event(AnalyticsEvent evt, AnalyticsParameter param, int val) { }
-        public void Event(AnalyticsEvent evt, AnalyticsParameter param, float val) { }
-        public void Event(AnalyticsEvent evt, AnalyticsContext context) { }
-        public void LevelComplete(int difficulty) { }
-        public void LevelFail(int difficulty) { }
-
-        /*
-        [Inject] public IFacebookService facebookService { get; set; }
-
-        // These events are sent once per session
-        public void FacebookLoggedIn()
+        public void ScreenVisit(AnalyticsScreen screen)
         {
-            Analytics.CustomEvent("facebook_loggedin");
+            AnalyticsEvent.ScreenVisit(screen.ToString());
 
-            Print("facebook_loggedin");
+            Print("ScreenVisit:" + screen);
         }
 
-        private void CountEvent(string name, int count)
+        public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in)
         {
             Dictionary<string, object> p = new Dictionary<string, object>
             {
-                { "total", count }
+                { AnalyticsParameter.fb_logged_in.ToString(), fb_logged_in }
             };
 
-            Analytics.CustomEvent(name, p);
+            AnalyticsEvent.ScreenVisit(screen.ToString(), p);
 
-            Print(name, p);
+            Print("ScreenVisit:" + screen, p);
         }
 
-        public void TapShare()
-        {
-            Analytics.CustomEvent("tap_share");
-
-            Print("tap_share");
-        }
-
-        public void TapHelp()
-        {
-            Analytics.CustomEvent("tap_help");
-
-            Print("tap_help");
-        }
-
-        public void TapInvite()
-        {
-            Analytics.CustomEvent("tap_invite");
-
-            Print("tap_invite");
-        }
-
-        public void TapShopItem(string name)
+        public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in, bool is_bot) 
         {
             Dictionary<string, object> p = new Dictionary<string, object>
             {
-                { "name", name }
+                { AnalyticsParameter.fb_logged_in.ToString(), fb_logged_in },
+                { AnalyticsParameter.is_bot.ToString(), is_bot },
             };
 
-            Analytics.CustomEvent("tap_shop_skin", p);
+            AnalyticsEvent.ScreenVisit(screen.ToString(), p);
 
-            Print("tap_shop_skin", p);
+            Print("ScreenVisit:" + screen, p);
         }
 
-        public void TapCommunityRefresh()
-        {
-            Analytics.CustomEvent("tap_community_refresh");
-
-            Print("tap_community_refresh");
-        }
-
-        public void TapComputerUndo()
-        {
-            Analytics.CustomEvent("tap_computer_undo");
-
-            Print("tap_computer_undo");
-        }
-
-        public void FacebookFriendCount(int count)
-        {
-            CountEvent("facebook_friend_count", count);
-        }
-
-        public void CommunityFriendCount(int count)
-        {
-            CountEvent("community_friend_count", count);
-        }
-
-        public void PlayerRating(int rating)
-        {
-            int bucket = rating - (rating % 500);
-            string bucketStr = "rating_" + bucket;
-
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { "bucket", bucketStr }
-            };
-
-            Analytics.CustomEvent("player_rating", p);
-
-            Print("player_rating", p);
-        }
-
-        public void ActiveLongMatchCount(int count)
-        {
-            CountEvent("active_long_match_count", count);
-        }
-
-        public void AdStart(bool rewarded)
-        {
-            AnalyticsEvent.AdStart(rewarded);
-
-            Print("AdStart:" + rewarded);
-        }
-
-        public void AdComplete(bool rewarded)
-        {
-            AnalyticsEvent.AdComplete(rewarded);
-
-            Print("AdComplete:" + rewarded);
-        }
-
-        public void AdSkip(bool rewarded)
-        {
-            AnalyticsEvent.AdSkip(rewarded);
-
-            Print("AdSkip:" + rewarded);
-        }
-
-        public void VisitProfile()
-        {
-            AnalyticsEvent.ScreenVisit("profile");
-
-            Print("ScreenVisit:" + "profile");
-        }
-
-        public void VisitShop()
-        {
-            AnalyticsEvent.ScreenVisit("shop");
-
-            Print("ScreenVisit:" + "shop");
-        }
-
-        public void VisitFriends()
-        {
-            AnalyticsEvent.ScreenVisit("friends");
-
-            Print("ScreenVisit:" + "friends");
-        }
-
-        public void VisitFriendsProfile()
-        {
-            AnalyticsEvent.ScreenVisit("friends_profile");
-
-            Print("ScreenVisit:" + "friends_profile");
-        }
-
-        public void ComputerMatchStarted(string level)
+        public void ScreenVisit(AnalyticsScreen screen, AnalyticsContext context)
         {
             Dictionary<string, object> p = new Dictionary<string, object>
             {
-                { "level", level },
-                { "fb_logged_in", facebookService.isLoggedIn() }
+                { AnalyticsParameter.context.ToString(), context.ToString() }
             };
 
-            Analytics.CustomEvent("computer_match_started", p);
+            AnalyticsEvent.ScreenVisit(screen.ToString(), p);
 
-            Print("computer_match_started", p);
+            Print("ScreenVisit:" + screen, p);
         }
 
-        public void ComputerMatchContinued(string level)
+        public void Event(AnalyticsEventId evt)
+        {
+            Analytics.CustomEvent(evt.ToString());
+
+            Print(evt.ToString());
+        }
+
+        public void Event(AnalyticsEventId evt, AnalyticsParameter param, object val)
+        {
+            if (param == AnalyticsParameter.elo)
+            {
+                int rating = (int)val;
+                val = rating - (rating % 500);
+            }
+            else if (param == AnalyticsParameter.bot_difficulty)
+            {
+                val = Math.Round((float)val, 1);
+            }
+            else if (param == AnalyticsParameter.duration)
+            {
+                val = Math.Round((double)val, 1);
+            }
+
+            Dictionary<string, object> p = new Dictionary<string, object>
+            {
+                { param.ToString(), val }
+            };
+
+            Analytics.CustomEvent(evt.ToString(), p);
+
+            Print(evt.ToString(), p);
+        }
+
+        public void Event(AnalyticsEventId evt, AnalyticsContext context)
         {
             Dictionary<string, object> p = new Dictionary<string, object>
             {
-                { "level", level },
-                { "fb_logged_in", facebookService.isLoggedIn() }
+                { AnalyticsParameter.context.ToString(), context.ToString() }
             };
 
-            Analytics.CustomEvent("computer_match_continued", p);
+            Analytics.CustomEvent(evt.ToString(), p);
 
-            Print("computer_match_continued", p);
+            Print(evt.ToString(), p);
         }
 
-        public void ComputerMatchCompleted(string level, string result)
+        public void LevelComplete(int difficulty)
         {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { "level", level },
-                { "fb_logged_in", facebookService.isLoggedIn() },
-                { "result", result }
-            };
+            AnalyticsEvent.LevelComplete(difficulty);
 
-            Analytics.CustomEvent("computer_match_completed", p);
-
-            Print("computer_match_completed", p);
+            Print("LevelComplete:" + difficulty);
         }
 
-        public void QuickBotMatchStarted(float botDifficulty)
+        public void LevelFail(int difficulty)
         {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { "bot_difficulty", botDifficulty },
-                { "fb_logged_in", facebookService.isLoggedIn() }
-            };
+            AnalyticsEvent.LevelFail(difficulty);
 
-            Analytics.CustomEvent("quick_bot_match_started", p);
-
-            Print("quick_bot_match_started", p);
+            Print("LevelFail:" + difficulty);
         }
-
-        public void QuickBotMatchCompleted(float botDifficulty, string result)
-        {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { "bot_difficulty", botDifficulty },
-                { "fb_logged_in", facebookService.isLoggedIn() },
-                { "result", result }
-            };
-
-            Analytics.CustomEvent("quick_bot_match_completed", p);
-
-            Print("quick_bot_match_completed", p);
-        }
-
-        public void QuickMatchStarted()
-        {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { "fb_logged_in", facebookService.isLoggedIn() }
-            };
-
-            Analytics.CustomEvent("quick_match_started", p);
-
-            Print("quick_match_started", p);
-        }
-
-        public void QuickMatchCompleted(string result)
-        {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { "fb_logged_in", facebookService.isLoggedIn() },
-                { "result", result }
-            };
-
-            Analytics.CustomEvent("quick_match_completed", p);
-
-            Print("quick_match_completed", p);
-        }
-
-        public void LongMatchEngaged()
-        {
-            Analytics.CustomEvent("long_match_engaged");
-
-            Print("long_match_engaged");
-        }
-
-        public void LongMatchCanceled()
-        {
-            Analytics.CustomEvent("long_match_canceled");
-
-            Print("long_match_canceled");
-        }
-
-        public void LongMatchCompleted(string result, double duration)
-        {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { "result", result },
-                { "duration", duration }
-            };
-
-            Analytics.CustomEvent("long_match_completed", p);
-
-            Print("long_match_completed", p);
-        }
-
-        public void ChatEngaged()
-        {
-            Analytics.CustomEvent("chat_engaged");
-
-            Print("chat_engaged");
-        }
-
-        public void VirtualGoodConsumed(string itemKey, int quantity)
-        {
-            string key = itemKey + "_count";
-            CountEvent(key, quantity);
-        }
-
 
         void Print(string name, Dictionary<string, object> parameters = null)
         {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-      
+            #if DEVELOPMENT_BUILD || UNITY_EDITOR
             StringBuilder builder = new StringBuilder();
             builder.Append("[TLANALYTICS] ");
             builder.Append(name);
@@ -332,9 +140,7 @@ namespace TurboLabz.InstantFramework
             }
 
             LogUtil.Log(builder, "yellow");
-#endif
+            #endif
         }
-        */
-
     }
 }

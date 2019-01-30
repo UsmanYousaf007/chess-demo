@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -547,6 +548,7 @@ namespace TurboLabz.InstantFramework
         {
             removeCommunityFriendDlg.SetActive(false);
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
+            analyticsService.Event(AnalyticsEventId.tap_long_match_remove);
         }
 
         void RemoveCommunityFriendDlgNo()

@@ -1,4 +1,5 @@
 ﻿using strange.extensions.signal.impl;
+using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,6 +42,8 @@ namespace TurboLabz.CPU
         void OnInfoButtonClicked()
         {
             infoButtonClickedSignal.Dispatch();
+
+            analyticsService.Event(AnalyticsEventId.tap_pow_info, AnalyticsContext.computer_match);
         }
 
         void OnCloseButtonClicked()

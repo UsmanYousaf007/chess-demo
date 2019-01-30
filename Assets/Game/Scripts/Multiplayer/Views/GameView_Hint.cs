@@ -79,6 +79,15 @@ namespace TurboLabz.Multiplayer
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
+
+                if (isLongPlay)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.long_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.quick_match);
+                }
             }
         }
 

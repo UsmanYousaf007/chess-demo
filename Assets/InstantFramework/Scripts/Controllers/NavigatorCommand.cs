@@ -38,7 +38,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // Services
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 		[Inject] public IAndroidNativeService androidNativeService { get; set; }
 
         public override void Execute()

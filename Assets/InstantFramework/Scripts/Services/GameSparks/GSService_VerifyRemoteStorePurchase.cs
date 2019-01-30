@@ -22,6 +22,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePurchasedBundleStoreItemSignal updatePurchasedBundleStoreItemSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
+
         public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt)
         {
             return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, 
@@ -42,6 +46,16 @@ namespace TurboLabz.InstantFramework
             if (boughtItem != null)
             {
                 shopItemId = boughtItem.GetString("shortCode");
+
+                if (navigatorModel.currentViewId == NavigatorViewId.STORE)
+                {
+                    analyticsService.Event(AnalyticsEventId.store_purchase_complete, AnalyticsParameter.item_id, shopItemId);
+                }
+                else if (navigatorModel.currentViewId == NavigatorViewId.SPOT_PURCHASE_DLG)
+                {
+                    analyticsService.Event(AnalyticsEventId.spot_purchase_complete, AnalyticsParameter.item_id, shopItemId);
+                }
+
                 if (playerModel.inventory.ContainsKey(shopItemId))
                 {
                     playerModel.inventory[shopItemId] = playerModel.inventory[shopItemId] + 1;
@@ -52,6 +66,8 @@ namespace TurboLabz.InstantFramework
                 }
 
                 updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shopItemId]);
+
+
             }
 
             // Process bundled goods

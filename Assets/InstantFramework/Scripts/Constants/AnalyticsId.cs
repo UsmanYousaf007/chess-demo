@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         shop,
         themes,
         coins,
+        powerups,
         quick_match,
         computer_match,
         long_match,
@@ -29,7 +30,7 @@ namespace TurboLabz.InstantFramework
         spot_purchase_hindsight
     }
 
-    public enum AnalyticsEvent
+    public enum AnalyticsEventId
     {
         tap_share,
         tap_support,
@@ -41,7 +42,6 @@ namespace TurboLabz.InstantFramework
         tap_long_match_decline,
         tap_long_match_remove,
         tap_long_match_profile,
-        tap_long_match_block,
         tap_rate_yes,
         tap_rate_no,
         tap_chat_message_send,
@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
         session_premium,
         friends_community,
         friends_facebook,
+        friends_blocked,
         friends_active_games,
         level_complete,
         level_fail,
@@ -71,6 +72,7 @@ namespace TurboLabz.InstantFramework
 
     public enum AnalyticsContext
     {
+        unknown,
         long_match,
         quick_match,
         computer_match,
@@ -85,7 +87,11 @@ namespace TurboLabz.InstantFramework
         level_difficulty,
         elo,
         bot_difficulty,
-        duration
+        duration,
+        theme_name,
+        fb_logged_in,
+        is_bot,
+        context
     }
 
 }
