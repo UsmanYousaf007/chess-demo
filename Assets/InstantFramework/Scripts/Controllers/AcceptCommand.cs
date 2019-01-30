@@ -24,10 +24,12 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+
 
         string challengeId;
 
@@ -36,6 +38,11 @@ namespace TurboLabz.InstantFramework
             Retain();
             challengeId = GetChallengeId();
             backendService.Accept(challengeId).Then(OnAccept);
+
+            // Analytics
+            analyticsService.Event(AnalyticsEventId.tap_long_match_accept,
+                AnalyticsParameter.is_ranked,
+                matchInfoModel.matches[challengeId].isRanked);
         }
 
         private void OnAccept(BackendResult result)

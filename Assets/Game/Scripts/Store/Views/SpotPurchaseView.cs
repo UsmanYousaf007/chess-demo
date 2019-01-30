@@ -65,6 +65,11 @@ namespace TurboLabz.InstantGame
             gameObject.SetActive(false);
         }
 
+        public bool IsVisible()
+        {
+            return gameObject.activeSelf;
+        }
+
         void OnCloseClicked()
         {
             closeClickedSignal.Dispatch();

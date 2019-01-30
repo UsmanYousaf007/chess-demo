@@ -24,9 +24,16 @@ namespace TurboLabz.InstantGame
         // Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void Execute()
         {
+            HandleAnalytics();
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
 
             StoreVO vo = new StoreVO();
@@ -41,6 +48,40 @@ namespace TurboLabz.InstantGame
             topInventoryBarVO.hindsightCount = playerModel.PowerUpHindsightCount;
             topInventoryBarVO.coinCount = playerModel.bucks;
             updateTopInventoryBarSignal.Dispatch(topInventoryBarVO);
+        }
+
+        void HandleAnalytics()
+        {
+            AnalyticsContext analyticsContext = AnalyticsContext.unknown;
+
+            if (navigatorModel.currentViewId == NavigatorViewId.CPU)
+            {
+                analyticsContext = AnalyticsContext.computer_match;
+            }
+            else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
+            {
+                if (matchInfoModel.activeMatch.isLongPlay)
+                {
+                    analyticsContext = AnalyticsContext.long_match;
+                }
+                else
+                {
+                    analyticsContext = AnalyticsContext.quick_match;
+                }
+            }
+
+            if (activeSection == SpotPurchaseView.PowerUpSections.SAFEMOVES)
+            {
+                analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_safe_move, analyticsContext);
+            }
+            else if (activeSection == SpotPurchaseView.PowerUpSections.HINTS)
+            {
+                analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_hint, analyticsContext);
+            }
+            else if (activeSection == SpotPurchaseView.PowerUpSections.HINDSIGHTS)
+            {
+                analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_hindsight, analyticsContext);
+            }
         }
     }
 }

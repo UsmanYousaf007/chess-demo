@@ -82,17 +82,26 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
-                analyticsService.Event(AnalyticsEvent.session_fb);
-                analyticsService.Event(AnalyticsEvent.friends_community, AnalyticsParameter.count, communityFriendCount);
-                analyticsService.Event(AnalyticsEvent.friends_facebook, AnalyticsParameter.count, facebookFriendCount);
-                analyticsService.Event(AnalyticsEvent.friends_active_games, AnalyticsParameter.count, matchInfoModel.matches.Count);
+                analyticsService.Event(AnalyticsEventId.session_fb);
+                analyticsService.Event(AnalyticsEventId.friends_community, AnalyticsParameter.count, communityFriendCount);
+                analyticsService.Event(AnalyticsEventId.friends_facebook, AnalyticsParameter.count, facebookFriendCount);
+                analyticsService.Event(AnalyticsEventId.friends_active_games, AnalyticsParameter.count, matchInfoModel.matches.Count);
+                analyticsService.Event(AnalyticsEventId.friends_blocked, AnalyticsParameter.count, playerModel.blocked.Count);
             }
             else
             {
-                analyticsService.Event(AnalyticsEvent.session_guest);
+                analyticsService.Event(AnalyticsEventId.session_guest);
             }
 
-            analyticsService.Event(AnalyticsEvent.player_elo, AnalyticsParameter.elo, playerModel.eloScore);
+            analyticsService.Event(AnalyticsEventId.player_elo, AnalyticsParameter.elo, playerModel.eloScore);
+            analyticsService.Event(AnalyticsEventId.selected_theme, AnalyticsParameter.theme_name, playerModel.activeSkinId);
+
+            /*
+            if (playerModel.isPremium)
+            {
+                analyticsService.Event(AnalyticsEventId.session_premium);
+            }
+            */
         }
 
         private void CommandBegin()

@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -35,6 +36,11 @@ namespace TurboLabz.InstantFramework
             Retain();
             challengeId = GetChallengeId();
             backendService.Decline(challengeId).Then(OnDecline);
+
+            // Analytics
+            analyticsService.Event(AnalyticsEventId.tap_long_match_decline,
+                AnalyticsParameter.is_ranked,
+                matchInfoModel.matches[challengeId].isRanked);
         }
 
         private void OnDecline(BackendResult result)

@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
@@ -33,6 +34,12 @@ namespace TurboLabz.Multiplayer
             if (cmd.matchInfoModel.activeMatch.isLongPlay)
             {
                 cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
+
+                // Analytics
+                long startMs = cmd.activeMatchInfo.gameStartTimeMilliseconds;
+                long currentTime = cmd.backendService.serverClock.currentTimestamp;
+                TimeSpan elapsed = TimeSpan.FromMilliseconds(currentTime - startMs);
+                cmd.analyticsService.Event(AnalyticsEventId.long_match_complete_duration, AnalyticsParameter.duration, elapsed.TotalHours);
             }
             else
             {
@@ -41,13 +48,13 @@ namespace TurboLabz.Multiplayer
                 {
                     if (playerWins)
                     {
-                        cmd.analyticsService.Event(AnalyticsEvent.bot_quick_match_won, 
+                        cmd.analyticsService.Event(AnalyticsEventId.bot_quick_match_won, 
                             AnalyticsParameter.bot_difficulty, 
                             cmd.activeMatchInfo.botDifficulty);
                     }
                     else
                     {
-                        cmd.analyticsService.Event(AnalyticsEvent.bot_quick_match_lost,
+                        cmd.analyticsService.Event(AnalyticsEventId.bot_quick_match_lost,
                             AnalyticsParameter.bot_difficulty,
                             cmd.activeMatchInfo.botDifficulty);
                     }

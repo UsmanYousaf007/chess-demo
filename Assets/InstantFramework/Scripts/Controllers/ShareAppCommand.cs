@@ -29,10 +29,12 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             shareService.ShareApp(
-            "Let's Play Chess",
-            "Hey, let's play Chess!\n" + SHARE_URL,
-            "Invite a friend to play chess"
-            );
+                "Let's Play Chess",
+                "Hey, let's play Chess!\n" + SHARE_URL,
+                "Invite a friend to play chess"
+                );
+
+            analyticsService.Event(AnalyticsEventId.tap_share);
         }
     }
 }

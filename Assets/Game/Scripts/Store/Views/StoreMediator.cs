@@ -28,6 +28,7 @@ namespace TurboLabz.InstantGame
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+
         public override void OnRegister()
         {
             view.Init();
@@ -95,6 +96,11 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]
         public void OnPurchaseResult(StoreItem item, PurchaseResult result)
         {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
             if (result == PurchaseResult.ALREADY_OWNED || result == PurchaseResult.PURCHASE_SUCCESS)
             {
                 if (item.kind == GSBackendKeys.ShopItem.SKIN_SHOP_TAG)
@@ -113,6 +119,12 @@ namespace TurboLabz.InstantGame
             {
                 updateStoreBuyDlgSignal.Dispatch(item);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_BUY_DLG);
+            }
+
+            // Analytics
+            if (result == PurchaseResult.PURCHASE_SUCCESS)
+            {
+                analyticsService.Event(AnalyticsEventId.store_purchase_complete, AnalyticsParameter.item_id, item.key);
             }
         }
 

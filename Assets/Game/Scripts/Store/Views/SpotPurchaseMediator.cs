@@ -50,6 +50,11 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]
         public void OnPurchaseResult(StoreItem item, PurchaseResult result)
         {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
             if (result == PurchaseResult.PERMISSION_TO_PURCHASE)
             {
                 updateStoreBuyDlgSignal.Dispatch(item);
@@ -58,6 +63,12 @@ namespace TurboLabz.InstantGame
             else if (result == PurchaseResult.PURCHASE_SUCCESS )
             {
                 OnCloseClicked();
+            }
+
+            // Analytics
+            if (result == PurchaseResult.PURCHASE_SUCCESS)
+            {
+                analyticsService.Event(AnalyticsEventId.spot_purchase_complete, AnalyticsParameter.item_id, item.key);
             }
         }
 

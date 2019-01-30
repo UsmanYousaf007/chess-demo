@@ -80,6 +80,8 @@ namespace TurboLabz.CPU
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
+
+                analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.computer_match);
             }
         }
 

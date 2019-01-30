@@ -331,10 +331,12 @@ namespace TurboLabz.Multiplayer
             if (isLongPlay)
             {
                 backToFriendsSignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
             }
             else
             {
                 backToLobbySignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
             }
         }
 
@@ -351,10 +353,12 @@ namespace TurboLabz.Multiplayer
             if (isLongPlay)
             {
                 backToFriendsSignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.long_match);
             }
             else
             {
                 backToLobbySignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.quick_match);
             }
         }
     }

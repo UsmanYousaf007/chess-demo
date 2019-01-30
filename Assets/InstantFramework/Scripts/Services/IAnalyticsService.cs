@@ -20,12 +20,9 @@ namespace TurboLabz.InstantFramework
         void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in, bool is_bot);
         void ScreenVisit(AnalyticsScreen screen, AnalyticsContext context);
 
-        void Event(AnalyticsEvent evt);
-        void Event(AnalyticsEvent evt, AnalyticsContext context);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, bool val);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, string val);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, int val);
-        void Event(AnalyticsEvent evt, AnalyticsParameter param, float val);
+        void Event(AnalyticsEventId evt);
+        void Event(AnalyticsEventId evt, AnalyticsContext context);
+        void Event(AnalyticsEventId evt, AnalyticsParameter param, object val);
 
         void LevelComplete(int difficulty);
         void LevelFail(int difficulty);

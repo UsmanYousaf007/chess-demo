@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
         private void OnAddBucksButtonClicked()
         {
             addBucksButtonClickedSignal.Dispatch();
+            analyticsService.Event(AnalyticsEventId.tap_coins);
         }
 
         private void OnAudioOffButtonClicked()
@@ -105,7 +106,7 @@ namespace TurboLabz.InstantFramework
         {
             Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
 
-            analyticsService.Event(AnalyticsEvent.tap_support);
+            analyticsService.Event(AnalyticsEventId.tap_support);
         }
 
         private void OnRemoveAdsButtonClicked()

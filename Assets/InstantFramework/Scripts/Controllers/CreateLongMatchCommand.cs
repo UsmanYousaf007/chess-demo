@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
             backendService.CreateLongMatch(opponentId, isRanked).Then(OnCreateLongMatch);
 
             // Analytics
-            analyticsService.Event(AnalyticsEvent.tap_long_match_create, 
+            analyticsService.Event(AnalyticsEventId.tap_long_match_create, 
                 AnalyticsParameter.is_ranked,
                 isRanked);
         }
