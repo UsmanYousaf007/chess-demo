@@ -162,6 +162,8 @@ namespace TurboLabz.InstantGame
 
         private void OnStoreItemClicked(StoreItem item)
         {
+            analyticsService.Event(AnalyticsEventId.tap_lobby_bundle);
+
             // Purchase item after confirmation. No confirmation for remote store items
             purchaseStoreItemSignal.Dispatch(item.key, true);
         }

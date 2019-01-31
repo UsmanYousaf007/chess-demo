@@ -22,6 +22,7 @@ namespace TurboLabz.InstantGame
 
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // View signals
         public Signal<StoreItem> storeItemClickedSignal = new Signal<StoreItem>();
@@ -82,6 +83,7 @@ namespace TurboLabz.InstantGame
 
         void OnStoreItemClicked(StoreItem item)
         {
+            audioService.PlayStandardClick();
             storeItemClickedSignal.Dispatch(item);
         }
 

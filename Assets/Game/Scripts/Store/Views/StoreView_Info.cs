@@ -28,6 +28,7 @@ namespace TurboLabz.InstantGame
 
         void OnInfoClicked()
         {
+            analyticsService.Event(AnalyticsEventId.tap_pow_info);
             infoDlg.SetActive(true);
             uiBlocker.SetActive(true);
         }
