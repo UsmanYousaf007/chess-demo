@@ -25,6 +25,8 @@ namespace TurboLabz.CPU
         public GameObject hintToIndicator;
 
         public Button hintButton;
+        public Text hintLabel;
+        public Image hintIcon;
         public TextMeshProUGUI hintCountLabel;
         public Image hintAdd;
         public GameObject hintThinking;
@@ -102,6 +104,8 @@ namespace TurboLabz.CPU
             hintButton.interactable = false;
             hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 0.5f);
             hintAdd.color = Colors.ColorAlpha(hintAdd.color, 0.5f);
+            hintLabel.color = Colors.ColorAlpha(hintLabel.color, 0.5f);
+            hintIcon.color = Colors.ColorAlpha(hintIcon.color, 0.5f);
         }
 
         public void EnableHintButton()
@@ -109,6 +113,8 @@ namespace TurboLabz.CPU
             hintButton.interactable = true;
             hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 1f);
             hintAdd.color = Colors.ColorAlpha(hintAdd.color, 1f);
+            hintLabel.color = Colors.ColorAlpha(hintLabel.color, 0.87f);
+            hintIcon.color = Colors.ColorAlpha(hintIcon.color, 1f);
         }
     
 
