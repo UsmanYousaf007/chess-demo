@@ -75,7 +75,6 @@ namespace TurboLabz.Multiplayer
             else
             {
                 safeMoveBtnClickedSignal.Dispatch();
-                DisableSafeMoveButton();
                 safeMoveBorder.SetActive(true);
                 safeMoveONLabel.gameObject.SetActive(true);
                 safeMoveOFFLabel.gameObject.SetActive(false);
@@ -92,32 +91,6 @@ namespace TurboLabz.Multiplayer
         void OnSafeMoveUndoClicked()
         {
             safeMoveUndoClickedSignal.Dispatch();
-        }
-
-        public void ToggleSafeMoveButton(bool isPlayerTurn)
-        {
-            if (isPlayerTurn)
-            {
-                EnableSafeMoveButton();
-            }
-            else
-            {
-                DisableSafeMoveButton();
-            }
-        }
-
-        public void DisableSafeMoveButton()
-        {
-            safeMoveBtn.interactable = false;
-            safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 0.5f);
-            safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 0.5f);
-        }
-
-        public void EnableSafeMoveButton()
-        {
-            safeMoveBtn.interactable = true;
-            safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 1f);
-            safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 1f);
         }
 
         public void UpdateSafeMoveCount(int count)

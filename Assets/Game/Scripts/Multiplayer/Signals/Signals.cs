@@ -83,5 +83,4 @@ namespace TurboLabz.Multiplayer
     public class UpdateSafeMoveCountSignal : Signal<int> { }
     public class HindsightAvailableSignal : Signal<bool> { }
     public class HintAvailableSignal : Signal<bool> { }
-    public class SafeMoveAvailableSignal : Signal<bool> { }
 }

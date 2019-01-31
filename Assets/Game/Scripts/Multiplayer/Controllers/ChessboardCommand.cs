@@ -55,7 +55,6 @@ namespace TurboLabz.Multiplayer
         [Inject] public TurnSwapSignal turnSwapSignal { get; set; }
         [Inject] public HindsightAvailableSignal hindsightAvailableSignal { get; set; }
         [Inject] public HintAvailableSignal hintAvailableSignal { get; set; }
-        [Inject] public SafeMoveAvailableSignal safeMoveAvailableSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
         [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
         [Inject] public UpdateSafeMoveCountSignal updateSafeMoveCountSignal { get; set; }
