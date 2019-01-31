@@ -24,6 +24,8 @@ namespace TurboLabz.CPU
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
         public Button hindsightButton;
+        public Text hindsightLabel;
+        public Image hindsightIcon;
         public TextMeshProUGUI hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
@@ -97,6 +99,8 @@ namespace TurboLabz.CPU
             hindsightButton.interactable = false;
             hindsightCountLabel.color = Colors.ColorAlpha(hindsightCountLabel.color, 0.5f);
             hindsightAdd.color = Colors.ColorAlpha(hindsightAdd.color, 0.5f);
+            hindsightLabel.color = Colors.ColorAlpha(hintLabel.color, 0.5f);
+            hindsightIcon.color = Colors.ColorAlpha(hintIcon.color, 0.5f);
         }
 
         private void EnableHindsightButton()
@@ -104,6 +108,8 @@ namespace TurboLabz.CPU
             hindsightButton.interactable = true;
             hindsightCountLabel.color = Colors.ColorAlpha(hindsightCountLabel.color, 1f);
             hindsightAdd.color = Colors.ColorAlpha(hindsightAdd.color, 1f);
+            hindsightLabel.color = Colors.ColorAlpha(hintLabel.color, 0.87f);
+            hindsightIcon.color = Colors.ColorAlpha(hintIcon.color, 1f);
         }
 
         public void UpdateHindsightCount(int count)
