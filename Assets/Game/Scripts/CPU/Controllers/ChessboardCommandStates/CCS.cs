@@ -94,6 +94,9 @@ namespace TurboLabz.CPU
             cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
             cmd.hindsightAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
 
+            chessboardModel.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0;
+
+            cmd.updateSafeMoveStateSignal.Dispatch(chessboardModel.inSafeMode);
             cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
         }
 

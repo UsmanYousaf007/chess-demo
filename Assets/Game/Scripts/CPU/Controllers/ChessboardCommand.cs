@@ -61,6 +61,7 @@ namespace TurboLabz.CPU
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
         [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
         [Inject] public UpdateSafeMoveCountSignal updateSafeMoveCountSignal { get; set; }
+        [Inject] public UpdateSafeMoveStateSignal updateSafeMoveStateSignal { get; set; }
         [Inject] public TurnSwapSignal turnSwapSignal { get; set; }
         [Inject] public UpdateGameInfoSignal updateGameInfoSignal { get; set; }
         [Inject] public SaveStatsSignal saveStatsSignal { get; set; }

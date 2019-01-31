@@ -13,6 +13,9 @@ namespace TurboLabz.CPU
     {
         [Header("Safe Move")]
         public Button safeMoveBtn;
+        public Image safeMoveBg;
+        public Text safeMoveLabel;
+        public Image safeMoveIcon;
         public TextMeshProUGUI safeMoveCountTxt;
         public Image safeMoveAdd;
         public GameObject safeMoveBorder;
@@ -24,12 +27,11 @@ namespace TurboLabz.CPU
         public Button safeMoveDlgUndoBtn;
         public Text safeMoveDlgUndoBtnTxt;
 
-        public Text safeMoveONLabel;
-        public Text safeMoveOFFLabel;
-
         public Signal safeMoveBtnClickedSignal = new Signal();
         public Signal safeMoveConfirmClickedSignal = new Signal();
         public Signal safeMoveUndoClickedSignal = new Signal();
+
+        bool safeMoveOn;
 
         public void InitSafeMove()
         {
@@ -41,8 +43,7 @@ namespace TurboLabz.CPU
         public void OnParentShowSafeMove()
         {
             safeMoveBorder.SetActive(false);
-            safeMoveONLabel.gameObject.SetActive(false);
-            safeMoveOFFLabel.gameObject.SetActive(true);
+
         }
 
         public void UpdateSafeMoves(int count)
@@ -62,27 +63,58 @@ namespace TurboLabz.CPU
             safeMoveDlg.SetActive(false);
             DisableModalBlocker();
             safeMoveBorder.SetActive(false);
-            safeMoveONLabel.gameObject.SetActive(false);
-            safeMoveOFFLabel.gameObject.SetActive(true);
+
         }
 
         void OnSafeMoveBtnClicked()
         {
-            if (safeMoveAdd.gameObject.activeSelf)
+            if (safeMoveOn)
+            {
+                audioService.Play(audioService.sounds.SFX_CLICK);
+            }
+
+
+            if (!safeMoveOn && safeMoveAdd.gameObject.activeSelf)
             {
                 openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.SAFEMOVES);
             }
             else
             {
-                safeMoveBtnClickedSignal.Dispatch();
-                DisableSafeMoveButton();
-                safeMoveBorder.SetActive(true);
-                safeMoveONLabel.gameObject.SetActive(true);
-                safeMoveOFFLabel.gameObject.SetActive(false);
-                audioService.Play(audioService.sounds.SFX_HINT);
+                if (!safeMoveOn)
+                {
+                    audioService.Play(audioService.sounds.SFX_HINT);
+                }
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move, AnalyticsContext.computer_match);
+                safeMoveBtnClickedSignal.Dispatch();
             }
+        }
+
+        public void ToggleSafeMove(bool on)
+        {
+            if (on)
+            {
+                SafeMoveOn();
+            }
+            else
+            {
+                SafeMoveOff();
+            }
+        }
+
+        void SafeMoveOn()
+        {
+            safeMoveLabel.text = "Undo On";
+            safeMoveBg.color = Colors.GLASS_GREEN;
+            safeMoveOn = true;
+            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 1.0f);
+        }
+
+        void SafeMoveOff()
+        {
+            safeMoveLabel.text = "Undo Off";
+            safeMoveBg.color = Color.white;
+            safeMoveOn = false;
+            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 0.5f);
         }
 
         void OnSafeMoveConfirmClicked()
@@ -95,23 +127,14 @@ namespace TurboLabz.CPU
             safeMoveUndoClickedSignal.Dispatch();
         }
 
-        public void ToggleSafeMoveButton(bool isPlayerTurn)
-        {
-            if (isPlayerTurn)
-            {
-                EnableSafeMoveButton();
-            }
-            else
-            {
-                DisableSafeMoveButton();
-            }
-        }
-
         public void DisableSafeMoveButton()
         {
             safeMoveBtn.interactable = false;
             safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 0.5f);
             safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 0.5f);
+            safeMoveLabel.color = Colors.ColorAlpha(safeMoveLabel.color, 0.5f);
+            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 0.5f);
+            safeMoveBg.color = Color.white;
         }
 
         public void EnableSafeMoveButton()
@@ -119,6 +142,8 @@ namespace TurboLabz.CPU
             safeMoveBtn.interactable = true;
             safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 1f);
             safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 1f);
+            safeMoveLabel.color = Colors.ColorAlpha(safeMoveLabel.color, 0.87f);
+            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 1.0f);
         }
 
         public void UpdateSafeMoveCount(int count)
@@ -127,11 +152,18 @@ namespace TurboLabz.CPU
             {
                 safeMoveAdd.gameObject.SetActive(true);
                 safeMoveCountTxt.gameObject.SetActive(false);
+                SafeMoveOff();
             }
             else
             {
+                if (count.ToString() != safeMoveCountTxt.text && !safeMoveOn)
+                {
+                    safeMoveBtnClickedSignal.Dispatch();
+                }
+
                 safeMoveAdd.gameObject.SetActive(false);
                 safeMoveCountTxt.gameObject.SetActive(true);
+
             }
 
             safeMoveCountTxt.text = count.ToString();
@@ -140,8 +172,6 @@ namespace TurboLabz.CPU
         void HideSafeMoveBorder()
         {
             safeMoveBorder.SetActive(false);
-            safeMoveONLabel.gameObject.SetActive(false);
-            safeMoveOFFLabel.gameObject.SetActive(true);
         }
     }
 }

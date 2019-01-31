@@ -70,11 +70,12 @@ namespace TurboLabz.CPU
     public class HideOpponentToIndicatorSignal : Signal {}
     public class RenderHintSignal : Signal<HintVO> {}
     public class GetHintSignal : Signal<bool> {}
-    public class SetSafeModeSignal : Signal { }
+    public class ToggleSafeModeSignal : Signal { }
     public class SafeMoveSignal : Signal<bool> { }
     public class UpdateHintCountSignal : Signal<int> {}
     public class UpdateHindsightCountSignal : Signal<int> { }
     public class UpdateSafeMoveCountSignal : Signal<int> { }
+    public class UpdateSafeMoveStateSignal : Signal<bool> { }
     public class TurnSwapSignal : Signal<bool> {}
     public class UpdateGameInfoSignal : Signal<GameInfoVO> {}
     public class EnableResultsDialogButtonSignal : Signal {}

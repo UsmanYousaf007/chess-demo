@@ -10,7 +10,7 @@ namespace TurboLabz.CPU
 {
     public partial class GameMediator
     {
-        [Inject] public SetSafeModeSignal setSafeModeSignal { get; set; }
+        [Inject] public ToggleSafeModeSignal toggleSafeModelSignal { get; set; }
         [Inject] public SafeMoveSignal safeMoveSignal { get; set; }
 
         public void OnRegisterSafeMove()
@@ -23,7 +23,7 @@ namespace TurboLabz.CPU
 
         void OnSafeMoveBtnClicked()
         {
-            setSafeModeSignal.Dispatch();
+            toggleSafeModelSignal.Dispatch();
         }
 
         void OnSafeMoveConfirmedClicked()
@@ -54,12 +54,6 @@ namespace TurboLabz.CPU
             }
         }
 
-        [ListensTo(typeof(TurnSwapSignal))]
-        public void OnToggleSafeMoveButton(bool isPlayerTurn)
-        {
-            view.ToggleSafeMoveButton(isPlayerTurn);
-        }
-
         [ListensTo(typeof(UpdateSafeMoveCountSignal))]
         public void OnUpdateSafeMoveCount(int count)
         {
@@ -77,6 +71,12 @@ namespace TurboLabz.CPU
             {
                 view.DisableSafeMoveButton();
             }
+        }
+
+        [ListensTo(typeof(UpdateSafeMoveStateSignal))]
+        public void OnUpdateSafeMoveStateSignal(bool on)
+        {
+            view.ToggleSafeMove(on);
         }
     }
 }

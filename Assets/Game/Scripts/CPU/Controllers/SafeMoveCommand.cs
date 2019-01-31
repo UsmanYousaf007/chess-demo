@@ -19,15 +19,16 @@ namespace TurboLabz.CPU
         // Dispatch Signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
+        [Inject] public UpdateSafeMoveCountSignal updateSafeMoveCountSignal { get; set; }
+        [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
 
         public override void Execute()
         {
-            chessboardModel.inSafeMode = false;
-
             if (confirm)
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_CONFIRMED);
@@ -50,6 +51,17 @@ namespace TurboLabz.CPU
                 chessboardModel.isUndo = true;
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_UNDO);
+
+
+                updateSafeMoveCountSignal.Dispatch(playerModel.PowerUpSafeMoveCount - 1);
+
+                if (playerModel.PowerUpSafeMoveCount - 1 == 0)
+                {
+                    chessboardModel.inSafeMode = false;
+                }
+
+                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.SAFE_MOVE, 1);
+
             }
         }
     }

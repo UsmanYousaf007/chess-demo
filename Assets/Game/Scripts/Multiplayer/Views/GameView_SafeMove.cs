@@ -81,14 +81,6 @@ namespace TurboLabz.Multiplayer
                 safeMoveOFFLabel.gameObject.SetActive(false);
                 audioService.Play(audioService.sounds.SFX_HINT);
 
-                if (isLongPlay)
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_safe_move, AnalyticsContext.long_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_safe_move, AnalyticsContext.quick_match);
-                }
             }
         }
 
