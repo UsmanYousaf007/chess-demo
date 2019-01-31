@@ -60,19 +60,6 @@ namespace TurboLabz.CPU
             view.UpdateSafeMoveCount(count);
         }
 
-        [ListensTo(typeof(SafeMoveAvailableSignal))]
-        public void OnSafeMoveAvailable(bool available)
-        {
-            if (available)
-            {
-                view.EnableSafeMoveButton();
-            }
-            else
-            {
-                view.DisableSafeMoveButton();
-            }
-        }
-
         [ListensTo(typeof(UpdateSafeMoveStateSignal))]
         public void OnUpdateSafeMoveStateSignal(bool on)
         {

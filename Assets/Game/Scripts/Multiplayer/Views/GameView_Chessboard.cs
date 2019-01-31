@@ -527,6 +527,7 @@ namespace TurboLabz.Multiplayer
             playerInfoPanel.SetActive(true);
             opponentInfoPanel.SetActive(true);
             UpdateBotBar();
+            ResetCapturedPieces();
 
             ToggleTopPanel(true);
         }

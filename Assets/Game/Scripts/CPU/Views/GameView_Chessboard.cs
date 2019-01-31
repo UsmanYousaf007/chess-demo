@@ -514,6 +514,7 @@ namespace TurboLabz.CPU
 
             InitClickAndDrag();
             HidePossibleMoves();
+            ResetCapturedPieces();
         }
 
         private void UpdateInfoPostMove(MoveVO vo, bool isResume = false)

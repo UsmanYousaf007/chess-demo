@@ -94,8 +94,6 @@ namespace TurboLabz.CPU
 
             cmd.hintAvailableSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(false);
-            cmd.safeMoveAvailableSignal.Dispatch(false);
-
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

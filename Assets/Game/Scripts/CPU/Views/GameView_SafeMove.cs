@@ -106,7 +106,6 @@ namespace TurboLabz.CPU
             safeMoveLabel.text = "Undo On";
             safeMoveBg.color = Colors.GLASS_GREEN;
             safeMoveOn = true;
-            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 1.0f);
         }
 
         void SafeMoveOff()
@@ -114,7 +113,6 @@ namespace TurboLabz.CPU
             safeMoveLabel.text = "Undo Off";
             safeMoveBg.color = Color.white;
             safeMoveOn = false;
-            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 0.5f);
         }
 
         void OnSafeMoveConfirmClicked()
@@ -125,25 +123,7 @@ namespace TurboLabz.CPU
         void OnSafeMoveUndoClicked()
         {
             safeMoveUndoClickedSignal.Dispatch();
-        }
-
-        public void DisableSafeMoveButton()
-        {
-            safeMoveBtn.interactable = false;
-            safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 0.5f);
-            safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 0.5f);
-            safeMoveLabel.color = Colors.ColorAlpha(safeMoveLabel.color, 0.5f);
-            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 0.5f);
-            safeMoveBg.color = Color.white;
-        }
-
-        public void EnableSafeMoveButton()
-        {
-            safeMoveBtn.interactable = true;
-            safeMoveCountTxt.color = Colors.ColorAlpha(safeMoveCountTxt.color, 1f);
-            safeMoveAdd.color = Colors.ColorAlpha(safeMoveAdd.color, 1f);
-            safeMoveLabel.color = Colors.ColorAlpha(safeMoveLabel.color, 0.87f);
-            safeMoveIcon.color = Colors.ColorAlpha(safeMoveIcon.color, 1.0f);
+            audioService.PlayStandardClick();
         }
 
         public void UpdateSafeMoveCount(int count)

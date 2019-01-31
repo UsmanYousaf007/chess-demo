@@ -81,6 +81,5 @@ namespace TurboLabz.CPU
     public class EnableResultsDialogButtonSignal : Signal {}
     public class HindsightAvailableSignal : Signal<bool> { }
     public class HintAvailableSignal : Signal<bool> { }
-    public class SafeMoveAvailableSignal : Signal<bool> { }
 
 }

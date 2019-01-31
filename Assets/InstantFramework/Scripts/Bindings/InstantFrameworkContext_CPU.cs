@@ -72,7 +72,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateSafeMoveStateSignal>().ToSingleton();
             injectionBinder.Bind<HindsightAvailableSignal>().ToSingleton();
             injectionBinder.Bind<HintAvailableSignal>().ToSingleton();
-            injectionBinder.Bind<SafeMoveAvailableSignal>().ToSingleton();
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
             injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
 

@@ -33,7 +33,7 @@ namespace TurboLabz.CPU
 
         private void OnParentShowCapturedPieces()
         {
-            ResetCapturedPieces();
+
         }
 
         private void ResetCapturedPieces()
