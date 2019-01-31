@@ -37,6 +37,7 @@ namespace TurboLabz.InstantGame
 
             OnRegisterBuy();
             OnRegisterNotEnoughBucks();
+            OnRegisterPurchasedDlg();
         }
 
         public override void OnRemove()
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantGame
 
             OnRemoveBuy();
             OnRemoveNotEnoughBucks();
+            OnRemovePurchasedDlg();
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -101,13 +103,12 @@ namespace TurboLabz.InstantGame
                 return;
             }
 
-            if (result == PurchaseResult.ALREADY_OWNED || result == PurchaseResult.PURCHASE_SUCCESS)
+            if (result == PurchaseResult.ALREADY_OWNED)
             {
                 if (item.kind == GSBackendKeys.ShopItem.SKIN_SHOP_TAG)
                 {
                     view.currentSkinItemId = item.key;
                     view.UpdateItemThumbnail(item.key);
-
                     setSkinSignal.Dispatch(item.key);
                 }
             }
@@ -120,10 +121,18 @@ namespace TurboLabz.InstantGame
                 updateStoreBuyDlgSignal.Dispatch(item);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_BUY_DLG);
             }
-
-            // Analytics
-            if (result == PurchaseResult.PURCHASE_SUCCESS)
+            else if (result == PurchaseResult.PURCHASE_SUCCESS)
             {
+                view.UpdatePurchasedDlg(item);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PURCHASED_DLG);
+
+                if (item.kind == GSBackendKeys.ShopItem.SKIN_SHOP_TAG)
+                {
+                    view.currentSkinItemId = item.key;
+                    view.UpdateItemThumbnail(item.key);
+                    setSkinSignal.Dispatch(item.key);
+                }
+
                 analyticsService.Event(AnalyticsEventId.store_purchase_complete, AnalyticsParameter.item_id, item.key);
             }
         }
