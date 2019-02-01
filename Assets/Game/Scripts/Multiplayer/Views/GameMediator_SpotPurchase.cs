@@ -21,9 +21,12 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
         public void OnUpdatePlayerInventory(PlayerInventoryVO vo)
         {
-            view.UpdateHintCount(vo.hintCount);
-            view.UpdateSafeMoveCount(vo.safeMoveCount);
-            view.UpdateHindsightCount(vo.hindsightCount);
+            if (view.IsVisible())
+            {
+                view.UpdateHintCount(vo.hintCount);
+                view.UpdateSafeMoveCount(vo.safeMoveCount);
+                view.UpdateHindsightCount(vo.hindsightCount);
+            }
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]

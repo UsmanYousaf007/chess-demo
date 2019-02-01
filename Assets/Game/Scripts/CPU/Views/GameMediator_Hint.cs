@@ -43,7 +43,10 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(UpdateHintCountSignal))]
         public void OnUpdateHintCount(int count)
         {
-            view.UpdateHintCount(count);
+            if (view.IsVisible())
+            {
+                view.UpdateHintCount(count);
+            }
         }
 
         [ListensTo(typeof(HintAvailableSignal))]

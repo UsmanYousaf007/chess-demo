@@ -26,6 +26,7 @@ namespace TurboLabz.Multiplayer
         public Text safeMoveDlgConfirmTxt;
         public Button safeMoveDlgUndoBtn;
         public Text safeMoveDlgUndoBtnTxt;
+        public TextMeshProUGUI safeMoveDlgCountTxt;
 
         public Signal safeMoveBtnClickedSignal = new Signal();
         public Signal safeMoveConfirmClickedSignal = new Signal();
@@ -147,6 +148,7 @@ namespace TurboLabz.Multiplayer
             }
 
             safeMoveCountTxt.text = count.ToString();
+            safeMoveDlgCountTxt.text = safeMoveCountTxt.text;
         }
 
         void HideSafeMoveBorder()

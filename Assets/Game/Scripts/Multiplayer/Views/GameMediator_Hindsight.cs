@@ -40,7 +40,10 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdateHindsightCountSignal))]
         public void OnUpdateHindsightCount(int count)
         {
-            view.UpdateHindsightCount(count);
+            if (view.IsVisible())
+            {
+                view.UpdateHindsightCount(count);
+            }
         }
     }
 }

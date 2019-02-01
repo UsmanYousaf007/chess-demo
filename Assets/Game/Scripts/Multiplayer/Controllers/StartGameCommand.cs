@@ -32,7 +32,6 @@ namespace TurboLabz.InstantFramework
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
-            activeChessboard.inSafeMode = false;
 
             MatchInfo matchInfo = matchInfoModel.activeMatch;
 

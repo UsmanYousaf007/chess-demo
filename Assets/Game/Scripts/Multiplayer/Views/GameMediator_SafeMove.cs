@@ -57,7 +57,10 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdateSafeMoveCountSignal))]
         public void OnUpdateSafeMoveCount(int count)
         {
-            view.UpdateSafeMoveCount(count);
+            if (view.IsVisible())
+            {
+                view.UpdateSafeMoveCount(count);
+            }
         }
 
         [ListensTo(typeof(UpdateSafeMoveStateSignal))]
