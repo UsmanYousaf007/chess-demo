@@ -93,6 +93,7 @@ namespace TurboLabz.CPU
             IChessAiService chessAiService = cmd.chessAiService;
 
             chessboardModel.moveVOCache = new List<MoveVO>();
+            chessboardModel.previousPlayerTurnFen = null;
 
             foreach (ChessMove move in chessboardModel.moveList)
             {

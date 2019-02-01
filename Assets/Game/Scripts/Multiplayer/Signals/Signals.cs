@@ -73,7 +73,7 @@ namespace TurboLabz.Multiplayer
     public class ExitLongMatchSignal : Signal {}
     public class ResetActiveMatchSignal : Signal {}
     public class EnableGameChatSignal : Signal<ChatVO> {}
-    public class SetSafeModeSignal : Signal { }
+    public class ToggleSafeModeSignal : Signal { }
     public class SafeMoveSignal : Signal<bool> { }
     public class RenderHintSignal : Signal<HintVO> { }
     public class GetHintSignal : Signal<bool> { }
@@ -81,6 +81,7 @@ namespace TurboLabz.Multiplayer
     public class UpdateHintCountSignal : Signal<int> { }
     public class UpdateHindsightCountSignal : Signal<int> { }
     public class UpdateSafeMoveCountSignal : Signal<int> { }
+    public class UpdateSafeMoveStateSignal : Signal<bool> { }
     public class HindsightAvailableSignal : Signal<bool> { }
     public class HintAvailableSignal : Signal<bool> { }
 }

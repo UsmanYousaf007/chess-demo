@@ -53,16 +53,21 @@ namespace TurboLabz.CPU
                 chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_UNDO);
 
 
-                updateSafeMoveCountSignal.Dispatch(playerModel.PowerUpSafeMoveCount - 1);
-
-                if (playerModel.PowerUpSafeMoveCount - 1 == 0)
-                {
-                    chessboardModel.inSafeMode = false;
-                }
-
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.SAFE_MOVE, 1);
+                UpdateSafeMoveCounts();
 
             }
+        }
+
+        void UpdateSafeMoveCounts()
+        {
+            updateSafeMoveCountSignal.Dispatch(playerModel.PowerUpSafeMoveCount - 1);
+
+            if (playerModel.PowerUpSafeMoveCount - 1 == 0)
+            {
+                chessboardModel.inSafeMode = false;
+            }
+
+            consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.SAFE_MOVE, 1);
         }
     }
 }

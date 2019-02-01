@@ -59,6 +59,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
         [Inject] public UpdateSafeMoveCountSignal updateSafeMoveCountSignal { get; set; }
         [Inject] public InitTimersSignal initTimersSignal { get; set; }
+        [Inject] public UpdateSafeMoveStateSignal updateSafeMoveStateSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }

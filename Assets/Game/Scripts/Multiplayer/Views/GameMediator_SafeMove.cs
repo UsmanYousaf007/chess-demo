@@ -10,7 +10,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
-        [Inject] public SetSafeModeSignal setSafeModeSignal { get; set; }
+        [Inject] public ToggleSafeModeSignal toggleSafeModelSignal { get; set; }
         [Inject] public SafeMoveSignal safeMoveSignal { get; set; }
 
         public void OnRegisterSafeMove()
@@ -23,7 +23,7 @@ namespace TurboLabz.Multiplayer
 
         void OnSafeMoveBtnClicked()
         {
-            setSafeModeSignal.Dispatch();
+            toggleSafeModelSignal.Dispatch();
         }
 
         void OnSafeMoveConfirmedClicked()
@@ -54,6 +54,16 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        [ListensTo(typeof(UpdateSafeMoveCountSignal))]
+        public void OnUpdateSafeMoveCount(int count)
+        {
+            view.UpdateSafeMoveCount(count);
+        }
 
+        [ListensTo(typeof(UpdateSafeMoveStateSignal))]
+        public void OnUpdateSafeMoveStateSignal(bool on)
+        {
+            view.ToggleSafeMove(on);
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<BackendPlayerTurnSignal>().To<PlayerTurnCommand>();
             commandBinder.Bind<ExitLongMatchSignal>().To<ExitLongMatchCommand>();
             commandBinder.Bind<ResetActiveMatchSignal>().To<ResetActiveMatchCommand>();
-            commandBinder.Bind<SetSafeModeSignal>().To<SetSafeModeCommand>();
+            commandBinder.Bind<ToggleSafeModeSignal>().To<ToggleSafeModeCommand>();
             commandBinder.Bind<SafeMoveSignal>().To<SafeMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
 
@@ -67,6 +67,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<HintAvailableSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHindsightCountSignal>().ToSingleton();
             injectionBinder.Bind<UpdateSafeMoveCountSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSafeMoveStateSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

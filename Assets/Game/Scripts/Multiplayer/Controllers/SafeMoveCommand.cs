@@ -16,16 +16,17 @@ namespace TurboLabz.Multiplayer
 
         // Dispatch Signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public UpdateSafeMoveCountSignal updateSafeMoveCountSignal { get; set; }
+        [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
 
         public override void Execute()
         {
-            chessboardModel.chessboards[matchInfoModel.activeChallengeId].inSafeMode = false;
-
             if (confirm)
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_CONFIRMED);
@@ -33,7 +34,21 @@ namespace TurboLabz.Multiplayer
             else
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_UNDO);
+
+                UpdateSafeMoveCounts();
             }
+        }
+
+        void UpdateSafeMoveCounts()
+        {
+            updateSafeMoveCountSignal.Dispatch(playerModel.PowerUpSafeMoveCount - 1);
+
+            if (playerModel.PowerUpSafeMoveCount - 1 == 0)
+            {
+                chessboardModel.chessboards[matchInfoModel.activeChallengeId].inSafeMode = false;
+            }
+
+            consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.SAFE_MOVE, 1);
         }
     }
 }

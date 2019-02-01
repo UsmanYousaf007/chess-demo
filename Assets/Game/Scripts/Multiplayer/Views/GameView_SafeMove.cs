@@ -13,6 +13,9 @@ namespace TurboLabz.Multiplayer
     {
         [Header("Safe Move")]
         public Button safeMoveBtn;
+        public Image safeMoveBg;
+        public Text safeMoveLabel;
+        public Image safeMoveIcon;
         public TextMeshProUGUI safeMoveCountTxt;
         public Image safeMoveAdd;
         public GameObject safeMoveBorder;
@@ -24,12 +27,11 @@ namespace TurboLabz.Multiplayer
         public Button safeMoveDlgUndoBtn;
         public Text safeMoveDlgUndoBtnTxt;
 
-        public Text safeMoveONLabel;
-        public Text safeMoveOFFLabel;
-
         public Signal safeMoveBtnClickedSignal = new Signal();
         public Signal safeMoveConfirmClickedSignal = new Signal();
         public Signal safeMoveUndoClickedSignal = new Signal();
+
+        bool safeMoveOn;
 
         public void InitSafeMove()
         {
@@ -41,8 +43,7 @@ namespace TurboLabz.Multiplayer
         public void OnParentShowSafeMove()
         {
             safeMoveBorder.SetActive(false);
-            safeMoveONLabel.gameObject.SetActive(false);
-            safeMoveOFFLabel.gameObject.SetActive(true);
+
         }
 
         public void UpdateSafeMoves(int count)
@@ -62,25 +63,56 @@ namespace TurboLabz.Multiplayer
             safeMoveDlg.SetActive(false);
             DisableModalBlocker();
             safeMoveBorder.SetActive(false);
-            safeMoveONLabel.gameObject.SetActive(false);
-            safeMoveOFFLabel.gameObject.SetActive(true);
+
         }
 
         void OnSafeMoveBtnClicked()
         {
-            if (safeMoveAdd.gameObject.activeSelf)
+            if (safeMoveOn)
+            {
+                audioService.Play(audioService.sounds.SFX_CLICK);
+            }
+
+
+            if (!safeMoveOn && safeMoveAdd.gameObject.activeSelf)
             {
                 openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.SAFEMOVES);
             }
             else
             {
-                safeMoveBtnClickedSignal.Dispatch();
-                safeMoveBorder.SetActive(true);
-                safeMoveONLabel.gameObject.SetActive(true);
-                safeMoveOFFLabel.gameObject.SetActive(false);
-                audioService.Play(audioService.sounds.SFX_HINT);
+                if (!safeMoveOn)
+                {
+                    audioService.Play(audioService.sounds.SFX_HINT);
+                }
 
+                safeMoveBtnClickedSignal.Dispatch();
             }
+        }
+
+        public void ToggleSafeMove(bool on)
+        {
+            if (on)
+            {
+                SafeMoveOn();
+            }
+            else
+            {
+                SafeMoveOff();
+            }
+        }
+
+        void SafeMoveOn()
+        {
+            safeMoveLabel.text = "Undo On";
+            safeMoveBg.color = Colors.GLASS_GREEN;
+            safeMoveOn = true;
+        }
+
+        void SafeMoveOff()
+        {
+            safeMoveLabel.text = "Undo Off";
+            safeMoveBg.color = Color.white;
+            safeMoveOn = false;
         }
 
         void OnSafeMoveConfirmClicked()
@@ -91,6 +123,7 @@ namespace TurboLabz.Multiplayer
         void OnSafeMoveUndoClicked()
         {
             safeMoveUndoClickedSignal.Dispatch();
+            audioService.PlayStandardClick();
         }
 
         public void UpdateSafeMoveCount(int count)
@@ -99,11 +132,18 @@ namespace TurboLabz.Multiplayer
             {
                 safeMoveAdd.gameObject.SetActive(true);
                 safeMoveCountTxt.gameObject.SetActive(false);
+                SafeMoveOff();
             }
             else
             {
+                if (count.ToString() != safeMoveCountTxt.text && !safeMoveOn)
+                {
+                    safeMoveBtnClickedSignal.Dispatch();
+                }
+
                 safeMoveAdd.gameObject.SetActive(false);
                 safeMoveCountTxt.gameObject.SetActive(true);
+
             }
 
             safeMoveCountTxt.text = count.ToString();
@@ -112,8 +152,6 @@ namespace TurboLabz.Multiplayer
         void HideSafeMoveBorder()
         {
             safeMoveBorder.SetActive(false);
-            safeMoveONLabel.gameObject.SetActive(false);
-            safeMoveOFFLabel.gameObject.SetActive(true);
         }
     }
 }

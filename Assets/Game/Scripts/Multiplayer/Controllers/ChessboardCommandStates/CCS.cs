@@ -118,13 +118,16 @@ namespace TurboLabz.Multiplayer
             }
 
             // Initialize the game powerups
-            cmd.updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount);
+            cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
             cmd.turnSwapSignal.Dispatch(isPlayerTurn);
 
-            cmd.updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount);
+            cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
             cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
 
-            cmd.updateSafeMoveCountSignal.Dispatch(playerModel.PowerUpSafeMoveCount);
+            activeChessboard.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0;
+
+            cmd.updateSafeMoveStateSignal.Dispatch(activeChessboard.inSafeMode);
+            cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)
