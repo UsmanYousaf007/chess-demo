@@ -62,10 +62,7 @@ public class GameSparksConfig : MonoBehaviour {
 
         if (string.IsNullOrEmpty(www.error)) // Success
         {
-            if (www.text == "preview")
-            {
-                isLive = false;
-            }
+            isLive = false;
         }
 
         Live.SetActive(isLive);
