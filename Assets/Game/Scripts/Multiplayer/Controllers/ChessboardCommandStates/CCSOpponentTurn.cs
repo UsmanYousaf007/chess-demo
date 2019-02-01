@@ -50,6 +50,10 @@ namespace TurboLabz.Multiplayer
                 cmd.hidePlayerFromIndicatorSignal.Dispatch();
                 cmd.hidePlayerToIndicatorSignal.Dispatch();
             }
+            else if (CameFromState(cmd, typeof(CCSSafeMoveDialog)))
+            {
+                cmd.enableOpponentTurnInteraction.Dispatch();
+            }
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)
