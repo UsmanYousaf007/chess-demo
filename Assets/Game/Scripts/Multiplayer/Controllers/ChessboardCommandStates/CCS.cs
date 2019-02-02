@@ -124,10 +124,20 @@ namespace TurboLabz.Multiplayer
             cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
             cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
 
-            activeChessboard.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0;
-
-            cmd.updateSafeMoveStateSignal.Dispatch(activeChessboard.inSafeMode);
+            // TODO: Update count may toggle the safe move button so this signal has to be fired first.
+            // Cleanup this side effect code.
             cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
+
+            if (cmd.activeMatchInfo.isLongPlay)
+            {
+                activeChessboard.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0;
+            }
+            else
+            {
+                activeChessboard.inSafeMode = false;
+            }
+            cmd.updateSafeMoveStateSignal.Dispatch(activeChessboard.inSafeMode);
+
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)

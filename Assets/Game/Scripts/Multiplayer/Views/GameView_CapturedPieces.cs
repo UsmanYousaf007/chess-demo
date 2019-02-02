@@ -34,7 +34,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnParentShowCapturedPieces()
         {
-   
+            ResetCapturedPieces();
         }
 
         public void ResetCapturedPieces()
