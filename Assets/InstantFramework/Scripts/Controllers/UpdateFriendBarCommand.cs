@@ -28,6 +28,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        // Services
+        [Inject] public IBackendService backendService { get; set; }
+
         public override void Execute()
         {
             bool friendHasMatch = false;
@@ -91,6 +94,34 @@ namespace TurboLabz.InstantFramework
                     // Set player timers
                     vo.playerTimer = chessboard.backendPlayerTimer;
                     vo.opponentTimer = chessboard.backendOpponentTimer;
+
+                    // TODO: This needs to be refactored (runtime control uses the same logic)
+                    bool pauseAfterSwap =
+                        matchInfo.isLongPlay &&
+                        matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW &&
+                        !chessboard.isPlayerTurn;
+
+                    bool playerJustAcceptedOnPlayerTurn =
+                        matchInfo.isLongPlay &&
+                        matchInfo.acceptedThisSession &&
+                        chessboard.isPlayerTurn;
+
+                    if (!playerJustAcceptedOnPlayerTurn)
+                    {
+                        long timeElapsedSinceLastMove = backendService.serverClock.currentTimestamp - TimeUtil.ToUnixTimestamp(chessboard.lastMoveTime);
+                        if (chessboard.isPlayerTurn)
+                        {
+                            vo.playerTimer -= TimeSpan.FromMilliseconds(timeElapsedSinceLastMove);
+                        }
+                        else
+                        {
+                            if (!pauseAfterSwap)
+                            {
+                                vo.opponentTimer -= TimeSpan.FromMilliseconds(timeElapsedSinceLastMove);
+                            }
+                        }
+                    }
+
                     vo.isPlayerTurn = chessboard.isPlayerTurn;
                     vo.isRanked = matchInfo.isRanked;
 
