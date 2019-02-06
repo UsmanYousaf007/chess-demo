@@ -17,10 +17,14 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
+
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
@@ -34,6 +38,12 @@ namespace TurboLabz.InstantGame
             {
                 friendsShowConnectFacebookSignal.Dispatch(true);
                 refreshCommunitySignal.Dispatch();
+            }
+
+            // Update the timers on the bars
+            foreach (string key in playerModel.friends.Keys)
+            {
+                updateFriendBarSignal.Dispatch(playerModel.friends[key], key);
             }
         }
     }
