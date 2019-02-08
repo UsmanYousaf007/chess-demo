@@ -79,19 +79,24 @@ namespace TurboLabz.InstantGame
 
         private string GetBundleDiscountText(StoreVO vo, StoreItem storeItem)
         {
-            string itemKey = GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG;
-            if (storeItem.bundledItems.ContainsKey(itemKey))
+            string discountStr = "";
+
+            switch (storeItem.key)
             {
-                return "+50%";
+                case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG:
+                    discountStr = "+50%";
+                    break;
+
+                case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_STANDARD_SHOP_TAG:
+                    discountStr = "+40%";
+                    break;
+
+                case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG:
+                    discountStr = "+40%";
+                    break;
             }
 
-            itemKey = GSBackendKeys.ShopItem.FEATURE_REMOVEAD_30_SHOP_TAG;
-            if (storeItem.bundledItems.ContainsKey(itemKey))
-            {
-                return "+40%";
-            }
-
-            return "";
+            return discountStr;
         }
 
         private string GetBundleThemesText(StoreItem storeItem)
@@ -128,6 +133,26 @@ namespace TurboLabz.InstantGame
         {
             StoreItem storeItem = vo.storeSettingsModel.store.items[key];
             bool isOwned = vo.playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
+
+            SetBundleStateResets();
+
+            if (isOwned)
+            {
+                owned.gameObject.SetActive(true);
+                tick.gameObject.SetActive(true);
+            }
+            else
+            {
+                price.text = GetBundlePrice(storeItem, textStoreNotAvailable);
+                price.gameObject.SetActive(true);
+                discount.gameObject.SetActive(true);
+            }
+        }
+
+        private void SetBundleStateNoAdsForever(StoreVO vo, string textStoreNotAvailable)
+        {
+            StoreItem storeItem = vo.storeSettingsModel.store.items[key];
+            bool isOwned = vo.playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG);
 
             SetBundleStateResets();
 
@@ -191,6 +216,10 @@ namespace TurboLabz.InstantGame
 
                 case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_STANDARD_SHOP_TAG:
                     SetBundleStateStandard(vo, textStoreNotAvailable, textDays);
+                    break;
+
+                case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG:
+                    SetBundleStateNoAdsForever(vo, textStoreNotAvailable);
                     break;
             }
         }
