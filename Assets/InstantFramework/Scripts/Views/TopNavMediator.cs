@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable)
+        public void OnStoreAvailable(bool isAvailable, StoreVO storeVO)
         {
             view.OnStoreAvailable(isAvailable);
         }
