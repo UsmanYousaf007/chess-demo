@@ -33,13 +33,28 @@ namespace TurboLabz.InstantGame
         {
             if (!vo.storeSettingsModel.store.items.ContainsKey(itemKey))
             {
-                return null;
+                return "";
+            }
+
+            if (!storeItem.bundledItems.ContainsKey(itemKey))
+            {
+                return "";
             }
 
             int qty = storeItem.bundledItems[itemKey];
             string displayNameText = vo.storeSettingsModel.store.items[itemKey].displayName;
 
             return qty + " " + displayNameText;
+        }
+
+        private string GetBundleCoinsPayoutDisplayText(StoreItem storeItem)
+        {
+            if (storeItem.currency2Payout == 0)
+            {
+                return "";
+            }
+
+            return storeItem.currency2Payout + " " + "Coins";
         }
 
         private string GetBundleFeatureAdRemoveText(StoreVO vo, StoreItem storeItem)
@@ -59,7 +74,7 @@ namespace TurboLabz.InstantGame
                 //return vo.storeSettingsModel.store.items[itemKey].displayName;
             }
 
-            return null;
+            return "";
         }
 
         private string GetBundleDiscountText(StoreVO vo, StoreItem storeItem)
@@ -76,7 +91,7 @@ namespace TurboLabz.InstantGame
                 return "+40%";
             }
 
-            return null;
+            return "";
         }
 
         private string GetBundleThemesText(StoreItem storeItem)
@@ -193,7 +208,7 @@ namespace TurboLabz.InstantGame
             payout2.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG);
             payout3.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG);
             payout4.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG);
-            payout5.text = storeItem.currency2Payout + " " + "Coins";
+            payout5.text = GetBundleCoinsPayoutDisplayText(storeItem);
             payout6.text = GetBundleThemesText(storeItem);
             discount.text = GetBundleDiscountText(vo, storeItem);
             owned.text = textOwned;
