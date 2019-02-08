@@ -193,6 +193,7 @@ namespace TurboLabz.InstantFramework
 
             public const string SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG = "SpecialBundleUltimate";
             public const string SPECIAL_BUNDLE_STANDARD_SHOP_TAG = "SpecialBundleStandard";
+            public const string SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG = "SpecialBundleNoAdsForever";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";
