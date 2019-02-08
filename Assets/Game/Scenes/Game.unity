@@ -24806,8 +24806,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 179, y: 0}
-  m_SizeDelta: {x: 436, y: 185}
+  m_AnchoredPosition: {x: 202.9, y: 0}
+  m_SizeDelta: {x: 587, y: 195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &489770174
 MonoBehaviour:
@@ -24828,7 +24828,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: e985295142d49449687326b3bcd5e7e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cd76e881a9543481aa1825dee1b557ff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -39289,9 +39289,9 @@ RectTransform:
   m_Father: {fileID: 939363618}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 382, y: 66}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -100, y: 65.9}
   m_SizeDelta: {x: 214, y: 94}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &779214287
@@ -46736,10 +46736,10 @@ RectTransform:
   m_Father: {fileID: 650994222}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 6.36}
-  m_SizeDelta: {x: 0, y: 249}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -0.00000047683716}
+  m_SizeDelta: {x: 1046, y: 249}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &939363619
 BoxCollider2D:
@@ -46822,14 +46822,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 829216b42e6e8456eb169dd46c55e509, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -67143,7 +67143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1295199783
 RectTransform:
   m_ObjectHideFlags: 0
@@ -72596,7 +72596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1403399404
 RectTransform:
   m_ObjectHideFlags: 0
@@ -79860,7 +79860,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1528383014
 RectTransform:
   m_ObjectHideFlags: 0
@@ -85205,7 +85205,7 @@ MonoBehaviour:
   Preview: {fileID: 157905972}
   Dev: {fileID: 233865067}
   Sandbox: {fileID: 64930014}
-  environment: 1
+  environment: 2
   configURL: https://turbolabz.com/wp-content/uploads/2019/02/preview.png
 --- !u!4 &1628862473
 Transform:
@@ -95405,7 +95405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -37.9, y: 201}
+  m_AnchoredPosition: {x: -63.5, y: 201}
   m_SizeDelta: {x: 76.505745, y: 91.399994}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1825168618
@@ -102397,8 +102397,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -34.4, y: 52.6}
-  m_SizeDelta: {x: 119, y: 34}
+  m_AnchoredPosition: {x: -48.7, y: 52.6}
+  m_SizeDelta: {x: 143.76355, y: 33.6289}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1971447489
 MonoBehaviour:
@@ -102447,7 +102447,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ??$19.99
+  m_Text: RS14000??
 --- !u!222 &1971447491
 CanvasRenderer:
   m_ObjectHideFlags: 0
