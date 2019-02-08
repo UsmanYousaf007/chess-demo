@@ -26,6 +26,9 @@ namespace TurboLabz.CPU
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
 
         public override void Execute()
         {
@@ -55,6 +58,8 @@ namespace TurboLabz.CPU
 
                 UpdateSafeMoveCounts();
 
+
+                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_undo, AnalyticsContext.computer_match);
             }
         }
 

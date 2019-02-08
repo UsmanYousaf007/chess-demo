@@ -24,6 +24,8 @@ namespace TurboLabz.Multiplayer
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void Execute()
         {
@@ -36,6 +38,15 @@ namespace TurboLabz.Multiplayer
                 chessboardEventSignal.Dispatch(ChessboardEvent.MOVE_UNDO);
 
                 UpdateSafeMoveCounts();
+
+                if (matchInfoModel.activeMatch.isLongPlay)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_undo, AnalyticsContext.long_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_undo, AnalyticsContext.quick_match);
+                }
             }
         }
 

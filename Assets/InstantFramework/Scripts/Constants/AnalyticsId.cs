@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         tap_pow_info,
         tap_pow_safe_move_off,
         tap_pow_safe_move_on,
+        tap_pow_safe_move_undo,
         tap_pow_hint,
         tap_pow_hindsight,
         spot_purchase_complete,
