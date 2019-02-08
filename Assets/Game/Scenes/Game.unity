@@ -6527,8 +6527,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 99, y: 82}
-  m_SizeDelta: {x: 534.6995, y: 67.2578}
+  m_AnchoredPosition: {x: 139.8, y: 82}
+  m_SizeDelta: {x: 616.8, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &117493582
 MonoBehaviour:
@@ -6541,7 +6541,7 @@ MonoBehaviour:
   m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
+  m_HorizontalFit: 0
   m_VerticalFit: 2
 --- !u!114 &117493583
 MonoBehaviour:
@@ -6575,7 +6575,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Use this before your move to enable an \nUndo option."
+  m_Text: Use this to undo your move. Use On/Off toggle below the  chessboard to enable
+    or disable the Undo power up.
 --- !u!222 &117493584
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19557,8 +19558,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 99, y: 82}
-  m_SizeDelta: {x: 534.6995, y: 67.2578}
+  m_AnchoredPosition: {x: 139.8, y: 82}
+  m_SizeDelta: {x: 616.8, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &367866407
 MonoBehaviour:
@@ -19571,7 +19572,7 @@ MonoBehaviour:
   m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
+  m_HorizontalFit: 0
   m_VerticalFit: 2
 --- !u!114 &367866408
 MonoBehaviour:
@@ -19605,7 +19606,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Use this before your move to enable an \nUndo option."
+  m_Text: Use this to undo your move. Use On/Off toggle below the  chessboard to enable
+    or disable the Undo power up.
 --- !u!222 &367866409
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -46636,7 +46638,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -297, y: 82}
-  m_SizeDelta: {x: 124.426926, y: 33.6289}
+  m_SizeDelta: {x: 72.30213, y: 33.6289}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &938125019
 MonoBehaviour:
@@ -60441,8 +60443,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 99, y: 82}
-  m_SizeDelta: {x: 534.6995, y: 67.2578}
+  m_AnchoredPosition: {x: 139.8, y: 82}
+  m_SizeDelta: {x: 616.8, y: 100.886696}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1163910130
 MonoBehaviour:
@@ -60455,7 +60457,7 @@ MonoBehaviour:
   m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
+  m_HorizontalFit: 0
   m_VerticalFit: 2
 --- !u!114 &1163910131
 MonoBehaviour:
@@ -60489,7 +60491,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Use this before your move to enable an \nUndo option."
+  m_Text: Use this to undo your move. Use On/Off toggle below the  chessboard to enable
+    or disable the Undo power up.
 --- !u!222 &1163910132
 CanvasRenderer:
   m_ObjectHideFlags: 0
