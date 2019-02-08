@@ -10560,7 +10560,7 @@ Prefab:
     - target: {fileID: 114080971834048358, guid: d374d5442ac4e4cabaf93faf5a4ffd16,
         type: 2}
       propertyPath: key
-      value: SpecialBundleStandard
+      value: SpecialBundleNoAdsForever
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d374d5442ac4e4cabaf93faf5a4ffd16, type: 2}
@@ -63116,7 +63116,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SPECIAL BUNDLES
+  m_Text: SPECIALS
 --- !u!222 &1219693881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -85202,7 +85202,7 @@ MonoBehaviour:
   Preview: {fileID: 157905972}
   Dev: {fileID: 233865067}
   Sandbox: {fileID: 64930014}
-  environment: 0
+  environment: 1
   configURL: https://turbolabz.com/wp-content/uploads/2019/02/preview.png
 --- !u!4 &1628862473
 Transform:
@@ -87757,7 +87757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3101d5c2b30894c6982c6bf9058b01fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: SpecialBundleUltimate
+  key: SpecialBundleNoAdsForever
   thumbnail: {fileID: 939363621}
   displayName: {fileID: 1295199784}
   price: {fileID: 1971447490}
