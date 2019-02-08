@@ -149,7 +149,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Store
 
-                { LocalizationKey.STORE_TITLE_BUNDLES, "SPECIAL BUNDLES" },
+                { LocalizationKey.STORE_TITLE_BUNDLES, "SPECIALS" },
                 { LocalizationKey.STORE_TAB_POWERUPS, "POWERUPS" },
                 { LocalizationKey.STORE_TAB_THEMES, "THEMES" },
                 { LocalizationKey.STORE_TAB_COINS, "COINS" },

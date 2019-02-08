@@ -360,13 +360,13 @@ namespace TurboLabz.InstantFramework
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer), Colors.WHITE));
-                sb.Append(Colors.GetColorString(" | " + TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE_76));
+                sb.Append(Colors.GetColorString(" | " + TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE_150));
                 friendBar.timerLabel.text = sb.ToString();
             }
             else if (friendBar.longPlayStatus == LongPlayStatus.OPPONENT_TURN)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer) + " | ", Colors.WHITE_76));
+                sb.Append(Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer) + " | ", Colors.WHITE_150));
                 sb.Append(Colors.GetColorString(TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE));
                 friendBar.timerLabel.text = sb.ToString();
             }
@@ -375,7 +375,7 @@ namespace TurboLabz.InstantFramework
                 friendBar.longPlayStatus == LongPlayStatus.DRAW)
             {
                 friendBar.timerLabel.text = 
-                    Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer) + "|" + TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE_76);
+                    Colors.GetColorString(TimeUtil.FormatStripClock(vo.playerTimer) + "|" + TimeUtil.FormatStripClock(vo.opponentTimer), Colors.WHITE_150);
             }
 
             UpdateActionCount();
