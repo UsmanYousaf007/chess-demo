@@ -105,7 +105,7 @@ public class NotchHandler : MonoBehaviour {
             SetY(tfm, 517f);
 
         // CPU GAME
-        SetY(cpuTopBar, -158f);
+        SetY(cpuTopBar, -148f);
         SetY(cpuBotBar, 141f);
         foreach (RectTransform tfm in cpuLeft)
             ShiftX(tfm, 10f);
@@ -113,7 +113,7 @@ public class NotchHandler : MonoBehaviour {
             ShiftX(tfm, -10f);
 
         // MULTIPLAYER GAME
-        SetY(mpTopBar, -158f);
+        SetY(mpTopBar, -148f);
         SetY(mpBotBar, 141f);
         foreach (RectTransform tfm in mpLeft)
             ShiftX(tfm, 10f);

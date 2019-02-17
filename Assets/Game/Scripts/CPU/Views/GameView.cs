@@ -30,6 +30,7 @@ namespace TurboLabz.CPU
 
         [Inject] public ShowAdSignal showAdSignal { get; set; }
 
+
         public Camera chessboardCamera;
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
@@ -51,6 +52,7 @@ namespace TurboLabz.CPU
             OnParentShowInfo();
             OnParentShowSafeMove();
             OnParentShowHindsight();
+            OnParentShowAdBanner();
 
             showAdOnBack = false;
         }
@@ -62,6 +64,7 @@ namespace TurboLabz.CPU
             chessboardBlocker.SetActive(false);
             OnParentHideChessboard();
             OnParentHideClickAndDrag();
+            OnParentHideAdBanner();
         }
 
         public bool IsVisible()

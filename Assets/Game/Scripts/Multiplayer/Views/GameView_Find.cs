@@ -69,6 +69,8 @@ namespace TurboLabz.Multiplayer
             {
                 obj.SetActive(true);
             }
+
+            OnParentShowAdBanner();
         }
 
 

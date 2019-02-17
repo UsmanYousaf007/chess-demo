@@ -16,6 +16,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using AppodealAds.Unity.Api;
 
 namespace TurboLabz.InstantFramework
 {
@@ -51,6 +52,14 @@ namespace TurboLabz.InstantFramework
         void OnApplicationQuit()
         {
             appQuitSignal.Dispatch();   
+        }
+
+        void OnApplicationFocus(bool hasFocus)
+        {
+            if (hasFocus)
+            {
+                Appodeal.onResume();
+            }
         }
     }
 }

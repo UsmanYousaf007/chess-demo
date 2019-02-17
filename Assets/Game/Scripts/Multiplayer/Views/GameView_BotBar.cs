@@ -45,7 +45,7 @@ namespace TurboLabz.Multiplayer
         {
             if (showAdOnBack)
             {
-                showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
+                //showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
                 showAdOnBack = false;
 
                 analyticsService.Event(AnalyticsEventId.ads_friends_back);

@@ -20,12 +20,25 @@ namespace TurboLabz.InstantFramework
             //Debug.Log("[TLADS]: Initializing Appodeal with APP KEY:" + APP_KEY);
 
             // TODO: Get the consent bool from a GDPR popup for European countries
-            Appodeal.initialize(APP_KEY, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL, true);
+            Appodeal.initialize(APP_KEY, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL | Appodeal.BANNER_VIEW, true);
             Appodeal.setRewardedVideoCallbacks(rewardedVideoListener);
+            Appodeal.setSmartBanners(false);
+            Appodeal.setTabletBanners(true);
+
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             Appodeal.setTesting(true);
 #endif
+        }
+
+        public void ShowBanner(int x, int y)
+        {
+            Appodeal.showBannerView(y, x, "default");
+        }
+
+        public void HideBanner()
+        {
+            Appodeal.hideBannerView();
         }
 
         public bool IsRewardedVideoAvailable()
