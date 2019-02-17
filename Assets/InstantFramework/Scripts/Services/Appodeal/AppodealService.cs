@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
             Appodeal.initialize(APP_KEY, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL | Appodeal.BANNER_VIEW, true);
             Appodeal.setRewardedVideoCallbacks(rewardedVideoListener);
             Appodeal.setSmartBanners(false);
-            Appodeal.setTabletBanners(true);
+            Appodeal.setTabletBanners(false);
 
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
