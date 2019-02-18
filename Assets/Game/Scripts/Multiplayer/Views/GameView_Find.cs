@@ -55,6 +55,8 @@ namespace TurboLabz.Multiplayer
             {
                 obj.SetActive(false);
             }
+
+            OnParentHideAdBanner();
         }
 
         public void HideFind()

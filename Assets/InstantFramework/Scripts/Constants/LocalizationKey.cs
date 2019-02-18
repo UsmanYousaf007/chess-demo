@@ -219,7 +219,7 @@ namespace TurboLabz.InstantFramework
 
         #region Long Play
 
-        public const string LONG_PLAY_BACK_TO_FRIENDS = "longPlayBackToFriends";
+        public const string IN_GAME_BACK = "longPlayBackToFriends";
         public const string BOT_NAV_NEXT = "botNavNext";
         public const string BOT_NAV_COMPANY = "botNavCompany";
         public const string LONG_PLAY_NOT_NOW = "longPlayNotNow";

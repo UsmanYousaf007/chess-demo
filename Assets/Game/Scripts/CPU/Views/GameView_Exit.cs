@@ -16,6 +16,7 @@ using UnityEngine.UI;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.CPU
 {
@@ -25,6 +26,7 @@ namespace TurboLabz.CPU
         public Button resignButton;
         public Button continueButton;
         public Button saveAndExitButton;
+        public Button backToLobbyButton;
 
         public Signal menuButtonClickedSignal = new Signal();
         public Signal resignButtonClickedSignal = new Signal();
@@ -37,6 +39,7 @@ namespace TurboLabz.CPU
         public Text resignButtonLabel;
         public Text continueButtonLabel;
         public Text saveAndExitButtonLabel;
+        public Text backToLobbyButtonLabel;
 
         private bool showAdOnBack;
 
@@ -46,11 +49,14 @@ namespace TurboLabz.CPU
             resignButton.onClick.AddListener(OnResignButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
             saveAndExitButton.onClick.AddListener(OnSaveAndExitButtonClicked);
+            backToLobbyButton.onClick.AddListener(OnSaveAndExitButtonClicked);
 
             titleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
             saveAndExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_SAVE_AND_EXIT);
+            backToLobbyButtonLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
+
         }
 
         public void OnParentShowMenu()
@@ -119,11 +125,15 @@ namespace TurboLabz.CPU
         public void DisableMenuButton()
         {
             menuButton.interactable = false;
+            backToLobbyButton.interactable = false;
+            backToLobbyButtonLabel.color = Colors.DISABLED_WHITE;
         }
 
         public void EnableMenuButton()
         {
             menuButton.interactable = true;
+            backToLobbyButton.interactable = true;
+            backToLobbyButtonLabel.color = Colors.WHITE;
         }
 
         void OnMenuButtonClicked()

@@ -33,7 +33,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowBanner(int x, int y)
         {
-            Appodeal.showBannerView(y, x, "default");
+            Appodeal.showBannerView(y, Appodeal.BANNER_HORIZONTAL_CENTER, "default");
         }
 
         public void HideBanner()

@@ -24,7 +24,7 @@ namespace TurboLabz.Multiplayer
 
         public void InitBotBar()
         {
-            backToFriendsLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS);
+            backToFriendsLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
             backToFriendsButton.onClick.AddListener(OnBackToFriendsClicked);
         }
 

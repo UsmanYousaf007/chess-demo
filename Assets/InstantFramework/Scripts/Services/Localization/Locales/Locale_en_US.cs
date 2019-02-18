@@ -222,7 +222,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Long Play
 
-                { LocalizationKey.LONG_PLAY_BACK_TO_FRIENDS, "BACK" },
+                { LocalizationKey.IN_GAME_BACK, "BACK" },
                 { LocalizationKey.LONG_PLAY_BACK_TO_GAME, "BACK" },
                 { LocalizationKey.LONG_PLAY_RESULTS_BACK, "BACK TO FRIENDS" },
                 { LocalizationKey.BOT_NAV_NEXT, "Next" },

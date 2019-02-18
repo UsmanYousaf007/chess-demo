@@ -52,6 +52,9 @@ namespace TurboLabz.Multiplayer
             OnParentShowHint();
             OnParentShowHindsight();
             OnParentShowInfo();
+
+            OnParentShowAdBanner();
+
         }
 
         public void Hide()
