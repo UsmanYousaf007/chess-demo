@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
         IPromise<AdsResult> ShowRewardedVideo();
         bool IsInterstitialAvailable();
         void ShowInterstitial();
-        void ShowBanner(int x, int y);
+        void ShowBanner();
         void HideBanner();
     }
 }

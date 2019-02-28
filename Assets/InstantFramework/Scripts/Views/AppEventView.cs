@@ -16,7 +16,6 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
-using AppodealAds.Unity.Api;
 
 namespace TurboLabz.InstantFramework
 {
@@ -26,6 +25,20 @@ namespace TurboLabz.InstantFramework
         public Signal appResumedSignal = new Signal();
         public Signal appQuitSignal = new Signal();
         public Signal appEscapeSignal = new Signal();
+
+        [Inject] public IAdsService adsService { get; set; }
+
+        // TODO: Ads need to be initialized in the start function of our app.
+        // However our StartCommand is misleading because it is called through
+        // the "Awake" chain of Unity so we fire the init signal here directly.
+        // This start up chain needs to be renamed and perhaps we need two commands
+        // where the current start command is renamed to awakecommand and then
+        // have a startcommand.
+        protected override void Start()
+        {
+            base.Start();
+            adsService.Init();
+        }
 
         // TODO: Verify that this class behaves correctly for EACH platform
         // Windows Phone might require OnApplicationFocus - this this out
@@ -52,14 +65,6 @@ namespace TurboLabz.InstantFramework
         void OnApplicationQuit()
         {
             appQuitSignal.Dispatch();   
-        }
-
-        void OnApplicationFocus(bool hasFocus)
-        {
-            if (hasFocus)
-            {
-                Appodeal.onResume();
-            }
         }
     }
 }

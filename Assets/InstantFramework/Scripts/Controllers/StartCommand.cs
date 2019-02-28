@@ -26,7 +26,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
 		[Inject] public IShareService shareService { get; set; }
 		[Inject] public IBackendService backendService { get; set; }
-        [Inject] public IAdsService adsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -43,7 +42,6 @@ namespace TurboLabz.InstantFramework
 			ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
 			audioService.Init();
-            adsService.Init();
             GameAnalytics.Initialize();
 		}
 

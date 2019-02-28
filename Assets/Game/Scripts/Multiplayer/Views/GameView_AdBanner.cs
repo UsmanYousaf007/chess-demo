@@ -30,12 +30,12 @@ namespace TurboLabz.Multiplayer
                 initComplete = true;
             }
 
-            toggleBannerSignal.Dispatch(true, bannerScreenPos);
+            toggleBannerSignal.Dispatch(true);
         }
 
         public void OnParentHideAdBanner()
         {
-            toggleBannerSignal.Dispatch(false, Vector2.zero);
+            toggleBannerSignal.Dispatch(false);
         }
 
         Rect RectTransformToScreenSpace(RectTransform tfm)

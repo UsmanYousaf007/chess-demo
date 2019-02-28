@@ -17,7 +17,6 @@ namespace TurboLabz.InstantFramework
     {
         // Parameters
         [Inject] public bool enable { get; set; }
-        [Inject] public Vector2 position { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -40,7 +39,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                adsService.ShowBanner((int)position.x, (int)position.y);
+                adsService.ShowBanner();
             }
         }
     }
