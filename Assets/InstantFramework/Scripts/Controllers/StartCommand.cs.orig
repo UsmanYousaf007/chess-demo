@@ -27,7 +27,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
 		[Inject] public IShareService shareService { get; set; }
 		[Inject] public IBackendService backendService { get; set; }
+<<<<<<< HEAD
+=======
+        [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
+>>>>>>> 956cae50d1269279e2188b25d258a83643413b8b
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }

@@ -23,6 +23,8 @@ namespace TurboLabz.InstantGame
         public long adSlotId { get; set; }
         public int adSlotImpressions { get; set; }
         public bool hasRated { get; set; }
+        public bool isSafeMoveOn { get; set; }
+        public bool isFriendScreenVisited { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -38,6 +40,8 @@ namespace TurboLabz.InstantGame
             adSlotId = 0;
             adSlotImpressions = 0;
             hasRated = false;
+            isSafeMoveOn = false;
+            isFriendScreenVisited = false;
         }
 
         private void LoadFromDisk()
@@ -65,6 +69,16 @@ namespace TurboLabz.InstantGame
                     hasRated = reader.Read<bool>(PrefKeys.HAS_RATED);
                 }
 
+                if (reader.HasKey(PrefKeys.IS_SAFE_MOVE_ON))
+                {
+                    isSafeMoveOn = reader.Read<bool>(PrefKeys.IS_SAFE_MOVE_ON);
+                }
+
+                if (reader.HasKey(PrefKeys.IS_FRIEND_SCREEN_VISITED))
+                {
+                    isFriendScreenVisited = reader.Read<bool>(PrefKeys.IS_FRIEND_SCREEN_VISITED);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -86,6 +100,8 @@ namespace TurboLabz.InstantGame
                 writer.Write<long>(PrefKeys.AD_SLOT_ID, adSlotId);
                 writer.Write<int>(PrefKeys.AD_SLOT_IMPRESSIONS, adSlotImpressions);
                 writer.Write<bool>(PrefKeys.HAS_RATED, hasRated);
+                writer.Write<bool>(PrefKeys.IS_SAFE_MOVE_ON, isSafeMoveOn);
+                writer.Write<bool>(PrefKeys.IS_FRIEND_SCREEN_VISITED, isFriendScreenVisited);
                 writer.Close();
             }
             catch (Exception e)

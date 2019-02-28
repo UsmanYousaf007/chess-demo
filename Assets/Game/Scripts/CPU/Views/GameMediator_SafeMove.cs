@@ -59,7 +59,7 @@ namespace TurboLabz.CPU
         {
             if (view.IsVisible())
             {
-                view.UpdateSafeMoveCount(count);
+                view.UpdateSafeMoveCount(count, false);
             }
         }
 

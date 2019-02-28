@@ -226,6 +226,7 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_ACCEPT = "longPlayAccept";
         public const string LONG_PLAY_CANCEL = "longPlayCancel";
         public const string LONG_PLAY_NEW_MATCH_GREETING = "longPlayNewMatchGreeting";
+        public const string LONG_PLAY_DECLINE_APOLOGY = "longPlayDeclineApology";
         public const string LONG_PLAY_OK = "longPlayOk";
         public const string LONG_PLAY_WAITING = "longPlayWaiting";
         public const string LONG_PLAY_MINUTES = "longPlayMinutes";

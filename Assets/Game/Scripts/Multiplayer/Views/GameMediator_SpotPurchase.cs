@@ -24,7 +24,7 @@ namespace TurboLabz.Multiplayer
             if (view.IsVisible())
             {
                 view.UpdateHintCount(vo.hintCount);
-                view.UpdateSafeMoveCount(vo.safeMoveCount);
+                view.UpdateSafeMoveCount(vo.safeMoveCount, true);
                 view.UpdateHindsightCount(vo.hindsightCount);
             }
         }

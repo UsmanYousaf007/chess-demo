@@ -29,6 +29,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal{ get; set; }
+        [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
 
         // Models
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
@@ -65,6 +66,11 @@ namespace TurboLabz.InstantGame
                 localizedMins, localizedHours, localizedDays);
 
             updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.HasAdsFreePeriod(metaDataModel.adsSettings));
+
+            if (!preferencesModel.isFriendScreenVisited)
+            {
+                setActionCountSignal.Dispatch(1);
+            }
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);

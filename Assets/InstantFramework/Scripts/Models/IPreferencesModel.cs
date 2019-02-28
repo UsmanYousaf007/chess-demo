@@ -11,5 +11,7 @@ namespace TurboLabz.InstantFramework
         int adSlotImpressions { get; set; }    
         long adSlotId { get; set; }
         bool hasRated { get; set; }
+        bool isSafeMoveOn { get; set; }
+        bool isFriendScreenVisited { get; set; }
     }
 }

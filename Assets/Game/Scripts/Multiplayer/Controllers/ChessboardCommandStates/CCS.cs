@@ -127,15 +127,7 @@ namespace TurboLabz.Multiplayer
             // TODO: Update count may toggle the safe move button so this signal has to be fired first.
             // Cleanup this side effect code.
             cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
-
-            if (cmd.activeMatchInfo.isLongPlay)
-            {
-                activeChessboard.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0;
-            }
-            else
-            {
-                activeChessboard.inSafeMode = false;
-            }
+            activeChessboard.inSafeMode = cmd.preferencesModel.isSafeMoveOn;
             cmd.updateSafeMoveStateSignal.Dispatch(activeChessboard.inSafeMode);
 
         }

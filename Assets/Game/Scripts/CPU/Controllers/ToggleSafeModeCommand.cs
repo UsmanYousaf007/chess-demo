@@ -17,6 +17,7 @@ namespace TurboLabz.CPU
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -25,7 +26,7 @@ namespace TurboLabz.CPU
         {
             chessboardModel.inSafeMode = !chessboardModel.inSafeMode;
             updateSafeMoveStateSignal.Dispatch(chessboardModel.inSafeMode);
-
+            preferencesModel.isSafeMoveOn = chessboardModel.inSafeMode;
 
             // Analytics
             if (chessboardModel.inSafeMode)

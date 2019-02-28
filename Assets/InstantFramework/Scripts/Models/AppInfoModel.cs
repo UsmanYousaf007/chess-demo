@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         public string iosURL { get; set; }
         public string androidURL { get; set; }
         public int rateAppThreshold { get; set; }
+        public int onlineCount { get; set; }
 
         enum subVersionIndex
         {
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
             iosURL = "";
             androidURL = "";
             rateAppThreshold = 0;
+            onlineCount = 0;
         }
     }
 }
