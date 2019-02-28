@@ -73,14 +73,17 @@ namespace TurboLabz.InstantFramework
 #region Rewarded Video callback handlers
         public void onRewardedVideoFinished(double amount, string name) 
         {
+            Debug.Log("--------->>>>> onRewardedVideoFinished");
             rewardedVideoFinishedPromise.Dispatch(AdsResult.FINISHED);
             //Debug.Log("[TLADS]: onRewardedVideoFinished amount:" + amount + " name:" + name);
         }
 
         public void onRewardedVideoClosed(bool finished)
         {
+            Debug.Log("--------->>>>> onRewardedVideoClosed");
             if (!finished)
             {
+                Debug.Log("--------->>>>> onRewardedVideoClosed=NOT FINISHED");
                 rewardedVideoFinishedPromise.Dispatch(AdsResult.FAILED);
             }
 
@@ -89,23 +92,27 @@ namespace TurboLabz.InstantFramework
 
         public void onRewardedVideoFailedToLoad()
         {
+            Debug.Log("--------->>>>> onRewardedVideoFailedToLoad");
             rewardedVideoFinishedPromise.Dispatch(AdsResult.FAILED);
             //Debug.Log("[TLADS]: onRewardedVideoFailedToLoad");
         }
 
         public void onRewardedVideoExpired()
         {
+            Debug.Log("--------->>>>> onRewardedVideoExpired");
             rewardedVideoFinishedPromise.Dispatch(AdsResult.FAILED);
             //Debug.Log("[TLADS]: onRewardedVideoExpired");
         }
 
         public void onRewardedVideoLoaded(bool isPrecache) 
         {
+            Debug.Log("--------->>>>> onRewardedVideoLoaded");
             //Debug.Log("[TLADS]: onRewardedVideoLoaded isPrecache:" + isPrecache);
         }
 
         public void onRewardedVideoShown() 
         {
+            Debug.Log("--------->>>>> onRewardedVideoShown");
             //Debug.Log("[TLADS]: onRewardedVideoShown");
         }
 #endregion

@@ -23,6 +23,7 @@ namespace TurboLabz.InstantGame
         public IOrderedDictionary<string, int> playerVGoods;
 		public string activeSkinId;
 		public string activeSkinDisplayName;
+        public int onlineCount;
 
         public StoreVO storeVO;
 
@@ -36,6 +37,7 @@ namespace TurboLabz.InstantGame
 			activeSkinDisplayName = metaDataModel.store.items[activeSkinId].displayName;
 			playerBucks = playerModel.bucks;
             playerVGoods = playerModel.inventory;
+            onlineCount = metaDataModel.appInfo.onlineCount;
 
             storeVO = new StoreVO();
             storeVO.playerModel = playerModel;

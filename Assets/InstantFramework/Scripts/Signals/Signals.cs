@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
     public class ConsumeVirtualGoodSignal : Signal<string, int> {}
     public class StartGameSignal : Signal {}
     public class WifiIsHealthySignal : Signal<bool> {}
+    public class SplashWifiIsHealthySignal : Signal {}
     public class ResetCapturedPiecesSignal : Signal { }
     public class SetErrorAndHaltSignal : Signal<BackendResult> {}
     public class HaltSignal: Signal<BackendResult> {}

@@ -32,7 +32,7 @@ namespace TurboLabz.CPU
         public Signal safeMoveConfirmClickedSignal = new Signal();
         public Signal safeMoveUndoClickedSignal = new Signal();
 
-        bool safeMoveOn;
+        bool safeMoveOn = false;
 
         public void InitSafeMove()
         {
@@ -127,7 +127,7 @@ namespace TurboLabz.CPU
             audioService.PlayStandardClick();
         }
 
-        public void UpdateSafeMoveCount(int count)
+        public void UpdateSafeMoveCount(int count, bool isOnSpotPurchase)
         {
             if (count == 0)
             {
@@ -137,7 +137,7 @@ namespace TurboLabz.CPU
             }
             else
             {
-                if (count.ToString() != safeMoveCountTxt.text && !safeMoveOn)
+                if (count.ToString() != safeMoveCountTxt.text && !safeMoveOn && isOnSpotPurchase)
                 {
                     safeMoveBtnClickedSignal.Dispatch();
                 }

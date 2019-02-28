@@ -43,6 +43,12 @@ namespace TurboLabz.InstantFramework
                 view.Hide();
             }
         }
+
+        [ListensTo(typeof(SplashWifiIsHealthySignal))]
+        public void OnWifiHealthUpdate()
+        {
+            view.WifiHealthUpdate();
+        }
     }
 }
 

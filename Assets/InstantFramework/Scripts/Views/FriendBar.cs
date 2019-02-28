@@ -51,6 +51,8 @@ namespace TurboLabz.InstantFramework
         static string strDraw = "";
         static string strCanceled = "";
         static string strYourMove = "";
+        static string strNewMatchGreeting = "";
+        static string strDeclineApology = "";
 
         [HideInInspector] public LongPlayStatus longPlayStatus;
         [HideInInspector] public bool isCommunity;
@@ -83,8 +85,10 @@ namespace TurboLabz.InstantFramework
                     acceptButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     newMatchGreeting.gameObject.SetActive(true);
+                    newMatchGreetingLabel.text = strNewMatchGreeting;
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
+
                     break;
 
                 case LongPlayStatus.WAITING_FOR_ACCEPT:
@@ -186,6 +190,8 @@ namespace TurboLabz.InstantFramework
                     generalStatus.text = strDeclined;
                     okButton.gameObject.SetActive(true);
                     okButton.interactable = true;
+                    newMatchGreeting.gameObject.SetActive(true);
+                    newMatchGreetingLabel.text = strDeclineApology;
                     break;
             }
         }
@@ -227,7 +233,6 @@ namespace TurboLabz.InstantFramework
             notNowButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NOT_NOW);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT);
             cancelButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
-            newMatchGreetingLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING);
             okButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
             yourMoveStatus.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
             strWaiting = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING);
@@ -239,6 +244,8 @@ namespace TurboLabz.InstantFramework
             strCanceled = localizationService.Get(LocalizationKey.LONG_PLAY_CANCELED);
             strYourMove = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
             viewButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_VIEW);
+            strNewMatchGreeting = localizationService.Get(LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING);
+            strDeclineApology = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINE_APOLOGY);
 
             stringsLoaded = true;
         }

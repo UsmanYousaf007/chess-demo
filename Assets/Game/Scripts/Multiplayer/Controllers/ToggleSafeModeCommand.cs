@@ -18,6 +18,7 @@ namespace TurboLabz.Multiplayer
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -28,6 +29,7 @@ namespace TurboLabz.Multiplayer
 
             activeChessboard.inSafeMode = !activeChessboard.inSafeMode;
             updateSafeMoveStateSignal.Dispatch(activeChessboard.inSafeMode);
+            preferencesModel.isSafeMoveOn = activeChessboard.inSafeMode;
 
 
             // Analytics

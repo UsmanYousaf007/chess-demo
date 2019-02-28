@@ -52,6 +52,8 @@ namespace TurboLabz.InstantGame
         public Button playCPUButton;
         public Text playCPUButtonLabel;
 
+        public Text onlineCountLabel;
+
         private StoreThumbsContainer thumbsContainer;
 
         public InputField devFen;
@@ -113,14 +115,43 @@ namespace TurboLabz.InstantGame
             devFen.onValueChanged.RemoveAllListeners();
         }
 
+        public void EnableStrength(bool enable)
+        {
+            if (enable)
+            {
+                currentStrengthLabel.color = Colors.YELLOW;
+                prevStrengthLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                nextStrengthLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                strengthLabel.color = Colors.WHITE;
+            }
+            else
+            {
+                currentStrengthLabel.color = Colors.ColorAlpha(Colors.YELLOW, Colors.DISABLED_TEXT_ALPHA * 0.5f);
+                prevStrengthLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA * 0.5f);
+                nextStrengthLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA * 0.5f);
+                strengthLabel.color = Colors.DISABLED_WHITE;
+                incStrengthButton.interactable = false;
+                decStrengthButton.interactable = false;
+            }
+        }
+
         public void UpdateView(LobbyVO vo)
         {
             UpdateStrength(vo);
             UpdateViewBundles(vo.storeVO);
 
             inProgressSticker.SetActive(vo.inProgress);
-            setStrength.SetActive(!vo.inProgress);
-		}
+            EnableStrength(!vo.inProgress);
+            if (!vo.inProgress)
+            {
+                UpdateStrength(vo);
+            }
+
+            int onlineCount = vo.onlineCount;
+            onlineCountLabel.text = onlineCount.ToString() + "  Players Online";
+
+            //setStrength.SetActive(!vo.inProgress);
+        }
 
 
         public void UpdateStrength(LobbyVO vo)

@@ -128,7 +128,7 @@ namespace TurboLabz.Multiplayer
             audioService.PlayStandardClick();
         }
 
-        public void UpdateSafeMoveCount(int count)
+        public void UpdateSafeMoveCount(int count, bool isSpotPurchase)
         {
             if (count == 0)
             {
@@ -138,7 +138,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                if (count.ToString() != safeMoveCountTxt.text && !safeMoveOn)
+                if (count.ToString() != safeMoveCountTxt.text && !safeMoveOn && isSpotPurchase)
                 {
                     safeMoveBtnClickedSignal.Dispatch();
                 }

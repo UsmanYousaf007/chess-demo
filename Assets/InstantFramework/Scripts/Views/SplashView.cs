@@ -16,9 +16,11 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
+        public GameObject wifiWarning;
 
         public void Init()
         {
+            wifiWarning.gameObject.SetActive(false);
         }
 
         public void Show()
@@ -32,6 +34,11 @@ namespace TurboLabz.InstantFramework
 
             GameObject originalSplash = GameObject.FindGameObjectWithTag("OriginalSplash");
             GameObject.Destroy(originalSplash);
+        }
+
+        public void WifiHealthUpdate()
+        {
+            wifiWarning.gameObject.SetActive(true);
         }
     }
 }

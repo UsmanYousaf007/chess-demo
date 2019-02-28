@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public const string APP_ANDROID_URL = "androidURL";
         public const string APP_IOS_URL = "iosURL";
         public const string APP_RATE_APP_THRESHOLD = "rateAppThreshold";
+        public const string APP_ONLINE_COUNT = "onlineCount";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
