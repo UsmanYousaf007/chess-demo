@@ -43,7 +43,8 @@ namespace TurboLabz.InstantGame
                 string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
                 bundlePrefab.SetBundleState(vo, textStoreNotAvailable, textDays);
 
-                if (vo.playerModel.OwnsVGood(bundlePrefab.key))
+                if (vo.playerModel.OwnsVGood(bundlePrefab.key) ||
+                    vo.playerModel.HasAdsFreePeriod(vo.storeSettingsModel.adsSettings))
                 {
                     bundlePrefab.gameObject.SetActive(false);
                 }
