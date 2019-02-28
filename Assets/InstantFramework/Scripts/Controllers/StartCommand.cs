@@ -40,9 +40,7 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
 		{
-            Retain();
-
-            wifiHealthCheckCR = routineRunner.StartCoroutine(CheckWifiHealthCR());
+            CommandBegin();
 
             modelsResetSignal.Dispatch();
             modelsLoadFromDiskSignal.Dispatch();
@@ -84,21 +82,18 @@ namespace TurboLabz.InstantFramework
             else if (result != BackendResult.CANCELED)
 			{
 				backendErrorSignal.Dispatch(result);
-                Release();
+                CommandEnd();
             }
 		}
 
 		void GotoReception()
 		{
-            if (wifiHealthCheckCR != null)
-            {
-                routineRunner.StopCoroutine(wifiHealthCheckCR);
-            }
-
             initFacebookSignal.Dispatch();
             receptionSignal.Dispatch();
 			RemoveListeners();
             Release();
+
+            CommandEnd();
 		}
 
         void ListenForKeyEvents()
@@ -112,8 +107,7 @@ namespace TurboLabz.InstantFramework
 			GS.GameSparksAvailable -= GameSparksAvailable;
 		}
 
-
-        private IEnumerator CheckWifiHealthCR()
+        IEnumerator CheckWifiHealthCR()
         {
             while (true)
             {
@@ -130,6 +124,23 @@ namespace TurboLabz.InstantFramework
 
                 yield return new WaitForSecondsRealtime(SLOW_WIFI_WARNING_THRESHOLD_SECONDS);
             }
+        }
+
+        void CommandBegin()
+        {
+            Retain();
+            wifiHealthCheckCR = routineRunner.StartCoroutine(CheckWifiHealthCR());
+        }
+
+        void CommandEnd()
+        {
+            if (wifiHealthCheckCR != null)
+            {
+                routineRunner.StopCoroutine(wifiHealthCheckCR);
+                wifiHealthCheckCR = null;
+            }
+
+            Release();
         }
     }
 }
