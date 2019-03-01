@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
         public Sprite profilePicture;
         public string facebookUserId;
         public bool isOnline;
+        public string creationDate;
     }
 }
 

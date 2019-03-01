@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public Text oppProfileName;
         public Text oppEloLabel;
         public Image oppFlag;
+        public Text oppPlayingSinceDate;
 
         [Header("Confirm Dialog")]
         public GameObject confirmDialog;
@@ -67,6 +68,7 @@ namespace TurboLabz.InstantFramework
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
+           
 
             blockBtn.onClick.AddListener(OnBlockConfirm);
             noBtn.onClick.AddListener(OnConfirmNo);
@@ -87,6 +89,7 @@ namespace TurboLabz.InstantFramework
             oppProfileName.text = vo.oppProfileName;
             oppEloLabel.text = eloPrefix + " " + vo.oppElo;
             oppFlag.sprite = Flags.GetFlag(vo.oppCountryCode);
+            oppPlayingSinceDate.text = "Playing since " + vo.oppPlayingSinceDate;
 
             playerWinsLabel.text = vo.playerWinsCount.ToString();
             playerDrawsLabel.text = vo.playerDrawsCount.ToString();

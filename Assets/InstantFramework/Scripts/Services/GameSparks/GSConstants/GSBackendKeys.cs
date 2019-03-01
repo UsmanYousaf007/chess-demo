@@ -259,7 +259,9 @@ namespace TurboLabz.InstantFramework
 			public const string PLAYER_ACTIVE_INVENTORY = "playerActiveInventory";
 			public const string EXTERNAL_IDS = "externalIds";
             public const string IS_ONLINE = "isOnline";
-		}
+            public const string CREATION_DATE = "creationDate";
+
+        }
 
 		public static class  PlayerDetails
 		{
