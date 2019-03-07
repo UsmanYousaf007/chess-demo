@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public int oppElo;
         public string oppCountryCode;
         public string oppPlayingSinceDate;
+        public string oppLastSeen;
 
         public int playerWinsCount;
         public int playerDrawsCount;

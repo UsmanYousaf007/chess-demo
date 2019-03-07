@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
             vo.oppElo = friend.publicProfile.eloScore;
             vo.oppCountryCode = friend.publicProfile.countryId;
             vo.oppPlayingSinceDate = friend.publicProfile.creationDate;
+            vo.oppLastSeen = friend.publicProfile.lastSeen;
 
             vo.playerWinsCount = friend.gamesWon;
             vo.playerDrawsCount = friend.gamesDrawn;

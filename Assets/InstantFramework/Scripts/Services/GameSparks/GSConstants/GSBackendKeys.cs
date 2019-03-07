@@ -260,6 +260,7 @@ namespace TurboLabz.InstantFramework
 			public const string EXTERNAL_IDS = "externalIds";
             public const string IS_ONLINE = "isOnline";
             public const string CREATION_DATE = "creationDate";
+            public const string LAST_SEEN = "lastSeen";
 
         }
 

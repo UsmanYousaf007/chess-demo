@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         public string facebookUserId;
         public bool isOnline;
         public string creationDate;
+        public string lastSeen;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
+using static MoPubBase.SupportedNetwork;
 
 namespace TurboLabz.InstantFramework
 {

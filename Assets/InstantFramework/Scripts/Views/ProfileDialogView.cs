@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public Text oppEloLabel;
         public Image oppFlag;
         public Text oppPlayingSinceDate;
+        public Text oppLastSeen;
 
         [Header("Confirm Dialog")]
         public GameObject confirmDialog;
@@ -90,6 +91,7 @@ namespace TurboLabz.InstantFramework
             oppEloLabel.text = eloPrefix + " " + vo.oppElo;
             oppFlag.sprite = Flags.GetFlag(vo.oppCountryCode);
             oppPlayingSinceDate.text = "Playing since " + vo.oppPlayingSinceDate;
+            oppLastSeen.text = "Last played " + vo.oppLastSeen;
 
             playerWinsLabel.text = vo.playerWinsCount.ToString();
             playerDrawsLabel.text = vo.playerDrawsCount.ToString();
