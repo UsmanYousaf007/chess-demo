@@ -43,6 +43,18 @@ namespace TurboLabz.Multiplayer
 
         void OnBackToFriendsClicked()
         {
+            if (chessboardBlocker.activeSelf)
+            {
+                resultsDialogOpenedSignal.Dispatch();
+            }
+            else
+            {
+                OnBackToFriends();
+            }
+        }
+
+        void OnBackToFriends()
+        {
             if (showAdOnBack)
             {
                 //showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
