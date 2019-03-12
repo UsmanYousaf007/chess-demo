@@ -32,11 +32,11 @@ namespace TurboLabz.InstantFramework
 
         public MoPubAdUnits()
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-            banner = testBanner;
-            interstitial = testInterstitial;
-            rewardedVideo = testRewardedVideo;
-#else
+//#if UNITY_EDITOR || DEVELOPMENT_BUILD
+//            banner = testBanner;
+//            interstitial = testInterstitial;
+//            rewardedVideo = testRewardedVideo;
+//#else
             if (IsTablet())
             {
                 banner = tabletBanner;
@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
                 interstitial = phoneInterstitial;
                 rewardedVideo = phoneRewardedVideo;
             }
-#endif
+//#endif
 
         }
 

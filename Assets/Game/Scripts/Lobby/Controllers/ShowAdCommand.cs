@@ -10,6 +10,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
 using UnityEngine;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantGame
 {
@@ -52,12 +53,7 @@ namespace TurboLabz.InstantGame
             {
                 if (adsService.IsInterstitialAvailable())
                 {
-                    Debug.Log("[TLADS]: Interstitial is available");
                     adsService.ShowInterstitial();
-                }
-                else
-                {
-                    Debug.Log("[TLADS]: Interstitial is NOT available");
                 }
 
                 return;
@@ -66,13 +62,21 @@ namespace TurboLabz.InstantGame
             {
                 if (adsService.IsRewardedVideoAvailable())
                 {
-                    Debug.Log("[TLADS]: Rewarded video is available");
                     Retain();
-                    adsService.ShowRewardedVideo().Then(ClaimReward);
+                    IPromise<AdsResult> p = adsService.ShowRewardedVideo();
+                    if (p == null)
+                    {
+                        Retain();
+                        ClaimReward(AdsResult.BYPASS);
+                        return;
+                    }
+                    else
+                    {
+                        p.Then(ClaimReward);
+                    }
                 }
                 else
                 {
-                    Debug.Log("[TLADS]: Rewarded video is NOT available");
                     Retain();
                     ClaimReward(AdsResult.BYPASS);
                     return;
@@ -84,12 +88,10 @@ namespace TurboLabz.InstantGame
         {
             if (result == AdsResult.FINISHED || result == AdsResult.BYPASS)
             {
-                Debug.Log("[TLADS]: Rewarded video completed.");
                 backendService.ClaimReward(claimRewardType).Then(OnClaimReward);
             }
             else
             {
-                Debug.Log("[TLADS]: Rewarded video did not complete.");
                 Release();
             }
         }
@@ -98,7 +100,6 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                Debug.Log("[TLADS]: Rewarding players coins...");
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
             }
 
