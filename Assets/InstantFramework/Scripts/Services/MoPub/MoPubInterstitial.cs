@@ -63,7 +63,7 @@ namespace TurboLabz.InstantFramework
        
         static void OnInterstitialFailedEvent(string p1, string p2)
         {
-            Debug.Log("[TLADS]: Interstitial failed to load");
+            Debug.Log("[TLADS]: Interstitial failed to load " + "p1=" + p1 + " p2=" + p2);
             isAvailable = false;
         }
 
