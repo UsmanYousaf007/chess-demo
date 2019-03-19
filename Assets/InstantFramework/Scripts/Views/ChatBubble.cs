@@ -6,11 +6,12 @@ using UnityEngine.UI;
 using TurboLabz.TLUtils;
 using DG.Tweening;
 using TurboLabz.InstantGame;
+using ArabicSupport;
 
 public class ChatBubble : MonoBehaviour 
 {
     public RectTransform bg;
-    public TextMeshProUGUI text;
+    public Text text;
     public bool flipped; // Set from the scene inspector
     public bool inGameBubble; // Set from the  scene inspector
     public RectTransform container;
@@ -23,11 +24,14 @@ public class ChatBubble : MonoBehaviour
 
     Image bgImage;
     Coroutine fadeRoutine;
+    bool isPlayer;
 
     const float CONTAINER_OFFSET = 65f;
 
     public void SetText(string newText, bool isPlayer)
     {
+        this.isPlayer = isPlayer;
+
         // Nothing to do if there is no text
         if (newText.Length == 0)
         {
@@ -35,7 +39,9 @@ public class ChatBubble : MonoBehaviour
             return;
         }
 
-        text.text = newText;
+        if (text == null) return;
+
+        text.text = ArabicFixer.Fix(newText, false, false);
 
         // Kick off the fade cycle
         if (inGameBubble)
@@ -49,16 +55,34 @@ public class ChatBubble : MonoBehaviour
         }
 
         // Resise the text mesh based on the text
-        text.ForceMeshUpdate(true);
+        // text.ForceMeshUpdate(true);
+        if (isActiveAndEnabled)
+        {
+            StartCoroutine(SetBgSizeCR());
+        }
+    }
 
+    void OnEnable()
+    {
+        StartCoroutine(SetBgSizeCR());
+    }
+
+    IEnumerator SetBgSizeCR()
+    {
+        yield return null;
+        SetBgSize();
+    }
+
+    void SetBgSize()
+    {
         // Apply the correct bg if this is full chat mode
         if (inGameBubble)
         {
             // Resize the background based on the text mesh
-            Vector3 textBoundsSize = text.textBounds.size;
+            Vector3 textBoundsSize = text.rectTransform.sizeDelta;
 
             bg.sizeDelta = new Vector2(
-                textBoundsSize.x + 57.65f, 
+                textBoundsSize.x + 57.65f,
                 textBoundsSize.y + 41.63f);
 
             // Move the background into the center of the container
@@ -69,10 +93,10 @@ public class ChatBubble : MonoBehaviour
         else
         {
             // Resize the background based on the text mesh
-            Vector3 textBoundsSize = text.textBounds.size;
+            Vector3 textBoundsSize = text.rectTransform.sizeDelta;
 
             bg.sizeDelta = new Vector2(
-                textBoundsSize.x + 65f, 
+                textBoundsSize.x + 65f,
                 textBoundsSize.y + 30f);
 
             bgImage.sprite = (isPlayer) ? bgFullChatPlayer : bgFullChatOpponent;

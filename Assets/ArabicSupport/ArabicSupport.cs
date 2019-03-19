@@ -106,7 +106,12 @@ namespace ArabicSupport
 		/// </param>
 		public static string Fix(string str, bool showTashkeel, bool useHinduNumbers)
 		{
-			ArabicFixerTool.showTashkeel = showTashkeel;
+            if (str == null)
+            {
+                return str;
+            }
+
+            ArabicFixerTool.showTashkeel = showTashkeel;
 			ArabicFixerTool.useHinduNumbers =useHinduNumbers;
 			
 			if(str.Contains("\n"))
