@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using UnityEngine;
+using ArabicSupport;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,7 +16,6 @@ namespace TurboLabz.InstantFramework
         public string id { get; set; }
         public long creationDate { get; set; }
         public string tag { get; set; } 
-        public string name { get; set; }
         public string countryId { get; set; }
         public int totalGamesWon { get; set; }
         public int totalGamesLost { get; set; }
@@ -23,6 +23,19 @@ namespace TurboLabz.InstantFramework
         public long bucks { get; set; }
         public int eloScore { get; set; }
         public bool isPremium { get; set; }
+
+        public string name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = ArabicFixer.Fix(value, false, false);
+            }
+        }
+        string _name;
 
         // Ads Info
         public int adLifetimeImpressions { get; set; }
