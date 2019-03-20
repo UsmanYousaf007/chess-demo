@@ -42,6 +42,7 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 #endregion
 
 namespace ArabicSupport
@@ -107,6 +108,11 @@ namespace ArabicSupport
 		public static string Fix(string str, bool showTashkeel, bool useHinduNumbers)
 		{
             if (str == null)
+            {
+                return str;
+            }
+
+            if (!Regex.IsMatch(str, @"\p{IsArabic}"))
             {
                 return str;
             }

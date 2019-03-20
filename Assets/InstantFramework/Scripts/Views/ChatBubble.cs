@@ -6,7 +6,11 @@ using UnityEngine.UI;
 using TurboLabz.TLUtils;
 using DG.Tweening;
 using TurboLabz.InstantGame;
-using ArabicSupport;
+using EasyAlphabetArabic;
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+//using ArabicSupport;
 
 public class ChatBubble : MonoBehaviour 
 {
@@ -25,8 +29,13 @@ public class ChatBubble : MonoBehaviour
     Image bgImage;
     Coroutine fadeRoutine;
     bool isPlayer;
+    LayoutElement layoutElement;
 
     const float CONTAINER_OFFSET = 65f;
+    const float TEXT_WRAP_WIDTH_CHAT_PANEL = 725f;
+    const float TEXT_WRAP_WIDTH_IN_GAME = 500f;
+    const float TEXT_HEIGHT_IN_GAME = 90f;
+    const float TEXT_WIDTH_PADDING = 20f;
 
     public void SetText(string newText, bool isPlayer)
     {
@@ -39,9 +48,38 @@ public class ChatBubble : MonoBehaviour
             return;
         }
 
-        if (text == null) return;
+        if (text == null)
+        {
+            return;
+        }
 
-        text.text = ArabicFixer.Fix(newText, false, false);
+        if (Regex.IsMatch(newText, @"\p{IsArabic}"))
+        {
+            text.text = EasyArabicCore.CorrectString(newText, 0);
+            //text.text = ArabicFixer.Fix(newText);
+        }
+        else
+        {
+            text.text = newText;
+        }
+
+
+        if (layoutElement != null)
+        {
+            //Set the size of the text box
+            TextGenerator textGen = new TextGenerator();
+            TextGenerationSettings generationSettings = text.GetGenerationSettings(text.rectTransform.rect.size);
+            float width = textGen.GetPreferredWidth(text.text, generationSettings);
+            float wrapWidth = inGameBubble ? TEXT_WRAP_WIDTH_IN_GAME : TEXT_WRAP_WIDTH_CHAT_PANEL;
+            layoutElement.preferredWidth = (width > wrapWidth) ? wrapWidth : width;
+            layoutElement.preferredWidth += TEXT_WIDTH_PADDING;
+
+            if (inGameBubble)
+            {
+                float height = textGen.GetPreferredHeight(text.text, generationSettings);
+                layoutElement.preferredHeight = (height > TEXT_HEIGHT_IN_GAME) ? TEXT_HEIGHT_IN_GAME : height;
+            }
+        }
 
         // Kick off the fade cycle
         if (inGameBubble)
@@ -70,6 +108,7 @@ public class ChatBubble : MonoBehaviour
     IEnumerator SetBgSizeCR()
     {
         yield return null;
+
         SetBgSize();
     }
 
@@ -118,6 +157,7 @@ public class ChatBubble : MonoBehaviour
         }
 
         bgImage = GetComponent<Image>();
+        layoutElement = text.GetComponent<LayoutElement>();
     }
 	
     IEnumerator DoFade()

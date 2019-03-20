@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EasyAlphabetArabic</name>
+    </assembly>
+    <members>
+        <member name="T:EasyAlphabetArabic.EasyArabicInternals">
+            <summary>
+            Internal class used to map Arabic only characters to the appropriate glyphs
+            </summary>
+        </member>
+        <member name="M:EasyAlphabetArabic.EasyArabicInternals.Correct(System.Char[],System.Int32)">
+            <summary>
+            (Internal function) Core conversion of Arabic text
+            </summary>
+            <param name="inputArray"></param>
+            <param name="numFormat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyAlphabetArabic.EasyArabicInternals.RemapNumsToLatin(System.String)">
+            <summary>
+            Remap Arabic/Persian numbers back to Latin
+            </summary>
+            <param name="text">text that contains numbers only</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
