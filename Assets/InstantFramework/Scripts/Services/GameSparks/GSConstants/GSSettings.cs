@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
 {
     public static class GSSettings
     {
-        public const float PINGER_FREQUENCY = 15f;
+        public const float PINGER_FREQUENCY = 60f;
 
         // These initial pinger settings ensure that we get a larger data set
         // for sampling the latency before the player gets into a game.

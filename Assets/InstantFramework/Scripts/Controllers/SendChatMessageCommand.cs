@@ -29,24 +29,33 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            chatModel.AddChat(chatMessage.recipientId, chatMessage, false);
-            backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text, chatMessage.guid);
+            Retain();
 
+            chatModel.AddChat(chatMessage.recipientId, chatMessage, false);
+            backendService.SendChatMessage(chatMessage.recipientId, chatMessage.text, chatMessage.guid).Then(OnSendMessageResult);
 
             // Analytics
             if (!chatModel.hasEngagedChat) 
             {
                 chatModel.hasEngagedChat = true;
 
-                if (matchInfoModel.activeMatch.isLongPlay)
+                if (matchInfoModel.activeMatch != null)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_chat_message_send, AnalyticsContext.long_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_chat_message_send, AnalyticsContext.quick_match);
+                    if (matchInfoModel.activeMatch.isLongPlay)
+                    {
+                        analyticsService.Event(AnalyticsEventId.tap_chat_message_send, AnalyticsContext.long_match);
+                    }
+                    else
+                    {
+                        analyticsService.Event(AnalyticsEventId.tap_chat_message_send, AnalyticsContext.quick_match);
+                    }
                 }
             }
+        }
+
+        void OnSendMessageResult(BackendResult result)
+        {
+            Release();
         }
     }
 }
