@@ -46,6 +46,7 @@ namespace TurboLabz.InstantGame
 
         public Button privacyPolicy;
         public Button restorePurchases;
+        public Text appVersion;
 
         public Signal restorePurchasesSignal = new Signal();
 
@@ -102,6 +103,8 @@ namespace TurboLabz.InstantGame
             onlineLostVal.text = vo.onlineLost.ToString();
             onlineDrawnVal.text = vo.onlineDrawn.ToString();
             onlineTotalVal.text = vo.onlineTotal.ToString();
+
+            appVersion.text = "v" + Application.version;
         }
 
         public void Show() 
