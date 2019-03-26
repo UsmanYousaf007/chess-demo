@@ -147,7 +147,7 @@ namespace TurboLabz.Multiplayer
 
         private void DisablePlayerTimer()
         {
-            playerClockLabel.color = Colors.DISABLED_WHITE;
+            playerClockLabel.color = Colors.WHITE_150;
             playerClockImage.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
@@ -171,7 +171,7 @@ namespace TurboLabz.Multiplayer
 
         private void DisableOpponentTimer()
         {
-            opponentClockLabel.color = Colors.DISABLED_WHITE;
+            opponentClockLabel.color = Colors.WHITE_150;
             opponentClockImage.color = Colors.DISABLED_WHITE;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
