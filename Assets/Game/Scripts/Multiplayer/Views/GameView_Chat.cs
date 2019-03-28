@@ -342,6 +342,7 @@ namespace TurboLabz.Multiplayer
         IEnumerator SetScrollPosition()
         {
             yield return null;
+            yield return null;
             scrollRect.verticalNormalizedPosition = 0f;
         }
 

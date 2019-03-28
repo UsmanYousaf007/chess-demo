@@ -36,6 +36,7 @@ public class ChatBubble : MonoBehaviour
     const float TEXT_WRAP_WIDTH_IN_GAME = 500f;
     const float TEXT_HEIGHT_IN_GAME = 90f;
     const float TEXT_WIDTH_PADDING = 20f;
+    const float TEXT_HEIGHT_PADDING = 20f;
 
     public void SetText(string newText, bool isPlayer)
     {
@@ -78,6 +79,7 @@ public class ChatBubble : MonoBehaviour
             {
                 float height = textGen.GetPreferredHeight(text.text, generationSettings);
                 layoutElement.preferredHeight = (height > TEXT_HEIGHT_IN_GAME) ? TEXT_HEIGHT_IN_GAME : height;
+                layoutElement.preferredHeight += TEXT_HEIGHT_PADDING;
             }
         }
 
@@ -122,7 +124,7 @@ public class ChatBubble : MonoBehaviour
 
             bg.sizeDelta = new Vector2(
                 textBoundsSize.x + 57.65f,
-                textBoundsSize.y + 41.63f);
+                textBoundsSize.y + 30f);
 
             // Move the background into the center of the container
             float flipDiv = flipped ? -2f : 2f;
