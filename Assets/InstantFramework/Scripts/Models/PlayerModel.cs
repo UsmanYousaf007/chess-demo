@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
 		public Dictionary<string, Friend> friends { get; set; }
 		public Dictionary<string, Friend> blocked { get; set; }
         public Dictionary<string, Friend> community { get; set; }
+        public Dictionary<string, Friend> search { get; set; }
         public bool busyRefreshingCommunity { get; set; }
 
         // Listen to signals
@@ -87,6 +88,8 @@ namespace TurboLabz.InstantFramework
 			friends = new Dictionary<string, Friend>();
 			blocked = new Dictionary<string, Friend>();
             community = new Dictionary<string, Friend>();
+            search = new Dictionary<string, Friend>();
+
             busyRefreshingCommunity = false;
         }
 

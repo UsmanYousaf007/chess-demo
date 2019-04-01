@@ -56,6 +56,7 @@ namespace TurboLabz.InstantFramework
 
         [HideInInspector] public LongPlayStatus longPlayStatus;
         [HideInInspector] public bool isCommunity;
+        [HideInInspector] public bool isSearched;
         [HideInInspector] public bool isCommunityFriend;
         [HideInInspector] public bool isGameCanceled;
         [HideInInspector] public bool isPlayerTurn;

@@ -244,6 +244,7 @@ namespace TurboLabz.InstantFramework
             public const string COMMUNITY = "community";
             public const string ADD = "add";
             public const string BLOCK = "block";
+            public const string SEARCH = "search";
 		}
 
 		public static class PublicProfile

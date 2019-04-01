@@ -10,47 +10,41 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
-    public class RefreshCommunityCommand : Command
+    public class SearchFriendCommand : Command
     {
+        // Parameters
+        [Inject] public string matchString { get; set; }
+        [Inject] public int skip { get; set; }
+
         // dispatch signals
-        [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
-        [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
         [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
         [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
-        [Inject] public SortCommunitySignal sortCommunitySignal { get; set; }
+        [Inject] public SortSearchedSignal sortSearchedSignal { get; set; }
+
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IPicsModel picsModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
 
         public override void Execute()
         {
-            if (playerModel.busyRefreshingCommunity)
-            {
-                return;
-            }
-
-            playerModel.busyRefreshingCommunity = true;
 
             Retain();
 
-            backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
-            clearCommunitySignal.Dispatch();
+            backendService.FriendsOpSearch(matchString, skip).Then(OnSearchFriend);
         }
 
-        private void OnCommunityRefresh(BackendResult result)
+        private void OnSearchFriend(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
-                addFriendsSignal.Dispatch(playerModel.community, FriendCategory.COMMUNITY);
-                getSocialPicsSignal.Dispatch(playerModel.community);
-                sortCommunitySignal.Dispatch();
+                addFriendsSignal.Dispatch(playerModel.search, FriendCategory.SEARCHED);
+                getSocialPicsSignal.Dispatch(playerModel.search);
+                sortSearchedSignal.Dispatch();
             }
 
-            playerModel.busyRefreshingCommunity = false;
             Release();
         }
     }

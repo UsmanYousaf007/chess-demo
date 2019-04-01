@@ -12,6 +12,7 @@ using strange.extensions.signal.impl;
 using System;
 using TurboLabz.InstantGame;
 using System.Text;
+using TMPro;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
+        [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
 
         public Transform listContainer;
 		public GameObject friendBarPrefab;
@@ -42,11 +44,14 @@ namespace TurboLabz.InstantFramework
         public GameObject sectionPlayAFriendEmptyNotLoggedIn;
         public Transform sectionPlaySomeoneNew;
         public GameObject sectionPlaySomeoneNewEmpty;
+        public Transform sectionSearched;
+
 
         public Text sectionNewMatchesTitle;
         public Text sectionActiveMatchesTitle;
         public Text sectionPlayAFriendTitle;
         public Text sectionPlaySomeoneNewTitle;
+        public Text sectionSearchResultsTitle;
 
         public Button refreshCommunityButton;
 		public Text refreshText;
@@ -57,6 +62,9 @@ namespace TurboLabz.InstantFramework
         public Text facebookConnectText;
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
+        public Button editorSubmit;
+        public TMP_InputField inputField;
+        public Button cancelSearchButton;
 
         [Header("Confirm new game dialog")]
         public GameObject confirmNewGameDlg;
@@ -98,6 +106,7 @@ namespace TurboLabz.InstantFramework
         private string eloPrefix;
         private string startGameFriendId;
         private bool startGameRanked;
+        private List<GameObject> cacheEnabledSections; 
 
         public void Init()
         {
@@ -113,6 +122,7 @@ namespace TurboLabz.InstantFramework
             sectionActiveMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES);
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
+            sectionSearchResultsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS);
 
             confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
             confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
@@ -123,7 +133,6 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendNoBtnText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO);
             removeCommunityFriendTitleText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE);
 
-
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
 
             confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
@@ -132,6 +141,66 @@ namespace TurboLabz.InstantFramework
 
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
+
+            inputField.onEndEdit.AddListener(OnSearchSubmit);
+            cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
+
+            #if UNITY_EDITOR
+            editorSubmit.gameObject.SetActive(true);
+            editorSubmit.onClick.AddListener(() => { OnSearchSubmit(inputField.text); });
+            #else
+            editorSubmit.gameObject.SetActive(false);
+            #endif
+
+            cacheEnabledSections = new List<GameObject>();
+
+
+        }
+
+        void CacheEnabledSections()
+        {
+            cacheEnabledSections.Clear();
+
+            if (sectionNewMatches.gameObject.activeSelf) cacheEnabledSections.Add(sectionNewMatches.gameObject);
+            if (sectionActiveMatchesEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionActiveMatchesEmpty);
+            if (sectionPlayAFriend.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriend.gameObject);
+            if (sectionPlayAFriendEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmpty);
+            if (sectionPlayAFriendEmptyNotLoggedIn.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmptyNotLoggedIn);
+            if (sectionPlaySomeoneNew.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlaySomeoneNew.gameObject);
+            if (sectionPlaySomeoneNewEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlaySomeoneNewEmpty);
+        }
+
+        void OnSearchSubmit(string text)
+        {
+            if (text.Length == 0)
+            {
+                return;
+            }
+
+            ClearSearchResults();
+            searchFriendSignal.Dispatch(inputField.text, 0);
+            inputField.text = "";
+
+            CacheEnabledSections();
+            sectionNewMatches.gameObject.SetActive(false);
+            sectionActiveMatches.gameObject.SetActive(false);
+            sectionActiveMatchesEmpty.gameObject.SetActive(false);
+            sectionPlayAFriend.gameObject.SetActive(false);
+            sectionPlayAFriendEmpty.gameObject.SetActive(false);
+            sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
+            sectionPlaySomeoneNew.gameObject.SetActive(false);
+            sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
+        }
+
+        public void OnCancelSearchClicked()
+        {
+            ClearSearchResults();
+            sectionSearched.gameObject.SetActive(false);
+
+            foreach(GameObject obj in cacheEnabledSections)
+            {
+                obj.SetActive(true);
+            }
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -230,11 +299,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void AddFriends(Dictionary<string, Friend> friends, bool isCommunity)
+        public void AddFriends(Dictionary<string, Friend> friends, bool isCommunity, bool isSearched)
         {
             foreach (KeyValuePair<string, Friend> entry in friends)
             {
-                AddFriend(entry.Value, isCommunity);
+                AddFriend(entry.Value, isCommunity, isSearched);
             }
 
             //UpdateAllStatus();
@@ -243,7 +312,7 @@ namespace TurboLabz.InstantFramework
             //AddTestBars();
         }
 
-        void AddFriend(Friend friend, bool isCommunity)
+        void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
             // create bar
             GameObject friendBarObj = Instantiate(friendBarPrefab);
@@ -265,6 +334,7 @@ namespace TurboLabz.InstantFramework
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
             friendBar.isCommunity = isCommunity;
+            friendBar.isSearched = isSearched;
             friendBar.isCommunityFriend = friend.friendType == Friend.FRIEND_TYPE_COMMUNITY;
             friendBar.onlineStatus.sprite = friend.publicProfile.isOnline ? friendBar.online : friendBar.offline;
             friendBar.isOnline = friend.publicProfile.isOnline;
@@ -431,7 +501,7 @@ namespace TurboLabz.InstantFramework
 
         public void ClearCommunity()
         {
-            ClearType(true);
+            ClearType(FriendCategory.COMMUNITY);
             waitingForPlayersText.gameObject.SetActive(true);
 
             //foreach(GameObject obj in removeBars)
@@ -440,9 +510,14 @@ namespace TurboLabz.InstantFramework
             //}
         }
 
+        public void ClearSearchResults()
+        {
+            ClearType(FriendCategory.SEARCHED);
+        }
+
         public void ClearFriends()
         {
-            ClearType(false);
+            ClearType(FriendCategory.FRIEND);
             DefaultInviteSetActive(true);
         }
 
@@ -476,16 +551,24 @@ namespace TurboLabz.InstantFramework
             facebookLoginButton.interactable = toggle;
         }
 
-        void ClearType(bool isCommunity)
+        void ClearType(FriendCategory friendCategory)
         {
             List<string> destroyMe = new List<string>();
 
             foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
-                if (entry.Value.isCommunity == isCommunity)
+                if (friendCategory == FriendCategory.COMMUNITY && entry.Value.isCommunity)
                 {
                     destroyMe.Add(entry.Key);
-                }    
+                }
+                if (friendCategory == FriendCategory.SEARCHED && entry.Value.isSearched)
+                {
+                    destroyMe.Add(entry.Key);
+                }
+                if (friendCategory == FriendCategory.FRIEND)
+                {
+                    destroyMe.Add(entry.Key);
+                }
             }
 
             foreach (string key in destroyMe)

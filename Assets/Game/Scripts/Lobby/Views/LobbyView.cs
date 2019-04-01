@@ -148,7 +148,7 @@ namespace TurboLabz.InstantGame
             }
 
             int onlineCount = vo.onlineCount;
-            onlineCountLabel.text = onlineCount.ToString() + "  Players Online";
+            onlineCountLabel.text = onlineCount.ToString() + "  Acitve Players";
 
             //setStrength.SetActive(!vo.inProgress);
         }

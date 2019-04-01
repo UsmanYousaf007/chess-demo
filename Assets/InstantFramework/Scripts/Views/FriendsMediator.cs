@@ -83,9 +83,21 @@ namespace TurboLabz.InstantFramework
         }
 
 		[ListensTo(typeof(AddFriendsSignal))]
-        public void OnUpdateFriends(Dictionary<string, Friend> friends, bool isCommunity)
+        public void OnUpdateFriends(Dictionary<string, Friend> friends, FriendCategory friendCategory)
 		{
-            view.AddFriends(friends, isCommunity);
+            bool isCommunity = false;
+            bool isSearched = false;
+            if (friendCategory == FriendCategory.COMMUNITY)
+            {
+                isCommunity = true;
+            }
+            else if (friendCategory == FriendCategory.SEARCHED)
+            {
+                isCommunity = true;
+                isSearched = true;
+            }
+
+            view.AddFriends(friends, isCommunity, isSearched);
 		}
 
         [ListensTo(typeof(NewFriendAddedSignal))]
@@ -134,6 +146,12 @@ namespace TurboLabz.InstantFramework
         public void OnSortCommunity()
         {
             view.SortCommunity();
+        }
+
+        [ListensTo(typeof(SortSearchedSignal))]
+        public void OnSortSearched()
+        {
+            view.SortSearched();
         }
 
         [ListensTo(typeof(ClearCommunitySignal))]

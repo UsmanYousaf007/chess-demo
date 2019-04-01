@@ -181,6 +181,10 @@ namespace TurboLabz.InstantFramework
                 {
                     continue;
                 }
+                if (bar.isSearched)
+                {
+                    continue;
+                }
 
                 if (entry.Value.isOnline)
                 {
@@ -221,6 +225,62 @@ namespace TurboLabz.InstantFramework
             else
             {
                 sectionPlaySomeoneNewEmpty.gameObject.SetActive(true);
+            }
+        }
+        public void SortSearched()
+        {
+            // Create holders
+            List<FriendBar> searchedOnline = new List<FriendBar>();
+            List<FriendBar> searchedOffline = new List<FriendBar>();
+
+            // Fill holders
+            foreach (KeyValuePair<string, FriendBar> entry in bars)
+            {
+                FriendBar bar = entry.Value;
+
+                if (!bar.isSearched)
+                {
+                    continue;
+                }
+
+                if (entry.Value.isOnline)
+                {
+                    searchedOnline.Add(bar);
+                }
+                else
+                {
+                    searchedOffline.Add(bar);
+                }
+            }
+
+            // Sort holders
+            searchedOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            searchedOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+
+            // Set sibling indexes
+            int index = 0;
+
+            if (searchedOnline.Count > 0 || searchedOffline.Count > 0)
+            {
+                sectionSearched.gameObject.SetActive(true);
+                index = sectionSearched.GetSiblingIndex() + 1;
+
+                foreach (FriendBar bar in searchedOnline)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    index++;
+                }
+
+                foreach (FriendBar bar in searchedOffline)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    index++;
+
+                }
+            }
+            else
+            {
+                sectionSearched.gameObject.SetActive(false);
             }
         }
 

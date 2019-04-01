@@ -21,9 +21,10 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpRefresh() { return new GSFriendsOpRequest().Send("refresh", null, OnFriendOpSuccess); } 
         public IPromise<BackendResult> FriendsOpCommunity() { return new GSFriendsOpRequest().Send("community", null, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpRegCommunity() { return new GSFriendsOpRequest().Send("regcommunity", null, OnFriendOpSuccess); }
-        public IPromise<BackendResult> FriendsOpAdd(string friendId) { return new GSFriendsOpRequest().Send("add", friendId, OnFriendOpSuccess, facebookService.GetAccessToken()); } 
+        public IPromise<BackendResult> FriendsOpAdd(string friendId) { return new GSFriendsOpRequest().Send("add", friendId, OnFriendOpSuccess, 0, facebookService.GetAccessToken()); } 
         public IPromise<BackendResult> FriendsOpInitialize() { return new GSFriendsOpRequest().Send("initialize", null, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpRemove(string friendId) { return new GSFriendsOpRequest().Send("remove", friendId, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpSearch(string matchString, int skip) { return new GSFriendsOpRequest().Send("search", matchString, OnFriendOpSuccess, skip); }
 
         private void OnFriendOpSuccess(object r)
 		{
@@ -57,6 +58,14 @@ namespace TurboLabz.InstantFramework
             {
                 PopulateFriends(playerModel.community, communityList);
                 //GSParser.LogFriends("community", playerModel.community);
+            }
+
+            // Populate community suggested friends data
+            GSData searchList = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.SEARCH);
+            if (searchList != null)
+            {
+                PopulateFriends(playerModel.search, searchList);
+                GSParser.LogFriends("search", playerModel.search);
             }
 
             // Friend added
@@ -115,8 +124,9 @@ namespace TurboLabz.InstantFramework
 		const string ATT_FRIEND_ID = "friendId";
 		const string ATT_OP = "op";
         const string ATT_FBTOKEN = "fbToken";
+        const string ATT_SKIP = "skip";
 
-        public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, string fbToken = null)
+        public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, int skip = 0, string fbToken = null)
 		{
 			this.errorCode = BackendResult.FRIENDS_OP_FAILED;
 			this.onSuccess = onSuccess;
@@ -125,6 +135,7 @@ namespace TurboLabz.InstantFramework
 				.SetEventAttribute(ATT_OP, op)
 				.SetEventAttribute(ATT_FRIEND_ID, friendId)
                 .SetEventAttribute(ATT_FBTOKEN, fbToken)
+                .SetEventAttribute(ATT_SKIP, skip)
 				.Send(OnRequestSuccess, OnRequestFailure);
 
 			return promise;
