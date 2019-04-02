@@ -277,10 +277,13 @@ namespace TurboLabz.InstantFramework
                     index++;
 
                 }
+
+                searchSkip += searchedOnline.Count + searchedOffline.Count;
             }
             else
             {
-                sectionSearched.gameObject.SetActive(false);
+                sectionSearched.gameObject.SetActive(true);
+                sectionSearchResultsEmpty.gameObject.SetActive(true);
             }
         }
 

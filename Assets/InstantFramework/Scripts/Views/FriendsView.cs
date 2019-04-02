@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         public Transform sectionPlaySomeoneNew;
         public GameObject sectionPlaySomeoneNewEmpty;
         public Transform sectionSearched;
+        public GameObject sectionSearchResultsEmpty;
 
 
         public Text sectionNewMatchesTitle;
@@ -65,6 +66,8 @@ namespace TurboLabz.InstantFramework
         public Button editorSubmit;
         public TMP_InputField inputField;
         public Button cancelSearchButton;
+        public Button nextSearchButton;
+
 
         [Header("Confirm new game dialog")]
         public GameObject confirmNewGameDlg;
@@ -106,7 +109,8 @@ namespace TurboLabz.InstantFramework
         private string eloPrefix;
         private string startGameFriendId;
         private bool startGameRanked;
-        private List<GameObject> cacheEnabledSections; 
+        private List<GameObject> cacheEnabledSections;
+        private int searchSkip; 
 
         public void Init()
         {
@@ -148,13 +152,13 @@ namespace TurboLabz.InstantFramework
             #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
             editorSubmit.onClick.AddListener(() => { OnSearchSubmit(inputField.text); });
-            #else
+#else
             editorSubmit.gameObject.SetActive(false);
-            #endif
+#endif
 
+            nextSearchButton.onClick.AddListener(OnNextSearchBtnClicked);
             cacheEnabledSections = new List<GameObject>();
-
-
+            searchSkip = 0;
         }
 
         void CacheEnabledSections()
@@ -172,35 +176,47 @@ namespace TurboLabz.InstantFramework
 
         void OnSearchSubmit(string text)
         {
-            if (text.Length == 0)
+            if (inputField.text.Length == 0)
             {
                 return;
             }
 
             ClearSearchResults();
-            searchFriendSignal.Dispatch(inputField.text, 0);
-            inputField.text = "";
+            searchFriendSignal.Dispatch(inputField.text, searchSkip);
 
-            CacheEnabledSections();
-            sectionNewMatches.gameObject.SetActive(false);
-            sectionActiveMatches.gameObject.SetActive(false);
-            sectionActiveMatchesEmpty.gameObject.SetActive(false);
-            sectionPlayAFriend.gameObject.SetActive(false);
-            sectionPlayAFriendEmpty.gameObject.SetActive(false);
-            sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
-            sectionPlaySomeoneNew.gameObject.SetActive(false);
-            sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
+            if (cacheEnabledSections.Count == 0)
+            {
+                CacheEnabledSections();
+                sectionNewMatches.gameObject.SetActive(false);
+                sectionActiveMatches.gameObject.SetActive(false);
+                sectionActiveMatchesEmpty.gameObject.SetActive(false);
+                sectionPlayAFriend.gameObject.SetActive(false);
+                sectionPlayAFriendEmpty.gameObject.SetActive(false);
+                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
+                sectionPlaySomeoneNew.gameObject.SetActive(false);
+                sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
+                sectionSearchResultsEmpty.gameObject.SetActive(false);
+            }
+        }
+
+        void OnNextSearchBtnClicked()
+        {
+            OnSearchSubmit(inputField.text);
         }
 
         public void OnCancelSearchClicked()
         {
             ClearSearchResults();
             sectionSearched.gameObject.SetActive(false);
+            sectionSearchResultsEmpty.gameObject.SetActive(false);
+            searchSkip = 0;
+            inputField.text = "";
 
-            foreach(GameObject obj in cacheEnabledSections)
+            foreach (GameObject obj in cacheEnabledSections)
             {
                 obj.SetActive(true);
             }
+            cacheEnabledSections.Clear();
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -314,6 +330,11 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
+            if (bars.ContainsKey(friend.playerId))
+            {
+                return;
+            }
+
             // create bar
             GameObject friendBarObj = Instantiate(friendBarPrefab);
             friendBarObj.GetComponent<SkinLink>().InitPrefabSkin();
