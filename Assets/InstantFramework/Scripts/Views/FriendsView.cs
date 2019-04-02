@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
+        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
 
         public Transform listContainer;
 		public GameObject friendBarPrefab;
@@ -181,6 +182,9 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            ClearType(FriendCategory.FRIEND);
+            ClearType(FriendCategory.COMMUNITY);
+
             ClearSearchResults();
             searchFriendSignal.Dispatch(inputField.text, searchSkip);
 
@@ -217,6 +221,11 @@ namespace TurboLabz.InstantFramework
                 obj.SetActive(true);
             }
             cacheEnabledSections.Clear();
+
+            refreshFriendsSignal.Dispatch();
+            refreshCommunitySignal.Dispatch();
+            //SortFriends();
+            //SortCommunity();
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
