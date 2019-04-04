@@ -177,6 +177,8 @@ namespace TurboLabz.InstantFramework
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
             publicProfile.isOnline = publicProfileData.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
 
+            publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
+
             long creationDateUTC = publicProfileData.GetLong(GSBackendKeys.PublicProfile.CREATION_DATE).Value;
             DateTime creationDateTime = TimeUtil.ToDateTime(creationDateUTC);
             publicProfile.creationDate = creationDateTime.ToLocalTime().ToLongDateString();

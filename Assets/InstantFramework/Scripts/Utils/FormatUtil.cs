@@ -33,5 +33,25 @@ namespace TurboLabz.TLUtils
 
             return abbreviation;
         }
+
+        public static string SplitFirstLastNameInitial(string fullName)
+        {
+            string[] nameSplit = fullName.Split(' ');
+            string first = "";
+            string last = "";
+            string firstNameLastInitial = fullName;
+            if (nameSplit.Length > 1)
+            {
+                for (int i = 0; i < nameSplit.Length - 1; i++)
+                {
+                    first = first + nameSplit[i];
+                }
+                last = nameSplit[nameSplit.Length - 1];
+                string lastInitial = last[0].ToString();
+                firstNameLastInitial = first + " " + lastInitial + ".";
+            }
+
+            return firstNameLastInitial;
+        }
     }
 }

@@ -9,6 +9,7 @@ using strange.extensions.promise.api;
 using System;
 using GameSparks.Api.Requests;
 using strange.extensions.promise.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -47,6 +48,7 @@ namespace TurboLabz.InstantFramework
         {
             LogEventResponse response = (LogEventResponse)r;
             playerModel.name = response.ScriptData.GetString(GSBackendKeys.DISPLAY_NAME);
+            playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
         }
     }
 

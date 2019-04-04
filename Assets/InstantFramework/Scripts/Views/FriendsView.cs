@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
 
         public Transform listContainer;
 		public GameObject friendBarPrefab;
@@ -68,6 +69,9 @@ namespace TurboLabz.InstantFramework
         public TMP_InputField inputField;
         public Button cancelSearchButton;
         public Button nextSearchButton;
+        public Text nextSearchButtonText;
+        public Image nextSearchButtonTextUnderline;
+        public Text searchBoxText;
 
 
         [Header("Confirm new game dialog")]
@@ -94,7 +98,6 @@ namespace TurboLabz.InstantFramework
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
-        public Signal refreshCommunitySignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
         public Signal<string, bool> playButtonClickedSignal = new Signal<string, bool>();
         public Signal<string> acceptButtonClickedSignal = new Signal<string>();
@@ -149,8 +152,10 @@ namespace TurboLabz.InstantFramework
 
             inputField.onEndEdit.AddListener(OnSearchSubmit);
             cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
+            nextSearchButton.interactable = false;
+            searchBoxText.text = "Search by Name..";
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
             editorSubmit.onClick.AddListener(() => { OnSearchSubmit(inputField.text); });
 #else
@@ -160,6 +165,7 @@ namespace TurboLabz.InstantFramework
             nextSearchButton.onClick.AddListener(OnNextSearchBtnClicked);
             cacheEnabledSections = new List<GameObject>();
             searchSkip = 0;
+            cancelSearchButton.interactable = false;
         }
 
         void CacheEnabledSections()
@@ -181,6 +187,10 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
+
+            uiBlocker.gameObject.SetActive(true);
+            searchBoxText.text = inputField.text;
+            cancelSearchButton.interactable = true;
 
             ClearType(FriendCategory.FRIEND);
             ClearType(FriendCategory.COMMUNITY);
@@ -208,24 +218,32 @@ namespace TurboLabz.InstantFramework
             OnSearchSubmit(inputField.text);
         }
 
-        public void OnCancelSearchClicked()
+        public void ResetSearch()
         {
             ClearSearchResults();
             sectionSearched.gameObject.SetActive(false);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
+            cancelSearchButton.interactable = false;
             searchSkip = 0;
             inputField.text = "";
-
+            searchBoxText.text = "Search by Name..";
             foreach (GameObject obj in cacheEnabledSections)
             {
                 obj.SetActive(true);
             }
             cacheEnabledSections.Clear();
+        }
 
-            refreshFriendsSignal.Dispatch();
+        public void OnCancelSearchClicked()
+        {
+            ResetSearch();
+
+            if (facebookService.isLoggedIn())
+            {
+                refreshFriendsSignal.Dispatch();
+            }
+
             refreshCommunitySignal.Dispatch();
-            //SortFriends();
-            //SortCommunity();
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -278,6 +296,7 @@ namespace TurboLabz.InstantFramework
             // Friend needs to be added
             if (friendId != null && !bars.ContainsKey(friendId))
             {
+                startGameFriendId = friendId;
                 newFriendSignal.Dispatch(friendId);
                 return;
             }
@@ -377,18 +396,6 @@ namespace TurboLabz.InstantFramework
             if (isCommunity)
             {
                 friendBar.UpdateCommmunityStrip();
-
-
-                ///////// REMOVE ME
-                /// 
-                /// 
-                //for (int i = 0; i < 20; i++)
-                //{
-                //    GameObject remove = Instantiate(friendBarPrefab);
-                //    remove.transform.SetParent(listContainer, false);
-                //    removeBars.Add(remove);
-                //}
-                ///////////////////////
             }
         }
 
@@ -520,7 +527,8 @@ namespace TurboLabz.InstantFramework
         }
 
         public void Hide()
-        { 
+        {
+            ResetSearch();
             gameObject.SetActive(false); 
         }
 
@@ -733,12 +741,14 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmRankedGameBtnClicked()
         {
+            ResetSearch();
             confirmNewGameDlg.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, true);
         }
 
         void ConfirmFriendlyGameBtnClicked()
         {
+            ResetSearch();
             confirmNewGameDlg.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, false);
         }

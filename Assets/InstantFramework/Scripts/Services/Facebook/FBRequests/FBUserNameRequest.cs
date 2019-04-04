@@ -29,8 +29,9 @@ namespace TurboLabz.InstantFramework
             {
                 string first = result.ResultDictionary["first_name"].ToString();
                 string last = result.ResultDictionary["last_name"].ToString();
-                string lastInitial = last.Length != 0 ? last[0].ToString() : last;
-                string name = lastInitial.Length != 0  ? first + " " + last[0] + "." : first;
+                //string lastInitial = last.Length != 0 ? last[0].ToString() : last;
+                //string name = lastInitial.Length != 0  ? first + " " + last[0] + "." : first;
+                string name = first + " " + last;
 
                 promise.Dispatch(FacebookResult.SUCCESS, name);
             }

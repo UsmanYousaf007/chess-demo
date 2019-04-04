@@ -17,6 +17,7 @@ using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using strange.extensions.signal.impl;
 using System;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -278,13 +279,21 @@ namespace TurboLabz.InstantFramework
 
                 }
 
+                nextSearchButton.interactable = true;
+                nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+                nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
                 searchSkip += searchedOnline.Count + searchedOffline.Count;
             }
             else
             {
                 sectionSearched.gameObject.SetActive(true);
                 sectionSearchResultsEmpty.gameObject.SetActive(true);
+                nextSearchButton.interactable = false;
+                nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
             }
+
+            uiBlocker.gameObject.SetActive(false);
         }
 
         /*

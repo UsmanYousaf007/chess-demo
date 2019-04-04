@@ -106,6 +106,10 @@ namespace TurboLabz.InstantFramework
             playerModel.removeAdsTimeStamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP).Value;
             playerModel.removeAdsTimePeriod = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMEPERIOD).Value;
 
+            // Split name to first and last initial
+            // TODO: split in View
+            playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
+
             IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
 			GSData inventoryData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.INVENTORY);
 			GSParser.PopulateInventory(inventory, inventoryData);
