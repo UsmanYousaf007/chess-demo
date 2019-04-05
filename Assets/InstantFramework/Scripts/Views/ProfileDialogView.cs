@@ -123,9 +123,9 @@ namespace TurboLabz.InstantFramework
             confirmDialog.SetActive(true);
         }
 
-        private void OnBlock(string playerId)
+        private void OnBlock(string blockPlayerId)
         {
-            blockUserSignal.Dispatch(playerId);
+            blockUserSignal.Dispatch(blockPlayerId);
         }
     }
 }

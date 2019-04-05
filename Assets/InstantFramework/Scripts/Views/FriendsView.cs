@@ -150,11 +150,6 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
 
-            inputField.onEndEdit.AddListener(OnSearchSubmit);
-            cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
-            nextSearchButton.interactable = false;
-            searchBoxText.text = "Search by Name..";
-
 #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
             editorSubmit.onClick.AddListener(() => { OnSearchSubmit(inputField.text); });
@@ -166,6 +161,10 @@ namespace TurboLabz.InstantFramework
             cacheEnabledSections = new List<GameObject>();
             searchSkip = 0;
             cancelSearchButton.interactable = false;
+            inputField.onEndEdit.AddListener(OnSearchSubmit);
+            cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
+            nextSearchButton.interactable = false;
+            ResetSearch();
         }
 
         void CacheEnabledSections()
@@ -190,7 +189,9 @@ namespace TurboLabz.InstantFramework
 
             uiBlocker.gameObject.SetActive(true);
             searchBoxText.text = inputField.text;
+            searchBoxText.text  = searchBoxText.text.Replace("\n", " ");
             cancelSearchButton.interactable = true;
+            sectionSearchResultsEmpty.gameObject.SetActive(false);
 
             ClearType(FriendCategory.FRIEND);
             ClearType(FriendCategory.COMMUNITY);
@@ -727,10 +728,11 @@ namespace TurboLabz.InstantFramework
         void ShowConfirmGameDlg(FriendBar bar)
         {
             PublicProfile opponentProfile = bar.friendInfo.publicProfile;
+            opponentProfilePic.sprite = null;
 
-            if (opponentProfile.profilePicture != null)
+            if (bar.avatarImage != null)
             {
-                opponentProfilePic.sprite = opponentProfile.profilePicture;
+                opponentProfilePic.sprite = bar.avatarImage.sprite;
             }
             opponentProfileName.text = opponentProfile.name;
             opponentEloLabel.text = eloPrefix + " " + opponentProfile.eloScore;

@@ -14,7 +14,6 @@ namespace TurboLabz.InstantGame
     {
         // dispatch signals
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
-        [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
         [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
         [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
         [Inject] public SortCommunitySignal sortCommunitySignal { get; set; }

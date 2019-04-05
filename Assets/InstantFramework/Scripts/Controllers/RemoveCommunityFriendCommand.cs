@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
             picsModel.DeleteFriendPic(friendId);
             backendService.FriendsOpRemove(friendId).Then(OnRemove);
             clearFriendSignal.Dispatch(friendId);
+            playerModel.friends.Remove(friendId);
             sortFriendsSignal.Dispatch();
         }
 
