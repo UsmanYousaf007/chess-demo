@@ -529,7 +529,11 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
-            ResetSearch();
+            // TODO: Better handling needed
+            if (sectionSearched.gameObject.activeSelf)
+            {
+                OnCancelSearchClicked();
+            }
             gameObject.SetActive(false); 
         }
 
