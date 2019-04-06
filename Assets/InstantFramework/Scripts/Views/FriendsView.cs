@@ -114,7 +114,8 @@ namespace TurboLabz.InstantFramework
         private string startGameFriendId;
         private bool startGameRanked;
         private List<GameObject> cacheEnabledSections;
-        private int searchSkip; 
+        private int searchSkip;
+        private bool isSearchNext;
 
         public void Init()
         {
@@ -187,6 +188,11 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            if (!isSearchNext)
+            {
+                searchSkip = 0;
+            }
+
             uiBlocker.gameObject.SetActive(true);
             searchBoxText.text = inputField.text;
             searchBoxText.text  = searchBoxText.text.Replace("\n", " ");
@@ -216,7 +222,9 @@ namespace TurboLabz.InstantFramework
 
         void OnNextSearchBtnClicked()
         {
+            isSearchNext = true;
             OnSearchSubmit(inputField.text);
+            isSearchNext = false;
         }
 
         public void ResetSearch()
@@ -226,6 +234,7 @@ namespace TurboLabz.InstantFramework
             sectionSearchResultsEmpty.gameObject.SetActive(false);
             cancelSearchButton.interactable = false;
             searchSkip = 0;
+            isSearchNext = false;
             inputField.text = "";
             searchBoxText.text = "Search by Name..";
             foreach (GameObject obj in cacheEnabledSections)

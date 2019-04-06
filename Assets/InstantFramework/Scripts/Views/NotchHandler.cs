@@ -86,9 +86,9 @@ public class NotchHandler : MonoBehaviour {
         SetY(profileCenterContent, -66f);
 
         // FRIENDS
-        SetY(friendsScrollView, -48f);
+        SetY(friendsScrollView, -48f - 100f);
         SetTop(friendsViewPort, 17f);
-        SetBottom(friendsViewPort, 111f);
+        SetBottom(friendsViewPort, 111f + 100f);
 
         // STORE
         SetY(storeTitle, 777f);
