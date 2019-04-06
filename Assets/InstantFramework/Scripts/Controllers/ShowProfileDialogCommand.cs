@@ -46,6 +46,11 @@ namespace TurboLabz.InstantFramework
                 friend = playerModel.community[opponentId];
                 vo.isCommunity = true;
             }
+            else if (playerModel.search.ContainsKey(opponentId))
+            {
+                friend = playerModel.search[opponentId];
+                vo.isCommunity = true;
+            }
             else
             {
                 Assertions.Assert(false, "Invalid opponent id");

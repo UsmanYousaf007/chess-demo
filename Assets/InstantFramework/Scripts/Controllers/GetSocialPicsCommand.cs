@@ -47,10 +47,13 @@ namespace TurboLabz.InstantGame
             {
                 updateFriendPicSignal.Dispatch(friendId, sprite);
 
-
                 if (playerModel.community.ContainsKey(friendId))
                 {
                     playerModel.community[friendId].publicProfile.profilePicture = sprite;
+                }
+                else if (playerModel.search.ContainsKey(friendId))
+                {
+                    playerModel.search[friendId].publicProfile.profilePicture = sprite;
                 }
                 else if (playerModel.friends.ContainsKey(friendId))
                 {
