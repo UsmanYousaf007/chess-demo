@@ -16,6 +16,9 @@ namespace TurboLabz.InstantFramework
         public string creationDate;
         public string lastSeen;
 
+        string _name;
+        public DateTime lastSeenDateTime;
+
         public string name
         {
             get
@@ -27,7 +30,15 @@ namespace TurboLabz.InstantFramework
                 _name = ArabicFixer.Fix(value, false, false);
             }
         }
-        string _name;
+
+        public bool isActive
+        {
+            get
+            {
+                DateTime activeTimeStamp = DateTime.UtcNow.AddDays(-1);
+                return lastSeenDateTime.CompareTo(activeTimeStamp) >= 0;
+            }
+        }
 
     }
 }

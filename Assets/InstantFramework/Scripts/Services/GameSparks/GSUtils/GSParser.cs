@@ -184,8 +184,8 @@ namespace TurboLabz.InstantFramework
             publicProfile.creationDate = creationDateTime.ToLocalTime().ToLongDateString();
 
             long lastSeenDateUTC = publicProfileData.GetLong(GSBackendKeys.PublicProfile.LAST_SEEN).Value;
-            DateTime lastSeenDateTime = TimeUtil.ToDateTime(lastSeenDateUTC);
-            publicProfile.lastSeen = lastSeenDateTime.ToLocalTime().ToLongDateString();
+            publicProfile.lastSeenDateTime = TimeUtil.ToDateTime(lastSeenDateUTC);
+            publicProfile.lastSeen = publicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
             //publicProfile.lastSeen = "under construction";
 
             IList<GSData> activeInventoryData = publicProfileData.GetGSDataList(GSBackendKeys.PublicProfile.PLAYER_ACTIVE_INVENTORY);

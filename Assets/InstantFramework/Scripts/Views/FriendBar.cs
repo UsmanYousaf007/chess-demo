@@ -23,8 +23,10 @@ namespace TurboLabz.InstantFramework
         public Image onlineStatus;
         public Sprite online;
         public Sprite offline;
+        public Sprite activeStatus;
         public GameObject unreadChat;
         public bool isOnline;
+        public bool isActive;
         public GameObject playArrow;
         public Button notNowButton;
         public Text notNowButtonLabel;

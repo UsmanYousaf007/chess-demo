@@ -395,8 +395,16 @@ namespace TurboLabz.InstantFramework
             friendBar.isCommunity = isCommunity;
             friendBar.isSearched = isSearched;
             friendBar.isCommunityFriend = friend.friendType == Friend.FRIEND_TYPE_COMMUNITY;
-            friendBar.onlineStatus.sprite = friend.publicProfile.isOnline ? friendBar.online : friendBar.offline;
             friendBar.isOnline = friend.publicProfile.isOnline;
+            friendBar.isActive = friend.publicProfile.isActive;
+            if (!friend.publicProfile.isOnline && friend.publicProfile.isActive)
+            {
+                friendBar.onlineStatus.sprite = friendBar.activeStatus;
+            }
+            else
+            {
+                friendBar.onlineStatus.sprite = friend.publicProfile.isOnline ? friendBar.online : friendBar.offline;
+            }
 
             friendBarObj.transform.SetParent(listContainer, false);
             bars.Add(friend.playerId, friendBar);
@@ -506,7 +514,7 @@ namespace TurboLabz.InstantFramework
             }
 
             FriendBar friendBar = bars[friendId].GetComponent<FriendBar>();
-            friendBar.onlineStatus.sprite = isOnline ? friendBar.online : friendBar.offline;
+            friendBar.onlineStatus.sprite = isOnline ? friendBar.online : friendBar.activeStatus;
         }
 
         public void UpdateFriendBarBusy(string playerId, bool busy)

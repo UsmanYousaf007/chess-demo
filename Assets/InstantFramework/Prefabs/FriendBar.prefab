@@ -1452,8 +1452,10 @@ MonoBehaviour:
   onlineStatus: {fileID: 114961063771315992}
   online: {fileID: 21300000, guid: 643a858481c4a4ef88c114f36548c456, type: 3}
   offline: {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
+  activeStatus: {fileID: 21300000, guid: 3ec033e2ca4b64af7abb21319ab3b3e2, type: 3}
   unreadChat: {fileID: 1141150597114994}
   isOnline: 0
+  isActive: 0
   playArrow: {fileID: 1443337110653614}
   notNowButton: {fileID: 114480042459732958}
   notNowButtonLabel: {fileID: 114723591435800210}
@@ -1472,6 +1474,7 @@ MonoBehaviour:
   friendlyIcon: {fileID: 1553064267652154}
   longPlayStatus: 0
   isCommunity: 0
+  isSearched: 0
   isCommunityFriend: 0
   isGameCanceled: 0
   isPlayerTurn: 0
