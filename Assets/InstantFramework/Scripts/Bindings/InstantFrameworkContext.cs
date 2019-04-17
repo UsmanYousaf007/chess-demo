@@ -122,6 +122,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ModelsLoadFromDiskSignal>().ToSingleton();
             injectionBinder.Bind<ModelsResetSignal>().ToSingleton();
             injectionBinder.Bind<NewFriendAddedSignal>().ToSingleton();
+            injectionBinder.Bind<NotificationRecievedSignal>().ToSingleton();
+
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -136,6 +138,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ProfileDialogView>().To<ProfileDialogMediator>();
             mediationBinder.Bind<RateAppDialogView>().To<RateAppDialogMediator>();
             mediationBinder.Bind<TopInventoryBarView>().To<TopInventoryBarMediator>();
+            mediationBinder.Bind<NotificationView>().To<NotificationMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

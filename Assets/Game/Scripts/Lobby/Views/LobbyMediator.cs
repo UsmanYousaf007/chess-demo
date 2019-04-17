@@ -35,6 +35,9 @@ namespace TurboLabz.InstantGame
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
+        [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
+
+
         // View injection
         [Inject] public LobbyView view { get; set; }
 
@@ -120,9 +123,16 @@ namespace TurboLabz.InstantGame
             adjustStrengthSignal.Dispatch(true);
         }
 
+        int oooop = 0;
         private void OnPlayCPUButtonClicked()
         {
-            startCPUGameSignal.Dispatch();
+            NotificationVO notificationVO;
+            notificationVO.title = ">>Noor K. made their move." + oooop;
+            notificationVO.body = ">>Make your move";
+            notificationRecievedSignal.Dispatch(notificationVO);
+            oooop++;
+
+           // startCPUGameSignal.Dispatch();
         }
 
         private void OnPlayMultiplayerButtonClicked()

@@ -7,6 +7,13 @@ using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
+    public enum CreateLongMatchAbortReason
+    {
+        Unassigned,
+        CreateFailed,
+        LimitReached
+    };
+
     public class MatchInfo
     {
         public long gameStartTimeMilliseconds { get; set; }
@@ -62,6 +69,7 @@ namespace TurboLabz.InstantFramework
         public string activeLongMatchOpponentId { get; set; }
         public List<string> unregisteredChallengeIds { get; set; }
         public bool createLongMatchAborted { get; set; }
+        public CreateLongMatchAbortReason createLongMatchAbortReason { get; set; }
         public MatchInfo activeMatch 
         { 
             get

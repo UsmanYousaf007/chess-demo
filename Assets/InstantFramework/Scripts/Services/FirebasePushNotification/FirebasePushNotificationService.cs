@@ -23,6 +23,9 @@ namespace TurboLabz.InstantFramework
         // Listen to signals
         [Inject] public AppEventSignal appEventSignal { get; set; }
 
+        // Signals
+        [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
+
         public void Init() 
         {
             appEventSignal.AddListener(OnAppEvent);
@@ -34,6 +37,7 @@ namespace TurboLabz.InstantFramework
                     {
                         Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
                         Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
+                        Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
                         Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
                         TLUtils.LogUtil.Log("Firebase intialization success.");
                     } 
@@ -61,5 +65,40 @@ namespace TurboLabz.InstantFramework
         {
             // Clear all notifications from device
         }
+
+        public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
+        {
+            LogUtil.Log("OnMessageReceived---->>>>>>Received a new message");
+
+            var notification = e.Message.Notification;
+            if (notification != null)
+            {
+                LogUtil.Log("title: " + notification.Title);
+                LogUtil.Log("body: " + notification.Body);
+            }
+
+            NotificationVO notificationVO;
+            notificationVO.title = notification.Title;
+            notificationVO.body = notification.Body;
+            notificationRecievedSignal.Dispatch(notificationVO);
+            /*
+            if (e.Message.From.Length > 0)
+                LogUtil.Log("from: " + e.Message.From);
+            if (e.Message.Link != null)
+            {
+                LogUtil.Log("link: " + e.Message.Link.ToString());
+            }
+            if (e.Message.Data.Count > 0)
+            {
+                LogUtil.Log("data:");
+                foreach (System.Collections.Generic.KeyValuePair<string, string> iter in
+                         e.Message.Data)
+                {
+                    LogUtil.Log("  " + iter.Key + ": " + iter.Value);
+                }
+            }
+            */
+        }
+
     }
 }

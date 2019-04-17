@@ -95,6 +95,10 @@ namespace TurboLabz.InstantFramework
         public Text removeCommunityFriendNoBtnText;
         public Text removeCommunityFriendTitleText;
 
+        [Header("Limit Reached")]
+        public GameObject createMatchLimitReachedDlg;
+        public Button createMatchLimitReachedCloseBtn;
+
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -150,6 +154,8 @@ namespace TurboLabz.InstantFramework
 
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
+
+            createMatchLimitReachedCloseBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
 
 #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
@@ -542,6 +548,7 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(true);
             confirmNewGameDlg.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);
+            createMatchLimitReachedDlg.SetActive(false);
         }
 
         public void Hide()
@@ -787,6 +794,11 @@ namespace TurboLabz.InstantFramework
             {
                 confirmNewGameDlg.SetActive(false);
             }
+        }
+
+        void CreateMatchLimitReachedCloseBtnClicked()
+        {
+            createMatchLimitReachedDlg.SetActive(false);
         }
     }
 }

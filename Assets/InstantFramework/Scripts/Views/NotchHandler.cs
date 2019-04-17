@@ -49,6 +49,9 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform chatScrollView;
     public RectTransform chatViewPort;
 
+    [Header("Notifications")]
+    public RectTransform dummyPosition;
+
     [Header("Editor")]
     public GameObject notchOverlay;
 
@@ -123,7 +126,10 @@ public class NotchHandler : MonoBehaviour {
         SetY(chatBackLabel, -883f);
         SetY(chatScrollView, -45.07f);
         SetHeight(chatScrollView, 1405.84f);
-        SetBottom(chatViewPort, 0f); 
+        SetBottom(chatViewPort, 0f);
+
+        // NOTIFICATIONS
+        SetY(dummyPosition, -200f);
     }
 
     void SetY(RectTransform tfm, float y)

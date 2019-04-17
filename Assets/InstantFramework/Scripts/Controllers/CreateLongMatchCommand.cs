@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
 
             friendBarBusySignal.Dispatch(opponentId, true);
             matchInfoModel.createLongMatchAborted = false;
+            matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.Unassigned;
             backendService.CreateLongMatch(opponentId, isRanked).Then(OnCreateLongMatch);
 
             // Analytics

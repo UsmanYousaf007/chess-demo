@@ -25,7 +25,10 @@ namespace TurboLabz.InstantFramework
                 response.ScriptData != null && 
                 response.ScriptData.ContainsKey(GSBackendKeys.Match.ABORT_KEY))
             {
+                string reason = response.ScriptData.GetString(GSBackendKeys.Match.ABORT_KEY);
                 matchInfoModel.createLongMatchAborted = true;
+                matchInfoModel.createLongMatchAbortReason = reason == "LimitReached" ?
+                    CreateLongMatchAbortReason.LimitReached : CreateLongMatchAbortReason.CreateFailed;
             }
         }
     }
