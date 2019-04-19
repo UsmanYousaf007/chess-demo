@@ -85,5 +85,23 @@ namespace TurboLabz.CPU
 
             saveGameSignal.Dispatch();
         }
+
+        [ListensTo(typeof(PreShowNotificationSignal))]
+        public void OnPreShowNotification()
+        {
+            if (gameObject.activeSelf)
+            {
+                view.OnParentHideAdBanner();
+            }
+        }
+
+        [ListensTo(typeof(PostShowNotificationSignal))]
+        public void OnPostShowNotification()
+        {
+            if (gameObject.activeSelf)
+            {
+                view.OnParentShowAdBanner();
+            }
+        }
     }
 }

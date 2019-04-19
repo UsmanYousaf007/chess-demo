@@ -186,7 +186,6 @@ namespace TurboLabz.InstantFramework
             long lastSeenDateUTC = publicProfileData.GetLong(GSBackendKeys.PublicProfile.LAST_SEEN).Value;
             publicProfile.lastSeenDateTime = TimeUtil.ToDateTime(lastSeenDateUTC);
             publicProfile.lastSeen = publicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
-            //publicProfile.lastSeen = "under construction";
 
             IList<GSData> activeInventoryData = publicProfileData.GetGSDataList(GSBackendKeys.PublicProfile.PLAYER_ACTIVE_INVENTORY);
 			string activeChessSkinsId = "unassigned";

@@ -22,6 +22,10 @@ namespace TurboLabz.InstantGame
         // Models
         [Inject] public IPicsModel picsModel { get; set; }
 
+        // Dispatch Signals
+        [Inject] public PreShowNotificationSignal preShowNotificationSignal { get; set; }
+        [Inject] public PostShowNotificationSignal postShowNotificationSignal { get; set; }
+
         public void Init()
         {
             notifications = new List<GameObject>();
@@ -44,13 +48,14 @@ namespace TurboLabz.InstantGame
             {
                 if (notifications.Count != 0)
                 {
+                    preShowNotificationSignal.Dispatch();
                     notifications[0].SetActive(true);
                     yield return new WaitForSeconds(5);
                     notifications[0].SetActive(false);
                     GameObject obj = notifications[0];
                     notifications.Remove(notifications[0]);
                     Destroy(obj);
-
+                    postShowNotificationSignal.Dispatch();
                 }
                 yield return new WaitForSeconds(1);
             }
@@ -63,7 +68,11 @@ namespace TurboLabz.InstantGame
             Notification notification = notifidationObj.GetComponent<Notification>();
             notification.title.text = notificationVO.title;
             notification.body.text = notificationVO.body;
-            notification.senderPic.sprite = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
+            Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
+            if (pic != null)
+            {
+                notification.senderPic.sprite = pic;
+            }
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
 
             notifidationObj.transform.SetParent(gameObject.transform);
