@@ -122,17 +122,10 @@ namespace TurboLabz.InstantGame
         {
             adjustStrengthSignal.Dispatch(true);
         }
-
-        int oooop = 0;
+        
         private void OnPlayCPUButtonClicked()
         {
-            NotificationVO notificationVO;
-            notificationVO.title = ">>Noor K. made their move." + oooop;
-            notificationVO.body = ">>Make your move";
-            notificationRecievedSignal.Dispatch(notificationVO);
-            oooop++;
-
-           // startCPUGameSignal.Dispatch();
+           startCPUGameSignal.Dispatch();
         }
 
         private void OnPlayMultiplayerButtonClicked()

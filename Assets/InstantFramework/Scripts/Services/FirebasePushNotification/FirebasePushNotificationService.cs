@@ -68,36 +68,17 @@ namespace TurboLabz.InstantFramework
 
         public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
         {
-            LogUtil.Log("OnMessageReceived---->>>>>>Received a new message");
-
             var notification = e.Message.Notification;
             if (notification != null)
             {
-                LogUtil.Log("title: " + notification.Title);
-                LogUtil.Log("body: " + notification.Body);
+                NotificationVO notificationVO;
+                notificationVO.title = notification.Title;
+                notificationVO.body = notification.Body;
+                notificationVO.senderPlayerId = e.Message.Data["senderPlayerId"];
+
+                notificationRecievedSignal.Dispatch(notificationVO);
             }
 
-            NotificationVO notificationVO;
-            notificationVO.title = notification.Title;
-            notificationVO.body = notification.Body;
-            notificationRecievedSignal.Dispatch(notificationVO);
-            /*
-            if (e.Message.From.Length > 0)
-                LogUtil.Log("from: " + e.Message.From);
-            if (e.Message.Link != null)
-            {
-                LogUtil.Log("link: " + e.Message.Link.ToString());
-            }
-            if (e.Message.Data.Count > 0)
-            {
-                LogUtil.Log("data:");
-                foreach (System.Collections.Generic.KeyValuePair<string, string> iter in
-                         e.Message.Data)
-                {
-                    LogUtil.Log("  " + iter.Key + ": " + iter.Value);
-                }
-            }
-            */
         }
 
     }

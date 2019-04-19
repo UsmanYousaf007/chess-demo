@@ -38,7 +38,6 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NotificationRecievedSignal))]
         public void OnNotificationRecieved(NotificationVO notificationVO)
         {
-            TLUtils.LogUtil.Log("----------------------------> HANDLE NOTIFICATION");
             view.AddNotification(notificationVO);
         }
 

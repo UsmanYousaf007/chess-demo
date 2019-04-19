@@ -19,6 +19,9 @@ namespace TurboLabz.InstantGame
         private List<GameObject> notifications;
         private Coroutine processNotificaitonCR;
 
+        // Models
+        [Inject] public IPicsModel picsModel { get; set; }
+
         public void Init()
         {
             notifications = new List<GameObject>();
@@ -60,10 +63,17 @@ namespace TurboLabz.InstantGame
             Notification notification = notifidationObj.GetComponent<Notification>();
             notification.title.text = notificationVO.title;
             notification.body.text = notificationVO.body;
-           
-            notifidationObj.transform.parent = gameObject.transform;
+            notification.senderPic.sprite = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
+            notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
+
+            notifidationObj.transform.SetParent(gameObject.transform);
             notifidationObj.transform.position = positionDummy.transform.position;
             notifications.Add(notifidationObj);
+        }
+
+        private void OnCloseButtonClicked()
+        {
+            notifications[0].SetActive(false);
         }
     }
 }
