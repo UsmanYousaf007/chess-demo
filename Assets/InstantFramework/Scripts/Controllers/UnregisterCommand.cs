@@ -48,7 +48,7 @@ namespace TurboLabz.InstantFramework
             vo.isRanked = false;
             updateFriendBarStatusSignal.Dispatch(vo);
 
-            friendBarBusySignal.Dispatch(opponentId, true);
+            friendBarBusySignal.Dispatch(opponentId, true, CreateLongMatchAbortReason.Unassigned);
             backendService.Unregister(challengeId).Then(OnUnregister);
         }
 
@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
                     updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                 }
 
-                friendBarBusySignal.Dispatch(opponentId, false);
+                friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
                 sortFriendsSignal.Dispatch();
             }
 

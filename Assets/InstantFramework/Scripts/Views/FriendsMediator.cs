@@ -131,9 +131,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(FriendBarBusySignal))]
-        public void OnFriendBarBusy(string playerId, bool busy)
+        public void OnFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
         {
-            view.UpdateFriendBarBusy(playerId, busy);
+            view.UpdateFriendBarBusy(playerId, busy, reason);
         }
 
         [ListensTo(typeof(SortFriendsSignal))]

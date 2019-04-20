@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public Image oppFlag;
         public Text oppPlayingSinceDate;
         public Text oppLastSeen;
+        public Text oppCountry;
 
         [Header("Confirm Dialog")]
         public GameObject confirmDialog;
@@ -98,6 +99,7 @@ namespace TurboLabz.InstantFramework
             opponentWinsLabel.text = vo.opponentWinsCount.ToString();
             opponentDrawsLabel.text = vo.opponentDrawsCount.ToString();
             totalGamesLabel.text = totalGamesPrefix + vo.totalGamesCount;
+            oppCountry.text = Flags.GetCountry(vo.oppCountryCode);
 
             blockBtn.gameObject.SetActive(!vo.isCommunity);
         }

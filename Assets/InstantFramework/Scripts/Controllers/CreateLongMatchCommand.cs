@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-            friendBarBusySignal.Dispatch(opponentId, true);
+            friendBarBusySignal.Dispatch(opponentId, true, CreateLongMatchAbortReason.Unassigned);
             matchInfoModel.createLongMatchAborted = false;
             matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.Unassigned;
             backendService.CreateLongMatch(opponentId, isRanked).Then(OnCreateLongMatch);
@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
             {
                 if (matchInfoModel.createLongMatchAborted)
                 {
-                    friendBarBusySignal.Dispatch(opponentId, false);    
+                    friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);    
                 }
             }
             else if (result != BackendResult.CANCELED)

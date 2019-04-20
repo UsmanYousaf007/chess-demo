@@ -85,7 +85,7 @@ namespace TurboLabz.InstantFramework
     public class ToggleBannerSignal: Signal<bool> {}
     public class UpdateFriendBarStatusSignal : Signal<LongPlayStatusVO> {}
     public class UpdateFriendBarSignal: Signal<Friend, string> {}
-    public class FriendBarBusySignal : Signal<string, bool> {}
+    public class FriendBarBusySignal : Signal<string, bool, CreateLongMatchAbortReason> {}
     public class ToggleFacebookButton : Signal<bool> {}
     public class AcceptSignal : Signal<string> {}
     public class DeclineSignal : Signal<string> {}

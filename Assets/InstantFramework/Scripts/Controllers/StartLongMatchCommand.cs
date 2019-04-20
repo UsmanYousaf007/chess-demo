@@ -43,7 +43,7 @@ namespace TurboLabz.InstantFramework
 
             updateOpponentProfileSignal.Dispatch(pvo);
 
-            friendBarBusySignal.Dispatch(opponentId, false);
+            friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
             startGameSignal.Dispatch();
         }
     }

@@ -523,7 +523,7 @@ namespace TurboLabz.InstantFramework
             friendBar.onlineStatus.sprite = isOnline ? friendBar.online : friendBar.activeStatus;
         }
 
-        public void UpdateFriendBarBusy(string playerId, bool busy)
+        public void UpdateFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
         {
             uiBlocker.SetActive(busy);
 
@@ -536,10 +536,11 @@ namespace TurboLabz.InstantFramework
 
             friendBar.thinking.SetActive(busy);
             uiBlocker.SetActive(busy);
+            friendBar.playArrow.SetActive(!busy);
 
-            if (busy)
+            if (reason == CreateLongMatchAbortReason.LimitReached)
             {
-                friendBar.playArrow.SetActive(false);
+                createMatchLimitReachedDlg.SetActive(true);
             }
         }
 
