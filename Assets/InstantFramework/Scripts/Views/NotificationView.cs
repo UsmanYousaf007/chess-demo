@@ -21,6 +21,7 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // Dispatch Signals
         [Inject] public PreShowNotificationSignal preShowNotificationSignal { get; set; }
@@ -63,6 +64,22 @@ namespace TurboLabz.InstantGame
 
         public void AddNotification(NotificationVO notificationVO) 
         {
+            // Check if on the same long match board
+            if (matchInfoModel.activeLongMatchOpponentId == notificationVO.senderPlayerId)
+            {
+                return;
+            }
+            // Check if on the same quick match board
+            if (matchInfoModel.activeMatch != null)
+            {
+                if (notificationVO.senderPlayerId == matchInfoModel.activeMatch.challengedId ||
+                    notificationVO.senderPlayerId == matchInfoModel.activeMatch.challengerId)
+                {
+                    return;
+                }
+
+            }
+
             GameObject notifidationObj = Instantiate(notificationPrefab);
             notifidationObj.SetActive(false);
             Notification notification = notifidationObj.GetComponent<Notification>();
