@@ -541,6 +541,15 @@ namespace TurboLabz.InstantFramework
             if (reason == CreateLongMatchAbortReason.LimitReached)
             {
                 createMatchLimitReachedDlg.SetActive(true);
+                friendBar.playArrow.SetActive(true);
+            }
+            else if (reason == CreateLongMatchAbortReason.CreateFailed)
+            {
+                friendBar.playArrow.SetActive(true);
+            }
+            else // Match successfully created
+            {
+                friendBar.playArrow.SetActive(false);
             }
         }
 
