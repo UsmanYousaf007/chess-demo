@@ -15,9 +15,10 @@ namespace TurboLabz.InstantFramework
         public bool isOnline;
         public string creationDate;
         public string lastSeen;
-
         string _name;
         public DateTime lastSeenDateTime;
+        public int totalGamesWon;
+        public int totalGamesLost;
 
         public string name
         {

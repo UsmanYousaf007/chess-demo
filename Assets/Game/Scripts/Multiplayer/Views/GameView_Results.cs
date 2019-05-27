@@ -63,6 +63,7 @@ namespace TurboLabz.Multiplayer
         private bool playerWins;
         private bool isDraw;
         private string adRewardType;
+        private string collectRewardType;
         private float animDelay;
 
         public void InitResults()
@@ -274,8 +275,10 @@ namespace TurboLabz.Multiplayer
             resultsAdTVImage.gameObject.SetActive(!vo.removeAds);
 
             // Reward
-            resultsRewardCoinsLabel.text = "+" + vo.rewardCoins;
-            adRewardType = vo.adRewardType;
+            resultsRewardCoinsLabel.text = "+" + vo.rewardCoins + " Coins";
+            adRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
+            collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
+
             if (playerWins)
             {
                 resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_REWARD);
@@ -360,7 +363,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnResultsSkipRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
+            showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
 
             if (isLongPlay)
             {

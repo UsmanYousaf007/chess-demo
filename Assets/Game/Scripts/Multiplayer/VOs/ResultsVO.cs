@@ -23,7 +23,6 @@ namespace TurboLabz.Multiplayer
         public int eloScoreDelta;
         public bool isRanked;
         public int rewardCoins;
-        public string adRewardType;
         public bool removeAds;
     }
 }

@@ -91,7 +91,6 @@ namespace TurboLabz.InstantFramework
             initFacebookSignal.Dispatch();
             receptionSignal.Dispatch();
 			RemoveListeners();
-            Release();
 
             CommandEnd();
 		}

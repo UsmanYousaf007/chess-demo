@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public Text oppPlayingSinceDate;
         public Text oppLastSeen;
         public Text oppCountry;
+        public Text oppWinPercentage;
 
         [Header("Confirm Dialog")]
         public GameObject confirmDialog;
@@ -93,6 +94,10 @@ namespace TurboLabz.InstantFramework
             oppFlag.sprite = Flags.GetFlag(vo.oppCountryCode);
             oppPlayingSinceDate.text = "Playing since " + vo.oppPlayingSinceDate;
             oppLastSeen.text = "Last played " + vo.oppLastSeen;
+
+            float total = vo.oppTotalGamesWon + vo.oppTotalGamesLost;
+            float percentage = (vo.oppTotalGamesWon / total) * 100.0f;
+            oppWinPercentage.text = "Win Percentage: " + percentage.ToString() + " %";
 
             playerWinsLabel.text = vo.playerWinsCount.ToString();
             playerDrawsLabel.text = vo.playerDrawsCount.ToString();

@@ -40,6 +40,7 @@ namespace TurboLabz.CPU
         public Text continueButtonLabel;
         public Text saveAndExitButtonLabel;
         public Text backToLobbyButtonLabel;
+        public Image backToLobbyButtonUnderline;
 
         private bool showAdOnBack;
 
@@ -55,7 +56,7 @@ namespace TurboLabz.CPU
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
             saveAndExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_SAVE_AND_EXIT);
-            backToLobbyButtonLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
+            backToLobbyButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_SAVE_AND_EXIT);
 
         }
 
@@ -127,6 +128,7 @@ namespace TurboLabz.CPU
             menuButton.interactable = false;
             backToLobbyButton.interactable = false;
             backToLobbyButtonLabel.color = Colors.DISABLED_WHITE;
+            backToLobbyButtonUnderline.color = Colors.DISABLED_WHITE;
         }
 
         public void EnableMenuButton()
@@ -134,6 +136,7 @@ namespace TurboLabz.CPU
             menuButton.interactable = true;
             backToLobbyButton.interactable = true;
             backToLobbyButtonLabel.color = Colors.WHITE;
+            backToLobbyButtonUnderline.color = Colors.WHITE;
         }
 
         void OnMenuButtonClicked()

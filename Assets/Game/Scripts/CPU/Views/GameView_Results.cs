@@ -68,6 +68,7 @@ namespace TurboLabz.CPU
         private bool playerWins;
         private bool isDraw;
         private string adRewardType;
+        private string collectRewardType;
         private float animDelay;
         private bool menuOpensResultsDlg;
 
@@ -294,6 +295,7 @@ namespace TurboLabz.CPU
             }
 
             adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
+            collectRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
         }
 
         public bool IsResultsDialogVisible()
@@ -338,7 +340,7 @@ namespace TurboLabz.CPU
 
         public void OnResultsSkipRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
+            showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
             backToLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
