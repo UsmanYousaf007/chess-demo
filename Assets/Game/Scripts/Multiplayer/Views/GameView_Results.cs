@@ -35,6 +35,7 @@ namespace TurboLabz.Multiplayer
 
         public Button resultsCollectRewardButton;
         public Text resultsCollectRewardButtonLabel;
+        public Text resultsCollectRewardHeadingLabel;
         public Button resultsCloseButton;
         public Text resultsCloseButtonLabel;
 
@@ -65,6 +66,8 @@ namespace TurboLabz.Multiplayer
         private string adRewardType;
         private string collectRewardType;
         private float animDelay;
+
+        [Inject] public IAdsService adsService { get; set; }
 
         public void InitResults()
         {
@@ -97,6 +100,28 @@ namespace TurboLabz.Multiplayer
             resultsSkipRewardButton.onClick.RemoveAllListeners();
         }
 
+        private void EnableRewarededVideoButton(bool enable)
+        {
+            if (enable)
+            {
+                resultsCollectRewardButton.interactable = true;
+                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.YELLOW, Colors.ENABLED_TEXT_ALPHA);
+                resultsCollectRewardHeadingLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+                Color c = resultsAdTVImage.color;
+                c.a = Colors.FULL_ALPHA;
+                resultsAdTVImage.color = c;
+            }
+            else
+            {
+                resultsCollectRewardButton.interactable = false;
+                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.YELLOW, Colors.DISABLED_TEXT_ALPHA);
+                resultsCollectRewardHeadingLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                Color c = resultsAdTVImage.color;
+                c.a = Colors.DISABLED_TEXT_ALPHA;
+                resultsAdTVImage.color = c;
+            }
+        }
+
         public void OnParentShowResults()
         {
             HideResultsDialog();
@@ -115,6 +140,9 @@ namespace TurboLabz.Multiplayer
             }
 
             HideSafeMoveBorder();
+
+            bool isRewardedButton = adsService.IsRewardedVideoAvailable();
+            EnableRewarededVideoButton(isRewardedButton);
         }
 
         public void HideResultsDialog()
@@ -272,10 +300,19 @@ namespace TurboLabz.Multiplayer
 
             resultsVictoryRewardImage.gameObject.SetActive(playerWins);
             resultsDefeatRewardImage.gameObject.SetActive(!playerWins);
+
             resultsAdTVImage.gameObject.SetActive(!vo.removeAds);
+            resultsCollectRewardButton.gameObject.SetActive(!vo.removeAds);
+            resultsCollectRewardButtonLabel.gameObject.SetActive(!vo.removeAds);
+            resultsCollectRewardHeadingLabel.gameObject.SetActive(!vo.removeAds);
+
+            if (vo.removeAds)
+            {
+                resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
+            }
 
             // Reward
-            resultsRewardCoinsLabel.text = "+" + vo.rewardCoins + " Coins";
+            resultsRewardCoinsLabel.text = vo.rewardCoins + " Coins";
             adRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
 
