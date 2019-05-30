@@ -134,7 +134,7 @@ namespace TurboLabz.InstantFramework
 
         void CommandEnd()
         {
-            if (wifiHealthCheckCR != null)
+            if (wifiHealthCheckCR != null) 
             {
                 routineRunner.StopCoroutine(wifiHealthCheckCR);
                 wifiHealthCheckCR = null;
