@@ -96,8 +96,8 @@ namespace TurboLabz.InstantFramework
             oppLastSeen.text = "Last played " + vo.oppLastSeen;
 
             float total = vo.oppTotalGamesWon + vo.oppTotalGamesLost;
-            float percentage = (vo.oppTotalGamesWon / total) * 100.0f;
-            oppWinPercentage.text = "Win Percentage: " + percentage.ToString() + " %";
+            float percentage = total > 0.0f ? (vo.oppTotalGamesWon / total) * 100.0f : 0.0f;
+            oppWinPercentage.text = "Win Percentage: " + percentage.ToString("0.") + "%";
 
             playerWinsLabel.text = vo.playerWinsCount.ToString();
             playerDrawsLabel.text = vo.playerDrawsCount.ToString();
