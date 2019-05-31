@@ -23,6 +23,9 @@ namespace TurboLabz.InstantFramework
         public string oppPlayingSinceDate;
         public string oppLastSeen;
 
+        public int oppTotalGamesWon;
+        public int oppTotalGamesLost;
+
         public int playerWinsCount;
         public int playerDrawsCount;
         public int opponentWinsCount;

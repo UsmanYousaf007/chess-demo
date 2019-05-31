@@ -117,11 +117,11 @@ namespace TurboLabz.InstantFramework
 
                 #region GameResults
 
-                { LocalizationKey.RESULTS_CLOSE_BUTTON, "VIEW BOARD" },
-                { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "COLLECT" },
-                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Skip Reward" },
-                { LocalizationKey.RESULTS_EARNED, "Earned" },
-                { LocalizationKey.RESULTS_REWARD, "Reward" },
+                { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
+                { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "2X COINS" },
+                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "COLLECT" },
+                { LocalizationKey.RESULTS_EARNED, "You Earned" },
+                { LocalizationKey.RESULTS_REWARD, "You Earned" },
 
                 #endregion
 
