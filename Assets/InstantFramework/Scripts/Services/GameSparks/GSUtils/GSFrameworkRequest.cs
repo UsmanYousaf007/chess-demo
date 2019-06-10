@@ -34,6 +34,8 @@ namespace TurboLabz.InstantFramework
 
         protected void OnRequestSuccess(object response)
         {
+            TLUtils.LogUtil.Log("OnRequestSuccess::::::::::::::::::::::");
+
             if (IsActive() && onSuccess != null)
             {
                 onSuccess(response);
@@ -47,6 +49,8 @@ namespace TurboLabz.InstantFramework
             LogChallengeEventResponse r = response as LogChallengeEventResponse;
             if (r != null)
             {
+                TLUtils.LogUtil.Log("OnRequestFailure HasErrors :::::" + r.HasErrors + " TYPE : " + r.Errors.JSON);
+
                 string error = r.Errors.GetString("challengeInstanceId");
                 if (error == "COMPLETE")
                 {
