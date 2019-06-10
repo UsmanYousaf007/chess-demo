@@ -84,7 +84,7 @@ namespace TurboLabz.CPU
                 cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength);
             }
 
-            int  rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinAdReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpAdReward;
+            int  rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
             bool isRemoveAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
 
             cmd.saveStatsSignal.Dispatch(statResult);

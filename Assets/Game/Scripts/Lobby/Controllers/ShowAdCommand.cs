@@ -37,50 +37,37 @@ namespace TurboLabz.InstantGame
             // All non-rewarded ads skipped if player owns the remove ads feature
             bool removeAds = playerModel.HasRemoveAds(metaDataModel.adsSettings);
 
-            // Case: Ads removed
+            // Case: Ad removed
             if (removeAds)
             {
-                if (adType == AdType.RewardedVideo)
-                {
-                    Retain();
-                    ClaimReward(AdsResult.BYPASS);
-                }
+                Retain();
+                ClaimReward(AdsResult.BYPASS);
                 return;
             }
 
-            // Case: Show Ads
+            // Case: Show Ads interstitial
             if (adType == AdType.Interstitial)
             {
+                Retain();
+                ClaimReward(AdsResult.BYPASS);
+
                 if (adsService.IsInterstitialAvailable())
                 {
                     adsService.ShowInterstitial();
                 }
-
                 return;
             }
-            else
+
+            // Case: Show Ad rewarded viceo
+            if (adsService.IsRewardedVideoAvailable())
             {
-                if (adsService.IsRewardedVideoAvailable())
+                Retain();
+                IPromise<AdsResult> p = adsService.ShowRewardedVideo();
+                if (p != null)
                 {
-                    Retain();
-                    IPromise<AdsResult> p = adsService.ShowRewardedVideo();
-                    if (p == null)
-                    {
-                        Retain();
-                        ClaimReward(AdsResult.BYPASS);
-                        return;
-                    }
-                    else
-                    {
-                        p.Then(ClaimReward);
-                    }
+                    p.Then(ClaimReward);
                 }
-                else
-                {
-                    Retain();
-                    ClaimReward(AdsResult.BYPASS);
-                    return;
-                }
+                return;
             }
         }
 

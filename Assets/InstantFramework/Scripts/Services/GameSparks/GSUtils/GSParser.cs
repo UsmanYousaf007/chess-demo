@@ -179,6 +179,9 @@ namespace TurboLabz.InstantFramework
 
             publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
 
+            publicProfile.totalGamesWon = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;
+            publicProfile.totalGamesLost = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_LOST).Value;
+
             long creationDateUTC = publicProfileData.GetLong(GSBackendKeys.PublicProfile.CREATION_DATE).Value;
             DateTime creationDateTime = TimeUtil.ToDateTime(creationDateUTC);
             publicProfile.creationDate = creationDateTime.ToLocalTime().ToLongDateString();

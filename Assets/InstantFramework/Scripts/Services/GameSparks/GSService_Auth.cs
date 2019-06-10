@@ -30,7 +30,21 @@ namespace TurboLabz.InstantFramework
             return new GSAuthFacebookRequest().Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
         }
 
+        public IPromise<BackendResult> AuthEmail(string email, string password, bool existingPlayer)
+        {
+            return new GSAuthEmailResquest().Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
+        }
+
         private void onFacebookAuthSuccess(object r)
+        {
+            AuthenticationResponse response = (AuthenticationResponse)r;
+            playerModel.id = response.UserId;
+
+            GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
+            FillPlayerDetails(playerDetailsData);
+        }
+
+        private void onEmailAuthSuccess(object r)
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
@@ -52,8 +66,6 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #region FACEBOOK AUTH REQUEST
-
     public class GSAuthFacebookRequest : GSFrameworkRequest
     {
         public IPromise<BackendResult> Send(string accessToken, bool existingPlayer, Action<object> onFacebookAuthSuccess)
@@ -73,9 +85,25 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #endregion
+    public class GSAuthEmailResquest : GSFrameworkRequest
+    {
+        public IPromise<BackendResult> Send(string email, string password, bool existingPlayer, Action<object> onEmailAuthSuccess)
+        {
+            this.onSuccess = onEmailAuthSuccess;
+            this.errorCode = BackendResult.AUTH_EMAIL_REQUEST_FAILED;
 
-    #region GUEST AUTH REQUEST
+            GSRequestData scriptData = new GSRequestData();
+            scriptData.AddBoolean("existingPlayer", existingPlayer);
+
+            new AuthenticationRequest()
+                .SetScriptData(scriptData)
+                .SetPassword(password)
+                .SetUserName(email)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
+        }
+    }
 
     public class GSAuthGuestRequest : GSFrameworkRequest
     {
@@ -88,10 +116,6 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #endregion
-
-    #region SET SOCIAL PLAYER NAME
-
     public class GSSetPlayerSocialNameRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "SetPlayerSocialName";
@@ -102,7 +126,7 @@ namespace TurboLabz.InstantFramework
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.SET_PLAYER_SOCIAL_NAME_FAILED;
 
-            new LogEventRequest()  
+            new LogEventRequest()
                 .SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_NAME, name)
                 .Send(OnRequestSuccess, OnRequestFailure);
@@ -111,5 +135,4 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #endregion
 }

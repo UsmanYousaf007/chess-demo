@@ -262,6 +262,8 @@ namespace TurboLabz.InstantFramework
             public const string IS_ONLINE = "isOnline";
             public const string CREATION_DATE = "creationDate";
             public const string LAST_SEEN = "lastSeen";
+            public const string TOTAL_GAMES_WON = "totalGamesWon";
+            public const string TOTAL_GAMES_LOST = "totalGamesLost";
 
         }
 

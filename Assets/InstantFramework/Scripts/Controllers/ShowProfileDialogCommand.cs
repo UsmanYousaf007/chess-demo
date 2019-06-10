@@ -66,6 +66,9 @@ namespace TurboLabz.InstantFramework
             vo.oppPlayingSinceDate = friend.publicProfile.creationDate;
             vo.oppLastSeen = friend.publicProfile.lastSeen;
 
+            vo.oppTotalGamesWon = friend.publicProfile.totalGamesWon;
+            vo.oppTotalGamesLost = friend.publicProfile.totalGamesLost;
+
             vo.playerWinsCount = friend.gamesWon;
             vo.playerDrawsCount = friend.gamesDrawn;
             vo.opponentWinsCount = friend.gamesLost;
