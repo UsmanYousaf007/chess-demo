@@ -29,45 +29,45 @@ namespace TurboLabz.InstantGame
 
         public void UpdateViewBundles(StoreVO vo)
         {
-            if (prefabsBundles == null)
-            {
-                prefabsBundles = new Dictionary<string, SpecialBundleShopItemPrefab>();
-                InitPrefabsBundles(vo, galleryBundles);
-            }
+            //if (prefabsBundles == null)
+            //{
+            //    prefabsBundles = new Dictionary<string, SpecialBundleShopItemPrefab>();
+            //    InitPrefabsBundles(vo, galleryBundles);
+            //}
 
-            foreach (KeyValuePair<string, SpecialBundleShopItemPrefab> child in prefabsBundles)
-            {
-                SpecialBundleShopItemPrefab bundlePrefab = child.Value;
+            //foreach (KeyValuePair<string, SpecialBundleShopItemPrefab> child in prefabsBundles)
+            //{
+            //    SpecialBundleShopItemPrefab bundlePrefab = child.Value;
 
-                string textStoreNotAvailable = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
-                string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
-                bundlePrefab.SetBundleState(vo, textStoreNotAvailable, textDays);
+            //    string textStoreNotAvailable = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
+            //    string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
+            //    bundlePrefab.SetBundleState(vo, textStoreNotAvailable, textDays);
 
-                if (vo.playerModel.OwnsVGood(bundlePrefab.key) ||
-                    vo.playerModel.HasAdsFreePeriod(vo.storeSettingsModel.adsSettings))
-                {
-                    bundlePrefab.gameObject.SetActive(false);
-                }
-            }
+            //    if (vo.playerModel.OwnsVGood(bundlePrefab.key) ||
+            //        vo.playerModel.HasAdsFreePeriod(vo.storeSettingsModel.adsSettings))
+            //    {
+            //        bundlePrefab.gameObject.SetActive(false);
+            //    }
+            //}
         }
 
         private void InitPrefabsBundles(StoreVO vo, GameObject[] content)
         {
-            foreach (GameObject child in content)
-            {
-                SpecialBundleShopItemPrefab bundlePrefab = child.GetComponent<SpecialBundleShopItemPrefab>();
-                StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
-                prefabsBundles.Add(bundlePrefab.key, bundlePrefab);
-                bundlePrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
+            //foreach (GameObject child in content)
+            //{
+            //    SpecialBundleShopItemPrefab bundlePrefab = child.GetComponent<SpecialBundleShopItemPrefab>();
+            //    StoreItem storeItem = vo.storeSettingsModel.store.items[bundlePrefab.key];
+            //    prefabsBundles.Add(bundlePrefab.key, bundlePrefab);
+            //    bundlePrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
 
-                Sprite sprite = thumbsContainer.GetSprite(bundlePrefab.key);
-                string textOwned = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
-                string textRemaining = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
-                string textStoreNotAvailable = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
-                string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
+            //    Sprite sprite = thumbsContainer.GetSprite(bundlePrefab.key);
+            //    string textOwned = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
+            //    string textRemaining = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
+            //    string textStoreNotAvailable = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
+            //    string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
 
-                bundlePrefab.Populate(vo, null, textStoreNotAvailable, textDays, textOwned, textRemaining);
-            }
+            //    bundlePrefab.Populate(vo, null, textStoreNotAvailable, textDays, textOwned, textRemaining);
+            //}
         }
     }
 }

@@ -13,162 +13,259 @@
 using UnityEngine;
 
 using strange.extensions.mediation.impl;
-
+using System.Collections.Generic;
+using TurboLabz.Multiplayer;
 using TurboLabz.Chess;
-using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
-using TurboLabz.CPU;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantGame
+
+namespace TurboLabz.InstantFramework
 {
     public class LobbyMediator : Mediator
     {
-        // Dispatch signals
-        [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
-        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
-        [Inject] public FindMatchSignal findMatchSignal { get; set; }
-        [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
-        [Inject] public DevFenValueChangedSignal devFenValueChangedSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
-        [Inject] public UpdateAdsSignal updateAdsSignal { get; set; }
-        [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
-        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
-
-        [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
-
-
         // View injection
         [Inject] public LobbyView view { get; set; }
 
+        // Dispatch signals
+        [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
+        [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
+        [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public ShareAppSignal shareAppSignal { get; set; }
+        [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
+        [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
+        [Inject] public AcceptSignal acceptSignal { get; set; }
+        [Inject] public DeclineSignal declineSignal { get; set; }
+        [Inject] public CloseStripSignal closeStripSignal { get; set; }
+        [Inject] public ResignSignal resignSignal { get; set; }
+        [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
+
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
 
-            view.playMultiplayerButtonClickedSignal.AddListener(OnPlayMultiplayerButtonClicked);
-            view.playFriendsButtonClickedSignal.AddListener(OnPlayFriendsButtonClicked);
-            view.playCPUButtonClickedSignal.AddListener(OnPlayCPUButtonClicked);
-            view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
-            view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
-
-            view.storeItemClickedSignal.AddListener(OnStoreItemClicked);
-            view.devFenValueChangedSignal.AddListener(OnDevFenValueChanged);
-     
+            view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
+            view.reloadFriendsSignal.AddOnce(OnReloadFriends);
+            view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
+            view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
+            view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
+            view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
+            view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
+            view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
+            view.declineButtonClickedSignal.AddListener(OnDeclineButtonClicked);
+            view.cancelButtonClickedSignal.AddListener(OnCancelButtonClicked);
+            view.okButtonClickedSignal.AddListener(OnOkButtonClicked);
+            view.removeCommunityFriendSignal.AddListener(OnRemoveCommunityFriend);
         }
 
-        public override void OnRemove()
-        {
-            view.decStrengthButtonClickedSignal.RemoveAllListeners();
-            view.incStrengthButtonClickedSignal.RemoveAllListeners();
-            view.decDurationButtonClickedSignal.RemoveAllListeners();
-            view.incDurationButtonClickedSignal.RemoveAllListeners();
-            view.decPlayerColorButtonClickedSignal.RemoveAllListeners();
-            view.incPlayerColorButtonClickedSignal.RemoveAllListeners();
-            view.playMultiplayerButtonClickedSignal.RemoveAllListeners();
-            view.playFriendsButtonClickedSignal.RemoveAllListeners();
-            view.playCPUButtonClickedSignal.RemoveAllListeners();
-            view.devFenValueChangedSignal.RemoveAllListeners();
-            view.statsButtonClickedSignal.RemoveAllListeners();
-
-            view.CleanUp();
-        }
-            
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.LOBBY) 
+            if (viewId == NavigatorViewId.FRIENDS)
             {
-                analyticsService.ScreenVisit(AnalyticsScreen.lobby);
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
             }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.LOBBY)
+            if (viewId == NavigatorViewId.FRIENDS)
             {
                 view.Hide();
             }
         }
 
-        [ListensTo(typeof(UpdateMenuViewSignal))]
-        public void OnUpdateView(LobbyVO vo)
+        [ListensTo(typeof(AddFriendsSignal))]
+        public void OnUpdateFriends(Dictionary<string, Friend> friends, FriendCategory friendCategory)
         {
-            view.UpdateView(vo);
+            bool isCommunity = false;
+            bool isSearched = false;
+            if (friendCategory == FriendCategory.COMMUNITY)
+            {
+                isCommunity = true;
+            }
+            else if (friendCategory == FriendCategory.SEARCHED)
+            {
+                isCommunity = true;
+                isSearched = true;
+            }
+
+            view.AddFriends(friends, isCommunity, isSearched);
         }
 
-        [ListensTo(typeof(UpdateStrengthSignal))]
-        public void OnUpdateStrength(LobbyVO vo)
+        [ListensTo(typeof(NewFriendAddedSignal))]
+        public void OnNewFriendAdded(string friendId)
         {
-            view.UpdateStrength(vo);
+            view.NewFriendAdded(friendId);
         }
 
-        [ListensTo(typeof(SetActionCountSignal))]
-        public void OnSetActionCount(int count)
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdateFriendPic(string playerId, Sprite sprite)
         {
-            view.SetActionCount(count);
+            view.UpdateFriendPic(playerId, sprite);
         }
 
-        private void OnDecStrengthButtonClicked()
+        [ListensTo(typeof(UpdateEloScoresSignal))]
+        public void OnUpdateEloScoresSignal(EloVO vo)
         {
-            adjustStrengthSignal.Dispatch(false);
+            view.UpdateEloScores(vo);
         }
 
-        private void OnIncStrengthButtonClicked()
+        [ListensTo(typeof(UpdateFriendBarStatusSignal))]
+        public void OnUpdateFriendBarStatus(LongPlayStatusVO vo)
         {
-            adjustStrengthSignal.Dispatch(true);
-        }
-        
-        private void OnPlayCPUButtonClicked()
-        {
-           startCPUGameSignal.Dispatch();
+            view.UpdateFriendBarStatus(vo);
         }
 
-        private void OnPlayMultiplayerButtonClicked()
+        [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
+        public void OnUpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
         {
-            findMatchSignal.Dispatch();
+            view.UpdateFriendOnlineStatusSignal(friendId, isOnline);
         }
 
-        private void OnPlayFriendsButtonClicked()
+        [ListensTo(typeof(FriendBarBusySignal))]
+        public void OnFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
+        {
+            view.UpdateFriendBarBusy(playerId, busy, reason);
+        }
+
+        [ListensTo(typeof(SortFriendsSignal))]
+        public void OnSortFriends()
+        {
+            view.SortFriends();
+        }
+
+        [ListensTo(typeof(SortCommunitySignal))]
+        public void OnSortCommunity()
+        {
+            view.SortCommunity();
+        }
+
+        [ListensTo(typeof(SortSearchedSignal))]
+        public void OnSortSearched()
+        {
+            view.SortSearched();
+        }
+
+        [ListensTo(typeof(ClearCommunitySignal))]
+        public void OnClearCommunity()
+        {
+            view.ClearCommunity();
+        }
+
+        [ListensTo(typeof(ClearFriendsSignal))]
+        public void OnClearFriends()
+        {
+            view.ClearFriends();
+        }
+
+        [ListensTo(typeof(ClearFriendSignal))]
+        public void OnClearFriend(string friendId)
+        {
+            view.ClearFriend(friendId);
+        }
+
+        [ListensTo(typeof(FriendsShowConnectFacebookSignal))]
+        public void OnFriendsConnectFacebook(bool showConnectInfo)
+        {
+            view.ShowConnectFacebook(showConnectInfo);
+        }
+
+        [ListensTo(typeof(AuthFacebookResultSignal))]
+        public void OnAuthFacebookResult(AuthFacebookResultVO vo)
+        {
+            if (view.IsVisible())
+            {
+                view.FacebookAuthResult(vo);
+            }
+        }
+
+        [ListensTo(typeof(ToggleFacebookButton))]
+        public void OnToggleFacebookButton(bool toggle)
+        {
+            view.ToggleFacebookButton(toggle);
+        }
+
+        [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
+        public void OnAddUnreadMessages(string friendId)
+        {
+            view.AddUnreadMessages(friendId);
+        }
+
+        [ListensTo(typeof(ClearUnreadMessagesFromBarSignal))]
+        public void OnClearUnreadMessages(string friendId)
+        {
+            view.ClearUnreadMessages(friendId);
+        }
+
+        private void OnFacebookButtonClicked()
+        {
+            authFacebookSignal.Dispatch();
+        }
+
+        private void OnReloadFriends()
         {
             loadFriendsSignal.Dispatch();
         }
 
-        private void OnDevFenValueChanged(string fen)
+        private void OnShowProfileDialog(string playerId)
         {
-            devFenValueChangedSignal.Dispatch(fen);
-        }
- 
-        private void OnUpdateAdsSignal()
-        {
-            updateAdsSignal.Dispatch();
+            showProfileDialogSignal.Dispatch(playerId);
         }
 
-        [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable, StoreVO vo)
+        private void OnRefreshCommunity()
         {
-            if (isAvailable)
-            {
-                view.UpdateViewBundles(vo);
-            }
+            refreshCommunitySignal.Dispatch();
+
+            // Analytics
+            analyticsService.Event(AnalyticsEventId.tap_community_refresh);
         }
 
-        [ListensTo(typeof(UpdatePurchasedBundleStoreItemSignal))]
-        public void OnUpdatePurchasedBundleStoreItem(StoreVO vo, StoreItem item)
-        { 
-            view.HideBundles();
+        private void OnShareApp()
+        {
+            shareAppSignal.Dispatch();
         }
 
-        private void OnStoreItemClicked(StoreItem item)
+        private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
-            analyticsService.Event(AnalyticsEventId.tap_lobby_bundle);
+            tapLongMatchSignal.Dispatch(playerId, isRanked);
+        }
 
-            // Purchase item after confirmation. No confirmation for remote store items
-            purchaseStoreItemSignal.Dispatch(item.key, true);
+        private void OnAcceptButtonClicked(string playerId)
+        {
+            acceptSignal.Dispatch(playerId);
+        }
+
+        private void OnDeclineButtonClicked(string playerId)
+        {
+            declineSignal.Dispatch(playerId);
+        }
+
+        private void OnCancelButtonClicked(string playerId)
+        {
+            resignSignal.Dispatch(playerId);
+        }
+
+        private void OnOkButtonClicked(string playerId)
+        {
+            closeStripSignal.Dispatch(playerId);
+        }
+
+        private void OnActionCountUpdated(int count)
+        {
+            setActionCountSignal.Dispatch(count);
+        }
+
+        private void OnRemoveCommunityFriend(string opponentId)
+        {
+            removeCommunityFriendSignal.Dispatch(opponentId);
         }
     }
 }

@@ -300,14 +300,14 @@ namespace TurboLabz.InstantFramework
 
         public void CreateGame(string friendId, bool isRanked)
         {
-            // Facebook not logged in
-            if (!facebookService.isLoggedIn())
-            {
-                startGameFriendId = friendId;
-                startGameRanked = isRanked;
-                OnFacebookButtonClicked();
-                return;
-            }
+            //// Facebook not logged in
+            //if (!facebookService.isLoggedIn())
+            //{
+            //    startGameFriendId = friendId;
+            //    startGameRanked = isRanked;
+            //    OnFacebookButtonClicked();
+            //    return;
+            //}
 
             // Friend needs to be added
             if (friendId != null && !bars.ContainsKey(friendId))
@@ -327,6 +327,7 @@ namespace TurboLabz.InstantFramework
 
         public void FacebookAuthResult(AuthFacebookResultVO vo)
         {
+            LogUtil.Log("FacebookAuthResult :: " + vo.isSuccessful);
             facebookConnectAnim.SetActive(false);
             uiBlocker.SetActive(false);
 
