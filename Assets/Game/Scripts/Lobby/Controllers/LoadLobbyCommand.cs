@@ -47,11 +47,9 @@ namespace TurboLabz.InstantGame
             setSkinSignal.Dispatch(playerModel.activeSkinId);
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-
-
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
-
+            
             if (preferencesModel.isFriendScreenVisited == false)
             {
                 preferencesModel.isFriendScreenVisited = true;

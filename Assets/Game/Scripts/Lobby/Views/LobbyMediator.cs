@@ -66,17 +66,17 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.FRIENDS)
+            if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Show();
-                analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
+                analyticsService.ScreenVisit(AnalyticsScreen.lobby, facebookService.isLoggedIn());
             }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.FRIENDS)
+            if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Hide();
             }
