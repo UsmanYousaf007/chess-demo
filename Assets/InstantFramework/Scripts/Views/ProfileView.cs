@@ -41,6 +41,9 @@ namespace TurboLabz.InstantGame
         public Text eloScoreValue;
         public Image playerFlag;
 
+
+        private SpritesContainer defaultAvatarContainer;
+
         public Signal facebookButtonClickedSignal = new Signal();
 
         public void Init()
@@ -52,6 +55,7 @@ namespace TurboLabz.InstantGame
             }
 
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+            defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
         }
 
         public void CleanUp()
@@ -73,7 +77,7 @@ namespace TurboLabz.InstantGame
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
 
-            SetProfilePic(vo.playerPic);
+            SetProfilePic(vo);
 
             if (facebookButton != null)
             {
@@ -139,6 +143,34 @@ namespace TurboLabz.InstantGame
                 profilePic.sprite = sprite;
                 hasProfilePicBorder.SetActive(true);
             }
+        }
+
+        private void SetProfilePic(ProfileVO vo)
+        {
+            noProfilePicBorder.SetActive(false);
+            hasProfilePicBorder.SetActive(false);
+
+            if (vo.playerPic != null)
+            {
+                profilePic.sprite = vo.playerPic;
+                hasProfilePicBorder.SetActive(true);
+            }
+            else 
+            {
+                profilePic.sprite = defaultAvatar;
+
+                if (vo.avatarId != null)
+                {
+                    Sprite newSprite = defaultAvatarContainer.GetSprite(vo.avatarId);
+                    if(newSprite != null)
+                    {
+                        profilePic.sprite = newSprite;
+                    }
+                }
+                 
+                noProfilePicBorder.SetActive(true);
+            }
+
         }
 
         private void OnFacebookButtonClicked()

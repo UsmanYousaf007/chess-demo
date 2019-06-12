@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         public string countryId;
         public string playerId;
         public bool isOnline;
+        public string avatarId;
 
         public ProfileVO()
         {

@@ -79,6 +79,7 @@ namespace TurboLabz.InstantGame
             pvo.countryId = playerModel.countryId;
             pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
             pvo.playerId = playerModel.id;
+            pvo.avatarId = playerModel.avatarId;
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {

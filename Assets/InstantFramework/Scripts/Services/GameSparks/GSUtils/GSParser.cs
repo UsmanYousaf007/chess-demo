@@ -156,16 +156,44 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public static void PopulateActiveInventory(IPlayerModel playerModel,
-            IList<GSData> activeInventoryData)
+        public static void PopulateActiveInventory(IPlayerModel playerModel, IList<GSData> activeInventoryData)
         {
+            //if (activeInventoryData != null && activeInventoryData.Count > 0)
+            //{
+            //    string activeSkinId = "";
+
+            //    GetActiveInventory(ref activeSkinId, activeInventoryData);
+
+            //    playerModel.activeSkinId = activeSkinId;
+            //}
+
             if (activeInventoryData != null && activeInventoryData.Count > 0)
             {
-                string activeSkinId = "";
+                foreach (GSData item in activeInventoryData)
+                {
+                    string itemId = item.GetString("shopItemKey");
+                    string itemKind = item.GetString("kind");
 
-                GetActiveInventory(ref activeSkinId, activeInventoryData);
+                    LogUtil.Log("*******PopulateActiveInventory itemId : " + itemId + " itemKind : " + itemKind);
 
-                playerModel.activeSkinId = activeSkinId;
+                    if (itemId == "unassigned")
+                    {
+                        continue;
+                    }
+
+                    if (itemKind == GSBackendKeys.ShopItem.SKIN_SHOP_TAG)
+                    {
+                        playerModel.activeSkinId = itemId;
+                    }
+                    else if (itemKind == GSBackendKeys.ShopItem.AVATAR_TAG)
+                    {
+                        playerModel.avatarId = itemId;
+                    }
+                    else if (itemKind == GSBackendKeys.ShopItem.AVATAR_BG_COLOR_TAG)
+                    {
+                        playerModel.avatarBgColorId = itemId;
+                    }
+                }
             }
         }
 			
@@ -190,9 +218,9 @@ namespace TurboLabz.InstantFramework
             publicProfile.lastSeenDateTime = TimeUtil.ToDateTime(lastSeenDateUTC);
             publicProfile.lastSeen = publicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
 
-            IList<GSData> activeInventoryData = publicProfileData.GetGSDataList(GSBackendKeys.PublicProfile.PLAYER_ACTIVE_INVENTORY);
-			string activeChessSkinsId = "unassigned";
-			GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
+            //IList<GSData> activeInventoryData = publicProfileData.GetGSDataList(GSBackendKeys.PublicProfile.PLAYER_ACTIVE_INVENTORY);
+			//string activeChessSkinsId = "unassigned";
+			//GSParser.GetActiveInventory(ref activeChessSkinsId, activeInventoryData);
 
 			GSData externalIds = publicProfileData.GetGSData(GSBackendKeys.PublicProfile.EXTERNAL_IDS);
 			IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);

@@ -22,6 +22,8 @@ namespace TurboLabz.InstantFramework
         long bucks { get; set; }
         int eloScore { get; set; }
         bool isPremium { get; set; }
+        string avatarId { get; set; }
+        string avatarBgColorId { get; set; }
 
 
         // Ads Info
