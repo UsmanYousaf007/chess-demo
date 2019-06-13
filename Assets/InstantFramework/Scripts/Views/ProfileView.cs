@@ -40,6 +40,7 @@ namespace TurboLabz.InstantGame
         public Text eloScoreLabel;
         public Text eloScoreValue;
         public Image playerFlag;
+        public Image avatarIcon;
 
 
         private SpritesContainer defaultAvatarContainer;
@@ -149,6 +150,8 @@ namespace TurboLabz.InstantGame
         {
             noProfilePicBorder.SetActive(false);
             hasProfilePicBorder.SetActive(false);
+
+            avatarIcon.gameObject.SetActive(false);
 
             if (vo.playerPic != null)
             {
