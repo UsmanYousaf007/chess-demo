@@ -18,7 +18,7 @@ using TurboLabz.Multiplayer;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
-
+using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
@@ -38,8 +38,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public AcceptSignal acceptSignal { get; set; }
         [Inject] public DeclineSignal declineSignal { get; set; }
         [Inject] public CloseStripSignal closeStripSignal { get; set; }
-        [Inject] public ResignSignal resignSignal { get; set; }
+        [Inject] public TurboLabz.Multiplayer.ResignSignal resignSignal { get; set; }
         [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
+
+        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -49,11 +52,14 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
 
+            view.playMultiplayerButtonClickedSignal.AddListener(OnQuickMatchBtnClicked);
+            view.playCPUButtonClickedSignal.AddListener(OnPlayComputerMatchBtnClicked);
+
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
             view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
             view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
-            view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
+            //view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
             view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
@@ -62,6 +68,7 @@ namespace TurboLabz.InstantFramework
             view.okButtonClickedSignal.AddListener(OnOkButtonClicked);
             view.removeCommunityFriendSignal.AddListener(OnRemoveCommunityFriend);
         }
+
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
@@ -148,12 +155,6 @@ namespace TurboLabz.InstantFramework
             view.SortCommunity();
         }
 
-        [ListensTo(typeof(SortSearchedSignal))]
-        public void OnSortSearched()
-        {
-            view.SortSearched();
-        }
-
         [ListensTo(typeof(ClearCommunitySignal))]
         public void OnClearCommunity()
         {
@@ -170,27 +171,6 @@ namespace TurboLabz.InstantFramework
         public void OnClearFriend(string friendId)
         {
             view.ClearFriend(friendId);
-        }
-
-        [ListensTo(typeof(FriendsShowConnectFacebookSignal))]
-        public void OnFriendsConnectFacebook(bool showConnectInfo)
-        {
-            view.ShowConnectFacebook(showConnectInfo);
-        }
-
-        [ListensTo(typeof(AuthFacebookResultSignal))]
-        public void OnAuthFacebookResult(AuthFacebookResultVO vo)
-        {
-            if (view.IsVisible())
-            {
-                view.FacebookAuthResult(vo);
-            }
-        }
-
-        [ListensTo(typeof(ToggleFacebookButton))]
-        public void OnToggleFacebookButton(bool toggle)
-        {
-            view.ToggleFacebookButton(toggle);
         }
 
         [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
@@ -266,6 +246,16 @@ namespace TurboLabz.InstantFramework
         private void OnRemoveCommunityFriend(string opponentId)
         {
             removeCommunityFriendSignal.Dispatch(opponentId);
+        }
+
+        private void OnPlayComputerMatchBtnClicked()
+        {
+            startCPUGameSignal.Dispatch();
+        }
+
+        private void OnQuickMatchBtnClicked()
+        {
+            findMatchSignal.Dispatch();
         }
     }
 }

@@ -44,10 +44,11 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2709226
+    totalSpriteSurfaceArea: 3169924
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 548f54007db8241459f6f31c5122324c, type: 3}
   - {fileID: 21300000, guid: 3046ed00ce60f4a3e910be37af7bce3a, type: 3}
   - {fileID: 21300000, guid: 9579a910d0f6347ee9786833e99a8247, type: 3}
   - {fileID: 21300000, guid: aecbdc1088b5f47a589fc25d3b851bd6, type: 3}
@@ -55,6 +56,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7708e7c0b3f3b47a5b20d76b0a2a3fac, type: 3}
   - {fileID: 21300000, guid: 6b404ed06a2504dc68b1f84e1a2d734e, type: 3}
   - {fileID: 21300000, guid: feb032e04b1854a99bc2672f82cb5a28, type: 3}
+  - {fileID: 21300000, guid: 61c7a2e0410784c8b9217762e14b03c8, type: 3}
   - {fileID: 21300000, guid: e98bc4e0bb87a4bdfa089d4bdcadef30, type: 3}
   - {fileID: 21300000, guid: ea71d4f07d4d6470ebcb68ffdf468c9e, type: 3}
   - {fileID: 21300000, guid: 23660d219a98e477899e476efb6204cf, type: 3}
@@ -68,6 +70,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f5575b522f9274ffaae543e98b0f8d28, type: 3}
   - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
   - {fileID: 21300000, guid: 838e8fc2bb9e54657b14f648de8ecd9d, type: 3}
+  - {fileID: 21300000, guid: d067efd2bc8d7430ba27f4c445b565b8, type: 3}
   - {fileID: 21300000, guid: 5a6970e2b75f745248fe09d351b23616, type: 3}
   - {fileID: 21300000, guid: 33f181e2fa5224188b0855b086371e57, type: 3}
   - {fileID: 21300000, guid: 3ec033e2ca4b64af7abb21319ab3b3e2, type: 3}
@@ -108,6 +111,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f482a5e71cb314a20942bc9596fe8e93, type: 3}
   - {fileID: 21300000, guid: 70754318efb21480e98e27e1a7a08fde, type: 3}
   - {fileID: 21300000, guid: 455caf181f6c44899acc62f654ae9723, type: 3}
+  - {fileID: 21300000, guid: 72252928f6cbc42efbde35fdd5d91b2e, type: 3}
   - {fileID: 21300000, guid: c05faf2831dd74a4f8cf24f5ff587fac, type: 3}
   - {fileID: 21300000, guid: 2ce8304814f1a48b79278d4b6c34d397, type: 3}
   - {fileID: 21300000, guid: ad178f486cfba47a986b273648c46c57, type: 3}
@@ -169,6 +173,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5631b6cf2e0534e3bae7ab6873622176, type: 3}
   - {fileID: 21300000, guid: 7dae30ef437a74293924bc219896ab69, type: 3}
   m_PackedSpriteNamesToIndex:
+  - RandomMatchPattern
   - b
   - FacebookLoginButton
   - FriendBar
@@ -176,6 +181,7 @@ SpriteAtlas:
   - UndoBtn
   - ProfileFlagBorder
   - TVIcon
+  - PlayComputerButtonIcon
   - DragInvalid
   - WhiteBox
   - ShareIcon
@@ -189,6 +195,7 @@ SpriteAtlas:
   - a
   - ProgressIcon
   - ComputerAvatar
+  - QuickMatchPattern
   - ClockBorderBg
   - 7
   - PlayerActive
@@ -229,6 +236,7 @@ SpriteAtlas:
   - PowerUpPlusIcon
   - StripButton
   - BlackPixel
+  - QuickMatchButtonIcon
   - HintIndicator
   - Black
   - BonusButton

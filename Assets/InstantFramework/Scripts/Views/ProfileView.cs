@@ -34,6 +34,7 @@ namespace TurboLabz.InstantGame
 
         public Sprite defaultAvatar;
         public Image profilePic;
+        public Image avatarIcon;
         public Text profileName;
         public GameObject noProfilePicBorder;
         public GameObject hasProfilePicBorder;

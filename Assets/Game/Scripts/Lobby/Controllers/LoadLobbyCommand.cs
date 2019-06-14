@@ -32,14 +32,21 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
 
+        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
+        [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
+        [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
+
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void Execute()
         {
@@ -71,6 +78,39 @@ namespace TurboLabz.InstantGame
             {
                 updateFriendBarSignal.Dispatch(playerModel.friends[key], key);
             }
+
+            DispatchProfileSignal();
+            DispatchRemoveAdsSignal();
+            updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+        }
+
+        private void DispatchProfileSignal() 
+        {
+            ProfileVO pvo = new ProfileVO();
+            pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            pvo.playerName = playerModel.name;
+            pvo.eloScore = playerModel.eloScore;
+            pvo.countryId = playerModel.countryId;
+            pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
+            pvo.playerId = playerModel.id;
+
+            if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
+            {
+                pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            }
+
+            updateProfileSignal.Dispatch(pvo);
+        }
+
+        private void DispatchRemoveAdsSignal() 
+        {
+            string localizedMins = localizationService.Get(LocalizationKey.FREE_NO_ADS_MINUTES);
+            string localizedHours = localizationService.Get(LocalizationKey.FREE_NO_ADS_HOURS);
+            string localizedDays = localizationService.Get(LocalizationKey.FREE_NO_ADS_DAYS);
+            string timeRemain = TimeUtil.TimeToExpireString(playerModel.creationDate, metaDataModel.adsSettings.freeNoAdsPeriod,
+                localizedMins, localizedHours, localizedDays);
+
+            updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.HasAdsFreePeriod(metaDataModel.adsSettings));
         }
 
         /*

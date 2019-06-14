@@ -32,45 +32,33 @@ namespace TurboLabz.InstantFramework
         public Transform listContainer;
         public GameObject friendBarPrefab;
 
+        public Button quickMatchBtn;
+        public Text quickMatchTitleTxt;
+        public Text quickMatchDescriptionTxt;
+
+        public Button playComputerMatchBtn;
+        public Text playComputerMatchTitleTxt;
+        public Text playComputerMatchDescriptionTxt;
+        public Text playComputerLevelTxt;
+
         public Text noActiveMatchesText;
-        public Text inviteFriendsText;
-        public Button defaultInviteFriendsButton;
         public Text waitingForPlayersText;
 
-        public Transform sectionNewMatches;
+
         public Transform sectionActiveMatches;
         public GameObject sectionActiveMatchesEmpty;
-        public Transform sectionPlayAFriend;
-        public GameObject sectionPlayAFriendEmpty;
-        public GameObject sectionPlayAFriendEmptyNotLoggedIn;
         public Transform sectionPlaySomeoneNew;
         public GameObject sectionPlaySomeoneNewEmpty;
-        public Transform sectionSearched;
-        public GameObject sectionSearchResultsEmpty;
 
-
-        public Text sectionNewMatchesTitle;
         public Text sectionActiveMatchesTitle;
-        public Text sectionPlayAFriendTitle;
         public Text sectionPlaySomeoneNewTitle;
-        public Text sectionSearchResultsTitle;
 
         public Button refreshCommunityButton;
         public Text refreshText;
         public GameObject confirmDlg;
-        public Button facebookLoginButton;
-        public Text facebookLoginButtonText;
-        public GameObject facebookConnectAnim;
-        public Text facebookConnectText;
+
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
-        public Button editorSubmit;
-        public TMP_InputField inputField;
-        public Button cancelSearchButton;
-        public Button nextSearchButton;
-        public Text nextSearchButtonText;
-        public Image nextSearchButtonTextUnderline;
-        public Text searchBoxText;
 
 
         [Header("Confirm new game dialog")]
@@ -109,6 +97,8 @@ namespace TurboLabz.InstantFramework
         public Signal<string> okButtonClickedSignal = new Signal<string>();
         public Signal<int> actionCountUpdatedSignal = new Signal<int>();
         public Signal<string> removeCommunityFriendSignal = new Signal<string>();
+        public Signal playCPUButtonClickedSignal = new Signal();
+        public Signal playMultiplayerButtonClickedSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -117,24 +107,16 @@ namespace TurboLabz.InstantFramework
         private string startGameFriendId;
         private bool startGameRanked;
         private List<GameObject> cacheEnabledSections;
-        private int searchSkip;
-        private bool isSearchNext;
 
         public void Init()
         {
-            facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
-            facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
+
             noActiveMatchesText.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY);
-            inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
-            facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
             refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
 
-            sectionNewMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_NEW_MATCHES);
             sectionActiveMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES);
-            sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
-            sectionSearchResultsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS);
 
             confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
             confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
@@ -145,8 +127,6 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendNoBtnText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO);
             removeCommunityFriendTitleText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE);
 
-            facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
-
             confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
             confirmFriendlyGameBtn.onClick.AddListener(ConfirmFriendlyGameBtnClicked);
             confirmGameCloseBtn.onClick.AddListener(ConfirmNewGameDlgNo);
@@ -156,158 +136,42 @@ namespace TurboLabz.InstantFramework
 
             createMatchLimitReachedCloseBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
 
-#if UNITY_EDITOR
-            editorSubmit.gameObject.SetActive(true);
-            editorSubmit.onClick.AddListener(() => { OnSearchSubmit(inputField.text); });
-#else
-            editorSubmit.gameObject.SetActive(false);
-#endif
+            quickMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
 
-            nextSearchButton.onClick.AddListener(OnNextSearchBtnClicked);
+            playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
+            playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
+
+            quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
+
+            playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
+
+
             cacheEnabledSections = new List<GameObject>();
-            searchSkip = 0;
-            cancelSearchButton.interactable = false;
-            inputField.onEndEdit.AddListener(OnSearchSubmit);
-            cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
-            nextSearchButton.interactable = false;
-            ResetSearch();
+        }
+
+        void OnQuickMatchBtnClicked()
+        {
+            Debug.Log("OnQuickMatchBtnClicked");
+            playMultiplayerButtonClickedSignal.Dispatch();
+        }
+
+        void OnPlayComputerMatchBtnClicked()
+        {
+            Debug.Log("OnPlayComputerMatchBtnClicked");
+            playCPUButtonClickedSignal.Dispatch();
         }
 
         void CacheEnabledSections()
         {
             cacheEnabledSections.Clear();
 
-            if (sectionNewMatches.gameObject.activeSelf) cacheEnabledSections.Add(sectionNewMatches.gameObject);
             if (sectionActiveMatchesEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionActiveMatchesEmpty);
-            if (sectionPlayAFriend.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriend.gameObject);
-            if (sectionPlayAFriendEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmpty);
-            if (sectionPlayAFriendEmptyNotLoggedIn.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmptyNotLoggedIn);
             if (sectionPlaySomeoneNew.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlaySomeoneNew.gameObject);
             if (sectionPlaySomeoneNewEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlaySomeoneNewEmpty);
         }
 
-        void OnSearchSubmit(string text)
-        {
-            if (inputField.text.Length == 0)
-            {
-                return;
-            }
-
-            if (!isSearchNext)
-            {
-                searchSkip = 0;
-            }
-
-            uiBlocker.gameObject.SetActive(true);
-            searchBoxText.text = inputField.text;
-            searchBoxText.text = searchBoxText.text.Replace("\n", " ");
-            cancelSearchButton.interactable = true;
-            sectionSearchResultsEmpty.gameObject.SetActive(false);
-
-            ClearType(FriendCategory.FRIEND);
-            ClearType(FriendCategory.COMMUNITY);
-
-            ClearSearchResults();
-            searchFriendSignal.Dispatch(inputField.text, searchSkip);
-
-            if (cacheEnabledSections.Count == 0)
-            {
-                CacheEnabledSections();
-                sectionNewMatches.gameObject.SetActive(false);
-                sectionActiveMatches.gameObject.SetActive(false);
-                sectionActiveMatchesEmpty.gameObject.SetActive(false);
-                sectionPlayAFriend.gameObject.SetActive(false);
-                sectionPlayAFriendEmpty.gameObject.SetActive(false);
-                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
-                sectionPlaySomeoneNew.gameObject.SetActive(false);
-                sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
-                sectionSearchResultsEmpty.gameObject.SetActive(false);
-            }
-        }
-
-        void OnNextSearchBtnClicked()
-        {
-            isSearchNext = true;
-            OnSearchSubmit(inputField.text);
-            isSearchNext = false;
-        }
-
-        public void ResetSearch()
-        {
-            ClearSearchResults();
-            sectionSearched.gameObject.SetActive(false);
-            sectionSearchResultsEmpty.gameObject.SetActive(false);
-            cancelSearchButton.interactable = false;
-            searchSkip = 0;
-            isSearchNext = false;
-            inputField.text = "";
-            searchBoxText.text = "Search by Name..";
-            foreach (GameObject obj in cacheEnabledSections)
-            {
-                obj.SetActive(true);
-            }
-            cacheEnabledSections.Clear();
-        }
-
-        public void OnCancelSearchClicked()
-        {
-            ResetSearch();
-
-            if (facebookService.isLoggedIn())
-            {
-                refreshFriendsSignal.Dispatch();
-            }
-
-            refreshCommunitySignal.Dispatch();
-        }
-
-        public void ShowConnectFacebook(bool showConnectInfo)
-        {
-            startGameFriendId = null;
-
-            if (showConnectInfo)
-            {
-                listContainer.gameObject.SetActive(true);
-                facebookLoginButton.gameObject.SetActive(false);
-                facebookLoginButton.enabled = false;
-                facebookConnectText.gameObject.SetActive(false);
-                facebookConnectAnim.SetActive(false);
-                uiBlocker.SetActive(false);
-                scrollRect.verticalNormalizedPosition = 1f;
-
-                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
-
-                //listContainer.gameObject.SetActive(false);
-                facebookLoginButton.gameObject.SetActive(true);
-                facebookLoginButton.enabled = true;
-                facebookConnectText.gameObject.SetActive(true);
-                facebookConnectAnim.SetActive(false);
-            }
-            else
-            {
-                listContainer.gameObject.SetActive(true);
-                facebookLoginButton.gameObject.SetActive(false);
-                facebookLoginButton.enabled = false;
-                facebookConnectText.gameObject.SetActive(false);
-                facebookConnectAnim.SetActive(false);
-                uiBlocker.SetActive(false);
-                scrollRect.verticalNormalizedPosition = 1f;
-
-                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
-            }
-        }
-
         public void CreateGame(string friendId, bool isRanked)
         {
-            //// Facebook not logged in
-            //if (!facebookService.isLoggedIn())
-            //{
-            //    startGameFriendId = friendId;
-            //    startGameRanked = isRanked;
-            //    OnFacebookButtonClicked();
-            //    return;
-            //}
-
             // Friend needs to be added
             if (friendId != null && !bars.ContainsKey(friendId))
             {
@@ -321,33 +185,6 @@ namespace TurboLabz.InstantFramework
             {
                 playButtonClickedSignal.Dispatch(friendId, isRanked);
                 startGameFriendId = null;
-            }
-        }
-
-        public void FacebookAuthResult(AuthFacebookResultVO vo)
-        {
-            LogUtil.Log("FacebookAuthResult :: " + vo.isSuccessful);
-            facebookConnectAnim.SetActive(false);
-            uiBlocker.SetActive(false);
-
-            if (vo.isSuccessful)
-            {
-                // Player attempted to start a game
-                if ((startGameFriendId != null) && (vo.playerId != startGameFriendId))
-                {
-                    CreateGame(startGameFriendId, startGameRanked);
-                }
-
-                // Freak case where player started a game with themselves while they were a community player
-                if ((startGameFriendId != null) && (vo.playerId == startGameFriendId))
-                {
-                    startGameFriendId = null;
-                }
-            }
-            else
-            {
-                ShowConnectFacebook(true);
-                refreshCommunitySignal.Dispatch();
             }
         }
 
@@ -365,15 +202,11 @@ namespace TurboLabz.InstantFramework
             {
                 AddFriend(entry.Value, isCommunity, isSearched);
             }
-
-            //UpdateAllStatus();
-            //RefreshDefaultMessages();
-
-            //AddTestBars();
         }
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
         {
+            Debug.Log("isCommunity :: " + isCommunity );
             if (bars.ContainsKey(friend.playerId))
             {
                 return;
@@ -422,9 +255,7 @@ namespace TurboLabz.InstantFramework
                 friendBar.UpdateCommmunityStrip();
             }
         }
-
-        //private List<GameObject> removeBars = new List<GameObject>();
-
+        
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
             if (sprite == null)
@@ -563,11 +394,6 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
-            // TODO: Better handling needed
-            if (sectionSearched.gameObject.activeSelf)
-            {
-                OnCancelSearchClicked();
-            }
             gameObject.SetActive(false);
         }
 
@@ -580,16 +406,6 @@ namespace TurboLabz.InstantFramework
         {
             ClearType(FriendCategory.COMMUNITY);
             waitingForPlayersText.gameObject.SetActive(true);
-
-            //foreach(GameObject obj in removeBars)
-            //{
-            //    Destroy(obj);
-            //}
-        }
-
-        public void ClearSearchResults()
-        {
-            ClearType(FriendCategory.SEARCHED);
         }
 
         public void ClearFriends()
@@ -623,10 +439,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void ToggleFacebookButton(bool toggle)
-        {
-            facebookLoginButton.interactable = toggle;
-        }
 
         void ClearType(FriendCategory friendCategory)
         {
@@ -655,15 +467,6 @@ namespace TurboLabz.InstantFramework
             }
 
             Resources.UnloadUnusedAssets();
-        }
-
-        void OnFacebookButtonClicked()
-        {
-            ClearCommunity();
-            facebookButtonClickedSignal.Dispatch();
-            facebookConnectAnim.SetActive(true);
-            uiBlocker.SetActive(true);
-            facebookLoginButton.enabled = false;
         }
 
         void DefaultInviteSetActive(bool active)
@@ -781,14 +584,12 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmRankedGameBtnClicked()
         {
-            ResetSearch();
             confirmNewGameDlg.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, true);
         }
 
         void ConfirmFriendlyGameBtnClicked()
         {
-            ResetSearch();
             confirmNewGameDlg.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, false);
         }
@@ -880,31 +681,20 @@ namespace TurboLabz.InstantFramework
 
             // Set sibling indexes
             int index = 0;
-            sectionNewMatches.gameObject.SetActive(false);
-            sectionPlayAFriendEmpty.gameObject.SetActive(false);
-            sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
             sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
-
-            if (newMatches.Count > 0)
+            if (newMatches.Count > 0 ||
+                yourMove.Count > 0 ||
+                theirMove.Count > 0 ||
+                ended.Count > 0)
             {
-                sectionNewMatches.gameObject.SetActive(true);
-                index = sectionNewMatches.GetSiblingIndex() + 1;
-
+                sectionActiveMatches.gameObject.SetActive(true);
+                index = sectionActiveMatches.GetSiblingIndex() + 1;
                 foreach (FriendBar bar in newMatches)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
                 }
-            }
-
-            if (yourMove.Count > 0 ||
-                theirMove.Count > 0 ||
-                ended.Count > 0)
-            {
-                sectionActiveMatches.gameObject.SetActive(true);
-
-                index = sectionActiveMatches.GetSiblingIndex() + 1;
 
                 foreach (FriendBar bar in yourMove)
                 {
@@ -931,7 +721,6 @@ namespace TurboLabz.InstantFramework
 
             if (emptyOnline.Count > 0 || emptyOffline.Count > 0)
             {
-                index = sectionPlayAFriend.GetSiblingIndex() + 1;
 
                 foreach (FriendBar bar in emptyOnline)
                 {
@@ -943,17 +732,6 @@ namespace TurboLabz.InstantFramework
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
-                }
-            }
-            else
-            {
-                if (facebookService.isLoggedIn())
-                {
-                    sectionPlayAFriendEmpty.gameObject.SetActive(true);
-                }
-                else
-                {
-                    sectionPlayAFriendEmptyNotLoggedIn.SetActive(true);
                 }
             }
         }
@@ -1019,74 +797,5 @@ namespace TurboLabz.InstantFramework
                 sectionPlaySomeoneNewEmpty.gameObject.SetActive(true);
             }
         }
-        public void SortSearched()
-        {
-            // Create holders
-            List<FriendBar> searchedOnline = new List<FriendBar>();
-            List<FriendBar> searchedOffline = new List<FriendBar>();
-
-            // Fill holders
-            foreach (KeyValuePair<string, FriendBar> entry in bars)
-            {
-                FriendBar bar = entry.Value;
-
-                if (!bar.isSearched)
-                {
-                    continue;
-                }
-
-                if (entry.Value.isOnline)
-                {
-                    searchedOnline.Add(bar);
-                }
-                else
-                {
-                    searchedOffline.Add(bar);
-                }
-            }
-
-            // Sort holders
-            searchedOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-            searchedOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-
-            // Set sibling indexes
-            int index = 0;
-
-            if (searchedOnline.Count > 0 || searchedOffline.Count > 0)
-            {
-                sectionSearched.gameObject.SetActive(true);
-                index = sectionSearched.GetSiblingIndex() + 1;
-
-                foreach (FriendBar bar in searchedOnline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-
-                foreach (FriendBar bar in searchedOffline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-
-                }
-
-                nextSearchButton.interactable = true;
-                nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-                nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-                searchSkip += searchedOnline.Count + searchedOffline.Count;
-            }
-            else
-            {
-                sectionSearched.gameObject.SetActive(true);
-                sectionSearchResultsEmpty.gameObject.SetActive(true);
-                nextSearchButton.interactable = false;
-                nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
-                nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
-            }
-
-            uiBlocker.gameObject.SetActive(false);
-        }
     }
 }
-
-
