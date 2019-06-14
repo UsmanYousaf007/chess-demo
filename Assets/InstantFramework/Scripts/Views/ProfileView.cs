@@ -151,7 +151,10 @@ namespace TurboLabz.InstantGame
             noProfilePicBorder.SetActive(false);
             hasProfilePicBorder.SetActive(false);
 
-            avatarIcon.gameObject.SetActive(false);
+            if (avatarIcon != null)
+            {
+                avatarIcon.gameObject.SetActive(false);
+            }
 
             if (vo.playerPic != null)
             {
