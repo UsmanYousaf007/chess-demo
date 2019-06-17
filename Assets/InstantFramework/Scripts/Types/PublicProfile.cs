@@ -19,6 +19,8 @@ namespace TurboLabz.InstantFramework
         public DateTime lastSeenDateTime;
         public int totalGamesWon;
         public int totalGamesLost;
+        public string avatarId;
+        public string avatarBgColorId;
 
         public string name
         {
