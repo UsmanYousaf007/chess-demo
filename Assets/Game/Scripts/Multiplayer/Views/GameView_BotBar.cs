@@ -62,6 +62,7 @@ namespace TurboLabz.Multiplayer
 
                 analyticsService.Event(AnalyticsEventId.ads_friends_back);
             }
+            
             backToFriendsSignal.Dispatch(); 
         }
     }
