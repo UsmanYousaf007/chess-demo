@@ -12,6 +12,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.Text;
 using TurboLabz.InstantGame;
+using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
@@ -44,7 +45,6 @@ namespace TurboLabz.InstantFramework
         public Text noActiveMatchesText;
         public Text waitingForPlayersText;
 
-
         public Transform sectionActiveMatches;
         public GameObject sectionActiveMatchesEmpty;
         public Transform sectionPlaySomeoneNew;
@@ -60,6 +60,16 @@ namespace TurboLabz.InstantFramework
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
 
+
+        [Header("Choose computer difficulty dialog")]
+        public GameObject chooseComputerDifficultyDlg;
+        public Button decStrengthButton;
+        public Text prevStrengthLabel;
+        public Text currentStrengthLabel;
+        public Text nextStrengthLabel;
+        public Button incStrengthButton;
+        public Button computerDifficultyDlgStartGameButton;
+        public Button computerDifficultyDlgCloseButton;
 
         [Header("Confirm new game dialog")]
         public GameObject confirmNewGameDlg;
@@ -99,6 +109,8 @@ namespace TurboLabz.InstantFramework
         public Signal<string> removeCommunityFriendSignal = new Signal<string>();
         public Signal playCPUButtonClickedSignal = new Signal();
         public Signal playMultiplayerButtonClickedSignal = new Signal();
+        public Signal decStrengthButtonClickedSignal = new Signal();
+        public Signal incStrengthButtonClickedSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -107,6 +119,7 @@ namespace TurboLabz.InstantFramework
         private string startGameFriendId;
         private bool startGameRanked;
         private List<GameObject> cacheEnabledSections;
+        private bool isCPUGameInProgress;
 
         public void Init()
         {
@@ -145,8 +158,77 @@ namespace TurboLabz.InstantFramework
 
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
+            decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
+            incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
+            computerDifficultyDlgStartGameButton.onClick.AddListener(OnComputerDifficultyDlgStartGameClicked);
+            computerDifficultyDlgCloseButton.onClick.AddListener(OnComputerDifficultyDlgCloseClicked);
+
 
             cacheEnabledSections = new List<GameObject>();
+        }
+
+        void OnDecStrengthButtonClicked()
+        {
+            decStrengthButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+        }
+
+        private void OnIncStrengthButtonClicked()
+        {
+            incStrengthButtonClickedSignal.Dispatch();
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+        }
+
+        public void UpdateView(LobbyVO vo)
+        {
+            UpdateStrength(vo);
+            if (vo.inProgress)
+            {
+                playComputerLevelTxt.gameObject.SetActive(true);
+                playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL ) + vo.selectedStrength;
+               
+            }
+            else
+            {
+                playComputerLevelTxt.gameObject.SetActive(false);
+            }
+        }
+
+        public void UpdateStrength(LobbyVO vo)
+        {
+            isCPUGameInProgress = vo.inProgress;
+            int selectedStrength = vo.selectedStrength;
+            int minStrength = vo.minStrength;
+            int maxStrength = vo.maxStrength;
+
+            UpdateStrength(selectedStrength,minStrength,maxStrength);
+        }
+
+        private void UpdateStrength(int selectedStrength, int minStrength, int maxStrength)
+        {
+            currentStrengthLabel.text = selectedStrength.ToString();
+
+            if (selectedStrength == minStrength)
+            {
+                prevStrengthLabel.text = "";
+                nextStrengthLabel.text = (selectedStrength + 1).ToString();
+                incStrengthButton.interactable = true;
+                decStrengthButton.interactable = false;
+            }
+            else if (selectedStrength == maxStrength)
+            {
+                prevStrengthLabel.text = (selectedStrength - 1).ToString();
+                nextStrengthLabel.text = "";
+                incStrengthButton.interactable = false;
+                decStrengthButton.interactable = true;
+            }
+            else
+            {
+                prevStrengthLabel.text = (selectedStrength - 1).ToString();
+                nextStrengthLabel.text = (selectedStrength + 1).ToString();
+                incStrengthButton.interactable = true;
+                decStrengthButton.interactable = true;
+            }
         }
 
         void OnQuickMatchBtnClicked()
@@ -158,6 +240,23 @@ namespace TurboLabz.InstantFramework
         void OnPlayComputerMatchBtnClicked()
         {
             Debug.Log("OnPlayComputerMatchBtnClicked");
+            if (!isCPUGameInProgress)
+            {
+                chooseComputerDifficultyDlg.SetActive(true);
+            }
+            else
+            {
+                playCPUButtonClickedSignal.Dispatch();
+            }
+        }
+
+        void OnComputerDifficultyDlgCloseClicked()
+        {
+            chooseComputerDifficultyDlg.SetActive(false) ;
+        }
+
+        void OnComputerDifficultyDlgStartGameClicked()
+        {
             playCPUButtonClickedSignal.Dispatch();
         }
 
@@ -390,6 +489,7 @@ namespace TurboLabz.InstantFramework
             confirmNewGameDlg.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);
             createMatchLimitReachedDlg.SetActive(false);
+            chooseComputerDifficultyDlg.SetActive(false);
         }
 
         public void Hide()
@@ -656,6 +756,10 @@ namespace TurboLabz.InstantFramework
                          status == LongPlayStatus.DRAW)
                 {
                     ended.Add(bar);
+                }
+                else if (!bar.isCommunity && !bar.isCommunityFriend)
+                {
+                    bar.gameObject.SetActive(false);
                 }
                 else
                 {

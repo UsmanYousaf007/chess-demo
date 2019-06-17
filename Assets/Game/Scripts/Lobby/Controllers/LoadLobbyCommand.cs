@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
@@ -36,17 +37,17 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
 
-
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
-
+        
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         public override void Execute()
         {
@@ -78,6 +79,10 @@ namespace TurboLabz.InstantGame
             {
                 updateFriendBarSignal.Dispatch(playerModel.friends[key], key);
             }
+
+            LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
+
+            updateMenuViewSignal.Dispatch(vo);
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();

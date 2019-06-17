@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public const string FREE_NO_ADS_MINUTES = "freeNoAdsMinutes";
         public const string FREE_NO_ADS_HOURS = "freeNoAdsHours";
         public const string FREE_NO_ADS_DAYS = "freeNoAdsDays";
+        public const string PLAYING_LEVEL = "playingLevel";
 
         #endregion
 
@@ -199,6 +200,7 @@ namespace TurboLabz.InstantFramework
 		public const string FRIENDS_BLOCK_LABEL = "friendsBlockLabel";
         public const string FRIENDS_FACEBOOK_CONNECT_TEXT = "friendsFacebookConnectText";
         public const string FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT = "friendsFacebookLoginButtonText";
+        public const string SAVE_YOUR_PROGRESS_TEXT = "saveYourProgressText";
         public const string FRIENDS_WAITING_FOR_PLAYERS = "friendsWaitingForPlayers";
 
         #endregion

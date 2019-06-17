@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LobbyView view { get; set; }
 
         // Dispatch signals
+        [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
@@ -47,7 +48,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
-
+        
         public override void OnRegister()
         {
             view.Init();
@@ -67,8 +68,31 @@ namespace TurboLabz.InstantFramework
             view.cancelButtonClickedSignal.AddListener(OnCancelButtonClicked);
             view.okButtonClickedSignal.AddListener(OnOkButtonClicked);
             view.removeCommunityFriendSignal.AddListener(OnRemoveCommunityFriend);
+            view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
+            view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
         }
 
+        private void OnDecStrengthButtonClicked()
+        {
+            adjustStrengthSignal.Dispatch(false);
+        }
+
+        private void OnIncStrengthButtonClicked()
+        {
+            adjustStrengthSignal.Dispatch(true);
+        }
+
+        [ListensTo(typeof(UpdateStrengthSignal))]
+        public void OnUpdateStrength(LobbyVO vo)
+        {
+            view.UpdateStrength(vo);
+        }
+
+        [ListensTo(typeof(UpdateMenuViewSignal))]
+        public void OnUpdateView(LobbyVO vo)
+        {
+            view.UpdateView(vo);
+        }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)

@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
         public Button refreshCommunityButton;
 		public Text refreshText;
 		public GameObject confirmDlg;
+        public Text saveYourProgressText;
         public Button facebookLoginButton;
         public Text facebookLoginButtonText;
         public GameObject facebookConnectAnim;
@@ -123,8 +124,8 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT);
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
-            facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
             noActiveMatchesText.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
@@ -375,10 +376,11 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
-            if (bars.ContainsKey(friend.playerId))
+            if (bars.ContainsKey(friend.playerId) || isCommunity)
             {
                 return;
             }
+
 
             // create bar
             GameObject friendBarObj = Instantiate(friendBarPrefab);
@@ -447,7 +449,6 @@ namespace TurboLabz.InstantFramework
             barData.eloScoreLabel.text = vo.opponentEloScore.ToString();
         }   
             
-
         public void UpdateFriendBarStatus(LongPlayStatusVO vo)
         {
             if (!bars.ContainsKey(vo.playerId))

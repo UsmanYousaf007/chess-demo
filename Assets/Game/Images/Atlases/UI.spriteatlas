@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 3169718
+    totalSpriteSurfaceArea: 2370230
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -147,6 +147,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0ab7ba1c888d4440c910f465e5d7892c, type: 3}
   - {fileID: 21300000, guid: f769c84c9fc314a74baa81bd620e4b88, type: 3}
   - {fileID: 21300000, guid: 47d65c6c8db164c78bb724180437834d, type: 3}
+  - {fileID: 21300000, guid: 11de3f6cf2c924951a340f2373a5a90a, type: 3}
   - {fileID: 21300000, guid: 30da4d8ce908641999e32e1efbc60371, type: 3}
   - {fileID: 21300000, guid: 29908d8c15caf44e8bc1833068b0e474, type: 3}
   - {fileID: 21300000, guid: 57fc4f8c36c8048adb248a711ea1b5da, type: 3}
@@ -173,7 +174,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5631b6cf2e0534e3bae7ab6873622176, type: 3}
   - {fileID: 21300000, guid: 7dae30ef437a74293924bc219896ab69, type: 3}
   m_PackedSpriteNamesToIndex:
-  - RandomMatchPattern
+  - PlayComputerMatchPattern
   - b
   - FacebookLoginButton
   - FriendBar
@@ -272,6 +273,7 @@ SpriteAtlas:
   - ProfileIcon
   - SilverStar
   - 2
+  - difficultyArrow
   - DragValid
   - ClockBorder
   - NotificationBg
