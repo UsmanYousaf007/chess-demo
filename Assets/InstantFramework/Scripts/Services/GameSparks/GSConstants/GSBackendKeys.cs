@@ -89,6 +89,7 @@ namespace TurboLabz.InstantFramework
         public const string NEW_FRIEND_MESSAGE = "NewFriendMessage";
         public const string NEW_COMMUNITY_FRIEND_MESSAGE = "NewCommnunityFriendMessage";
         public const string ONLINE_STATUS_FRIEND_MESSAGE = "OnlineStatusFriendMessage";
+        public const string MATCH_WATCHDOG_PING_MESSAGE = "MatchWatchdogPingMessage";
 
         // Feature Shop Items
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS_PERM = "FeatureRemoveAdsPerm";

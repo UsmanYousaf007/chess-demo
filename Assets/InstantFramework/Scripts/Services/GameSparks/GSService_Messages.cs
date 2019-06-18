@@ -56,6 +56,10 @@ namespace TurboLabz.InstantFramework
 
                 updtateFriendOnlineStatusSignal.Dispatch(friendId, isOnline);
             }
+            else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_PING_MESSAGE)
+            {
+                MatchWatchdogPingAck();
+            }
         }
 
         private void OnChatScriptMessage(ScriptMessage message)
