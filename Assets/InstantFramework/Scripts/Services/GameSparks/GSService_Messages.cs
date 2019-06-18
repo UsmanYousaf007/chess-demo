@@ -58,7 +58,12 @@ namespace TurboLabz.InstantFramework
             }
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_PING_MESSAGE)
             {
-                MatchWatchdogPingAck();
+                string currentTurnPlayerId = message.Data.GetString("currentTurnPlayerId");
+                string challengerId = message.Data.GetString("challengerId");
+                string challengedId = message.Data.GetString("challengedId");
+                string challengeId = message.Data.GetString("challengeId");
+
+                MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
             }
         }
 
