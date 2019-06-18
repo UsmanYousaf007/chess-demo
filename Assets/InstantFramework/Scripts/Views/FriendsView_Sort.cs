@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
     {
         public void SortFriends()
         {
+            Debug.Log("******* SortFriends **********");
             // Create holders
             List<FriendBar> newMatches = new List<FriendBar>();
             List<FriendBar> yourMove = new List<FriendBar>();
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
             List<FriendBar> ended = new List<FriendBar>();
             List<FriendBar> emptyOnline = new List<FriendBar>();
             List<FriendBar> emptyOffline = new List<FriendBar>();
+            List<FriendBar> allFriends = new List<FriendBar>();
 
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
@@ -43,6 +45,8 @@ namespace TurboLabz.InstantFramework
                 {
                     continue;
                 }
+
+                allFriends.Add(bar);
 
                 if (status == LongPlayStatus.NEW_CHALLENGE ||
                     status == LongPlayStatus.WAITING_FOR_ACCEPT ||
@@ -76,158 +80,110 @@ namespace TurboLabz.InstantFramework
                         emptyOffline.Add(bar);
                     }
                 }
-
             }
 
             // Sort holders
-            newMatches.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));
-            yourMove.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));
-            theirMove.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
-            ended.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
-            emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-            emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            //newMatches.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));
+            //yourMove.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));
+            //theirMove.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
+            //ended.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
+            //emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            //emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+
+            allFriends.Sort((x, y) => y.lastActionTime.CompareTo(x.lastActionTime));
 
             // Set sibling indexes
             int index = 0;
-            sectionNewMatches.gameObject.SetActive(false);
             sectionPlayAFriendEmpty.gameObject.SetActive(false);
             sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
-            sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
-
-            if (newMatches.Count > 0)
+            if (!facebookService.isLoggedIn())
             {
-                sectionNewMatches.gameObject.SetActive(true);
-                index = sectionNewMatches.GetSiblingIndex() + 1;
-
-                foreach (FriendBar bar in newMatches)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
+                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
             }
 
-            if (yourMove.Count > 0 ||
-                theirMove.Count > 0 ||
-                ended.Count > 0)
+
+            //if (yourMove.Count > 0 ||
+            //    theirMove.Count > 0 ||
+            //    ended.Count > 0 ||
+            //    newMatches.Count >0 ||
+            //    emptyOnline.Count > 0 ||
+            //    emptyOffline.Count > 0
+            //    )
+
+            if (allFriends.Count>0)
             {
-                sectionActiveMatches.gameObject.SetActive(true);
+                //sectionActiveMatches.gameObject.SetActive(true);
+                sectionPlayAFriend.gameObject.SetActive(true);
 
-                index = sectionActiveMatches.GetSiblingIndex() + 1;
-
-                foreach (FriendBar bar in yourMove)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-
-                foreach (FriendBar bar in theirMove)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-
-                foreach (FriendBar bar in ended)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-            }
-            else
-            {
-                sectionActiveMatches.gameObject.SetActive(false);
-            }
-
-            if (emptyOnline.Count > 0 || emptyOffline.Count > 0)
-            {
                 index = sectionPlayAFriend.GetSiblingIndex() + 1;
-
-                foreach (FriendBar bar in emptyOnline)
+                foreach (FriendBar bar in allFriends)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
                 }
+                //foreach (FriendBar bar in yourMove)
+                //{
+                //    bar.transform.SetSiblingIndex(index);
+                //    index++;
+                //}
 
-                foreach (FriendBar bar in emptyOffline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
+                //foreach (FriendBar bar in newMatches)
+                //{
+                //    bar.transform.SetSiblingIndex(index);
+                //    index++;
+                //}
+
+                //foreach (FriendBar bar in theirMove)
+                //{
+                //    bar.transform.SetSiblingIndex(index);
+                //    index++;
+                //}
+
+                //foreach (FriendBar bar in ended)
+                //{
+                //    bar.transform.SetSiblingIndex(index);
+                //    index++;
+                //}
+
+                //foreach (FriendBar bar in emptyOnline)
+                //{
+                //    bar.transform.SetSiblingIndex(index);
+                //    index++;
+                //}
+
+                //foreach (FriendBar bar in emptyOffline)
+                //{
+                //    bar.transform.SetSiblingIndex(index);
+                //    index++;
+                //}
             }
+
+            //if (emptyOnline.Count > 0 || emptyOffline.Count > 0)
+            //{
+            //    index = sectionPlayAFriend.GetSiblingIndex() + 1;
+
+            //    foreach (FriendBar bar in emptyOnline)
+            //    {
+            //        bar.transform.SetSiblingIndex(index);
+            //        index++;
+            //    }
+
+            //    foreach (FriendBar bar in emptyOffline)
+            //    {
+            //        bar.transform.SetSiblingIndex(index);
+            //        index++;
+            //    }
+            //}
             else
             {
                 if (facebookService.isLoggedIn())
                 {
                     sectionPlayAFriendEmpty.gameObject.SetActive(true);
                 }
-                else
-                {
-                    sectionPlayAFriendEmptyNotLoggedIn.SetActive(true);
-                }
             }
         }
 
-        public void SortCommunity()
-        {
-            // Create holders
-            List<FriendBar> communityOnline = new List<FriendBar>();
-            List<FriendBar> communityOffline = new List<FriendBar>();
-
-            // Fill holders
-            foreach (KeyValuePair<string, FriendBar> entry in bars)
-            {
-                FriendBar bar = entry.Value;
-
-                if (!bar.isCommunity)
-                {
-                    continue;
-                }
-                if (bar.isSearched)
-                {
-                    continue;
-                }
-
-                if (entry.Value.isOnline)
-                {
-                    communityOnline.Add(bar);
-                }
-                else
-                {
-                    communityOffline.Add(bar);
-                }
-            }
-
-            // Sort holders
-            communityOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-            communityOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-
-            // Set sibling indexes
-            int index = 0;
-            sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
-
-
-            if (communityOnline.Count > 0 || communityOffline.Count > 0)
-            {
-                index = sectionPlaySomeoneNew.GetSiblingIndex() + 1;
-
-                foreach (FriendBar bar in communityOnline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-
-                foreach (FriendBar bar in communityOffline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-
-                }
-            }
-            else
-            {
-                sectionPlaySomeoneNewEmpty.gameObject.SetActive(true);
-            }
-        }
         public void SortSearched()
         {
             // Create holders

@@ -305,7 +305,6 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
         {
-            Debug.Log("isCommunity :: " + isCommunity );
             if (bars.ContainsKey(friend.playerId))
             {
                 return;
@@ -772,7 +771,6 @@ namespace TurboLabz.InstantFramework
                         emptyOffline.Add(bar);
                     }
                 }
-
             }
 
             // Sort holders
@@ -814,8 +812,7 @@ namespace TurboLabz.InstantFramework
 
                 foreach (FriendBar bar in ended)
                 {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
+                    bar.gameObject.SetActive(false);
                 }
             }
             else

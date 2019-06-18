@@ -40,6 +40,7 @@ namespace TurboLabz.InstantGame
                 }
             }
 
+            Debug.Log(playerModel.friends.Count + " &&&&&&&&&&&& ");
             addFriendsSignal.Dispatch(playerModel.friends, FriendCategory.FRIEND);
             getSocialPicsSignal.Dispatch(playerModel.friends);
 

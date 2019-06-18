@@ -33,31 +33,18 @@ namespace TurboLabz.InstantFramework
         public Transform listContainer;
 		public GameObject friendBarPrefab;
 
-        public Text noActiveMatchesText;
         public Text inviteFriendsText;
         public Button defaultInviteFriendsButton;
-        public Text waitingForPlayersText;
 
-        public Transform sectionNewMatches;
-        public Transform sectionActiveMatches;
-        public GameObject sectionActiveMatchesEmpty;
         public Transform sectionPlayAFriend;
         public GameObject sectionPlayAFriendEmpty;
         public GameObject sectionPlayAFriendEmptyNotLoggedIn;
-        public Transform sectionPlaySomeoneNew;
-        public GameObject sectionPlaySomeoneNewEmpty;
         public Transform sectionSearched;
         public GameObject sectionSearchResultsEmpty;
 
-
-        public Text sectionNewMatchesTitle;
-        public Text sectionActiveMatchesTitle;
         public Text sectionPlayAFriendTitle;
-        public Text sectionPlaySomeoneNewTitle;
         public Text sectionSearchResultsTitle;
 
-        public Button refreshCommunityButton;
-		public Text refreshText;
 		public GameObject confirmDlg;
         public Text saveYourProgressText;
         public Button facebookLoginButton;
@@ -126,16 +113,10 @@ namespace TurboLabz.InstantFramework
         {
             saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT);
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
-            noActiveMatchesText.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
-            waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
-			refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
 
-            sectionNewMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_NEW_MATCHES);
-            sectionActiveMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES);
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
-            sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
             sectionSearchResultsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS);
 
             confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
@@ -179,13 +160,9 @@ namespace TurboLabz.InstantFramework
         {
             cacheEnabledSections.Clear();
 
-            if (sectionNewMatches.gameObject.activeSelf) cacheEnabledSections.Add(sectionNewMatches.gameObject);
-            if (sectionActiveMatchesEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionActiveMatchesEmpty);
+            if (sectionPlayAFriendEmptyNotLoggedIn.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmptyNotLoggedIn);
             if (sectionPlayAFriend.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriend.gameObject);
             if (sectionPlayAFriendEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmpty);
-            if (sectionPlayAFriendEmptyNotLoggedIn.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmptyNotLoggedIn);
-            if (sectionPlaySomeoneNew.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlaySomeoneNew.gameObject);
-            if (sectionPlaySomeoneNewEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlaySomeoneNewEmpty);
         }
 
         void OnSearchSubmit(string text)
@@ -215,14 +192,9 @@ namespace TurboLabz.InstantFramework
             if (cacheEnabledSections.Count == 0)
             {
                 CacheEnabledSections();
-                sectionNewMatches.gameObject.SetActive(false);
-                sectionActiveMatches.gameObject.SetActive(false);
-                sectionActiveMatchesEmpty.gameObject.SetActive(false);
                 sectionPlayAFriend.gameObject.SetActive(false);
                 sectionPlayAFriendEmpty.gameObject.SetActive(false);
                 sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
-                sectionPlaySomeoneNew.gameObject.SetActive(false);
-                sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
                 sectionSearchResultsEmpty.gameObject.SetActive(false);
             }
         }
@@ -376,7 +348,7 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
-            if (bars.ContainsKey(friend.playerId) || isCommunity)
+            if (bars.ContainsKey(friend.playerId) || (isCommunity && !isSearched))
             {
                 return;
             }
@@ -578,17 +550,6 @@ namespace TurboLabz.InstantFramework
             return gameObject.activeSelf;
         }
 
-        public void ClearCommunity()
-        {
-            ClearType(FriendCategory.COMMUNITY);
-            waitingForPlayersText.gameObject.SetActive(true);
-
-            //foreach(GameObject obj in removeBars)
-            //{
-            //    Destroy(obj);
-            //}
-        }
-
         public void ClearSearchResults()
         {
             ClearType(FriendCategory.SEARCHED);
@@ -661,7 +622,6 @@ namespace TurboLabz.InstantFramework
 
         void OnFacebookButtonClicked()
         {
-            ClearCommunity();
             facebookButtonClickedSignal.Dispatch();
             facebookConnectAnim.SetActive(true);
             uiBlocker.SetActive(true);

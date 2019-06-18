@@ -52,11 +52,8 @@ namespace TurboLabz.InstantFramework
             initBackendOnceSignal.Dispatch();
             loadLobbySignal.Dispatch();
 
-            if (facebookService.isLoggedIn())
-            {
-                refreshFriendsSignal.Dispatch();
-                refreshCommunitySignal.Dispatch();
-            }
+            refreshFriendsSignal.Dispatch();
+            //refreshCommunitySignal.Dispatch();
 
             SendAnalytics();
 

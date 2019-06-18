@@ -52,7 +52,6 @@ namespace TurboLabz.InstantFramework
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
             view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
-            view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
             view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
@@ -142,22 +141,10 @@ namespace TurboLabz.InstantFramework
             view.SortFriends();
         }
 
-        [ListensTo(typeof(SortCommunitySignal))]
-        public void OnSortCommunity()
-        {
-            view.SortCommunity();
-        }
-
         [ListensTo(typeof(SortSearchedSignal))]
         public void OnSortSearched()
         {
             view.SortSearched();
-        }
-
-        [ListensTo(typeof(ClearCommunitySignal))]
-        public void OnClearCommunity()
-        {
-            view.ClearCommunity();
         }
 
         [ListensTo(typeof(ClearFriendsSignal))]
@@ -218,14 +205,6 @@ namespace TurboLabz.InstantFramework
         private void OnShowProfileDialog(string playerId)
         {
             showProfileDialogSignal.Dispatch(playerId);
-        }
-
-        private void OnRefreshCommunity()
-        {
-            refreshCommunitySignal.Dispatch();
-
-            // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_community_refresh);
         }
 
         private void OnShareApp()
