@@ -58,6 +58,10 @@ namespace TurboLabz.InstantGame
             {
                 hexColor = "#" + hexColor;
             }
+            if (hexColor.Length <= 7)
+            {
+                hexColor = hexColor +"FF";
+            }
 
             Color newCol;
             if (ColorUtility.TryParseHtmlString(hexColor, out newCol))

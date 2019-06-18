@@ -35,6 +35,7 @@ namespace TurboLabz.InstantGame
         public Sprite defaultAvatar;
         public Sprite whiteAvatar;
         public Image profilePic;
+        public Image avatarBG;
         public Image avatarIcon;
         public Text profileName;
         public GameObject noProfilePicBorder;
@@ -133,6 +134,9 @@ namespace TurboLabz.InstantGame
         {
             noProfilePicBorder.SetActive(false);
             hasProfilePicBorder.SetActive(false);
+            avatarIcon.gameObject.SetActive(false);
+            avatarBG.gameObject.SetActive(false);
+            profilePic.color = Color.white;
 
             if (sprite == null)
             {
@@ -150,6 +154,7 @@ namespace TurboLabz.InstantGame
         {
             noProfilePicBorder.SetActive(false);
             hasProfilePicBorder.SetActive(false);
+            avatarBG.gameObject.SetActive(false);
             avatarIcon.gameObject.SetActive(false);
           
             if (vo.playerPic != null)
@@ -167,9 +172,10 @@ namespace TurboLabz.InstantGame
                     if(newSprite != null)
                     {
                         avatarIcon.gameObject.SetActive(true);
+                        avatarBG.gameObject.SetActive(true);
                         avatarIcon.sprite = newSprite;
-                        profilePic.sprite = whiteAvatar;
-                        profilePic.color = Colors.Color(vo.avatarColorId);
+                        avatarBG.sprite = whiteAvatar;
+                        avatarBG.color = Colors.Color(vo.avatarColorId);
                     }
                 }
                  
