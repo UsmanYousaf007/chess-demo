@@ -263,7 +263,7 @@ namespace TurboLabz.InstantFramework
         public const string NEW_GAME_CONFIRM_TITLE = "newGameConfirmTitle";
         public const string FRIENDLY_GAME_CAPTION = "friendlyGameCaption";
         public const string LONG_PLAY_VIEW = "longPlayView";
-       
+
 
 
         #endregion
@@ -272,9 +272,15 @@ namespace TurboLabz.InstantFramework
         #region RateApp
 
         public const string RATE_APP_TITLE = "rateAppTitle";
-        public const string RATE_APP_SUB_TITLE = "rateAppSubTitle";
+        public const string RATE_APP_SUB_TITLE_RATE = "rateAppSubTitleRate";
+        public const string RATE_APP_SUB_TITLE_TELL = "rateAppSubTitleTell";
         public const string RATE_APP_RATE = "rate";
+        public const string RATE_APP_TELL = "tell";
         public const string RATE_APP_NOT_NOW = "notNow";
+        public const string RATE_APP_IMPROVE = "improve";
+        public const string RATE_APP_LIKE = "like";
+        public const string RATE_APP_LOVE = "love";
+        public const string RATE_APP_LOVE_FROM_TEAM = "loveFromTeam";
 
         #endregion
     }

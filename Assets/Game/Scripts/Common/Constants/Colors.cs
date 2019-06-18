@@ -51,5 +51,20 @@ namespace TurboLabz.InstantGame
             sb.Append("</color>");
             return sb.ToString();
         }
+
+        public static Color Color(string hexColor)
+        {
+            if (!hexColor.Contains("#"))
+            {
+                hexColor = "#" + hexColor;
+            }
+
+            Color newCol;
+            if (ColorUtility.TryParseHtmlString(hexColor, out newCol))
+            {
+                return newCol;
+            }
+            return UnityEngine.Color.white;
+        }
     }
 }

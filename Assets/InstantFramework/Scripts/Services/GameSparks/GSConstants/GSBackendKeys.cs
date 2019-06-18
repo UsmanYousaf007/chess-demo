@@ -74,6 +74,11 @@ namespace TurboLabz.InstantFramework
         public const string GAMES_DRAWN = "gamesDrawn";
         public const string GAMES_ABANDONED = "gamesAbandoned";
         public const string GAMES_PLAYED = "gamesPlayed";
+        public const string AVATAR_ID = "avatarId";
+
+        //Altas names
+        public const string DEFAULT_AVATAR_ALTAS_NAME = "DefaultAvatar";
+
 
         // PING KEYS
         public const string CLIENT_SEND_TIMESTAMP = "clientSendTimestamp";
@@ -84,6 +89,7 @@ namespace TurboLabz.InstantFramework
         public const string NEW_FRIEND_MESSAGE = "NewFriendMessage";
         public const string NEW_COMMUNITY_FRIEND_MESSAGE = "NewCommnunityFriendMessage";
         public const string ONLINE_STATUS_FRIEND_MESSAGE = "OnlineStatusFriendMessage";
+        public const string MATCH_WATCHDOG_PING_MESSAGE = "MatchWatchdogPingMessage";
 
         // Feature Shop Items
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS_PERM = "FeatureRemoveAdsPerm";
@@ -184,6 +190,8 @@ namespace TurboLabz.InstantFramework
             public const string HINT_SHOP_TAG = "HintPack";
             public const string HINDSIGHT_SHOP_TAG = "HindsightPack";
             public const string SPECIAL_BUNDLE_SHOP_TAG = "SpecialBundle";
+            public const string AVATAR_TAG = "Avatar";
+            public const string AVATAR_BG_COLOR_TAG = "AvatarBgColor";
 
             public const string POWERUP_HINT_SHOP_TAG = "PowerUpHint";
             public const string POWERUP_HINDSIGHT_SHOP_TAG = "PowerUpHindsight";

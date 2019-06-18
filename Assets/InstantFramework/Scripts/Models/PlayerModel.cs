@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
         public long bucks { get; set; }
         public int eloScore { get; set; }
         public bool isPremium { get; set; }
+        public string avatarId { get; set; }
+        public string avatarBgColorId { get; set; }
 
         public string name
         {
@@ -75,6 +77,8 @@ namespace TurboLabz.InstantFramework
             bucks = 0;
             eloScore = 0;
             isPremium = false;
+            avatarId = null;
+            avatarBgColorId = null;
 
             // Ads Info
             adLifetimeImpressions = 0;

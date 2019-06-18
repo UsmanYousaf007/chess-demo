@@ -27,7 +27,13 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
             view.notNowButton.onClick.AddListener(OnNotNow);
+            view.closeButton.onClick.AddListener(OnNotNow);
             view.rateButton.onClick.AddListener(OnRate);
+
+            view.improveButton.onClick.AddListener(OnImproveBtnClick);
+            view.likeButton.onClick.AddListener(OnLikeBtnClick);
+            view.loveButton.onClick.AddListener(OnLoveBtnClick);
+            view.tellUsButton.onClick.AddListener(OnTellUsBtnClick);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -35,7 +41,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.RATE_APP_DLG) 
             {
-                view.Show();
+                view.ShowAreYouEnjoying();
                 analyticsService.ScreenVisit(AnalyticsScreen.rate_dialog);
             }
         }
@@ -61,6 +67,28 @@ namespace TurboLabz.InstantFramework
             rateAppService.RateApp(true);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             analyticsService.Event(AnalyticsEventId.tap_rate_yes);
+        }
+
+        private void OnImproveBtnClick()
+        {
+            view.ShowTellUs();
+        }
+
+        private void OnLikeBtnClick()
+        {
+            view.ShowRateUs();
+        }
+
+        private void OnLoveBtnClick()
+        {
+            view.ShowRateUs();
+        }
+
+        private void OnTellUsBtnClick()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
+            analyticsService.Event(AnalyticsEventId.tap_support);
         }
     }
 }

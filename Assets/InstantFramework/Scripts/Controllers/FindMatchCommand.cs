@@ -102,6 +102,8 @@ namespace TurboLabz.InstantFramework
             pvo.eloScore = publicProfile.eloScore;
             pvo.countryId = publicProfile.countryId;
             pvo.playerId = publicProfile.playerId;
+            pvo.avatarColorId = publicProfile.avatarBgColorId;
+            pvo.avatarId = publicProfile.avatarId;
             pvo.isOnline = true;
 
             return pvo;
