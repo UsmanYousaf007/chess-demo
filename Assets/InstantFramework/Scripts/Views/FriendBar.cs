@@ -9,6 +9,8 @@ namespace TurboLabz.InstantFramework
     public class FriendBar : MonoBehaviour
     {
         public Image avatarImage;
+        public Image avatarBG;
+        public Image avatarIcon;
         public Text profileNameLabel;
         public Text eloScoreLabel;
         public GameObject timer;

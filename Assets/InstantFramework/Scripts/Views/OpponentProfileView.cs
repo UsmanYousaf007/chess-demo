@@ -29,7 +29,10 @@ namespace TurboLabz.InstantGame
         [Inject] public ILocalizationService localizationService { get; set; }
 
         public Sprite defaultAvatar;
+        public Sprite whiteAvatar;
         public Image profilePic;
+        public Image avatarBg;
+        public Image avatarIcon;
         public Text profileName;
         public GameObject noProfilePicBorder;
         public GameObject hasProfilePicBorder;
@@ -41,10 +44,12 @@ namespace TurboLabz.InstantGame
         public Sprite offline;
 
         private string opponentId;
+        private SpritesContainer defaultAvatarContainer;
 
         public void Init()
         {
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+            defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
         }
 
         public void CleanUp()
@@ -59,7 +64,7 @@ namespace TurboLabz.InstantGame
             opponentId = vo.playerId;
             onlineStatus.sprite = vo.isOnline ? online : offline;
 
-            SetProfilePic(vo.playerPic);
+            SetProfilePic(vo);
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -88,20 +93,37 @@ namespace TurboLabz.InstantGame
             gameObject.SetActive(false);
         }
 
-        private void SetProfilePic(Sprite sprite)
+        private void SetProfilePic(ProfileVO vo)
         {
             noProfilePicBorder.SetActive(false);
             hasProfilePicBorder.SetActive(false);
+            avatarBg.gameObject.SetActive(false);
+            avatarIcon.gameObject.SetActive(false);
+            Debug.Log(vo.avatarColorId + " :::: " + vo.avatarId);
 
-            if (sprite == null)
+            if (vo.playerPic != null)
             {
-                profilePic.sprite = defaultAvatar;
-                noProfilePicBorder.SetActive(true);
+                profilePic.sprite = vo.playerPic;
+                hasProfilePicBorder.SetActive(true);
             }
             else
             {
-                profilePic.sprite = sprite;
-                hasProfilePicBorder.SetActive(true);
+                profilePic.sprite = defaultAvatar;
+
+                if (vo.avatarId != null)
+                {
+                    Sprite newSprite = defaultAvatarContainer.GetSprite(vo.avatarId);
+                    if (newSprite != null)
+                    {
+                        avatarIcon.gameObject.SetActive(true);
+                        avatarBg.gameObject.SetActive(true);
+                        avatarIcon.sprite = newSprite;
+                        avatarBg.sprite = whiteAvatar;
+                        avatarBg.color = Colors.Color(vo.avatarColorId);
+                    }
+                }
+
+                noProfilePicBorder.SetActive(true);
             }
         }
     }

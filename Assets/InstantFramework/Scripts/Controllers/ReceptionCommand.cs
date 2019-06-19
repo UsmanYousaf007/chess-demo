@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
             loadLobbySignal.Dispatch();
 
             refreshFriendsSignal.Dispatch();
-            //refreshCommunitySignal.Dispatch();
+            refreshCommunitySignal.Dispatch();
 
             SendAnalytics();
 

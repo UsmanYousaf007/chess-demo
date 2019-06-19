@@ -30,6 +30,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
 
+        private SpritesContainer defaultAvatarContainer;
+
         public Transform listContainer;
 		public GameObject friendBarPrefab;
 
@@ -67,6 +69,8 @@ namespace TurboLabz.InstantFramework
         public Button confirmGameCloseBtn;
         public Text confirmNewGameDlgTitleText;
         public Image opponentProfilePic;
+        public Image opponentAvatarBg;
+        public Image opponentAvatarIcon;
         public Text opponentProfileName;
         public Text opponentEloLabel;
         public Image opponentFlag;
@@ -111,6 +115,7 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
             saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT);
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
@@ -390,7 +395,7 @@ namespace TurboLabz.InstantFramework
             friendBarObj.transform.SetParent(listContainer, false);
             bars.Add(friend.playerId, friendBar);
 
-            UpdateFriendPic(friend.playerId, friend.publicProfile.profilePicture);
+            UpdateFriendPic(friend.playerId, friend.publicProfile);
 
             if (isCommunity)
             {
@@ -409,7 +414,34 @@ namespace TurboLabz.InstantFramework
                 return;
 
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
+            barData.avatarIcon.gameObject.SetActive(false);
+            barData.avatarBG.gameObject.SetActive(false);
             barData.avatarImage.sprite = sprite;
+        }
+
+        public void UpdateFriendPic(string playerId, PublicProfile publicProfile)
+        {
+            if (!bars.ContainsKey(playerId))
+                return;
+
+            FriendBar barData = bars[playerId].GetComponent<FriendBar>();
+            barData.avatarIcon.gameObject.SetActive(false);
+            barData.avatarBG.gameObject.SetActive(false);
+            if (publicProfile.profilePicture != null)
+            {
+                barData.avatarImage.sprite = publicProfile.profilePicture;
+            }
+            else
+            {
+                if (publicProfile.avatarId != null)
+                {
+                    barData.avatarIcon.gameObject.SetActive(true);
+                    barData.avatarBG.gameObject.SetActive(true);
+
+                    barData.avatarBG.color = Colors.Color(publicProfile.avatarBgColorId);
+                    barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId);
+                }
+            }
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -733,6 +765,14 @@ namespace TurboLabz.InstantFramework
             if (bar.avatarImage != null)
             {
                 opponentProfilePic.sprite = bar.avatarImage.sprite;
+            }
+            if (bar.avatarIcon != null)
+            {
+                opponentAvatarIcon.sprite = bar.avatarIcon.sprite;
+                opponentAvatarBg.sprite = bar.avatarBG.sprite;
+                opponentAvatarBg.color = bar.avatarBG.color;
+                opponentAvatarIcon.gameObject.SetActive(bar.avatarIcon.IsActive());
+                opponentAvatarBg.gameObject.SetActive(bar.avatarBG.IsActive());
             }
             opponentProfileName.text = opponentProfile.name;
             opponentEloLabel.text = eloPrefix + " " + opponentProfile.eloScore;

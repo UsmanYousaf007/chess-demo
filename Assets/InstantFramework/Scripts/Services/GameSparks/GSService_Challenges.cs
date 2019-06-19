@@ -141,6 +141,11 @@ namespace TurboLabz.InstantFramework
             GSData opponentData = matchData.GetGSData(opponentId);
             GSData opponentProfile = opponentData.GetGSData(GSBackendKeys.ChallengeData.PROFILE);
             PublicProfile opponentPublicProfile = new PublicProfile();
+
+            //Populate Active Inventory
+            IList<GSData> playerActiveInventoryData = opponentProfile.GetGSDataList(GSBackendKeys.PlayerDetails.PLAYER_ACTIVE_INVENTORY);
+            GSParser.PopulateActiveInventory(opponentPublicProfile, playerActiveInventoryData);
+
             opponentPublicProfile.playerId = opponentId;
             opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
             opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
