@@ -12,9 +12,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        private IPromise<BackendResult> MatchWatchdogPingAck()
+        private IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId)
         {
-            return new GSMatchWatchdogPingAckRequest().Send();
+            return new GSMatchWatchdogPingAckRequest().Send(currentTurnPlayerId, challengerId, challengedId, challengeId);
         }
 
         private void OnMatchWatchdogPingAckSuccess(object r)
@@ -29,9 +29,13 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "MatchWatchdogPingAck";
 
-        public IPromise<BackendResult> Send()
+        public IPromise<BackendResult> Send(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId)
         {
             new LogEventRequest()
+                .SetEventAttribute("currentTurnPlayerId", currentTurnPlayerId)
+                .SetEventAttribute("challengerId", challengerId)
+                .SetEventAttribute("challengedId", challengedId)
+                .SetEventAttribute("challengeId", challengeId)
                 .SetEventKey(SHORT_CODE)
                 .Send(OnRequestSuccess, OnRequestFailure);
 

@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
 
+        [Inject] public ResumeMatchSignal resumeMatchSignal { get; set; }
+
         public void MonitorConnectivity(bool enable)
         {
             GS.GameSparksAvailable -= GameSparksAvailable;
@@ -46,6 +48,10 @@ namespace TurboLabz.InstantFramework
             if (isAvailable)
             {
                 receptionSignal.Dispatch();
+                LogUtil.Log("GS CONNECTED!", "red");
+
+                //resumeMatchSignal.Dispatch();
+
             }
             else
             {
@@ -63,5 +69,6 @@ namespace TurboLabz.InstantFramework
                 // save to disk as we would when going to the background
             }
         }
+
     }
 }
