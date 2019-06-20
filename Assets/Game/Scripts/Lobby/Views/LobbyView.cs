@@ -826,29 +826,33 @@ namespace TurboLabz.InstantFramework
 
             if (newMatches.Count > 0 ||
                 yourMove.Count > 0 ||
-                theirMove.Count > 0 ||
-                ended.Count > 0)
+                theirMove.Count > 0)
             {
                 sectionActiveMatches.gameObject.SetActive(true);
                 index = sectionActiveMatches.GetSiblingIndex() + 1;
                 foreach (FriendBar bar in newMatches)
                 {
+                    bar.gameObject.SetActive(true);
                     bar.transform.SetSiblingIndex(index);
                     index++;
                 }
 
                 foreach (FriendBar bar in yourMove)
                 {
+                    bar.gameObject.SetActive(true);
                     bar.transform.SetSiblingIndex(index);
                     index++;
                 }
 
                 foreach (FriendBar bar in theirMove)
                 {
+                    bar.gameObject.SetActive(true);
                     bar.transform.SetSiblingIndex(index);
                     index++;
                 }
-
+            }
+            else if (ended.Count > 0)
+            {
                 foreach (FriendBar bar in ended)
                 {
                     bar.gameObject.SetActive(false);
