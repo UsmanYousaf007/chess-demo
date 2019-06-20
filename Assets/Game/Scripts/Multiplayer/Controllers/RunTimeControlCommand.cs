@@ -80,15 +80,31 @@ namespace TurboLabz.Multiplayer
             // Adjust for late joining in quick matches
             else
             {
-                long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
-                long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
-                if (isPlayerTurn)
+                if (chessboard.lastPlayerMove == null)
                 {
-                    playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                    long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
+                    long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
+                    if (isPlayerTurn)
+                    {
+                        playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                    }
+                    else
+                    {
+                        opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                    }
                 }
                 else
                 {
-                    opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                    long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
+                    long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - TimeUtil.ToUnixTimestamp(chessboard.lastMoveTime);
+                    if (isPlayerTurn)
+                    {
+                        playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                    }
+                    else
+                    {
+                        opponentTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);
+                    }
                 }
             }
 
