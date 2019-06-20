@@ -72,6 +72,7 @@ namespace TurboLabz.InstantFramework
         {
             AppData appData;
             appData.lastSavedChatId = chatModel.lastSavedChatIdOnLaunch;
+            appData.clientVersion = appInfoModel.clientVersion;
 
             return JsonUtility.ToJson(appData);
         }
@@ -81,5 +82,6 @@ namespace TurboLabz.InstantFramework
     public struct AppData
     {
         public string lastSavedChatId;
+        public string clientVersion;
     }
 }
