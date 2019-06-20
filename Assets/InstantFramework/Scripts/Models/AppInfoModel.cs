@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
     public class AppInfoModel : IAppInfoModel
     {
         public int appBackendVersion  { get; set; }
+        public string clientVersion { get; set; }
         public bool appBackendVersionValid { get; set; }
         public string iosURL { get; set; }
         public string androidURL { get; set; }
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
         {
             string[] version = Application.version.Split('.');
             appBackendVersion = int.Parse(version[(int)subVersionIndex.BACKEND]);
+            clientVersion = Application.version;
 
             modelsResetSignal.AddListener(Reset);
         }
