@@ -10,10 +10,9 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform[] botNavs;
 
     [Header("Lobby")]
-    public RectTransform centerContent;
-    public RectTransform devFen;
-    public RectTransform bundle;
-
+    public RectTransform lobbyScrollView;
+    public RectTransform lobbyViewPort;
+   
     [Header("Profile")]
     public RectTransform profileFacebookButton;
     public RectTransform profileCenterContent;
@@ -58,7 +57,6 @@ public class NotchHandler : MonoBehaviour {
     void Awake()
     {
         notchOverlay.SetActive(false);
-
         #if UNITY_EDITOR
         // Detect iphoneX emulation in editor
         if (!(Screen.width == 1125 && Screen.height == 2436)) return;
@@ -80,10 +78,10 @@ public class NotchHandler : MonoBehaviour {
         }
 
         // LOBBY
-        SetY(centerContent, -66f);
-        SetY(devFen, -448);
-        SetY(bundle, -63);
-
+        SetY(lobbyScrollView, -66f - 100f);
+        SetTop(lobbyViewPort, 17f);
+        SetBottom(lobbyViewPort, 111f + 100f);
+        
         // PROFILE
         SetY(profileFacebookButton, -270f);
         SetY(profileCenterContent, -66f);

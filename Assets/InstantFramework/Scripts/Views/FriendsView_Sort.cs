@@ -25,7 +25,6 @@ namespace TurboLabz.InstantFramework
     {
         public void SortFriends()
         {
-            Debug.Log("******* SortFriends **********");
             // Create holders
             List<FriendBar> newMatches = new List<FriendBar>();
             List<FriendBar> yourMove = new List<FriendBar>();
