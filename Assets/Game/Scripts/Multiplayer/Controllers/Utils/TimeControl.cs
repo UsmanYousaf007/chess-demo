@@ -58,6 +58,7 @@ namespace TurboLabz.Multiplayer
 
         public TimeControl()
         {
+            TLUtils.LogUtil.Log("TimeControl");
             playerTickSignal = new Signal();
             opponentTickSignal = new Signal();
             playerTimerExpiredSignal = new Signal();
@@ -66,6 +67,7 @@ namespace TurboLabz.Multiplayer
 
         public void SetTimers(TimeSpan playerTimer, TimeSpan opponentTimer)
         {
+            TLUtils.LogUtil.Log("SetTimers");
             state = State.STOPPED;
 
             playerRealTimer = playerTimer;
@@ -76,6 +78,7 @@ namespace TurboLabz.Multiplayer
 
         public void Reset()
         {
+            TLUtils.LogUtil.Log("Reset(timer)");
             state = State.UNINITIALIZED;
 
             playerRealTimer = default(TimeSpan);
@@ -86,6 +89,7 @@ namespace TurboLabz.Multiplayer
 
         public void StartTimers(bool isPlayerTurn)
         {
+            TLUtils.LogUtil.Log("StartTimers");
             Assertions.Assert(state != State.UNINITIALIZED, "Timers must be set first!");
 
             this.isPlayerTurn = isPlayerTurn;
@@ -94,6 +98,7 @@ namespace TurboLabz.Multiplayer
 
         public void StopTimers()
         {
+            TLUtils.LogUtil.Log("StopTimers");
             Assertions.Assert(state != State.UNINITIALIZED, "Timers must be set first!");
 
             state = State.STOPPED;
@@ -104,6 +109,7 @@ namespace TurboLabz.Multiplayer
 
         public void SwapTimers()
         {
+            TLUtils.LogUtil.Log("SwapTimers");
             Assertions.Assert(state != State.UNINITIALIZED, "Timers must be set first!");
 
             if (isPlayerTurn)
@@ -122,6 +128,7 @@ namespace TurboLabz.Multiplayer
 
         public void PauseTimers()
         {
+            TLUtils.LogUtil.Log("PauseTimers");
             if (!isPaused)
             {
                 pauseTime = DateTime.UtcNow;
@@ -131,6 +138,7 @@ namespace TurboLabz.Multiplayer
 
         public void ResumeTimers()
         {
+            TLUtils.LogUtil.Log("ResumeTimers");
             if (isPaused)
             {
                 swapTimestamp = swapTimestamp.Add(DateTime.UtcNow.Subtract(pauseTime));
@@ -140,6 +148,7 @@ namespace TurboLabz.Multiplayer
 
         private void StartPlayerTimer()
         {
+            TLUtils.LogUtil.Log("StartPlayerTimer");
             Assertions.Assert(state != State.PLAYER_TIMER_RUNNING, "Player timer must NOT already be running!");
 
             state = State.PLAYER_TIMER_RUNNING;
@@ -189,6 +198,7 @@ namespace TurboLabz.Multiplayer
 
         private void StopPlayerTimer()
         {
+            TLUtils.LogUtil.Log("StopPlayerTimer");
             if (runPlayerTimerCR != null)
             {
                 routineRunner.StopCoroutine(runPlayerTimerCR);
@@ -198,6 +208,7 @@ namespace TurboLabz.Multiplayer
 
         private void StartOpponentTimer()
         {
+            TLUtils.LogUtil.Log("StartOpponentTimer");
             Assertions.Assert(state != State.OPPONENT_TIMER_RUNNING, "Opponent timer must NOT already be running!");
 
             state = State.OPPONENT_TIMER_RUNNING;
@@ -247,6 +258,7 @@ namespace TurboLabz.Multiplayer
 
         private void StopOpponentTimer()
         {
+            TLUtils.LogUtil.Log("StopOpponentTimer");
             if (runOpponentTimerCR != null)
             {
                 routineRunner.StopCoroutine(runOpponentTimerCR);

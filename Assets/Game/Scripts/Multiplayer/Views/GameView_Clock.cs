@@ -45,6 +45,8 @@ namespace TurboLabz.Multiplayer
 
         public void InitClock()
         {
+            TLUtils.LogUtil.Log("VIEW: ExpirePlayerTimer");
+
             waitingLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING_FOR_ACCEPT);
 
             EmptyClock();
@@ -63,6 +65,8 @@ namespace TurboLabz.Multiplayer
 
         public void InitTimers(InitTimerVO vo)
         {
+            TLUtils.LogUtil.Log("VIEW: InitTimers");
+
             startingTimer = vo.startingTimer;
             playerClockFill.gameObject.SetActive(true);
             opponentClockFill.gameObject.SetActive(true);
@@ -98,18 +102,24 @@ namespace TurboLabz.Multiplayer
 
         public void PlayerTurnComplete()
         {
+            TLUtils.LogUtil.Log("VIEW: PlayerTurnComplete");
+
             DisablePlayerTimer();
             EnableOpponentTimer();
         }
 
         public void OpponentTurnComplete()
         {
+            TLUtils.LogUtil.Log("VIEW: OpponentTurnComplete");
+
             EnablePlayerTimer();
             DisableOpponentTimer();
         }
 
         public void TickPlayerTimer(TimeSpan playerTimer)
         {
+            TLUtils.LogUtil.Log("VIEW: TickPlayerTimer");
+
             this.playerTimer = playerTimer;
             playerClockLabel.text = TimeUtil.FormatPlayerClock(playerTimer);
             SetPlayerTimerActiveColors();
@@ -119,7 +129,9 @@ namespace TurboLabz.Multiplayer
 
         public void TickOpponentTimer(TimeSpan opponentTimer)
         {
-            this.opponentTimer = opponentTimer;
+            TLUtils.LogUtil.Log("VIEW: TickOpponentTimer");
+
+                        this.opponentTimer = opponentTimer;
             opponentClockLabel.text = TimeUtil.FormatPlayerClock(opponentTimer);
             SetOpponentTimerActiveColors();
             StopOpponentClockCR();
@@ -128,6 +140,7 @@ namespace TurboLabz.Multiplayer
 
         public void ExpirePlayerTimer()
         {
+            TLUtils.LogUtil.Log("VIEW: ExpirePlayerTimer");
             TickPlayerTimer(TimeSpan.Zero);
             StopPlayerClockCR();
             playerClockFill.fillAmount = 0;
@@ -135,6 +148,7 @@ namespace TurboLabz.Multiplayer
 
         public void ExpireOpponentTimer()
         {
+            TLUtils.LogUtil.Log("VIEW: ExpireOpponentTimer");
             TickOpponentTimer(TimeSpan.Zero);
             StopOpponentClockCR();
             opponentClockFill.fillAmount = 0;
@@ -142,11 +156,15 @@ namespace TurboLabz.Multiplayer
 
         private void EnablePlayerTimer()
         {
+            TLUtils.LogUtil.Log("VIEW: EnablePlayerTimer");
+
             SetPlayerTimerActiveColors();
         }
 
         private void DisablePlayerTimer()
         {
+            TLUtils.LogUtil.Log("VIEW: DisablePlayerTimer");
+
             playerClockLabel.color = Colors.WHITE_150;
             playerClockImage.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
@@ -155,11 +173,15 @@ namespace TurboLabz.Multiplayer
 
         private void EnableOpponentTimer()
         {
+            TLUtils.LogUtil.Log("VIEW: EnableOpponentTimer");
+
             SetOpponentTimerActiveColors();
         }
 
         private void SetOpponentTimerWaitingState(bool isPlayerTurn)
         {
+            TLUtils.LogUtil.Log("VIEW: SetOpponentTimerWaitingState");
+
             opponentClockLabel.gameObject.SetActive(false);
             waitingLabel.gameObject.SetActive(true);
 
@@ -171,6 +193,8 @@ namespace TurboLabz.Multiplayer
 
         private void DisableOpponentTimer()
         {
+            TLUtils.LogUtil.Log("VIEW: DisableOpponentTimer");
+
             opponentClockLabel.color = Colors.WHITE_150;
             opponentClockImage.color = Colors.DISABLED_WHITE;
             StopOpponentClockCR();
@@ -234,6 +258,8 @@ namespace TurboLabz.Multiplayer
 
         private void StopPlayerClockCR()
         {
+            TLUtils.LogUtil.Log("VIEW: StopPlayerClockCR");
+
             if (playerClockCR != null)
             {
                 StopCoroutine(playerClockCR);
@@ -243,6 +269,8 @@ namespace TurboLabz.Multiplayer
 
         private void StopOpponentClockCR()
         {
+            TLUtils.LogUtil.Log("VIEW: StopOpponentClockCR");
+
             if (opponentClockCR != null)
             {
                 StopCoroutine(opponentClockCR);
@@ -252,6 +280,8 @@ namespace TurboLabz.Multiplayer
 
         private void EmptyClock()
         {
+            TLUtils.LogUtil.Log("VIEW: EmptyClock");
+
             playerClockLabel.text = "";
             opponentClockLabel.text = "";
             //playerScore.text = "";

@@ -39,11 +39,11 @@ namespace TurboLabz.InstantFramework
 
             ParseChallengeData(challengeId, challengeData);
 
-            RunTimeControlVO vo;
-                vo.pauseAfterSwap = false;
-                vo.waitingForOpponentToAccept = false;
-                vo.playerJustAcceptedOnPlayerTurn = false;
-                runTimeControlSignal.Dispatch(vo);
+            //RunTimeControlVO vo;
+            //    vo.pauseAfterSwap = false;
+            //    vo.waitingForOpponentToAccept = false;
+            //    vo.playerJustAcceptedOnPlayerTurn = false;
+            //    runTimeControlSignal.Dispatch(vo);
         }
     }
 
