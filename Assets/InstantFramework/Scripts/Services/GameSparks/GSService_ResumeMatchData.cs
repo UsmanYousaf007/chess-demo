@@ -15,9 +15,8 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-
-        [Inject] public PlayerTimerExpiredSignal playerTimerExpiredSignal { get; set; }
-        [Inject] public OpponentTimerExpiredSignal opponentTimerExpiredSignal { get; set; }
+    
+        [Inject] public StopTimersSignal stopTimersSignal { get; set; }
 
         public IPromise<BackendResult> ResumeMatchData()
         {
@@ -34,9 +33,7 @@ namespace TurboLabz.InstantFramework
             matchInfoModel.matches.Remove(challengeId);
             chessboardModel.chessboards.Remove(challengeId);
 
-            playerTimerExpiredSignal.Dispatch();
-            opponentTimerExpiredSignal.Dispatch();
-
+            stopTimersSignal.Dispatch();
             ParseChallengeData(challengeId, challengeData);
 
             //RunTimeControlVO vo;
