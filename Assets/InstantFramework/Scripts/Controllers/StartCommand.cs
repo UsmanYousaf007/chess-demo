@@ -89,7 +89,7 @@ namespace TurboLabz.InstantFramework
 		void GotoReception()
 		{
             initFacebookSignal.Dispatch();
-            receptionSignal.Dispatch();
+            receptionSignal.Dispatch(false);
 			RemoveListeners();
 
             CommandEnd();

@@ -7,6 +7,7 @@ using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using System;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,6 +16,12 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public ReceptionSignal receptionSignal { get; set; }
+        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+
+        // Models
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -22,20 +29,23 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            backendService.ResumeMatchData().Then(OnResumeMatchData);
+
+            getInitDataCompleteSignal.AddListener(OnGetInitDataComplete);
+            receptionSignal.Dispatch(true);
         }
 
-        public void OnResumeMatchData(BackendResult result)
+        private void OnGetInitDataComplete()
         {
-            if (result == BackendResult.SUCCESS)
+            if (matchInfoModel.activeChallengeId != null)
             {
                 startGameSignal.Dispatch();
             }
-            else 
+            else
             {
-                backendErrorSignal.Dispatch(result);
+                loadLobbySignal.Dispatch();
             }
 
+            getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
             Release();
         }
     }

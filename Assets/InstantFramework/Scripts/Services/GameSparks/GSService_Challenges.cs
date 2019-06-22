@@ -126,6 +126,11 @@ namespace TurboLabz.InstantFramework
                 matchInfo.isRanked = true;
             }
 
+            if (matchData.ContainsKey(GSBackendKeys.GAME_START_TIME))
+            {
+                matchInfo.gameStartTimeMilliseconds = matchData.GetLong(GSBackendKeys.GAME_START_TIME).Value;
+            }
+
             if (matchData.ContainsKey(GSBackendKeys.Match.CREATE_TIME))
             {
                 matchInfo.createTimeMs = matchData.GetLong(GSBackendKeys.Match.CREATE_TIME).Value;

@@ -93,11 +93,12 @@ namespace TurboLabz.InstantFramework
         private void Reset()
         {
             matches = new OrderedDictionary<string, MatchInfo>();
-            activeChallengeId = null;
             activeLongMatchOpponentId = null;
             unregisteredChallengeIds = new List<string>();
             createLongMatchAborted = false;
 
+            // Retain the activeChallengeId for resume game
+            // Do not set activeChallengeId to null here.
         }
 
         public MatchInfo CreateMatch(string challengeId)

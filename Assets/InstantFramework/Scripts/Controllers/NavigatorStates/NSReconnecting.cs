@@ -24,6 +24,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSHardStop();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
 
             return null;
         }

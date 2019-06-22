@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateChatOpponentPicSignal : Signal<Sprite> {}
     public class RemoteStorePurchaseCompletedSignal : Signal<string> {}
     public class BackendErrorSignal : Signal<BackendResult> {}
-	public class ReceptionSignal : Signal {}
+	public class ReceptionSignal : Signal<bool> {}
     public class LoadLobbySignal : Signal {}
     public class SavePlayerInventorySignal : Signal {}
     public class SetSkinSignal : Signal<string> {}

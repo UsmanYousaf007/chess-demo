@@ -11,6 +11,9 @@ namespace TurboLabz.InstantFramework
 {
     public class ReceptionCommand : Command
     {
+        // Parameters
+        [Inject] public bool isResume { get; set; }
+
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
@@ -50,7 +53,11 @@ namespace TurboLabz.InstantFramework
             }
 
             initBackendOnceSignal.Dispatch();
-            loadLobbySignal.Dispatch();
+
+            if (!isResume)
+            {
+                loadLobbySignal.Dispatch();
+            }
 
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();

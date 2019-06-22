@@ -51,22 +51,21 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("GS CONNECTED!", "red");
 
                 resumeMatchSignal.Dispatch();
-
             }
             else
             {
                 LogUtil.Log("GS DISCONNECTED!", "red");
 
-                //modelsSaveToDiskSignal.Dispatch();
-                //modelsResetSignal.Dispatch();
-                //modelsLoadFromDiskSignal.Dispatch();
-
-                //gameDisconnectingSignal.Dispatch();
-                //GSFrameworkRequest.CancelRequestSession();
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
+                GSFrameworkRequest.CancelRequestSession();
 
                 // We are going to reset the game now so make sure that the models
                 // save to disk as we would when going to the background
+                gameDisconnectingSignal.Dispatch();
+                modelsSaveToDiskSignal.Dispatch();
+                modelsResetSignal.Dispatch();
+                modelsLoadFromDiskSignal.Dispatch();
+
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
             }
         }
 

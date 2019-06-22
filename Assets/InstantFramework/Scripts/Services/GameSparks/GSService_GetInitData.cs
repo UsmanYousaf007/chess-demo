@@ -64,7 +64,16 @@ namespace TurboLabz.InstantFramework
                 promise.Then(OnStoreInit);
             }
 
-            ParseActiveChallenges(response.ScriptData);           
+            ParseActiveChallenges(response.ScriptData);
+
+            // Parse active quick match
+            string challengeId = response.ScriptData.GetString("challengeId");
+            if (challengeId != null)
+            {
+                GSData challengeData = response.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+                ParseChallengeData(challengeId, challengeData);
+                matchInfoModel.activeChallengeId = challengeId;
+            }
         }
 
         private void OnStoreInit(bool success)
