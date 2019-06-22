@@ -73,7 +73,8 @@ namespace TurboLabz.InstantFramework
             {
                 GSData challengeData = response.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
                 ParseChallengeData(challengeId, challengeData);
-                matchInfoModel.activeChallengeId = challengeId;
+                // The matchInfoModel.activeChallengeId is retained for the session and maintained by the client so it 
+                // need not be set from the server. Do not set activeChallengeId here.
             }
         }
 
