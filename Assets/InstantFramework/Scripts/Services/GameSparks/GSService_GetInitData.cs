@@ -68,6 +68,7 @@ namespace TurboLabz.InstantFramework
 
             // Parse active quick match
             string challengeId = response.ScriptData.GetString("challengeId");
+            LogUtil.Log("GSInitData: RESUME ChallengeID = " + challengeId, "cyan");
             if (challengeId != null)
             {
                 GSData challengeData = response.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);

@@ -31,6 +31,12 @@ namespace TurboLabz.InstantFramework
         {
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 
+            // In case of an ended quick match game results event would have cleared out the board and activeChallengeId.
+            if (matchInfoModel.activeChallengeId == null)
+            {
+                return;
+            }
+
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
             MatchInfo matchInfo = matchInfoModel.activeMatch;
