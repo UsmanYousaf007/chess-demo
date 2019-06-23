@@ -29,7 +29,7 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+            //chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 
             // In case of an ended quick match game results event would have cleared out the board and activeChallengeId.
             if (matchInfoModel.activeChallengeId == null)
@@ -75,7 +75,10 @@ namespace TurboLabz.InstantFramework
 
             vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(opponentId);
 
+            chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+
             enableGameChatSignal.Dispatch(vo);
+            chatModel.hasEngagedChat = false;
 
             // Analytics
             if (matchInfo.isLongPlay)
@@ -86,8 +89,6 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.ScreenVisit(AnalyticsScreen.quick_match, facebookService.isLoggedIn(), matchInfo.isBotMatch);
             }
-
-            chatModel.hasEngagedChat = false;
         }
     }
 }
