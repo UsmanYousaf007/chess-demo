@@ -49,21 +49,19 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                OnBackToFriends();
+                OnBackToLobby();
             }
         }
 
-        void OnBackToFriends()
+        void OnBackToLobby()
         {
             if (showAdOnBack)
             {
-                //showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
                 showAdOnBack = false;
-
                 analyticsService.Event(AnalyticsEventId.ads_friends_back);
             }
             
-            backToFriendsSignal.Dispatch(); 
+            backToLobbySignal.Dispatch(); 
         }
     }
 }

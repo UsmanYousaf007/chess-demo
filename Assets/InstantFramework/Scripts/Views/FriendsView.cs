@@ -674,7 +674,6 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             actionBar = null;
-
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
                 actionBar = bar;

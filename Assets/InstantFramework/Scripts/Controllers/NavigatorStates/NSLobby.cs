@@ -31,8 +31,12 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_FRIENDS)
             {
                 return new NSFriends();
-            }	
-			else if (evt == NavigatorEvent.ESCAPE)
+            }
+            else if (evt == NavigatorEvent.SHOW_PROFILE_DLG)
+            {
+                return new NSProfileDlg();
+            }
+            else if (evt == NavigatorEvent.ESCAPE)
 			{
 				cmd.androidNativeService.SendToBackground();
 			}

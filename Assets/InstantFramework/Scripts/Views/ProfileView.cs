@@ -43,10 +43,11 @@ namespace TurboLabz.InstantGame
         public Text eloScoreLabel;
         public Text eloScoreValue;
         public Image playerFlag;
-
+        private string playerId;
         private SpritesContainer defaultAvatarContainer;
 
         public Signal facebookButtonClickedSignal = new Signal();
+        
 
         public void Init()
         {
@@ -78,7 +79,7 @@ namespace TurboLabz.InstantGame
             profileName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
-
+            playerId = vo.playerId;
             SetProfilePic(vo);
 
             if (facebookButton != null)

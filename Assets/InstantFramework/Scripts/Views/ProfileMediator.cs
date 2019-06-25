@@ -34,6 +34,7 @@ namespace TurboLabz.InstantGame
             view.Init();
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
+
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
