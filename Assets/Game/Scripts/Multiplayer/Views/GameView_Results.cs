@@ -231,7 +231,14 @@ namespace TurboLabz.Multiplayer
                     break;
 
                 case GameEndReason.PLAYER_DISCONNECTED:
-                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
+                    if (playerWins)
+                    {
+                        resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_OPPONENT_LEFT);
+                    }
+                    else
+                    {
+                        resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
+                    }
                     break;
 
                 default:

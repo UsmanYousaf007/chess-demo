@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE = "gmResultDialogReasonDrawByThreefoldRepeatRule";
         public const string GM_RESULT_DIALOG_REASON_TIMER_EXPIRED = "gmResultDialogReasonTimerExpired";
         public const string GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED = "gmPlayerDisconnected";
+        public const string GM_RESULT_DIALOG_REASON_PLAYER_OPPONENT_LEFT = "gmOpponentLeft";
         public const string GM_RESULT_DIALOG_REASON_PLAYER_DECLINED = "gmPlayerDeclined";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER = "gmResultDialogReasonResignationPlayer";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT = "gmResultDialogReasonResignationOpponent";
