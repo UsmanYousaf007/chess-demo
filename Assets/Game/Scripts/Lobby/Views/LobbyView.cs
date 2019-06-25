@@ -27,7 +27,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
-        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;

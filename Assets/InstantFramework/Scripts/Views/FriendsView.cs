@@ -232,11 +232,7 @@ namespace TurboLabz.InstantFramework
         {
             ResetSearch();
 
-            if (facebookService.isLoggedIn())
-            {
-                refreshFriendsSignal.Dispatch();
-            }
-
+            refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
         }
 
