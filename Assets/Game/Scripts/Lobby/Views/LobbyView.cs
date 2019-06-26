@@ -315,7 +315,7 @@ namespace TurboLabz.InstantFramework
 
             // create bar
             GameObject friendBarObj = Instantiate(friendBarPrefab);
-            friendBarObj.GetComponent<SkinLink>().InitPrefabSkin();
+            friendBarObj.GetComponentInChildren<SkinLink>().InitPrefabSkin();
 
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
@@ -356,7 +356,6 @@ namespace TurboLabz.InstantFramework
                 friendBar.UpdateCommmunityStrip();
             }
         }
-        
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
             if (sprite == null)
@@ -755,12 +754,10 @@ namespace TurboLabz.InstantFramework
         public void SortFriends()
         {
             // Create holders
-            List<FriendBar> newMatches = new List<FriendBar>();
-            List<FriendBar> yourMove = new List<FriendBar>();
-            List<FriendBar> theirMove = new List<FriendBar>();
             List<FriendBar> ended = new List<FriendBar>();
             List<FriendBar> emptyOnline = new List<FriendBar>();
             List<FriendBar> emptyOffline = new List<FriendBar>();
+            List<FriendBar> activeMatches = new List<FriendBar>();
 
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
@@ -775,24 +772,16 @@ namespace TurboLabz.InstantFramework
 
                 if (status == LongPlayStatus.NEW_CHALLENGE ||
                     status == LongPlayStatus.WAITING_FOR_ACCEPT ||
-                    entry.Value.isGameCanceled)
+                    status == LongPlayStatus.PLAYER_TURN ||
+                    status == LongPlayStatus.OPPONENT_TURN ||
+                    status == LongPlayStatus.DECLINED ||
+                    entry.Value.isGameCanceled ||
+                    status == LongPlayStatus.PLAYER_WON ||
+                    status == LongPlayStatus.OPPONENT_WON ||
+                    status == LongPlayStatus.DRAW)
                 {
-                    newMatches.Add(bar);
-                }
-                else if (status == LongPlayStatus.PLAYER_TURN)
-                {
-                    yourMove.Add(bar);
-                }
-                else if (status == LongPlayStatus.OPPONENT_TURN)
-                {
-                    theirMove.Add(bar);
-                }
-                else if (status == LongPlayStatus.DECLINED ||
-                         status == LongPlayStatus.PLAYER_WON ||
-                         status == LongPlayStatus.OPPONENT_WON ||
-                         status == LongPlayStatus.DRAW)
-                {
-                    ended.Add(bar);
+                    activeMatches.Add(bar);
+
                 }
                 else if (!bar.isCommunity && !bar.isCommunityFriend)
                 {
@@ -800,21 +789,13 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    if (entry.Value.isOnline)
-                    {
-                        emptyOnline.Add(bar);
-                    }
-                    else
-                    {
-                        emptyOffline.Add(bar);
-                    }
+                    Debug.Log("I am not suppose to be here");
+                    entry.Value.gameObject.SetActive(false);
                 }
             }
 
             // Sort holders
-            newMatches.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));
-            yourMove.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));
-            theirMove.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
+            activeMatches.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
             ended.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
             emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
             emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
@@ -823,58 +804,26 @@ namespace TurboLabz.InstantFramework
             int index = 0;
             sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
-            if (newMatches.Count > 0 ||
-                yourMove.Count > 0 ||
-                theirMove.Count > 0)
+            if (activeMatches.Count>0)
             {
                 sectionActiveMatches.gameObject.SetActive(true);
                 index = sectionActiveMatches.GetSiblingIndex() + 1;
-                foreach (FriendBar bar in newMatches)
+                foreach (FriendBar bar in activeMatches)
                 {
                     bar.gameObject.SetActive(true);
                     bar.transform.SetSiblingIndex(index);
                     index++;
-                }
-
-                foreach (FriendBar bar in yourMove)
-                {
-                    bar.gameObject.SetActive(true);
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-
-                foreach (FriendBar bar in theirMove)
-                {
-                    bar.gameObject.SetActive(true);
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-            }
-            else if (ended.Count > 0)
-            {
-                foreach (FriendBar bar in ended)
-                {
-                    bar.gameObject.SetActive(false);
                 }
             }
             else
             {
                 sectionActiveMatches.gameObject.SetActive(false);
-            }
-
-            if (emptyOnline.Count > 0 || emptyOffline.Count > 0)
-            {
-
-                foreach (FriendBar bar in emptyOnline)
+                if (ended.Count > 0)
                 {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                }
-
-                foreach (FriendBar bar in emptyOffline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
+                    foreach (FriendBar bar in ended)
+                    {
+                        bar.gameObject.SetActive(false);
+                    }
                 }
             }
         }
