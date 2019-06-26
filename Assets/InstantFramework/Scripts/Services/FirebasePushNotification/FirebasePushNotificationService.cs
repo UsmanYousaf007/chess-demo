@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
             Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
             backendService.PushNotificationRegistration(token.Token);
             pushToken = token.Token;
+            TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
         }
 
         public string GetToken()
