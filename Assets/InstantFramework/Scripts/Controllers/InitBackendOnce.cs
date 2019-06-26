@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
             backendService.AddMessageListeners();
             backendService.AddChallengeListeners();
             backendService.StartPinger();
+            InternetReachabilityMonitor.StartMonitor();
         }
     }
 }

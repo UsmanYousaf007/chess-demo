@@ -18,13 +18,18 @@ namespace TurboLabz.Multiplayer
     {
         public void OnRegisterWifi()
         {
-            view.InitWifi();   
+            view.InitWifi();
         }
 
         [ListensTo(typeof(WifiIsHealthySignal))]
         public void OnWifiHealthUpdate(bool isHealthy)
         {
             view.WifiHealthUpdate(isHealthy);
+        }
+
+        private void OnInternetConnectedTicked(bool isConnected)
+        {
+            view.WifiHealthUpdate(isConnected);
         }
     }
 }
