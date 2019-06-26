@@ -228,6 +228,7 @@ namespace TurboLabz.InstantFramework
         public const string BOT_NAV_NEXT = "botNavNext";
         public const string BOT_NAV_COMPANY = "botNavCompany";
         public const string LONG_PLAY_NOT_NOW = "longPlayNotNow";
+        public const string PLAY = "play";
         public const string LONG_PLAY_ACCEPT = "longPlayAccept";
         public const string LONG_PLAY_CANCEL = "longPlayCancel";
         public const string LONG_PLAY_NEW_MATCH_GREETING = "longPlayNewMatchGreeting";

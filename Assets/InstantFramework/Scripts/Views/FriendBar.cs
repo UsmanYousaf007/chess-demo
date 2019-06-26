@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         public bool isOnline;
         public bool isActive;
         public GameObject playArrow;
+        public Text playButtonLabel;
         public Button notNowButton;
         public Text notNowButtonLabel;
         public Button acceptButton;
@@ -236,6 +237,7 @@ namespace TurboLabz.InstantFramework
                 return;
                 
             notNowButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NOT_NOW);
+            playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT);
             cancelButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
             okButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
