@@ -61,6 +61,9 @@ namespace TurboLabz.InstantFramework
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
 
+        public Image notificationTagImage;
+        public Text notificationTagNumber;
+
 
         [Header("Choose computer difficulty dialog")]
         public GameObject chooseComputerDifficultyDlg;
@@ -165,6 +168,8 @@ namespace TurboLabz.InstantFramework
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
             computerDifficultyDlgStartGameButton.onClick.AddListener(OnComputerDifficultyDlgStartGameClicked);
             computerDifficultyDlgCloseButton.onClick.AddListener(OnComputerDifficultyDlgCloseClicked);
+
+            notificationTagImage.gameObject.SetActive(false);
 
 
             cacheEnabledSections = new List<GameObject>();
@@ -546,7 +551,7 @@ namespace TurboLabz.InstantFramework
         {
             if (bars.ContainsKey(friendId))
             {
-                GameObject.Destroy(bars[friendId].gameObject);
+                Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
             }
         }
@@ -754,6 +759,7 @@ namespace TurboLabz.InstantFramework
         public void SortFriends()
         {
             // Create holders
+            List<FriendBar> ended = new List<FriendBar>();
             List<FriendBar> emptyOnline = new List<FriendBar>();
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> activeMatches = new List<FriendBar>();
@@ -788,23 +794,26 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
+                    Debug.Log("I am not suppose to be here");
                     entry.Value.gameObject.SetActive(false);
                 }
             }
 
             // Sort holders
             activeMatches.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
+            ended.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
             emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
             emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
 
             // Set sibling indexes
             int index = 0;
+            int notificationCounter = 0;
+            notificationTagImage.gameObject.SetActive(false);
+
             sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
             if (activeMatches.Count>0)
             {
-                int friendCount = 0;
-                int maxCount = activeMatches.Count;
                 sectionActiveMatches.gameObject.SetActive(true);
                 index = sectionActiveMatches.GetSiblingIndex() + 1;
                 foreach (FriendBar bar in activeMatches)
@@ -812,14 +821,28 @@ namespace TurboLabz.InstantFramework
                     bar.gameObject.SetActive(true);
                     bar.transform.SetSiblingIndex(index);
                     index++;
-                    friendCount++;
-                    Debug.Log("friend Count :: " + friendCount + " Max Count :: " + maxCount);
-                    bar.UpdateMasking(friendCount==maxCount, false);
+
+                    if(bar.isPlayerTurn || bar.longPlayStatus == LongPlayStatus.DRAW || bar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE
+                        || bar.longPlayStatus == LongPlayStatus.PLAYER_WON || bar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
+                        notificationCounter++;
                 }
             }
             else
             {
                 sectionActiveMatches.gameObject.SetActive(false);
+                if (ended.Count > 0)
+                {
+                    foreach (FriendBar bar in ended)
+                    {
+                        bar.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            if(notificationCounter > 0)
+            {
+                notificationTagImage.gameObject.SetActive(true);
+                notificationTagNumber.text = notificationCounter.ToString();
             }
         }
 
@@ -864,24 +887,19 @@ namespace TurboLabz.InstantFramework
 
             if (communityOnline.Count > 0 || communityOffline.Count > 0)
             {
-                int communityCount = 0;
-                int maxCount = communityOnline.Count + communityOffline.Count ; 
                 index = sectionPlaySomeoneNew.GetSiblingIndex() + 1;
 
                 foreach (FriendBar bar in communityOnline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
-                    communityCount++;
-                    bar.UpdateMasking(communityCount == maxCount, true);
                 }
 
                 foreach (FriendBar bar in communityOffline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
-                    communityCount++;
-                    bar.UpdateMasking(communityCount == maxCount, true);
+
                 }
             }
             else
