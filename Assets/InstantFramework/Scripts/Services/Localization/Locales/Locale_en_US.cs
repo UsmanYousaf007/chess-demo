@@ -114,7 +114,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },
                 { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "BACK TO GAME" },
 				{ LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
-                { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "HOME" },
+                { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "GAMES" },
 
                 #endregion
 
@@ -217,7 +217,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Bottom Nav
 
-                { LocalizationKey.NAV_HOME, "Home" },
+                { LocalizationKey.NAV_HOME, "Games" },
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "Shop" },
                 { LocalizationKey.NAV_FRIENDS, "Friends" },
@@ -226,9 +226,9 @@ namespace TurboLabz.InstantFramework
 
                 #region Long Play
 
-                { LocalizationKey.IN_GAME_BACK, "BACK" },
+                { LocalizationKey.IN_GAME_BACK, "Games" },
                 { LocalizationKey.LONG_PLAY_BACK_TO_GAME, "BACK" },
-                { LocalizationKey.LONG_PLAY_RESULTS_BACK, "BACK TO FRIENDS" },
+                { LocalizationKey.LONG_PLAY_RESULTS_BACK, "BACK TO GAMES" },
                 { LocalizationKey.BOT_NAV_NEXT, "Next" },
                 { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
                 { LocalizationKey.LONG_PLAY_NOT_NOW, "Not Now" },

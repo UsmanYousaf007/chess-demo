@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch signals
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
+        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
@@ -34,7 +35,7 @@ namespace TurboLabz.InstantGame
             view.Init();
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
-
+            view.profilePicButtonClickedSignal.AddListener(OnProfilePicButtonClicked);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -64,6 +65,11 @@ namespace TurboLabz.InstantGame
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
+        }
+
+        private void OnProfilePicButtonClicked()
+        {
+            loadStatsSignal.Dispatch();
         }
     }
 }

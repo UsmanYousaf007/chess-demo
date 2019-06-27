@@ -47,7 +47,7 @@ namespace TurboLabz.InstantGame
         private SpritesContainer defaultAvatarContainer;
 
         public Signal facebookButtonClickedSignal = new Signal();
-        
+        public Signal profilePicButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -189,6 +189,11 @@ namespace TurboLabz.InstantGame
         {
             facebookButtonClickedSignal.Dispatch();
             facebookConnectAnim.SetActive(true);
+        }
+
+        private void OnProfilePicButtonClicked()
+        {
+            profilePicButtonClickedSignal.Dispatch();
         }
     }
 }

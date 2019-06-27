@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
     public class ModelsResetSignal : Signal {}
     public class ModelsSaveToDiskSignal : Signal {}
     public class ModelsLoadFromDiskSignal : Signal { }
-    public class GetInitDataSignal : Signal {}
+    public class GetInitDataSignal : Signal<bool> {}
     public class GetInitDataCompleteSignal : Signal {}
     public class AuthFaceBookSignal : Signal {}
     public class AuthFacebookResultSignal : Signal<AuthFacebookResultVO> {}

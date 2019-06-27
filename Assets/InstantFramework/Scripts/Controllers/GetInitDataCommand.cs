@@ -15,6 +15,8 @@ namespace TurboLabz.InstantFramework
 {
 	public class GetInitDataCommand : Command
 	{ 
+        // Params
+        [Inject] public bool isResume { get; set; }
         // Models
         [Inject] public IMetaDataModel model { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -73,6 +75,7 @@ namespace TurboLabz.InstantFramework
             AppData appData;
             appData.lastSavedChatId = chatModel.lastSavedChatIdOnLaunch;
             appData.clientVersion = appInfoModel.clientVersion;
+            appData.isResume = isResume;
 
             return JsonUtility.ToJson(appData);
         }
@@ -83,5 +86,6 @@ namespace TurboLabz.InstantFramework
     {
         public string lastSavedChatId;
         public string clientVersion;
+        public bool isResume;
     }
 }

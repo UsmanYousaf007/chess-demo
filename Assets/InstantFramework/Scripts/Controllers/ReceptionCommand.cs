@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
         {
             CommandBegin();
 
-            getInitDataSignal.Dispatch();
+            getInitDataSignal.Dispatch(isResume);
 
         }
             
