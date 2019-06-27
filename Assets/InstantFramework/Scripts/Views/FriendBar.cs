@@ -67,6 +67,24 @@ namespace TurboLabz.InstantFramework
         [HideInInspector] public bool isPlayerTurn;
         [HideInInspector] public bool isRanked;
 
+        [Header("Friends Bar Optimization")]
+        public GameObject bottomAlphaBg;
+        public Mask maskObject;
+
+        public void UpdateMasking(bool isLastCell, bool isLastSection)
+        {
+            bottomAlphaBg.SetActive(false);
+            maskObject.enabled = false;
+            if (!isLastSection && isLastCell)
+            {
+                bottomAlphaBg.SetActive(true);
+            }
+            if (isLastCell)
+            {
+                maskObject.enabled = true;
+            }
+        }
+
         public void UpdateStatus()
         {
             DisableOptionalElements();
@@ -256,5 +274,41 @@ namespace TurboLabz.InstantFramework
 
             stringsLoaded = true;
         }
+
+        public int solution(int N)
+        {
+            if (N <= 0)
+            {
+                return 0;
+            }
+            string binary = Convert.ToString(N, 2);
+            int maxCount = 0;
+            int count = 0;
+            int lastIndex = binary.LastIndexOf('1');
+            int firstIndex = binary.IndexOf('1');
+            for (int i = firstIndex; i < lastIndex; i++)
+            {
+                if (i == '0')
+                {
+                    count++;
+                }
+                else
+                {
+                    if (count>maxCount)
+                    {
+                        maxCount = count;
+                    }
+                    count = 0;
+                }
+            }
+            return maxCount;
+        }
+
+        
+
+
     }
+
+
+    
 }

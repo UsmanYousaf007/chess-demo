@@ -89,7 +89,7 @@ namespace TurboLabz.InstantFramework
             //emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
             //emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
 
-            allFriends.Sort((x, y) => y.lastActionTime.CompareTo(x.lastActionTime));
+            allFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal)); ;
 
             // Set sibling indexes
             int index = 0;
@@ -109,7 +109,8 @@ namespace TurboLabz.InstantFramework
             //    emptyOnline.Count > 0 ||
             //    emptyOffline.Count > 0
             //    )
-
+            int friendsCount = allFriends.Count;
+            int count = 0;
             if (allFriends.Count>0)
             {
                 //sectionActiveMatches.gameObject.SetActive(true);
@@ -119,7 +120,9 @@ namespace TurboLabz.InstantFramework
                 foreach (FriendBar bar in allFriends)
                 {
                     bar.transform.SetSiblingIndex(index);
+                    count++;
                     index++;
+                    bar.UpdateMasking(count==friendsCount,true);
                 }
                 //foreach (FriendBar bar in yourMove)
                 //{
@@ -215,7 +218,8 @@ namespace TurboLabz.InstantFramework
 
             // Set sibling indexes
             int index = 0;
-
+            int friendsCount = searchedOnline.Count+ searchedOffline.Count;
+            int count = 0;
             if (searchedOnline.Count > 0 || searchedOffline.Count > 0)
             {
                 sectionSearched.gameObject.SetActive(true);
@@ -225,13 +229,16 @@ namespace TurboLabz.InstantFramework
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
+                    count++;
+                    bar.UpdateMasking(friendsCount==count,true);
                 }
 
                 foreach (FriendBar bar in searchedOffline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
-
+                    count++;
+                    bar.UpdateMasking(friendsCount == count, true);
                 }
 
                 nextSearchButton.interactable = true;
