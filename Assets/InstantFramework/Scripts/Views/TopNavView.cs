@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
-        public Button shareButton;
         public Button audioOffButton;
         public Button audioOnButton;
         public Button supportButton;
@@ -30,13 +29,11 @@ namespace TurboLabz.InstantFramework
         public Text playerBucks;
         public Text freeNoAdsPeriodLabel;
 
-        public Signal shareAppButtonClickedSignal = new Signal();
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
 
         public void Init()
         {
-            shareButton.onClick.AddListener(OnShareAppButtonClicked);
             addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
             audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
             audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
@@ -70,11 +67,6 @@ namespace TurboLabz.InstantFramework
         public void OnStoreAvailable(bool isAvailable)
         {
             addBucksButton.interactable = isAvailable;
-        }
-
-        private void OnShareAppButtonClicked()
-        {
-            shareAppButtonClickedSignal.Dispatch();
         }
 
         private void OnAddBucksButtonClicked()
