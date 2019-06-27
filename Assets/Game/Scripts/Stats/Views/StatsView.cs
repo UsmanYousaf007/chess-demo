@@ -48,6 +48,8 @@ namespace TurboLabz.InstantGame
         public Button restorePurchases;
         public Text appVersion;
 
+        public Button backButton;
+
         public Signal restorePurchasesSignal = new Signal();
 
         public void Init()

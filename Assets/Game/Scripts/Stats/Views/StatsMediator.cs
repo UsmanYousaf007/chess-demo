@@ -36,6 +36,7 @@ namespace TurboLabz.InstantGame
         {
             view.Init();
             view.restorePurchasesSignal.AddListener(OnRestorePurchases);
+            view.backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -66,6 +67,11 @@ namespace TurboLabz.InstantGame
         void OnRestorePurchases()
         {
             restorePurchasesSignal.Dispatch();
+        }
+
+        void OnBackButtonClicked()
+        {
+            loadLobbySignal.Dispatch();
         }
     }
 }
