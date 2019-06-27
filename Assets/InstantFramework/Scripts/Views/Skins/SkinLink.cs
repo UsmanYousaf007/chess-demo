@@ -35,7 +35,6 @@ namespace TurboLabz.InstantFramework
         public void InitPrefabSkin()
         {
             Setup();
-
             sourceImage = GameObject.FindWithTag(tag.Split('.')[0]).GetComponent<Image>();
             UpdateSkin();
         }
@@ -82,7 +81,8 @@ namespace TurboLabz.InstantFramework
         {
             targetImage = gameObject.GetComponent<Image>();
             targetSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-
         }
+
+        
     }
 }

@@ -315,7 +315,11 @@ namespace TurboLabz.InstantFramework
 
             // create bar
             GameObject friendBarObj = Instantiate(friendBarPrefab);
-            friendBarObj.GetComponentInChildren<SkinLink>().InitPrefabSkin();
+            SkinLink[] objects = friendBarObj.GetComponentsInChildren<SkinLink>();
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].InitPrefabSkin();
+            }
 
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
