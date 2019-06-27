@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public CloseStripSignal closeStripSignal { get; set; }
         [Inject] public TurboLabz.Multiplayer.ResignSignal resignSignal { get; set; }
         [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
-
+        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
 
@@ -207,6 +207,15 @@ namespace TurboLabz.InstantFramework
         public void OnClearUnreadMessages(string friendId)
         {
             view.ClearUnreadMessages(friendId);
+        }
+
+        [ListensTo(typeof(PlayerProfilePicTappedSignal))]
+        public void OnPlayerProfileButtonTapped()
+        {
+            if (gameObject.activeSelf)
+            {
+                loadStatsSignal.Dispatch();
+            }
         }
 
         private void OnFacebookButtonClicked()

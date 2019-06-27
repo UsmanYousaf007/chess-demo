@@ -245,6 +245,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateTopInventoryBarSignal>().ToSingleton();
             injectionBinder.Bind<ShowStoreTabSignal>().ToSingleton();
             injectionBinder.Bind<UpdateSpotPurchaseSignal>().ToSingleton();
+            injectionBinder.Bind<PlayerProfilePicTappedSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();
