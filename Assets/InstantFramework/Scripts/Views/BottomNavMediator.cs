@@ -23,7 +23,6 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
         [Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
 
@@ -33,7 +32,6 @@ namespace TurboLabz.InstantFramework
             view.Init();
 
             view.homeButtonClickedSignal.AddListener(HomeButtonClicked);
-            view.profileButtonClickedSignal.AddListener(ProfileButtonClicked);
             view.shopButtonClickedSignal.AddListener(ShopButtonClicked);
             view.friendsButtonClickedSignal.AddListener(SettingsButtonClicked);
         }
@@ -41,7 +39,6 @@ namespace TurboLabz.InstantFramework
         public override void OnRemove()
         {
             view.homeButtonClickedSignal.RemoveAllListeners();
-            view.profileButtonClickedSignal.RemoveAllListeners();
             view.shopButtonClickedSignal.RemoveAllListeners();
             view.friendsButtonClickedSignal.RemoveAllListeners();
         }
@@ -49,11 +46,6 @@ namespace TurboLabz.InstantFramework
         void HomeButtonClicked()
         {
             loadLobbySignal.Dispatch();
-        }
-
-        void ProfileButtonClicked()
-        {
-            loadStatsSignal.Dispatch();
         }
 
         void ShopButtonClicked()
