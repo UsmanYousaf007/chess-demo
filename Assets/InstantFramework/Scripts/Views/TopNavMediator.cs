@@ -14,7 +14,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public TopNavView view { get; set; }
 
         // Dispatch signals
-        [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
 
@@ -23,19 +22,12 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
 
-            view.shareAppButtonClickedSignal.AddListener(OnShareAppButtonClicked);
             view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
         }
 
         public override void OnRemove()
         {
-            view.shareAppButtonClickedSignal.RemoveAllListeners();
             view.addBucksButtonClickedSignal.RemoveAllListeners();
-        }
-
-        private void OnShareAppButtonClicked()
-        {
-            shareAppSignal.Dispatch();
         }
 
         private void OnAddBucksButtonClicked()

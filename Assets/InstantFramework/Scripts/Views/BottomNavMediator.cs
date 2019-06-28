@@ -23,7 +23,6 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
         [Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
 
@@ -32,36 +31,29 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
 
-            view.homeButtonClickedSignal.AddListener(HomeButtonClicked);
-            view.profileButtonClickedSignal.AddListener(ProfileButtonClicked);
-            view.shopButtonClickedSignal.AddListener(ShopButtonClicked);
-            view.friendsButtonClickedSignal.AddListener(SettingsButtonClicked);
+            view.homeButtonClickedSignal.AddListener(OnHomeButtonClicked);
+            view.shopButtonClickedSignal.AddListener(OnShopButtonClicked);
+            view.friendsButtonClickedSignal.AddListener(OnFriendsButtonClicked);
         }
 
         public override void OnRemove()
         {
             view.homeButtonClickedSignal.RemoveAllListeners();
-            view.profileButtonClickedSignal.RemoveAllListeners();
             view.shopButtonClickedSignal.RemoveAllListeners();
             view.friendsButtonClickedSignal.RemoveAllListeners();
         }
 
-        void HomeButtonClicked()
+        void OnHomeButtonClicked()
         {
             loadLobbySignal.Dispatch();
         }
 
-        void ProfileButtonClicked()
-        {
-            loadStatsSignal.Dispatch();
-        }
-
-        void ShopButtonClicked()
+        void OnShopButtonClicked()
         {
             loadStoreSignal.Dispatch();
         }
 
-        void SettingsButtonClicked()
+        void OnFriendsButtonClicked()
         {
             loadFriendsSignal.Dispatch();
         }

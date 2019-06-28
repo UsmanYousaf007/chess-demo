@@ -43,6 +43,6 @@ namespace TurboLabz.InstantGame
     // Top Inventory Bar
     public class UpdateTopInventoryBarSignal : Signal<PlayerInventoryVO> {}
 
-
-
+    // Player Profile
+    public class PlayerProfilePicTappedSignal : Signal {};
 }

@@ -46,6 +46,8 @@ namespace TurboLabz.InstantGame
         private string playerId;
         private SpritesContainer defaultAvatarContainer;
 
+        public Button profilePicButton;
+
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal profilePicButtonClickedSignal = new Signal();
 
@@ -57,6 +59,7 @@ namespace TurboLabz.InstantGame
                 facebookConnectAnim.SetActive(false);
             }
 
+            profilePicButton.onClick.AddListener(OnProfilePicButtonClicked);
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
         }

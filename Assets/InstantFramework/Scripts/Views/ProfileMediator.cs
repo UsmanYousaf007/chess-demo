@@ -25,7 +25,7 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch signals
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
-        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
+        [Inject] public PlayerProfilePicTappedSignal playerProfilePicTappedSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
@@ -69,7 +69,7 @@ namespace TurboLabz.InstantGame
 
         private void OnProfilePicButtonClicked()
         {
-            loadStatsSignal.Dispatch();
+            playerProfilePicTappedSignal.Dispatch();
         }
     }
 }
