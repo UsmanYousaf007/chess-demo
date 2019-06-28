@@ -15,14 +15,21 @@ namespace TurboLabz.Multiplayer
         // Parameters
         [Inject] public int counter { get; set; }
 
+        [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal { get; set; }
+
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
+            int previousValue = playerModel.notificationCount;
+
             playerModel.notificationCount = counter;
 
-            TLUtils.LogUtil.Log("playerModel.notificationCount ############ " + playerModel.notificationCount);
+            //if (previousValue != counter)
+            {
+                updatePlayerDataSignal.Dispatch();
+            }
         }
     }
 }
