@@ -184,8 +184,10 @@ namespace TurboLabz.InstantFramework
 		public const string FRIENDS_SECTION_NEW_MATCHES = "friendsNewMatches";
         public const string FRIENDS_SECTION_ACTIVE_MATCHES = "friendsActiveMatches";
         public const string FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY = "friendsActiveMatchesEmpty";
+        public const string FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES = "friendsRecentlyCompletedMatches";
         public const string FRIENDS_SECTION_PLAY_A_FRIEND = "friendsPlayAFriend";
         public const string FRIENDS_SECTION_PLAY_SOMEONE_NEW = "friendsPlaySomeoneNew";
+        
         public const string FRIENDS_SECTION_SEARCH_RESULTS = "friendsSearchResults";
 
         public const string FRIENDS_NO_FRIENDS_TEXT = "friendsInviteLabel";
