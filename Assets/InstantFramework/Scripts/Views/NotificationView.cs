@@ -18,10 +18,12 @@ namespace TurboLabz.InstantGame
         public GameObject positionDummy;
         private List<GameObject> notifications;
         private Coroutine processNotificaitonCR;
+        private SpritesContainer defaultAvatarContainer;
 
         // Models
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Dispatch Signals
         [Inject] public PreShowNotificationSignal preShowNotificationSignal { get; set; }
@@ -31,6 +33,7 @@ namespace TurboLabz.InstantGame
         {
             notifications = new List<GameObject>();
             processNotificaitonCR = StartCoroutine(ProcessNotificationCR());
+            defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
         }
 
         public void Show()
@@ -89,6 +92,14 @@ namespace TurboLabz.InstantGame
             if (pic != null)
             {
                 notification.senderPic.sprite = pic;
+            }
+            else if(playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
+            {
+                if(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId != null)
+                {
+                    Sprite newSprite = defaultAvatarContainer.GetSprite(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId);
+                    notification.senderPic.sprite = newSprite;
+                }
             }
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
 
