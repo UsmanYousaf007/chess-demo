@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
 
     public class GSUpdatePlayerDataRequest : GSFrameworkRequest
     {
-        const string SHORT_CODE = "updatePlayerData";
+        const string SHORT_CODE = "UpdatePlayerData";
         const string ATT_NOTIFICATION_COUNT = "notificationCount";
 
         public IPromise<BackendResult> Send(int notificationCount)
