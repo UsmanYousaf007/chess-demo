@@ -29,6 +29,11 @@ namespace TurboLabz.InstantFramework
             return item.ContainsKey(key) ? item.GetFloat(key).Value : defaultVal;
         }
 
+        public static long GetSafeLong(GSData item, string key, long defaultVal = 0)
+        {
+            return item.ContainsKey(key) ? item.GetLong(key).Value : defaultVal;
+        }
+
         public static GSData GetVGoodProperties(GSData itemData)
         {
             GSData propertySet = itemData.GetGSData("propertySet");
@@ -259,8 +264,10 @@ namespace TurboLabz.InstantFramework
 			friend.gamesLost = friendData.GetInt(GSBackendKeys.Friend.GAMES_LOST).Value;
 			friend.gamesWon = friendData.GetInt(GSBackendKeys.Friend.GAMES_WON).Value;
             friend.friendType = friendData.GetString(GSBackendKeys.Friend.TYPE);
+            friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
 
-			GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
+
+            GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
 		}
 
@@ -277,6 +284,7 @@ namespace TurboLabz.InstantFramework
 			LogUtil.Log("********** friend.gamesDrawn" + " " + friend.gamesDrawn);
 			LogUtil.Log("********** friend.gamesLost" + " " + friend.gamesLost);
 			LogUtil.Log("********** friend.gamesWon" + " " + friend.gamesWon);
+            LogUtil.Log("********** friend.lastMatchTimestamp" + " " + friend.lastMatchTimestamp);
 
 			LogPublicProfile(friend.publicProfile);
 		}

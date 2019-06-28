@@ -137,7 +137,7 @@ namespace TurboLabz.InstantFramework
             PopulateFriends(playerModel.blocked, blockedList, true);
 
             GSParser.LogPlayerInfo(playerModel);
-			//GSParser.LogFriends("friends", playerModel.friends);
+			GSParser.LogFriends("friends", playerModel.friends);
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)

@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
 		public int gamesWon;
 		public int gamesLost;
 		public int gamesDrawn;
+        public long lastMatchTimestamp;
 		public PublicProfile publicProfile;
 	}
 }

@@ -243,7 +243,8 @@ namespace TurboLabz.InstantFramework
             public const string IS_ONLINE = "isOnline";
             public const string TYPE_SOCIAL = "social";
             public const string TYPE_COMMUNITY = "community";
-		}
+            public const string LAST_MATCH_TIMESTAMP = "lastMatchTimestamp";
+        }
 
 		public static class FriendsOp
 		{
