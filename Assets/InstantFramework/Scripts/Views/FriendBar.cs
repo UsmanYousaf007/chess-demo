@@ -30,6 +30,8 @@ namespace TurboLabz.InstantFramework
         public GameObject unreadChat;
         public bool isOnline;
         public bool isActive;
+        public GameObject playArrowButton;
+
         public GameObject playArrow;
         public Text playButtonLabel;
         public Button notNowButton;
@@ -98,6 +100,7 @@ namespace TurboLabz.InstantFramework
                 case LongPlayStatus.DEFAULT:
                     stripButton.gameObject.SetActive(true);
                     playArrow.gameObject.SetActive(true);
+                    playArrowButton.gameObject.SetActive(false);
 
                     if (isCommunityFriend)
                     {
@@ -137,7 +140,8 @@ namespace TurboLabz.InstantFramework
                 case LongPlayStatus.PLAYER_TURN:
                     yourMoveStatus.gameObject.SetActive(true);
                     stripButton.gameObject.SetActive(true);
-                    playArrow.gameObject.SetActive(true);
+                    playArrow.gameObject.SetActive(false);
+                    playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
@@ -148,7 +152,8 @@ namespace TurboLabz.InstantFramework
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strTheirMove;
                     stripButton.gameObject.SetActive(true);
-                    playArrow.gameObject.SetActive(true);
+                    playArrow.gameObject.SetActive(false);
+                    playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
@@ -240,6 +245,7 @@ namespace TurboLabz.InstantFramework
                 notNowButton.gameObject.SetActive(false);
                 acceptButton.gameObject.SetActive(false);
                 cancelButton.gameObject.SetActive(false);
+                playArrowButton.gameObject.SetActive(false);
                 thinking.gameObject.SetActive(false);
                 playArrow.gameObject.SetActive(false);
                 okButton.gameObject.SetActive(false);
@@ -254,6 +260,7 @@ namespace TurboLabz.InstantFramework
             DisableOptionalElements();
             stripButton.gameObject.SetActive(true);
             playArrow.gameObject.SetActive(true);
+            playArrowButton.gameObject.SetActive(false);
         }
 
         private void DisableOptionalElements()
@@ -268,6 +275,7 @@ namespace TurboLabz.InstantFramework
             cancelButton.gameObject.SetActive(false);
             thinking.gameObject.SetActive(false);
             playArrow.gameObject.SetActive(false);
+            playArrowButton.gameObject.SetActive(false);
             timerLabel.gameObject.SetActive(false);
             okButton.gameObject.SetActive(false);
             removeCommunityFriendButton.gameObject.SetActive(false);

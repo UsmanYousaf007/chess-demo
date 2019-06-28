@@ -515,14 +515,17 @@ namespace TurboLabz.InstantFramework
             {
                 createMatchLimitReachedDlg.SetActive(true);
                 friendBar.playArrow.SetActive(true);
+                friendBar.playArrowButton.SetActive(false);
             }
             else if (reason == CreateLongMatchAbortReason.CreateFailed)
             {
                 friendBar.playArrow.SetActive(true);
+                friendBar.playArrowButton.SetActive(false);
             }
             else // Match successfully created
             {
                 friendBar.playArrow.SetActive(false);
+                friendBar.playArrowButton.SetActive(false);
             }
         }
 
