@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         public Text timerLabel;
         public Text generalStatus;
         public Text yourMoveStatus;
+        public Text matchStatus;
         public Button viewProfileButton;
         public Button stripButton;
         public Friend friendInfo;
@@ -67,6 +68,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector] public bool isPlayerTurn;
         [HideInInspector] public bool isRanked;
 
+        [HideInInspector] public bool isFriendView;
         [Header("Friends Bar Optimization")]
         public GameObject bottomAlphaBg;
         public Mask maskObject;
@@ -218,6 +220,32 @@ namespace TurboLabz.InstantFramework
                     newMatchGreetingLabel.text = strDeclineApology;
                     break;
             }
+
+            UpdateFriendViewStatus();
+        }
+
+        public void UpdateFriendViewStatus()
+        {
+            if (longPlayStatus != LongPlayStatus.DEFAULT && isFriendView)
+            {
+                timerLabel.gameObject.SetActive(false);
+                newMatchGreeting.gameObject.SetActive(false);
+                newMatchGreetingLabel.gameObject.SetActive(false);
+                rankedIcon.SetActive(isRanked);
+                friendlyIcon.SetActive(!isRanked);
+                generalStatus.gameObject.SetActive(false);
+                stripButton.gameObject.SetActive(false);
+                yourMoveStatus.gameObject.SetActive(false);
+                notNowButton.gameObject.SetActive(false);
+                acceptButton.gameObject.SetActive(false);
+                cancelButton.gameObject.SetActive(false);
+                thinking.gameObject.SetActive(false);
+                playArrow.gameObject.SetActive(false);
+                okButton.gameObject.SetActive(false);
+                removeCommunityFriendButton.gameObject.SetActive(false);
+                viewButton.gameObject.SetActive(false);
+                matchStatus.gameObject.SetActive(true);
+            }
         }
 
         public void UpdateCommmunityStrip()
@@ -260,6 +288,7 @@ namespace TurboLabz.InstantFramework
             cancelButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_CANCEL);
             okButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
             yourMoveStatus.text = localizationService.Get(LocalizationKey.LONG_PLAY_YOUR_TURN);
+            matchStatus.text = localizationService.Get(LocalizationKey.LONG_PLAY_MATCH_PROGRESS);
             strWaiting = localizationService.Get(LocalizationKey.LONG_PLAY_WAITING);
             strDeclined = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINED);
             strTheirMove = localizationService.Get(LocalizationKey.LONG_PLAY_THEIR_TURN);

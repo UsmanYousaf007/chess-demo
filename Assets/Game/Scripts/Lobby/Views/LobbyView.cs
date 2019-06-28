@@ -768,6 +768,9 @@ namespace TurboLabz.InstantFramework
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> activeMatches = new List<FriendBar>();
 
+            int notificationCounter = 0;
+            notificationTagImage.gameObject.SetActive(false);
+
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
@@ -801,6 +804,20 @@ namespace TurboLabz.InstantFramework
                     Debug.Log("I am not suppose to be here");
                     entry.Value.gameObject.SetActive(false);
                 }
+
+                
+                if (bar.isPlayerTurn || bar.longPlayStatus == LongPlayStatus.DRAW || bar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE
+                        || bar.longPlayStatus == LongPlayStatus.PLAYER_WON || bar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
+                {
+                    notificationCounter++;
+                }
+                    
+            }
+
+            if (notificationCounter > 0)
+            {
+                notificationTagImage.gameObject.SetActive(true);
+                notificationTagNumber.text = notificationCounter.ToString();
             }
 
             // Sort holders
@@ -811,8 +828,8 @@ namespace TurboLabz.InstantFramework
 
             // Set sibling indexes
             int index = 0;
-            int notificationCounter = 0;
-            notificationTagImage.gameObject.SetActive(false);
+            int count = 0;
+            int maxCount = activeMatches.Count;
 
             sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
@@ -825,10 +842,8 @@ namespace TurboLabz.InstantFramework
                     bar.gameObject.SetActive(true);
                     bar.transform.SetSiblingIndex(index);
                     index++;
-
-                    if(bar.isPlayerTurn || bar.longPlayStatus == LongPlayStatus.DRAW || bar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE
-                        || bar.longPlayStatus == LongPlayStatus.PLAYER_WON || bar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
-                        notificationCounter++;
+                    count++;
+                    bar.UpdateMasking(maxCount==count, false);
                 }
             }
             else
@@ -842,12 +857,6 @@ namespace TurboLabz.InstantFramework
                     }
                 }
             }
-
-            if(notificationCounter > 0)
-            {
-                notificationTagImage.gameObject.SetActive(true);
-                notificationTagNumber.text = notificationCounter.ToString();
-            }
         }
 
         public void SortCommunity()
@@ -855,6 +864,8 @@ namespace TurboLabz.InstantFramework
             // Create holders
             List<FriendBar> communityOnline = new List<FriendBar>();
             List<FriendBar> communityOffline = new List<FriendBar>();
+
+            
 
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
@@ -887,6 +898,8 @@ namespace TurboLabz.InstantFramework
             // Set sibling indexes
             int index = 0;
             sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
+            int count = 0;
+            int maxCount = communityOnline.Count + communityOffline.Count;
 
 
             if (communityOnline.Count > 0 || communityOffline.Count > 0)
@@ -897,13 +910,16 @@ namespace TurboLabz.InstantFramework
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
+                    count++;
+                    bar.UpdateMasking(maxCount == count, true);
                 }
 
                 foreach (FriendBar bar in communityOffline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
-
+                    count++;
+                    bar.UpdateMasking(maxCount == count, true);
                 }
             }
             else

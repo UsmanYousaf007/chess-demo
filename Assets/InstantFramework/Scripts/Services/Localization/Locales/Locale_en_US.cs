@@ -243,6 +243,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_HOURS, "{0}h" },
                 { LocalizationKey.LONG_PLAY_DAYS, "{0}d" },
                 { LocalizationKey.LONG_PLAY_CHALLENGED_YOU, "Challenged You" },
+                { LocalizationKey.LONG_PLAY_MATCH_PROGRESS, "Match in Progress" },
                 { LocalizationKey.LONG_PLAY_YOUR_TURN, "Your Move" },
                 { LocalizationKey.LONG_PLAY_THEIR_TURN, "Their Move" },
                 { LocalizationKey.LONG_PLAY_WAITING_FOR_ACCEPT, "Waiting For Accept" },

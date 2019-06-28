@@ -366,7 +366,7 @@ namespace TurboLabz.InstantFramework
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
             friendBar.Init(localizationService);
-
+            friendBar.isFriendView = true;
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friendBar));
             friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId, friendBar.acceptButton));
