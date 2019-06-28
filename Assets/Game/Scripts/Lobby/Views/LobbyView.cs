@@ -28,6 +28,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
+
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -818,12 +820,13 @@ namespace TurboLabz.InstantFramework
                     
             }
 
-            if (notificationCounter > 0)
-            {
+            if (notificationCounter > 0){
                 notificationTagImage.gameObject.SetActive(true);
-                notificationTagNumber.text = notificationCounter.ToString();
             }
 
+            notificationTagNumber.text = notificationCounter.ToString();
+            updatePlayerNotificationCountSignal.Dispatch(notificationCounter);
+            
             // Sort holders
             activeMatches.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
             recentlyCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
