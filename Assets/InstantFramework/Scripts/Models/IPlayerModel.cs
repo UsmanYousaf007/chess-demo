@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         bool isPremium { get; set; }
         string avatarId { get; set; }
         string avatarBgColorId { get; set; }
+        int notificationCount { get; set; }
 
 
         // Ads Info

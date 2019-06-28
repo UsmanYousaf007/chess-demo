@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ToggleSafeModeSignal>().To<ToggleSafeModeCommand>();
             commandBinder.Bind<SafeMoveSignal>().To<SafeMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
+            commandBinder.Bind<UpdatePlayerNotificationCountSignal>().To<UpdatePlayerNotificationCountCommand>();
 
 
             // Bind signals for dispatching to/from mediators

@@ -39,6 +39,8 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> Unregister(string challengeId);
         IPromise<BackendResult> SendChatMessage(string recipientId, string text, string guid);
 
+        IPromise<BackendResult> UpdatePlayerData(int notificationCount);
+
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend
         IPromise<BackendResult> FriendsOpFriends(); // get backend saved friends
         IPromise<BackendResult> FriendsOpRefresh(); // get backend fresh facebook friends

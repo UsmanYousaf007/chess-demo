@@ -69,6 +69,7 @@ namespace TurboLabz.InstantFramework
 
 			// Bind signals to models data loader commands
 			commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();
+            commandBinder.Bind<UpdatePlayerDataSignal>().To<UpdatePlayerDataCommand>();
 
             // Bind signals to social commands
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
