@@ -868,7 +868,7 @@ namespace TurboLabz.InstantFramework
                         recentlyCompleted[i].transform.SetSiblingIndex(index);
                         recentlyCompleted[i].removeCommunityFriendButton.gameObject.SetActive(false);
                         index++;
-                        recentlyCompleted[i].UpdateMasking(maxCount == (i + 1), false);
+                        recentlyCompleted[i].UpdateMasking((maxCount == (i + 1) || recentlyCompleted.Count == (i + 1)), false);
                     }
                     else
                     {

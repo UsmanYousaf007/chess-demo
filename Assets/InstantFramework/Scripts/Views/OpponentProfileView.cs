@@ -99,7 +99,6 @@ namespace TurboLabz.InstantGame
             hasProfilePicBorder.SetActive(false);
             avatarBg.gameObject.SetActive(false);
             avatarIcon.gameObject.SetActive(false);
-            Debug.Log(vo.avatarColorId + " :::: " + vo.avatarId);
 
             if (vo.playerPic != null)
             {
