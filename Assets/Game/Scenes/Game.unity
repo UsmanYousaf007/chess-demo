@@ -26637,11 +26637,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RateAppDlg
       objectReference: {fileID: 0}
-    - target: {fileID: 1119691565558235468, guid: 31f3e285b12a4422cb1dc8448d490f86,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1119691565558235471, guid: 31f3e285b12a4422cb1dc8448d490f86,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26752,16 +26747,6 @@ PrefabInstance:
       propertyPath: sourceImage
       value: 
       objectReference: {fileID: 105294782}
-    - target: {fileID: 1119691565860517702, guid: 31f3e285b12a4422cb1dc8448d490f86,
-        type: 3}
-      propertyPath: sourceImage
-      value: 
-      objectReference: {fileID: 420385172}
-    - target: {fileID: 1119691565101152994, guid: 31f3e285b12a4422cb1dc8448d490f86,
-        type: 3}
-      propertyPath: m_Text
-      value: Not Now
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31f3e285b12a4422cb1dc8448d490f86, type: 3}
 --- !u!1 &450070227
@@ -91724,7 +91709,7 @@ MonoBehaviour:
   Preview: {fileID: 157905972}
   Dev: {fileID: 233865067}
   Sandbox: {fileID: 64930014}
-  environment: 4
+  environment: 0
   configURL: https://turbolabz.com/wp-content/uploads/2019/02/preview.png
 --- !u!4 &1628862473
 Transform:

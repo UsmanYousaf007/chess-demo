@@ -33,6 +33,10 @@ namespace TurboLabz.InstantFramework
 
         [Inject] public ResumeMatchSignal resumeMatchSignal { get; set; }
 
+        //[Inject] public INavigatorModel navigatorModel { get; set; }
+
+        NavigatorViewId prevViewId;
+
         public void MonitorConnectivity(bool enable)
         {
             GS.GameSparksAvailable -= GameSparksAvailable;
@@ -50,12 +54,12 @@ namespace TurboLabz.InstantFramework
                 //receptionSignal.Dispatch();
                 LogUtil.Log("GS CONNECTED!", "red");
 
-                resumeMatchSignal.Dispatch();
+                resumeMatchSignal.Dispatch(prevViewId);
             }
             else
             {
                 LogUtil.Log("GS DISCONNECTED!", "red");
-
+                prevViewId = navigatorModel.currentViewId;
                 GSFrameworkRequest.CancelRequestSession();
 
                 // We are going to reset the game now so make sure that the models

@@ -26,7 +26,6 @@ namespace TurboLabz.Multiplayer
         {
             view.InitResults();
             view.backToLobbySignal.AddListener(OnBackToLobby);
-            view.backToFriendsSignal.AddListener(OnBackToFriends);
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
         }

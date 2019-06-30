@@ -27,7 +27,7 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             resetActiveMatchSignal.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
             if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {

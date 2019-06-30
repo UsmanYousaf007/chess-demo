@@ -28,6 +28,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_CPU)
+            {
+                return new NSCPU();
+            }
 
             return null;
         }

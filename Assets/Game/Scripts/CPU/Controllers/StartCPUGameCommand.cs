@@ -33,6 +33,7 @@ namespace TurboLabz.CPU
         {
             if (cpuGameModel.inProgress)
             {
+                chessboardModel.currentState = null;
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
             }
             else

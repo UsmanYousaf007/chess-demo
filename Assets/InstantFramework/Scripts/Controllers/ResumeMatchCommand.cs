@@ -8,13 +8,17 @@ using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using System;
 using TurboLabz.Multiplayer;
+using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
     public class ResumeMatchCommand : Command
     {
+        // Params
+        [Inject] public NavigatorViewId prevViewId { get; set; }
         // Dispatch signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
+        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public ReceptionSignal receptionSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
@@ -26,9 +30,11 @@ namespace TurboLabz.InstantFramework
         // services
         [Inject] public IBackendService backendService { get; set; }
 
+
         public override void Execute()
         {
             Retain();
+
 
             getInitDataCompleteSignal.AddListener(OnGetInitDataComplete);
             receptionSignal.Dispatch(true);
@@ -36,7 +42,11 @@ namespace TurboLabz.InstantFramework
 
         private void OnGetInitDataComplete()
         {
-            if (matchInfoModel.activeChallengeId != null)
+            if (prevViewId == NavigatorViewId.CPU)
+            {
+                startCPUGameSignal.Dispatch();
+            }
+            else if (matchInfoModel.activeChallengeId != null)
             {
                 startGameSignal.Dispatch();
             }

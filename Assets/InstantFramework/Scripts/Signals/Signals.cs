@@ -108,7 +108,7 @@ namespace TurboLabz.InstantFramework
     public class NotificationRecievedSignal : Signal<NotificationVO> {}
     public class PreShowNotificationSignal : Signal {}
     public class PostShowNotificationSignal : Signal {}
-    public class ResumeMatchSignal : Signal {}
+    public class ResumeMatchSignal : Signal<NavigatorViewId> {}
     public class UpdatePlayerNotificationCountSignal : Signal<int> { }
     public class UpdatePlayerDataSignal: Signal { }
 
