@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantFramework
 
         public Text inviteFriendsText;
         public Button defaultInviteFriendsButton;
+        public Button InviteFriendsButton;
 
         public Transform sectionPlayAFriend;
         public GameObject sectionPlayAFriendEmpty;
@@ -91,6 +93,13 @@ namespace TurboLabz.InstantFramework
         public GameObject createMatchLimitReachedDlg;
         public Button createMatchLimitReachedCloseBtn;
 
+        [Header("Invite Friend")]
+        public GameObject inviteFriendDlg;
+        public Button inviteFriendCloseBtn;
+        public Button inviteFriendBtn;
+        public Text inviteText;
+        public Text inviteFriendTitleText;
+
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -102,6 +111,8 @@ namespace TurboLabz.InstantFramework
         public Signal<string> okButtonClickedSignal = new Signal<string>();
         public Signal<int> actionCountUpdatedSignal = new Signal<int>();
         public Signal<string> removeCommunityFriendSignal = new Signal<string>();
+
+        public Signal inviteFriendSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -144,6 +155,13 @@ namespace TurboLabz.InstantFramework
 
             createMatchLimitReachedCloseBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
 
+            inviteText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_BUTTON_TEXT);
+            inviteFriendTitleText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TITLE_TEXT);
+            inviteFriendCloseBtn.onClick.AddListener(InviteFriendDialogCloseButtonClicked);
+            inviteFriendBtn.onClick.AddListener(InviteFriendDialogButtonClicked);
+            defaultInviteFriendsButton.onClick.AddListener(OnDefaultInviteFriendsButtonClicked);
+            InviteFriendsButton.onClick.AddListener(OnDefaultInviteFriendsButtonClicked);
+
 #if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
             editorSubmit.onClick.AddListener(() => { OnSearchSubmit(inputField.text); });
@@ -160,6 +178,23 @@ namespace TurboLabz.InstantFramework
             nextSearchButton.interactable = false;
             ResetSearch();
         }
+
+        #region InviteFriendDialog
+        private void OnDefaultInviteFriendsButtonClicked()
+        {
+            inviteFriendDlg.SetActive(true);
+        }
+        private void InviteFriendDialogCloseButtonClicked()
+        {
+            inviteFriendDlg.SetActive(false);
+        }
+
+        private void InviteFriendDialogButtonClicked()
+        {
+            inviteFriendSignal.Dispatch();
+            inviteFriendDlg.SetActive(false);
+        }
+        #endregion
 
         void CacheEnabledSections()
         {

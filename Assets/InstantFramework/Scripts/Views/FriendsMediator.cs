@@ -52,7 +52,7 @@ namespace TurboLabz.InstantFramework
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
             view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
-            view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
+            view.inviteFriendSignal.AddListener(OnInviteFriend);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
             view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
@@ -207,7 +207,7 @@ namespace TurboLabz.InstantFramework
             showProfileDialogSignal.Dispatch(playerId);
         }
 
-        private void OnShareApp()
+        private void OnInviteFriend()
         {
             shareAppSignal.Dispatch();
         }

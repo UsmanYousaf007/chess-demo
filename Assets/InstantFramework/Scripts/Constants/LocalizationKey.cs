@@ -192,7 +192,10 @@ namespace TurboLabz.InstantFramework
 
         public const string FRIENDS_NO_FRIENDS_TEXT = "friendsInviteLabel";
 		public const string FRIENDS_INVITE_TEXT = "friendsInviteText";
-		public const string FRIENDS_REFRESH_TEXT = "friendsRefreshText";
+        public const string FRIENDS_INVITE_BUTTON_TEXT = "friendsInviteButtonText";
+        public const string FRIENDS_INVITE_TITLE_TEXT = "friendsInviteTitleText";
+       
+        public const string FRIENDS_REFRESH_TEXT = "friendsRefreshText";
 		public const string FRIENDS_CONFIRM_LABEL = "friendsConfirmLabel";
 		public const string FRIENDS_YES_LABEL = "friendsYesLabel";
 		public const string FRIENDS_NO_LABEL = "friendsNoLabel";
