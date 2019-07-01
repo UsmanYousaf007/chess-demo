@@ -38,10 +38,14 @@ namespace TurboLabz.InstantFramework
 
         public Button quickMatchBtn;
         public Text quickMatchTitleTxt;
+        public GameObject quickMatchPlay;
+        public Text quickMatchPlayTxt;
         public Text quickMatchDescriptionTxt;
 
         public Button playComputerMatchBtn;
         public Text playComputerMatchTitleTxt;
+        public GameObject playComputerMatchPlay;
+        public Text playComputerMatchPlayTxt;
         public Text playComputerMatchDescriptionTxt;
         public Text playComputerLevelTxt;
 
