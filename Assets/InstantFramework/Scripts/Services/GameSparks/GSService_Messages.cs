@@ -63,7 +63,14 @@ namespace TurboLabz.InstantFramework
                 string challengedId = message.Data.GetString("challengedId");
                 string challengeId = message.Data.GetString("challengeId");
 
-                MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
+                if (challengeId == matchInfoModel.activeChallengeId)
+                {
+                    MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
+                }
+                else
+                {
+                    LogUtil.Log("OnScriptMessage[MATCH_WATCHDOG_PING_MESSAGE]: challengeId=" + challengeId + " activeChallengeId=" + matchInfoModel.activeChallengeId, "yellow");
+                }
             }
         }
 
