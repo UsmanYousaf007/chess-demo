@@ -428,7 +428,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 70, y: 60}
+  m_SizeDelta: {x: 71, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222961994397494612
 CanvasRenderer:
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.87058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -575,15 +575,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonId: 0
   homeLabel: {fileID: 114347517329181296}
-  profileLabel: {fileID: 0}
   shopLabel: {fileID: 114716855295028180}
   friendsLabel: {fileID: 114733440108660646}
   homeIcon: {fileID: 114286976133843862}
-  profileIcon: {fileID: 0}
   shopIcon: {fileID: 114227625567147262}
   friendsIcon: {fileID: 114211088808065602}
   homeButton: {fileID: 114967123613196908}
-  profileButton: {fileID: 0}
   shopButton: {fileID: 114900179915541812}
   friendsButton: {fileID: 114926022006640756}
 --- !u!1 &1639245037836240
@@ -797,7 +794,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 89, y: 70}
+  m_SizeDelta: {x: 71, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222649859594890608
 CanvasRenderer:
@@ -820,7 +817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1024,7 +1021,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 57, y: 57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222770491307113728
 CanvasRenderer:
@@ -1047,7 +1044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.87058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
