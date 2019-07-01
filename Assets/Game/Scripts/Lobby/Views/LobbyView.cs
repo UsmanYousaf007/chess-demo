@@ -141,9 +141,12 @@ namespace TurboLabz.InstantFramework
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
             noActiveMatchesText.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
+            quickMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
+            playComputerMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
             refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
 
             sectionActiveMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES);
+            
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
 
@@ -204,11 +207,13 @@ namespace TurboLabz.InstantFramework
             {
                 playComputerLevelTxt.gameObject.SetActive(true);
                 playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL ) + vo.selectedStrength;
+                playComputerMatchPlay.SetActive(false);
                
             }
             else
             {
                 playComputerLevelTxt.gameObject.SetActive(false);
+                playComputerMatchPlay.SetActive(true);
             }
         }
 
