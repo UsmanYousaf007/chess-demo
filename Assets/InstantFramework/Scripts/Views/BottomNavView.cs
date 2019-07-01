@@ -66,16 +66,16 @@ namespace TurboLabz.InstantFramework
         void UpdateButtons()
         {
             homeButton.interactable = true;
-            homeIcon.color = Colors.WHITE;
-            homeLabel.color = Colors.WHITE;
+            homeIcon.color = Colors.WHITE_150;
+            homeLabel.color = Colors.WHITE_150;
 
             shopButton.interactable = true;
-            shopIcon.color = Colors.WHITE;
-            shopLabel.color = Colors.WHITE;
+            shopIcon.color = Colors.WHITE_150;
+            shopLabel.color = Colors.WHITE_150;
 
             friendsButton.interactable = true;
-            friendsIcon.color = Colors.WHITE;
-            friendsLabel.color = Colors.WHITE;
+            friendsIcon.color = Colors.WHITE_150;
+            friendsLabel.color = Colors.WHITE_150;
 
             if (buttonId == ButtonId.Home)
             {

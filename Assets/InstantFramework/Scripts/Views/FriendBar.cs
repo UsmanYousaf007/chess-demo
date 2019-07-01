@@ -75,11 +75,15 @@ namespace TurboLabz.InstantFramework
         [Header("Friends Bar Optimization")]
         public GameObject bottomAlphaBg;
         public Mask maskObject;
+        public GameObject bgGlow;
+        public GameObject bgGlowLastStrip;
 
         public void UpdateMasking(bool isLastCell, bool isLastSection)
         {
             bottomAlphaBg.SetActive(false);
             maskObject.enabled = false;
+            bgGlow.SetActive(false);
+            bgGlowLastStrip.SetActive(false);
             if (!isLastSection && isLastCell)
             {
                 bottomAlphaBg.SetActive(true);
@@ -87,6 +91,11 @@ namespace TurboLabz.InstantFramework
             if (isLastCell)
             {
                 maskObject.enabled = true;
+                bgGlowLastStrip.SetActive(true);
+            }
+            else
+            {
+                bgGlow.SetActive(true);
             }
         }
 

@@ -22,7 +22,11 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLobby();
             }
-			else if (evt == NavigatorEvent.SHOW_BUY_DLG)
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
+            {
+                return new NSFriends();
+            }
+            else if (evt == NavigatorEvent.SHOW_BUY_DLG)
 			{
 				return new NSBuyDlg();
 			}
