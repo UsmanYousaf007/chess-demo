@@ -53,7 +53,6 @@ namespace TurboLabz.Multiplayer
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
-        public Signal backToFriendsSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -377,7 +376,7 @@ namespace TurboLabz.Multiplayer
 
             if (isLongPlay)
             {
-                backToFriendsSignal.Dispatch();
+                backToLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
             }
             else
@@ -391,7 +390,7 @@ namespace TurboLabz.Multiplayer
         {
             if (isLongPlay)
             {
-                backToFriendsSignal.Dispatch();
+                backToLobbySignal.Dispatch();
             }
             else
             {
@@ -411,7 +410,7 @@ namespace TurboLabz.Multiplayer
 
             if (isLongPlay)
             {
-                backToFriendsSignal.Dispatch();
+                backToLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.long_match);
             }
             else

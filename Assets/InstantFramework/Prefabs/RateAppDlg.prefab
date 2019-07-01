@@ -1129,7 +1129,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: May be Later
+  m_Text: Not Now
 --- !u!1 &1119691565127863005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1841,7 +1841,6 @@ GameObject:
   - component: {fileID: 1119691565860517755}
   - component: {fileID: 1119691565860517752}
   - component: {fileID: 1119691565860517753}
-  - component: {fileID: 1119691565860517702}
   m_Layer: 5
   m_Name: 'LikeItButton '
   m_TagString: Untagged
@@ -1962,16 +1961,3 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1119691565860517702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119691565860517700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourceImage: {fileID: 0}
