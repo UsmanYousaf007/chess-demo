@@ -188,10 +188,10 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.FRIENDS_SECTION_NEW_MATCHES, "NEW MATCHES" },
                 { LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES, "ACTIVE MATCHES" },
                 { LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY, "There are no active matches." },
-                { LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES, "RECENTLY COMPLETED MATCHES" },
+                { LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES, "RECENTLY PLAYED" },
                 
                 { LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND, "PLAY A FRIEND" },
-                { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW" },
+                { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW | CLASSIC" },
                 { LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS, "SEARCH RESULTS" },
                 { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite Facebook Friends" },
 				{ LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
