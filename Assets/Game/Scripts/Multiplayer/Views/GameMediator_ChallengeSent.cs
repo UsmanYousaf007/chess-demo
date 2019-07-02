@@ -12,7 +12,7 @@ namespace TurboLabz.Multiplayer
         {
             view.InitChallengeSent();
 
-            view.challengeSentBackToLobbyButtonSignal.AddListener(OnChallengeSentBackToLobbyClicked);
+            view.challengeSentBackToLobbyButtonSignal.AddListener(OnChallengeSentBackClicked);
         }
 
         [ListensTo(typeof(ChallengeAcceptedSignal))]
@@ -24,9 +24,9 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void OnChallengeSentBackToLobbyClicked()
+        private void OnChallengeSentBackClicked()
         {
-            loadLobbySignal.Dispatch();
+            view.HideChallengeSent();
         }
     }
 }

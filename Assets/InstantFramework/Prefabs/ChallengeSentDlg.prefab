@@ -183,7 +183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2065093179370475205
 RectTransform:
   m_ObjectHideFlags: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ??Challenge sent to Matt D.
+  m_Text: Challenge sent to Opponent Player
 --- !u!1 &2065093179519601325
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BACK TO GAMES
+  m_Text: OK
 --- !u!1 &2065093179728512942
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 2065093179728512928}
   - component: {fileID: 1516008977}
   m_Layer: 5
-  m_Name: BackToLobbyButton
+  m_Name: BackButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,8 +360,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 132}
-  m_SizeDelta: {x: 266.9, y: 72}
+  m_AnchoredPosition: {x: 0, y: 133}
+  m_SizeDelta: {x: 187.5, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2065093179728512929
 CanvasRenderer:

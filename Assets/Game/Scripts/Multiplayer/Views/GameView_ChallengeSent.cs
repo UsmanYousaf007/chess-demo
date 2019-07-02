@@ -20,7 +20,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IRoutineRunner routineRunner { get; set; }
 
         [Header("Challenge Sent Dlg")]
-        public Button challengeSentBackToLobbyButton;
+        public Button challengeSentBackButton;
         public GameObject challengeSentDialog;
 
         Coroutine showChallengeSentCR;
@@ -29,7 +29,7 @@ namespace TurboLabz.Multiplayer
 
         public void InitChallengeSent()
         {
-            challengeSentBackToLobbyButton.onClick.AddListener(OnChallengeSentBackToLobbyButtonClicked);
+            challengeSentBackButton.onClick.AddListener(OnChallengeSentBackButtonClicked);
             challengeSentDialog.SetActive(false);
         }
 
@@ -57,7 +57,7 @@ namespace TurboLabz.Multiplayer
             EnableMenuButton();
         }
 
-        void OnChallengeSentBackToLobbyButtonClicked()
+        void OnChallengeSentBackButtonClicked()
         {
             challengeSentBackToLobbyButtonSignal.Dispatch();
         }
