@@ -130,6 +130,11 @@ namespace TurboLabz.Multiplayer
             activeChessboard.inSafeMode = cmd.preferencesModel.isSafeMoveOn;
             cmd.updateSafeMoveStateSignal.Dispatch(activeChessboard.inSafeMode);
 
+            // Show challenge Sent dialog if opponent has not accepted the challenge yet
+            if (!isUndo && cmd.activeMatchInfo.isLongPlay && !isPlayerTurn && cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW)
+            {
+                cmd.waitingForOpponentAcceptSignal.Dispatch();
+            }
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)

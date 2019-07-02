@@ -72,6 +72,14 @@ namespace TurboLabz.InstantFramework
                     LogUtil.Log("OnScriptMessage[MATCH_WATCHDOG_PING_MESSAGE]: challengeId=" + challengeId + " activeChallengeId=" + matchInfoModel.activeChallengeId, "yellow");
                 }
             }
+            else if (message.ExtCode == GSBackendKeys.CHALLENGE_ACCEPT_MESSAGE)
+            {
+                string challengeId = message.Data.GetString("challengeId");
+                if (challengeId == matchInfoModel.activeChallengeId)
+                {
+                    challengeAcceptedSignal.Dispatch();
+                }
+            }
         }
 
         private void OnChatScriptMessage(ScriptMessage message)

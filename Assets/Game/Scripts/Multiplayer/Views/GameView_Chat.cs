@@ -133,7 +133,6 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                
                 if (vo.avatarId != null)
                 {
                     opponentHeaderAvatarIcon.gameObject.SetActive(true);

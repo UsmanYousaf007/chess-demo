@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -29,6 +30,11 @@ namespace TurboLabz.Multiplayer
             {
                 RenderPlayerMove(cmd);
                 cmd.enableOpponentTurnInteraction.Dispatch();
+
+                if (cmd.activeMatchInfo.isLongPlay && cmd.activeMatchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW)
+                {
+                    cmd.waitingForOpponentAcceptSignal.Dispatch();
+                }
             }
             else if (CameFromState(cmd, typeof(CCSPromoDialog)))
             {

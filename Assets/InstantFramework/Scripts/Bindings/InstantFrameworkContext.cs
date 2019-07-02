@@ -92,6 +92,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ClearUnreadMessagesSignal>().To<ClearUnreadMessagesCommand>();
             commandBinder.Bind<ResumeMatchSignal>().To<ResumeMatchCommand>();
 
+
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
@@ -127,6 +128,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NotificationRecievedSignal>().ToSingleton();
             injectionBinder.Bind<PreShowNotificationSignal>().ToSingleton();
             injectionBinder.Bind<PostShowNotificationSignal>().ToSingleton();
+            injectionBinder.Bind<ChallengeAcceptedSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
