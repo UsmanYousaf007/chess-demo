@@ -21,6 +21,8 @@ namespace TurboLabz.Multiplayer
     {
         [Header("Chat")]
         public Image opponentHeaderProfilePic;
+        public Image opponentHeaderAvatarBG;
+        public Image opponentHeaderAvatarIcon;
         public Text opponentHeaderName;
         public Image opponentOnlineStatus;
         public Image opponentInGameOnlineStatus;
@@ -77,8 +79,12 @@ namespace TurboLabz.Multiplayer
         bool chessboardBlockerRestoreState = false;
         bool hasUnreadMessages = false;
 
+
+        private SpritesContainer defaultAvatarContainer;
+
         public void InitChat()
         {
+            defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
             backToGameBtnTxt.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
             clearChatBtnTxt.text = localizationService.Get(LocalizationKey.CHAT_CLEAR);
             defaultDayLineHeader.text = localizationService.Get(LocalizationKey.CHAT_DEFAULT_DAY_LINE);
@@ -116,15 +122,26 @@ namespace TurboLabz.Multiplayer
 
             playerProfilePic = vo.playerProfilePic ?? defaultAvatar;
 
-            if (vo.opponentProfilePic == null)
-            {
-                opponentProfilePic = defaultAvatar;
-                opponentHeaderProfilePic.sprite = defaultAvatar;
-            }
-            else
+            opponentHeaderAvatarIcon.gameObject.SetActive(false);
+            opponentHeaderAvatarBG.gameObject.SetActive(false);
+
+            if (vo.opponentProfilePic != null)
             {
                 opponentProfilePic = vo.opponentProfilePic;
                 opponentHeaderProfilePic.sprite = vo.opponentProfilePic;
+                
+            }
+            else
+            {
+                
+                if (vo.avatarId != null)
+                {
+                    opponentHeaderAvatarIcon.gameObject.SetActive(true);
+                    opponentHeaderAvatarBG.gameObject.SetActive(true);
+
+                    opponentHeaderAvatarBG.color = Colors.Color(vo.avatarBgColorId);
+                    opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.avatarId);
+                }
             }
 
             foreach (ChatMessage message in vo.chatMessages.messageList)

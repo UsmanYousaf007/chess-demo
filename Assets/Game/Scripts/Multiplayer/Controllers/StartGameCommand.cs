@@ -56,6 +56,8 @@ namespace TurboLabz.InstantFramework
             vo.opponentName = matchInfoModel.activeMatch.opponentPublicProfile.name;
             vo.playerId = playerModel.id;
             vo.playerProfilePic = picsModel.GetPlayerPic(playerModel.id);
+            vo.avatarBgColorId = matchInfoModel.activeMatch.opponentPublicProfile.avatarBgColorId;
+            vo.avatarId = matchInfoModel.activeMatch.opponentPublicProfile.avatarId;
             vo.opponentId = opponentId;
 
             // Try your best to grab the picture
