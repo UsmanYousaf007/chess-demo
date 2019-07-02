@@ -15,5 +15,8 @@ namespace TurboLabz.Multiplayer
         public bool hasUnreadMessages;
         public string avatarId;
         public string avatarBgColorId;
+
+        public string oppAvatarId;
+        public string oppAvatarBgColorId;
     }
 }

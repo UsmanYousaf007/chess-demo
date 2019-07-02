@@ -55,9 +55,13 @@ namespace TurboLabz.InstantFramework
             vo.chatMessages = chatModel.GetChat(opponentId);
             vo.opponentName = matchInfoModel.activeMatch.opponentPublicProfile.name;
             vo.playerId = playerModel.id;
+
             vo.playerProfilePic = picsModel.GetPlayerPic(playerModel.id);
-            vo.avatarBgColorId = matchInfoModel.activeMatch.opponentPublicProfile.avatarBgColorId;
-            vo.avatarId = matchInfoModel.activeMatch.opponentPublicProfile.avatarId;
+            vo.avatarBgColorId = playerModel.avatarBgColorId;
+            vo.avatarId = playerModel.avatarId;
+
+            vo.oppAvatarBgColorId = matchInfoModel.activeMatch.opponentPublicProfile.avatarBgColorId;
+            vo.oppAvatarId = matchInfoModel.activeMatch.opponentPublicProfile.avatarId;
             vo.opponentId = opponentId;
 
             // Try your best to grab the picture

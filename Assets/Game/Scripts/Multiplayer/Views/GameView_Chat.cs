@@ -64,10 +64,15 @@ namespace TurboLabz.Multiplayer
 
         public GameObject[] chatInputSet;
 
-        [HideInInspector]
-        public Sprite opponentProfilePic;
-        [HideInInspector] 
-        public Sprite playerProfilePic;
+
+        [HideInInspector] public Sprite opponentProfilePic;
+        [HideInInspector] public Sprite opponentAvatarIconSprite;
+        [HideInInspector] public Color opponentAvatarBGColor;
+
+
+        [HideInInspector] public Sprite playerProfilePic;
+        [HideInInspector] public Sprite playerAvatarIconSprite;
+        [HideInInspector] public Color playerAvatarBGColor;
 
 
         List<GameObject> chatObjs = new List<GameObject>();
@@ -119,8 +124,25 @@ namespace TurboLabz.Multiplayer
             CleanUpChat();
 
             opponentHeaderName.text = vo.opponentName;
+            
 
-            playerProfilePic = vo.playerProfilePic ?? defaultAvatar;
+            if (vo.playerProfilePic != null)
+            {
+                playerProfilePic = vo.playerProfilePic;
+            }
+            else
+            {
+
+                playerProfilePic = null;
+                if (vo.avatarId != null)
+                {
+                    playerAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.avatarId);
+                    playerAvatarBGColor = Colors.Color(vo.avatarBgColorId);
+                }
+            }
+
+
+            //For Opponent
 
             opponentHeaderAvatarIcon.gameObject.SetActive(false);
             opponentHeaderAvatarBG.gameObject.SetActive(false);
@@ -129,17 +151,21 @@ namespace TurboLabz.Multiplayer
             {
                 opponentProfilePic = vo.opponentProfilePic;
                 opponentHeaderProfilePic.sprite = vo.opponentProfilePic;
-                
             }
             else
             {
-                if (vo.avatarId != null)
+                opponentProfilePic = null;
+
+                if (vo.oppAvatarId != null)
                 {
                     opponentHeaderAvatarIcon.gameObject.SetActive(true);
                     opponentHeaderAvatarBG.gameObject.SetActive(true);
 
                     opponentHeaderAvatarBG.color = Colors.Color(vo.avatarBgColorId);
-                    opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.avatarId);
+                    opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+
+                    opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+                    opponentAvatarBGColor = Colors.Color(vo.oppAvatarBgColorId);
                 }
             }
 
@@ -180,6 +206,7 @@ namespace TurboLabz.Multiplayer
 
                 foreach (Image img in opponentEmptyPics)
                 {
+                    img.gameObject.SetActive(true);
                     img.sprite = sprite;
                 }
             }
@@ -332,7 +359,30 @@ namespace TurboLabz.Multiplayer
                 chatBubbleContainer = Instantiate(chatBubblePrefabRight);
                 chatBubbleContainer.SetActive(true);
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
-                bubble.profilePic.sprite = playerProfilePic ?? defaultAvatar;
+
+                bubble.avatarBg.gameObject.SetActive(false);
+                bubble.avatarIcon.gameObject.SetActive(false);
+
+                if (playerProfilePic != null)
+                {
+                    bubble.profilePic.sprite = playerProfilePic;
+                }
+                else
+                {
+                    if (playerAvatarIconSprite != null)
+                    {
+                        bubble.profilePic.gameObject.SetActive(false);
+                        bubble.avatarBg.gameObject.SetActive(true);
+                        bubble.avatarIcon.gameObject.SetActive(true);
+
+                        bubble.avatarBg.color = playerAvatarBGColor;
+                        bubble.avatarIcon.sprite = playerAvatarIconSprite;
+                    }
+                    else
+                    {
+                        bubble.profilePic.sprite = defaultAvatar;
+                    }
+                }
             }
             else
             {
@@ -341,6 +391,30 @@ namespace TurboLabz.Multiplayer
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
                 bubble.profilePic.sprite = opponentProfilePic ?? defaultAvatar;
 
+
+                bubble.avatarBg.gameObject.SetActive(false);
+                bubble.avatarIcon.gameObject.SetActive(false);
+
+                if (opponentProfilePic != null)
+                {
+                    bubble.profilePic.sprite = opponentProfilePic;
+                }
+                else
+                {
+                    if (opponentHeaderAvatarIcon != null)
+                    {
+                        bubble.profilePic.gameObject.SetActive(false);
+                        bubble.avatarBg.gameObject.SetActive(true);
+                        bubble.avatarIcon.gameObject.SetActive(true);
+
+                        bubble.avatarBg.color = opponentAvatarBGColor;
+                        bubble.avatarIcon.sprite = opponentAvatarIconSprite;
+                    }
+                    else
+                    {
+                        bubble.profilePic.sprite = defaultAvatar;
+                    }
+                }
                 if (bubble.profilePic.sprite.name == defaultAvatar.name)
                 {
                     opponentEmptyPics.Add(bubble.profilePic);

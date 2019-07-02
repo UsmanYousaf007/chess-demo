@@ -24,6 +24,8 @@ public class ChatBubble : MonoBehaviour
     public Sprite bgFullChatPlayer;
 
     public Image profilePic;
+    public Image avatarBg;
+    public Image avatarIcon;
     public Text timer;
 
     Image bgImage;
