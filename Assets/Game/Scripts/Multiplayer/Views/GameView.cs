@@ -65,6 +65,7 @@ namespace TurboLabz.Multiplayer
             OnParentHideChessboard();
             OnParentHideClickAndDrag();
             opponentId = null;
+            HideChallengeSent();
             OnParentHideAdBanner();
         }
 

@@ -137,6 +137,12 @@ namespace TurboLabz.Multiplayer
             view.UpdateMoveForResume(vo, isPlayerTurn);
         }
 
+        [ListensTo(typeof(WaitingForOpponentAcceptSignal))]
+        public void OnWaitingForOpponentAccept()
+        {
+            view.ShowChallengeSent();
+        }
+
         private void OnSquareClicked(FileRank fileRank)
         {
             squareClickedSignal.Dispatch(fileRank);

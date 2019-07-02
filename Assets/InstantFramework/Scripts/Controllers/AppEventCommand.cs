@@ -13,6 +13,7 @@
 using GameSparks.Core;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using UnityEngine.iOS;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,6 +30,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -42,11 +44,28 @@ namespace TurboLabz.InstantFramework
             if (appEvent == AppEvent.PAUSED || appEvent == AppEvent.QUIT)
             {
                 modelsSaveToDiskSignal.Dispatch();
+                setLocalNotificationNumber();
             }
             else if (appEvent == AppEvent.ESCAPED)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }
+        }
+
+        public void setLocalNotificationNumber()
+        {
+            NotificationServices.ClearRemoteNotifications();
+            var setNotificationCount = new LocalNotification();
+            setNotificationCount.fireDate = System.DateTime.Now;
+            setNotificationCount.applicationIconBadgeNumber = playerModel.notificationCount;
+            setNotificationCount.hasAction = false;
+            NotificationServices.ScheduleLocalNotification(setNotificationCount);
+
+            LogUtil.Log("GS LOCAL NOTIFICATION NUMEBR SET to : " + playerModel.notificationCount, "red");
+
+#if UNITY_IOS
+            NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge);
+#endif
         }
     }
 }

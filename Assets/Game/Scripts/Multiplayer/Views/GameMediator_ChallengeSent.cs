@@ -1,0 +1,32 @@
+﻿/// @license Propriety <http://license.url>
+/// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
+/// Unauthorized copying of this file, via any medium is strictly prohibited
+/// Proprietary and confidential
+using TurboLabz.InstantFramework;
+
+namespace TurboLabz.Multiplayer
+{
+    public partial class GameMediator
+    {
+        public void OnRegisterChallengeSent()
+        {
+            view.InitChallengeSent();
+
+            view.challengeSentBackToLobbyButtonSignal.AddListener(OnChallengeSentBackToLobbyClicked);
+        }
+
+        [ListensTo(typeof(ChallengeAcceptedSignal))]
+        public void OnChallengeAccepted()
+        {
+            if (view.challengeSentDialog.activeSelf)
+            {
+                view.HideChallengeSent();
+            }
+        }
+
+        private void OnChallengeSentBackToLobbyClicked()
+        {
+            loadLobbySignal.Dispatch();
+        }
+    }
+}

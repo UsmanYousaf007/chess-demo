@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ReceiveChatMessageSignal receiveChatMessageSignal { get; set; }
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public ChallengeAcceptedSignal challengeAcceptedSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }

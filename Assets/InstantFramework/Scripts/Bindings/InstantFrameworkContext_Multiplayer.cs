@@ -69,6 +69,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateHindsightCountSignal>().ToSingleton();
             injectionBinder.Bind<UpdateSafeMoveCountSignal>().ToSingleton();
             injectionBinder.Bind<UpdateSafeMoveStateSignal>().ToSingleton();
+            injectionBinder.Bind<WaitingForOpponentAcceptSignal>().ToSingleton();
+
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

@@ -40,6 +40,10 @@ namespace TurboLabz.Multiplayer
         {
             if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG) 
             {
+                if (view.challengeSentDialog.activeSelf) 
+                {
+                    view.HideChallengeSent(); 
+                }
                 view.ShowResultsDialog();
             }
         }
