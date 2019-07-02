@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -12,12 +13,16 @@ namespace TurboLabz.InstantFramework
     {
         [Header("Player Info")]
         public Image playerProfilePic;
+        public Image playerAvatarBg;
+        public Image playerAvatarIcon;
         public Text playerProfileName;
         public Text playerEloLabel;
         public Image playerFlag;
 
         [Header("Opponent Info")]
         public Image oppProfilePic;
+        public Image opponentAvatarBG;
+        public Image opponentAvatarIcon;
         public Text oppProfileName;
         public Text oppEloLabel;
         public Image oppFlag;
@@ -58,8 +63,11 @@ namespace TurboLabz.InstantFramework
         string totalGamesPrefix = null;
         string playerId = null;
 
+        private SpritesContainer defaultAvatarContainer;
+
         public void Init()
         {
+            defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
             eloPrefix = localizationService.Get(LocalizationKey.ELO_SCORE);
             totalGamesPrefix = localizationService.Get(LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL);
             confirmLabel.text = localizationService.Get(LocalizationKey.FRIENDS_CONFIRM_LABEL);
@@ -81,14 +89,50 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
         {
-            playerId = vo.playerId;
+            playerAvatarBg.gameObject.SetActive(false);
+            playerAvatarIcon.gameObject.SetActive(false);
 
-            playerProfilePic.sprite = vo.playerProfilePic;
+            playerId = vo.playerId;
+            if (vo.playerProfilePic!= null)
+            {
+                playerProfilePic.sprite = vo.playerProfilePic;
+            }
+            else
+            {
+                if (vo.playerAvatarId != null)
+                {
+                    playerAvatarBg.gameObject.SetActive(true);
+                    playerAvatarIcon.gameObject.SetActive(true);
+
+                    playerAvatarBg.color = Colors.Color(vo.playerAvatarColor);
+                    playerAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.playerAvatarId);
+                }
+            }
+            
             playerProfileName.text = vo.playerProfileName;
             playerEloLabel.text = eloPrefix + " " + vo.playerElo;
             playerFlag.sprite = Flags.GetFlag(vo.playerCountryCode);
 
-            oppProfilePic.sprite = vo.oppProfilePic;
+
+            opponentAvatarBG.gameObject.SetActive(false);
+            opponentAvatarIcon.gameObject.SetActive(false);
+            if (vo.oppProfilePic != null)
+            {
+                oppProfilePic.sprite = vo.oppProfilePic;
+            }
+            else
+            {
+                if (vo.oppAvatarId != null)
+                {
+                    opponentAvatarBG.gameObject.SetActive(true);
+                    opponentAvatarIcon.gameObject.SetActive(true);
+
+                    opponentAvatarBG.color = Colors.Color(vo.oppAvatarColor);
+                    opponentAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+                }
+            }
+
+            
             oppProfileName.text = vo.oppProfileName;
             oppEloLabel.text = eloPrefix + " " + vo.oppElo;
             oppFlag.sprite = Flags.GetFlag(vo.oppCountryCode);

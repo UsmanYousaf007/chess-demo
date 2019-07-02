@@ -12,11 +12,15 @@ namespace TurboLabz.InstantFramework
         public string playerId;
 
         public Sprite playerProfilePic;
+        public string playerAvatarId;
+        public string playerAvatarColor;
         public string playerProfileName;
         public int playerElo;
         public string playerCountryCode;
 
         public Sprite oppProfilePic;
+        public string oppAvatarId;
+        public string oppAvatarColor;
         public string oppProfileName;
         public int oppElo;
         public string oppCountryCode;

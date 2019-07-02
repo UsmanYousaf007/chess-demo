@@ -32,6 +32,8 @@ namespace TurboLabz.InstantFramework
             vo.playerId = opponentId;
             vo.playerProfilePic = picsModel.GetPlayerPic(playerModel.id);
             vo.playerProfileName = playerModel.name;
+            vo.playerAvatarColor = playerModel.avatarBgColorId;
+            vo.playerAvatarId = playerModel.avatarId;
             vo.playerElo = playerModel.eloScore;
             vo.playerCountryCode = playerModel.countryId;
 
@@ -61,6 +63,8 @@ namespace TurboLabz.InstantFramework
 
             vo.oppProfilePic = pic;
             vo.oppProfileName = friend.publicProfile.name;
+            vo.oppAvatarId = friend.publicProfile.avatarId;
+            vo.oppAvatarColor = friend.publicProfile.avatarBgColorId;
             vo.oppElo = friend.publicProfile.eloScore;
             vo.oppCountryCode = friend.publicProfile.countryId;
             vo.oppPlayingSinceDate = friend.publicProfile.creationDate;
