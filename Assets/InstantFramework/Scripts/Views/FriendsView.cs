@@ -100,6 +100,15 @@ namespace TurboLabz.InstantFramework
         public Text inviteText;
         public Text inviteFriendTitleText;
 
+        [Header("Find your friend")]
+        public GameObject findFriendDlg;
+        public Text findFriendTitle;
+        public Text findFriendLoginInfoText;
+        public Text findFriendSearchInfoText;
+        public Text findFriendInviteInfoText;
+        public Button findFriendOkButton;
+        public Text findFriendOkText;
+
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -177,6 +186,15 @@ namespace TurboLabz.InstantFramework
             cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
             nextSearchButton.interactable = false;
             ResetSearch();
+
+
+            findFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_TITLE); 
+            findFriendLoginInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO); 
+            findFriendSearchInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_SEARCH_INFO);
+            findFriendInviteInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_INVITE_INFO); 
+            findFriendOkButton.onClick.AddListener(HideFriendsHelpDialog);
+            findFriendOkText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
+
         }
 
         #region InviteFriendDialog
@@ -849,5 +867,18 @@ namespace TurboLabz.InstantFramework
         {
             createMatchLimitReachedDlg.SetActive(false);
         }
+
+
+        #region FindYourFriendDialog
+        public void ShowFriendsHelpDialog()
+        {
+            findFriendDlg.SetActive(true);
+        }
+
+        public void HideFriendsHelpDialog()
+        {
+            findFriendDlg.SetActive(false);
+        }
+        #endregion
     }
 }

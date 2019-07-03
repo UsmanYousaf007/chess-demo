@@ -19,7 +19,7 @@ namespace TurboLabz.InstantGame
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
-
+        [Inject] public ShowFriendsHelpSignal showFriendsHelpSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -32,11 +32,12 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
-
+            Debug.Log("preferencesModel.isFriendScreenVisited :: " + preferencesModel.isFriendScreenVisited);
             if (preferencesModel.isFriendScreenVisited == false)
             {
                 preferencesModel.isFriendScreenVisited = true;
                 setActionCountSignal.Dispatch(0);
+                showFriendsHelpSignal.Dispatch();
             }
 
             if (facebookService.isLoggedIn())

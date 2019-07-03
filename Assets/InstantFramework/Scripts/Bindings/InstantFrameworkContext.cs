@@ -122,6 +122,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SortSearchedSignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<SetActionCountSignal>().ToSingleton();
+            injectionBinder.Bind<ShowFriendsHelpSignal>().ToSingleton();
             injectionBinder.Bind<AddUnreadMessagesToBarSignal>().ToSingleton();
             injectionBinder.Bind<ClearUnreadMessagesFromBarSignal>().ToSingleton();
             injectionBinder.Bind<ModelsSaveToDiskSignal>().ToSingleton();

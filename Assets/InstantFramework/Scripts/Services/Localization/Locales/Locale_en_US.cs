@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
-                { LocalizationKey.PLAYING_LEVEL, "Playing Level "},
+                { LocalizationKey.PLAYING_LEVEL, "Level "},
 
                 #endregion
 
@@ -213,7 +213,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
                 { LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, "Save your progress" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
-
+				{ LocalizationKey.FRIENDS_FIND_FRIEND_TITLE, "FIND YOUR FRIENDS" },
+				{ LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO, "Login to Facebook and friends who have the app will automactically appear" },
+				{ LocalizationKey.FRIENDS_FIND_FRIEND_SEARCH_INFO, "Use the search bar to find your friends by name" },
+				{ LocalizationKey.FRIENDS_FIND_FRIEND_INVITE_INFO, "Use 'Invite' to send an invitation to your friend on your favorite app (Whatsapp, Facebook, etc)" },
                 #endregion
 
                 #region Share

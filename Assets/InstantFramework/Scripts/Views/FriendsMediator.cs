@@ -41,6 +41,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ResignSignal resignSignal { get; set; }
         [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
 
+
+
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
@@ -70,6 +72,12 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
             }
+        }
+
+        [ListensTo(typeof(ShowFriendsHelpSignal))]
+        public void OnShowFriendsHelpSignal()
+        {
+            view.ShowFriendsHelpDialog();
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
