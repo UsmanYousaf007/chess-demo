@@ -195,8 +195,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -54.5, y: -174}
-  m_SizeDelta: {x: 26, y: 26}
+  m_AnchoredPosition: {x: -28, y: -186.3}
+  m_SizeDelta: {x: 20, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222199024881786748
 CanvasRenderer:
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.3137255}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -509,7 +509,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -54.5, y: -174}
+  m_AnchoredPosition: {x: -28.1, y: -186.5}
   m_SizeDelta: {x: 34.615, y: 24.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222094288575005504
@@ -1470,7 +1470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -54.50012, y: -173.99976}
+  m_AnchoredPosition: {x: -28.100159, y: -186.49976}
   m_SizeDelta: {x: 24.72, y: 24.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222328495617336940
@@ -2005,7 +2005,6 @@ MonoBehaviour:
   timerLabel: {fileID: 114704729359073068}
   generalStatus: {fileID: 114041428433928292}
   yourMoveStatus: {fileID: 114652964698744644}
-  matchStatus: {fileID: 3140847463775184753}
   viewProfileButton: {fileID: 114263186048291440}
   stripButton: {fileID: 114594394479071418}
   thinking: {fileID: 1394679646611074}
@@ -2041,7 +2040,6 @@ MonoBehaviour:
   isGameCanceled: 0
   isPlayerTurn: 0
   isRanked: 0
-  isFriendView: 0
   lastMatchTimeStamp: 0
   bottomAlphaBg: {fileID: 7817692950968977916}
   maskObject: {fileID: 5817909771785993593}
@@ -3469,7 +3467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3686,8 +3684,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: -0.6298752}
-  m_SizeDelta: {x: 60.960022, y: 41.910004}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8085234948145199493
 CanvasRenderer:
