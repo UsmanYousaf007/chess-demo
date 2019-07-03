@@ -112,6 +112,7 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerNotificationCountSignal : Signal<int> {}
     public class UpdatePlayerDataSignal: Signal {}
     public class ChallengeAcceptedSignal : Signal {}
+    public class ChangeUserDetailsSignal : Signal<string> {}
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}
