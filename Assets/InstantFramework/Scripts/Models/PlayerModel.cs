@@ -82,7 +82,7 @@ namespace TurboLabz.InstantFramework
             avatarId = null;
             avatarBgColorId = null;
             notificationCount = 0;
-            editedName = null;
+            editedName = "";
 
             // Ads Info
             adLifetimeImpressions = 0;

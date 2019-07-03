@@ -78,12 +78,6 @@ namespace TurboLabz.InstantGame
             nameEditBtn.onClick.AddListener(nameEditBtnClicked);
             playerProfileNameInputField.onEndEdit.AddListener(OnEditNameSubmit);
 
-            nameEditBtn.gameObject.SetActive(false);
-
-            if (Equals(playerModel.editedName, ""))
-            {
-                nameEditBtn.gameObject.SetActive(true);
-            }
 
             for (int i = 0; i < stars.Length; i++)
             {
@@ -132,7 +126,14 @@ namespace TurboLabz.InstantGame
 
         public void Show() 
         { 
-            gameObject.SetActive(true); 
+            gameObject.SetActive(true);
+
+            nameEditBtn.gameObject.SetActive(false);
+
+            if (string.IsNullOrEmpty(playerModel.editedName))
+            {
+                nameEditBtn.gameObject.SetActive(true);
+            }
         }
 
         public void Hide()
