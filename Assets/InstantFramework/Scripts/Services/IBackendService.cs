@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> Decline(string challengeId);
         IPromise<BackendResult> Unregister(string challengeId);
         IPromise<BackendResult> SendChatMessage(string recipientId, string text, string guid);
+        IPromise<BackendResult> ChangeUserDetails(string name);
 
         IPromise<BackendResult> UpdatePlayerData(int notificationCount);
 

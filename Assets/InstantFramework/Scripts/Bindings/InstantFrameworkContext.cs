@@ -91,6 +91,9 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ClearActiveChatSignal>().To<ClearActiveChatCommand>();
             commandBinder.Bind<ClearUnreadMessagesSignal>().To<ClearUnreadMessagesCommand>();
             commandBinder.Bind<ResumeMatchSignal>().To<ResumeMatchCommand>();
+            commandBinder.Bind<ChangeUserDetailsSignal>().To<ChangeUserDetailsCommand>();
+
+ 
 
 
             // Bind signals for dispatching to mediators
