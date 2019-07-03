@@ -78,6 +78,8 @@ namespace TurboLabz.InstantFramework
         public GameObject chooseComputerDifficultyDlg;
         public Button decStrengthButton;
         public Text prevStrengthLabel;
+        public Text easyLabel;
+        public Text hardLabel;
         public Text currentStrengthLabel;
         public Text nextStrengthLabel;
         public Button incStrengthButton;
@@ -98,6 +100,7 @@ namespace TurboLabz.InstantFramework
         public Text confirmRankedGameBtnText;
         public Button confirmFriendlyGameBtn;
         public Text confirmFriendlyGameBtnText;
+        public Text classicGameTimeText;
 
         [Header("Confirm remove community friend")]
         public GameObject removeCommunityFriendDlg;
@@ -172,6 +175,7 @@ namespace TurboLabz.InstantFramework
 
             playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
+            classicGameTimeText.text = localizationService.Get(LocalizationKey.CLASSIC_MODE_TIME);
 
             quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
 
@@ -181,7 +185,8 @@ namespace TurboLabz.InstantFramework
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
             computerDifficultyDlgStartGameButton.onClick.AddListener(OnComputerDifficultyDlgStartGameClicked);
             computerDifficultyDlgCloseButton.onClick.AddListener(OnComputerDifficultyDlgCloseClicked);
-
+            easyLabel.text = localizationService.Get(LocalizationKey.EASY);
+            hardLabel.text = localizationService.Get(LocalizationKey.HARD);
             notificationTagImage.gameObject.SetActive(false);
 
 

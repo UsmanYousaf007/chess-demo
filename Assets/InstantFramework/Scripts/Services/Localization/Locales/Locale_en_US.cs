@@ -99,10 +99,13 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_PLAY_FRIENDS, "Friends & World" },
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "Play Computer" },
                 { LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME, "Single Player Game" },
+                { LocalizationKey.EASY, "Easy" },
+                { LocalizationKey.HARD, "Hard" },
                 { LocalizationKey.CPU_MENU_THEMES, "THEMES" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "Computer" },
                 { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
+                { LocalizationKey.CLASSIC_MODE_TIME, "Long Play" },
 
                 { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN GAME" },
                 { LocalizationKey.CPU_GAME_UNDO_BUTTON, "UNDO" },
@@ -191,7 +194,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES, "RECENTLY PLAYED" },
                 
                 { LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND, "PLAY A FRIEND" },
-                { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW | CLASSIC" },
+                { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW | CLASSIC MODE" },
                 { LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS, "SEARCH RESULTS" },
                 { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite Facebook Friends" },
 				{ LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },

@@ -21,11 +21,15 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch signal
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+       
 
         public void OnRegisterResults()
         {
             view.InitResults();
             view.backToLobbySignal.AddListener(OnBackToLobby);
+            view.refreshLobbySignal.AddListener(OnRefreshLobby);
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
         }
@@ -76,6 +80,12 @@ namespace TurboLabz.Multiplayer
         private void OnResultsDialogOpenedSignal()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
+        }
+
+        private void OnRefreshLobby()
+        {
+            refreshFriendsSignal.Dispatch();
+            refreshCommunitySignal.Dispatch();
         }
     }
 }

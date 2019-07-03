@@ -96,6 +96,8 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_PLAY_FRIENDS = "cpuMenuPlayFriends";
         public const string CPU_MENU_PLAY_CPU = "cpuMenuPlayCPU";
         public const string CPU_MENU_SINGLE_PLAYER_GAME = "cpuMenuSinglePlayerGame";
+        public const string EASY = "easy";
+        public const string HARD = "hard";
         public const string CPU_MENU_THEMES = "cpuMenuThemes";
         public const string CPU_GAME_CPU_NAME = "cpuGameCpuName";
         public const string CPU_GAME_CPU_STRENGTH = "cpuGameCpuStrength";
@@ -112,6 +114,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_RESULTS_CLOSE_BUTTON = "cpuResultsCloseButton";
         public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
         public const string CPU_RESULTS_EXIT_BUTTON = "cpuResultsExitButton";
+        public const string CLASSIC_MODE_TIME = "classicModeTime";
 
         #endregion 
 

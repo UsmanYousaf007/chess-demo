@@ -54,6 +54,8 @@ namespace TurboLabz.Multiplayer
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
 
+        public Signal refreshLobbySignal = new Signal();
+
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
@@ -66,6 +68,8 @@ namespace TurboLabz.Multiplayer
         private string collectRewardType;
         private float animDelay;
 
+
+        
         [Inject] public IAdsService adsService { get; set; }
 
         public void InitResults()
@@ -411,6 +415,7 @@ namespace TurboLabz.Multiplayer
             if (isLongPlay)
             {
                 backToLobbySignal.Dispatch();
+                refreshLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.long_match);
             }
             else

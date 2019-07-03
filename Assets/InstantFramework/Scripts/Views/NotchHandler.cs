@@ -79,7 +79,7 @@ public class NotchHandler : MonoBehaviour {
 
         // LOBBY
         SetY(lobbyScrollView, -66f - 100f);
-        SetTop(lobbyViewPort, 17f);
+        SetTop(lobbyViewPort, -15f);
         SetBottom(lobbyViewPort, 111f + 100f);
         
         // PROFILE

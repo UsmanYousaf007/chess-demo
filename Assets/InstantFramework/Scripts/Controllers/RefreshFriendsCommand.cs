@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            Debug.Log("Refeshing friends");
             clearFriendsSignal.Dispatch();
 
             List<string> keyList = new List<string>(playerModel.friends.Keys);
