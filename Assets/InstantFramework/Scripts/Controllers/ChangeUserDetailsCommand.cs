@@ -26,9 +26,12 @@ namespace TurboLabz.InstantFramework
 
 		// Models
 		[Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
 
 
-		string challengeId;
+        string challengeId;
 
 		public override void Execute()
 		{		
@@ -45,9 +48,31 @@ namespace TurboLabz.InstantFramework
 			if (result == BackendResult.SUCCESS)
 			{
                 Debug.Log("NAME CHNAGEDDD");
-			}
+                DispatchProfileSignal();
+
+            }
 
 		}
 
-	}
+        private void DispatchProfileSignal()
+        {
+            ProfileVO pvo = new ProfileVO();
+            pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            pvo.playerName = playerModel.name;
+            pvo.eloScore = playerModel.eloScore;
+            pvo.countryId = playerModel.countryId;
+            pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
+            pvo.playerId = playerModel.id;
+            pvo.avatarId = playerModel.avatarId;
+            pvo.avatarColorId = playerModel.avatarBgColorId;
+
+            if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
+            {
+                pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            }
+
+            updateProfileSignal.Dispatch(pvo);
+        }
+
+    }
 }

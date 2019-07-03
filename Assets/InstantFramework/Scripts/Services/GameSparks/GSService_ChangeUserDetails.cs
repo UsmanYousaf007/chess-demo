@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
 			this.errorCode = BackendResult.SET_PLAYER_SOCIAL_NAME_FAILED;
 
             GSRequestData scriptData = new GSRequestData();
-            scriptData.AddBoolean("editName", true);
+            scriptData.AddBoolean("editedName", true);
 
             new ChangeUserDetailsRequest()
                 .SetScriptData(scriptData)

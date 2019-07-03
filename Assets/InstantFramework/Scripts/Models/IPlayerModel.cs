@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         string avatarId { get; set; }
         string avatarBgColorId { get; set; }
         int notificationCount { get; set; }
+        string editedName { get; set; }
 
 
         // Ads Info

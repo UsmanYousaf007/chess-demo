@@ -295,6 +295,7 @@ namespace TurboLabz.InstantFramework
 			public const string FRIENDS = "friends";
             public const string REMOVE_ADS_TIMESTAMP = "removeAdsTimeStamp";
             public const string REMOVE_ADS_TIMEPERIOD = "removeAdsTimePeriod";
+            public const string EDITED_NAME = "editedName";
         }
 
         public static class Match

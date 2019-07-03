@@ -12,6 +12,8 @@ using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using TMPro;
+using System;
 
 namespace TurboLabz.InstantGame
 {
@@ -21,6 +23,10 @@ namespace TurboLabz.InstantGame
         [Inject] public ILocalizationService localizationService { get; set; }
 
         // Scene references
+        //Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+
+        [Inject] public ChangeUserDetailsSignal changeUserDetailsSignal { get; set; }
 
         public Text onlineTitle;
         public Text onlineWinPct;
@@ -50,6 +56,9 @@ namespace TurboLabz.InstantGame
 
         public Button backButton;
 
+        public TMP_InputField playerProfileNameInputField;
+        public Button nameEditBtn;
+
         public Signal restorePurchasesSignal = new Signal();
 
         public void Init()
@@ -63,6 +72,18 @@ namespace TurboLabz.InstantGame
             computerTitle.text = localizationService.Get(LocalizationKey.STATS_COMPUTER_TITLE);
             legendGold.text = localizationService.Get(LocalizationKey.STATS_LEGEND_GOLD);
             legendSilver.text = localizationService.Get(LocalizationKey.STATS_LEGEND_SILVER);
+
+            playerProfileNameInputField.transform.gameObject.SetActive(false);
+
+            nameEditBtn.onClick.AddListener(nameEditBtnClicked);
+            playerProfileNameInputField.onEndEdit.AddListener(OnEditNameSubmit);
+
+            nameEditBtn.gameObject.SetActive(false);
+
+            if (Equals(playerModel.editedName, ""))
+            {
+                nameEditBtn.gameObject.SetActive(true);
+            }
 
             for (int i = 0; i < stars.Length; i++)
             {
@@ -127,6 +148,26 @@ namespace TurboLabz.InstantGame
         private void OnRestorePurchasesClicked()
         {
             restorePurchasesSignal.Dispatch();
+        }
+
+        private void nameEditBtnClicked()
+        {
+            playerProfileNameInputField.text = "";
+            playerProfileNameInputField.transform.gameObject.SetActive(true);
+        }
+
+        void OnEditNameSubmit(string text)
+        {
+            if (playerProfileNameInputField.text.Length == 0)
+            {
+                return;
+            }
+
+            var newName = playerProfileNameInputField.text;
+            changeUserDetailsSignal.Dispatch(newName);
+
+            playerProfileNameInputField.transform.gameObject.SetActive(false);
+
         }
     }
 }

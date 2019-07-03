@@ -26,7 +26,8 @@ namespace TurboLabz.InstantFramework
         public string avatarId { get; set; }
         public string avatarBgColorId { get; set; }
         public int notificationCount { get; set; }
-        
+        public string editedName { get; set; }
+
         public string name
         {
             get
@@ -81,6 +82,7 @@ namespace TurboLabz.InstantFramework
             avatarId = null;
             avatarBgColorId = null;
             notificationCount = 0;
+            editedName = null;
 
             // Ads Info
             adLifetimeImpressions = 0;
