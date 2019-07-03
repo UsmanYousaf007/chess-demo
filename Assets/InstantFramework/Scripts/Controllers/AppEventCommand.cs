@@ -55,17 +55,13 @@ namespace TurboLabz.InstantFramework
         public void setLocalNotificationNumber()
         {
             NotificationServices.ClearRemoteNotifications();
-            var setNotificationCount = new LocalNotification();
-            setNotificationCount.fireDate = System.DateTime.Now;
-            setNotificationCount.applicationIconBadgeNumber = playerModel.notificationCount;
-            setNotificationCount.hasAction = false;
-            NotificationServices.ScheduleLocalNotification(setNotificationCount);
-
-            LogUtil.Log("GS LOCAL NOTIFICATION NUMEBR SET to : " + playerModel.notificationCount, "red");
-
-#if UNITY_IOS
-            NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge);
-#endif
+            LocalNotification setNotificationCount1 = new LocalNotification();
+            setNotificationCount1.fireDate = System.DateTime.Now.AddSeconds(5f);
+            setNotificationCount1.applicationIconBadgeNumber = playerModel.notificationCount;
+            setNotificationCount1.hasAction = false;
+            NotificationServices.ScheduleLocalNotification(setNotificationCount1);
         }
+
+
     }
 }
