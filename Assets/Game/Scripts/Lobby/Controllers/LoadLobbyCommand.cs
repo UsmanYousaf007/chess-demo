@@ -57,12 +57,6 @@ namespace TurboLabz.InstantGame
             loadCPUGameDataSignal.Dispatch();
 
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-            
-            if (preferencesModel.isFriendScreenVisited == false)
-            {
-                preferencesModel.isFriendScreenVisited = true;
-                setActionCountSignal.Dispatch(0);
-            }
 
             if (facebookService.isLoggedIn())
             {

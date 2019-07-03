@@ -212,6 +212,11 @@ namespace TurboLabz.InstantFramework
         public const string SAVE_YOUR_PROGRESS_TEXT = "saveYourProgressText";
         public const string FRIENDS_WAITING_FOR_PLAYERS = "friendsWaitingForPlayers";
 
+        public const string FRIENDS_FIND_FRIEND_TITLE = "friendsFindFriendTitle";
+        public const string FRIENDS_FIND_FRIEND_LOGIN_INFO = "friendFindFriendLoginInfo";
+        public const string FRIENDS_FIND_FRIEND_SEARCH_INFO = "friendFindFriendSearchInfo";
+        public const string FRIENDS_FIND_FRIEND_INVITE_INFO = "friendFindFriendInviteInfo";
+
         #endregion
 
         #region Share
