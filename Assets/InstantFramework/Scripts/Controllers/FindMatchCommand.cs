@@ -105,6 +105,7 @@ namespace TurboLabz.InstantFramework
             pvo.avatarColorId = publicProfile.avatarBgColorId;
             pvo.avatarId = publicProfile.avatarId;
             pvo.isOnline = true;
+            pvo.isActive = publicProfile.isActive;
 
             return pvo;
         }

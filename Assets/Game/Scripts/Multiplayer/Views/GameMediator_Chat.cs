@@ -69,9 +69,9 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
-        public void OnUpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        public void OnUpdateFriendOnlineStatusSignal(ProfileVO vo)
         {
-            view.UpdateFriendOnlineStatusSignal(friendId, isOnline);
+            view.UpdateFriendOnlineStatusSignal(vo.playerId, vo.isOnline, vo.isActive);
         }
 
         void OnChatSubmit(ChatMessage message)

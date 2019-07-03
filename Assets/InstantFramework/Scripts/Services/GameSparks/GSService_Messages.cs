@@ -54,7 +54,19 @@ namespace TurboLabz.InstantFramework
                     playerModel.friends[friendId].publicProfile.isOnline = isOnline;
                 }
 
-                updtateFriendOnlineStatusSignal.Dispatch(friendId, isOnline);
+                PublicProfile publicProfile = playerModel.friends[friendId].publicProfile;
+                ProfileVO pvo = new ProfileVO();
+                pvo.playerPic = publicProfile.profilePicture;
+                pvo.playerName = publicProfile.name;
+                pvo.eloScore = publicProfile.eloScore;
+                pvo.countryId = publicProfile.countryId;
+                pvo.playerId = publicProfile.playerId;
+                pvo.avatarColorId = publicProfile.avatarBgColorId;
+                pvo.avatarId = publicProfile.avatarId;
+                pvo.isOnline = isOnline;
+                pvo.isActive = publicProfile.isActive;
+
+                updtateFriendOnlineStatusSignal.Dispatch(pvo);
             }
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_PING_MESSAGE)
             {
