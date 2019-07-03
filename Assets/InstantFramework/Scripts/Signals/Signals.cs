@@ -114,9 +114,9 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerDataSignal: Signal {}
     public class ChallengeAcceptedSignal : Signal {}
     public class ChangeUserDetailsSignal : Signal<string> {}
+    public class OpponentPingedForConnectionSignal : Signal<bool> { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}
     public class RefreshSkinLinksSignal : Signal {}
-
 }

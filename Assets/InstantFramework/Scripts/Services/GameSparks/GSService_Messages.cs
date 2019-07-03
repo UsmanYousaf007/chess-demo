@@ -80,6 +80,22 @@ namespace TurboLabz.InstantFramework
                     challengeAcceptedSignal.Dispatch();
                 }
             }
+            else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_OPPONENT_PINGED_MESSAGE)
+            {
+                string challengeId = message.Data.GetString("challengeId");
+                if (challengeId == matchInfoModel.activeChallengeId)
+                {
+                    opponentPingedForConnectionSignal.Dispatch(false);
+                }
+            }
+            else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_OPPONENT_ACKNOWLEDGED_MESSAGE)
+            {
+                string challengeId = message.Data.GetString("challengeId");
+                if (challengeId == matchInfoModel.activeChallengeId)
+                {
+                    opponentPingedForConnectionSignal.Dispatch(true);
+                }
+            }
         }
 
         private void OnChatScriptMessage(ScriptMessage message)

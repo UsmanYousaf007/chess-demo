@@ -133,6 +133,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<PreShowNotificationSignal>().ToSingleton();
             injectionBinder.Bind<PostShowNotificationSignal>().ToSingleton();
             injectionBinder.Bind<ChallengeAcceptedSignal>().ToSingleton();
+            injectionBinder.Bind<OpponentPingedForConnectionSignal>().ToSingleton();
+
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
