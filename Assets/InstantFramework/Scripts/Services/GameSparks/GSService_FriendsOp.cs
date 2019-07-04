@@ -111,6 +111,7 @@ namespace TurboLabz.InstantFramework
                     playerModel.friends.Add(friendId, friend);
 
                     refreshFriendsSignal.Dispatch();
+                    refreshCommunitySignal.Dispatch();
                 }
             }
         }

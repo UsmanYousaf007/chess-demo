@@ -30,6 +30,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
 
@@ -67,6 +68,7 @@ namespace TurboLabz.InstantGame
                 friendsShowConnectFacebookSignal.Dispatch(true);
                 refreshCommunitySignal.Dispatch();
             }
+            refreshFriendsSignal.Dispatch();
 
             // Update the timers on the bars
             foreach (string key in playerModel.friends.Keys)

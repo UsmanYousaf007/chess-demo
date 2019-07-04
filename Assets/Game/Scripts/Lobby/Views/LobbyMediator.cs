@@ -170,6 +170,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SortFriendsSignal))]
         public void OnSortFriends()
         {
+            
             view.SortFriends();
         }
 
