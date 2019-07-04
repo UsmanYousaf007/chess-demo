@@ -290,10 +290,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RATE_APP_RATE, "RATE NOW" },
                 { LocalizationKey.RATE_APP_TELL, "TELL US" },
                 { LocalizationKey.RATE_APP_NOT_NOW, "May be Later" },
-                { LocalizationKey.RATE_APP_IMPROVE, "IMPROVE IT" },
-                { LocalizationKey.RATE_APP_LIKE, "I LIKE IT" },
-                { LocalizationKey.RATE_APP_LOVE, "I LOVE IT" },
-                { LocalizationKey.RATE_APP_LOVE_FROM_TEAM, "Love from Chess Star Team" },
+                { LocalizationKey.RATE_APP_IMPROVE, "NO" },
+                { LocalizationKey.RATE_APP_LIKE, "YES" },
+                { LocalizationKey.RATE_APP_LOVE, "YES" },
+                { LocalizationKey.RATE_APP_LOVE_FROM_TEAM, "Your feedback is valuable. Thank you." },
 
                 #endregion
             };
