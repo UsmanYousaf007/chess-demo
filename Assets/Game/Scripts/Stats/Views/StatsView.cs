@@ -158,7 +158,7 @@ namespace TurboLabz.InstantGame
             playerProfileNameInputField.text = playerModel.name;
             playerProfileNameInputField.transform.gameObject.SetActive(true);
             playerProfileNameInputField.ActivateInputField();
-            TouchScreenKeyboard.Open(playerModel.name, TouchScreenKeyboardType.Default, false, false, true);
+            TouchScreenKeyboard.Open(playerModel.name, TouchScreenKeyboardType.Default, false, false, false);
         }
 
         void OnEditNameSubmit(string text)

@@ -55,16 +55,20 @@ namespace TurboLabz.InstantFramework
 
         public void setLocalNotificationNumber()
         {
-            #if UNITY_IOS
+#if UNITY_IOS
             NotificationServices.ClearRemoteNotifications();
-            LocalNotification setNotificationCount1 = new LocalNotification();
-            setNotificationCount1.fireDate = System.DateTime.Now.AddSeconds(5f);
-            setNotificationCount1.applicationIconBadgeNumber = playerModel.notificationCount;
-            setNotificationCount1.hasAction = false;
-            NotificationServices.ScheduleLocalNotification(setNotificationCount1);
-            #endif
+            NotificationServices.CancelAllLocalNotifications();
+            NotificationServices.ClearLocalNotifications();
+
+            if (playerModel.notificationCount > 0)
+            {
+                LocalNotification setNotificationCount1 = new LocalNotification();
+                setNotificationCount1.fireDate = System.DateTime.Now.AddSeconds(5f);
+                setNotificationCount1.applicationIconBadgeNumber = playerModel.notificationCount;
+                setNotificationCount1.hasAction = false;
+                NotificationServices.ScheduleLocalNotification(setNotificationCount1);
+            }
+#endif
         }
-
-
     }
 }
