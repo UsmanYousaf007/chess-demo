@@ -12,7 +12,7 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        private IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId)
+        public IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId)
         {
             return new GSMatchWatchdogPingAckRequest().Send(currentTurnPlayerId, challengerId, challengedId, challengeId);
         }

@@ -26,6 +26,8 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public Multiplayer.IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -49,6 +51,28 @@ namespace TurboLabz.InstantFramework
             else if (matchInfoModel.activeChallengeId != null)
             {
                 startGameSignal.Dispatch();
+
+                string challengeId = matchInfoModel.activeChallengeId;
+
+                if (matchInfoModel.activeMatch != null)
+                {
+                    string challengedId = matchInfoModel.activeMatch.challengedId;
+                    string challengerId = matchInfoModel.activeMatch.challengerId;
+                    bool isPlayerTurn = chessboardModel.chessboards[challengeId].isPlayerTurn;
+
+                    string currentTurnPlayerId;
+                    bool isPlayerChallenger = challengerId == playerModel.id;
+                    if (isPlayerTurn)
+                    {
+                        currentTurnPlayerId = isPlayerChallenger == true ? challengerId : challengedId;
+                    }
+                    else
+                    {
+                        currentTurnPlayerId = isPlayerChallenger == true ? challengedId : challengerId;
+                    }
+
+                    backendService.MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
+                }
             }
             else
             {
