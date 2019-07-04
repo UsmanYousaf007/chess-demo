@@ -32,7 +32,6 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
-            Debug.Log("preferencesModel.isFriendScreenVisited :: " + preferencesModel.isFriendScreenVisited);
             if (preferencesModel.isFriendScreenVisited == false)
             {
                 preferencesModel.isFriendScreenVisited = true;

@@ -112,6 +112,7 @@ namespace TurboLabz.InstantGame
                 localizedMins, localizedHours, localizedDays);
 
             updateRemoveAdsDisplaySignal.Dispatch(timeRemain, playerModel.HasAdsFreePeriod(metaDataModel.adsSettings));
+            
         }
 
         /*
