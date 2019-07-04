@@ -15,6 +15,7 @@ namespace TurboLabz.TLUtils
         private static Coroutine interneReachablilityCR;
         private static NormalRoutineRunner normalRoutineRunner = new NormalRoutineRunner();
         public static Signal<bool> internetReachabilitySignal = new Signal<bool>();
+        public static bool prevInternetReachability = false;
 
         private static IEnumerator InternetReachabilityCR()
         {
@@ -23,10 +24,12 @@ namespace TurboLabz.TLUtils
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
                     internetReachabilitySignal.Dispatch(false);
+                    prevInternetReachability = false;
                 }
                 else
                 {
                     internetReachabilitySignal.Dispatch(true);
+                    prevInternetReachability = true;
                 }
 
                 yield return new WaitForSecondsRealtime(SLOW_WIFI_WARNING_THRESHOLD_SECONDS);
