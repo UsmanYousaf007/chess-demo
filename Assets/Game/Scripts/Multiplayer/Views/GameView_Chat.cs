@@ -162,7 +162,11 @@ namespace TurboLabz.Multiplayer
                     opponentHeaderAvatarIcon.gameObject.SetActive(true);
                     opponentHeaderAvatarBG.gameObject.SetActive(true);
 
-                    opponentHeaderAvatarBG.color = Colors.Color(vo.avatarBgColorId);
+                    opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
+                    if (vo.avatarBgColorId != null)
+                    {
+                        opponentHeaderAvatarBG.color = Colors.Color(vo.avatarBgColorId);
+                    }
                     opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
 
                     opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
