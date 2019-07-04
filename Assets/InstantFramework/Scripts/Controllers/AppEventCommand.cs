@@ -1,4 +1,4 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -13,8 +13,9 @@
 using GameSparks.Core;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+#if UNITY_IOS
 using UnityEngine.iOS;
-
+#endif
 namespace TurboLabz.InstantFramework
 {
     public class AppEventCommand : Command
@@ -54,12 +55,14 @@ namespace TurboLabz.InstantFramework
 
         public void setLocalNotificationNumber()
         {
+            #if UNITY_IOS
             NotificationServices.ClearRemoteNotifications();
             LocalNotification setNotificationCount1 = new LocalNotification();
             setNotificationCount1.fireDate = System.DateTime.Now.AddSeconds(5f);
             setNotificationCount1.applicationIconBadgeNumber = playerModel.notificationCount;
             setNotificationCount1.hasAction = false;
             NotificationServices.ScheduleLocalNotification(setNotificationCount1);
+            #endif
         }
 
 
