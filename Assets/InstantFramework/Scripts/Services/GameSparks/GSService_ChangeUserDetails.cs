@@ -25,7 +25,8 @@ namespace TurboLabz.InstantFramework
 			ChangeUserDetailsResponse response = (ChangeUserDetailsResponse)r;
 			playerModel.name = response.ScriptData.GetString(GSBackendKeys.DISPLAY_NAME);
 			playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
-		}
+            playerModel.editedName = playerModel.name;
+        }
 	}
 
 	#region REQUEST

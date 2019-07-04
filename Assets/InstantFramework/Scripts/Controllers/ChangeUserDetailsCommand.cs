@@ -47,9 +47,7 @@ namespace TurboLabz.InstantFramework
 
 			if (result == BackendResult.SUCCESS)
 			{
-                Debug.Log("NAME CHNAGEDDD");
                 DispatchProfileSignal();
-
             }
 
 		}

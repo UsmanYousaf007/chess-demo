@@ -168,7 +168,7 @@ namespace TurboLabz.InstantGame
             changeUserDetailsSignal.Dispatch(newName);
 
             playerProfileNameInputField.transform.gameObject.SetActive(false);
-
+            nameEditBtn.gameObject.SetActive(false);
         }
     }
 }
