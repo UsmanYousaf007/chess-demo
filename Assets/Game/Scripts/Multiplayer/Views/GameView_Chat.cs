@@ -28,6 +28,7 @@ namespace TurboLabz.Multiplayer
         public Image opponentInGameOnlineStatus;
         public Sprite online;
         public Sprite offline;
+        public Sprite activeStatus;
         public GameObject[] defaultInfoSet;
         public Text defaultDayLineHeader;
         public TMP_Text defaultSystemMessage;
@@ -212,11 +213,15 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline, bool isActive)
         {
             if (friendId == opponentId)
             {
                 opponentOnlineStatus.sprite = isOnline ? online : offline;
+                if (isActive)
+                {
+                    opponentOnlineStatus.sprite = activeStatus;
+                }                     
             }
         }
 

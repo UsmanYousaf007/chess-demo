@@ -12,6 +12,7 @@ using TurboLabz.TLUtils;
 using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
@@ -29,11 +30,13 @@ namespace TurboLabz.Multiplayer
         public GameObject chessboardBlocker;
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
+        public Text opponentConnectionMonitorLabel;
 
         [HideInInspector] public bool isLongPlay;
         [HideInInspector] public bool isRankedGame;
 
         private bool menuButtonWasActive;
+        Coroutine opponentConnectionMonitorCR;
 
         public void Show()
         {
@@ -67,6 +70,7 @@ namespace TurboLabz.Multiplayer
             opponentId = null;
             HideChallengeSent();
             OnParentHideAdBanner();
+            HideOpponentConnectionMonitor();
         }
 
         public bool IsVisible()
@@ -110,6 +114,40 @@ namespace TurboLabz.Multiplayer
         {
             Color oldColor = label.color;
             label.color = new Color(oldColor.r, oldColor.g, oldColor.b, alpha);
+        }
+
+        private IEnumerator OpponentConnectionMonitorCR()
+        {
+            yield return new WaitForSecondsRealtime(6);
+            opponentConnectionMonitorLabel.gameObject.SetActive(false);
+        }
+
+        public void EnableOpponentConnectionMonitor(bool isEnable)
+        {
+            if (opponentConnectionMonitorCR != null)
+            {
+                routineRunner.StopCoroutine(opponentConnectionMonitorCR);
+                opponentConnectionMonitorCR = null;
+            }
+
+            if (isEnable)
+            {
+                opponentConnectionMonitorLabel.gameObject.SetActive(true);
+            }
+            else
+            {
+                opponentConnectionMonitorCR = routineRunner.StartCoroutine(OpponentConnectionMonitorCR());
+            }
+        }
+
+        private void HideOpponentConnectionMonitor()
+        {
+            if (opponentConnectionMonitorCR != null)
+            {
+                routineRunner.StopCoroutine(opponentConnectionMonitorCR);
+                opponentConnectionMonitorCR = null;
+            }
+            opponentConnectionMonitorLabel.gameObject.SetActive(false);
         }
     }
 }

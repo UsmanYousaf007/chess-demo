@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2543535
+    totalSpriteSurfaceArea: 2216587
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -105,6 +105,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0a6735069c2e1439fbf46ae7c807915e, type: 3}
   - {fileID: 21300000, guid: 48e955063c7d742df8320acb7bc47571, type: 3}
   - {fileID: 21300000, guid: b8533a065c56f43128d6fd4322d9dc6b, type: 3}
+  - {fileID: 21300000, guid: b6c9ad06ffc204c7c9d9ae97cefa7924, type: 3}
   - {fileID: 21300000, guid: f31a7226831004ae2bea039d6fd9c1ae, type: 3}
   - {fileID: 21300000, guid: 93f701363339b44e6b6eee9ad9b94abb, type: 3}
   - {fileID: 21300000, guid: ca157646a7dda4909a26599f73458794, type: 3}
@@ -177,6 +178,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a297361d0729641f8bbadbed713c5620, type: 3}
   - {fileID: 21300000, guid: 1532434d8eb3a4c2d8a3207f79079171, type: 3}
   - {fileID: 21300000, guid: 177c825d5265e47e6b59f6d1130c95c4, type: 3}
+  - {fileID: 21300000, guid: 0731c48de2dc04cd69ba96f2b2749a3d, type: 3}
   - {fileID: 21300000, guid: 40dc468d178234f53b6d87f3d8ea75e5, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
@@ -245,6 +247,7 @@ SpriteAtlas:
   - h
   - ChatBubbleLeft
   - ChatMuteIcon
+  - UpdateImagePiece
   - 3
   - AvatarOutline
   - DragIndicator
@@ -317,6 +320,7 @@ SpriteAtlas:
   - AudioOn
   - ChatIcon
   - ChessLogo
+  - ErrorImagePiece
   - UnreadChat
   - SettingsIcon
   - RewardBtnDefeat

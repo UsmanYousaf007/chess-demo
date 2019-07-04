@@ -97,5 +97,14 @@ namespace TurboLabz.Multiplayer
                 view.OnParentShowAdBanner();
             }
         }
+
+        [ListensTo(typeof(OpponentPingedForConnectionSignal))]
+        public void OnOpponentPingedForConnection(bool isAck)
+        {
+            if (gameObject.activeSelf)
+            {
+                view.EnableOpponentConnectionMonitor(!isAck);
+            }
+        }
     }
 }

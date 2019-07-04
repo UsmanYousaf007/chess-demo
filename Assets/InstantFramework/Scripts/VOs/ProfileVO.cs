@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         public bool isOnline;
         public string avatarId;
         public string avatarColorId;
+        public bool isActive;
 
         public ProfileVO()
         {

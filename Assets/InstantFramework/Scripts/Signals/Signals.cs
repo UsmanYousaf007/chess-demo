@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
     public class NewFriendSignal : Signal<string> {}
     public class BlockFriendSignal : Signal<string> {}
     public class RemoveCommunityFriendSignal : Signal<string> { }
-    public class UpdateFriendOnlineStatusSignal : Signal<string, bool> {}
+    public class UpdateFriendOnlineStatusSignal : Signal<ProfileVO> {}
     public class ClearCommunitySignal : Signal {}
     public class ClearFriendsSignal : Signal {}
     public class ClearFriendSignal : Signal<string> {}
@@ -114,9 +114,9 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerDataSignal: Signal {}
     public class ChallengeAcceptedSignal : Signal {}
     public class ChangeUserDetailsSignal : Signal<string> {}
+    public class OpponentPingedForConnectionSignal : Signal<bool> { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}
     public class RefreshSkinLinksSignal : Signal {}
-
 }

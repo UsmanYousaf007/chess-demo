@@ -136,6 +136,7 @@ namespace TurboLabz.Multiplayer
             resultsDialog.SetActive(true);
 
             HidePossibleMoves();
+            HideOpponentConnectionMonitor();
 
             if (!ArePlayerMoveIndicatorsVisible())
             {

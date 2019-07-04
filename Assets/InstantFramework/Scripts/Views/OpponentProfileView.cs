@@ -42,6 +42,7 @@ namespace TurboLabz.InstantGame
         public Image onlineStatus;
         public Sprite online;
         public Sprite offline;
+        public Sprite activeStatus;
 
         private string opponentId;
         private SpritesContainer defaultAvatarContainer;
@@ -62,7 +63,15 @@ namespace TurboLabz.InstantGame
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
             opponentId = vo.playerId;
-            onlineStatus.sprite = vo.isOnline ? online : offline;
+
+            if (!vo.isOnline && vo.isActive)
+            {
+                onlineStatus.sprite = activeStatus;
+            }
+            else
+            {
+                onlineStatus.sprite = vo.isOnline ? online : offline; 
+            }
 
             SetProfilePic(vo);
         }
@@ -75,11 +84,16 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline, bool isActive)
         {
             if (friendId == opponentId)
             {
                 onlineStatus.sprite = isOnline ? online : offline;
+
+                if (isActive)
+                {
+                    onlineStatus.sprite = activeStatus;
+                }            
             }
         }
 
