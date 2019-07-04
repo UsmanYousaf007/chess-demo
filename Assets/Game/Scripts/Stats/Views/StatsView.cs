@@ -127,18 +127,20 @@ namespace TurboLabz.InstantGame
         public void Show() 
         { 
             gameObject.SetActive(true);
+            playerProfileNameInputField.transform.gameObject.SetActive(false);
 
-            nameEditBtn.gameObject.SetActive(false);
+            //nameEditBtn.gameObject.SetActive(false);
 
-            if (string.IsNullOrEmpty(playerModel.editedName))
-            {
-                nameEditBtn.gameObject.SetActive(true);
-            }
+            //if (string.IsNullOrEmpty(playerModel.editedName))
+            //{
+            //    nameEditBtn.gameObject.SetActive(true);
+            //}
+            nameEditBtn.gameObject.SetActive(true);
         }
 
         public void Hide()
         { 
-            gameObject.SetActive(false); 
+            gameObject.SetActive(false);
         }
 
         private void OnPrivacyPolicyClicked()
@@ -153,14 +155,18 @@ namespace TurboLabz.InstantGame
 
         private void nameEditBtnClicked()
         {
-            playerProfileNameInputField.text = "";
+            playerProfileNameInputField.text = playerModel.name;
             playerProfileNameInputField.transform.gameObject.SetActive(true);
+            playerProfileNameInputField.ActivateInputField();
+            TouchScreenKeyboard.Open(playerModel.name, TouchScreenKeyboardType.Default, false, false, false);
         }
 
         void OnEditNameSubmit(string text)
         {
-            if (playerProfileNameInputField.text.Length == 0)
+            if ((playerProfileNameInputField.text.Length == 0) || String.IsNullOrWhiteSpace(playerProfileNameInputField.text) ||
+                Equals(playerProfileNameInputField.text, playerModel.name))
             {
+                playerProfileNameInputField.transform.gameObject.SetActive(false);
                 return;
             }
 
@@ -168,7 +174,8 @@ namespace TurboLabz.InstantGame
             changeUserDetailsSignal.Dispatch(newName);
 
             playerProfileNameInputField.transform.gameObject.SetActive(false);
-            nameEditBtn.gameObject.SetActive(false);
+
+            //nameEditBtn.gameObject.SetActive(false);
         }
     }
 }
