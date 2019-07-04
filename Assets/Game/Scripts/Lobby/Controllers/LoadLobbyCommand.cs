@@ -49,6 +49,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
+        [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
 
         public override void Execute()
         {
@@ -83,6 +84,11 @@ namespace TurboLabz.InstantGame
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+
+           if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
+            }
         }
 
         private void DispatchProfileSignal() 

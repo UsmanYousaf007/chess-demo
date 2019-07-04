@@ -29,10 +29,10 @@ namespace TurboLabz.Multiplayer
             resetActiveMatchSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
-            if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
-            }
+            //if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
+            //{
+            //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
+            //}
         }
     }
 }
