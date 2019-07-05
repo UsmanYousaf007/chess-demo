@@ -52,9 +52,10 @@ namespace TurboLabz.InstantFramework
             {
                 startGameSignal.Dispatch();
 
+                // Send ack on resume for quick match. This ensures that even if watchdog ping was missed
+                // during disconnection, this ack will resume proper watchdog operation on server
                 string challengeId = matchInfoModel.activeChallengeId;
-
-                if (matchInfoModel.activeMatch != null)
+                if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay)
                 {
                     string challengedId = matchInfoModel.activeMatch.challengedId;
                     string challengerId = matchInfoModel.activeMatch.challengerId;
