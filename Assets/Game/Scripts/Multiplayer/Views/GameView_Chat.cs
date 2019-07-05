@@ -199,16 +199,12 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateChatOpponentPic(Sprite sprite)
         {
-            if (sprite == null)
-            {
-                opponentProfilePic = defaultAvatar;
-                opponentHeaderProfilePic.sprite = defaultAvatar;
-            }
-            else
+            if (sprite != null)
             {
                 opponentProfilePic = sprite;
                 opponentHeaderProfilePic.sprite = sprite;
-
+                opponentHeaderAvatarBG.gameObject.SetActive(false);
+                opponentHeaderAvatarIcon.gameObject.SetActive(false);
                 foreach (Image img in opponentEmptyPics)
                 {
                     img.gameObject.SetActive(true);
