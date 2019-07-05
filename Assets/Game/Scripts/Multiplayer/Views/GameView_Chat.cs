@@ -150,6 +150,7 @@ namespace TurboLabz.Multiplayer
 
             if (vo.opponentProfilePic != null)
             {
+                opponentHeaderProfilePic.gameObject.SetActive(true);
                 opponentProfilePic = vo.opponentProfilePic;
                 opponentHeaderProfilePic.sprite = vo.opponentProfilePic;
             }
@@ -161,6 +162,7 @@ namespace TurboLabz.Multiplayer
                 {
                     opponentHeaderAvatarIcon.gameObject.SetActive(true);
                     opponentHeaderAvatarBG.gameObject.SetActive(true);
+                    opponentHeaderProfilePic.gameObject.SetActive(false);
 
                     opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
                     if (vo.avatarBgColorId != null)
@@ -201,10 +203,12 @@ namespace TurboLabz.Multiplayer
         {
             if (sprite != null)
             {
-                opponentProfilePic = sprite;
-                opponentHeaderProfilePic.sprite = sprite;
+                opponentHeaderProfilePic.gameObject.SetActive(true);
                 opponentHeaderAvatarBG.gameObject.SetActive(false);
                 opponentHeaderAvatarIcon.gameObject.SetActive(false);
+
+                opponentProfilePic = sprite;
+                opponentHeaderProfilePic.sprite = sprite;
                 foreach (Image img in opponentEmptyPics)
                 {
                     img.gameObject.SetActive(true);
