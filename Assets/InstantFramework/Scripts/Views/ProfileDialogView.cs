@@ -107,6 +107,10 @@ namespace TurboLabz.InstantFramework
                     playerAvatarBg.color = Colors.Color(vo.playerAvatarColor);
                     playerAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.playerAvatarId);
                 }
+                else
+                {
+                    playerProfilePic.sprite = defaultAvatar;
+                }
             }
             
             playerProfileName.text = vo.playerProfileName;
@@ -129,6 +133,10 @@ namespace TurboLabz.InstantFramework
 
                     opponentAvatarBG.color = Colors.Color(vo.oppAvatarColor);
                     opponentAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+                }
+                else
+                {
+                    oppProfilePic.sprite = defaultAvatar;
                 }
             }
 
