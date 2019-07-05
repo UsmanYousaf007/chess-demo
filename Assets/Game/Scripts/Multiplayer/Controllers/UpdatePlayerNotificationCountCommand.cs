@@ -26,7 +26,7 @@ namespace TurboLabz.Multiplayer
 
             playerModel.notificationCount = counter;
 
-            //if (previousValue != counter)
+            if (previousValue != counter)
             {
                 updatePlayerDataSignal.Dispatch();
             }

@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                Debug.Log("ALL SET TO GOOOOOOO");
+               // Debug.Log("ALL SET TO GOOOOOOO");
             }
 
             Release();
