@@ -45,7 +45,12 @@ namespace TurboLabz.InstantFramework
             if (appEvent == AppEvent.PAUSED || appEvent == AppEvent.QUIT)
             {
                 modelsSaveToDiskSignal.Dispatch();
-                setLocalNotificationNumber();
+
+                //only schedule local notificaitons once player model is filled with data
+                if(playerModel.id != null) {
+                    setLocalNotificationNumber();
+                }
+               
             }
             else if (appEvent == AppEvent.ESCAPED)
             {
