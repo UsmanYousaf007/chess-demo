@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
-                { LocalizationKey.PLAYING_LEVEL, "Level "},
+                { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
 
                 #endregion
 
