@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
-                { LocalizationKey.PLAYING_LEVEL, "Level "},
+                { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
 
                 #endregion
 
@@ -289,7 +289,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RATE_APP_SUB_TITLE_TELL, "Please tell us how we can improve the game for you." },
                 { LocalizationKey.RATE_APP_RATE, "RATE NOW" },
                 { LocalizationKey.RATE_APP_TELL, "TELL US" },
-                { LocalizationKey.RATE_APP_NOT_NOW, "May be Later" },
+                { LocalizationKey.RATE_APP_NOT_NOW, "Maybe Later" },
                 { LocalizationKey.RATE_APP_IMPROVE, "NO" },
                 { LocalizationKey.RATE_APP_LIKE, "YES" },
                 { LocalizationKey.RATE_APP_LOVE, "YES" },
