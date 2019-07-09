@@ -24,7 +24,21 @@ namespace TurboLabz.InstantFramework
             share.SetSubject(emailSubject);
             share.SetText(text);
             share.SetTitle(androidSharePopupTitle);
+            share.Share();
+        }
 
+        public void ShareApp(
+            string emailSubject,
+            string text,
+            string filePath,
+            string androidSharePopupTitle)
+        {
+
+            NativeShare share = new NativeShare();
+            share.SetSubject(emailSubject);
+            share.SetText(text);
+            share.SetTitle(androidSharePopupTitle);
+            share.AddFile(filePath);
             share.Share();
         }
     }

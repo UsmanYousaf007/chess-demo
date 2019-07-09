@@ -28,11 +28,14 @@ namespace TurboLabz.InstantFramework
 
         public void Init() 
         {
+
+            Debug.Log("Firebase Init Start.");
             appEventSignal.AddListener(OnAppEvent);
 
             Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
             Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
                 {
+                    Debug.Log("Firebase Init Start. 1");
                     if (task.Result == Firebase.DependencyStatus.Available) 
                     {
                         Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
@@ -40,13 +43,16 @@ namespace TurboLabz.InstantFramework
                         Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
                         Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
                         TLUtils.LogUtil.Log("Firebase intialization success.");
+                        Debug.Log("Firebase intialization success.");
                     } 
                     else 
                     {
                         TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
+                        Debug.Log("Firebase could not resolve all dependencies: " + dependencyStatus + "red");
                     }
                 }
             );
+            Debug.Log("Firebase Init Start. 2");
         }
 
         public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token) 
@@ -55,6 +61,7 @@ namespace TurboLabz.InstantFramework
             backendService.PushNotificationRegistration(token.Token);
             pushToken = token.Token;
             TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
+            Debug.Log("Firebase deviceToken: " + pushToken + "red");
         }
 
         public string GetToken()

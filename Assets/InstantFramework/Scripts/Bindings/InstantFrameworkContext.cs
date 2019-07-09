@@ -155,6 +155,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
             injectionBinder.Bind<ILocalDataService>().To<EasySaveService>().ToSingleton();
             injectionBinder.Bind<IShareService>().To<NativeShareService>().ToSingleton();
+            injectionBinder.Bind<IScreenCaptureService>().To<NativeScreenCapture>().ToSingleton();
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<MoPubService>().ToSingleton();
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsService>().ToSingleton();

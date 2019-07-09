@@ -19,5 +19,11 @@ namespace TurboLabz.InstantFramework
             string emailSubject,
             string text,
             string androidSharePopupTitle);
+
+        void ShareApp(
+            string emailSubject,
+            string text,
+            string filePath,
+            string androidSharePopupTitle);
     }
 }
