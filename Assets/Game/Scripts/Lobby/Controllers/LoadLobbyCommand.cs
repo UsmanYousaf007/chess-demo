@@ -68,8 +68,8 @@ namespace TurboLabz.InstantGame
             {
                 friendsShowConnectFacebookSignal.Dispatch(true);
             }
-            refreshCommunitySignal.Dispatch();
-            refreshFriendsSignal.Dispatch();
+            //refreshCommunitySignal.Dispatch();
+            //refreshFriendsSignal.Dispatch();
 
             // Update the timers on the bars
             foreach (string key in playerModel.friends.Keys)

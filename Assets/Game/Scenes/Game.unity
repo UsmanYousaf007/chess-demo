@@ -1093,12 +1093,6 @@ MonoBehaviour:
   safeMoveDlgCountTxt: {fileID: 101350832}
   playerScore: {fileID: 536496953}
   opponentScore: {fileID: 963536103}
-  shareTitleText: {fileID: 393708114}
-  shareImage: {fileID: 685313574}
-  shareButtonText: {fileID: 1731295271}
-  shareCloseButton: {fileID: 146205477}
-  shareButton: {fileID: 415310131}
-  shareConfirmDlg: {fileID: 1143783474}
   topPanelObjects:
   - {fileID: 1104169958}
   warning: {fileID: 416562081}
@@ -31412,7 +31406,7 @@ RectTransform:
   m_GameObject: {fileID: 514167902}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.62992, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 393708113}
   - {fileID: 685313573}
@@ -31423,7 +31417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000011444092, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 796.4, y: 1194.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &514167904
@@ -37535,7 +37529,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1463271237}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -38422,7 +38416,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1463271237}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -41822,7 +41816,7 @@ RectTransform:
   m_Children:
   - {fileID: 335218127}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -67664,8 +67658,9 @@ GameObject:
   - component: {fileID: 1143783475}
   - component: {fileID: 1143783477}
   - component: {fileID: 1143783476}
+  - component: {fileID: 1143783478}
   m_Layer: 5
-  m_Name: ShareConfirmDlg
+  m_Name: ShareDialogView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67680,16 +67675,16 @@ RectTransform:
   m_GameObject: {fileID: 1143783474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.587508, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 514167903}
-  m_Father: {fileID: 1463271237}
-  m_RootOrder: 12
+  m_Father: {fileID: 1542369593}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.000061035156}
-  m_SizeDelta: {x: 996, y: 2048}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143783476
 MonoBehaviour:
@@ -67728,6 +67723,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143783474}
   m_CullTransparentMesh: 0
+--- !u!114 &1143783478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143783474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7c1c634e23841e8a1ee83b79aa523e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shareTitleText: {fileID: 393708114}
+  shareImage: {fileID: 685313574}
+  shareButtonText: {fileID: 1731295271}
+  shareCloseButton: {fileID: 146205477}
+  shareButton: {fileID: 415310131}
+  shareConfirmDlg: {fileID: 1143783474}
 --- !u!1 &1143854775
 GameObject:
   m_ObjectHideFlags: 0
@@ -84900,7 +84913,6 @@ RectTransform:
   - {fileID: 525596578}
   - {fileID: 940638626}
   - {fileID: 1707769629}
-  - {fileID: 1143783475}
   - {fileID: 647795030}
   - {fileID: 622227801}
   m_Father: {fileID: 15691873}
@@ -90595,6 +90607,7 @@ RectTransform:
   - {fileID: 964124066}
   - {fileID: 20116335}
   - {fileID: 1325107859}
+  - {fileID: 1143783475}
   - {fileID: 1900671252}
   - {fileID: 715771923}
   m_Father: {fileID: 1780115401}
@@ -95163,7 +95176,7 @@ MonoBehaviour:
   Preview: {fileID: 157905972}
   Dev: {fileID: 233865067}
   Sandbox: {fileID: 64930014}
-  environment: 3
+  environment: 4
   configURL: https://turbolabz.com/wp-content/uploads/2019/07/preview.png
 --- !u!4 &1628862473
 Transform:
@@ -112395,7 +112408,7 @@ RectTransform:
   m_Children:
   - {fileID: 1129350259}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
