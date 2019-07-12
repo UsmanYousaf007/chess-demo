@@ -165,14 +165,14 @@ namespace TurboLabz.Multiplayer
                     opponentHeaderProfilePic.gameObject.SetActive(false);
 
                     opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
-                    if (vo.avatarBgColorId != null)
+                    opponentAvatarBGColor = Colors.DISABLED_WHITE;
+                    if (vo.oppAvatarBgColorId != null)
                     {
-                        opponentHeaderAvatarBG.color = Colors.Color(vo.avatarBgColorId);
+                        opponentHeaderAvatarBG.color = Colors.Color(vo.oppAvatarBgColorId);
+                        opponentAvatarBGColor = Colors.Color(vo.oppAvatarBgColorId);
                     }
                     opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
-
                     opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
-                    opponentAvatarBGColor = Colors.Color(vo.oppAvatarBgColorId);
                 }
             }
 

@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
             if (playerModel.notificationCount > 0)
             {
                 LocalNotification setNotificationCount1 = new LocalNotification();
-                setNotificationCount1.fireDate = System.DateTime.Now.AddSeconds(5f);
+                setNotificationCount1.fireDate = System.DateTime.Now.AddSeconds(1f);
                 setNotificationCount1.applicationIconBadgeNumber = playerModel.notificationCount;
                 setNotificationCount1.hasAction = false;
                 NotificationServices.ScheduleLocalNotification(setNotificationCount1);
