@@ -6,11 +6,14 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using DG.Tweening;
+using strange.extensions.mediation.impl;
 
-namespace TurboLabz.Multiplayer
+namespace TurboLabz.InstantFramework
 {
-    public partial class GameView
+    public class ShareDialogView : View
     {
+        [Inject] public ILocalizationService localizationService { get; set; }
+
         [Header("Share Screen Shot")]
         public Text shareTitleText;
         public Image shareImage;
@@ -30,6 +33,14 @@ namespace TurboLabz.Multiplayer
         public void ShowShareDialog()
         {
             shareConfirmDlg.SetActive(true);
+        }
+
+        public void UpdateShareDialog(Sprite sprite)
+        {
+            if (sprite != null)
+            {
+                shareImage.sprite = sprite;
+            }
         }
 
         public void ShareCloseButtonClicked()

@@ -10,26 +10,32 @@
 /// @description
 /// [add_description_here]
 
-
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using UnityEngine;
 using TurboLabz.TLUtils;
 
-
-namespace TurboLabz.Multiplayer 
+namespace TurboLabz.InstantFramework 
 {
-    public partial class GameMediator
-    {
+    public class ShareDialogMediator : Mediator
+	{
+        [Inject] public ShareDialogView view { get; set; }
+
         public void OnShareButtonClicked()
         {
             
         }
 
-        [ListensTo(typeof(NavigatorShowViewSignal))]
-        public void OnScreenShotLoaded(Sprite sprite)
+		[ListensTo(typeof(UpdateShareDialogSignal))]
+		public void OnUpdateProfileDialog(Sprite sprite)
+		{
+            view.UpdateShareDialog(sprite);
+		}
+
+        [ListensTo(typeof(ShowShareScreenDialogSignal))]
+        public void ShowShareScreen()
         {
-            
-            view.SetShareScreenSprite(sprite);
+            view.ShowShareDialog();
         }
     }
 }

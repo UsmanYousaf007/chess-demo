@@ -259,6 +259,7 @@ namespace TurboLabz.InstantFramework
 
         void OnNextSearchBtnClicked()
         {
+            Debug.Log("OnNextSearchBtnClicked");
             isSearchNext = true;
             OnSearchSubmit(inputField.text);
             isSearchNext = false;
