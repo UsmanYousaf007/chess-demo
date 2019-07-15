@@ -120,7 +120,7 @@ namespace TurboLabz.InstantFramework
 
             // Split name to first and last initial
             // TODO: split in View
-            playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
+            //playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
 
             IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
 			GSData inventoryData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.INVENTORY);

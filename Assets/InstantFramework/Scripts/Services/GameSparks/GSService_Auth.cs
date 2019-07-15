@@ -62,7 +62,12 @@ namespace TurboLabz.InstantFramework
         {
             LogEventResponse response = (LogEventResponse)r;
             playerModel.name = response.ScriptData.GetString(GSBackendKeys.DISPLAY_NAME);
-            playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
+
+            if(String.IsNullOrEmpty(playerModel.editedName))
+            {
+                playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
+            }
+            
         }
     }
 

@@ -6,6 +6,7 @@
 using strange.extensions.command.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -63,7 +64,15 @@ namespace TurboLabz.InstantFramework
         {
             if (result == FacebookResult.SUCCESS)
             {
-                backendService.SetPlayerSocialName(socialName).Then(OnBackendSetSocialName_GetFriends);
+                //Use edited name if player has edit his name else use facebook name
+                if(String.IsNullOrEmpty(playerModel.editedName))
+                {
+                    backendService.SetPlayerSocialName(socialName).Then(OnBackendSetSocialName_GetFriends);
+                }
+                else
+                {
+                    backendService.SetPlayerSocialName(playerModel.editedName).Then(OnBackendSetSocialName_GetFriends);
+                } 
             }
             else
             {
