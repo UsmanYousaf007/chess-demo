@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         public static void CancelRequestSession()
         {
+            LogUtil.Log("GSFrameworkRequest CANCEL activePromises.Count=" + activePromises.Count, "yellow");
             foreach (IPromise<BackendResult> activePromise in activePromises)
             {
                 activePromise.Dispatch(BackendResult.CANCELED);
@@ -28,6 +29,7 @@ namespace TurboLabz.InstantFramework
 
         public GSFrameworkRequest()
         {
+            LogUtil.Log("GSFrameworkRequest ADD", "yellow");
             promise = new Promise<BackendResult>();
             activePromises.Add(promise);
         }
@@ -45,19 +47,48 @@ namespace TurboLabz.InstantFramework
 
         protected void OnRequestFailure(object response)
         {
+            LogUtil.Log("<--OnRequestFailure-->", "red");
+
+            LogEventResponse logEventResponse = response as LogEventResponse;
+            if (logEventResponse != null)
+            {
+                GSData error = logEventResponse.Errors;
+                LogUtil.Log("OnRequestFailure error: " + error.JSON, "red");
+                string errorString = error.GetString("error");
+
+                if (errorString == "timeout")
+                {
+                    LogUtil.Log("OnRequestFailure timeout error", "red");
+                    Dispatch(BackendResult.CANCELED);
+                    return;
+                }
+            }
+
             LogChallengeEventResponse r = response as LogChallengeEventResponse;
             if (r != null)
             {
-                string error = r.Errors.GetString("challengeInstanceId");
-                if (error == "COMPLETE")
+                GSData error = r.Errors;
+                LogUtil.Log("OnRequestFailure Challenge: " + error.JSON, "red");
+
+                string errorString = error.GetString("error");
+                if (errorString == "timeout")
+                {
+                    LogUtil.Log("OnRequestFailure timeout error", "red");
+                    Dispatch(BackendResult.CANCELED);
+                    return;
+                }
+
+                string challengeInstanceId = error.GetString("challengeInstanceId");
+                LogUtil.Log("OnRequestFailure challengeInstanceId: " + challengeInstanceId, "red");
+                if (challengeInstanceId == "COMPLETE")
                 {
                     Dispatch(BackendResult.CANCELED);
+                    return;
                 }
             }
-            else
-            {
-                Dispatch(errorCode);
-            }
+
+            // Dispatch the error code
+            Dispatch(errorCode);
         }
 
         protected void Dispatch(BackendResult result)
@@ -69,6 +100,8 @@ namespace TurboLabz.InstantFramework
                 promise.Dispatch(result);
                 activePromises.Remove(promise);
                 promise = null;
+
+                LogUtil.Log("GSFrameworkRequest REMOVE", "yellow");
             }
         }
 

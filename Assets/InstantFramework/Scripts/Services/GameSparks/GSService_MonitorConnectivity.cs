@@ -49,16 +49,17 @@ namespace TurboLabz.InstantFramework
 
         void GameSparksAvailable(bool isAvailable)
         {
-            if (isAvailable)
-            {
-                //receptionSignal.Dispatch();
-                LogUtil.Log("GS CONNECTED!", "red");
 
+            if (isAvailable)
+            { 
+                LogUtil.Log("GS CONNECTED!", "red");
+                InternetReachabilityMonitor.StartMonitor();
                 resumeMatchSignal.Dispatch(prevViewId);
             }
             else
             {
                 LogUtil.Log("GS DISCONNECTED!", "red");
+                InternetReachabilityMonitor.StopMonitor();
                 prevViewId = navigatorModel.currentViewId;
                 GSFrameworkRequest.CancelRequestSession();
 
@@ -69,8 +70,11 @@ namespace TurboLabz.InstantFramework
                 modelsResetSignal.Dispatch();
                 modelsLoadFromDiskSignal.Dispatch();
 
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
+                RemoveChallengeListeners();
+
+                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
             }
+
         }
 
     }

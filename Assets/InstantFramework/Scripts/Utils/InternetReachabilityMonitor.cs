@@ -38,6 +38,8 @@ namespace TurboLabz.TLUtils
 
         public static void StartMonitor()
         {
+            prevInternetReachability = Application.internetReachability != NetworkReachability.NotReachable;
+
             if (interneReachablilityCR == null)
             {
                 interneReachablilityCR = normalRoutineRunner.StartCoroutine(InternetReachabilityCR());
@@ -46,7 +48,7 @@ namespace TurboLabz.TLUtils
 
         public static void StopMonitor()
         {
-            internetReachabilitySignal.RemoveAllListeners();
+            //internetReachabilitySignal.RemoveAllListeners();
             normalRoutineRunner.StopCoroutine(interneReachablilityCR);
             interneReachablilityCR = null;
         }

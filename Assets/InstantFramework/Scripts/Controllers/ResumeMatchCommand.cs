@@ -24,6 +24,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
+        [Inject] public Multiplayer.StopTimersSignal stopTimersSignal { get; set; }
+
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public Multiplayer.IChessboardModel chessboardModel { get; set; }
@@ -44,12 +46,16 @@ namespace TurboLabz.InstantFramework
 
         private void OnGetInitDataComplete()
         {
+            backendService.AddChallengeListeners();
+
             if (prevViewId == NavigatorViewId.CPU)
             {
                 startCPUGameSignal.Dispatch();
             }
             else if (matchInfoModel.activeChallengeId != null)
             {
+                stopTimersSignal.Dispatch();
+
                 startGameSignal.Dispatch();
 
                 // Send ack on resume for quick match. This ensures that even if watchdog ping was missed
