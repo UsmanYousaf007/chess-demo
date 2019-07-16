@@ -228,7 +228,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
             public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
 
-            public const string NONE = "";
+            public const string NONE = "none";
         }
 
 		public static class Friend

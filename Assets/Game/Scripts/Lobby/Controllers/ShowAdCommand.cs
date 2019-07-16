@@ -73,7 +73,7 @@ namespace TurboLabz.InstantGame
 
         private void ClaimReward(AdsResult result)
         {
-            if (result == AdsResult.FINISHED || result == AdsResult.BYPASS)
+            if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
             {
                 backendService.ClaimReward(claimRewardType).Then(OnClaimReward);
             }
