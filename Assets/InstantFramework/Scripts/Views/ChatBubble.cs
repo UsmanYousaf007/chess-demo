@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 public class ChatBubble : MonoBehaviour 
 {
     public RectTransform bg;
-    public Text text;
+    public TMP_Text text;
     public bool flipped; // Set from the scene inspector
     public bool inGameBubble; // Set from the  scene inspector
     public RectTransform container;
@@ -70,16 +70,19 @@ public class ChatBubble : MonoBehaviour
         if (layoutElement != null)
         {
             //Set the size of the text box
-            TextGenerator textGen = new TextGenerator();
-            TextGenerationSettings generationSettings = text.GetGenerationSettings(text.rectTransform.rect.size);
-            float width = textGen.GetPreferredWidth(text.text, generationSettings);
+            //TextGenerator textGen = new TextGenerator();
+            
+            text.autoSizeTextContainer = true;
+            Vector2 vector2 = text.GetPreferredValues(newText);
+            //TextGenerationSettings generationSettings = text.GetGenerationSettings(text.rectTransform.rect.size);
+            float width = vector2.x;
             float wrapWidth = inGameBubble ? TEXT_WRAP_WIDTH_IN_GAME : TEXT_WRAP_WIDTH_CHAT_PANEL;
             layoutElement.preferredWidth = (width > wrapWidth) ? wrapWidth : width;
             layoutElement.preferredWidth += TEXT_WIDTH_PADDING;
 
             if (inGameBubble)
             {
-                float height = textGen.GetPreferredHeight(text.text, generationSettings);
+                float height = vector2.y;
                 layoutElement.preferredHeight = (height > TEXT_HEIGHT_IN_GAME) ? TEXT_HEIGHT_IN_GAME : height;
                 layoutElement.preferredHeight += TEXT_HEIGHT_PADDING;
             }
@@ -95,6 +98,8 @@ public class ChatBubble : MonoBehaviour
 
             fadeRoutine = StartCoroutine(DoFade());
         }
+
+        text.ForceMeshUpdate();
 
         // Resise the text mesh based on the text
         // text.ForceMeshUpdate(true);
