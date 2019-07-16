@@ -98,8 +98,12 @@ public class ChatBubble : MonoBehaviour
 
             fadeRoutine = StartCoroutine(DoFade());
         }
-
         text.ForceMeshUpdate();
+        //if (text != null)
+        //{
+            
+        //}
+        
 
         // Resise the text mesh based on the text
         // text.ForceMeshUpdate(true);
