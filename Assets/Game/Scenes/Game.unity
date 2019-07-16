@@ -84155,16 +84155,6 @@ PrefabInstance:
       propertyPath: sourceImage
       value: 
       objectReference: {fileID: 160507675}
-    - target: {fileID: 1300161156987325382, guid: 3b61f72c037234d6ba533cb9f20f20bd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1300161157718970192, guid: 3b61f72c037234d6ba533cb9f20f20bd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1300161157010489617, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -84184,11 +84174,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 51.651955
-      objectReference: {fileID: 0}
-    - target: {fileID: 1300161157010489616, guid: 3b61f72c037234d6ba533cb9f20f20bd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1300161157041932454, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
@@ -84510,11 +84495,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 36.15637
       objectReference: {fileID: 0}
-    - target: {fileID: 1300161158841356578, guid: 3b61f72c037234d6ba533cb9f20f20bd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1300161158982985416, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -84554,11 +84534,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 36.15637
-      objectReference: {fileID: 0}
-    - target: {fileID: 1300161157044051515, guid: 3b61f72c037234d6ba533cb9f20f20bd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1300161158644412689, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
@@ -84609,6 +84584,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 41.321564
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300161156987325382, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300161157718970192, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300161157010489616, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300161158841356578, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300161157044051515, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2437113025974372884, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
@@ -95361,7 +95361,7 @@ MonoBehaviour:
   Preview: {fileID: 157905972}
   Dev: {fileID: 233865067}
   Sandbox: {fileID: 64930014}
-  environment: 2
+  environment: 4
   configURL: https://turbolabz.com/wp-content/uploads/2019/07/preview.png
 --- !u!4 &1628862473
 Transform:

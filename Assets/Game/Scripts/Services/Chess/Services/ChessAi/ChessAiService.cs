@@ -55,26 +55,23 @@ namespace TurboLabz.Chess
 
         public IPromise<FileRank, FileRank, string> GetAiMove(AiMoveInputVO vo)
         {
-            MoveRequest request;
-            request.promise = new Promise<FileRank, FileRank, string>();
-            request.vo = vo;
-
-            routineRunner.StartCoroutine(ProcessQueue(request));
-
+            aiMoveInputVO = vo;
+            aiMovePromise = new Promise<FileRank, FileRank, string>();
+            routineRunner.StartCoroutine(GetAiResult());
             return aiMovePromise;
         }
 
-        private IEnumerator ProcessQueue(MoveRequest request)
-        {
-            while(Busy)
-            {
-                yield return null;
-            }
+        //private IEnumerator ProcessQueue(MoveRequest request)
+        //{
+        //    while(Busy)
+        //    {
+        //        yield return null;
+        //    }
 
-            aiMoveInputVO = request.vo;
-            aiMovePromise = request.promise;
-            routineRunner.StartCoroutine(GetAiResult());
-        }
+        //    aiMoveInputVO = request.vo;
+        //    aiMovePromise = request.promise;
+        //    routineRunner.StartCoroutine(GetAiResult());
+        //}
 
         private IEnumerator GetAiResult()
         {

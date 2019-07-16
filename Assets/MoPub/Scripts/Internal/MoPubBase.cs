@@ -212,7 +212,7 @@ public class MoPubBase
 #if UNITY_IOS
             MediationSettingsClassName = adVendor + "InstanceMediationSettings";
 #else
-            MediationSettingsClassName = adVendor;    // The correct value is computed from this inside the Android wrapper code.
+            MediationSettingsClassName = "com.mopub.mobileads." + adVendor + "RewardedVideo$" + adVendor + "MediationSettings";
 #endif
         }
 
@@ -235,7 +235,12 @@ public class MoPubBase
 
 
         // Shortcut class names so you don't have to remember the right ad vendor string (also to not misspell it).
-        public class AdColony   : LocalMediationSetting { public AdColony()   : base("AdColony") { } }
+        public class AdColony : LocalMediationSetting { public AdColony() : base("AdColony") {
+#if UNITY_ANDROID
+                MediationSettingsClassName = "com.mopub.mobileads.AdColonyRewardedVideo$AdColonyInstanceMediationSettings";
+#endif
+            }
+        }
         public class AdMob      : LocalMediationSetting { public AdMob()      : base(android: "GooglePlayServices",
                                                                                      ios:     "MPGoogle") { } }
         public class Chartboost : LocalMediationSetting { public Chartboost() : base("Chartboost") { } }
@@ -265,31 +270,31 @@ public class MoPubBase
             MediationSettingsClassName    = adVendor + "GlobalMediationSettings";
 #else
             AdapterConfigurationClassName = "com.mopub.mobileads." + adVendor + "AdapterConfiguration";
-            MediationSettingsClassName    = adVendor;    // The correct value is computed from this inside the Android wrapper code.
+            MediationSettingsClassName    = "com.mopub.mobileads." + adVendor + "RewardedVideo$" + adVendor + "MediationSettings";
 #endif
         }
 
-        protected SupportedNetwork(string android, string ios) :
-#if UNITY_IOS
-            this(ios)
-#else
-            this(android)
+        public class AdColony   : SupportedNetwork { public AdColony()   : base("AdColony") {
+#if UNITY_ANDROID
+               MediationSettingsClassName = "com.mopub.mobileads.AdColonyRewardedVideo$AdColonyGlobalMediationSettings";
 #endif
-        {}
-
-
-        public class AdColony   : SupportedNetwork { public AdColony()   : base("AdColony") { } }
-        public class AdMob      : SupportedNetwork { public AdMob()      : base(android: "GooglePlayServices",
-                                                                                ios:     "MPGoogle") { } }
+            }
+        }
+        public class AdMob      : SupportedNetwork { public AdMob()      : base("GooglePlayServices") {
+#if UNITY_IOS
+               AdapterConfigurationClassName = "GoogleAdMobAdapterConfiguration";
+               MediationSettingsClassName    = "MPGoogleGlobalMediationSettings";
+#endif
+            }
+        }
         public class AppLovin   : SupportedNetwork { public AppLovin()   : base("AppLovin") { } }
         public class Chartboost : SupportedNetwork { public Chartboost() : base("Chartboost") { } }
         public class Facebook   : SupportedNetwork { public Facebook()   : base("Facebook") { } }
         public class IronSource : SupportedNetwork { public IronSource() : base("IronSource") { } }
-        public class OnebyAOL   : SupportedNetwork { public OnebyAOL()   : base(android: "Millennial",
-                                                                                ios:     "MPMillennial") { } }
+        public class OnebyAOL   : SupportedNetwork { public OnebyAOL()   : base("Millennial") { } }
         public class Tapjoy     : SupportedNetwork { public Tapjoy()     : base("Tapjoy") { } }
-        public class Unity      : SupportedNetwork { public Unity()      : base(android: "Unity",
-                                                                                ios:     "UnityAds") { } }
+        public class Unity      : SupportedNetwork { public Unity()      : base("UnityAds") { } }
+        public class Verizon    : SupportedNetwork { public Verizon()    : base("Verizon") { } }
         public class Vungle     : SupportedNetwork { public Vungle()     : base("Vungle") { } }
     }
 
@@ -313,6 +318,87 @@ public class MoPubBase
     }
 
 
+    public struct ImpressionData
+    {
+        public string AdUnitId;
+        public string AdUnitName;
+        public string AdUnitFormat;
+        public string ImpressionId;
+        public string Currency;
+        public double? PublisherRevenue;
+        public string AdGroupId;
+        public string AdGroupName;
+        public string AdGroupType;
+        public int? AdGroupPriority;
+        public string Country;
+        public string Precision;
+        public string NetworkName;
+        public string NetworkPlacementId;
+        public string JsonRepresentation;
+
+        public static ImpressionData FromJson(string json)
+        {
+            var impData = new ImpressionData();
+            if (string.IsNullOrEmpty(json)) return impData;
+
+            var fields = Json.Deserialize(json) as Dictionary<string, object>;
+            if (fields == null) return impData;
+
+            object obj;
+            double parsedDouble;
+            int parsedInt;
+
+            if (fields.TryGetValue("adunit_id", out obj))
+                impData.AdUnitId = obj.ToString();
+
+            if (fields.TryGetValue("adunit_name", out obj))
+                impData.AdUnitName = obj.ToString();
+
+            if (fields.TryGetValue("adunit_format", out obj))
+                impData.AdUnitFormat = obj.ToString();
+
+            if (fields.TryGetValue("id", out obj))
+                impData.ImpressionId = obj.ToString();
+
+            if (fields.TryGetValue("currency", out obj))
+                impData.Currency = obj.ToString();
+
+            if (fields.TryGetValue("publisher_revenue", out obj)
+                && double.TryParse(obj.ToString(), out parsedDouble))
+                impData.PublisherRevenue = parsedDouble;
+
+            if (fields.TryGetValue("adgroup_id", out obj))
+                impData.AdGroupId = obj.ToString();
+
+            if (fields.TryGetValue("adgroup_name", out obj))
+                impData.AdGroupName = obj.ToString();
+
+            if (fields.TryGetValue("adgroup_type", out obj))
+                impData.AdGroupType = obj.ToString();
+
+            if (fields.TryGetValue("adgroup_priority", out obj)
+                && int.TryParse(obj.ToString(), out parsedInt))
+                impData.AdGroupPriority = parsedInt;
+
+            if (fields.TryGetValue("country", out obj))
+                impData.Country = obj.ToString();
+
+            if (fields.TryGetValue("precision", out obj))
+                impData.Precision = obj.ToString();
+
+            if (fields.TryGetValue("network_name", out obj))
+                impData.NetworkName = obj.ToString();
+
+            if (fields.TryGetValue("network_placement_id", out obj))
+                impData.NetworkPlacementId = obj.ToString();
+
+            impData.JsonRepresentation = json;
+
+            return impData;
+        }
+    }
+
+
     /// <summary>
     /// Set this to an ISO language code (e.g., "en-US") if you wish the next two URL properties to point
     /// to a web resource that is localized to a specific language.
@@ -323,7 +409,7 @@ public class MoPubBase
     public const double LatLongSentinel = 99999.0;
 
 
-    public static readonly string moPubSDKVersion = "5.5.0";
+    public static readonly string moPubSDKVersion = "5.7.1";
     private static string _pluginName;
     private static bool _allowLegitimateInterest;
     public static LogLevel logLevel { get; protected set; }

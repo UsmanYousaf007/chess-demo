@@ -122,7 +122,8 @@ public class MoPubAndroid : MoPubBase
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.EnableLocationSupport(bool)"/>
     public static void EnableLocationSupport(bool shouldUseLocation)
     {
-        PluginClass.CallStatic("setLocationAwareness", LocationAwareness.NORMAL.ToString());
+        PluginClass.CallStatic("setLocationAwareness", shouldUseLocation ?
+            LocationAwareness.NORMAL.ToString() : LocationAwareness.DISABLED.ToString());
     }
 
 
@@ -130,6 +131,13 @@ public class MoPubAndroid : MoPubBase
     public static void ReportApplicationOpen(string iTunesAppId = null)
     {
         PluginClass.CallStatic("reportApplicationOpen");
+    }
+
+
+    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.OnApplicationPause(bool)"/>
+    internal static void OnApplicationPause(bool paused)
+    {
+        PluginClass.CallStatic("onApplicationPause", paused);
     }
 
 
@@ -229,7 +237,7 @@ public class MoPubAndroid : MoPubBase
 
 
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.SetAutorefresh(string,bool)"/>
-    public void SetAutorefresh(string adUnitId, bool enabled)
+    public static void SetAutorefresh(string adUnitId, bool enabled)
     {
         MPBanner plugin;
         if (BannerPluginsDict.TryGetValue(adUnitId, out plugin))
@@ -240,7 +248,7 @@ public class MoPubAndroid : MoPubBase
 
 
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.ForceRefresh(string)"/>
-    public void ForceRefresh(string adUnitId)
+    public static void ForceRefresh(string adUnitId)
     {
         MoPubLog.Log("ForceRefresh", MoPubLog.AdLogEvent.ShowAttempted);
         MPBanner plugin;
@@ -292,8 +300,8 @@ public class MoPubAndroid : MoPubBase
     }
 
 
-    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.IsInterstialReady(string)"/>
-    public bool IsInterstialReady(string adUnitId)
+    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.IsInterstitialReady(string)"/>
+    public static bool IsInterstitialReady(string adUnitId)
     {
         MPInterstitial plugin;
         if (InterstitialPluginsDict.TryGetValue(adUnitId, out plugin))
@@ -304,7 +312,7 @@ public class MoPubAndroid : MoPubBase
 
 
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.DestroyInterstitialAd(string)"/>
-    public void DestroyInterstitialAd(string adUnitId)
+    public static void DestroyInterstitialAd(string adUnitId)
     {
         MPInterstitial plugin;
         if (InterstitialPluginsDict.TryGetValue(adUnitId, out plugin))
@@ -438,12 +446,6 @@ public class MoPubAndroid : MoPubBase
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.IsConsentDialogReady"/>
     public static bool IsConsentDialogReady {
         get { return PluginClass.CallStatic<bool>("isConsentDialogReady"); }
-    }
-
-
-    [Obsolete("Use the property name IsConsentDialogReady instead.")]
-    public static bool IsConsentDialogLoaded {
-        get { return IsConsentDialogReady; }
     }
 
 
