@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> SendChatMessage(string recipientId, string text, string guid);
         IPromise<BackendResult> ChangeUserDetails(string name);
         IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId);
+        IPromise<BackendResult> SyncReconnectData();
 
         IPromise<BackendResult> UpdatePlayerData(int notificationCount);
 

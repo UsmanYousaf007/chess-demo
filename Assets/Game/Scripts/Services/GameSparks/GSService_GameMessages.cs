@@ -32,13 +32,19 @@ namespace TurboLabz.InstantFramework
             ScriptMessage.Listener += OnGameScriptMessage;
         }
 
+        private void RemoveGameMessageListeners()
+        {
+            ChallengeTurnTakenMessage.Listener -= OnChallengeTurnTakenMessage;
+            ScriptMessage.Listener -= OnGameScriptMessage;
+        }
+
         private void OnChallengeTurnTakenMessage(ChallengeTurnTakenMessage message)
         {
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
 
             if (GameSparksOutOfOrderPatchFailed(message.Challenge.ChallengeId, challengeData))
             {
-                LogUtil.Log("OUT OF ORDER MESSAGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                LogUtil.Log("OUT OF ORDER MESSAGE!!!", "red");
                 return;
             }
 

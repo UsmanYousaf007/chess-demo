@@ -16,11 +16,6 @@ namespace TurboLabz.InstantFramework
         {
             return new GSMatchWatchdogPingAckRequest().Send(currentTurnPlayerId, challengerId, challengedId, challengeId);
         }
-
-        private void OnMatchWatchdogPingAckSuccess(object r)
-        {
-            LogEventResponse response = (LogEventResponse)r;
-        }
     }
 
     #region REQUEST

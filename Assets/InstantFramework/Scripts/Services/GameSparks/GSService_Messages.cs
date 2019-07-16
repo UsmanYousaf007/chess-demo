@@ -22,6 +22,15 @@ namespace TurboLabz.InstantFramework
             AddGameMessageListeners();
         }
 
+        public void RemoveChallengeListeners()
+        {
+            ChallengeStartedMessage.Listener -= OnChallengeStartedMessage;
+            ChallengeWonMessage.Listener -= OnChallengeWonMessage;
+            ChallengeLostMessage.Listener -= OnChallengeLostMessage;
+            ChallengeDrawnMessage.Listener -= OnChallengeDrawnMessage;
+            RemoveGameMessageListeners();
+        }
+
         public void AddMessageListeners()
         {
             ScriptMessage.Listener += OnScriptMessage;

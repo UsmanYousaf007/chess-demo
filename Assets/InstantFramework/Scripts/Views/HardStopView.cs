@@ -36,7 +36,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            gameObject.SetActive(true);
+            //gameObject.SetActive(true);
         }
 
         public void SetErrorAndHalt(BackendResult error)
@@ -46,10 +46,13 @@ namespace TurboLabz.InstantFramework
 
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
+              errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
             }
 
-            StartCoroutine(HaltSystem());
+            //StartCoroutine(HaltSystem());
+
+            LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
+
         }
 
         IEnumerator HaltSystem()

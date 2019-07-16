@@ -11,11 +11,20 @@
 /// [add_description_here]
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
+        [Inject] public IBackendService backendService { get; set; }
+
+        [Inject] public StartGameSignal startGameSignal { get; set; }
+
+        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         public void OnRegisterWifi()
         {
             view.InitWifi();
@@ -30,6 +39,65 @@ namespace TurboLabz.Multiplayer
         private void OnInternetConnectedTicked(bool isConnected)
         {
             view.WifiHealthUpdate(isConnected);
+
+            if (!isConnected && InternetReachabilityMonitor.prevInternetReachability)
+            {
+                LogUtil.Log("Internet Disconnected", "cyan");
+                //GameSparks.Core.GS.Disconnect();
+                GSFrameworkRequest.CancelRequestSession();
+            }
+            else
+            if (isConnected && !InternetReachabilityMonitor.prevInternetReachability)
+            {
+                LogUtil.Log("Reconnect GS", "cyan");
+                GameSparks.Core.GS.Reconnect();
+                backendService.SyncReconnectData().Then(OnSycReconnectionData);
+            }
+        }
+
+        private void OnSycReconnectionData(BackendResult backendResult)
+        {
+            if (backendResult == BackendResult.CANCELED)
+            {
+                LogUtil.Log("Restart match CANCELED!!..", "cyan");
+                return;
+            }
+
+            LogUtil.Log("Restarting match!!..", "cyan");
+            stopTimersSignal.Dispatch();
+
+            Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
+            MatchInfo activeMatchInfo = matchInfoModel.activeMatch;
+            activeChessboard.currentState = null;
+
+            startGameSignal.Dispatch();
+            SendReconnectionAck();
+        }
+
+        private void SendReconnectionAck()
+        {
+            // Send ack on resume for quick match. This ensures that even if watchdog ping was missed
+            // during disconnection, this ack will resume proper watchdog operation on server
+            string challengeId = matchInfoModel.activeChallengeId;
+            if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay)
+            {
+                string challengedId = matchInfoModel.activeMatch.challengedId;
+                string challengerId = matchInfoModel.activeMatch.challengerId;
+                bool isPlayerTurn = chessboardModel.chessboards[challengeId].isPlayerTurn;
+
+                string currentTurnPlayerId;
+                bool isPlayerChallenger = challengerId == playerModel.id;
+                if (isPlayerTurn)
+                {
+                    currentTurnPlayerId = isPlayerChallenger == true ? challengerId : challengedId;
+                }
+                else
+                {
+                    currentTurnPlayerId = isPlayerChallenger == true ? challengedId : challengerId;
+                }
+
+                backendService.MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
+            }
         }
     }
 }
