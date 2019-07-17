@@ -35,30 +35,27 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(WifiIsHealthySignal))]
         public void OnWifiHealthUpdate(bool isHealthy)
         {
-            view.WifiHealthUpdate(isHealthy);
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                view.WifiHealthUpdate(isHealthy);
+                TLUtils.LogUtil.Log("OnWifiHealthUpdate: Ping caused a wifi health update", "cyan");
+            }
         }
 
         private void OnInternetConnectedTicked(bool isConnected)
         {
-            if (isConnected && InternetReachabilityMonitor.prevInternetReachability)
-            {
-                view.WifiHealthUpdate(true);
-            }
-            else
-            if (!isConnected && !InternetReachabilityMonitor.prevInternetReachability)
-            {
-                view.WifiHealthUpdate(false);
-            }
+            view.WifiHealthUpdate(isConnected);
 
             if (!isConnected && InternetReachabilityMonitor.prevInternetReachability)
             {
                 view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_RECONNECTING);
-                view.WifiHealthUpdate(isConnected);
                 LogUtil.Log("Internet Disconnected", "cyan");
-                //GameSparks.Core.GS.Disconnect();
-                GSFrameworkRequest.CancelRequestSession();
-                stopTimersSignal.Dispatch();
-                view.FlashClocks(true);
+                if (matchInfoModel.activeChallengeId != null)
+                {
+                    GSFrameworkRequest.CancelRequestSession();
+                    stopTimersSignal.Dispatch();
+                    view.FlashClocks(true);
+                }
             }
             else
             if (isConnected && !InternetReachabilityMonitor.prevInternetReachability)
@@ -66,7 +63,10 @@ namespace TurboLabz.Multiplayer
                 LogUtil.Log("Reconnect GS", "cyan");
                 GameSparks.Core.GS.Reconnect();
 
-                backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
+                if (matchInfoModel.activeChallengeId != null)
+                {
+                    backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
+                }
             }
         }
 

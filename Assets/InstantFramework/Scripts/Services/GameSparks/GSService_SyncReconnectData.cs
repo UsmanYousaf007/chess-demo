@@ -23,15 +23,12 @@ namespace TurboLabz.InstantFramework
         {
             LogEventResponse response = (LogEventResponse)r;
 
-            // Parse active quick match
             string challengeId = response.ScriptData.GetString("challengeId");
             LogUtil.Log("SyncReconnectData: RESUME ChallengeID = " + challengeId, "cyan");
             if (challengeId != null)
             {
                 GSData challengeData = response.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
                 ParseChallengeData(challengeId, challengeData);
-                // The matchInfoModel.activeChallengeId is retained for the session and maintained by the client so it 
-                // need not be set from the server. Do not set activeChallengeId here.
             }
         }
     }

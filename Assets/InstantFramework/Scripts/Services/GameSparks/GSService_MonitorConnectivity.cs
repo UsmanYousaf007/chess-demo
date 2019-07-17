@@ -51,7 +51,10 @@ namespace TurboLabz.InstantFramework
         {
 
             if (isAvailable)
-            { 
+            {
+                modelsResetSignal.Dispatch();
+                modelsLoadFromDiskSignal.Dispatch();
+
                 LogUtil.Log("GS CONNECTED!", "red");
                 InternetReachabilityMonitor.StartMonitor();
                 resumeMatchSignal.Dispatch(prevViewId);
@@ -61,14 +64,15 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("GS DISCONNECTED!", "red");
                 InternetReachabilityMonitor.StopMonitor();
                 prevViewId = navigatorModel.currentViewId;
+                LogUtil.Log("View=" + prevViewId, "red");
                 GSFrameworkRequest.CancelRequestSession();
 
                 // We are going to reset the game now so make sure that the models
                 // save to disk as we would when going to the background
                 gameDisconnectingSignal.Dispatch();
                 modelsSaveToDiskSignal.Dispatch();
-                modelsResetSignal.Dispatch();
-                modelsLoadFromDiskSignal.Dispatch();
+                //modelsResetSignal.Dispatch();
+                //modelsLoadFromDiskSignal.Dispatch();
 
                 RemoveChallengeListeners();
 

@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
                 {
                     view.HideChallengeSent();
                 }
-                view.WifiHealthUpdate(true);
+                view.FlashClocks(false);
                 view.ShowResultsDialog();
             }
         }
