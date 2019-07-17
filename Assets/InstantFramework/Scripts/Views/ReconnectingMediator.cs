@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+            InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -38,6 +40,25 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.RECONNECTING) 
             {
+                view.Hide();
+            }
+        }
+
+        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
+        {
+            if (isConnected)
+            {
+                view.Hide();
+            }
+
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
+            {
+                view.Show();
+            }
+            else
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            {
+                GameSparks.Core.GS.Reconnect();
                 view.Hide();
             }
         }

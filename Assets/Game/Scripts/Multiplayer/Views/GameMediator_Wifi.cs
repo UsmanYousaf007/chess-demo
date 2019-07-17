@@ -42,11 +42,11 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void OnInternetConnectedTicked(bool isConnected)
+        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
-            view.WifiHealthUpdate(isConnected);
+            //view.WifiHealthUpdate(isConnected);
 
-            if (!isConnected && InternetReachabilityMonitor.prevInternetReachability)
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_RECONNECTING);
                 LogUtil.Log("Internet Disconnected", "cyan");
@@ -58,10 +58,10 @@ namespace TurboLabz.Multiplayer
                 }
             }
             else
-            if (isConnected && !InternetReachabilityMonitor.prevInternetReachability)
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 LogUtil.Log("Reconnect GS", "cyan");
-                GameSparks.Core.GS.Reconnect();
+                //GameSparks.Core.GS.Reconnect();
 
                 if (matchInfoModel.activeChallengeId != null)
                 {
