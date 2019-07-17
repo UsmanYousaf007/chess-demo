@@ -96,10 +96,11 @@ namespace TurboLabz.Multiplayer
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
-            routineRunner.StartCoroutine(SimulateDelay(from, to, promo));
+            //routineRunner.StartCoroutine(SimulateDelay(from, to, promo));
+            SimulateDelay(from, to, promo);
         }
 
-        IEnumerator SimulateDelay(FileRank from, FileRank to, string promo)
+        void SimulateDelay(FileRank from, FileRank to, string promo)
         {
             float delay = 0f;
 
@@ -117,7 +118,7 @@ namespace TurboLabz.Multiplayer
             float timeElapsed = Time.time - startTime;
             delay -= timeElapsed;
             delay = Mathf.Max(0, delay);
-            yield return new WaitForSecondsRealtime(delay);
+            //yield return new WaitForSecondsRealtime(delay);
 
             if (chessboard.aiWillResign &&
                 chessService.GetScore(chessboard.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD)
@@ -126,7 +127,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backendService.AiTurn(from, to, promo).Then(OnTurnTaken); ;
+                backendService.AiTurn(from, to, promo, (long)delay).Then(OnTurnTaken); ;
             }
         }
 

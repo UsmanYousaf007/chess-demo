@@ -11,7 +11,7 @@ namespace TurboLabz.TLUtils
 {
     public static class InternetReachabilityMonitor
     {
-        private static readonly int SLOW_WIFI_WARNING_THRESHOLD_SECONDS = 5;
+        private static readonly int INTERNET_REACHABILITY_STATUS_TICK_SECONDS = 1;
         private static Coroutine interneReachablilityCR;
         private static NormalRoutineRunner normalRoutineRunner = new NormalRoutineRunner();
         public static Signal<bool> internetReachabilitySignal = new Signal<bool>();
@@ -32,7 +32,7 @@ namespace TurboLabz.TLUtils
                     prevInternetReachability = true;
                 }
 
-                yield return new WaitForSecondsRealtime(SLOW_WIFI_WARNING_THRESHOLD_SECONDS);
+                yield return new WaitForSecondsRealtime(INTERNET_REACHABILITY_STATUS_TICK_SECONDS);
             }
         }
 
@@ -48,7 +48,6 @@ namespace TurboLabz.TLUtils
 
         public static void StopMonitor()
         {
-            //internetReachabilitySignal.RemoveAllListeners();
             normalRoutineRunner.StopCoroutine(interneReachablilityCR);
             interneReachablilityCR = null;
         }

@@ -42,6 +42,11 @@ namespace TurboLabz.Multiplayer
         private float clockSpeed;
 
         private const double clockEmergencyThresholdSeconds = 10;
+        private Coroutine flashClocksCR = null;
+        private bool flashToggle = false;
+        Color playerClockLabelColorOrg;
+        Color opponentClockLabelColorOrg;
+
 
         public void InitClock()
         {
@@ -93,6 +98,8 @@ namespace TurboLabz.Multiplayer
             {
                 SetOpponentTimerWaitingState(vo.isPlayerTurn);
             }
+
+            FlashClocks(false);
         }
 
         public void PlayerTurnComplete()
@@ -150,6 +157,8 @@ namespace TurboLabz.Multiplayer
             playerClockImage.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
+
+            playerClockLabelColorOrg = playerClockLabel.color;
         }
 
         private void EnableOpponentTimer()
@@ -174,12 +183,16 @@ namespace TurboLabz.Multiplayer
             opponentClockImage.color = Colors.DISABLED_WHITE;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
+
+            opponentClockLabelColorOrg = opponentClockLabel.color;
         }
 
         private void SetPlayerTimerActiveColors()
         {
             playerClockLabel.color = GetLabelColor(playerTimer);
             playerClockImage.color = GetClockColor(playerTimer);
+
+            playerClockLabelColorOrg = playerClockLabel.color;
         }
 
         private void SetOpponentTimerActiveColors()
@@ -187,6 +200,8 @@ namespace TurboLabz.Multiplayer
             opponentClockLabel.color = GetLabelColor(opponentTimer);
             opponentClockImage.color = GetClockColor(opponentTimer);
             waitingLabel.color = opponentClockLabel.color;
+
+            opponentClockLabelColorOrg = opponentClockLabel.color;
         }
 
         private IEnumerator AnimateTimerCR(Image filler, TimeSpan currentTimer)
@@ -253,6 +268,59 @@ namespace TurboLabz.Multiplayer
             opponentClockLabel.text = "";
             //playerScore.text = "";
             //opponentScore.text = "";
+        }
+
+        public void FlashClocks(bool enable)
+        {
+            if (enable)
+            {
+                if (flashClocksCR != null)
+                {
+                    routineRunner.StopCoroutine(flashClocksCR);
+                }
+
+                flashToggle = true;
+                playerClockLabelColorOrg = playerClockLabel.color;
+                opponentClockLabelColorOrg = opponentClockLabel.color;
+
+                flashClocksCR = routineRunner.StartCoroutine(FlashClocksCR());
+            }
+            else
+            {
+                if (flashClocksCR != null)
+                {
+                    routineRunner.StopCoroutine(flashClocksCR);
+                    flashClocksCR = null;
+                    playerClockLabel.gameObject.SetActive(true);
+                    opponentClockLabel.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        private IEnumerator FlashClocksCR()
+        {
+            while (true)
+            {
+                yield return new WaitForSecondsRealtime(0.5f);
+
+                Color playerClockLabelColor = playerClockLabel.color;
+                Color opponentClockLabelColor = opponentClockLabel.color;
+
+                if (flashToggle)
+                {
+                    playerClockLabelColor.a *= 0.8f;
+                    playerClockLabel.color = playerClockLabelColor;
+                    opponentClockLabelColor.a *= 0.75f;
+                    opponentClockLabel.color = opponentClockLabelColor;
+                    flashToggle = false;
+                }
+                else
+                {
+                    playerClockLabel.color = playerClockLabelColorOrg;
+                    opponentClockLabel.color = opponentClockLabelColorOrg;
+                    flashToggle = true;
+                }
+            }
         }
     }
 }

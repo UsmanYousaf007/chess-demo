@@ -14,9 +14,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> SyncReconnectData()
+        public IPromise<BackendResult> SyncReconnectData(string challengeId)
         {
-            return new GSSyncReconnectDataRequest().Send(OnSyncDataSuccess);
+            return new GSSyncReconnectDataRequest().Send(challengeId, OnSyncDataSuccess);
         }
 
         private void OnSyncDataSuccess(object r)
@@ -42,12 +42,13 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "SyncReconnectData";
 
-        public IPromise<BackendResult> Send(Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
 
             new LogEventRequest()
                 .SetEventKey(SHORT_CODE)
+                .SetEventAttribute("challengeId", challengeId)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

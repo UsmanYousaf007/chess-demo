@@ -78,6 +78,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_DISCONNECTED, "Waiting for Opponent..." },
                 { LocalizationKey.GM_ADVANTAGE, "Adv." },
                 { LocalizationKey.GM_WIFI_WARNING, "Slow Internet" },
+                { LocalizationKey.GM_WIFI_RECONNECTING, "Reconnecting..." },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
                 { LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD, "COLLECT REWARD" },
 

@@ -24,7 +24,8 @@ namespace TurboLabz.InstantFramework
             bool rejectThreefoldRepeatDraw);
         IPromise<BackendResult> AiTurn(FileRank from,
             FileRank to,
-            string promotion);
+            string promotion,
+            long simulateDelaySeconds);
         IPromise<BackendResult> AiResign();
         IPromise<BackendResult> ClaimFiftyMoveDraw();
         IPromise<BackendResult> ClaimThreefoldRepeatDraw();

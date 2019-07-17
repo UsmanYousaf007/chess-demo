@@ -25,6 +25,8 @@ namespace TurboLabz.Multiplayer
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        [Inject] public ILocalizationService localizationService { get; set; }
+
         public void OnRegisterWifi()
         {
             view.InitWifi();
@@ -38,20 +40,33 @@ namespace TurboLabz.Multiplayer
 
         private void OnInternetConnectedTicked(bool isConnected)
         {
-            view.WifiHealthUpdate(isConnected);
+            if (isConnected && InternetReachabilityMonitor.prevInternetReachability)
+            {
+                view.WifiHealthUpdate(true);
+            }
+            else
+            if (!isConnected && !InternetReachabilityMonitor.prevInternetReachability)
+            {
+                view.WifiHealthUpdate(false);
+            }
 
             if (!isConnected && InternetReachabilityMonitor.prevInternetReachability)
             {
+                view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_RECONNECTING);
+                view.WifiHealthUpdate(isConnected);
                 LogUtil.Log("Internet Disconnected", "cyan");
                 //GameSparks.Core.GS.Disconnect();
                 GSFrameworkRequest.CancelRequestSession();
+                stopTimersSignal.Dispatch();
+                view.FlashClocks(true);
             }
             else
             if (isConnected && !InternetReachabilityMonitor.prevInternetReachability)
             {
                 LogUtil.Log("Reconnect GS", "cyan");
                 GameSparks.Core.GS.Reconnect();
-                backendService.SyncReconnectData().Then(OnSycReconnectionData);
+
+                backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
             }
         }
 
@@ -64,7 +79,7 @@ namespace TurboLabz.Multiplayer
             }
 
             LogUtil.Log("Restarting match!!..", "cyan");
-            stopTimersSignal.Dispatch();
+            //stopTimersSignal.Dispatch();
 
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             MatchInfo activeMatchInfo = matchInfoModel.activeMatch;
@@ -72,6 +87,10 @@ namespace TurboLabz.Multiplayer
 
             startGameSignal.Dispatch();
             SendReconnectionAck();
+
+            view.WifiHealthUpdate(true);
+            view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_WARNING);
+            view.FlashClocks(false);
         }
 
         private void SendReconnectionAck()

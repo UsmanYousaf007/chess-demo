@@ -55,9 +55,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowHint();
             OnParentShowHindsight();
             OnParentShowInfo();
-
             OnParentShowAdBanner();
-
         }
 
         public void Hide()
@@ -71,6 +69,7 @@ namespace TurboLabz.Multiplayer
             HideChallengeSent();
             OnParentHideAdBanner();
             HideOpponentConnectionMonitor();
+            FlashClocks(false);
         }
 
         public bool IsVisible()
