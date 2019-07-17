@@ -91,6 +91,7 @@ namespace TurboLabz.InstantGame
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
             {
+                notification.senderPic.gameObject.SetActive(true);
                 notification.senderPic.sprite = pic;
             }
             else if(playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
@@ -98,7 +99,9 @@ namespace TurboLabz.InstantGame
                 if(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId != null)
                 {
                     Sprite newSprite = defaultAvatarContainer.GetSprite(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId);
-                    notification.senderPic.sprite = newSprite;
+                    notification.avatarIcon.sprite = newSprite;
+                    notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId) ;
+                    notification.senderPic.gameObject.SetActive(false);
                 }
             }
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
