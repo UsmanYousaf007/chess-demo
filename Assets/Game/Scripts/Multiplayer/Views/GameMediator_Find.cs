@@ -41,7 +41,6 @@ namespace TurboLabz.Multiplayer
         {
             if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG)
             {
-                view.FindMatchTimeoutEnable(false);
                 view.HideFind();
             }
         }
