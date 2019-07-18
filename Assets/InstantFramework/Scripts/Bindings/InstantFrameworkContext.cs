@@ -82,6 +82,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RemoveCommunityFriendSignal>().To<RemoveCommunityFriendCommand>();
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<ShowShareScreenDialogSignal>().To<ShowShareDialogCommand>();
+            
 
             commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
@@ -136,6 +137,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<PostShowNotificationSignal>().ToSingleton();
             injectionBinder.Bind<ChallengeAcceptedSignal>().ToSingleton();
             injectionBinder.Bind<OpponentPingedForConnectionSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateShareDialogSignal>().ToSingleton();
+
+            injectionBinder.Bind<ChessboardBlockerEnableSignal>().ToSingleton();
 
 
             // Bind views to mediators
@@ -152,6 +156,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<RateAppDialogView>().To<RateAppDialogMediator>();
             mediationBinder.Bind<TopInventoryBarView>().To<TopInventoryBarMediator>();
             mediationBinder.Bind<NotificationView>().To<NotificationMediator>();
+            mediationBinder.Bind<ShareDialogView>().To<ShareDialogMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

@@ -8,7 +8,7 @@ namespace TurboLabz.InstantFramework
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.SHARE_DLG);
+            ShowDialog(NavigatorViewId.SHARE_SCREEN_DIALOG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
@@ -26,7 +26,6 @@ namespace TurboLabz.InstantFramework
                     return new NSMultiplayer();
                 }
             }
-
             return null;
         }
     }

@@ -19,23 +19,62 @@ namespace TurboLabz.InstantFramework
 {
     public class ShareDialogMediator : Mediator
 	{
+        // Inject Services
+        [Inject] public IScreenCaptureService screenCaptureService { get; set; }
+        [Inject] public IShareService share { get; set; }
+
+
+        //Inject Signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
+        
+        //Inject View
         [Inject] public ShareDialogView view { get; set; }
+
+        public override void OnRegister()
+        {
+            view.Init();
+            view.shareCloseButton.onClick.AddListener(OnCloseButtonClicked);
+            view.shareButton.onClick.AddListener(OnShareButtonClicked);
+        }
+
+        public void OnCloseButtonClicked()
+        {
+            chessboardBlockerEnableSignal.Dispatch(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
 
         public void OnShareButtonClicked()
         {
-            
+            share.ShareScreenShot("", "", Application.persistentDataPath + "/ShareScreenCapture", "");
+            OnCloseButtonClicked();
         }
 
 		[ListensTo(typeof(UpdateShareDialogSignal))]
 		public void OnUpdateProfileDialog(Sprite sprite)
 		{
+            
             view.UpdateShareDialog(sprite);
 		}
 
-        [ListensTo(typeof(ShowShareScreenDialogSignal))]
-        public void ShowShareScreen()
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
         {
-            view.ShowShareDialog();
+            if (viewId == NavigatorViewId.SHARE_SCREEN_DIALOG)
+            {
+                view.Show();
+                screenCaptureService.CaptureScreenShot("ShareScreenCapture",1);
+            }
         }
+
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.SHARE_SCREEN_DIALOG)
+            {
+                view.Hide();
+            }
+        }
+
     }
 }

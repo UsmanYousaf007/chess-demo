@@ -44,11 +44,11 @@ namespace TurboLabz.InstantFramework
         NOT_ENOUGH_BUCKS_DLG,
 		BUCK_PACKS_DLG,
         PROFILE_DLG,
-        SHARE_DLG,
         RATE_APP_DLG,
         CONFIRM_NEW_GAME_DLG,
         SPOT_PURCHASE_DLG,
         PURCHASED_DLG,
+        SHARE_SCREEN_DIALOG,
 
         // TODO: I am possibly unused so remove me.
         AD_COVER

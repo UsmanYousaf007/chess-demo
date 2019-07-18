@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
         //Navigation
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateShareDialogSignal updateShareDialogSignal { get; set; }
+
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHARE_SCREEN_DLG);

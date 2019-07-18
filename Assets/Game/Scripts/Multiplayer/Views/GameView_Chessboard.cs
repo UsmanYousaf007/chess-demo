@@ -530,6 +530,7 @@ namespace TurboLabz.Multiplayer
             ResetCapturedPieces();
 
             ToggleTopPanel(true);
+            SetMatchType();
         }
 
         private void UpdateInfoPostMove(MoveVO vo, bool isResume = false)

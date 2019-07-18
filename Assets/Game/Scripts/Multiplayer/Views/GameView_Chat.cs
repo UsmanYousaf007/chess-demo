@@ -19,7 +19,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-        [Header("Chat")]
+        [Header("Chat")]     
         public Image opponentHeaderProfilePic;
         public Image opponentHeaderAvatarBG;
         public Image opponentHeaderAvatarIcon;
