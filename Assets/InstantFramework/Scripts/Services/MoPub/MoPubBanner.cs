@@ -9,6 +9,7 @@ namespace TurboLabz.InstantFramework
         static string adUnit;
         static bool isLoaded = false;
         static bool isCreated = false;
+        static bool hideOnLoad = false;
 
         public static void Initialize(MoPubAdUnits pAdUnits)
         {
@@ -30,17 +31,26 @@ namespace TurboLabz.InstantFramework
         {
             Debug.Log("[TLADS]: Banner created");
             isLoaded = true;
+
+            if (hideOnLoad)
+            {
+                MoPub.ShowBanner(adUnit, false);
+                hideOnLoad = false;
+            }
         }
 
         static void OnBannerFailedEvent(string p1, string p2)
         {
             Debug.Log("[TLADS]: Banner failed to create");
             isLoaded = false;
+            hideOnLoad = false;
         }
 
         public static void Show(MoPubBase.AdPosition pos)
         {
             Debug.Log("[TLADS]: Request to create banner");
+
+            hideOnLoad = false;
 
             if (!isCreated)
             {
@@ -59,6 +69,10 @@ namespace TurboLabz.InstantFramework
             if (isLoaded)
             {
                 MoPub.ShowBanner(adUnit, false);
+            }
+            else
+            {
+                hideOnLoad = true;
             }
         }
     }

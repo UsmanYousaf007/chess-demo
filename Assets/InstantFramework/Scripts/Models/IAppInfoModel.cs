@@ -14,5 +14,6 @@ namespace TurboLabz.InstantFramework
         string androidURL { get; set; }
         int rateAppThreshold { get; set; }
         int onlineCount { get; set; }
+        long reconnectTimeStamp { get; set; }
     }
 }
