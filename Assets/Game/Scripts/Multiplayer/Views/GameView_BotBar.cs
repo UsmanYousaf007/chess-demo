@@ -20,12 +20,15 @@ namespace TurboLabz.Multiplayer
         [Header("Bot Bar")]
         public Text backToFriendsLabel;
         public Button backToFriendsButton;
+
+        public Button shareScreenButton;
         private bool showAdOnBack;
 
         public void InitBotBar()
         {
             backToFriendsLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
             backToFriendsButton.onClick.AddListener(OnBackToFriendsClicked);
+            
         }
 
         void OnParentShowBotBar()
@@ -53,6 +56,8 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+
+        
         void OnBackToLobby()
         {
             if (showAdOnBack)

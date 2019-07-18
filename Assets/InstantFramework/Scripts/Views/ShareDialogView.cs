@@ -22,17 +22,20 @@ namespace TurboLabz.InstantFramework
         public Button shareButton;
         public GameObject shareConfirmDlg;
 
-        public void InitShareScreen()
+        public void Init()
         {
             shareTitleText.text = localizationService.Get(LocalizationKey.SHARE_GAME_SCREENSHOT);
             shareButtonText.text = localizationService.Get(LocalizationKey.SHARE);
-            shareButton.onClick.AddListener(ShareCloseButtonClicked);
-            shareButton.onClick.AddListener(ShareButtonClicked);
         }
 
-        public void ShowShareDialog()
+        public void Show()
         {
             shareConfirmDlg.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            shareConfirmDlg.SetActive(false);
         }
 
         public void UpdateShareDialog(Sprite sprite)
@@ -41,21 +44,6 @@ namespace TurboLabz.InstantFramework
             {
                 shareImage.sprite = sprite;
             }
-        }
-
-        public void ShareCloseButtonClicked()
-        {
-            shareConfirmDlg.SetActive(false);
-        }
-
-        public void ShareButtonClicked()
-        {
-            shareConfirmDlg.SetActive(false);
-        }
-
-        public void SetShareScreenSprite(Sprite sprite)
-        {
-            shareImage.sprite = sprite;
         }
     }
 

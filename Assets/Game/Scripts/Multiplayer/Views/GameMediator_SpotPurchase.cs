@@ -46,5 +46,11 @@ namespace TurboLabz.Multiplayer
                 view.chessboardBlocker.SetActive(false);
             }
         }
+
+        [ListensTo(typeof(ChessboardBlockerEnableSignal))]
+        public void OnChessboardBlockerEnable(bool isEnaable)
+        {
+            view.chessboardBlocker.SetActive(isEnaable);
+        }
     }
 }

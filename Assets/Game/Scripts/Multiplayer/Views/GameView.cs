@@ -32,10 +32,19 @@ namespace TurboLabz.Multiplayer
         public GameObject opponentInfoPanel;
         public Text opponentConnectionMonitorLabel;
 
-        [HideInInspector] public bool isLongPlay;
+		[Header("Match Status")]
+		public GameObject friendlyObject;
+		public GameObject rankedObject;
+		public Text matchTypeText;
+		public GameObject matchTypeObject;
+
+
+		[HideInInspector] public bool isLongPlay;
         [HideInInspector] public bool isRankedGame;
 
-        private bool menuButtonWasActive;
+		
+
+		private bool menuButtonWasActive;
         Coroutine opponentConnectionMonitorCR;
 
         public void Show()
@@ -72,6 +81,27 @@ namespace TurboLabz.Multiplayer
             FlashClocks(false);
             FindMatchTimeoutEnable(false);
         }
+
+		public void SetMatchType()
+		{
+			if (isLongPlay)
+			{
+				matchTypeObject.SetActive(true);
+
+                if (isRankedGame)
+                {
+                    rankedObject.SetActive(true);
+                    friendlyObject.SetActive(false);
+                    matchTypeText.text = localizationService.Get(LocalizationKey.LONG_PLAY_RANKED);
+                }
+                else
+                {
+                    friendlyObject.SetActive(true);
+                    rankedObject.SetActive(false);
+                    matchTypeText.text = localizationService.Get(LocalizationKey.LONG_PLAY_FRIENDLY);
+                }
+            }
+		}
 
         public bool IsVisible()
         {

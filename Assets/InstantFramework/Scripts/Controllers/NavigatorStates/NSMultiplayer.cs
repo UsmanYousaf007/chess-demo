@@ -46,6 +46,10 @@ namespace TurboLabz.InstantFramework
                     }
                 }
             }
+            else if (evt == NavigatorEvent.SHOW_SHARE_SCREEN_DLG)
+            {
+                return new NSShareDlg();
+            }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
                 return new NSLobby();

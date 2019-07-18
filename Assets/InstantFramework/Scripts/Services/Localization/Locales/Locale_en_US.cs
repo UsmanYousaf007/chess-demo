@@ -243,6 +243,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.BOT_NAV_NEXT, "Next" },
                 { LocalizationKey.BOT_NAV_COMPANY, "Chess by Turbo Labz" },
                 { LocalizationKey.LONG_PLAY_NOT_NOW, "Not Now" },
+                { LocalizationKey.LONG_PLAY_RANKED, "Ranked" },
+                { LocalizationKey.LONG_PLAY_FRIENDLY, "Friendly" },
                 { LocalizationKey.PLAY, "Play" },
                 { LocalizationKey.LONG_PLAY_ACCEPT, "Accept" },
                 { LocalizationKey.LONG_PLAY_CANCEL, "Cancel" },

@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using strange.extensions.signal.impl;
 using System;
+using UnityEngine.Networking;
 
 namespace TurboLabz.TLUtils
 {
@@ -17,6 +18,8 @@ namespace TurboLabz.TLUtils
         private static NormalRoutineRunner normalRoutineRunner = new NormalRoutineRunner();
         public static Signal<bool, ConnectionSwitchType> internetReachabilitySignal = new Signal<bool, ConnectionSwitchType>();
         public static bool prevInternetReachability = false;
+        public static bool isInternetReachable = false;
+        public static bool resultPending = false;
 
         public enum ConnectionSwitchType {
             NONE,
@@ -24,11 +27,46 @@ namespace TurboLabz.TLUtils
             FROM_DISCONNECTED_TO_CONNECTED
         }
 
+        private static void CheckInternet()
+        {
+            if (resultPending == false)
+            {
+                resultPending = true;
+                normalRoutineRunner.StartCoroutine(PingURLCR("http://google.com"));
+            }
+        }
+
+        private static IEnumerator PingURLCR(string url)
+        {
+            WWW www = new WWW(url);
+            yield return www;
+
+            if (string.IsNullOrEmpty(www.error)) // Success
+            {
+                isInternetReachable = true;
+            }
+            else // Failure
+            {
+                isInternetReachable = false;
+            }
+            resultPending = false;
+
+            TLUtils.LogUtil.Log("INTERNET Ping= " + isInternetReachable, "cyan");
+        }
+
+        private static bool IsInternReachable()
+        {
+            TLUtils.LogUtil.Log("INTERNET = " + isInternetReachable, "cyan");
+            return isInternetReachable;
+        }
+
         private static IEnumerator InternetReachabilityCR()
         {
             while (true)
             {
-                if (Application.internetReachability == NetworkReachability.NotReachable)
+                CheckInternet();
+
+                if (!IsInternReachable())
                 {
                     ConnectionSwitchType connectionSwitch = prevInternetReachability == true ? 
                         ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED : ConnectionSwitchType.NONE;
@@ -49,7 +87,7 @@ namespace TurboLabz.TLUtils
 
         public static void StartMonitor()
         {
-            prevInternetReachability = Application.internetReachability != NetworkReachability.NotReachable;
+            prevInternetReachability = IsInternReachable();
 
             if (interneReachablilityCR == null)
             {
