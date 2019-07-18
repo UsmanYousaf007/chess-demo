@@ -194,9 +194,9 @@ namespace TurboLabz.InstantGame
         void OpenConfirmDialog()
         {
             var newName = playerProfileNameInputField.text;
-            nameConfirmDlgTitleText.text = newName + " ?";
-            nameConfirmDlgSubheadingText.text = "This is one time activity. Are you sure to change your name. Confirm please";
-            nameConfirmDlgYesBtnText.text = "CONFIRM";
+            nameConfirmDlgTitleText.text = "Change name to "+ newName + " ?";
+            nameConfirmDlgSubheadingText.text = "You can change your name once. Are you sure to change your name";
+            nameConfirmDlgYesBtnText.text = "YES";
 
             nameConfirmDlg.SetActive(true);
         }
