@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
         SEND_CHAT_MESSAGE_FAILED,
         AUTH_EMAIL_REQUEST_FAILED,
         RESUME_MATCH_DATA_FAILED,
+        REQUEST_TIMEOUT,
 
         // Testing code
         SEND_TEST_REQUEST_FAILED,

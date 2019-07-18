@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using GameSparks.Core;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using UnityEngine;
@@ -47,6 +48,7 @@ namespace TurboLabz.Multiplayer
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {
+                    TLUtils.LogUtil.Log("Match disconnected", "cyan");
                     GSFrameworkRequest.CancelRequestSession();
                     stopTimersSignal.Dispatch();
                     view.FlashClocks(true);
@@ -57,6 +59,7 @@ namespace TurboLabz.Multiplayer
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {
+                    TLUtils.LogUtil.Log("Match reconnecting..", "cyan");
                     backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
                 }
             }
@@ -66,8 +69,19 @@ namespace TurboLabz.Multiplayer
         {
             if (backendResult == BackendResult.CANCELED)
             {
+                TLUtils.LogUtil.Log("Match: Canceled OnSycReconnectionData!", "cyan");
                 return;
             }
+
+            if (backendResult == BackendResult.REQUEST_TIMEOUT)
+            {
+                TLUtils.LogUtil.Log("Match: Go back to match without data sync!", "cyan");
+                view.WifiHealthUpdate(true);
+                view.FlashClocks(false);
+                return;
+            }
+
+            TLUtils.LogUtil.Log("Match reconnected", "cyan");
 
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             MatchInfo activeMatchInfo = matchInfoModel.activeMatch;

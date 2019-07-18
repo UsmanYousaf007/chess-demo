@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         {
             if (isAvailable)
             {
+                LogUtil.Log("GS Connected", "red");
                 // Reset all models
                 modelsResetSignal.Dispatch();
                 // Load saved models (perfs etc)
@@ -53,6 +54,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                LogUtil.Log("GS Disconnected", "red");
                 // Stop the pinger
                 StopPinger();
                 // Avoid soft reconnect processing

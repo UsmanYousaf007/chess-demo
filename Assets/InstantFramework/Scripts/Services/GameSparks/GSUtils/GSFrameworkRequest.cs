@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
                 if (errorString == "timeout")
                 {
                     LogUtil.Log("OnRequestFailure timeout error", "red");
-                    Dispatch(BackendResult.CANCELED);
+                    Dispatch(BackendResult.REQUEST_TIMEOUT);
                     return;
                 }
             }
@@ -72,7 +72,7 @@ namespace TurboLabz.InstantFramework
                 if (errorString == "timeout")
                 {
                     LogUtil.Log("OnRequestFailure timeout error", "red");
-                    Dispatch(BackendResult.CANCELED);
+                    Dispatch(BackendResult.REQUEST_TIMEOUT);
                     return;
                 }
 
