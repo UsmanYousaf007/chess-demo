@@ -19,7 +19,7 @@ namespace TurboLabz.TLUtils
         public static Signal<bool, ConnectionSwitchType> internetReachabilitySignal = new Signal<bool, ConnectionSwitchType>();
         public static bool prevInternetReachability = false;
         public static bool isInternetReachable = false;
-        public static bool resultPending = false;
+        private  static Coroutine pingUrlCR = null;
 
         public enum ConnectionSwitchType {
             NONE,
@@ -27,46 +27,49 @@ namespace TurboLabz.TLUtils
             FROM_DISCONNECTED_TO_CONNECTED
         }
 
-        private static void CheckInternet()
+        private static string PING_URL = "http://www.google.com";
+
+        private static void CheckInternetAccess()
         {
-            if (resultPending == false)
+            if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                resultPending = true;
-                normalRoutineRunner.StartCoroutine(PingURLCR("http://google.com"));
+                isInternetReachable = false;
             }
         }
 
         private static IEnumerator PingURLCR(string url)
         {
-            WWW www = new WWW(url);
-            yield return www;
-
-            if (string.IsNullOrEmpty(www.error)) // Success
+            while (true)
             {
-                isInternetReachable = true;
-            }
-            else // Failure
-            {
-                isInternetReachable = false;
-            }
-            resultPending = false;
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+                {
+                    // Request and wait for the desired page.
+                    yield return webRequest.SendWebRequest();
 
-            TLUtils.LogUtil.Log("INTERNET Ping= " + isInternetReachable, "cyan");
-        }
+                    string[] pages = url.Split('/');
+                    int page = pages.Length - 1;
 
-        private static bool IsInternReachable()
-        {
-            TLUtils.LogUtil.Log("INTERNET = " + isInternetReachable, "cyan");
-            return isInternetReachable;
+                    if (webRequest.isNetworkError)
+                    {
+                        isInternetReachable = false;
+                    }
+                    else
+                    {
+                        isInternetReachable = true;
+                    }
+                }
+
+                yield return new WaitForSeconds(3);
+            }
         }
 
         private static IEnumerator InternetReachabilityCR()
         {
             while (true)
             {
-                CheckInternet();
+                CheckInternetAccess();
 
-                if (!IsInternReachable())
+                if (!isInternetReachable)
                 {
                     ConnectionSwitchType connectionSwitch = prevInternetReachability == true ? 
                         ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED : ConnectionSwitchType.NONE;
@@ -87,18 +90,33 @@ namespace TurboLabz.TLUtils
 
         public static void StartMonitor()
         {
-            prevInternetReachability = IsInternReachable();
+            prevInternetReachability = isInternetReachable;
 
             if (interneReachablilityCR == null)
             {
                 interneReachablilityCR = normalRoutineRunner.StartCoroutine(InternetReachabilityCR());
             }
+
+            if (pingUrlCR == null)
+            {
+                pingUrlCR = normalRoutineRunner.StartCoroutine(PingURLCR(PING_URL));
+            }
         }
 
         public static void StopMonitor()
         {
-            normalRoutineRunner.StopCoroutine(interneReachablilityCR);
-            interneReachablilityCR = null;
+            if (interneReachablilityCR != null)
+            {
+                normalRoutineRunner.StopCoroutine(interneReachablilityCR);
+                interneReachablilityCR = null;
+            }
+
+            if (pingUrlCR == null)
+            {
+                normalRoutineRunner.StopCoroutine(pingUrlCR);
+                pingUrlCR = null;
+            }
+
         }
 
         public static void AddListener(Action<bool, ConnectionSwitchType> signalListener)
