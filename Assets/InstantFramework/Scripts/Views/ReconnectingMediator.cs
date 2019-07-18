@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,9 +20,14 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public ReconnectingView view { get; set; }
 
+        // services
+        [Inject] public IBackendService backendService { get; set; }
+
+
         public override void OnRegister()
         {
             view.Init();
+            InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -39,6 +45,27 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.RECONNECTING) 
             {
                 view.Hide();
+            }
+        }
+
+        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
+        {
+            if (isConnected)
+            {
+                view.Hide();
+            }
+
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
+            {
+                view.Show();
+                backendService.StopPinger();
+            }
+            else
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            {
+                GameSparks.Core.GS.Reconnect();
+                view.Hide();
+                backendService.StartPinger();
             }
         }
     }

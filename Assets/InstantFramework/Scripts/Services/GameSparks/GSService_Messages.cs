@@ -61,21 +61,25 @@ namespace TurboLabz.InstantFramework
                 if (playerModel.friends.ContainsKey(friendId))
                 {
                     playerModel.friends[friendId].publicProfile.isOnline = isOnline;
+
+                    PublicProfile publicProfile = playerModel.friends[friendId].publicProfile;
+                    ProfileVO pvo = new ProfileVO();
+                    pvo.playerPic = publicProfile.profilePicture;
+                    pvo.playerName = publicProfile.name;
+                    pvo.eloScore = publicProfile.eloScore;
+                    pvo.countryId = publicProfile.countryId;
+                    pvo.playerId = publicProfile.playerId;
+                    pvo.avatarColorId = publicProfile.avatarBgColorId;
+                    pvo.avatarId = publicProfile.avatarId;
+                    pvo.isOnline = isOnline;
+                    pvo.isActive = publicProfile.isActive;
+
+                    updtateFriendOnlineStatusSignal.Dispatch(pvo);
                 }
-
-                PublicProfile publicProfile = playerModel.friends[friendId].publicProfile;
-                ProfileVO pvo = new ProfileVO();
-                pvo.playerPic = publicProfile.profilePicture;
-                pvo.playerName = publicProfile.name;
-                pvo.eloScore = publicProfile.eloScore;
-                pvo.countryId = publicProfile.countryId;
-                pvo.playerId = publicProfile.playerId;
-                pvo.avatarColorId = publicProfile.avatarBgColorId;
-                pvo.avatarId = publicProfile.avatarId;
-                pvo.isOnline = isOnline;
-                pvo.isActive = publicProfile.isActive;
-
-                updtateFriendOnlineStatusSignal.Dispatch(pvo);
+                else
+                {
+                    TLUtils.LogUtil.Log("OnScriptMessage::ONLINE_STATUS_FRIEND_MESSAGE friend not in list", "red");
+                }
             }
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_PING_MESSAGE)
             {

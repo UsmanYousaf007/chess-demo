@@ -34,7 +34,10 @@ namespace TurboLabz.InstantFramework
 
         public void StartPinger()
         {
-            pingerCR = routineRunner.StartCoroutine(StartPingerCR());
+            if (pingerCR == null)
+            {
+                pingerCR = routineRunner.StartCoroutine(StartPingerCR());
+            }
         }
 
         public void StopPinger()

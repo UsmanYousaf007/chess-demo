@@ -39,7 +39,6 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-
             getInitDataCompleteSignal.AddListener(OnGetInitDataComplete);
             receptionSignal.Dispatch(true);
         }
@@ -51,6 +50,20 @@ namespace TurboLabz.InstantFramework
             if (prevViewId == NavigatorViewId.CPU)
             {
                 startCPUGameSignal.Dispatch();
+            }
+            else if (prevViewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
+            {
+                LogUtil.Log("Ignore recover match on result screen. NavigatorViewId.MULTIPLAYER_RESULTS_DLG", "cyan");
+                // do nothing
+
+                // Todo: condition needs to be game ended but still on board view
+            }
+            else if (matchInfoModel.activeChallengeId == null && prevViewId == NavigatorViewId.MULTIPLAYER)
+            {
+                LogUtil.Log("Ignore recover match on result screen. NavigatorViewId.MULTIPLAYER", "cyan");
+                // do nothing
+
+                // Todo: condition needs to be game ended but still on board view
             }
             else if (matchInfoModel.activeChallengeId != null)
             {
@@ -87,6 +100,8 @@ namespace TurboLabz.InstantFramework
             }
 
             getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
+            prevViewId = NavigatorViewId.NONE;
+
             Release();
         }
     }

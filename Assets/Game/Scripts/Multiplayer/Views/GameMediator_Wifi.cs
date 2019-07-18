@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using GameSparks.Core;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using UnityEngine;
@@ -35,38 +36,32 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(WifiIsHealthySignal))]
         public void OnWifiHealthUpdate(bool isHealthy)
         {
-            view.WifiHealthUpdate(isHealthy);
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                view.WifiHealthUpdate(isHealthy);
+            }
         }
 
-        private void OnInternetConnectedTicked(bool isConnected)
+        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
-            if (isConnected && InternetReachabilityMonitor.prevInternetReachability)
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
-                view.WifiHealthUpdate(true);
+                if (matchInfoModel.activeChallengeId != null)
+                {
+                    TLUtils.LogUtil.Log("Match disconnected", "cyan");
+                    GSFrameworkRequest.CancelRequestSession();
+                    stopTimersSignal.Dispatch();
+                    view.FlashClocks(true);
+                }
             }
             else
-            if (!isConnected && !InternetReachabilityMonitor.prevInternetReachability)
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
-                view.WifiHealthUpdate(false);
-            }
-
-            if (!isConnected && InternetReachabilityMonitor.prevInternetReachability)
-            {
-                view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_RECONNECTING);
-                view.WifiHealthUpdate(isConnected);
-                LogUtil.Log("Internet Disconnected", "cyan");
-                //GameSparks.Core.GS.Disconnect();
-                GSFrameworkRequest.CancelRequestSession();
-                stopTimersSignal.Dispatch();
-                view.FlashClocks(true);
-            }
-            else
-            if (isConnected && !InternetReachabilityMonitor.prevInternetReachability)
-            {
-                LogUtil.Log("Reconnect GS", "cyan");
-                GameSparks.Core.GS.Reconnect();
-
-                backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
+                if (matchInfoModel.activeChallengeId != null)
+                {
+                    TLUtils.LogUtil.Log("Match reconnecting..", "cyan");
+                    backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
+                }
             }
         }
 
@@ -74,12 +69,19 @@ namespace TurboLabz.Multiplayer
         {
             if (backendResult == BackendResult.CANCELED)
             {
-                LogUtil.Log("Restart match CANCELED!!..", "cyan");
+                TLUtils.LogUtil.Log("Match: Canceled OnSycReconnectionData!", "cyan");
                 return;
             }
 
-            LogUtil.Log("Restarting match!!..", "cyan");
-            //stopTimersSignal.Dispatch();
+            if (backendResult == BackendResult.REQUEST_TIMEOUT)
+            {
+                TLUtils.LogUtil.Log("Match: Go back to match without data sync!", "cyan");
+                view.WifiHealthUpdate(true);
+                view.FlashClocks(false);
+                return;
+            }
+
+            TLUtils.LogUtil.Log("Match reconnected", "cyan");
 
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             MatchInfo activeMatchInfo = matchInfoModel.activeMatch;
@@ -89,7 +91,6 @@ namespace TurboLabz.Multiplayer
             SendReconnectionAck();
 
             view.WifiHealthUpdate(true);
-            view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_WARNING);
             view.FlashClocks(false);
         }
 

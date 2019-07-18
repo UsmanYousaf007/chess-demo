@@ -61,6 +61,14 @@ namespace TurboLabz.InstantGame
 
         public Signal restorePurchasesSignal = new Signal();
 
+        [Header("Name Confirm Dialog")]
+        public GameObject nameConfirmDlg;
+        public Button nameConfirmDlgYesBtn;
+        public Button nameConfirmDlgNoBtn;
+        public Text nameConfirmDlgYesBtnText;
+        public Text nameConfirmDlgTitleText;
+        public Text nameConfirmDlgSubheadingText;
+
         public void Init()
         {
             onlineTitle.text = localizationService.Get(LocalizationKey.STATS_ONLINE_TITLE);
@@ -77,6 +85,10 @@ namespace TurboLabz.InstantGame
 
             nameEditBtn.onClick.AddListener(nameEditBtnClicked);
             playerProfileNameInputField.onEndEdit.AddListener(OnEditNameSubmit);
+
+            nameConfirmDlgYesBtn.onClick.AddListener(nameConfirmDlgYesBtnClicked);
+            nameConfirmDlgNoBtn.onClick.AddListener(nameConfirmDlgNoBtnClicked);
+            nameConfirmDlg.SetActive(false);
 
 
             for (int i = 0; i < stars.Length; i++)
@@ -128,6 +140,7 @@ namespace TurboLabz.InstantGame
         { 
             gameObject.SetActive(true);
             playerProfileNameInputField.transform.gameObject.SetActive(false);
+            nameConfirmDlg.SetActive(false);
 
             //nameEditBtn.gameObject.SetActive(false);
 
@@ -135,6 +148,7 @@ namespace TurboLabz.InstantGame
             //{
             //    nameEditBtn.gameObject.SetActive(true);
             //}
+
             nameEditBtn.gameObject.SetActive(true);
         }
 
@@ -163,19 +177,42 @@ namespace TurboLabz.InstantGame
 
         void OnEditNameSubmit(string text)
         {
-            if ((playerProfileNameInputField.text.Length == 0) || String.IsNullOrWhiteSpace(playerProfileNameInputField.text) ||
+            if ((playerProfileNameInputField.text.Length == 0) ||
+                String.IsNullOrWhiteSpace(playerProfileNameInputField.text) ||
                 Equals(playerProfileNameInputField.text, playerModel.name))
             {
                 playerProfileNameInputField.transform.gameObject.SetActive(false);
                 return;
             }
 
-            var newName = playerProfileNameInputField.text;
-            changeUserDetailsSignal.Dispatch(newName);
-
             playerProfileNameInputField.transform.gameObject.SetActive(false);
 
+            OpenConfirmDialog();
+
+        }
+
+        void OpenConfirmDialog()
+        {
+            var newName = playerProfileNameInputField.text;
+            nameConfirmDlgTitleText.text = "Change name to "+ newName + " ?";
+            nameConfirmDlgSubheadingText.text = "You can change your name once. Are you sure to change your name";
+            nameConfirmDlgYesBtnText.text = "YES";
+
+            nameConfirmDlg.SetActive(true);
+        }
+
+        void nameConfirmDlgYesBtnClicked()
+        {
+            var newName = playerProfileNameInputField.text;
+            changeUserDetailsSignal.Dispatch(newName);
+            nameConfirmDlg.SetActive(false);
+
             //nameEditBtn.gameObject.SetActive(false);
+        }
+
+        void nameConfirmDlgNoBtnClicked()
+        {
+            nameConfirmDlg.SetActive(false); 
         }
     }
 }
