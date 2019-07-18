@@ -46,7 +46,8 @@ namespace TurboLabz.InstantFramework
 
         public void OnShareButtonClicked()
         {
-            share.ShareScreenShot("", "", Application.persistentDataPath + "/ShareScreenCapture", "");
+            string filePath = Application.dataPath + "/ShareScreenCapture.png";
+            share.ShareScreenShot("", "", filePath, "");
             OnCloseButtonClicked();
         }
 
@@ -63,7 +64,6 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SHARE_SCREEN_DIALOG)
             {
                 view.Show();
-                screenCaptureService.CaptureScreenShot("ShareScreenCapture",1);
             }
         }
 

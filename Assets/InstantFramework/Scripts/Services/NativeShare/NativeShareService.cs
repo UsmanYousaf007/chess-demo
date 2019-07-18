@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
             string androidSharePopupTitle)
         {
 
+            Debug.Log(filePath);
             NativeShare share = new NativeShare();
             share.SetSubject(emailSubject);
             share.SetText(text);
