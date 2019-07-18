@@ -12,14 +12,12 @@
 
 using System;
 using System.Collections;
-
+using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
-using TurboLabz.Chess;
-using TurboLabz.TLUtils;
-using TurboLabz.InstantGame;
-using TurboLabz.InstantFramework;
-using System.Text;
 
 namespace TurboLabz.Multiplayer
 {
@@ -266,8 +264,6 @@ namespace TurboLabz.Multiplayer
         {
             playerClockLabel.text = "";
             opponentClockLabel.text = "";
-            //playerScore.text = "";
-            //opponentScore.text = "";
         }
 
         public void FlashClocks(bool enable)
@@ -291,8 +287,8 @@ namespace TurboLabz.Multiplayer
                 {
                     routineRunner.StopCoroutine(flashClocksCR);
                     flashClocksCR = null;
-                    playerClockLabel.gameObject.SetActive(true);
-                    opponentClockLabel.gameObject.SetActive(true);
+                    playerClockLabel.color = playerClockLabelColorOrg;
+                    opponentClockLabel.color = opponentClockLabelColorOrg;
                 }
             }
         }
