@@ -38,18 +38,13 @@ namespace TurboLabz.Multiplayer
             if (matchInfoModel.activeChallengeId != null)
             {
                 view.WifiHealthUpdate(isHealthy);
-                TLUtils.LogUtil.Log("OnWifiHealthUpdate: Ping caused a wifi health update", "cyan");
             }
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
-            //view.WifiHealthUpdate(isConnected);
-
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
-                view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_RECONNECTING);
-                LogUtil.Log("Internet Disconnected", "cyan");
                 if (matchInfoModel.activeChallengeId != null)
                 {
                     GSFrameworkRequest.CancelRequestSession();
@@ -60,9 +55,6 @@ namespace TurboLabz.Multiplayer
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
-                LogUtil.Log("Reconnect GS", "cyan");
-                //GameSparks.Core.GS.Reconnect();
-
                 if (matchInfoModel.activeChallengeId != null)
                 {
                     backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
@@ -74,12 +66,8 @@ namespace TurboLabz.Multiplayer
         {
             if (backendResult == BackendResult.CANCELED)
             {
-                LogUtil.Log("Restart match CANCELED!!..", "cyan");
                 return;
             }
-
-            LogUtil.Log("Restarting match!!..", "cyan");
-            //stopTimersSignal.Dispatch();
 
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             MatchInfo activeMatchInfo = matchInfoModel.activeMatch;
@@ -89,7 +77,6 @@ namespace TurboLabz.Multiplayer
             SendReconnectionAck();
 
             view.WifiHealthUpdate(true);
-            view.warningLabel.text = localizationService.Get(LocalizationKey.GM_WIFI_WARNING);
             view.FlashClocks(false);
         }
 

@@ -10,12 +10,6 @@
 /// @description
 /// [add_description_here]
 
-using System.Collections;
-
-using UnityEngine;
-
-using GameSparks.Api.Responses;
-
 using TurboLabz.TLUtils;
 using GameSparks.Core;
 
@@ -25,17 +19,12 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public GameDisconnectingSignal gameDisconnectingSignal { get; set; }
         [Inject] public AppEventSignal appEventSignal { get; set;  }
-
-
         [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
-
         [Inject] public ResumeMatchSignal resumeMatchSignal { get; set; }
 
-        //[Inject] public INavigatorModel navigatorModel { get; set; }
-
-        NavigatorViewId prevViewId;
+        private NavigatorViewId prevViewId;
 
         public void MonitorConnectivity(bool enable)
         {
@@ -49,37 +38,38 @@ namespace TurboLabz.InstantFramework
 
         void GameSparksAvailable(bool isAvailable)
         {
-
             if (isAvailable)
             {
+                // Reset all models
                 modelsResetSignal.Dispatch();
+                // Load saved models (perfs etc)
                 modelsLoadFromDiskSignal.Dispatch();
-
-                LogUtil.Log("GS CONNECTED!", "red");
+                // Restart the reachability monitor
                 InternetReachabilityMonitor.StartMonitor();
+                // Begin processing hard reconnect
                 resumeMatchSignal.Dispatch(prevViewId);
+                // Start the pinger
+                StartPinger();
             }
             else
             {
-                LogUtil.Log("GS DISCONNECTED!", "red");
+                // Stop the pinger
+                StopPinger();
+                // Avoid soft reconnect processing
                 InternetReachabilityMonitor.StopMonitor();
+                // Reconnect processing depends on last view
                 prevViewId = navigatorModel.currentViewId;
-                LogUtil.Log("View=" + prevViewId, "red");
+                // Remove pending requests processing
                 GSFrameworkRequest.CancelRequestSession();
-
-                // We are going to reset the game now so make sure that the models
-                // save to disk as we would when going to the background
+                // Dispatch signal that we are in reconnection
                 gameDisconnectingSignal.Dispatch();
+                // Save models to disk to reload when coming back from background
                 modelsSaveToDiskSignal.Dispatch();
-                //modelsResetSignal.Dispatch();
-                //modelsLoadFromDiskSignal.Dispatch();
-
+                // Avoid processing gs messages that arrive right after gs becomes available
+                // because models will be reset and those messages will no longer be valid. The
+                // state will be obtained from full init data.
                 RemoveChallengeListeners();
-
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RECONNECTING);
             }
-
         }
-
     }
 }

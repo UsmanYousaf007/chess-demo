@@ -20,6 +20,10 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public ReconnectingView view { get; set; }
 
+        // services
+        [Inject] public IBackendService backendService { get; set; }
+
+
         public override void OnRegister()
         {
             view.Init();
@@ -54,12 +58,14 @@ namespace TurboLabz.InstantFramework
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 view.Show();
+                backendService.StopPinger();
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 GameSparks.Core.GS.Reconnect();
                 view.Hide();
+                backendService.StartPinger();
             }
         }
     }

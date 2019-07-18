@@ -19,7 +19,6 @@ namespace TurboLabz.InstantFramework
 
         public static void CancelRequestSession()
         {
-            LogUtil.Log("GSFrameworkRequest CANCEL activePromises.Count=" + activePromises.Count, "yellow");
             foreach (IPromise<BackendResult> activePromise in activePromises)
             {
                 activePromise.Dispatch(BackendResult.CANCELED);
@@ -29,7 +28,6 @@ namespace TurboLabz.InstantFramework
 
         public GSFrameworkRequest()
         {
-            LogUtil.Log("GSFrameworkRequest ADD", "yellow");
             promise = new Promise<BackendResult>();
             activePromises.Add(promise);
         }
@@ -53,7 +51,7 @@ namespace TurboLabz.InstantFramework
             if (logEventResponse != null)
             {
                 GSData error = logEventResponse.Errors;
-                LogUtil.Log("OnRequestFailure error: " + error.JSON, "red");
+                LogUtil.Log("OnRequestFailure error: " + error.JSON + " RequestId:" + logEventResponse.RequestId, "red");
                 string errorString = error.GetString("error");
 
                 if (errorString == "timeout")
@@ -100,8 +98,6 @@ namespace TurboLabz.InstantFramework
                 promise.Dispatch(result);
                 activePromises.Remove(promise);
                 promise = null;
-
-                LogUtil.Log("GSFrameworkRequest REMOVE", "yellow");
             }
         }
 
