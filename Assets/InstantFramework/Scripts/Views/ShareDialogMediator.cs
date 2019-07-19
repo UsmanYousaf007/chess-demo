@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnShareButtonClicked()
         {
-            string filePath = Application.dataPath + "/ShareScreenCapture.png";
+            string filePath = ScreenShotPath.GetScreenCapturePath();
             share.ShareScreenShot("", "", filePath, "");
             OnCloseButtonClicked();
         }
