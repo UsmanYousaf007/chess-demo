@@ -84,22 +84,19 @@ namespace TurboLabz.Multiplayer
 
 		public void SetMatchType()
 		{
-			if (isLongPlay)
-			{
-				matchTypeObject.SetActive(true);
+			matchTypeObject.SetActive(true);
 
-                if (isRankedGame)
-                {
-                    rankedObject.SetActive(true);
-                    friendlyObject.SetActive(false);
-                    matchTypeText.text = localizationService.Get(LocalizationKey.LONG_PLAY_RANKED);
-                }
-                else
-                {
-                    friendlyObject.SetActive(true);
-                    rankedObject.SetActive(false);
-                    matchTypeText.text = localizationService.Get(LocalizationKey.LONG_PLAY_FRIENDLY);
-                }
+            if (isRankedGame)
+            {
+                rankedObject.SetActive(true);
+                friendlyObject.SetActive(false);
+                matchTypeText.text = localizationService.Get(LocalizationKey.LONG_PLAY_RANKED);
+            }
+            else
+            {
+                friendlyObject.SetActive(true);
+                rankedObject.SetActive(false);
+                matchTypeText.text = localizationService.Get(LocalizationKey.LONG_PLAY_FRIENDLY);
             }
 		}
 
