@@ -13,11 +13,13 @@ namespace TurboLabz.Multiplayer
     {
         [Inject] public ShowShareScreenDialogSignal shareScreenDialogSignal { get; set; }
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
+
         public void OnRegisterBotBar()
         {
             view.InitBotBar();
             view.backToLobbySignal.AddListener(OnExitBackToLobby);
             view.shareScreenButton.onClick.AddListener(OnShareScreenClicked);
+            view.ShowShareDialogSignal.AddListener(OnShowShareDialogSignal);
         }
 
         public void OnExitBackToLobby()
@@ -28,9 +30,17 @@ namespace TurboLabz.Multiplayer
         public void OnShareScreenClicked()
         {
             screenCaptureService.CaptureScreenShot();
+            view.OpenShareDialog();
+        }
+
+        public void OnShowShareDialogSignal()
+        {
             view.chessboardBlocker.SetActive(true);
             shareScreenDialogSignal.Dispatch();
         }
+
+
     }
+
 
 }
