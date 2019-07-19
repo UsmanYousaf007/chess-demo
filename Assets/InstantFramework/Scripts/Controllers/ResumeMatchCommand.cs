@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         // Params
         [Inject] public NavigatorViewId prevViewId { get; set; }
+
         // Dispatch signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
@@ -23,7 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ReceptionSignal receptionSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
         [Inject] public Multiplayer.StopTimersSignal stopTimersSignal { get; set; }
 
         // Models
@@ -51,6 +52,7 @@ namespace TurboLabz.InstantFramework
 
             if (prevViewId == NavigatorViewId.CPU)
             {
+                toggleBannerSignal.Dispatch(true);
                 startCPUGameSignal.Dispatch();
             }
             else if (prevViewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
@@ -69,6 +71,8 @@ namespace TurboLabz.InstantFramework
             }
             else if (matchInfoModel.activeChallengeId != null)
             {
+                toggleBannerSignal.Dispatch(true);
+
                 stopTimersSignal.Dispatch();
                 startGameSignal.Dispatch();
 

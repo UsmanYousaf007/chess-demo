@@ -113998,6 +113998,7 @@ MonoBehaviour:
   chatViewPort: {fileID: 1727815264}
   dummyPosition: {fileID: 335218127}
   notchOverlay: {fileID: 1129350258}
+  reconnectingPopup: {fileID: 2052405490}
 --- !u!1 &1901426452
 GameObject:
   m_ObjectHideFlags: 0
@@ -121440,7 +121441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11764706, g: 0.11764706, b: 0.11764706, a: 1}
+  m_Color: {r: 0.87058824, g: 0.87058824, b: 0.87058824, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -125932,7 +125933,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 41, y: 0}
-  m_SizeDelta: {x: 381.21738, y: 53.7971}
+  m_SizeDelta: {x: 374.12152, y: 53.80624}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2121896846
 MonoBehaviour:

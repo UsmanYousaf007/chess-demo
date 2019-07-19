@@ -21,6 +21,7 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch Signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -57,6 +58,7 @@ namespace TurboLabz.Multiplayer
                     GSFrameworkRequest.CancelRequestSession();
                     stopTimersSignal.Dispatch();
                     view.FlashClocks(true);
+                    toggleBannerSignal.Dispatch(false);
 
                     appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
                 }
@@ -74,6 +76,8 @@ namespace TurboLabz.Multiplayer
 
         private void OnSycReconnectionData(BackendResult backendResult)
         {
+            toggleBannerSignal.Dispatch(true);
+
             if (backendResult == BackendResult.CANCELED)
             {
                 TLUtils.LogUtil.Log("Match: Canceled OnSycReconnectionData!", "cyan");

@@ -54,6 +54,9 @@ public class NotchHandler : MonoBehaviour {
     [Header("Editor")]
     public GameObject notchOverlay;
 
+    [Header("Reconnecting")]
+    public RectTransform reconnectingPopup;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -128,6 +131,9 @@ public class NotchHandler : MonoBehaviour {
 
         // NOTIFICATIONS
         SetY(dummyPosition, -200f);
+
+        // RECONNECTING
+        SetY(reconnectingPopup, -200f);
     }
 
     void SetY(RectTransform tfm, float y)
