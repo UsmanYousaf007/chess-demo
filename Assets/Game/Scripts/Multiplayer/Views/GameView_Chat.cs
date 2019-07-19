@@ -251,6 +251,8 @@ namespace TurboLabz.Multiplayer
             chessboardBlockerRestoreState = chessboardBlocker.activeSelf;
             chessboardBlocker.SetActive(true);
             menuButton.gameObject.SetActive(false);
+
+            shareScreenButton.gameObject.SetActive(false);
         }
 
         public void HideChatDlg()
@@ -262,6 +264,8 @@ namespace TurboLabz.Multiplayer
             backToFriendsLabel.gameObject.SetActive(isLongPlay);
             backToGameBtnTxt.gameObject.SetActive(false);
             menuButton.gameObject.SetActive(true);
+
+            shareScreenButton.gameObject.SetActive(true);
 
             chessboardBlocker.SetActive(chessboardBlockerRestoreState);
         }
