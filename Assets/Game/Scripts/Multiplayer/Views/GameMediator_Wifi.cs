@@ -9,6 +9,7 @@
 /// 
 /// @description
 /// [add_description_here]
+using System;
 using GameSparks.Core;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
@@ -18,15 +19,19 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
-        [Inject] public IBackendService backendService { get; set; }
-
+        // Dispatch Signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
 
+        // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
+        // Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void OnRegisterWifi()
         {
@@ -52,6 +57,8 @@ namespace TurboLabz.Multiplayer
                     GSFrameworkRequest.CancelRequestSession();
                     stopTimersSignal.Dispatch();
                     view.FlashClocks(true);
+
+                    appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
                 }
             }
             else
@@ -72,6 +79,11 @@ namespace TurboLabz.Multiplayer
                 TLUtils.LogUtil.Log("Match: Canceled OnSycReconnectionData!", "cyan");
                 return;
             }
+
+            // Record analytics
+            TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
+            analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);
+            TLUtils.LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
 
             if (backendResult == BackendResult.REQUEST_TIMEOUT)
             {

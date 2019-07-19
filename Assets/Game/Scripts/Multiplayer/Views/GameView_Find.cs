@@ -31,6 +31,8 @@ namespace TurboLabz.Multiplayer
         public Sprite defaultAvatar;
 
         private IEnumerator rollOpponentProfilePictureEnumerator;
+        private Coroutine findMatchTimeoutCR = null;
+        public Signal findMatchTimeoutSignal = new Signal();
 
         public void InitFind()
         {
@@ -61,6 +63,7 @@ namespace TurboLabz.Multiplayer
 
         public void HideFind()
         {
+            FindMatchTimeoutEnable(false);
             DisableModalBlocker();
             findDlg.SetActive(false);
 
@@ -160,5 +163,34 @@ namespace TurboLabz.Multiplayer
                 yield return new WaitForSeconds(0.1f);
             }
         }
+
+        public void FindMatchTimeoutEnable(bool enable, float seconds = 0f)
+        {
+            if (enable)
+            {
+                if (findMatchTimeoutCR != null)
+                {
+                    routineRunner.StopCoroutine(findMatchTimeoutCR);
+                }
+
+                findMatchTimeoutCR = routineRunner.StartCoroutine(FindMatchTimeoutCR(seconds));
+            }
+            else
+            {
+                if (findMatchTimeoutCR != null)
+                {
+                    routineRunner.StopCoroutine(findMatchTimeoutCR);
+                    findMatchTimeoutCR = null;
+                }
+            }
+        }
+
+        private IEnumerator FindMatchTimeoutCR(float seconds)
+        {
+            yield return new WaitForSecondsRealtime(seconds);
+
+            findMatchTimeoutSignal.Dispatch();
+        }
+
     }
 }

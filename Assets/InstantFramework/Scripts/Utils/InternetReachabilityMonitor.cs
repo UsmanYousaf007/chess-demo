@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using strange.extensions.signal.impl;
 using System;
+using UnityEngine.Networking;
 
 namespace TurboLabz.TLUtils
 {
@@ -17,6 +18,8 @@ namespace TurboLabz.TLUtils
         private static NormalRoutineRunner normalRoutineRunner = new NormalRoutineRunner();
         public static Signal<bool, ConnectionSwitchType> internetReachabilitySignal = new Signal<bool, ConnectionSwitchType>();
         public static bool prevInternetReachability = false;
+        public static bool isInternetReachable = false;
+        private  static Coroutine pingUrlCR = null;
 
         public enum ConnectionSwitchType {
             NONE,
@@ -24,11 +27,49 @@ namespace TurboLabz.TLUtils
             FROM_DISCONNECTED_TO_CONNECTED
         }
 
+        private static string PING_URL = "http://www.google.com";
+
+        private static void CheckInternetAccess()
+        {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                isInternetReachable = false;
+            }
+        }
+
+        private static IEnumerator PingURLCR(string url)
+        {
+            while (true)
+            {
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+                {
+                    // Request and wait for the desired page.
+                    yield return webRequest.SendWebRequest();
+
+                    string[] pages = url.Split('/');
+                    int page = pages.Length - 1;
+
+                    if (webRequest.isNetworkError)
+                    {
+                        isInternetReachable = false;
+                    }
+                    else
+                    {
+                        isInternetReachable = true;
+                    }
+                }
+
+                yield return new WaitForSeconds(3);
+            }
+        }
+
         private static IEnumerator InternetReachabilityCR()
         {
             while (true)
             {
-                if (Application.internetReachability == NetworkReachability.NotReachable)
+                CheckInternetAccess();
+
+                if (!isInternetReachable)
                 {
                     ConnectionSwitchType connectionSwitch = prevInternetReachability == true ? 
                         ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED : ConnectionSwitchType.NONE;
@@ -49,18 +90,33 @@ namespace TurboLabz.TLUtils
 
         public static void StartMonitor()
         {
-            prevInternetReachability = Application.internetReachability != NetworkReachability.NotReachable;
+            prevInternetReachability = isInternetReachable;
 
             if (interneReachablilityCR == null)
             {
                 interneReachablilityCR = normalRoutineRunner.StartCoroutine(InternetReachabilityCR());
             }
+
+            if (pingUrlCR == null)
+            {
+                pingUrlCR = normalRoutineRunner.StartCoroutine(PingURLCR(PING_URL));
+            }
         }
 
         public static void StopMonitor()
         {
-            normalRoutineRunner.StopCoroutine(interneReachablilityCR);
-            interneReachablilityCR = null;
+            if (interneReachablilityCR != null)
+            {
+                normalRoutineRunner.StopCoroutine(interneReachablilityCR);
+                interneReachablilityCR = null;
+            }
+
+            if (pingUrlCR == null)
+            {
+                normalRoutineRunner.StopCoroutine(pingUrlCR);
+                pingUrlCR = null;
+            }
+
         }
 
         public static void AddListener(Action<bool, ConnectionSwitchType> signalListener)

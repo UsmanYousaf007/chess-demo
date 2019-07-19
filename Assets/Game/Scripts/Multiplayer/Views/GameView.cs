@@ -79,6 +79,7 @@ namespace TurboLabz.Multiplayer
             OnParentHideAdBanner();
             HideOpponentConnectionMonitor();
             FlashClocks(false);
+            FindMatchTimeoutEnable(false);
         }
 
 		public void SetMatchType()

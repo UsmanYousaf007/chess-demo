@@ -30,9 +30,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public Multiplayer.IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
 
         public override void Execute()
@@ -68,8 +70,12 @@ namespace TurboLabz.InstantFramework
             else if (matchInfoModel.activeChallengeId != null)
             {
                 stopTimersSignal.Dispatch();
-
                 startGameSignal.Dispatch();
+
+                // Record analytics
+                TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
+                analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);
+                TLUtils.LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
 
                 // Send ack on resume for quick match. This ensures that even if watchdog ping was missed
                 // during disconnection, this ack will resume proper watchdog operation on server

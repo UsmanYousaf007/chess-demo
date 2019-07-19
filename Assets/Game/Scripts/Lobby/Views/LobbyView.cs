@@ -207,6 +207,11 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(LobbyVO vo)
         {
+            if (uiBlocker.activeSelf)
+            {
+                uiBlocker.SetActive(false);
+            }
+
             UpdateStrength(vo);
             if (vo.inProgress)
             {

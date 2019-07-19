@@ -23,6 +23,7 @@ namespace TurboLabz.Multiplayer
         public void OnRegisterFind()
         {
             view.InitFind();
+            view.findMatchTimeoutSignal.AddListener(OnFindMatchTimeout);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -31,6 +32,7 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG) 
             {
                 view.ShowFind();
+                view.FindMatchTimeoutEnable(true, 30);
             }
         }
 
@@ -47,6 +49,11 @@ namespace TurboLabz.Multiplayer
         public void OnMatchFound(ProfileVO vo)
         {
             view.MatchFound(vo);
+        }
+
+        public void OnFindMatchTimeout()
+        {
+            loadLobbySignal.Dispatch();
         }
     }
 }
