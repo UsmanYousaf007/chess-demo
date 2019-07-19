@@ -12,11 +12,14 @@ using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using UnityEngine;
 using strange.extensions.signal.impl;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        public Signal ShowShareDialogSignal = new Signal();
+
         [Header("Bot Bar")]
         public Text backToFriendsLabel;
         public Button backToFriendsButton;
@@ -56,8 +59,6 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-
-        
         void OnBackToLobby()
         {
             if (showAdOnBack)
@@ -67,6 +68,17 @@ namespace TurboLabz.Multiplayer
             }
             
             backToLobbySignal.Dispatch(); 
+        }
+
+        public void OpenShareDialog()
+        {
+            StartCoroutine(DispatchShareSignal());
+        }
+
+        public IEnumerator DispatchShareSignal()
+        {
+            yield return new WaitForSeconds(.25f);
+            ShowShareDialogSignal.Dispatch();
         }
     }
 }
