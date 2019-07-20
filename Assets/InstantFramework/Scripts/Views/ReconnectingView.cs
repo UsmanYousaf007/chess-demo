@@ -13,7 +13,7 @@
 using UnityEngine.UI;
 
 using strange.extensions.mediation.impl;
-
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,20 +22,27 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
 
         public Text reconnectingLabel;
+        public GameObject popUp;
 
         public void Init()
         {
             reconnectingLabel.text = localizationService.Get(LocalizationKey.RECONNECTING);
         }
 
-        public void Show()
+        public void ShowPopUp()
         {
-            gameObject.SetActive(true);
+            if (!popUp.activeSelf)
+            {
+                popUp.SetActive(true);
+            }
         }
 
-        public void Hide()
+        public void HidePopUp()
         {
-            gameObject.SetActive(false);
+            if (popUp.activeSelf)
+            {
+                popUp.SetActive(false);
+            }
         }
     }
 }

@@ -28,43 +28,29 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
             InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
-        }
-
-        [ListensTo(typeof(NavigatorShowViewSignal))]
-        public void OnShowView(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.RECONNECTING) 
-            {
-                view.Show();
-            }
-        }
-
-        [ListensTo(typeof(NavigatorHideViewSignal))]
-        public void OnHideView(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.RECONNECTING) 
-            {
-                view.Hide();
-            }
+            gameObject.SetActive(true);
+            view.HidePopUp();
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
             if (isConnected)
             {
-                view.Hide();
+                view.HidePopUp();
+            }
+            else
+            {
+                view.ShowPopUp();
             }
 
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
-                view.Show();
                 backendService.StopPinger();
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 GameSparks.Core.GS.Reconnect();
-                view.Hide();
                 backendService.StartPinger();
             }
         }

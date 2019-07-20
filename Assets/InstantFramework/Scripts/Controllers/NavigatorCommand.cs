@@ -52,16 +52,7 @@ namespace TurboLabz.InstantFramework
                 navigatorModel.currentState = new NSStart();
                 navigatorModel.currentState.SetCommand(this);
             }
-
-            if (navigatorEvent == NavigatorEvent.SHOW_HARD_STOP)
-            {
-                newState = new NSHardStop();
-            }
-            else if (navigatorEvent == NavigatorEvent.SHOW_RECONNECTING)
-            {
-                newState = new NSReconnecting();
-            }
-            else if (navigatorEvent == navigatorModel.ignoreEvent)
+            if (navigatorEvent == navigatorModel.ignoreEvent)
             {
                 newState = null;
             }

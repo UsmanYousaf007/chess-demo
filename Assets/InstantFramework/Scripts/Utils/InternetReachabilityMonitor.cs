@@ -20,6 +20,7 @@ namespace TurboLabz.TLUtils
         public static Signal<bool, ConnectionSwitchType> internetReachabilitySignal = new Signal<bool, ConnectionSwitchType>();
         public static bool prevInternetReachability = false;
         public static bool isInternetReachable = false;
+        public static bool enableDispatches = true;
 
         public enum ConnectionSwitchType {
             NONE,
@@ -42,19 +43,34 @@ namespace TurboLabz.TLUtils
                 {
                     ConnectionSwitchType connectionSwitch = prevInternetReachability == true ? 
                         ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED : ConnectionSwitchType.NONE;
-                    internetReachabilitySignal.Dispatch(false, connectionSwitch);
+
+                    if (enableDispatches)
+                    {
+                        internetReachabilitySignal.Dispatch(false, connectionSwitch);
+                    }
+
                     prevInternetReachability = false;
                 }
                 else
                 {
                     ConnectionSwitchType connectionSwitch = prevInternetReachability == false ?
                         ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED : ConnectionSwitchType.NONE;
-                    internetReachabilitySignal.Dispatch(true, connectionSwitch);
+
+                    if (enableDispatches)
+                    {
+                        internetReachabilitySignal.Dispatch(true, connectionSwitch);
+                    }
                     prevInternetReachability = true;
                 }
 
                 yield return new WaitForSecondsRealtime(INTERNET_REACHABILITY_STATUS_TICK_SECONDS);
             }
+        }
+
+        public static void EnableDispatches(bool enable)
+        {
+            prevInternetReachability = isInternetReachable;
+            enableDispatches = enable;
         }
 
         public static void StartMonitor()

@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
                 // Load saved models (perfs etc)
                 modelsLoadFromDiskSignal.Dispatch();
                 // Restart the reachability monitor
-                InternetReachabilityMonitor.StartMonitor();
+                InternetReachabilityMonitor.EnableDispatches(true);
                 // Begin processing hard reconnect
                 resumeMatchSignal.Dispatch(prevViewId);
                 // Start the pinger
@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
                 // Stop the pinger
                 StopPinger();
                 // Avoid soft reconnect processing
-                InternetReachabilityMonitor.StopMonitor();
+                InternetReachabilityMonitor.EnableDispatches(false);
                 // Reconnect processing depends on last view
                 prevViewId = navigatorModel.currentViewId;
                 // Remove pending requests processing

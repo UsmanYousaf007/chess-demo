@@ -40040,7 +40040,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 472.9064, y: -9}
-  m_SizeDelta: {x: 945.8128, y: 20}
+  m_SizeDelta: {x: 945.8128, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &672548413
 CanvasRenderer:
@@ -68417,7 +68417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080c288f5835144aa95131b3bdfd04f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wifiWarning: {fileID: 1576794178}
+  wifiWarning: {fileID: 1576794181}
+  userMessage: {fileID: 1108406615}
 --- !u!1 &1149197395
 GameObject:
   m_ObjectHideFlags: 0
@@ -121435,7 +121436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2052405490
 RectTransform:
   m_ObjectHideFlags: 0
@@ -127290,6 +127291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reconnectingLabel: {fileID: 2121896847}
+  popUp: {fileID: 2052405489}
 --- !u!1 &2144499580
 GameObject:
   m_ObjectHideFlags: 0

@@ -71,8 +71,6 @@ namespace TurboLabz.InstantFramework
             }
             else if (matchInfoModel.activeChallengeId != null)
             {
-                toggleBannerSignal.Dispatch(true);
-
                 stopTimersSignal.Dispatch();
                 startGameSignal.Dispatch();
 
@@ -103,6 +101,8 @@ namespace TurboLabz.InstantFramework
 
                     backendService.MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
                 }
+
+                toggleBannerSignal.Dispatch(true);
             }
             else
             {

@@ -16,7 +16,8 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public ILocalizationService localizationService { get; set; }
 
-        public GameObject wifiWarning;
+        public Text wifiWarning;
+        public Text userMessage;
 
         public void Init()
         {
@@ -38,6 +39,16 @@ namespace TurboLabz.InstantFramework
 
         public void WifiHealthUpdate()
         {
+            if (InternetReachabilityMonitor.isInternetReachable == false)
+            {
+                wifiWarning.text = "No internet connection";
+                userMessage.text = "Please check your internet connection";
+            }
+            else
+            {
+                wifiWarning.text = "Slow internet. Please wait..";
+            }
+
             wifiWarning.gameObject.SetActive(true);
         }
     }

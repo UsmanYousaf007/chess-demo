@@ -76,11 +76,11 @@ namespace TurboLabz.Multiplayer
 
         private void OnSycReconnectionData(BackendResult backendResult)
         {
-            toggleBannerSignal.Dispatch(true);
-
             if (backendResult == BackendResult.CANCELED)
             {
                 TLUtils.LogUtil.Log("Match: Canceled OnSycReconnectionData!", "cyan");
+                toggleBannerSignal.Dispatch(true);
+
                 return;
             }
 
@@ -92,8 +92,11 @@ namespace TurboLabz.Multiplayer
             if (backendResult == BackendResult.REQUEST_TIMEOUT)
             {
                 TLUtils.LogUtil.Log("Match: Go back to match without data sync!", "cyan");
+                toggleBannerSignal.Dispatch(true);
+
                 view.WifiHealthUpdate(true);
                 view.FlashClocks(false);
+
                 return;
             }
 
@@ -108,6 +111,8 @@ namespace TurboLabz.Multiplayer
 
             view.WifiHealthUpdate(true);
             view.FlashClocks(false);
+
+            toggleBannerSignal.Dispatch(true);
         }
 
         private void SendReconnectionAck()
