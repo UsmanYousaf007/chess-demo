@@ -36,7 +36,7 @@ public class ChatBubble : MonoBehaviour
     const float CONTAINER_OFFSET = 65f;
     const float TEXT_WRAP_WIDTH_CHAT_PANEL = 725f;
     const float TEXT_WRAP_WIDTH_IN_GAME = 500f;
-    const float TEXT_HEIGHT_IN_GAME = 90f;
+    const float TEXT_HEIGHT_IN_GAME = 190f;
     const float TEXT_WIDTH_PADDING = 20f;
     const float TEXT_HEIGHT_PADDING = 20f;
 
@@ -99,11 +99,16 @@ public class ChatBubble : MonoBehaviour
             fadeRoutine = StartCoroutine(DoFade());
         }
         text.ForceMeshUpdate();
+
+        if (inGameBubble)
+        {
+            text.text = text.text.Length > 30 ? text.text.Remove(30) + ".." : text.text;
+        }
         //if (text != null)
         //{
-            
+
         //}
-        
+
 
         // Resise the text mesh based on the text
         // text.ForceMeshUpdate(true);
