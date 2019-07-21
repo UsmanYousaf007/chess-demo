@@ -33,6 +33,7 @@ namespace TurboLabz.Multiplayer
     public class ShowFiftyMoveDrawDialogSignal : Signal {}
     public class ShowThreefoldRepeatDrawDialogSignal : Signal {}
     public class HideDrawDialogSignal : Signal {}
+    public class ChallengeMessageProcessedSignal : Signal<string> {}
 
     public class ResignSignal : Signal<string> {}
     public class AiTurnSignal : Signal {}

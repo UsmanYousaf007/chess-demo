@@ -39,7 +39,7 @@ namespace TurboLabz.InstantFramework
 
         public void WifiHealthUpdate()
         {
-            if (InternetReachabilityMonitor.isInternetReachable == false)
+            if (Application.internetReachability == NetworkReachability.NotReachable)
             {
                 wifiWarning.text = "No internet connection";
                 userMessage.text = "Please check your internet connection";

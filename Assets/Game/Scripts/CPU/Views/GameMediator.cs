@@ -62,6 +62,7 @@ namespace TurboLabz.CPU
             if (viewId == NavigatorViewId.CPU) 
             {
                 view.Show();
+                InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
             }
         }
 
@@ -72,6 +73,7 @@ namespace TurboLabz.CPU
             {
                 stopTimersSignal.Dispatch();
                 view.Hide();
+                InternetReachabilityMonitor.RemoveListener(OnInternetConnectedTicked);
             }
         }
 
@@ -103,5 +105,22 @@ namespace TurboLabz.CPU
                 view.OnParentShowAdBanner();
             }
         }
+
+        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
+        {
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
+            {
+                LogUtil.Log("CPU Match Disconnected", "cyan");
+            }
+            else
+            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            {
+                if (view.gameObject.activeSelf)
+                {
+                    LogUtil.Log("CPU Match Connected", "cyan");
+                }
+            }
+        }
+
     }
 }

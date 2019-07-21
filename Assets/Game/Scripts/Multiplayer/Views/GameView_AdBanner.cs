@@ -11,6 +11,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Inject] public RequestToggleBannerSignal requestToggleBannerSignal { get; set; }
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         public Canvas canvas;
@@ -30,7 +31,7 @@ namespace TurboLabz.Multiplayer
                 initComplete = true;
             }
 
-            toggleBannerSignal.Dispatch(true);
+            requestToggleBannerSignal.Dispatch();
         }
 
         public void OnParentHideAdBanner()

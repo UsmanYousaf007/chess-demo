@@ -30,7 +30,14 @@ namespace TurboLabz.TLUtils
 
         private static void CheckInternetAccess()
         {
-            isInternetReachable = OnlineCheck.isInternetAvailable;
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                isInternetReachable = false;
+            }
+            else
+            {
+                isInternetReachable = OnlineCheck.isInternetAvailable;
+            }
         }
 
         private static IEnumerator InternetReachabilityCR()

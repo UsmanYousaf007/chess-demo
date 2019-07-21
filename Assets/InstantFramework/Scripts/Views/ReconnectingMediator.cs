@@ -20,9 +20,16 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public ReconnectingView view { get; set; }
 
+        // Dispatch signals
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
+
+        // Models
+        [Inject] public INavigatorModel navigatorModel { get; set; }
+
         // services
         [Inject] public IBackendService backendService { get; set; }
 
+        private bool isReconnecting = false;
 
         public override void OnRegister()
         {
@@ -30,6 +37,15 @@ namespace TurboLabz.InstantFramework
             InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
             gameObject.SetActive(true);
             view.HidePopUp();
+        }
+
+        [ListensTo(typeof(RequestToggleBannerSignal))]
+        public void OnRequestToggleBannerSignal()
+        {
+            if (!isReconnecting)
+            {
+                toggleBannerSignal.Dispatch(true);
+            }
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
@@ -45,13 +61,24 @@ namespace TurboLabz.InstantFramework
 
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
+                isReconnecting = true;
                 backendService.StopPinger();
+                toggleBannerSignal.Dispatch(false);
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
+                isReconnecting = false;
                 GameSparks.Core.GS.Reconnect();
                 backendService.StartPinger();
+
+                // Switch on banner ads on reconnection when on chess board
+                if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER || 
+                    navigatorModel.currentViewId == NavigatorViewId.CPU ||
+                    navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER_CHAT_DLG)
+                {
+                    toggleBannerSignal.Dispatch(true);
+                }
             }
         }
     }

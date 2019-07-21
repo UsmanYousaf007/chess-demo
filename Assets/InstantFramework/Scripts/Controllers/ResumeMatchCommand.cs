@@ -24,7 +24,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ReceptionSignal receptionSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
         [Inject] public Multiplayer.StopTimersSignal stopTimersSignal { get; set; }
 
         // Models
@@ -32,6 +31,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public Multiplayer.IChessboardModel chessboardModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -50,26 +50,25 @@ namespace TurboLabz.InstantFramework
         {
             backendService.AddChallengeListeners();
 
-            if (prevViewId == NavigatorViewId.CPU)
+            if (prevViewId == NavigatorViewId.CPU && navigatorModel.currentViewId == NavigatorViewId.CPU)
             {
-                toggleBannerSignal.Dispatch(true);
                 startCPUGameSignal.Dispatch();
             }
-            else if (prevViewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
+            else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
             {
                 LogUtil.Log("Ignore recover match on result screen. NavigatorViewId.MULTIPLAYER_RESULTS_DLG", "cyan");
                 // do nothing
 
                 // Todo: condition needs to be game ended but still on board view
             }
-            else if (matchInfoModel.activeChallengeId == null && prevViewId == NavigatorViewId.MULTIPLAYER)
+            else if (matchInfoModel.activeChallengeId == null && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
             {
-                LogUtil.Log("Ignore recover match on result screen. NavigatorViewId.MULTIPLAYER", "cyan");
+                LogUtil.Log("Ignore recover match for view on completed game. NavigatorViewId.MULTIPLAYER", "cyan");
                 // do nothing
 
                 // Todo: condition needs to be game ended but still on board view
             }
-            else if (matchInfoModel.activeChallengeId != null)
+            else if (matchInfoModel.activeChallengeId != null && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
             {
                 stopTimersSignal.Dispatch();
                 startGameSignal.Dispatch();
@@ -101,8 +100,6 @@ namespace TurboLabz.InstantFramework
 
                     backendService.MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
                 }
-
-                toggleBannerSignal.Dispatch(true);
             }
             else
             {

@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public RunTimeControlSignal runTimeControlSignal { get; set; }
+        [Inject] public ChallengeMessageProcessedSignal challengeMessageProcessedSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -50,6 +51,8 @@ namespace TurboLabz.InstantFramework
 
             ParseChallengeData(message.Challenge.ChallengeId, challengeData);
             HandleActiveMove(message.Challenge.ChallengeId);
+
+            challengeMessageProcessedSignal.Dispatch(message.Challenge.ChallengeId);
         }
 
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
@@ -57,6 +60,8 @@ namespace TurboLabz.InstantFramework
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
+
+            challengeMessageProcessedSignal.Dispatch(message.Challenge.ChallengeId);
         }
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
@@ -64,6 +69,8 @@ namespace TurboLabz.InstantFramework
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
+
+            challengeMessageProcessedSignal.Dispatch(message.Challenge.ChallengeId);
         }
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
@@ -71,6 +78,8 @@ namespace TurboLabz.InstantFramework
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
+
+            challengeMessageProcessedSignal.Dispatch(message.Challenge.ChallengeId);
         }
 
         private void OnGameScriptMessage(ScriptMessage message)
@@ -99,6 +108,8 @@ namespace TurboLabz.InstantFramework
                 vo.waitingForOpponentToAccept = false;
                 vo.playerJustAcceptedOnPlayerTurn = false;
                 runTimeControlSignal.Dispatch(vo);
+
+                challengeMessageProcessedSignal.Dispatch(challengeId);
             }
         }
 

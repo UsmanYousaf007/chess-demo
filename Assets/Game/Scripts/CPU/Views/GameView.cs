@@ -120,8 +120,6 @@ namespace TurboLabz.CPU
             DisableMenuButton();
         }
 
-
-
         private void PopMenuButton()
         {
             if (menuButtonWasActive)
