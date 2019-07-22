@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
         [Inject] public IShareService share { get; set; }
 
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
 
         //Inject Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -40,7 +42,11 @@ namespace TurboLabz.InstantFramework
 
         public void OnCloseButtonClicked()
         {
-            chessboardBlockerEnableSignal.Dispatch(false);
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                chessboardBlockerEnableSignal.Dispatch(false);
+            }
+            
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
