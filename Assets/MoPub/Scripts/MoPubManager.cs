@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Linq;
 using MoPubInternal.ThirdParty.MiniJSON;
 using UnityEngine;
@@ -38,7 +37,7 @@ public class MoPubManager : MonoBehaviour
     // Fired when an interstitial ad is dismissed
     public static event Action<string> OnInterstitialDismissedEvent;
 
-    // Fired when an interstitial ad expires
+    // iOS only. Fired when an interstitial ad expires
     public static event Action<string> OnInterstitialExpiredEvent;
 
     // Android only. Fired when an interstitial ad is displayed
@@ -53,7 +52,7 @@ public class MoPubManager : MonoBehaviour
     // Fired when a rewarded video fails to load. Includes the error message.
     public static event Action<string, string> OnRewardedVideoFailedEvent;
 
-    // Fired when a rewarded video expires
+    // iOS only. Fired when a rewarded video expires
     public static event Action<string> OnRewardedVideoExpiredEvent;
 
     // Fired when an rewarded video is displayed
@@ -102,9 +101,6 @@ public class MoPubManager : MonoBehaviour
     // Fired when the MoPub consent dialog has been presented on screen.
     public static event Action OnConsentDialogShownEvent;
 
-    // Fired when the ad is shown; may or may not contain impression data
-    public static event Action<string, MoPub.ImpressionData> OnImpressionTrackedEvent;
-
     private void Awake()
     {
         if (Instance == null) {
@@ -112,12 +108,6 @@ public class MoPubManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         } else
             Destroy(this);
-    }
-
-
-    private void OnApplicationPause(bool paused)
-    {
-        MoPub.OnApplicationPause(paused);
     }
 
 
@@ -129,7 +119,7 @@ public class MoPubManager : MonoBehaviour
 
 
     // Will return a non-null array of strings with at least 'min' non-null string values at the front.
-    public static string[] DecodeArgs(string argsJson, int min)
+    private string[] DecodeArgs(string argsJson, int min)
     {
         bool err = false;
         var args = Json.Deserialize(argsJson) as List<object>;
@@ -176,8 +166,8 @@ public class MoPubManager : MonoBehaviour
         var newConsent = MoPub.Consent.FromString(args[1]);
         var canCollectPersonalInfo = args[2].ToLower() == "true";
 
-        MoPubLog.Log("EmitConsentStatusChangedEvent", MoPubLog.ConsentLogEvent.Updated, oldConsent, newConsent,
-            canCollectPersonalInfo, "unknown");
+        MoPubLog.Log("EmitConsentStatusChangedEvent", MoPubLog.ConsentLogEvent.Updated, newConsent,
+            canCollectPersonalInfo);
         var evt = OnConsentStatusChangedEvent;
         if (evt != null) evt(oldConsent, newConsent, canCollectPersonalInfo);
     }
@@ -222,7 +212,7 @@ public class MoPubManager : MonoBehaviour
         MoPubLog.Log("EmitAdLoadedEvent", MoPubLog.AdLogEvent.LoadSuccess);
         MoPubLog.Log("EmitAdLoadedEvent", MoPubLog.AdLogEvent.ShowSuccess);
         var evt = OnAdLoadedEvent;
-        if (evt != null) evt(adUnitId, float.Parse(heightStr, CultureInfo.InvariantCulture));
+        if (evt != null) evt(adUnitId, float.Parse(heightStr));
     }
 
 
@@ -232,7 +222,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitAdFailedEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
+        MoPubLog.Log("EmitAdFailedEvent", MoPubLog.AdLogEvent.LoadFailed, error);
         var evt = OnAdFailedEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -291,7 +281,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitInterstitialFailedEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
+        MoPubLog.Log("EmitInterstitialFailedEvent", MoPubLog.AdLogEvent.LoadFailed, error);
         var evt = OnInterstitialFailedEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -361,7 +351,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitRewardedVideoFailedEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
+        MoPubLog.Log("EmitRewardedVideoFailedEvent", MoPubLog.AdLogEvent.LoadFailed, error);
         var evt = OnRewardedVideoFailedEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -418,9 +408,9 @@ public class MoPubManager : MonoBehaviour
         var label = args[1];
         var amountStr = args[2];
 
-        MoPubLog.Log("EmitRewardedVideoReceivedRewardEvent", MoPubLog.AdLogEvent.ShouldReward, label, amountStr);
+        MoPubLog.Log("EmitRewardedVideoReceivedRewardEvent", MoPubLog.AdLogEvent.ShouldReward);
         var evt = OnRewardedVideoReceivedRewardEvent;
-        if (evt != null) evt(adUnitId, label, float.Parse(amountStr, CultureInfo.InvariantCulture));
+        if (evt != null) evt(adUnitId, label, float.Parse(amountStr));
     }
 
 
@@ -463,7 +453,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitNativeFailEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
+        MoPubLog.Log("EmitNativeFailEvent", MoPubLog.AdLogEvent.LoadFailed, error);
         var evt = OnNativeFailEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -491,16 +481,4 @@ public class MoPubManager : MonoBehaviour
         if (evt != null) evt(adUnitId);
     }
 #endif
-
-    public void EmitImpressionTrackedEvent(string argsJson)
-    {
-        var args = DecodeArgs(argsJson, min: 1);
-        var adUnitId = args[0];
-        var impressionData = args.Length > 1
-            ? MoPub.ImpressionData.FromJson(args[1])
-            : new MoPub.ImpressionData();
-
-        var evt = OnImpressionTrackedEvent;
-        if (evt != null) evt(adUnitId, impressionData);
-    }
 }

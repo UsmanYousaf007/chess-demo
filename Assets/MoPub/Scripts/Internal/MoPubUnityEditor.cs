@@ -165,21 +165,6 @@ public class MoPubUnityEditor : MoPubBase
 
 
     /// <summary>
-    /// Inform the platform SDK of a change in the application's pause status.
-    /// <para>
-    /// For platform-specific implementations, see
-    /// MoPubAndroid.<see cref="MoPubAndroid.OnApplicationPause(bool)"/> and
-    /// MoPubiOS.<see cref="MoPubiOS.OnApplicationPause(bool)"/>.
-    /// </para>
-    /// </summary>
-    /// <param name="paused">True when pausing, false when resuming</param>
-    internal static void OnApplicationPause(bool paused)
-    {
-        // Nothing to do, since there is no platform SDK to inform.
-    }
-
-
-    /// <summary>
     /// Allow supported SDK networks to collect user information on the basis of legitimate interest.
     /// Can also be set via MoPub.<see cref="MoPub.SdkConfiguration"/> on
     /// MoPub.<see cref="MoPubUnityEditor.InitializeSdk(MoPub.SdkConfiguration)"/>
@@ -385,12 +370,12 @@ public class MoPubUnityEditor : MoPubBase
     /// Whether the interstitial ad is ready to be shown or not.
     /// <para>
     /// For platform-specific implementations, see
-    /// MoPubAndroid.<see cref="MoPubAndroid.IsInterstitialReady(string)"/> and
-    /// MoPubiOS.<see cref="MoPubiOS.IsInterstitialReady(string)"/>.
+    /// MoPubAndroid.<see cref="MoPubAndroid.IsInterstialReady(string)"/> and
+    /// MoPubiOS.<see cref="MoPubiOS.IsInterstialReady(string)"/>.
     /// </para>
     /// </summary>
     /// <param name="adUnitId">A string with the ad unit id.</param>
-    public static bool IsInterstitialReady(string adUnitId)
+    public bool IsInterstialReady(string adUnitId)
     {
         CheckAdUnitRequested(adUnitId);
         return _requestedAdUnits.Contains(adUnitId);
@@ -406,7 +391,7 @@ public class MoPubUnityEditor : MoPubBase
     /// </para>
     /// </summary>
     /// <param name="adUnitId">A string with the ad unit id.</param>
-    public static void DestroyInterstitialAd(string adUnitId)
+    public void DestroyInterstitialAd(string adUnitId)
     {
         CheckAdUnitRequested(adUnitId);
     }
@@ -642,6 +627,13 @@ public class MoPubUnityEditor : MoPubBase
     /// </para>
     /// </summary>
     public static bool IsConsentDialogReady { get; /* Testing: */ set; }
+
+
+    [Obsolete("Use the property name IsConsentDialogReady instead.")]
+    public static bool IsConsentDialogLoaded {
+        get { return IsConsentDialogReady; }
+        set { IsConsentDialogReady = value; }
+    }
 
 
     /// <summary>

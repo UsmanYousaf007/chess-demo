@@ -1,47 +1,25 @@
 fileFormatVersion: 2
 guid: e70d644f0d298482487469021c6391fb
+timeCreated: 1524167216
+licenseType: Free
 PluginImporter:
-  externalObjects: {}
-  serializedVersion: 2
+  serializedVersion: 1
   iconMap: {}
   executionOrder: {}
   isPreloaded: 0
   isOverridable: 0
   platformData:
-  - first:
-      '': Any
-    second:
-      enabled: 0
-      settings:
-        Exclude Android: 1
-        Exclude Editor: 1
-        Exclude Linux: 1
-        Exclude Linux64: 1
-        Exclude LinuxUniversal: 1
-        Exclude OSXUniversal: 1
-        Exclude WebGL: 1
-        Exclude Win: 1
-        Exclude Win64: 1
-        Exclude iOS: 1
-  - first:
-      '': first
-    second:
-      enabled: 0
-      settings: {}
-  - first:
-      Editor: Editor
-    second:
+    Editor:
       enabled: 0
       settings:
         DefaultValueInitialized: true
-  - first:
-      iPhone: iOS
-    second:
+    first:
       enabled: 0
       settings: {}
-  - first:
-      tvOS: tvOS
-    second:
+    iOS:
+      enabled: 1
+      settings: {}
+    tvOS:
       enabled: 1
       settings: {}
   userData: 

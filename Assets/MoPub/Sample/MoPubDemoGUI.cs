@@ -184,12 +184,6 @@ public class MoPubDemoGUI : MonoBehaviour
     }
 #endif
 
-    public void ImpressionTracked(string adUnit, MoPubBase.ImpressionData impressionData)
-    {
-        UpdateStatusLabel("Impression tracked for " + adUnit + " with impression data: "
-                          + impressionData.JsonRepresentation);
-    }
-
 
     public bool ConsentDialogLoaded {
         private get { return _consentDialogLoaded; }
@@ -246,19 +240,19 @@ public class MoPubDemoGUI : MonoBehaviour
                 new MoPub.SupportedNetwork.AdMob
                 {
                     // Network adapter configuration settings (initialization).
-                    NetworkConfiguration = new Dictionary<string,object> {
+                    NetworkConfiguration = {
                         { "key1", value },
                         { "key2", value },
                     },
 
                     // Global mediation settings (per ad request).
-                    MediationSettings = new Dictionary<string,object> {
+                    MediationSettings = {
                         { "key1", value },
                         { "key2", value },
                     },
 
                     // Additional options to pass to the MoPub servers (per ad request).
-                    MoPubRequestOptions = new Dictionary<string,object> {
+                    MoPubRequestOptions = {
                         { "key1", "value" },
                         { "key2", "value" },
                     }
@@ -282,13 +276,13 @@ public class MoPubDemoGUI : MonoBehaviour
 
                     // Fill in settings and configuration options the same way as for supported networks:
 
-                    NetworkConfiguration = ...,
+                    NetworkConfiguration = { ... },
 
                 #if UNITY_IOS  // See note above.
-                    MediationSettings = ...,
+                    MediationSettings    = { ... },
                 #endif
 
-                    MoPubRequestOptions = ...,
+                    MoPubRequestOptions  = { ... },
                 }
             */
             },
