@@ -18,6 +18,13 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG)
             {
+                // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
+                bool p = cmd.multiplayerChessboardModel.chessboards.ContainsKey(cmd.matchInfoModel.activeChallengeId);
+                if (p == false && cmd.matchInfoModel.activeChallengeId != null)
+                {
+                    return new NSMultiplayerResultsDlg();
+                }
+
                 if (cmd.matchInfoModel.activeChallengeId == null || cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
                 {
                     return new NSMultiplayerResultsDlg();

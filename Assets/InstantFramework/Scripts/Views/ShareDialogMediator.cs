@@ -14,6 +14,7 @@ using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -24,6 +25,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IShareService share { get; set; }
 
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
 
         //Inject Signals
@@ -42,12 +45,25 @@ namespace TurboLabz.InstantFramework
 
         public void OnCloseButtonClicked()
         {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+
+            // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
             if (matchInfoModel.activeChallengeId != null)
             {
-                chessboardBlockerEnableSignal.Dispatch(false);
+                bool p = chessboardModel.chessboards.ContainsKey(matchInfoModel.activeChallengeId);
+                if (p == false && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
+                {
+                    chessboardBlockerEnableSignal.Dispatch(true);
+                }
+                else
+                {
+                    chessboardBlockerEnableSignal.Dispatch(false);
+                }
             }
-            
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            else
+            {
+                chessboardBlockerEnableSignal.Dispatch(true);
+            }
         }
 
         public void OnShareButtonClicked()
