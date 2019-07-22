@@ -17,7 +17,9 @@ namespace TurboLabz.InstantFramework
         public int rateAppThreshold { get; set; }
         public int onlineCount { get; set; }
 
+        //Persistant field ---- do not reset  
         public long reconnectTimeStamp { get; set; }
+        public bool isReconnecting { get; set; }
 
         enum subVersionIndex
         {

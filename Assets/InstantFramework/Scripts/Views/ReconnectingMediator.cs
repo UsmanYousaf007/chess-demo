@@ -25,11 +25,10 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
-
-        private bool isReconnecting = false;
 
         public override void OnRegister()
         {
@@ -42,7 +41,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(RequestToggleBannerSignal))]
         public void OnRequestToggleBannerSignal()
         {
-            if (!isReconnecting)
+            if (!appInfoModel.isReconnecting)
             {
                 toggleBannerSignal.Dispatch(true);
             }
@@ -61,14 +60,14 @@ namespace TurboLabz.InstantFramework
 
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
-                isReconnecting = true;
+                appInfoModel.isReconnecting = true;
                 backendService.StopPinger();
                 toggleBannerSignal.Dispatch(false);
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
-                isReconnecting = false;
+                appInfoModel.isReconnecting = false;
                 GameSparks.Core.GS.Reconnect();
                 backendService.StartPinger();
 

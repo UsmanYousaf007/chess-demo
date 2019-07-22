@@ -15,5 +15,6 @@ namespace TurboLabz.InstantFramework
         int rateAppThreshold { get; set; }
         int onlineCount { get; set; }
         long reconnectTimeStamp { get; set; }
+        bool isReconnecting { get; set; }
     }
 }

@@ -147,10 +147,12 @@ namespace TurboLabz.Multiplayer
         {
             yield return new WaitForSecondsRealtime(6);
             opponentConnectionMonitorLabel.gameObject.SetActive(false);
+            matchTypeObject.SetActive(true);
         }
 
         public void EnableOpponentConnectionMonitor(bool isEnable)
         {
+            matchTypeObject.SetActive(false);
             if (opponentConnectionMonitorCR != null)
             {
                 routineRunner.StopCoroutine(opponentConnectionMonitorCR);

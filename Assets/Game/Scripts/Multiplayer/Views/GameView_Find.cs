@@ -64,6 +64,7 @@ namespace TurboLabz.Multiplayer
         public void HideFind()
         {
             FindMatchTimeoutEnable(false);
+            StopRollingOpponentProfilePicture();
             DisableModalBlocker();
             findDlg.SetActive(false);
 
@@ -138,10 +139,13 @@ namespace TurboLabz.Multiplayer
 
         private void StopRollingOpponentProfilePicture()
         {
-            Assertions.Assert(rollOpponentProfilePictureEnumerator != null, "Opponent profile picture must already be rolling!");
+            //Assertions.Assert(rollOpponentProfilePictureEnumerator != null, "Opponent profile picture must already be rolling!");
 
-            StopCoroutine(rollOpponentProfilePictureEnumerator);
-            rollOpponentProfilePictureEnumerator = null;
+            if(rollOpponentProfilePictureEnumerator != null)
+            {
+                StopCoroutine(rollOpponentProfilePictureEnumerator);
+                rollOpponentProfilePictureEnumerator = null;
+            }
         }
 
         private IEnumerator RollOpponentProfilePictureCR()

@@ -23,6 +23,9 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public StopTimersSignal stopTimersSignal { get; set; }
+
         [Header("Clock")]
         public Text playerClockLabel;
         public Image playerClockFill;
@@ -98,6 +101,13 @@ namespace TurboLabz.Multiplayer
             }
 
             FlashClocks(false);
+
+            if (appInfoModel.isReconnecting)
+            {
+                stopTimersSignal.Dispatch();
+                FlashClocks(true);
+            }
+           
         }
 
         public void PlayerTurnComplete()
