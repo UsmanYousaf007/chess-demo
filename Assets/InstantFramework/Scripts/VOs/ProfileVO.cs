@@ -4,6 +4,8 @@
 /// Proprietary and confidential
 
 using UnityEngine;
+using UnityEngine.Android;
+
 
 namespace TurboLabz.InstantFramework
 {

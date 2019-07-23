@@ -28,16 +28,23 @@ namespace TurboLabz.InstantFramework
             sounds.playStandardClickSignal.AddListener(PlayStandardClick);
         }
 
-        public void Play(AudioClip sound, float volume = 1.0f)
+        public void Play(AudioClip sound)
+        {
+            Play(sound, 1.0f);
+        }
+
+        public void Play(AudioClip sound, float volume)
         {
             if (preferencesModel.isAudioOn)
             {
+                Debug.Log("PlayStandardClick :: " + volume);
                 audio.PlayOneShot(sound, volume);
             }
         }
 
         public void PlayStandardClick()
         {
+            
             Play(sounds.SFX_CLICK);
         }
 
