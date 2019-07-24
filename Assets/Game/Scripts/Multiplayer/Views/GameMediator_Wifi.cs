@@ -134,14 +134,18 @@ namespace TurboLabz.Multiplayer
         {
             LogUtil.Log("Match reconnected Id: " + matchInfoModel.activeChallengeId, "cyan");
 
-            Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
-            MatchInfo activeMatchInfo = matchInfoModel.activeMatch;
-            activeChessboard.currentState = null;
+            // Reset the match if it has not ended
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
+                MatchInfo activeMatchInfo = matchInfoModel.activeMatch;
+                activeChessboard.currentState = null;
 
-            startGameSignal.Dispatch();
-            SendReconnectionAck();
-            view.FlashClocks(false);
-            //matchReconnection = false;
+                startGameSignal.Dispatch();
+                SendReconnectionAck();
+                view.FlashClocks(false);
+                //matchReconnection = false;
+            }
 
             // Record analytics
             TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
@@ -154,7 +158,7 @@ namespace TurboLabz.Multiplayer
             // Send ack on resume for quick match. This ensures that even if watchdog ping was missed
             // during disconnection, this ack will resume proper watchdog operation on server
             string challengeId = matchInfoModel.activeChallengeId;
-            if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay)
+            if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay && !matchInfoModel.activeMatch.isBotMatch)
             {
                 string challengedId = matchInfoModel.activeMatch.challengedId;
                 string challengerId = matchInfoModel.activeMatch.challengerId;

@@ -84,7 +84,7 @@ namespace TurboLabz.Chess
                     MakeOnlyMoveAvailable() ||
                     MakePanicMove() ||
                     MakeEmptyBoardMove() ||
-                    MakeReactionaryCaptureMove() ||
+                    //MakeReactionaryCaptureMove() ||
                     MakeReactionaryEvasiveMove())
                 {
                     return;

@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
         {
             backendService.AddChallengeListeners();
 
-            if (prevViewId == NavigatorViewId.CPU && navigatorModel.currentViewId == NavigatorViewId.CPU)
+            if (navigatorModel.currentViewId == NavigatorViewId.CPU)
             {
                 startCPUGameSignal.Dispatch();
             }
@@ -70,7 +70,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (matchInfoModel.activeChallengeId != null && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
             {
-                stopTimersSignal.Dispatch();
+                //stopTimersSignal.Dispatch();
                 startGameSignal.Dispatch();
 
                 // Record analytics
@@ -81,7 +81,7 @@ namespace TurboLabz.InstantFramework
                 // Send ack on resume for quick match. This ensures that even if watchdog ping was missed
                 // during disconnection, this ack will resume proper watchdog operation on server
                 string challengeId = matchInfoModel.activeChallengeId;
-                if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay)
+                if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay && !matchInfoModel.activeMatch.isBotMatch)
                 {
                     string challengedId = matchInfoModel.activeMatch.challengedId;
                     string challengerId = matchInfoModel.activeMatch.challengerId;
