@@ -61,14 +61,14 @@ namespace TurboLabz.InstantFramework
 
                 // Todo: condition needs to be game ended but still on board view
             }
-            else if (matchInfoModel.activeChallengeId == null && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
+            else if (matchInfoModel.activeChallengeId == null)
             {
                 LogUtil.Log("Ignore recover match for view on completed game. NavigatorViewId.MULTIPLAYER", "cyan");
                 // do nothing
 
                 // Todo: condition needs to be game ended but still on board view
             }
-            else if (matchInfoModel.activeChallengeId != null && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
+            else if (matchInfoModel.activeChallengeId != null)
             {
                 //stopTimersSignal.Dispatch();
                 startGameSignal.Dispatch();

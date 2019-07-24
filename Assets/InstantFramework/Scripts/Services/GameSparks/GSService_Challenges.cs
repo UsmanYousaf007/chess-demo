@@ -172,8 +172,8 @@ namespace TurboLabz.InstantFramework
                 matchInfo.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
 
                 // Assign a random name to the bot
-                int randomSuffix = UnityEngine.Random.Range(100, 10001);
-                matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
+               // int randomSuffix = UnityEngine.Random.Range(100, 10001);
+               // matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
             }
         }
 
