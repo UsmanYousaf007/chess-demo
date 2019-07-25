@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
 
         //Inject Signals
@@ -47,22 +48,25 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 
-            // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
-            if (matchInfoModel.activeChallengeId != null)
+            if(appInfoModel.isReconnecting == DisconnectStats.SHORT_DISCONNECT)
             {
-                bool p = chessboardModel.chessboards.ContainsKey(matchInfoModel.activeChallengeId);
-                if (p == false && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
+                // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
+                if (matchInfoModel.activeChallengeId != null)
                 {
-                    chessboardBlockerEnableSignal.Dispatch(true);
+                    bool p = chessboardModel.chessboards.ContainsKey(matchInfoModel.activeChallengeId);
+                    if (p == false && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
+                    {
+                        chessboardBlockerEnableSignal.Dispatch(true);
+                    }
+                    else
+                    {
+                        chessboardBlockerEnableSignal.Dispatch(false);
+                    }
                 }
                 else
                 {
-                    chessboardBlockerEnableSignal.Dispatch(false);
+                    chessboardBlockerEnableSignal.Dispatch(true);
                 }
-            }
-            else
-            {
-                chessboardBlockerEnableSignal.Dispatch(true);
             }
         }
 

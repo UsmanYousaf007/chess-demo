@@ -15,6 +15,15 @@ namespace TurboLabz.InstantFramework
         int rateAppThreshold { get; set; }
         int onlineCount { get; set; }
         long reconnectTimeStamp { get; set; }
-        bool isReconnecting { get; set; }
+        DisconnectStats isReconnecting { get; set; }
     }
+
+    public enum DisconnectStats
+    {
+        FALSE,
+        SHORT_DISCONNECT,
+        LONG_DISCONNET
+
+    }
+
 }

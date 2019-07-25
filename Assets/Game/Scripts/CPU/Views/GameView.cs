@@ -77,7 +77,7 @@ namespace TurboLabz.CPU
             OnApplicationFocusClickAndDrag(focus);
         }
 
-        private void EnableModalBlocker(float curtainAlpha = Colors.UI_BLOCKER_LIGHT_ALPHA)
+        public void EnableModalBlocker(float curtainAlpha = Colors.UI_BLOCKER_LIGHT_ALPHA)
         {
             uiBlocker.SetActive(true);
             chessboardBlocker.SetActive(true);
@@ -88,7 +88,7 @@ namespace TurboLabz.CPU
             uiBlockerImage.color = c;
         }
 
-        private void DisableModalBlocker()
+        public void DisableModalBlocker()
         {
             uiBlocker.SetActive(false);
             chessboardBlocker.SetActive(false);

@@ -50,7 +50,16 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(ChessboardBlockerEnableSignal))]
         public void OnChessboardBlockerEnable(bool isEnaable)
         {
-            view.chessboardBlocker.SetActive(isEnaable);
+            if(isEnaable)
+            {
+                view.EnableModalBlocker();
+            }
+            else
+            {
+                view.DisableModalBlocker();
+            }
+            
+            //view.chessboardBlocker.SetActive(isEnaable);
         }
     }
 }
