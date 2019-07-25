@@ -102,7 +102,7 @@ namespace TurboLabz.Multiplayer
 
             FlashClocks(false);
 
-            if (appInfoModel.isReconnecting)
+            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
             {
                 stopTimersSignal.Dispatch();
                 FlashClocks(true);

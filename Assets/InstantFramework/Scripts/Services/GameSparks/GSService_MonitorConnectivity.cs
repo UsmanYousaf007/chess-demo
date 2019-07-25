@@ -24,6 +24,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public ResumeMatchSignal resumeMatchSignal { get; set; }
 
+        [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
+
         private NavigatorViewId prevViewId;
 
         public void MonitorConnectivity(bool enable)
@@ -42,7 +44,7 @@ namespace TurboLabz.InstantFramework
             {
                 LogUtil.Log("GS Connected", "red");
 
-                appInfoModel.isReconnecting = false;
+                appInfoModel.isReconnecting = DisconnectStats.FALSE;
 
                 // Reset all models
                 modelsResetSignal.Dispatch();
@@ -55,12 +57,15 @@ namespace TurboLabz.InstantFramework
                 resumeMatchSignal.Dispatch(prevViewId);
                 // Start the pinger
                 StartPinger();
+
+                chessboardBlockerEnableSignal.Dispatch(false);
             }
             else
             {
                 LogUtil.Log("GS Disconnected", "red");
 
-                appInfoModel.isReconnecting = true;
+                appInfoModel.isReconnecting = DisconnectStats.LONG_DISCONNET;
+                chessboardBlockerEnableSignal.Dispatch(true);
 
                 // Stop the pinger
                 StopPinger();
