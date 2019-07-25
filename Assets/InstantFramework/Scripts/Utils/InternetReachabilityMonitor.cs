@@ -76,16 +76,16 @@ namespace TurboLabz.TLUtils
 
         public static void EnableDispatches(bool enable)
         {
-            prevInternetReachability = isInternetReachable;
+            //prevInternetReachability = isInternetReachable;
             enableDispatches = enable;
         }
 
         public static void StartMonitor()
         {
-            prevInternetReachability = isInternetReachable;
-
             if (interneReachablilityCR == null)
             {
+                CheckInternetAccess();
+                prevInternetReachability = isInternetReachable;
                 interneReachablilityCR = normalRoutineRunner.StartCoroutine(InternetReachabilityCR());
             }
         }

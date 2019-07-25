@@ -108,6 +108,9 @@ namespace TurboLabz.Multiplayer
                 }
             }
 
+            // Intitialize
+            timeControl.SetTimers(playerTimer, opponentTimer);
+
             // Update the view for starting values
             InitTimerVO vo;
             vo.startingTimer = chessboard.gameDuration;
@@ -118,7 +121,6 @@ namespace TurboLabz.Multiplayer
             initTimersSignal.Dispatch(vo);
 
             // Kick off
-            timeControl.SetTimers(playerTimer, opponentTimer);
             timeControl.StartTimers(isPlayerTurn);
 
             if (runTimeControlVO.pauseAfterSwap)

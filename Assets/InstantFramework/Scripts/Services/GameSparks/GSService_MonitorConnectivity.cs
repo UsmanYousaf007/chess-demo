@@ -41,12 +41,16 @@ namespace TurboLabz.InstantFramework
             if (isAvailable)
             {
                 LogUtil.Log("GS Connected", "red");
+
+                appInfoModel.isReconnecting = false;
+
                 // Reset all models
                 modelsResetSignal.Dispatch();
                 // Load saved models (perfs etc)
                 modelsLoadFromDiskSignal.Dispatch();
                 // Restart the reachability monitor
-                InternetReachabilityMonitor.EnableDispatches(true);
+                //InternetReachabilityMonitor.EnableDispatches(true);
+                InternetReachabilityMonitor.StartMonitor();
                 // Begin processing hard reconnect
                 resumeMatchSignal.Dispatch(prevViewId);
                 // Start the pinger
@@ -55,10 +59,14 @@ namespace TurboLabz.InstantFramework
             else
             {
                 LogUtil.Log("GS Disconnected", "red");
+
+                appInfoModel.isReconnecting = true;
+
                 // Stop the pinger
                 StopPinger();
                 // Avoid soft reconnect processing
-                InternetReachabilityMonitor.EnableDispatches(false);
+                //InternetReachabilityMonitor.EnableDispatches(false);
+                InternetReachabilityMonitor.StopMonitor();
                 // Reconnect processing depends on last view
                 prevViewId = navigatorModel.currentViewId;
                 // Remove pending requests processing
