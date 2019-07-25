@@ -80,11 +80,12 @@ namespace TurboLabz.Chess
             // 1 dimensionally.
             if (filterMoves)
             {
-                if (MakeOpeningMoves() ||
+                if (
+                    MakeOpeningMoves() ||
                     MakeOnlyMoveAvailable() ||
                     MakePanicMove() ||
                     MakeEmptyBoardMove() ||
-                    //MakeReactionaryCaptureMove() ||
+                    MakeReactionaryCaptureMove() ||
                     MakeReactionaryEvasiveMove())
                 {
                     return;
