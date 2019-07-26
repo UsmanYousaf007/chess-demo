@@ -18,7 +18,8 @@ namespace TurboLabz.InstantFramework
     {
         AudioList sounds { get; set; }
         void Init();
-        void Play(AudioClip sound, float volume = 1.0f);
+        void Play(AudioClip sound);
+        void Play(AudioClip sound, float volume);
         void ToggleAudio(bool state);
         void PlayStandardClick();
         bool IsAudioOn();

@@ -22,8 +22,8 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
-            audio = GameObject.Find(OBJ_NAME).GetComponent<AudioSource>();
-            sounds = audio.GetComponent<AudioList>();
+            sounds = GameObject.Find(OBJ_NAME).GetComponent<AudioList>();
+            audio = sounds.audioSource;
 
             sounds.playStandardClickSignal.AddListener(PlayStandardClick);
         }

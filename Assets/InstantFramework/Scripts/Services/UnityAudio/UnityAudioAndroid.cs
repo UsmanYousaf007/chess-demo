@@ -44,7 +44,12 @@ namespace TurboLabz.InstantFramework
 
         }
 
-        public void Play(AudioClip sound, float volume = 1.0f)
+        public void Play(AudioClip sound)
+        {
+            Play(sound,1.0f);
+        }
+
+        public void Play(AudioClip sound, float volume)
         {
             if (preferencesModel.isAudioOn)
             {

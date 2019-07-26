@@ -110,7 +110,7 @@ namespace TurboLabz.Multiplayer
             OnApplicationFocusClickAndDrag(focus);
         }
 
-        public void EnableModalBlocker(float curtainAlpha = Colors.UI_BLOCKER_LIGHT_ALPHA)
+        public void EnableModalBlocker(float curtainAlpha = Colors.UI_BLOCKER_DARK_ALPHA)
         {
             uiBlocker.SetActive(true);
             chessboardBlocker.SetActive(true);

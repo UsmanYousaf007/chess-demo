@@ -13,7 +13,9 @@ using System.Collections;
 using System;
 using strange.extensions.signal.impl;
 
-public class AudioList : MonoBehaviour {
+public class AudioList : MonoBehaviour
+{
+    public AudioSource audioSource;
 
     // Framework
     public AudioClip SFX_CLICK;
