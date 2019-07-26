@@ -102,10 +102,11 @@ namespace TurboLabz.Multiplayer
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 view.WifiHealthUpdate(true);
-                appInfoModel.syncInProgress = true;
 
                 if (matchInfoModel.activeChallengeId != null)
                 {
+                    appInfoModel.syncInProgress = true;
+
                     LogUtil.Log("Match reconnecting..", "cyan");
                     //if (chessboardModel.chessboards[matchInfoModel.activeChallengeId].isPlayerTurn)
                     //{
