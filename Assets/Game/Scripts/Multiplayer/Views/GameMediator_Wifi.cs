@@ -102,6 +102,7 @@ namespace TurboLabz.Multiplayer
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 view.WifiHealthUpdate(true);
+                appInfoModel.syncInProgress = true;
 
                 if (matchInfoModel.activeChallengeId != null)
                 {
@@ -151,6 +152,8 @@ namespace TurboLabz.Multiplayer
             TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
             analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);
             LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
+            appInfoModel.syncInProgress = false;
+            
         }
 
         private void SendReconnectionAck()

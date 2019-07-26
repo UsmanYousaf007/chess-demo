@@ -108,6 +108,7 @@ namespace TurboLabz.InstantFramework
 
             getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
             prevViewId = NavigatorViewId.NONE;
+            appInfoModel.syncInProgress = false;
 
             Release();
         }

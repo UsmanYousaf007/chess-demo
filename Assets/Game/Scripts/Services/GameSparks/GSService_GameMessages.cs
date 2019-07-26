@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public RunTimeControlSignal runTimeControlSignal { get; set; }
         [Inject] public ChallengeMessageProcessedSignal challengeMessageProcessedSignal { get; set; }
+        
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -46,6 +47,14 @@ namespace TurboLabz.InstantFramework
             if (GameSparksOutOfOrderPatchFailed(message.Challenge.ChallengeId, challengeData))
             {
                 LogUtil.Log("OUT OF ORDER MESSAGE!!!", "red");
+                return;
+            }
+
+            //[Note] : As game reconnects, We sync data from server to update the local game state,
+            // This message also updates the local game state So to AVOID doublication / Ai crash :  we simply returns 
+            if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay && appInfoModel.syncInProgress)
+            { 
+                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
                 return;
             }
 

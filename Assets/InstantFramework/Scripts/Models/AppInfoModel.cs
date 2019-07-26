@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         //Persistant field ---- do not reset  
         public long reconnectTimeStamp { get; set; }
         public DisconnectStats isReconnecting { get; set; }
+        public bool syncInProgress { get; set; }
 
         enum subVersionIndex
         {

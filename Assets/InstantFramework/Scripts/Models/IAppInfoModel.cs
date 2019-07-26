@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         int onlineCount { get; set; }
         long reconnectTimeStamp { get; set; }
         DisconnectStats isReconnecting { get; set; }
+        bool syncInProgress { get; set; }
     }
 
     public enum DisconnectStats

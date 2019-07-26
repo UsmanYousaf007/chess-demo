@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
-            if (isConnected)
+            if (isConnected && !appInfoModel.syncInProgress)
             {
                 view.HidePopUp();
             }
