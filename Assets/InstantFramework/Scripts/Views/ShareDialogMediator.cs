@@ -48,7 +48,9 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 
-            if(appInfoModel.isReconnecting == DisconnectStats.SHORT_DISCONNECT)
+            chessboardBlockerEnableSignal.Dispatch(false);
+
+            if (appInfoModel.isReconnecting == DisconnectStats.SHORT_DISCONNECT)
             {
                 // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
                 if (matchInfoModel.activeChallengeId != null)
@@ -68,6 +70,7 @@ namespace TurboLabz.InstantFramework
                     chessboardBlockerEnableSignal.Dispatch(true);
                 }
             }
+           
         }
 
         public void OnShareButtonClicked()
