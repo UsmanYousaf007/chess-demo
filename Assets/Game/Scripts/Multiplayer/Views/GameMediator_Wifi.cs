@@ -90,6 +90,7 @@ namespace TurboLabz.Multiplayer
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {
+                    view.chessboardBlocker.SetActive(true);
                     TLUtils.LogUtil.Log("Match disconnected Id: " + matchInfoModel.activeChallengeId, "cyan");
                     GSFrameworkRequest.CancelRequestSession();
                     stopTimersSignal.Dispatch();
@@ -154,7 +155,8 @@ namespace TurboLabz.Multiplayer
             analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);
             LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
             appInfoModel.syncInProgress = false;
-            
+            view.chessboardBlocker.SetActive(false);
+
         }
 
         private void SendReconnectionAck()
