@@ -7,6 +7,7 @@ using strange.extensions.mediation.impl;
 using UnityEngine.UI;
 using TurboLabz.InstantFramework;
 using UnityEngine;
+using DG.Tweening;
 
 namespace TurboLabz.InstantGame
 {
@@ -35,6 +36,11 @@ namespace TurboLabz.InstantGame
         public Button notNowButton;
         public Text notNowButtonLabel;
 
+        public GameObject dlg;
+
+        private const float RATEAPP_SHORT_DELAY_TIME = 0.8f;
+        private const float RATEAPP_DIALOG_DURATION = 0.4f;
+
         [Inject] public ILocalizationService localizationService { get; set; }
 
         public void Init()
@@ -55,9 +61,17 @@ namespace TurboLabz.InstantGame
 
         }
 
+        private void AnimateYouEnjoingDialog()
+        {
+            dlg.transform.DOLocalMove(Vector3.zero, RATEAPP_DIALOG_DURATION).SetEase(Ease.OutBack);
+        }
+
         public void ShowAreYouEnjoying()
         {
             gameObject.SetActive(true);
+            dlg.transform.localPosition = new Vector3(0f, Screen.height + 800, 0f);
+
+            Invoke("AnimateYouEnjoingDialog", RATEAPP_SHORT_DELAY_TIME);
         }
 
         public void ShowRateDlg()
