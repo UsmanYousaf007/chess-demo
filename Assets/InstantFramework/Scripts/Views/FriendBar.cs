@@ -135,8 +135,6 @@ namespace TurboLabz.InstantFramework
                     cancelButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     stripButton.gameObject.SetActive(true);
-                    rankedIcon.SetActive(isRanked);
-                    friendlyIcon.SetActive(!isRanked);
 
                     if (isPlayerTurn)
                     {
@@ -150,8 +148,6 @@ namespace TurboLabz.InstantFramework
                     playArrow.gameObject.SetActive(false);
                     playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
-                    rankedIcon.SetActive(isRanked);
-                    friendlyIcon.SetActive(!isRanked);
 
                     break;
 
@@ -162,16 +158,12 @@ namespace TurboLabz.InstantFramework
                     playArrow.gameObject.SetActive(false);
                     playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
-                    rankedIcon.SetActive(isRanked);
-                    friendlyIcon.SetActive(!isRanked);
 
                     break;
 
                 case LongPlayStatus.PLAYER_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = isGameCanceled ? strCanceled: strYouWon;
-                    rankedIcon.SetActive(isRanked);
-                    friendlyIcon.SetActive(!isRanked);
 
                     if (isGameCanceled)
                     {
@@ -189,8 +181,6 @@ namespace TurboLabz.InstantFramework
                 case LongPlayStatus.OPPONENT_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = isGameCanceled ? strCanceled : strYouLost;
-                    rankedIcon.SetActive(isRanked);
-                    friendlyIcon.SetActive(!isRanked);
 
                     if (isGameCanceled)
                     {
@@ -208,8 +198,6 @@ namespace TurboLabz.InstantFramework
                 case LongPlayStatus.DRAW:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = strDraw;
-                    rankedIcon.SetActive(isRanked);
-                    friendlyIcon.SetActive(!isRanked);
 
                     if (isGameCanceled)
                     {
