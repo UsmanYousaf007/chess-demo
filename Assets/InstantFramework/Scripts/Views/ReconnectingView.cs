@@ -24,11 +24,13 @@ namespace TurboLabz.InstantFramework
         public Text reconnectingLabel;
         public GameObject popUp;
         public GameObject uiBlocker;
+        public GameObject chessboardBlocker;
 
         public void Init()
         {
             reconnectingLabel.text = localizationService.Get(LocalizationKey.RECONNECTING);
             uiBlocker.SetActive(false);
+            chessboardBlocker.SetActive(false);
             popUp.SetActive(false);
         }
 
@@ -37,6 +39,7 @@ namespace TurboLabz.InstantFramework
             if (!popUp.activeSelf)
             {
                 popUp.SetActive(true);
+                chessboardBlocker.SetActive(true);
             }
         }
 
@@ -45,6 +48,7 @@ namespace TurboLabz.InstantFramework
             if (popUp.activeSelf)
             {
                 popUp.SetActive(false);
+                chessboardBlocker.SetActive(false);
             }
         }
     }

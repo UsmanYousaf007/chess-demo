@@ -47,6 +47,12 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(ChessboardBlockerEnableSignal))]
+        public void OnUIBlockerEnable(bool enable)
+        {
+            view.uiBlocker.SetActive(enable);
+        }
+
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
             if (isConnected && !appInfoModel.syncInProgress)
