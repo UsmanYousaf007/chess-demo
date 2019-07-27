@@ -23,10 +23,13 @@ namespace TurboLabz.InstantFramework
 
         public Text reconnectingLabel;
         public GameObject popUp;
+        public GameObject uiBlocker;
 
         public void Init()
         {
             reconnectingLabel.text = localizationService.Get(LocalizationKey.RECONNECTING);
+            uiBlocker.SetActive(false);
+            popUp.SetActive(false);
         }
 
         public void ShowPopUp()

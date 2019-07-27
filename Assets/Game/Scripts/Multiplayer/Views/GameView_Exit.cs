@@ -21,6 +21,8 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
         [Header("Exit")]
         public Button menuButton;
         public Button resignButton;
@@ -110,7 +112,11 @@ namespace TurboLabz.Multiplayer
 
         void OnMenuButtonClicked()
         {
-            if (chessboardBlocker.activeSelf)
+            if (matchInfoModel.activeChallengeId == null)
+            {
+                resultsDialogOpenedSignal.Dispatch();
+            }
+            else if (matchInfoModel.activeMatch == null || matchInfoModel.activeMatch.endGameResult != EndGameResult.NONE)
             {
                 resultsDialogOpenedSignal.Dispatch();
             }
@@ -122,8 +128,11 @@ namespace TurboLabz.Multiplayer
 
         void OnResignButtonClicked()
         {
-            resignButtonClickedSignal.Dispatch();
-            EnableModalBlocker();
+            if ((appInfoModel.isReconnecting == DisconnectStats.FALSE) && !appInfoModel.syncInProgress)
+            {
+                resignButtonClickedSignal.Dispatch();
+                EnableModalBlocker();
+            }
         }
 
         void OnContinueButtonClicked()

@@ -219,6 +219,15 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(ChessboardBlockerEnableSignal))]
+        public void OnUIBlockerEnable(bool enable)
+        {
+            if (gameObject.activeSelf)
+            {
+                view.uiBlocker.SetActive(enable);
+            }
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
