@@ -31,9 +31,16 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
-            chessboard.clickedSquare = chessboard.squares[clickedLocation.file, clickedLocation.rank];
-            chessboardEventSignal.Dispatch(ChessboardEvent.SQUARE_CLICKED);
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
+                chessboard.clickedSquare = chessboard.squares[clickedLocation.file, clickedLocation.rank];
+                chessboardEventSignal.Dispatch(ChessboardEvent.SQUARE_CLICKED);
+            }
+            else
+            {
+                TLUtils.LogUtil.Log("ChessboardSquareClickedCommand: called on a null challengeId", "red");
+            }
         }
 
     }
