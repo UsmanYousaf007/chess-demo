@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
+        [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -69,6 +70,7 @@ namespace TurboLabz.InstantFramework
                 appInfoModel.isReconnecting = DisconnectStats.SHORT_DISCONNECT;
                 backendService.StopPinger();
                 toggleBannerSignal.Dispatch(false);
+                pauseNotificationsSignal.Dispatch(true);
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
@@ -84,6 +86,8 @@ namespace TurboLabz.InstantFramework
                 {
                     toggleBannerSignal.Dispatch(true);
                 }
+
+                pauseNotificationsSignal.Dispatch(false);
             }
         }
     }

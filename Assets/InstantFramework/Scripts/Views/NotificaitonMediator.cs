@@ -41,5 +41,10 @@ namespace TurboLabz.InstantFramework
             view.AddNotification(notificationVO);
         }
 
+        [ListensTo(typeof(PauseNotificationsSignal))]
+        public void OnPauseNotifications(bool enable)
+        {
+            view.Pause(enable);
+        }
     }
 }

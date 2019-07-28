@@ -9,16 +9,27 @@ using TurboLabz.InstantFramework;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using DG.Tweening;
 
 namespace TurboLabz.InstantGame
 {
     public class NotificationView : View
     {
+        private struct NotificationContainer
+        {
+            public GameObject obj;
+            public string playerId;
+        };
+
         public GameObject notificationPrefab;
         public GameObject positionDummy;
-        private List<GameObject> notifications;
+        public Image uiBlocker;
+        private List<NotificationContainer> notifications;
         private Coroutine processNotificaitonCR;
         private SpritesContainer defaultAvatarContainer;
+        private bool isPaused = false;
+
+        private const float NOTIFICATION_DURATION = 5.0f;
 
         // Models
         [Inject] public IPicsModel picsModel { get; set; }
@@ -28,12 +39,19 @@ namespace TurboLabz.InstantGame
         // Dispatch Signals
         [Inject] public PreShowNotificationSignal preShowNotificationSignal { get; set; }
         [Inject] public PostShowNotificationSignal postShowNotificationSignal { get; set; }
+        [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
+
+        // Services
+        [Inject] public ILocalizationService localizationService { get; set; }
+
 
         public void Init()
         {
-            notifications = new List<GameObject>();
+            notifications = new List<NotificationContainer>();
             processNotificaitonCR = StartCoroutine(ProcessNotificationCR());
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
+            uiBlocker.gameObject.SetActive(false);
+            isPaused = false;
         }
 
         public void Show()
@@ -46,17 +64,32 @@ namespace TurboLabz.InstantGame
             gameObject.SetActive(false);
         }
 
+        public void Pause(bool enable)
+        {
+            isPaused = enable;
+
+            if (isPaused && notifications.Count != 0)
+            {
+                notifications[0].obj.SetActive(false);
+            }
+        }
+
         private IEnumerator ProcessNotificationCR()
         {
             while (true)
             {
+                while (isPaused)
+                {
+                    yield return null;
+                }
+
                 if (notifications.Count != 0)
                 {
                     preShowNotificationSignal.Dispatch();
-                    notifications[0].SetActive(true);
-                    yield return new WaitForSeconds(5);
-                    notifications[0].SetActive(false);
-                    GameObject obj = notifications[0];
+                    notifications[0].obj.SetActive(true);
+                    yield return new WaitForSeconds(NOTIFICATION_DURATION);
+                    notifications[0].obj.SetActive(false);
+                    GameObject obj = notifications[0].obj;
                     notifications.Remove(notifications[0]);
                     Destroy(obj);
                     postShowNotificationSignal.Dispatch();
@@ -88,6 +121,7 @@ namespace TurboLabz.InstantGame
             Notification notification = notifidationObj.GetComponent<Notification>();
             notification.title.text = notificationVO.title;
             notification.body.text = notificationVO.body;
+            notification.playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
             {
@@ -105,15 +139,65 @@ namespace TurboLabz.InstantGame
                 }
             }
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
+            notification.playButton.onClick.AddListener(OnPlayButtonClicked);
+
+            string challengeId = GetChallengeId(notificationVO.senderPlayerId);
+            if (challengeId != null)
+            {
+                MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+                if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
+                {
+                    notification.playButton.gameObject.SetActive(true);
+                }
+                else
+                {
+                    notification.playButton.gameObject.SetActive(false);
+                }
+            }
 
             notifidationObj.transform.SetParent(gameObject.transform);
             notifidationObj.transform.position = positionDummy.transform.position;
-            notifications.Add(notifidationObj);
+            NotificationContainer notificationContainer = new NotificationContainer();
+            notificationContainer.obj = notifidationObj;
+            notificationContainer.playerId = notificationVO.senderPlayerId;
+            notifications.Add(notificationContainer);
         }
 
         private void OnCloseButtonClicked()
         {
-            notifications[0].SetActive(false);
+            notifications[0].obj.SetActive(false);
+        }
+
+        private void OnPlayButtonClicked()
+        {
+            notifications[0].obj.SetActive(false);
+            tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
+            FadeBlocker();
+        }
+
+        void FadeBlocker()
+        {
+            uiBlocker.color = Colors.WHITE_150;
+            uiBlocker.gameObject.SetActive(true);
+            DOTween.ToAlpha(() => uiBlocker.color, x => uiBlocker.color = x, 0.0f, 1.0f).OnComplete(OnFadeComplete);
+        }
+
+        void OnFadeComplete()
+        {
+            uiBlocker.gameObject.SetActive(false);
+        }
+
+        private string GetChallengeId(string opponentId)
+        {
+            foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
+            {
+                if (entry.Value.opponentPublicProfile.playerId == opponentId)
+                {
+                    return entry.Key;
+                }
+            }
+
+            return null;
         }
     }
 }

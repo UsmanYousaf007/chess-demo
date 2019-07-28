@@ -133,7 +133,7 @@ public class NotchHandler : MonoBehaviour {
         SetY(dummyPosition, -200f);
 
         // RECONNECTING
-        SetY(reconnectingPopup, -145f);
+        SetY(reconnectingPopup, -130f);
     }
 
     void SetY(RectTransform tfm, float y)
