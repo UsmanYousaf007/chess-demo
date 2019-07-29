@@ -15,7 +15,7 @@ using UnityEditor.SceneManagement;
 public class ClearSkinLinks : EditorWindow 
 {
     [MenuItem ("Tools/TurboLabz/Clear SkinLinks")]
-    static void Init()
+    public static void Init()
     {  
         ClearSkinLinks c = ScriptableObject.CreateInstance<ClearSkinLinks>();
         c.DoClearSkinLinks();
