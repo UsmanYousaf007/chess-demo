@@ -52,6 +52,7 @@ namespace TurboLabz.InstantFramework
 
             if (navigatorModel.currentViewId == NavigatorViewId.CPU)
             {
+                stopTimersSignal.Dispatch();
                 startCPUGameSignal.Dispatch();
             }
             else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
@@ -70,7 +71,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (matchInfoModel.activeChallengeId != null)
             {
-                //stopTimersSignal.Dispatch();
+                stopTimersSignal.Dispatch();
                 startGameSignal.Dispatch();
 
                 // Record analytics

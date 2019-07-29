@@ -31,7 +31,7 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            if (matchInfoModel.activeChallengeId != null)
+            if (chessboardModel.chessboards.Count > 0 && matchInfoModel.activeChallengeId != null)
             {
                 Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
                 chessboard.clickedSquare = chessboard.squares[clickedLocation.file, clickedLocation.rank];
