@@ -10,6 +10,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using DG.Tweening;
+using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantGame
 {
@@ -35,11 +36,13 @@ namespace TurboLabz.InstantGame
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         // Dispatch Signals
         [Inject] public PreShowNotificationSignal preShowNotificationSignal { get; set; }
         [Inject] public PostShowNotificationSignal postShowNotificationSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
+        [Inject] public StopTimersSignal stopTimersSignal { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -141,19 +144,23 @@ namespace TurboLabz.InstantGame
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
             notification.playButton.onClick.AddListener(OnPlayButtonClicked);
 
-            string challengeId = GetChallengeId(notificationVO.senderPlayerId);
-            if (challengeId != null)
-            {
-                MatchInfo matchInfo = matchInfoModel.matches[challengeId];
-                if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
-                {
-                    notification.playButton.gameObject.SetActive(true);
-                }
-                else
-                {
-                    notification.playButton.gameObject.SetActive(false);
-                }
-            }
+            notification.playButton.gameObject.SetActive(false);
+
+            //string challengeId = GetChallengeId(notificationVO.senderPlayerId);
+            //if (challengeId != null)
+            //{
+            //    MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+            //    if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
+            //    {
+            //        notification.playButton.gameObject.SetActive(true);
+            //    }
+            //}
+
+            ////disbale button is is in quick match
+            //if(HidePlayButton())
+            //{
+            //    notification.playButton.gameObject.SetActive(false);
+            //}
 
             notifidationObj.transform.SetParent(gameObject.transform);
             notifidationObj.transform.position = positionDummy.transform.position;
@@ -198,6 +205,31 @@ namespace TurboLabz.InstantGame
             }
 
             return null;
+        }
+
+        private bool HidePlayButton()
+        {
+            bool hideFlag = false;
+
+            if (navigatorModel.currentViewId == NavigatorViewId.CPU)
+            {
+                hideFlag = true;
+
+            }
+            else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
+            {
+                hideFlag = true;
+            }
+            else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER && matchInfoModel.activeChallengeId == null)
+            {
+                hideFlag = true;
+            }
+            else if(matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay)
+            {
+                hideFlag = true;
+            }
+
+            return hideFlag;
         }
     }
 }
