@@ -263,6 +263,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateSpotPurchaseSignal>().ToSingleton();
             injectionBinder.Bind<PlayerProfilePicTappedSignal>().ToSingleton();
             injectionBinder.Bind<RequestToggleBannerSignal>().ToSingleton();
+            injectionBinder.Bind<ReconnectViewEnableSignal>().ToSingleton();
+
 
 
             // Bind models

@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ResumeMatchSignal resumeMatchSignal { get; set; }
 
         [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
+        [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
 
         private NavigatorViewId prevViewId;
 
@@ -59,12 +60,15 @@ namespace TurboLabz.InstantFramework
                 StartPinger();
 
                 chessboardBlockerEnableSignal.Dispatch(false);
+
             }
             else
             {
                 LogUtil.Log("GS Disconnected", "red");
 
                 appInfoModel.isReconnecting = DisconnectStats.LONG_DISCONNET;
+                reconnectViewEnableSignal.Dispatch(true);
+
                 chessboardBlockerEnableSignal.Dispatch(true);
 
                 // Stop the pinger

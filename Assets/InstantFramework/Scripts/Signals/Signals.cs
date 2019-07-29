@@ -121,6 +121,8 @@ namespace TurboLabz.InstantFramework
     public class OpponentPingedForConnectionSignal : Signal<bool> { }
 
     public class ChessboardBlockerEnableSignal : Signal<bool> { }
+    public class ReconnectViewEnableSignal : Signal<bool> { }
+
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}

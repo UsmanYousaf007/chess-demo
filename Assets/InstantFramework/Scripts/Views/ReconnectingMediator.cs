@@ -54,6 +54,20 @@ namespace TurboLabz.InstantFramework
             view.uiBlocker.SetActive(enable);
         }
 
+        [ListensTo(typeof(ReconnectViewEnableSignal))]
+        public void OnReconnectEnable(bool enable)
+        {
+            if(enable)
+            {
+                view.ShowPopUp();
+            }
+            else
+            {
+                view.HidePopUp();
+            }
+           
+        }
+
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
             if (isConnected && !appInfoModel.syncInProgress)
