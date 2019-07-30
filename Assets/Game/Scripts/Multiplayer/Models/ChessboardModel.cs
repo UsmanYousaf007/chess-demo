@@ -130,5 +130,20 @@ namespace TurboLabz.Multiplayer
         {
             chessboards = new Dictionary<string, Chessboard>();
         }
+
+        public bool isValidChallenge(string activeChallengeId)
+        {
+            bool returnFlag = false;
+
+            if (chessboards.Count > 0 && activeChallengeId != null)
+            {
+                if (chessboards.ContainsKey(activeChallengeId))
+                {
+                    returnFlag = true;
+                }
+            }
+
+           return returnFlag;
+        }
     }
 }

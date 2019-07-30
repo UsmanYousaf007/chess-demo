@@ -48,28 +48,32 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 
-            chessboardBlockerEnableSignal.Dispatch(false);
-
-            if (appInfoModel.isReconnecting == DisconnectStats.SHORT_DISCONNECT)
+            if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
             {
-                // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
-                if (matchInfoModel.activeChallengeId != null)
-                {
-                    bool p = chessboardModel.chessboards.ContainsKey(matchInfoModel.activeChallengeId);
-                    if (p == false && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
-                    {
-                        chessboardBlockerEnableSignal.Dispatch(true);
-                    }
-                    else
-                    {
-                        chessboardBlockerEnableSignal.Dispatch(false);
-                    }
-                }
-                else
-                {
-                    chessboardBlockerEnableSignal.Dispatch(true);
-                }
+                chessboardBlockerEnableSignal.Dispatch(false);
             }
+            
+
+            //if (appInfoModel.isReconnecting == DisconnectStats.SHORT_DISCONNECT)
+            //{
+            //    // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
+            //    if (matchInfoModel.activeChallengeId != null)
+            //    {
+            //        bool p = chessboardModel.chessboards.ContainsKey(matchInfoModel.activeChallengeId);
+            //        if (p == false && navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER)
+            //        {
+            //            chessboardBlockerEnableSignal.Dispatch(true);
+            //        }
+            //        else
+            //        {
+            //            chessboardBlockerEnableSignal.Dispatch(false);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        chessboardBlockerEnableSignal.Dispatch(true);
+            //    }
+            //}
            
         }
 
