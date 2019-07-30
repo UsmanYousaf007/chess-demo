@@ -1,4 +1,4 @@
-﻿# Online Check PRO 2019.1.4
+﻿# Online Check PRO 2019.2.0
 
 Thank you for buying our asset  "Online Check PRO"! 
 If you have questions about this asset, send us an email at [onlinecheck@crosstales.com](mailto:onlinecheck@crosstales.com). 
@@ -77,4 +77,4 @@ CH-8002 Zürich
 * [PlayMaker](https://assetstore.unity.com/packages/slug/368?aid=1011lNGT)
 
 
-`Version: 12.05.2019`
+`Version: 26.07.2019`

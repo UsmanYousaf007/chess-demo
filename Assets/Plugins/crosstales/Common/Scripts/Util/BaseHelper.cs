@@ -373,6 +373,26 @@ namespace Crosstales.Common.Util
                 return Model.Enum.Platform.Unsupported;
             }
         }
+        /// <summary>Returns the path to the the "Streaming Assets".</summary>
+        /// <returns>The path to the the "Streaming Assets".</returns>
+        public static string StreamingAssetsPath
+        {
+            get
+            {
+                if (isAndroidPlatform && !isEditor)
+                {
+                    return "jar:file://" + Application.dataPath + "!/assets/";
+                }
+                else if (isIOSBasedPlatform && !isEditor)
+                {
+                    return Application.dataPath + "/Raw/";
+                }
+                else
+                {
+                    return Application.dataPath + "/StreamingAssets/";
+                }
+            }
+        }
 
         #endregion
 
@@ -461,7 +481,7 @@ namespace Crosstales.Common.Util
                 string pathTemp = path.Trim();
                 string result = null;
 
-                if (isWindowsBasedPlatform)
+                if ((isWindowsBasedPlatform || isWindowsEditor) && (!isMacOSEditor && !isLinuxEditor))
                 {
                     result = pathTemp.Replace('/', '\\');
 
@@ -486,7 +506,7 @@ namespace Crosstales.Common.Util
                     }
                 }
 
-                return string.Join("_", result.Split(System.IO.Path.GetInvalidPathChars()));
+                return string.Join(string.Empty, result.Split(System.IO.Path.GetInvalidPathChars()));
             }
 
             return path;

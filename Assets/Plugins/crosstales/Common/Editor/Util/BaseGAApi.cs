@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 
 namespace Crosstales.Common.EditorUtil
 {
@@ -127,4 +128,5 @@ namespace Crosstales.Common.EditorUtil
 
     }
 }
+#endif
 // © 2017-2019 crosstales LLC (https://www.crosstales.com)

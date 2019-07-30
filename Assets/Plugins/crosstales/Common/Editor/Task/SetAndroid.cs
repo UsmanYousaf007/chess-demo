@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID || CT_ENABLED
+﻿#if UNITY_EDITOR && (UNITY_ANDROID || CT_ENABLED)
 using UnityEditor;
 using UnityEngine;
 

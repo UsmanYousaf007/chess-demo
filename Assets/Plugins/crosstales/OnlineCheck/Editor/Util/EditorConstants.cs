@@ -1,4 +1,5 @@
-﻿namespace Crosstales.OnlineCheck.EditorUtil
+﻿#if UNITY_EDITOR
+namespace Crosstales.OnlineCheck.EditorUtil
 {
     /// <summary>Collected editor constants of very general utility for the asset.</summary>
     public static class EditorConstants
@@ -80,4 +81,5 @@
 
     }
 }
+#endif
 // © 2017-2019 crosstales LLC (https://www.crosstales.com)

@@ -16,14 +16,10 @@ namespace Crosstales.Common.Util
         static CTPlayerPrefs()
         {
             if (System.IO.File.Exists(fileName))
-            {
                 content = XmlHelper.DeserializeFromFile<SerializableDictionary<string, string>>(fileName);
-            }
-            else
-            {
-                content = new SerializableDictionary<string, string>();
-            }
 
+            if (content == null)
+                content = new SerializableDictionary<string, string>();
         }
 #endif
 
@@ -63,9 +59,12 @@ namespace Crosstales.Common.Util
         /// <summary>Saves all modifications.</summary>
         public static void Save()
         {
+
 #if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
             PlayerPrefs.Save();
-#else            
+#else
+            //Debug.Log(fileName);
+
             if (content != null && content.Count > 0)
             {
                 XmlHelper.SerializeToFile(content, fileName);
@@ -137,7 +136,10 @@ namespace Crosstales.Common.Util
             if (string.IsNullOrEmpty(key))
                 throw new System.ArgumentNullException("key");
 
-            return System.DateTime.Parse(GetString(key));
+            System.DateTime result = System.DateTime.Now;
+            System.DateTime.TryParse(GetString(key), out result);
+
+            return result;
         }
 
         #endregion

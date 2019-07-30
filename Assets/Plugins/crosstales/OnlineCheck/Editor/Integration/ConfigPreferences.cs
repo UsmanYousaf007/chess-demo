@@ -1,4 +1,4 @@
-﻿#if !UNITY_2019_1_OR_NEWER
+﻿#if UNITY_EDITOR && !UNITY_2019_1_OR_NEWER
 using UnityEditor;
 using UnityEngine;
 using Crosstales.OnlineCheck.EditorUtil;
@@ -23,7 +23,8 @@ namespace Crosstales.OnlineCheck.EditorIntegration
         [PreferenceItem(Util.Constants.ASSET_NAME_SHORT)]
         private static void PreferencesGUI()
         {
-            if (cp == null) {
+            if (cp == null)
+            {
                 cp = ScriptableObject.CreateInstance(typeof(ConfigPreferences)) as ConfigPreferences;
             }
 

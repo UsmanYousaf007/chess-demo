@@ -52,11 +52,7 @@ namespace Crosstales.Common.Util
         {
             string file = Prefix + DateTime.Now.ToString("_dd-MM-yyyy-HH-mm-ss-f") + ".png";
 
-#if UNITY_2017_1_OR_NEWER
-                ScreenCapture.CaptureScreenshot(file, Scale);
-#else
-            Application.CaptureScreenshot(file, Scale);
-#endif
+            ScreenCapture.CaptureScreenshot(file, Scale);
 
             Debug.Log("Screenshot saved: " + file);
         }

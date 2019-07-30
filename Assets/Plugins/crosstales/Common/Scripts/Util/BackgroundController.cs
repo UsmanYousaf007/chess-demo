@@ -20,7 +20,6 @@ namespace Crosstales.Common.Util
 
         #region MonoBehaviour methods
 
-#if UNITY_2017_1_OR_NEWER
 #if UNITY_ANDROID || UNITY_IOS
         public void Start()
         {
@@ -48,13 +47,6 @@ namespace Crosstales.Common.Util
                 }
             }
         }
-#endif
-#else
-        public void Start()
-        {
-            Debug.LogWarning("'BackgroundController' needs Unity 2017.1 or newer to work!");
-        }
-
 #endif
 
         #endregion

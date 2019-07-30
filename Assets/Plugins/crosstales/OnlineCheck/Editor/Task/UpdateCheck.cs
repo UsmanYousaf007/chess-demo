@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 using Crosstales.OnlineCheck.EditorUtil;
 
@@ -511,4 +512,5 @@ namespace Crosstales.OnlineCheck.EditorTask
         V2019
     }
 }
+#endif
 // © 2017-2019 crosstales LLC (https://www.crosstales.com)

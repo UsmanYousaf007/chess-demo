@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 using Crosstales.OnlineCheck.EditorUtil;
 
@@ -96,10 +97,10 @@ namespace Crosstales.OnlineCheck.EditorExtension
                 EditorGUILayout.HelpBox("Script is disabled!", MessageType.Info);
             }
         }
-#endregion
+        #endregion
 
 
-#region Private methods
+        #region Private methods
 
         private void onUpdate()
         {
@@ -124,8 +125,9 @@ namespace Crosstales.OnlineCheck.EditorExtension
             }
         }
 
-#endregion
+        #endregion
 
     }
 }
+#endif
 // © 2017-2019 crosstales LLC (https://www.crosstales.com)

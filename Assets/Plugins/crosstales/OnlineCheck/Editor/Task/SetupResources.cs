@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 namespace Crosstales.OnlineCheck.EditorTask
@@ -32,4 +33,5 @@ namespace Crosstales.OnlineCheck.EditorTask
         #endregion
     }
 }
+#endif
 // © 2017-2019 crosstales LLC (https://www.crosstales.com)

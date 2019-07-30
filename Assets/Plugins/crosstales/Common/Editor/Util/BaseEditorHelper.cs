@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 
 namespace Crosstales.Common.EditorUtil
@@ -497,25 +498,10 @@ namespace Crosstales.Common.EditorUtil
             {
                 return BuildTarget.StandaloneWindows64;
             }
-#if UNITY_2017_3_OR_NEWER
             else if (build.CTContains("osx"))
             {
                 return BuildTarget.StandaloneOSX;
             }
-#else
-            else if ("osx".CTEquals(build) || "OSXIntel".CTEquals(build))
-            {
-                return BuildTarget.StandaloneOSXIntel;
-            }
-            else if ("osxintel64".CTEquals(build))
-            {
-                return BuildTarget.StandaloneOSXIntel64;
-            }
-            else if ("osxuniversal".CTEquals(build))
-            {
-                return BuildTarget.StandaloneOSXUniversal;
-            }
-#endif
             else if ("linux".CTEquals(build))
             {
                 return BuildTarget.StandaloneLinux;
@@ -548,16 +534,6 @@ namespace Crosstales.Common.EditorUtil
             {
                 return BuildTarget.tvOS;
             }
-#if !UNITY_2017_3_OR_NEWER
-            else if ("tizen".CTEquals(build))
-            {
-                return BuildTarget.Tizen;
-            }
-            else if ("samsungtv".CTEquals(build))
-            {
-                return BuildTarget.SamsungTV;
-            }
-#endif
             else if ("ps4".CTEquals(build))
             {
                 return BuildTarget.PS4;
@@ -599,70 +575,31 @@ namespace Crosstales.Common.EditorUtil
         {
             if (build == BuildTarget.StandaloneWindows)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "Win";
-#else
-                return "win32";
-#endif
             }
             else if (build == BuildTarget.StandaloneWindows64)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "Win64";
-#else
-                return "win64";
-#endif
             }
-#if UNITY_2017_3_OR_NEWER
             else if (build == BuildTarget.StandaloneOSX)
             {
                 return "OSXUniversal";
-#else
-            else if (build == BuildTarget.StandaloneOSXIntel || build == BuildTarget.StandaloneOSXIntel64 || build == BuildTarget.StandaloneOSXUniversal)
-            {
-                if (build == BuildTarget.StandaloneOSXIntel)
-                {
-                    return "osx";
-                }
-                else if (build == BuildTarget.StandaloneOSXIntel64)
-                {
-                    return "osxintel64";
-                }
-
-                return "osxuniversal";
-#endif
             }
             else if (build == BuildTarget.StandaloneLinux)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "Linux";
-#else
-                return "linux";
-#endif
             }
             else if (build == BuildTarget.StandaloneLinux64)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "Linux64";
-#else
-                return "linux64";
-#endif
             }
             else if (build == BuildTarget.StandaloneLinuxUniversal)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "LinuxUniversal";
-#else
-                return "linuxuniversal";
-#endif
             }
             else if (build == BuildTarget.Android)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "Android";
-#else
-                return "android";
-#endif
             }
             else if (build == BuildTarget.iOS)
             {
@@ -670,68 +607,34 @@ namespace Crosstales.Common.EditorUtil
             }
             else if (build == BuildTarget.WSAPlayer)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "WindowsStoreApps";
-#else
-                return "wsaplayer";
-#endif
             }
             else if (build == BuildTarget.WebGL)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "WebGL";
-#else
-                return "webgl";
-#endif
             }
             else if (build == BuildTarget.tvOS)
             {
                 return "tvOS";
             }
-#if !UNITY_2017_3_OR_NEWER
-            else if (build == BuildTarget.Tizen)
-            {
-                return "tizen";
-            }
-            else if (build == BuildTarget.SamsungTV)
-            {
-                return "samsungtv";
-            }
-#endif
             else if (build == BuildTarget.PS4)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "PS4";
-#else
-                return "ps4";
-#endif
             }
 #if !UNITY_2018_2_OR_NEWER
             else if (build == BuildTarget.PSP2)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "PSP2";
-#else
-                return "psp2";
-#endif
             }
 #endif
             else if (build == BuildTarget.XboxOne)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "XboxOne";
-#else
-                return "xboxone";
-#endif
             }
 #if !UNITY_2018_1_OR_NEWER
             else if (build == BuildTarget.WiiU)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "WiiU";
-#else
-                return "wiiu";
-#endif
             }
 #endif
 #if !UNITY_2018_2_OR_NEWER
@@ -742,11 +645,7 @@ namespace Crosstales.Common.EditorUtil
 #endif
             else if (build == BuildTarget.Switch)
             {
-#if UNITY_2017_2_OR_NEWER
                 return "Switch";
-#else
-                return "switch";
-#endif
             }
 
             return "Win64";
@@ -1054,4 +953,5 @@ static void CompressDirectory(string directory, string zipFileOutputPath)
 */
     }
 }
+#endif
 // © 2018-2019 crosstales LLC (https://www.crosstales.com)

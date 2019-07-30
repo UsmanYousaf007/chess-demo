@@ -1,4 +1,4 @@
-﻿# crosstales LLC - Common package 2019.3.1
+﻿# crosstales LLC - Common package 2019.4.0
 
 ## Description
 This folder and its content is needed for all assets from "crosstales LLC".
@@ -20,13 +20,12 @@ CH-8002 Zürich
 * [Facebook](https://www.facebook.com/crosstales/)
 * [Twitter](https://twitter.com/crosstales)
 * [LinkedIN](https://www.linkedin.com/company/crosstales)
-* [Xing](https://www.xing.com/companies/crosstales)
 
 
 
 ## More information
-* [AssetStore](https://goo.gl/qwtXyb)
+* [AssetStore](https://assetstore.unity.com/lists/crosstales-42213?aid=1011lNGT)
 * [Youtube-channel](https://www.youtube.com/c/Crosstales)
 
 
-`Version: 22.04.2019`
+`Version: 26.07.2019`

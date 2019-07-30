@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 namespace Crosstales.Common.EditorTask
@@ -62,4 +63,5 @@ namespace Crosstales.Common.EditorTask
         }
     }
 }
+#endif
 // © 2018-2019 crosstales LLC (https://www.crosstales.com)

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Crosstales.OnlineCheck.Util;
 using UnityEngine.SceneManagement;
 
 namespace Crosstales.OnlineCheck.Demo
@@ -39,12 +38,12 @@ namespace Crosstales.OnlineCheck.Demo
 
         public void OpenAssetURL()
         {
-            Application.OpenURL(Constants.ASSET_CT_URL);
+            Application.OpenURL(Common.Util.BaseConstants.ASSET_CT_URL);
         }
 
         public void OpenCTURL()
         {
-            Application.OpenURL(Constants.ASSET_AUTHOR_URL);
+            Application.OpenURL(Common.Util.BaseConstants.ASSET_AUTHOR_URL);
         }
 
         /// <summary>Quit the application.</summary>

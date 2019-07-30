@@ -159,7 +159,7 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                if (BaseHelper.isWindowsPlatform || BaseHelper.isWindowsEditor) //TODO isisWindowsBasedPlatform?
+                if ((BaseHelper.isWindowsBasedPlatform || BaseHelper.isWindowsEditor) && (!BaseHelper.isMacOSEditor && !BaseHelper.isLinuxEditor))
                 {
                     return "file:///";
                 }

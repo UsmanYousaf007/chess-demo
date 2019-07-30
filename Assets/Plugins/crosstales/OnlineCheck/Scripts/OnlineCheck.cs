@@ -577,21 +577,11 @@ namespace Crosstales.OnlineCheck
 
             using (UnityWebRequest www = UnityWebRequest.Get(URLAntiCacheRandomizer(url)))
             {
-#if UNITY_2017_1_OR_NEWER
                 www.timeout = Timeout;
-#endif
-#if UNITY_2017_2_OR_NEWER
                 www.downloadHandler = new DownloadHandlerBuffer();
                 yield return www.SendWebRequest();
-#else
-                yield return www.Send();
-#endif
 
-#if UNITY_2017_1_OR_NEWER
                 if (!www.isHttpError && !www.isNetworkError)
-#else
-                if (string.IsNullOrEmpty(www.error))
-#endif
                 {
                     string result = www.downloadHandler.text;
 
@@ -616,9 +606,7 @@ namespace Crosstales.OnlineCheck
                 DataDownloaded += (long)www.downloadedBytes;
             }
         }
-
         /*
-        //disabled since UnityWebRequest seems not to return the correct response headers...
         private IEnumerator google204Check(bool showError = false)
         {
             available = false;
@@ -626,23 +614,13 @@ namespace Crosstales.OnlineCheck
 
             using (UnityWebRequest www = UnityWebRequest.Get(URLAntiCacheRandomizer(url)))
             {
-#if UNITY_2017_1_OR_NEWER
                 www.timeout = Timeout;
-#endif
-#if UNITY_2017_2_OR_NEWER
                 www.downloadHandler = new DownloadHandlerBuffer();
                 yield return www.SendWebRequest();
-#else
-                yield return www.Send();
-#endif
 
-#if UNITY_2017_1_OR_NEWER
                 if (!www.isHttpError && !www.isNetworkError)
-#else
-                if (string.IsNullOrEmpty(www.error))
-#endif
                 {
-                    Dictionary<string, string> responseHeaders = www.GetResponseHeaders();
+                    System.Collections.Generic.Dictionary<string, string> responseHeaders = www.GetResponseHeaders();
 
                     string result = www.downloadHandler.text;
 
@@ -660,6 +638,8 @@ namespace Crosstales.OnlineCheck
                             httpStatus = responseHeaders["STATUS"];
                         else if (responseHeaders.ContainsKey("NULL")) // Android
                             httpStatus = responseHeaders["NULL"];
+
+                        //Debug.Log("httpStatus: " + httpStatus);
 
                         if (httpStatus.Length > 0)
                         {
@@ -681,7 +661,6 @@ namespace Crosstales.OnlineCheck
             }
         }
         */
-
         private IEnumerator googleBlankCheck(bool showError = false)
         {
             available = false;
@@ -689,21 +668,11 @@ namespace Crosstales.OnlineCheck
 
             using (UnityWebRequest www = UnityWebRequest.Get(URLAntiCacheRandomizer(url)))
             {
-#if UNITY_2017_1_OR_NEWER
                 www.timeout = Timeout;
-#endif
-#if UNITY_2017_2_OR_NEWER
                 www.downloadHandler = new DownloadHandlerBuffer();
                 yield return www.SendWebRequest();
-#else
-                yield return www.Send();
-#endif
 
-#if UNITY_2017_1_OR_NEWER
                 if (!www.isHttpError && !www.isNetworkError)
-#else
-                if (string.IsNullOrEmpty(www.error))
-#endif
                 {
                     string result = www.downloadHandler.text;
 
@@ -897,6 +866,7 @@ namespace Crosstales.OnlineCheck
 
                         /*
                         // Google204 check
+                        // NOTE: currently disabled since UnityWebRequest seems not to return the correct response headers.
                         if (!available)
                         {
                             if (Util.Constants.DEV_DEBUG)

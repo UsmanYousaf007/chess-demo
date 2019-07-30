@@ -13,20 +13,58 @@ namespace Crosstales.Common.Util
         [Tooltip("Objects which have to survive a scene switch.")]
         public GameObject[] Survivors; //any object, like a RadioPlayer
 
-        private Transform tf;
+        /// <summary>Don't destroy gameobject during scene switches (default: true).</summary>
+        [Tooltip("Don't destroy gameobject during scene switches (default: true).")]
+        public bool DontDestroy = true;
 
         private const float ensureParentTime = 1.5f;
         private float ensureParentTimer = 0f;
+
+        private static SurviveSceneSwitch instance;
+        //private static GameObject go;
+        private static Transform tf;
+        private static bool loggedOnlyOneInstance = false;
 
         #endregion
 
 
         #region MonoBehaviour methods
 
-        public void Awake()
+        public void OnEnable()
         {
-            tf = transform;
-            DontDestroyOnLoad(tf.root.gameObject);
+            if (instance == null)
+            {
+                instance = this;
+                //go = gameObject;
+                tf = transform;
+
+                if (!BaseHelper.isEditorMode && DontDestroy)
+                    DontDestroyOnLoad(tf.root.gameObject);
+
+                //Debug.LogWarning("Using new instance!");
+            }
+            else
+            {
+                if (!BaseHelper.isEditorMode && DontDestroy && instance != this)
+                {
+                    if (!loggedOnlyOneInstance)
+                    {
+                        Debug.LogWarning("Only one active instance of 'SurviveSceneSwitch' allowed in all scenes!" + System.Environment.NewLine + "This object and all survivors will now be destroyed.");
+
+                        loggedOnlyOneInstance = true;
+                    }
+
+                    foreach (GameObject _go in Survivors)
+                    {
+                        if (_go != null)
+                            Destroy(_go);
+                    }
+
+                    Destroy(gameObject, 0.2f);
+                }
+
+                //Debug.LogWarning("Using old instance!");
+            }
         }
 
         public void Start()
@@ -42,10 +80,10 @@ namespace Crosstales.Common.Util
             {
                 ensureParentTimer = 0f;
 
-                foreach (GameObject go in Survivors)
+                foreach (GameObject _go in Survivors)
                 {
-                    if (go != null)
-                        go.transform.SetParent(tf);
+                    if (_go != null)
+                        _go.transform.SetParent(tf);
                 }
             }
         }

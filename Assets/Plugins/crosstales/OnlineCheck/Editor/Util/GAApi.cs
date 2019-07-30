@@ -1,4 +1,5 @@
-﻿namespace Crosstales.OnlineCheck.EditorUtil
+﻿#if UNITY_EDITOR
+namespace Crosstales.OnlineCheck.EditorUtil
 {
     /// <summary>GA-wrapper API.</summary>
     public abstract class GAApi : Common.EditorUtil.BaseGAApi
@@ -23,4 +24,5 @@
 
     }
 }
+#endif
 // © 2017-2019 crosstales LLC (https://www.crosstales.com)

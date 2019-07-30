@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Crosstales.OnlineCheck.Util;
 
 namespace Crosstales.OnlineCheck.Demo
 {
@@ -47,12 +46,12 @@ namespace Crosstales.OnlineCheck.Demo
         {
             if (Name != null)
             {
-                Name.text = Constants.ASSET_NAME;
+                Name.text = Crosstales.OnlineCheck.Util.Constants.ASSET_NAME;
             }
 
             if (Version != null)
             {
-                Version.text = Constants.ASSET_VERSION;
+                Version.text = Crosstales.OnlineCheck.Util.Constants.ASSET_VERSION;
             }
 
             if (Scene != null)
@@ -105,32 +104,32 @@ namespace Crosstales.OnlineCheck.Demo
 
                 if (Total != null)
                 {
-                    Total.text = Context.NumberOfChecks.ToString();
+                    Total.text = Crosstales.OnlineCheck.Util.Context.NumberOfChecks.ToString();
                 }
 
                 if (PerMinute != null)
                 {
-                    PerMinute.text = Context.ChecksPerMinute.ToString("#0.0");
+                    PerMinute.text = Crosstales.OnlineCheck.Util.Context.ChecksPerMinute.ToString("#0.0");
                 }
 
                 if (Data != null)
                 {
-                    Data.text = Helper.FormatBytesToHRF(OnlineCheck.DataDownloaded).ToString();
+                    Data.text = Common.Util.BaseHelper.FormatBytesToHRF(OnlineCheck.DataDownloaded).ToString();
                 }
 
                 if (Runtime != null)
                 {
-                    Runtime.text = Helper.FormatSecondsToHourMinSec(Context.Runtime);
+                    Runtime.text = Common.Util.BaseHelper.FormatSecondsToHourMinSec(Crosstales.OnlineCheck.Util.Context.Runtime);
                 }
 
                 if (Uptime != null)
                 {
-                    Uptime.text = Helper.FormatSecondsToHourMinSec(Context.Uptime);
+                    Uptime.text = Common.Util.BaseHelper.FormatSecondsToHourMinSec(Crosstales.OnlineCheck.Util.Context.Uptime);
                 }
 
                 if (Downtime != null)
                 {
-                    Downtime.text = Helper.FormatSecondsToHourMinSec(Context.Downtime);
+                    Downtime.text = Common.Util.BaseHelper.FormatSecondsToHourMinSec(Crosstales.OnlineCheck.Util.Context.Downtime);
                 }
 
                 elapsedTime = 0f;

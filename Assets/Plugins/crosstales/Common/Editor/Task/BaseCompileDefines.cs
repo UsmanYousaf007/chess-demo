@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -113,4 +113,5 @@ namespace Crosstales.Common.EditorTask
         }
     }
 }
+#endif
 // © 2018-2019 crosstales LLC (https://www.crosstales.com)
