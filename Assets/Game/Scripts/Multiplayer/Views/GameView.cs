@@ -65,6 +65,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowHindsight();
             OnParentShowInfo();
             OnParentShowAdBanner();
+            EnableSafeButton();
         }
 
         public void Hide()

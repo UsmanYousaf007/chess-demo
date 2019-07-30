@@ -61,6 +61,8 @@ namespace TurboLabz.Multiplayer
         [Inject] public InitTimersSignal initTimersSignal { get; set; }
         [Inject] public UpdateSafeMoveStateSignal updateSafeMoveStateSignal { get; set; }
         [Inject] public WaitingForOpponentAcceptSignal waitingForOpponentAcceptSignal { get; set; }
+        [Inject] public DisableUndoBtnSignal disableUndoBtnSignal { get; set; }
+
 
 
         // Models

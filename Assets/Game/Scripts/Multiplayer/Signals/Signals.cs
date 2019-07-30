@@ -86,4 +86,5 @@ namespace TurboLabz.Multiplayer
     public class HindsightAvailableSignal : Signal<bool> { }
     public class HintAvailableSignal : Signal<bool> { }
     public class WaitingForOpponentAcceptSignal : Signal{ }
+    public class DisableUndoBtnSignal : Signal<bool> { }
 }

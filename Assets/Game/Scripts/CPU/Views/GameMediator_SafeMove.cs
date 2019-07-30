@@ -68,5 +68,11 @@ namespace TurboLabz.CPU
         {
             view.ToggleSafeMove(on);
         }
+
+        [ListensTo(typeof(DisableUndoBtnSignal))]
+        public void OnDisableSafeMoveBtn(bool available)
+        {
+            view.DisableSafeMoveBtn(available);
+        }
     }
 }

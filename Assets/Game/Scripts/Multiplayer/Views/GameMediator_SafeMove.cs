@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using TurboLabz.CPU;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 
@@ -76,6 +77,12 @@ namespace TurboLabz.Multiplayer
         public void OnUpdateSafeMoveStateSignal(bool on)
         {
             view.ToggleSafeMove(on);
+        }
+
+        [ListensTo(typeof(DisableUndoBtnSignal))]
+        public void OnDisableSafeMoveBtn(bool available)
+        {
+            view.DisableSafeMoveBtn(available);
         }
     }
 }

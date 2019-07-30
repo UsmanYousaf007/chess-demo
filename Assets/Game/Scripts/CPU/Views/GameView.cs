@@ -53,6 +53,7 @@ namespace TurboLabz.CPU
             OnParentShowSafeMove();
             OnParentShowHindsight();
             OnParentShowAdBanner();
+            EnableSafeButton();
 
             showAdOnBack = false;
         }
