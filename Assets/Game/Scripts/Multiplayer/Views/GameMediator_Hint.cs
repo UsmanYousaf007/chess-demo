@@ -22,7 +22,10 @@ namespace TurboLabz.Multiplayer
 
         private void OnGetHint()
         {
-            getHintSignal.Dispatch(false);
+            if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            {
+                getHintSignal.Dispatch(false);
+            }       
         }
 
         [ListensTo(typeof(RenderHintSignal))]
