@@ -23,17 +23,26 @@ namespace TurboLabz.Multiplayer
 
         void OnSafeMoveBtnClicked()
         {
-            toggleSafeModelSignal.Dispatch();
+            if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            {
+                toggleSafeModelSignal.Dispatch();
+            }    
         }
 
         void OnSafeMoveConfirmedClicked()
         {
-            safeMoveSignal.Dispatch(true);
+            if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            {
+                safeMoveSignal.Dispatch(true);
+            }    
         }
 
         void OnSafeMoveUndoClicked()
         {
-            safeMoveSignal.Dispatch(false);
+            if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            {
+                safeMoveSignal.Dispatch(false);
+            }     
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
