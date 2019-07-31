@@ -81,6 +81,7 @@ namespace TurboLabz.Multiplayer
             HideOpponentConnectionMonitor();
             FlashClocks(false);
             FindMatchTimeoutEnable(false);
+            appInfoModel.gameMode = GameMode.NONE;
         }
 
 		public void SetMatchType()

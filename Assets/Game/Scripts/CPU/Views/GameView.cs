@@ -27,6 +27,7 @@ namespace TurboLabz.CPU
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         [Inject] public ShowAdSignal showAdSignal { get; set; }
 
@@ -66,6 +67,7 @@ namespace TurboLabz.CPU
             OnParentHideChessboard();
             OnParentHideClickAndDrag();
             OnParentHideAdBanner();
+            appInfoModel.gameMode = GameMode.NONE;
         }
 
         public bool IsVisible()

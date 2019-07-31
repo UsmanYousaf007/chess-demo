@@ -66,6 +66,11 @@ namespace TurboLabz.InstantFramework
             {
                 LogUtil.Log("GS Disconnected", "red");
 
+                if(appInfoModel.isReconnecting == DisconnectStats.FALSE)
+                {
+                    appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
+                }
+
                 appInfoModel.isReconnecting = DisconnectStats.LONG_DISCONNET;
                 reconnectViewEnableSignal.Dispatch(true);
 

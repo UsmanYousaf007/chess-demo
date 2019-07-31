@@ -80,6 +80,7 @@ namespace TurboLabz.CPU
         [Inject] public IChessAiService chessAiService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         public override void Execute()
         {
@@ -90,6 +91,7 @@ namespace TurboLabz.CPU
 
             LogUtil.Log("Current State: " + chessboardModel.currentState.GetType().Name, "white");
             LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
+            appInfoModel.gameMode = GameMode.CPU;
 
             CCS currentState = chessboardModel.currentState;
             CCS newState = chessboardModel.currentState.HandleEvent(this);

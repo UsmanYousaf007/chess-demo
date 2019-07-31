@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         long reconnectTimeStamp { get; set; }
         DisconnectStats isReconnecting { get; set; }
         bool syncInProgress { get; set; }
+        GameMode gameMode { get; set; }
     }
 
     public enum DisconnectStats
@@ -24,6 +25,15 @@ namespace TurboLabz.InstantFramework
         FALSE,
         SHORT_DISCONNECT,
         LONG_DISCONNET
+
+    }
+
+    public enum GameMode
+    {
+        NONE,
+        QUICK_MATCH,
+        CPU,
+        LONG_MATCH
 
     }
 

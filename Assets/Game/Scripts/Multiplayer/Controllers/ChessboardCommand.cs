@@ -77,6 +77,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IChessAiService chessAiService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         public Chessboard activeChessboard;
         public MatchInfo activeMatchInfo;
@@ -93,6 +94,14 @@ namespace TurboLabz.Multiplayer
 
             LogUtil.Log("Current State: " + activeChessboard.currentState.GetType().Name, "white");
             LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
+
+            appInfoModel.gameMode = GameMode.QUICK_MATCH;
+
+            if (activeMatchInfo.isLongPlay)
+            {
+                appInfoModel.gameMode = GameMode.LONG_MATCH;
+            }
+
 
             CCS currentState = activeChessboard.currentState;
             CCS newState = activeChessboard.currentState.HandleEvent(this);

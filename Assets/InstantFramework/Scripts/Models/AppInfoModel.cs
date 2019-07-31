@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public long reconnectTimeStamp { get; set; }
         public DisconnectStats isReconnecting { get; set; }
         public bool syncInProgress { get; set; }
+        public GameMode gameMode { get; set; }
 
         enum subVersionIndex
         {
@@ -38,6 +39,7 @@ namespace TurboLabz.InstantFramework
             string[] version = Application.version.Split('.');
             appBackendVersion = int.Parse(version[(int)subVersionIndex.BACKEND]);
             clientVersion = Application.version;
+            gameMode = GameMode.NONE;
 
             modelsResetSignal.AddListener(Reset);
         }
