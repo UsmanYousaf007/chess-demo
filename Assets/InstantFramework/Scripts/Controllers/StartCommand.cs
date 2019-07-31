@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IShareService shareService { get; set; }
 		[Inject] public IBackendService backendService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -49,7 +50,9 @@ namespace TurboLabz.InstantFramework
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
 			audioService.Init();
             GameAnalytics.Initialize();
-		}
+            appsFlyerService.Init();
+
+        }
 
 		void GameSparksAvailable(bool isAvailable)
         {
