@@ -46,6 +46,8 @@ namespace TurboLabz.InstantGame
         [Inject] public PostShowNotificationSignal postShowNotificationSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -180,6 +182,7 @@ namespace TurboLabz.InstantGame
         private void OnPlayButtonClicked()
         {
             notifications[0].obj.SetActive(false);
+            loadLobbySignal.Dispatch();
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
             FadeBlocker();
         }

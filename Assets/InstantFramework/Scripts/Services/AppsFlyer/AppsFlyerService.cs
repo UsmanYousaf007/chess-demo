@@ -15,7 +15,7 @@ namespace TurboLabz.InstantFramework
             /* Mandatory - set your AppsFlyer’s Developer key. */
             AppsFlyer.setAppsFlyerKey("2Rcqu5eJmG7svYc2RJauwh");
             /* For detailed logging */
-             AppsFlyer.setIsDebug (true); 
+            // AppsFlyer.setIsDebug (true); 
 #if UNITY_IOS
             /* Mandatory - set your apple app ID
              NOTE: You should enter the number only and not the "ID" prefix */
