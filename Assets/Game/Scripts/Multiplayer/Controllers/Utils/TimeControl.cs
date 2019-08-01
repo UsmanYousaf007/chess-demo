@@ -94,7 +94,13 @@ namespace TurboLabz.Multiplayer
 
         public void StopTimers()
         {
-            Assertions.Assert(state != State.UNINITIALIZED, "Timers must be set first!");
+            //Assertions.Assert(state != State.UNINITIALIZED, "Timers must be set first!");
+
+            if (state == State.UNINITIALIZED)
+            {
+                LogUtil.Log("Timers must be set first! ********** ");
+                return;
+            }
 
             state = State.STOPPED;
 
