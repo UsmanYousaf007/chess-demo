@@ -13,6 +13,8 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
+
         public void AddChallengeListeners()
         {
             ChallengeStartedMessage.Listener += OnChallengeStartedMessage;
@@ -137,6 +139,15 @@ namespace TurboLabz.InstantFramework
                 msg.timestamp = chatData.GetLong(GSBackendKeys.Chat.TIMESTAMP).Value;
 
                 receiveChatMessageSignal.Dispatch(msg, false);
+
+#if UNITY_EDITOR
+                // editor only
+                NotificationVO notificationVO;
+                notificationVO.title = message.Data.GetString("title");
+                notificationVO.body = message.Data.GetString("body");
+                notificationVO.senderPlayerId = msg.senderId;
+                notificationRecievedSignal.Dispatch(notificationVO);
+#endif
             } 
         }
 
