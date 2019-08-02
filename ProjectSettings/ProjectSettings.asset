@@ -258,7 +258,7 @@ PlayerSettings:
   clonedFromGUID: 00000000000000000000000000000000
   templatePackageId: 
   templateDefaultScene: 
-  AndroidTargetArchitectures: 1
+  AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: /Users/test/Downloads/keystores-devel/instant-chess/instant-chess-signing.keystore
@@ -976,7 +976,7 @@ PlayerSettings:
     iPhone: 1
     tvOS: 1
   scriptingBackend:
-    Android: 0
+    Android: 1
     Standalone: 0
     WebGL: 1
     WebPlayer: 0

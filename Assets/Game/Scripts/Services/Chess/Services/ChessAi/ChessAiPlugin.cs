@@ -38,18 +38,18 @@ namespace TurboLabz.Chess
         public const string PLUGIN_NAME = "__Internal";
         #endif
 
-        #if !UNITY_IOS
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        #endif
+        //#if !UNITY_IOS
+        //[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        //#endif
         public delegate void UnityOutDelegate(string str);
 
-        #if UNITY_IOS
+       // #if UNITY_IOS
         [DllImport (PLUGIN_NAME)]
         public static extern void tl_setUnityOutFuncPtr(UnityOutDelegate callback);
-        #else
-        [DllImport (PLUGIN_NAME)]
-        public static extern void tl_setUnityOutFuncPtr(IntPtr fp);
-        #endif
+       // #else
+       // [DllImport (PLUGIN_NAME)]
+      //  public static extern void tl_setUnityOutFuncPtr(IntPtr fp);
+       // #endif
 
         [DllImport (PLUGIN_NAME)]
         private static extern void tl_echo(string arg);
@@ -70,13 +70,13 @@ namespace TurboLabz.Chess
             if (!isInitialized)
             {
                 // Set the callback to Unity function
-                #if UNITY_IOS
+                //#if UNITY_IOS
                 tl_setUnityOutFuncPtr(UnityOutCallback);
-                #else
-                UnityOutDelegate callback_delegate = new UnityOutDelegate(UnityOutCallback);
-                IntPtr intptr_delegate = Marshal.GetFunctionPointerForDelegate(callback_delegate);
-                tl_setUnityOutFuncPtr(intptr_delegate);
-                #endif
+               // #else
+                //UnityOutDelegate callback_delegate = new UnityOutDelegate(UnityOutCallback);
+                //IntPtr intptr_delegate = Marshal.GetFunctionPointerForDelegate(callback_delegate);
+                //tl_setUnityOutFuncPtr(intptr_delegate);
+                //#endif
 
                 // Initialize the plugin once
                 tl_init();
@@ -156,9 +156,9 @@ namespace TurboLabz.Chess
             tl_cmd("stop");
         }
 
-        #if UNITY_IOS
+       // #if UNITY_IOS
         [MonoPInvokeCallback(typeof(UnityOutDelegate))]
-        #endif
+        //#endif
         private static void UnityOutCallback(string str)
         {
             if (str.Contains("moveOptions"))

@@ -497,7 +497,7 @@ public class MoPubiOS : MoPubBase
                                             int logLevel, string adapterConfigJson,
                                             string moPubRequestOptionsJson) {}
     private static bool _moPubIsSdkInitialized() { return false; }
-=    private static string _moPubGetSDKVersion() { return null; }
+    private static string _moPubGetSDKVersion() { return null; }
     private static void _moPubEnableLocationSupport(bool shouldUseLocation) {}
     private static void _moPubSetAllowLegitimateInterest(bool allowLegitimateInterest) {}
     private static bool _moPubAllowLegitimateInterest() { return false; }
