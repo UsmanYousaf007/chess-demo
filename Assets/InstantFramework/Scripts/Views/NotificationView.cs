@@ -47,7 +47,7 @@ namespace TurboLabz.InstantGame
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-
+        [Inject] public TurboLabz.CPU.SaveGameSignal saveGameSignal { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -163,7 +163,7 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            if(appInfoModel.gameMode == GameMode.QUICK_MATCH)
+            if(appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
             {
                 notification.playButton.gameObject.SetActive(false);
             }
@@ -184,6 +184,10 @@ namespace TurboLabz.InstantGame
         private void OnPlayButtonClicked()
         {
             notifications[0].obj.SetActive(false);
+            if (appInfoModel.gameMode == GameMode.CPU)
+            {
+                saveGameSignal.Dispatch();
+            }
             loadLobbySignal.Dispatch();
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
             FadeBlocker();

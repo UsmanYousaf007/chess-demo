@@ -71,6 +71,16 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        [ListensTo(typeof(GameDisconnectingSignal))]
+        public void OnGameDisconnecting()
+        {
+            if (gameObject.activeSelf)
+            {
+                stopTimersSignal.Dispatch();
+                view.FlashClocks(true);
+            }
+        }
+
         /*
         [ListensTo(typeof(ChallengeMessageProcessedSignal))]
         public void ChallengeMessagedProcessed(string challengeId)
