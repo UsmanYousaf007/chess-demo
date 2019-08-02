@@ -12,4 +12,6 @@ public class Notification : MonoBehaviour
     public Image avatarBg;
     public Image avatarIcon;
     public Image senderPic;
+    public Sprite whiteAvatar;
+    public Sprite defaultAvatar;
 }

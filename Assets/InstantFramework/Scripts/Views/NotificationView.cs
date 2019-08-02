@@ -130,6 +130,7 @@ namespace TurboLabz.InstantGame
             notification.title.text = notificationVO.title;
             notification.body.text = notificationVO.body;
             notification.playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
+            notification.avatarBg.sprite = notification.defaultAvatar;
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
             {
@@ -142,6 +143,7 @@ namespace TurboLabz.InstantGame
                 {
                     Sprite newSprite = defaultAvatarContainer.GetSprite(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId);
                     notification.avatarIcon.sprite = newSprite;
+                    notification.avatarBg.sprite = notification.whiteAvatar;
                     notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId) ;
                     notification.senderPic.gameObject.SetActive(false);
                 }
@@ -161,7 +163,7 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            if(appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            if(appInfoModel.gameMode == GameMode.QUICK_MATCH)
             {
                 notification.playButton.gameObject.SetActive(false);
             }
