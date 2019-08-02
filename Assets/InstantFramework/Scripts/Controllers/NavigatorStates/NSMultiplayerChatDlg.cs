@@ -34,6 +34,10 @@ namespace TurboLabz.InstantFramework
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
+            {
+                return new NSLobby();
+            }
 
             return null;
         }
