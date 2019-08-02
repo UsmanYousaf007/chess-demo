@@ -73,6 +73,7 @@ namespace TurboLabz.InstantFramework
         public Image notificationTagImage;
         public Text notificationTagNumber;
 
+        public Text onlinePlayersCountLabel;
 
         [Header("Choose computer difficulty dialog")]
         public GameObject chooseComputerDifficultyDlg;
@@ -225,9 +226,12 @@ namespace TurboLabz.InstantFramework
                 playComputerLevelTxt.gameObject.SetActive(false);
                 playComputerMatchPlay.SetActive(true);
             }
-        }
 
-        public void UpdateStrength(LobbyVO vo)
+            onlinePlayersCountLabel.text = "Active Players " + vo.onlineCount.ToString();
+
+    }
+
+    public void UpdateStrength(LobbyVO vo)
         {
             isCPUGameInProgress = vo.inProgress;
             int selectedStrength = vo.selectedStrength;
