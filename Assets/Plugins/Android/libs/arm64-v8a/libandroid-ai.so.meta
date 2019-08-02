@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-guid: 201f059c0ef124325aea55a5d9ce81d9
-labels:
-- gpsr
-- gvh
-- gvh_version-6.2.0
+guid: 9dfb659697f2b4adb844308858eeb13f
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -18,8 +14,9 @@ PluginImporter:
   - first:
       Android: Android
     second:
-      enabled: 0
-      settings: {}
+      enabled: 1
+      settings:
+        CPU: ARM64
   - first:
       Any: 
     second:
