@@ -4,72 +4,108 @@ using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System;
-//using UnityEngine.SceneManagement;
-
-// Output the build size or a failure depending on BuildPlayer.
+using TurboLabz.TLUtils;
 
 public class BuildChess : MonoBehaviour
-{
-    [MenuItem("Build/Build Chess iOS")]
-    public static void BuildiOS()
-    {
-        Debug.Log("Start Build iOS");
+{ 
+    static string BUILD_OUTPUT_PATH = "/build";
+    static string BUILD_OUTPUT_ANDROID_SUBPATH = "/Android";
+    static string BUILD_OUTPUT_IOS_SUBPATH = "/iOS";
 
-        string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
-        String[] arguments = Environment.GetCommandLineArgs();
+    static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
 
-        // Clear skin links
-        Debug.Log("Clear skin links");
-        Scene scene = EditorSceneManager.GetSceneByName("Game");
-        ClearSkinLinks.Init();
-        EditorSceneManager.SaveScene(scene);
-
-        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new string[] { 
+    static string androidAPK = "chessstar";
+    static string bundleVersion = "0.0.1";
+    static string bundleVersionCode = "001";
+    static string[] gameScenes = new string[] { "Game" };
+    static string[] gameScenFiles = new string[] {
             "Assets/InstantFramework/Scenes/Splash.unity",
             "Assets/Game/Scenes/Game.unity"
             };
-        buildPlayerOptions.locationPathName = desktopPath + "/build/";
-        buildPlayerOptions.target = BuildTarget.iOS;
-        buildPlayerOptions.options = BuildOptions.None;
 
+    private static void ProcessArgs()
+    {
+        LogUtil.Log("Process Args", "yellow");
+        string[] args = Environment.GetCommandLineArgs();
+        int i = 0;
+        foreach (string a in args)
+        {
+            LogUtil.Log("Args: " + a);
+
+            if (a == "-inBundleVersion")
+            {
+                bundleVersion = args[i + 1];
+                LogUtil.Log("bundleVersion: " + bundleVersion);
+            }
+            else if (a == "-inBundleVersionCode")
+            {
+                bundleVersionCode = args[i + 1];
+                LogUtil.Log("bundleVersionCode: " + bundleVersionCode);
+            }
+            i++;
+        }
+    }
+
+    private static void ProcessSkinLinks()
+    {
+        LogUtil.Log("Process skin links", "yellow");
+        Scene scene = EditorSceneManager.GetSceneByName(gameScenes[0]);
+        ClearSkinLinks.Init();
+        EditorSceneManager.SaveScene(scene);
+    }
+
+    private static void ProcessBuild(BuildPlayerOptions buildPlayerOptions)
+    {
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
         BuildSummary summary = report.summary;
 
         if (summary.result == BuildResult.Succeeded)
         {
-            Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+            LogUtil.Log("Build succeeded: " + summary.totalSize + " bytes", "cyan");
         }
 
         if (summary.result == BuildResult.Failed)
         {
-            Debug.Log("Build failed");
+            LogUtil.Log("Build failed", "red");
         }
+    }
 
-        Debug.Log("End Build iOS");
+    [MenuItem("Build/Build Chess iOS")]
+    public static void BuildiOS()
+    {
+        LogUtil.Log("Start Build iOS", "yellow");
 
+        ProcessArgs();
+        ProcessSkinLinks();
+
+        PlayerSettings.bundleVersion = bundleVersion;
+        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCode);
+
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.scenes = gameScenFiles;  
+        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_IOS_SUBPATH;
+        buildPlayerOptions.target = BuildTarget.iOS;
+        buildPlayerOptions.options = BuildOptions.None;
+
+        ProcessBuild(buildPlayerOptions);
+
+        LogUtil.Log("End Build iOS", "yellow");
     }
 
     [MenuItem("Build/Build Chess Andriod")]
     public static void BuildAndroid()
     {
-        Debug.Log("Start Build Android");
+        LogUtil.Log("Start Build Android");
 
-        string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
-        String[] arguments = Environment.GetCommandLineArgs();
+        ProcessArgs();
+        ProcessSkinLinks();
 
-        // Clear skin links
-        Debug.Log("Clear skin links");
-        Scene scene = EditorSceneManager.GetSceneByName("Game");
-        ClearSkinLinks.Init();
-        EditorSceneManager.SaveScene(scene);
+        PlayerSettings.bundleVersion = bundleVersion;
+        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCode);
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new string[] {
-            "Assets/InstantFramework/Scenes/Splash.unity",
-            "Assets/Game/Scenes/Game.unity"
-            };
-        buildPlayerOptions.locationPathName = desktopPath + "/build/chessstar.apk";
+        buildPlayerOptions.scenes = gameScenFiles; 
+        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_ANDROID_SUBPATH + "/" + androidAPK + bundleVersionCode + ".apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.None;
 
@@ -80,21 +116,8 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.keyaliasPass = "0_turbolabzsignature-instant-chess_1";
         PlayerSettings.Android.keyaliasName = "instant-chess-signing";
 
+        ProcessBuild(buildPlayerOptions);
 
-        BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-        BuildSummary summary = report.summary;
-
-        if (summary.result == BuildResult.Succeeded)
-        {
-            Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
-        }
-
-        if (summary.result == BuildResult.Failed)
-        {
-            Debug.Log("Build failed");
-        }
-
-        Debug.Log("End Build Android");
-
+        LogUtil.Log("End Build Android");
     }
 }
