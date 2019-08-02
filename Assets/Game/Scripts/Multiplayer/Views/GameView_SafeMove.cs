@@ -171,19 +171,19 @@ namespace TurboLabz.Multiplayer
         public void DisableSafeButton()
         {
             safeMoveBtn.interactable = false;
-            safeMoveCountTxt.color   = Colors.ColorAlpha(hindsightCountLabel.color, 0.5f);
-            safeMoveAdd.color        = Colors.ColorAlpha(hindsightAdd.color, 0.5f);
-            safeMoveLabel.color      = Colors.ColorAlpha(hindsightLabel.color, 0.5f);
-            safeMoveIcon.color       = Colors.ColorAlpha(hindsightIcon.color, 0.5f);
+            safeMoveCountTxt.color   = Colors.ColorAlpha(safeMoveCountTxt.color, 0.5f);
+            safeMoveAdd.color        = Colors.ColorAlpha(safeMoveAdd.color, 0.5f);
+            safeMoveLabel.color      = Colors.ColorAlpha(safeMoveLabel.color, 0.5f);
+            safeMoveIcon.color       = Colors.ColorAlpha(safeMoveIcon.color, 0.5f);
         }
 
         private void EnableSafeButton()
         {
             safeMoveBtn.interactable = true;
-            safeMoveCountTxt.color   = Colors.ColorAlpha(hindsightCountLabel.color, 1f);
-            safeMoveAdd.color        = Colors.ColorAlpha(hindsightAdd.color, 1f);
-            safeMoveLabel.color      = Colors.ColorAlpha(hindsightLabel.color, 0.87f);
-            safeMoveIcon.color       = Colors.ColorAlpha(hindsightIcon.color, 1f);
+            safeMoveCountTxt.color   = Colors.ColorAlpha(safeMoveCountTxt.color, 1f);
+            safeMoveAdd.color        = Colors.ColorAlpha(safeMoveAdd.color, 1f);
+            safeMoveLabel.color      = Colors.ColorAlpha(safeMoveLabel.color, 0.87f);
+            safeMoveIcon.color       = Colors.ColorAlpha(safeMoveIcon.color, 1f);
         }
     }
 }
