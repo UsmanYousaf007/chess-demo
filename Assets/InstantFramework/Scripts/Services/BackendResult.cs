@@ -56,6 +56,7 @@ namespace TurboLabz.InstantFramework
         // Testing code
         SEND_TEST_REQUEST_FAILED,
         SEND_BACKEND_ERROR_SIGNAL,
+        GAME_CRASH_SIGNAL,
 
     }
 }

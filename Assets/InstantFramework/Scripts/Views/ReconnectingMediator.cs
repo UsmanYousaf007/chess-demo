@@ -21,6 +21,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public ReconnectingView view { get; set; }
 
         // Dispatch signals
+        [Inject] public SetErrorAndHaltSignal setErrorAndHaltSignal { get; set; }
+
+        // Dispatch signals
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
         [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
 
@@ -70,6 +73,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
+            if (LogUtil.errorSeverity > 3)
+            {
+                setErrorAndHaltSignal.Dispatch(BackendResult.GAME_CRASH_SIGNAL);
+                return;
+            }
+
             if (isConnected && !appInfoModel.syncInProgress)
             {
                 view.HidePopUp();

@@ -41,18 +41,35 @@ namespace TurboLabz.InstantFramework
 
         public void SetErrorAndHalt(BackendResult error)
         {
-            string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
-            errorCodeLabel.text =  "(Error: " + errorCode + ")";
-
-            if (Application.internetReachability == NetworkReachability.NotReachable)
+            if(error == BackendResult.GAME_CRASH_SIGNAL)
             {
-              errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
+                string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
+                errorCodeLabel.text = "(Error: " + errorCode + ")";
+                errorMessageLabel.text = Truncate(LogUtil.errorString, 500);
+                gameObject.SetActive(true);
+                StartCoroutine(HaltSystem());
             }
+            else
+            {
+                string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
+                errorCodeLabel.text = "(Error: " + errorCode + ")";
 
-            //StartCoroutine(HaltSystem());
+                if (Application.internetReachability == NetworkReachability.NotReachable)
+                {
+                    errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
+                }
 
-            LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
+                //StartCoroutine(HaltSystem());
 
+                LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
+
+            }
+        }
+
+        public string Truncate(string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
 
         IEnumerator HaltSystem()

@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 
+using TurboLabz.InstantFramework;
 using UnityEngine;
 
 namespace TurboLabz.TLUtils
@@ -21,6 +22,9 @@ namespace TurboLabz.TLUtils
         private const int INDENT_SPACE_COUNT = 4;
 
         private static int indentLevel = 0;
+
+        public static int errorSeverity { get; set; }
+        public static string errorString { get; set; }
 
         private static int indentSpaces
         {
