@@ -19,6 +19,7 @@ using strange.extensions.promise.impl;
 
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using System;
 
 namespace TurboLabz.Chess
 {
@@ -41,7 +42,8 @@ namespace TurboLabz.Chess
             }
         }
 
-        private IPromise<FileRank, FileRank, string> aiMovePromise; 
+        private IPromise<FileRank, FileRank, string> aiMovePromise;
+        private IPromise<FileRank, FileRank, float> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
         private bool resultsReady;
@@ -69,19 +71,28 @@ namespace TurboLabz.Chess
             return aiMovePromise;
         }
 
-		//private IEnumerator ProcessQueue(MoveRequest request)
-		//{
-		//	while (Busy)
-		//	{
-		//		yield return null;
-		//	}
-        //
-		//	aiMoveInputVO = request.vo;
-		//	aiMovePromise = request.promise;
-		//	routineRunner.StartCoroutine(GetAiResult());
-		//}
 
-		private IEnumerator GetAiResult()
+        public IPromise<FileRank, FileRank, float> GetAiMoveStrength(AiMoveInputVO vo)
+        {
+            aiMoveStrengthPromise = new Promise<FileRank, FileRank, float>();
+            aiMoveInputVO = vo;
+            routineRunner.StartCoroutine(GetAiResult());
+            return aiMoveStrengthPromise;
+        }
+
+        //private IEnumerator ProcessQueue(MoveRequest request)
+        //{
+        //	while (Busy)
+        //	{
+        //		yield return null;
+        //	}
+        //
+        //	aiMoveInputVO = request.vo;
+        //	aiMovePromise = request.promise;
+        //	routineRunner.StartCoroutine(GetAiResult());
+        //}
+
+        private IEnumerator GetAiResult()
         {
             // Clear the results flag
             resultsReady = false;
@@ -122,6 +133,7 @@ namespace TurboLabz.Chess
             aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
             scores = new List<int>();
 
+
             foreach (string score in aiSearchResultScoresList)
             {
                 scores.Add(int.Parse(score));
@@ -131,9 +143,52 @@ namespace TurboLabz.Chess
             aiSearchResultMovesList = new List<string>(ChessAiPlugin.results.aiSearchResultMovesStr.Split(','));
             aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
 
-            SelectMove();
+            if (aiMoveInputVO.isStrength)
+            {
+                GetMoveStrength();
+            }
+            else
+            {
+                SelectMove();
+                aiMovePromise = null;
+            }
+            
+        }
 
-            aiMovePromise = null;
+        private void GetMoveStrength()
+        {
+            double precentage = 0.0f;
+            FileRank from = aiMoveInputVO.lastPlayerMove.from;
+            FileRank to = aiMoveInputVO.lastPlayerMove.to;
+            int totolMoveCount = aiSearchResultMovesList.Count;
+
+            if (totolMoveCount > 0)
+            {
+                string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
+                int moveFoundIndex = -1;
+              
+                for (int i = 0; i < totolMoveCount - 1; ++i)
+                {
+                    LogUtil.Log("MOVES : " + aiSearchResultMovesList[i]);
+                    if(string.Equals(moveString, aiSearchResultMovesList[i]))
+                    {
+                        moveFoundIndex = i;
+                        break;
+                    }
+                }
+
+                LogUtil.Log("moveString : " + moveString + " totolMoveCount : "+ totolMoveCount + " moveFoundIndex:"+ moveFoundIndex);
+
+                if (moveFoundIndex >= 0)
+                {
+                    precentage = ((float)(totolMoveCount - moveFoundIndex) / (float)totolMoveCount);
+                    precentage = Math.Round(precentage, 1) * 10;
+                }
+            }
+
+            
+            aiMoveStrengthPromise.Dispatch(from, to, (float)precentage);
+            aiMoveStrengthPromise = null;
         }
     }
 }

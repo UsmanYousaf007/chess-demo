@@ -21,5 +21,6 @@ namespace TurboLabz.Chess
         public ChessSquare fromSquare;
         public ChessSquare toSquare;
         public bool isHindsight;
+        public int strength;
     }
 }

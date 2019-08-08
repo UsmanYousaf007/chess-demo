@@ -42,9 +42,14 @@ namespace TurboLabz.Chess
             return sb.ToString();
         }
 
-        private string GetAlgebraicLocation(FileRank fileRank)
+        public string GetAlgebraicLocation(FileRank fileRank)
         {
             return FILE_MAP[fileRank.file].ToString() + (fileRank.rank + 1).ToString();
+        }
+
+        public string MoveToString(FileRank fileRank, FileRank to)
+        {
+            return GetAlgebraicLocation(fileRank) + GetAlgebraicLocation(to);
         }
     }
 }

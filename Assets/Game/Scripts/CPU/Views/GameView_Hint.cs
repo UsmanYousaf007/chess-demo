@@ -13,6 +13,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TMPro;
 using TurboLabz.InstantGame;
+using System.Collections;
 
 namespace TurboLabz.CPU
 {
@@ -30,14 +31,20 @@ namespace TurboLabz.CPU
         public TextMeshProUGUI hintCountLabel;
         public Image hintAdd;
         public GameObject hintThinking;
+        public GameObject strengthPanel;
+        public Text strengthLabel;
+        public Image[] barArray;
 
         private int availableHints;
+        private const float MIN_WAIT = 0.1f;
+        public float dotWaitSeconds;
 
         public void InitHint()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hintButton.onClick.AddListener(HintButtonClicked);
             hintThinking.SetActive(false);
+            strengthPanel.SetActive(false);
         }
 
         public void OnParentShowHint()
@@ -62,6 +69,65 @@ namespace TurboLabz.CPU
             hintThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
+
+            ShowStrengthPanel(vo.strength);
+
+        }
+
+        private Coroutine barAnim = null;
+        private Coroutine panelActive;
+
+        private void ShowStrengthPanel(int strength)
+        {
+            strengthPanel.SetActive(true);
+            DisableBar();
+            int strengthString = strength * 10;
+            strengthLabel.text = "Strength " + strengthString.ToString() + "%";
+
+            if (strength > 0 && strength <= barArray.Length)
+            {
+                barAnim = StartCoroutine(Animate(strength));
+            }
+
+            StartCoroutine(HideStrengthPanel(3.0f));
+        }
+
+
+        public IEnumerator HideStrengthPanel(float t)
+        {
+            yield return new WaitForSeconds(t);
+            strengthPanel.SetActive(false);
+
+            if (barAnim != null)
+            {
+                StopCoroutine(barAnim);
+                barAnim = null;
+            }
+        }
+
+        public void DisableBar()
+        {
+            for(int i=0; i<barArray.Length; i++)
+            {
+                barArray[i].color = Colors.strengthBarDisableColor;
+            }
+        }
+
+        IEnumerator Animate(int strength)
+        {
+            float waitTime = Mathf.Max(MIN_WAIT, dotWaitSeconds);
+
+            while (true)
+            {
+                for (int i = 0; i < strength; i++)
+                {
+                    barArray[i].color = Colors.strengthBarColor[i];
+                    yield return new WaitForSeconds(waitTime);
+
+                }
+
+                yield return new WaitForSeconds(waitTime);
+            }
         }
 
         public void HideHint()

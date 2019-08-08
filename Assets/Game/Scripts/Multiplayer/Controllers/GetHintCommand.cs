@@ -66,6 +66,7 @@ namespace TurboLabz.Multiplayer
             vo.fromSquare = chessboard.squares[from.file, from.rank];
             vo.toSquare = chessboard.squares[to.file, to.rank];
             vo.isHindsight = isHindsight;
+            vo.strength = 0;
             renderHintSignal.Dispatch(vo);
 
             if (isHindsight)

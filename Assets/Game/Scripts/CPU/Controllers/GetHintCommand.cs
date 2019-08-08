@@ -16,6 +16,7 @@ using TurboLabz.InstantFramework;
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
 using TurboLabz.Chess;
+using System.Collections.Generic;
 
 namespace TurboLabz.CPU
 {
@@ -48,18 +49,50 @@ namespace TurboLabz.CPU
 
             string fen = isHindsight ? chessboardModel.previousPlayerTurnFen : chessService.GetFen();
             chessAiService.NewGame();
-            chessAiService.SetPosition(fen);
+            chessAiService.SetPosition(chessboardModel.previousPlayerTurnFen);
 
-            AiMoveInputVO vo = new AiMoveInputVO();
-            vo.aiColor = chessboardModel.playerColor;
-            vo.playerColor = chessboardModel.opponentColor;
-            vo.squares = chessboardModel.squares;
-            vo.aiMoveDelay = AiMoveDelay.NONE;
-            vo.isHint = true;
+            AiMoveInputVO vo = new AiMoveInputVO
+            {
+                aiColor = chessboardModel.playerColor,
+                playerColor = chessboardModel.opponentColor,
+                squares = chessboardModel.squares,
+                aiMoveDelay = AiMoveDelay.NONE,
+                lastPlayerMove = chessboardModel.lastPlayerMove,
+                isStrength = true
+            };
 
-            IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
-            promise.Then(OnAiMove);
+            //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
+            //promise.Then(OnAiMove);
+
+            IPromise<FileRank, FileRank, float> promise1 = chessAiService.GetAiMoveStrength(vo);
+            promise1.Then(OnAiMoveStrength);
         }
+
+        private void OnAiMoveStrength(FileRank from, FileRank to, float strength)
+        {
+            LogUtil.Log("OnAiMoveStrength : " + strength);
+
+            HintVO newVo;
+            newVo.fromSquare = chessboardModel.squares[from.file, from.rank];
+            newVo.toSquare = chessboardModel.squares[to.file, to.rank];
+            newVo.isHindsight = isHindsight;
+            newVo.strength = (int)strength;
+            renderHintSignal.Dispatch(newVo);
+
+            //if (isHindsight)
+            //{
+            //    updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+            //}
+            //else
+            //{
+            //    updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+            //}
+
+            Release();
+        }
+
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
@@ -67,6 +100,7 @@ namespace TurboLabz.CPU
             vo.fromSquare = chessboardModel.squares[from.file, from.rank];
             vo.toSquare = chessboardModel.squares[to.file, to.rank];
             vo.isHindsight = isHindsight;
+            vo.strength = 0;
             renderHintSignal.Dispatch(vo);
 
             if (isHindsight)
