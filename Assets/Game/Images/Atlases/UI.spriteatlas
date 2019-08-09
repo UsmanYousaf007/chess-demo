@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2294659
+    totalSpriteSurfaceArea: 2392281
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -54,6 +54,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: aecbdc1088b5f47a589fc25d3b851bd6, type: 3}
   - {fileID: 21300000, guid: 57fb4f305816148a7968dce8846ba273, type: 3}
   - {fileID: 21300000, guid: 3a4bd9407b09f44e2ab0d9c985dd8f13, type: 3}
+  - {fileID: 21300000, guid: 6171457056def4a8f85724f4c5a63d7c, type: 3}
   - {fileID: 21300000, guid: 4b911b803eb1d4e2b99697684c6e42fe, type: 3}
   - {fileID: 21300000, guid: 7708e7c0b3f3b47a5b20d76b0a2a3fac, type: 3}
   - {fileID: 21300000, guid: 6b404ed06a2504dc68b1f84e1a2d734e, type: 3}
@@ -134,6 +135,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0b1f39e871df648a686799cd05e957ed, type: 3}
   - {fileID: 21300000, guid: 501b1de8e0eb246e6a703e52f4cde523, type: 3}
   - {fileID: 21300000, guid: 422753f8dd4c54108a32ce9032cf923a, type: 3}
+  - {fileID: 21300000, guid: 24f19cf859c734e78835b37ee2a8d4e3, type: 3}
   - {fileID: 21300000, guid: 870d4a09b33c6427bbe3e199ff6da15e, type: 3}
   - {fileID: 21300000, guid: da65a539c14d74d12a75d40750c63288, type: 3}
   - {fileID: 21300000, guid: 8d4a88392160b4a01ae7b752052f373e, type: 3}
@@ -185,6 +187,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
   - {fileID: 21300000, guid: 6a8697be8231c46b395a645b18af4804, type: 3}
+  - {fileID: 21300000, guid: d4083dbe99ac34a4aad724711a9b7bf1, type: 3}
   - {fileID: 21300000, guid: 2905b1de90480410d975d3615550d78d, type: 3}
   - {fileID: 21300000, guid: 6a479efebb79f4d45a0ffff1c84f4f41, type: 3}
   - {fileID: 21300000, guid: e52b4a7f946b44bafb58cf9980fde362, type: 3}
@@ -198,6 +201,7 @@ SpriteAtlas:
   - FriendBar
   - HomeIcon
   - NoSmileyIcon
+  - ButtonShadow
   - LobbyBtn
   - UndoBtn
   - ProfileFlagBorder
@@ -278,6 +282,7 @@ SpriteAtlas:
   - DialogPattern
   - SectionMask
   - WaitSpinner
+  - LobbyIcon
   - RoundEdgesMask
   - ErrorScreenBgTile
   - BtnIconUndo
@@ -329,6 +334,7 @@ SpriteAtlas:
   - SettingsIcon
   - RewardBtnDefeat
   - KingCheckIndicator
+  - FriendsAndWorldPattern
   - 6
   - PlayIcon
   - InGameChessLogo
