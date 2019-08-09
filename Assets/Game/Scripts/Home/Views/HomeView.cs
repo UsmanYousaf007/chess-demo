@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -45,8 +46,12 @@ namespace TurboLabz.InstantFramework
         public Text playComputerMatchTitleTxt;
         public Text playComputerMatchDescriptionTxt;
         public Text playComputerLevelTxt;
+        public Image playComputerLevelImage;
 
         public GameObject uiBlocker;
+
+        public Image notificationTagImage;
+        public Text notificationTagNumber;
 
         public Text onlinePlayersCountLabel;
 
@@ -94,6 +99,7 @@ namespace TurboLabz.InstantFramework
             computerDifficultyDlgCloseButton.onClick.AddListener(OnComputerDifficultyDlgCloseClicked);
             easyLabel.text = localizationService.Get(LocalizationKey.EASY);
             hardLabel.text = localizationService.Get(LocalizationKey.HARD);
+            OnPlayerNotificationCountUpdate(playerModel.notificationCount);
 
         }
 
@@ -119,12 +125,14 @@ namespace TurboLabz.InstantFramework
             UpdateStrength(vo);
             if (vo.inProgress)
             {
+                playComputerLevelImage.gameObject.SetActive(true);
                 playComputerLevelTxt.gameObject.SetActive(true);
                 playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL ) + vo.selectedStrength;
                
             }
             else
             {
+                playComputerLevelImage.gameObject.SetActive(false);
                 playComputerLevelTxt.gameObject.SetActive(false);
             }
 
@@ -172,8 +180,8 @@ namespace TurboLabz.InstantFramework
         void OnQuickMatchBtnClicked()
         {
             Debug.Log("OnQuickMatchBtnClicked");
-            playMultiplayerButtonClickedSignal.Dispatch();
-        }
+			playMultiplayerButtonClickedSignal.Dispatch();
+		}
 
         void OnPlayComputerMatchBtnClicked()
         {
@@ -218,6 +226,17 @@ namespace TurboLabz.InstantFramework
         public bool IsVisible()
         {
             return gameObject.activeSelf;
+        }
+
+        public void OnPlayerNotificationCountUpdate(int counter)
+        {
+            notificationTagImage.gameObject.SetActive(false);
+
+            if(counter > 0)
+            {
+                notificationTagImage.gameObject.SetActive(true);
+                notificationTagNumber.text = counter.ToString();
+            }
         }
     }
 }

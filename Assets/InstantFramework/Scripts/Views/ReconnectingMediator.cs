@@ -73,11 +73,11 @@ namespace TurboLabz.InstantFramework
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
-            if (LogUtil.errorSeverity > 3)
-            {
-                setErrorAndHaltSignal.Dispatch(BackendResult.GAME_CRASH_SIGNAL);
-                return;
-            }
+            //if (LogUtil.errorSeverity > 3)
+            //{
+            //    setErrorAndHaltSignal.Dispatch(BackendResult.GAME_CRASH_SIGNAL);
+            //    return;
+            //}
 
             if (isConnected && !appInfoModel.syncInProgress)
             {

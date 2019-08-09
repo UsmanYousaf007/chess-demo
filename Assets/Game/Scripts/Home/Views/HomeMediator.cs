@@ -119,6 +119,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(UpdatePlayerNotificationCountSignal))]
+        public void OnPlayerNotificationCountUpdate(int counter)
+        {
+            view.OnPlayerNotificationCountUpdate(counter);
+        }
+
+
+
         private void OnActionCountUpdated(int count)
         {
             setActionCountSignal.Dispatch(count);
