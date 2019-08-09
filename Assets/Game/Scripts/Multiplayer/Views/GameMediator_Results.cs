@@ -23,7 +23,8 @@ namespace TurboLabz.Multiplayer
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-       
+        [Inject] public LoadHomeSignal loadHomeSignal { get; set; }
+
 
         public void OnRegisterResults()
         {
@@ -32,6 +33,7 @@ namespace TurboLabz.Multiplayer
             view.refreshLobbySignal.AddListener(OnRefreshLobby);
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
+            view.backToHomeSignal.AddListener(OnBackToHome);
         }
 
         public void OnRemoveResults()
@@ -71,6 +73,11 @@ namespace TurboLabz.Multiplayer
         private void OnBackToLobby()
         {
             loadLobbySignal.Dispatch();
+        }
+
+        private void OnBackToHome()
+        {
+            loadHomeSignal.Dispatch();
         }
 
         private void OnResultsDialogClosedSignal()

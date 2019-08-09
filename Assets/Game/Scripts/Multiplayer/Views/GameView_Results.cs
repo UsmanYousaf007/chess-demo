@@ -53,6 +53,7 @@ namespace TurboLabz.Multiplayer
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
+        public Signal backToHomeSignal = new Signal();
 
         public Signal refreshLobbySignal = new Signal();
 
@@ -386,7 +387,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backToLobbySignal.Dispatch();
+                backToHomeSignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
             }
         }
@@ -399,7 +400,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backToLobbySignal.Dispatch();
+                backToHomeSignal.Dispatch();
             }
         }
 
@@ -421,7 +422,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backToLobbySignal.Dispatch();
+                backToHomeSignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.quick_match);
             }
         }

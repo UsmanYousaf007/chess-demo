@@ -104,6 +104,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                //loadLobbySignal.Dispatch();
                 loadLobbySignal.Dispatch();
             }
 

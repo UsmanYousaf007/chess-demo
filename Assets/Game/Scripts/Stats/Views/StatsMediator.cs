@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
         // Dispatch signals
         [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // View injection
         [Inject] public StatsView view { get; set; }
@@ -71,7 +72,8 @@ namespace TurboLabz.InstantGame
 
         void OnBackButtonClicked()
         {
-            loadLobbySignal.Dispatch();
+            //loadLobbySignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }
 }

@@ -53,7 +53,8 @@ namespace TurboLabz.Multiplayer
 
         public void OnFindMatchTimeout()
         {
-            loadLobbySignal.Dispatch();
+            //loadLobbySignal.Dispatch();
+            loadHomeSignal.Dispatch();
         }
     }
 }

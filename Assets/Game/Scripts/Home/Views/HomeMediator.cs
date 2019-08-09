@@ -88,7 +88,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.HOME)
             {
                 view.Show();
-                analyticsService.ScreenVisit(AnalyticsScreen.home, facebookService.isLoggedIn());
+                //analyticsService.ScreenVisit(AnalyticsScreen.home, facebookService.isLoggedIn());
             }
         }
 

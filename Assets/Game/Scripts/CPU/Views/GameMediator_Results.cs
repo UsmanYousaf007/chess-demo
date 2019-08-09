@@ -69,7 +69,8 @@ namespace TurboLabz.CPU
 
         private void OnResultsExitButtonClicked()
         {
-            loadLobbySignal.Dispatch();
+            //loadLobbySignal.Dispatch();
+            loadHomeSignal.Dispatch();
         }
     }
 }

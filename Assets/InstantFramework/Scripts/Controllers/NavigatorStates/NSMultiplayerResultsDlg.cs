@@ -38,6 +38,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_HOME)
+            {
+                return new NSHome();
+            }
 
             return null;
         }

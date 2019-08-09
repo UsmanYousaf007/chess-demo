@@ -49,7 +49,8 @@ namespace TurboLabz.InstantGame
                 cpuGameModel.cpuStrength = Mathf.Max(CPUSettings.MIN_STRENGTH, cpuGameModel.cpuStrength - 1);
             }
 
-			LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
+            HomeVO vo = new HomeVO(cpuGameModel, playerModel, metaDataModel);
+            //LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
             updateStrengthSignal.Dispatch(vo);
 
             saveGameSignal.Dispatch(); // Save our changes to the prefs.

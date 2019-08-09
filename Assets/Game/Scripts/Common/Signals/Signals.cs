@@ -19,7 +19,7 @@ namespace TurboLabz.InstantGame
     public class UpdateHomeViewSignal : Signal<HomeVO> {}
     public class UpdateLobbyViewSignal : Signal<LobbyVO> { }
     public class AdjustStrengthSignal : Signal<bool> {}
-    public class UpdateStrengthSignal : Signal<LobbyVO> {}
+    public class UpdateStrengthSignal : Signal<HomeVO> {}
     public class UpdateDurationSignal : Signal<LobbyVO> {}
     public class UpdatePlayerColorSignal : Signal<LobbyVO> {}
 	public class UpdateThemeSignal : Signal<LobbyVO> {}

@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -85,6 +86,7 @@ namespace TurboLabz.InstantFramework
 
             quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
+            playFriendsMatchBtn.onClick.AddListener(OnPlayFirendMatchBtnClicked);
 
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
@@ -184,6 +186,12 @@ namespace TurboLabz.InstantFramework
             {
                 playCPUButtonClickedSignal.Dispatch();
             }
+        }
+
+        void OnPlayFirendMatchBtnClicked()
+        {
+            Debug.Log("OnPlayFirendMatchBtnClicked");
+            loadLobbySignal.Dispatch();
         }
 
         void OnComputerDifficultyDlgCloseClicked()
