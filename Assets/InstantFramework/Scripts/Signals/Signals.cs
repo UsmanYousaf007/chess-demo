@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
     public class BackendErrorSignal : Signal<BackendResult> {}
 	public class ReceptionSignal : Signal<bool> {}
     public class LoadLobbySignal : Signal {}
+    public class LoadHomeSignal : Signal { }
     public class SavePlayerInventorySignal : Signal {}
     public class SetSkinSignal : Signal<string> {}
     public class InitBackendOnceSignal : Signal {}

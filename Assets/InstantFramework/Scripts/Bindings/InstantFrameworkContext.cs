@@ -229,12 +229,14 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
 			commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
             commandBinder.Bind<ToggleBannerSignal>().To<ToggleBannerCommand>();
+            commandBinder.Bind<LoadHomeSignal>().To<LoadHomeCommand>();
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
 			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
             commandBinder.Bind<RestorePurchasesSignal>().To<RestorePurchasesCommand>();
 
             // Bind views to mediators
+            mediationBinder.Bind<HomeView>().To<HomeMediator>();
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
             mediationBinder.Bind<StatsView>().To<StatsMediator>();
             mediationBinder.Bind<FriendsView>().To<FriendsMediator>();
@@ -248,7 +250,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RefreshSkinLinksSignal>().ToSingleton();
 
             // Bind signals for dispatching to/from mediators
-            injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateHomeViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLobbyViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStrengthSignal>().ToSingleton();
             injectionBinder.Bind<UpdateDurationSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerColorSignal>().ToSingleton();

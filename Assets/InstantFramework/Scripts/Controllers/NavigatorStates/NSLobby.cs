@@ -20,6 +20,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSCPU();
             }
+            else if (evt == NavigatorEvent.SHOW_HOME)
+            {
+                return new NSHome();
+            }
             else if (evt == NavigatorEvent.SHOW_STATS)
             {
                 return new NSStats();

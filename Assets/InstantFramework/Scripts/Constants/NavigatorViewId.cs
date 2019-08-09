@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
     public enum NavigatorViewId
     {
         NONE,
+        HOME,
         HARD_STOP,
         RECONNECTING,
         UPDATE,

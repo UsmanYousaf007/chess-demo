@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
 				{ LocalizationKey.CPU_MENU_THEME, "Theme" },
-                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Quick Match" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Random Match" },
                 { LocalizationKey.CPU_MENU_PLAY_FRIENDS, "Friends & World" },
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "Play Computer" },
                 { LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME, "Single Player Game" },
@@ -228,7 +228,8 @@ namespace TurboLabz.InstantFramework
 
                 #region Bottom Nav
 
-                { LocalizationKey.NAV_HOME, "Games" },
+                { LocalizationKey.NAV_HOME, "Home" },
+                { LocalizationKey.NAV_LOBBY, "Chess Lobby" },
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "Shop" },
                 { LocalizationKey.NAV_FRIENDS, "Friends" },

@@ -16,7 +16,8 @@ namespace TurboLabz.InstantFramework
         {
             NavigatorViewId viewId = CameFrom (
                 NavigatorViewId.LOBBY,
-                NavigatorViewId.FRIENDS);
+                NavigatorViewId.FRIENDS,
+                NavigatorViewId.HOME);
             
             if (evt == NavigatorEvent.ESCAPE) 
             {
@@ -27,6 +28,10 @@ namespace TurboLabz.InstantFramework
                 else if (viewId == NavigatorViewId.FRIENDS)
                 {
                     return new NSFriends();
+                }
+                if (viewId == NavigatorViewId.HOME)
+                {
+                    return new NSHome();
                 }
             }
 

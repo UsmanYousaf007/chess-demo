@@ -18,6 +18,10 @@ namespace TurboLabz.InstantFramework
 			{
 				return null;
 			}
+            else if (evt == NavigatorEvent.SHOW_HOME)
+            {
+                return new NSHome();
+            }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
                 return new NSLobby();

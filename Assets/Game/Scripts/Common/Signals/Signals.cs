@@ -16,7 +16,8 @@ using TurboLabz.InstantFramework;
 namespace TurboLabz.InstantGame
 {
     // CPU LOBBY
-    public class UpdateMenuViewSignal : Signal<LobbyVO> {}
+    public class UpdateHomeViewSignal : Signal<HomeVO> {}
+    public class UpdateLobbyViewSignal : Signal<LobbyVO> { }
     public class AdjustStrengthSignal : Signal<bool> {}
     public class UpdateStrengthSignal : Signal<LobbyVO> {}
     public class UpdateDurationSignal : Signal<LobbyVO> {}

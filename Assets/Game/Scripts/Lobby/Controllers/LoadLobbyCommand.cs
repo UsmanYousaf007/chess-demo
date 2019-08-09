@@ -27,7 +27,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
+        [Inject] public UpdateLobbyViewSignal updateLobbyViewSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
@@ -79,7 +79,7 @@ namespace TurboLabz.InstantGame
 
             LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
 
-            updateMenuViewSignal.Dispatch(vo);
+            updateLobbyViewSignal.Dispatch(vo);
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();

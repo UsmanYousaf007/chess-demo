@@ -15,7 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public bool isResume { get; set; }
 
         // Dispatch signals
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public LoadHomeSignal loadHomeSignal { get; set; }
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
         [Inject] public GetInitDataSignal getInitDataSignal  { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
 
             if (!isResume)
             {
-                loadLobbySignal.Dispatch();
+                loadHomeSignal.Dispatch();
             }
 
             refreshFriendsSignal.Dispatch();

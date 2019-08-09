@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
         ESCAPE,
         SHOW_UPDATE,
         SHOW_SPLASH,
+        SHOW_HOME,
         SHOW_LOBBY,
         SHOW_CPU,
         SHOW_CPU_EXIT_DLG,

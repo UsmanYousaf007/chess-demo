@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
 {
     public enum AnalyticsScreen
     {
+        home,
         lobby,
         profile,
         friends,
