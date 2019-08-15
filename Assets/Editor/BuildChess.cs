@@ -15,13 +15,15 @@ public class BuildChess : MonoBehaviour
     static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
 
     static string androidAPK = "chessstar";
-    static string bundleVersion = "0.0.1";
-    static string bundleVersionCode = "001";
+    static string bundleVersion = PlayerSettings.bundleVersion;
     static string[] gameScenes = new string[] { "Game" };
     static string[] gameScenFiles = new string[] {
             "Assets/InstantFramework/Scenes/Splash.unity",
             "Assets/Game/Scenes/Game.unity"
             };
+
+    static string bundleVersionCodeiOS = PlayerSettings.iOS.buildNumber;
+    static string bundleVersionCodeAndroid = PlayerSettings.Android.bundleVersionCode.ToString();
 
     private static void ProcessArgs()
     {
@@ -39,8 +41,9 @@ public class BuildChess : MonoBehaviour
             }
             else if (a == "-inBundleVersionCode")
             {
-                bundleVersionCode = args[i + 1];
-                LogUtil.Log("bundleVersionCode: " + bundleVersionCode);
+                bundleVersionCodeiOS = args[i + 1];
+                bundleVersionCodeAndroid = args[i + 1];
+                LogUtil.Log("bundleVersionCode: " + args[i + 1]);
             }
             i++;
         }
@@ -79,7 +82,7 @@ public class BuildChess : MonoBehaviour
         ProcessSkinLinks();
 
         PlayerSettings.bundleVersion = bundleVersion;
-        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCode);
+        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = gameScenFiles;  
@@ -101,11 +104,11 @@ public class BuildChess : MonoBehaviour
         ProcessSkinLinks();
 
         PlayerSettings.bundleVersion = bundleVersion;
-        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCode);
+        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeAndroid);
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = gameScenFiles; 
-        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_ANDROID_SUBPATH + "/" + androidAPK + bundleVersionCode + ".apk";
+        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_ANDROID_SUBPATH + "/" + androidAPK + bundleVersionCodeAndroid + ".apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.None;
 
