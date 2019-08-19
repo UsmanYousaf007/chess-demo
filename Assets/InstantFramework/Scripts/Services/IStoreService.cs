@@ -13,6 +13,8 @@ namespace TurboLabz.InstantFramework
 		IPromise<bool> Init(List<string> currencyProductIds);
 		bool BuyProduct(string storeProductId);
 		string GetItemLocalizedPrice(string productId);
+        string GetItemCurrencyCode(string storeProductId);
+        decimal GetItemPrice(string storeProductId);
         void RestorePurchases();
     }
 }

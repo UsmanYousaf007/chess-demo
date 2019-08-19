@@ -84,7 +84,29 @@ namespace TurboLabz.InstantFramework
 
             Product product = storeController.products.WithID(storeProductId);
             return product != null ? product.metadata.localizedTitle : null;
-        }     
+        }
+
+        public string GetItemCurrencyCode(string storeProductId)
+        {
+            if (storeController == null)
+            {
+                return null;
+            }
+
+            Product product = storeController.products.WithID(storeProductId);
+            return product != null ? product.metadata.isoCurrencyCode : null;
+        }
+
+        public decimal GetItemPrice(string storeProductId)
+        {
+            if (storeController == null)
+            {
+                return 0;
+            }
+
+            Product product = storeController.products.WithID(storeProductId);
+            return product != null ? product.metadata.localizedPrice : 0;
+        }
 
         public string GetItemLocalizedPrice(string storeProductId)
 		{
