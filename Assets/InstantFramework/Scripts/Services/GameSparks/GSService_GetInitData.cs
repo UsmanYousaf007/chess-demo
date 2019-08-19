@@ -90,6 +90,8 @@ namespace TurboLabz.InstantFramework
                     if (storeItem.remoteProductId != null) 
                     {
                         storeItem.remoteProductPrice = storeService.GetItemLocalizedPrice (storeItem.remoteProductId);
+                        storeItem.remoteProductCurrencyCode = storeService.GetItemCurrencyCode(storeItem.remoteProductId);
+                        storeItem.productPrice = storeService.GetItemPrice(storeItem.remoteProductId);
                     }
                 }
 

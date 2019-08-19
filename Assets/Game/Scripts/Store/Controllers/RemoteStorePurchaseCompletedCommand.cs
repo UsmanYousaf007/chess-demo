@@ -23,8 +23,10 @@ namespace TurboLabz.InstantGame
 		// Models
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
 
-		public override void Execute()
+
+        public override void Execute()
 		{
 			StoreItem item = FindRemoteStoreItem(remoteProductId);
 			if (item == null) 
@@ -32,7 +34,15 @@ namespace TurboLabz.InstantGame
 				return;
 			}
 			updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
-		}
+
+            //appsflyer
+            Dictionary<string, string> purchaseEvent = new Dictionary<string, string>();
+            purchaseEvent.Add(AFInAppEvents.CURRENCY, item.remoteProductCurrencyCode);
+            purchaseEvent.Add(AFInAppEvents.REVENUE, item.productPrice.ToString());
+            purchaseEvent.Add(AFInAppEvents.QUANTITY, item.maxQuantity.ToString());
+            purchaseEvent.Add(AFInAppEvents.CONTENT_ID, item.remoteProductId);
+            appsFlyerService.TrackRichEvent(AFInAppEvents.PURCHASE, purchaseEvent);
+        }
 
 		private StoreItem FindRemoteStoreItem(string remoteId)
 		{
