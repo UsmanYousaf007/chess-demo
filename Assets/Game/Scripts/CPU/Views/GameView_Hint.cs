@@ -39,6 +39,7 @@ namespace TurboLabz.CPU
         private const float MIN_WAIT = 0.1f;
         public float dotWaitSeconds;
 
+
         public void InitHint()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
@@ -50,6 +51,7 @@ namespace TurboLabz.CPU
         public void OnParentShowHint()
         {
             HideHint();
+            DisableHintButton();
         }
 
         public void RenderHint(HintVO vo)
@@ -66,6 +68,7 @@ namespace TurboLabz.CPU
 
             //UpdateHintCount(vo.availableHints);
             //DisableHintButton();
+
             hintThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
@@ -80,6 +83,22 @@ namespace TurboLabz.CPU
         private void ShowStrengthPanel(int strength)
         {
             strengthPanel.SetActive(true);
+
+            Vector3 localPos = hintToIndicator.transform.localPosition;
+
+            float addPosX = 150;
+            float addPosY = 110;
+
+            if(localPos.x < 0)
+                localPos.x = localPos.x + addPosX;
+            else
+                localPos.x = localPos.x - addPosX;
+
+            localPos.y += addPosY;
+
+            strengthPanel.transform.localPosition = localPos;
+
+
             DisableBar();
             int strengthString = strength * 10;
             strengthLabel.text = "Strength " + strengthString.ToString() + "%";
@@ -97,6 +116,7 @@ namespace TurboLabz.CPU
         {
             yield return new WaitForSeconds(t);
             strengthPanel.SetActive(false);
+            HideHint();
 
             if (barAnim != null)
             {

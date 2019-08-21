@@ -43,29 +43,40 @@ namespace TurboLabz.CPU
 
         public override void Execute()
         {
-            Retain();
-
-            chessboardModel.usedHelp = true;
-
-            string fen = isHindsight ? chessboardModel.previousPlayerTurnFen : chessService.GetFen();
-            chessAiService.NewGame();
-            chessAiService.SetPosition(chessboardModel.previousPlayerTurnFen);
-
-            AiMoveInputVO vo = new AiMoveInputVO
+            if(chessboardModel.lastPlayerMove != null)
             {
-                aiColor = chessboardModel.playerColor,
-                playerColor = chessboardModel.opponentColor,
-                squares = chessboardModel.squares,
-                aiMoveDelay = AiMoveDelay.NONE,
-                lastPlayerMove = chessboardModel.lastPlayerMove,
-                isStrength = true
-            };
+                Retain();
 
-            //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
-            //promise.Then(OnAiMove);
+                chessboardModel.usedHelp = true;
 
-            IPromise<FileRank, FileRank, float> promise1 = chessAiService.GetAiMoveStrength(vo);
-            promise1.Then(OnAiMoveStrength);
+                //string fen = isHindsight ? chessboardModel.previousPlayerTurnFen : chessService.GetFen();
+                chessAiService.NewGame();
+                chessAiService.SetPosition(chessboardModel.previousPlayerTurnFen);
+
+                AiMoveInputVO vo = new AiMoveInputVO
+                {
+                    aiColor = chessboardModel.playerColor,
+                    playerColor = chessboardModel.opponentColor,
+                    squares = chessboardModel.squares,
+                    aiMoveDelay = AiMoveDelay.NONE,
+                    lastPlayerMove = chessboardModel.lastPlayerMove,
+                    isStrength = true,
+                    playerStrengthPct = 0.5f
+                };
+
+                //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
+                //promise.Then(OnAiMove);
+
+                IPromise<FileRank, FileRank, float> promise1 = chessAiService.GetAiMoveStrength(vo);
+                promise1.Then(OnAiMoveStrength);
+
+            }
+            else
+            {
+                LogUtil.Log("Required one move : ");
+
+            }
+
         }
 
         private void OnAiMoveStrength(FileRank from, FileRank to, float strength)

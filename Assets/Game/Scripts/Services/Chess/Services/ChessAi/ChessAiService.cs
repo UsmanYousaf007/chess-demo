@@ -96,10 +96,23 @@ namespace TurboLabz.Chess
         {
             // Clear the results flag
             resultsReady = false;
+            string searchDepth;
 
             // Execute the move
-            string searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
-            AiLog("searchDepth = " + searchDepth);
+            if(aiMoveInputVO.isStrength)
+            {
+                int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
+                int searchDepthInt = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.playerStrengthPct * searchDepthRange);
+                searchDepth = searchDepthInt.ToString();
+                AiLog("isStrength searchDepth = " + searchDepth);
+            }
+            else
+            {
+                searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+                AiLog("searchDepth = " + searchDepth);
+            }
+
+            
             plugin.GoDepth(searchDepth);
 
             while (!resultsReady)
@@ -160,17 +173,18 @@ namespace TurboLabz.Chess
             double precentage = 0.0f;
             FileRank from = aiMoveInputVO.lastPlayerMove.from;
             FileRank to = aiMoveInputVO.lastPlayerMove.to;
-            int totolMoveCount = aiSearchResultMovesList.Count;
+            int totolMoveCount = aiSearchResultMovesList.Count - 1;
 
             if (totolMoveCount > 0)
             {
                 string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
                 int moveFoundIndex = -1;
-              
-                for (int i = 0; i < totolMoveCount - 1; ++i)
+
+                for (int i = 0; i < totolMoveCount; ++i)
                 {
-                    LogUtil.Log("MOVES : " + aiSearchResultMovesList[i]);
-                    if(string.Equals(moveString, aiSearchResultMovesList[i]))
+                    LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i]);
+
+                    if (string.Equals(moveString, aiSearchResultMovesList[i]))
                     {
                         moveFoundIndex = i;
                         break;
@@ -186,7 +200,6 @@ namespace TurboLabz.Chess
                 }
             }
 
-            
             aiMoveStrengthPromise.Dispatch(from, to, (float)precentage);
             aiMoveStrengthPromise = null;
         }
