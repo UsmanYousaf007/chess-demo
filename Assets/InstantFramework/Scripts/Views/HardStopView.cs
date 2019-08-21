@@ -39,19 +39,34 @@ namespace TurboLabz.InstantFramework
             //gameObject.SetActive(true);
         }
 
-        public void SetErrorAndHalt(BackendResult error)
+        public void SetErrorAndHalt(BackendResult error, string message)
         {
-            string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
-            errorCodeLabel.text =  "(Error: " + errorCode + ")";
-
-            if (Application.internetReachability == NetworkReachability.NotReachable)
+            if(error == BackendResult.GAME_CRAHSED)
             {
-              errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
+                gameObject.SetActive(true);
+
+                string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
+                errorCodeLabel.text = "(Error: " + errorCode + ")";
+                errorMessageLabel.text = message;
+
+                //StartCoroutine(HaltSystem());
+
             }
+            else
+            {
+                string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
+                errorCodeLabel.text = "(Error: " + errorCode + ")";
 
-            //StartCoroutine(HaltSystem());
+                if (Application.internetReachability == NetworkReachability.NotReachable)
+                {
+                    errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
+                }
 
-            LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
+                //StartCoroutine(HaltSystem());
+
+                LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
+
+            }
 
         }
 
