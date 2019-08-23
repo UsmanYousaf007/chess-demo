@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> ClaimReward(string rewardType);
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId);
         IPromise<BackendResult> SetPlayerSocialName(string name);
-        IPromise<BackendResult> FindMatch();
+        IPromise<BackendResult> FindMatch(string opponentId);
         IPromise<BackendResult> CreateLongMatch(string opponentId, bool isRanked);
         IPromise<BackendResult> GetGameStartTime(string challengeId);
         IPromise<BackendResult> PushNotificationRegistration(string token);

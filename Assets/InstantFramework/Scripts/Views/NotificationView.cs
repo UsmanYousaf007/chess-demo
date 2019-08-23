@@ -20,6 +20,8 @@ namespace TurboLabz.InstantGame
         {
             public GameObject obj;
             public string playerId;
+            public string matchGroup;
+            public float duration;
         };
 
         public GameObject notificationPrefab;
@@ -31,6 +33,7 @@ namespace TurboLabz.InstantGame
         private bool isPaused = false;
 
         private const float NOTIFICATION_DURATION = 5.0f;
+        private const float NOTIFICATION_QUICKMATCH_DURATION = 25.0f;
 
         // Models
         [Inject] public IPicsModel picsModel { get; set; }
@@ -48,6 +51,7 @@ namespace TurboLabz.InstantGame
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public TurboLabz.CPU.SaveGameSignal saveGameSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -95,7 +99,7 @@ namespace TurboLabz.InstantGame
                 {
                     preShowNotificationSignal.Dispatch();
                     notifications[0].obj.SetActive(true);
-                    yield return new WaitForSeconds(NOTIFICATION_DURATION);
+                    yield return new WaitForSeconds(notifications[0].duration);
                     notifications[0].obj.SetActive(false);
                     GameObject obj = notifications[0].obj;
                     notifications.Remove(notifications[0]);
@@ -108,6 +112,8 @@ namespace TurboLabz.InstantGame
 
         public void AddNotification(NotificationVO notificationVO) 
         {
+            float duration = NOTIFICATION_DURATION;
+
             // Check if on the same long match board
             if (matchInfoModel.activeLongMatchOpponentId == notificationVO.senderPlayerId)
             {
@@ -148,8 +154,10 @@ namespace TurboLabz.InstantGame
                     notification.senderPic.gameObject.SetActive(false);
                 }
             }
+
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
             notification.playButton.onClick.AddListener(OnPlayButtonClicked);
+            notification.acceptQuickMatchButton.onClick.AddListener(OnAcceptQuickMatchButton);
 
             notification.playButton.gameObject.SetActive(false);
 
@@ -163,9 +171,28 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            if(appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            // Quick Match invitation notification
+            notification.acceptQuickMatchButton.gameObject.SetActive(false);
+            notification.titleLarge.gameObject.SetActive(false);
+            if (notificationVO.matchGroup != null)
+            {
+                Color specialColor = Colors.YELLOW;
+                specialColor.a = notification.background.color.a;
+                notification.background.color = specialColor;
+                notification.acceptQuickMatchButton.gameObject.SetActive(true);
+                notification.acceptQuickMatchButtonText.text = "Accept";
+                duration = NOTIFICATION_QUICKMATCH_DURATION;
+
+                notification.titleLarge.gameObject.SetActive(true);
+                notification.title.gameObject.SetActive(false);
+                notification.titleLarge.text = "Speed Chess";
+                notification.body.text = notificationVO.title;
+            }
+
+            if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
             {
                 notification.playButton.gameObject.SetActive(false);
+                notification.acceptQuickMatchButton.gameObject.SetActive(false);
             }
      
             notifidationObj.transform.SetParent(gameObject.transform);
@@ -173,6 +200,8 @@ namespace TurboLabz.InstantGame
             NotificationContainer notificationContainer = new NotificationContainer();
             notificationContainer.obj = notifidationObj;
             notificationContainer.playerId = notificationVO.senderPlayerId;
+            notificationContainer.matchGroup = notificationVO.matchGroup;
+            notificationContainer.duration = duration;
             notifications.Add(notificationContainer);
         }
 
@@ -190,6 +219,29 @@ namespace TurboLabz.InstantGame
             }
             loadLobbySignal.Dispatch();
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
+            FadeBlocker();
+        }
+
+        private void OnAcceptQuickMatchButton()
+        {
+            notifications[0].obj.SetActive(false);
+            if (appInfoModel.gameMode == GameMode.CPU)
+            {
+                saveGameSignal.Dispatch();
+            }
+            loadLobbySignal.Dispatch();
+
+            FindMatchActionData findMatchAction;
+            findMatchAction.action = "unassigned";
+            findMatchAction.opponentId = "unassigned";
+            findMatchAction.matchGroup = "unassigned";
+            findMatchAction.isRanked = true;
+
+            findMatchAction.action = "Accept";
+            findMatchAction.matchGroup = notifications[0].matchGroup;
+
+            findMatchSignal.Dispatch(JsonUtility.ToJson(findMatchAction));
+
             FadeBlocker();
         }
 

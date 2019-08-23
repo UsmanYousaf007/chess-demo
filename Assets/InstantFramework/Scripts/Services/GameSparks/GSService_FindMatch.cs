@@ -17,9 +17,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> FindMatch()
+        public IPromise<BackendResult> FindMatch(string action)
         {
-            return new GSFindMatchRequest().Send();
+            return new GSFindMatchRequest().Send(action);
         }
     }
 
@@ -28,12 +28,14 @@ namespace TurboLabz.InstantFramework
     public class GSFindMatchRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "FindMatch";
+        const string ATT_ACTION = "action";
 
-        public IPromise<BackendResult> Send()
+        public IPromise<BackendResult> Send(string action)
         {
             this.errorCode = BackendResult.MATCHMAKING_REQUEST_FAILED;
 
             new LogEventRequest().SetEventKey(SHORT_CODE)
+                .SetEventAttribute(ATT_ACTION, action)
                 .Send(null, OnRequestFailure);
 
             return promise;

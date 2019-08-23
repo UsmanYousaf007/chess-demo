@@ -10,5 +10,6 @@ namespace TurboLabz.InstantFramework
         public string title;
         public string body;
         public string senderPlayerId;
+        public string matchGroup;
     }
 }

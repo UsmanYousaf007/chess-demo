@@ -83,6 +83,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.title = notification.Title;
                 notificationVO.body = notification.Body;
                 notificationVO.senderPlayerId = e.Message.Data["senderPlayerId"];
+                notificationVO.matchGroup = e.Message.Data["matchGroup"];
 
                 notificationRecievedSignal.Dispatch(notificationVO);
             }

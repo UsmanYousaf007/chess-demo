@@ -123,7 +123,7 @@ namespace TurboLabz.InstantFramework
             // quick matches are always ranked (for now)
             else
             {
-                matchInfo.isRanked = true;
+                matchInfo.isRanked = matchData.GetBoolean(GSBackendKeys.Match.IS_RANKED).Value;
             }
 
             if (matchData.ContainsKey(GSBackendKeys.GAME_START_TIME))

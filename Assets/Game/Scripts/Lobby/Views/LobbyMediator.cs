@@ -19,6 +19,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -62,6 +63,7 @@ namespace TurboLabz.InstantFramework
             view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
             //view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
+            view.quickMatchFriendButtonClickedSignal.AddListener(OnQuickMatchFriendButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
             view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
             view.declineButtonClickedSignal.AddListener(OnDeclineButtonClicked);
@@ -261,6 +263,20 @@ namespace TurboLabz.InstantFramework
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
+        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
+        {
+            FindMatchActionData findMatchAction;
+            findMatchAction.action = "unassigned";
+            findMatchAction.opponentId = "unassigned";
+            findMatchAction.matchGroup = "unassigned";
+            findMatchAction.isRanked = isRanked;
+
+            findMatchAction.action = "Challenge";
+            findMatchAction.opponentId = playerId;
+
+            findMatchSignal.Dispatch(JsonUtility.ToJson(findMatchAction));
+        }
+
         private void OnAcceptButtonClicked(string playerId)
         {
             acceptSignal.Dispatch(playerId);
@@ -298,8 +314,24 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchBtnClicked()
         {
-            findMatchSignal.Dispatch();
+            FindMatchActionData findMatchAction;
+            findMatchAction.action = "unassigned";
+            findMatchAction.opponentId = "unassigned";
+            findMatchAction.matchGroup = "unassigned";
+            findMatchAction.isRanked = true;
+
+            findMatchAction.action = "Random";
+            findMatchSignal.Dispatch(JsonUtility.ToJson(findMatchAction));
         }
+    }
+
+    [Serializable]
+    public struct FindMatchActionData
+    {
+        public string action;
+        public string opponentId;
+        public string matchGroup;
+        public bool isRanked;
     }
 }
 

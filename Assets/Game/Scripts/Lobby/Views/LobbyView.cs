@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
         [Header("Confirm new game dialog")]
         public GameObject confirmNewGameDlg;
         public Button confirmGameCloseBtn;
-        public Text confirmNewGameDlgTitleText;
+        //public Text confirmNewGameDlgTitleText;
         public Image opponentProfilePic;
         public Image opponentAvatarBg;
         public Image opponentAvatarIcon;
@@ -101,7 +101,10 @@ namespace TurboLabz.InstantFramework
         public Text confirmRankedGameBtnText;
         public Button confirmFriendlyGameBtn;
         public Text confirmFriendlyGameBtnText;
-        public Text classicGameTimeText;
+        //public Text classicGameTimeText;
+        public Button ToggleRankButton;
+        public GameObject ToggleRankON;
+        public GameObject ToggleRankOFF;
 
         [Header("Confirm remove community friend")]
         public GameObject removeCommunityFriendDlg;
@@ -120,6 +123,7 @@ namespace TurboLabz.InstantFramework
         public Signal reloadFriendsSignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
         public Signal<string, bool> playButtonClickedSignal = new Signal<string, bool>();
+        public Signal<string, bool> quickMatchFriendButtonClickedSignal = new Signal<string, bool>();
         public Signal<string> acceptButtonClickedSignal = new Signal<string>();
         public Signal<string> declineButtonClickedSignal = new Signal<string>();
         public Signal<string> cancelButtonClickedSignal = new Signal<string>();
@@ -139,6 +143,7 @@ namespace TurboLabz.InstantFramework
         private bool startGameRanked;
         private List<GameObject> cacheEnabledSections;
         private bool isCPUGameInProgress;
+        private bool toggleRankButtonState;
 
         public void Init()
         {
@@ -156,7 +161,7 @@ namespace TurboLabz.InstantFramework
 
             confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
             confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
-            confirmNewGameDlgTitleText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_TITLE);
+            //confirmNewGameDlgTitleText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_TITLE);
             eloPrefix = localizationService.Get(LocalizationKey.ELO_SCORE);
 
             removeCommunityFriendYesBtnText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES);
@@ -176,7 +181,6 @@ namespace TurboLabz.InstantFramework
 
             playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
-            classicGameTimeText.text = localizationService.Get(LocalizationKey.CLASSIC_MODE_TIME);
 
             quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
 
@@ -192,6 +196,21 @@ namespace TurboLabz.InstantFramework
 
 
             cacheEnabledSections = new List<GameObject>();
+
+            ToggleRankButton.onClick.AddListener(OnToggleRankButtonClicked);
+            toggleRankButtonState = true;
+        }
+
+        void SetToggleRankButtonState(bool state)
+        {
+            ToggleRankON.SetActive(state);
+            ToggleRankOFF.SetActive(!state);
+        }
+
+        void OnToggleRankButtonClicked()
+        {
+            toggleRankButtonState = !toggleRankButtonState;
+            SetToggleRankButtonState(toggleRankButtonState);
         }
 
         void OnDecStrengthButtonClicked()
@@ -322,6 +341,16 @@ namespace TurboLabz.InstantFramework
             if (friendId != null)
             {
                 playButtonClickedSignal.Dispatch(friendId, isRanked);
+                startGameFriendId = null;
+            }
+        }
+
+        public void CreateQuickMatchGame(string friendId, bool isRanked)
+        {
+            // Start a quick match 
+            if (friendId != null)
+            {
+                quickMatchFriendButtonClickedSignal.Dispatch(friendId, isRanked);
                 startGameFriendId = null;
             }
         }
@@ -758,19 +787,22 @@ namespace TurboLabz.InstantFramework
             opponentEloLabel.text = eloPrefix + " " + opponentProfile.eloScore;
             opponentFlag.sprite = Flags.GetFlag(opponentProfile.countryId);
 
+            toggleRankButtonState = true;
+            SetToggleRankButtonState(toggleRankButtonState);
+
             confirmNewGameDlg.SetActive(true);
         }
 
         void ConfirmRankedGameBtnClicked()
         {
             confirmNewGameDlg.SetActive(false);
-            CreateGame(actionBar.friendInfo.playerId, true);
+            CreateGame(actionBar.friendInfo.playerId, toggleRankButtonState);
         }
 
         void ConfirmFriendlyGameBtnClicked()
         {
             confirmNewGameDlg.SetActive(false);
-            CreateGame(actionBar.friendInfo.playerId, false);
+            CreateQuickMatchGame(actionBar.friendInfo.playerId, toggleRankButtonState);
         }
 
         void ConfirmNewGameDlgNo()
