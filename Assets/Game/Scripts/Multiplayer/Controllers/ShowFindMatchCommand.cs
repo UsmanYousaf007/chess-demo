@@ -15,18 +15,50 @@ using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.Multiplayer;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
     public class ShowFindMatchCommand : Command
     {
+        // Parameters
+        [Inject] public string actionJson { get; set; }
+
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
+
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateFindViewSignal updateFindViewSignal { get; set; }
 
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_FIND_DLG);
+
+            FindMatchActionData actionData = JsonUtility.FromJson<FindMatchActionData>(actionJson);
+            FindViewVO vo = new FindViewVO();
+            vo.player = new ProfileVO();
+            vo.opponent = new ProfileVO();
+
+            vo.player.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            vo.player.avatarId = playerModel.avatarId;
+            vo.player.avatarColorId = playerModel.avatarBgColorId;
+
+            vo.opponent.playerId = null;
+
+            if (actionData.action != "Random")
+            {
+                Friend friend = playerModel.GetFriend(actionData.opponentId);
+
+                vo.opponent.playerId = actionData.opponentId;
+                vo.opponent.playerPic = friend.publicProfile.profilePicture;
+                vo.opponent.avatarId = friend.publicProfile.avatarId;
+                vo.opponent.avatarColorId = friend.publicProfile.avatarBgColorId;
+            }
+
+            updateFindViewSignal.Dispatch(vo);
         }
     }
 }

@@ -45,6 +45,13 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        [ListensTo(typeof(UpdateFindViewSignal))]
+        public void UpdateFind(FindViewVO vo)
+        {
+            view.UpdateFind(vo);
+        }
+
+
         [ListensTo(typeof(MatchFoundSignal))]
         public void OnMatchFound(ProfileVO vo)
         {

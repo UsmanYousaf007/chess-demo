@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            showFindMatchSignal.Dispatch();
+            showFindMatchSignal.Dispatch(action);
 
             // This sends the backend request
             backendService.FindMatch(action).Then(HandleFindMatchErrors);

@@ -134,6 +134,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Multiplayer
 
+                { LocalizationKey.MULTIPLAYER_WAITING_FOR_OPPONENT, "Waiting for opponent..." },
                 { LocalizationKey.MULTIPLAYER_SEARCHING, "Searching..." },
                 { LocalizationKey.MULTIPLAYER_FOUND, "Get Ready..." },
 

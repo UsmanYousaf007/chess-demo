@@ -61,6 +61,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
             commandBinder.Bind<UpdateFriendBarSignal>().To<UpdateFriendBarCommand>();
 
+
             commandBinder.Bind<SavePlayerInventorySignal>().To<SavePlayerInventoryCommand>();
             commandBinder.Bind<SetSkinSignal>().To<SetSkinCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
@@ -95,9 +96,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ClearUnreadMessagesSignal>().To<ClearUnreadMessagesCommand>();
             commandBinder.Bind<ResumeMatchSignal>().To<ResumeMatchCommand>();
             commandBinder.Bind<ChangeUserDetailsSignal>().To<ChangeUserDetailsCommand>();
-
- 
-
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -140,6 +138,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateShareDialogSignal>().ToSingleton();
             injectionBinder.Bind<ChessboardBlockerEnableSignal>().ToSingleton();
             injectionBinder.Bind<PauseNotificationsSignal>().ToSingleton();
+
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -265,8 +264,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<PlayerProfilePicTappedSignal>().ToSingleton();
             injectionBinder.Bind<RequestToggleBannerSignal>().ToSingleton();
             injectionBinder.Bind<ReconnectViewEnableSignal>().ToSingleton();
-
-
+            injectionBinder.Bind<UpdateFindViewSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

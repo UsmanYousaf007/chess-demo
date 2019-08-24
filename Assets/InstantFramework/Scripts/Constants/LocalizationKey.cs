@@ -131,6 +131,7 @@ namespace TurboLabz.InstantFramework
 
         #region Multiplayer
 
+        public const string MULTIPLAYER_WAITING_FOR_OPPONENT = "multiplayerWaitingForOpponent";
         public const string MULTIPLAYER_SEARCHING = "multiplayerSearching";
         public const string MULTIPLAYER_FOUND = "multiplayerFound";
 
