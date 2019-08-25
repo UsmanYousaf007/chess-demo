@@ -13,5 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         public ProfileVO player;
         public ProfileVO opponent;
+
+        public int timeoutSeconds;
     }
 }

@@ -32,7 +32,6 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG) 
             {
                 view.ShowFind();
-                view.FindMatchTimeoutEnable(true, 30);
             }
         }
 
@@ -48,6 +47,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdateFindViewSignal))]
         public void UpdateFind(FindViewVO vo)
         {
+            view.FindMatchTimeoutEnable(true, vo.timeoutSeconds);
             view.UpdateFind(vo);
         }
 
