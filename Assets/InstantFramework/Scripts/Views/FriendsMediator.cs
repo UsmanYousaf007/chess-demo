@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public CloseStripSignal closeStripSignal { get; set; }
         [Inject] public ResignSignal resignSignal { get; set; }
         [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
-
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
 
 
         // Services
@@ -56,6 +56,7 @@ namespace TurboLabz.InstantFramework
             view.showProfileDialogSignal.AddListener(OnShowProfileDialog);
             view.inviteFriendSignal.AddListener(OnInviteFriend);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
+            view.quickMatchFriendButtonClickedSignal.AddListener(OnQuickMatchFriendButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
             view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
             view.declineButtonClickedSignal.AddListener(OnDeclineButtonClicked);
@@ -223,6 +224,11 @@ namespace TurboLabz.InstantFramework
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
             tapLongMatchSignal.Dispatch(playerId, isRanked);
+        }
+
+        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
+        {
+            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
         }
 
         private void OnAcceptButtonClicked(string playerId)
