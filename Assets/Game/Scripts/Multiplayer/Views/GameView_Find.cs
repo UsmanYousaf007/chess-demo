@@ -18,6 +18,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System.Collections;
 using TurboLabz.InstantGame;
+using System;
 
 namespace TurboLabz.Multiplayer
 {
@@ -41,11 +42,12 @@ namespace TurboLabz.Multiplayer
         public Image opponentFindAvatarBg;
         public Image opponentFindAvatarIcon;
 
+        public Text timerLabel;
 
         private IEnumerator rollOpponentProfilePictureEnumerator;
         private Coroutine findMatchTimeoutCR = null;
+        private TimeSpan countDownTimer;
         public Signal findMatchTimeoutSignal = new Signal();
-
 
         public void InitFind()
         {
@@ -227,10 +229,13 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void FindMatchTimeoutEnable(bool enable, float seconds = 0f)
+        public void FindMatchTimeoutEnable(bool enable, int seconds = 0)
         {
             if (enable)
             {
+                countDownTimer = new TimeSpan(0, 0, seconds);
+                UpdateCountDownTimerText();
+
                 if (findMatchTimeoutCR != null)
                 {
                     routineRunner.StopCoroutine(findMatchTimeoutCR);
@@ -250,9 +255,22 @@ namespace TurboLabz.Multiplayer
 
         private IEnumerator FindMatchTimeoutCR(float seconds)
         {
-            yield return new WaitForSecondsRealtime(seconds);
+            while (true)
+            {
+                yield return new WaitForSecondsRealtime(1);
+                countDownTimer = countDownTimer.Subtract(new TimeSpan(0, 0, 1));
+                UpdateCountDownTimerText();
 
-            findMatchTimeoutSignal.Dispatch();
+                if (countDownTimer.Seconds <= 0)
+                {
+                    findMatchTimeoutSignal.Dispatch();
+                }
+            }
+        }
+
+        private void UpdateCountDownTimerText()
+        {
+            timerLabel.text = "Timeout in " + TimeUtil.FormatPlayerClock(countDownTimer);
         }
 
     }
