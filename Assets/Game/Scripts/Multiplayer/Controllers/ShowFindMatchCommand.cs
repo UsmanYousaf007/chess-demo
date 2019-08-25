@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_FIND_DLG);
 
-            FindMatchActionData actionData = JsonUtility.FromJson<FindMatchActionData>(actionJson);
+            FindMatchAction.ActionData actionData = JsonUtility.FromJson<FindMatchAction.ActionData>(actionJson);
             FindViewVO vo = new FindViewVO();
             vo.player = new ProfileVO();
             vo.opponent = new ProfileVO();
@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
             vo.opponent.playerId = null;
 
-            if (actionData.action != "Random")
+            if (actionData.action != FindMatchAction.ACTION_RANDOM)
             {
                 Friend friend = playerModel.GetFriend(actionData.opponentId);
 

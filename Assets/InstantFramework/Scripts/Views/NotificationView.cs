@@ -231,17 +231,7 @@ namespace TurboLabz.InstantGame
             }
             loadLobbySignal.Dispatch();
 
-            FindMatchActionData findMatchAction;
-            findMatchAction.action = "unassigned";
-            findMatchAction.opponentId = "unassigned";
-            findMatchAction.matchGroup = "unassigned";
-            findMatchAction.isRanked = true;
-
-            findMatchAction.action = "Accept";
-            findMatchAction.matchGroup = notifications[0].matchGroup;
-
-            findMatchSignal.Dispatch(JsonUtility.ToJson(findMatchAction));
-
+            FindMatchAction.Accept(findMatchSignal, notifications[0].matchGroup);
             FadeBlocker();
         }
 

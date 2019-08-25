@@ -265,16 +265,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
         {
-            FindMatchActionData findMatchAction;
-            findMatchAction.action = "unassigned";
-            findMatchAction.opponentId = "unassigned";
-            findMatchAction.matchGroup = "unassigned";
-            findMatchAction.isRanked = isRanked;
-
-            findMatchAction.action = "Challenge";
-            findMatchAction.opponentId = playerId;
-
-            findMatchSignal.Dispatch(JsonUtility.ToJson(findMatchAction));
+            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
         }
 
         private void OnAcceptButtonClicked(string playerId)
@@ -314,24 +305,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchBtnClicked()
         {
-            FindMatchActionData findMatchAction;
-            findMatchAction.action = "unassigned";
-            findMatchAction.opponentId = "unassigned";
-            findMatchAction.matchGroup = "unassigned";
-            findMatchAction.isRanked = true;
-
-            findMatchAction.action = "Random";
-            findMatchSignal.Dispatch(JsonUtility.ToJson(findMatchAction));
+            FindMatchAction.Random(findMatchSignal);
         }
-    }
-
-    [Serializable]
-    public struct FindMatchActionData
-    {
-        public string action;
-        public string opponentId;
-        public string matchGroup;
-        public bool isRanked;
     }
 }
 
