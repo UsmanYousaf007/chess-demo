@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
                 AdUnitId = adUnits.GetGenericAdUnit(),
 
                 // Set desired log level here to override default level of MPLogLevelNone
-                LogLevel = MoPubBase.LogLevel.MPLogLevelDebug,
+                LogLevel = MoPubBase.logLevel,
 
                 // Uncomment the following line to allow supported SDK networks to collect user information on the basis
                 // of legitimate interest.
