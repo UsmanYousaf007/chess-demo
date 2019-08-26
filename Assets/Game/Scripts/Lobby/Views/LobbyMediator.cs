@@ -265,6 +265,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
         {
+            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
         }
 

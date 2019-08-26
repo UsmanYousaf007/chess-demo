@@ -55,7 +55,7 @@ namespace TurboLabz.InstantGame
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
-
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void Init()
         {
@@ -231,6 +231,7 @@ namespace TurboLabz.InstantGame
             }
             loadLobbySignal.Dispatch();
 
+            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_accept);
             FindMatchAction.Accept(findMatchSignal, notifications[0].matchGroup);
             FadeBlocker();
         }

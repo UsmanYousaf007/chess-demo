@@ -70,7 +70,9 @@ namespace TurboLabz.InstantFramework
         bot_quick_match_lost,
         long_match_complete_duration,
         selected_theme,
-        disconnection_time
+        disconnection_time,
+        quickmatch_direct_request,
+        quickmatch_direct_request_accept
     }
 
     public enum AnalyticsContext
