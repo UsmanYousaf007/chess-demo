@@ -18,6 +18,9 @@ namespace TurboLabz.InstantFramework
 {
     public partial class LobbyView : View
     {
+
+        private const long RECENTLY_COMPLETED_THRESHOLD_DAYS = 2; 
+
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
@@ -29,7 +32,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
-
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -127,6 +129,7 @@ namespace TurboLabz.InstantFramework
         private bool startGameRanked;
         private List<GameObject> cacheEnabledSections;
         private bool isCPUGameInProgress;
+        List<FriendBar> recentlyCompleted = new List<FriendBar>();
 
         public void Init()
         {
@@ -299,6 +302,7 @@ namespace TurboLabz.InstantFramework
             if (friendId != null && !bars.ContainsKey(friendId))
             {
                 startGameFriendId = friendId;
+                startGameRanked = isRanked;
                 newFriendSignal.Dispatch(friendId);
                 return;
             }
@@ -456,6 +460,11 @@ namespace TurboLabz.InstantFramework
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
             friendBar.UpdateStatus();
+
+            if (recentlyCompleted.Contains(friendBar)) 
+            {
+                friendBar.removeCommunityFriendButton.gameObject.SetActive(false);
+            }
 
             // Set the timer clocks
             if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||
@@ -812,7 +821,6 @@ namespace TurboLabz.InstantFramework
         public void SortFriends()
         {
             // Create holders
-            List<FriendBar> recentlyCompleted = new List<FriendBar>();
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> activeMatches = new List<FriendBar>();
 
@@ -843,7 +851,9 @@ namespace TurboLabz.InstantFramework
                     activeMatches.Add(bar);
 
                 }
-                else if (bar.lastMatchTimeStamp>0 && status == LongPlayStatus.DEFAULT)
+                else if ((bar.lastMatchTimeStamp > 0) && 
+                    (bar.lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (RECENTLY_COMPLETED_THRESHOLD_DAYS * 24 * 60 * 60 * 1000))) &&  
+                    status == LongPlayStatus.DEFAULT)
                 {
                     recentlyCompleted.Add(bar);
                 }
