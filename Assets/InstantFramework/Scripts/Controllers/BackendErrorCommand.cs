@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
         {
             //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_HARD_STOP);
             //analytics.BackendError(backendResult.ToString());
-            setErrorAndHaltSignal.Dispatch(backendResult);
+            setErrorAndHaltSignal.Dispatch(backendResult, "");
         }
     }
 }
