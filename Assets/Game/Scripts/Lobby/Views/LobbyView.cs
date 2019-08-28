@@ -821,6 +821,7 @@ namespace TurboLabz.InstantFramework
         public void SortFriends()
         {
             // Create holders
+            recentlyCompleted = new List<FriendBar>();
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> activeMatches = new List<FriendBar>();
 
