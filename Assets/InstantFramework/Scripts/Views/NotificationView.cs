@@ -137,6 +137,8 @@ namespace TurboLabz.InstantGame
             notification.body.text = notificationVO.body;
             notification.playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             notification.avatarBg.sprite = notification.defaultAvatar;
+
+            notification.senderPic.gameObject.SetActive(false);
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
             {
@@ -150,8 +152,7 @@ namespace TurboLabz.InstantGame
                     Sprite newSprite = defaultAvatarContainer.GetSprite(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId);
                     notification.avatarIcon.sprite = newSprite;
                     notification.avatarBg.sprite = notification.whiteAvatar;
-                    notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId) ;
-                    notification.senderPic.gameObject.SetActive(false);
+                    notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId);
                 }
             }
 
@@ -174,7 +175,7 @@ namespace TurboLabz.InstantGame
             // Quick Match invitation notification
             notification.acceptQuickMatchButton.gameObject.SetActive(false);
             notification.titleLarge.gameObject.SetActive(false);
-            if (notificationVO.matchGroup != null)
+            if (notificationVO.matchGroup != "undefined")
             {
                 Color specialColor = Colors.YELLOW;
                 specialColor.a = notification.background.color.a;
@@ -187,6 +188,11 @@ namespace TurboLabz.InstantGame
                 notification.title.gameObject.SetActive(false);
                 notification.titleLarge.text = "Speed Chess";
                 notification.body.text = notificationVO.title;
+
+                Sprite newSprite = defaultAvatarContainer.GetSprite(notificationVO.avatarId);
+                notification.avatarIcon.sprite = newSprite;
+                notification.avatarBg.sprite = notification.whiteAvatar;
+                notification.avatarBg.color = Colors.Color(notificationVO.avaterBgColorId);
             }
 
             if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)

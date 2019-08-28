@@ -77,7 +77,10 @@ namespace TurboLabz.InstantFramework
                 notificationVO.title = notification.Title;
                 notificationVO.body = notification.Body;
                 notificationVO.senderPlayerId = e.Message.Data["senderPlayerId"];
-                notificationVO.matchGroup = e.Message.Data["matchGroup"];
+                notificationVO.matchGroup = e.Message.Data.ContainsKey("matchGroup") == true ?  e.Message.Data["matchGroup"] : "undefined";
+                notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
+                notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avaterBgColorId") == true ? e.Message.Data["avaterBgColorId"] : "undefined";
+                notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
 
                 notificationRecievedSignal.Dispatch(notificationVO);
             }
