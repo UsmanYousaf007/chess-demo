@@ -232,7 +232,7 @@ namespace TurboLabz.InstantGame
             loadLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_accept);
-            FindMatchAction.Accept(findMatchSignal, notifications[0].matchGroup);
+            FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup);
             FadeBlocker();
         }
 

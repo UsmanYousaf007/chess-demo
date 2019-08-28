@@ -46,11 +46,12 @@ namespace TurboLabz.InstantFramework
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
-        static public void Accept(FindMatchSignal signal, string matchGroup)
+        static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup)
         {
             Reset();
             actionData.action = "Accept";
             actionData.matchGroup = matchGroup;
+            actionData.opponentId = opponentId;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
     }
