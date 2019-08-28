@@ -31,22 +31,14 @@ namespace TurboLabz.CPU
         public TextMeshProUGUI hintCountLabel;
         public Image hintAdd;
         public GameObject hintThinking;
-        public GameObject strengthPanel;
-        public Text strengthLabel;
-        public Image[] barArray;
-
-        private int availableHints;
-        private const float MIN_WAIT = 0.1f;
-        public float dotWaitSeconds;
-
-        public DrawLine line;
+        public StrengthAnim strengthPanel;
 
         public void InitHint()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hintButton.onClick.AddListener(HintButtonClicked);
             hintThinking.SetActive(false);
-            strengthPanel.SetActive(false);
+            strengthPanel.Hide();
         }
 
         public void OnParentShowHint()
@@ -74,84 +66,15 @@ namespace TurboLabz.CPU
             DisableModalBlocker();
             DisableHintButton();
 
-            ShowStrengthPanel(vo.strength);
+            strengthPanel.ShowStrengthPanel(vo.strength, hintFromIndicator.transform.position, hintToIndicator.transform.position);
+            StartCoroutine(HideHint(3.0f));
 
         }
 
-        private Coroutine barAnim = null;
-        private Coroutine panelActive;
-
-        private void ShowStrengthPanel(int strength)
-        {
-            strengthPanel.SetActive(true);
-
-            //draw line
-            line.Draw(hintFromIndicator.transform.position, hintToIndicator.transform.position);
-
-            Vector3 localPos = hintToIndicator.transform.localPosition;
-
-            float addPosX = 150;
-            float addPosY = 110;
-
-            if(localPos.x < 0)
-                localPos.x = localPos.x + addPosX;
-            else
-                localPos.x = localPos.x - addPosX;
-
-            localPos.y += addPosY;
-
-            strengthPanel.transform.localPosition = localPos;
-
-
-            DisableBar();
-            int strengthString = strength * 10;
-            strengthLabel.text = "Strength " + strengthString.ToString() + "%";
-
-            if (strength > 0 && strength <= barArray.Length)
-            {
-                barAnim = StartCoroutine(Animate(strength));
-            }
-
-            StartCoroutine(HideStrengthPanel(3.0f));
-        }
-
-
-        public IEnumerator HideStrengthPanel(float t)
+        public IEnumerator HideHint(float t)
         {
             yield return new WaitForSeconds(t);
-            strengthPanel.SetActive(false);
             HideHint();
-
-            if (barAnim != null)
-            {
-                StopCoroutine(barAnim);
-                barAnim = null;
-            }
-        }
-
-        public void DisableBar()
-        {
-            for(int i=0; i<barArray.Length; i++)
-            {
-                barArray[i].color = Colors.strengthBarDisableColor;
-            }
-        }
-
-        IEnumerator Animate(int strength)
-        {
-            float waitTime = Mathf.Max(MIN_WAIT, dotWaitSeconds);
-
-            while (true)
-            {
-                for (int i = 0; i < strength; i++)
-                {
-                    barArray[i].color = Colors.strengthBarColor[i];
-                    yield return new WaitForSeconds(waitTime);
-
-                }
-
-                yield return new WaitForSeconds(waitTime);
-            }
         }
 
         public void HideHint()
@@ -159,7 +82,6 @@ namespace TurboLabz.CPU
             hintFromIndicator.SetActive(false);
             hintToIndicator.SetActive(false);
             hintThinking.SetActive(false);
-            line.Hide();
         }
 
         private void HintButtonClicked()
