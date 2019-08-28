@@ -39,6 +39,7 @@ namespace TurboLabz.CPU
         private const float MIN_WAIT = 0.1f;
         public float dotWaitSeconds;
 
+        public DrawLine line;
 
         public void InitHint()
         {
@@ -83,6 +84,9 @@ namespace TurboLabz.CPU
         private void ShowStrengthPanel(int strength)
         {
             strengthPanel.SetActive(true);
+
+            //draw line
+            line.Draw(hintFromIndicator.transform.position, hintToIndicator.transform.position);
 
             Vector3 localPos = hintToIndicator.transform.localPosition;
 
@@ -155,6 +159,7 @@ namespace TurboLabz.CPU
             hintFromIndicator.SetActive(false);
             hintToIndicator.SetActive(false);
             hintThinking.SetActive(false);
+            line.Hide();
         }
 
         private void HintButtonClicked()
