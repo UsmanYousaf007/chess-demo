@@ -30,6 +30,18 @@ allprojects {
         maven {
             url (unityProjectPath + "/Assets/Firebase/m2repository") // Assets/Firebase/Editor/AppDependencies.xml:20, Assets/Firebase/Editor/MessagingDependencies.xml:22
         }
+        maven {
+            url "https://adcolony.bintray.com/AdColony" // Assets/MoPub/Mediation/AdColony/Editor/AdColonyDependencies.xml:8
+        }
+        maven {
+            url "https://dl.bintray.com/ironsource-mobile/android-sdk" // Assets/MoPub/Mediation/IronSource/Editor/IronSourceDependencies.xml:8
+        }
+        maven {
+            url "https://tapjoy.bintray.com/maven" // Assets/MoPub/Mediation/Tapjoy/Editor/TapjoyDependencies.xml:8
+        }
+        maven {
+            url "https://jitpack.io" // Assets/MoPub/Mediation/Vungle/Editor/VungleDependencies.xml:8
+        }
         mavenLocal()
         jcenter()
         mavenCentral()
@@ -42,13 +54,18 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
+    implementation 'com.adcolony:sdk:3.3.8' // Assets/MoPub/Mediation/AdColony/Editor/AdColonyDependencies.xml:8
     implementation 'com.android.support:appcompat-v7:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
     implementation 'com.android.support:appcompat-v7:27.1.1' // Assets/GameAnalytics/Editor/GameAnalyticsDependencies.xml:5
     implementation 'com.android.support:cardview-v7:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
     implementation 'com.android.support:customtabs:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
     implementation 'com.android.support:support-v4:23.1.1' // Assets/MoPub/Scripts/Editor/MoPubDependencies.xml:3
     implementation 'com.android.support:support-v4:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
+    implementation 'com.applovin:applovin-sdk:9.2.1' // Assets/MoPub/Mediation/AppLovin/Editor/AppLovinDependencies.xml:4
+    implementation 'com.facebook.android:audience-network-sdk:5.1.0' // Assets/MoPub/Mediation/FacebookAudienceNetwork/Editor/FacebookAudienceNetworkDependencies.xml:4
+    implementation 'com.github.vungle:vungle-android-sdk:6.3.24' // Assets/MoPub/Mediation/Vungle/Editor/VungleDependencies.xml:8
     implementation 'com.google.android.gms:play-services-ads:15.+' // ADCDependencies.RegisterAndroidDependencies
+    implementation 'com.google.android.gms:play-services-ads:17.2.1' // Assets/MoPub/Mediation/AdMob/Editor/AdMobDependencies.xml:5
     implementation 'com.google.android.gms:play-services-ads-identifier:15.0.1' // Assets/GameAnalytics/Editor/GameAnalyticsDependencies.xml:3
     implementation 'com.google.android.gms:play-services-basement:15.0.1' // Assets/GameAnalytics/Editor/GameAnalyticsDependencies.xml:4
     implementation 'com.google.auto.value:auto-value-annotations:1.6.3' // Assets/Firebase/Editor/AppDependencies.xml:22
@@ -58,6 +75,17 @@ dependencies {
     implementation 'com.google.firebase:firebase-iid:[19.0.1]' // Assets/Firebase/Editor/MessagingDependencies.xml:13
     implementation 'com.google.firebase:firebase-messaging:19.0.1' // Assets/Firebase/Editor/MessagingDependencies.xml:17
     implementation 'com.google.firebase:firebase-messaging-unity:6.2.0' // Assets/Firebase/Editor/MessagingDependencies.xml:22
+    implementation 'com.ironsource.sdk:mediationsdk:6.8.2@jar' // Assets/MoPub/Mediation/IronSource/Editor/IronSourceDependencies.xml:8
+    implementation 'com.mopub.mediation:adcolony:3.3.8.0' // Assets/MoPub/Mediation/AdColony/Editor/AdColonyDependencies.xml:3
+    implementation 'com.mopub.mediation:admob:17.2.1.0' // Assets/MoPub/Mediation/AdMob/Editor/AdMobDependencies.xml:4
+    implementation 'com.mopub.mediation:applovin:9.2.1.0' // Assets/MoPub/Mediation/AppLovin/Editor/AppLovinDependencies.xml:3
+    implementation 'com.mopub.mediation:facebookaudiencenetwork:5.1.0.2' // Assets/MoPub/Mediation/FacebookAudienceNetwork/Editor/FacebookAudienceNetworkDependencies.xml:3
+    implementation 'com.mopub.mediation:ironsource:6.8.2.0' // Assets/MoPub/Mediation/IronSource/Editor/IronSourceDependencies.xml:3
+    implementation 'com.mopub.mediation:tapjoy:12.2.0.2' // Assets/MoPub/Mediation/Tapjoy/Editor/TapjoyDependencies.xml:3
+    implementation 'com.mopub.mediation:unityads:3.0.0.1' // Assets/MoPub/Mediation/UnityAds/Editor/UnityAdsDependencies.xml:3
+    implementation 'com.mopub.mediation:vungle:6.3.24.1' // Assets/MoPub/Mediation/Vungle/Editor/VungleDependencies.xml:3
+    implementation 'com.tapjoy:tapjoy-android-sdk:12.2.0@aar' // Assets/MoPub/Mediation/Tapjoy/Editor/TapjoyDependencies.xml:8
+    implementation 'com.unity3d.ads:unity-ads:3.0.0' // Assets/MoPub/Mediation/UnityAds/Editor/UnityAdsDependencies.xml:4
 // Android Resolver Dependencies End
 **DEPS**}
 

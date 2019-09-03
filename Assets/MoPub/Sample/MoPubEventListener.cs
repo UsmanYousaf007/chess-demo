@@ -20,15 +20,9 @@ public class MoPubEventListener : MonoBehaviour
     }
 
 
+
     private void OnEnable()
     {
-        MoPubManager.OnSdkInitializedEvent += OnSdkInitializedEvent;
-
-        MoPubManager.OnConsentStatusChangedEvent += OnConsentStatusChangedEvent;
-        MoPubManager.OnConsentDialogLoadedEvent += OnConsentDialogLoadedEvent;
-        MoPubManager.OnConsentDialogFailedEvent += OnConsentDialogFailedEvent;
-        MoPubManager.OnConsentDialogShownEvent += OnConsentDialogShownEvent;
-
         MoPubManager.OnAdLoadedEvent += OnAdLoadedEvent;
         MoPubManager.OnAdFailedEvent += OnAdFailedEvent;
 
@@ -45,19 +39,14 @@ public class MoPubEventListener : MonoBehaviour
         MoPubManager.OnNativeLoadEvent += OnNativeLoadEvent;
         MoPubManager.OnNativeFailEvent += OnNativeFailEvent;
 #endif
+
+        MoPubManager.OnImpressionTrackedEvent += OnImpressionTrackedEvent;
     }
 
 
     private void OnDisable()
     {
         // Remove all event handlers
-        MoPubManager.OnSdkInitializedEvent -= OnSdkInitializedEvent;
-
-        MoPubManager.OnConsentStatusChangedEvent -= OnConsentStatusChangedEvent;
-        MoPubManager.OnConsentDialogLoadedEvent -= OnConsentDialogLoadedEvent;
-        MoPubManager.OnConsentDialogFailedEvent -= OnConsentDialogFailedEvent;
-        MoPubManager.OnConsentDialogShownEvent -= OnConsentDialogShownEvent;
-
         MoPubManager.OnAdLoadedEvent -= OnAdLoadedEvent;
         MoPubManager.OnAdFailedEvent -= OnAdFailedEvent;
 
@@ -74,6 +63,8 @@ public class MoPubEventListener : MonoBehaviour
         MoPubManager.OnNativeLoadEvent -= OnNativeLoadEvent;
         MoPubManager.OnNativeFailEvent -= OnNativeFailEvent;
 #endif
+
+        MoPubManager.OnImpressionTrackedEvent -= OnImpressionTrackedEvent;
     }
 
 
@@ -83,37 +74,6 @@ public class MoPubEventListener : MonoBehaviour
         if (!string.IsNullOrEmpty(error))
             errorMsg += ": " + error;
         _demoGUI.UpdateStatusLabel("Error: " + errorMsg);
-    }
-
-
-    private void OnSdkInitializedEvent(string adUnitId)
-    {
-        _demoGUI.SdkInitialized();
-    }
-
-
-    private void OnConsentStatusChangedEvent(MoPub.Consent.Status oldStatus, MoPub.Consent.Status newStatus,
-                                             bool canCollectPersonalInfo)
-    {
-        _demoGUI.ConsentStatusChanged(newStatus, canCollectPersonalInfo);
-    }
-
-
-    private void OnConsentDialogLoadedEvent()
-    {
-        _demoGUI.ConsentDialogLoaded = true;
-    }
-
-
-    private void OnConsentDialogFailedEvent(string err)
-    {
-        _demoGUI.UpdateStatusLabel(err);
-    }
-
-
-    private void OnConsentDialogShownEvent()
-    {
-        _demoGUI.ConsentDialogLoaded = false;
     }
 
 
@@ -194,4 +154,10 @@ public class MoPubEventListener : MonoBehaviour
         AdFailed(adUnitId, "load native ad", error);
     }
 #endif
+
+
+    private void OnImpressionTrackedEvent(string adUnitId, MoPub.ImpressionData impressionData)
+    {
+        _demoGUI.ImpressionTracked(adUnitId, impressionData);
+    }
 }

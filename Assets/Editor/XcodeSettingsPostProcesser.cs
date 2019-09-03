@@ -96,6 +96,9 @@ public class XcodeSettingsPostProcesser
         // Change value of CFBundleVersion in Xcode plist
         var buildKey = "UIBackgroundModes";
         rootDict.CreateArray(buildKey).AddString("remote-notification");
+        rootDict.SetBoolean("GADIsAdManagerApp", true);
+        rootDict.SetString("AppLovinSdkKey", "5c875d6cdbbaa3558555ce2e");
+
 
         File.WriteAllText(plistPath, plist.WriteToString());
         File.WriteAllText(projPath, proj.WriteToString());

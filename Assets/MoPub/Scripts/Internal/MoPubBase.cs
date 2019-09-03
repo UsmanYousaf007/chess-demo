@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using MoPubInternal.ThirdParty.MiniJSON;
 using UnityEngine;
@@ -100,7 +101,7 @@ public class MoPubBase
     }
 
 
-    // Currently used only for iOS
+    [Obsolete("BannerType is deprecated, please use MaxAdSize instead (via new CreateBanner).")]
     public enum BannerType
     {
         Size320x50,
@@ -110,18 +111,38 @@ public class MoPubBase
     }
 
 
+    /// <summary>
+    /// The maximum size, in density-independent pixels (DIPs), an ad should have.
+    /// </summary>
+    public enum MaxAdSize
+    {
+        Width300Height50,
+        Width300Height250,
+        Width320Height50,
+        Width336Height280,
+        Width468Height60,
+        Width728Height90,
+        Width970Height90,
+        Width970Height250,
+        ScreenWidthHeight50,
+        ScreenWidthHeight90,
+        ScreenWidthHeight250,
+        ScreenWidthHeight280
+    }
+
+
     public enum LogLevel
     {
-        MPLogLevelDebug = 20,
-        MPLogLevelInfo = 30,
-        MPLogLevelNone = 70
+        Debug = 20,
+        Info = 30,
+        None = 70
     }
 
 
     /// <summary>
     /// Data object holding any SDK initialization parameters.
     /// </summary>
-    public struct SdkConfiguration
+    public class SdkConfiguration
     {
         /// <summary>
         /// Any ad unit that your app uses.
@@ -139,11 +160,11 @@ public class MoPubBase
         public bool AllowLegitimateInterest;
 
         /// <summary>
-        /// MoPub SDK log level. Defaults to MoPub.<see cref="MoPubBase.LogLevel.MPLogLevelNone"/>
+        /// MoPub SDK log level. Defaults to MoPub.<see cref="MoPubBase.LogLevel.None"/>
         /// </summary>
         public LogLevel LogLevel
         {
-            get { return _logLevel != 0 ? _logLevel : LogLevel.MPLogLevelNone; }
+            get { return _logLevel != 0 ? _logLevel : LogLevel.None; }
             set { _logLevel = value; }
         }
 
@@ -198,6 +219,20 @@ public class MoPubBase
                                                       n => n.MoPubRequestOptions));
             }
         }
+
+
+        // Allow looking up an entry in the MediatedNetwork array using the network name, which is presumed to be
+        // part of the AdapterConfigurationClassName value.
+        public MediatedNetwork this[string networkName]
+        {
+            get {
+                return MediatedNetworks.FirstOrDefault(mn =>
+                    mn.AdapterConfigurationClassName == networkName ||
+                    mn.AdapterConfigurationClassName == networkName + "AdapterConfiguration" ||
+                    mn.AdapterConfigurationClassName.EndsWith("." + networkName) ||
+                    mn.AdapterConfigurationClassName.EndsWith("." + networkName + "AdapterConfiguration"));
+            }
+        }
     }
 
 
@@ -212,7 +247,7 @@ public class MoPubBase
 #if UNITY_IOS
             MediationSettingsClassName = adVendor + "InstanceMediationSettings";
 #else
-            MediationSettingsClassName = adVendor;    // The correct value is computed from this inside the Android wrapper code.
+            MediationSettingsClassName = "com.mopub.mobileads." + adVendor + "RewardedVideo$" + adVendor + "MediationSettings";
 #endif
         }
 
@@ -235,7 +270,12 @@ public class MoPubBase
 
 
         // Shortcut class names so you don't have to remember the right ad vendor string (also to not misspell it).
-        public class AdColony   : LocalMediationSetting { public AdColony()   : base("AdColony") { } }
+        public class AdColony : LocalMediationSetting { public AdColony() : base("AdColony") {
+#if UNITY_ANDROID
+                MediationSettingsClassName = "com.mopub.mobileads.AdColonyRewardedVideo$AdColonyInstanceMediationSettings";
+#endif
+            }
+        }
         public class AdMob      : LocalMediationSetting { public AdMob()      : base(android: "GooglePlayServices",
                                                                                      ios:     "MPGoogle") { } }
         public class Chartboost : LocalMediationSetting { public Chartboost() : base("Chartboost") { } }
@@ -249,9 +289,9 @@ public class MoPubBase
         public string AdapterConfigurationClassName { get; set; }
         public string MediationSettingsClassName    { get; set; }
 
-        public Dictionary<string,object> NetworkConfiguration { get; set; }
+        public Dictionary<string,string> NetworkConfiguration { get; set; }
         public Dictionary<string,object> MediationSettings    { get; set; }
-        public Dictionary<string,object> MoPubRequestOptions  { get; set; }
+        public Dictionary<string,string> MoPubRequestOptions  { get; set; }
     }
 
 
@@ -265,31 +305,31 @@ public class MoPubBase
             MediationSettingsClassName    = adVendor + "GlobalMediationSettings";
 #else
             AdapterConfigurationClassName = "com.mopub.mobileads." + adVendor + "AdapterConfiguration";
-            MediationSettingsClassName    = adVendor;    // The correct value is computed from this inside the Android wrapper code.
+            MediationSettingsClassName    = "com.mopub.mobileads." + adVendor + "RewardedVideo$" + adVendor + "MediationSettings";
 #endif
         }
 
-        protected SupportedNetwork(string android, string ios) :
-#if UNITY_IOS
-            this(ios)
-#else
-            this(android)
+        public class AdColony   : SupportedNetwork { public AdColony()   : base("AdColony") {
+#if UNITY_ANDROID
+               MediationSettingsClassName = "com.mopub.mobileads.AdColonyRewardedVideo$AdColonyGlobalMediationSettings";
 #endif
-        {}
-
-
-        public class AdColony   : SupportedNetwork { public AdColony()   : base("AdColony") { } }
-        public class AdMob      : SupportedNetwork { public AdMob()      : base(android: "GooglePlayServices",
-                                                                                ios:     "MPGoogle") { } }
+            }
+        }
+        public class AdMob      : SupportedNetwork { public AdMob()      : base("GooglePlayServices") {
+#if UNITY_IOS
+               AdapterConfigurationClassName = "GoogleAdMobAdapterConfiguration";
+               MediationSettingsClassName    = "MPGoogleGlobalMediationSettings";
+#endif
+            }
+        }
         public class AppLovin   : SupportedNetwork { public AppLovin()   : base("AppLovin") { } }
         public class Chartboost : SupportedNetwork { public Chartboost() : base("Chartboost") { } }
         public class Facebook   : SupportedNetwork { public Facebook()   : base("Facebook") { } }
         public class IronSource : SupportedNetwork { public IronSource() : base("IronSource") { } }
-        public class OnebyAOL   : SupportedNetwork { public OnebyAOL()   : base(android: "Millennial",
-                                                                                ios:     "MPMillennial") { } }
+        public class OnebyAOL   : SupportedNetwork { public OnebyAOL()   : base("Millennial") { } }
         public class Tapjoy     : SupportedNetwork { public Tapjoy()     : base("Tapjoy") { } }
-        public class Unity      : SupportedNetwork { public Unity()      : base(android: "Unity",
-                                                                                ios:     "UnityAds") { } }
+        public class Unity      : SupportedNetwork { public Unity()      : base("UnityAds") { } }
+        public class Verizon    : SupportedNetwork { public Verizon()    : base("Verizon") { } }
         public class Vungle     : SupportedNetwork { public Vungle()     : base("Vungle") { } }
     }
 
@@ -313,25 +353,129 @@ public class MoPubBase
     }
 
 
+    public struct ImpressionData
+    {
+        public string AdUnitId;
+        public string AdUnitName;
+        public string AdUnitFormat;
+        public string ImpressionId;
+        public string Currency;
+        public double? PublisherRevenue;
+        public string AdGroupId;
+        public string AdGroupName;
+        public string AdGroupType;
+        public int? AdGroupPriority;
+        public string Country;
+        public string Precision;
+        public string NetworkName;
+        public string NetworkPlacementId;
+        public string JsonRepresentation;
+
+        public static ImpressionData FromJson(string json)
+        {
+            var impData = new ImpressionData();
+            if (string.IsNullOrEmpty(json)) return impData;
+
+            var fields = Json.Deserialize(json) as Dictionary<string, object>;
+            if (fields == null) return impData;
+
+            object obj;
+            double parsedDouble;
+            int parsedInt;
+
+            if (fields.TryGetValue("adunit_id", out obj))
+                impData.AdUnitId = obj.ToString();
+
+            if (fields.TryGetValue("adunit_name", out obj))
+                impData.AdUnitName = obj.ToString();
+
+            if (fields.TryGetValue("adunit_format", out obj))
+                impData.AdUnitFormat = obj.ToString();
+
+            if (fields.TryGetValue("id", out obj))
+                impData.ImpressionId = obj.ToString();
+
+            if (fields.TryGetValue("currency", out obj))
+                impData.Currency = obj.ToString();
+
+            if (fields.TryGetValue("publisher_revenue", out obj)
+                && double.TryParse(obj.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out parsedDouble))
+                impData.PublisherRevenue = parsedDouble;
+
+            if (fields.TryGetValue("adgroup_id", out obj))
+                impData.AdGroupId = obj.ToString();
+
+            if (fields.TryGetValue("adgroup_name", out obj))
+                impData.AdGroupName = obj.ToString();
+
+            if (fields.TryGetValue("adgroup_type", out obj))
+                impData.AdGroupType = obj.ToString();
+
+            if (fields.TryGetValue("adgroup_priority", out obj)
+                && int.TryParse(obj.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out parsedInt))
+                impData.AdGroupPriority = parsedInt;
+
+            if (fields.TryGetValue("country", out obj))
+                impData.Country = obj.ToString();
+
+            if (fields.TryGetValue("precision", out obj))
+                impData.Precision = obj.ToString();
+
+            if (fields.TryGetValue("network_name", out obj))
+                impData.NetworkName = obj.ToString();
+
+            if (fields.TryGetValue("network_placement_id", out obj))
+                impData.NetworkPlacementId = obj.ToString();
+
+            impData.JsonRepresentation = json;
+
+            return impData;
+        }
+    }
+
+
     /// <summary>
     /// Set this to an ISO language code (e.g., "en-US") if you wish the next two URL properties to point
     /// to a web resource that is localized to a specific language.
     /// </summary>
     public static string ConsentLanguageCode { get; set; }
 
-
     public const double LatLongSentinel = 99999.0;
 
+    /// <summary>
+    /// The version for the MoPub Unity SDK, which includes specific versions of the MoPub Android and iOS SDKs.
+    /// <para>
+    /// Please see <a href="https://github.com/mopub/mopub-unity-sdk">our GitHub repository</a> for details.
+    /// </para>
+    /// </summary>
+    public const string moPubSDKVersion = "5.8.0";
 
-    public static readonly string moPubSDKVersion = "5.5.0";
+    protected static bool consentDialogShown;
+    protected const string EngineName = "unity";
+    protected static readonly string EngineVersion = Application.unityVersion;
+
     private static string _pluginName;
     private static bool _allowLegitimateInterest;
+
     public static LogLevel logLevel { get; protected set; }
+
 
     public static string PluginName {
         get { return _pluginName ?? (_pluginName = "MoPub Unity Plugin v" + moPubSDKVersion); }
     }
 
+
+    /// <summary>
+    /// Fires the ConsentDialogDismissed event if the application is resuming after a consent dialog was shown.
+    /// </summary>
+    /// <param name="applicationPaused">True when the application is pausing; False when the application is resuming.</param>
+    protected static void EmitConsentDialogDismissedIfApplicable(bool applicationPaused)
+    {
+        if (!applicationPaused && consentDialogShown) {
+            MoPubManager.Instance.EmitConsentDialogDismissedEvent();
+            consentDialogShown = false;
+        }
+    }
 
     /// <summary>
     /// Compares two versions to see which is greater.
@@ -388,21 +532,80 @@ public class MoPubBase
     private static int[] VersionStringToInts(string version)
     {
         int piece;
-        return version.Split('.').Select(v => int.TryParse(v, out piece) ? piece : 0).ToArray();
+        return version.Split('.')
+                      .Select(v => int.TryParse(v, NumberStyles.Any, CultureInfo.InvariantCulture, out piece) ? piece : 0)
+                      .ToArray();
     }
 
 
     // Allocate the MoPubManager singleton, which receives all callback events from the native SDKs.
+    // This is done in case the app is not using the new MoPubManager prefab, for backwards compatibility.
     protected static void InitManager()
     {
-        var type = typeof(MoPubManager);
-        var mgr = new GameObject("MoPubManager", type).GetComponent<MoPubManager>(); // Its Awake() method sets Instance.
-        if (MoPubManager.Instance != mgr)
-            Debug.LogWarning(
-                "It looks like you have the " + type.Name
-                + " on a GameObject in your scene. Please remove the script from your scene.");
+        if (MoPubManager.Instance == null)
+            new GameObject("MoPubManager", typeof(MoPubManager));
     }
 
 
     protected MoPubBase() { }
+}
+
+
+public static class AdSizeMapping
+{
+    public static float Width(this MoPub.MaxAdSize adSize)
+    {
+        switch (adSize) {
+            case MoPubBase.MaxAdSize.Width300Height50:
+            case MoPubBase.MaxAdSize.Width300Height250:
+                return 300;
+            case MoPubBase.MaxAdSize.Width320Height50:
+                return 320;
+            case MoPubBase.MaxAdSize.Width336Height280:
+                return 336;
+            case MoPubBase.MaxAdSize.Width468Height60:
+                return 468;
+            case MoPubBase.MaxAdSize.Width728Height90:
+                return 728;
+            case MoPubBase.MaxAdSize.Width970Height90:
+            case MoPubBase.MaxAdSize.Width970Height250:
+                return 970;
+            case MoPubBase.MaxAdSize.ScreenWidthHeight50:
+            case MoPubBase.MaxAdSize.ScreenWidthHeight90:
+            case MoPubBase.MaxAdSize.ScreenWidthHeight250:
+            case MoPubBase.MaxAdSize.ScreenWidthHeight280:
+                var pixels = Screen.width;
+                var dpi = Screen.dpi;
+                var dips = pixels / (dpi / 96.0f);
+                return dips;
+            default:
+                // fallback to default size: Width320Height50
+                return 300;
+        }
+    }
+    public static float Height(this MoPub.MaxAdSize adSize)
+    {
+        switch (adSize) {
+            case MoPubBase.MaxAdSize.Width300Height50:
+            case MoPubBase.MaxAdSize.Width320Height50:
+            case MoPubBase.MaxAdSize.ScreenWidthHeight50:
+                return 50;
+            case MoPubBase.MaxAdSize.Width468Height60:
+                return 60;
+            case MoPubBase.MaxAdSize.Width728Height90:
+            case MoPubBase.MaxAdSize.Width970Height90:
+            case MoPubBase.MaxAdSize.ScreenWidthHeight90:
+                return 90;
+            case MoPubBase.MaxAdSize.Width300Height250:
+            case MoPubBase.MaxAdSize.Width970Height250:
+            case MoPubBase.MaxAdSize.ScreenWidthHeight250:
+                return 250;
+            case MoPubBase.MaxAdSize.Width336Height280:
+            case MoPubBase.MaxAdSize.ScreenWidthHeight280:
+                return 280;
+            default:
+                // fallback to default size: Width320Height50
+                return 50;
+        }
+    }
 }

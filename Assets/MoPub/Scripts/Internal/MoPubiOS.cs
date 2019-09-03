@@ -84,7 +84,14 @@ public class MoPubiOS : MoPubBase
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.EnableLocationSupport(bool)"/>
     public static void EnableLocationSupport(bool shouldUseLocation)
     {
-        _moPubEnableLocationSupport(true);
+        _moPubEnableLocationSupport(shouldUseLocation);
+    }
+
+
+    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.SetEngineInformation()"/>
+    public static void SetEngineInformation()
+    {
+        _moPubSetEngineInformation(EngineName, EngineVersion);
     }
 
 
@@ -92,6 +99,13 @@ public class MoPubiOS : MoPubBase
     public static void ReportApplicationOpen(string iTunesAppId = null)
     {
         _moPubReportApplicationOpen(iTunesAppId);
+    }
+
+
+    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.OnApplicationPause(bool)"/>
+    internal static void OnApplicationPause(bool paused)
+    {
+        EmitConsentDialogDismissedIfApplicable(paused);
     }
 
 
@@ -146,7 +160,21 @@ public class MoPubiOS : MoPubBase
     #region Banners
 
 
-    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.CreateBanner(string,MoPubBase.AdPosition,MoPubBase.BannerType)"/>
+    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.RequestBanner(string,MoPub.AdPosition,MoPub.MaxAdSize)"/>
+    public static void RequestBanner(string adUnitId, AdPosition position,
+        MaxAdSize maxAdSize = MaxAdSize.Width320Height50)
+    {
+        MoPubLog.Log("RequestBanner", MoPubLog.AdLogEvent.LoadAttempted);
+        MoPubLog.Log("RequestBanner", "Size requested: " + maxAdSize.Width() + "x" + maxAdSize.Height());
+        MP plugin;
+        if (PluginsDict.TryGetValue(adUnitId, out plugin))
+            plugin.RequestBanner(maxAdSize.Width(), maxAdSize.Height(), position);
+        else
+            ReportAdUnitNotFound(adUnitId);
+    }
+
+
+    [Obsolete("CreateBanner is deprecated and will be removed soon, please use RequestBanner instead.")]
     public static void CreateBanner(string adUnitId, AdPosition position, BannerType bannerType = BannerType.Size320x50)
     {
         MoPubLog.Log("CreateBanner", MoPubLog.AdLogEvent.LoadAttempted);
@@ -183,7 +211,7 @@ public class MoPubiOS : MoPubBase
 
 
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.SetAutorefresh(string,bool)"/>
-    public void SetAutorefresh(string adUnitId, bool enabled)
+    public static void SetAutorefresh(string adUnitId, bool enabled)
     {
         MP plugin;
         if (PluginsDict.TryGetValue(adUnitId, out plugin))
@@ -194,7 +222,7 @@ public class MoPubiOS : MoPubBase
 
 
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.ForceRefresh(string)"/>
-    public void ForceRefresh(string adUnitId)
+    public static void ForceRefresh(string adUnitId)
     {
         MoPubLog.Log("ForceRefresh", MoPubLog.AdLogEvent.ShowAttempted);
         MP plugin;
@@ -246,8 +274,8 @@ public class MoPubiOS : MoPubBase
     }
 
 
-    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.IsInterstialReady(string)"/>
-    public bool IsInterstialReady(string adUnitId)
+    /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.IsInterstitialReady(string)"/>
+    public static bool IsInterstitialReady(string adUnitId)
     {
         MP plugin;
         if (PluginsDict.TryGetValue(adUnitId, out plugin))
@@ -258,7 +286,7 @@ public class MoPubiOS : MoPubBase
 
 
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.DestroyInterstitialAd(string)"/>
-    public void DestroyInterstitialAd(string adUnitId)
+    public static void DestroyInterstitialAd(string adUnitId)
     {
         MP plugin;
         if (PluginsDict.TryGetValue(adUnitId, out plugin))
@@ -387,16 +415,11 @@ public class MoPubiOS : MoPubBase
     }
 
 
-    [Obsolete("Use the property name IsConsentDialogReady instead.")]
-    public static bool IsConsentDialogLoaded {
-        get { return IsConsentDialogReady; }
-    }
-
-
     /// See MoPubUnityEditor.<see cref="MoPubUnityEditor.ShowConsentDialog()"/>
     public static void ShowConsentDialog()
     {
         MoPubLog.Log("ShowConsentDialog", MoPubLog.ConsentLogEvent.ShowAttempted);
+        consentDialogShown = true;
         _moPubShowConsentDialog();
     }
 
@@ -499,6 +522,7 @@ public class MoPubiOS : MoPubBase
     private static bool _moPubIsSdkInitialized() { return false; }
     private static string _moPubGetSDKVersion() { return null; }
     private static void _moPubEnableLocationSupport(bool shouldUseLocation) {}
+    private static void _moPubSetEngineInformation(string name, string version) {}
     private static void _moPubSetAllowLegitimateInterest(bool allowLegitimateInterest) {}
     private static bool _moPubAllowLegitimateInterest() { return false; }
     private static int _moPubGetLogLevel() { return -1; }
@@ -541,6 +565,10 @@ public class MoPubiOS : MoPubBase
 
     [DllImport("__Internal")]
     private static extern void _moPubEnableLocationSupport(bool shouldUseLocation);
+
+
+    [DllImport("__Internal")]
+    private static extern void _moPubSetEngineInformation(string name, string version);
 
 
     [DllImport("__Internal")]
