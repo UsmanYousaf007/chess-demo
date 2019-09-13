@@ -113,6 +113,16 @@ namespace TurboLabz.Multiplayer
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
+
+                if(isLongPlay)
+                {
+                    analyticsService.Event(AnalyticsEventId.ads_rewared_available, AnalyticsContext.long_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.ads_rewared_available, AnalyticsContext.quick_match);
+                }
+                
             }
             else
             {
@@ -383,11 +393,17 @@ namespace TurboLabz.Multiplayer
             {
                 backToLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
+
+                analyticsService.Event(AnalyticsEventId.ads_rewared_show, AnalyticsContext.long_match);
+
             }
             else
             {
                 backToLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
+
+                analyticsService.Event(AnalyticsEventId.ads_rewared_show, AnalyticsContext.quick_match);
+
             }
         }
 

@@ -32,7 +32,7 @@ public class MoPubManager : MonoBehaviour
     public bool AllowLegitimateInterest;
 
     [Tooltip("Set the logging verbosity level for the MoPub SDK.")]
-    public MoPub.LogLevel LogLevel = MoPub.LogLevel.Info;
+    public MoPub.LogLevel LogLevel = MoPub.LogLevel.None;
 
     /// <summary>
     /// Collects the information from the above fields and any attached <see cref="NetworkConfiguration"/> objects into a
