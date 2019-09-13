@@ -8,11 +8,15 @@ namespace TurboLabz.InstantFramework
     public class MoPubService : IAdsService
     {
         MoPubAdUnits adUnits;
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void Init()
         {
             adUnits = new MoPubAdUnits();
             MoPubManager.OnSdkInitializedEvent += OnSdkInitializedEvent;
+            MoPubManager.OnRewardedVideoLoadedEvent += OnRewardedVideoLoadedEvent;
+            MoPubManager.OnInterstitialLoadedEvent += OnInterstitialLoadedEvent;
+
 
             // MoPub.InitializeSdk(adUnits.GetGenericAdUnit());
 
@@ -91,11 +95,29 @@ namespace TurboLabz.InstantFramework
             MoPubRewardedVideo.Initialize(adUnits);
             MoPubInterstitial.Initialize(adUnits);
             MoPubBanner.Initialize(adUnits);
+
+            Debug.Log("[ANALYITCS]: ads_rewared_request:");
+            analyticsService.Event(AnalyticsEventId.ads_rewared_request);
+            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
         }
 
         public bool IsRewardedVideoAvailable()
         {
-            return MoPubRewardedVideo.IsAvailable();
+            bool availableFlag = MoPubRewardedVideo.IsAvailable();
+
+            if(!availableFlag)
+            {
+                Debug.Log("[ANALYITCS]: ads_rewared_request:");
+                analyticsService.Event(AnalyticsEventId.ads_rewared_request);
+            }
+
+            return availableFlag;
+        }
+
+        public void OnRewardedVideoLoadedEvent(string adUnit)
+        {
+            Debug.Log("[ANALYITCS]: ads_rewared_success:");
+            analyticsService.Event(AnalyticsEventId.ads_rewared_success);
         }
 
         public IPromise<AdsResult> ShowRewardedVideo()
@@ -105,12 +127,27 @@ namespace TurboLabz.InstantFramework
 
         public bool IsInterstitialAvailable()
         {
-            return MoPubInterstitial.IsAvailable();
+            bool availableFlag = MoPubInterstitial.IsAvailable();
+
+            if (!availableFlag)
+            {
+                Debug.Log("[ANALYITCS]: ads_interstitial_request:");
+                analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
+            }
+
+            return availableFlag;
+        }
+
+        public void OnInterstitialLoadedEvent(string adUnit)
+        {
+            Debug.Log("[ANALYITCS]: ads_interstitial_success:");
+            analyticsService.Event(AnalyticsEventId.ads_interstitial_success);
         }
 
         public void ShowInterstitial()
         {
             MoPubInterstitial.Show();
+            analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
         }
 
         public void ShowBanner()
