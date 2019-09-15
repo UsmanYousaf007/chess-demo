@@ -76,7 +76,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON, "NO" },
                 { LocalizationKey.GM_ROOM_DURATION, "{0} m" },
                 { LocalizationKey.GM_DISCONNECTED, "Waiting for Opponent..." },
-                { LocalizationKey.GM_ADVANTAGE, "Adv." },
+                { LocalizationKey.GM_ADVANTAGE, "Adv" },
                 { LocalizationKey.GM_WIFI_WARNING, "Slow Internet" },
                 { LocalizationKey.GM_WIFI_RECONNECTING, "Reconnecting..." },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
