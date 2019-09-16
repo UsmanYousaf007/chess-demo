@@ -170,6 +170,15 @@ namespace TurboLabz.InstantGame
      
             notifidationObj.transform.SetParent(gameObject.transform);
             notifidationObj.transform.position = positionDummy.transform.position;
+
+            Debug.Log("LOCAL SCALE : " + notifidationObj.gameObject.transform.localScale.x + " Y : " + notifidationObj.gameObject.transform.localScale.y);
+            //temp fix
+            if (notifidationObj.gameObject.transform.localScale.x > 1.0f)
+            {
+                notifidationObj.gameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
+
+
             NotificationContainer notificationContainer = new NotificationContainer();
             notificationContainer.obj = notifidationObj;
             notificationContainer.playerId = notificationVO.senderPlayerId;
