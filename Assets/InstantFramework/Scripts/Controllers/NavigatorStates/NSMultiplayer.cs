@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
                     return new NSMultiplayerResultsDlg();
                 }
 
-                if (cmd.matchInfoModel.activeChallengeId == null || cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
+                if (cmd.matchInfoModel.activeChallengeId == null || (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode))
                 {
                     return new NSMultiplayerResultsDlg();
                 }
@@ -36,7 +36,8 @@ namespace TurboLabz.InstantFramework
             }
             else if (evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.matchInfoModel.activeChallengeId == null || cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
+                bool p = cmd.multiplayerChessboardModel.chessboards.ContainsKey(cmd.matchInfoModel.activeChallengeId);
+                if (cmd.matchInfoModel.activeChallengeId == null || (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode))
                 {
                     return new NSMultiplayerResultsDlg();
                 }

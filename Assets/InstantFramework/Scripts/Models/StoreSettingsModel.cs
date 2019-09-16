@@ -77,7 +77,9 @@ namespace TurboLabz.InstantFramework
         public int currency1Payout;             // Payout in currency1
         public int currency2Payout;             // Payout in currency2
         public string remoteProductId;          // Remote store product id
-        public string remoteProductPrice;       // Remote store product localized price
+        public string remoteProductPrice;        // Remote store product localized price
+        public string remoteProductCurrencyCode; // Remote store product currency code
+        public decimal productPrice;             // Remote store product prioce in decimal
 
         public IDictionary<string, int> bundledItems;  // Bundled items
         //public IDictionary<string, BundledItem> bundleDescriptions;  // Bundled item descriptions
@@ -110,6 +112,8 @@ namespace TurboLabz.InstantFramework
             currency2Payout = 0;
             remoteProductId = null;
             remoteProductPrice = null;
+            remoteProductCurrencyCode = null;
+            productPrice = 0;
             bundledItems = null;
         }
     }

@@ -20,8 +20,9 @@ public class MoPubSDKManager : EditorWindow
     private const string stagingURL  = "https://mopub-mediation-staging.firebaseio.com/.json";
     private const string migrateNote = "A legacy directory structure of MoPub was found in your project.\n" +
                                        "Pressing 'Migrate' will move any files in the legacy locations into the new " +
-                                       "location, so all MoPub-related files are under Assets/MoPub/. Please open " +
-                                       "the link below for details.\nBE AWARE THAT THE MIGRATION IS NOT REVERSIBLE.";
+                                       "location, so all MoPub-related files are under Assets/MoPub/, and will also " +
+                                       "remove any redundant MoPub files.\nPlease open the link below for details.\n" +
+                                       "BE AWARE THAT THE MIGRATION IS NOT REVERSIBLE.";
     private const string migrateLink = "https://developers.mopub.com/docs/unity/getting-started/#migrating-to-54";
     private const string mediationNote = "A legacy directory of MoPub Mediation was found in your project.\n" +
                                          "If you wish to mediate other networks, please delete these\n" +
@@ -100,6 +101,23 @@ public class MoPubSDKManager : EditorWindow
 
             return true;
         }
+
+        public bool FromConfig(PackageConfig config)
+        {
+            if (config == null || string.IsNullOrEmpty(config.Name) || !string.IsNullOrEmpty(Key) && Key != config.Name)
+                return false;
+            if (string.IsNullOrEmpty(Name))
+                Name = config.Name;
+            if (string.IsNullOrEmpty(Key))
+                Key = config.Name;
+            CurrentVersion = config.Version;
+            if (NetworkVersions == null)
+                NetworkVersions = new Dictionary<PackageConfig.Platform, string>();
+            foreach (var platform in config.NetworkSdkVersions.Keys)
+                if (!NetworkVersions.ContainsKey(platform))
+                    NetworkVersions[platform] = config.NetworkSdkVersions[platform];
+            return true;
+        }
     }
 
     // Version and download info for the SDK and network mediation adapters.
@@ -123,6 +141,7 @@ public class MoPubSDKManager : EditorWindow
     private GUIStyle labelStyle;
     private GUIStyle labelStyleArea;
     private GUIStyle labelStyleLink;
+    private GUIStyle headerStyle;
     private readonly GUILayoutOption fieldWidth = GUILayout.Width(60);
 
     private Vector2 scrollPos;
@@ -155,6 +174,11 @@ public class MoPubSDKManager : EditorWindow
             normal = { textColor = Color.blue },
             active = { textColor = Color.white },
         };
+        headerStyle = new GUIStyle(EditorStyles.label) {
+            fontSize = 12,
+            fontStyle = FontStyle.Bold,
+            fixedHeight = 18
+        };
         CancelOperation();
     }
 
@@ -179,10 +203,16 @@ public class MoPubSDKManager : EditorWindow
         var www = new WWW(staging ? stagingURL : manifestURL);
         yield return www;
 
+        var json = www.text;
+        if (string.IsNullOrEmpty(json)) {
+            json = "{}";
+            Debug.LogError("Unable to retrieve SDK version manifest");
+        }
+
         // Got the file.  Now extract info on latest SDKs available.
         mopubSdkInfo = new SdkInfo();
         sdkInfo.Clear();
-        var dict = Json.Deserialize(www.text) as Dictionary<string,object>;
+        var dict = Json.Deserialize(json) as Dictionary<string,object>;
         if (dict != null) {
             object obj;
             if (dict.TryGetValue("mopubBaseConfig", out obj)) {
@@ -205,8 +235,8 @@ public class MoPubSDKManager : EditorWindow
         foreach (var config in configs) {
             SdkInfo info;
             sdkInfo.TryGetValue(config.Name, out info);
-            info.CurrentVersion = config.Version;
-            sdkInfo[config.Name] = info;
+            if (info.FromConfig(config))
+                sdkInfo[info.Key] = info;
         }
 
         // Clear up the async-job state.
@@ -224,6 +254,7 @@ public class MoPubSDKManager : EditorWindow
         EditorGUILayout.LabelField("MoPub SDKs", labelStyle, GUILayout.Height(20));
 
         using (new EditorGUILayout.VerticalScope("box")) {
+            SdkHeaders();
             var migratable = false;
             SdkRow(mopubSdkInfo, canInstall => {
                 // Migration does not take precedence over installation/upgrade.
@@ -257,9 +288,11 @@ public class MoPubSDKManager : EditorWindow
                     if (GUILayout.Button(mediationLink, labelStyleLink))
                         Application.OpenURL(mediationLink);
                     GUILayout.Space(6);
-                } else
+                } else {
+                    SdkHeaders();
                     foreach (var item in sdkInfo)
                         SdkRow(item.Value);
+                }
             }
         }
 
@@ -294,6 +327,21 @@ public class MoPubSDKManager : EditorWindow
     }
 
 
+    private void SdkHeaders()
+    {
+        using (new EditorGUILayout.HorizontalScope(GUILayout.ExpandWidth(false))) {
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("Package", headerStyle);
+            GUILayout.Button("Version", headerStyle);
+            GUILayout.Space(3);
+            GUILayout.Button("Action", headerStyle, fieldWidth);
+            GUILayout.Button(" ", headerStyle, GUILayout.Width(1));
+            GUILayout.Space(5);
+        }
+        GUILayout.Space(4);
+    }
+
+
     private void SdkRow(SdkInfo info, Func<bool,bool> customButton = null)
     {
         var lat = info.LatestVersion;
@@ -304,7 +352,7 @@ public class MoPubSDKManager : EditorWindow
         var stillWorking = coroutine != null || downloader != null;
 
         string tooltip = string.Empty;
-        if ((canInst || testing) && isInst)
+        if (isInst && (MoPub.CompareVersions(cur, lat) != 0 || testing))
             tooltip += "\n  Installed:  " + cur;
         if (info.NetworkVersions != null) {
             string version;
@@ -314,7 +362,7 @@ public class MoPubSDKManager : EditorWindow
                 tooltip += "\n  iOS SDK:  " + version;
         }
         if (!string.IsNullOrEmpty(tooltip))
-            tooltip = info.Name + "\n  Package:  " + (lat ?? "") + tooltip;
+            tooltip = info.Name + "\n  Package:  " + (lat ?? "n/a") + tooltip;
 
         GUILayout.Space(4);
         using (new EditorGUILayout.HorizontalScope(GUILayout.ExpandWidth(false))) {
@@ -334,9 +382,13 @@ public class MoPubSDKManager : EditorWindow
                     this.StartCoroutine(DownloadSDK(info));
                 GUI.enabled = true;
             }
-            if (!string.IsNullOrEmpty(info.Instructions) && (info.Instructions != helpLink || testing))
+
+            if (!string.IsNullOrEmpty(info.Instructions) && (info.Instructions != helpLink || testing)) {
                 if (GUILayout.Button("?", GUILayout.ExpandWidth(false)))
                     Application.OpenURL(info.Instructions);
+            } else
+                // Need to fill space so that the Install/Upgrade buttons all line up nicely.
+                GUILayout.Button(" ", EditorStyles.label, GUILayout.Width(17));
             GUILayout.Space(5);
         }
         GUILayout.Space(4);

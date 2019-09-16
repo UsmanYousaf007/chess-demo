@@ -1,14 +1,121 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using MoPubInternal.ThirdParty.MiniJSON;
 using UnityEngine;
+using UnityEngine.Events;
 
 [SuppressMessage("ReSharper", "AccessToStaticMemberViaDerivedType")]
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public class MoPubManager : MonoBehaviour
 {
-    public static MoPubManager Instance { get; private set; }
+    // Singleton.
+    public static MoPubManager Instance { get; protected set; }
+
+    [Header("Initialization")]
+
+    [Tooltip("If enabled, the SDK will be initialized at start, based on the values provided in this script and in any attached NetworkConfig scripts.")]
+    public bool AutoInitializeOnStart;
+
+    [Tooltip("(iOS Only) The app id on the App Store.  Used to track conversions.")]
+    public string itunesAppId;
+
+    [Tooltip("Any ad unit id, used to identify which MoPub account this app will use.")]
+    public string AdUnitId;
+
+    [Tooltip("Enables or disables location support for banners and interstitials.")]
+    public bool LocationAware;
+
+    [Tooltip("Indicate that this app has Legitimate Interest for GDPR data tracking.")]
+    public bool AllowLegitimateInterest;
+
+    [Tooltip("Set the logging verbosity level for the MoPub SDK.")]
+    public MoPub.LogLevel LogLevel = MoPub.LogLevel.None;
+
+    /// <summary>
+    /// Collects the information from the above fields and any attached <see cref="NetworkConfiguration"/> objects into a
+    /// single <see cref="MoPub.SdkConfiguration"/> struct.
+    /// </summary>
+    /// <remarks>
+    /// Any script on this gameobject can implement a function called OnSdkConfiguration(config).  This function will
+    /// be called with the value of this parameter before this property returns.  This allows you to add more configuration
+    /// properties (e.g. entries in the NetworkConfiguration dictionary), if the values of these must be determined at
+    /// runtime.
+    /// </remarks>
+    public MoPub.SdkConfiguration SdkConfiguration
+    {
+        get {
+            var config = new MoPub.SdkConfiguration {
+                AdUnitId = AdUnitId,
+                AllowLegitimateInterest = AllowLegitimateInterest,
+                LogLevel = LogLevel,
+                MediatedNetworks = GetComponents<MoPubNetworkConfig>().Where(nc => nc.isActiveAndEnabled).Select(nc => nc.NetworkOptions).ToArray()
+            };
+            SendMessage("OnSdkConfiguration", config, SendMessageOptions.DontRequireReceiver);
+            return config;
+        }
+    }
+
+
+    // This enables the event to appear in the inspector panel.
+    [Serializable] public class InitializedEvent : UnityEvent<string> { }
+
+    [Header("Callback")]
+
+    // Add any callbacks to this event that must execute once the SDK has initialized.
+    public InitializedEvent Initialized;
+
+
+    // Forwards invocations of C# event OnSdkInitializedEvent to UnityEvent OnInitialized.
+    protected void fwdSdkInitialized(string adunitid)
+    {
+        if (isActiveAndEnabled && Initialized != null)
+            Initialized.Invoke(adunitid);
+    }
+
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else if (!(Instance is MoPubManagerTesting)) {
+            // Only warn for multiple production managers.  The testing one is OK since it is supposed to exist
+            // side-by-side with a production one.
+            Debug.LogWarning("Another production MoPubManager singleton instance already exists.  That object will initialize the SDK instead of this one.");
+        }
+
+        OnSdkInitializedEvent += fwdSdkInitialized;
+        if (transform.parent == null)
+            DontDestroyOnLoad(gameObject);
+    }
+
+
+    void Start()
+    {
+        if (Instance == this && AutoInitializeOnStart && !MoPub.IsSdkInitialized) {
+            MoPub.ReportApplicationOpen(itunesAppId);
+            MoPub.EnableLocationSupport(LocationAware);
+            MoPub.InitializeSdk(SdkConfiguration);
+            MoPub.SetEngineInformation();
+        }
+    }
+
+
+    void OnApplicationPause(bool paused)
+    {
+        MoPub.OnApplicationPause(paused);
+    }
+
+
+    void OnDestroy()
+    {
+        OnSdkInitializedEvent -= fwdSdkInitialized;
+        if (Instance == this)
+            Instance = null;
+    }
+
 
     // Fired when the SDK has finished initializing
     public static event Action<string> OnSdkInitializedEvent;
@@ -37,7 +144,7 @@ public class MoPubManager : MonoBehaviour
     // Fired when an interstitial ad is dismissed
     public static event Action<string> OnInterstitialDismissedEvent;
 
-    // iOS only. Fired when an interstitial ad expires
+    // Fired when an interstitial ad expires
     public static event Action<string> OnInterstitialExpiredEvent;
 
     // Android only. Fired when an interstitial ad is displayed
@@ -52,7 +159,7 @@ public class MoPubManager : MonoBehaviour
     // Fired when a rewarded video fails to load. Includes the error message.
     public static event Action<string, string> OnRewardedVideoFailedEvent;
 
-    // iOS only. Fired when a rewarded video expires
+    // Fired when a rewarded video expires
     public static event Action<string> OnRewardedVideoExpiredEvent;
 
     // Fired when an rewarded video is displayed
@@ -101,25 +208,14 @@ public class MoPubManager : MonoBehaviour
     // Fired when the MoPub consent dialog has been presented on screen.
     public static event Action OnConsentDialogShownEvent;
 
-    private void Awake()
-    {
-        if (Instance == null) {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        } else
-            Destroy(this);
-    }
+    // Fired when the MoPub consent dialog has been dismissed.
+    public static event Action OnConsentDialogDismissedEvent;
 
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
-            Instance = null;
-    }
-
+    // Fired when the ad is shown; may or may not contain impression data
+    public static event Action<string, MoPub.ImpressionData> OnImpressionTrackedEvent;
 
     // Will return a non-null array of strings with at least 'min' non-null string values at the front.
-    private string[] DecodeArgs(string argsJson, int min)
+    public static string[] DecodeArgs(string argsJson, int min)
     {
         bool err = false;
         var args = Json.Deserialize(argsJson) as List<object>;
@@ -142,7 +238,7 @@ public class MoPubManager : MonoBehaviour
     {
         var args = DecodeArgs(argsJson, min: 1);
         var adUnitId = args[0];
-        var logLevel = MoPub.LogLevel.MPLogLevelNone;
+        var logLevel = MoPub.LogLevel.None;
         if (args.Length > 1) {
             try {
                 logLevel = (MoPub.LogLevel) Enum.Parse(typeof(MoPub.LogLevel), args[1]);
@@ -166,8 +262,8 @@ public class MoPubManager : MonoBehaviour
         var newConsent = MoPub.Consent.FromString(args[1]);
         var canCollectPersonalInfo = args[2].ToLower() == "true";
 
-        MoPubLog.Log("EmitConsentStatusChangedEvent", MoPubLog.ConsentLogEvent.Updated, newConsent,
-            canCollectPersonalInfo);
+        MoPubLog.Log("EmitConsentStatusChangedEvent", MoPubLog.ConsentLogEvent.Updated, oldConsent, newConsent,
+            canCollectPersonalInfo, "unknown");
         var evt = OnConsentStatusChangedEvent;
         if (evt != null) evt(oldConsent, newConsent, canCollectPersonalInfo);
     }
@@ -200,19 +296,29 @@ public class MoPubManager : MonoBehaviour
     }
 
 
+    public void EmitConsentDialogDismissedEvent()
+    {
+        MoPubLog.Log("EmitConsentDialogDismissedEvent", MoPubLog.ConsentLogEvent.Dismissed);
+        var evt = OnConsentDialogDismissedEvent;
+        if (evt != null) evt();
+    }
+
+
     // Banner Listeners
 
 
     public void EmitAdLoadedEvent(string argsJson)
     {
-        var args = DecodeArgs(argsJson, min: 2);
+        var args = DecodeArgs(argsJson, min: 3);
         var adUnitId = args[0];
-        var heightStr = args[1];
+        var width = args[1];
+        var height = args[2];
 
         MoPubLog.Log("EmitAdLoadedEvent", MoPubLog.AdLogEvent.LoadSuccess);
+        MoPubLog.Log("EmitAdLoadedEvent", "Size received: {0}x{1}", width, height);
         MoPubLog.Log("EmitAdLoadedEvent", MoPubLog.AdLogEvent.ShowSuccess);
         var evt = OnAdLoadedEvent;
-        if (evt != null) evt(adUnitId, float.Parse(heightStr));
+        if (evt != null) evt(adUnitId, float.Parse(height, CultureInfo.InvariantCulture));
     }
 
 
@@ -222,7 +328,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitAdFailedEvent", MoPubLog.AdLogEvent.LoadFailed, error);
+        MoPubLog.Log("EmitAdFailedEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
         var evt = OnAdFailedEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -281,7 +387,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitInterstitialFailedEvent", MoPubLog.AdLogEvent.LoadFailed, error);
+        MoPubLog.Log("EmitInterstitialFailedEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
         var evt = OnInterstitialFailedEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -351,7 +457,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitRewardedVideoFailedEvent", MoPubLog.AdLogEvent.LoadFailed, error);
+        MoPubLog.Log("EmitRewardedVideoFailedEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
         var evt = OnRewardedVideoFailedEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -408,9 +514,9 @@ public class MoPubManager : MonoBehaviour
         var label = args[1];
         var amountStr = args[2];
 
-        MoPubLog.Log("EmitRewardedVideoReceivedRewardEvent", MoPubLog.AdLogEvent.ShouldReward);
+        MoPubLog.Log("EmitRewardedVideoReceivedRewardEvent", MoPubLog.AdLogEvent.ShouldReward, label, amountStr);
         var evt = OnRewardedVideoReceivedRewardEvent;
-        if (evt != null) evt(adUnitId, label, float.Parse(amountStr));
+        if (evt != null) evt(adUnitId, label, float.Parse(amountStr, CultureInfo.InvariantCulture));
     }
 
 
@@ -453,7 +559,7 @@ public class MoPubManager : MonoBehaviour
         var adUnitId = args[0];
         var error = args[1];
 
-        MoPubLog.Log("EmitNativeFailEvent", MoPubLog.AdLogEvent.LoadFailed, error);
+        MoPubLog.Log("EmitNativeFailEvent", MoPubLog.AdLogEvent.LoadFailed, adUnitId, error);
         var evt = OnNativeFailEvent;
         if (evt != null) evt(adUnitId, error);
     }
@@ -481,4 +587,16 @@ public class MoPubManager : MonoBehaviour
         if (evt != null) evt(adUnitId);
     }
 #endif
+
+    public void EmitImpressionTrackedEvent(string argsJson)
+    {
+        var args = DecodeArgs(argsJson, min: 1);
+        var adUnitId = args[0];
+        var impressionData = args.Length > 1
+            ? MoPub.ImpressionData.FromJson(args[1])
+            : new MoPub.ImpressionData();
+
+        var evt = OnImpressionTrackedEvent;
+        if (evt != null) evt(adUnitId, impressionData);
+    }
 }

@@ -49,7 +49,11 @@ namespace TurboLabz.Multiplayer
 
         void OnBackToFriendsClicked()
         {
-            if (chessboardBlocker.activeSelf)
+            if (matchInfoModel.activeChallengeId == null)
+            {
+                resultsDialogOpenedSignal.Dispatch();
+            }
+            else if (matchInfoModel.activeMatch == null || matchInfoModel.activeMatch.endGameResult != EndGameResult.NONE)
             {
                 resultsDialogOpenedSignal.Dispatch();
             }

@@ -134,7 +134,7 @@ void _moPubInitializeSdk(const char* adUnitIdString,
     config.additionalNetworks = extractNetworkClasses(additionalNetworksString);
     config.globalMediationSettings = extractMediationSettings(mediationSettingsJson);
     config.allowLegitimateInterest = allowLegitimateInterest;
-    config.loggingLevel = (MPLogLevel) logLevel;
+    config.loggingLevel = (MPBLogLevel) logLevel;
     config.mediatedNetworkConfigurations = extractNetworkConfigurations(networkConfigurationJson);
     config.moPubRequestOptions = extractMoPubRequestOptions(moPubRequestOptionsJson);
     NSString* logLevelString = [[NSNumber numberWithInt:logLevel] stringValue];
@@ -163,7 +163,7 @@ bool _moPubAllowLegitimateInterest()
     return MoPub.sharedInstance.allowLegitimateInterest;
 }
 
-void _moPubSetLogLevel(MPLogLevel logLevel)
+void _moPubSetLogLevel(MPBLogLevel logLevel)
 {
     MPLogging.consoleLogLevel = logLevel;
 }
@@ -176,6 +176,11 @@ int _moPubGetLogLevel()
 void _moPubEnableLocationSupport(bool shouldUseLocation)
 {
     [[MoPubManager sharedManager] enableLocationSupport:shouldUseLocation];
+}
+
+void _moPubSetEngineInformation(const char* name, const char* version)
+{
+    [[MoPub sharedInstance] setEngineInformation:[MPEngineInfo named:GetStringParam(name) version:GetStringParam(version)]];
 }
 
 void _moPubReportApplicationOpen(const char* iTunesAppId)
@@ -192,6 +197,15 @@ void _moPubForceWKWebView(bool shouldForce)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Banners
 
+void _moPubRequestBanner(float width, float height, int bannerPosition, const char* adUnitId)
+{
+    MoPubAdPosition position = (MoPubAdPosition)bannerPosition;
+
+    [[MoPubManager managerForAdunit:GetStringParam(adUnitId)] requestBanner:width height:height atPosition:position];
+}
+
+
+__deprecated_msg("createBanner has been deprecated, please use requestBanner instead.")
 void _moPubCreateBanner(int bannerType, int bannerPosition, const char* adUnitId)
 {
     MoPubBannerType type = (MoPubBannerType)bannerType;
@@ -240,8 +254,9 @@ void _moPubForceRefresh(const char* adUnitId)
 
 void _moPubRequestInterstitialAd(const char* adUnitId, const char* keywords, const char* userDataKeywords)
 {
-    [[MoPubManager managerForAdunit:GetStringParam(adUnitId)] requestInterstitialAd:GetNullableStringParam(keywords)
-                                                                   userDataKeywords:GetNullableStringParam(userDataKeywords)];
+    [[MoPubManager managerForAdunit:GetStringParam(adUnitId)]
+              requestInterstitialAd:GetNullableStringParam(keywords)
+                   userDataKeywords:GetNullableStringParam(userDataKeywords)];
 }
 
 
@@ -271,7 +286,8 @@ void _moPubDestroyInterstitialAd(const char* adUnitId)
 // AdColonyInstanceMediationSettings, (BOOL)showPrePopup, (BOOL)showPostPopup
 // VungleInstanceMediationSettings, (string)userIdentifier
 
-void _moPubRequestRewardedVideo(const char* adUnitIdStr, const char* json, const char* keywords, const char* userDataKeywords, double latitude, double longitude, const char* customerId)
+void _moPubRequestRewardedVideo(const char* adUnitIdStr, const char* json, const char* keywords, const char* userDataKeywords,
+                                double latitude, double longitude, const char* customerId)
 {
     NSArray* mediationSettings = extractMediationSettings(json);
     CLLocation* location = nil;

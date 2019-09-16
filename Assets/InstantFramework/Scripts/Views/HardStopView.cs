@@ -39,15 +39,18 @@ namespace TurboLabz.InstantFramework
             //gameObject.SetActive(true);
         }
 
-        public void SetErrorAndHalt(BackendResult error)
+        public void SetErrorAndHalt(BackendResult error, string message)
         {
-            if(error == BackendResult.GAME_CRASH_SIGNAL)
+            if(error == BackendResult.GAME_CRAHSED)
             {
+                gameObject.SetActive(true);
+
                 string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
                 errorCodeLabel.text = "(Error: " + errorCode + ")";
-                errorMessageLabel.text = Truncate(LogUtil.errorString, 500);
-                gameObject.SetActive(true);
-                StartCoroutine(HaltSystem());
+                errorMessageLabel.text = message;
+
+                //StartCoroutine(HaltSystem());
+
             }
             else
             {
@@ -64,12 +67,7 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
 
             }
-        }
 
-        public string Truncate(string value, int maxLength)
-        {
-            if (string.IsNullOrEmpty(value)) return value;
-            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
 
         IEnumerator HaltSystem()

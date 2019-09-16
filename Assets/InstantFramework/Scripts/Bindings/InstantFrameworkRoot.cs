@@ -18,9 +18,46 @@ namespace TurboLabz.InstantFramework
 {
     public class InstantFrameworkRoot : ContextView
     {
+        [Inject] public SetErrorAndHaltSignal setErrorAndHaltSignal { get; set; }
+
         void Awake()
         {
             context = new InstantFrameworkContext(this);
         }
+
+        void OnEnable()
+        {
+            Application.logMessageReceived += HandleLog;
+        }
+
+        void OnDisable()
+        {
+            Application.logMessageReceived -= HandleLog;
+        }
+
+        void HandleLog(string logString, string stackTrace, LogType type)
+        {
+            if(Debug.isDebugBuild)
+            {
+                if (type == LogType.Exception)
+                {
+                    Debug.Log("GAME CRASHEDDDDDDDD @@@@@@@@@@@@@@@@@@@@@ ");
+
+                    string lString = logString.Replace('"', '\'').Replace('\n', ' ').Replace('\r', ' ');
+                    string sTrace = stackTrace.Replace('"', '\'').Replace('\n', ' ').Replace('\r', ' ');
+
+                    string _message = "<color=#ff0000>" + lString + "</color>" + " " + sTrace;
+                    if (_message.Length > 8192)
+                    {
+                        _message = _message.Substring(8192);
+                    }
+
+                    setErrorAndHaltSignal.Dispatch(BackendResult.GAME_CRAHSED, _message);
+                }
+
+            }
+        }
     }
+
+    
 }

@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -31,14 +32,14 @@ MonoBehaviour:
   - fd2bf82f92f37951b8100822f83be47d198f1b3c
   - c4de07adc66841eff5d94d5e43262e6308e11997
   Build:
-  - 0.1
-  - 0.1
+  - 4.14.9
+  - 4.14.9
   SelectedPlatformStudio:
-  - Turbo Labz
-  - Turbo Labz
+  - 
+  - 
   SelectedPlatformGame:
-  - Chess Star
-  - Chess Star
+  - 
+  - 
   SelectedPlatformGameID: 3403010032030100
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
@@ -66,7 +67,7 @@ MonoBehaviour:
   ClosedHints: 
   DisplayHints: 0
   DisplayHintsScrollState: {x: 0, y: 0}
-  Logo: {fileID: 0}
+  Logo: {fileID: 2800000, guid: 98df8f9c5678a4e5d964caa1244e8958, type: 3}
   UpdateIcon: {fileID: 0}
   InfoIcon: {fileID: 0}
   DeleteIcon: {fileID: 0}
@@ -80,7 +81,7 @@ MonoBehaviour:
   iosIcon: {fileID: 0}
   macIcon: {fileID: 0}
   windowsPhoneIcon: {fileID: 0}
-  UsePlayerSettingsBuildNumber: 0
+  UsePlayerSettingsBuildNumber: 1
   SubmitErrors: 1
   MaxErrorCount: 10
   SubmitFpsAverage: 1

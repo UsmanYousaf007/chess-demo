@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
             /* Mandatory - set your Android package name */
             AppsFlyer.setAppID ("com.turbolabz.instantchess.android.googleplay");
             /* For getting the conversion data in Android, you need to add the "AppsFlyerTrackerCallbacks" listener.*/
-            AppsFlyer.init ("2Rcqu5eJmG7svYc2RJauwh","AppsFlyerTrackerCallbacks");
+            AppsFlyer.init ("2Rcqu5eJmG7svYc2RJauwh", "AppsFlyerTrackerCallbacks");
 #endif
 
             Debug.Log("################################## AppsFlyer: Initialized: "+ AppsFlyer.getAppsFlyerId());

@@ -127,6 +127,9 @@ namespace TurboLabz.CPU
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
+
+                analyticsService.Event(AnalyticsEventId.ads_rewared_available, AnalyticsContext.computer_match);
+
             }
             else
             {
@@ -369,7 +372,9 @@ namespace TurboLabz.CPU
             showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             backToLobbySignal.Dispatch();
 
-            analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);
+            analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);         
+            analyticsService.Event(AnalyticsEventId.ads_rewared_show, AnalyticsContext.computer_match);
+            
         }
 
         public void OnResultsSkipRewardButtonClicked()

@@ -210,7 +210,7 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.FRIENDS_DRAWS_LABEL, "Draws" },
 				{ LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL, "Total Games: " },
 				{ LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
-                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Play with your Friends" },
+                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Login to Social Network" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
                 { LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, "Save your progress" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
