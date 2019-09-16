@@ -37,7 +37,6 @@ namespace TurboLabz.CPU
         public GameObject chessboardBlocker;
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
-        public GameObject bottomBar;
 
         private bool menuButtonWasActive;
 

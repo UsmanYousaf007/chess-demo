@@ -29,6 +29,7 @@ namespace TurboLabz.Multiplayer
     {
         [Header("Board Scaling")]
         public Transform boardContent;
+        public GameObject bottomBarContent;
 
         [Header("Chessboard")]
         public GameObject[] pieces;
@@ -108,8 +109,8 @@ namespace TurboLabz.Multiplayer
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
             opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
 
-            float bottomBarH = ((RectTransform)bottomBar.transform).sizeDelta.y;
-            ((RectTransform)bottomBar.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
+            float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
+            ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)
