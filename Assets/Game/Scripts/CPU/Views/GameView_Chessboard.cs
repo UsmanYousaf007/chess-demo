@@ -107,7 +107,8 @@ namespace TurboLabz.CPU
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
             opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
 
-            bottomBar.transform.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), bottomBar.transform.localScale);
+            float bottomBarH = ((RectTransform)bottomBar.transform).sizeDelta.y;
+            ((RectTransform)bottomBar.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)
