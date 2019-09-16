@@ -104,7 +104,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.HARD, "Hard" },
                 { LocalizationKey.CPU_MENU_THEMES, "THEMES" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "Computer" },
-                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty" },
+                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Level" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
                 { LocalizationKey.CLASSIC_MODE_TIME, "Long Play" },
 
