@@ -27,6 +27,9 @@ namespace TurboLabz.CPU
 {
     public partial class GameView
     {
+        [Header("Board Scaling")]
+        public Transform boardContent;
+
         public GameObject[] pieces;
         public GameObject[] possibleMoveIndicators;
         public Transform[] chessboardSquares;
@@ -78,6 +81,33 @@ namespace TurboLabz.CPU
 
             // Add listeners to our squares
             AddSquareListeners();
+
+            StretchBoard();
+        }
+
+        private void StretchBoard()
+        {
+            const int BOARD_WIDTH = 120 * 8;        // Square width x 8 squares
+            const float BOARD_STRETCH_CAP = 1.3f;   // Maximum stretch scale 
+
+            // Stretch board according to screen width
+            float scaleUniform = Screen.width / (BOARD_WIDTH * canvas.transform.localScale.x);
+            float scaleUniformOriginal = scaleUniform;
+            scaleUniform = (scaleUniform > BOARD_STRETCH_CAP) ? BOARD_STRETCH_CAP : scaleUniform; // Apply cap
+            boardContent.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), boardContent.localScale);
+            float scaleWidth = 1.0f - (scaleUniformOriginal - scaleUniform) / 1.5f;
+
+            // Adjust screen content according to board stretch
+            Rect strechMax = ((RectTransform)gameObject.transform).rect;
+            float h = ((RectTransform)playerInfoPanel.transform).sizeDelta.y;
+            float offsetY = playerInfoPanel.transform.position.y * (scaleUniform - 1.0f);
+            ((RectTransform)playerInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
+            playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
+
+            ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
+            opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+
+            bottomBar.transform.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), bottomBar.transform.localScale);
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)

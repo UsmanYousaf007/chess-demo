@@ -107,6 +107,8 @@ namespace TurboLabz.Multiplayer
 
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
             opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+
+            bottomBar.transform.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), bottomBar.transform.localScale);
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)
