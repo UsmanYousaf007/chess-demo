@@ -51,7 +51,7 @@ namespace TurboLabz.Multiplayer
 
         private void SetAdvantage(Text label, int score)
         {
-            label.text = (score > 0) ? "(" + (localizationService.Get(LocalizationKey.GM_ADVANTAGE) + " +" + score + ")") : "";
+            label.text = (score > 0) ? (localizationService.Get(LocalizationKey.GM_ADVANTAGE) + " +" + score) : "";
         }
     }
 }
