@@ -241,10 +241,21 @@ namespace TurboLabz.InstantFramework
                     bar.UpdateMasking(friendsCount == count, true);
                 }
 
-                nextSearchButton.interactable = true;
-                nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-                nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-                searchSkip += searchedOnline.Count + searchedOffline.Count;
+                //As on server Settings.Friends.searchPageMax = 8
+                if (count < 8)  
+                {
+                    nextSearchButton.interactable = false;
+                    nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                    nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                }
+                else
+                {
+                    nextSearchButton.interactable = true;
+                    nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+                    nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+                    searchSkip += searchedOnline.Count + searchedOffline.Count;
+                }
+                
             }
             else
             {
