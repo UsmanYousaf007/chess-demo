@@ -67,7 +67,7 @@ namespace TurboLabz.CPU
             DisableHintButton();
 
             strengthPanel.ShowStrengthPanel(vo.strength, hintFromIndicator.transform.position, hintToIndicator.transform.position);
-            StartCoroutine(HideHint(3.0f));
+            StartCoroutine(HideHint(4.0f));
 
         }
 
