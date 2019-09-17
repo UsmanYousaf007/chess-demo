@@ -118,6 +118,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.keystorePass = "0_turbolabzsignature-instant-chess_1";
         PlayerSettings.Android.keyaliasPass = "0_turbolabzsignature-instant-chess_1";
         PlayerSettings.Android.keyaliasName = "instant-chess-signing";
+        PlayerSettings.Android.renderOutsideSafeArea = false;
 
         ProcessBuild(buildPlayerOptions);
 
