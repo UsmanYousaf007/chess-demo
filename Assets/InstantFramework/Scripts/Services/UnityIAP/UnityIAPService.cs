@@ -139,19 +139,74 @@ namespace TurboLabz.InstantFramework
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
-            purchaseState = purchaseProcessState.PURCHASE_STATE_PENDING;
 
-            if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
+            bool validPurchase = true; // Presume valid for platforms with no R.V.
+
+       
+
+                // Unity IAP's validation logic is only included on these platforms.
+#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+                // Prepare the validator with the secrets we prepared in the Editor
+                // obfuscation window.
+                var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
+                AppleTangle.Data(), Application.identifier);
+
+            try
             {
-                pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
+                bool foundProduct = false;
+                // On Google Play, result has a single product ID.
+                // On Apple stores, receipts contain multiple products.
+                var result = validator.Validate(e.purchasedProduct.receipt);
+                // For informational purposes, we list the receipt(s)
+                Debug.Log("Receipt is valid. Contents:");
+                Debug.Log("My transactionID Contents:" + e.purchasedProduct.transactionID);
+
+                foreach (IPurchaseReceipt productReceipt in result)
+                {
+                    Debug.Log(productReceipt.productID);
+                    Debug.Log(productReceipt.purchaseDate);
+                    Debug.Log(productReceipt.transactionID);
+
+                    if(e.purchasedProduct.transactionID == productReceipt.transactionID)
+                    {
+                        foundProduct = true;
+                        break;
+                    }
+                }
+
+                if(!foundProduct)
+                {
+                    Debug.Log("Invalid receipt, not found in this list > > > > ");
+                    validPurchase = false;
+                }
+
+                
+            }
+            catch (IAPSecurityException)
+            {
+                Debug.Log("Invalid receipt, not unlocking content");
+                validPurchase = false;
+            }
+#endif
+
+            if (validPurchase)
+            {
+                purchaseState = purchaseProcessState.PURCHASE_STATE_PENDING;
+
+                if (!pendingVerification.ContainsKey(e.purchasedProduct.transactionID))
+                {
+                    pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
+                }
+                // Unlock the appropriate content here.
+                backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
+                                                            e.purchasedProduct.transactionID, 
+                                                            e.purchasedProduct.receipt).Then(OnVerifiedPurchase);
+
+                return PurchaseProcessingResult.Pending;
             }
 
-            backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
-                                                        e.purchasedProduct.transactionID, 
-                                                        e.purchasedProduct.receipt).Then(OnVerifiedPurchase);
-
-            return PurchaseProcessingResult.Pending;
- 		}
+            return PurchaseProcessingResult.Complete;
+        }
 
         public void OnVerifiedPurchase(BackendResult result, string transactionID)
         {
