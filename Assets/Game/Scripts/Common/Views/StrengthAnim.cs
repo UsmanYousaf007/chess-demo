@@ -28,6 +28,7 @@ public class StrengthAnim : MonoBehaviour
 
         //draw line
         line.Draw(localPosFrom, localPosTo);
+        line.Fade(0, 255, 0.9f);
 
         //set arrowhead position
         //move it to the root of canvas then calculate screen to canvas postion
@@ -125,7 +126,7 @@ public class StrengthAnim : MonoBehaviour
     {
         strengthPanel.SetActive(false);
         line.Hide();
-        Reset();
+        //Reset();
     }
 
     private void Fade()
@@ -140,9 +141,10 @@ public class StrengthAnim : MonoBehaviour
             bar.CrossFadeAlpha(0f, 1f, false);
         }
 
-        line.Fade();
+        line.Fade(255,0,0.9f);
 
         Invoke("Hide", 1f);
+        Invoke("Reset", 1f);
     }
 
     private void Reset()

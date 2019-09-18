@@ -60,13 +60,14 @@ namespace TurboLabz.CPU
                     squares = chessboardModel.squares,
                     aiMoveDelay = AiMoveDelay.NONE,
                     lastPlayerMove = chessboardModel.lastPlayerMove,
-                    isStrength = true,
-                    playerStrengthPct = 0.5f
+                    isStrength = !isHindsight,
+                    playerStrengthPct = 0.5f,
+                    isHint = isHindsight
                 };
 
                 //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
                 //promise.Then(OnAiMove);
-
+                
                 IPromise<FileRank, FileRank, float> promise1 = chessAiService.GetAiMoveStrength(vo);
                 promise1.Then(OnAiMoveStrength);
 
@@ -77,6 +78,11 @@ namespace TurboLabz.CPU
 
             }
 
+        }
+
+        private void OnAiMoveCoach(string move, string piece)
+        {
+            LogUtil.Log("OnAiMoveCoach : " + move);
         }
 
         private void OnAiMoveStrength(FileRank from, FileRank to, float strength)

@@ -37,9 +37,9 @@ public class DrawLine : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
-    public void Fade()
+    public void Fade(int from, int to, float time)
     {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 255, "to", 0, "time", 0.9f, "onupdate", "SetAlpha", "onupdatetarget", this.gameObject));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", from, "to", to, "time", time, "onupdate", "SetAlpha", "onupdatetarget", this.gameObject));
     }
 
     public void SetAlpha(int value)

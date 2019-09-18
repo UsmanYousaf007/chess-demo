@@ -29,6 +29,7 @@ namespace TurboLabz.CPU
         public TextMeshProUGUI hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
+        public CoachView coachView;
 
         public void InitHindsight()
         {
@@ -57,6 +58,10 @@ namespace TurboLabz.CPU
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
+
+            coachView.Show(hindsightFromIndicator.transform.position, hindsightToIndicator.transform.position,
+                vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), "r");
+            Invoke("HideHindsight", 4);
         }
 
         public void HideHindsight()

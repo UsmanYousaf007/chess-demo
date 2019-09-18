@@ -71,7 +71,6 @@ namespace TurboLabz.Chess
             return aiMovePromise;
         }
 
-
         public IPromise<FileRank, FileRank, float> GetAiMoveStrength(AiMoveInputVO vo)
         {
             aiMoveStrengthPromise = new Promise<FileRank, FileRank, float>();
@@ -141,6 +140,7 @@ namespace TurboLabz.Chess
 
         private void ExecuteAiMove()
         {
+
             // Read the scores returned
             aiSearchResultScoresList = new List<string>(ChessAiPlugin.results.aiSearchResultScoresStr.Split(','));
             aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
@@ -160,12 +160,25 @@ namespace TurboLabz.Chess
             {
                 GetMoveStrength();
             }
+            else if (aiMoveInputVO.isHint)
+            {
+                GetBestMove();
+            }
             else
             {
                 SelectMove();
                 aiMovePromise = null;
             }
             
+        }
+
+        private void GetBestMove()
+        {
+            var selectedMove = aiSearchResultMovesList[0];
+            var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
+            var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
+            aiMoveStrengthPromise.Dispatch(from, to, -1);
+            aiMoveStrengthPromise = null;
         }
 
         private void GetMoveStrength()
