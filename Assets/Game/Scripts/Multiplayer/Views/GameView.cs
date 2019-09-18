@@ -154,7 +154,7 @@ namespace TurboLabz.Multiplayer
 
         public void EnableOpponentConnectionMonitor(bool isEnable)
         {
-            matchTypeObject.SetActive(false);
+            //matchTypeObject.SetActive(false);
             if (opponentConnectionMonitorCR != null)
             {
                 routineRunner.StopCoroutine(opponentConnectionMonitorCR);
