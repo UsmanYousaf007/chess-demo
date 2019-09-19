@@ -25,9 +25,6 @@ public class CoachView : MonoBehaviour
     public void Show(Vector3 fromPosition, Vector3 toPostion, string moveFrom, string moveTo, string pieceName, string activeSkinId)
     {
         coachPanel.SetActive(true);
-
-        LogUtil.Log("piece name coach : " + pieceName);
-        LogUtil.Log("active skin id coach : " + activeSkinId);
         pieceIcon.sprite = SkinContainer.LoadSkin(activeSkinId).GetSprite(pieceName);
         moveText.text = string.Format("{0} to {1}", moveFrom, moveTo);
         line.Draw(fromPosition, toPostion);

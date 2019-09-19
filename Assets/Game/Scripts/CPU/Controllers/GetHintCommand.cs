@@ -98,7 +98,7 @@ namespace TurboLabz.CPU
             newVo.skinId = playerModel.activeSkinId;
             if (isHindsight)
             {
-                newVo.piece = string.Format("{0}{1}", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W' ,strength);
+                newVo.piece = string.Format("{0}{1}", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W', strength);
             }
             else
             {
