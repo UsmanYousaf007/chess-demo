@@ -1,6 +1,7 @@
 ﻿using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
+using static MoPub;
 
 namespace TurboLabz.InstantFramework
 {
@@ -46,7 +47,8 @@ namespace TurboLabz.InstantFramework
             hideOnLoad = false;
         }
 
-        public static void Show(MoPubBase.AdPosition pos)
+        [System.Obsolete]
+        public static void Show(MoPub.AdPosition pos)
         {
             Debug.Log("[TLADS]: Request to create banner");
 

@@ -45,7 +45,7 @@ public class AdMobNetworkConfig : MoPubNetworkConfig
     [Mediation.Optional]
     public bool taggedForUnderAgeOfConsent;
 
-    public override MoPubBase.MediatedNetwork NetworkOptions
+    public override MoPub.MediatedNetwork NetworkOptions
     {
         get {
             var options = base.NetworkOptions;

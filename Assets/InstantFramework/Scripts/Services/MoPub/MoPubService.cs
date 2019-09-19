@@ -1,7 +1,7 @@
 ﻿using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
-using static MoPubBase.SupportedNetwork;
+using static MoPub.SupportedNetwork;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
                 AdUnitId = adUnits.GetGenericAdUnit(),
 
                 // Set desired log level here to override default level of MPLogLevelNone
-                LogLevel = MoPubBase.logLevel,
+                LogLevel = MoPub.LogLevel.None,
 
                 // Uncomment the following line to allow supported SDK networks to collect user information on the basis
                 // of legitimate interest.
@@ -152,7 +152,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowBanner()
         {
-            MoPubBanner.Show(MoPubBase.AdPosition.TopCenter);
+            MoPubBanner.Show(MoPub.AdPosition.TopCenter);
         }
 
         public void HideBanner()
