@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 using UnityEngine.UI;
 
 public class CoachView : MonoBehaviour
-{
-    //Model
-    [Inject] public IPlayerModel playerModel { get; set; }
-
+{ 
     //Visual Properties
     public GameObject coachPanel;
     public Image bg;
@@ -24,11 +22,13 @@ public class CoachView : MonoBehaviour
         
     }
 
-    public void Show(Vector3 fromPosition, Vector3 toPostion, string moveFrom, string moveTo, string pieceName)
+    public void Show(Vector3 fromPosition, Vector3 toPostion, string moveFrom, string moveTo, string pieceName, string activeSkinId)
     {
         coachPanel.SetActive(true);
 
-        //pieceIcon.sprite = SkinContainer.LoadSkin(playerModel.activeSkinId).GetSprite(pieceName);
+        LogUtil.Log("piece name coach : " + pieceName);
+        LogUtil.Log("active skin id coach : " + activeSkinId);
+        pieceIcon.sprite = SkinContainer.LoadSkin(activeSkinId).GetSprite(pieceName);
         moveText.text = string.Format("{0} to {1}", moveFrom, moveTo);
         line.Draw(fromPosition, toPostion);
         line.Fade(0, 255, 0.9f);

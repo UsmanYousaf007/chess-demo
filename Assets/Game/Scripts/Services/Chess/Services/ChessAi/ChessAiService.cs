@@ -43,7 +43,7 @@ namespace TurboLabz.Chess
         }
 
         private IPromise<FileRank, FileRank, string> aiMovePromise;
-        private IPromise<FileRank, FileRank, float> aiMoveStrengthPromise;
+        private IPromise<FileRank, FileRank, string> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
         private bool resultsReady;
@@ -71,9 +71,9 @@ namespace TurboLabz.Chess
             return aiMovePromise;
         }
 
-        public IPromise<FileRank, FileRank, float> GetAiMoveStrength(AiMoveInputVO vo)
+        public IPromise<FileRank, FileRank, string> GetAiMoveStrength(AiMoveInputVO vo)
         {
-            aiMoveStrengthPromise = new Promise<FileRank, FileRank, float>();
+            aiMoveStrengthPromise = new Promise<FileRank, FileRank, string>();
             aiMoveInputVO = vo;
             routineRunner.StartCoroutine(GetAiResult());
             return aiMoveStrengthPromise;
@@ -177,7 +177,12 @@ namespace TurboLabz.Chess
             var selectedMove = aiSearchResultMovesList[0];
             var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
             var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
-            aiMoveStrengthPromise.Dispatch(from, to, -1);
+            var piece = chessService.GetPieceNameAtLocation(from);
+            if (piece == null)
+            {
+                piece = aiMoveInputVO.squares[aiMoveInputVO.lastPlayerMove.to.file, aiMoveInputVO.lastPlayerMove.to.rank].piece.name;
+            }
+            aiMoveStrengthPromise.Dispatch(from, to, piece);
             aiMoveStrengthPromise = null;
         }
 
@@ -213,7 +218,7 @@ namespace TurboLabz.Chess
                 }
             }
 
-            aiMoveStrengthPromise.Dispatch(from, to, (float)precentage);
+            aiMoveStrengthPromise.Dispatch(from, to, ((float)precentage).ToString());
             aiMoveStrengthPromise = null;
         }
     }

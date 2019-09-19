@@ -22,5 +22,7 @@ namespace TurboLabz.Chess
         public ChessSquare toSquare;
         public bool isHindsight;
         public int strength;
+        public string piece;
+        public string skinId;
     }
 }

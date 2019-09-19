@@ -67,6 +67,8 @@ namespace TurboLabz.Multiplayer
             vo.toSquare = chessboard.squares[to.file, to.rank];
             vo.isHindsight = isHindsight;
             vo.strength = 0;
+            vo.piece = "";
+            vo.skinId = playerModel.activeSkinId;
             renderHintSignal.Dispatch(vo);
 
             if (isHindsight)

@@ -148,6 +148,11 @@ namespace TurboLabz.Chess
                 return null;
             }
 
+            if (square.Piece == null)
+            {
+                return null;
+            }
+
             return GetChessPieceName(square.Piece);
         }
 

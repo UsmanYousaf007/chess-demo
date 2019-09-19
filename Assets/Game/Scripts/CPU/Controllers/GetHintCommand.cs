@@ -68,7 +68,7 @@ namespace TurboLabz.CPU
                 //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
                 //promise.Then(OnAiMove);
                 
-                IPromise<FileRank, FileRank, float> promise1 = chessAiService.GetAiMoveStrength(vo);
+                IPromise<FileRank, FileRank, string> promise1 = chessAiService.GetAiMoveStrength(vo);
                 promise1.Then(OnAiMoveStrength);
 
             }
@@ -85,7 +85,7 @@ namespace TurboLabz.CPU
             LogUtil.Log("OnAiMoveCoach : " + move);
         }
 
-        private void OnAiMoveStrength(FileRank from, FileRank to, float strength)
+        private void OnAiMoveStrength(FileRank from, FileRank to, string strength)
         {
             LogUtil.Log("OnAiMoveStrength : " + strength);
 
@@ -93,7 +93,18 @@ namespace TurboLabz.CPU
             newVo.fromSquare = chessboardModel.squares[from.file, from.rank];
             newVo.toSquare = chessboardModel.squares[to.file, to.rank];
             newVo.isHindsight = isHindsight;
-            newVo.strength = (int)strength;
+            newVo.strength = -1;
+            newVo.piece = "";
+            newVo.skinId = playerModel.activeSkinId;
+            if (isHindsight)
+            {
+                newVo.piece = string.Format("{0}{1}", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W' ,strength);
+            }
+            else
+            {
+                newVo.strength = int.Parse(strength);
+            }
+            
             renderHintSignal.Dispatch(newVo);
 
             //if (isHindsight)
@@ -118,6 +129,8 @@ namespace TurboLabz.CPU
             vo.toSquare = chessboardModel.squares[to.file, to.rank];
             vo.isHindsight = isHindsight;
             vo.strength = 0;
+            vo.piece = "";
+            vo.skinId = playerModel.activeSkinId;
             renderHintSignal.Dispatch(vo);
 
             if (isHindsight)

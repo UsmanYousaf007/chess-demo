@@ -60,7 +60,7 @@ namespace TurboLabz.CPU
             DisableHindsightButton();
 
             coachView.Show(hindsightFromIndicator.transform.position, hindsightToIndicator.transform.position,
-                vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), "r");
+                vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), vo.piece, vo.skinId);
             Invoke("HideHindsight", 4);
         }
 
