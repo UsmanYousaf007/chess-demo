@@ -29,6 +29,7 @@ namespace TurboLabz.Multiplayer
         public TextMeshProUGUI hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
+        public CoachView coachView;
 
         public void InitHindsight()
         {
@@ -54,6 +55,17 @@ namespace TurboLabz.Multiplayer
 
             audioService.Play(audioService.sounds.SFX_HINT);
 
+            hindsightThinking.SetActive(false);
+            DisableModalBlocker();
+            DisableHindsightButton();
+
+            coachView.Show(hindsightFromIndicator.transform.position, hindsightToIndicator.transform.position,
+                vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), vo.piece, vo.skinId);
+            Invoke("HideHindsight", 4);
+        }
+
+        public void CancelHindsight()
+        {
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();

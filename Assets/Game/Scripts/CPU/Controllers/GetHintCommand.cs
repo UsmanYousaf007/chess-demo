@@ -27,6 +27,7 @@ namespace TurboLabz.CPU
 
         // Dispatch Signals
         [Inject] public RenderHintSignal renderHintSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
         [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
         [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
@@ -75,14 +76,9 @@ namespace TurboLabz.CPU
             else
             {
                 LogUtil.Log("Required one move : ");
-
+                cancelHintSignal.Dispatch();
             }
 
-        }
-
-        private void OnAiMoveCoach(string move, string piece)
-        {
-            LogUtil.Log("OnAiMoveCoach : " + move);
         }
 
         private void OnAiMoveStrength(FileRank from, FileRank to, string strength)
@@ -98,7 +94,7 @@ namespace TurboLabz.CPU
             newVo.skinId = playerModel.activeSkinId;
             if (isHindsight)
             {
-                newVo.piece = string.Format("{0}{1}", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W', strength);
+                newVo.piece = string.Format("{0}{1}", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W', strength.ToLower());
             }
             else
             {

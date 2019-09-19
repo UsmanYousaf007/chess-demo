@@ -71,6 +71,13 @@ namespace TurboLabz.CPU
 
         }
 
+        public void CancelHint()
+        {
+            hintThinking.SetActive(false);
+            DisableModalBlocker();
+            DisableHintButton();
+        }
+
         public IEnumerator HideHint(float t)
         {
             yield return new WaitForSeconds(t);

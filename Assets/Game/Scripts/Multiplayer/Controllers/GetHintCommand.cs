@@ -26,6 +26,7 @@ namespace TurboLabz.Multiplayer
 
         // Dispatch Signals
         [Inject] public RenderHintSignal renderHintSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
         [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
         [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
@@ -41,23 +42,75 @@ namespace TurboLabz.Multiplayer
         Chessboard chessboard;
 
         public override void Execute()
-        {
-            Retain();
+        { 
+            
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
-            string fen = isHindsight ? chessboard.previousPlayerTurnFen : chessboard.fen;
-            chessAiService.NewGame();
-            chessAiService.SetPosition(fen);
+            if (chessboard.lastPlayerMove != null)
+            {
+                Retain();
+                //string fen = isHindsight ? chessboardModel.previousPlayerTurnFen : chessService.GetFen();
+                chessAiService.NewGame();
+                chessAiService.SetPosition(chessboard.previousPlayerTurnFen);
 
-            AiMoveInputVO vo = new AiMoveInputVO();
-            vo.aiColor = chessboard.playerColor;
-            vo.playerColor = chessboard.opponentColor;
-            vo.squares = null;
-            vo.aiMoveDelay = AiMoveDelay.NONE;
-            vo.isHint = true;
+                AiMoveInputVO vo = new AiMoveInputVO();
+                vo.aiColor = chessboard.playerColor;
+                vo.playerColor = chessboard.opponentColor;
+                vo.squares = chessboard.squares;
+                vo.aiMoveDelay = AiMoveDelay.NONE;
+                vo.lastPlayerMove = chessboard.lastPlayerMove;
+                vo.isStrength = !isHindsight;
+                vo.playerStrengthPct = 0.5f;
+                vo.isHint = isHindsight;
 
-            IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
-            promise.Then(OnAiMove);
+                //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
+                //promise.Then(OnAiMove);
+
+                IPromise<FileRank, FileRank, string> promise1 = chessAiService.GetAiMoveStrength(vo);
+                promise1.Then(OnAiMoveStrength);
+            }
+            else
+            {
+                LogUtil.Log("Required one move : ");
+                cancelHintSignal.Dispatch();
+            }
+
+        }
+
+        private void OnAiMoveStrength(FileRank from, FileRank to, string strength)
+        {
+            LogUtil.Log("OnAiMoveStrength : " + strength);
+
+            HintVO newVo;
+            newVo.fromSquare = chessboard.squares[from.file, from.rank];
+            newVo.toSquare = chessboard.squares[to.file, to.rank];
+            newVo.isHindsight = isHindsight;
+            newVo.strength = -1;
+            newVo.piece = "";
+            newVo.skinId = playerModel.activeSkinId;
+            if (isHindsight)
+            {
+                newVo.piece = string.Format("{0}{1}", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W', strength.ToLower());
+            }
+            else
+            {
+                newVo.strength = int.Parse(strength);
+            }
+
+            renderHintSignal.Dispatch(newVo);
+
+            //if (isHindsight)
+            //{
+            //    updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+            //}
+            //else
+            //{
+            //    updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+            //}
+
+            Release();
         }
 
         private void OnAiMove(FileRank from, FileRank to, string promo)

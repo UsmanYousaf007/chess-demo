@@ -64,6 +64,13 @@ namespace TurboLabz.CPU
             Invoke("HideHindsight", 4);
         }
 
+        public void CancelHindsight()
+        {
+            hindsightThinking.SetActive(false);
+            DisableModalBlocker();
+            DisableHindsightButton();
+        }
+
         public void HideHindsight()
         {
             hindsightFromIndicator.SetActive(false);
