@@ -116,7 +116,7 @@ namespace TurboLabz.Chess
             string selectedMove = aiSearchResultMovesList[index];
 
             FileRank from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
-            FileRank to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);;
+            FileRank to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
 
             string promo = null;
 

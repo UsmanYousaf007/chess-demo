@@ -13,6 +13,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TMPro;
 using TurboLabz.InstantGame;
+using System.Collections;
 
 namespace TurboLabz.CPU
 {
@@ -30,38 +31,58 @@ namespace TurboLabz.CPU
         public TextMeshProUGUI hintCountLabel;
         public Image hintAdd;
         public GameObject hintThinking;
-
-        private int availableHints;
+        public StrengthAnim strengthPanel;
 
         public void InitHint()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hintButton.onClick.AddListener(HintButtonClicked);
             hintThinking.SetActive(false);
+            strengthPanel.Hide();
         }
 
         public void OnParentShowHint()
         {
             HideHint();
+            DisableHintButton();
         }
 
         public void RenderHint(HintVO vo)
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hintFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            hintFromIndicator.SetActive(true);
+            //hintFromIndicator.SetActive(true);
 
             int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hintToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            hintToIndicator.SetActive(true);
+            //hintToIndicator.SetActive(true);
 
             audioService.Play(audioService.sounds.SFX_HINT);
 
             //UpdateHintCount(vo.availableHints);
             //DisableHintButton();
+
             hintThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
+
+            strengthPanel.ShowStrengthPanel(vo.strength, hintFromIndicator.transform.position, hintToIndicator.transform.position);
+            StartCoroutine(HideHint(4.0f));
+
+        }
+
+        public void CancelHint()
+        {
+            hintThinking.SetActive(false);
+            DisableModalBlocker();
+            DisableHintButton();
+            strengthPanel.Hide();
+        }
+
+        public IEnumerator HideHint(float t)
+        {
+            yield return new WaitForSeconds(t);
+            HideHint();
         }
 
         public void HideHint()

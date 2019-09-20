@@ -19,6 +19,7 @@ using strange.extensions.promise.impl;
 
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using System;
 
 namespace TurboLabz.Chess
 {
@@ -41,7 +42,8 @@ namespace TurboLabz.Chess
             }
         }
 
-        private IPromise<FileRank, FileRank, string> aiMovePromise; 
+        private IPromise<FileRank, FileRank, string> aiMovePromise;
+        private IPromise<FileRank, FileRank, string> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
         private bool resultsReady;
@@ -69,26 +71,47 @@ namespace TurboLabz.Chess
             return aiMovePromise;
         }
 
-		//private IEnumerator ProcessQueue(MoveRequest request)
-		//{
-		//	while (Busy)
-		//	{
-		//		yield return null;
-		//	}
-        //
-		//	aiMoveInputVO = request.vo;
-		//	aiMovePromise = request.promise;
-		//	routineRunner.StartCoroutine(GetAiResult());
-		//}
+        public IPromise<FileRank, FileRank, string> GetAiMoveStrength(AiMoveInputVO vo)
+        {
+            aiMoveStrengthPromise = new Promise<FileRank, FileRank, string>();
+            aiMoveInputVO = vo;
+            routineRunner.StartCoroutine(GetAiResult());
+            return aiMoveStrengthPromise;
+        }
 
-		private IEnumerator GetAiResult()
+        //private IEnumerator ProcessQueue(MoveRequest request)
+        //{
+        //	while (Busy)
+        //	{
+        //		yield return null;
+        //	}
+        //
+        //	aiMoveInputVO = request.vo;
+        //	aiMovePromise = request.promise;
+        //	routineRunner.StartCoroutine(GetAiResult());
+        //}
+
+        private IEnumerator GetAiResult()
         {
             // Clear the results flag
             resultsReady = false;
+            string searchDepth;
 
             // Execute the move
-            string searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
-            AiLog("searchDepth = " + searchDepth);
+            if(aiMoveInputVO.isStrength)
+            {
+                int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
+                int searchDepthInt = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.playerStrengthPct * searchDepthRange);
+                searchDepth = searchDepthInt.ToString();
+                AiLog("isStrength searchDepth = " + searchDepth);
+            }
+            else
+            {
+                searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+                AiLog("searchDepth = " + searchDepth);
+            }
+
+            
             plugin.GoDepth(searchDepth);
 
             while (!resultsReady)
@@ -117,10 +140,12 @@ namespace TurboLabz.Chess
 
         private void ExecuteAiMove()
         {
+
             // Read the scores returned
             aiSearchResultScoresList = new List<string>(ChessAiPlugin.results.aiSearchResultScoresStr.Split(','));
             aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
             scores = new List<int>();
+
 
             foreach (string score in aiSearchResultScoresList)
             {
@@ -131,9 +156,74 @@ namespace TurboLabz.Chess
             aiSearchResultMovesList = new List<string>(ChessAiPlugin.results.aiSearchResultMovesStr.Split(','));
             aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
 
-            SelectMove();
+            if (aiMoveInputVO.isStrength)
+            {
+                GetMoveStrength();
+            }
+            else if (aiMoveInputVO.isHint)
+            {
+                GetBestMove();
+            }
+            else
+            {
+                SelectMove();
+                aiMovePromise = null;
+            }
+            
+        }
 
-            aiMovePromise = null;
+        private void GetBestMove()
+        {
+            var selectedMove = aiSearchResultMovesList[0];
+            var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
+            var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
+            var piece = chessService.GetPieceNameAtLocation(from);
+
+            //if piece is null then it means player had moved it in his last move
+            //getting piece info from player's last move
+            if (piece == null)
+            {
+                piece = aiMoveInputVO.squares[aiMoveInputVO.lastPlayerMove.to.file, aiMoveInputVO.lastPlayerMove.to.rank].piece.name;
+            }
+
+            aiMoveStrengthPromise.Dispatch(from, to, piece);
+            aiMoveStrengthPromise = null;
+        }
+
+        private void GetMoveStrength()
+        {
+            double precentage = 0.0f;
+            FileRank from = aiMoveInputVO.lastPlayerMove.from;
+            FileRank to = aiMoveInputVO.lastPlayerMove.to;
+            int totolMoveCount = aiSearchResultMovesList.Count - 1;
+
+            if (totolMoveCount > 0)
+            {
+                string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
+                int moveFoundIndex = -1;
+
+                for (int i = 0; i < totolMoveCount; ++i)
+                {
+                    LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i]);
+
+                    if (string.Equals(moveString, aiSearchResultMovesList[i]))
+                    {
+                        moveFoundIndex = i;
+                        break;
+                    }
+                }
+
+                LogUtil.Log("moveString : " + moveString + " totolMoveCount : "+ totolMoveCount + " moveFoundIndex:"+ moveFoundIndex);
+
+                if (moveFoundIndex >= 0)
+                {
+                    precentage = ((float)(totolMoveCount - moveFoundIndex) / (float)totolMoveCount);
+                    precentage = Math.Round(precentage, 1) * 10;
+                }
+            }
+
+            aiMoveStrengthPromise.Dispatch(from, to, ((float)precentage).ToString());
+            aiMoveStrengthPromise = null;
         }
     }
 }

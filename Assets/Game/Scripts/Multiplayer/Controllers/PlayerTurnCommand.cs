@@ -24,6 +24,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch Signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -35,6 +36,8 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             Retain();
+
+            cancelHintSignal.Dispatch();
 
             backendService.PlayerTurn(
                 playerTurnVO.fromSquare.fileRank,

@@ -77,6 +77,7 @@ namespace TurboLabz.Multiplayer
     public class ToggleSafeModeSignal : Signal { }
     public class SafeMoveSignal : Signal<bool> { }
     public class RenderHintSignal : Signal<HintVO> { }
+    public class CancelHintSingal : Signal { }
     public class GetHintSignal : Signal<bool> { }
     public class TurnSwapSignal : Signal<bool> { }
     public class UpdateHintCountSignal : Signal<int> { }
