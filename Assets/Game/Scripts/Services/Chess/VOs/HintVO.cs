@@ -24,5 +24,6 @@ namespace TurboLabz.Chess
         public int strength;
         public string piece;
         public string skinId;
+        public bool didPlayerMadeBestMove;
     }
 }

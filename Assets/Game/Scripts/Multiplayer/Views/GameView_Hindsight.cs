@@ -61,7 +61,7 @@ namespace TurboLabz.Multiplayer
 
             coachView.Show(hindsightFromIndicator.transform.position, hindsightToIndicator.transform.position,
                 vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), vo.piece, vo.skinId,
-                capturedPieces[0].transform.parent.gameObject);
+                vo.didPlayerMadeBestMove);
             Invoke("HideHindsight", 4);
         }
 

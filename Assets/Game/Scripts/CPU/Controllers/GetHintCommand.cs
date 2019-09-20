@@ -92,6 +92,14 @@ namespace TurboLabz.CPU
             newVo.strength = -1;
             newVo.piece = "";
             newVo.skinId = playerModel.activeSkinId;
+            newVo.didPlayerMadeBestMove = false;
+
+            var chessMoveTemp = new ChessMove();
+            if (chessMoveTemp.MoveToString(chessboardModel.lastPlayerMove.from, chessboardModel.lastPlayerMove.to).Equals(chessMoveTemp.MoveToString(from, to)))
+            {
+                newVo.didPlayerMadeBestMove = true;
+            }
+
             if (isHindsight)
             {
                 newVo.piece = string.Format("{0}{1}", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W', strength.ToLower());
@@ -127,6 +135,7 @@ namespace TurboLabz.CPU
             vo.strength = 0;
             vo.piece = "";
             vo.skinId = playerModel.activeSkinId;
+            vo.didPlayerMadeBestMove = false;
             renderHintSignal.Dispatch(vo);
 
             if (isHindsight)
