@@ -26,14 +26,14 @@ MonoBehaviour:
   UserMessagesFailed: 0
   CustomArea: 
   gameKey:
-  - 0e8d74a5cd7d713584c117dcd1187a1e
+  - d55a30e6cda82eacd02d640c50b084d2
   - b30c8cd9cf31a0a07f122f5f30083468
   secretKey:
-  - fd2bf82f92f37951b8100822f83be47d198f1b3c
+  - 19137cad05bad8f753db198ee2c15a38f4211655
   - c4de07adc66841eff5d94d5e43262e6308e11997
   Build:
-  - 4.14.9
-  - 4.14.9
+  - 4.16.9
+  - 4.16.9
   SelectedPlatformStudio:
   - 
   - 
@@ -43,8 +43,25 @@ MonoBehaviour:
   SelectedPlatformGameID: 3403010032030100
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 
-  Changes: 
+  NewVersion: 5.1.11
+  Changes: '5.1.11
+
+    - fixed import bug for 2019.2
+
+
+    5.1.10
+
+    - fixed compile error in GA_SettingsInspector script
+
+
+    5.1.9
+
+    - fixed typo in editor script
+
+
+    5.1.8
+
+    - session fixes for desktop platforms'
   SignUpOpen: 0
   StudioName: Turbo Labz
   GameName: Chess Star
