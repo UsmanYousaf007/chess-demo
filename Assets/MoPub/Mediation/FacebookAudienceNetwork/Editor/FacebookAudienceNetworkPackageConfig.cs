@@ -9,7 +9,7 @@ public class FacebookAudienceNetworkPackageConfig : PackageConfig
 
     public override string Version
     {
-        get { return /*UNITY_PACKAGE_VERSION*/"1.3.7"; }
+        get { return /*UNITY_PACKAGE_VERSION*/"1.3.9"; }
     }
 
     public override Dictionary<Platform, string> NetworkSdkVersions
