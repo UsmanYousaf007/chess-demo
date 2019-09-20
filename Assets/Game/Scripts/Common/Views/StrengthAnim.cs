@@ -57,7 +57,7 @@ public class StrengthAnim : MonoBehaviour
         arrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
 
         //detect direction of arrow
-        var directionVector = new Vector2(localPosTo.x < 0 ? 1 : -1, localPosTo.y < 0 ? 1 : -1);
+        var directionVector = new Vector2(localPosTo.x < 0 ? 1 : -1, 1 /*localPosTo.y < 0 ? 1 : -1*/);
 
         //calculate position for strength panel
         localPosTo = new Vector3(localPosTo.x + (PIXELS_TO_MOVE * directionVector.x), localPosTo.y + (PIXELS_TO_MOVE * directionVector.y));
@@ -97,7 +97,10 @@ public class StrengthAnim : MonoBehaviour
 
     private void OnCompletePercentageAnimation(int strength)
     {
-        perfectText.enabled = strength == MAX_STRENGTH;
+        if (strength == MAX_STRENGTH)
+        {
+            perfectText.enabled = true;
+        }
     }
 
     public IEnumerator HideStrengthPanel(float t)
@@ -151,7 +154,7 @@ public class StrengthAnim : MonoBehaviour
     {
         panelBg.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         strengthLabel.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        perfectText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //perfectText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         arrowHead.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         foreach (var bar in barArray)
@@ -169,7 +172,7 @@ public class StrengthAnim : MonoBehaviour
     {
         panelBg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         strengthLabel.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        perfectText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //perfectText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         foreach (var bar in barArray)
