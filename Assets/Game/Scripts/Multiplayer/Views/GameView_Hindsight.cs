@@ -47,11 +47,11 @@ namespace TurboLabz.Multiplayer
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hindsightFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            hindsightFromIndicator.SetActive(true);
+            //hindsightFromIndicator.SetActive(true);
 
             int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hindsightToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            hindsightToIndicator.SetActive(true);
+            //hindsightToIndicator.SetActive(true);
 
             audioService.Play(audioService.sounds.SFX_HINT);
 
@@ -60,7 +60,8 @@ namespace TurboLabz.Multiplayer
             DisableHindsightButton();
 
             coachView.Show(hindsightFromIndicator.transform.position, hindsightToIndicator.transform.position,
-                vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), vo.piece, vo.skinId);
+                vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), vo.piece, vo.skinId,
+                capturedPieces[0].transform.parent.gameObject);
             Invoke("HideHindsight", 4);
         }
 
@@ -69,6 +70,7 @@ namespace TurboLabz.Multiplayer
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
+            coachView.Hide();
         }
 
         public void HideHindsight()

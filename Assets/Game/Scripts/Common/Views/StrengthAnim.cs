@@ -7,19 +7,33 @@ using UnityEngine.UI;
 
 public class StrengthAnim : MonoBehaviour
 {
-	public GameObject strengthPanel;
+    //Visual properties
+    public GameObject strengthPanel;
     public Text strengthLabel;
 	public Image[] barArray;
     public Image panelBg;
     public Text perfectText;
     public Image arrowHead;
-
-    private const float MIN_WAIT = 0.1f;
-    private float dotWaitSeconds;
-	private Coroutine barAnim = null;
-	private Coroutine panelActive;
     public DrawLine line;
 
+    private float dotWaitSeconds;
+    private Coroutine barAnim = null;
+    private Coroutine panelActive;
+
+    //Constants
+    const float MIN_WAIT = 0.1f;
+    const int LINE_ALPHA_MIN = 0;
+    const int LINE_ALPHA_MAX = 255;
+    const float START_FADE_AFTER_SECONDS = 4.0f;
+    const float FADE_DURATION = 1.0f;
+    const float UI_ALPHA_MIN = 0f;
+    const float UI_ALPHA_MAX = 1.0f;
+    const bool IGNORE_TIMESCALE_WHILE_FADE = false;
+    const float RESET_FADE_DURATION = 0f;
+    const float PIXELS_TO_MOVE = 100.0f;
+    const int START_STRENGTH_TEXT_ANIMATION_FROM = 0;
+    const float STRENGTH_TEXT_ANIMATION_DURATION = 1.0f;
+    const int MAX_STRENGTH = 10;
 
     public void ShowStrengthPanel(int strength, Vector3 localPosFrom, Vector3 localPosTo)
 	{
@@ -28,7 +42,8 @@ public class StrengthAnim : MonoBehaviour
 
         //draw line
         line.Draw(localPosFrom, localPosTo);
-        line.Fade(0, 255, 0.9f);
+        line.SetAlpha(LINE_ALPHA_MIN);
+        line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
 
         //set arrowhead position
         //move it to the root of canvas then calculate screen to canvas postion
@@ -43,10 +58,9 @@ public class StrengthAnim : MonoBehaviour
 
         //detect direction of arrow
         var directionVector = new Vector2(localPosTo.x < 0 ? 1 : -1, localPosTo.y < 0 ? 1 : -1);
-        var pixelsToMove = 100f;
 
         //calculate position for strength panel
-        localPosTo = new Vector3(localPosTo.x + (pixelsToMove * directionVector.x), localPosTo.y + (pixelsToMove * directionVector.y));
+        localPosTo = new Vector3(localPosTo.x + (PIXELS_TO_MOVE * directionVector.x), localPosTo.y + (PIXELS_TO_MOVE * directionVector.y));
 
         //set position of strength panel
         var strengthPanelRectTransform = strengthPanel.GetComponent<RectTransform>();
@@ -57,17 +71,23 @@ public class StrengthAnim : MonoBehaviour
 		DisableBar();
 		int strengthString = strength * 10;
 
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0, "to", strengthString, "time", 1.0f,
-            "onupdate", "AnimateStrengthPercentage", "onupdatetarget", this.gameObject,
-            "oncomplete", "OnCompletePercentageAnimation", "oncompletetarget", this.gameObject, "oncompleteparams", strength));
-		//strengthLabel.text = "Strength " + strengthString.ToString() + "%";
+        //TODO use dotween
+        iTween.ValueTo(this.gameObject, iTween.Hash(
+            "from", START_STRENGTH_TEXT_ANIMATION_FROM,
+            "to", strengthString,
+            "time", STRENGTH_TEXT_ANIMATION_DURATION,
+            "onupdate", "AnimateStrengthPercentage",
+            "onupdatetarget", this.gameObject,
+            "oncomplete", "OnCompletePercentageAnimation",
+            "oncompletetarget", this.gameObject,
+            "oncompleteparams", strength));
 
 		if (strength > 0 && strength <= barArray.Length)
 		{
 			barAnim = StartCoroutine(Animate(strength));
 		}
 
-		StartCoroutine(HideStrengthPanel(4.0f));
+		StartCoroutine(HideStrengthPanel(START_FADE_AFTER_SECONDS));
 	}
 
     private void AnimateStrengthPercentage(int value)
@@ -77,12 +97,8 @@ public class StrengthAnim : MonoBehaviour
 
     private void OnCompletePercentageAnimation(int strength)
     {
-        if (strength == 10)
-        {
-            perfectText.enabled = true;
-        }
+        perfectText.enabled = strength == MAX_STRENGTH;
     }
-
 
     public IEnumerator HideStrengthPanel(float t)
 	{
@@ -124,43 +140,44 @@ public class StrengthAnim : MonoBehaviour
 
     public void Hide()
     {
+        arrowHead.transform.SetParent(strengthPanel.transform, true);
         strengthPanel.SetActive(false);
         line.Hide();
+        CancelInvoke();
         //Reset();
     }
 
     private void Fade()
     {
-        panelBg.CrossFadeAlpha(0f, 1f, false);
-        strengthLabel.CrossFadeAlpha(0f, 1f, false);
-        perfectText.CrossFadeAlpha(0f, 1f, false);
-        arrowHead.CrossFadeAlpha(0f, 1f, false);
+        panelBg.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        strengthLabel.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        perfectText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        arrowHead.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         foreach (var bar in barArray)
         {
-            bar.CrossFadeAlpha(0f, 1f, false);
+            bar.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
 
-        line.Fade(255,0,0.9f);
+        line.Fade(LINE_ALPHA_MAX, LINE_ALPHA_MIN, FADE_DURATION);
 
-        Invoke("Hide", 1f);
-        Invoke("Reset", 1f);
+        Invoke("Hide", FADE_DURATION);
+        Invoke("Reset", FADE_DURATION);
     }
 
     private void Reset()
     {
-        panelBg.CrossFadeAlpha(1f, 0f, false);
-        strengthLabel.CrossFadeAlpha(1f, 0f, false);
-        perfectText.CrossFadeAlpha(1f, 0f, false);
-        arrowHead.CrossFadeAlpha(1f, 0f, false);
+        panelBg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        strengthLabel.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        perfectText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         foreach (var bar in barArray)
         {
-            bar.CrossFadeAlpha(1f, 0f, false);
+            bar.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
 
-        line.SetAlpha(255);
-        arrowHead.transform.SetParent(strengthPanel.transform, true);
+        line.SetAlpha(LINE_ALPHA_MAX);
     }
 
 }

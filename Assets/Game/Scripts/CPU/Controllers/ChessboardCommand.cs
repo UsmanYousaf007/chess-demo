@@ -65,6 +65,7 @@ namespace TurboLabz.CPU
         [Inject] public UpdateGameInfoSignal updateGameInfoSignal { get; set; }
         [Inject] public SaveStatsSignal saveStatsSignal { get; set; }
         [Inject] public DisableUndoBtnSignal disableUndoBtnSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
 
 
         // Models
@@ -92,6 +93,11 @@ namespace TurboLabz.CPU
             LogUtil.Log("Current State: " + chessboardModel.currentState.GetType().Name, "white");
             LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
             appInfoModel.gameMode = GameMode.CPU;
+
+            if (chessboardEvent == ChessboardEvent.PLAYER_MOVE_COMPLETE)
+            {
+                cancelHintSignal.Dispatch();
+            }
 
             CCS currentState = chessboardModel.currentState;
             CCS newState = chessboardModel.currentState.HandleEvent(this);

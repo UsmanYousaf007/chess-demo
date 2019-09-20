@@ -51,11 +51,11 @@ namespace TurboLabz.Multiplayer
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hintFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            hintFromIndicator.SetActive(true);
+            //hintFromIndicator.SetActive(true);
 
             int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hintToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            hintToIndicator.SetActive(true);
+            //hintToIndicator.SetActive(true);
 
             audioService.Play(audioService.sounds.SFX_HINT);
 
@@ -74,6 +74,7 @@ namespace TurboLabz.Multiplayer
             hintThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
+            strengthPanel.Hide();
         }
 
         public IEnumerator HideHint(float t)
