@@ -44,6 +44,7 @@ namespace TurboLabz.CPU
         public GameObject fileRankLabelsForward;
         public GameObject fileRankLabelsBackward;
         public GameObject kingCheckIndicator;
+        public Transform coachUIAnchorPoint;
 
         public Signal<FileRank> squareClickedSignal = new Signal<FileRank>();
         public Signal opponentMoveRenderComplete = new Signal();
@@ -107,6 +108,10 @@ namespace TurboLabz.CPU
 
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
             opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+
+            ((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (15 * scaleWidth) , ((RectTransform)coachView.bg.transform).sizeDelta.y);
+            var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
+            coachView.bg.transform.position = viewportPoint;
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
             ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);

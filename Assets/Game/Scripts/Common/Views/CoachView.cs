@@ -42,6 +42,7 @@ public class CoachView : MonoBehaviour
     {
         isBestMoveMade = isBestMove;
         coachPanel.SetActive(true);
+        bg.gameObject.SetActive(true);
         bestMovePanel.SetActive(isBestMove);
         normalMovePanel.SetActive(!isBestMove);
         pieceIcon.sprite = SkinContainer.LoadSkin(activeSkinId).GetSprite(pieceName);
@@ -49,7 +50,10 @@ public class CoachView : MonoBehaviour
         line.Draw(fromPosition, toPostion);
         line.SetAlpha(LINE_ALPHA_MIN);
         line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
-        arrowHead.transform.position = toPostion;
+        arrowHead.transform.SetParent(this.transform.root.GetChild(0), true);
+        var viewportPoint = Camera.main.WorldToViewportPoint(toPostion);
+        arrowHead.rectTransform.anchorMin = viewportPoint;
+        arrowHead.rectTransform.anchorMax = viewportPoint;
         var angle = Mathf.Atan2(fromPosition.y - toPostion.y, fromPosition.x - toPostion.x) * Mathf.Rad2Deg;
         arrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
 
@@ -59,6 +63,8 @@ public class CoachView : MonoBehaviour
     public void Hide()
     {
         coachPanel.SetActive(false);
+        bg.gameObject.SetActive(false);
+        arrowHead.transform.SetParent(coachPanel.transform, true);
         CancelInvoke();
     }
 
