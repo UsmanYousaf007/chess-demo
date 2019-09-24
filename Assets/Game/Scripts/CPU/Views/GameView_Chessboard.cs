@@ -104,13 +104,15 @@ namespace TurboLabz.CPU
             float h = ((RectTransform)playerInfoPanel.transform).sizeDelta.y;
             float offsetY = playerInfoPanel.transform.position.y * (scaleUniform - 1.0f);
             ((RectTransform)playerInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
+            var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
+            //playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
+            playerInfoPanel.transform.position = viewportPoint;
 
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
             opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
 
             ((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (15 * scaleWidth) , ((RectTransform)coachView.bg.transform).sizeDelta.y);
-            var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
+            
             coachView.bg.transform.position = viewportPoint;
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
