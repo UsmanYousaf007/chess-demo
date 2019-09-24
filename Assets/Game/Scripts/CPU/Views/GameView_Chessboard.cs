@@ -36,6 +36,8 @@ namespace TurboLabz.CPU
         public Transform[] chessboardSquares;
         public GameObject chessContainer;
         public Transform chessboard;
+        public Transform playerProfileUiAnchor;
+        public Transform opponentProfileUiAnchor;
 
         public GameObject playerFromIndicator;
         public GameObject playerToIndicator;
@@ -103,10 +105,15 @@ namespace TurboLabz.CPU
             float h = ((RectTransform)playerInfoPanel.transform).sizeDelta.y;
             float offsetY = playerInfoPanel.transform.position.y * (scaleUniform - 1.0f);
             ((RectTransform)playerInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
+            //playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
+            var playerProfileScreenPoint = Camera.main.WorldToScreenPoint(playerProfileUiAnchor.position);
+            playerInfoPanel.transform.position = playerProfileScreenPoint;
 
+            h = ((RectTransform)opponentInfoPanel.transform).sizeDelta.y;
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+            //opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+            var opponentProfileScreenPoint = Camera.main.WorldToScreenPoint(opponentProfileUiAnchor.position);
+            opponentInfoPanel.transform.position = opponentProfileScreenPoint;
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
             ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
