@@ -30,6 +30,8 @@ namespace TurboLabz.Multiplayer
         public Text playerClockLabel;
         public Image playerClockFill;
         public Image playerClockImage;
+        public Image playerClockBg;
+        public Color playerClockBgColorOrg;
         public Text opponentClockLabel;
         public Image opponentClockFill;
         public Image opponentClockImage;
@@ -47,7 +49,6 @@ namespace TurboLabz.Multiplayer
         private bool flashToggle = false;
         Color playerClockLabelColorOrg;
         Color opponentClockLabelColorOrg;
-
 
         public void InitClock()
         {
@@ -128,7 +129,8 @@ namespace TurboLabz.Multiplayer
             playerClockLabel.text = TimeUtil.FormatPlayerClock(playerTimer);
             SetPlayerTimerActiveColors();
             StopPlayerClockCR();
-            playerClockCR = StartCoroutine(AnimateTimerCR(playerClockFill, playerTimer));
+            if (this.gameObject.activeInHierarchy)
+                playerClockCR = StartCoroutine(AnimateTimerCR(playerClockFill, playerTimer));
         }
 
         public void TickOpponentTimer(TimeSpan opponentTimer)
@@ -137,7 +139,8 @@ namespace TurboLabz.Multiplayer
             opponentClockLabel.text = TimeUtil.FormatPlayerClock(opponentTimer);
             SetOpponentTimerActiveColors();
             StopOpponentClockCR();
-            opponentClockCR = StartCoroutine(AnimateTimerCR(opponentClockFill, opponentTimer));
+            if (this.gameObject.activeInHierarchy)
+                opponentClockCR = StartCoroutine(AnimateTimerCR(opponentClockFill, opponentTimer));
         }
 
         public void ExpirePlayerTimer()
@@ -161,6 +164,7 @@ namespace TurboLabz.Multiplayer
 
         private void DisablePlayerTimer()
         {
+            playerClockBg.color = Color.black;
             playerClockLabel.color = Colors.WHITE_150;
             playerClockImage.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
@@ -199,8 +203,8 @@ namespace TurboLabz.Multiplayer
         {
             playerClockLabel.color = GetLabelColor(playerTimer);
             playerClockImage.color = GetClockColor(playerTimer);
-
             playerClockLabelColorOrg = playerClockLabel.color;
+            playerClockBg.color = playerClockBgColorOrg;
         }
 
         private void SetOpponentTimerActiveColors()
