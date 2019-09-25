@@ -35,6 +35,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowChallengeSent()
         {
+            EnableModalBlocker(Colors.UI_BLOCKER_LIGHT_ALPHA);
             showChallengeSentCR = routineRunner.StartCoroutine(ShowChallengeSentCR());
         }
 
