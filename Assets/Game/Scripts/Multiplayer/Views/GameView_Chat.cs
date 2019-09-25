@@ -243,7 +243,9 @@ namespace TurboLabz.Multiplayer
             backToFriendsButton.gameObject.SetActive(false);
             backToFriendsLabel.gameObject.SetActive(false);
             backToGameBtnTxt.gameObject.SetActive(true);
-            StartCoroutine(SetScrollPosition());
+
+            if (this.gameObject.activeInHierarchy)
+                StartCoroutine(SetScrollPosition());
 
             unreadMessagesIndicator.SetActive(false);
             clearUnreadMessagesSignal.Dispatch(opponentId);
@@ -439,7 +441,8 @@ namespace TurboLabz.Multiplayer
             bubble.SetText(message.text, isPlayer);
             bubble.timer.text = messageLocalTime.ToString("h:mm tt");
 
-            StartCoroutine(SetScrollPosition());
+            if(this.gameObject.activeInHierarchy)
+                StartCoroutine(SetScrollPosition());
         }
 
         IEnumerator SetScrollPosition()

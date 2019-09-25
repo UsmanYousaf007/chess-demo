@@ -27,7 +27,7 @@ namespace TurboLabz.Multiplayer
         public Button hintButton;
         public Text hintLabel;
         public Image hintIcon;
-        public TextMeshProUGUI hintCountLabel;
+        public Text hintCountLabel;
         public Image hintAdd;
         public GameObject hintThinking;
 

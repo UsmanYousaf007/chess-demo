@@ -17,7 +17,7 @@ namespace TurboLabz.Multiplayer
         public Image safeMoveBg;
         public Text safeMoveLabel;
         public Image safeMoveIcon;
-        public TextMeshProUGUI safeMoveCountTxt;
+        public Text safeMoveCountTxt;
         public Image safeMoveAdd;
         public GameObject safeMoveBorder;
 
@@ -27,7 +27,7 @@ namespace TurboLabz.Multiplayer
         public Text safeMoveDlgConfirmTxt;
         public Button safeMoveDlgUndoBtn;
         public Text safeMoveDlgUndoBtnTxt;
-        public TextMeshProUGUI safeMoveDlgCountTxt;
+        public Text safeMoveDlgCountTxt;
 
         public Signal safeMoveBtnClickedSignal = new Signal();
         public Signal safeMoveConfirmClickedSignal = new Signal();

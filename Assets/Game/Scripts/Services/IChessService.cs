@@ -31,7 +31,7 @@ namespace TurboLabz.Chess
         bool IsSquareDefended(FileRank attackDestination, ChessColor defendingPlayerColor);
         ChessMove GetCheapestAttackingMoveToSquare(FileRank location);
         List<ChessMove> GetCaptureMoves(FileRank attackOrigin);
-        string GetPieceNameAtLocation(FileRank location);
+        ChessPiece GetPieceAtLocation(FileRank location);
         int GetPieceCount(ChessColor color);
         List<FileRank> GetProfitableCapturesAvailable(ChessColor attackerColor);
         bool WillMoveCauseWeakExchangeOrFeed(FileRank from, FileRank to, string promo);
