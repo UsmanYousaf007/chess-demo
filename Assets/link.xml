@@ -3,15 +3,4 @@
         <namespace fullname="System.Security.Cryptography" preserve="all"/>
         <namespace fullname="System.IO.Directory" preserve="all"/>
   </assembly>
-  <assembly fullname="UnityEngine">
-        <type fullname="UnityEngine.AndroidJavaRunnableProxy" preserve="all" />
-  </assembly>
-    <!--<assembly fullname="Assembly-CSharp-firstpass">
-        <type fullname="AppsFlyer" preserve="all"/>>
-        <type fullname="AppsFlyerTrackerCallbacks" preserve="all"/>>
-    </assembly>
-    <assembly fullname="Assembly-CSharp">
-        <type fullname="TurboLabz.InstantFramework.AppsFlyerService" preserve="all"/>>
-        <type fullname="TurboLabz.InstantFramework.IAppsFlyerService" preserve="all"/>>
-    </assembly>-->
 </linker>

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-[UnityEngine.Scripting.Preserve]
+
 public class AppsFlyerTrackerCallbacks : MonoBehaviour {
 
 	// Use this for initialization
