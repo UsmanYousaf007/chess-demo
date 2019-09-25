@@ -139,7 +139,7 @@ namespace TurboLabz.Chess
             return captureMoves;
         }
 
-        public string GetPieceNameAtLocation(FileRank location)
+        public ChessPiece GetPieceAtLocation(FileRank location)
         {
             Square square = Board.GetSquare(location.file, location.rank);
 
@@ -148,7 +148,12 @@ namespace TurboLabz.Chess
                 return null;
             }
 
-            return GetChessPieceName(square.Piece);
+            ChessPiece piece = new ChessPiece();
+            piece.name = GetChessPieceName(square.Piece);
+            piece.color = (square.Piece.Player.Colour == Player.PlayerColourNames.White) ? ChessColor.WHITE : ChessColor.BLACK;
+
+
+            return piece;
         }
 
         public bool WillMoveCauseWeakExchangeOrFeed(FileRank from, FileRank to, string promo)

@@ -368,7 +368,7 @@ namespace TurboLabz.Multiplayer
                     ChessMove lastPlayerMove = new ChessMove();
                     lastPlayerMove.from = chessboard.playerFromSquare.fileRank;
                     lastPlayerMove.to = chessboard.playerToSquare.fileRank;
-                    lastPlayerMove.piece = chessboard.playerFromSquare.piece;
+                    lastPlayerMove.piece = chessService.GetPieceAtLocation(chessboard.playerToSquare.fileRank);
                     lastPlayerMove.promo = GetPromoFromMove(chessboard.playerMoveFlag);
                     chessboard.lastPlayerMove = lastPlayerMove;
                 }
