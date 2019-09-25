@@ -6,6 +6,7 @@ using System.Collections.Generic;
 /// Proprietary and confidential
 namespace TurboLabz.InstantFramework
 {
+    [UnityEngine.Scripting.Preserve]
     public interface IAppsFlyerService
     {
         void Init();

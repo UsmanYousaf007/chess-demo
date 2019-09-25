@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
+    [UnityEngine.Scripting.Preserve]
     public class AppsFlyerService : IAppsFlyerService
     {
         public void Init()
