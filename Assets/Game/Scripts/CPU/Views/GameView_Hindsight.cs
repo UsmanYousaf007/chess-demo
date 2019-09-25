@@ -26,7 +26,7 @@ namespace TurboLabz.CPU
         public Button hindsightButton;
         public Text hindsightLabel;
         public Image hindsightIcon;
-        public TextMeshProUGUI hindsightCountLabel;
+        public Text hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
 
