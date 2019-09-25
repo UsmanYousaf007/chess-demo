@@ -26,14 +26,20 @@ namespace TurboLabz.InstantFramework
                 ILocalDataWriter writer = localDataService.OpenWriter(filename);
                 writer.Write(PIC_KEY, sprite);
                 writer.Close();
+                
+                TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
-                if (memCache.ContainsKey(playerId))
+                if (playerId != null)
                 {
-                    memCache[playerId] = sprite;
-                }
-                else
-                {
-                    memCache.Add(playerId, sprite);
+
+                    if (memCache.ContainsKey(playerId))
+                    {
+                        memCache[playerId] = sprite;
+                    }
+                    else
+                    {
+                        memCache.Add(playerId, sprite);
+                    }
                 }
 
             }

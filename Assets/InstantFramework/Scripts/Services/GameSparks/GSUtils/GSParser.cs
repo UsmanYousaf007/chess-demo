@@ -16,21 +16,25 @@ namespace TurboLabz.InstantFramework
     {
         public static string GetSafeString(GSData item, string key, string defaultVal = "unassigned")
         {
+            if (key == null) return defaultVal;
             return item.ContainsKey(key) ? item.GetString(key) : defaultVal;
         }
 
         public static int GetSafeInt(GSData item, string key, int defaultVal = 0)
         {
+            if (key == null) return defaultVal;
             return item.ContainsKey(key) ? item.GetInt(key).Value : defaultVal;
         }
 
         public static float GetSafeFloat(GSData item, string key, float defaultVal = 0.0f)
         {
+            if (key == null) return defaultVal;
             return item.ContainsKey(key) ? item.GetFloat(key).Value : defaultVal;
         }
 
         public static long GetSafeLong(GSData item, string key, long defaultVal = 0)
         {
+            if (key == null) return defaultVal;
             return item.ContainsKey(key) ? item.GetLong(key).Value : defaultVal;
         }
 
@@ -56,7 +60,7 @@ namespace TurboLabz.InstantFramework
 
             while (!found && i < knownTags.Length)
             {
-                found = tags.Contains(knownTags[i]);        // TODO: check full words
+                found = knownTags[i] !=null && tags.Contains(knownTags[i]);        // TODO: check full words
                 if (!found)
                     i++;
             }

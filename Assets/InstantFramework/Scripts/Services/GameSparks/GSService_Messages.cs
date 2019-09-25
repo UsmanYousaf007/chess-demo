@@ -60,7 +60,9 @@ namespace TurboLabz.InstantFramework
                 string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
                 bool isOnline = message.Data.GetBoolean(GSBackendKeys.Friend.IS_ONLINE).Value;
 
-                if (playerModel.friends.ContainsKey(friendId))
+                TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+                 
+                if (friendId != null && playerModel.friends.ContainsKey(friendId))
                 {
                     playerModel.friends[friendId].publicProfile.isOnline = isOnline;
 

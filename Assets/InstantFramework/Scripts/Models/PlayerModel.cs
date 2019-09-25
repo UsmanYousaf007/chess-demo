@@ -103,7 +103,9 @@ namespace TurboLabz.InstantFramework
 
 		public bool OwnsVGood(string key)
 		{
-            return inventory.ContainsKey(key);
+			TLUtils.LogUtil.LogNullValidation(key, "key");
+		
+            return key != null && inventory.ContainsKey(key);
 		}
 
         public int PowerUpHintCount

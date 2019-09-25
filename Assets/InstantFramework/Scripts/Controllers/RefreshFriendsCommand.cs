@@ -47,8 +47,10 @@ namespace TurboLabz.InstantGame
             foreach (string key in playerModel.friends.Keys)
             {
                 updateFriendBarSignal.Dispatch(playerModel.friends[key], key);
+                
+                TLUtils.LogUtil.LogNullValidation(key, "key");
 
-                if (chatModel.hasUnreadMessages.ContainsKey(key))
+                if (key != null && chatModel.hasUnreadMessages.ContainsKey(key))
                 {
                     addUnreadMessagesSignal.Dispatch(key);
                 }

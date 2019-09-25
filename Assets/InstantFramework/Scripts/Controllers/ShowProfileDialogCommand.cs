@@ -25,6 +25,10 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+        	TLUtils.LogUtil.LogNullValidation(opponentId, "opponentId");
+        	
+            if (opponentId == null) return;
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PROFILE_DLG);
 
             ProfileDialogVO vo = new ProfileDialogVO();

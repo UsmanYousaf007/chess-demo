@@ -18,14 +18,23 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG)
             {
-                // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
-                bool p = cmd.multiplayerChessboardModel.chessboards.ContainsKey(cmd.matchInfoModel.activeChallengeId);
-                if (p == false && cmd.matchInfoModel.activeChallengeId != null)
+                TLUtils.LogUtil.LogNullValidation(cmd.matchInfoModel.activeChallengeId, "cmd.matchInfoModel.activeChallengeId");
+
+                // TODO: This is a workaround HACK. Ideally the active challenge id will not become null while still on the board!
+                // ContainsKey will crash if null passed as parameter
+                if (cmd.matchInfoModel.activeChallengeId == null)
                 {
                     return new NSMultiplayerResultsDlg();
                 }
 
-                if (cmd.matchInfoModel.activeChallengeId == null || (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode))
+                // TODO: This is a workaround HACK. Investigate why the chessboard disappeared from the list for this challenge id?!
+                bool p = cmd.multiplayerChessboardModel.chessboards.ContainsKey(cmd.matchInfoModel.activeChallengeId);
+                if (p == false)
+                {
+                    return new NSMultiplayerResultsDlg();
+                }
+
+                if (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
                 {
                     return new NSMultiplayerResultsDlg();
                 }
@@ -36,8 +45,13 @@ namespace TurboLabz.InstantFramework
             }
             else if (evt == NavigatorEvent.ESCAPE)
             {
+                if (cmd.matchInfoModel.activeChallengeId == null)
+                {
+                    return new NSMultiplayerResultsDlg();
+                }
+
                 bool p = cmd.multiplayerChessboardModel.chessboards.ContainsKey(cmd.matchInfoModel.activeChallengeId);
-                if (cmd.matchInfoModel.activeChallengeId == null || (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode))
+                if (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
                 {
                     return new NSMultiplayerResultsDlg();
                 }

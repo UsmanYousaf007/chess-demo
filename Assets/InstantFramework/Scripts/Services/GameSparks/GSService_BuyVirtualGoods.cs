@@ -37,6 +37,13 @@ namespace TurboLabz.InstantFramework
                 string shopItemId = v.ShortCode;
 
                 int count = 0;
+                
+                TLUtils.LogUtil.LogNullValidation(shopItemId, "shopItemId");
+                
+                if (shopItemId == null)
+                {
+                    return;
+                }
                 if (playerModel.inventory.ContainsKey(shopItemId))
                 {
                     count = playerModel.inventory[shopItemId] + quantity;

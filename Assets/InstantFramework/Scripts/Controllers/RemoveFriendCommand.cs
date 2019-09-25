@@ -23,6 +23,10 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+
+            if (friendId == null) return;
+
             if (playerModel.friends.ContainsKey(friendId))
             {
                 playerModel.friends.Remove(friendId);

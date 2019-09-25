@@ -462,7 +462,9 @@ namespace TurboLabz.InstantFramework
             if (sprite == null)
                 return;
 
-            if (!bars.ContainsKey(playerId))
+            TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+            
+            if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
@@ -473,7 +475,9 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendPic(string playerId, PublicProfile publicProfile)
         {
-            if (!bars.ContainsKey(playerId))
+        	TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+        
+            if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
@@ -507,7 +511,9 @@ namespace TurboLabz.InstantFramework
             
         public void UpdateFriendBarStatus(LongPlayStatusVO vo)
         {
-            if (!bars.ContainsKey(vo.playerId))
+        	TLUtils.LogUtil.LogNullValidation(vo.playerId, "vo.playerId");
+        
+            if (vo.playerId != null && !bars.ContainsKey(vo.playerId))
             {
                 return;
             }
@@ -572,7 +578,9 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
         {
-            if (!bars.ContainsKey(friendId))
+        	TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+        
+            if (friendId == null || !bars.ContainsKey(friendId))
             {
                 return;
             }
@@ -583,12 +591,14 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
         {
-            uiBlocker.SetActive(busy);
+			TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
-            if (!bars.ContainsKey(playerId))
+            if (playerId == null || !bars.ContainsKey(playerId))
             {
                 return;
             }
+            
+            uiBlocker.SetActive(busy);
 
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
 
@@ -651,7 +661,7 @@ namespace TurboLabz.InstantFramework
 
         public void ClearFriend(string friendId)
         {
-            if (bars.ContainsKey(friendId))
+            if (friendId != null && bars.ContainsKey(friendId))
             {
                 GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
@@ -660,7 +670,7 @@ namespace TurboLabz.InstantFramework
 
         public void AddUnreadMessages(string friendId)
         {
-            if (bars.ContainsKey(friendId))
+            if (friendId != null && bars.ContainsKey(friendId))
             {
                 bars[friendId].unreadChat.SetActive(true);
             }
@@ -668,7 +678,7 @@ namespace TurboLabz.InstantFramework
 
         public void ClearUnreadMessages(string friendId)
         {
-            if (bars.ContainsKey(friendId))
+            if (friendId != null && bars.ContainsKey(friendId))
             {
                 bars[friendId].unreadChat.SetActive(false);
             }
