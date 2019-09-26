@@ -9,6 +9,7 @@ namespace TurboLabz.InstantFramework
     {
         MoPubAdUnits adUnits;
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         public void Init()
         {
@@ -16,6 +17,7 @@ namespace TurboLabz.InstantFramework
             MoPubManager.OnSdkInitializedEvent += OnSdkInitializedEvent;
             MoPubManager.OnRewardedVideoLoadedEvent += OnRewardedVideoLoadedEvent;
             MoPubManager.OnInterstitialLoadedEvent += OnInterstitialLoadedEvent;
+            MoPubManager.OnAdLoadedEvent += OnBannerLoadedEvent;
 
 
             // MoPub.InitializeSdk(adUnits.GetGenericAdUnit());
@@ -112,6 +114,15 @@ namespace TurboLabz.InstantFramework
             }
 
             return availableFlag;
+        }
+
+        public void OnBannerLoadedEvent(string adUnit, float height)
+        {
+            Debug.Log("[ANALYITCS]: OnBannerLoadedEvent ");
+            if (appInfoModel.gameMode == GameMode.NONE)
+            {
+                HideBanner();
+            }
         }
 
         public void OnRewardedVideoLoadedEvent(string adUnit)
