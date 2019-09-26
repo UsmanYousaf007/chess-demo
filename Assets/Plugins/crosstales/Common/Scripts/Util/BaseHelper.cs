@@ -526,7 +526,15 @@ namespace Crosstales.Common.Util
                     result = result.Substring(0, result.Length - 1);
                 }
 
-                string fileName = result.Substring(isWindowsBasedPlatform ? result.LastIndexOf(BaseConstants.PATH_DELIMITER_WINDOWS) + 1 : result.LastIndexOf(BaseConstants.PATH_DELIMITER_UNIX) + 1);
+                string fileName = null;
+                if ((isWindowsBasedPlatform || isWindowsEditor) && (!isMacOSEditor && !isLinuxEditor))
+                {
+                    fileName = result.Substring(result.LastIndexOf(BaseConstants.PATH_DELIMITER_WINDOWS) + 1);
+                }
+                else
+                {
+                    fileName = result.Substring(result.LastIndexOf(BaseConstants.PATH_DELIMITER_UNIX) + 1);
+                }
 
                 string newName = string.Join(string.Empty, fileName.Split(System.IO.Path.GetInvalidFileNameChars())); //.Replace(BaseConstants.PATH_DELIMITER_WINDOWS, string.Empty).Replace(BaseConstants.PATH_DELIMITER_UNIX, string.Empty);
 
@@ -1006,6 +1014,108 @@ namespace Crosstales.Common.Util
                         Debug.LogError("Could not copy file!" + System.Environment.NewLine + ex);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Shows the location of a path or file in OS file explorer.
+        /// NOTE: only works for standalone platforms
+        /// </summary>
+        /// <param name="file">File path</param>
+        public static void ShowFileLocation(string file)
+        {
+            //TODO make compatible with IL2CPP
+
+            if (isStandalonePlatform && !isIL2CPP)
+            {
+                Debug.Log("'" + file + "'");
+
+                string path;
+                if (isWindowsPlatform && file.Length < 4)
+                {
+                    path = file; //root directory
+                }
+                else
+                {
+                    path = ValidatePath(System.IO.Path.GetDirectoryName(file));
+                }
+
+                Debug.Log("'" + path + "'");
+
+                if (System.IO.Directory.Exists(path))
+                {
+#if (!UNITY_WSA && !UNITY_WEBGL) || UNITY_EDITOR
+                    System.Diagnostics.Process.Start(path);
+                    /*
+                    CTProcess process = new CTProcess();
+                    process.StartInfo.FileName = "explorer.exe";
+                    process.StartInfo.Arguments = "\"" + path + "\"";
+                    process.StartInfo.UseCmdExecute = true;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    */
+#endif
+                }
+                else
+                {
+                    Debug.LogWarning("Path to file doesn't exist: " + path);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("'ShowFileLocation' is not supported on the currrent platform!");
+            }
+        }
+
+        /// <summary>
+        /// Opens a file with the OS default application.
+        /// NOTE: only works for standalone platforms
+        /// </summary>
+        /// <param name="file">File path</param>
+        public static void OpenFile(string file)
+        {
+            //TODO make compatible with IL2CPP
+
+            if (isStandalonePlatform && !isIL2CPP)
+            {
+                if (System.IO.File.Exists(file))
+                {
+                    if (isMacOSPlatform)
+                    {
+#if (!UNITY_WSA && !UNITY_WEBGL) || UNITY_EDITOR
+                        using (System.Diagnostics.Process process = new System.Diagnostics.Process())
+                        {
+                            process.StartInfo.FileName = "open";
+                            process.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(file) + BaseConstants.PATH_DELIMITER_UNIX;
+                            process.StartInfo.Arguments = "-t " + System.IO.Path.GetFileName(file);
+
+                            process.Start();
+                        }
+#endif
+                    }
+                    else
+                    {
+#if (!UNITY_WSA && !UNITY_WEBGL) || UNITY_EDITOR
+                        System.Diagnostics.Process.Start(file);
+                        /*
+                        CTProcess process = new CTProcess();
+                        process.StartInfo.FileName = "explorer.exe";
+                        process.StartInfo.Arguments = "\"" + file + "\"";
+                        process.StartInfo.UseCmdExecute = true;
+                        process.StartInfo.CreateNoWindow = true;
+                        process.Start();
+                        */
+#endif
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("File doesn't exist: " + file);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("'OpenFile' is not supported on the currrent platform!");
             }
         }
 
