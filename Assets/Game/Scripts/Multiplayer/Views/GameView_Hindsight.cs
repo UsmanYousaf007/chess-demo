@@ -40,6 +40,7 @@ namespace TurboLabz.Multiplayer
         public void OnParentShowHindsight()
         {
             HideHindsight();
+            DisableHindsightButton();
         }
 
         public void RenderHindsight(HintVO vo)
