@@ -179,11 +179,11 @@ namespace TurboLabz.CPU
         private void DisablePlayerTimer()
         {
            // playerClockLabel.color = labelDisabledColor;
-            playerClockImage.color = imageDisabledColor;
+            playerClockImage.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
 
-            playerClockLabel.color = Colors.DISABLED_WHITE;
+            playerClockLabel.color = Colors.WHITE_150;
             playerClockBg.color = Colors.DISABLED_WHITE;
         }
 
@@ -204,11 +204,11 @@ namespace TurboLabz.CPU
         private void DisableOpponentTimer()
         {
          //   opponentClockLabel.color = labelDisabledColor;
-            opponentClockImage.color = imageDisabledColor;
+            opponentClockImage.color = Colors.DISABLED_WHITE;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
 
-            opponentClockLabel.color = Colors.DISABLED_WHITE;
+            opponentClockLabel.color = Colors.WHITE_150;
             opponentClockBg.color = Colors.DISABLED_WHITE;
         }
 
