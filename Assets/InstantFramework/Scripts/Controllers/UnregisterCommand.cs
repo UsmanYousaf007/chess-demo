@@ -59,24 +59,12 @@ namespace TurboLabz.InstantFramework
             {
                 backendErrorSignal.Dispatch(result);
             }
-                
-            if (result == BackendResult.SUCCESS)
-            {
-            	TLUtils.LogUtil.LogNullValidation(opponentId, "opponentId");
-            
-                if (opponentId != null)
-                {
-                    if (playerModel.friends.ContainsKey(opponentId))
-                    {
-                        //TODO: The update friend bar signal is fired twice when canceling a match, investigate and optimize.
-                        updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
-                    }
 
-                    friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
-                    refreshFriendsSignal.Dispatch();
-                    refreshCommunitySignal.Dispatch();
-                }
-            }
+            friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
+            refreshFriendsSignal.Dispatch();
+
+            // Todo: Community update may not be needed. Investigate especially because this is a backend server request.
+            refreshCommunitySignal.Dispatch();
 
             Release();
         }

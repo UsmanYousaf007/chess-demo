@@ -591,19 +591,20 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
         {
-			TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+            // This function must be called in pairs (even if playerId becomes null or no longer friend) 
+            // to ensure UI Blocker gets disabled
+            uiBlocker.SetActive(busy);
+
+            TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
             if (playerId == null || !bars.ContainsKey(playerId))
             {
                 return;
             }
-            
-            uiBlocker.SetActive(busy);
 
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
 
             friendBar.thinking.SetActive(busy);
-            uiBlocker.SetActive(busy);
             friendBar.playArrow.SetActive(!busy);
             friendBar.playArrowButton.SetActive(!busy);
 
