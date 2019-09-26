@@ -27,10 +27,12 @@ namespace TurboLabz.CPU
         public Text playerClockLabel;
         public Image playerClockFill;
         public Image playerClockImage;
+        public Image playerClockBg;
         public GameObject playerInfinityImage;
         public Text opponentClockLabel;
         public Image opponentClockFill;
         public Image opponentClockImage;
+        public Image opponentClockBg;
         public GameObject opponentInfinityImage;
 
         private Coroutine playerClockCR;
@@ -166,6 +168,7 @@ namespace TurboLabz.CPU
             {
                 playerClockImage.color = Colors.YELLOW;
                 playerClockLabel.color = Colors.YELLOW;
+                playerClockBg.color = Colors.YELLOW_128;
             }
             else
             {
@@ -181,6 +184,7 @@ namespace TurboLabz.CPU
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
 
             playerClockLabel.color = Colors.DISABLED_WHITE;
+            playerClockBg.color = Colors.DISABLED_WHITE;
         }
 
         private void EnableOpponentTimer()
@@ -189,6 +193,7 @@ namespace TurboLabz.CPU
             {
                 opponentClockImage.color = Colors.YELLOW;
                 opponentClockLabel.color = Colors.YELLOW;
+                opponentClockBg.color = Colors.YELLOW_128;
             }
             else
             {
@@ -204,6 +209,7 @@ namespace TurboLabz.CPU
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
 
             opponentClockLabel.color = Colors.DISABLED_WHITE;
+            opponentClockBg.color = Colors.DISABLED_WHITE;
         }
 
         private void SetPlayerTimerActiveColors()

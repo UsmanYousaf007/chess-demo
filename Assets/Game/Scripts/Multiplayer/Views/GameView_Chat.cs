@@ -31,7 +31,7 @@ namespace TurboLabz.Multiplayer
         public Sprite activeStatus;
         public GameObject[] defaultInfoSet;
         public Text defaultDayLineHeader;
-        public TMP_Text defaultSystemMessage;
+        public Text defaultSystemMessage;
 
         public ChatBubble opponentChatBubble;
         public ChatBubble playerChatBubble;
