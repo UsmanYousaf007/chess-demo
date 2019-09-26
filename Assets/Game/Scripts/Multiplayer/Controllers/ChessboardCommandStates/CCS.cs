@@ -117,13 +117,17 @@ namespace TurboLabz.Multiplayer
                 }
             }
 
-            // Initialize the game powerups
-            cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
-            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            if (activeChessboard.gameEndReason == GameEndReason.NONE)
+            {
+                // Initialize the game powerups
+                cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
+                cmd.turnSwapSignal.Dispatch(isPlayerTurn);
 
-            cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
-            cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
+                cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
+                cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
 
+            }
+                
             // TODO: Update count may toggle the safe move button so this signal has to be fired first.
             // Cleanup this side effect code.
             cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
