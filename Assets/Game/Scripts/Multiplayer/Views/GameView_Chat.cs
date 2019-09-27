@@ -39,7 +39,7 @@ namespace TurboLabz.Multiplayer
         public Button playerChatBubbleButton;
         public TMP_InputField inputField; 
         public GameObject unreadMessagesIndicator;
-
+        public Text unreadMessagesCount;
 
         public GameObject chatPanel;
         public Button maximizeChatDlgBtn;
@@ -183,6 +183,7 @@ namespace TurboLabz.Multiplayer
             }
 
             unreadMessagesIndicator.SetActive(vo.hasUnreadMessages);
+            unreadMessagesCount.text = vo.unreadMessagesCount.ToString();
             opponentId = vo.opponentId;
             playerId = vo.playerId;
             hasUnreadMessages = vo.hasUnreadMessages;
@@ -191,11 +192,12 @@ namespace TurboLabz.Multiplayer
 
         }
 
-        public void EnableUnreadIndicator(string friendId)
+        public void EnableUnreadIndicator(string friendId, int messagesCount)
         {
             if (friendId == opponentId)
             {
                 unreadMessagesIndicator.SetActive(true);
+                unreadMessagesCount.text = messagesCount.ToString();
             }
         }
 

@@ -47,14 +47,14 @@ namespace TurboLabz.InstantFramework
                 {
                     if (chatModel.hasUnreadMessages.ContainsKey(chatMessage.senderId))
                     {
-                        chatModel.hasUnreadMessages[chatMessage.senderId] = true;
+                        chatModel.hasUnreadMessages[chatMessage.senderId] += 1;
                     }
                     else
                     {
-                        chatModel.hasUnreadMessages.Add(chatMessage.senderId, true);
+                        chatModel.hasUnreadMessages.Add(chatMessage.senderId, 1);
                     }
 
-                    addUnreadMessagesSignal.Dispatch(chatMessage.senderId);
+                    addUnreadMessagesSignal.Dispatch(chatMessage.senderId, chatModel.hasUnreadMessages[chatMessage.senderId]);
                 }
             }
         }

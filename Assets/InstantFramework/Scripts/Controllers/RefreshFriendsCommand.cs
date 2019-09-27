@@ -52,7 +52,7 @@ namespace TurboLabz.InstantGame
 
                 if (key != null && chatModel.hasUnreadMessages.ContainsKey(key))
                 {
-                    addUnreadMessagesSignal.Dispatch(key);
+                    addUnreadMessagesSignal.Dispatch(key, chatModel.hasUnreadMessages[key]);
                 }
             }
 

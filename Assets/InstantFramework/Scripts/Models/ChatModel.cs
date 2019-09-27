@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
         const int CHAT_HISTORY_SIZE = 50;
 
         // Variables
-        public Dictionary<string, bool> hasUnreadMessages { get; set; }
+        public Dictionary<string, int> hasUnreadMessages { get; set; }
         public string lastSavedChatIdOnLaunch { get; set; }
         public bool hasEngagedChat { get; set; } = false;
         string lastSavedChatId;
@@ -54,7 +54,7 @@ namespace TurboLabz.InstantFramework
 
         private void Reset()
         {
-            hasUnreadMessages = new Dictionary<string, bool>();
+            hasUnreadMessages = new Dictionary<string, int>();
             lastSavedChatIdOnLaunch = "";
             lastSavedChatId = "";
             lastSavedMessage = null;
@@ -171,7 +171,7 @@ namespace TurboLabz.InstantFramework
             {
                 ILocalDataWriter writer = localDataService.OpenWriter(CHAT_META_FILE);
                 writer.Write<string>(CHAT_META_LAST_SAVE_KEY, lastSavedChatId);
-                writer.WriteDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES, hasUnreadMessages);
+                writer.WriteDictionary<string, int>(CHAT_META_UNREAD_MESSAGES, hasUnreadMessages);
                 writer.Close();
             }
             catch
@@ -200,7 +200,7 @@ namespace TurboLabz.InstantFramework
                 if (reader.HasKey(CHAT_META_LAST_SAVE_KEY))
                 {
                     lastSavedChatId = reader.Read<string>(CHAT_META_LAST_SAVE_KEY);
-                    hasUnreadMessages = reader.ReadDictionary<string, bool>(CHAT_META_UNREAD_MESSAGES);
+                    hasUnreadMessages = reader.ReadDictionary<string, int>(CHAT_META_UNREAD_MESSAGES);
                     lastSavedChatIdOnLaunch = lastSavedChatId;
                 }
 

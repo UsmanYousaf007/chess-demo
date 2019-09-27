@@ -189,7 +189,7 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
-        public void OnAddUnreadMessages(string friendId)
+        public void OnAddUnreadMessages(string friendId, int messagesCount)
         {
             view.AddUnreadMessages(friendId);
         }
