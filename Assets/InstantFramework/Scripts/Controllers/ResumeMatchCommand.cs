@@ -111,6 +111,9 @@ namespace TurboLabz.InstantFramework
             prevViewId = NavigatorViewId.NONE;
             appInfoModel.syncInProgress = false;
 
+            // Resume GS connection monitoring
+            backendService.MonitorConnectivity(true);
+
             Release();
         }
     }

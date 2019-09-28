@@ -45,6 +45,9 @@ namespace TurboLabz.InstantFramework
             {
                 LogUtil.Log("GS Connected", "red");
 
+                // Stop GS connection monitoring.
+                MonitorConnectivity(false);
+
                 appInfoModel.isReconnecting = DisconnectStats.FALSE;
 
                 // Reset all models
