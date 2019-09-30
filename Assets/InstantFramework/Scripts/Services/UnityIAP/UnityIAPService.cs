@@ -142,13 +142,12 @@ namespace TurboLabz.InstantFramework
 
             bool validPurchase = true; // Presume valid for platforms with no R.V.
 
-       
-
-                // Unity IAP's validation logic is only included on these platforms.
+#if !UNITY_EDITOR
+            // Unity IAP's validation logic is only included on these platforms.
 #if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
-                // Prepare the validator with the secrets we prepared in the Editor
-                // obfuscation window.
-                var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
+            // Prepare the validator with the secrets we prepared in the Editor
+            // obfuscation window.
+            var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
                 AppleTangle.Data(), Application.identifier);
 
             try
@@ -187,6 +186,7 @@ namespace TurboLabz.InstantFramework
                 Debug.Log("Invalid receipt, not unlocking content");
                 validPurchase = false;
             }
+#endif
 #endif
 
             if (validPurchase)
@@ -244,7 +244,7 @@ namespace TurboLabz.InstantFramework
         // Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
         public void RestorePurchases()
         {
-            #if UNITY_IOS
+#if UNITY_IOS
 
             if (storeController == null || m_StoreExtensionProvider == null) 
             {
@@ -260,7 +260,7 @@ namespace TurboLabz.InstantFramework
                 // no purchases are available to be restored.
             });
 
-            #endif
+#endif
         }
 	}
 }
