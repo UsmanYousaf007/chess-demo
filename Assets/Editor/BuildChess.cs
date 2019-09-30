@@ -95,22 +95,16 @@ public class BuildChess : MonoBehaviour
         LogUtil.Log("End Build iOS", "yellow");
     }
 
-    [MenuItem("Build/Build Chess Andriod")]
-    public static void BuildAndroid()
+    public static BuildPlayerOptions AndroidSettings(BuildOptions buildOptions, string postfix)
     {
-        LogUtil.Log("Start Build Android");
-
-        ProcessArgs();
-        ProcessSkinLinks();
-
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeAndroid);
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = gameScenFiles; 
-        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_ANDROID_SUBPATH + "/" + androidAPK + bundleVersionCodeAndroid + ".apk";
+        buildPlayerOptions.scenes = gameScenFiles;
+        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_ANDROID_SUBPATH + "/" + androidAPK + bundleVersionCodeAndroid + postfix + ".apk";
         buildPlayerOptions.target = BuildTarget.Android;
-        buildPlayerOptions.options = BuildOptions.None;
+        buildPlayerOptions.options = buildOptions;
 
         EditorPrefs.SetString("AndroidSdkRoot", Environment.GetEnvironmentVariable("ANDROID_SDK_ROOT"));
 
@@ -120,8 +114,28 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.keyaliasName = "instant-chess-signing";
         PlayerSettings.Android.renderOutsideSafeArea = false;
 
-        ProcessBuild(buildPlayerOptions);
+        return buildPlayerOptions;
+    }
 
+    [MenuItem("Build/Build Chess Andriod")]
+    public static void BuildAndroid()
+    {
+        LogUtil.Log("Start Build Android");
+        ProcessArgs();
+        ProcessSkinLinks();
+        BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_Release");
+        ProcessBuild(buildPlayerOptions);
+        LogUtil.Log("End Build Android");
+    }
+
+    [MenuItem("Build/Build Chess Andriod Development")]
+    public static void BuildAndroidDevelopment()
+    {
+        LogUtil.Log("Start Build Android");
+        ProcessArgs();
+        ProcessSkinLinks();
+        BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
+        ProcessBuild(buildPlayerOptions);
         LogUtil.Log("End Build Android");
     }
 }
