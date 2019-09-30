@@ -53,6 +53,13 @@ namespace TurboLabz.InstantFramework
 
         public Sprite GetPlayerPic(string playerId)
         {
+            LogUtil.LogNullValidation(playerId, "playerId");
+
+            if(playerId  == null)
+            {
+                return null;
+            }
+
             if (memCache.ContainsKey(playerId))
             {
                 return memCache[playerId];
