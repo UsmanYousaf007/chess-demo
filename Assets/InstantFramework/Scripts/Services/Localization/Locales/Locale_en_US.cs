@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
                     "Please download the latest version." },
                 { LocalizationKey.UPDATE_BUTTON, "UPDATE" },
                 { LocalizationKey.CHECK_INTERNET_CONNECTION, "Please check your internet connection." },
+                { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Star account because your account is signed in on another device. An account can only be active on one device at a given moment in time." },
+                
 
 
                 #endregion

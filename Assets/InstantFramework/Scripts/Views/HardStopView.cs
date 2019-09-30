@@ -41,15 +41,21 @@ namespace TurboLabz.InstantFramework
 
         public void SetErrorAndHalt(BackendResult error, string message)
         {
-            if(error == BackendResult.GAME_CRAHSED)
+            if(error == BackendResult.GAME_CRAHSED || showHaltMessage(error))
             {
                 gameObject.SetActive(true);
 
                 string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
                 errorCodeLabel.text = "(Error: " + errorCode + ")";
+
+                if (error == BackendResult.SESSION_TERMINATED_ON_MULTIPLE_AUTH)
+                {
+                    message = localizationService.Get(LocalizationKey.SESSION_TERMINATED);
+                }
+
                 errorMessageLabel.text = message;
 
-                //StartCoroutine(HaltSystem());
+                StartCoroutine(HaltSystem());
 
             }
             else
@@ -62,12 +68,22 @@ namespace TurboLabz.InstantFramework
                     errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
                 }
 
-                //StartCoroutine(HaltSystem());
-
-                LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
-
+                StartCoroutine(HaltSystem());
             }
 
+        }
+
+        private bool showHaltMessage(BackendResult error)
+        {
+            if(error == BackendResult.SESSION_TERMINATED_ON_MULTIPLE_AUTH)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         IEnumerator HaltSystem()
