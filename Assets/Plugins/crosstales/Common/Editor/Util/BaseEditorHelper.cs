@@ -498,10 +498,16 @@ namespace Crosstales.Common.EditorUtil
             {
                 return BuildTarget.StandaloneWindows64;
             }
-            else if (build.CTContains("osx"))
+            else if (!string.IsNullOrEmpty(build) && build.CTContains("osx"))
             {
                 return BuildTarget.StandaloneOSX;
             }
+#if UNITY_2019_2_OR_NEWER
+            else if (!string.IsNullOrEmpty(build) && build.CTContains("linux"))
+            {
+                return BuildTarget.StandaloneLinux64;
+            }
+#else
             else if ("linux".CTEquals(build))
             {
                 return BuildTarget.StandaloneLinux;
@@ -514,6 +520,7 @@ namespace Crosstales.Common.EditorUtil
             {
                 return BuildTarget.StandaloneLinuxUniversal;
             }
+#endif
             else if ("android".CTEquals(build))
             {
                 return BuildTarget.Android;
@@ -585,6 +592,12 @@ namespace Crosstales.Common.EditorUtil
             {
                 return "OSXUniversal";
             }
+#if UNITY_2019_2_OR_NEWER
+            else if (build == BuildTarget.StandaloneLinux64)
+            {
+                return "Linux64";
+            }
+#else
             else if (build == BuildTarget.StandaloneLinux)
             {
                 return "Linux";
@@ -597,6 +610,7 @@ namespace Crosstales.Common.EditorUtil
             {
                 return "LinuxUniversal";
             }
+#endif
             else if (build == BuildTarget.Android)
             {
                 return "Android";

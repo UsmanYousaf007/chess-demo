@@ -20,9 +20,9 @@ namespace TurboLabz.InstantGame
         public Button infoButton;
         public Button addCoinsButton;
 
-        public TextMeshProUGUI safeMoveCountText;
-        public TextMeshProUGUI hintCountText;
-        public TextMeshProUGUI hindsightCountText;
+        public Text safeMoveCountText;
+        public Text hintCountText;
+        public Text hindsightCountText;
         public Text coinsCountText;
 
         public Image safeMovePlus;

@@ -26,7 +26,7 @@ namespace TurboLabz.Multiplayer
         public Button hindsightButton;
         public Text hindsightLabel;
         public Image hindsightIcon;
-        public TextMeshProUGUI hindsightCountLabel;
+        public Text hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
         public CoachView coachView;
@@ -41,6 +41,7 @@ namespace TurboLabz.Multiplayer
         public void OnParentShowHindsight()
         {
             HideHindsight();
+            DisableHindsightButton();
         }
 
         public void RenderHindsight(HintVO vo)

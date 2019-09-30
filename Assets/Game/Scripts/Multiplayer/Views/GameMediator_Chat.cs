@@ -57,9 +57,9 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
-        public void OnAddUnreadMessages(string friendId)
+        public void OnAddUnreadMessages(string friendId, int messagesCount)
         {
-            view.EnableUnreadIndicator(friendId);
+            view.EnableUnreadIndicator(friendId, messagesCount);
         }
 
         [ListensTo(typeof(UpdateChatOpponentPicSignal))]

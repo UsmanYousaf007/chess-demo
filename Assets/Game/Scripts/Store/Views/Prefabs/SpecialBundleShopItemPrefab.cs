@@ -31,6 +31,10 @@ namespace TurboLabz.InstantGame
 
         private string GetBundledItemDisplayText(StoreVO vo, StoreItem storeItem, string itemKey)
         {
+            TLUtils.LogUtil.LogNullValidation(itemKey, "itemKey");
+            
+            if (itemKey == null) return "";
+
             if (!vo.storeSettingsModel.store.items.ContainsKey(itemKey))
             {
                 return "";

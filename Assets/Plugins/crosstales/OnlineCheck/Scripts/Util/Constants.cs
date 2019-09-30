@@ -13,16 +13,16 @@
         public const string ASSET_NAME_SHORT = "OC PRO";
         
         /// <summary>Version of the asset.</summary>
-        public const string ASSET_VERSION = "2019.2.0";
+        public const string ASSET_VERSION = "2019.2.1";
 
         /// <summary>Build number of the asset.</summary>
-        public const int ASSET_BUILD = 20190726;
+        public const int ASSET_BUILD = 20190905;
 
         /// <summary>Create date of the asset (YYYY, MM, DD).</summary>
         public static readonly System.DateTime ASSET_CREATED = new System.DateTime(2017, 5, 4);
 
         /// <summary>Change date of the asset (YYYY, MM, DD).</summary>
-        public static readonly System.DateTime ASSET_CHANGED = new System.DateTime(2019, 7, 26);
+        public static readonly System.DateTime ASSET_CHANGED = new System.DateTime(2019, 9, 5);
 
         /// <summary>URL of the PRO asset in UAS.</summary>
         public const string ASSET_PRO_URL = "https://assetstore.unity.com/packages/slug/74688?aid=1011lNGT";

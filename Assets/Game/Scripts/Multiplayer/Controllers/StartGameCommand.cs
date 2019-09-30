@@ -80,6 +80,12 @@ namespace TurboLabz.InstantFramework
             }
 
             vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(opponentId);
+            vo.unreadMessagesCount = 0;
+
+            if (vo.hasUnreadMessages)
+            {
+                vo.unreadMessagesCount = chatModel.hasUnreadMessages[opponentId];
+            }
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 

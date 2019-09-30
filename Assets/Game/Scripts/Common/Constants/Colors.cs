@@ -24,6 +24,8 @@ namespace TurboLabz.InstantGame
         public static readonly Color WHITE = new Color(1f, 1f, 1f, 222f/255f);
         public static readonly Color WHITE_150 = new Color(1f, 1f, 1f, 150f/255f);
         public static readonly Color WHITE_100 = new Color(1f, 1f, 1f, 100f / 255f);
+        public static readonly Color YELLOW_128 = new Color(235f / 255f, 168f / 255f, 61f / 255f, 128f/255f);
+        public static readonly Color RED_128 = new Color(209f / 255f, 43f / 255f, 43f / 255f, 128f/255f);
 
         public static readonly Color GLASS_GREEN = new Color(198f / 255f, 1f, 74f / 255f);
 

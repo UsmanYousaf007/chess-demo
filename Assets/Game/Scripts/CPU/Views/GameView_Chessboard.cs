@@ -36,6 +36,8 @@ namespace TurboLabz.CPU
         public Transform[] chessboardSquares;
         public GameObject chessContainer;
         public Transform chessboard;
+        public Transform playerProfileUiAnchor;
+        public Transform opponentProfileUiAnchor;
 
         public GameObject playerFromIndicator;
         public GameObject playerToIndicator;
@@ -44,7 +46,6 @@ namespace TurboLabz.CPU
         public GameObject fileRankLabelsForward;
         public GameObject fileRankLabelsBackward;
         public GameObject kingCheckIndicator;
-        public Transform coachUIAnchorPoint;
 
         public Signal<FileRank> squareClickedSignal = new Signal<FileRank>();
         public Signal opponentMoveRenderComplete = new Signal();
@@ -104,16 +105,15 @@ namespace TurboLabz.CPU
             float h = ((RectTransform)playerInfoPanel.transform).sizeDelta.y;
             float offsetY = playerInfoPanel.transform.position.y * (scaleUniform - 1.0f);
             ((RectTransform)playerInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
             //playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
-            playerInfoPanel.transform.position = viewportPoint;
+            var playerProfileScreenPoint = Camera.main.WorldToScreenPoint(playerProfileUiAnchor.position);
+            playerInfoPanel.transform.position = playerProfileScreenPoint;
 
+            h = ((RectTransform)opponentInfoPanel.transform).sizeDelta.y;
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
-
-            ((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (15 * scaleWidth) , ((RectTransform)coachView.bg.transform).sizeDelta.y);
-            
-            coachView.bg.transform.position = viewportPoint;
+            //opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+            var opponentProfileScreenPoint = Camera.main.WorldToScreenPoint(opponentProfileUiAnchor.position);
+            opponentInfoPanel.transform.position = opponentProfileScreenPoint;
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
             ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);

@@ -23,7 +23,9 @@ namespace TurboLabz.InstantFramework
             int quantity = response.ScriptData.GetInt("quantity").Value;
             string shopItemId = response.ScriptData.GetString("shortCode");
 
-            if (playerModel.inventory.ContainsKey(shopItemId))
+            TLUtils.LogUtil.LogNullValidation(shopItemId, "shopItemId");
+             
+            if (shopItemId != null && playerModel.inventory.ContainsKey(shopItemId))
             {
                 int count = playerModel.inventory[shopItemId] - quantity;
                 playerModel.inventory[shopItemId] = count;

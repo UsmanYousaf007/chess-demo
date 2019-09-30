@@ -103,7 +103,7 @@ namespace TurboLabz.InstantFramework
 
         protected bool IsActive()
         {
-            return (promise != null);
+            return activePromises.IndexOf(promise) >= 0;
         }
 
     }

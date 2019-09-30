@@ -24,9 +24,12 @@ namespace TurboLabz.Multiplayer
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
 
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+
         public override void Execute()
         {
             resetActiveMatchSignal.Dispatch();
+            loadLobbySignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
             //if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))

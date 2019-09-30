@@ -37,6 +37,8 @@ namespace TurboLabz.Multiplayer
         public Transform[] chessboardSquares;
         public GameObject chessContainer;
         public Transform chessboard;
+        public Transform playerProfileUiAnchor;
+        public Transform opponentProfileUiAnchor;
 
         public GameObject playerFromIndicator;
         public GameObject playerToIndicator;
@@ -105,10 +107,15 @@ namespace TurboLabz.Multiplayer
             float h = ((RectTransform)playerInfoPanel.transform).sizeDelta.y;
             float offsetY = playerInfoPanel.transform.position.y * (scaleUniform - 1.0f);
             ((RectTransform)playerInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
+            var playerProfileScreenPoint = Camera.main.WorldToScreenPoint(playerProfileUiAnchor.position);
+            playerInfoPanel.transform.position = playerProfileScreenPoint;
+            //playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
 
+            h = ((RectTransform)opponentInfoPanel.transform).sizeDelta.y;
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+            //opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+            var opponentProfileScreenPoint = Camera.main.WorldToScreenPoint(opponentProfileUiAnchor.position);
+            opponentInfoPanel.transform.position = opponentProfileScreenPoint;
 
             ((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (20 * scaleWidth), ((RectTransform)coachView.bg.transform).sizeDelta.y);
             var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
@@ -406,7 +413,8 @@ namespace TurboLabz.Multiplayer
             }
 
             showPossibleMovesCR = ShowPossibleMovesCR(pieceLocation, possibleMoves);
-            StartCoroutine(showPossibleMovesCR);
+            if (this.gameObject.activeInHierarchy)
+                StartCoroutine(showPossibleMovesCR);
         }
 
         private IEnumerator ShowPossibleMovesCR(FileRank pieceLocation, List<ChessSquare> possibleMoves)

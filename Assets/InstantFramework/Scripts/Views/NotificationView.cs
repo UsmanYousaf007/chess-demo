@@ -108,6 +108,8 @@ namespace TurboLabz.InstantGame
 
         public void AddNotification(NotificationVO notificationVO) 
         {
+        	TLUtils.LogUtil.LogNullValidation(notificationVO.senderPlayerId, "notificationVO.senderPlayerId");
+        
             // Check if on the same long match board
             if (matchInfoModel.activeLongMatchOpponentId == notificationVO.senderPlayerId)
             {
@@ -137,7 +139,7 @@ namespace TurboLabz.InstantGame
                 notification.senderPic.gameObject.SetActive(true);
                 notification.senderPic.sprite = pic;
             }
-            else if(playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
+            else if(notificationVO.senderPlayerId != null && playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
             {
                 if(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId != null)
                 {

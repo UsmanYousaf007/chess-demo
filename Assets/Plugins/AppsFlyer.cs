@@ -8,6 +8,7 @@ using System.Collections.Generic;
 /*
  v4.20.0
 */
+
 public class AppsFlyer : MonoBehaviour {
 
 #if UNITY_IOS && !UNITY_EDITOR
