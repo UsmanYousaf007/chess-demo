@@ -49,6 +49,11 @@ namespace TurboLabz.Multiplayer
 
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
+            if (chessboard == null)
+            {
+                throw new System.Exception("chessboard is null");
+            }
+
             ++chessboard.aiMoveNumber;
             chessAiService.SetPosition(chessService.GetFen());
 
@@ -87,10 +92,17 @@ namespace TurboLabz.Multiplayer
             }
 
                 
+
             // TODO: In the future, if we add 1 minute games, use the IsOneMinuteGame flag in the vo
             // to make the bots more aggressive so people can't spam the time control.
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
+
+            if (promise == null)
+            {
+                throw new System.Exception("promise is null");
+            }
+
             promise.Then(OnAiMove);
         }
 
@@ -127,7 +139,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backendService.AiTurn(from, to, promo, (long)delay).Then(OnTurnTaken); ;
+                backendService.AiTurn(from, to, promo, (long)delay).Then(OnTurnTaken); 
             }
         }
 

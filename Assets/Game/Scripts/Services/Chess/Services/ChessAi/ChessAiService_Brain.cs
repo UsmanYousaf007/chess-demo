@@ -249,7 +249,12 @@ namespace TurboLabz.Chess
                 // Has that piece landed on a square that I can attack with a piece
                 // of a cheaper or equal value? If so, then attack!
                 if (cheapestAttackingMove != null)
-                {
+                {   
+                    if (cheapestAttackingMove.piece == null)
+                    {
+                        throw new Exception("cheapestAttackingMove.piece is null");
+                    }
+                    
                     int attackingPieceValue = GetValueForPiece(cheapestAttackingMove.piece.name);
                     int victimPieceValue = GetValueForPiece(aiMoveInputVO.lastPlayerMove.piece.name);
 
