@@ -177,16 +177,16 @@ namespace TurboLabz.Chess
             var selectedMove = aiSearchResultMovesList[0];
             var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
             var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
-            var piece = chessService.GetPieceNameAtLocation(from);
+            var piece = chessService.GetPieceAtLocation(from);
 
             //if piece is null then it means player had moved it in his last move
             //getting piece info from player's last move
             if (piece == null)
             {
-                piece = aiMoveInputVO.squares[aiMoveInputVO.lastPlayerMove.to.file, aiMoveInputVO.lastPlayerMove.to.rank].piece.name;
+                piece = aiMoveInputVO.squares[aiMoveInputVO.lastPlayerMove.to.file, aiMoveInputVO.lastPlayerMove.to.rank].piece;
             }
 
-            aiMoveStrengthPromise.Dispatch(from, to, piece);
+            aiMoveStrengthPromise.Dispatch(from, to, piece.name);
             aiMoveStrengthPromise = null;
         }
 
