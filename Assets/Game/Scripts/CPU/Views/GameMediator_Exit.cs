@@ -23,6 +23,7 @@ namespace TurboLabz.CPU
         // Dispatch Signals
         [Inject] public ResignSignal resignSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
 
         public void OnRegisterMenu()
         {
@@ -99,6 +100,7 @@ namespace TurboLabz.CPU
         {
             saveGameSignal.Dispatch();
             loadLobbySignal.Dispatch();
+            cancelHintSignal.Dispatch();
         }
     }
 }
