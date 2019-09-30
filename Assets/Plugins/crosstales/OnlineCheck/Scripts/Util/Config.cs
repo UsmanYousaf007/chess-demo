@@ -17,23 +17,7 @@
 
         #endregion
 
-        /*
-        #region Constructor
-
-        static Config()
-        {
-            if (!isLoaded)
-            {
-                Load();
-
-                if (DEBUG)
-                    UnityEngine.Debug.Log("Config data loaded");
-            }
-        }
-
-        #endregion
-        */
-
+#if UNITY_EDITOR
         #region Public static methods
 
         /// <summary>Resets all changable variables to their default value.</summary>
@@ -81,6 +65,7 @@
 
         #endregion
 
+#endif
     }
 }
 // © 2017-2019 crosstales LLC (https://www.crosstales.com)

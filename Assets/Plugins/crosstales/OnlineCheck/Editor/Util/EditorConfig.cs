@@ -15,7 +15,7 @@ namespace Crosstales.OnlineCheck.EditorUtil
         public static bool UPDATE_CHECK = EditorConstants.DEFAULT_UPDATE_CHECK;
 
         /// <summary>Enable or disable reminder-checks for the asset.</summary>
-        public static bool REMINDER_CHECK = EditorConstants.DEFAULT_REMINDER_CHECK;
+        //public static bool REMINDER_CHECK = EditorConstants.DEFAULT_REMINDER_CHECK;
 
         /// <summary>Enable or disable anonymous tracer data.</summary>
         public static bool TRACER = EditorConstants.DEFAULT_TRACER;
@@ -112,7 +112,7 @@ namespace Crosstales.OnlineCheck.EditorUtil
             assetPath = null;
 
             UPDATE_CHECK = EditorConstants.DEFAULT_UPDATE_CHECK;
-            REMINDER_CHECK = EditorConstants.DEFAULT_REMINDER_CHECK;
+            //REMINDER_CHECK = EditorConstants.DEFAULT_REMINDER_CHECK;
             TRACER = EditorConstants.DEFAULT_TRACER;
             PREFAB_AUTOLOAD = EditorConstants.DEFAULT_PREFAB_AUTOLOAD;
             HIERARCHY_ICON = EditorConstants.DEFAULT_HIERARCHY_ICON;
@@ -127,12 +127,12 @@ namespace Crosstales.OnlineCheck.EditorUtil
             {
                 UPDATE_CHECK = Common.Util.CTPlayerPrefs.GetBool(EditorConstants.KEY_UPDATE_CHECK);
             }
-
+            /*
             if (Common.Util.CTPlayerPrefs.HasKey(EditorConstants.KEY_REMINDER_CHECK))
             {
                 REMINDER_CHECK = Common.Util.CTPlayerPrefs.GetBool(EditorConstants.KEY_REMINDER_CHECK);
             }
-
+            */
             if (Common.Util.CTPlayerPrefs.HasKey(EditorConstants.KEY_TRACER))
             {
                 TRACER = Common.Util.CTPlayerPrefs.GetBool(EditorConstants.KEY_TRACER);
@@ -155,7 +155,7 @@ namespace Crosstales.OnlineCheck.EditorUtil
         public static void Save()
         {
             Common.Util.CTPlayerPrefs.SetBool(EditorConstants.KEY_UPDATE_CHECK, UPDATE_CHECK);
-            Common.Util.CTPlayerPrefs.SetBool(EditorConstants.KEY_REMINDER_CHECK, REMINDER_CHECK);
+            //Common.Util.CTPlayerPrefs.SetBool(EditorConstants.KEY_REMINDER_CHECK, REMINDER_CHECK);
             Common.Util.CTPlayerPrefs.SetBool(EditorConstants.KEY_TRACER, TRACER);
             Common.Util.CTPlayerPrefs.SetBool(EditorConstants.KEY_PREFAB_AUTOLOAD, PREFAB_AUTOLOAD);
             Common.Util.CTPlayerPrefs.SetBool(EditorConstants.KEY_HIERARCHY_ICON, HIERARCHY_ICON);
