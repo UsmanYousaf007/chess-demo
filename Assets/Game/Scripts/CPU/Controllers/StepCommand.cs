@@ -33,6 +33,12 @@ namespace TurboLabz.CPU
         public override void Execute()
         {
             LogUtil.Log("STEP:" + stepForward, "blue");
+
+            // Exit the current game
+
+            // Adjust move list based on step action
+
+            // Re-enter the game
         }
     }
 }
