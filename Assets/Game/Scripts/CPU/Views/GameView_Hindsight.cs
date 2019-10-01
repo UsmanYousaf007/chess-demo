@@ -47,21 +47,28 @@ namespace TurboLabz.CPU
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hindsightFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            //hindsightFromIndicator.SetActive(true);
+			//hindsightFromIndicator.SetActive(true);
 
-            int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
+			int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hindsightToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            //hindsightToIndicator.SetActive(true);
+			//hindsightToIndicator.SetActive(true);
 
-            audioService.Play(audioService.sounds.SFX_HINT);
+			audioService.Play(audioService.sounds.SFX_HINT);
 
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
 
-            coachView.Show(hindsightFromIndicator.transform.position, hindsightToIndicator.transform.position,
-                vo.fromSquare.fileRank.GetAlgebraicLocation(), vo.toSquare.fileRank.GetAlgebraicLocation(), vo.piece, vo.skinId,
-                vo.didPlayerMadeBestMove);
+            var coachVO = new CoachVO();
+            coachVO.fromPosition = hindsightFromIndicator.transform.position;
+            coachVO.toPosition = hindsightToIndicator.transform.position;
+            coachVO.moveFrom = vo.fromSquare.fileRank.GetAlgebraicLocation();
+            coachVO.moveTo = vo.toSquare.fileRank.GetAlgebraicLocation();
+            coachVO.pieceName = vo.piece;
+            coachVO.activeSkinId = vo.skinId;
+            coachVO.isBestMove = vo.didPlayerMadeBestMove;
+
+            coachView.Show(coachVO);
             Invoke("HideHindsight", 4);
         }
 
@@ -88,8 +95,9 @@ namespace TurboLabz.CPU
             }
             else
             {
-                hindsightThinking.SetActive(true);
+                //hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
+                coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
 
                 analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.computer_match);

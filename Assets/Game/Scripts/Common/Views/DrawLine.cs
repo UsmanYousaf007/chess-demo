@@ -11,11 +11,11 @@ public class DrawLine : MonoBehaviour
     void Start()
     {
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startWidth = 10.0f;
-        lineRenderer.endWidth = 10.0f;
+        lineRenderer.startWidth = 30.0f;
+        lineRenderer.endWidth = 30.0f;
 
         // A simple 2 color gradient with a fixed alpha of 1.0f.
-        float alpha = 1.0f;
+        float alpha = 0.8f;
         Gradient gradient = new Gradient();
         gradient.SetKeys(
             new GradientColorKey[] { new GradientColorKey(c1, 0.0f), new GradientColorKey(c2, 1.0f) },

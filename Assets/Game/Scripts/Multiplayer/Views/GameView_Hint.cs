@@ -51,11 +51,11 @@ namespace TurboLabz.Multiplayer
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hintFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            //hintFromIndicator.SetActive(true);
+            hintFromIndicator.SetActive(true);
 
             int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hintToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            //hintToIndicator.SetActive(true);
+            hintToIndicator.SetActive(true);
 
             audioService.Play(audioService.sounds.SFX_HINT);
 
@@ -65,7 +65,14 @@ namespace TurboLabz.Multiplayer
             DisableModalBlocker();
             DisableHintButton();
 
-            strengthPanel.ShowStrengthPanel(vo.strength, hintFromIndicator.transform.position, hintToIndicator.transform.position);
+            var strengthVO = new StrengthVO();
+            strengthVO.strength = vo.strength;
+            strengthVO.fromPosition = hintFromIndicator.transform.position;
+            strengthVO.toPosition = hintToIndicator.transform.position;
+            strengthVO.fromIndicator = hintFromIndicator;
+            strengthVO.toIndicator = hintToIndicator;
+
+            strengthPanel.ShowStrengthPanel(strengthVO);
             StartCoroutine(HideHint(4.0f));
         }
 
