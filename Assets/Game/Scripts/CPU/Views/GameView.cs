@@ -55,6 +55,7 @@ namespace TurboLabz.CPU
             OnParentShowInfo();
             OnParentShowSafeMove();
             OnParentShowHindsight();
+            OnParentShowStep();
             OnParentShowAdBanner();
             EnableSafeButton();
 

@@ -82,5 +82,8 @@ namespace TurboLabz.CPU
     public class HindsightAvailableSignal : Signal<bool> { }
     public class HintAvailableSignal : Signal<bool> { }
     public class DisableUndoBtnSignal : Signal<bool> { }
+    public class StepSignal : Signal<bool> { }
+    public class ToggleStepForwardSignal : Signal<bool> { }
+    public class ToggleStepBackwardSignal : Signal<bool> { }
 
 }
