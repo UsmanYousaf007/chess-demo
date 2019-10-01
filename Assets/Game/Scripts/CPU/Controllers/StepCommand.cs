@@ -57,11 +57,6 @@ namespace TurboLabz.CPU
 
                 if (moveListCount > 1)
                 {
-                    // 1 2 3 4 
-
-                    // 4 3 2 1     // 1 2
-
-
                     chessboardModel.trimmedMoveList.Add(chessboardModel.moveList[moveListCount - 1]);
                     chessboardModel.trimmedMoveList.Add(chessboardModel.moveList[moveListCount - 2]);
                     chessboardModel.moveList.RemoveRange(moveListCount - 2, 2);

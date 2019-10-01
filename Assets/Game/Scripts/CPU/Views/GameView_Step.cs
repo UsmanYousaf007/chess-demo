@@ -46,11 +46,17 @@ namespace TurboLabz.CPU
         public void StepBackwardButtonClicked()
         {
             stepBackwardClickedSignal.Dispatch();
+
+            HideHint();
+            HideHindsight();
         }
 
         public void StepForwardButtonClicked()
         {
             stepForwardClickedSignal.Dispatch();
+
+            HideHint();
+            HideHindsight();
         }
 
         public void ToggleStepBackward(bool enable)
