@@ -139,6 +139,9 @@ namespace TurboLabz.CPU
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;
+
+                analyticsService.Event(AnalyticsEventId.ads_rewared_failed, AnalyticsContext.computer_match);
+
             }
         }
 

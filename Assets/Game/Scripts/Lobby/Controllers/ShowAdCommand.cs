@@ -54,6 +54,11 @@ namespace TurboLabz.InstantGame
                 if (adsService.IsInterstitialAvailable())
                 {
                     adsService.ShowInterstitial();
+                    analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.ads_interstitial_failed);
                 }
                 return;
             }

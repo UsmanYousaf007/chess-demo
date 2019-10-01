@@ -75,10 +75,11 @@ namespace TurboLabz.InstantFramework
         ads_rewared_success,
         ads_rewared_show,
         ads_rewared_available,
-        ads_interstitial_request,
-        ads_interstitial_success,
+        ads_rewared_failed,
+        //ads_interstitial_request,
+        //ads_interstitial_success,
         ads_interstitial_show,
-        ads_interstitial_available
+        ads_interstitial_failed
     }
 
     public enum AnalyticsContext
