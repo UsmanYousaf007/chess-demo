@@ -97,6 +97,11 @@ namespace TurboLabz.CPU
             chessboardModel.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0 ? cmd.preferencesModel.isSafeMoveOn : false;
             cmd.updateSafeMoveStateSignal.Dispatch(chessboardModel.inSafeMode);
             cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
+
+            // Initialize the step buttons
+            if (cmd.chessboardModel.moveList.Count > 1) cmd.toggleStepBackwardSignal.Dispatch(true);
+            if (cmd.chessboardModel.trimmedMoveList.Count > 1) cmd.toggleStepForwardSignal.Dispatch(true);
+
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)

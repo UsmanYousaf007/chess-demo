@@ -23,22 +23,59 @@ namespace TurboLabz.CPU
         [Inject] public bool stepForward { get; set; }
 
         // Dispatch signals
-        //[Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
+        [Inject] public ToggleStepBackwardSignal toggleStepBackwardSignal { get; set; }
+        [Inject] public ToggleStepForwardSignal toggleStepForwardSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
-        [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         
         public override void Execute()
         {
             LogUtil.Log("STEP:" + stepForward, "blue");
 
-            // Exit the current game
+            if (stepForward)
+            {
+                int trimmedMoveListCount = chessboardModel.trimmedMoveList.Count;
 
-            // Adjust move list based on step action
+                if (trimmedMoveListCount > 1)
+                {
+                    chessboardModel.moveList.Add(chessboardModel.trimmedMoveList[1]);
+                    chessboardModel.moveList.Add(chessboardModel.trimmedMoveList[0]);
+                    chessboardModel.trimmedMoveList.RemoveRange(0, 2);
+                }
 
-            // Re-enter the game
+                if (chessboardModel.trimmedMoveList.Count == 0)
+                {
+                    toggleStepForwardSignal.Dispatch(false);
+                }
+            }
+            else
+            {
+                int moveListCount = chessboardModel.moveList.Count;
+
+                if (moveListCount > 1)
+                {
+                    // 1 2 3 4 5
+
+                    // 5 4 3 2 
+
+
+                    chessboardModel.trimmedMoveList.Add(chessboardModel.moveList[moveListCount - 1]);
+                    chessboardModel.trimmedMoveList.Add(chessboardModel.moveList[moveListCount - 2]);
+                    chessboardModel.moveList.RemoveRange(moveListCount - 2, 2);
+
+                    toggleStepForwardSignal.Dispatch(true);
+                }
+
+                if (chessboardModel.moveList.Count == 0)
+                {
+                    toggleStepBackwardSignal.Dispatch(false);
+                }
+            }
+
+            startCPUGameSignal.Dispatch();
         }
     }
 }

@@ -116,10 +116,12 @@ namespace TurboLabz.CPU
             if (isPlayerTurn)
             {
                 EnableMenuButton();
+                EnableStepButtons();
             }
             else
             {
                 DisableMenuButton();
+                DisableStepButtons();
             }
         }
 

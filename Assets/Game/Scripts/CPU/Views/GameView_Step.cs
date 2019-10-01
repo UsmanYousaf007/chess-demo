@@ -25,6 +25,9 @@ namespace TurboLabz.CPU
         public Button stepBackwardButton;
         public Button stepForwardButton;
 
+        private bool backwardButtonPreviousState;
+        private bool forwardButtonPreviousState;
+
 
         public void InitStep()
         {
@@ -52,12 +55,26 @@ namespace TurboLabz.CPU
 
         public void ToggleStepBackward(bool enable)
         {
-            stepBackwardButton.enabled = enable;
+            stepBackwardButton.interactable = enable;
         }
 
         public void ToggleStepForward(bool enable)
         {
-            stepForwardButton.enabled = enable;
+            stepForwardButton.interactable = enable;
+        }
+
+        void EnableStepButtons()
+        {
+            stepBackwardButton.interactable = backwardButtonPreviousState;
+            stepForwardButton.interactable = forwardButtonPreviousState;
+        }
+
+        void DisableStepButtons()
+        {
+            backwardButtonPreviousState = stepBackwardButton.interactable;
+            forwardButtonPreviousState = stepForwardButton.interactable;
+            ToggleStepBackward(false);
+            ToggleStepForward(false);
         }
     }
 }
