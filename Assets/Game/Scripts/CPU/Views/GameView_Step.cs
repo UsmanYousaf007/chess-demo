@@ -39,8 +39,8 @@ namespace TurboLabz.CPU
 
         public void OnParentShowStep()
         {
-            stepBackwardButton.interactable = true;
-            stepForwardButton.interactable = true;
+            ToggleStepBackward(false);
+            ToggleStepForward(false);
         }
 
         public void StepBackwardButtonClicked()
@@ -55,24 +55,28 @@ namespace TurboLabz.CPU
 
         public void ToggleStepBackward(bool enable)
         {
+            LogUtil.Log("TOGGLE BACKWARD:" + enable, "red");
+
             stepBackwardButton.interactable = enable;
+            backwardButtonPreviousState = stepBackwardButton.interactable;
         }
 
         public void ToggleStepForward(bool enable)
         {
+            LogUtil.Log("TOGGLE FORWARD:" + enable, "red");
+
             stepForwardButton.interactable = enable;
+            forwardButtonPreviousState = stepForwardButton.interactable;
         }
 
         void EnableStepButtons()
         {
-            stepBackwardButton.interactable = backwardButtonPreviousState;
-            stepForwardButton.interactable = forwardButtonPreviousState;
+            ToggleStepBackward(backwardButtonPreviousState);
+            ToggleStepForward(forwardButtonPreviousState);
         }
 
         void DisableStepButtons()
         {
-            backwardButtonPreviousState = stepBackwardButton.interactable;
-            forwardButtonPreviousState = stepForwardButton.interactable;
             ToggleStepBackward(false);
             ToggleStepForward(false);
         }

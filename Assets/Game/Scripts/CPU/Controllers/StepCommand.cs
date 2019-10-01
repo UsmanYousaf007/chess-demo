@@ -41,9 +41,9 @@ namespace TurboLabz.CPU
 
                 if (trimmedMoveListCount > 1)
                 {
-                    chessboardModel.moveList.Add(chessboardModel.trimmedMoveList[1]);
-                    chessboardModel.moveList.Add(chessboardModel.trimmedMoveList[0]);
-                    chessboardModel.trimmedMoveList.RemoveRange(0, 2);
+                    chessboardModel.moveList.Add(chessboardModel.trimmedMoveList[trimmedMoveListCount - 1]);
+                    chessboardModel.moveList.Add(chessboardModel.trimmedMoveList[trimmedMoveListCount - 2]);
+                    chessboardModel.trimmedMoveList.RemoveRange(trimmedMoveListCount - 2, 2);
                 }
 
                 if (chessboardModel.trimmedMoveList.Count == 0)
@@ -57,9 +57,9 @@ namespace TurboLabz.CPU
 
                 if (moveListCount > 1)
                 {
-                    // 1 2 3 4 5
+                    // 1 2 3 4 
 
-                    // 5 4 3 2 
+                    // 4 3 2 1     // 1 2
 
 
                     chessboardModel.trimmedMoveList.Add(chessboardModel.moveList[moveListCount - 1]);
@@ -69,7 +69,7 @@ namespace TurboLabz.CPU
                     toggleStepForwardSignal.Dispatch(true);
                 }
 
-                if (chessboardModel.moveList.Count == 0)
+                if (chessboardModel.moveList.Count < 2)
                 {
                     toggleStepBackwardSignal.Dispatch(false);
                 }

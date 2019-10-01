@@ -25,6 +25,7 @@ namespace TurboLabz.CPU
     {
         // Dispatch Signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public ToggleStepBackwardSignal toggleStepBackwardSignal { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }
@@ -133,6 +134,11 @@ namespace TurboLabz.CPU
             chessboardModel.moveList.Add(move);
 
             chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+
+            if (chessboardModel.moveList.Count > 1)
+            {
+                toggleStepBackwardSignal.Dispatch(true);
+            }
 
             Release();
         }
