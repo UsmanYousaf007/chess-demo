@@ -98,6 +98,7 @@ namespace TurboLabz.InstantGame
                 if (notifications.Count != 0)
                 {
                     preShowNotificationSignal.Dispatch();
+                    PreShowNotificationSetup(notifications[0]);
                     notifications[0].obj.SetActive(true);
                     yield return new WaitForSeconds(notifications[0].duration);
                     notifications[0].obj.SetActive(false);
@@ -107,6 +108,16 @@ namespace TurboLabz.InstantGame
                     postShowNotificationSignal.Dispatch();
                 }
                 yield return new WaitForSeconds(1);
+            }
+        }
+
+        private void PreShowNotificationSetup(NotificationContainer notification)
+        {
+            if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            {
+                Notification notificationObj = notification.obj.GetComponent<Notification>();
+                notificationObj.playButton.gameObject.SetActive(false);
+                notificationObj.acceptQuickMatchButton.gameObject.SetActive(false);
             }
         }
 
