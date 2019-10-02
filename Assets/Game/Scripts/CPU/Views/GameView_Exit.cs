@@ -116,12 +116,10 @@ namespace TurboLabz.CPU
             if (isPlayerTurn)
             {
                 EnableMenuButton();
-                EnableStepButtons();
             }
             else
             {
                 DisableMenuButton();
-                DisableStepButtons();
             }
         }
 
@@ -131,6 +129,8 @@ namespace TurboLabz.CPU
             backToLobbyButton.interactable = false;
             backToLobbyButtonLabel.color = Colors.DISABLED_WHITE;
             backToLobbyButtonUnderline.color = Colors.DISABLED_WHITE;
+
+            DisableStepButtons();
         }
 
         public void EnableMenuButton()
@@ -139,6 +139,8 @@ namespace TurboLabz.CPU
             backToLobbyButton.interactable = true;
             backToLobbyButtonLabel.color = Colors.WHITE;
             backToLobbyButtonUnderline.color = Colors.WHITE;
+
+            EnableStepButtons();
         }
 
         void OnMenuButtonClicked()
