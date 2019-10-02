@@ -69,6 +69,11 @@ namespace TurboLabz.Multiplayer
             coachVO.activeSkinId = vo.skinId;
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
 
+            if (vo.piece.Contains("captured"))
+            {
+                coachVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
+            }
+
             coachView.Show(coachVO);
             Invoke("HideHindsight", 4);
         }

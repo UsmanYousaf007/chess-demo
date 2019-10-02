@@ -102,7 +102,16 @@ namespace TurboLabz.CPU
 
             if (isHindsight)
             {
-                newVo.piece = string.Format("{0}{1}", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W', strength.ToLower());
+                var pieceColor = strength[0].Equals('b') ? ChessColor.BLACK : ChessColor.WHITE;
+
+                //check if piece color is of opponent's then player's piece is captured
+                if (pieceColor != chessboardModel.playerColor)
+                {
+                    //set captured piece flag
+                    strength = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                newVo.piece = strength;
             }
             else
             {
