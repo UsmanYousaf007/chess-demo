@@ -57,7 +57,7 @@ namespace TurboLabz.Chess
                         if (scores[0] - scores[moveFoundIndex] >= DELTA_CLASSIFICATIONS[i])
                         {
                             playerMoveClassificationIndex = i;
-                            break;
+                            //break;
                         }
                     }
 
