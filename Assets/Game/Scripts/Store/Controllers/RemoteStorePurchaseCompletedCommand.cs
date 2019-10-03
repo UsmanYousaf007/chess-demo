@@ -41,10 +41,14 @@ namespace TurboLabz.InstantGame
             purchaseEvent.Add(AFInAppEvents.REVENUE, item.productPrice.ToString());
             purchaseEvent.Add(AFInAppEvents.QUANTITY, item.maxQuantity.ToString());
             purchaseEvent.Add(AFInAppEvents.CONTENT_ID, item.remoteProductId);
+
+#if !UNITY_EDITOR
+
             appsFlyerService.TrackRichEvent(AFInAppEvents.PURCHASE, purchaseEvent);
+#endif
         }
 
-		private StoreItem FindRemoteStoreItem(string remoteId)
+        private StoreItem FindRemoteStoreItem(string remoteId)
 		{
 			foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items) 
 			{
