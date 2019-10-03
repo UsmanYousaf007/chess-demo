@@ -46,42 +46,32 @@ namespace TurboLabz.CPU
         public void StepBackwardButtonClicked()
         {
             stepBackwardClickedSignal.Dispatch();
-
-            HideHint();
-            HideHindsight();
         }
 
         public void StepForwardButtonClicked()
         {
             stepForwardClickedSignal.Dispatch();
-
-            HideHint();
-            HideHindsight();
         }
 
         public void ToggleStepBackward(bool enable)
         {
-            LogUtil.Log("TOGGLE BACKWARD:" + enable, "red");
-
             stepBackwardButton.interactable = enable;
             backwardButtonPreviousState = stepBackwardButton.interactable;
         }
 
         public void ToggleStepForward(bool enable)
         {
-            LogUtil.Log("TOGGLE FORWARD:" + enable, "red");
-
             stepForwardButton.interactable = enable;
             forwardButtonPreviousState = stepForwardButton.interactable;
         }
 
-        void EnableStepButtons()
+        void RestoreStepButtons()
         {
             ToggleStepBackward(backwardButtonPreviousState);
             ToggleStepForward(forwardButtonPreviousState);
         }
 
-        void DisableStepButtons()
+        void StashStepButtons()
         {
             ToggleStepBackward(false);
             ToggleStepForward(false);
