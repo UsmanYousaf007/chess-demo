@@ -132,6 +132,15 @@ namespace TurboLabz.Multiplayer
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;
+
+                if (isLongPlay)
+                {
+                    analyticsService.Event(AnalyticsEventId.ads_rewared_failed, AnalyticsContext.long_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.ads_rewared_failed, AnalyticsContext.quick_match);
+                }
             }
         }
 

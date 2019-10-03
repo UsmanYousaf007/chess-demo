@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
             adUnits = new MoPubAdUnits();
             MoPubManager.OnSdkInitializedEvent += OnSdkInitializedEvent;
             MoPubManager.OnRewardedVideoLoadedEvent += OnRewardedVideoLoadedEvent;
-            MoPubManager.OnInterstitialLoadedEvent += OnInterstitialLoadedEvent;
             MoPubManager.OnAdLoadedEvent += OnBannerLoadedEvent;
 
 
@@ -100,7 +99,6 @@ namespace TurboLabz.InstantFramework
 
             Debug.Log("[ANALYITCS]: ads_rewared_request:");
             analyticsService.Event(AnalyticsEventId.ads_rewared_request);
-            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
         }
 
         public bool IsRewardedVideoAvailable()
@@ -138,27 +136,12 @@ namespace TurboLabz.InstantFramework
 
         public bool IsInterstitialAvailable()
         {
-            bool availableFlag = MoPubInterstitial.IsAvailable();
-
-            if (!availableFlag)
-            {
-                Debug.Log("[ANALYITCS]: ads_interstitial_request:");
-                analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
-            }
-
-            return availableFlag;
-        }
-
-        public void OnInterstitialLoadedEvent(string adUnit)
-        {
-            Debug.Log("[ANALYITCS]: ads_interstitial_success:");
-            analyticsService.Event(AnalyticsEventId.ads_interstitial_success);
+            return MoPubInterstitial.IsAvailable();
         }
 
         public void ShowInterstitial()
         {
             MoPubInterstitial.Show();
-            analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
         }
 
         public void ShowBanner()

@@ -94,6 +94,7 @@ namespace TurboLabz.InstantGame
                 if (notifications.Count != 0)
                 {
                     preShowNotificationSignal.Dispatch();
+                    PreShowNotificationSetup(notifications[0]);
                     notifications[0].obj.SetActive(true);
                     yield return new WaitForSeconds(NOTIFICATION_DURATION);
                     notifications[0].obj.SetActive(false);
@@ -103,6 +104,15 @@ namespace TurboLabz.InstantGame
                     postShowNotificationSignal.Dispatch();
                 }
                 yield return new WaitForSeconds(1);
+            }
+        }
+
+        private void PreShowNotificationSetup(NotificationContainer notification)
+        {
+            if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            {
+                Notification notificationObj = notification.obj.GetComponent<Notification>();
+                notificationObj.playButton.gameObject.SetActive(false);
             }
         }
 
@@ -163,11 +173,6 @@ namespace TurboLabz.InstantGame
                 {
                     notification.playButton.gameObject.SetActive(true);
                 }
-            }
-
-            if(appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
-            {
-                notification.playButton.gameObject.SetActive(false);
             }
      
             notifidationObj.transform.SetParent(gameObject.transform);

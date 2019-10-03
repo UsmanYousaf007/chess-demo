@@ -20,6 +20,8 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
+        [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
+
         public void OnRegisterFind()
         {
             view.InitFind();
@@ -32,6 +34,7 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG) 
             {
                 view.ShowFind();
+                pauseNotificationsSignal.Dispatch(true);
                 view.FindMatchTimeoutEnable(true, 30);
             }
         }
@@ -42,6 +45,7 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG)
             {
                 view.HideFind();
+                pauseNotificationsSignal.Dispatch(false);
             }
         }
 
