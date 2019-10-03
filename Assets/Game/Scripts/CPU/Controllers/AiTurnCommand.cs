@@ -133,12 +133,12 @@ namespace TurboLabz.CPU
             move.promo = chessboardModel.promoString;
             chessboardModel.moveList.Add(move);
 
-            chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
-
             if (chessboardModel.moveList.Count > 1)
             {
                 toggleStepBackwardSignal.Dispatch(true);
             }
+
+            chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
 
             Release();
         }
