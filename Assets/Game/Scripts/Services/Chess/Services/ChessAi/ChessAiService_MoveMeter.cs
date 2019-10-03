@@ -35,7 +35,7 @@ namespace TurboLabz.Chess
                     if (string.Equals(moveString, aiSearchResultMovesList[i]))
                     {
                         moveFoundIndex = i;
-                        //break;
+                        break;
                     }
                 }
 
@@ -57,7 +57,7 @@ namespace TurboLabz.Chess
                         if (scores[0] - scores[moveFoundIndex] >= DELTA_CLASSIFICATIONS[i])
                         {
                             playerMoveClassificationIndex = i;
-                            //break;
+                            break;
                         }
                     }
 
