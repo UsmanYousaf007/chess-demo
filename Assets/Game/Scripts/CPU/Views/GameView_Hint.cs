@@ -62,6 +62,8 @@ namespace TurboLabz.CPU
             hintThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
+
+            RestoreStepButtons();
         }
 
         public void HideHint()
@@ -82,6 +84,8 @@ namespace TurboLabz.CPU
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
+
+                StashStepButtons();
 
                 analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.computer_match);
             }

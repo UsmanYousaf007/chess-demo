@@ -58,6 +58,8 @@ namespace TurboLabz.CPU
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
+
+            RestoreStepButtons();
         }
 
         public void HideHindsight()
@@ -78,6 +80,8 @@ namespace TurboLabz.CPU
                 hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hindsightClickedSignal.Dispatch();
+
+                StashStepButtons();
 
                 analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.computer_match);
             }
