@@ -78,22 +78,23 @@ public class StrengthAnim : MonoBehaviour
         strengthPanelRectTransform.position = viewportPoint;
 
 		DisableBar();
-		int strengthString = strengthVO.strength * 10;
+        int strengthForLabel = Mathf.RoundToInt(strengthVO.strength * 100);
+        int strengthForBars = Mathf.FloorToInt(strengthVO.strength * 10);
 
         //TODO use dotween
         iTween.ValueTo(this.gameObject, iTween.Hash(
             "from", START_STRENGTH_TEXT_ANIMATION_FROM,
-            "to", strengthString,
+            "to", strengthForLabel,
             "time", STRENGTH_TEXT_ANIMATION_DURATION,
             "onupdate", "AnimateStrengthPercentage",
             "onupdatetarget", this.gameObject,
             "oncomplete", "OnCompletePercentageAnimation",
             "oncompletetarget", this.gameObject,
-            "oncompleteparams", strengthVO.strength));
+            "oncompleteparams", strengthForBars));
 
-		if (strengthVO.strength > 0 && strengthVO.strength <= barArray.Length)
+		if (strengthForBars > 0 && strengthForBars <= barArray.Length)
 		{
-			barAnim = StartCoroutine(Animate(strengthVO.strength));
+			barAnim = StartCoroutine(Animate(strengthForBars));
 		}
 
 		//StartCoroutine(HideStrengthPanel(START_FADE_AFTER_SECONDS));

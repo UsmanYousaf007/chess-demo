@@ -146,7 +146,6 @@ namespace TurboLabz.Chess
             aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
             scores = new List<int>();
 
-
             foreach (string score in aiSearchResultScoresList)
             {
                 scores.Add(int.Parse(score));
@@ -170,62 +169,6 @@ namespace TurboLabz.Chess
                 aiMovePromise = null;
             }
             
-        }
-
-        private void GetBestMove()
-        {
-            var selectedMove = aiSearchResultMovesList[0];
-            var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
-            var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
-            var piece = chessService.GetPieceAtLocation(from);
-
-            //if piece is null then it means player had moved it in his last move
-            //getting piece info from player's last move
-            if (piece == null)
-            {
-                piece = aiMoveInputVO.squares[aiMoveInputVO.lastPlayerMove.to.file, aiMoveInputVO.lastPlayerMove.to.rank].piece;
-            }
-
-            piece.name = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
-
-            aiMoveStrengthPromise.Dispatch(from, to, piece.name);
-            aiMoveStrengthPromise = null;
-        }
-
-        private void GetMoveStrength()
-        {
-            double precentage = 0.0f;
-            FileRank from = aiMoveInputVO.lastPlayerMove.from;
-            FileRank to = aiMoveInputVO.lastPlayerMove.to;
-            int totolMoveCount = aiSearchResultMovesList.Count - 1;
-
-            if (totolMoveCount > 0)
-            {
-                string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
-                int moveFoundIndex = -1;
-
-                for (int i = 0; i < totolMoveCount; ++i)
-                {
-                    LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i]);
-
-                    if (string.Equals(moveString, aiSearchResultMovesList[i]))
-                    {
-                        moveFoundIndex = i;
-                        break;
-                    }
-                }
-
-                LogUtil.Log("moveString : " + moveString + " totolMoveCount : "+ totolMoveCount + " moveFoundIndex:"+ moveFoundIndex);
-
-                if (moveFoundIndex >= 0)
-                {
-                    precentage = ((float)(totolMoveCount - moveFoundIndex) / (float)totolMoveCount);
-                    precentage = Math.Round(precentage, 1) * 10;
-                }
-            }
-
-            aiMoveStrengthPromise.Dispatch(from, to, ((float)precentage).ToString());
-            aiMoveStrengthPromise = null;
         }
     }
 }

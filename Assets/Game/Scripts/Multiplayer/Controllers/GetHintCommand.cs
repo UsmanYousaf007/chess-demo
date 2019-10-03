@@ -111,7 +111,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                newVo.strength = int.Parse(strength);
+                newVo.strength = float.Parse(strength);
             }
 
             renderHintSignal.Dispatch(newVo);

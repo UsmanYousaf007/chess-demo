@@ -115,7 +115,7 @@ namespace TurboLabz.CPU
             }
             else
             {
-                newVo.strength = int.Parse(strength);
+                newVo.strength = float.Parse(strength);
             }
             
             renderHintSignal.Dispatch(newVo);

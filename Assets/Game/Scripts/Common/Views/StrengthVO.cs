@@ -2,7 +2,7 @@
 
 public struct StrengthVO
 {
-    public int strength;
+    public float strength;
     public Vector3 fromPosition;
     public Vector3 toPosition;
     public GameObject fromIndicator;
