@@ -61,14 +61,16 @@ namespace TurboLabz.InstantFramework
             else
             {
                 string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
-                errorCodeLabel.text = "(Error: " + errorCode + ")";
+                string errorMessage = "(Error: " + errorCode + ")";
 
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
-                    errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
+                    errorMessage = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
                 }
 
-                StartCoroutine(HaltSystem());
+                Debug.Log("errorMessage : " + errorMessage);
+                //errorCodeLabel.text = errorMessage;
+                //StartCoroutine(HaltSystem());
             }
 
         }

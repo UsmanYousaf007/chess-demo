@@ -30,7 +30,13 @@ namespace TurboLabz.InstantFramework
 
         private void GetProfilePicture(string facebookUserId)
         {
-            FB.API(facebookUserId + "/picture?width=256&height=256&redirect=false", HttpMethod.GET, OnGetProfilePicture);
+            //FB.API(facebookUserId + "/picture?width=256&height=256&redirect=false", HttpMethod.GET, OnGetProfilePicture);
+            if(!string.IsNullOrEmpty(facebookUserId))
+            {
+                string url = "http://graph.facebook.com/" + facebookUserId + "/picture?width=256&height=256";
+                Debug.Log("FB URL : " + url);
+                routineRunner.StartCoroutine(GetProfilePictureCR(url));
+            }
         }
 
         private void OnGetProfilePicture(IGraphResult result)

@@ -73,6 +73,12 @@ namespace TurboLabz.CPU
             }
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
+
+            if (promise == null)
+            {
+                throw new System.Exception("promise is null");
+            }
+
             promise.Then(OnAiMove);
         }
 
