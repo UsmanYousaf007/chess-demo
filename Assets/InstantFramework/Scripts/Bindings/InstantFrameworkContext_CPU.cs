@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
             commandBinder.Bind<SafeMoveSignal>().To<SafeMoveCommand>();
             commandBinder.Bind<ToggleSafeModeSignal>().To<ToggleSafeModeCommand>();
+            commandBinder.Bind<StepSignal>().To<StepCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<GameView>().To<GameMediator>();
@@ -75,6 +76,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
             injectionBinder.Bind<EnableResultsDialogButtonSignal>().ToSingleton();
             injectionBinder.Bind<DisableUndoBtnSignal>().ToSingleton();
+            injectionBinder.Bind<ToggleStepBackwardSignal>().ToSingleton();
+            injectionBinder.Bind<ToggleStepForwardSignal>().ToSingleton();
             
 
             // Bind signals for dipatching from command to command

@@ -116,10 +116,14 @@ namespace TurboLabz.CPU
             if (isPlayerTurn)
             {
                 EnableMenuButton();
+                RestoreStepButtons();
+                RestoreHindsightButton();
             }
             else
             {
                 DisableMenuButton();
+                StashStepButtons();
+                StashHindsightButton();
             }
         }
 

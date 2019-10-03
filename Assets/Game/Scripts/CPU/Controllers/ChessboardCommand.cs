@@ -65,6 +65,8 @@ namespace TurboLabz.CPU
         [Inject] public UpdateGameInfoSignal updateGameInfoSignal { get; set; }
         [Inject] public SaveStatsSignal saveStatsSignal { get; set; }
         [Inject] public DisableUndoBtnSignal disableUndoBtnSignal { get; set; }
+        [Inject] public ToggleStepForwardSignal toggleStepForwardSignal { get; set; }
+        [Inject] public ToggleStepBackwardSignal toggleStepBackwardSignal { get; set; }
 
 
         // Models

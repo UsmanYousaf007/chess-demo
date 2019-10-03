@@ -34,6 +34,7 @@ namespace TurboLabz.InstantGame
         public const string PLAYER_COLOR = "playerColor";
         public const string OPPONENT_COLOR = "opponentColor";
         public const string MOVE_LIST = "moveList";
+        public const string TRIMMED_MOVE_LIST = "trimmedMoveList";
         public const string USED_HELP = "usedHelp";
 
         // STATS MODEL

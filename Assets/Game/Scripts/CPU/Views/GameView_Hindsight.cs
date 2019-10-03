@@ -29,6 +29,7 @@ namespace TurboLabz.CPU
         public Text hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
+        private bool hindsightPreviousState;
 
         public void InitHindsight()
         {
@@ -91,6 +92,20 @@ namespace TurboLabz.CPU
             else
             {
                 DisableHindsightButton();
+            }
+        }
+
+        public void StashHindsightButton()
+        {
+            hindsightPreviousState = hindsightButton.interactable;
+            DisableHindsightButton();
+        }
+
+        public void RestoreHindsightButton()
+        {
+            if (hindsightPreviousState)
+            {
+                EnableHindsightButton();
             }
         }
 

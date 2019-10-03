@@ -24,6 +24,8 @@ namespace TurboLabz.CPU
         GAME_ENDED,
         PROMO_SELECTED,
         MOVE_UNDO,
-        MOVE_CONFIRMED
+        MOVE_CONFIRMED,
+        STEP_BACK,
+        STEP_FORWARD
     }
 }

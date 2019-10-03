@@ -69,7 +69,20 @@ namespace TurboLabz.CPU
 
 				writer.WriteList<string>(SaveKeys.MOVE_LIST, moveListJson);
 
-				writer.Close();
+                #region Step System Trimmed Move List
+
+                List<string> trimmedMoveListJson = new List<string>();
+
+                foreach (ChessMove trimmedMove in chessboardModel.trimmedMoveList)
+                {
+                    trimmedMoveListJson.Add(JsonUtility.ToJson(trimmedMove));
+                }
+
+                writer.WriteList<string>(SaveKeys.TRIMMED_MOVE_LIST, trimmedMoveListJson);
+
+                #endregion
+
+                writer.Close();
 			}
 			catch (Exception e)
 			{

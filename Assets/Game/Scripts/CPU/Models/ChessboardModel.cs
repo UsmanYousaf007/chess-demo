@@ -53,6 +53,7 @@ namespace TurboLabz.CPU
         public bool timersStopped { get; set; }
         public List<string> notation { get; set; }
         public List<ChessMove> moveList { get; set; }
+        public List<ChessMove> trimmedMoveList { get; set; }
         public List<MoveVO> moveVOCache { get; set; }
         public float defaultMoveDelay { get; set; }
         public bool usedHelp { get; set; }
@@ -97,6 +98,7 @@ namespace TurboLabz.CPU
             timersStopped = false;
             notation = new List<string>();
             moveList = new List<ChessMove>();
+            trimmedMoveList = new List<ChessMove>();
             moveVOCache = new List<MoveVO>();
             usedHelp = false;
             isUndo = false;

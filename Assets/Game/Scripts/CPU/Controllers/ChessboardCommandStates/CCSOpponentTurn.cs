@@ -83,6 +83,11 @@ namespace TurboLabz.CPU
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)
             {
                 DoAiMove(cmd);
+
+                // You can no longer go forward in history after making a move
+                cmd.chessboardModel.trimmedMoveList.Clear();
+                cmd.toggleStepForwardSignal.Dispatch(false);
+
                 return null;
             }
             // We received an opponent moved event from the backend service
