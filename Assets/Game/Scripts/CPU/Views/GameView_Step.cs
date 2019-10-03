@@ -45,24 +45,32 @@ namespace TurboLabz.CPU
 
         public void StepBackwardButtonClicked()
         {
+            HideHint();
+            HideHindsight();
             stepBackwardClickedSignal.Dispatch();
         }
 
         public void StepForwardButtonClicked()
         {
+            HideHint();
+            HideHindsight();
             stepForwardClickedSignal.Dispatch();
         }
 
-        public void ToggleStepBackward(bool enable)
+        public void ToggleStepBackward(bool enable, bool stash = false)
         {
             stepBackwardButton.interactable = enable;
-            backwardButtonPreviousState = stepBackwardButton.interactable;
+
+            if (!stash)
+                backwardButtonPreviousState = stepBackwardButton.interactable;
         }
 
-        public void ToggleStepForward(bool enable)
+        public void ToggleStepForward(bool enable, bool stash = false)
         {
             stepForwardButton.interactable = enable;
-            forwardButtonPreviousState = stepForwardButton.interactable;
+
+            if (!stash)
+                forwardButtonPreviousState = stepForwardButton.interactable;
         }
 
         void RestoreStepButtons()
@@ -73,8 +81,11 @@ namespace TurboLabz.CPU
 
         void StashStepButtons()
         {
-            ToggleStepBackward(false);
-            ToggleStepForward(false);
+            backwardButtonPreviousState = stepBackwardButton.interactable;
+            forwardButtonPreviousState = stepForwardButton.interactable;
+
+            ToggleStepBackward(false, true);
+            ToggleStepForward(false, true);
         }
     }
 }
