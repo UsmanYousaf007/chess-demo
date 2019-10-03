@@ -96,6 +96,12 @@ namespace TurboLabz.Chess
                 yield return null;
             }
 
+            // TODO: Not the ideal design but we want to wait a frame here
+            // since executeaimove can theoretically null the original promise returned in the GetAiMove
+            // if it all happens in the same frame. So we just wait for one frame here so that the
+            // promise returned is never null.
+            yield return null;
+
             ExecuteAiMove();
         }
 
