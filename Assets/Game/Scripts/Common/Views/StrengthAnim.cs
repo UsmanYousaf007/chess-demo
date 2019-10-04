@@ -10,6 +10,7 @@ public class StrengthAnim : MonoBehaviour
     //Visual properties
     public GameObject strengthPanel;
     public Text strengthLabel;
+    public Text strengthText;
 	public Image[] barArray;
     public Image panelBg;
     public Text perfectText;
@@ -33,7 +34,7 @@ public class StrengthAnim : MonoBehaviour
     const float UI_ALPHA_MAX = 1.0f;
     const bool IGNORE_TIMESCALE_WHILE_FADE = false;
     const float RESET_FADE_DURATION = 0f;
-    const float PIXELS_TO_MOVE = 100.0f;
+    const float PIXELS_TO_MOVE = 150.0f;
     const int START_STRENGTH_TEXT_ANIMATION_FROM = 0;
     const float STRENGTH_TEXT_ANIMATION_DURATION = 1.0f;
     const int MAX_STRENGTH = 10;
@@ -102,7 +103,7 @@ public class StrengthAnim : MonoBehaviour
 
     private void AnimateStrengthPercentage(int value)
     {
-        strengthLabel.text = string.Format("Strength {0}%", value);
+        strengthLabel.text = string.Format("{0}%", value);
     }
 
     private void OnCompletePercentageAnimation(int strength)
@@ -183,6 +184,7 @@ public class StrengthAnim : MonoBehaviour
         closeButtonBg.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         closeButton.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         strengthLabel.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        strengthText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         //perfectText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         arrowHead.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
@@ -203,6 +205,7 @@ public class StrengthAnim : MonoBehaviour
         closeButtonBg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         closeButton.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         strengthLabel.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        strengthText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         //perfectText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
