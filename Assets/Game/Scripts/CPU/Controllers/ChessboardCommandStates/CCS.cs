@@ -97,6 +97,7 @@ namespace TurboLabz.CPU
 
             cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
             cmd.hindsightAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
+            cmd.hintAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
 
             chessboardModel.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0 ? cmd.preferencesModel.isSafeMoveOn : false;
             cmd.updateSafeMoveStateSignal.Dispatch(chessboardModel.inSafeMode);
@@ -194,6 +195,7 @@ namespace TurboLabz.CPU
             cmd.takeTurnSwapTimeControlSignal.Dispatch();
             cmd.turnSwapSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(true);
+            cmd.hintAvailableSignal.Dispatch(true);
             return new CCSOpponentTurn();
         }
 

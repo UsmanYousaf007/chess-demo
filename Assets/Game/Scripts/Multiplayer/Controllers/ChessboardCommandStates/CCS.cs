@@ -125,6 +125,7 @@ namespace TurboLabz.Multiplayer
 
                 cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
                 cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
+                cmd.hintAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
 
             }
                 
@@ -415,6 +416,7 @@ namespace TurboLabz.Multiplayer
             }
 
             cmd.hindsightAvailableSignal.Dispatch(true);
+            cmd.hintAvailableSignal.Dispatch(true);
         }
     }
 }

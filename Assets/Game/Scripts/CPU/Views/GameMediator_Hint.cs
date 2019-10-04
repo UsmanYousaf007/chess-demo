@@ -40,7 +40,7 @@ namespace TurboLabz.CPU
             view.CancelHint();
         }
 
-        [ListensTo(typeof(TurnSwapSignal))]
+        //[ListensTo(typeof(TurnSwapSignal))]
         public void OnToggleHintButton(bool isPlayerTurn)
         {
             view.ToggleHintButton(isPlayerTurn);
