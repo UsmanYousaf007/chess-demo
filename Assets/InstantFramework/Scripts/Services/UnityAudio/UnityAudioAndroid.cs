@@ -39,9 +39,9 @@ namespace TurboLabz.InstantFramework
                 sounds.SFX_PLACE_PIECE,
                 sounds.SFX_PROMO,
                 sounds.SFX_STEP_CLICK,
-                sounds.SFX_VICTORY
+                sounds.SFX_VICTORY,
+                sounds.SFX_SHOP_PURCHASE_ITEM
             );
-
         }
 
         public void Play(AudioClip sound)
