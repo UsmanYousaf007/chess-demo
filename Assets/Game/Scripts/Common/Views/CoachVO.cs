@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TurboLabz.InstantFramework;
 
 public struct CoachVO
 {
@@ -9,4 +10,5 @@ public struct CoachVO
     public string activeSkinId;
     public string pieceName;
     public bool isBestMove;
+    public IAudioService audioService;
 }
