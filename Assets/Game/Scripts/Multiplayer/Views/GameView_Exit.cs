@@ -23,6 +23,8 @@ namespace TurboLabz.Multiplayer
     {
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+
         [Header("Exit")]
         public Button menuButton;
         public Button resignButton;
@@ -124,6 +126,7 @@ namespace TurboLabz.Multiplayer
             {
                 menuButtonClickedSignal.Dispatch();
             }
+            cancelHintSingal.Dispatch();
         }
 
         void OnResignButtonClicked()

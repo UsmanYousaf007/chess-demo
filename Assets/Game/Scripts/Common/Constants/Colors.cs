@@ -74,5 +74,20 @@ namespace TurboLabz.InstantGame
             }
             return UnityEngine.Color.white;
         }
+
+        public static Color strengthBarDisableColor = Color("3c3c3c");
+        public static Color[] strengthBarColor =
+                          {
+                           Color("df0000"),
+                           Color("f21c00"),
+                           Color("ff4200"),
+                           Color("ff5100"),
+                           Color("ff8400"),
+                           Color("ffae00"),
+                           Color("f2cd00"),
+                           Color("95b535"),
+                           Color("7be121"),
+                           Color("3cd672"),
+                          };
     }
 }

@@ -37,7 +37,13 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        [ListensTo(typeof(TurnSwapSignal))]
+        [ListensTo(typeof(CancelHintSingal))]
+        public void OnCancelHint()
+        {
+            view.CancelHint();
+        }
+
+        //[ListensTo(typeof(TurnSwapSignal))]
         public void OnToggleHintButton(bool isPlayerTurn)
         {
             view.ToggleHintButton(isPlayerTurn);

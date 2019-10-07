@@ -163,8 +163,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_TAB_COINS, "COINS" },
 
                 { LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE, "UNDO" },
-                { LocalizationKey.STORE_POWERUP_TITLE_HINT, "HINT" },
-                { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "HINDSIGHT" },
+                { LocalizationKey.STORE_POWERUP_TITLE_HINT, "MOVE METER" },
+                { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "COACH" },
 
                 { LocalizationKey.STORE_BUNDLE_FIELD_OWNED, "OWNED" },
                 { LocalizationKey.STORE_BUNDLE_FIELD_REMAINING, "Remaining" },

@@ -13,6 +13,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TMPro;
 using TurboLabz.InstantGame;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
@@ -30,12 +31,14 @@ namespace TurboLabz.Multiplayer
         public Text hintCountLabel;
         public Image hintAdd;
         public GameObject hintThinking;
+        public StrengthAnim strengthPanel;
 
         public void InitHint()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hintButton.onClick.AddListener(HintButtonClicked);
             hintThinking.SetActive(false);
+            strengthPanel.Hide();
         }
 
         public void OnParentShowHint()
@@ -61,6 +64,30 @@ namespace TurboLabz.Multiplayer
             hintThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
+
+            var strengthVO = new StrengthVO();
+            strengthVO.strength = vo.strength;
+            strengthVO.fromPosition = hintFromIndicator.transform.position;
+            strengthVO.toPosition = hintToIndicator.transform.position;
+            strengthVO.fromIndicator = hintFromIndicator;
+            strengthVO.toIndicator = hintToIndicator;
+
+            strengthPanel.ShowStrengthPanel(strengthVO);
+            StartCoroutine(HideHint(4.0f));
+        }
+
+        public void CancelHint()
+        {
+            hintThinking.SetActive(false);
+            DisableModalBlocker();
+            DisableHintButton();
+            strengthPanel.Hide();
+        }
+
+        public IEnumerator HideHint(float t)
+        {
+            yield return new WaitForSeconds(t);
+            HideHint();
         }
 
         public void HideHint()
@@ -116,14 +143,14 @@ namespace TurboLabz.Multiplayer
 
         public void EnableHintButton()
         {
-            if (isLongPlay && !isRankedGame)
-            {
+            //if (isLongPlay && !isRankedGame)
+            //{
                 hintButton.interactable = true;
                 hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 1f);
                 hintAdd.color = Colors.ColorAlpha(hintAdd.color, 1f);
                 hintLabel.color = Colors.ColorAlpha(hintLabel.color, 0.87f);
                 hintIcon.color = Colors.ColorAlpha(hintIcon.color, 1f);
-            }
+            //}
         }
 
         public void UpdateHintCount(int count)

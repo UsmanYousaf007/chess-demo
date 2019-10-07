@@ -19,6 +19,7 @@ using strange.extensions.promise.impl;
 
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using System;
 
 namespace TurboLabz.Chess
 {
@@ -41,7 +42,8 @@ namespace TurboLabz.Chess
             }
         }
 
-        private IPromise<FileRank, FileRank, string> aiMovePromise; 
+        private IPromise<FileRank, FileRank, string> aiMovePromise;
+        private IPromise<FileRank, FileRank, string> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
         private bool resultsReady;
@@ -69,26 +71,47 @@ namespace TurboLabz.Chess
             return aiMovePromise;
         }
 
-		//private IEnumerator ProcessQueue(MoveRequest request)
-		//{
-		//	while (Busy)
-		//	{
-		//		yield return null;
-		//	}
-        //
-		//	aiMoveInputVO = request.vo;
-		//	aiMovePromise = request.promise;
-		//	routineRunner.StartCoroutine(GetAiResult());
-		//}
+        public IPromise<FileRank, FileRank, string> GetAiMoveStrength(AiMoveInputVO vo)
+        {
+            aiMoveStrengthPromise = new Promise<FileRank, FileRank, string>();
+            aiMoveInputVO = vo;
+            routineRunner.StartCoroutine(GetAiResult());
+            return aiMoveStrengthPromise;
+        }
 
-		private IEnumerator GetAiResult()
+        //private IEnumerator ProcessQueue(MoveRequest request)
+        //{
+        //	while (Busy)
+        //	{
+        //		yield return null;
+        //	}
+        //
+        //	aiMoveInputVO = request.vo;
+        //	aiMovePromise = request.promise;
+        //	routineRunner.StartCoroutine(GetAiResult());
+        //}
+
+        private IEnumerator GetAiResult()
         {
             // Clear the results flag
             resultsReady = false;
+            string searchDepth;
 
             // Execute the move
-            string searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
-            AiLog("searchDepth = " + searchDepth);
+            if(aiMoveInputVO.isStrength)
+            {
+                int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
+                int searchDepthInt = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.playerStrengthPct * searchDepthRange);
+                searchDepth = searchDepthInt.ToString();
+                AiLog("isStrength searchDepth = " + searchDepth);
+            }
+            else
+            {
+                searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+                AiLog("searchDepth = " + searchDepth);
+            }
+
+            
             plugin.GoDepth(searchDepth);
 
             while (!resultsReady)
@@ -123,6 +146,7 @@ namespace TurboLabz.Chess
 
         private void ExecuteAiMove()
         {
+
             // Read the scores returned
             aiSearchResultScoresList = new List<string>(ChessAiPlugin.results.aiSearchResultScoresStr.Split(','));
             aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
@@ -137,9 +161,20 @@ namespace TurboLabz.Chess
             aiSearchResultMovesList = new List<string>(ChessAiPlugin.results.aiSearchResultMovesStr.Split(','));
             aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
 
-            SelectMove();
-
-            aiMovePromise = null;
+            if (aiMoveInputVO.isStrength)
+            {
+                GetMoveStrength();
+            }
+            else if (aiMoveInputVO.isHint)
+            {
+                GetBestMove();
+            }
+            else
+            {
+                SelectMove();
+                aiMovePromise = null;
+            }
+            
         }
     }
 }

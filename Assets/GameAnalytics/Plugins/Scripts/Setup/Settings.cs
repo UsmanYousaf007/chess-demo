@@ -174,7 +174,8 @@ namespace GameAnalyticsSDK.Setup
         [System.NonSerialized]
         public GUIStyle SignupButton;
 
-        public bool UsePlayerSettingsBuildNumber = false;
+        [System.NonSerialized]
+        public bool UsePlayerSettingsBuildNumber = true;
         public bool SubmitErrors = true;
         public int MaxErrorCount = 10;
         public bool SubmitFpsAverage = true;

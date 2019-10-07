@@ -29,6 +29,7 @@ namespace TurboLabz.Multiplayer
         public Text hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
+        public CoachView coachView;
 
         public void InitHindsight()
         {
@@ -47,17 +48,42 @@ namespace TurboLabz.Multiplayer
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hindsightFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            hindsightFromIndicator.SetActive(true);
+            //hindsightFromIndicator.SetActive(true);
 
             int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hindsightToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            hindsightToIndicator.SetActive(true);
+            //hindsightToIndicator.SetActive(true);
 
             audioService.Play(audioService.sounds.SFX_HINT);
 
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
+
+            var coachVO = new CoachVO();
+            coachVO.fromPosition = hindsightFromIndicator.transform.position;
+            coachVO.toPosition = hindsightToIndicator.transform.position;
+            coachVO.moveFrom = vo.fromSquare.fileRank.GetAlgebraicLocation();
+            coachVO.moveTo = vo.toSquare.fileRank.GetAlgebraicLocation();
+            coachVO.pieceName = vo.piece;
+            coachVO.activeSkinId = vo.skinId;
+            coachVO.isBestMove = vo.didPlayerMadeBestMove;
+
+            if (vo.piece.Contains("captured"))
+            {
+                coachVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
+            }
+
+            coachView.Show(coachVO);
+            Invoke("HideHindsight", 4);
+        }
+
+        public void CancelHindsight()
+        {
+            hindsightThinking.SetActive(false);
+            DisableModalBlocker();
+            DisableHindsightButton();
+            coachView.Hide();
         }
 
         public void HideHindsight()
@@ -75,8 +101,9 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                hindsightThinking.SetActive(true);
+                //hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
+                coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
 
                 if (isLongPlay)

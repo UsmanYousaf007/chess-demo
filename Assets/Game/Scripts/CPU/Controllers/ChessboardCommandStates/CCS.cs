@@ -65,7 +65,7 @@ namespace TurboLabz.CPU
             cmd.chessboardModel.opponentMoveRenderComplete = true;
 
             // Toggle the hint button based on player turn
-            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            //cmd.turnSwapSignal.Dispatch(isPlayerTurn);
 
             // Update the game info
             GameInfoVO gameInfoVO = new GameInfoVO();
@@ -89,10 +89,15 @@ namespace TurboLabz.CPU
 
             // Initialize the game powerups
             cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
-            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            if(cmd.chessboardModel.lastPlayerMove != null)
+            {
+                cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            }
+            
 
             cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
             cmd.hindsightAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
+            cmd.hintAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
 
             //chessboardModel.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0 ? cmd.preferencesModel.isSafeMoveOn : false;
             chessboardModel.inSafeMode = false;
@@ -196,7 +201,7 @@ namespace TurboLabz.CPU
             cmd.takeTurnSwapTimeControlSignal.Dispatch();
             cmd.hindsightAvailableSignal.Dispatch(true);
             cmd.turnSwapSignal.Dispatch(false);
-            
+            cmd.hintAvailableSignal.Dispatch(true);
             return new CCSOpponentTurn();
         }
 

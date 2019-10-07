@@ -3,6 +3,7 @@ using System.Collections;
 using GameAnalyticsSDK.Validators;
 using System.Collections.Generic;
 using GameAnalyticsSDK.Utilities;
+using TurboLabz.TLUtils;
 
 namespace GameAnalyticsSDK.Wrapper
 {
@@ -180,6 +181,9 @@ namespace GameAnalyticsSDK.Wrapper
         {
             if (GameAnalytics.SettingsGA.InfoLogEditor) {
                 Debug.Log ("addErrorEvent(" + severity + "," + message + ")");
+                LogUtil.errorSeverity = severity;
+                LogUtil.errorString = message;
+
             }
         }
 

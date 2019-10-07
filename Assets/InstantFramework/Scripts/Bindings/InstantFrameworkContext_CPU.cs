@@ -67,6 +67,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<DisableMenuButtonSignal>().ToSingleton();
             injectionBinder.Bind<DisableHintButtonSignal>().ToSingleton();
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
+            injectionBinder.Bind<CancelHintSingal>().ToSingleton();
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHindsightCountSignal>().ToSingleton();
             injectionBinder.Bind<UpdateSafeMoveCountSignal>().ToSingleton();

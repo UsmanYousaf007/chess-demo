@@ -148,6 +148,11 @@ namespace TurboLabz.Chess
                 return null;
             }
 
+            if (square.Piece == null)
+            {
+                return null;
+            }
+
             ChessPiece piece = new ChessPiece();
             piece.name = GetChessPieceName(square.Piece);
             piece.color = (square.Piece.Player.Colour == Player.PlayerColourNames.White) ? ChessColor.WHITE : ChessColor.BLACK;

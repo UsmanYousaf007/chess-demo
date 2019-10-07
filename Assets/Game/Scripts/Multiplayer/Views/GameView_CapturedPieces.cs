@@ -32,6 +32,8 @@ namespace TurboLabz.Multiplayer
         private string[] slotTrackerOpponent = new string[5]; // Remembers which piece is allocated to which slot
         private string[] slotTrackerPlayer = new string[5]; // Remembers which piece is allocated to which slot
 
+        private string LastOpponentCapturedPiece { get; set; } //Utility to be used by other commands
+
         private void OnParentShowCapturedPieces()
         {
             ResetCapturedPieces();
@@ -90,6 +92,7 @@ namespace TurboLabz.Multiplayer
                 targetCount = capturedCountOpponent;
                 targetSlotTracker = slotTrackerOpponent;
                 targetCaptureIndicators = capturedIndicatorsOpponent;
+                LastOpponentCapturedPiece = pieceName;
             }
 
             // Find the slot for this piece
