@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2345598
+    totalSpriteSurfaceArea: 2393408
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -66,6 +66,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 96a26f717338141168fc5c6098f18e5e, type: 3}
   - {fileID: 21300000, guid: f5996381c062f46bfaf14460ae9f9f49, type: 3}
   - {fileID: 21300000, guid: 960b91b114d4d4de8a15f49bb2087f30, type: 3}
+  - {fileID: 21300000, guid: 8bccfab19c807492194b5d766acf6189, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
   - {fileID: 21300000, guid: 68485112a256e46638260e8e22e00afe, type: 3}
@@ -125,6 +126,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 37835d07cfad9490192df6a43058e7a0, type: 3}
   - {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
   - {fileID: 21300000, guid: 04485b871853d4d84a2c48c7db84f512, type: 3}
+  - {fileID: 21300000, guid: 5cd776b7c834e4d6a9b442bc43b65ea4, type: 3}
   - {fileID: 21300000, guid: f482a5e71cb314a20942bc9596fe8e93, type: 3}
   - {fileID: 21300000, guid: 70754318efb21480e98e27e1a7a08fde, type: 3}
   - {fileID: 21300000, guid: 455caf181f6c44899acc62f654ae9723, type: 3}
@@ -200,6 +202,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ebe815bfa658843798083db4325add30, type: 3}
   - {fileID: 21300000, guid: 5631b6cf2e0534e3bae7ab6873622176, type: 3}
   - {fileID: 21300000, guid: 7dae30ef437a74293924bc219896ab69, type: 3}
+  - {fileID: 21300000, guid: 4aa5c8ff471904a1682a70cb85e1c2a6, type: 3}
   m_PackedSpriteNamesToIndex:
   - PlayComputerMatchPattern
   - b
@@ -219,6 +222,7 @@ SpriteAtlas:
   - ChatMuteIconX
   - WhiteButton
   - PlusIcon
+  - OnboardingCoach
   - PossibleMovesIndicator
   - NoStar
   - nameEditBtn
@@ -278,6 +282,7 @@ SpriteAtlas:
   - strengthPanelBg
   - PlayerOffline
   - Error
+  - OnboardingMoveMeter
   - PowerUpPlusIcon
   - StripButton
   - BlackPixel
@@ -353,5 +358,6 @@ SpriteAtlas:
   - ChatMaxIcon
   - ChatBubbleRight
   - BucksIcon
+  - OnboardingBg
   m_Tag: UI
   m_IsVariant: 0
