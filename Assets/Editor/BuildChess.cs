@@ -73,26 +73,43 @@ public class BuildChess : MonoBehaviour
         }
     }
 
+    public static BuildPlayerOptions iOSSettings(BuildOptions buildOptions, string postfix)
+    {
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.scenes = gameScenFiles;
+        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_IOS_SUBPATH + postfix;
+        buildPlayerOptions.target = BuildTarget.iOS;
+        buildPlayerOptions.options = buildOptions;
+
+        return buildPlayerOptions;
+    }
+
     [MenuItem("Build/Build Chess iOS")]
     public static void BuildiOS()
     {
         LogUtil.Log("Start Build iOS", "yellow");
-
         ProcessArgs();
         ProcessSkinLinks();
-
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
-
-        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = gameScenFiles;  
-        buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_IOS_SUBPATH;
-        buildPlayerOptions.target = BuildTarget.iOS;
-        buildPlayerOptions.options = BuildOptions.None;
-
+        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_Release");
         ProcessBuild(buildPlayerOptions);
 
         LogUtil.Log("End Build iOS", "yellow");
+    }
+
+    [MenuItem("Build/Build Chess iOS Development")]
+    public static void BuildiOSDevelopment()
+    {
+        LogUtil.Log("Start Build iOS Development", "yellow");
+        ProcessArgs();
+        ProcessSkinLinks();
+        PlayerSettings.bundleVersion = bundleVersion;
+        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
+        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.Development, "_Development");
+        ProcessBuild(buildPlayerOptions);
+
+        LogUtil.Log("End Build iOS Development", "yellow");
     }
 
     public static BuildPlayerOptions AndroidSettings(BuildOptions buildOptions, string postfix)
@@ -131,11 +148,11 @@ public class BuildChess : MonoBehaviour
     [MenuItem("Build/Build Chess Andriod Development")]
     public static void BuildAndroidDevelopment()
     {
-        LogUtil.Log("Start Build Android");
+        LogUtil.Log("Start Build Android Development");
         ProcessArgs();
         ProcessSkinLinks();
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
         ProcessBuild(buildPlayerOptions);
-        LogUtil.Log("End Build Android");
+        LogUtil.Log("End Build Android Development");
     }
 }
