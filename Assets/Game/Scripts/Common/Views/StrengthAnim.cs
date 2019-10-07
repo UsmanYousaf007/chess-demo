@@ -20,6 +20,7 @@ public class StrengthAnim : MonoBehaviour
     public Image closeButton;
     public Transform lineEndPivot;
     public GameObject chessboardBlocker;
+    public GameObject UiBlocker;
 
     private float dotWaitSeconds;
     private Coroutine barAnim = null;
@@ -51,10 +52,12 @@ public class StrengthAnim : MonoBehaviour
         perfectText.enabled = false;
         strengthPanel.SetActive(true);
         chessboardBlocker.SetActive(true);
+        UiBlocker.SetActive(true);
 
         //set arrowhead position
         //move it to the root of canvas then calculate screen to canvas postion
-        arrowHead.transform.SetParent(this.transform.root.GetChild(0), true);
+        arrowHead.transform.SetParent(this.transform.parent.parent, true);
+        arrowHead.transform.SetAsFirstSibling();
         var viewportPoint = Camera.main.WorldToScreenPoint(strengthVO.toPosition);
         arrowHead.rectTransform.position = viewportPoint;
         arrowHead.CrossFadeAlpha(ARROW_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
@@ -171,6 +174,7 @@ public class StrengthAnim : MonoBehaviour
         arrowHead.CrossFadeAlpha(UI_ALPHA_MIN, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         strengthPanel.SetActive(false);
         chessboardBlocker.SetActive(false);
+        UiBlocker.SetActive(false);
         if (strengthVO.fromIndicator != null)
         {
             strengthVO.fromIndicator.SetActive(false);

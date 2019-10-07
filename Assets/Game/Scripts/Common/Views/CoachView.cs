@@ -67,6 +67,7 @@ public class CoachView : MonoBehaviour
         this.coachVO = coachVO;
         var timeDiff = Time.time - timeAtAnalyzing;
         Invoke("ShowResult", timeDiff < ANALYZING_DELAY ? ANALYZING_DELAY - timeDiff : 0);
+        chessboardBlocker.SetActive(true);
         //Invoke("Fade", START_FADE_AFTER_SECONDS);
     }
 

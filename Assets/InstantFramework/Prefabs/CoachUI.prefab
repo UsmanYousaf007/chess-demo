@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 4118753807111408566}
   - component: {fileID: 3535527922140046979}
   m_Layer: 5
-  m_Name: Blocker
+  m_Name: UIBlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,8 +69,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1452, y: 2342.6}
+  m_AnchoredPosition: {x: 0, y: 100}
+  m_SizeDelta: {x: 1452, y: 2047.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4118753807111408566
 CanvasRenderer:
@@ -219,6 +219,7 @@ MonoBehaviour:
   analyzingPanel: {fileID: 1216811664524498319}
   closeButton: {fileID: 1907753226802359836}
   lineEnePivot: {fileID: 289110969}
+  chessboardBlocker: {fileID: 0}
 --- !u!1 &752687428992725035
 GameObject:
   m_ObjectHideFlags: 0

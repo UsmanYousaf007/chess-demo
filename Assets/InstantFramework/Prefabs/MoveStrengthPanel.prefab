@@ -1333,7 +1333,6 @@ GameObject:
   - component: {fileID: 1713002902982127734}
   - component: {fileID: 1713002902982127735}
   - component: {fileID: 3254411153709788951}
-  - component: {fileID: 4946991632955273100}
   m_Layer: 5
   m_Name: MoveStrengthPanel
   m_TagString: Untagged
@@ -1397,6 +1396,7 @@ MonoBehaviour:
   closeButton: {fileID: 70383156019900584}
   lineEndPivot: {fileID: 999209844}
   chessboardBlocker: {fileID: 0}
+  UiBlocker: {fileID: 0}
 --- !u!222 &3254411153709788951
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1405,40 +1405,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1713002902982127737}
   m_CullTransparentMesh: 0
---- !u!114 &4946991632955273100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713002902982127737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 
 --- !u!1 &4566163196024790215
 GameObject:
   m_ObjectHideFlags: 0

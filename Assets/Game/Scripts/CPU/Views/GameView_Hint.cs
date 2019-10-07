@@ -84,7 +84,7 @@ namespace TurboLabz.CPU
         {
             hintThinking.SetActive(false);
             DisableModalBlocker();
-            DisableHintButton();
+            //DisableHintButton();
             strengthPanel.Hide();
         }
 

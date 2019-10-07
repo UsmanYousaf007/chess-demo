@@ -96,10 +96,10 @@ namespace TurboLabz.CPU
             LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
             appInfoModel.gameMode = GameMode.CPU;
 
-            //if (chessboardEvent == ChessboardEvent.PLAYER_MOVE_COMPLETE)
-            //{
-            //    cancelHintSignal.Dispatch();
-            //}
+            if (chessboardEvent == ChessboardEvent.PLAYER_MOVE_COMPLETE)
+            {
+                cancelHintSignal.Dispatch();
+            }
 
             CCS currentState = chessboardModel.currentState;
             CCS newState = chessboardModel.currentState.HandleEvent(this);
