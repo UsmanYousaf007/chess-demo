@@ -120,16 +120,16 @@ namespace TurboLabz.CPU
             
             renderHintSignal.Dispatch(newVo);
 
-            //if (isHindsight)
-            //{
-            //    updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
-            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
-            //}
-            //else
-            //{
-            //    updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
-            //}
+            if (isHindsight)
+            {
+                updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+            }
+            else
+            {
+                updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+            }
 
             Release();
         }
