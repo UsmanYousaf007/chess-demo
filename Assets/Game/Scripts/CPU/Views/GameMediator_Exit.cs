@@ -83,12 +83,12 @@ namespace TurboLabz.CPU
 
         private void OnMenuButtonClicked()
         {
-            cancelHintSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_EXIT_DLG);
         }
 
         private void OnResignClicked()
         {
+            cancelHintSignal.Dispatch();
             resignSignal.Dispatch();
         }
 

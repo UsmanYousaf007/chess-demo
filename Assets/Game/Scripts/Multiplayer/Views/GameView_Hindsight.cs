@@ -54,7 +54,7 @@ namespace TurboLabz.Multiplayer
             hindsightToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
             //hindsightToIndicator.SetActive(true);
 
-            audioService.Play(audioService.sounds.SFX_HINT);
+            //audioService.Play(audioService.sounds.SFX_HINT);
 
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
@@ -68,6 +68,7 @@ namespace TurboLabz.Multiplayer
             coachVO.pieceName = vo.piece;
             coachVO.activeSkinId = vo.skinId;
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
+            coachVO.audioService = audioService;
 
             if (vo.piece.Contains("captured"))
             {
