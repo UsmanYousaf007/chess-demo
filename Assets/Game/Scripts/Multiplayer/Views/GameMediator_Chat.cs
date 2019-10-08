@@ -62,12 +62,6 @@ namespace TurboLabz.Multiplayer
             view.EnableUnreadIndicator(friendId, messagesCount);
         }
 
-        [ListensTo(typeof(UpdateChatOpponentPicSignal))]
-        public void OnUpdateChatOpponentPic(Sprite sprite)
-        {
-            view.UpdateChatOpponentPic(sprite);
-        }
-
         [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
         public void OnUpdateFriendOnlineStatusSignal(ProfileVO vo)
         {
