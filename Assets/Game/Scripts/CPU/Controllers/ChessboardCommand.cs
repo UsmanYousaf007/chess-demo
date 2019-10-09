@@ -92,8 +92,8 @@ namespace TurboLabz.CPU
                 chessboardModel.currentState = new CCSDefault();
             }
 
-            LogUtil.Log("Current State: " + chessboardModel.currentState.GetType().Name, "white");
-            LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
+//            LogUtil.Log("Current State: " + chessboardModel.currentState.GetType().Name, "white");
+//            LogUtil.Log("ChessboardEvent: " + chessboardEvent, "white");
             appInfoModel.gameMode = GameMode.CPU;
 
             if (chessboardEvent == ChessboardEvent.PLAYER_MOVE_COMPLETE)
@@ -110,11 +110,11 @@ namespace TurboLabz.CPU
                 chessboardModel.currentState = newState;
                 newState.RenderDisplayOnEnter(this);
 
-                LogUtil.Log("New State: " + newState.GetType().Name, "white");
+//                LogUtil.Log("New State: " + newState.GetType().Name, "white");
             }
             else
             {
-                LogUtil.Log("Event ignored.", "white");
+//                LogUtil.Log("Event ignored.", "white");
             }
         }
     }
