@@ -65,6 +65,7 @@ namespace TurboLabz.Multiplayer
 
         public GameObject[] chatInputSet;
 
+        public OpponentProfileView oppProfileView;
 
         [HideInInspector] public Sprite opponentProfilePic;
         [HideInInspector] public Sprite opponentAvatarIconSprite;
@@ -118,6 +119,7 @@ namespace TurboLabz.Multiplayer
         public void OnParentShowChat()
         {
             chatPanelBackground.color = Colors.ColorAlpha(chatPanelBackground.color, Colors.FULL_ALPHA);
+            SetProfilePic();
         }
 
         public void EnableGameChat(ChatVO vo)
@@ -201,23 +203,7 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void UpdateChatOpponentPic(Sprite sprite)
-        {
-            if (sprite != null)
-            {
-                opponentHeaderProfilePic.gameObject.SetActive(true);
-                opponentHeaderAvatarBG.gameObject.SetActive(false);
-                opponentHeaderAvatarIcon.gameObject.SetActive(false);
-
-                opponentProfilePic = sprite;
-                opponentHeaderProfilePic.sprite = sprite;
-                foreach (Image img in opponentEmptyPics)
-                {
-                    img.gameObject.SetActive(true);
-                    img.sprite = sprite;
-                }
-            }
-        }
+        
 
         public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline, bool isActive)
         {
@@ -475,6 +461,16 @@ namespace TurboLabz.Multiplayer
         {
             CleanUpChat();
             clearActiveChatSignal.Dispatch(opponentId);
+        }
+
+        private void SetProfilePic()
+        {
+            opponentProfilePic = oppProfileView.profilePic.sprite;
+            opponentHeaderAvatarBG.gameObject.SetActive(oppProfileView.avatarBg.gameObject.activeSelf);
+            opponentHeaderAvatarIcon.gameObject.SetActive(oppProfileView.avatarIcon.gameObject.activeSelf);
+            opponentHeaderAvatarIcon.sprite = oppProfileView.avatarIcon.sprite;
+            opponentHeaderAvatarBG.sprite = oppProfileView.avatarBg.sprite;
+            opponentHeaderAvatarBG.color = oppProfileView.avatarBg.color;
         }
     }
 }

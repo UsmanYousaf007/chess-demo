@@ -12,6 +12,7 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch Signals
         [Inject] public ResignSignal resignSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
 
         public void OnRegisterMenu()
         {
@@ -54,6 +55,7 @@ namespace TurboLabz.Multiplayer
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
             resignSignal.Dispatch("");
+            cancelHintSingal.Dispatch();
         }
 
         private void OnContinueButtonClicked()

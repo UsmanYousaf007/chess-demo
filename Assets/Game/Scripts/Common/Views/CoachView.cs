@@ -23,6 +23,7 @@ public class CoachView : MonoBehaviour
     public GameObject analyzingPanel;
     public Image closeButton;
     public Transform lineEnePivot;
+    public GameObject chessboardBlocker;
 
     //Constants
     const int LINE_ALPHA_MIN = 0;
@@ -56,6 +57,7 @@ public class CoachView : MonoBehaviour
         bg.gameObject.SetActive(true);
         analyzingPanel.SetActive(true);
         coachPanel.SetActive(true);
+        chessboardBlocker.SetActive(true);
 
         timeAtAnalyzing = Time.time;
     }
@@ -65,6 +67,7 @@ public class CoachView : MonoBehaviour
         this.coachVO = coachVO;
         var timeDiff = Time.time - timeAtAnalyzing;
         Invoke("ShowResult", timeDiff < ANALYZING_DELAY ? ANALYZING_DELAY - timeDiff : 0);
+        chessboardBlocker.SetActive(true);
         //Invoke("Fade", START_FADE_AFTER_SECONDS);
     }
 
@@ -73,9 +76,12 @@ public class CoachView : MonoBehaviour
         analyzingPanel.SetActive(false);
         closeButton.gameObject.SetActive(true);
         coachPanel.SetActive(true);
+        chessboardBlocker.SetActive(true);
         bg.gameObject.SetActive(true);
         arrowHead.gameObject.SetActive(true);
         line.gameObject.SetActive(true);
+
+        coachVO.audioService.Play(coachVO.audioService.sounds.SFX_HINT);
 
         bestMovePanel.SetActive(coachVO.isBestMove);
         normalMovePanel.SetActive(!coachVO.isBestMove);
@@ -98,6 +104,7 @@ public class CoachView : MonoBehaviour
     public void Hide()
     {
         coachPanel.SetActive(false);
+        chessboardBlocker.SetActive(false);
         bg.gameObject.SetActive(false);
         CancelInvoke();
     }

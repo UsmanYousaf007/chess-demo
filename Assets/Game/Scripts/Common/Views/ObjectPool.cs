@@ -57,7 +57,13 @@ namespace TurboLabz.Chess
                 {
                     List<GameObject> usedObjList = used[name];
                     GameObject cloneObj = GameObject.Instantiate(usedObjList[0]);
-                    cloneObj.transform.parent = usedObjList[0].transform.parent;
+
+                    //fix for promo pieces not scaleing properly
+                    //old code: cloneObj.transform.parent = usedObjList[0].transform.parent;
+                    //new code, instead setting its parent directly, used SetParent method and
+                    //set its worldPositionStays parameter to false so its scale will not be adjusted by the parent
+                    cloneObj.transform.SetParent(usedObjList[0].transform.parent, false);
+
                     cloneObj.name = name;
                     usedObjList.Add(cloneObj);
 

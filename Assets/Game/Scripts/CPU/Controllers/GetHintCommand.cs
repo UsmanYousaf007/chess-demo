@@ -50,10 +50,6 @@ namespace TurboLabz.CPU
 
                 chessboardModel.usedHelp = true;
 
-                //string fen = isHindsight ? chessboardModel.previousPlayerTurnFen : chessService.GetFen();
-                chessAiService.NewGame();
-                chessAiService.SetPosition(chessboardModel.previousPlayerTurnFen);
-
                 AiMoveInputVO vo = new AiMoveInputVO
                 {
                     aiColor = chessboardModel.playerColor,
@@ -63,15 +59,12 @@ namespace TurboLabz.CPU
                     lastPlayerMove = chessboardModel.lastPlayerMove,
                     isStrength = !isHindsight,
                     playerStrengthPct = 0.5f,
-                    isHint = isHindsight
+                    isHint = isHindsight,
+                    fen = chessboardModel.previousPlayerTurnFen
                 };
 
-                //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
-                //promise.Then(OnAiMove);
-                
-                IPromise<FileRank, FileRank, string> promise1 = chessAiService.GetAiMoveStrength(vo);
-                promise1.Then(OnAiMoveStrength);
-
+                IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
+                promise.Then(OnAiMoveStrength);
             }
             else
             {

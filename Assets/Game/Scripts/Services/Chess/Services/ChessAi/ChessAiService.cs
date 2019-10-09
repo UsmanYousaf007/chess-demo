@@ -46,7 +46,7 @@ namespace TurboLabz.Chess
         private IPromise<FileRank, FileRank, string> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
-        private bool resultsReady;
+        private bool resultsReady = true;
 
         public void NewGame()
         {
@@ -57,26 +57,39 @@ namespace TurboLabz.Chess
 
         public IPromise<FileRank, FileRank, string> GetAiMove(AiMoveInputVO vo)
         {
+            return AddToQueue(_GetAiMove, vo);
+        }
+
+        public IPromise<FileRank, FileRank, string> GetAiMoveStrength(AiMoveInputVO vo)
+        {
+            return AddToQueue(_GetAiMoveStrength, vo);
+        }
+
+        private void _GetAiMove(AiMoveInputVO vo)
+        {
 			MoveRequest request;
 			request.promise = new Promise<FileRank, FileRank, string>();
 			request.vo = vo;
 
             //routineRunner.StartCoroutine(ProcessQueue(request));
             //return aiMovePromise;
-
+            SetPosition(vo.fen);
 
             aiMoveInputVO = request.vo;
-            aiMovePromise = request.promise;
+            //aiMovePromise = request.promise;
             routineRunner.StartCoroutine(GetAiResult());
-            return aiMovePromise;
+            //return aiMovePromise;
         }
 
-        public IPromise<FileRank, FileRank, string> GetAiMoveStrength(AiMoveInputVO vo)
+        private void _GetAiMoveStrength(AiMoveInputVO vo)
         {
-            aiMoveStrengthPromise = new Promise<FileRank, FileRank, string>();
+            NewGame();
+            SetPosition(vo.fen);
+
+            //aiMoveStrengthPromise = new Promise<FileRank, FileRank, string>();
             aiMoveInputVO = vo;
             routineRunner.StartCoroutine(GetAiResult());
-            return aiMoveStrengthPromise;
+            //return aiMoveStrengthPromise;
         }
 
         //private IEnumerator ProcessQueue(MoveRequest request)
@@ -126,6 +139,7 @@ namespace TurboLabz.Chess
             yield return null;
 
             ExecuteAiMove();
+            ExecuteQueue();
         }
 
         public void Shutdown()
