@@ -93,6 +93,17 @@ public class XcodeSettingsPostProcesser
         // Get root
         PlistElementDict rootDict = plist.root;
 
+        // Set encryption usage boolean
+        string encryptKey = "ITSAppUsesNonExemptEncryption";
+        rootDict.SetBoolean(encryptKey, false);
+
+        // remove exit on suspend if it exists.
+        string exitsOnSuspendKey = "UIApplicationExitsOnSuspend";
+        if (rootDict.values.ContainsKey(exitsOnSuspendKey))
+        {
+            rootDict.values.Remove(exitsOnSuspendKey);
+        }
+
         // Change value of CFBundleVersion in Xcode plist
         var buildKey = "UIBackgroundModes";
         rootDict.CreateArray(buildKey).AddString("remote-notification");

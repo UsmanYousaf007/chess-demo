@@ -13,7 +13,8 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             /* Mandatory - set your AppsFlyer’s Developer key. */
-            AppsFlyer.setAppsFlyerKey("xPcmC6rPafKmCueR3W68Mk");
+            //AppsFlyer.setAppsFlyerKey("xPcmC6rPafKmCueR3W68Mk"); //HUUUGE
+            AppsFlyer.setAppsFlyerKey("2Rcqu5eJmG7svYc2RJauwh"); //TurboLabz
             /* For detailed logging */
             // AppsFlyer.setIsDebug (true); 
 #if UNITY_IOS

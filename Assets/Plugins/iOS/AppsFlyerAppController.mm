@@ -20,11 +20,10 @@
 
 - (instancetype)init
 {
-    NSLog(@"initializing AppsFlyerAppController");
     self = [super init];
-	if (self) {
+    if (self) {
         UnityRegisterAppDelegateListener(self);
-	}
+    }
     return self;
 }
 
@@ -34,7 +33,9 @@
 }
 
 -(BOOL) application:(UIApplication *)application openUrl:(NSURL *)url options:(NSDictionary *)options {
-    NSLog(@"got openUrl: %@",url);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got openUrl: %@",url);
+    }
     [[AppsFlyerTracker sharedTracker] handleOpenUrl:url options:options];
     return YES;
 }
@@ -43,7 +44,9 @@
 // AppDelegateListener protocol
 
 - (void)onOpenURL:(NSNotification*)notification {
-    NSLog(@"got onOpenURL = %@", notification.userInfo);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got onOpenURL = %@", notification.userInfo);
+    }
     NSURL *url = notification.userInfo[@"url"];
     NSString *sourceApplication = notification.userInfo[@"sourceApplication"];
     
@@ -58,24 +61,28 @@
 }
 
 - (void)didReceiveRemoteNotification:(NSNotification*)notification {
-    NSLog(@"got didReceiveRemoteNotification = %@", notification.userInfo);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got didReceiveRemoteNotification = %@", notification.userInfo);
+    }
     [[AppsFlyerTracker sharedTracker] handlePushNotification:notification.userInfo];
 }
 
 // LifeCycleListener protocol
 
 - (void)didFinishLaunching:(NSNotification*)notification {
-    NSLog(@"got didFinishLaunching = %@",notification.userInfo);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got didFinishLaunching = %@",notification.userInfo);
+    }
     if (notification.userInfo[@"url"]) {
        [self onOpenURL:notification];
     }
 }
 
 -(void)didBecomeActive:(NSNotification*)notification {
-    
-    NSLog(@"got didBecomeActive(out) = %@", notification.userInfo);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got didBecomeActive(out) = %@", notification.userInfo);
+    }
     if (didEnteredBackGround == YES) {
-        NSLog(@"got didBecomeActive = %@", notification.userInfo);
         [[AppsFlyerTracker sharedTracker] trackAppLaunch];
         didEnteredBackGround = NO;
         
@@ -84,25 +91,33 @@
 }
 
 - (void)willResignActive:(NSNotification*)notification {
-    NSLog(@"got willResignActive = %@", notification.userInfo);
-    
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got willResignActive = %@", notification.userInfo);
+    }
 }
 
 - (void)didEnterBackground:(NSNotification*)notification {
-    NSLog(@"got didEnterBackground = %@", notification.userInfo);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got didEnterBackground = %@", notification.userInfo);
+    }
     didEnteredBackGround = YES;
 }
 
 - (void)willEnterForeground:(NSNotification*)notification {
-    NSLog(@"got willEnterForeground = %@", notification.userInfo);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got willEnterForeground = %@", notification.userInfo);
+    }
     
 }
 
 - (void)willTerminate:(NSNotification*)notification {
-    NSLog(@"got willTerminate = %@", notification.userInfo);
+    if([AppsFlyerTracker sharedTracker].isDebug){
+        NSLog(@"got willTerminate = %@", notification.userInfo);
+    }
    
 }
 
 @end
 
 IMPL_APP_CONTROLLER_SUBCLASS(AppsFlyerAppController)
+
