@@ -29,7 +29,9 @@ namespace TurboLabz.InstantFramework
         {
             if (appEvent == AppEvent.QUIT)
             {
+#if !UNITY_IOS
                 chessAiService.Shutdown();
+#endif
             }
         }
     }
