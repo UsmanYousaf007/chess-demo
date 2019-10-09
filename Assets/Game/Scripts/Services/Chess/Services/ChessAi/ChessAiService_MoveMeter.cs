@@ -1,9 +1,4 @@
-﻿using System;
-
-using UnityEngine;
-
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.Chess
@@ -85,8 +80,9 @@ namespace TurboLabz.Chess
                 }
             }
 
-            aiMoveStrengthPromise.Dispatch(from, to, percentage.ToString());
-            aiMoveStrengthPromise = null;
+            lastDequeuedMethod.promise.Dispatch(from, to, percentage.ToString());
+            lastDequeuedMethod.promise = null;
+            lastDequeuedMethod = null;
         }
 
         private void GetBestMove()
@@ -105,8 +101,9 @@ namespace TurboLabz.Chess
 
             piece.name = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
 
-            aiMoveStrengthPromise.Dispatch(from, to, piece.name);
-            aiMoveStrengthPromise = null;
+            lastDequeuedMethod.promise.Dispatch(from, to, piece.name);
+            lastDequeuedMethod.promise = null;
+            lastDequeuedMethod = null;
         }
     }
 }

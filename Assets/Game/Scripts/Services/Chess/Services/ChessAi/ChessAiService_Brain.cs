@@ -15,7 +15,7 @@ using System;
 using UnityEngine;
 
 using System.Collections.Generic;
-
+using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.Chess
@@ -142,7 +142,9 @@ namespace TurboLabz.Chess
                 }
             }
 
-            aiMovePromise.Dispatch(from, to, promo);
+            lastDequeuedMethod.promise.Dispatch(from, to, promo);
+            lastDequeuedMethod.promise = null;
+            lastDequeuedMethod = null;
         }
 
         private bool CancelMoveDueToNonPromotion(string promo)

@@ -46,7 +46,6 @@ namespace TurboLabz.CPU
             startTime = Time.time;
 
             ++chessboardModel.aiMoveNumber;
-            chessAiService.SetPosition(chessService.GetFen());
 
             AiMoveInputVO vo = new AiMoveInputVO();
             vo.aiColor = chessboardModel.opponentColor;
@@ -57,6 +56,7 @@ namespace TurboLabz.CPU
             vo.aiMoveDelay = chessboardModel.aiMoveDelay;
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
             vo.cpuStrengthPct = (float)cpuGameModel.cpuStrength / (float)CPUSettings.MAX_STRENGTH;
+            vo.fen = chessService.GetFen();
            
             double durationMins = chessboardModel.gameDuration.TotalMinutes;
 

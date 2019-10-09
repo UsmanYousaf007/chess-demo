@@ -55,7 +55,6 @@ namespace TurboLabz.Multiplayer
             }
 
             ++chessboard.aiMoveNumber;
-            chessAiService.SetPosition(chessService.GetFen());
 
             vo = new AiMoveInputVO();
             vo.aiColor = chessboard.opponentColor;
@@ -64,6 +63,7 @@ namespace TurboLabz.Multiplayer
             vo.squares = chessboard.squares;
             vo.opponentTimer = chessboard.backendOpponentTimer;
             vo.aiMoveNumber = chessboard.aiMoveNumber;
+            vo.fen = chessService.GetFen();
 
             // Strength
             vo.cpuStrengthPct = matchInfoModel.activeMatch.botDifficulty;
@@ -91,7 +91,7 @@ namespace TurboLabz.Multiplayer
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
             }
 
-                
+
 
             // TODO: In the future, if we add 1 minute games, use the IsOneMinuteGame flag in the vo
             // to make the bots more aggressive so people can't spam the time control.

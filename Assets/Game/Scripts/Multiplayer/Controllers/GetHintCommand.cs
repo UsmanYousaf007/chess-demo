@@ -49,9 +49,6 @@ namespace TurboLabz.Multiplayer
             if (chessboard.lastPlayerMove != null)
             {
                 Retain();
-                //string fen = isHindsight ? chessboardModel.previousPlayerTurnFen : chessService.GetFen();
-                chessAiService.NewGame();
-                chessAiService.SetPosition(chessboard.previousPlayerTurnFen);
 
                 AiMoveInputVO vo = new AiMoveInputVO();
                 vo.aiColor = chessboard.playerColor;
@@ -62,12 +59,10 @@ namespace TurboLabz.Multiplayer
                 vo.isStrength = !isHindsight;
                 vo.playerStrengthPct = 0.5f;
                 vo.isHint = isHindsight;
+                vo.fen = chessboard.previousPlayerTurnFen;
 
-                //IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
-                //promise.Then(OnAiMove);
-
-                IPromise<FileRank, FileRank, string> promise1 = chessAiService.GetAiMoveStrength(vo);
-                promise1.Then(OnAiMoveStrength);
+                IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
+                promise.Then(OnAiMoveStrength);
             }
             else
             {
