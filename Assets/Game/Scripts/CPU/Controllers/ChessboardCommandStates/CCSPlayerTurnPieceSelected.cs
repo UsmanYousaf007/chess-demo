@@ -82,6 +82,12 @@ namespace TurboLabz.CPU
                     return new CCSPlayerTurn();
                 }
             }
+            // If offboard was clicked
+            else if (evt == ChessboardEvent.OFFBOARD_CLICKED)
+            {
+                cmd.chessboardModel.playerFromSquare = null;
+                return new CCSPlayerTurn();
+            }
             else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
                 OpponentMoveRenderCompleted(cmd);

@@ -27,6 +27,7 @@ namespace TurboLabz.Multiplayer
         GAME_ENDED,
         PROMO_SELECTED,
         MOVE_CONFIRMED,
-        MOVE_UNDO
+        MOVE_UNDO,
+        OFFBOARD_CLICKED
     }
 }

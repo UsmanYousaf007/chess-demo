@@ -28,8 +28,16 @@ namespace TurboLabz.CPU
 
         public override void Execute()
         {
-            chessboardModel.clickedSquare = chessboardModel.squares[clickedLocation.file, clickedLocation.rank];
-            chessboardEventSignal.Dispatch(ChessboardEvent.SQUARE_CLICKED);
+            // If not an offboard tap
+            if (clickedLocation.file != -1)
+            {
+                chessboardModel.clickedSquare = chessboardModel.squares[clickedLocation.file, clickedLocation.rank];
+                chessboardEventSignal.Dispatch(ChessboardEvent.SQUARE_CLICKED);
+            }
+            else
+            {
+                chessboardEventSignal.Dispatch(ChessboardEvent.OFFBOARD_CLICKED);
+            }
         }
 
     }

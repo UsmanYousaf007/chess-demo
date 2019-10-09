@@ -90,6 +90,12 @@ namespace TurboLabz.Multiplayer
                     return new CCSPlayerTurn();
                 }
             }
+            // Handle offboard tap
+            else if (evt == ChessboardEvent.OFFBOARD_CLICKED)
+            {
+                cmd.activeChessboard.playerFromSquare = null;
+                return new CCSPlayerTurn();
+            }
             else if (evt == ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED)
             {
                 OpponentMoveRenderCompleted(cmd);
