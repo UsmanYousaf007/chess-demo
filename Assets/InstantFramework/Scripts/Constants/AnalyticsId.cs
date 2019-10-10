@@ -27,7 +27,9 @@ namespace TurboLabz.InstantFramework
         rate_dialog,
         spot_purchase_safe_move,
         spot_purchase_hint,
-        spot_purchase_hindsight
+        spot_purchase_hindsight,
+        spot_purchase_move_meter,
+        spot_purchase_coach,
     }
 
     public enum AnalyticsEventId
@@ -51,7 +53,7 @@ namespace TurboLabz.InstantFramework
         tap_pow_safe_move_undo,
         tap_pow_hint,
         tap_pow_hindsight,
-        spot_purchase_complete,
+        v1_spot_purchase_complete,
         store_purchase_complete,
         ads_collect_reward,
         ads_skip_reward,
@@ -79,7 +81,14 @@ namespace TurboLabz.InstantFramework
         //ads_interstitial_request,
         //ads_interstitial_success,
         ads_interstitial_show,
-        ads_interstitial_failed
+        ads_interstitial_failed,
+
+        tap_pow_move_meter,
+        cancel_pow_move_meter,
+        close_pow_move_meter,
+        tap_pow_coach,
+        cancel_pow_coach,
+        close_pow_coach
     }
 
     public enum AnalyticsContext

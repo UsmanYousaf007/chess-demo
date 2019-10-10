@@ -69,6 +69,16 @@ namespace TurboLabz.Multiplayer
             coachVO.activeSkinId = vo.skinId;
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
             coachVO.audioService = audioService;
+            coachVO.analyticsService = analyticsService;
+
+            if (isLongPlay)
+            {
+                coachVO.analyticsContext = AnalyticsContext.long_match;
+             }
+            else
+            {
+                coachVO.analyticsContext = AnalyticsContext.quick_match;
+            }
 
             if (vo.piece.Contains("captured"))
             {
@@ -84,6 +94,19 @@ namespace TurboLabz.Multiplayer
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
+
+            if(coachView.gameObject.activeSelf)
+            {
+                if (isLongPlay)
+                {
+                    analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.long_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.quick_match);
+                }
+            }
+
             coachView.Hide();
         }
 
@@ -98,7 +121,7 @@ namespace TurboLabz.Multiplayer
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINDSIGHTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
             }
             else
             {
@@ -109,11 +132,11 @@ namespace TurboLabz.Multiplayer
 
                 if (isLongPlay)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.long_match);
+                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.long_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.quick_match);
                 }
             }
         }

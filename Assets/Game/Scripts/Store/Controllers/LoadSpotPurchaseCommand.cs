@@ -82,6 +82,14 @@ namespace TurboLabz.InstantGame
             {
                 analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_hindsight, analyticsContext);
             }
+            else if (activeSection == SpotPurchaseView.PowerUpSections.MOVEMETER)
+            {
+                analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_move_meter, analyticsContext);
+            }
+            else if (activeSection == SpotPurchaseView.PowerUpSections.COACH)
+            {
+                analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_coach, analyticsContext);
+            }
         }
     }
 }

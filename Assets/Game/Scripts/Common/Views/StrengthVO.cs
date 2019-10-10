@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TurboLabz.InstantFramework;
+using UnityEngine;
 
 public struct StrengthVO
 {
@@ -7,4 +8,6 @@ public struct StrengthVO
     public Vector3 toPosition;
     public GameObject fromIndicator;
     public GameObject toIndicator;
+    public IAnalyticsService analyticsService;
+    public AnalyticsContext analyticsContext; 
 }

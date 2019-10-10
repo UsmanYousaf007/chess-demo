@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else if (navigatorModel.currentViewId == NavigatorViewId.SPOT_PURCHASE_DLG)
                 {
-                    analyticsService.Event(AnalyticsEventId.spot_purchase_complete, AnalyticsParameter.item_id, shopItemId);
+                    analyticsService.Event(AnalyticsEventId.v1_spot_purchase_complete, AnalyticsParameter.item_id, shopItemId);
                 }
 
                 if (playerModel.inventory.ContainsKey(shopItemId))

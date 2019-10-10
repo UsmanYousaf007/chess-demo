@@ -68,7 +68,7 @@ namespace TurboLabz.InstantGame
             // Analytics
             if (result == PurchaseResult.PURCHASE_SUCCESS)
             {
-                analyticsService.Event(AnalyticsEventId.spot_purchase_complete, AnalyticsParameter.item_id, item.key);
+                analyticsService.Event(AnalyticsEventId.v1_spot_purchase_complete, AnalyticsParameter.item_id, item.key);
             }
         }
 

@@ -71,8 +71,10 @@ namespace TurboLabz.CPU
             coachVO.activeSkinId = vo.skinId;
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
             coachVO.audioService = audioService;
+            coachVO.analyticsService = analyticsService;
+            coachVO.analyticsContext = AnalyticsContext.computer_match;
 
-            if (vo.piece.Contains("captured"))
+                if (vo.piece.Contains("captured"))
             {
                 coachVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
             }
@@ -86,6 +88,12 @@ namespace TurboLabz.CPU
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHindsightButton();
+
+            if(coachView.gameObject.activeSelf)
+            {
+                analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.computer_match);
+            }
+
             coachView.Hide();
         }
 
@@ -100,7 +108,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINDSIGHTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
             }
             else
             {
@@ -111,7 +119,7 @@ namespace TurboLabz.CPU
 
                 StashStepButtons();
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.computer_match);
+                analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.computer_match);
             }
         }
 

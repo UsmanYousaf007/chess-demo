@@ -74,6 +74,8 @@ namespace TurboLabz.CPU
             strengthVO.toPosition = hintToIndicator.transform.position;
             strengthVO.fromIndicator = hintFromIndicator;
             strengthVO.toIndicator = hintToIndicator;
+            strengthVO.analyticsService = analyticsService;
+            strengthVO.analyticsContext = AnalyticsContext.computer_match;
 
             strengthPanel.ShowStrengthPanel(strengthVO);
             StartCoroutine(HideHint(4.0f));
@@ -85,6 +87,12 @@ namespace TurboLabz.CPU
             hintThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHintButton();
+
+            if (strengthPanel.gameObject.activeSelf)
+            {
+                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.computer_match);
+            }
+
             strengthPanel.Hide();
         }
 
@@ -105,7 +113,7 @@ namespace TurboLabz.CPU
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
             }
             else
             {
@@ -115,7 +123,7 @@ namespace TurboLabz.CPU
 
                 StashStepButtons();
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.computer_match);
+                analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
             }
         }
 
