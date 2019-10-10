@@ -21,6 +21,8 @@ public class StrengthAnim : MonoBehaviour
     public Transform lineEndPivot;
     public GameObject chessboardBlocker;
     public GameObject UiBlocker;
+    public Image closeToolTipImage;
+    public Text closeToolTipText;
 
     private float dotWaitSeconds;
     private Coroutine barAnim = null;
@@ -41,6 +43,10 @@ public class StrengthAnim : MonoBehaviour
     const float STRENGTH_TEXT_ANIMATION_DURATION = 1.0f;
     const int MAX_STRENGTH = 10;
     const float ARROW_ALPHA_MAX = 0.8f;
+    const float TOOL_TIP_FADE_DURATION = 1.0f;
+    const float HIDE_TOOL_TIP_AFTER = 2.7f;
+    const float CLOSE_BUTTON_SCALE_DURATION = 1.0f;
+    readonly Vector3 CLOSE_BUTTON_SCALE_FINAL = new Vector3(2.0f, 2.0f, 1.0f);
 
     private StrengthVO strengthVO;
 
@@ -181,6 +187,15 @@ public class StrengthAnim : MonoBehaviour
             strengthVO.toIndicator.SetActive(false);
         }
         line.Hide();
+
+        closeToolTipImage.gameObject.SetActive(false);
+
+        if (closeButtonBg.GetComponent<iTween>() != null)
+        {
+            closeButtonBg.rectTransform.localScale = Vector3.one;
+            Destroy(closeButtonBg.GetComponent<iTween>());
+        }
+
         CancelInvoke();
         //Reset();
     }
@@ -224,4 +239,30 @@ public class StrengthAnim : MonoBehaviour
         line.SetAlpha(LINE_ALPHA_MAX);
     }
 
+    public void ShowToolTip()
+    {
+        closeToolTipImage.gameObject.SetActive(true);
+        closeToolTipImage.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        closeToolTipText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+
+        if (closeButtonBg.GetComponent<iTween>() == null)
+        {
+            //animate close button
+            iTween.ScaleTo(closeButtonBg.gameObject,
+                iTween.Hash(
+                    "scale", CLOSE_BUTTON_SCALE_FINAL,
+                    "islocal", true,
+                    "time", CLOSE_BUTTON_SCALE_DURATION,
+                    "looptype", iTween.LoopType.pingPong
+                    ));
+        }
+
+        Invoke("FadeToolTip", HIDE_TOOL_TIP_AFTER);
+    }
+
+    private void FadeToolTip()
+    {
+        closeToolTipImage.CrossFadeAlpha(UI_ALPHA_MIN, TOOL_TIP_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        closeToolTipText.CrossFadeAlpha(UI_ALPHA_MIN, TOOL_TIP_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+    }
 }

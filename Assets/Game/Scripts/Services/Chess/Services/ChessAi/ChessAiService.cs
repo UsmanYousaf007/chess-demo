@@ -111,7 +111,7 @@ namespace TurboLabz.Chess
             string searchDepth;
 
             // Execute the move
-            if(aiMoveInputVO.isStrength)
+            if(aiMoveInputVO.isStrength || aiMoveInputVO.isHint)
             {
                 int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
                 int searchDepthInt = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.playerStrengthPct * searchDepthRange);

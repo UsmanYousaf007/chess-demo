@@ -6,7 +6,7 @@ using TurboLabz.TLUtils;
 using UnityEngine.UI;
 
 public class CoachView : MonoBehaviour
-{ 
+{
     //Visual Properties
     public GameObject coachPanel;
     public Image bg;
@@ -24,6 +24,8 @@ public class CoachView : MonoBehaviour
     public Image closeButton;
     public Transform lineEnePivot;
     public GameObject chessboardBlocker;
+    public Image closeToolTipImage;
+    public Text closeToolTipText;
 
     //Constants
     const int LINE_ALPHA_MIN = 0;
@@ -36,6 +38,11 @@ public class CoachView : MonoBehaviour
     const bool IGNORE_TIMESCALE_WHILE_FADE = false;
     const float RESET_FADE_DURATION = 0f;
     const float ANALYZING_DELAY = 3.0f;
+    const float TOOL_TIP_FADE_DURATION = 1.0f;
+    const float HIDE_TOOL_TIP_AFTER = 2.7f;
+    const float CLOSE_BUTTON_SCALE_DURATION = 1.0f;
+    const float PIXELS_TO_MOVE = 150.0f;
+    readonly Vector3 CLOSE_BUTTON_SCALE = new Vector3(2.0f, 2.0f, 1.0f);
 
     private float timeAtAnalyzing = 0;
 
@@ -44,7 +51,7 @@ public class CoachView : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     public void ShowAnalyzing()
@@ -65,8 +72,9 @@ public class CoachView : MonoBehaviour
     public void Show(CoachVO coachVO)
     {
         this.coachVO = coachVO;
-        var timeDiff = Time.time - timeAtAnalyzing;
-        Invoke("ShowResult", timeDiff < ANALYZING_DELAY ? ANALYZING_DELAY - timeDiff : 0);
+        //var timeDiff = Time.time - timeAtAnalyzing;
+        //Invoke("ShowResult", timeDiff < ANALYZING_DELAY ? ANALYZING_DELAY - timeDiff : 0);
+        ShowResult();
         chessboardBlocker.SetActive(true);
         //Invoke("Fade", START_FADE_AFTER_SECONDS);
     }
@@ -89,6 +97,8 @@ public class CoachView : MonoBehaviour
         pieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
         moveText.text = string.Format("{0} to {1}", coachVO.moveFrom, coachVO.moveTo);
 
+        arrowHead.transform.SetParent(this.transform.parent.parent, true);
+        arrowHead.transform.SetAsFirstSibling();
         var viewportPoint = Camera.main.WorldToScreenPoint(coachVO.toPosition);
         arrowHead.rectTransform.position = viewportPoint;
         arrowHead.CrossFadeAlpha(ARROW_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
@@ -99,6 +109,18 @@ public class CoachView : MonoBehaviour
         line.Draw(coachVO.fromPosition, Camera.main.ScreenToWorldPoint(lineEnePivot.position));
         line.SetAlpha(LINE_ALPHA_MIN);
         line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
+
+        //detect direction of arrow
+        var directionVector = new Vector2(coachVO.toPosition.x < 0 ? 1 : -1, 1 /*localPosTo.y < 0 ? 1 : -1*/);
+
+        //calculate position for strength panel
+        coachVO.toPosition = new Vector3(coachVO.toPosition.x + (PIXELS_TO_MOVE * directionVector.x),
+            coachVO.toPosition.y + (PIXELS_TO_MOVE * directionVector.y));
+
+        //set position of strength panel
+        var coachPanelRectTransform = bg.rectTransform;
+        viewportPoint = Camera.main.WorldToScreenPoint(coachVO.toPosition);
+        coachPanelRectTransform.position = viewportPoint;
     }
 
     public void Hide()
@@ -106,7 +128,16 @@ public class CoachView : MonoBehaviour
         coachPanel.SetActive(false);
         chessboardBlocker.SetActive(false);
         bg.gameObject.SetActive(false);
+        closeToolTipImage.gameObject.SetActive(false);
+
+        if (closeButton.GetComponent<iTween>() != null)
+        {
+            closeButton.rectTransform.localScale = Vector3.one;
+            Destroy(closeButton.GetComponent<iTween>());
+        }
+
         CancelInvoke();
+
     }
 
     public void Fade()
@@ -152,5 +183,38 @@ public class CoachView : MonoBehaviour
             pieceIcon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
             moveText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
+    }
+
+    public void ShowToolTip()
+    {
+        //ignore while analyzing
+        if (analyzingPanel.activeInHierarchy)
+        {
+            return;
+        }
+
+        closeToolTipImage.gameObject.SetActive(true);
+        closeToolTipImage.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        closeToolTipText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+
+        if (closeButton.GetComponent<iTween>() == null)
+        {
+            //animate close button
+            iTween.ScaleTo(closeButton.gameObject,
+                iTween.Hash(
+                    "scale", CLOSE_BUTTON_SCALE,
+                    "islocal", true,
+                    "time", CLOSE_BUTTON_SCALE_DURATION,
+                    "looptype", iTween.LoopType.pingPong
+                    ));
+        }
+
+        Invoke("FadeToolTip", HIDE_TOOL_TIP_AFTER);
+    }
+
+    private void FadeToolTip()
+    {
+        closeToolTipImage.CrossFadeAlpha(UI_ALPHA_MIN, TOOL_TIP_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        closeToolTipText.CrossFadeAlpha(UI_ALPHA_MIN, TOOL_TIP_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
     }
 }

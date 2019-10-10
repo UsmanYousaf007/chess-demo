@@ -104,7 +104,7 @@ namespace TurboLabz.Multiplayer
             {
                 //hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
-                coachView.ShowAnalyzing();
+                //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
 
                 if (isLongPlay)

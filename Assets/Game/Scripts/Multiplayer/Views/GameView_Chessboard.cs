@@ -129,9 +129,9 @@ namespace TurboLabz.Multiplayer
             var opponentProfileScreenPoint = Camera.main.WorldToScreenPoint(opponentProfileUiAnchor.position);
             opponentInfoPanel.transform.position = opponentProfileScreenPoint;
 
-            ((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (20 * scaleWidth), ((RectTransform)coachView.bg.transform).sizeDelta.y);
-            var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
-            coachView.bg.transform.position = viewportPoint;
+            //((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (20 * scaleWidth), ((RectTransform)coachView.bg.transform).sizeDelta.y);
+            //var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
+            //coachView.bg.transform.position = viewportPoint;
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
             ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
