@@ -46,7 +46,7 @@ namespace TurboLabz.Chess
         private IPromise<FileRank, FileRank, string> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
-        private bool resultsReady = true;
+        private bool resultsReady;
 
         public void NewGame()
         {
@@ -139,6 +139,7 @@ namespace TurboLabz.Chess
             yield return null;
 
             ExecuteAiMove();
+            taskIsReadyToExecute = true;
             ExecuteQueue();
         }
 

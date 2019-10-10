@@ -117,13 +117,13 @@ namespace TurboLabz.CPU
             {
                 EnableMenuButton();
                 RestoreStepButtons();
-                RestoreHindsightButton();
+                //RestoreHindsightButton();
             }
             else
             {
                 DisableMenuButton();
                 StashStepButtons();
-                StashHindsightButton();
+                //StashHindsightButton();
             }
         }
 

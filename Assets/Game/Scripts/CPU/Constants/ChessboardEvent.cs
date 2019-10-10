@@ -26,6 +26,7 @@ namespace TurboLabz.CPU
         MOVE_UNDO,
         MOVE_CONFIRMED,
         STEP_BACK,
-        STEP_FORWARD
+        STEP_FORWARD,
+        OFFBOARD_CLICKED
     }
 }

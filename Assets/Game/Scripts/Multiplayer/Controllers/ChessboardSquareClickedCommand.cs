@@ -35,8 +35,17 @@ namespace TurboLabz.Multiplayer
            if(chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
            {
                 Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
-                chessboard.clickedSquare = chessboard.squares[clickedLocation.file, clickedLocation.rank];
-                chessboardEventSignal.Dispatch(ChessboardEvent.SQUARE_CLICKED);
+
+                // If it wasn't an offboard tap
+                if (clickedLocation.file != -1)
+                {
+                    chessboard.clickedSquare = chessboard.squares[clickedLocation.file, clickedLocation.rank];
+                    chessboardEventSignal.Dispatch(ChessboardEvent.SQUARE_CLICKED);
+                }
+                else
+                {
+                    chessboardEventSignal.Dispatch(ChessboardEvent.OFFBOARD_CLICKED);
+                }                
             }
             else
             {

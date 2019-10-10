@@ -37,7 +37,7 @@ namespace TurboLabz.Multiplayer
         {
             Retain();
 
-            cancelHintSignal.Dispatch();
+            //cancelHintSignal.Dispatch();
 
             backendService.PlayerTurn(
                 playerTurnVO.fromSquare.fileRank,

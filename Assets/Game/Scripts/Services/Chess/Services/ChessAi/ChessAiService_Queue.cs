@@ -25,6 +25,7 @@ namespace TurboLabz.Chess
 
         private Queue<AiMoveRequest> serviceRequestsQueue;
         private AiMoveRequest lastDequeuedMethod;
+        private bool taskIsReadyToExecute = true;
 
         private IPromise<FileRank, FileRank, string> AddToQueue(Action<AiMoveInputVO> function, AiMoveInputVO inputVO)
         {
@@ -55,11 +56,11 @@ namespace TurboLabz.Chess
         {
             yield return null;
 
-            if (resultsReady)
+            if (taskIsReadyToExecute)
             {
+                taskIsReadyToExecute = false;
                 lastDequeuedMethod = serviceRequestsQueue.Dequeue();
                 lastDequeuedMethod.function(lastDequeuedMethod.inputVO);
-                resultsReady = false;
             }
         }
     }

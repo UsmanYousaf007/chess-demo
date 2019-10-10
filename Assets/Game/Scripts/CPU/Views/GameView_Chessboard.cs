@@ -34,6 +34,7 @@ namespace TurboLabz.CPU
         public GameObject[] pieces;
         public GameObject[] possibleMoveIndicators;
         public Transform[] chessboardSquares;
+        public TapOff tapOff;
         public GameObject chessContainer;
         public Transform chessboard;
         public Transform playerProfileUiAnchor;
@@ -86,7 +87,18 @@ namespace TurboLabz.CPU
             // Add listeners to our squares
             AddSquareListeners();
 
+            // Add the tap off listener
+            tapOff.tapOffSignal.AddListener(TapOff);
+
             StretchBoard();
+        }
+
+        private void TapOff()
+        {
+            FileRank offBoard;
+            offBoard.file = -1;
+            offBoard.rank = -1;
+            squareClickedSignal.Dispatch(offBoard);
         }
 
         private void StretchBoard()

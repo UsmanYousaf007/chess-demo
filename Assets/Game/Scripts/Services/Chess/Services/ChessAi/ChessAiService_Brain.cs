@@ -226,6 +226,11 @@ namespace TurboLabz.Chess
 
         private bool MakeReactionaryCaptureMove()
         {
+            if (aiMoveInputVO.lastPlayerMove == null)
+            {
+                return false;
+            }
+
             // Let's examine the immediate enemy move like an average player would...
             bool landingDefended = chessService.IsSquareDefended(aiMoveInputVO.lastPlayerMove.to,
                                                                  aiMoveInputVO.playerColor);
@@ -279,6 +284,11 @@ namespace TurboLabz.Chess
             
         private bool MakeReactionaryEvasiveMove()
         {
+            if (aiMoveInputVO.lastPlayerMove == null)
+            {
+                return false;
+            }
+
             // Find all the enemy moves where a capture is possible
             List<ChessMove> enemyCaptureMoves = chessService.GetCaptureMoves(aiMoveInputVO.lastPlayerMove.to);
 
@@ -329,8 +339,14 @@ namespace TurboLabz.Chess
 
         private bool MakeOpeningMoves()
         {
-            // For the first 4 moves we select a random opening move or one of 3 'pro' opening
-            // moves based on if we rolled a best move
+            // First roll the overall chance of making a proper opening move
+            bool rollOpening = UnityEngine.Random.Range(0.0f, 1.0f) < ChessAiConfig.OPENING_MOVE_PROPER_CHANCE;
+            if (!rollOpening)
+            {
+                return false;
+            }
+
+            // Make the proper opening move
             if (aiMoveInputVO.aiMoveNumber <= ChessAiConfig.OPENING_MOVES_COUNT)
             {
                 int selectCount = Math.Min(scores.Count, ChessAiConfig.OPENING_MOVES_SELECT_COUNT);
