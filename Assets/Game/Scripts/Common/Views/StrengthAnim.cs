@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 using UnityEngine;
@@ -135,6 +136,8 @@ public class StrengthAnim : MonoBehaviour
     public void FadePanel()
     {
         Fade();
+
+        strengthVO.analyticsService.Event(AnalyticsEventId.close_pow_move_meter, strengthVO.analyticsContext);
 
         if (barAnim != null)
         {

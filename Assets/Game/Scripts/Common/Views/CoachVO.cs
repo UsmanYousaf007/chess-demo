@@ -11,4 +11,6 @@ public struct CoachVO
     public string pieceName;
     public bool isBestMove;
     public IAudioService audioService;
+    public IAnalyticsService analyticsService;
+    public AnalyticsContext analyticsContext;
 }

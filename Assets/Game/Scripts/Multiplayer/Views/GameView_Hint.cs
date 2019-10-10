@@ -71,6 +71,16 @@ namespace TurboLabz.Multiplayer
             strengthVO.toPosition = hintToIndicator.transform.position;
             strengthVO.fromIndicator = hintFromIndicator;
             strengthVO.toIndicator = hintToIndicator;
+            strengthVO.analyticsService = analyticsService;
+
+            if (isLongPlay)
+            {
+                strengthVO.analyticsContext = AnalyticsContext.long_match;
+            }
+            else
+            {
+                strengthVO.analyticsContext = AnalyticsContext.quick_match;
+            }
 
             strengthPanel.ShowStrengthPanel(strengthVO);
             StartCoroutine(HideHint(4.0f));
@@ -81,7 +91,21 @@ namespace TurboLabz.Multiplayer
             hintThinking.SetActive(false);
             DisableModalBlocker();
             DisableHintButton();
+
+            if(strengthPanel.gameObject.activeSelf)
+            {
+                if (isLongPlay)
+                {
+                    analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.long_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.quick_match);
+                }
+            }
+            
             strengthPanel.Hide();
+
         }
 
         public IEnumerator HideHint(float t)
@@ -101,7 +125,7 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
             }
             else
             {
@@ -111,11 +135,11 @@ namespace TurboLabz.Multiplayer
 
                 if (isLongPlay)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.long_match);
+                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.long_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.quick_match);
                 }
             }
         }
