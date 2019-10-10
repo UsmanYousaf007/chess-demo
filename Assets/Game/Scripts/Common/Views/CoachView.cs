@@ -26,6 +26,10 @@ public class CoachView : MonoBehaviour
     public GameObject chessboardBlocker;
     public Image closeToolTipImage;
     public Text closeToolTipText;
+    public Image stickerBg;
+    public Image stickerPieceIcon;
+    public Sprite stickerBgWhite;
+    public Sprite stickerBgBlack;
 
     //Constants
     const int LINE_ALPHA_MIN = 0;
@@ -98,7 +102,6 @@ public class CoachView : MonoBehaviour
         moveText.text = string.Format("{0} to {1}", coachVO.moveFrom, coachVO.moveTo);
 
         arrowHead.transform.SetParent(this.transform.parent.parent, true);
-        arrowHead.transform.SetAsFirstSibling();
         var viewportPoint = Camera.main.WorldToScreenPoint(coachVO.toPosition);
         arrowHead.rectTransform.position = viewportPoint;
         arrowHead.CrossFadeAlpha(ARROW_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
@@ -109,6 +112,22 @@ public class CoachView : MonoBehaviour
         line.Draw(coachVO.fromPosition, Camera.main.ScreenToWorldPoint(lineEnePivot.position));
         line.SetAlpha(LINE_ALPHA_MIN);
         line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
+
+        var stickerToPosition = viewportPoint;
+        var stickerFromPosition = Camera.main.WorldToScreenPoint(coachVO.fromPosition);
+        stickerBg.transform.SetParent(this.transform.parent.parent, true);
+        stickerBg.transform.SetAsFirstSibling();
+        arrowHead.transform.SetAsFirstSibling();
+        stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
+        stickerBg.rectTransform.position = stickerFromPosition;
+        stickerPieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(string.Format("c{0}", coachVO.pieceName));
+
+        iTween.MoveTo(stickerBg.gameObject,
+            iTween.Hash(
+                "position", stickerToPosition,
+                "time", 2f,
+                "easetype", iTween.EaseType.easeInOutExpo
+                ));
 
         //detect direction of arrow
         var directionVector = new Vector2(coachVO.toPosition.x < 0 ? 1 : -1, 1 /*localPosTo.y < 0 ? 1 : -1*/);
@@ -125,6 +144,9 @@ public class CoachView : MonoBehaviour
 
     public void Hide()
     {
+        arrowHead.transform.SetParent(coachPanel.transform, true);
+        stickerBg.transform.SetParent(coachPanel.transform, true);
+
         coachPanel.SetActive(false);
         chessboardBlocker.SetActive(false);
         bg.gameObject.SetActive(false);
@@ -134,6 +156,11 @@ public class CoachView : MonoBehaviour
         {
             closeButton.rectTransform.localScale = Vector3.one;
             Destroy(closeButton.GetComponent<iTween>());
+        }
+
+        if (stickerBg.GetComponent<iTween>() != null)
+        {
+            Destroy(stickerBg.GetComponent<iTween>());
         }
 
         CancelInvoke();
