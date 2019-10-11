@@ -72,6 +72,8 @@ namespace TurboLabz.Multiplayer
             strengthVO.fromIndicator = hintFromIndicator;
             strengthVO.toIndicator = hintToIndicator;
             strengthVO.analyticsService = analyticsService;
+            strengthVO.activeSkinId = vo.skinId;
+            strengthVO.pieceName = vo.piece;
 
             if (isLongPlay)
             {
@@ -80,6 +82,11 @@ namespace TurboLabz.Multiplayer
             else
             {
                 strengthVO.analyticsContext = AnalyticsContext.quick_match;
+            }
+
+            if (vo.piece.Contains("captured"))
+            {
+                strengthVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
             }
 
             strengthPanel.ShowStrengthPanel(strengthVO);

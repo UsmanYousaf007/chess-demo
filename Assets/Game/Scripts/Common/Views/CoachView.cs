@@ -120,13 +120,14 @@ public class CoachView : MonoBehaviour
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
-        stickerPieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(string.Format("c{0}", coachVO.pieceName));
+        coachVO.pieceName = coachVO.pieceName.Contains("k") ? coachVO.pieceName : string.Format("c{0}", coachVO.pieceName);
+        stickerPieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
 
         iTween.MoveTo(stickerBg.gameObject,
             iTween.Hash(
                 "position", stickerToPosition,
-                "time", 2f,
-                "easetype", iTween.EaseType.easeInOutExpo
+                "time", 1.0f,
+                "easetype", iTween.EaseType.easeOutExpo
                 ));
 
         //detect direction of arrow

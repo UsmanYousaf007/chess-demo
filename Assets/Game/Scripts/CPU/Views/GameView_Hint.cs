@@ -76,6 +76,13 @@ namespace TurboLabz.CPU
             strengthVO.toIndicator = hintToIndicator;
             strengthVO.analyticsService = analyticsService;
             strengthVO.analyticsContext = AnalyticsContext.computer_match;
+            strengthVO.activeSkinId = vo.skinId;
+            strengthVO.pieceName = vo.piece;
+
+            if (vo.piece.Contains("captured"))
+            {
+                strengthVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
+            }
 
             strengthPanel.ShowStrengthPanel(strengthVO);
             StartCoroutine(HideHint(4.0f));

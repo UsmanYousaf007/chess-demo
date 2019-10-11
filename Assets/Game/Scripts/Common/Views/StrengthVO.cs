@@ -9,5 +9,7 @@ public struct StrengthVO
     public GameObject fromIndicator;
     public GameObject toIndicator;
     public IAnalyticsService analyticsService;
-    public AnalyticsContext analyticsContext; 
+    public AnalyticsContext analyticsContext;
+    public string pieceName;
+    public string activeSkinId;
 }

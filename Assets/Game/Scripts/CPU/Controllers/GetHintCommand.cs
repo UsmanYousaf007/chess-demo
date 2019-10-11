@@ -108,6 +108,13 @@ namespace TurboLabz.CPU
             }
             else
             {
+                var piece = chessboardModel.squares[to.file, to.rank].piece;
+                piece.name = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
+                if (piece.color != chessboardModel.playerColor)
+                {
+                    piece.name = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+                newVo.piece = piece.name;
                 newVo.strength = float.Parse(strength);
             }
             

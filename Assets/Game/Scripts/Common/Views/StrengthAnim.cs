@@ -24,6 +24,10 @@ public class StrengthAnim : MonoBehaviour
     public GameObject UiBlocker;
     public Image closeToolTipImage;
     public Text closeToolTipText;
+    public Image stickerBg;
+    public Image stickerPieceIcon;
+    public Sprite stickerBgWhite;
+    public Sprite stickerBgBlack;
 
     private float dotWaitSeconds;
     private Coroutine barAnim = null;
@@ -64,10 +68,8 @@ public class StrengthAnim : MonoBehaviour
         //set arrowhead position
         //move it to the root of canvas then calculate screen to canvas postion
         arrowHead.transform.SetParent(this.transform.parent.parent, true);
-        arrowHead.transform.SetAsFirstSibling();
         var viewportPoint = Camera.main.WorldToScreenPoint(strengthVO.toPosition);
         arrowHead.rectTransform.position = viewportPoint;
-        arrowHead.CrossFadeAlpha(ARROW_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         //set rotation of arrowhead by calculating angle between to and from points
         var angle = Mathf.Atan2(strengthVO.fromPosition.y - strengthVO.toPosition.y, strengthVO.fromPosition.x - strengthVO.toPosition.x) * Mathf.Rad2Deg;
@@ -75,8 +77,23 @@ public class StrengthAnim : MonoBehaviour
 
         //draw line
         line.Draw(strengthVO.fromPosition, Camera.main.ScreenToWorldPoint(lineEndPivot.position));
-        line.SetAlpha(LINE_ALPHA_MIN);
-        line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
+
+        var stickerToPosition = viewportPoint;
+        var stickerFromPosition = Camera.main.WorldToScreenPoint(strengthVO.fromPosition);
+        stickerBg.transform.SetParent(this.transform.parent.parent, true);
+        stickerBg.transform.SetAsFirstSibling();
+        arrowHead.transform.SetAsFirstSibling();
+        stickerBg.sprite = strengthVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
+        stickerBg.rectTransform.position = stickerFromPosition;
+        strengthVO.pieceName = strengthVO.pieceName.Contains("k") ? strengthVO.pieceName : string.Format("c{0}", strengthVO.pieceName);
+        stickerPieceIcon.sprite = SkinContainer.LoadSkin(strengthVO.activeSkinId).GetSprite(strengthVO.pieceName);
+
+        iTween.MoveTo(stickerBg.gameObject,
+            iTween.Hash(
+                "position", stickerToPosition,
+                "time", 1.0f,
+                "easetype", iTween.EaseType.easeOutExpo
+                ));
 
         //detect direction of arrow
         var directionVector = new Vector2(strengthVO.toPosition.x < 0 ? 1 : -1, 1 /*localPosTo.y < 0 ? 1 : -1*/);
@@ -110,8 +127,10 @@ public class StrengthAnim : MonoBehaviour
 			barAnim = StartCoroutine(Animate(strengthForBars));
 		}
 
-		//StartCoroutine(HideStrengthPanel(START_FADE_AFTER_SECONDS));
-	}
+        FadeIn();
+
+        //StartCoroutine(HideStrengthPanel(START_FADE_AFTER_SECONDS));
+    }
 
     private void AnimateStrengthPercentage(int value)
     {
@@ -180,6 +199,8 @@ public class StrengthAnim : MonoBehaviour
     public void Hide()
     {
         arrowHead.transform.SetParent(strengthPanel.transform, true);
+        stickerBg.transform.SetParent(strengthPanel.transform, true);
+
         arrowHead.CrossFadeAlpha(UI_ALPHA_MIN, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         strengthPanel.SetActive(false);
         chessboardBlocker.SetActive(false);
@@ -199,6 +220,11 @@ public class StrengthAnim : MonoBehaviour
             Destroy(closeButtonBg.GetComponent<iTween>());
         }
 
+        if (stickerBg.GetComponent<iTween>() != null)
+        {
+            Destroy(stickerBg.GetComponent<iTween>());
+        }
+
         CancelInvoke();
         //Reset();
     }
@@ -216,12 +242,31 @@ public class StrengthAnim : MonoBehaviour
         foreach (var bar in barArray)
         {
             bar.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bar.GetComponentInChildren<Image>().CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
 
         line.Fade(LINE_ALPHA_MAX, LINE_ALPHA_MIN, FADE_DURATION);
 
         Invoke("Hide", FADE_DURATION);
-        Invoke("Reset", FADE_DURATION);
+        //Invoke("Reset", FADE_DURATION);
+    }
+
+    private void FadeIn()
+    {
+        panelBg.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        closeButtonBg.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        closeButton.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        strengthLabel.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        strengthText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+
+        foreach (var bar in barArray)
+        {
+            bar.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        }
+
+        line.SetAlpha(LINE_ALPHA_MIN);
+        line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
     }
 
     private void Reset()

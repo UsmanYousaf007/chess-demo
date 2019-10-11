@@ -106,6 +106,13 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
+                var piece = chessboard.squares[to.file, to.rank].piece;
+                piece.name = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
+                if (piece.color != chessboard.playerColor)
+                {
+                    piece.name = string.Format("{0}captured", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+                newVo.piece = piece.name;
                 newVo.strength = float.Parse(strength);
             }
 
