@@ -224,6 +224,8 @@ public class CoachView : MonoBehaviour
             return;
         }
 
+        coachVO.audioService.Play(coachVO.audioService.sounds.SFX_TOOL_TIP);
+
         closeToolTipImage.gameObject.SetActive(true);
         closeToolTipImage.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         closeToolTipText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);

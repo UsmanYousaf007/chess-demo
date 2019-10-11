@@ -71,6 +71,7 @@ namespace TurboLabz.Multiplayer
             strengthVO.toPosition = hintToIndicator.transform.position;
             strengthVO.fromIndicator = hintFromIndicator;
             strengthVO.toIndicator = hintToIndicator;
+            strengthVO.audioService = audioService;
             strengthVO.analyticsService = analyticsService;
             strengthVO.activeSkinId = vo.skinId;
             strengthVO.pieceName = vo.piece;

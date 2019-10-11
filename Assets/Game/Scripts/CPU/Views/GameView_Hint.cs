@@ -74,6 +74,7 @@ namespace TurboLabz.CPU
             strengthVO.toPosition = hintToIndicator.transform.position;
             strengthVO.fromIndicator = hintFromIndicator;
             strengthVO.toIndicator = hintToIndicator;
+            strengthVO.audioService = audioService;
             strengthVO.analyticsService = analyticsService;
             strengthVO.analyticsContext = AnalyticsContext.computer_match;
             strengthVO.activeSkinId = vo.skinId;
