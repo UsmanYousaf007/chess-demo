@@ -22,7 +22,7 @@ public class CoachView : MonoBehaviour
     public GameObject normalMovePanel;
     public GameObject analyzingPanel;
     public Image closeButton;
-    public Transform lineEnePivot;
+    public Transform lineEndPivot;
     public GameObject chessboardBlocker;
     public GameObject UiBlocker;
     public Image closeToolTipImage;
@@ -32,6 +32,7 @@ public class CoachView : MonoBehaviour
     public Sprite stickerBgWhite;
     public Sprite stickerBgBlack;
     public Transform moveMeterButton;
+    public Transform arrowPivot;
 
     //Constants
     const int LINE_ALPHA_MIN = 0;
@@ -48,9 +49,11 @@ public class CoachView : MonoBehaviour
     const float HIDE_TOOL_TIP_AFTER = 2.7f;
     const float CLOSE_BUTTON_SCALE_DURATION = 1.0f;
     const float PIXELS_TO_MOVE = 150.0f;
+    const float IGNORE_CLOSE_DURATION = 1.0f;
     readonly Vector3 CLOSE_BUTTON_SCALE = new Vector3(2.0f, 2.0f, 1.0f);
 
     private float timeAtAnalyzing = 0;
+    private float timeAtShow = 0;
 
     private CoachVO coachVO;
 
@@ -78,6 +81,7 @@ public class CoachView : MonoBehaviour
     public void Show(CoachVO coachVO)
     {
         this.coachVO = coachVO;
+        timeAtShow = Time.time;
         //var timeDiff = Time.time - timeAtAnalyzing;
         //Invoke("ShowResult", timeDiff < ANALYZING_DELAY ? ANALYZING_DELAY - timeDiff : 0);
         ShowResult();
@@ -90,7 +94,7 @@ public class CoachView : MonoBehaviour
         analyzingPanel.SetActive(false);
         closeButton.gameObject.SetActive(true);
         coachPanel.SetActive(true);
-        chessboardBlocker.SetActive(true);
+        //chessboardBlocker.SetActive(true);
         UiBlocker.SetActive(true);
         bg.gameObject.SetActive(true);
         arrowHead.gameObject.SetActive(true);
@@ -106,32 +110,30 @@ public class CoachView : MonoBehaviour
         pieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
         moveText.text = string.Format("{0} to {1}", coachVO.moveFrom, coachVO.moveTo);
 
-        arrowHead.transform.SetParent(this.transform.parent.parent, true);
-        var viewportPoint = Camera.main.WorldToScreenPoint(coachVO.toPosition);
-        arrowHead.rectTransform.position = viewportPoint;
-        arrowHead.CrossFadeAlpha(ARROW_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-
         var angle = Mathf.Atan2(coachVO.fromPosition.y - coachVO.toPosition.y, coachVO.fromPosition.x - coachVO.toPosition.x) * Mathf.Rad2Deg;
-        arrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
-
-        line.Draw(coachVO.fromPosition, Camera.main.ScreenToWorldPoint(lineEnePivot.position));
-        line.SetAlpha(LINE_ALPHA_MIN);
-        line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
-
-        var stickerToPosition = viewportPoint;
+        var toScreenPosition = Camera.main.WorldToScreenPoint(coachVO.toPosition);
         var stickerFromPosition = Camera.main.WorldToScreenPoint(coachVO.fromPosition);
+
         stickerBg.transform.SetParent(this.transform.parent.parent, true);
         stickerBg.transform.SetAsFirstSibling();
+        stickerBg.rectTransform.position = toScreenPosition;
+        stickerBg.transform.localEulerAngles = new Vector3(0, 0, angle);
+        stickerPieceIcon.transform.localEulerAngles = new Vector3(0, 0, angle * -1);
+
+        arrowHead.transform.SetParent(this.transform.parent.parent, true);
+        arrowHead.rectTransform.position = arrowPivot.position;
+        arrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
+
+        line.Draw(coachVO.fromPosition, Camera.main.ScreenToWorldPoint(lineEndPivot.position));
+
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
         stickerPieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
-        stickerBg.transform.localEulerAngles = new Vector3(0, 0, angle);
-        stickerPieceIcon.transform.localEulerAngles = new Vector3(0, 0, angle * -1);
 
         iTween.MoveTo(stickerBg.gameObject,
             iTween.Hash(
-                "position", stickerToPosition,
+                "position", toScreenPosition,
                 "time", 1.0f,
                 "easetype", iTween.EaseType.easeOutExpo
                 ));
@@ -145,8 +147,10 @@ public class CoachView : MonoBehaviour
 
         //set position of strength panel
         var coachPanelRectTransform = bg.rectTransform;
-        viewportPoint = Camera.main.WorldToScreenPoint(coachVO.toPosition);
-        coachPanelRectTransform.position = viewportPoint;
+        toScreenPosition = Camera.main.WorldToScreenPoint(coachVO.toPosition);
+        coachPanelRectTransform.position = toScreenPosition;
+
+        FadeIn();
     }
 
     public void Hide()
@@ -177,6 +181,11 @@ public class CoachView : MonoBehaviour
 
     public void Fade()
     {
+        if (Time.time < timeAtShow + IGNORE_CLOSE_DURATION)
+        {
+            return;
+        }
+
         bg.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         closeButton.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         icon.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
@@ -200,6 +209,28 @@ public class CoachView : MonoBehaviour
 
         Invoke("Hide", FADE_DURATION);
         Invoke("Reset", FADE_DURATION);
+    }
+
+    private void FadeIn()
+    {
+        bg.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        closeButton.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        icon.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        line.SetAlpha(LINE_ALPHA_MIN);
+        line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
+        arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        titleText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+
+        if (coachVO.isBestMove)
+        {
+            bestMoveText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        }
+        else
+        {
+            normalMoveText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            pieceIcon.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            moveText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        }
     }
 
     private void Reset()

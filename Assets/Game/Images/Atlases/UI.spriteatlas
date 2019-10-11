@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2443058
+    totalSpriteSurfaceArea: 2475731
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -65,6 +65,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bbba68310c26b4763a3953c4c04d2a5e, type: 3}
   - {fileID: 21300000, guid: 96a26f717338141168fc5c6098f18e5e, type: 3}
   - {fileID: 21300000, guid: f5996381c062f46bfaf14460ae9f9f49, type: 3}
+  - {fileID: 21300000, guid: 7cd782a1abc044268b596effc69c3215, type: 3}
   - {fileID: 21300000, guid: 960b91b114d4d4de8a15f49bb2087f30, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
@@ -83,10 +84,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 10e778f2f8e204dccb1428acbd6e4960, type: 3}
   - {fileID: 21300000, guid: e23714035b1d047439525a3c62a1508f, type: 3}
   - {fileID: 21300000, guid: a31a4603e04ef44bbbc6dcbd37388fd3, type: 3}
+  - {fileID: 21300000, guid: 359ffd032ccee4e79ba6aa23a334e4da, type: 3}
   - {fileID: 21300000, guid: 07f15c1303df147179710c38bceba9ca, type: 3}
   - {fileID: 21300000, guid: e5353f13b255a49b39fbddc6b66b8811, type: 3}
   - {fileID: 21300000, guid: b1fc4a9377e744ac6b3d98ea8a422706, type: 3}
   - {fileID: 21300000, guid: ac4ae5a301bdc4a05b49a0867343b6af, type: 3}
+  - {fileID: 21300000, guid: f2c6c0b3eea7a408eb22d1628c27f989, type: 3}
   - {fileID: 21300000, guid: cb5eadd30aa904f8b832af222345d7fd, type: 3}
   - {fileID: 21300000, guid: 84af87f31dc3c44919e50996c0344237, type: 3}
   - {fileID: 21300000, guid: 8e1acdf30cd854d35891383225e8c61f, type: 3}
@@ -167,6 +170,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b1b8e21be0dc143a2b2c92c7d11c4e58, type: 3}
   - {fileID: 21300000, guid: dadc533b320e041fba65f59105ca3797, type: 3}
   - {fileID: 21300000, guid: fadd426b9f38d434e961d21df5d5b3d1, type: 3}
+  - {fileID: 21300000, guid: 1e051b6bbf3634fadbed7d3879feece1, type: 3}
   - {fileID: 21300000, guid: 901452bba01674b4c9d68f041f9ac046, type: 3}
   - {fileID: 21300000, guid: 6fc5bfebb751d485d99ca3b3d74cb669, type: 3}
   - {fileID: 21300000, guid: f83ec0fb53c42417793b9117ca684ece, type: 3}
@@ -221,6 +225,7 @@ SpriteAtlas:
   - ChatIcon2
   - ChatMuteIconX
   - WhiteButton
+  - moveMeterPerfect
   - PlusIcon
   - PossibleMovesIndicator
   - NoStar
@@ -239,10 +244,12 @@ SpriteAtlas:
   - Switch
   - InviteUsIcon
   - HourGlass
+  - moveMeterFiller
   - GameToolButton
   - BtnIconHindsight
   - PowerUpPanel
   - FriendsIcon
+  - moveMeterFillerBg
   - HintBtn
   - 4
   - d
@@ -323,6 +330,7 @@ SpriteAtlas:
   - FrameworkButton
   - ChatMinIcon
   - AddCoinPlate
+  - moveMeterBg
   - coachStickerBgBlack
   - SupportIcon
   - CPUThinking
