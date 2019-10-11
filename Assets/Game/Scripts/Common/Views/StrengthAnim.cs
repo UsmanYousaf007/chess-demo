@@ -28,6 +28,7 @@ public class StrengthAnim : MonoBehaviour
     public Image stickerPieceIcon;
     public Sprite stickerBgWhite;
     public Sprite stickerBgBlack;
+    public Transform moveMeterButton;
 
     private float dotWaitSeconds;
     private Coroutine barAnim = null;
@@ -65,6 +66,8 @@ public class StrengthAnim : MonoBehaviour
         chessboardBlocker.SetActive(true);
         UiBlocker.SetActive(true);
 
+        moveMeterButton.SetAsFirstSibling();
+
         //set arrowhead position
         //move it to the root of canvas then calculate screen to canvas postion
         arrowHead.transform.SetParent(this.transform.parent.parent, true);
@@ -85,8 +88,9 @@ public class StrengthAnim : MonoBehaviour
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = strengthVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
-        strengthVO.pieceName = strengthVO.pieceName.Contains("k") ? strengthVO.pieceName : string.Format("c{0}", strengthVO.pieceName);
         stickerPieceIcon.sprite = SkinContainer.LoadSkin(strengthVO.activeSkinId).GetSprite(strengthVO.pieceName);
+        stickerBg.transform.localEulerAngles = new Vector3(0, 0, angle);
+        stickerPieceIcon.transform.localEulerAngles = new Vector3(0, 0, angle * -1);
 
         iTween.MoveTo(stickerBg.gameObject,
             iTween.Hash(
@@ -112,15 +116,17 @@ public class StrengthAnim : MonoBehaviour
         int strengthForBars = Mathf.FloorToInt(strengthVO.strength * 10);
 
         //TODO use dotween
-        iTween.ValueTo(this.gameObject, iTween.Hash(
-            "from", START_STRENGTH_TEXT_ANIMATION_FROM,
-            "to", strengthForLabel,
-            "time", STRENGTH_TEXT_ANIMATION_DURATION,
-            "onupdate", "AnimateStrengthPercentage",
-            "onupdatetarget", this.gameObject,
-            "oncomplete", "OnCompletePercentageAnimation",
-            "oncompletetarget", this.gameObject,
-            "oncompleteparams", strengthForBars));
+        iTween.ValueTo(this.gameObject,
+            iTween.Hash(
+                "from", START_STRENGTH_TEXT_ANIMATION_FROM,
+                "to", strengthForLabel,
+                "time", STRENGTH_TEXT_ANIMATION_DURATION,
+                "onupdate", "AnimateStrengthPercentage",
+                "onupdatetarget", this.gameObject,
+                "oncomplete", "OnCompletePercentageAnimation",
+                "oncompletetarget", this.gameObject,
+                "oncompleteparams", strengthForBars
+            ));
 
 		if (strengthForBars > 0 && strengthForBars <= barArray.Length)
 		{

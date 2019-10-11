@@ -20,6 +20,8 @@ namespace TurboLabz.CPU
     {
         public Signal hindsightClickedSignal = new Signal();
 
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
@@ -112,6 +114,7 @@ namespace TurboLabz.CPU
             }
             else
             {
+                cancelHintSingal.Dispatch();
                 hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 //coachView.ShowAnalyzing();

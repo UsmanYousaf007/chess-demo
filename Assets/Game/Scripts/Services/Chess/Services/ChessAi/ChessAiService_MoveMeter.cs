@@ -99,9 +99,10 @@ namespace TurboLabz.Chess
                 piece = aiMoveInputVO.squares[aiMoveInputVO.lastPlayerMove.to.file, aiMoveInputVO.lastPlayerMove.to.rank].piece;
             }
 
-            piece.name = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
+            var pieceName = piece.name;
+            pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
 
-            lastDequeuedMethod.promise.Dispatch(from, to, piece.name);
+            lastDequeuedMethod.promise.Dispatch(from, to, pieceName);
             lastDequeuedMethod.promise = null;
             lastDequeuedMethod = null;
         }

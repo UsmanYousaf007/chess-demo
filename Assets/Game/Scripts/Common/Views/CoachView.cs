@@ -24,12 +24,14 @@ public class CoachView : MonoBehaviour
     public Image closeButton;
     public Transform lineEnePivot;
     public GameObject chessboardBlocker;
+    public GameObject UiBlocker;
     public Image closeToolTipImage;
     public Text closeToolTipText;
     public Image stickerBg;
     public Image stickerPieceIcon;
     public Sprite stickerBgWhite;
     public Sprite stickerBgBlack;
+    public Transform moveMeterButton;
 
     //Constants
     const int LINE_ALPHA_MIN = 0;
@@ -79,7 +81,7 @@ public class CoachView : MonoBehaviour
         //var timeDiff = Time.time - timeAtAnalyzing;
         //Invoke("ShowResult", timeDiff < ANALYZING_DELAY ? ANALYZING_DELAY - timeDiff : 0);
         ShowResult();
-        chessboardBlocker.SetActive(true);
+        //chessboardBlocker.SetActive(true);
         //Invoke("Fade", START_FADE_AFTER_SECONDS);
     }
 
@@ -89,9 +91,12 @@ public class CoachView : MonoBehaviour
         closeButton.gameObject.SetActive(true);
         coachPanel.SetActive(true);
         chessboardBlocker.SetActive(true);
+        UiBlocker.SetActive(true);
         bg.gameObject.SetActive(true);
         arrowHead.gameObject.SetActive(true);
         line.gameObject.SetActive(true);
+
+        moveMeterButton.SetAsLastSibling();
 
         coachVO.audioService.Play(coachVO.audioService.sounds.SFX_HINT);
 
@@ -120,8 +125,9 @@ public class CoachView : MonoBehaviour
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
-        coachVO.pieceName = coachVO.pieceName.Contains("k") ? coachVO.pieceName : string.Format("c{0}", coachVO.pieceName);
         stickerPieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
+        stickerBg.transform.localEulerAngles = new Vector3(0, 0, angle);
+        stickerPieceIcon.transform.localEulerAngles = new Vector3(0, 0, angle * -1);
 
         iTween.MoveTo(stickerBg.gameObject,
             iTween.Hash(
@@ -150,6 +156,7 @@ public class CoachView : MonoBehaviour
 
         coachPanel.SetActive(false);
         chessboardBlocker.SetActive(false);
+        UiBlocker.SetActive(false);
         bg.gameObject.SetActive(false);
         closeToolTipImage.gameObject.SetActive(false);
 

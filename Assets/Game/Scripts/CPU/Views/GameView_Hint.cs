@@ -125,6 +125,7 @@ namespace TurboLabz.CPU
             }
             else
             {
+                cancelHintSingal.Dispatch();
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
