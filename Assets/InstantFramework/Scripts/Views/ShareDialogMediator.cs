@@ -48,10 +48,10 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 
-            if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
-            {
-                chessboardBlockerEnableSignal.Dispatch(false);
-            }
+            //if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            //{
+            //    chessboardBlockerEnableSignal.Dispatch(false);
+            //}
             
 
             //if (appInfoModel.isReconnecting == DisconnectStats.SHORT_DISCONNECT)
@@ -106,6 +106,11 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SHARE_SCREEN_DIALOG)
             {
                 view.Hide();
+
+                if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+                {
+                    chessboardBlockerEnableSignal.Dispatch(false);
+                }
             }
         }
 
