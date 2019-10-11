@@ -21,6 +21,8 @@ namespace TurboLabz.Multiplayer
     {
         public Signal hintClickedSignal = new Signal();
 
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+
         [Header("Hint")]
         public GameObject hintFromIndicator;
         public GameObject hintToIndicator;
@@ -98,7 +100,7 @@ namespace TurboLabz.Multiplayer
         {
             hintThinking.SetActive(false);
             DisableModalBlocker();
-            DisableHintButton();
+            //DisableHintButton();
 
             if(strengthPanel.gameObject.activeSelf)
             {
@@ -137,6 +139,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
+                cancelHintSingal.Dispatch();
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();

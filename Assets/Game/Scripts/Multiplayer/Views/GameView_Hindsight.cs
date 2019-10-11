@@ -93,7 +93,7 @@ namespace TurboLabz.Multiplayer
         {
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
-            DisableHindsightButton();
+            //DisableHindsightButton();
 
             if(coachView.gameObject.activeSelf)
             {
@@ -125,6 +125,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
+                cancelHintSingal.Dispatch();
                 hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 //coachView.ShowAnalyzing();
