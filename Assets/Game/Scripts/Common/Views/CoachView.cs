@@ -7,32 +7,31 @@ using UnityEngine.UI;
 
 public class CoachView : MonoBehaviour
 {
+    [System.Serializable]
+    public class MoveDetailsUI
+    {
+        public Image bg;
+        public Image icon;
+        public Text text;
+    }
+
     //Visual Properties
     public GameObject coachPanel;
-    public Image bg;
-    public Image pieceIcon;
-    public Text moveText;
+    public Transform parentPanel;
+    public MoveDetailsUI normalPanel;
+    public MoveDetailsUI bestPanel;
     public DrawLine line;
     public Image arrowHead;
-    public Text titleText;
-    public Image icon;
-    public Text normalMoveText;
-    public Text bestMoveText;
-    public GameObject bestMovePanel;
-    public GameObject normalMovePanel;
-    public GameObject analyzingPanel;
-    public Image closeButton;
     public Transform lineEndPivot;
-    public GameObject chessboardBlocker;
     public GameObject UiBlocker;
-    public Image closeToolTipImage;
-    public Text closeToolTipText;
     public Image stickerBg;
     public Image stickerPieceIcon;
     public Sprite stickerBgWhite;
     public Sprite stickerBgBlack;
     public Transform moveMeterButton;
     public Transform arrowPivot;
+    public Transform upPivot;
+    public Transform downPivot;
 
     //Constants
     const int LINE_ALPHA_MIN = 0;
@@ -63,52 +62,25 @@ public class CoachView : MonoBehaviour
 
     }
 
-    public void ShowAnalyzing()
-    {
-        bestMovePanel.SetActive(false);
-        normalMovePanel.SetActive(false);
-        closeButton.gameObject.SetActive(false);
-        arrowHead.gameObject.SetActive(false);
-        line.gameObject.SetActive(false);
-        bg.gameObject.SetActive(true);
-        analyzingPanel.SetActive(true);
-        coachPanel.SetActive(true);
-        chessboardBlocker.SetActive(true);
-
-        timeAtAnalyzing = Time.time;
-    }
-
     public void Show(CoachVO coachVO)
     {
         this.coachVO = coachVO;
         timeAtShow = Time.time;
-        //var timeDiff = Time.time - timeAtAnalyzing;
-        //Invoke("ShowResult", timeDiff < ANALYZING_DELAY ? ANALYZING_DELAY - timeDiff : 0);
         ShowResult();
-        //chessboardBlocker.SetActive(true);
-        //Invoke("Fade", START_FADE_AFTER_SECONDS);
     }
 
     private void ShowResult()
     {
-        analyzingPanel.SetActive(false);
-        closeButton.gameObject.SetActive(true);
         coachPanel.SetActive(true);
-        //chessboardBlocker.SetActive(true);
         UiBlocker.SetActive(true);
-        bg.gameObject.SetActive(true);
         arrowHead.gameObject.SetActive(true);
         line.gameObject.SetActive(true);
+        normalPanel.bg.gameObject.SetActive(!coachVO.isBestMove);
+        bestPanel.bg.gameObject.SetActive(coachVO.isBestMove);
 
         moveMeterButton.SetAsLastSibling();
 
         coachVO.audioService.Play(coachVO.audioService.sounds.SFX_HINT);
-
-        bestMovePanel.SetActive(coachVO.isBestMove);
-        normalMovePanel.SetActive(!coachVO.isBestMove);
-
-        pieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
-        moveText.text = string.Format("{0} to {1}", coachVO.moveFrom, coachVO.moveTo);
 
         var angle = Mathf.Atan2(coachVO.fromPosition.y - coachVO.toPosition.y, coachVO.fromPosition.x - coachVO.toPosition.x) * Mathf.Rad2Deg;
         var toScreenPosition = Camera.main.WorldToScreenPoint(coachVO.toPosition);
@@ -117,6 +89,10 @@ public class CoachView : MonoBehaviour
         stickerBg.transform.SetParent(this.transform.parent.parent, true);
         stickerBg.transform.SetAsFirstSibling();
         stickerBg.rectTransform.position = toScreenPosition;
+
+        var upPosition = upPivot.position;
+        var downPosition = downPivot.position;
+
         stickerBg.transform.localEulerAngles = new Vector3(0, 0, angle);
         stickerPieceIcon.transform.localEulerAngles = new Vector3(0, 0, angle * -1);
 
@@ -139,18 +115,28 @@ public class CoachView : MonoBehaviour
                 ));
 
         //detect direction of arrow
-        var directionVector = new Vector2(coachVO.toPosition.x < 0 ? 1 : -1, 1 /*localPosTo.y < 0 ? 1 : -1*/);
-
-        //calculate position for strength panel
-        coachVO.toPosition = new Vector3(coachVO.toPosition.x + (PIXELS_TO_MOVE * directionVector.x),
-            coachVO.toPosition.y + (PIXELS_TO_MOVE * directionVector.y));
-
-        //set position of strength panel
-        var coachPanelRectTransform = bg.rectTransform;
-        toScreenPosition = Camera.main.WorldToScreenPoint(coachVO.toPosition);
-        coachPanelRectTransform.position = toScreenPosition;
+        var directionVector = new Vector2(coachVO.toPosition.x < 0 ? 1 : -1, coachVO.fromPosition.y > coachVO.toPosition.y ? 1 : -1);
+        Flip(directionVector.x);
+        var positionVector = directionVector.y > 0 ? downPosition : upPosition;
+        parentPanel.position = positionVector;
 
         FadeIn();
+    }
+
+    void Flip(float scale)
+    {
+        var vectorToFlip = new Vector3(scale, 1, 1);
+        parentPanel.localScale = vectorToFlip;
+        if (coachVO.isBestMove)
+        {
+            bestPanel.icon.transform.localScale = vectorToFlip;
+            bestPanel.text.transform.localScale = vectorToFlip;
+        }
+        else
+        {
+            normalPanel.icon.transform.localScale = vectorToFlip;
+            normalPanel.text.transform.localScale = vectorToFlip;
+        }
     }
 
     public void Hide()
@@ -159,16 +145,7 @@ public class CoachView : MonoBehaviour
         stickerBg.transform.SetParent(coachPanel.transform, true);
 
         coachPanel.SetActive(false);
-        chessboardBlocker.SetActive(false);
         UiBlocker.SetActive(false);
-        bg.gameObject.SetActive(false);
-        closeToolTipImage.gameObject.SetActive(false);
-
-        if (closeButton.GetComponent<iTween>() != null)
-        {
-            closeButton.rectTransform.localScale = Vector3.one;
-            Destroy(closeButton.GetComponent<iTween>());
-        }
 
         if (stickerBg.GetComponent<iTween>() != null)
         {
@@ -176,7 +153,7 @@ public class CoachView : MonoBehaviour
         }
 
         CancelInvoke();
-
+        Reset();
     }
 
     public void Fade()
@@ -186,106 +163,70 @@ public class CoachView : MonoBehaviour
             return;
         }
 
-        bg.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        closeButton.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        icon.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         line.Fade(LINE_ALPHA_MAX, LINE_ALPHA_MIN, FADE_DURATION);
         arrowHead.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        titleText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         if (coachVO.isBestMove)
         {
-            bestMoveText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.bg.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.icon.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.text.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
         else
         {
-            normalMoveText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            pieceIcon.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            moveText.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.bg.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.icon.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.text.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
 
 
         coachVO.analyticsService.Event(AnalyticsEventId.close_pow_coach, coachVO.analyticsContext);
 
         Invoke("Hide", FADE_DURATION);
-        Invoke("Reset", FADE_DURATION);
+        //Invoke("Reset", FADE_DURATION);
     }
 
     private void FadeIn()
     {
-        bg.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        closeButton.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        icon.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         line.SetAlpha(LINE_ALPHA_MIN);
         line.Fade(LINE_ALPHA_MIN, LINE_ALPHA_MAX, FADE_DURATION);
         arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        titleText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         if (coachVO.isBestMove)
         {
-            bestMoveText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
         else
         {
-            normalMoveText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            pieceIcon.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            moveText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
     }
 
     private void Reset()
     {
-        bg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        closeButton.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        icon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         line.SetAlpha(LINE_ALPHA_MAX);
-        //arrowHead.CrossFadeAlpha(UIA, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        titleText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
         if (coachVO.isBestMove)
         {
-            bestMoveText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            bestPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
         else
         {
-            normalMoveText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            pieceIcon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            moveText.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        }
-    }
-
-    public void ShowToolTip()
-    {
-        //ignore while analyzing
-        if (analyzingPanel.activeInHierarchy)
-        {
-            return;
+            normalPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+            normalPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
 
-        coachVO.audioService.Play(coachVO.audioService.sounds.SFX_TOOL_TIP);
-
-        closeToolTipImage.gameObject.SetActive(true);
-        closeToolTipImage.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        closeToolTipText.CrossFadeAlpha(UI_ALPHA_MAX, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-
-        if (closeButton.GetComponent<iTween>() == null)
-        {
-            //animate close button
-            iTween.ScaleTo(closeButton.gameObject,
-                iTween.Hash(
-                    "scale", CLOSE_BUTTON_SCALE,
-                    "islocal", true,
-                    "time", CLOSE_BUTTON_SCALE_DURATION,
-                    "looptype", iTween.LoopType.pingPong
-                    ));
-        }
-
-        Invoke("FadeToolTip", HIDE_TOOL_TIP_AFTER);
+        stickerBg.transform.localEulerAngles = Vector3.zero;
+        stickerPieceIcon.transform.localEulerAngles = Vector3.zero;
     }
 
-    private void FadeToolTip()
-    {
-        closeToolTipImage.CrossFadeAlpha(UI_ALPHA_MIN, TOOL_TIP_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        closeToolTipText.CrossFadeAlpha(UI_ALPHA_MIN, TOOL_TIP_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-    }
+    
 }
