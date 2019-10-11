@@ -48,6 +48,7 @@ namespace TurboLabz.InstantGame
         [Inject] public StopTimersSignal stopTimersSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public TurboLabz.CPU.SaveGameSignal saveGameSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -205,6 +206,7 @@ namespace TurboLabz.InstantGame
                 saveGameSignal.Dispatch();
             }
             loadLobbySignal.Dispatch();
+            cancelHintSingal.Dispatch();
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
             FadeBlocker();
         }
