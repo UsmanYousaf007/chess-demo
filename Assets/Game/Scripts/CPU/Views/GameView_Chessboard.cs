@@ -70,6 +70,7 @@ namespace TurboLabz.CPU
         private ChessColor opponentColor;
         private bool opponentAnimationInProgress = false;
         private IEnumerator showPossibleMovesCR = null;
+        private float scaleUniform;
 
         public void InitChessboard()
         {
@@ -107,7 +108,7 @@ namespace TurboLabz.CPU
             const float BOARD_STRETCH_CAP = 1.3f;   // Maximum stretch scale 
 
             // Stretch board according to screen width
-            float scaleUniform = Screen.width / (BOARD_WIDTH * canvas.transform.localScale.x);
+            scaleUniform = Screen.width / (BOARD_WIDTH * canvas.transform.localScale.x);
             float scaleUniformOriginal = scaleUniform;
             scaleUniform = (scaleUniform > BOARD_STRETCH_CAP) ? BOARD_STRETCH_CAP : scaleUniform; // Apply cap
             boardContent.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), boardContent.localScale);

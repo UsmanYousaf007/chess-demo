@@ -39,6 +39,10 @@ namespace TurboLabz.CPU
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hindsightButton.onClick.AddListener(HindsightButtonClicked);
             hindsightThinking.SetActive(false);
+
+            var originalScale = coachView.stickerBg.transform.localScale;
+            var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
+            coachView.stickerBg.transform.localScale = vectorToScale;
         }
 
         public void OnParentShowHindsight()

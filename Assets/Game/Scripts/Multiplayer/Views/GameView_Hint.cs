@@ -41,6 +41,10 @@ namespace TurboLabz.Multiplayer
             hintButton.onClick.AddListener(HintButtonClicked);
             hintThinking.SetActive(false);
             strengthPanel.Hide();
+
+            var originalScale = strengthPanel.stickerBg.transform.localScale;
+            var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
+            strengthPanel.stickerBg.transform.localScale = vectorToScale;
         }
 
         public void OnParentShowHint()
