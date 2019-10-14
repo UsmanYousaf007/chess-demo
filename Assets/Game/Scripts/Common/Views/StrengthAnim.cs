@@ -175,6 +175,11 @@ public class StrengthAnim : MonoBehaviour
             Destroy(stickerBg.GetComponent<iTween>());
         }
 
+        if (this.gameObject.GetComponent<iTween>() != null)
+        {
+            Destroy(this.gameObject.GetComponent<iTween>());
+        }
+
         CancelInvoke();
         Reset();
     }

@@ -102,6 +102,12 @@ namespace TurboLabz.Multiplayer
                     strength = string.Format("{0}captured", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
                 }
 
+                if (!string.IsNullOrEmpty(chessboard.lastPlayerMove.promo)
+                    && newVo.didPlayerMadeBestMove)
+                {
+                    strength = string.Format("{0}p", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
                 newVo.piece = strength;
             }
             else
@@ -113,6 +119,12 @@ namespace TurboLabz.Multiplayer
                 {
                     pieceName = string.Format("{0}captured", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
                 }
+
+                if (!string.IsNullOrEmpty(chessboard.lastPlayerMove.promo))
+                {
+                    pieceName = string.Format("{0}p", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
                 newVo.piece = pieceName;
                 newVo.strength = float.Parse(strength);
             }

@@ -87,7 +87,30 @@ namespace TurboLabz.Chess
 
         private void GetBestMove()
         {
-            var selectedMove = aiSearchResultMovesList[0];
+            string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(aiMoveInputVO.lastPlayerMove.from, aiMoveInputVO.lastPlayerMove.to);
+            int moveFoundIndex = -1;
+
+            for (int i = 0; i < aiSearchResultMovesList.Count; ++i)
+            {
+                LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i] + " SCORE : " + scores[i]);
+
+                if (string.Equals(moveString, aiSearchResultMovesList[i]))
+                {
+                    moveFoundIndex = i;
+                    break;
+                }
+            }
+
+            LogUtil.Log("moveString : " + moveString + " totolMoveCount : " + aiSearchResultMovesList.Count + " moveFoundIndex:" + moveFoundIndex);
+
+            bool playerMadeTheBestMove = false;
+            if (moveFoundIndex >= 0
+                && scores[0] == scores[moveFoundIndex])
+            {
+                playerMadeTheBestMove = true;
+            }
+
+            var selectedMove = playerMadeTheBestMove ? aiSearchResultMovesList[moveFoundIndex] : aiSearchResultMovesList[0];
             var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
             var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
             var piece = chessService.GetPieceAtLocation(from);
