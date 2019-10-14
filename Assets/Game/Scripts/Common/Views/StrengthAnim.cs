@@ -42,7 +42,7 @@ public class StrengthAnim : MonoBehaviour
     const int START_STRENGTH_TEXT_ANIMATION_FROM = 0;
     const float STRENGTH_TEXT_ANIMATION_DURATION = 1.0f;
     const int MAX_STRENGTH = 100;
-    const float IGNORE_CLOSE_DURATION = 1.0f;
+    const float IGNORE_CLOSE_DURATION = 2.3f;
 
     private StrengthVO strengthVO;
 
@@ -57,6 +57,7 @@ public class StrengthAnim : MonoBehaviour
 
         strengthPanel.SetActive(true);
         UiBlocker.SetActive(true);
+        panelBg.gameObject.SetActive(false);
 
         moveMeterButton.SetAsFirstSibling();
 
@@ -89,7 +90,9 @@ public class StrengthAnim : MonoBehaviour
             iTween.Hash(
                 "position", toScreenPosition,
                 "time", 1.0f,
-                "easetype", iTween.EaseType.easeOutExpo
+                "easetype", iTween.EaseType.easeOutExpo,
+                "oncomplete", "OnCompleteStickerAnimation",
+                "oncompletetarget", this.gameObject
                 ));
 
         //detect direction of arrow
@@ -97,6 +100,15 @@ public class StrengthAnim : MonoBehaviour
         Flip(directionVector.x);
         var positionVector = directionVector.y > 0 ? downPosition : upPosition;
         panelBg.rectTransform.position = positionVector;
+
+        FadeIn();
+
+    }
+
+    private void OnCompleteStickerAnimation()
+    {
+
+        panelBg.gameObject.SetActive(true);
 
         int strengthForLabel = Mathf.RoundToInt(strengthVO.strength * 100);
 
@@ -112,12 +124,9 @@ public class StrengthAnim : MonoBehaviour
                 "oncompletetarget", this.gameObject,
                 "oncompleteparams", strengthForLabel
             ));
-
-        FadeIn();
-
     }
 
-    void Flip(float scale)
+    private void Flip(float scale)
     {
         var flipVector = new Vector3(scale, 1, 1);
         panelBg.transform.localScale = flipVector;

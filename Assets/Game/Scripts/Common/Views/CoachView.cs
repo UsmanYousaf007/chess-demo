@@ -48,7 +48,7 @@ public class CoachView : MonoBehaviour
     const float HIDE_TOOL_TIP_AFTER = 2.7f;
     const float CLOSE_BUTTON_SCALE_DURATION = 1.0f;
     const float PIXELS_TO_MOVE = 150.0f;
-    const float IGNORE_CLOSE_DURATION = 1.0f;
+    const float IGNORE_CLOSE_DURATION = 1.3f;
     readonly Vector3 CLOSE_BUTTON_SCALE = new Vector3(2.0f, 2.0f, 1.0f);
 
     private float timeAtAnalyzing = 0;
@@ -75,8 +75,8 @@ public class CoachView : MonoBehaviour
         UiBlocker.SetActive(true);
         arrowHead.gameObject.SetActive(true);
         line.gameObject.SetActive(true);
-        normalPanel.bg.gameObject.SetActive(!coachVO.isBestMove);
-        bestPanel.bg.gameObject.SetActive(coachVO.isBestMove);
+        normalPanel.bg.gameObject.SetActive(false);
+        bestPanel.bg.gameObject.SetActive(false);
 
         moveMeterButton.SetAsLastSibling();
 
@@ -111,7 +111,9 @@ public class CoachView : MonoBehaviour
             iTween.Hash(
                 "position", toScreenPosition,
                 "time", 1.0f,
-                "easetype", iTween.EaseType.easeOutExpo
+                "easetype", iTween.EaseType.easeOutExpo,
+                "oncomplete", "OnCompleteStickerAnimation",
+                "oncompletetarget", this.gameObject
                 ));
 
         //detect direction of arrow
@@ -123,7 +125,13 @@ public class CoachView : MonoBehaviour
         FadeIn();
     }
 
-    void Flip(float scale)
+    private void OnCompleteStickerAnimation()
+    {
+        normalPanel.bg.gameObject.SetActive(!coachVO.isBestMove);
+        bestPanel.bg.gameObject.SetActive(coachVO.isBestMove);
+    }
+
+    private void Flip(float scale)
     {
         var vectorToFlip = new Vector3(scale, 1, 1);
         parentPanel.localScale = vectorToFlip;
