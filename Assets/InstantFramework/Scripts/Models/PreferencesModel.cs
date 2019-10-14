@@ -71,7 +71,7 @@ namespace TurboLabz.InstantGame
 
                 if (reader.HasKey(PrefKeys.IS_SAFE_MOVE_ON))
                 {
-                    isSafeMoveOn = reader.Read<bool>(PrefKeys.IS_SAFE_MOVE_ON);
+                    isSafeMoveOn = false;
                 }
 
                 if (reader.HasKey(PrefKeys.IS_FRIEND_SCREEN_VISITED))

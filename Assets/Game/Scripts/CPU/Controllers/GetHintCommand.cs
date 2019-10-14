@@ -104,10 +104,31 @@ namespace TurboLabz.CPU
                     strength = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
                 }
 
+                if (!string.IsNullOrEmpty(chessboardModel.lastPlayerMove.promo)
+                    && newVo.didPlayerMadeBestMove)
+                {
+                    strength = string.Format("{0}p", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
                 newVo.piece = strength;
             }
             else
             {
+                var piece = chessboardModel.squares[to.file, to.rank].piece;
+                var pieceName = piece.name;
+                pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', pieceName.ToLower());
+
+                if (piece.color != chessboardModel.playerColor)
+                {
+                    pieceName = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                if (!string.IsNullOrEmpty(chessboardModel.lastPlayerMove.promo))
+                {
+                    pieceName = string.Format("{0}p", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                newVo.piece = pieceName;
                 newVo.strength = float.Parse(strength);
             }
             

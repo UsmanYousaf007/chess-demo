@@ -39,6 +39,10 @@ namespace TurboLabz.CPU
             hintButton.onClick.AddListener(HintButtonClicked);
             hintThinking.SetActive(false);
             strengthPanel.Hide();
+
+            var originalScale = strengthPanel.stickerBg.transform.localScale;
+            var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
+            strengthPanel.stickerBg.transform.localScale = vectorToScale;
         }
 
         public void OnParentShowHint()
@@ -74,6 +78,16 @@ namespace TurboLabz.CPU
             strengthVO.toPosition = hintToIndicator.transform.position;
             strengthVO.fromIndicator = hintFromIndicator;
             strengthVO.toIndicator = hintToIndicator;
+            strengthVO.audioService = audioService;
+            strengthVO.analyticsService = analyticsService;
+            strengthVO.analyticsContext = AnalyticsContext.computer_match;
+            strengthVO.activeSkinId = vo.skinId;
+            strengthVO.pieceName = vo.piece;
+
+            if (vo.piece.Contains("captured"))
+            {
+                strengthVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
+            }
 
             strengthPanel.ShowStrengthPanel(strengthVO);
             StartCoroutine(HideHint(4.0f));
@@ -85,6 +99,12 @@ namespace TurboLabz.CPU
             hintThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHintButton();
+
+            if (strengthPanel.gameObject.activeSelf)
+            {
+                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.computer_match);
+            }
+
             strengthPanel.Hide();
         }
 
@@ -105,17 +125,18 @@ namespace TurboLabz.CPU
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
             }
             else
             {
+                cancelHintSingal.Dispatch();
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
 
                 StashStepButtons();
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_hint, AnalyticsContext.computer_match);
+                analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
             }
         }
 

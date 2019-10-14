@@ -60,6 +60,7 @@ namespace TurboLabz.InstantFramework
                     if (cmd.matchInfoModel.activeMatch.isLongPlay)
                     {
                         cmd.exitLongMatchSignal.Dispatch();
+                        cmd.cancelHintSingal.Dispatch();
                         return null;
                     }
                     else

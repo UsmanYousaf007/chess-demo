@@ -13,7 +13,9 @@ namespace TurboLabz.InstantGame
         {
             SAFEMOVES,
             HINTS,
-            HINDSIGHTS
+            HINDSIGHTS,
+            MOVEMETER,
+            COACH
         };
 
         public Button closeButton;
@@ -52,8 +54,8 @@ namespace TurboLabz.InstantGame
             UpdatePowerUpNotEnoughCoinsLabels(vo, galleryPowerUps);
 
             safeMovePowerUpSection.gameObject.SetActive(activeSection == PowerUpSections.SAFEMOVES);
-            hintPowerUpSection.gameObject.SetActive(activeSection == PowerUpSections.HINTS);
-            hindsightPowerUpSection.gameObject.SetActive(activeSection == PowerUpSections.HINDSIGHTS);
+            hintPowerUpSection.gameObject.SetActive(activeSection == PowerUpSections.MOVEMETER);
+            hindsightPowerUpSection.gameObject.SetActive(activeSection == PowerUpSections.COACH);
         }
 
         public void Show()

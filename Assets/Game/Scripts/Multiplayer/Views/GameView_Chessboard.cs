@@ -71,6 +71,7 @@ namespace TurboLabz.Multiplayer
         private ChessColor opponentColor;
         private bool opponentAnimationInProgress = false;
         private IEnumerator showPossibleMovesCR = null;
+        private float scaleUniform;
 
         public void InitChessboard()
         {
@@ -108,7 +109,7 @@ namespace TurboLabz.Multiplayer
             const float BOARD_STRETCH_CAP = 1.3f;   // Maximum stretch scale 
 
             // Stretch board according to screen width
-            float scaleUniform = Screen.width / (BOARD_WIDTH * canvas.transform.localScale.x);
+            scaleUniform = Screen.width / (BOARD_WIDTH * canvas.transform.localScale.x);
             float scaleUniformOriginal = scaleUniform;
             scaleUniform = (scaleUniform > BOARD_STRETCH_CAP) ? BOARD_STRETCH_CAP : scaleUniform; // Apply cap
             boardContent.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), boardContent.localScale);
@@ -129,9 +130,9 @@ namespace TurboLabz.Multiplayer
             var opponentProfileScreenPoint = Camera.main.WorldToScreenPoint(opponentProfileUiAnchor.position);
             opponentInfoPanel.transform.position = opponentProfileScreenPoint;
 
-            ((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (20 * scaleWidth), ((RectTransform)coachView.bg.transform).sizeDelta.y);
-            var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
-            coachView.bg.transform.position = viewportPoint;
+            //((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (20 * scaleWidth), ((RectTransform)coachView.bg.transform).sizeDelta.y);
+            //var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
+            //coachView.bg.transform.position = viewportPoint;
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
             ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);

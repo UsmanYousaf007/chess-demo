@@ -20,6 +20,8 @@ namespace TurboLabz.CPU
     {
         public Signal hindsightClickedSignal = new Signal();
 
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
@@ -37,6 +39,10 @@ namespace TurboLabz.CPU
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hindsightButton.onClick.AddListener(HindsightButtonClicked);
             hindsightThinking.SetActive(false);
+
+            var originalScale = coachView.stickerBg.transform.localScale;
+            var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
+            coachView.stickerBg.transform.localScale = vectorToScale;
         }
 
         public void OnParentShowHindsight()
@@ -71,8 +77,10 @@ namespace TurboLabz.CPU
             coachVO.activeSkinId = vo.skinId;
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
             coachVO.audioService = audioService;
+            coachVO.analyticsService = analyticsService;
+            coachVO.analyticsContext = AnalyticsContext.computer_match;
 
-            if (vo.piece.Contains("captured"))
+                if (vo.piece.Contains("captured"))
             {
                 coachVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
             }
@@ -86,6 +94,12 @@ namespace TurboLabz.CPU
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHindsightButton();
+
+            if(coachView.gameObject.activeSelf)
+            {
+                analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.computer_match);
+            }
+
             coachView.Hide();
         }
 
@@ -100,18 +114,19 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINDSIGHTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
             }
             else
             {
-                //hindsightThinking.SetActive(true);
+                cancelHintSingal.Dispatch();
+                hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
-                coachView.ShowAnalyzing();
+                //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
 
                 StashStepButtons();
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.computer_match);
+                analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.computer_match);
             }
         }
 

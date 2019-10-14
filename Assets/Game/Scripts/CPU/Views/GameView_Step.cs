@@ -45,15 +45,17 @@ namespace TurboLabz.CPU
 
         public void StepBackwardButtonClicked()
         {
-            HideHint();
-            HideHindsight();
+            //HideHint();
+            //HideHindsight();
+            cancelHintSingal.Dispatch();
             stepBackwardClickedSignal.Dispatch();
         }
 
         public void StepForwardButtonClicked()
         {
-            HideHint();
-            HideHindsight();
+            //HideHint();
+            //HideHindsight();
+            cancelHintSingal.Dispatch();
             stepForwardClickedSignal.Dispatch();
         }
 

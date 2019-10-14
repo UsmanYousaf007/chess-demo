@@ -102,10 +102,30 @@ namespace TurboLabz.Multiplayer
                     strength = string.Format("{0}captured", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
                 }
 
+                if (!string.IsNullOrEmpty(chessboard.lastPlayerMove.promo)
+                    && newVo.didPlayerMadeBestMove)
+                {
+                    strength = string.Format("{0}p", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
                 newVo.piece = strength;
             }
             else
             {
+                var piece = chessboard.squares[to.file, to.rank].piece;
+                var pieceName = piece.name;
+                pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', pieceName.ToLower());
+                if (piece.color != chessboard.playerColor)
+                {
+                    pieceName = string.Format("{0}captured", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                if (!string.IsNullOrEmpty(chessboard.lastPlayerMove.promo))
+                {
+                    pieceName = string.Format("{0}p", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                newVo.piece = pieceName;
                 newVo.strength = float.Parse(strength);
             }
 
