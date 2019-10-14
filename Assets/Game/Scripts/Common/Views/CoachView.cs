@@ -111,9 +111,7 @@ public class CoachView : MonoBehaviour
             iTween.Hash(
                 "position", toScreenPosition,
                 "time", 1.0f,
-                "easetype", iTween.EaseType.easeOutExpo,
-                "oncomplete", "OnCompleteStickerAnimation",
-                "oncompletetarget", this.gameObject
+                "easetype", iTween.EaseType.easeOutExpo
                 ));
 
         //detect direction of arrow
@@ -121,6 +119,8 @@ public class CoachView : MonoBehaviour
         Flip(directionVector.x);
         var positionVector = directionVector.y > 0 ? downPosition : upPosition;
         parentPanel.position = positionVector;
+
+        Invoke("OnCompleteStickerAnimation", 0.8f);
 
         FadeIn();
     }
