@@ -27,7 +27,7 @@ namespace TurboLabz.Chess
                 {
                     LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i] + " SCORE : " + scores[i]);
 
-                    if (string.Equals(moveString, aiSearchResultMovesList[i]))
+                    if (string.Equals(moveString, aiSearchResultMovesList[i].Length >= 5 ? aiSearchResultMovesList[i].Remove(4) : aiSearchResultMovesList[i]))
                     {
                         moveFoundIndex = i;
                         break;
@@ -94,7 +94,7 @@ namespace TurboLabz.Chess
             {
                 LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i] + " SCORE : " + scores[i]);
 
-                if (string.Equals(moveString, aiSearchResultMovesList[i]))
+                if (string.Equals(moveString, aiSearchResultMovesList[i].Length >= 5 ? aiSearchResultMovesList[i].Remove(4) : aiSearchResultMovesList[i]))
                 {
                     moveFoundIndex = i;
                     break;

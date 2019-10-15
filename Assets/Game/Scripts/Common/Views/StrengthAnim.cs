@@ -90,9 +90,7 @@ public class StrengthAnim : MonoBehaviour
             iTween.Hash(
                 "position", toScreenPosition,
                 "time", 1.0f,
-                "easetype", iTween.EaseType.easeOutExpo,
-                "oncomplete", "OnCompleteStickerAnimation",
-                "oncompletetarget", this.gameObject
+                "easetype", iTween.EaseType.easeOutExpo
                 ));
 
         //detect direction of arrow
@@ -100,6 +98,8 @@ public class StrengthAnim : MonoBehaviour
         Flip(directionVector.x);
         var positionVector = directionVector.y > 0 ? downPosition : upPosition;
         panelBg.rectTransform.position = positionVector;
+
+        Invoke("OnCompleteStickerAnimation", 0.8f);
 
         FadeIn();
 
