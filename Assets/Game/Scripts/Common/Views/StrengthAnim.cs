@@ -29,6 +29,7 @@ public class StrengthAnim : MonoBehaviour
     public Transform downPivot;
 
     private float timeAtShow = 0;
+    private Vector2 directionVector;
 
     //Constants
     const int LINE_ALPHA_MIN = 0;
@@ -94,7 +95,7 @@ public class StrengthAnim : MonoBehaviour
                 ));
 
         //detect direction of arrow
-        var directionVector = new Vector2(strengthVO.toPosition.x < 0 ? 1 : -1, strengthVO.fromPosition.y > strengthVO.toPosition.y ? 1 : -1);
+        directionVector = new Vector2(strengthVO.toPosition.x < 0 ? 1 : -1, strengthVO.fromPosition.y > strengthVO.toPosition.y ? 1 : -1);
         Flip(directionVector.x);
         var positionVector = directionVector.y > 0 ? downPosition : upPosition;
         panelBg.rectTransform.position = positionVector;
@@ -124,6 +125,27 @@ public class StrengthAnim : MonoBehaviour
                 "oncompletetarget", this.gameObject,
                 "oncompleteparams", strengthForLabel
             ));
+
+        panelBg.transform.localScale = Vector3.zero;
+
+        iTween.ScaleTo(panelBg.gameObject,
+            iTween.Hash(
+                "scale", new Vector3(1.1f * directionVector.x, 1.1f, 1.0f),
+                "time", 0.25f,
+                "islocal", true,
+                "oncomplete", "OnCompleteScaleAnimation",
+                "oncompletetarget", this.gameObject
+                ));
+    }
+
+    private void OnCompleteScaleAnimation()
+    {
+        iTween.ScaleTo(panelBg.gameObject,
+            iTween.Hash(
+                "scale", new Vector3(1.0f * directionVector.x, 1.0f, 1.0f),
+                "time", 0.25f,
+                "islocal", true
+                ));
     }
 
     private void Flip(float scale)
@@ -187,6 +209,11 @@ public class StrengthAnim : MonoBehaviour
         if (this.gameObject.GetComponent<iTween>() != null)
         {
             Destroy(this.gameObject.GetComponent<iTween>());
+        }
+
+        if (panelBg.GetComponent<iTween>() != null)
+        {
+            Destroy(panelBg.GetComponent<iTween>());
         }
 
         CancelInvoke();
