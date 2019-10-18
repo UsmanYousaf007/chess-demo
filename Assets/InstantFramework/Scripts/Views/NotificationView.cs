@@ -97,6 +97,7 @@ namespace TurboLabz.InstantGame
                     preShowNotificationSignal.Dispatch();
                     PreShowNotificationSetup(notifications[0]);
                     notifications[0].obj.SetActive(true);
+                    appInfoModel.isNotificationActive = true;
                     yield return new WaitForSeconds(NOTIFICATION_DURATION);
                     notifications[0].obj.SetActive(false);
                     GameObject obj = notifications[0].obj;
@@ -193,8 +194,6 @@ namespace TurboLabz.InstantGame
             notificationContainer.obj = notifidationObj;
             notificationContainer.playerId = notificationVO.senderPlayerId;
             notifications.Add(notificationContainer);
-            appInfoModel.isNotificationActive = true;
-
         }
 
         private void OnCloseButtonClicked()
