@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         DisconnectStats isReconnecting { get; set; }
         bool syncInProgress { get; set; }
         GameMode gameMode { get; set; }
+        bool isNotificationActive { get; set; }
     }
 
     public enum DisconnectStats

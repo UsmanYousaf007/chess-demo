@@ -102,7 +102,9 @@ namespace TurboLabz.InstantGame
                     GameObject obj = notifications[0].obj;
                     notifications.Remove(notifications[0]);
                     Destroy(obj);
+                    appInfoModel.isNotificationActive = false;
                     postShowNotificationSignal.Dispatch();
+
                 }
                 yield return new WaitForSeconds(1);
             }
@@ -191,6 +193,8 @@ namespace TurboLabz.InstantGame
             notificationContainer.obj = notifidationObj;
             notificationContainer.playerId = notificationVO.senderPlayerId;
             notifications.Add(notificationContainer);
+            appInfoModel.isNotificationActive = true;
+
         }
 
         private void OnCloseButtonClicked()
