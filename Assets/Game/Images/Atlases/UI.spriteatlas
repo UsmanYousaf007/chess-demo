@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2516392
+    totalSpriteSurfaceArea: 2679638
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -94,6 +94,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: cb5eadd30aa904f8b832af222345d7fd, type: 3}
   - {fileID: 21300000, guid: 84af87f31dc3c44919e50996c0344237, type: 3}
   - {fileID: 21300000, guid: 8e1acdf30cd854d35891383225e8c61f, type: 3}
+  - {fileID: 21300000, guid: 6324c00404cd04778bb442e5232d7c2d, type: 3}
   - {fileID: 21300000, guid: 18efc90488cd0420689d56f56296da2d, type: 3}
   - {fileID: 21300000, guid: d38505243154b46f483cec8c61ba521f, type: 3}
   - {fileID: 21300000, guid: 1ab91544164ab4c009eeca374bd7cf24, type: 3}
@@ -257,6 +258,7 @@ SpriteAtlas:
   - HintBtn
   - 4
   - d
+  - MoveMeterOnboardingBg
   - strengthFillerEmpty
   - AddIcon
   - ChatInfoBubble
@@ -372,6 +374,6 @@ SpriteAtlas:
   - ChatMaxIcon
   - ChatBubbleRight
   - BucksIcon
-  - OnboardingBg
+  - CoachOnboardingBg
   m_Tag: UI
   m_IsVariant: 0

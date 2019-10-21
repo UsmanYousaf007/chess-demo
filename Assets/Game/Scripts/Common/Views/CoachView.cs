@@ -53,6 +53,7 @@ public class CoachView : MonoBehaviour
 
     private float timeAtAnalyzing = 0;
     private float timeAtShow = 0;
+    private Vector2 directionVector;
 
     private CoachVO coachVO;
 
@@ -115,7 +116,7 @@ public class CoachView : MonoBehaviour
                 ));
 
         //detect direction of arrow
-        var directionVector = new Vector2(coachVO.toPosition.x < 0 ? 1 : -1, coachVO.fromPosition.y > coachVO.toPosition.y ? 1 : -1);
+        directionVector = new Vector2(coachVO.toPosition.x < 0 ? 1 : -1, coachVO.fromPosition.y > coachVO.toPosition.y ? 1 : -1);
         Flip(directionVector.x);
         var positionVector = directionVector.y > 0 ? downPosition : upPosition;
         parentPanel.position = positionVector;
@@ -129,6 +130,26 @@ public class CoachView : MonoBehaviour
     {
         normalPanel.bg.gameObject.SetActive(!coachVO.isBestMove);
         bestPanel.bg.gameObject.SetActive(coachVO.isBestMove);
+        parentPanel.localScale = Vector3.zero;
+
+        iTween.ScaleTo(parentPanel.gameObject,
+            iTween.Hash(
+                "scale", new Vector3(1.1f * directionVector.x, 1.1f, 1.0f),
+                "time", 0.3f,
+                "islocal", true,
+                "oncomplete", "OnCompleteScaleAnimation",
+                "oncompletetarget", this.gameObject
+                ));
+    }
+
+    private void OnCompleteScaleAnimation()
+    {
+        iTween.ScaleTo(parentPanel.gameObject,
+            iTween.Hash(
+                "scale", new Vector3(1.0f * directionVector.x, 1.0f, 1.0f),
+                "time", 0.3f,
+                "islocal", true
+                ));
     }
 
     private void Flip(float scale)
@@ -158,6 +179,11 @@ public class CoachView : MonoBehaviour
         if (stickerBg.GetComponent<iTween>() != null)
         {
             Destroy(stickerBg.GetComponent<iTween>());
+        }
+
+        if (parentPanel.GetComponent<iTween>() != null)
+        {
+            Destroy(parentPanel.GetComponent<iTween>());
         }
 
         CancelInvoke();
