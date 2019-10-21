@@ -54,5 +54,11 @@ namespace TurboLabz.Multiplayer
                 view.UpdateHindsightCount(count);
             }
         }
+
+        [ListensTo(typeof(ShowCoachOnboardingTooltipSignal))]
+        public void OnShowCoachOnboardingTooltip(bool show)
+        {
+            view.ShowCoachOnboardingTooltip(show);
+        }
     }
 }

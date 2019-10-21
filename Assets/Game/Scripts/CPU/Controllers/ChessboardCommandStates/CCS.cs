@@ -115,18 +115,22 @@ namespace TurboLabz.CPU
             // Update the view with the opponent move
             IChessboardModel model = cmd.chessboardModel;
             model.opponentMoveRenderComplete = false;
-            cmd.updateOpponentMoveSignal.Dispatch(GetMoveVO(model, false));
+            MoveVO moveVO = GetMoveVO(model, false);
+            cmd.updateOpponentMoveSignal.Dispatch(moveVO);
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
             cmd.hidePlayerToIndicatorSignal.Dispatch();
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPlayerMove(ChessboardCommand cmd)
         {
             // Update the view with the player move
             IChessboardModel model = cmd.chessboardModel;
+            MoveVO moveVO = GetMoveVO(model, true);
             cmd.hidePossibleMovesSignal.Dispatch();
-            cmd.updatePlayerMoveSignal.Dispatch(GetMoveVO(model, true));
+            cmd.updatePlayerMoveSignal.Dispatch(moveVO);
             cmd.chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPromo(ChessboardCommand cmd)

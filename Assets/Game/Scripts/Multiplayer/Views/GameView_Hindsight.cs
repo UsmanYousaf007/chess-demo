@@ -30,6 +30,7 @@ namespace TurboLabz.Multiplayer
         public Image hindsightAdd;
         public GameObject hindsightThinking;
         public CoachView coachView;
+        public GameObject coachOnboardingTooltip;
 
         public void InitHindsight()
         {
@@ -112,6 +113,7 @@ namespace TurboLabz.Multiplayer
             }
 
             coachView.Hide();
+            coachOnboardingTooltip.SetActive(false);
         }
 
         public void HideHindsight()
@@ -190,6 +192,11 @@ namespace TurboLabz.Multiplayer
             }
 
             hindsightCountLabel.text = count.ToString();
+        }
+
+        public void ShowCoachOnboardingTooltip(bool show)
+        {
+            coachOnboardingTooltip.SetActive(show);
         }
     }
 }

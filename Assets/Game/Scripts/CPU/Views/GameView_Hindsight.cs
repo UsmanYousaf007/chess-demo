@@ -33,6 +33,7 @@ namespace TurboLabz.CPU
         public GameObject hindsightThinking;
         private bool hindsightPreviousState;
         public CoachView coachView;
+        public GameObject coachOnboardingTooltip;
 
         public void InitHindsight()
         {
@@ -101,6 +102,7 @@ namespace TurboLabz.CPU
             }
 
             coachView.Hide();
+            coachOnboardingTooltip.SetActive(false);
         }
 
         public void HideHindsight()
@@ -188,6 +190,11 @@ namespace TurboLabz.CPU
             }
 
             hindsightCountLabel.text = count.ToString();
+        }
+
+        public void ShowCoachOnboardingTooltip(bool show)
+        {
+            coachOnboardingTooltip.SetActive(show);
         }
     }
 }

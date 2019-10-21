@@ -13,5 +13,7 @@ namespace TurboLabz.InstantFramework
         bool hasRated { get; set; }
         bool isSafeMoveOn { get; set; }
         bool isFriendScreenVisited { get; set; }
+        bool isCoachTooltipShown { get; set; }
+        bool isStrengthTooltipShown { get; set; }
     }
 }

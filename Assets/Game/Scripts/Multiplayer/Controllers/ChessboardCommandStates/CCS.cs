@@ -146,16 +146,20 @@ namespace TurboLabz.Multiplayer
         {
             // Update the view with the opponent move
             cmd.activeChessboard.opponentMoveRenderComplete = false;
-            cmd.updateOpponentMoveSignal.Dispatch(GetMoveVO(cmd.activeChessboard, false));
+            MoveVO moveVO = GetMoveVO(cmd.activeChessboard, false);
+            cmd.updateOpponentMoveSignal.Dispatch(moveVO);
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
             cmd.hidePlayerToIndicatorSignal.Dispatch();
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPlayerMove(ChessboardCommand cmd)
         {
             // Update the view with the player move
+            MoveVO moveVO = GetMoveVO(cmd.activeChessboard, true);
             cmd.hidePossibleMovesSignal.Dispatch();
-            cmd.updatePlayerMoveSignal.Dispatch(GetMoveVO(cmd.activeChessboard, true));
+            cmd.updatePlayerMoveSignal.Dispatch(moveVO);
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPromo(ChessboardCommand cmd)

@@ -68,6 +68,7 @@ namespace TurboLabz.CPU
         [Inject] public ToggleStepForwardSignal toggleStepForwardSignal { get; set; }
         [Inject] public ToggleStepBackwardSignal toggleStepBackwardSignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSignal { get; set; }
+        [Inject] public OnboardingTooltipSignal onboardingTooltipSignal { get; set; }
 
 
         // Models

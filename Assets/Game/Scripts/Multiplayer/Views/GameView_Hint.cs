@@ -34,6 +34,7 @@ namespace TurboLabz.Multiplayer
         public Image hintAdd;
         public GameObject hintThinking;
         public StrengthAnim strengthPanel;
+        public GameObject strengthOnboardingTooltip;
 
         public void InitHint()
         {
@@ -119,7 +120,7 @@ namespace TurboLabz.Multiplayer
             }
             
             strengthPanel.Hide();
-
+            strengthOnboardingTooltip.SetActive(false);
         }
 
         public IEnumerator HideHint(float t)
@@ -208,5 +209,9 @@ namespace TurboLabz.Multiplayer
             hintCountLabel.text = count.ToString();
         }
 
+        public void ShowStrengthOnboardingTooltip(bool show)
+        {
+            strengthOnboardingTooltip.SetActive(show);
+        }
     }
 }

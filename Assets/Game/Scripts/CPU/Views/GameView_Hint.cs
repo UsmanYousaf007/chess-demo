@@ -32,6 +32,7 @@ namespace TurboLabz.CPU
         public Image hintAdd;
         public GameObject hintThinking;
         public StrengthAnim strengthPanel;
+        public GameObject strengthOnboardingTooltip;
 
         public void InitHint()
         {
@@ -106,6 +107,7 @@ namespace TurboLabz.CPU
             }
 
             strengthPanel.Hide();
+            strengthOnboardingTooltip.SetActive(false);
         }
 
         public IEnumerator HideHint(float t)
@@ -185,6 +187,11 @@ namespace TurboLabz.CPU
             }
 
             hintCountLabel.text = count.ToString();
+        }
+
+        public void ShowStrengthOnboardingTooltip(bool show)
+        {
+            strengthOnboardingTooltip.SetActive(show);
         }
 
     }

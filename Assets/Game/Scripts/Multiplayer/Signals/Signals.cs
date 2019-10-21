@@ -88,4 +88,7 @@ namespace TurboLabz.Multiplayer
     public class HintAvailableSignal : Signal<bool> { }
     public class WaitingForOpponentAcceptSignal : Signal{ }
     public class DisableUndoBtnSignal : Signal<bool> { }
+    public class OnboardingTooltipSignal : Signal<MoveVO> { }
+    public class ShowStrengthOnboardingTooltipSignal : Signal<bool> { }
+    public class ShowCoachOnboardingTooltipSignal : Signal<bool> { }
 }

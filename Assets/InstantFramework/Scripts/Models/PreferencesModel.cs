@@ -25,6 +25,8 @@ namespace TurboLabz.InstantGame
         public bool hasRated { get; set; }
         public bool isSafeMoveOn { get; set; }
         public bool isFriendScreenVisited { get; set; }
+        public bool isCoachTooltipShown { get; set; }
+        public bool isStrengthTooltipShown { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -79,6 +81,16 @@ namespace TurboLabz.InstantGame
                     isFriendScreenVisited = reader.Read<bool>(PrefKeys.IS_FRIEND_SCREEN_VISITED);
                 }
 
+                if (reader.HasKey(PrefKeys.IS_COACH_TOOLTIP_SHOWN))
+                {
+                    isCoachTooltipShown = reader.Read<bool>(PrefKeys.IS_COACH_TOOLTIP_SHOWN);
+                }
+
+                if (reader.HasKey(PrefKeys.IS_STRENGTH_TOOLTIP_SHOWN))
+                {
+                    isStrengthTooltipShown = reader.Read<bool>(PrefKeys.IS_STRENGTH_TOOLTIP_SHOWN);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -102,6 +114,8 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.HAS_RATED, hasRated);
                 writer.Write<bool>(PrefKeys.IS_SAFE_MOVE_ON, isSafeMoveOn);
                 writer.Write<bool>(PrefKeys.IS_FRIEND_SCREEN_VISITED, isFriendScreenVisited);
+                writer.Write<bool>(PrefKeys.IS_COACH_TOOLTIP_SHOWN, isCoachTooltipShown);
+                writer.Write<bool>(PrefKeys.IS_STRENGTH_TOOLTIP_SHOWN, isStrengthTooltipShown);
                 writer.Close();
             }
             catch (Exception e)
