@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2679638
+    totalSpriteSurfaceArea: 3191734
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -110,6 +110,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 38fa6725424a44bb8a1a28e2191d0d65, type: 3}
   - {fileID: 21300000, guid: 7cd7b835ce41444c1b71c2100abd5fab, type: 3}
   - {fileID: 21300000, guid: 694c0955bbd8940888fe97b5489909ac, type: 3}
+  - {fileID: 21300000, guid: ba1a266502b20470caeef9c3ceaa9d02, type: 3}
   - {fileID: 21300000, guid: 50b1d6854479648ceb308f838763e970, type: 3}
   - {fileID: 21300000, guid: 7abe9db59236b42f5af130549728159e, type: 3}
   - {fileID: 21300000, guid: 7ae353e533bfb492aa11982976211a42, type: 3}
@@ -131,6 +132,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 37835d07cfad9490192df6a43058e7a0, type: 3}
   - {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
   - {fileID: 21300000, guid: 04485b871853d4d84a2c48c7db84f512, type: 3}
+  - {fileID: 21300000, guid: 71d93497839aa4070af72b5148138a4d, type: 3}
   - {fileID: 21300000, guid: 5cd776b7c834e4d6a9b442bc43b65ea4, type: 3}
   - {fileID: 21300000, guid: f482a5e71cb314a20942bc9596fe8e93, type: 3}
   - {fileID: 21300000, guid: 70754318efb21480e98e27e1a7a08fde, type: 3}
@@ -188,8 +190,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 29908d8c15caf44e8bc1833068b0e474, type: 3}
   - {fileID: 21300000, guid: 57fc4f8c36c8048adb248a711ea1b5da, type: 3}
   - {fileID: 21300000, guid: 519f7a9cbb49c41a0993072ac4a9ef63, type: 3}
+  - {fileID: 21300000, guid: 7f27eb9c457f04fcda9303b48e5c0a25, type: 3}
   - {fileID: 21300000, guid: 610441bca674d4b5a9ae5ac01381aabf, type: 3}
   - {fileID: 21300000, guid: 6155f5bcbb876439182b8a8a5c2e342d, type: 3}
+  - {fileID: 21300000, guid: c1722abcc04494e2a93bd3dd97838dfa, type: 3}
   - {fileID: 21300000, guid: ca3e76dc38d534c12adb5328cadf8656, type: 3}
   - {fileID: 21300000, guid: 618042ec0509e4697920eb8fe9c1829a, type: 3}
   - {fileID: 21300000, guid: ef73f2ec35a474bd2b7cdba511a187c6, type: 3}
@@ -274,6 +278,7 @@ SpriteAtlas:
   - LastFriendStipGlow
   - ChatBubbleInGame
   - profilePattern
+  - coachTrainingBg
   - c
   - friendStripGlow
   - ClockBorderRect
@@ -295,6 +300,7 @@ SpriteAtlas:
   - strengthPanelBg
   - PlayerOffline
   - Error
+  - handIcon
   - OnboardingMoveMeter
   - PowerUpPlusIcon
   - StripButton
@@ -352,8 +358,10 @@ SpriteAtlas:
   - ClockBorder
   - NotificationBg
   - ClockMask
+  - coachTrainingBoard
   - QuickMatchIcon
   - InfinityIcon
+  - coachTrainingArrow
   - Tick
   - ChatInGameEnterBg
   - CloseBtn
