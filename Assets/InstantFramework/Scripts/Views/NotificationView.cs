@@ -97,12 +97,15 @@ namespace TurboLabz.InstantGame
                     preShowNotificationSignal.Dispatch();
                     PreShowNotificationSetup(notifications[0]);
                     notifications[0].obj.SetActive(true);
+                    appInfoModel.isNotificationActive = true;
                     yield return new WaitForSeconds(NOTIFICATION_DURATION);
                     notifications[0].obj.SetActive(false);
                     GameObject obj = notifications[0].obj;
                     notifications.Remove(notifications[0]);
                     Destroy(obj);
+                    appInfoModel.isNotificationActive = false;
                     postShowNotificationSignal.Dispatch();
+
                 }
                 yield return new WaitForSeconds(1);
             }

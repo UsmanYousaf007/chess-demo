@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public DisconnectStats isReconnecting { get; set; }
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
+        public bool isNotificationActive { get; set; }
 
         enum subVersionIndex
         {
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
             appBackendVersion = int.Parse(version[(int)subVersionIndex.BACKEND]);
             clientVersion = Application.version;
             gameMode = GameMode.NONE;
+            isNotificationActive = false;
 
             modelsResetSignal.AddListener(Reset);
         }
@@ -51,6 +53,7 @@ namespace TurboLabz.InstantFramework
             androidURL = "";
             rateAppThreshold = 0;
             onlineCount = 0;
+            isNotificationActive = false;
         }
     }
 }

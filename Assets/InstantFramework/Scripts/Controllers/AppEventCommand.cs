@@ -60,8 +60,8 @@ namespace TurboLabz.InstantFramework
                 if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
                     return;
 
-                if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
-                    return;
+               // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+                   // return;
 
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }

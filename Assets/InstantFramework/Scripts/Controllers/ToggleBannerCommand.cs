@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+
 
         public override void Execute()
         {
@@ -33,7 +35,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (!enable)
+            if (!enable || appInfoModel.isNotificationActive)
             {
                 adsService.HideBanner();
             }
