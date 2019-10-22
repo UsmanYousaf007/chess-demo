@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 3191734
+    totalSpriteSurfaceArea: 3680469
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -54,6 +54,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: aecbdc1088b5f47a589fc25d3b851bd6, type: 3}
   - {fileID: 21300000, guid: 57fb4f305816148a7968dce8846ba273, type: 3}
   - {fileID: 21300000, guid: 3a4bd9407b09f44e2ab0d9c985dd8f13, type: 3}
+  - {fileID: 21300000, guid: 5b68f350a02934c5bb79e1dc35987f3b, type: 3}
   - {fileID: 21300000, guid: 4b911b803eb1d4e2b99697684c6e42fe, type: 3}
   - {fileID: 21300000, guid: 7708e7c0b3f3b47a5b20d76b0a2a3fac, type: 3}
   - {fileID: 21300000, guid: 6b404ed06a2504dc68b1f84e1a2d734e, type: 3}
@@ -145,6 +146,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e379656852c5b4d5f87102b65c264b70, type: 3}
   - {fileID: 21300000, guid: fbc24a6817891489d8c7ca6c46594fc8, type: 3}
   - {fileID: 21300000, guid: eb3b0b684c22947f8a2a900ebde15ebf, type: 3}
+  - {fileID: 21300000, guid: 78c3f07820df749c080f83549436123c, type: 3}
   - {fileID: 21300000, guid: d2a64188ef4ee46babfec152997e0a53, type: 3}
   - {fileID: 21300000, guid: 0b1f39e871df648a686799cd05e957ed, type: 3}
   - {fileID: 21300000, guid: 501b1de8e0eb246e6a703e52f4cde523, type: 3}
@@ -222,6 +224,7 @@ SpriteAtlas:
   - FriendBar
   - HomeIcon
   - NoSmileyIcon
+  - strengthTrainingBg
   - LobbyBtn
   - UndoBtn
   - ProfileFlagBorder
@@ -313,6 +316,7 @@ SpriteAtlas:
   - SearchIcon
   - Crown
   - StripSeparator
+  - strengthTrainingBoard
   - LoginGraphic
   - DialogPattern
   - SectionMask
