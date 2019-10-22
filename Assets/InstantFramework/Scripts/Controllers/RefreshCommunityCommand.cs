@@ -37,13 +37,14 @@ namespace TurboLabz.InstantGame
             Retain();
 
             backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
-            clearCommunitySignal.Dispatch();
         }
 
         private void OnCommunityRefresh(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
+                clearCommunitySignal.Dispatch();
+
                 addFriendsSignal.Dispatch(playerModel.community, FriendCategory.COMMUNITY);
                 getSocialPicsSignal.Dispatch(playerModel.community);
                 sortCommunitySignal.Dispatch();

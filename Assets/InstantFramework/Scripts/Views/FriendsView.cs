@@ -426,7 +426,7 @@ namespace TurboLabz.InstantFramework
             friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId, friendBar.cancelButton));
             friendBar.okButton.onClick.AddListener(() => OkButtonClicked(friend.playerId, friendBar.okButton));
             friendBar.viewButton.onClick.AddListener(() => PlayButtonClicked(friendBar));
-            friendBar.removeCommunityFriendButton.onClick.AddListener(() => RemoveCommunityFriendButtonClicked(friend.playerId));
+            friendBar.removeCommunityFriendButton.onClick.AddListener(() => RemoveCommunityFriendButtonClicked(friend));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
@@ -757,10 +757,11 @@ namespace TurboLabz.InstantFramework
         }
 
 
-        void RemoveCommunityFriendButtonClicked(string playerId)
+        void RemoveCommunityFriendButtonClicked(Friend friend)
         {
             audioService.PlayStandardClick();
-            actionBar = bars[playerId];
+            actionBar = bars[friend.playerId];
+            removeCommunityFriendTitleText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE) + friend.publicProfile.name + "?";
             removeCommunityFriendDlg.SetActive(true);
         }
 

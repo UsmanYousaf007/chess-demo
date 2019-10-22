@@ -281,7 +281,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly Game"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "NO"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "YES"},
-                { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove Player?"},
+                { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove player "},
                 { LocalizationKey.LONG_PLAY_VIEW, "View"},
                 { LocalizationKey.SHARE_GAME_SCREENSHOT, "Share Game Screenshot"},
                 { LocalizationKey.SHARE, "SHARE"},
