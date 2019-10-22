@@ -21,18 +21,7 @@ namespace TurboLabz.Chess
             if (totolMoveCount > 0)
             {
                 string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
-                int moveFoundIndex = -1;
-
-                for (int i = 0; i <= totolMoveCount; ++i)
-                {
-                    LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i] + " SCORE : " + scores[i]);
-
-                    if (string.Equals(moveString, aiSearchResultMovesList[i].Length >= 5 ? aiSearchResultMovesList[i].Remove(4) : aiSearchResultMovesList[i]))
-                    {
-                        moveFoundIndex = i;
-                        break;
-                    }
-                }
+                int moveFoundIndex = GetMoveIndex(moveString);
 
                 LogUtil.Log("moveString : " + moveString + " totolMoveCount : " + totolMoveCount + " moveFoundIndex:" + moveFoundIndex);
 
@@ -85,9 +74,8 @@ namespace TurboLabz.Chess
             lastDequeuedMethod = null;
         }
 
-        private void GetBestMove()
+        private int GetMoveIndex(string moveString)
         {
-            string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(aiMoveInputVO.lastPlayerMove.from, aiMoveInputVO.lastPlayerMove.to);
             int moveFoundIndex = -1;
 
             for (int i = 0; i < aiSearchResultMovesList.Count; ++i)
@@ -101,6 +89,13 @@ namespace TurboLabz.Chess
                 }
             }
 
+            return moveFoundIndex;
+        }
+
+        private void GetBestMove()
+        {
+            string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(aiMoveInputVO.lastPlayerMove.from, aiMoveInputVO.lastPlayerMove.to);
+            int moveFoundIndex = GetMoveIndex(moveString);
             LogUtil.Log("moveString : " + moveString + " totolMoveCount : " + aiSearchResultMovesList.Count + " moveFoundIndex:" + moveFoundIndex);
 
             bool playerMadeTheBestMove = false;

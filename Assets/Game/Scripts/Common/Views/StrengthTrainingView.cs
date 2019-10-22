@@ -67,6 +67,7 @@ public class StrengthTrainingView : MonoBehaviour
         strengthText.text = "0%";
         strengthText.enabled = true;
         perfectIcon.enabled = false;
+        strengthButton.interactable = true;
     }
 
     void Animate()
@@ -97,6 +98,8 @@ public class StrengthTrainingView : MonoBehaviour
 
     void OnCompleteHandAnimation()
     {
+        strengthButton.interactable = false;
+
         iTween.ScaleTo(hand,
             iTween.Hash(
                 "scale", new Vector3(0.9f, 0.9f, 1.0f),
@@ -108,11 +111,11 @@ public class StrengthTrainingView : MonoBehaviour
 
     void OnCompleteHandScaleAnimation1()
     {
-        strengthButton.interactable = false;
+        strengthButton.interactable = true;
 
         iTween.ScaleTo(hand,
             iTween.Hash(
-                "scale", new Vector3(1.1f, 1.1f, 1.0f),
+                "scale", Vector3.one,
                 "time", 0.3f,
                 "oncomplete", "OnCompleteHandScaleAnimation2",
                 "oncompletetarget", this.gameObject
@@ -121,25 +124,20 @@ public class StrengthTrainingView : MonoBehaviour
 
     void OnCompleteHandScaleAnimation2()
     {
-        strengthButton.interactable = true;
-        piece1.SetActive(false);
-        piece2.SetActive(true);
+        //piece1.SetActive(false);
+        //piece2.SetActive(true);
         arrow.SetActive(true);
         piece3.SetActive(true);
 
-        iTween.ScaleTo(hand,
-            iTween.Hash(
-                "scale", Vector3.one,
-                "time", 0.3f
-                ));
+        //iTween.MoveTo(piece2,
+        //    iTween.Hash(
+        //        "position", piece2Pivots.to.position,
+        //        "time", 1f,
+        //        "oncomplete", "OnCompletePiece2Animation",
+        //        "oncompletetarget", this.gameObject
+        //        ));
 
-        iTween.MoveTo(piece2,
-            iTween.Hash(
-                "position", piece2Pivots.to.position,
-                "time", 1f,
-                "oncomplete", "OnCompletePiece2Animation",
-                "oncompletetarget", this.gameObject
-                ));
+        OnCompletePiece2Animation();
     }
 
     void OnCompletePiece2Animation()

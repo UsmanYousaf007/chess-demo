@@ -58,6 +58,7 @@ public class CoachTrainingView : MonoBehaviour
         piece3.SetActive(false);
         arrow.SetActive(false);
         moveTextPanel.SetActive(false);
+        coachButton.interactable = true;
     }
 
     void Animate()
@@ -88,6 +89,8 @@ public class CoachTrainingView : MonoBehaviour
 
     void OnCompleteHandAnimation()
     {
+        coachButton.interactable = false;
+
         iTween.ScaleTo(hand,
             iTween.Hash(
                 "scale", new Vector3(0.9f, 0.9f, 1.0f),
@@ -99,11 +102,11 @@ public class CoachTrainingView : MonoBehaviour
 
     void OnCompleteHandScaleAnimation1()
     {
-        coachButton.interactable = false;
+        coachButton.interactable = true;
 
         iTween.ScaleTo(hand,
             iTween.Hash(
-                "scale", new Vector3(1.1f, 1.1f, 1.0f),
+                "scale", Vector3.one,
                 "time", 0.3f,
                 "oncomplete", "OnCompleteHandScaleAnimation2",
                 "oncompletetarget", this.gameObject
@@ -112,15 +115,8 @@ public class CoachTrainingView : MonoBehaviour
 
     void OnCompleteHandScaleAnimation2()
     {
-        coachButton.interactable = true;
         arrow.SetActive(true);
         piece3.SetActive(true);
-
-        iTween.ScaleTo(hand,
-            iTween.Hash(
-                "scale", Vector3.one,
-                "time", 0.3f
-                ));
 
         iTween.MoveTo(piece2,
             iTween.Hash(
