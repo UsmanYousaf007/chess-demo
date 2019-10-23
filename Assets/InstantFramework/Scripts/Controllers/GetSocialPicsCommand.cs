@@ -31,8 +31,18 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             Retain();
-        
+
             //picRequestCount = friends.Count;
+
+            foreach (KeyValuePair<string, Friend> obj in friends)
+            {
+                Friend friend = obj.Value;
+
+                if (friend.publicProfile.facebookUserId != null)
+                {
+                    picRequestCount++;
+                }
+            }
 
             foreach (KeyValuePair<string, Friend> obj in friends)
             {
@@ -40,7 +50,6 @@ namespace TurboLabz.InstantGame
 
                 if(friend.publicProfile.facebookUserId != null)
                 {
-                    picRequestCount++;
                     facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
                 }
             }    
@@ -73,8 +82,6 @@ namespace TurboLabz.InstantGame
             }
 
             picResponseCount++;
-
-            Debug.Log("picRequestCount : " + picRequestCount + " picResponseCount :: "+ picResponseCount + " cacheFriendPics::"+ cacheFriendPics);
 
             if (picRequestCount == picResponseCount)
             {

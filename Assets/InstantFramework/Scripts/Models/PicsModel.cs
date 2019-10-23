@@ -23,9 +23,12 @@ namespace TurboLabz.InstantFramework
 
             try
             {
-                ILocalDataWriter writer = localDataService.OpenWriter(filename);
-                writer.Write(PIC_KEY, sprite);
-                writer.Close();
+                if (!localDataService.FileExists(filename))
+                {
+                    ILocalDataWriter writer = localDataService.OpenWriter(filename);
+                    writer.Write(PIC_KEY, sprite);
+                    writer.Close();
+                }
                 
                 TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
