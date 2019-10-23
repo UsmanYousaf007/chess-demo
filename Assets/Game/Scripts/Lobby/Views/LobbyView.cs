@@ -834,6 +834,8 @@ namespace TurboLabz.InstantFramework
             recentlyCompleted = new List<FriendBar>();
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> activeMatches = new List<FriendBar>();
+            List<string> destroyMe = new List<string>();
+
 
             int notificationCounter = 0;
             notificationTagImage.gameObject.SetActive(false);
@@ -872,6 +874,7 @@ namespace TurboLabz.InstantFramework
                 else
                 {
                     entry.Value.gameObject.SetActive(false);
+                    //destroyMe.Add(entry.Key);
                 }
 
                 
@@ -882,6 +885,12 @@ namespace TurboLabz.InstantFramework
                 }
                     
             }
+
+            //foreach (string key in destroyMe)
+            //{
+            //    Destroy(bars[key].gameObject);
+            //    bars.Remove(key);
+            //}
 
             if (notificationCounter > 0){
                 notificationTagImage.gameObject.SetActive(true);
