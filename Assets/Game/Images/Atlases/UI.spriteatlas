@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 3680469
+    totalSpriteSurfaceArea: 4127568
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -76,6 +76,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 720bcb32f79844971b5cbdbed09d1ab4, type: 3}
   - {fileID: 21300000, guid: 78df8652dc6b741718cca27cec48b86f, type: 3}
   - {fileID: 21300000, guid: f5575b522f9274ffaae543e98b0f8d28, type: 3}
+  - {fileID: 21300000, guid: d3cbc862f6a594b5682e751029a66f28, type: 3}
   - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
   - {fileID: 21300000, guid: b8f18e92c1067418f8fe7f5ec75c7361, type: 3}
   - {fileID: 21300000, guid: 838e8fc2bb9e54657b14f648de8ecd9d, type: 3}
@@ -110,6 +111,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 918b5205ca86e4b43b9547a5b1b93d70, type: 3}
   - {fileID: 21300000, guid: 38fa6725424a44bb8a1a28e2191d0d65, type: 3}
   - {fileID: 21300000, guid: 7cd7b835ce41444c1b71c2100abd5fab, type: 3}
+  - {fileID: 21300000, guid: c5886d45882b747109b97d37cf446333, type: 3}
   - {fileID: 21300000, guid: 694c0955bbd8940888fe97b5489909ac, type: 3}
   - {fileID: 21300000, guid: ba1a266502b20470caeef9c3ceaa9d02, type: 3}
   - {fileID: 21300000, guid: 50b1d6854479648ceb308f838763e970, type: 3}
@@ -155,7 +157,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b8a31b298150a41668804872372e30cb, type: 3}
   - {fileID: 21300000, guid: da65a539c14d74d12a75d40750c63288, type: 3}
   - {fileID: 21300000, guid: 8d4a88392160b4a01ae7b752052f373e, type: 3}
+  - {fileID: 21300000, guid: cd7c1c397bf8c4001865387c6f7b9b3d, type: 3}
   - {fileID: 21300000, guid: b641ec39c9efa4139bfc397b80593758, type: 3}
+  - {fileID: 21300000, guid: 626a41491eba94dde85c35c5188815e2, type: 3}
   - {fileID: 21300000, guid: 2ab5648995f684723aa61105f1c7e2f1, type: 3}
   - {fileID: 21300000, guid: ab6d26a93118d4a1f91a046e75684209, type: 3}
   - {fileID: 21300000, guid: 7c6cd6a9b1bda4683aa271ced9dde8ff, type: 3}
@@ -205,6 +209,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a297361d0729641f8bbadbed713c5620, type: 3}
   - {fileID: 21300000, guid: 1532434d8eb3a4c2d8a3207f79079171, type: 3}
   - {fileID: 21300000, guid: 177c825d5265e47e6b59f6d1130c95c4, type: 3}
+  - {fileID: 21300000, guid: d3caee7dd469747668b9b5891249bab4, type: 3}
   - {fileID: 21300000, guid: 0731c48de2dc04cd69ba96f2b2749a3d, type: 3}
   - {fileID: 21300000, guid: 40dc468d178234f53b6d87f3d8ea75e5, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
@@ -246,6 +251,7 @@ SpriteAtlas:
   - 5
   - UpdateIcon
   - a
+  - bannerButton
   - ProgressIcon
   - coachStickerBgWhite
   - ComputerAvatar
@@ -280,6 +286,7 @@ SpriteAtlas:
   - HindsightIndicator
   - LastFriendStipGlow
   - ChatBubbleInGame
+  - strengthBannerIcon
   - profilePattern
   - coachTrainingBg
   - c
@@ -325,7 +332,9 @@ SpriteAtlas:
   - BtnGlassHalfBg
   - ErrorScreenBgTile
   - BtnIconUndo
+  - coachBannerIcon
   - BtnIconHint
+  - strengthBannerBg
   - ComputerIcon
   - ChatBubbleInGameFlip
   - 1
@@ -375,6 +384,7 @@ SpriteAtlas:
   - AudioOn
   - ChatIcon
   - ChessLogo
+  - coachBannerBg
   - ErrorImagePiece
   - UnreadChat
   - SettingsIcon

@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         public bool isFriendScreenVisited { get; set; }
         public bool isCoachTooltipShown { get; set; }
         public bool isStrengthTooltipShown { get; set; }
+        public bool isLobbyLoadedFirstTime { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -91,6 +92,11 @@ namespace TurboLabz.InstantGame
                     isStrengthTooltipShown = reader.Read<bool>(PrefKeys.IS_STRENGTH_TOOLTIP_SHOWN);
                 }
 
+                if (reader.HasKey(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME))
+                {
+                    isLobbyLoadedFirstTime = reader.Read<bool>(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -116,6 +122,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.IS_FRIEND_SCREEN_VISITED, isFriendScreenVisited);
                 writer.Write<bool>(PrefKeys.IS_COACH_TOOLTIP_SHOWN, isCoachTooltipShown);
                 writer.Write<bool>(PrefKeys.IS_STRENGTH_TOOLTIP_SHOWN, isStrengthTooltipShown);
+                writer.Write<bool>(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME, isLobbyLoadedFirstTime);
                 writer.Close();
             }
             catch (Exception e)

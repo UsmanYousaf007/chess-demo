@@ -24,6 +24,8 @@ namespace TurboLabz.InstantGame
 	public class UpdateThemeSignal : Signal<LobbyVO> {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
     public class UpdateAdsSignal : Signal {}
+    public class ShowPromotionSignal : Signal<string> {}
+    public class LoadPromotionSingal : Signal {}
 
     // CPU STATS
     public class LoadStatsSignal : Signal {}

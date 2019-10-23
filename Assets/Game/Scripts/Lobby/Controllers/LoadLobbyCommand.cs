@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
@@ -89,6 +90,8 @@ namespace TurboLabz.InstantGame
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
             }
+
+            loadPromotionSingal.Dispatch();
         }
 
         private void DispatchProfileSignal() 

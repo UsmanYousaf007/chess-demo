@@ -300,6 +300,12 @@ namespace TurboLabz.InstantFramework
         {
             findMatchSignal.Dispatch();
         }
+
+        [ListensTo(typeof(ShowPromotionSignal))]
+        public void OnShowPromotion(string key)
+        {
+            view.ShowPromotion(key);
+        }
     }
 }
 

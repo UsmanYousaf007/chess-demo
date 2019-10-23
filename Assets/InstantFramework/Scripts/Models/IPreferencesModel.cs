@@ -15,5 +15,6 @@ namespace TurboLabz.InstantFramework
         bool isFriendScreenVisited { get; set; }
         bool isCoachTooltipShown { get; set; }
         bool isStrengthTooltipShown { get; set; }
+        bool isLobbyLoadedFirstTime { get; set; }
     }
 }

@@ -24,6 +24,7 @@ public class StrengthTrainingView : MonoBehaviour
     public Pivots piece1Pivots;
     public Pivots piece2Pivots;
     public Pivots handPivots;
+    public Pivots handPivots1;
     public GameObject onScreenClose;
 
     private Coroutine animationRoutine;
@@ -32,7 +33,6 @@ public class StrengthTrainingView : MonoBehaviour
     void OnEnable()
     {
         animationRoutine = StartCoroutine(AnimateInLoop());
-        Setup();
         onScreenClose.SetActive(true);
     }
 
@@ -44,11 +44,12 @@ public class StrengthTrainingView : MonoBehaviour
 
     IEnumerator AnimateInLoop()
     {
-        yield return new WaitForSeconds(0.7f);
         while (true)
         {
+            Setup();
+            yield return new WaitForSeconds(0.7f);
             Animate();
-            yield return new WaitForSeconds(5.0f);
+            yield return new WaitForSeconds(5.8f);
         }
     }
 
@@ -56,7 +57,7 @@ public class StrengthTrainingView : MonoBehaviour
     {
         piece1.transform.position = piece1Pivots.from.position;
         piece2.transform.position = piece2Pivots.from.position;
-        hand.transform.position = handPivots.from.position;
+        hand.transform.position = handPivots1.from.position;
         piece1.SetActive(true);
         piece2.SetActive(false);
         hand.SetActive(false);
@@ -72,14 +73,24 @@ public class StrengthTrainingView : MonoBehaviour
 
     void Animate()
     {
-        Setup();
+        hand.SetActive(true);
+        Invoke("MovePiece1", 0.7f);
+    }
 
+    void MovePiece1()
+    {
         iTween.MoveTo(piece1,
+          iTween.Hash(
+              "position", piece1Pivots.to.position,
+              "time", 0.4f,
+              "oncomplete", "OnCompletePiece1Animation",
+              "oncompletetarget", this.gameObject
+              ));
+
+        iTween.MoveTo(hand,
             iTween.Hash(
-                "position", piece1Pivots.to.position,
-                "time", 0.4f,
-                "oncomplete", "OnCompletePiece1Animation",
-                "oncompletetarget", this.gameObject
+                "position", handPivots1.to.position,
+                "time", 0.4f
                 ));
     }
 

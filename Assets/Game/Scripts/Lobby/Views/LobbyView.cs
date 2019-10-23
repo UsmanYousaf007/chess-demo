@@ -117,7 +117,6 @@ namespace TurboLabz.InstantFramework
         public GameObject createMatchLimitReachedDlg;
         public Button createMatchLimitReachedCloseBtn;
 
-
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
         public Signal<string> showProfileDialogSignal = new Signal<string>();
@@ -195,6 +194,8 @@ namespace TurboLabz.InstantFramework
 
 
             cacheEnabledSections = new List<GameObject>();
+
+            scrollViewOrignalPosition = scrollRect.transform.localPosition;
         }
 
         void OnDecStrengthButtonClicked()

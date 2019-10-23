@@ -21,6 +21,7 @@ public class CoachTrainingView : MonoBehaviour
     public Pivots piece1Pivots;
     public Pivots piece2Pivots;
     public Pivots handPivots;
+    public Pivots handPivots1;
     public GameObject onScreenClose;
 
     private Coroutine animationRoutine;
@@ -29,7 +30,6 @@ public class CoachTrainingView : MonoBehaviour
     void OnEnable()
     {
         animationRoutine = StartCoroutine(AnimateInLoop());
-        Setup();
         onScreenClose.SetActive(true);
     }
 
@@ -41,11 +41,12 @@ public class CoachTrainingView : MonoBehaviour
 
     IEnumerator AnimateInLoop()
     {
-        yield return new WaitForSeconds(0.7f);
         while (true)
         {
+            Setup();
+            yield return new WaitForSeconds(0.7f);
             Animate();
-            yield return new WaitForSeconds(5.0f);
+            yield return new WaitForSeconds(5.8f);
         }
     }
 
@@ -53,7 +54,7 @@ public class CoachTrainingView : MonoBehaviour
     {
         piece1.transform.position = piece1Pivots.from.position;
         piece2.transform.position = piece2Pivots.from.position;
-        hand.transform.position = handPivots.from.position;
+        hand.transform.position = handPivots1.from.position;
         hand.SetActive(false);
         piece3.SetActive(false);
         arrow.SetActive(false);
@@ -63,14 +64,24 @@ public class CoachTrainingView : MonoBehaviour
 
     void Animate()
     {
-        Setup();
+        hand.SetActive(true);
+        Invoke("MovePiece1", 0.7f);
+    }
 
+    void MovePiece1()
+    {
         iTween.MoveTo(piece1,
+           iTween.Hash(
+               "position", piece1Pivots.to.position,
+               "time", 0.4f,
+               "oncomplete", "OnCompletePiece1Animation",
+               "oncompletetarget", this.gameObject
+               ));
+
+        iTween.MoveTo(hand,
             iTween.Hash(
-                "position", piece1Pivots.to.position,
-                "time", 0.4f,
-                "oncomplete", "OnCompletePiece1Animation",
-                "oncompletetarget", this.gameObject
+                "position", handPivots1.to.position,
+                "time", 0.4f
                 ));
     }
 
@@ -117,6 +128,7 @@ public class CoachTrainingView : MonoBehaviour
     {
         arrow.SetActive(true);
         piece3.SetActive(true);
+        hand.SetActive(false);
 
         iTween.MoveTo(piece2,
             iTween.Hash(

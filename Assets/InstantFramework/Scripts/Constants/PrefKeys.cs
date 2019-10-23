@@ -27,5 +27,6 @@ namespace TurboLabz.InstantGame
         public const string IS_FRIEND_SCREEN_VISITED = "isFriendScreenVisited";
         public const string IS_COACH_TOOLTIP_SHOWN = "isCoachTooltipShown";
         public const string IS_STRENGTH_TOOLTIP_SHOWN = "isStrengthTooltipShown";
+        public const string IS_LOBBY_LOADED_FIRST_TIME = "isLobbyLoadedFirstTime";
     }
 }

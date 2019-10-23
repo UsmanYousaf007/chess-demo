@@ -237,6 +237,7 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
             commandBinder.Bind<RestorePurchasesSignal>().To<RestorePurchasesCommand>();
+            commandBinder.Bind<LoadPromotionSingal>().To<LoadPromotionCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -269,8 +270,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<PlayerProfilePicTappedSignal>().ToSingleton();
             injectionBinder.Bind<RequestToggleBannerSignal>().ToSingleton();
             injectionBinder.Bind<ReconnectViewEnableSignal>().ToSingleton();
-
-
+            injectionBinder.Bind<ShowPromotionSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();
