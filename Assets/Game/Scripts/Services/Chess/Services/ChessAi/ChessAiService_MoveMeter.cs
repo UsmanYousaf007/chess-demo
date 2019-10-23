@@ -16,14 +16,14 @@ namespace TurboLabz.Chess
             float percentage = 0.0f;
             FileRank from = aiMoveInputVO.lastPlayerMove.from;
             FileRank to = aiMoveInputVO.lastPlayerMove.to;
-            int totolMoveCount = aiSearchResultMovesList.Count - 1;
+            int totolMoveCount = aiSearchResultMovesList.Count;
 
             if (totolMoveCount > 0)
             {
                 string moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
                 int moveFoundIndex = -1;
 
-                for (int i = 0; i <= totolMoveCount; ++i)
+                for (int i = 0; i < totolMoveCount; ++i)
                 {
                     LogUtil.Log("j:" + i + " MOVES : " + aiSearchResultMovesList[i] + " SCORE : " + scores[i]);
 
