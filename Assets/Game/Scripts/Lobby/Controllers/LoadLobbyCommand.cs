@@ -86,12 +86,15 @@ namespace TurboLabz.InstantGame
             DispatchRemoveAdsSignal();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
-           if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
+            if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
             }
 
-            loadPromotionSingal.Dispatch();
+            if (preferencesModel.promotionCycleIndex == 0 && preferencesModel.isLobbyLoadedFirstTime)
+            {
+                loadPromotionSingal.Dispatch();
+            }
         }
 
         private void DispatchProfileSignal() 

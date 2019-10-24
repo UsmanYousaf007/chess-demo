@@ -137,12 +137,14 @@ namespace TurboLabz.Multiplayer
                 updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
                 consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
                 preferencesModel.isCoachTooltipShown = true;
+                preferencesModel.coachUsedCount++;
             }
             else
             {
                 updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
                 consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
                 preferencesModel.isStrengthTooltipShown = true;
+                preferencesModel.strengthUsedCount++;
             }
 
             Release();

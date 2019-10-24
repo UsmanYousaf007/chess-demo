@@ -16,7 +16,7 @@ namespace TurboLabz.Chess
             float percentage = 0.0f;
             FileRank from = aiMoveInputVO.lastPlayerMove.from;
             FileRank to = aiMoveInputVO.lastPlayerMove.to;
-            int totolMoveCount = aiSearchResultMovesList.Count - 1;
+            int totolMoveCount = aiSearchResultMovesList.Count;
 
             if (totolMoveCount > 0)
             {

@@ -28,6 +28,9 @@ namespace TurboLabz.InstantGame
         public bool isCoachTooltipShown { get; set; }
         public bool isStrengthTooltipShown { get; set; }
         public bool isLobbyLoadedFirstTime { get; set; }
+        public int coachUsedCount { get; set; }
+        public int strengthUsedCount { get; set; }
+        public int promotionCycleIndex { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -97,6 +100,21 @@ namespace TurboLabz.InstantGame
                     isLobbyLoadedFirstTime = reader.Read<bool>(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME);
                 }
 
+                if (reader.HasKey(PrefKeys.COACH_USED_COUNT))
+                {
+                    coachUsedCount = reader.Read<int>(PrefKeys.COACH_USED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.STRENGTH_USED_COUNT))
+                {
+                    strengthUsedCount = reader.Read<int>(PrefKeys.STRENGTH_USED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.PROMOTION_CYCLE_INDEX))
+                {
+                    promotionCycleIndex = reader.Read<int>(PrefKeys.PROMOTION_CYCLE_INDEX);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -123,6 +141,9 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.IS_COACH_TOOLTIP_SHOWN, isCoachTooltipShown);
                 writer.Write<bool>(PrefKeys.IS_STRENGTH_TOOLTIP_SHOWN, isStrengthTooltipShown);
                 writer.Write<bool>(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME, isLobbyLoadedFirstTime);
+                writer.Write<int>(PrefKeys.COACH_USED_COUNT, coachUsedCount);
+                writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
+                writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
                 writer.Close();
             }
             catch (Exception e)

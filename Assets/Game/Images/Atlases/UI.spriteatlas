@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 4135808
+    totalSpriteSurfaceArea: 4707882
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -70,6 +70,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 960b91b114d4d4de8a15f49bb2087f30, type: 3}
   - {fileID: 21300000, guid: 8bccfab19c807492194b5d766acf6189, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
+  - {fileID: 21300000, guid: ad1b04d14dcdc4285a45c299474a83e3, type: 3}
   - {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
   - {fileID: 21300000, guid: 68485112a256e46638260e8e22e00afe, type: 3}
   - {fileID: 21300000, guid: 48f3a02204db84afe83dfee8e5922e0d, type: 3}
@@ -134,7 +135,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8113f6f696144457ab3657b066041428, type: 3}
   - {fileID: 21300000, guid: 37835d07cfad9490192df6a43058e7a0, type: 3}
   - {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
+  - {fileID: 21300000, guid: d7b9ff57f593947fa8bde4593ba25e1c, type: 3}
   - {fileID: 21300000, guid: 04485b871853d4d84a2c48c7db84f512, type: 3}
+  - {fileID: 21300000, guid: ccd5ad87c95ee4fedb19a7d48a8b50e8, type: 3}
   - {fileID: 21300000, guid: 71d93497839aa4070af72b5148138a4d, type: 3}
   - {fileID: 21300000, guid: 5cd776b7c834e4d6a9b442bc43b65ea4, type: 3}
   - {fileID: 21300000, guid: f482a5e71cb314a20942bc9596fe8e93, type: 3}
@@ -150,6 +153,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: eb3b0b684c22947f8a2a900ebde15ebf, type: 3}
   - {fileID: 21300000, guid: 78c3f07820df749c080f83549436123c, type: 3}
   - {fileID: 21300000, guid: d2a64188ef4ee46babfec152997e0a53, type: 3}
+  - {fileID: 21300000, guid: f61c21989ae1941e5bd47c8ba0aeee36, type: 3}
   - {fileID: 21300000, guid: 0b1f39e871df648a686799cd05e957ed, type: 3}
   - {fileID: 21300000, guid: 501b1de8e0eb246e6a703e52f4cde523, type: 3}
   - {fileID: 21300000, guid: 422753f8dd4c54108a32ce9032cf923a, type: 3}
@@ -189,6 +193,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: dc1b0a0c18f924600aed6c3ec13a19b8, type: 3}
   - {fileID: 21300000, guid: e0e0ac0c595614d4380fb3340c12f610, type: 3}
   - {fileID: 21300000, guid: 0ab7ba1c888d4440c910f465e5d7892c, type: 3}
+  - {fileID: 21300000, guid: c7af412cfd39842be91543cb1c3a15a6, type: 3}
   - {fileID: 21300000, guid: f769c84c9fc314a74baa81bd620e4b88, type: 3}
   - {fileID: 21300000, guid: 47d65c6c8db164c78bb724180437834d, type: 3}
   - {fileID: 21300000, guid: 11de3f6cf2c924951a340f2373a5a90a, type: 3}
@@ -210,8 +215,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1532434d8eb3a4c2d8a3207f79079171, type: 3}
   - {fileID: 21300000, guid: 177c825d5265e47e6b59f6d1130c95c4, type: 3}
   - {fileID: 21300000, guid: d3caee7dd469747668b9b5891249bab4, type: 3}
+  - {fileID: 21300000, guid: a6034f7df81864d0bbf137abfc81569c, type: 3}
   - {fileID: 21300000, guid: 0731c48de2dc04cd69ba96f2b2749a3d, type: 3}
   - {fileID: 21300000, guid: 40dc468d178234f53b6d87f3d8ea75e5, type: 3}
+  - {fileID: 21300000, guid: 43c6800ebe59f4ba283b8c6f6ac2187e, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
   - {fileID: 21300000, guid: 6a8697be8231c46b395a645b18af4804, type: 3}
@@ -245,6 +252,7 @@ SpriteAtlas:
   - PlusIcon
   - OnboardingCoach
   - PossibleMovesIndicator
+  - adsBannerBg
   - NoStar
   - nameEditBtn
   - RoundEdgesGlow
@@ -309,7 +317,9 @@ SpriteAtlas:
   - f
   - strengthPanelBg
   - PlayerOffline
+  - ultimateBannerIcon
   - Error
+  - bannerSale
   - handIcon
   - OnboardingMoveMeter
   - PowerUpPlusIcon
@@ -325,6 +335,7 @@ SpriteAtlas:
   - StripSeparator
   - strengthTrainingBoard
   - LoginGraphic
+  - coachPurchaseBannerIcon
   - DialogPattern
   - SectionMask
   - WaitSpinner
@@ -364,6 +375,7 @@ SpriteAtlas:
   - BtnGlassBg
   - ErrorChess
   - ProfileIcon
+  - ultimateBannerBg
   - SilverStar
   - 2
   - difficultyArrow
@@ -385,8 +397,10 @@ SpriteAtlas:
   - ChatIcon
   - ChessLogo
   - coachBannerBg
+  - strengthPurchaseBannerIcon
   - ErrorImagePiece
   - UnreadChat
+  - adsBannerIcon
   - SettingsIcon
   - RewardBtnDefeat
   - KingCheckIndicator

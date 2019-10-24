@@ -25,7 +25,8 @@ namespace TurboLabz.InstantFramework
 
             NavigatorViewId viewId = CameFrom(
                 NavigatorViewId.MULTIPLAYER,
-                NavigatorViewId.CPU);
+                NavigatorViewId.CPU,
+                NavigatorViewId.LOBBY);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -36,6 +37,10 @@ namespace TurboLabz.InstantFramework
                 else if (viewId == NavigatorViewId.CPU)
                 {
                     return new NSCPU();
+                }
+                else if (viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CPU_RESULTS_DLG)

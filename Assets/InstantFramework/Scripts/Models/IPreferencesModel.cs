@@ -16,5 +16,8 @@ namespace TurboLabz.InstantFramework
         bool isCoachTooltipShown { get; set; }
         bool isStrengthTooltipShown { get; set; }
         bool isLobbyLoadedFirstTime { get; set; }
+        int coachUsedCount { get; set; }
+        int strengthUsedCount { get; set; }
+        int promotionCycleIndex { get; set; }
     }
 }
