@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
             LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
+            metaDataModel.maxLongMatchCount = response.ScriptData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
 
             // Check app version match with back end. Bail if there is mismatch.
             if (response.ScriptData.GetBoolean(GSBackendKeys.APP_VERSION_VALID) == false)
