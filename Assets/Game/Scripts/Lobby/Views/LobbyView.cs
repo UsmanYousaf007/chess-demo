@@ -707,11 +707,11 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             actionBar = null;
 
-            if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= metaDataModel.maxLongMatchCount)
-            {
-                friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
-            }
-            else if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
+            //if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= metaDataModel.maxLongMatchCount)
+            //{
+            //    friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
+            //}
+            if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
                 actionBar = bar;
                 ShowConfirmGameDlg(actionBar);

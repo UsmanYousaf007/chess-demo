@@ -22,13 +22,10 @@ namespace TurboLabz.InstantFramework
             string filename = PIC_FILE_PREFIX + playerId;
 
             try
-            {
-                if (!localDataService.FileExists(filename))
-                {
-                    ILocalDataWriter writer = localDataService.OpenWriter(filename);
-                    writer.Write(PIC_KEY, sprite);
-                    writer.Close();
-                }
+            { 
+                ILocalDataWriter writer = localDataService.OpenWriter(filename);
+                writer.Write(PIC_KEY, sprite);
+                writer.Close();
                 
                 TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
