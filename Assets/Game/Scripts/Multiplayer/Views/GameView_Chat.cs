@@ -194,6 +194,19 @@ namespace TurboLabz.Multiplayer
 
         }
 
+        public void SetOpponentChatProfilePic(Sprite sprite)
+        { 
+            if (sprite != null)
+            {
+                opponentHeaderAvatarIcon.gameObject.SetActive(false);
+                opponentHeaderAvatarBG.gameObject.SetActive(false);
+
+                opponentHeaderProfilePic.gameObject.SetActive(true);
+                opponentProfilePic = sprite;
+                opponentHeaderProfilePic.sprite = sprite;
+            }
+        }
+
         public void EnableUnreadIndicator(string friendId, int messagesCount)
         {
             if (friendId == opponentId)
