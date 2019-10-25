@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantFramework;
 
 public class NotchHandler : MonoBehaviour {
 
@@ -12,6 +13,8 @@ public class NotchHandler : MonoBehaviour {
     [Header("Lobby")]
     public RectTransform lobbyScrollView;
     public RectTransform lobbyViewPort;
+    public RectTransform lobbyScrollViewPivotForBanner;
+    public LobbyView lobbyView;
    
     [Header("Profile")]
     public RectTransform profileFacebookButton;
@@ -84,7 +87,9 @@ public class NotchHandler : MonoBehaviour {
         SetY(lobbyScrollView, -66f - 100f);
         SetTop(lobbyViewPort, -6f);
         SetBottom(lobbyViewPort, 108f + 100f);
-        
+        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -150f);
+        lobbyView.setScorllViewportBottomTo = 360;
+
         // PROFILE
         SetY(profileFacebookButton, -270f);
         SetY(profileCenterContent, -66f);

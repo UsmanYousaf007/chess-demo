@@ -419,6 +419,7 @@ namespace TurboLabz.InstantFramework
             // update bar values
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
             friendBar.Init(localizationService);
+            friendBar.lastMatchTimeStamp = friend.lastMatchTimestamp;
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
             friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friendBar));
             friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId, friendBar.acceptButton));
@@ -587,6 +588,7 @@ namespace TurboLabz.InstantFramework
 
             FriendBar friendBar = bars[friendId].GetComponent<FriendBar>();
             friendBar.onlineStatus.sprite = isOnline ? friendBar.online : friendBar.activeStatus;
+            friendBar.isOnline = isOnline;
         }
 
         public void UpdateFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
@@ -632,6 +634,7 @@ namespace TurboLabz.InstantFramework
             confirmNewGameDlg.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);
             createMatchLimitReachedDlg.SetActive(false);
+            SortFriends();
         }
 
         public void Hide()

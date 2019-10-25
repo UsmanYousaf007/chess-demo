@@ -13,15 +13,15 @@ namespace TurboLabz.InstantFramework
         public Transform loadPromotionAt;
         public Transform moveScrollViewTo;
         public Transform promotionContainer;
+        public float setScorllViewportBottomTo;
+        public RectTransform scrollViewport;
         public GameObject coachTrainingDailogue;
         public GameObject strengthTrainingDailogue;
 
         private GameObject spawnedBanner;
         private Vector3 scrollViewOrignalPosition;
         private StoreItem storeItem;
-
-        //Models
-        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        private float scrollViewportOrginalBottom;
 
         public void ShowPromotion(PromotionVO vo)
         {
@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
                 {
                     spawnedBanner = Instantiate(prefabToInstantiate, loadPromotionAt.position, Quaternion.identity, promotionContainer) as GameObject;
                     scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
+                    scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
 
                     var IAPBanner = spawnedBanner.GetComponent<IAPBanner>();
                     if (IAPBanner != null)
@@ -68,6 +69,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 scrollRect.transform.localPosition = scrollViewOrignalPosition;
+                scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
             }
         }
 

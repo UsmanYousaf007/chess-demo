@@ -24,6 +24,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+
+
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -31,6 +35,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
+        [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
+
 
 
         private SpritesContainer defaultAvatarContainer;
@@ -116,6 +122,7 @@ namespace TurboLabz.InstantFramework
         [Header("Limit Reached")]
         public GameObject createMatchLimitReachedDlg;
         public Button createMatchLimitReachedCloseBtn;
+        public Text createMatchLimitReachedText;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -196,6 +203,7 @@ namespace TurboLabz.InstantFramework
             cacheEnabledSections = new List<GameObject>();
 
             scrollViewOrignalPosition = scrollRect.transform.localPosition;
+            scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
         }
 
         void OnDecStrengthButtonClicked()
@@ -567,6 +575,14 @@ namespace TurboLabz.InstantFramework
             if (reason == CreateLongMatchAbortReason.LimitReached)
             {
                 createMatchLimitReachedDlg.SetActive(true);
+                createMatchLimitReachedText.text = "Sorry, opponent max games limit reached. \nPlease Try Later";
+                friendBar.playArrow.SetActive(true);
+                friendBar.playArrowButton.SetActive(false);
+            }
+            else if (reason == CreateLongMatchAbortReason.SelfLimitReached)
+            {
+                createMatchLimitReachedDlg.SetActive(true);
+                createMatchLimitReachedText.text = "Sorry, your max games limit reached. \nPlease Try Later";
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
@@ -693,6 +709,10 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             actionBar = null;
 
+            //if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= metaDataModel.maxLongMatchCount)
+            //{
+            //    friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
+            //}
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
                 actionBar = bar;

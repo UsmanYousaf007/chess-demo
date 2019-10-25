@@ -16,6 +16,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public ClearActiveChatSignal clearActiveChatSignal { get; set; }
         [Inject] public ClearUnreadMessagesSignal clearUnreadMessagesSignal { get; set; }
 
+
         public void OnRegisterChat()
         {
             view.InitChat();
@@ -66,6 +67,12 @@ namespace TurboLabz.Multiplayer
         public void OnUpdateFriendOnlineStatusSignal(ProfileVO vo)
         {
             view.UpdateFriendOnlineStatusSignal(vo.playerId, vo.isOnline, vo.isActive);
+        }
+
+        [ListensTo(typeof(UpdateChatOpponentPicSignal))]
+        void OnUpdateOpponentProfilePic(Sprite sprite)
+        {
+            view.SetOpponentChatProfilePic(sprite);
         }
 
         void OnChatSubmit(ChatMessage message)
