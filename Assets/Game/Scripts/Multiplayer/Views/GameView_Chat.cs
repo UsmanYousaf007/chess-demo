@@ -194,8 +194,13 @@ namespace TurboLabz.Multiplayer
 
         }
 
-        public void SetOpponentChatProfilePic(Sprite sprite)
+        public void SetOpponentChatProfilePic(Sprite sprite, string playerId = null)
         { 
+            if (playerId != null && playerId != opponentId)
+            {
+                return;
+            }
+
             if (sprite != null)
             {
                 opponentHeaderAvatarIcon.gameObject.SetActive(false);

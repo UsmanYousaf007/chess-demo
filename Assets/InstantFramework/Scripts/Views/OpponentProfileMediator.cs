@@ -46,5 +46,12 @@ namespace TurboLabz.InstantGame
         {
             view.UpdateEloScores(vo);
         }
+
+
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdateFriendPic(string playerId, Sprite sprite)
+        {
+            view.UpdateProfilePic(playerId, sprite);
+        }
     }
 }
