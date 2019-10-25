@@ -23,26 +23,21 @@ namespace TurboLabz.InstantFramework
         //Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 
-        //Signals
-        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
-        [Inject] public LoadSpotPurchaseSignal loadSpotPurchaseSignal { get; set; }
-
-        public void ShowPromotion(string key)
+        public void ShowPromotion(PromotionVO vo)
         {
             if (spawnedBanner != null)
             {
                 Destroy(spawnedBanner);
             }
             
-            if (LobbyPromotionKeys.Contains(key))
+            if (LobbyPromotionKeys.Contains(vo.key))
             {
-                var prefabToInstantiate = Resources.Load(key);
+                var prefabToInstantiate = Resources.Load(vo.key);
 
                 if (prefabToInstantiate != null)
                 {
                     spawnedBanner = Instantiate(prefabToInstantiate, loadPromotionAt.position, Quaternion.identity, promotionContainer) as GameObject;
                     scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
-                    spawnedBanner.GetComponent<Button>().onClick.AddListener(() => OnClickPromotion(key));
 
                     var IAPBanner = spawnedBanner.GetComponent<IAPBanner>();
                     if (IAPBanner != null)
@@ -53,53 +48,26 @@ namespace TurboLabz.InstantFramework
                         {
                             IAPBanner.price.text = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
                             StartCoroutine(WaitForPriceToLoad(IAPBanner.price));
+                            spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
                         }
                         else
                         {
                             LogUtil.Log(string.Format("Banner Promotion: store item against key '{0}' not found", IAPBanner.key), "red");
                         }
                     }
+                    else
+                    {
+                        spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
+                    }
                 }
                 else
                 {
-                    LogUtil.Log(string.Format("Banner Promotion: resource against key '{0}' not found", key), "red");
+                    LogUtil.Log(string.Format("Banner Promotion: resource against key '{0}' not found", vo.key), "red");
                 }
             }
             else
             {
                 scrollRect.transform.localPosition = scrollViewOrignalPosition;
-            }
-        }
-
-        private void OnClickPromotion(string key)
-        {
-            audioService.PlayStandardClick();
-            ShowPromotion("none");
-            switch (key)
-            {
-                case LobbyPromotionKeys.COACH_BANNER:
-                    coachTrainingDailogue.SetActive(true);
-                    break;
-
-                case LobbyPromotionKeys.STRENGTH_BANNER:
-                    strengthTrainingDailogue.SetActive(true);
-                    break;
-
-                case LobbyPromotionKeys.ULTIMATE_BANNER:
-                    purchaseStoreItemSignal.Dispatch(storeItem.key, true);
-                    break;
-
-                case LobbyPromotionKeys.ADS_BANNER:
-                    purchaseStoreItemSignal.Dispatch(storeItem.key, true);
-                    break;
-
-                case LobbyPromotionKeys.STRENGTH_PURCHASE:
-                    loadSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
-                    break;
-
-                case LobbyPromotionKeys.COACH_PURCHASE:
-                    loadSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
-                    break;
             }
         }
 
@@ -113,6 +81,16 @@ namespace TurboLabz.InstantFramework
             }
 
             price.text = storeItem.remoteProductPrice;
+        }
+
+        public void ShowCoachTrainingDailogue()
+        {
+            coachTrainingDailogue.SetActive(true);
+        }
+
+        public void ShowStrengthTrainingDailogue()
+        {
+            strengthTrainingDailogue.SetActive(true);
         }
     }
 }

@@ -271,6 +271,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RequestToggleBannerSignal>().ToSingleton();
             injectionBinder.Bind<ReconnectViewEnableSignal>().ToSingleton();
             injectionBinder.Bind<ShowPromotionSignal>().ToSingleton();
+            injectionBinder.Bind<ShowCoachTrainingDailogueSignal>().ToSingleton();
+            injectionBinder.Bind<ShowStrengthTrainingDailogueSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

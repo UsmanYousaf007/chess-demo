@@ -302,9 +302,21 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]
-        public void OnShowPromotion(string key)
+        public void OnShowPromotion(PromotionVO vo)
         {
-            view.ShowPromotion(key);
+            view.ShowPromotion(vo);
+        }
+
+        [ListensTo(typeof(ShowCoachTrainingDailogueSignal))]
+        public void OnShowCoachTrainingDailogue()
+        {
+            view.ShowCoachTrainingDailogue();
+        }
+
+        [ListensTo(typeof(ShowStrengthTrainingDailogueSignal))]
+        public void OnShowStrengthTrainingDailogue()
+        {
+            view.ShowStrengthTrainingDailogue();
         }
     }
 }
