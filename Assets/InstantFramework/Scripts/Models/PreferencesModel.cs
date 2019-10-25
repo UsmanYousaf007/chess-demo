@@ -31,6 +31,7 @@ namespace TurboLabz.InstantGame
         public int coachUsedCount { get; set; }
         public int strengthUsedCount { get; set; }
         public int promotionCycleIndex { get; set; }
+        public DateTime timeAtLobbyLoadedFirstTime { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -115,6 +116,11 @@ namespace TurboLabz.InstantGame
                     promotionCycleIndex = reader.Read<int>(PrefKeys.PROMOTION_CYCLE_INDEX);
                 }
 
+                if (reader.HasKey(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME))
+                {
+                    timeAtLobbyLoadedFirstTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME)));
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -144,6 +150,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.COACH_USED_COUNT, coachUsedCount);
                 writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
                 writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
+                writer.Write<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME, timeAtLobbyLoadedFirstTime.ToBinary().ToString());
                 writer.Close();
             }
             catch (Exception e)

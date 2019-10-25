@@ -2,6 +2,9 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
+///
+
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,5 +22,6 @@ namespace TurboLabz.InstantFramework
         int coachUsedCount { get; set; }
         int strengthUsedCount { get; set; }
         int promotionCycleIndex { get; set; }
+        DateTime timeAtLobbyLoadedFirstTime { get; set; }
     }
 }

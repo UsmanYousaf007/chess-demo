@@ -1,6 +1,7 @@
 ﻿using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 using System.Collections.Generic;
+using System;
 
 namespace TurboLabz.InstantGame
 {
@@ -22,6 +23,7 @@ namespace TurboLabz.InstantGame
 
         private const int TOTAL_PROMOTIONS = 6;
         private const int POWERUP_USE_LIMIT = 7;
+        private const int POWERUP_TRAINING_DAYS_LIMIT = 30;
         private List<PromotionVO> promotionCycle;
 
         public override void Execute()
@@ -29,6 +31,7 @@ namespace TurboLabz.InstantGame
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
                 preferencesModel.isLobbyLoadedFirstTime = true;
+                preferencesModel.timeAtLobbyLoadedFirstTime = DateTime.Now;
                 return;
             }
 
@@ -75,7 +78,8 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.STRENGTH_BANNER,
                 condition = delegate
                 {
-                    return preferencesModel.strengthUsedCount < POWERUP_USE_LIMIT;
+                    return preferencesModel.strengthUsedCount < POWERUP_USE_LIMIT
+                    && (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays < POWERUP_TRAINING_DAYS_LIMIT;
                 },
                 onClick = delegate (string key)
                 {
@@ -90,7 +94,9 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.COACH_BANNER,
                 condition = delegate
                 {
-                    return preferencesModel.coachUsedCount < POWERUP_USE_LIMIT;
+                    return preferencesModel.coachUsedCount < POWERUP_USE_LIMIT
+                    && (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays < POWERUP_TRAINING_DAYS_LIMIT;
+
                 },
                 onClick = delegate (string key)
                 {
@@ -149,7 +155,9 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.STRENGTH_PURCHASE,
                 condition = delegate
                 {
-                    return true;
+                    return preferencesModel.strengthUsedCount >= POWERUP_USE_LIMIT
+                    || (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays >= POWERUP_TRAINING_DAYS_LIMIT;
+
                 },
                 onClick = delegate (string key)
                 {
@@ -164,7 +172,9 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.COACH_PURCHASE,
                 condition = delegate
                 {
-                    return true;
+                    return preferencesModel.coachUsedCount >= POWERUP_USE_LIMIT
+                    || (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays >= POWERUP_TRAINING_DAYS_LIMIT;
+
                 },
                 onClick = delegate (string key)
                 {

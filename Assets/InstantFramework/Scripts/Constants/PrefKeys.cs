@@ -31,5 +31,6 @@ namespace TurboLabz.InstantGame
         public const string COACH_USED_COUNT = "coachUsedCount";
         public const string STRENGTH_USED_COUNT = "strengthUsedCount";
         public const string PROMOTION_CYCLE_INDEX = "promotionCycleIndex";
+        public const string TIME_AT_LOBBY_LOADED_FIRST_TIME = "timeAtLobbyLoadedFirstTime";
     }
 }
