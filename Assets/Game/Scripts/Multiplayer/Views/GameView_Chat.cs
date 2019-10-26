@@ -158,7 +158,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                opponentProfilePic = null;
+                opponentProfilePic = defaultAvatar;
 
                 if (vo.oppAvatarId != null)
                 {
