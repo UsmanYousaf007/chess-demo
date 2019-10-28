@@ -22,9 +22,12 @@ namespace TurboLabz.InstantFramework
         private Vector3 scrollViewOrignalPosition;
         private StoreItem storeItem;
         private float scrollViewportOrginalBottom;
+        private PromotionVO currentPromotion;
 
         public void ShowPromotion(PromotionVO vo)
         {
+            currentPromotion = vo;
+
             if (spawnedBanner != null)
             {
                 Destroy(spawnedBanner);
@@ -93,6 +96,21 @@ namespace TurboLabz.InstantFramework
         public void ShowStrengthTrainingDailogue()
         {
             strengthTrainingDailogue.SetActive(true);
+        }
+
+        public void RemovePromotion(string key)
+        {
+            if (currentPromotion.key.Equals(key))
+            {
+                //for closing promotion pass key 'none'
+                ShowPromotion(new PromotionVO
+                {
+                    cycleIndex = 0,
+                    key = "none",
+                    condition = null,
+                    onClick = null
+                });
+            }
         }
     }
 }

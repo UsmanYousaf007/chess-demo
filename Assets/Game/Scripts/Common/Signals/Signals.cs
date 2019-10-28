@@ -28,6 +28,7 @@ namespace TurboLabz.InstantGame
     public class LoadPromotionSingal : Signal {}
     public class ShowCoachTrainingDailogueSignal : Signal {}
     public class ShowStrengthTrainingDailogueSignal : Signal {}
+    public class RemoveLobbyPromotionSignal : Signal<string> {}
 
     // CPU STATS
     public class LoadStatsSignal : Signal {}

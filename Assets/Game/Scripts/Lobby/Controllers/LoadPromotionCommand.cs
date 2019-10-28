@@ -117,13 +117,6 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     purchaseStoreItemSignal.Dispatch(key, true);
-                    showPromotionSignal.Dispatch(new PromotionVO
-                    {
-                        cycleIndex = 0,
-                        key = "none",
-                        condition = null,
-                        onClick = null
-                    });
                 }
             };
 
@@ -139,13 +132,6 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     purchaseStoreItemSignal.Dispatch(key, true);
-                    showPromotionSignal.Dispatch(new PromotionVO
-                    {
-                        cycleIndex = 0,
-                        key = "none",
-                        condition = null,
-                        onClick = null
-                    });
                 }
             };
             

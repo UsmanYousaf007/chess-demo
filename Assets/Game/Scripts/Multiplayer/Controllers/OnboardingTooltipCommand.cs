@@ -17,8 +17,8 @@ namespace TurboLabz.Multiplayer
         [Inject] public ShowStrengthOnboardingTooltipSignal showStrengthOnboardingTooltipSignal { get; set; }
         [Inject] public ShowCoachOnboardingTooltipSignal showCoachOnboardingTooltipSignal { get; set; }
 
-        private static int oldOpponentScore;
-        private static int oldPlayerScore;
+        public static int oldOpponentScore;
+        public static int oldPlayerScore;
 
         private const int POWERUP_USE_LIMIT = 7;
         private const int POWERUP_TRAINING_DAYS_LIMIT = 30;
