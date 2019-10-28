@@ -146,9 +146,10 @@ namespace TurboLabz.Multiplayer
 
 
             //For Opponent
-
             opponentHeaderAvatarIcon.gameObject.SetActive(false);
             opponentHeaderAvatarBG.gameObject.SetActive(false);
+            opponentProfilePic = defaultAvatar;
+            opponentHeaderProfilePic.sprite = defaultAvatar;
 
             if (vo.opponentProfilePic != null)
             {
@@ -156,12 +157,8 @@ namespace TurboLabz.Multiplayer
                 opponentProfilePic = vo.opponentProfilePic;
                 opponentHeaderProfilePic.sprite = vo.opponentProfilePic;
             }
-            else
+            else if (vo.oppAvatarId != null)
             {
-                opponentProfilePic = null;
-
-                if (vo.oppAvatarId != null)
-                {
                     opponentHeaderAvatarIcon.gameObject.SetActive(true);
                     opponentHeaderAvatarBG.gameObject.SetActive(true);
                     opponentHeaderProfilePic.gameObject.SetActive(false);
@@ -175,7 +172,10 @@ namespace TurboLabz.Multiplayer
                     }
                     opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
                     opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
-                }
+            }
+            else
+            {
+                opponentHeaderProfilePic.gameObject.SetActive(true);
             }
 
             foreach (ChatMessage message in vo.chatMessages.messageList)
@@ -194,8 +194,13 @@ namespace TurboLabz.Multiplayer
 
         }
 
-        public void SetOpponentChatProfilePic(Sprite sprite)
+        public void SetOpponentChatProfilePic(Sprite sprite, string playerId = null)
         { 
+            if (playerId != null && playerId != opponentId)
+            {
+                return;
+            }
+
             if (sprite != null)
             {
                 opponentHeaderAvatarIcon.gameObject.SetActive(false);

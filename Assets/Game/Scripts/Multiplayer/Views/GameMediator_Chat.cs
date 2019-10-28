@@ -75,6 +75,12 @@ namespace TurboLabz.Multiplayer
             view.SetOpponentChatProfilePic(sprite);
         }
 
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdateFriendPic(string playerId, Sprite sprite)
+        {
+            view.SetOpponentChatProfilePic(sprite, playerId);
+        }
+
         void OnChatSubmit(ChatMessage message)
         {
             sendChatMessageSignal.Dispatch(message);

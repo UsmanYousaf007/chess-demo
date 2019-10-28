@@ -266,6 +266,7 @@ namespace TurboLabz.InstantFramework
 
         public void ResetSearch()
         {
+            searchFriendSignal.Dispatch("", -1);
             ClearSearchResults();
             sectionSearched.gameObject.SetActive(false);
             sectionSearchResultsEmpty.gameObject.SetActive(false);

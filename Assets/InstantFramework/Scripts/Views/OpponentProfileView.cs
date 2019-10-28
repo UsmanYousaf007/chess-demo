@@ -138,5 +138,22 @@ namespace TurboLabz.InstantGame
                 noProfilePicBorder.SetActive(true);
             }
         }
+
+        // TODO: remove code duplication
+        public void UpdateProfilePic(string playerId, Sprite sprite)
+        {
+            if (playerId == opponentId)
+            {
+                noProfilePicBorder.SetActive(false);
+                hasProfilePicBorder.SetActive(false);
+                avatarBg.gameObject.SetActive(false);
+                avatarIcon.gameObject.SetActive(false);
+                if (sprite != null)
+                {
+                    profilePic.sprite = sprite;
+                    hasProfilePicBorder.SetActive(true);
+                }
+            }
+        }
     }
 }
