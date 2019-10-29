@@ -148,8 +148,7 @@ namespace TurboLabz.Multiplayer
             //For Opponent
             opponentHeaderAvatarIcon.gameObject.SetActive(false);
             opponentHeaderAvatarBG.gameObject.SetActive(false);
-            opponentProfilePic = defaultAvatar;
-            opponentHeaderProfilePic.sprite = defaultAvatar;
+           
 
             if (vo.opponentProfilePic != null)
             {
@@ -159,22 +158,27 @@ namespace TurboLabz.Multiplayer
             }
             else if (vo.oppAvatarId != null)
             {
-                    opponentHeaderAvatarIcon.gameObject.SetActive(true);
-                    opponentHeaderAvatarBG.gameObject.SetActive(true);
-                    opponentHeaderProfilePic.gameObject.SetActive(false);
+                opponentProfilePic = null;
+                opponentHeaderAvatarIcon.gameObject.SetActive(true);
+                opponentHeaderAvatarBG.gameObject.SetActive(true);
+                opponentHeaderProfilePic.gameObject.SetActive(false);
 
-                    opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
-                    opponentAvatarBGColor = Colors.DISABLED_WHITE;
-                    if (vo.oppAvatarBgColorId != null)
-                    {
-                        opponentHeaderAvatarBG.color = Colors.Color(vo.oppAvatarBgColorId);
-                        opponentAvatarBGColor = Colors.Color(vo.oppAvatarBgColorId);
-                    }
-                    opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
-                    opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+                opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
+                opponentAvatarBGColor = Colors.DISABLED_WHITE;
+                if (vo.oppAvatarBgColorId != null)
+                {
+                    opponentHeaderAvatarBG.color = Colors.Color(vo.oppAvatarBgColorId);
+                    opponentAvatarBGColor = Colors.Color(vo.oppAvatarBgColorId);
+                }
+
+                opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+                opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+
             }
             else
             {
+                opponentProfilePic = defaultAvatar;
+                opponentHeaderProfilePic.sprite = defaultAvatar;
                 opponentHeaderProfilePic.gameObject.SetActive(true);
             }
 
