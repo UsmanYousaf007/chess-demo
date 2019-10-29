@@ -105,11 +105,11 @@ public class NotchHandler : MonoBehaviour {
         SetY(bundle2, -647f);
         SetY(tabsBar, 215f);
         foreach (RectTransform tfm in storeScrollView)        
-            SetY(tfm, -358f);
+            SetY(tfm, -358f -59);
         foreach (RectTransform tfm in storeViewPort)
-            SetBottom(tfm, 88f);
+            SetBottom(tfm, 88f + 120);
         foreach (RectTransform tfm in storeScrollContents)
-            SetY(tfm, 517f);
+            SetY(tfm, 517f - 41);
 
         // CPU GAME
         SetY(cpuTopBar, -148f);
