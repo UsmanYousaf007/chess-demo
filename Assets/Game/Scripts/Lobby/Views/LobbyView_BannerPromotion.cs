@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
                     spawnedBanner = Instantiate(prefabToInstantiate, loadPromotionAt.position, Quaternion.identity, promotionContainer) as GameObject;
                     scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
                     scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
+                    scrollRect.verticalNormalizedPosition = 1;
 
                     var IAPBanner = spawnedBanner.GetComponent<IAPBanner>();
                     if (IAPBanner != null)

@@ -30,7 +30,6 @@ namespace TurboLabz.InstantGame
         {
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
-                preferencesModel.isLobbyLoadedFirstTime = true;
                 preferencesModel.timeAtLobbyLoadedFirstTime = DateTime.Now;
                 return;
             }

@@ -51,8 +51,15 @@ namespace TurboLabz.CPU
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
             }
+
             OnboardingTooltipCommand.oldOpponentScore = 0;
             OnboardingTooltipCommand.oldPlayerScore = 0;
+
+            if (!preferencesModel.isLobbyLoadedFirstTime)
+            {
+                preferencesModel.isLobbyLoadedFirstTime = true;
+            }
+
             analyticsService.ScreenVisit(AnalyticsScreen.computer_match);
         }
     }

@@ -47,8 +47,14 @@ namespace TurboLabz.InstantFramework
                 preferencesModel.isCoachTooltipShown = false;
                 preferencesModel.isStrengthTooltipShown = false;
             }
+
             OnboardingTooltipCommand.oldOpponentScore = 0;
             OnboardingTooltipCommand.oldPlayerScore = 0;
+
+            if (!preferencesModel.isLobbyLoadedFirstTime)
+            {
+                preferencesModel.isLobbyLoadedFirstTime = true;
+            }
 
             MatchInfo matchInfo = matchInfoModel.activeMatch;
 
