@@ -114,6 +114,7 @@ android {
         versionCode **VERSIONCODE**
         versionName '**VERSIONNAME**'
         multiDexEnabled true
+		resConfigs "en"
     }
 
     lintOptions {
