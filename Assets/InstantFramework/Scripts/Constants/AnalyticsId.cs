@@ -88,7 +88,27 @@ namespace TurboLabz.InstantFramework
         close_pow_move_meter,
         tap_pow_coach,
         cancel_pow_coach,
-        close_pow_coach
+        close_pow_coach,
+        imp_banner_coach_training,
+        imp_banner_move_meter_training,
+        imp_banner_ultimate_bundle,
+        imp_banner_ad_bundle,
+        imp_banner_coach_purchase,
+        imp_banner_move_meter_purchase,
+        tap_banner_coach_training,
+        tap_banner_move_meter_training,
+        tap_banner_ultimate_bundle,
+        tap_banner_ad_bundle,
+        tap_banner_coach_purchase,
+        tap_banner_move_meter_purchase,
+        banner_utlimate_bundle_purchase_success,
+        banner_ad_bundle_purchase_success,
+        banner_coach_purchase_success,
+        banner_move_meter_purchase_success,
+        tap_coach_after_tooltip,
+        tap_move_meter_after_tooltip,
+        tap_coach_after_training,
+        tap_move_meter_after_training
     }
 
     public enum AnalyticsContext

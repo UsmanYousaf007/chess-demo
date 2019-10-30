@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePurchasedBundleStoreItemSignal updatePurchasedBundleStoreItemSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public RemoveLobbyPromotionSignal removeLobbyPromotionSignal { get; set; }
+        [Inject] public ReportLobbyPromotionAnalyticSingal reportLobbyPromotionAnalyticSingal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -114,10 +115,12 @@ namespace TurboLabz.InstantFramework
                 switch (shopItemId)
                 {
                     case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG:
+                        reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.ULTIMATE_BANNER, AnalyticsEventId.banner_utlimate_bundle_purchase_success);
                         removeLobbyPromotionSignal.Dispatch(LobbyPromotionKeys.ULTIMATE_BANNER);
                         break;
 
                     case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG:
+                        reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.ADS_BANNER, AnalyticsEventId.banner_ad_bundle_purchase_success);
                         removeLobbyPromotionSignal.Dispatch(LobbyPromotionKeys.ADS_BANNER);
                         break;
                 }

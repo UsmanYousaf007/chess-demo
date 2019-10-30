@@ -24,6 +24,9 @@ namespace TurboLabz.InstantFramework
         private float scrollViewportOrginalBottom;
         private PromotionVO currentPromotion;
 
+        public static bool isCoachTrainingShown;
+        public static bool isStrengthTrainingShown;
+
         public void ShowPromotion(PromotionVO vo)
         {
             currentPromotion = vo;
@@ -92,11 +95,13 @@ namespace TurboLabz.InstantFramework
         public void ShowCoachTrainingDailogue()
         {
             coachTrainingDailogue.SetActive(true);
+            isCoachTrainingShown = true;
         }
 
         public void ShowStrengthTrainingDailogue()
         {
             strengthTrainingDailogue.SetActive(true);
+            isStrengthTrainingShown = true;
         }
 
         public void RemovePromotion(string key)
@@ -109,8 +114,17 @@ namespace TurboLabz.InstantFramework
                     cycleIndex = 0,
                     key = "none",
                     condition = null,
-                    onClick = null
+                    onClick = null,
+                    analyticsImpId = 0
                 });
+            }
+        }
+
+        public void ReportAnalytic(string key, AnalyticsEventId eventId)
+        {
+            if (currentPromotion.key.Equals(key))
+            {
+                analyticsService.Event(eventId);
             }
         }
     }

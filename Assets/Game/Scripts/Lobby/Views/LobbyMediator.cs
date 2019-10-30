@@ -324,6 +324,17 @@ namespace TurboLabz.InstantFramework
         {
             view.RemovePromotion(key);
         }
+
+        [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]
+        public void OnReportLobbyPromotionAnalytic(string key, AnalyticsEventId eventId)
+        {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
+            view.ReportAnalytic(key, eventId);
+        }
     }
 }
 

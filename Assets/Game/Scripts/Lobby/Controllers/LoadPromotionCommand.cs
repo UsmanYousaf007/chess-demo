@@ -20,6 +20,7 @@ namespace TurboLabz.InstantGame
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         private const int TOTAL_PROMOTIONS = 6;
         private const int POWERUP_USE_LIMIT = 7;
@@ -57,6 +58,7 @@ namespace TurboLabz.InstantGame
 
             if (promotionToShowIndex != -1)
             {
+                analyticsService.Event(promotionCycle[promotionToShowIndex].analyticsImpId);
                 showPromotionSignal.Dispatch(promotionCycle[promotionToShowIndex]);
             }
         }
@@ -83,8 +85,10 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
+                    analyticsService.Event(AnalyticsEventId.tap_banner_move_meter_training);
                     showStrengthTrainingDailogueSignal.Dispatch();
-                }
+                },
+                analyticsImpId = AnalyticsEventId.imp_banner_move_meter_training
             };
 
             var coachItem = new PromotionVO
@@ -100,8 +104,10 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
+                    analyticsService.Event(AnalyticsEventId.tap_banner_coach_training);
                     showCoachTrainingDailogueSignal.Dispatch();
-                }
+                },
+                analyticsImpId = AnalyticsEventId.imp_banner_coach_training
             };
 
             var ultimateItem = new PromotionVO
@@ -115,8 +121,10 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
+                    analyticsService.Event(AnalyticsEventId.tap_banner_ultimate_bundle);
                     purchaseStoreItemSignal.Dispatch(key, true);
-                }
+                },
+                analyticsImpId = AnalyticsEventId.imp_banner_ultimate_bundle
             };
 
             var adsItem = new PromotionVO
@@ -130,8 +138,10 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
+                    analyticsService.Event(AnalyticsEventId.tap_banner_ad_bundle);
                     purchaseStoreItemSignal.Dispatch(key, true);
-                }
+                },
+                analyticsImpId = AnalyticsEventId.imp_banner_ad_bundle
             };
             
             var strengthPurchase = new PromotionVO
@@ -147,8 +157,10 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
+                    analyticsService.Event(AnalyticsEventId.tap_banner_move_meter_purchase);
                     loadSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
-                }
+                },
+                analyticsImpId = AnalyticsEventId.imp_banner_move_meter_purchase
             };
 
             var coachPurchase = new PromotionVO
@@ -164,8 +176,10 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
+                    analyticsService.Event(AnalyticsEventId.tap_banner_coach_purchase);
                     loadSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
-                }
+                },
+                analyticsImpId = AnalyticsEventId.imp_banner_coach_purchase
             };
 
             promotionCycle.Add(strengthItem);

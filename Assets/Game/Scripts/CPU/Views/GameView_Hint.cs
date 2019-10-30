@@ -34,6 +34,8 @@ namespace TurboLabz.CPU
         public StrengthAnim strengthPanel;
         public GameObject strengthOnboardingTooltip;
 
+        private bool isStrengthToolTipShown;
+
         public void InitHint()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
@@ -138,7 +140,20 @@ namespace TurboLabz.CPU
 
                 StashStepButtons();
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
+                if (isStrengthToolTipShown)
+                {
+                    isStrengthToolTipShown = false;
+                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, AnalyticsContext.computer_match);
+                }
+
+                if (InstantFramework.LobbyView.isStrengthTrainingShown)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, AnalyticsContext.computer_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
+                }
             }
         }
 
@@ -192,6 +207,7 @@ namespace TurboLabz.CPU
         public void ShowStrengthOnboardingTooltip(bool show)
         {
             strengthOnboardingTooltip.SetActive(show);
+            isStrengthToolTipShown |= show;
         }
 
     }

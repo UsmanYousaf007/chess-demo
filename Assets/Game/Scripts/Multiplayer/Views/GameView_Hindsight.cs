@@ -32,6 +32,8 @@ namespace TurboLabz.Multiplayer
         public CoachView coachView;
         public GameObject coachOnboardingTooltip;
 
+        private bool isCoachToolTipShown;
+
         public void InitHindsight()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
@@ -102,14 +104,7 @@ namespace TurboLabz.Multiplayer
 
             if(coachView.gameObject.activeSelf)
             {
-                if (isLongPlay)
-                {
-                    analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.long_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.quick_match);
-                }
+                analyticsService.Event(AnalyticsEventId.cancel_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
             }
 
             coachView.Hide();
@@ -137,14 +132,21 @@ namespace TurboLabz.Multiplayer
                 //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
 
-                if (isLongPlay)
+                if (isCoachToolTipShown)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.long_match);
+                    isCoachToolTipShown = false;
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+                }
+
+                if (InstantFramework.LobbyView.isCoachTrainingShown)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
+
             }
         }
 
@@ -197,6 +199,7 @@ namespace TurboLabz.Multiplayer
         public void ShowCoachOnboardingTooltip(bool show)
         {
             coachOnboardingTooltip.SetActive(show);
+            isCoachToolTipShown |= show;
         }
     }
 }
