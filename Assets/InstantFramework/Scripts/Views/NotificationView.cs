@@ -205,6 +205,11 @@ namespace TurboLabz.InstantGame
                 notification.body.text = notificationVO.title;
 
                 Sprite newSprite = defaultAvatarContainer.GetSprite(notificationVO.avatarId);
+                Friend friend = playerModel.GetFriend(notificationVO.senderPlayerId);
+                if (friend != null)
+                {
+                    newSprite = friend.publicProfile.profilePicture;
+                }
                 notification.avatarIcon.sprite = newSprite;
                 notification.avatarBg.sprite = notification.whiteAvatar;
                 notification.avatarBg.color = Colors.Color(notificationVO.avaterBgColorId);
@@ -262,6 +267,12 @@ namespace TurboLabz.InstantGame
             analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_accept);
             FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup);
             FadeBlocker();
+        }
+
+        public void OnAcceptDummy()
+        {
+            loadLobbySignal.Dispatch();
+            FindMatchAction.Random(findMatchSignal);
         }
 
         void FadeBlocker()
