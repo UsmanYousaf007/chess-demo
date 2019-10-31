@@ -37,6 +37,7 @@ namespace TurboLabz.Chess
         // Basic move selection
         public const int OPENING_MOVES_SELECT_COUNT = 3;
         public const int OPENING_MOVES_COUNT = 3;
+        public const float OPENING_MOVE_PROPER_CHANCE = 0.5f;
         public const int DIFFICULTY_VARIANCE = 1;
 
         // Panic filters

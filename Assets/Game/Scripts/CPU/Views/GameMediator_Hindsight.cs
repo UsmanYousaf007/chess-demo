@@ -31,6 +31,12 @@ namespace TurboLabz.CPU
             }
         }
 
+        [ListensTo(typeof(CancelHintSingal))]
+        public void OnCancelHindsight()
+        {
+            view.CancelHindsight();
+        }
+
         [ListensTo(typeof(HindsightAvailableSignal))]
         public void OnHindSightAvailable(bool available)
         {
@@ -44,6 +50,12 @@ namespace TurboLabz.CPU
             {
                 view.UpdateHindsightCount(count);
             }
+        }
+
+        [ListensTo(typeof(ShowCoachOnboardingTooltipSignal))]
+        public void OnShowCoachOnboardingTooltip(bool show)
+        {
+            view.ShowCoachOnboardingTooltip(show);
         }
     }
 }

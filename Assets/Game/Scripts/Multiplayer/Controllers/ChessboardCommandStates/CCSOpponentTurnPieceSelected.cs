@@ -50,6 +50,12 @@ namespace TurboLabz.Multiplayer
                     return new CCSOpponentTurn();
                 }
             }
+            // Handle offboard tap
+            else if (evt == ChessboardEvent.OFFBOARD_CLICKED)
+            {
+                chessboard.playerFromSquare = null;
+                return new CCSOpponentTurn();
+            }
             // We got a confirmation of the player move being completed
             // on the backend
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)

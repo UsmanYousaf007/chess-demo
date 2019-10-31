@@ -53,6 +53,7 @@ namespace TurboLabz.CPU
         bool timersStopped { get; set; }
         List<string> notation { get; set; }
         List<ChessMove> moveList { get; set; }
+        List<ChessMove> trimmedMoveList { get; set; }
         List<MoveVO> moveVOCache { get; set; }
         float defaultMoveDelay { get; set; }
         bool usedHelp { get; set; }

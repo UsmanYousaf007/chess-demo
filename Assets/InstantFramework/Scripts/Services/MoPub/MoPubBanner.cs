@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
             hideOnLoad = false;
         }
 
-        public static void Show(MoPubBase.AdPosition pos)
+        public static void Show(MoPub.AdPosition pos)
         {
             Debug.Log("[TLADS]: Request to create banner");
 
@@ -54,8 +54,9 @@ namespace TurboLabz.InstantFramework
 
             if (!isCreated)
             {
-                MoPub.CreateBanner(adUnit, pos);
-                isCreated = true;
+                 //MoPub.CreateBanner(adUnit, pos);
+                MoPub.RequestBanner(adUnit, pos);
+                 isCreated = true;
             }
             else if (isLoaded)
             {

@@ -15,7 +15,7 @@ using System;
 using UnityEngine;
 
 using System.Collections.Generic;
-
+using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.Chess
@@ -116,7 +116,7 @@ namespace TurboLabz.Chess
             string selectedMove = aiSearchResultMovesList[index];
 
             FileRank from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
-            FileRank to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);;
+            FileRank to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
 
             string promo = null;
 
@@ -142,7 +142,9 @@ namespace TurboLabz.Chess
                 }
             }
 
-            aiMovePromise.Dispatch(from, to, promo);
+            lastDequeuedMethod.promise.Dispatch(from, to, promo);
+            lastDequeuedMethod.promise = null;
+            lastDequeuedMethod = null;
         }
 
         private bool CancelMoveDueToNonPromotion(string promo)
@@ -224,6 +226,11 @@ namespace TurboLabz.Chess
 
         private bool MakeReactionaryCaptureMove()
         {
+            if (aiMoveInputVO.lastPlayerMove == null)
+            {
+                return false;
+            }
+
             // Let's examine the immediate enemy move like an average player would...
             bool landingDefended = chessService.IsSquareDefended(aiMoveInputVO.lastPlayerMove.to,
                                                                  aiMoveInputVO.playerColor);
@@ -249,7 +256,12 @@ namespace TurboLabz.Chess
                 // Has that piece landed on a square that I can attack with a piece
                 // of a cheaper or equal value? If so, then attack!
                 if (cheapestAttackingMove != null)
-                {
+                {   
+                    if (cheapestAttackingMove.piece == null)
+                    {
+                        throw new Exception("cheapestAttackingMove.piece is null");
+                    }
+                    
                     int attackingPieceValue = GetValueForPiece(cheapestAttackingMove.piece.name);
                     int victimPieceValue = GetValueForPiece(aiMoveInputVO.lastPlayerMove.piece.name);
 
@@ -272,6 +284,11 @@ namespace TurboLabz.Chess
             
         private bool MakeReactionaryEvasiveMove()
         {
+            if (aiMoveInputVO.lastPlayerMove == null)
+            {
+                return false;
+            }
+
             // Find all the enemy moves where a capture is possible
             List<ChessMove> enemyCaptureMoves = chessService.GetCaptureMoves(aiMoveInputVO.lastPlayerMove.to);
 
@@ -322,8 +339,14 @@ namespace TurboLabz.Chess
 
         private bool MakeOpeningMoves()
         {
-            // For the first 4 moves we select a random opening move or one of 3 'pro' opening
-            // moves based on if we rolled a best move
+            // First roll the overall chance of making a proper opening move
+            bool rollOpening = UnityEngine.Random.Range(0.0f, 1.0f) < ChessAiConfig.OPENING_MOVE_PROPER_CHANCE;
+            if (!rollOpening)
+            {
+                return false;
+            }
+
+            // Make the proper opening move
             if (aiMoveInputVO.aiMoveNumber <= ChessAiConfig.OPENING_MOVES_COUNT)
             {
                 int selectCount = Math.Min(scores.Count, ChessAiConfig.OPENING_MOVES_SELECT_COUNT);

@@ -24,5 +24,8 @@ namespace TurboLabz.Chess
         public int aiMoveNumber;
         public bool isHint;
         public float cpuStrengthPct;
+        public bool isStrength;
+        public float playerStrengthPct;
+        public string fen; 
     }
 }

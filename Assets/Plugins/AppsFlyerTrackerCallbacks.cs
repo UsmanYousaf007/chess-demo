@@ -7,7 +7,6 @@ public class AppsFlyerTrackerCallbacks : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		printCallback("AppsFlyerTrackerCallbacks on Start");
-		
 	}
 	
 	// Update is called once per frame

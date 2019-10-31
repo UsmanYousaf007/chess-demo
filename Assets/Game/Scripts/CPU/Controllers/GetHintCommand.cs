@@ -16,6 +16,7 @@ using TurboLabz.InstantFramework;
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
 using TurboLabz.Chess;
+using System.Collections.Generic;
 
 namespace TurboLabz.CPU
 {
@@ -26,6 +27,7 @@ namespace TurboLabz.CPU
 
         // Dispatch Signals
         [Inject] public RenderHintSignal renderHintSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
         [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
         [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
@@ -39,27 +41,118 @@ namespace TurboLabz.CPU
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
         {
-            Retain();
+            if(chessboardModel.lastPlayerMove != null)
+            {
+                Retain();
 
-            chessboardModel.usedHelp = true;
+                chessboardModel.usedHelp = true;
 
-            string fen = isHindsight ? chessboardModel.previousPlayerTurnFen : chessService.GetFen();
-            chessAiService.NewGame();
-            chessAiService.SetPosition(fen);
+                AiMoveInputVO vo = new AiMoveInputVO
+                {
+                    aiColor = chessboardModel.playerColor,
+                    playerColor = chessboardModel.opponentColor,
+                    squares = chessboardModel.squares,
+                    aiMoveDelay = AiMoveDelay.NONE,
+                    lastPlayerMove = chessboardModel.lastPlayerMove,
+                    isStrength = !isHindsight,
+                    playerStrengthPct = 0.5f,
+                    isHint = isHindsight,
+                    fen = chessboardModel.previousPlayerTurnFen
+                };
 
-            AiMoveInputVO vo = new AiMoveInputVO();
-            vo.aiColor = chessboardModel.playerColor;
-            vo.playerColor = chessboardModel.opponentColor;
-            vo.squares = chessboardModel.squares;
-            vo.aiMoveDelay = AiMoveDelay.NONE;
-            vo.isHint = true;
+                IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
+                promise.Then(OnAiMoveStrength);
+            }
+            else
+            {
+                LogUtil.Log("Required one move : ");
+                cancelHintSignal.Dispatch();
+            }
 
-            IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
-            promise.Then(OnAiMove);
         }
+
+        private void OnAiMoveStrength(FileRank from, FileRank to, string strength)
+        {
+            LogUtil.Log("OnAiMoveStrength : " + strength);
+
+            HintVO newVo;
+            newVo.fromSquare = chessboardModel.squares[from.file, from.rank];
+            newVo.toSquare = chessboardModel.squares[to.file, to.rank];
+            newVo.isHindsight = isHindsight;
+            newVo.strength = -1;
+            newVo.piece = "";
+            newVo.skinId = playerModel.activeSkinId;
+            newVo.didPlayerMadeBestMove = false;
+
+            var chessMoveTemp = new ChessMove();
+            if (chessMoveTemp.MoveToString(chessboardModel.lastPlayerMove.from, chessboardModel.lastPlayerMove.to).Equals(chessMoveTemp.MoveToString(from, to)))
+            {
+                newVo.didPlayerMadeBestMove = true;
+            }
+
+            if (isHindsight)
+            {
+                var pieceColor = strength[0].Equals('b') ? ChessColor.BLACK : ChessColor.WHITE;
+
+                //check if piece color is of opponent's then player's piece is captured
+                if (pieceColor != chessboardModel.playerColor)
+                {
+                    //set captured piece flag
+                    strength = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                if (!string.IsNullOrEmpty(chessboardModel.lastPlayerMove.promo)
+                    && newVo.didPlayerMadeBestMove)
+                {
+                    strength = string.Format("{0}p", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                newVo.piece = strength;
+            }
+            else
+            {
+                var piece = chessboardModel.squares[to.file, to.rank].piece;
+                var pieceName = piece.name;
+                pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', pieceName.ToLower());
+
+                if (piece.color != chessboardModel.playerColor)
+                {
+                    pieceName = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                if (!string.IsNullOrEmpty(chessboardModel.lastPlayerMove.promo))
+                {
+                    pieceName = string.Format("{0}p", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                }
+
+                newVo.piece = pieceName;
+                newVo.strength = float.Parse(strength);
+            }
+            
+            renderHintSignal.Dispatch(newVo);
+
+            if (isHindsight)
+            {
+                updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+                preferencesModel.isCoachTooltipShown = true;
+                preferencesModel.coachUsedCount++;
+            }
+            else
+            {
+                updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+                preferencesModel.isStrengthTooltipShown = true;
+                preferencesModel.strengthUsedCount++;
+            }
+
+            Release();
+        }
+
 
         private void OnAiMove(FileRank from, FileRank to, string promo)
         {
@@ -67,6 +160,10 @@ namespace TurboLabz.CPU
             vo.fromSquare = chessboardModel.squares[from.file, from.rank];
             vo.toSquare = chessboardModel.squares[to.file, to.rank];
             vo.isHindsight = isHindsight;
+            vo.strength = 0;
+            vo.piece = "";
+            vo.skinId = playerModel.activeSkinId;
+            vo.didPlayerMadeBestMove = false;
             renderHintSignal.Dispatch(vo);
 
             if (isHindsight)

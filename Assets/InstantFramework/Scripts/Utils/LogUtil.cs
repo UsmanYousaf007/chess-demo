@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 
+using TurboLabz.InstantFramework;
 using UnityEngine;
 
 namespace TurboLabz.TLUtils
@@ -21,6 +22,9 @@ namespace TurboLabz.TLUtils
         private const int INDENT_SPACE_COUNT = 4;
 
         private static int indentLevel = 0;
+
+        public static int errorSeverity { get; set; }
+        public static string errorString { get; set; }
 
         private static int indentSpaces
         {
@@ -55,6 +59,28 @@ namespace TurboLabz.TLUtils
         public static void LogAssertion(object message)
         {
             Debug.LogAssertion(message);
+        }
+
+        public static void LogNullValidation(object obj, string msg)
+        {
+            if (Debug.isDebugBuild)
+            {
+                if (obj == null)
+                {
+                    // Get call stack
+                    System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace();
+
+                    // Get calling method name
+                    int frame = 1;
+                    string callerName = stackTrace.GetFrame(frame).GetMethod().Name;
+                    string fileName = "<unknown>";
+                    string lineNumber = "<unknown>";
+                    //string fileName = stackTrace.GetFrame(frame).GetFileName();
+                    //string lineNumber = stackTrace.GetFrame(frame).GetFileLineNumber().ToString();
+
+                    Debug.Log("<color=" + "red" + ">" + "NULL WARNING (LogNullValidation) at file " + fileName + " function [" + callerName + "] line " + lineNumber + " validation failed! [" + msg + "]" + "</color>");
+                }
+            }
         }
 
         public static void LogException(System.Exception exception)

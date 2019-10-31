@@ -9,7 +9,7 @@ namespace Crosstales.OnlineCheck.EditorUtil
 
         // Keys for the configuration of the asset
         public const string KEY_UPDATE_CHECK = Util.Constants.KEY_PREFIX + "UPDATE_CHECK";
-        public const string KEY_REMINDER_CHECK = Util.Constants.KEY_PREFIX + "REMINDER_CHECK";
+        //public const string KEY_REMINDER_CHECK = Util.Constants.KEY_PREFIX + "REMINDER_CHECK";
         public const string KEY_TRACER = Util.Constants.KEY_PREFIX + "TRACER";
         public const string KEY_PREFAB_AUTOLOAD = Util.Constants.KEY_PREFIX + "PREFAB_AUTOLOAD";
 
@@ -26,9 +26,9 @@ namespace Crosstales.OnlineCheck.EditorUtil
 
         // Default values
         public const string DEFAULT_ASSET_PATH = "/Plugins/crosstales/OnlineCheck/";
-        public const bool DEFAULT_UPDATE_CHECK = true;
+        public const bool DEFAULT_UPDATE_CHECK = false;
         public const bool DEFAULT_UPDATE_OPEN_UAS = false;
-        public const bool DEFAULT_REMINDER_CHECK = true;
+        //public const bool DEFAULT_REMINDER_CHECK = true;
         public const bool DEFAULT_TRACER = true;
         public const bool DEFAULT_PREFAB_AUTOLOAD = false;
         public const bool DEFAULT_HIERARCHY_ICON = true;

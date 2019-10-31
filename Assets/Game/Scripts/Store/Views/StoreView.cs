@@ -43,10 +43,12 @@ namespace TurboLabz.InstantGame
         public GameObject tabUnderlineCoins;
 
         private StoreThumbsContainer thumbsContainer;
+        private StoreIconsContainer iconsContainer;
 
         public void Init()
         {
             thumbsContainer = StoreThumbsContainer.Load();
+            iconsContainer = StoreIconsContainer.Load();
             titleBundlesLabel.text = localizationService.Get(LocalizationKey.STORE_TITLE_BUNDLES);
             tabPowerUpsLabel.text = localizationService.Get(LocalizationKey.STORE_TAB_POWERUPS);
             tabThemesLabel.text = localizationService.Get(LocalizationKey.STORE_TAB_THEMES);

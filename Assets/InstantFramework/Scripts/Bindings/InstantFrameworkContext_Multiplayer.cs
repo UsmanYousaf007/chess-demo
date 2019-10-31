@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SafeMoveSignal>().To<SafeMoveCommand>();
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
             commandBinder.Bind<UpdatePlayerNotificationCountSignal>().To<UpdatePlayerNotificationCountCommand>();
-
+            commandBinder.Bind<OnboardingTooltipSignal>().To<OnboardingTooltipCommand>();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<SetupChessboardSignal>().ToSingleton();
@@ -62,6 +62,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<EnableGameChatSignal>().ToSingleton();
             injectionBinder.Bind<DisplayChatMessageSignal>().ToSingleton();
             injectionBinder.Bind<RenderHintSignal>().ToSingleton();
+            injectionBinder.Bind<CancelHintSingal>().ToSingleton();
             injectionBinder.Bind<TurnSwapSignal>().ToSingleton();
             injectionBinder.Bind<UpdateHintCountSignal>().ToSingleton();
             injectionBinder.Bind<HindsightAvailableSignal>().ToSingleton();
@@ -72,6 +73,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<WaitingForOpponentAcceptSignal>().ToSingleton();
             injectionBinder.Bind<ChallengeMessageProcessedSignal>().ToSingleton();
             injectionBinder.Bind<DisableUndoBtnSignal>().ToSingleton();
+            injectionBinder.Bind<ShowStrengthOnboardingTooltipSignal>().ToSingleton();
+            injectionBinder.Bind<ShowCoachOnboardingTooltipSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

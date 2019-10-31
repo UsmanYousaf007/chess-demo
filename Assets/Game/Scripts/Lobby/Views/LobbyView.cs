@@ -18,13 +18,16 @@ namespace TurboLabz.InstantFramework
 {
     public partial class LobbyView : View
     {
-
-        private const long RECENTLY_COMPLETED_THRESHOLD_DAYS = 2; 
+        private const long RECENTLY_COMPLETED_THRESHOLD_DAYS = 2;
 
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+
+
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -32,6 +35,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
+        [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
+
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -103,7 +108,7 @@ namespace TurboLabz.InstantFramework
         [Header("Limit Reached")]
         public GameObject createMatchLimitReachedDlg;
         public Button createMatchLimitReachedCloseBtn;
-
+        public Text createMatchLimitReachedText;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -180,6 +185,9 @@ namespace TurboLabz.InstantFramework
             notificationTagImage.gameObject.SetActive(false);
 
             cacheEnabledSections = new List<GameObject>();
+
+            scrollViewOrignalPosition = scrollRect.transform.localPosition;
+            scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
         }
 
         void OnDecStrengthButtonClicked()
@@ -298,6 +306,8 @@ namespace TurboLabz.InstantFramework
 
         public void CreateGame(string friendId, bool isRanked)
         {
+            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+
             // Friend needs to be added
             if (friendId != null && !bars.ContainsKey(friendId))
             {
@@ -343,7 +353,9 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
         {
-            if (bars.ContainsKey(friend.playerId))
+            TLUtils.LogUtil.LogNullValidation(friend.playerId, "friend.playerId");
+            
+            if (friend.playerId != null && bars.ContainsKey(friend.playerId))
             {
                 return;
             }
@@ -400,7 +412,9 @@ namespace TurboLabz.InstantFramework
             if (sprite == null)
                 return;
 
-            if (!bars.ContainsKey(playerId))
+            TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+    
+            if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
@@ -411,7 +425,9 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendPic(string playerId, PublicProfile publicProfile)
         {
-            if (!bars.ContainsKey(playerId))
+         	TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+         
+            if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
             FriendBar barData = bars[playerId].GetComponent<FriendBar>();
@@ -436,6 +452,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateEloScores(EloVO vo)
         {
+            TLUtils.LogUtil.LogNullValidation(vo.opponentId, "vo.opponentId");
+
             if (vo.opponentId == null || !bars.ContainsKey(vo.opponentId))
                 return;
 
@@ -446,7 +464,9 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarStatus(LongPlayStatusVO vo)
         {
-            if (!bars.ContainsKey(vo.playerId))
+        	TLUtils.LogUtil.LogNullValidation(vo.playerId, "vo.playerId");
+        	
+            if (vo.playerId != null && !bars.ContainsKey(vo.playerId))
             {
                 return;
             }
@@ -461,7 +481,7 @@ namespace TurboLabz.InstantFramework
             friendBar.isRanked = vo.isRanked;
             friendBar.UpdateStatus();
 
-            if (recentlyCompleted.Contains(friendBar)) 
+            if (recentlyCompleted.Contains(friendBar))
             {
                 friendBar.removeCommunityFriendButton.gameObject.SetActive(false);
             }
@@ -516,7 +536,9 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
         {
-            if (!bars.ContainsKey(friendId))
+            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+        
+            if (friendId != null && !bars.ContainsKey(friendId))
             {
                 return;
             }
@@ -527,9 +549,13 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
         {
+            // This function must be called in pairs (even if playerId becomes null or no longer friend) 
+            // to ensure UI Blocker gets disabled
             uiBlocker.SetActive(busy);
+            
+            TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
-            if (!bars.ContainsKey(playerId))
+            if (playerId != null && !bars.ContainsKey(playerId))
             {
                 return;
             }
@@ -537,12 +563,20 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = bars[playerId].GetComponent<FriendBar>();
 
             friendBar.thinking.SetActive(busy);
-            uiBlocker.SetActive(busy);
             friendBar.playArrow.SetActive(!busy);
+            friendBar.playArrowButton.SetActive(!busy);
 
             if (reason == CreateLongMatchAbortReason.LimitReached)
             {
                 createMatchLimitReachedDlg.SetActive(true);
+                createMatchLimitReachedText.text = "Sorry, opponent max games limit reached. \nPlease Try Later";
+                friendBar.playArrow.SetActive(true);
+                friendBar.playArrowButton.SetActive(false);
+            }
+            else if (reason == CreateLongMatchAbortReason.SelfLimitReached)
+            {
+                createMatchLimitReachedDlg.SetActive(true);
+                createMatchLimitReachedText.text = "Sorry, your max games limit reached. \nPlease Try Later";
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
@@ -591,7 +625,9 @@ namespace TurboLabz.InstantFramework
 
         public void ClearFriend(string friendId)
         {
-            if (bars.ContainsKey(friendId))
+            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+
+            if (friendId != null && bars.ContainsKey(friendId))
             {
                 Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
@@ -600,7 +636,9 @@ namespace TurboLabz.InstantFramework
 
         public void AddUnreadMessages(string friendId)
         {
-            if (bars.ContainsKey(friendId))
+            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+
+            if (friendId != null && bars.ContainsKey(friendId))
             {
                 bars[friendId].unreadChat.SetActive(true);
             }
@@ -608,7 +646,9 @@ namespace TurboLabz.InstantFramework
 
         public void ClearUnreadMessages(string friendId)
         {
-            if (bars.ContainsKey(friendId))
+            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+
+            if (friendId != null && bars.ContainsKey(friendId))
             {
                 bars[friendId].unreadChat.SetActive(false);
             }
@@ -663,6 +703,10 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             actionBar = null;
 
+            //if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= metaDataModel.maxLongMatchCount)
+            //{
+            //    friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
+            //}
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
                 actionBar = bar;
@@ -824,6 +868,8 @@ namespace TurboLabz.InstantFramework
             recentlyCompleted = new List<FriendBar>();
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> activeMatches = new List<FriendBar>();
+            List<string> destroyMe = new List<string>();
+
 
             int notificationCounter = 0;
             notificationTagImage.gameObject.SetActive(false);
@@ -852,15 +898,16 @@ namespace TurboLabz.InstantFramework
                     activeMatches.Add(bar);
 
                 }
-                else if ((bar.lastMatchTimeStamp > 0) && 
-                    (bar.lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (RECENTLY_COMPLETED_THRESHOLD_DAYS * 24 * 60 * 60 * 1000))) &&  
-                    status == LongPlayStatus.DEFAULT)
+                else if ((bar.lastMatchTimeStamp > 0) &&
+                                    (bar.lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (RECENTLY_COMPLETED_THRESHOLD_DAYS * 24 * 60 * 60 * 1000))) &&
+                                    status == LongPlayStatus.DEFAULT)
                 {
                     recentlyCompleted.Add(bar);
                 }
                 else
                 {
                     entry.Value.gameObject.SetActive(false);
+                    //destroyMe.Add(entry.Key);
                 }
 
                 
@@ -871,6 +918,12 @@ namespace TurboLabz.InstantFramework
                 }
                     
             }
+
+            //foreach (string key in destroyMe)
+            //{
+            //    Destroy(bars[key].gameObject);
+            //    bars.Remove(key);
+            //}
 
             if (notificationCounter > 0){
                 notificationTagImage.gameObject.SetActive(true);

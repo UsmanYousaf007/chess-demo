@@ -41,33 +41,51 @@ namespace TurboLabz.InstantFramework
 
         public void SetErrorAndHalt(BackendResult error, string message)
         {
-            if(error == BackendResult.GAME_CRAHSED)
+            if(error == BackendResult.GAME_CRAHSED || showHaltMessage(error))
             {
                 gameObject.SetActive(true);
 
                 string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
                 errorCodeLabel.text = "(Error: " + errorCode + ")";
+
+                if (error == BackendResult.SESSION_TERMINATED_ON_MULTIPLE_AUTH)
+                {
+                    message = localizationService.Get(LocalizationKey.SESSION_TERMINATED);
+                }
+
                 errorMessageLabel.text = message;
 
-                //StartCoroutine(HaltSystem());
+                StartCoroutine(HaltSystem());
 
             }
             else
             {
                 string errorCode = Debug.isDebugBuild ? error.ToString() : ((int)error).ToString();
-                errorCodeLabel.text = "(Error: " + errorCode + ")";
+                string errorMessage = "(Error: " + errorCode + ")";
 
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
-                    errorCodeLabel.text = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
+                    errorMessage = localizationService.Get(LocalizationKey.CHECK_INTERNET_CONNECTION);
                 }
 
+                Debug.Log("errorMessage : " + errorMessage);
+                //errorCodeLabel.text = errorMessage;
                 //StartCoroutine(HaltSystem());
-
-                LogUtil.Log("!!! Failed !!! " + errorCodeLabel.text, "red");
-
             }
 
+        }
+
+        private bool showHaltMessage(BackendResult error)
+        {
+            if(error == BackendResult.SESSION_TERMINATED_ON_MULTIPLE_AUTH)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         IEnumerator HaltSystem()

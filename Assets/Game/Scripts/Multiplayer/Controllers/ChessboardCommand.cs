@@ -62,8 +62,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public UpdateSafeMoveStateSignal updateSafeMoveStateSignal { get; set; }
         [Inject] public WaitingForOpponentAcceptSignal waitingForOpponentAcceptSignal { get; set; }
         [Inject] public DisableUndoBtnSignal disableUndoBtnSignal { get; set; }
-
-
+        [Inject] public OnboardingTooltipSignal onboardingTooltipSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }

@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorHideViewSignal hideViewSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
+        [Inject] public TurboLabz.Multiplayer.CancelHintSingal cancelHintSingal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -42,7 +43,7 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            LogUtil.Log("Navigator event: " + navigatorEvent, "yellow");
+            // LogUtil.Log("Navigator event: " + navigatorEvent, "yellow");
 
             NS newState = null;
 
@@ -67,11 +68,11 @@ namespace TurboLabz.InstantFramework
                 navigatorModel.previousState = navigatorModel.currentState;
                 navigatorModel.currentState = newState;
                 newState.RenderDisplayOnEnter();
-                LogUtil.Log("Navigator state: " + newState, "yellow");
+                // LogUtil.Log("Navigator state: " + newState, "yellow");
             }
             else
             {
-                LogUtil.Log("Navigator event ignored.", "yellow");
+                // LogUtil.Log("Navigator event ignored.", "yellow");
             }
         }
     }

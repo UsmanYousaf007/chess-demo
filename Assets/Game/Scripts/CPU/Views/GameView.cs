@@ -31,10 +31,12 @@ namespace TurboLabz.CPU
 
         [Inject] public ShowAdSignal showAdSignal { get; set; }
 
-
+        [Header("Main View")]
         public Camera chessboardCamera;
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
+        public GameObject playerInfoPanel;
+        public GameObject opponentInfoPanel;
 
         private bool menuButtonWasActive;
 
@@ -53,6 +55,7 @@ namespace TurboLabz.CPU
             OnParentShowInfo();
             OnParentShowSafeMove();
             OnParentShowHindsight();
+            OnParentShowStep();
             OnParentShowAdBanner();
             EnableSafeButton();
 

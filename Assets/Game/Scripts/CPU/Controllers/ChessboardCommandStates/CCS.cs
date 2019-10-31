@@ -65,7 +65,7 @@ namespace TurboLabz.CPU
             cmd.chessboardModel.opponentMoveRenderComplete = true;
 
             // Toggle the hint button based on player turn
-            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            //cmd.turnSwapSignal.Dispatch(isPlayerTurn);
 
             // Update the game info
             GameInfoVO gameInfoVO = new GameInfoVO();
@@ -89,14 +89,25 @@ namespace TurboLabz.CPU
 
             // Initialize the game powerups
             cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
-            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            if(cmd.chessboardModel.lastPlayerMove != null)
+            {
+                cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            }
+            
 
             cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
             cmd.hindsightAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
+            cmd.hintAvailableSignal.Dispatch(cmd.chessboardModel.previousPlayerTurnFen != null);
 
-            chessboardModel.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0 ? cmd.preferencesModel.isSafeMoveOn : false;
+            //chessboardModel.inSafeMode = cmd.playerModel.PowerUpSafeMoveCount > 0 ? cmd.preferencesModel.isSafeMoveOn : false;
+            chessboardModel.inSafeMode = false;
             cmd.updateSafeMoveStateSignal.Dispatch(chessboardModel.inSafeMode);
             cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
+
+            // Initialize the step buttons
+            if (cmd.chessboardModel.moveList.Count > 1) cmd.toggleStepBackwardSignal.Dispatch(true);
+            if (cmd.chessboardModel.trimmedMoveList.Count > 1) cmd.toggleStepForwardSignal.Dispatch(true);
+
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)
@@ -104,18 +115,22 @@ namespace TurboLabz.CPU
             // Update the view with the opponent move
             IChessboardModel model = cmd.chessboardModel;
             model.opponentMoveRenderComplete = false;
-            cmd.updateOpponentMoveSignal.Dispatch(GetMoveVO(model, false));
+            MoveVO moveVO = GetMoveVO(model, false);
+            cmd.updateOpponentMoveSignal.Dispatch(moveVO);
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
             cmd.hidePlayerToIndicatorSignal.Dispatch();
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPlayerMove(ChessboardCommand cmd)
         {
             // Update the view with the player move
             IChessboardModel model = cmd.chessboardModel;
+            MoveVO moveVO = GetMoveVO(model, true);
             cmd.hidePossibleMovesSignal.Dispatch();
-            cmd.updatePlayerMoveSignal.Dispatch(GetMoveVO(model, true));
+            cmd.updatePlayerMoveSignal.Dispatch(moveVO);
             cmd.chessboardEventSignal.Dispatch(ChessboardEvent.PLAYER_MOVE_COMPLETE);
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPromo(ChessboardCommand cmd)
@@ -188,8 +203,9 @@ namespace TurboLabz.CPU
             }
 
             cmd.takeTurnSwapTimeControlSignal.Dispatch();
-            cmd.turnSwapSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(true);
+            cmd.turnSwapSignal.Dispatch(false);
+            cmd.hintAvailableSignal.Dispatch(true);
             return new CCSOpponentTurn();
         }
 

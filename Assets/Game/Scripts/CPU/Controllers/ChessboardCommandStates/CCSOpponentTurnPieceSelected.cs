@@ -49,6 +49,12 @@ namespace TurboLabz.CPU
                     return new CCSOpponentTurn();
                 }
             }
+            // If offboard was clicked
+            else if (evt == ChessboardEvent.OFFBOARD_CLICKED)
+            {
+                model.playerFromSquare = null;
+                return new CCSOpponentTurn();
+            }
             // We got a confirmation of the player move being completed
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)
             {

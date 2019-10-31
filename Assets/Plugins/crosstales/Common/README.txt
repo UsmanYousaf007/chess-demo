@@ -1,4 +1,4 @@
-﻿# crosstales LLC - Common package 2019.4.0
+﻿# crosstales LLC - Common package 2019.4.1
 
 ## Description
 This folder and its content is needed for all assets from "crosstales LLC".
@@ -28,4 +28,4 @@ CH-8002 Zürich
 * [Youtube-channel](https://www.youtube.com/c/Crosstales)
 
 
-`Version: 26.07.2019`
+`Version: 02.09.2019`

@@ -45,40 +45,47 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                allFriends.Add(bar);
-
-                if (status == LongPlayStatus.NEW_CHALLENGE ||
-                    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
-                    entry.Value.isGameCanceled)
+                if (entry.Value.isOnline)
                 {
-                    newMatches.Add(bar);
-                }
-                else if (status == LongPlayStatus.PLAYER_TURN)
-                {
-                    yourMove.Add(bar);
-                }
-                else if (status == LongPlayStatus.OPPONENT_TURN)
-                {
-                    theirMove.Add(bar);
-                }
-                else if (status == LongPlayStatus.DECLINED ||
-                         status == LongPlayStatus.PLAYER_WON ||
-                         status == LongPlayStatus.OPPONENT_WON ||
-                         status == LongPlayStatus.DRAW)
-                {
-                    ended.Add(bar);
+                    emptyOnline.Add(bar);
                 }
                 else
                 {
-                    if (entry.Value.isOnline)
-                    {
-                        emptyOnline.Add(bar);
-                    }
-                    else
-                    {
-                        emptyOffline.Add(bar);
-                    }
+                    allFriends.Add(bar);
                 }
+
+                //if (status == LongPlayStatus.NEW_CHALLENGE ||
+                //    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
+                //    entry.Value.isGameCanceled)
+                //{
+                //    newMatches.Add(bar);
+                //}
+                //else if (status == LongPlayStatus.PLAYER_TURN)
+                //{
+                //    yourMove.Add(bar);
+                //}
+                //else if (status == LongPlayStatus.OPPONENT_TURN)
+                //{
+                //    theirMove.Add(bar);
+                //}
+                //else if (status == LongPlayStatus.DECLINED ||
+                //         status == LongPlayStatus.PLAYER_WON ||
+                //         status == LongPlayStatus.OPPONENT_WON ||
+                //         status == LongPlayStatus.DRAW)
+                //{
+                //    ended.Add(bar);
+                //}
+                //else
+                //{
+                //    if (entry.Value.isOnline)
+                //    {
+                //        emptyOnline.Add(bar);
+                //    }
+                //    else
+                //    {
+                //        emptyOffline.Add(bar);
+                //    }
+                //}
             }
 
             // Sort holders
@@ -89,7 +96,8 @@ namespace TurboLabz.InstantFramework
             //emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
             //emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
 
-            allFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal)); ;
+            emptyOnline.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
+            allFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal)); 
 
             // Set sibling indexes
             int index = 0;
@@ -109,20 +117,34 @@ namespace TurboLabz.InstantFramework
             //    emptyOnline.Count > 0 ||
             //    emptyOffline.Count > 0
             //    )
-            int friendsCount = allFriends.Count;
+            int friendsCount = allFriends.Count + emptyOnline.Count;
             int count = 0;
-            if (allFriends.Count>0)
+
+            if (allFriends.Count > 0 || emptyOnline.Count > 0)
             {
                 //sectionActiveMatches.gameObject.SetActive(true);
                 sectionPlayAFriend.gameObject.SetActive(true);
 
                 index = sectionPlayAFriend.GetSiblingIndex() + 1;
+
+                foreach (FriendBar bar in emptyOnline)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    count++;
+                    index++;
+                    bar.UpdateMasking(count == friendsCount, true);
+
+                    Debug.Log("emptyOnline TIME : " + bar.lastMatchTimeStamp + " NAME " + bar.profileNameLabel.text);
+                }
+
                 foreach (FriendBar bar in allFriends)
                 {
                     bar.transform.SetSiblingIndex(index);
                     count++;
                     index++;
                     bar.UpdateMasking(count==friendsCount,true);
+
+                    Debug.Log("allFriends TIME : " + bar.lastMatchTimeStamp + " NAME " + bar.profileNameLabel.text);
                 }
                 //foreach (FriendBar bar in yourMove)
                 //{
@@ -241,10 +263,21 @@ namespace TurboLabz.InstantFramework
                     bar.UpdateMasking(friendsCount == count, true);
                 }
 
-                nextSearchButton.interactable = true;
-                nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-                nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-                searchSkip += searchedOnline.Count + searchedOffline.Count;
+                //As on server Settings.Friends.searchPageMax = 8
+                if (count < 8)  
+                {
+                    nextSearchButton.interactable = false;
+                    nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                    nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                }
+                else
+                {
+                    nextSearchButton.interactable = true;
+                    nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+                    nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+                    searchSkip += searchedOnline.Count + searchedOffline.Count;
+                }
+                
             }
             else
             {

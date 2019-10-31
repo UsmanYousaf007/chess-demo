@@ -22,18 +22,24 @@ namespace TurboLabz.InstantFramework
             string filename = PIC_FILE_PREFIX + playerId;
 
             try
-            {
+            { 
                 ILocalDataWriter writer = localDataService.OpenWriter(filename);
                 writer.Write(PIC_KEY, sprite);
                 writer.Close();
+                
+                TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
-                if (memCache.ContainsKey(playerId))
+                if (playerId != null)
                 {
-                    memCache[playerId] = sprite;
-                }
-                else
-                {
-                    memCache.Add(playerId, sprite);
+
+                    if (memCache.ContainsKey(playerId))
+                    {
+                        memCache[playerId] = sprite;
+                    }
+                    else
+                    {
+                        memCache.Add(playerId, sprite);
+                    }
                 }
 
             }
@@ -47,6 +53,13 @@ namespace TurboLabz.InstantFramework
 
         public Sprite GetPlayerPic(string playerId)
         {
+            LogUtil.LogNullValidation(playerId, "playerId");
+
+            if(playerId  == null)
+            {
+                return null;
+            }
+
             if (memCache.ContainsKey(playerId))
             {
                 return memCache[playerId];

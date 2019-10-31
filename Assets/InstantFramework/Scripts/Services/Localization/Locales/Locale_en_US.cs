@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
                     "Please download the latest version." },
                 { LocalizationKey.UPDATE_BUTTON, "UPDATE" },
                 { LocalizationKey.CHECK_INTERNET_CONNECTION, "Please check your internet connection." },
+                { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Star account because your account is signed in on another device." },
+                
 
 
                 #endregion
@@ -76,7 +78,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON, "NO" },
                 { LocalizationKey.GM_ROOM_DURATION, "{0} m" },
                 { LocalizationKey.GM_DISCONNECTED, "Waiting for Opponent..." },
-                { LocalizationKey.GM_ADVANTAGE, "Adv." },
+                { LocalizationKey.GM_ADVANTAGE, "Adv" },
                 { LocalizationKey.GM_WIFI_WARNING, "Slow Internet" },
                 { LocalizationKey.GM_WIFI_RECONNECTING, "Reconnecting..." },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
@@ -104,7 +106,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.HARD, "Hard" },
                 { LocalizationKey.CPU_MENU_THEMES, "THEMES" },
                 { LocalizationKey.CPU_GAME_CPU_NAME, "Computer" },
-                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Difficulty" },
+                { LocalizationKey.CPU_GAME_CPU_STRENGTH, "Level" },
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
                 { LocalizationKey.CLASSIC_MODE_TIME, "Long Play" },
 
@@ -162,8 +164,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_TAB_COINS, "COINS" },
 
                 { LocalizationKey.STORE_POWERUP_TITLE_SAFEMOVE, "UNDO" },
-                { LocalizationKey.STORE_POWERUP_TITLE_HINT, "HINT" },
-                { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "HINDSIGHT" },
+                { LocalizationKey.STORE_POWERUP_TITLE_HINT, "MOVE STRENGTH" },
+                { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "COACH" },
 
                 { LocalizationKey.STORE_BUNDLE_FIELD_OWNED, "OWNED" },
                 { LocalizationKey.STORE_BUNDLE_FIELD_REMAINING, "Remaining" },
@@ -280,7 +282,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly Game"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "NO"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "YES"},
-                { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove Player?"},
+                { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove player "},
                 { LocalizationKey.LONG_PLAY_VIEW, "View"},
                 { LocalizationKey.SHARE_GAME_SCREENSHOT, "Share Game Screenshot"},
                 { LocalizationKey.SHARE, "SHARE"},

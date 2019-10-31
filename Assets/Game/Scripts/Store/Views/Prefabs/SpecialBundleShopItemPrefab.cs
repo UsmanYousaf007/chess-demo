@@ -28,9 +28,14 @@ namespace TurboLabz.InstantGame
         public Text payout4;
         public Text payout5;
         public Text payout6;
+        public Image icon;
 
         private string GetBundledItemDisplayText(StoreVO vo, StoreItem storeItem, string itemKey)
         {
+            TLUtils.LogUtil.LogNullValidation(itemKey, "itemKey");
+            
+            if (itemKey == null) return "";
+
             if (!vo.storeSettingsModel.store.items.ContainsKey(itemKey))
             {
                 return "";
@@ -224,7 +229,7 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void Populate(StoreVO vo, Sprite sprite, string textStoreNotAvailable, string textDays, string textOwned, string textRemaining)
+        public void Populate(StoreVO vo, Sprite sprite, string textStoreNotAvailable, string textDays, string textOwned, string textRemaining, Sprite icon)
         {
             StoreItem storeItem = vo.storeSettingsModel.store.items[key];
 
@@ -232,6 +237,11 @@ namespace TurboLabz.InstantGame
             if (sprite)
             {
                 thumbnail.sprite = sprite;
+            }
+            if (icon)
+            {
+                this.icon.sprite = icon;
+                this.icon.SetNativeSize();
             }
             payout1.text = GetBundleFeatureAdRemoveText(vo, storeItem);
             payout2.text = GetBundledItemDisplayText(vo, storeItem, GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG);

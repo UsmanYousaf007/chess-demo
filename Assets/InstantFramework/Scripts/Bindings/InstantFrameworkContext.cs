@@ -163,7 +163,11 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IScreenCaptureService>().To<NativeScreenCapture>().ToSingleton();
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<MoPubService>().ToSingleton();
+#if UNITY_EDITOR
+            injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsServiceEditor>().ToSingleton();
+#else
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsService>().ToSingleton();
+#endif
 			injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
@@ -232,6 +236,7 @@ namespace TurboLabz.InstantFramework
 			commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
             commandBinder.Bind<RestorePurchasesSignal>().To<RestorePurchasesCommand>();
+            commandBinder.Bind<LoadPromotionSingal>().To<LoadPromotionCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -265,6 +270,11 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RequestToggleBannerSignal>().ToSingleton();
             injectionBinder.Bind<ReconnectViewEnableSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFindViewSignal>().ToSingleton();
+            injectionBinder.Bind<ShowPromotionSignal>().ToSingleton();
+            injectionBinder.Bind<ShowCoachTrainingDailogueSignal>().ToSingleton();
+            injectionBinder.Bind<ShowStrengthTrainingDailogueSignal>().ToSingleton();
+            injectionBinder.Bind<RemoveLobbyPromotionSignal>().ToSingleton();
+            injectionBinder.Bind<ReportLobbyPromotionAnalyticSingal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

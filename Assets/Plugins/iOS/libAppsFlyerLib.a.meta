@@ -1,14 +1,15 @@
 fileFormatVersion: 2
-guid: b81f907a89a9a459a9ca085cc3ce3ee4
-timeCreated: 1514294927
-licenseType: Free
+guid: d82ca0ed435b346feb7ea72e91ea5924
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
+  defineConstraints: []
   isPreloaded: 0
   isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
   platformData:
   - first:
       Any: 
@@ -25,7 +26,8 @@ PluginImporter:
       iPhone: iOS
     second:
       enabled: 1
-      settings: {}
+      settings:
+        AddToEmbeddedBinaries: false
   userData: 
   assetBundleName: 
   assetBundleVariant: 

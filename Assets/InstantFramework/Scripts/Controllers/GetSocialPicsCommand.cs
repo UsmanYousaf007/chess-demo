@@ -31,13 +31,27 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             Retain();
-        
-            picRequestCount = friends.Count;
+
+            //picRequestCount = friends.Count;
 
             foreach (KeyValuePair<string, Friend> obj in friends)
             {
                 Friend friend = obj.Value;
-                facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic); 
+
+                if (friend.publicProfile.facebookUserId != null)
+                {
+                    picRequestCount++;
+                }
+            }
+
+            foreach (KeyValuePair<string, Friend> obj in friends)
+            {
+                Friend friend = obj.Value;
+
+                if(friend.publicProfile.facebookUserId != null)
+                {
+                    facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
+                }
             }    
         }
 
@@ -45,20 +59,25 @@ namespace TurboLabz.InstantGame
         {
             if (result == FacebookResult.SUCCESS)
             {
-                updateFriendPicSignal.Dispatch(friendId, sprite);
+            	TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+            
+                if (friendId != null)
+                {
+                    updateFriendPicSignal.Dispatch(friendId, sprite);
 
-                if (playerModel.community.ContainsKey(friendId))
-                {
-                    playerModel.community[friendId].publicProfile.profilePicture = sprite;
-                }
-                else if (playerModel.search.ContainsKey(friendId))
-                {
-                    playerModel.search[friendId].publicProfile.profilePicture = sprite;
-                }
-                else if (playerModel.friends.ContainsKey(friendId))
-                {
-                    cacheFriendPics = true;
-                    playerModel.friends[friendId].publicProfile.profilePicture = sprite;
+                    if (playerModel.community.ContainsKey(friendId))
+                    {
+                        playerModel.community[friendId].publicProfile.profilePicture = sprite;
+                    }
+                    else if (playerModel.search.ContainsKey(friendId))
+                    {
+                        playerModel.search[friendId].publicProfile.profilePicture = sprite;
+                    }
+                    else if (playerModel.friends.ContainsKey(friendId))
+                    {
+                        cacheFriendPics = true;
+                        playerModel.friends[friendId].publicProfile.profilePicture = sprite;
+                    }
                 }
             }
 
@@ -72,7 +91,6 @@ namespace TurboLabz.InstantGame
                 }
 
                 Resources.UnloadUnusedAssets();
-
                 Release();
             }
         }

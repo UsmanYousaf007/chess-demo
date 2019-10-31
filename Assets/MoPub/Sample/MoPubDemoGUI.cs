@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 #if mopub_native_beta
 
@@ -8,7 +9,6 @@ using NativeAdData = AbstractNativeAd.Data;
 
 #endif
 
-[SuppressMessage("ReSharper", "AccessToStaticMemberViaDerivedType")]
 public class MoPubDemoGUI : MonoBehaviour
 {
     // State maps to enable/disable GUI ad state buttons
@@ -68,6 +68,9 @@ public class MoPubDemoGUI : MonoBehaviour
     // Buffer space between sections
     private int _sectionMarginSize;
 
+    // Scroll view position
+    private Vector2 _scrollPosition;
+
     // Label style for plugin and SDK version banner
     private GUIStyle _centeredStyle;
 
@@ -98,6 +101,13 @@ public class MoPubDemoGUI : MonoBehaviour
     // Status string for tracking current state
     private string _status = string.Empty;
 
+    // Index for current banner ad position, which is incremented after every banner request, starting with BottomCenter
+    private int _bannerPositionIndex = 5;
+
+    // All possible banner positions
+    private readonly MoPub.AdPosition[] _bannerPositions =
+        Enum.GetValues(typeof(MoPub.AdPosition)).Cast<MoPub.AdPosition>().ToArray();
+
 
     private static bool IsAdUnitArrayNullOrEmpty(ICollection<string> adUnitArray)
     {
@@ -123,6 +133,7 @@ public class MoPubDemoGUI : MonoBehaviour
     public void UpdateStatusLabel(string message)
     {
         _status = message;
+        Debug.Log("Status Label updated to: " + message);
     }
 
 
@@ -132,7 +143,7 @@ public class MoPubDemoGUI : MonoBehaviour
     }
 
 
-    public void ConsentStatusChanged(MoPub.Consent.Status newStatus, bool canCollectPersonalInfo)
+    public void ConsentStatusChanged(MoPub.Consent.Status oldStatus, MoPub.Consent.Status newStatus, bool canCollectPersonalInfo)
     {
         _canCollectPersonalInfo = canCollectPersonalInfo;
         _currentConsentStatus = newStatus;
@@ -184,6 +195,12 @@ public class MoPubDemoGUI : MonoBehaviour
     }
 #endif
 
+    public void ImpressionTracked(string adUnit, MoPub.ImpressionData impressionData)
+    {
+        UpdateStatusLabel("Impression tracked for " + adUnit + " with impression data: "
+                          + impressionData.JsonRepresentation);
+    }
+
 
     public bool ConsentDialogLoaded {
         private get { return _consentDialogLoaded; }
@@ -219,74 +236,8 @@ public class MoPubDemoGUI : MonoBehaviour
 
     private void Start()
     {
-        // NOTE: the MoPub SDK needs to be initialized on Start() to ensure all other objects have been enabled first.
-        var anyAdUnitId = _bannerAdUnits[0];
-        MoPub.InitializeSdk(new MoPub.SdkConfiguration {
-            AdUnitId = anyAdUnitId,
-
-            // Set desired log level here to override default level of MPLogLevelNone
-            LogLevel = MoPubBase.LogLevel.MPLogLevelDebug,
-
-            // Uncomment the following line to allow supported SDK networks to collect user information on the basis
-            // of legitimate interest.
-            //AllowLegitimateInterest = true,
-
-            // Specify the mediated networks you are using here:
-            MediatedNetworks = new MoPub.MediatedNetwork[]
-            {
-            /*
-                // Example using AdMob.  Follow this template for other supported networks as well.
-                // Note that keys must be strings, and values must be JSON-serializable (strings only, for MoPubRequestOptions).
-                new MoPub.SupportedNetwork.AdMob
-                {
-                    // Network adapter configuration settings (initialization).
-                    NetworkConfiguration = {
-                        { "key1", value },
-                        { "key2", value },
-                    },
-
-                    // Global mediation settings (per ad request).
-                    MediationSettings = {
-                        { "key1", value },
-                        { "key2", value },
-                    },
-
-                    // Additional options to pass to the MoPub servers (per ad request).
-                    MoPubRequestOptions = {
-                        { "key1", "value" },
-                        { "key2", "value" },
-                    }
-                },
-
-                // Example using a custom network adapter:
-                new MoPub.MediatedNetwork
-                {
-                    // Specify the class name that implements the AdapterConfiguration interface.
-                #if UNITY_ANDROID
-                    AdapterConfigurationClassName = "classname",  // include the full package name
-                #else // UNITY_IOS
-                    AdapterConfigurationClassName = "classname",
-                #endif
-
-                    // Specify the class name that implements the MediationSettings interface.
-                    // Note: Custom network mediation settings are currently not supported on Android.
-                #if UNITY_IOS
-                    MediationSettingsClassName = "classname",
-                #endif
-
-                    // Fill in settings and configuration options the same way as for supported networks:
-
-                    NetworkConfiguration = { ... },
-
-                #if UNITY_IOS  // See note above.
-                    MediationSettings    = { ... },
-                #endif
-
-                    MoPubRequestOptions  = { ... },
-                }
-            */
-            },
-        });
+        // The SdkInitialize() call is handled by the MoPubManager prefab now. Please see:
+        // https://developers.mopub.com/publishers/unity/initialize/#option-1-use-the-mopub-manager-recommended
 
         MoPub.LoadBannerPluginsForAdUnits(_bannerAdUnits);
         MoPub.LoadInterstitialPluginsForAdUnits(_interstitialAdUnits);
@@ -322,6 +273,17 @@ public class MoPubDemoGUI : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        // Enable scrollview dragging
+        foreach (var touch in Input.touches) {
+            if (touch.phase != TouchPhase.Moved) continue;
+            _scrollPosition.y += touch.deltaPosition.y;
+            _scrollPosition.x -= touch.deltaPosition.x;
+        }
+    }
+
+
 #if mopub_native_beta
     private void HideNativeAd(AbstractNativeAd nativeAd)
     {
@@ -335,7 +297,8 @@ public class MoPubDemoGUI : MonoBehaviour
     {
         nativeAd.transform.localPosition = new Vector3(0, 700, 115);
         nativeAd.transform.rotation = Quaternion.Euler(Vector3.up);
-        nativeAd.transform.Rotate(new Vector3(Random.Range(15, 45), Random.Range(-10, 10), Random.Range(-10, 10)));
+        nativeAd.transform.Rotate(new Vector3(UnityEngine.Random.Range(15, 45), UnityEngine.Random.Range(-10, 10),
+            UnityEngine.Random.Range(-10, 10)));
         nativeAd.GetComponent<Rigidbody>().useGravity = true;
         nativeAd.Show();
         _adUnitToShownMapping[nativeAd.AdUnitId] = true;
@@ -356,8 +319,11 @@ public class MoPubDemoGUI : MonoBehaviour
         var guiArea = new Rect(0, 0, Screen.width, Screen.height);
 #endif
         guiArea.x += 20;
+        guiArea.y += 20;
         guiArea.width -= 40;
+        guiArea.height -= 40;
         GUILayout.BeginArea(guiArea);
+        _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
 
         CreateTitleSection();
         CreateBannersSection();
@@ -371,6 +337,7 @@ public class MoPubDemoGUI : MonoBehaviour
         CreateActionsSection();
         CreateStatusSection();
 
+        GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
 
@@ -385,7 +352,6 @@ public class MoPubDemoGUI : MonoBehaviour
         GUI.Label(new Rect(0, 70, Screen.width, 60), "with " + MoPub.SdkName, _centeredStyle);
     }
 
-
     private void CreateBannersSection()
     {
         const int titlePadding = 102;
@@ -397,9 +363,10 @@ public class MoPubDemoGUI : MonoBehaviour
 
                 GUI.enabled = !_adUnitToLoadedMapping[bannerAdUnit];
                 if (GUILayout.Button(CreateRequestButtonLabel(bannerAdUnit))) {
-                    Debug.Log("requesting banner with AdUnit: " + bannerAdUnit);
-                    UpdateStatusLabel("Requesting " + bannerAdUnit);
-                    MoPub.CreateBanner(bannerAdUnit, MoPub.AdPosition.BottomCenter);
+                    var position = _bannerPositions[_bannerPositionIndex++];
+                    UpdateStatusLabel(string.Format("Requesting {0} at position {1}", bannerAdUnit, position));
+                    MoPub.RequestBanner(bannerAdUnit, position, MoPub.MaxAdSize.Width336Height280);
+                    _bannerPositionIndex %= _bannerPositions.Length;
                 }
 
                 GUI.enabled = _adUnitToLoadedMapping[bannerAdUnit];

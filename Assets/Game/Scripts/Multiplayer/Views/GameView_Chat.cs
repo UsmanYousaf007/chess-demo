@@ -31,7 +31,7 @@ namespace TurboLabz.Multiplayer
         public Sprite activeStatus;
         public GameObject[] defaultInfoSet;
         public Text defaultDayLineHeader;
-        public TMP_Text defaultSystemMessage;
+        public Text defaultSystemMessage;
 
         public ChatBubble opponentChatBubble;
         public ChatBubble playerChatBubble;
@@ -39,7 +39,7 @@ namespace TurboLabz.Multiplayer
         public Button playerChatBubbleButton;
         public TMP_InputField inputField; 
         public GameObject unreadMessagesIndicator;
-
+        public Text unreadMessagesCount;
 
         public GameObject chatPanel;
         public Button maximizeChatDlgBtn;
@@ -65,6 +65,7 @@ namespace TurboLabz.Multiplayer
 
         public GameObject[] chatInputSet;
 
+        public OpponentProfileView oppProfileView;
 
         [HideInInspector] public Sprite opponentProfilePic;
         [HideInInspector] public Sprite opponentAvatarIconSprite;
@@ -118,6 +119,7 @@ namespace TurboLabz.Multiplayer
         public void OnParentShowChat()
         {
             chatPanelBackground.color = Colors.ColorAlpha(chatPanelBackground.color, Colors.FULL_ALPHA);
+            SetProfilePic();
         }
 
         public void EnableGameChat(ChatVO vo)
@@ -144,9 +146,9 @@ namespace TurboLabz.Multiplayer
 
 
             //For Opponent
-
             opponentHeaderAvatarIcon.gameObject.SetActive(false);
             opponentHeaderAvatarBG.gameObject.SetActive(false);
+           
 
             if (vo.opponentProfilePic != null)
             {
@@ -154,26 +156,30 @@ namespace TurboLabz.Multiplayer
                 opponentProfilePic = vo.opponentProfilePic;
                 opponentHeaderProfilePic.sprite = vo.opponentProfilePic;
             }
-            else
+            else if (vo.oppAvatarId != null)
             {
                 opponentProfilePic = null;
+                opponentHeaderAvatarIcon.gameObject.SetActive(true);
+                opponentHeaderAvatarBG.gameObject.SetActive(true);
+                opponentHeaderProfilePic.gameObject.SetActive(false);
 
-                if (vo.oppAvatarId != null)
+                opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
+                opponentAvatarBGColor = Colors.DISABLED_WHITE;
+                if (vo.oppAvatarBgColorId != null)
                 {
-                    opponentHeaderAvatarIcon.gameObject.SetActive(true);
-                    opponentHeaderAvatarBG.gameObject.SetActive(true);
-                    opponentHeaderProfilePic.gameObject.SetActive(false);
-
-                    opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
-                    opponentAvatarBGColor = Colors.DISABLED_WHITE;
-                    if (vo.oppAvatarBgColorId != null)
-                    {
-                        opponentHeaderAvatarBG.color = Colors.Color(vo.oppAvatarBgColorId);
-                        opponentAvatarBGColor = Colors.Color(vo.oppAvatarBgColorId);
-                    }
-                    opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
-                    opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+                    opponentHeaderAvatarBG.color = Colors.Color(vo.oppAvatarBgColorId);
+                    opponentAvatarBGColor = Colors.Color(vo.oppAvatarBgColorId);
                 }
+
+                opponentHeaderAvatarIcon.sprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+                opponentAvatarIconSprite = defaultAvatarContainer.GetSprite(vo.oppAvatarId);
+
+            }
+            else
+            {
+                opponentProfilePic = defaultAvatar;
+                opponentHeaderProfilePic.sprite = defaultAvatar;
+                opponentHeaderProfilePic.gameObject.SetActive(true);
             }
 
             foreach (ChatMessage message in vo.chatMessages.messageList)
@@ -183,6 +189,7 @@ namespace TurboLabz.Multiplayer
             }
 
             unreadMessagesIndicator.SetActive(vo.hasUnreadMessages);
+            unreadMessagesCount.text = vo.unreadMessagesCount.ToString();
             opponentId = vo.opponentId;
             playerId = vo.playerId;
             hasUnreadMessages = vo.hasUnreadMessages;
@@ -191,31 +198,34 @@ namespace TurboLabz.Multiplayer
 
         }
 
-        public void EnableUnreadIndicator(string friendId)
+        public void SetOpponentChatProfilePic(Sprite sprite, string playerId = null)
+        { 
+            if (playerId != null && playerId != opponentId)
+            {
+                return;
+            }
+
+            if (sprite != null)
+            {
+                opponentHeaderAvatarIcon.gameObject.SetActive(false);
+                opponentHeaderAvatarBG.gameObject.SetActive(false);
+
+                opponentHeaderProfilePic.gameObject.SetActive(true);
+                opponentProfilePic = sprite;
+                opponentHeaderProfilePic.sprite = sprite;
+            }
+        }
+
+        public void EnableUnreadIndicator(string friendId, int messagesCount)
         {
             if (friendId == opponentId)
             {
                 unreadMessagesIndicator.SetActive(true);
+                unreadMessagesCount.text = messagesCount.ToString();
             }
         }
 
-        public void UpdateChatOpponentPic(Sprite sprite)
-        {
-            if (sprite != null)
-            {
-                opponentHeaderProfilePic.gameObject.SetActive(true);
-                opponentHeaderAvatarBG.gameObject.SetActive(false);
-                opponentHeaderAvatarIcon.gameObject.SetActive(false);
-
-                opponentProfilePic = sprite;
-                opponentHeaderProfilePic.sprite = sprite;
-                foreach (Image img in opponentEmptyPics)
-                {
-                    img.gameObject.SetActive(true);
-                    img.sprite = sprite;
-                }
-            }
-        }
+        
 
         public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline, bool isActive)
         {
@@ -243,7 +253,9 @@ namespace TurboLabz.Multiplayer
             backToFriendsButton.gameObject.SetActive(false);
             backToFriendsLabel.gameObject.SetActive(false);
             backToGameBtnTxt.gameObject.SetActive(true);
-            StartCoroutine(SetScrollPosition());
+
+            if (this.gameObject.activeInHierarchy)
+                StartCoroutine(SetScrollPosition());
 
             unreadMessagesIndicator.SetActive(false);
             clearUnreadMessagesSignal.Dispatch(opponentId);
@@ -439,7 +451,8 @@ namespace TurboLabz.Multiplayer
             bubble.SetText(message.text, isPlayer);
             bubble.timer.text = messageLocalTime.ToString("h:mm tt");
 
-            StartCoroutine(SetScrollPosition());
+            if(this.gameObject.activeInHierarchy)
+                StartCoroutine(SetScrollPosition());
         }
 
         IEnumerator SetScrollPosition()
@@ -470,6 +483,16 @@ namespace TurboLabz.Multiplayer
         {
             CleanUpChat();
             clearActiveChatSignal.Dispatch(opponentId);
+        }
+
+        private void SetProfilePic()
+        {
+            opponentProfilePic = oppProfileView.profilePic.sprite;
+            opponentHeaderAvatarBG.gameObject.SetActive(oppProfileView.avatarBg.gameObject.activeSelf);
+            opponentHeaderAvatarIcon.gameObject.SetActive(oppProfileView.avatarIcon.gameObject.activeSelf);
+            opponentHeaderAvatarIcon.sprite = oppProfileView.avatarIcon.sprite;
+            opponentHeaderAvatarBG.sprite = oppProfileView.avatarBg.sprite;
+            opponentHeaderAvatarBG.color = oppProfileView.avatarBg.color;
         }
     }
 }

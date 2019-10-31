@@ -52,6 +52,7 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public TurboLabz.CPU.SaveGameSignal saveGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -100,11 +101,13 @@ namespace TurboLabz.InstantGame
                     preShowNotificationSignal.Dispatch();
                     PreShowNotificationSetup(notifications[0]);
                     notifications[0].obj.SetActive(true);
+                    appInfoModel.isNotificationActive = true;
                     yield return new WaitForSeconds(notifications[0].duration);
                     notifications[0].obj.SetActive(false);
                     GameObject obj = notifications[0].obj;
                     notifications.Remove(notifications[0]);
                     Destroy(obj);
+                    appInfoModel.isNotificationActive = false;
                     postShowNotificationSignal.Dispatch();
                 }
                 yield return new WaitForSeconds(1);
@@ -121,7 +124,7 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void AddNotification(NotificationVO notificationVO) 
+        public void AddNotification(NotificationVO notificationVO)
         {
             float duration = NOTIFICATION_DURATION;
 
@@ -156,14 +159,15 @@ namespace TurboLabz.InstantGame
                 notification.senderPic.gameObject.SetActive(true);
                 notification.senderPic.sprite = pic;
             }
-            else if(playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
+            else if (notificationVO.senderPlayerId != null && playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
             {
-                if(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId != null)
+                if (playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId != null)
                 {
                     Sprite newSprite = defaultAvatarContainer.GetSprite(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId);
                     notification.avatarIcon.sprite = newSprite;
                     notification.avatarBg.sprite = notification.whiteAvatar;
                     notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId);
+                    notification.senderPic.gameObject.SetActive(false);
                 }
             }
 
@@ -211,9 +215,15 @@ namespace TurboLabz.InstantGame
                 notification.playButton.gameObject.SetActive(false);
                 notification.acceptQuickMatchButton.gameObject.SetActive(false);
             }
-     
+
             notifidationObj.transform.SetParent(gameObject.transform);
             notifidationObj.transform.position = positionDummy.transform.position;
+
+            if (notifidationObj.gameObject.transform.localScale.x > 1.0f)
+            {
+                notifidationObj.gameObject.transform.localScale = Vector3.one;
+            }
+
             NotificationContainer notificationContainer = new NotificationContainer();
             notificationContainer.obj = notifidationObj;
             notificationContainer.playerId = notificationVO.senderPlayerId;
@@ -235,6 +245,7 @@ namespace TurboLabz.InstantGame
                 saveGameSignal.Dispatch();
             }
             loadLobbySignal.Dispatch();
+            cancelHintSingal.Dispatch();
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
             FadeBlocker();
         }

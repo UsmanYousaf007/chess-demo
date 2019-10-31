@@ -26,37 +26,89 @@ namespace TurboLabz.Multiplayer
         public Button hindsightButton;
         public Text hindsightLabel;
         public Image hindsightIcon;
-        public TextMeshProUGUI hindsightCountLabel;
+        public Text hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
+        public CoachView coachView;
+        public GameObject coachOnboardingTooltip;
+
+        private bool isCoachToolTipShown;
 
         public void InitHindsight()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hindsightButton.onClick.AddListener(HindsightButtonClicked);
             hindsightThinking.SetActive(false);
+
+            var originalScale = coachView.stickerBg.transform.localScale;
+            var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
+            coachView.stickerBg.transform.localScale = vectorToScale;
         }
 
         public void OnParentShowHindsight()
         {
             HideHindsight();
+            DisableHindsightButton();
         }
 
         public void RenderHindsight(HintVO vo)
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hindsightFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            hindsightFromIndicator.SetActive(true);
+            //hindsightFromIndicator.SetActive(true);
 
             int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hindsightToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            hindsightToIndicator.SetActive(true);
+            //hindsightToIndicator.SetActive(true);
 
-            audioService.Play(audioService.sounds.SFX_HINT);
+            //audioService.Play(audioService.sounds.SFX_HINT);
 
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
+
+            var coachVO = new CoachVO();
+            coachVO.fromPosition = hindsightFromIndicator.transform.position;
+            coachVO.toPosition = hindsightToIndicator.transform.position;
+            coachVO.moveFrom = vo.fromSquare.fileRank.GetAlgebraicLocation();
+            coachVO.moveTo = vo.toSquare.fileRank.GetAlgebraicLocation();
+            coachVO.pieceName = vo.piece;
+            coachVO.activeSkinId = vo.skinId;
+            coachVO.isBestMove = vo.didPlayerMadeBestMove;
+            coachVO.audioService = audioService;
+            coachVO.analyticsService = analyticsService;
+
+            if (isLongPlay)
+            {
+                coachVO.analyticsContext = AnalyticsContext.long_match;
+             }
+            else
+            {
+                coachVO.analyticsContext = AnalyticsContext.quick_match;
+            }
+
+            if (vo.piece.Contains("captured"))
+            {
+                coachVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
+            }
+
+            coachView.Show(coachVO);
+            Invoke("HideHindsight", 4);
+        }
+
+        public void CancelHindsight()
+        {
+            hindsightThinking.SetActive(false);
+            DisableModalBlocker();
+            //DisableHindsightButton();
+
+            if(coachView.gameObject.activeSelf)
+            {
+                analyticsService.Event(AnalyticsEventId.cancel_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+            }
+
+            coachView.Hide();
+            coachOnboardingTooltip.SetActive(false);
         }
 
         public void HideHindsight()
@@ -70,22 +122,31 @@ namespace TurboLabz.Multiplayer
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINDSIGHTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
             }
             else
             {
+                cancelHintSingal.Dispatch();
                 hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
+                //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
 
-                if (isLongPlay)
+                if (isCoachToolTipShown)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.long_match);
+                    isCoachToolTipShown = false;
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+                }
+
+                if (InstantFramework.LobbyView.isCoachTrainingShown)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
+
             }
         }
 
@@ -133,6 +194,12 @@ namespace TurboLabz.Multiplayer
             }
 
             hindsightCountLabel.text = count.ToString();
+        }
+
+        public void ShowCoachOnboardingTooltip(bool show)
+        {
+            coachOnboardingTooltip.SetActive(show);
+            isCoachToolTipShown |= show;
         }
     }
 }

@@ -201,7 +201,7 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
-        public void OnAddUnreadMessages(string friendId)
+        public void OnAddUnreadMessages(string friendId, int messagesCount)
         {
             view.AddUnreadMessages(friendId);
         }
@@ -307,6 +307,41 @@ namespace TurboLabz.InstantFramework
         private void OnQuickMatchBtnClicked()
         {
             FindMatchAction.Random(findMatchSignal);
+        }
+
+        [ListensTo(typeof(ShowPromotionSignal))]
+        public void OnShowPromotion(PromotionVO vo)
+        {
+            view.ShowPromotion(vo);
+        }
+
+        [ListensTo(typeof(ShowCoachTrainingDailogueSignal))]
+        public void OnShowCoachTrainingDailogue()
+        {
+            view.ShowCoachTrainingDailogue();
+        }
+
+        [ListensTo(typeof(ShowStrengthTrainingDailogueSignal))]
+        public void OnShowStrengthTrainingDailogue()
+        {
+            view.ShowStrengthTrainingDailogue();
+        }
+
+        [ListensTo(typeof(RemoveLobbyPromotionSignal))]
+        public void OnRemoveLobbyPromotion(string key)
+        {
+            view.RemovePromotion(key);
+        }
+
+        [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]
+        public void OnReportLobbyPromotionAnalytic(string key, AnalyticsEventId eventId)
+        {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
+            view.ReportAnalytic(key, eventId);
         }
     }
 }

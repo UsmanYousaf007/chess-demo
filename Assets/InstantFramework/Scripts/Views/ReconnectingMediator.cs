@@ -21,6 +21,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public ReconnectingView view { get; set; }
 
         // Dispatch signals
+        [Inject] public SetErrorAndHaltSignal setErrorAndHaltSignal { get; set; }
+
+        // Dispatch signals
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
         [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
 

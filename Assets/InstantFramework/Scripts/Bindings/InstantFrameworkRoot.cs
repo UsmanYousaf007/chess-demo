@@ -36,21 +36,25 @@ namespace TurboLabz.InstantFramework
         }
 
         void HandleLog(string logString, string stackTrace, LogType type)
-        { 
-            if (type == LogType.Exception)
+        {
+            if(Debug.isDebugBuild)
             {
-                Debug.Log("GAME CRASHEDDDDDDDD @@@@@@@@@@@@@@@@@@@@@ ");
-
-                string lString = logString.Replace('"', '\'').Replace('\n', ' ').Replace('\r', ' ');
-                string sTrace = stackTrace.Replace('"', '\'').Replace('\n', ' ').Replace('\r', ' ');
-
-                string _message = "<color=#ff0000>" + lString+"</color>" + " " + sTrace;
-                if (_message.Length > 8192)
+                if (type == LogType.Exception)
                 {
-                    _message = _message.Substring(8192);
+                    Debug.Log("GAME CRASHEDDDDDDDD @@@@@@@@@@@@@@@@@@@@@ ");
+
+                    string lString = logString.Replace('"', '\'').Replace('\n', ' ').Replace('\r', ' ');
+                    string sTrace = stackTrace.Replace('"', '\'').Replace('\n', ' ').Replace('\r', ' ');
+
+                    string _message = "<color=#ff0000>" + lString + "</color>" + " " + sTrace;
+                    if (_message.Length > 8192)
+                    {
+                        _message = _message.Substring(8192);
+                    }
+
+                    setErrorAndHaltSignal.Dispatch(BackendResult.GAME_CRAHSED, _message);
                 }
 
-                setErrorAndHaltSignal.Dispatch(BackendResult.GAME_CRAHSED, _message);
             }
         }
     }

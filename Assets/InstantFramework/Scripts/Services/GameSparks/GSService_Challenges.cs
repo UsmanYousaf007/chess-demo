@@ -53,7 +53,9 @@ namespace TurboLabz.InstantFramework
             GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
 
-            bool isNewMatch = !matchInfoModel.matches.ContainsKey(challengeId);
+            TLUtils.LogUtil.LogNullValidation(challengeId, "challengeId");
+            
+            bool isNewMatch = challengeId != null && !matchInfoModel.matches.ContainsKey(challengeId);
 
             if (isNewMatch)
             {
@@ -63,6 +65,11 @@ namespace TurboLabz.InstantFramework
                 string challengedId = matchData.GetString (GSBackendKeys.Match.CHALLENGED_ID);
                 string challengerId = matchData.GetString (GSBackendKeys.Match.CHALLENGER_ID);
                 string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
+
+                TLUtils.LogUtil.LogNullValidation(opponentId, "opponentId");
+                
+                if (opponentId == null) return;
+
                 if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE &&
                     playerModel.blocked.ContainsKey(opponentId)) {
                     return;
@@ -80,7 +87,7 @@ namespace TurboLabz.InstantFramework
             {
                 string opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
 
-                if (playerModel.friends.ContainsKey(opponentId))
+                if (opponentId != null && playerModel.friends.ContainsKey(opponentId))
                 {
                     updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                     sortFriendsSignal.Dispatch();
@@ -189,7 +196,7 @@ namespace TurboLabz.InstantFramework
 
             // Update elo numbers
             GSData eloChangeData = matchData.GetGSData(GSBackendKeys.Match.ELO_CHANGE);
-            if (eloChangeData.ContainsKey(playerModel.id))
+            if (playerModel.id != null && eloChangeData.ContainsKey(playerModel.id))
             {
                 matchInfo.playerEloScoreDelta = eloChangeData.GetInt(playerModel.id).Value;
             }
@@ -232,7 +239,7 @@ namespace TurboLabz.InstantFramework
                     GSData friendData = updatedStatsData.GetGSData(GSBackendKeys.FRIEND);
                     string friendId = updatedStatsData.GetString(GSBackendKeys.Friend.FRIEND_ID);
 
-                    if (playerModel.friends.ContainsKey(friendId))
+                    if (friendId != null && playerModel.friends.ContainsKey(friendId))
                     {
                         Friend updatedFriend = LoadFriend(friendId, friendData);
 

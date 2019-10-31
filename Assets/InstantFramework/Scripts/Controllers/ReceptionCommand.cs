@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using strange.extensions.command.impl;
+using TurboLabz.InstantGame;
 using UnityEngine;
 
 namespace TurboLabz.InstantFramework
@@ -22,7 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -57,6 +58,7 @@ namespace TurboLabz.InstantFramework
             if (!isResume)
             {
                 loadLobbySignal.Dispatch();
+                loadPromotionSingal.Dispatch();
             }
 
             refreshFriendsSignal.Dispatch();

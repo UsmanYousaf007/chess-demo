@@ -23,7 +23,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-       
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }       
 
         public void OnRegisterResults()
         {
@@ -70,6 +70,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnBackToLobby()
         {
+            cancelHintSignal.Dispatch();
             loadLobbySignal.Dispatch();
         }
 

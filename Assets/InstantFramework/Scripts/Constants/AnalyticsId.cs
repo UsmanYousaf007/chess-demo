@@ -27,7 +27,9 @@ namespace TurboLabz.InstantFramework
         rate_dialog,
         spot_purchase_safe_move,
         spot_purchase_hint,
-        spot_purchase_hindsight
+        spot_purchase_hindsight,
+        spot_purchase_move_meter,
+        spot_purchase_coach,
     }
 
     public enum AnalyticsEventId
@@ -51,7 +53,7 @@ namespace TurboLabz.InstantFramework
         tap_pow_safe_move_undo,
         tap_pow_hint,
         tap_pow_hindsight,
-        spot_purchase_complete,
+        v1_spot_purchase_complete,
         store_purchase_complete,
         ads_collect_reward,
         ads_skip_reward,
@@ -72,7 +74,42 @@ namespace TurboLabz.InstantFramework
         selected_theme,
         disconnection_time,
         quickmatch_direct_request,
-        quickmatch_direct_request_accept
+        quickmatch_direct_request_accept,
+        ads_rewared_request,
+        ads_rewared_success,
+        ads_rewared_show,
+        ads_rewared_available,
+        ads_rewared_failed,
+        //ads_interstitial_request,
+        //ads_interstitial_success,
+        ads_interstitial_show,
+        ads_interstitial_failed,
+        tap_pow_move_meter,
+        cancel_pow_move_meter,
+        close_pow_move_meter,
+        tap_pow_coach,
+        cancel_pow_coach,
+        close_pow_coach,
+        imp_banner_coach_training,
+        imp_banner_move_meter_training,
+        imp_banner_ultimate_bundle,
+        imp_banner_ad_bundle,
+        imp_banner_coach_purchase,
+        imp_banner_move_meter_purchase,
+        tap_banner_coach_training,
+        tap_banner_move_meter_training,
+        tap_banner_ultimate_bundle,
+        tap_banner_ad_bundle,
+        tap_banner_coach_purchase,
+        tap_banner_move_meter_purchase,
+        banner_utlimate_bundle_purchase_success,
+        banner_ad_bundle_purchase_success,
+        banner_coach_purchase_success,
+        banner_move_meter_purchase_success,
+        tap_coach_after_tooltip,
+        tap_move_meter_after_tooltip,
+        tap_coach_after_training,
+        tap_move_meter_after_training
     }
 
     public enum AnalyticsContext

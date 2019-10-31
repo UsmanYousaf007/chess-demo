@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
 /*
- v4.20.0
+ v4.20.3
 */
 public class AppsFlyer : MonoBehaviour {
 
@@ -14,7 +14,6 @@ public class AppsFlyer : MonoBehaviour {
     [DllImport("__Internal")]
     private static extern void mSetCurrencyCode(string currencyCode);
 
-    
     [DllImport("__Internal")]
     private static extern void mSetCustomerUserID(string customerUserID);
     
@@ -92,6 +91,12 @@ public class AppsFlyer : MonoBehaviour {
 
     [DllImport("__Internal")]
     public static extern void mSetResolveDeepLinkURLs(int length, params string[] userEmails);
+
+    [DllImport("__Internal")]
+    public static extern void msetOneLinkCustomDomain(int length, params string[] domains);
+
+    [DllImport("__Internal")]
+    public static extern void mSetValue(string value);
 
     public static void setCurrencyCode(string currencyCode){
         mSetCurrencyCode(currencyCode);
@@ -234,6 +239,16 @@ public class AppsFlyer : MonoBehaviour {
     public static void setResolveDeepLinkURLs(params string[] domainArray) {
         mSetResolveDeepLinkURLs(domainArray.Length, domainArray);
     }
+
+    public static void setOneLinkCustomDomain(params string[] domains) {
+        msetOneLinkCustomDomain(domains.Length, domains);
+    }
+
+    public static void setValue(string value) {
+        mSetValue(value);
+    }
+
+
 
 #elif UNITY_ANDROID && !UNITY_EDITOR
 
@@ -560,6 +575,10 @@ public class AppsFlyer : MonoBehaviour {
         cls_AppsFlyer.Call("setResolveDeepLinkURLs", (object)userEmails);
     }
 
+    public static void setOneLinkCustomDomain(params string[] domains) {
+        cls_AppsFlyer.Call("setOneLinkCustomDomain", (object)domains);
+    }
+
 
 
 
@@ -589,6 +608,7 @@ public class AppsFlyer : MonoBehaviour {
     public static string getHost() { return null; }
     public static void setUserEmails(EmailCryptType cryptType, params string[] userEmails) {}
     public static void setResolveDeepLinkURLs(params string[] userEmails) {}
+    public static void setOneLinkCustomDomain(params string[] domains) {}
 
     // Android Only 
     public static void validateReceipt(string publicKey, string purchaseData, string signature, string price, string currency, Dictionary<string, string> extraParams) { }
@@ -608,6 +628,7 @@ public class AppsFlyer : MonoBehaviour {
     public static void validateReceipt(string productIdentifier, string price, string currency, string transactionId, Dictionary<string, string> additionalParametes) { }
     public static void handlePushNotification(Dictionary<string, string> payload) { }
     public static void registerUninstall(byte[] token) { }
+    public static void setValue(string value){}
 
     // deprecated APIs
     [System.Obsolete("Use loadConversionData(string callbackObject)")]
@@ -630,4 +651,3 @@ public class AppsFlyer : MonoBehaviour {
         EmailCryptTypeSHA256 = 3
     }
 }
-

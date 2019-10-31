@@ -8,8 +8,6 @@ public static class MoPubPreferences
 {
     public const string MoPubMenuOffDefine = "mopub_disable_menu";
 
-    public const string MoPubBuildMenuDefine = "mopub_build_menu_beta";
-
     public const string MoPubNativeAdsDefine = "mopub_native_beta";
 
 
@@ -55,28 +53,12 @@ public static class MoPubPreferences
         }
 
         EditorGUI.BeginChangeCheck();
-        var enableBuildMenu = IsDefined(MoPubBuildMenuDefine, BuildTargetGroup.Android)
-                      // These are supposed to be in sync, but just in case they aren't...
-                      || IsDefined(MoPubBuildMenuDefine, BuildTargetGroup.iOS);
-        enableBuildMenu = EditorGUILayout.ToggleLeft(new GUIContent {
-                         text = "Enable MoPub build menu (BETA)",
-                         tooltip = "Adds a MoPub build menu to the MoPub menu main menubar.  " +
-                                   "It enables rebuilding of the MoPub SDK, " +
-                                   "which is useful if this project is in a fork of the MoPub Unity Github repo."
-                     }, enableBuildMenu);
-        if (EditorGUI.EndChangeCheck()) {
-            UpdateDefines(MoPubBuildMenuDefine, enableBuildMenu, BuildTargetGroup.Android);
-            UpdateDefines(MoPubBuildMenuDefine, enableBuildMenu, BuildTargetGroup.iOS);
-        }
-
-        EditorGUI.BeginChangeCheck();
         var enableNativeAds = IsDefined(MoPubNativeAdsDefine, BuildTargetGroup.Android);
         enableNativeAds = EditorGUILayout.ToggleLeft(new GUIContent {
                               text = "Enable MoPub native ads (BETA)",
                               tooltip = "Enables the MoPub Native Ads SDK (Android only)."
                           }, enableNativeAds);
-        if (EditorGUI.EndChangeCheck()) {
+        if (EditorGUI.EndChangeCheck())
             UpdateDefines(MoPubNativeAdsDefine, enableNativeAds, BuildTargetGroup.Android);
-        }
     }
 }

@@ -106,7 +106,7 @@ namespace TurboLabz.InstantFramework
     public class DisplayChatMessageSignal : Signal<ChatMessage> {}
     public class ClearActiveChatSignal : Signal<string> {}
     public class ClearUnreadMessagesSignal : Signal<string> {}
-    public class AddUnreadMessagesToBarSignal : Signal<string> {}
+    public class AddUnreadMessagesToBarSignal : Signal<string, int> {}
     public class ClearUnreadMessagesFromBarSignal : Signal<string> {}
     public class RestorePurchasesSignal : Signal {}
     public class NewFriendAddedSignal : Signal<string> {}

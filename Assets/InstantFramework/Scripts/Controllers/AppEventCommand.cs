@@ -13,6 +13,7 @@
 using GameSparks.Core;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using TurboLabz.Multiplayer;
 #if UNITY_IOS
 using UnityEngine.iOS;
 #endif
@@ -32,6 +33,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -54,6 +57,12 @@ namespace TurboLabz.InstantFramework
             }
             else if (appEvent == AppEvent.ESCAPED)
             {
+                if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+                    return;
+
+               // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+                   // return;
+
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }
         }

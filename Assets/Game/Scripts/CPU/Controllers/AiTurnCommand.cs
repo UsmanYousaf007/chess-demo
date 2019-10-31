@@ -25,6 +25,7 @@ namespace TurboLabz.CPU
     {
         // Dispatch Signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public ToggleStepBackwardSignal toggleStepBackwardSignal { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }
@@ -45,7 +46,6 @@ namespace TurboLabz.CPU
             startTime = Time.time;
 
             ++chessboardModel.aiMoveNumber;
-            chessAiService.SetPosition(chessService.GetFen());
 
             AiMoveInputVO vo = new AiMoveInputVO();
             vo.aiColor = chessboardModel.opponentColor;
@@ -56,6 +56,7 @@ namespace TurboLabz.CPU
             vo.aiMoveDelay = chessboardModel.aiMoveDelay;
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
             vo.cpuStrengthPct = (float)cpuGameModel.cpuStrength / (float)CPUSettings.MAX_STRENGTH;
+            vo.fen = chessService.GetFen();
            
             double durationMins = chessboardModel.gameDuration.TotalMinutes;
 
@@ -73,6 +74,12 @@ namespace TurboLabz.CPU
             }
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
+
+            if (promise == null)
+            {
+                throw new System.Exception("promise is null");
+            }
+
             promise.Then(OnAiMove);
         }
 
@@ -131,6 +138,11 @@ namespace TurboLabz.CPU
             move.to = chessboardModel.opponentToSquare.fileRank;
             move.promo = chessboardModel.promoString;
             chessboardModel.moveList.Add(move);
+
+            if (chessboardModel.moveList.Count > 1)
+            {
+                toggleStepBackwardSignal.Dispatch(true);
+            }
 
             chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
 

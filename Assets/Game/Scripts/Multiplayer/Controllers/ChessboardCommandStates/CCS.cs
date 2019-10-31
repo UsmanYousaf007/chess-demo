@@ -117,13 +117,18 @@ namespace TurboLabz.Multiplayer
                 }
             }
 
-            // Initialize the game powerups
-            cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
-            cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            if (activeChessboard.gameEndReason == GameEndReason.NONE)
+            {
+                // Initialize the game powerups
+                cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
+                cmd.turnSwapSignal.Dispatch(isPlayerTurn);
 
-            cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
-            cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
+                cmd.updateHindsightCountSignal.Dispatch(cmd.playerModel.PowerUpHindsightCount);
+                cmd.hindsightAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
+                cmd.hintAvailableSignal.Dispatch(activeChessboard.previousPlayerTurnFen != null);
 
+            }
+                
             // TODO: Update count may toggle the safe move button so this signal has to be fired first.
             // Cleanup this side effect code.
             cmd.updateSafeMoveCountSignal.Dispatch(cmd.playerModel.PowerUpSafeMoveCount);
@@ -141,16 +146,20 @@ namespace TurboLabz.Multiplayer
         {
             // Update the view with the opponent move
             cmd.activeChessboard.opponentMoveRenderComplete = false;
-            cmd.updateOpponentMoveSignal.Dispatch(GetMoveVO(cmd.activeChessboard, false));
+            MoveVO moveVO = GetMoveVO(cmd.activeChessboard, false);
+            cmd.updateOpponentMoveSignal.Dispatch(moveVO);
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
             cmd.hidePlayerToIndicatorSignal.Dispatch();
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPlayerMove(ChessboardCommand cmd)
         {
             // Update the view with the player move
+            MoveVO moveVO = GetMoveVO(cmd.activeChessboard, true);
             cmd.hidePossibleMovesSignal.Dispatch();
-            cmd.updatePlayerMoveSignal.Dispatch(GetMoveVO(cmd.activeChessboard, true));
+            cmd.updatePlayerMoveSignal.Dispatch(moveVO);
+            cmd.onboardingTooltipSignal.Dispatch(moveVO);
         }
 
         protected void RenderPromo(ChessboardCommand cmd)
@@ -368,7 +377,7 @@ namespace TurboLabz.Multiplayer
                     ChessMove lastPlayerMove = new ChessMove();
                     lastPlayerMove.from = chessboard.playerFromSquare.fileRank;
                     lastPlayerMove.to = chessboard.playerToSquare.fileRank;
-                    lastPlayerMove.piece = chessboard.playerFromSquare.piece;
+                    lastPlayerMove.piece = chessService.GetPieceAtLocation(chessboard.playerToSquare.fileRank);
                     lastPlayerMove.promo = GetPromoFromMove(chessboard.playerMoveFlag);
                     chessboard.lastPlayerMove = lastPlayerMove;
                 }
@@ -411,6 +420,7 @@ namespace TurboLabz.Multiplayer
             }
 
             cmd.hindsightAvailableSignal.Dispatch(true);
+            cmd.hintAvailableSignal.Dispatch(true);
         }
     }
 }

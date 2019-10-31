@@ -27,12 +27,19 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Board Scaling")]
+        public Transform boardContent;
+        public GameObject bottomBarContent;
+
         [Header("Chessboard")]
         public GameObject[] pieces;
         public GameObject[] possibleMoveIndicators;
         public Transform[] chessboardSquares;
+        public TapOff tapOff;
         public GameObject chessContainer;
         public Transform chessboard;
+        public Transform playerProfileUiAnchor;
+        public Transform opponentProfileUiAnchor;
 
         public GameObject playerFromIndicator;
         public GameObject playerToIndicator;
@@ -41,6 +48,7 @@ namespace TurboLabz.Multiplayer
         public GameObject fileRankLabelsForward;
         public GameObject fileRankLabelsBackward;
         public GameObject kingCheckIndicator;
+        public Transform coachUIAnchorPoint;
 
         public Signal<FileRank> squareClickedSignal = new Signal<FileRank>();
         public Signal opponentMoveRenderComplete = new Signal();
@@ -63,6 +71,7 @@ namespace TurboLabz.Multiplayer
         private ChessColor opponentColor;
         private bool opponentAnimationInProgress = false;
         private IEnumerator showPossibleMovesCR = null;
+        private float scaleUniform;
 
         public void InitChessboard()
         {
@@ -79,6 +88,54 @@ namespace TurboLabz.Multiplayer
 
             // Add listeners to our squares
             AddSquareListeners();
+
+            // Add the tap off listener
+            tapOff.tapOffSignal.AddListener(TapOff);
+
+            StretchBoard();
+        }
+
+        private void TapOff()
+        {
+            FileRank offBoard;
+            offBoard.file = -1;
+            offBoard.rank = -1;
+            squareClickedSignal.Dispatch(offBoard);
+        }
+
+        private void StretchBoard()
+        {
+            const int BOARD_WIDTH = 120 * 8;        // Square width x 8 squares
+            const float BOARD_STRETCH_CAP = 1.3f;   // Maximum stretch scale 
+
+            // Stretch board according to screen width
+            scaleUniform = Screen.width / (BOARD_WIDTH * canvas.transform.localScale.x);
+            float scaleUniformOriginal = scaleUniform;
+            scaleUniform = (scaleUniform > BOARD_STRETCH_CAP) ? BOARD_STRETCH_CAP : scaleUniform; // Apply cap
+            boardContent.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), boardContent.localScale);
+            float scaleWidth = 1.0f - (scaleUniformOriginal - scaleUniform) / 1.5f;
+
+            // Adjust screen content according to board stretch
+            Rect strechMax = ((RectTransform)gameObject.transform).rect;
+            float h = ((RectTransform)playerInfoPanel.transform).sizeDelta.y;
+            float offsetY = playerInfoPanel.transform.position.y * (scaleUniform - 1.0f);
+            ((RectTransform)playerInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
+            var playerProfileScreenPoint = Camera.main.WorldToScreenPoint(playerProfileUiAnchor.position);
+            playerInfoPanel.transform.position = playerProfileScreenPoint;
+            //playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
+
+            h = ((RectTransform)opponentInfoPanel.transform).sizeDelta.y;
+            ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
+            //opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
+            var opponentProfileScreenPoint = Camera.main.WorldToScreenPoint(opponentProfileUiAnchor.position);
+            opponentInfoPanel.transform.position = opponentProfileScreenPoint;
+
+            //((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (20 * scaleWidth), ((RectTransform)coachView.bg.transform).sizeDelta.y);
+            //var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
+            //coachView.bg.transform.position = viewportPoint;
+
+            float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
+            ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)
@@ -369,7 +426,8 @@ namespace TurboLabz.Multiplayer
             }
 
             showPossibleMovesCR = ShowPossibleMovesCR(pieceLocation, possibleMoves);
-            StartCoroutine(showPossibleMovesCR);
+            if (this.gameObject.activeInHierarchy)
+                StartCoroutine(showPossibleMovesCR);
         }
 
         private IEnumerator ShowPossibleMovesCR(FileRank pieceLocation, List<ChessSquare> possibleMoves)

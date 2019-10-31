@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 // ReSharper disable AccessToStaticMemberViaDerivedType
 
@@ -13,12 +14,13 @@ public static class MoPubLog
 
     public static class ConsentLogEvent
     {
-        public const string Updated = "Consent changed to {0} from {1}: PII can{2} be collected. Reason: {3}";
+        public const string Updated = "Consent changed to {0} from {1}: PII can{2} be collected.";
         public const string LoadAttempted = "Attempting to load consent dialog";
         public const string LoadSuccess = "Consent dialog loaded";
-        public const string LoadFailed = "Consent dialog failed: ({0}) {1}";
+        public const string LoadFailed = "Consent dialog failed: {0}";
         public const string ShowAttempted = "Consent dialog attempting to show";
         public const string ShowSuccess = "Sucessfully showed consent dialog";
+        public const string Dismissed = "Consent dialog dismissed";
 
     }
 
@@ -34,46 +36,47 @@ public static class MoPubLog
         public const string Collapsed = "Ad collapsed";
         public const string Dismissed = "Ad did disappear";
         public const string ShouldReward = "Ad should reward user with {0} {1}";
-        public const string Expired = "Ad expired since it was not shown within {0} minutes of it being loaded";
+        public const string Expired = "Ad expired since it was not shown fast enough";
     }
 
-    private static readonly Dictionary<string, MoPubBase.LogLevel> logLevelMap =
-        new Dictionary<string, MoPubBase.LogLevel>
+    private static readonly Dictionary<string, MoPub.LogLevel> logLevelMap =
+        new Dictionary<string, MoPub.LogLevel>
     {
-        { SdkLogEvent.InitStarted, MoPub.LogLevel.MPLogLevelDebug },
-        { SdkLogEvent.InitFinished, MoPub.LogLevel.MPLogLevelInfo },
-        { ConsentLogEvent.Updated, MoPub.LogLevel.MPLogLevelDebug },
-        { ConsentLogEvent.LoadAttempted, MoPub.LogLevel.MPLogLevelDebug },
-        { ConsentLogEvent.LoadSuccess, MoPub.LogLevel.MPLogLevelDebug },
-        { ConsentLogEvent.LoadFailed, MoPub.LogLevel.MPLogLevelDebug },
-        { ConsentLogEvent.ShowAttempted, MoPub.LogLevel.MPLogLevelDebug },
-        { ConsentLogEvent.ShowSuccess, MoPub.LogLevel.MPLogLevelDebug },
-        { AdLogEvent.LoadAttempted, MoPub.LogLevel.MPLogLevelInfo },
-        { AdLogEvent.LoadSuccess, MoPub.LogLevel.MPLogLevelInfo },
-        { AdLogEvent.LoadFailed, MoPub.LogLevel.MPLogLevelInfo },
-        { AdLogEvent.ShowAttempted, MoPub.LogLevel.MPLogLevelInfo },
-        { AdLogEvent.ShowSuccess, MoPub.LogLevel.MPLogLevelInfo },
-        { AdLogEvent.Tapped, MoPub.LogLevel.MPLogLevelDebug },
-        { AdLogEvent.Expanded, MoPub.LogLevel.MPLogLevelDebug },
-        { AdLogEvent.Collapsed, MoPub.LogLevel.MPLogLevelDebug },
-        { AdLogEvent.Dismissed, MoPub.LogLevel.MPLogLevelDebug },
-        { AdLogEvent.ShouldReward, MoPub.LogLevel.MPLogLevelDebug },
-        { AdLogEvent.Expired, MoPub.LogLevel.MPLogLevelDebug },
+        { SdkLogEvent.InitStarted, MoPub.LogLevel.Debug },
+        { SdkLogEvent.InitFinished, MoPub.LogLevel.Info },
+        { ConsentLogEvent.Updated, MoPub.LogLevel.Debug },
+        { ConsentLogEvent.LoadAttempted, MoPub.LogLevel.Debug },
+        { ConsentLogEvent.LoadSuccess, MoPub.LogLevel.Debug },
+        { ConsentLogEvent.LoadFailed, MoPub.LogLevel.Debug },
+        { ConsentLogEvent.ShowAttempted, MoPub.LogLevel.Debug },
+        { ConsentLogEvent.ShowSuccess, MoPub.LogLevel.Debug },
+        { AdLogEvent.LoadAttempted, MoPub.LogLevel.Info },
+        { AdLogEvent.LoadSuccess, MoPub.LogLevel.Info },
+        { AdLogEvent.LoadFailed, MoPub.LogLevel.Info },
+        { AdLogEvent.ShowAttempted, MoPub.LogLevel.Info },
+        { AdLogEvent.ShowSuccess, MoPub.LogLevel.Info },
+        { AdLogEvent.Tapped, MoPub.LogLevel.Debug },
+        { AdLogEvent.Expanded, MoPub.LogLevel.Debug },
+        { AdLogEvent.Collapsed, MoPub.LogLevel.Debug },
+        { AdLogEvent.Dismissed, MoPub.LogLevel.Debug },
+        { AdLogEvent.ShouldReward, MoPub.LogLevel.Debug },
+        { AdLogEvent.Expired, MoPub.LogLevel.Debug },
     };
 
     public static void Log(string callerMethod, string message, params object[] args)
     {
-        MoPubBase.LogLevel messageLogLevel;
+        MoPub.LogLevel messageLogLevel;
         if (!logLevelMap.TryGetValue(message, out messageLogLevel))
-            messageLogLevel = MoPubBase.LogLevel.MPLogLevelDebug;
+            messageLogLevel = MoPub.LogLevel.Debug;
 
-        if (MoPub.logLevel > messageLogLevel) return;
+        if (MoPub.CachedLogLevel > messageLogLevel) return;
 
         var formattedMessage = "[MoPub-Unity] [" + callerMethod + "] " + message;
         try {
             Debug.LogFormat(formattedMessage, args);
         } catch (FormatException) {
-            Debug.Log(formattedMessage);
+            Debug.Log("Format exception while logging message { " + formattedMessage + " } with arguments { " +
+                       string.Join(",", args.Select(a => a.ToString()).ToArray()) + " }");
         }
     }
 }

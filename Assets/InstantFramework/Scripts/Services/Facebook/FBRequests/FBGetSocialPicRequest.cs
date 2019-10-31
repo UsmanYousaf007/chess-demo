@@ -30,7 +30,10 @@ namespace TurboLabz.InstantFramework
 
         private void GetProfilePicture(string facebookUserId)
         {
-            FB.API(facebookUserId + "/picture?width=256&height=256&redirect=false", HttpMethod.GET, OnGetProfilePicture);
+            if (!string.IsNullOrEmpty(facebookUserId))
+            {
+                FB.API(facebookUserId + "/picture?width=256&height=256&redirect=false", HttpMethod.GET, OnGetProfilePicture);
+            }
         }
 
         private void OnGetProfilePicture(IGraphResult result)

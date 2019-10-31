@@ -1,4 +1,4 @@
-﻿/// @license Propriety <http://license.url>
+/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -20,21 +20,32 @@ namespace TurboLabz.CPU
     {
         public Signal hindsightClickedSignal = new Signal();
 
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
         public Button hindsightButton;
         public Text hindsightLabel;
         public Image hindsightIcon;
-        public TextMeshProUGUI hindsightCountLabel;
+        public Text hindsightCountLabel;
         public Image hindsightAdd;
         public GameObject hindsightThinking;
+        private bool hindsightPreviousState;
+        public CoachView coachView;
+        public GameObject coachOnboardingTooltip;
+
+        private bool isCoachToolTipShown;
 
         public void InitHindsight()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             hindsightButton.onClick.AddListener(HindsightButtonClicked);
             hindsightThinking.SetActive(false);
+
+            var originalScale = coachView.stickerBg.transform.localScale;
+            var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
+            coachView.stickerBg.transform.localScale = vectorToScale;
         }
 
         public void OnParentShowHindsight()
@@ -46,17 +57,54 @@ namespace TurboLabz.CPU
         {
             int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
             hindsightFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            hindsightFromIndicator.SetActive(true);
+			//hindsightFromIndicator.SetActive(true);
 
-            int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
+			int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
             hindsightToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            hindsightToIndicator.SetActive(true);
+			//hindsightToIndicator.SetActive(true);
 
-            audioService.Play(audioService.sounds.SFX_HINT);
+			//audioService.Play(audioService.sounds.SFX_HINT);
 
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             DisableHindsightButton();
+            
+            RestoreStepButtons();
+
+            var coachVO = new CoachVO();
+            coachVO.fromPosition = hindsightFromIndicator.transform.position;
+            coachVO.toPosition = hindsightToIndicator.transform.position;
+            coachVO.moveFrom = vo.fromSquare.fileRank.GetAlgebraicLocation();
+            coachVO.moveTo = vo.toSquare.fileRank.GetAlgebraicLocation();
+            coachVO.pieceName = vo.piece;
+            coachVO.activeSkinId = vo.skinId;
+            coachVO.isBestMove = vo.didPlayerMadeBestMove;
+            coachVO.audioService = audioService;
+            coachVO.analyticsService = analyticsService;
+            coachVO.analyticsContext = AnalyticsContext.computer_match;
+
+                if (vo.piece.Contains("captured"))
+            {
+                coachVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
+            }
+
+            coachView.Show(coachVO);
+            Invoke("HideHindsight", 4);
+        }
+
+        public void CancelHindsight()
+        {
+            hindsightThinking.SetActive(false);
+            DisableModalBlocker();
+            //DisableHindsightButton();
+
+            if(coachView.gameObject.activeSelf)
+            {
+                analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.computer_match);
+            }
+
+            coachView.Hide();
+            coachOnboardingTooltip.SetActive(false);
         }
 
         public void HideHindsight()
@@ -70,15 +118,32 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.HINDSIGHTS);
+                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
             }
             else
             {
+                cancelHintSingal.Dispatch();
                 hindsightThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
+                //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_hindsight, AnalyticsContext.computer_match);
+                StashStepButtons();
+
+                if (isCoachToolTipShown)
+                {
+                    isCoachToolTipShown = false;
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_tooltip, AnalyticsContext.computer_match);
+                }
+
+                if (InstantFramework.LobbyView.isCoachTrainingShown)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_training, AnalyticsContext.computer_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.computer_match);
+                }
             }
         }
 
@@ -91,6 +156,20 @@ namespace TurboLabz.CPU
             else
             {
                 DisableHindsightButton();
+            }
+        }
+
+        public void StashHindsightButton()
+        {
+            hindsightPreviousState = hindsightButton.interactable;
+            DisableHindsightButton();
+        }
+
+        public void RestoreHindsightButton()
+        {
+            if (hindsightPreviousState)
+            {
+                EnableHindsightButton();
             }
         }
 
@@ -126,6 +205,12 @@ namespace TurboLabz.CPU
             }
 
             hindsightCountLabel.text = count.ToString();
+        }
+
+        public void ShowCoachOnboardingTooltip(bool show)
+        {
+            coachOnboardingTooltip.SetActive(show);
+            isCoachToolTipShown |= show;
         }
     }
 }

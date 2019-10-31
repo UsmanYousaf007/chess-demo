@@ -43,11 +43,11 @@ namespace Crosstales.OnlineCheck.EditorIntegration
 
                 Util.Config.DEBUG = EditorGUILayout.Toggle(new GUIContent("Debug", "Enable or disable debug logs (default: " + Util.Constants.DEFAULT_DEBUG + ")."), Util.Config.DEBUG);
 
+                EditorConfig.TRACER = EditorGUILayout.Toggle(new GUIContent("Tracer", "Enable or disable anonymous tracing data (default: " + EditorConstants.DEFAULT_TRACER + ")"), EditorConfig.TRACER);
+
                 EditorConfig.UPDATE_CHECK = EditorGUILayout.Toggle(new GUIContent("Update Check", "Enable or disable the update-check (default: " + EditorConstants.DEFAULT_UPDATE_CHECK + ")"), EditorConfig.UPDATE_CHECK);
 
-                EditorConfig.REMINDER_CHECK = EditorGUILayout.Toggle(new GUIContent("Reminder Check", "Enable or disable the reminder-check (default: " + EditorConstants.DEFAULT_REMINDER_CHECK + ")"), EditorConfig.REMINDER_CHECK);
-
-                EditorConfig.TRACER = EditorGUILayout.Toggle(new GUIContent("Tracer", "Enable or disable anonymous tracing data (default: " + EditorConstants.DEFAULT_TRACER + ")"), EditorConfig.TRACER);
+                //EditorConfig.REMINDER_CHECK = EditorGUILayout.Toggle(new GUIContent("Reminder Check", "Enable or disable the reminder-check (default: " + EditorConstants.DEFAULT_REMINDER_CHECK + ")"), EditorConfig.REMINDER_CHECK);
 
                 EditorConfig.PREFAB_AUTOLOAD = EditorGUILayout.Toggle(new GUIContent("Prefab Auto-Load", "Enable or disable auto-loading of the prefabs to the scene (default: " + EditorConstants.DEFAULT_PREFAB_AUTOLOAD + ")."), EditorConfig.PREFAB_AUTOLOAD);
 

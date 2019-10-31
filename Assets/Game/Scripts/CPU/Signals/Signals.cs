@@ -69,6 +69,7 @@ namespace TurboLabz.CPU
     public class HideOpponentFromIndicatorSignal : Signal {}
     public class HideOpponentToIndicatorSignal : Signal {}
     public class RenderHintSignal : Signal<HintVO> {}
+    public class CancelHintSingal : Signal { }
     public class GetHintSignal : Signal<bool> {}
     public class ToggleSafeModeSignal : Signal { }
     public class SafeMoveSignal : Signal<bool> { }
@@ -82,5 +83,10 @@ namespace TurboLabz.CPU
     public class HindsightAvailableSignal : Signal<bool> { }
     public class HintAvailableSignal : Signal<bool> { }
     public class DisableUndoBtnSignal : Signal<bool> { }
-
+    public class StepSignal : Signal<bool> { }
+    public class ToggleStepForwardSignal : Signal<bool> { }
+    public class ToggleStepBackwardSignal : Signal<bool> { }
+    public class OnboardingTooltipSignal : Signal<MoveVO> { }
+    public class ShowStrengthOnboardingTooltipSignal : Signal<bool> { }
+    public class ShowCoachOnboardingTooltipSignal : Signal<bool> { }
 }

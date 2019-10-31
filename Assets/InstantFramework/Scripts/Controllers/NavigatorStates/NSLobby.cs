@@ -48,6 +48,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSRateAppDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            {
+                return new NSSpotPurchaseDlg();
+            }
 
             return null;
         }

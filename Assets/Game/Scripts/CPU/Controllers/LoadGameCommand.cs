@@ -95,7 +95,36 @@ namespace TurboLabz.CPU
 					chessboardModel.moveList.Add(move);
 				}
 
-				reader.Close();
+
+                #region Trimmed Moves for Step System
+
+                chessboardModel.trimmedMoveList = new List<ChessMove>();
+
+                try
+                {
+                    List<string> trimmedMoveList = reader.ReadList<string>(SaveKeys.TRIMMED_MOVE_LIST);
+
+                    foreach (string json in trimmedMoveList)
+                    {
+                        ChessMove trimmedMove = JsonUtility.FromJson<ChessMove>(json);
+
+                        // Unity Json Utility does not respect nulls and converts
+                        // them to empty strings. So we undo that here.
+                        // TODO: replace unity built in lib with proper json library
+                        if (trimmedMove.promo == "")
+                        {
+                            trimmedMove.promo = null;
+                        }
+
+                        chessboardModel.trimmedMoveList.Add(trimmedMove);
+                    }
+                }
+                catch (Exception) { }
+
+                #endregion
+
+
+                reader.Close();
 			}
 			catch (Exception e)
 			{

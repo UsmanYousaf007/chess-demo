@@ -83,6 +83,19 @@ extern "C" {
             [[AppsFlyerTracker sharedTracker] setResolveDeepLinkURLs:params];
         }
     }
+
+    const void msetOneLinkCustomDomain(int length, const char **domainArray){
+        
+        if(length > 0 && domainArray) {
+            NSMutableArray<NSString *> *params = [[NSMutableArray alloc] init];
+            for(int i = 0; i < length; i++) {
+                if (domainArray[i]) {
+                    [params addObject:[NSString stringWithUTF8String:domainArray[i]]];
+                }
+            }
+            [[AppsFlyerTracker sharedTracker] setOneLinkCustomDomains:params];
+        }
+    }
     
     const void mSetHost(const char *hostPrefixName ,const char *hostName){
         NSString *host = [NSString stringWithUTF8String:hostName];
@@ -185,7 +198,6 @@ extern "C" {
                                                    additionalParameters:customParams
                                                                 success:^(NSDictionary *result)
          {
-             NSLog(@"Purcahse succeeded And verified!!!");
              
              NSData *jsonData;
              
@@ -195,7 +207,6 @@ extern "C" {
                                                           error:&jsonError];
              if (jsonError)
              {
-                 NSLog(@"JSON parse error");
                  UnitySendMessage(UNITY_SENDMESSAGE_CALLBACK_MANAGER, UNITY_SENDMESSAGE_CALLBACK_VALIDATE_ERROR, [@"Invalid Response" UTF8String]);
              }
              else
@@ -224,7 +235,6 @@ extern "C" {
              else if ([response isKindOfClass:[NSString class]]) {
                  errorString = response;
              }
-             NSLog(@"Response = %@", errorString);
              
              UnitySendMessage(UNITY_SENDMESSAGE_CALLBACK_MANAGER, UNITY_SENDMESSAGE_CALLBACK_VALIDATE_ERROR, [errorString UTF8String]);
          }];
@@ -314,6 +324,12 @@ extern "C" {
             [AppsFlyerTracker sharedTracker].appInviteOneLinkID = oneLinkIdString;
             
             
+        }
+    }
+
+    const void mSetValue(const char *value) {
+        if (value != NULL) {
+            [[AppsFlyerTracker sharedTracker] setValue:@YES forKey:[NSString stringWithUTF8String:value]];
         }
     }
     

@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         {
             Debug.Log("[TLADS]: Initializing Rewarded Video");
 
+            showPromise = null;
             MoPubManager.OnRewardedVideoLoadedEvent += OnRewardedVideoLoadedEvent;
             MoPubManager.OnRewardedVideoReceivedRewardEvent += OnRewardedVideoReceivedRewardEvent;
             MoPubManager.OnRewardedVideoFailedToPlayEvent += OnRewardedVideoFailedToPlayEvent;
@@ -84,7 +85,11 @@ namespace TurboLabz.InstantFramework
         {
             Debug.Log("[TLADS]: Rewarded Video failed to play");
 
-            showPromise.Dispatch(AdsResult.FAILED);
+            if(showPromise != null)
+            {
+                showPromise.Dispatch(AdsResult.FAILED);
+            }
+
             isAvailable = false;
             RequestRewardedVideo();
         }

@@ -9,27 +9,23 @@ namespace Crosstales.OnlineCheck.EditorTask
     [InitializeOnLoad]
     public static class ReminderCheck
     {
+        private const int numberOfDays = 17;
+        private static int maxDays = numberOfDays * 2;
+
         #region Constructor
 
         static ReminderCheck()
         {
             string lastDate = EditorPrefs.GetString(EditorConstants.KEY_REMINDER_DATE);
+            int count = EditorPrefs.GetInt(EditorConstants.KEY_REMINDER_COUNT) + 1;
             string date = System.DateTime.Now.ToString("yyyyMMdd"); // every day
             //string date = System.DateTime.Now.ToString("yyyyMMddHHmm"); // every minute (for tests)
 
-            if (!date.Equals(lastDate))
+            if (maxDays <= count && !date.Equals(lastDate))
             {
-                int count = EditorPrefs.GetInt(EditorConstants.KEY_REMINDER_COUNT) + 1;
-
-                if (Util.Constants.DEV_DEBUG)
-                    Debug.Log("Current count: " + count);
-
                 //if (count % 1 == 0) // for testing only
-                if (count % 13 == 0 && EditorConfig.REMINDER_CHECK)
+                if (count % numberOfDays == 0)// && EditorConfig.REMINDER_CHECK)
                 {
-                    if (Util.Config.DEBUG)
-                        Debug.Log("Reminder active...");
-
                     int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Reminder",
                                 "Please don't forget to rate " + Util.Constants.ASSET_NAME + " or even better write a little review – it would be very much appreciated!",
                                 "Yes, let's do it!",
@@ -39,7 +35,8 @@ namespace Crosstales.OnlineCheck.EditorTask
                     if (option == 0)
                     {
                         Application.OpenURL(EditorConstants.ASSET_URL);
-                        EditorConfig.REMINDER_CHECK = false;
+                        //EditorConfig.REMINDER_CHECK = false;
+                        count = 9999;
 
                         Debug.LogWarning("<color=red>" + Common.Util.BaseHelper.CreateString("❤", 500) + "</color>");
                         Debug.LogWarning("<b>+++ Thank you for rating <color=blue>" + Util.Constants.ASSET_NAME + "</color>! +++</b>");
@@ -51,15 +48,11 @@ namespace Crosstales.OnlineCheck.EditorTask
                     }
                     else
                     {
-                        EditorConfig.REMINDER_CHECK = false;
+                        count = 9999;
+                        //EditorConfig.REMINDER_CHECK = false;
                     }
 
                     EditorConfig.Save();
-                }
-                else
-                {
-                    if (Util.Config.DEBUG)
-                        Debug.Log("No reminder needed.");
                 }
 
                 EditorPrefs.SetString(EditorConstants.KEY_REMINDER_DATE, date);

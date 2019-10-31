@@ -20,6 +20,8 @@ public class AudioList : MonoBehaviour
     // Framework
     public AudioClip SFX_CLICK;
     public AudioClip SFX_STEP_CLICK;
+    public AudioClip SFX_TOOL_TIP;
+
 
     // Game
     public AudioClip SFX_CAPTURE;

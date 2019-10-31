@@ -16,6 +16,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public ClearActiveChatSignal clearActiveChatSignal { get; set; }
         [Inject] public ClearUnreadMessagesSignal clearUnreadMessagesSignal { get; set; }
 
+
         public void OnRegisterChat()
         {
             view.InitChat();
@@ -57,21 +58,27 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
-        public void OnAddUnreadMessages(string friendId)
+        public void OnAddUnreadMessages(string friendId, int messagesCount)
         {
-            view.EnableUnreadIndicator(friendId);
-        }
-
-        [ListensTo(typeof(UpdateChatOpponentPicSignal))]
-        public void OnUpdateChatOpponentPic(Sprite sprite)
-        {
-            view.UpdateChatOpponentPic(sprite);
+            view.EnableUnreadIndicator(friendId, messagesCount);
         }
 
         [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
         public void OnUpdateFriendOnlineStatusSignal(ProfileVO vo)
         {
             view.UpdateFriendOnlineStatusSignal(vo.playerId, vo.isOnline, vo.isActive);
+        }
+
+        [ListensTo(typeof(UpdateChatOpponentPicSignal))]
+        void OnUpdateOpponentProfilePic(Sprite sprite)
+        {
+            view.SetOpponentChatProfilePic(sprite);
+        }
+
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdateFriendPic(string playerId, Sprite sprite)
+        {
+            view.SetOpponentChatProfilePic(sprite, playerId);
         }
 
         void OnChatSubmit(ChatMessage message)

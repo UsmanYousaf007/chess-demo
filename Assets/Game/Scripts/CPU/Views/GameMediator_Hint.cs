@@ -34,7 +34,13 @@ namespace TurboLabz.CPU
             }
         }
 
-        [ListensTo(typeof(TurnSwapSignal))]
+        [ListensTo(typeof(CancelHintSingal))]
+        public void OnCancelHint()
+        {
+            view.CancelHint();
+        }
+
+        //[ListensTo(typeof(TurnSwapSignal))]
         public void OnToggleHintButton(bool isPlayerTurn)
         {
             view.ToggleHintButton(isPlayerTurn);
@@ -60,6 +66,12 @@ namespace TurboLabz.CPU
             {
                 view.DisableHintButton();
             }
+        }
+
+        [ListensTo(typeof(ShowStrengthOnboardingTooltipSignal))]
+        public void OnShowOnboardTooltip(bool show)
+        {
+            view.ShowStrengthOnboardingTooltip(show);
         }
     }
 }

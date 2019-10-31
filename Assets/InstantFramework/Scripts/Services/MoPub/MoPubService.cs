@@ -1,18 +1,23 @@
 ﻿using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
-using static MoPubBase.SupportedNetwork;
+using static MoPub.SupportedNetwork;
 
 namespace TurboLabz.InstantFramework
 {
     public class MoPubService : IAdsService
     {
         MoPubAdUnits adUnits;
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         public void Init()
         {
             adUnits = new MoPubAdUnits();
             MoPubManager.OnSdkInitializedEvent += OnSdkInitializedEvent;
+            MoPubManager.OnRewardedVideoLoadedEvent += OnRewardedVideoLoadedEvent;
+            MoPubManager.OnAdLoadedEvent += OnBannerLoadedEvent;
+
 
             // MoPub.InitializeSdk(adUnits.GetGenericAdUnit());
 
@@ -21,7 +26,7 @@ namespace TurboLabz.InstantFramework
                 AdUnitId = adUnits.GetGenericAdUnit(),
 
                 // Set desired log level here to override default level of MPLogLevelNone
-                LogLevel = MoPubBase.LogLevel.MPLogLevelDebug,
+                LogLevel = MoPub.LogLevel.None,
 
                 // Uncomment the following line to allow supported SDK networks to collect user information on the basis
                 // of legitimate interest.
@@ -91,11 +96,37 @@ namespace TurboLabz.InstantFramework
             MoPubRewardedVideo.Initialize(adUnits);
             MoPubInterstitial.Initialize(adUnits);
             MoPubBanner.Initialize(adUnits);
+
+            Debug.Log("[ANALYITCS]: ads_rewared_request:");
+            analyticsService.Event(AnalyticsEventId.ads_rewared_request);
         }
 
         public bool IsRewardedVideoAvailable()
         {
-            return MoPubRewardedVideo.IsAvailable();
+            bool availableFlag = MoPubRewardedVideo.IsAvailable();
+
+            if(!availableFlag)
+            {
+                Debug.Log("[ANALYITCS]: ads_rewared_request:");
+                analyticsService.Event(AnalyticsEventId.ads_rewared_request);
+            }
+
+            return availableFlag;
+        }
+
+        public void OnBannerLoadedEvent(string adUnit, float height)
+        {
+            Debug.Log("[ANALYITCS]: OnBannerLoadedEvent ");
+            if (appInfoModel.gameMode == GameMode.NONE || appInfoModel.isNotificationActive || appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            {
+                HideBanner();
+            }
+        }
+
+        public void OnRewardedVideoLoadedEvent(string adUnit)
+        {
+            Debug.Log("[ANALYITCS]: ads_rewared_success:");
+            analyticsService.Event(AnalyticsEventId.ads_rewared_success);
         }
 
         public IPromise<AdsResult> ShowRewardedVideo()
@@ -115,7 +146,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowBanner()
         {
-            MoPubBanner.Show(MoPubBase.AdPosition.TopCenter);
+            MoPubBanner.Show(MoPub.AdPosition.TopCenter);
         }
 
         public void HideBanner()

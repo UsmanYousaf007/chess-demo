@@ -30,6 +30,15 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            // Clear list on special parameters
+            if (matchString == "" && skip == -1)
+            {
+                if (playerModel.search != null)
+                {
+                    playerModel.search.Clear();
+                }
+                return;
+            }
 
             Retain();
 

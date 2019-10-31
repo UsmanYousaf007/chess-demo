@@ -20,6 +20,8 @@ namespace TurboLabz.Chess
         public int file;
         public int rank;
 
+        private static readonly char[] FILE_MAP = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+
         public static bool operator ==(FileRank fr1, FileRank fr2)
         {
             return fr1.Equals(fr2);
@@ -60,6 +62,11 @@ namespace TurboLabz.Chess
         public override string ToString()
         {
             return file + "x" + rank;
+        }
+
+        public string GetAlgebraicLocation()
+        {
+            return FILE_MAP[file].ToString() + (rank + 1).ToString();
         }
     }
 }

@@ -30,10 +30,12 @@ namespace TurboLabz.Multiplayer
         public Text playerClockLabel;
         public Image playerClockFill;
         public Image playerClockImage;
+        public Image playerClockBg;
         public Text opponentClockLabel;
         public Image opponentClockFill;
         public Image opponentClockImage;
         public Text waitingLabel;
+        public Image opponentClockBg;
 
         private Coroutine playerClockCR;
         private Coroutine opponentClockCR;
@@ -47,7 +49,6 @@ namespace TurboLabz.Multiplayer
         private bool flashToggle = false;
         Color playerClockLabelColorOrg;
         Color opponentClockLabelColorOrg;
-
 
         public void InitClock()
         {
@@ -128,7 +129,8 @@ namespace TurboLabz.Multiplayer
             playerClockLabel.text = TimeUtil.FormatPlayerClock(playerTimer);
             SetPlayerTimerActiveColors();
             StopPlayerClockCR();
-            playerClockCR = StartCoroutine(AnimateTimerCR(playerClockFill, playerTimer));
+            if (this.gameObject.activeInHierarchy)
+                playerClockCR = StartCoroutine(AnimateTimerCR(playerClockFill, playerTimer));
         }
 
         public void TickOpponentTimer(TimeSpan opponentTimer)
@@ -137,7 +139,8 @@ namespace TurboLabz.Multiplayer
             opponentClockLabel.text = TimeUtil.FormatPlayerClock(opponentTimer);
             SetOpponentTimerActiveColors();
             StopOpponentClockCR();
-            opponentClockCR = StartCoroutine(AnimateTimerCR(opponentClockFill, opponentTimer));
+            if (this.gameObject.activeInHierarchy)
+                opponentClockCR = StartCoroutine(AnimateTimerCR(opponentClockFill, opponentTimer));
         }
 
         public void ExpirePlayerTimer()
@@ -163,6 +166,7 @@ namespace TurboLabz.Multiplayer
         {
             playerClockLabel.color = Colors.WHITE_150;
             playerClockImage.color = Colors.DISABLED_WHITE;
+            playerClockBg.color = Colors.DISABLED_WHITE;
             StopPlayerClockCR();
             playerClockFill.fillAmount = (float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
 
@@ -189,6 +193,7 @@ namespace TurboLabz.Multiplayer
         {
             opponentClockLabel.color = Colors.WHITE_150;
             opponentClockImage.color = Colors.DISABLED_WHITE;
+            opponentClockBg.color = Colors.DISABLED_WHITE;
             StopOpponentClockCR();
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
 
@@ -199,17 +204,20 @@ namespace TurboLabz.Multiplayer
         {
             playerClockLabel.color = GetLabelColor(playerTimer);
             playerClockImage.color = GetClockColor(playerTimer);
-
             playerClockLabelColorOrg = playerClockLabel.color;
+            playerClockBg.color = GetClockBgColor(playerTimer);
         }
 
         private void SetOpponentTimerActiveColors()
         {
             opponentClockLabel.color = GetLabelColor(opponentTimer);
             opponentClockImage.color = GetClockColor(opponentTimer);
+            opponentClockLabelColorOrg = opponentClockLabel.color;
+
             waitingLabel.color = opponentClockLabel.color;
 
             opponentClockLabelColorOrg = opponentClockLabel.color;
+            opponentClockBg.color = GetClockBgColor(opponentTimer);
         }
 
         private IEnumerator AnimateTimerCR(Image filler, TimeSpan currentTimer)
@@ -231,7 +239,17 @@ namespace TurboLabz.Multiplayer
                 }
             } 
         }
-            
+
+        private Color GetClockBgColor(TimeSpan currentTimer)
+        {
+            if (currentTimer.TotalSeconds < clockEmergencyThresholdSeconds)
+            {
+                return Colors.RED_128;
+            }
+
+            return Colors.YELLOW_128;
+        }
+
         private Color GetClockColor(TimeSpan currentTimer)
         {
             if (currentTimer.TotalSeconds < clockEmergencyThresholdSeconds)

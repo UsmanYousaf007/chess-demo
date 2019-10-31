@@ -9,6 +9,7 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
+        [Inject] public ReportLobbyPromotionAnalyticSingal reportLobbyPromotionAnalyticSingal { get; set; }
 
         // View injection
         [Inject] public SpotPurchaseView view { get; set; }
@@ -68,7 +69,16 @@ namespace TurboLabz.InstantGame
             // Analytics
             if (result == PurchaseResult.PURCHASE_SUCCESS)
             {
-                analyticsService.Event(AnalyticsEventId.spot_purchase_complete, AnalyticsParameter.item_id, item.key);
+                analyticsService.Event(AnalyticsEventId.v1_spot_purchase_complete, AnalyticsParameter.item_id, item.key);
+
+                if (item.key.Contains(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG))
+                {
+                    reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.COACH_PURCHASE, AnalyticsEventId.banner_coach_purchase_success);
+                }
+                else if (item.key.Contains(GSBackendKeys.ShopItem.HINT_SHOP_TAG))
+                {
+                    reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.STRENGTH_PURCHASE, AnalyticsEventId.banner_move_meter_purchase_success);
+                }
             }
         }
 
