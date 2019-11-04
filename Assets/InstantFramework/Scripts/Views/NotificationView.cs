@@ -270,12 +270,6 @@ namespace TurboLabz.InstantGame
             FadeBlocker();
         }
 
-        public void OnAcceptDummy()
-        {
-            loadLobbySignal.Dispatch();
-            FindMatchAction.Random(findMatchSignal);
-        }
-
         void FadeBlocker()
         {
             uiBlocker.color = Colors.WHITE_150;
