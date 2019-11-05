@@ -45,6 +45,9 @@ namespace TurboLabz.InstantFramework
         public GameObject sectionPlayAFriendEmptyNotLoggedIn;
         public Transform sectionSearched;
         public GameObject sectionSearchResultsEmpty;
+        public Transform sectionRecentlyCompleted;
+
+        public Text sectionRecentlyCompletedMatchesTitle;
 
         public Text sectionPlayAFriendTitle;
         public Text sectionSearchResultsTitle;
@@ -143,6 +146,7 @@ namespace TurboLabz.InstantFramework
 
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionSearchResultsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS);
+            sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
 
             confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
             confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
@@ -221,6 +225,8 @@ namespace TurboLabz.InstantFramework
             if (sectionPlayAFriendEmptyNotLoggedIn.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmptyNotLoggedIn);
             if (sectionPlayAFriend.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriend.gameObject);
             if (sectionPlayAFriendEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmpty);
+            if (sectionRecentlyCompleted.gameObject.activeSelf) cacheEnabledSections.Add(sectionRecentlyCompleted.gameObject);
+
         }
 
         void OnSearchSubmit(string text)
