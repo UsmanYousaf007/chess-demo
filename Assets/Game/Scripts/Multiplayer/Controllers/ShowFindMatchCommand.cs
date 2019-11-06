@@ -51,12 +51,22 @@ namespace TurboLabz.InstantFramework
 
             if (actionData.action != FindMatchAction.ACTION_RANDOM)
             {
+                vo.opponent.playerId = actionData.opponentId;
+
                 Friend friend = playerModel.GetFriend(actionData.opponentId);
 
-                vo.opponent.playerId = actionData.opponentId;
-                vo.opponent.playerPic = friend.publicProfile.profilePicture;
-                vo.opponent.avatarId = friend.publicProfile.avatarId;
-                vo.opponent.avatarColorId = friend.publicProfile.avatarBgColorId;
+                if (friend != null)
+                {
+                    vo.opponent.playerPic = friend.publicProfile.profilePicture;
+                    vo.opponent.avatarId = friend.publicProfile.avatarId;
+                    vo.opponent.avatarColorId = friend.publicProfile.avatarBgColorId;
+                }
+                else
+                {
+                    vo.opponent.playerPic = picsModel.GetPlayerPic(actionData.opponentId);
+                    vo.opponent.avatarId = actionData.avatarId;
+                    vo.opponent.avatarColorId = actionData.avatarBgColor;
+                }
             }
 
             updateFindViewSignal.Dispatch(vo);

@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
         private const string PIC_FILE_PREFIX = "fp";
         private Dictionary<string, Sprite> memCache = new Dictionary<string, Sprite>();
 
-        public void SetPlayerPic(string playerId, Sprite sprite)
+        public void SetPlayerPic(string playerId, Sprite sprite, bool saveOnDisk = true)
         {
             if (sprite == null)
                 return;
@@ -22,10 +22,13 @@ namespace TurboLabz.InstantFramework
             string filename = PIC_FILE_PREFIX + playerId;
 
             try
-            { 
-                ILocalDataWriter writer = localDataService.OpenWriter(filename);
-                writer.Write(PIC_KEY, sprite);
-                writer.Close();
+            {
+                if (saveOnDisk)
+                {
+                    ILocalDataWriter writer = localDataService.OpenWriter(filename);
+                    writer.Write(PIC_KEY, sprite);
+                    writer.Close();
+                }
                 
                 TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 

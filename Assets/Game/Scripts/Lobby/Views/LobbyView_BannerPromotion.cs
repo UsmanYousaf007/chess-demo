@@ -89,7 +89,10 @@ namespace TurboLabz.InstantFramework
                 StartCoroutine(WaitForPriceToLoad(price));
             }
 
-            price.text = storeItem.remoteProductPrice;
+            if (storeItem.remoteProductPrice != null && price.text.Equals(localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE)))
+            {
+                price.text = storeItem.remoteProductPrice;
+            }
         }
 
         public void ShowCoachTrainingDailogue()

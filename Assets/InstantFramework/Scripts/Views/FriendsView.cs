@@ -634,6 +634,8 @@ namespace TurboLabz.InstantFramework
             startGameConfirmationDlg.gameObject.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);
             createMatchLimitReachedDlg.SetActive(false);
+            inviteFriendDlg.SetActive(false);
+            findFriendDlg.SetActive(false);
             SortFriends();
         }
 

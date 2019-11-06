@@ -22,6 +22,8 @@ namespace TurboLabz.InstantGame
             public string playerId;
             public string matchGroup;
             public float duration;
+            public NotificationVO notificationVO;
+            public Notification notification;
         };
 
         public GameObject notificationPrefab;
@@ -58,6 +60,7 @@ namespace TurboLabz.InstantGame
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         public void Init()
         {
@@ -115,11 +118,11 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        private void PreShowNotificationSetup(NotificationContainer notification)
+        private void PreShowNotificationSetup(NotificationContainer notificationContainer)
         {
             if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
             {
-                Notification notificationObj = notification.obj.GetComponent<Notification>();
+                Notification notificationObj = notificationContainer.obj.GetComponent<Notification>();
                 notificationObj.playButton.gameObject.SetActive(false);
                 notificationObj.acceptQuickMatchButton.gameObject.SetActive(false);
             }
@@ -162,18 +165,25 @@ namespace TurboLabz.InstantGame
                 notification.senderPic.gameObject.SetActive(true);
                 notification.senderPic.sprite = pic;
             }
-            else if (notificationVO.senderPlayerId != null && playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
+            else
             {
-                if (playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId != null)
+                if (!(notificationVO.profilePicURL.Equals("unassignedURL") || notificationVO.Equals("undefined")))
                 {
-                    Sprite newSprite = defaultAvatarContainer.GetSprite(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId);
-                    notification.avatarIcon.sprite = newSprite;
-                    notification.avatarBg.sprite = notification.whiteAvatar;
-                    notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId);
-                    notification.senderPic.gameObject.SetActive(false);
+                    facebookService.GetSocialPic(notificationVO.profilePicURL, notificationVO.senderPlayerId).Then(OnGetSocialPic);
+                }
+
+                if (notificationVO.senderPlayerId != null && playerModel.friends.ContainsKey(notificationVO.senderPlayerId))
+                {
+                    if (playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId != null)
+                    {
+                        Sprite newSprite = defaultAvatarContainer.GetSprite(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarId);
+                        notification.avatarIcon.sprite = newSprite;
+                        notification.avatarBg.sprite = notification.whiteAvatar;
+                        notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId);
+                        notification.senderPic.gameObject.SetActive(false);
+                    }
                 }
             }
-
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
             notification.playButton.onClick.AddListener(OnPlayButtonClicked);
             notification.acceptQuickMatchButton.onClick.AddListener(OnAcceptQuickMatchButton);
@@ -198,6 +208,7 @@ namespace TurboLabz.InstantGame
                 Color specialColor = Colors.YELLOW;
                 specialColor.a = notification.background.color.a;
                 notification.background.color = specialColor;
+                notification.playButton.gameObject.SetActive(false);
                 notification.acceptQuickMatchButton.gameObject.SetActive(true);
                 notification.acceptQuickMatchButtonText.text = "Accept";
                 duration = NOTIFICATION_QUICKMATCH_DURATION;
@@ -235,6 +246,8 @@ namespace TurboLabz.InstantGame
             notificationContainer.playerId = notificationVO.senderPlayerId;
             notificationContainer.matchGroup = notificationVO.matchGroup;
             notificationContainer.duration = duration;
+            notificationContainer.notificationVO = notificationVO;
+            notificationContainer.notification = notification;
             notifications.Add(notificationContainer);
         }
 
@@ -266,7 +279,8 @@ namespace TurboLabz.InstantGame
             loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
             analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_accept);
-            FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup);
+            FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup,
+                notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId);
             FadeBlocker();
         }
 
@@ -295,5 +309,17 @@ namespace TurboLabz.InstantGame
             return null;
         }
 
+        private void OnGetSocialPic(FacebookResult result, Sprite sprite, string playerId)
+        {
+            if (result == FacebookResult.SUCCESS)
+            {
+                picsModel.SetPlayerPic(playerId, sprite, false);
+                if (notifications.Count > 0 && playerId.Equals(notifications[0].notificationVO.senderPlayerId))
+                {
+                    notifications[0].notification.senderPic.gameObject.SetActive(true);
+                    notifications[0].notification.senderPic.sprite = sprite;
+                }
+            }
+        }
     }
 }
