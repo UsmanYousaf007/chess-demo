@@ -175,7 +175,7 @@ namespace TurboLabz.Multiplayer
         public void MatchFound(ProfileVO vo)
         {
             StopRollingOpponentProfilePicture();
-            FindMatchTimeoutEnable(false);
+            //FindMatchTimeoutEnable(false);
 
             if (vo.playerPic == null)
             {
