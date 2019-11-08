@@ -25,6 +25,7 @@ namespace TurboLabz.Chess
         TIMER_EXPIRED,
         RESIGNATION,
         PLAYER_DISCONNECTED,
-        DECLINED
+        DECLINED,
+        ABANDON
     }
 }
