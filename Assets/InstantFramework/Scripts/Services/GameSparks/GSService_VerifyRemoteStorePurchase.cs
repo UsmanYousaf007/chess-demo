@@ -12,6 +12,7 @@ using GameSparks.Api.Requests;
 using strange.extensions.promise.impl;
 using GameSparks.Core;
 using System.Collections.Generic;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -21,6 +22,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdatePurchasedBundleStoreItemSignal updatePurchasedBundleStoreItemSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
+        [Inject] public RemoveLobbyPromotionSignal removeLobbyPromotionSignal { get; set; }
+        [Inject] public ReportLobbyPromotionAnalyticSingal reportLobbyPromotionAnalyticSingal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -108,6 +111,19 @@ namespace TurboLabz.InstantFramework
                 StoreVO storeVO = new StoreVO();
                 storeVO.playerModel = playerModel;
                 storeVO.storeSettingsModel = metaDataModel;
+
+                switch (shopItemId)
+                {
+                    case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG:
+                        reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.ULTIMATE_BANNER, AnalyticsEventId.banner_utlimate_bundle_purchase_success);
+                        removeLobbyPromotionSignal.Dispatch(LobbyPromotionKeys.ULTIMATE_BANNER);
+                        break;
+
+                    case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG:
+                        reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.ADS_BANNER, AnalyticsEventId.banner_ad_bundle_purchase_success);
+                        removeLobbyPromotionSignal.Dispatch(LobbyPromotionKeys.ADS_BANNER);
+                        break;
+                }
 
                 updatePurchasedBundleStoreItemSignal.Dispatch(storeVO, metaDataModel.store.items[shopItemId]);
             }

@@ -39,7 +39,7 @@ namespace TurboLabz.InstantFramework
             {
                 MatchInfo matchInfo = entry.Value;
                 string opponentId = matchInfo.opponentPublicProfile.playerId;
-
+               
                 if (friendId == opponentId)
                 {
                     Chessboard chessboard = chessboardModel.chessboards[entry.Key];
@@ -126,7 +126,7 @@ namespace TurboLabz.InstantFramework
                     vo.isRanked = matchInfo.isRanked;
 
                     updateFriendBarStatusSignal.Dispatch(vo);
-                    friendHasMatch = true;
+                    friendHasMatch = matchInfo.isLongPlay;
 
                     break;
                 }

@@ -18,6 +18,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using System.Collections;
 using TurboLabz.InstantGame;
+using System;
 
 namespace TurboLabz.Multiplayer
 {
@@ -26,31 +27,91 @@ namespace TurboLabz.Multiplayer
         [Header("Find")]
         public GameObject findDlg;
         public Text searchingLabel;
+
+        public GameObject findAvatarRoller;
         public Image findAvatar;
         public Sprite[] profilePicturesCache;
         public Sprite defaultAvatar;
 
+        public Image playerFindProfilePic;
+        public Image playerFindAvatarBg;
+        public Image playerFindAvatarIcon;
+
+        public GameObject opponentFindProfile;
+        public Image opponentFindProfilePic;
+        public Image opponentFindAvatarBg;
+        public Image opponentFindAvatarIcon;
+
+        public Text timerLabel;
+
         private IEnumerator rollOpponentProfilePictureEnumerator;
         private Coroutine findMatchTimeoutCR = null;
+        private TimeSpan countDownTimer;
         public Signal findMatchTimeoutSignal = new Signal();
 
         public void InitFind()
         {
+            playerFindProfilePic.sprite = defaultAvatar;
+            opponentFindProfilePic.sprite = defaultAvatar;
+        }
+
+        void SetProfileDisplayPic(ref Image bg, ref Image icon, ref Image pic,
+                                    Sprite profilePic, string avatarId, string bgColorId)
+        {
+            bg.gameObject.SetActive(false);
+            icon.gameObject.SetActive(false);
+            pic.gameObject.SetActive(false);
+
+            if (profilePic != null)
+            {
+                pic.gameObject.SetActive(true);
+                pic.sprite = profilePic;
+            }
+            else if (avatarId != null)
+            {
+                bg.gameObject.SetActive(true);
+                icon.gameObject.SetActive(true);
+                bg.color = Colors.Color(bgColorId);
+                icon.sprite = defaultAvatarContainer.GetSprite(avatarId);
+            }
+            else
+            {
+                pic.gameObject.SetActive(true);
+                pic.sprite = defaultAvatar;
+            }
+        }
+
+        public void UpdateFind(FindViewVO vo)
+        {
+            findAvatarRoller.gameObject.SetActive(false);
+            opponentFindProfile.SetActive(false);
+
+            SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
+                                vo.player.playerPic, vo.player.avatarId, vo.player.avatarColorId);
+
+            if (vo.opponent.playerId != null)
+            {
+                opponentFindProfile.SetActive(true);
+                searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_WAITING_FOR_OPPONENT);
+                SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
+                        vo.opponent.playerPic, vo.opponent.avatarId, vo.opponent.avatarColorId);
+            }
+            else
+            {
+                findAvatarRoller.SetActive(true);
+                searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
+                RollOpponentProfilePicture();
+            }
         }
 
         public void ShowFind()
         {
             searchingLabel.color = Colors.WHITE;
-            searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
 
             SetupFindMode();
-
             EnableModalBlocker();
             findDlg.SetActive(true);
-
             DisableMenuButton();
-
-            RollOpponentProfilePicture();
 
             // disable chat thingies
             foreach (GameObject obj in chatInputSet)
@@ -114,6 +175,7 @@ namespace TurboLabz.Multiplayer
         public void MatchFound(ProfileVO vo)
         {
             StopRollingOpponentProfilePicture();
+            //FindMatchTimeoutEnable(false);
 
             if (vo.playerPic == null)
             {
@@ -130,18 +192,18 @@ namespace TurboLabz.Multiplayer
 
         private void RollOpponentProfilePicture()
         {
-            Assertions.Assert(rollOpponentProfilePictureEnumerator == null, "Opponent profile picture must not already be rolling!");
+            if (rollOpponentProfilePictureEnumerator != null)
+            {
+                StopRollingOpponentProfilePicture();
+            }
 
-            findAvatar.gameObject.SetActive(true);
             rollOpponentProfilePictureEnumerator = RollOpponentProfilePictureCR();
             StartCoroutine(rollOpponentProfilePictureEnumerator);
         }
 
         private void StopRollingOpponentProfilePicture()
         {
-            //Assertions.Assert(rollOpponentProfilePictureEnumerator != null, "Opponent profile picture must already be rolling!");
-
-            if(rollOpponentProfilePictureEnumerator != null)
+            if (rollOpponentProfilePictureEnumerator != null)
             {
                 StopCoroutine(rollOpponentProfilePictureEnumerator);
                 rollOpponentProfilePictureEnumerator = null;
@@ -168,10 +230,13 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void FindMatchTimeoutEnable(bool enable, float seconds = 0f)
+        public void FindMatchTimeoutEnable(bool enable, int seconds = 0)
         {
             if (enable)
             {
+                countDownTimer = new TimeSpan(0, 0, seconds);
+                UpdateCountDownTimerText();
+
                 if (findMatchTimeoutCR != null)
                 {
                     routineRunner.StopCoroutine(findMatchTimeoutCR);
@@ -191,9 +256,22 @@ namespace TurboLabz.Multiplayer
 
         private IEnumerator FindMatchTimeoutCR(float seconds)
         {
-            yield return new WaitForSecondsRealtime(seconds);
+            while (true)
+            {
+                yield return new WaitForSecondsRealtime(1);
+                countDownTimer = countDownTimer.Subtract(new TimeSpan(0, 0, 1));
+                UpdateCountDownTimerText();
 
-            findMatchTimeoutSignal.Dispatch();
+                if (countDownTimer.Seconds <= 0)
+                {
+                    findMatchTimeoutSignal.Dispatch();
+                }
+            }
+        }
+
+        private void UpdateCountDownTimerText()
+        {
+            timerLabel.text = "Timeout in " + TimeUtil.FormatPlayerClock(countDownTimer);
         }
 
     }

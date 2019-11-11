@@ -25,6 +25,7 @@ namespace TurboLabz.CPU
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -44,7 +45,19 @@ namespace TurboLabz.CPU
                 chessboardModel.playerColor = (UnityEngine.Random.Range(0,2) == 0) ? ChessColor.BLACK : ChessColor.WHITE;
                 chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
 
+                //reset onboarding tooltip pref
+                preferencesModel.isStrengthTooltipShown = false;
+                preferencesModel.isCoachTooltipShown = false;
+
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+            }
+
+            OnboardingTooltipCommand.oldOpponentScore = 0;
+            OnboardingTooltipCommand.oldPlayerScore = 0;
+
+            if (!preferencesModel.isLobbyLoadedFirstTime)
+            {
+                preferencesModel.isLobbyLoadedFirstTime = true;
             }
 
             analyticsService.ScreenVisit(AnalyticsScreen.computer_match);

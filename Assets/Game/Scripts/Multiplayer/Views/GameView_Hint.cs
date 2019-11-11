@@ -34,6 +34,9 @@ namespace TurboLabz.Multiplayer
         public Image hintAdd;
         public GameObject hintThinking;
         public StrengthAnim strengthPanel;
+        public GameObject strengthOnboardingTooltip;
+
+        private bool isStrengthToolTipShown;
 
         public void InitHint()
         {
@@ -108,18 +111,11 @@ namespace TurboLabz.Multiplayer
 
             if(strengthPanel.gameObject.activeSelf)
             {
-                if (isLongPlay)
-                {
-                    analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.long_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.quick_match);
-                }
+                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
             }
-            
-            strengthPanel.Hide();
 
+            strengthPanel.Hide();
+            strengthOnboardingTooltip.SetActive(false);
         }
 
         public IEnumerator HideHint(float t)
@@ -148,13 +144,19 @@ namespace TurboLabz.Multiplayer
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
 
-                if (isLongPlay)
+                if (isStrengthToolTipShown)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.long_match);
+                    isStrengthToolTipShown = false;
+                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+                }
+
+                if (InstantFramework.LobbyView.isStrengthTrainingShown)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
             }
         }
@@ -208,5 +210,10 @@ namespace TurboLabz.Multiplayer
             hintCountLabel.text = count.ToString();
         }
 
+        public void ShowStrengthOnboardingTooltip(bool show)
+        {
+            strengthOnboardingTooltip.SetActive(show);
+            isStrengthToolTipShown |= show;
+        }
     }
 }

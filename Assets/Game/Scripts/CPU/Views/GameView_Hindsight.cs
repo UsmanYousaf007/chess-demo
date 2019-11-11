@@ -33,6 +33,9 @@ namespace TurboLabz.CPU
         public GameObject hindsightThinking;
         private bool hindsightPreviousState;
         public CoachView coachView;
+        public GameObject coachOnboardingTooltip;
+
+        private bool isCoachToolTipShown;
 
         public void InitHindsight()
         {
@@ -101,6 +104,7 @@ namespace TurboLabz.CPU
             }
 
             coachView.Hide();
+            coachOnboardingTooltip.SetActive(false);
         }
 
         public void HideHindsight()
@@ -126,7 +130,20 @@ namespace TurboLabz.CPU
 
                 StashStepButtons();
 
-                analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.computer_match);
+                if (isCoachToolTipShown)
+                {
+                    isCoachToolTipShown = false;
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_tooltip, AnalyticsContext.computer_match);
+                }
+
+                if (InstantFramework.LobbyView.isCoachTrainingShown)
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_coach_after_training, AnalyticsContext.computer_match);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.computer_match);
+                }
             }
         }
 
@@ -188,6 +205,12 @@ namespace TurboLabz.CPU
             }
 
             hindsightCountLabel.text = count.ToString();
+        }
+
+        public void ShowCoachOnboardingTooltip(bool show)
+        {
+            coachOnboardingTooltip.SetActive(show);
+            isCoachToolTipShown |= show;
         }
     }
 }

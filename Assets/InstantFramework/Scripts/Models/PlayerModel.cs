@@ -169,6 +169,30 @@ namespace TurboLabz.InstantFramework
 
             return playerInventoryVO;
         }
+
+        public Friend GetFriend(string friendId)
+        {
+            Friend friend = null;
+            if (friends.ContainsKey(friendId))
+            {
+                friend = friends[friendId];
+            }
+            else if (community.ContainsKey(friendId))
+            {
+                friend = community[friendId];
+            }
+            else if (search.ContainsKey(friendId))
+            {
+                friend = search[friendId];
+            }
+
+            return friend;
+        }
+
+        public bool IsFriend(string friendId)
+        {
+            return friends.ContainsKey(friendId);
+        }
     }
 }
 

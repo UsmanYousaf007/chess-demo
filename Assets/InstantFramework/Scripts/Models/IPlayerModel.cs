@@ -54,5 +54,8 @@ namespace TurboLabz.InstantFramework
         bool HasRemoveAds(IAdsSettingsModel adsSettingsModel);
         bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel);
         PlayerInventoryVO GetPlayerInventory();
+
+        Friend GetFriend(string friendId);
+        bool IsFriend(string friendId);
     }
 }

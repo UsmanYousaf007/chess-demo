@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
@@ -85,9 +86,14 @@ namespace TurboLabz.InstantGame
             DispatchRemoveAdsSignal();
             updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
-           if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
+            if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
+            }
+
+            if (preferencesModel.promotionCycleIndex == 0 && preferencesModel.isLobbyLoadedFirstTime)
+            {
+                loadPromotionSingal.Dispatch();
             }
         }
 

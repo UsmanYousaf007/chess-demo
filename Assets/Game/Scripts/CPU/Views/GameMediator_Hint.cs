@@ -67,5 +67,11 @@ namespace TurboLabz.CPU
                 view.DisableHintButton();
             }
         }
+
+        [ListensTo(typeof(ShowStrengthOnboardingTooltipSignal))]
+        public void OnShowOnboardTooltip(bool show)
+        {
+            view.ShowStrengthOnboardingTooltip(show);
+        }
     }
 }

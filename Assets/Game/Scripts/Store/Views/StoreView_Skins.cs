@@ -49,6 +49,7 @@ namespace TurboLabz.InstantGame
                 skinPrefab.button.onClick.AddListener(() => OnStoreItemClicked(sourceSkinItem));
                 skinPrefab.displayName.text = sourceItem.displayName;
                 skinPrefab.thumbnail.sprite = thumbsContainer.GetSprite(skinPrefab.key);
+                skinPrefab.icon.sprite = iconsContainer.GetSprite(skinPrefab.key);
                 skinPrefab.tick.gameObject.SetActive(false);
             }
         }

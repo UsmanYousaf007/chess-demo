@@ -16,14 +16,14 @@ namespace TurboLabz.InstantFramework
     public class InitFacebookSignal : Signal{}
     public class GameDisconnectingSignal : Signal {}
     public class SetUpdateURLSignal : Signal<string> {}
-    public class FindMatchSignal : Signal {}
+    public class FindMatchSignal : Signal<string> {}
     public class FindMatchCompleteSignal : Signal<string> {}
     public class TapLongMatchSignal : Signal<string, bool> {}
     public class CreateLongMatchSignal : Signal<string, bool> {}
     public class StartLongMatchSignal : Signal<string> {}
     public class MatchFoundSignal : Signal<ProfileVO> {}
     public class GetGameStartTimeSignal : Signal {}
-    public class ShowFindMatchSignal : Signal {}
+    public class ShowFindMatchSignal : Signal<string> {}
     public class AudioStateChangedSignal : Signal<bool> {}
     public class NavigatorEventSignal : Signal<NavigatorEvent> {}
     public class NavigatorShowViewSignal : Signal<NavigatorViewId> {}
@@ -118,11 +118,11 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerDataSignal: Signal {}
     public class ChallengeAcceptedSignal : Signal {}
     public class ChangeUserDetailsSignal : Signal<string> {}
-    public class OpponentPingedForConnectionSignal : Signal<bool> { }
+    public class OpponentPingedForConnectionSignal : Signal<bool> {}
 
-    public class ChessboardBlockerEnableSignal : Signal<bool> { }
-    public class ReconnectViewEnableSignal : Signal<bool> { }
-
+    public class ChessboardBlockerEnableSignal : Signal<bool> {}
+    public class ReconnectViewEnableSignal : Signal<bool> {}
+    public class UpdateFindViewSignal : Signal<FindViewVO> {}
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}

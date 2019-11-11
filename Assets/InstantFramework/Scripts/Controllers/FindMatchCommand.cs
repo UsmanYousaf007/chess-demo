@@ -13,6 +13,9 @@ namespace TurboLabz.InstantFramework
 {
     public class FindMatchCommand : Command
     {
+        // Paramaters
+        [Inject] public string action { get; set; }
+
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public ShowFindMatchSignal showFindMatchSignal { get; set; }
@@ -35,10 +38,10 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            showFindMatchSignal.Dispatch();
+            showFindMatchSignal.Dispatch(action);
 
             // This sends the backend request
-            backendService.FindMatch().Then(HandleFindMatchErrors);
+            backendService.FindMatch(action).Then(HandleFindMatchErrors);
 
             // The actual found match message arrives through a different pipeline
             // from the backend

@@ -15,18 +15,61 @@ using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.Multiplayer;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
     public class ShowFindMatchCommand : Command
     {
+        // Parameters
+        [Inject] public string actionJson { get; set; }
+
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
+
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateFindViewSignal updateFindViewSignal { get; set; }
 
         public override void Execute()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_FIND_DLG);
+
+            FindMatchAction.ActionData actionData = JsonUtility.FromJson<FindMatchAction.ActionData>(actionJson);
+            FindViewVO vo = new FindViewVO();
+            vo.player = new ProfileVO();
+            vo.opponent = new ProfileVO();
+            vo.timeoutSeconds = 15;
+
+            vo.player.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            vo.player.avatarId = playerModel.avatarId;
+            vo.player.avatarColorId = playerModel.avatarBgColorId;
+
+            vo.opponent.playerId = null;
+
+            if (actionData.action != FindMatchAction.ACTION_RANDOM)
+            {
+                vo.opponent.playerId = actionData.opponentId;
+
+                Friend friend = playerModel.GetFriend(actionData.opponentId);
+
+                if (friend != null)
+                {
+                    vo.opponent.playerPic = friend.publicProfile.profilePicture;
+                    vo.opponent.avatarId = friend.publicProfile.avatarId;
+                    vo.opponent.avatarColorId = friend.publicProfile.avatarBgColorId;
+                }
+                else
+                {
+                    vo.opponent.playerPic = picsModel.GetPlayerPic(actionData.opponentId);
+                    vo.opponent.avatarId = actionData.avatarId;
+                    vo.opponent.avatarColorId = actionData.avatarBgColor;
+                }
+            }
+
+            updateFindViewSignal.Dispatch(vo);
         }
     }
 }
