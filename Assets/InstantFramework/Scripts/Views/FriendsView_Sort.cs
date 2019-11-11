@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                if(bar.isCommunityFriend)
+                if(bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
                 {
                     if (entry.Value.isOnline)
                     {

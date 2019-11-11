@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 2476822
+    totalSpriteSurfaceArea: 2689192
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -69,6 +69,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 960b91b114d4d4de8a15f49bb2087f30, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
+  - {fileID: 21300000, guid: 3fac34f104e5c4dbd978c6c2034d9066, type: 3}
   - {fileID: 21300000, guid: 68485112a256e46638260e8e22e00afe, type: 3}
   - {fileID: 21300000, guid: 48f3a02204db84afe83dfee8e5922e0d, type: 3}
   - {fileID: 21300000, guid: 720bcb32f79844971b5cbdbed09d1ab4, type: 3}
@@ -198,6 +199,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 177c825d5265e47e6b59f6d1130c95c4, type: 3}
   - {fileID: 21300000, guid: 0731c48de2dc04cd69ba96f2b2749a3d, type: 3}
   - {fileID: 21300000, guid: 40dc468d178234f53b6d87f3d8ea75e5, type: 3}
+  - {fileID: 21300000, guid: 9d8b360ed7d614468904ecb99ac12668, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
   - {fileID: 21300000, guid: 6a8697be8231c46b395a645b18af4804, type: 3}
@@ -229,6 +231,7 @@ SpriteAtlas:
   - PlusIcon
   - PossibleMovesIndicator
   - NoStar
+  - EmptyBarBg
   - nameEditBtn
   - RoundEdgesGlow
   - 5
@@ -358,6 +361,7 @@ SpriteAtlas:
   - ChessLogo
   - ErrorImagePiece
   - UnreadChat
+  - IconFreeCoins
   - SettingsIcon
   - RewardBtnDefeat
   - KingCheckIndicator

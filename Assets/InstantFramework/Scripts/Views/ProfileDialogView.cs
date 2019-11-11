@@ -54,10 +54,12 @@ namespace TurboLabz.InstantFramework
         public Text blockLabel;
         public Button blockBtn;
         public Button closeBtn;
+        public Button addFriendBtn;
 
         [Inject] public ILocalizationService localizationService { get; set; }
 
         public Signal<string> blockUserSignal = new Signal<string>();
+        public Signal<string> addFriendSignal = new Signal<string>();
 
         string eloPrefix = null;
         string totalGamesPrefix = null;
@@ -84,6 +86,7 @@ namespace TurboLabz.InstantFramework
             blockBtn.onClick.AddListener(OnBlockConfirm);
             noBtn.onClick.AddListener(OnConfirmNo);
             yesBtn.onClick.AddListener(() => OnBlock(playerId));
+            addFriendBtn.onClick.AddListener(OnAddFriendClicked);
 
         }
 
@@ -186,5 +189,11 @@ namespace TurboLabz.InstantFramework
         {
             blockUserSignal.Dispatch(blockPlayerId);
         }
+
+        private void OnAddFriendClicked()
+        {
+            addFriendSignal.Dispatch(playerId);
+        }
+
     }
 }

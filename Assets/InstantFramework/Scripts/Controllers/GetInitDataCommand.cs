@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
 
         // Todo: Move this to the game folder
@@ -58,6 +59,7 @@ namespace TurboLabz.InstantFramework
                 model.store = storeSettingsModel;
                 model.adsSettings = adsSettingsModel;
                 model.rewardsSettings = rewardsSettingsModel;
+                model.settingsModel = settingsModel;
 
                 getInitDataCompleteSignal.Dispatch();
             }

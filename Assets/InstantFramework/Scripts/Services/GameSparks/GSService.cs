@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         // Services
         [Inject] public IStoreService storeService { get; set; }

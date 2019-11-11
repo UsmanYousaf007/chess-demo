@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -139,7 +140,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
-            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT);
+            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, settingsModel.facebookConnectReward);
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
@@ -347,7 +348,7 @@ namespace TurboLabz.InstantFramework
             if (friendId != null && !bars.ContainsKey(friendId))
             {
                 startGameFriendId = friendId;
-                newFriendSignal.Dispatch(friendId);
+                newFriendSignal.Dispatch(friendId, false);
                 return;
             }
 
@@ -440,7 +441,7 @@ namespace TurboLabz.InstantFramework
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
             friendBar.isCommunity = isCommunity;
             friendBar.isSearched = isSearched;
-            friendBar.isCommunityFriend = friend.friendType == Friend.FRIEND_TYPE_COMMUNITY;
+            friendBar.friendType = friend.friendType;
             friendBar.isOnline = friend.publicProfile.isOnline;
             friendBar.isActive = friend.publicProfile.isActive;
             if (!friend.publicProfile.isOnline && friend.publicProfile.isActive)
@@ -636,7 +637,8 @@ namespace TurboLabz.InstantFramework
         }
 
         public void Show() 
-        { 
+        {
+            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, settingsModel.facebookConnectReward);
             gameObject.SetActive(true);
             confirmNewGameDlg.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);

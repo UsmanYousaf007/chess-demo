@@ -13,6 +13,7 @@ namespace TurboLabz.InstantGame
     {
         // parameters
         [Inject] public string friendId { get; set; }
+        [Inject] public bool favouriteFlag { get; set; }
 
         // dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
@@ -28,7 +29,16 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             Retain();
-            backendService.FriendsOpAdd(friendId).Then(OnFriendsOpAdd);
+
+            if(favouriteFlag == true)
+            {
+                backendService.FriendsOpAddFavourite(friendId).Then(OnFriendsOpAdd);
+            }
+            else
+            {
+                backendService.FriendsOpAdd(friendId).Then(OnFriendsOpAdd);
+            }
+            
         }
 
         private void OnFriendsOpAdd(BackendResult result)
