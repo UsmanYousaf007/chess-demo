@@ -145,6 +145,11 @@ public class BuildChess : MonoBehaviour
 
     public static void BuildPlayerSettings()
     {
+        // Use version number for filtering GA crash bugs
+        GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
+        GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
+        GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = true;
+
         PlayerSettings.MTRendering = true;
         PlayerSettings.accelerometerFrequency = 0;
         PlayerSettings.actionOnDotNetUnhandledException = ActionOnDotNetUnhandledException.Crash;
