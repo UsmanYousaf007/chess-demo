@@ -599,6 +599,8 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendDlg.SetActive(false);
             createMatchLimitReachedDlg.SetActive(false);
             chooseComputerDifficultyDlg.SetActive(false);
+            coachTrainingDailogue.GetComponent<CoachTrainingView>().Close();
+            strengthTrainingDailogue.GetComponent<StrengthTrainingView>().Close();
         }
 
         public void Hide()
