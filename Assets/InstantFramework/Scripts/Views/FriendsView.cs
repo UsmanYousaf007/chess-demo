@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -45,6 +46,9 @@ namespace TurboLabz.InstantFramework
         public GameObject sectionPlayAFriendEmptyNotLoggedIn;
         public Transform sectionSearched;
         public GameObject sectionSearchResultsEmpty;
+        public Transform sectionRecentlyCompleted;
+
+        public Text sectionRecentlyCompletedMatchesTitle;
 
         public Text sectionPlayAFriendTitle;
         public Text sectionSearchResultsTitle;
@@ -125,13 +129,14 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
-            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT);
+            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, settingsModel.facebookConnectReward);
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
 
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionSearchResultsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS);
+            sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
             startGameConfirmationDlg.confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
@@ -210,6 +215,8 @@ namespace TurboLabz.InstantFramework
             if (sectionPlayAFriendEmptyNotLoggedIn.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmptyNotLoggedIn);
             if (sectionPlayAFriend.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriend.gameObject);
             if (sectionPlayAFriendEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmpty);
+            if (sectionRecentlyCompleted.gameObject.activeSelf) cacheEnabledSections.Add(sectionRecentlyCompleted.gameObject);
+
         }
 
         void OnSearchSubmit(string text)
@@ -330,7 +337,7 @@ namespace TurboLabz.InstantFramework
             if (friendId != null && !bars.ContainsKey(friendId))
             {
                 startGameFriendId = friendId;
-                newFriendSignal.Dispatch(friendId);
+                newFriendSignal.Dispatch(friendId, false);
                 return;
             }
 
@@ -433,7 +440,7 @@ namespace TurboLabz.InstantFramework
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
             friendBar.isCommunity = isCommunity;
             friendBar.isSearched = isSearched;
-            friendBar.isCommunityFriend = friend.friendType == Friend.FRIEND_TYPE_COMMUNITY;
+            friendBar.friendType = friend.friendType;
             friendBar.isOnline = friend.publicProfile.isOnline;
             friendBar.isActive = friend.publicProfile.isActive;
             if (!friend.publicProfile.isOnline && friend.publicProfile.isActive)
@@ -629,7 +636,8 @@ namespace TurboLabz.InstantFramework
         }
 
         public void Show() 
-        { 
+        {
+            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, settingsModel.facebookConnectReward);
             gameObject.SetActive(true);
             startGameConfirmationDlg.gameObject.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);

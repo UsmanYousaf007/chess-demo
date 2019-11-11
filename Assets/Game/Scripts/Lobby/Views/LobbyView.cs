@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
 
 
@@ -313,7 +314,7 @@ namespace TurboLabz.InstantFramework
             {
                 startGameFriendId = friendId;
                 startGameRanked = isRanked;
-                newFriendSignal.Dispatch(friendId);
+                newFriendSignal.Dispatch(friendId, false);
                 return;
             }
 
@@ -385,7 +386,7 @@ namespace TurboLabz.InstantFramework
             friendBar.eloScoreLabel.text = friend.publicProfile.eloScore.ToString();
             friendBar.isCommunity = isCommunity;
             friendBar.isSearched = isSearched;
-            friendBar.isCommunityFriend = friend.friendType == Friend.FRIEND_TYPE_COMMUNITY;
+            friendBar.friendType = friend.friendType;
             friendBar.isOnline = friend.publicProfile.isOnline;
             friendBar.isActive = friend.publicProfile.isActive;
             if (!friend.publicProfile.isOnline && friend.publicProfile.isActive)
@@ -705,10 +706,11 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             actionBar = null;
 
-            //if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= metaDataModel.maxLongMatchCount)
+            //if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
             //{
             //    friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
             //}
+
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {
                 actionBar = bar;

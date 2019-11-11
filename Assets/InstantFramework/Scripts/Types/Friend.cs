@@ -8,8 +8,9 @@ namespace TurboLabz.InstantFramework
 	{
         public const string FRIEND_TYPE_SOCIAL = "social";
         public const string FRIEND_TYPE_COMMUNITY = "community";
+        public const string FRIEND_TYPE_FAVOURITE = "favourite";
 
-		public string playerId;
+        public string playerId;
         public string friendType;
 		public int gamesWon;
 		public int gamesLost;

@@ -25,18 +25,22 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public BlockFriendSignal blockFriendSignal { get; set; }
+        [Inject] public NewFriendSignal newFriendSignal { get; set; }
+
 
         // View injection
         [Inject] public ProfileDialogView view { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
             view.closeBtn.onClick.AddListener(OnClose);
             view.blockUserSignal.AddListener(OnBlock);
+            view.addFriendSignal.AddListener(OnAddFriend);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -73,6 +77,20 @@ namespace TurboLabz.InstantFramework
         {
             OnClose();
             blockFriendSignal.Dispatch(playerId);
+        }
+
+        private void OnAddFriend(string playerId)
+        {
+            Debug.Log(">>>>> ::: " + playerId);
+
+            if(!playerModel.friends.ContainsKey(playerId))
+            {
+                newFriendSignal.Dispatch(playerId, true);
+            }
+            else
+            {
+                Debug.Log("Already your friend ::: " + playerId);
+            }
         }
     }
 }

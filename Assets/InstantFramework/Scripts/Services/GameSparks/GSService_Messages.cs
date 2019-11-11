@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
             if (message.ExtCode == GSBackendKeys.NEW_FRIEND_MESSAGE)
             {
                 string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
-                newFriendSignal.Dispatch(friendId);
+                newFriendSignal.Dispatch(friendId, false);
             }
             else if (message.ExtCode == GSBackendKeys.NEW_COMMUNITY_FRIEND_MESSAGE)
             {

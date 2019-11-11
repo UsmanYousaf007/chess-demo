@@ -34,6 +34,11 @@ namespace TurboLabz.InstantFramework
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> allFriends = new List<FriendBar>();
 
+            List<FriendBar> onlineFbFriends = new List<FriendBar>();
+            List<FriendBar> fbFriends = new List<FriendBar>();
+            List<FriendBar> OnlineRecentCompleted = new List<FriendBar>();
+            List<FriendBar> recentCompleted = new List<FriendBar>();
+
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
@@ -45,14 +50,32 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                if (entry.Value.isOnline)
+                if(bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
                 {
-                    emptyOnline.Add(bar);
+                    if (entry.Value.isOnline)
+                    {
+                        OnlineRecentCompleted.Add(bar);
+                    }
+                    else
+                    {
+                        recentCompleted.Add(bar);
+                    }
                 }
-                else
+                else //fb friends
                 {
-                    allFriends.Add(bar);
+                    if (entry.Value.isOnline)
+                    {
+                        onlineFbFriends.Add(bar);
+                    }
+                    else
+                    {
+                        fbFriends.Add(bar);
+                    }
+
                 }
+
+                
+                
 
                 //if (status == LongPlayStatus.NEW_CHALLENGE ||
                 //    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
@@ -96,17 +119,36 @@ namespace TurboLabz.InstantFramework
             //emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
             //emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
 
-            emptyOnline.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-            allFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal)); 
+            onlineFbFriends.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
+            fbFriends.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
+            OnlineRecentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
+            recentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
+
+            //allFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal)); 
 
             // Set sibling indexes
             int index = 0;
+            
             sectionPlayAFriendEmpty.gameObject.SetActive(false);
             sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
+            sectionRecentlyCompleted.gameObject.SetActive(false);
+
+
+            sectionPlayAFriend.gameObject.SetActive(true);
+
+            int count = 0;
 
             if (!facebookService.isLoggedIn())
             {
+                index = sectionPlayAFriend.GetSiblingIndex() + 1;
+                sectionPlayAFriendEmptyNotLoggedIn.transform.SetSiblingIndex(index);
                 sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
+                count++;
+                index++;
+            }
+            else
+            {
+                index = sectionPlayAFriend.GetSiblingIndex() + 1;
             }
 
 
@@ -117,34 +159,61 @@ namespace TurboLabz.InstantFramework
             //    emptyOnline.Count > 0 ||
             //    emptyOffline.Count > 0
             //    )
-            int friendsCount = allFriends.Count + emptyOnline.Count;
-            int count = 0;
 
-            if (allFriends.Count > 0 || emptyOnline.Count > 0)
+            int fbFriendCount = fbFriends.Count + onlineFbFriends.Count;
+
+            if (fbFriends.Count > 0 || onlineFbFriends.Count > 0)
             {
-                //sectionActiveMatches.gameObject.SetActive(true);
-                sectionPlayAFriend.gameObject.SetActive(true);
-
-                index = sectionPlayAFriend.GetSiblingIndex() + 1;
-
-                foreach (FriendBar bar in emptyOnline)
+                foreach (FriendBar bar in onlineFbFriends)
                 {
                     bar.transform.SetSiblingIndex(index);
                     count++;
                     index++;
-                    bar.UpdateMasking(count == friendsCount, true);
-
-                    Debug.Log("emptyOnline TIME : " + bar.lastMatchTimeStamp + " NAME " + bar.profileNameLabel.text);
+                    bar.UpdateMasking(count == fbFriendCount, true);
                 }
 
-                foreach (FriendBar bar in allFriends)
+                foreach (FriendBar bar in fbFriends)
                 {
                     bar.transform.SetSiblingIndex(index);
                     count++;
                     index++;
-                    bar.UpdateMasking(count==friendsCount,true);
+                    bar.UpdateMasking(count == fbFriendCount, true);
+                }
+            }
+            else
+            {
+                if (facebookService.isLoggedIn())
+                {
+                    sectionPlayAFriendEmpty.transform.SetSiblingIndex(index);
+                    sectionPlayAFriendEmpty.gameObject.SetActive(true);
+                    count++;
+                    index++;
+                }
+                    
+            }
 
-                    Debug.Log("allFriends TIME : " + bar.lastMatchTimeStamp + " NAME " + bar.profileNameLabel.text);
+
+            int recentMatchCount = OnlineRecentCompleted.Count + recentCompleted.Count;
+            if (OnlineRecentCompleted.Count > 0 || recentCompleted.Count > 0)
+            {
+                sectionRecentlyCompleted.gameObject.SetActive(true);
+
+                index = sectionRecentlyCompleted.GetSiblingIndex() + 1;
+
+                foreach (FriendBar bar in OnlineRecentCompleted)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    count++;
+                    index++;
+                    bar.UpdateMasking(count == recentMatchCount, true);
+                }
+
+                foreach (FriendBar bar in recentCompleted)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    count++;
+                    index++;
+                    bar.UpdateMasking(count == recentMatchCount, true);
                 }
                 //foreach (FriendBar bar in yourMove)
                 //{
@@ -199,13 +268,13 @@ namespace TurboLabz.InstantFramework
             //        index++;
             //    }
             //}
-            else
-            {
-                if (facebookService.isLoggedIn())
-                {
-                    sectionPlayAFriendEmpty.gameObject.SetActive(true);
-                }
-            }
+            //else
+            //{
+            //    if (facebookService.isLoggedIn())
+            //    {
+            //        sectionPlayAFriendEmpty.gameObject.SetActive(true);
+            //    }
+            //}
         }
 
         public void SortSearched()
