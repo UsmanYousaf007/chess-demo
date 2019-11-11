@@ -179,6 +179,7 @@ namespace TurboLabz.Multiplayer
                 string challengedId = matchInfoModel.activeMatch.challengedId;
                 string challengerId = matchInfoModel.activeMatch.challengerId;
                 bool isPlayerTurn = chessboardModel.chessboards[challengeId].isPlayerTurn;
+                int moveCount = chessboardModel.chessboards[challengeId].moveList.Count;
 
                 string currentTurnPlayerId;
                 bool isPlayerChallenger = challengerId == playerModel.id;
@@ -191,7 +192,7 @@ namespace TurboLabz.Multiplayer
                     currentTurnPlayerId = isPlayerChallenger == true ? challengedId : challengerId;
                 }
 
-                backendService.MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
+                backendService.MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId, moveCount);
             }
         }
     }

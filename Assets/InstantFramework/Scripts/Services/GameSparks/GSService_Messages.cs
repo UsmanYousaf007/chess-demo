@@ -91,10 +91,11 @@ namespace TurboLabz.InstantFramework
                 string challengerId = message.Data.GetString("challengerId");
                 string challengedId = message.Data.GetString("challengedId");
                 string challengeId = message.Data.GetString("challengeId");
+                int moveCount = message.Data.GetInt("moveCount").Value;
 
                 if (challengeId == matchInfoModel.activeChallengeId)
                 {
-                    MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
+                    MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId, moveCount);
                 }
                 else
                 {
