@@ -26,6 +26,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public BlockFriendSignal blockFriendSignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
+        [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
+
 
 
         // View injection
@@ -41,6 +43,7 @@ namespace TurboLabz.InstantFramework
             view.closeBtn.onClick.AddListener(OnClose);
             view.blockUserSignal.AddListener(OnBlock);
             view.addFriendSignal.AddListener(OnAddFriend);
+            view.friendRemoveSignal.AddListener(OnRemoveFriend);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -81,8 +84,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnAddFriend(string playerId)
         {
-            Debug.Log(">>>>> ::: " + playerId);
-
             if(!playerModel.friends.ContainsKey(playerId))
             {
                 newFriendSignal.Dispatch(playerId, true);
@@ -90,6 +91,18 @@ namespace TurboLabz.InstantFramework
             else
             {
                 Debug.Log("Already your friend ::: " + playerId);
+            }
+        }
+
+        private void OnRemoveFriend(string playerId)
+        {
+            if (playerModel.friends.ContainsKey(playerId))
+            {
+                removeCommunityFriendSignal.Dispatch(playerId);
+            }
+            else
+            {
+                Debug.Log("not your friend ::: " + playerId);
             }
         }
     }

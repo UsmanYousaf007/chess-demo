@@ -55,11 +55,14 @@ namespace TurboLabz.InstantFramework
         public Button blockBtn;
         public Button closeBtn;
         public Button addFriendBtn;
+        public Button removeFriendBtn;
+        public Text friendedText;
 
         [Inject] public ILocalizationService localizationService { get; set; }
 
         public Signal<string> blockUserSignal = new Signal<string>();
         public Signal<string> addFriendSignal = new Signal<string>();
+        public Signal<string> friendRemoveSignal = new Signal<string>();
 
         string eloPrefix = null;
         string totalGamesPrefix = null;
@@ -79,6 +82,7 @@ namespace TurboLabz.InstantFramework
             drawsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
             vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
+            friendedText.text = "Friended";
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
            
@@ -87,7 +91,8 @@ namespace TurboLabz.InstantFramework
             noBtn.onClick.AddListener(OnConfirmNo);
             yesBtn.onClick.AddListener(() => OnBlock(playerId));
             addFriendBtn.onClick.AddListener(OnAddFriendClicked);
-
+            removeFriendBtn.onClick.AddListener(OnRemoveFriendClicked);
+            
         }
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
@@ -162,6 +167,7 @@ namespace TurboLabz.InstantFramework
             oppCountry.text = Flags.GetCountry(vo.oppCountryCode);
 
             blockBtn.gameObject.SetActive(!vo.isCommunity);
+            ShowFriended(!vo.isCommunity);
         }
 
         public void Show()
@@ -193,6 +199,30 @@ namespace TurboLabz.InstantFramework
         private void OnAddFriendClicked()
         {
             addFriendSignal.Dispatch(playerId);
+            ShowFriended(true);
+        }
+
+        private void OnRemoveFriendClicked()
+        {
+            friendRemoveSignal.Dispatch(playerId);
+            ShowFriended(false);
+        }
+
+        public void ShowFriended(bool flag)
+        {
+            if (flag)
+            {
+                friendedText.gameObject.SetActive(true);
+                removeFriendBtn.gameObject.SetActive(true);
+                addFriendBtn.gameObject.SetActive(false);
+            }
+            else
+            {
+                friendedText.gameObject.SetActive(false);
+                removeFriendBtn.gameObject.SetActive(false);
+                addFriendBtn.gameObject.SetActive(true);
+            }
+
         }
 
     }
