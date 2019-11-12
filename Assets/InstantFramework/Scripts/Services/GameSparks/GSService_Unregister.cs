@@ -21,20 +21,25 @@ namespace TurboLabz.InstantFramework
         private void OnUnregisterSuccess(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
-            ParseActiveChallenges(response.ScriptData);
 
-            bool isFriendRemoved = response.ScriptData.GetBoolean(GSBackendKeys.IS_FRIEND_REMOVED).Value;
-            string challengeId = response.ScriptData.GetString(GSBackendKeys.CHALLENGE_ID);
-            string opponentId = response.ScriptData.GetString(GSBackendKeys.OPPONENT_ID);
-
-            if (isFriendRemoved)
+            string statusStr = response.ScriptData.GetString(GSBackendKeys.UNREGISTER_STATUS);
+            if (statusStr == "success")
             {
-                clearFriendSignal.Dispatch(opponentId);
-                playerModel.friends.Remove(opponentId);
-            }
+                ParseActiveChallenges(response.ScriptData);
 
-            matchInfoModel.matches.Remove(challengeId);
-            chessboardModel.chessboards.Remove(challengeId);
+                bool isFriendRemoved = response.ScriptData.GetBoolean(GSBackendKeys.IS_FRIEND_REMOVED).Value;
+                string challengeId = response.ScriptData.GetString(GSBackendKeys.CHALLENGE_ID);
+                string opponentId = response.ScriptData.GetString(GSBackendKeys.OPPONENT_ID);
+
+                if (isFriendRemoved)
+                {
+                    clearFriendSignal.Dispatch(opponentId);
+                    playerModel.friends.Remove(opponentId);
+                }
+
+                matchInfoModel.matches.Remove(challengeId);
+                chessboardModel.chessboards.Remove(challengeId);
+            }
         }
     }
 

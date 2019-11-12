@@ -105,6 +105,7 @@ namespace TurboLabz.InstantFramework
         public const string CHALLENGER_ID = "challengerId";
         public const string CHALLENGED_ID = "challengedId";
         public const string IS_FRIEND_REMOVED = "isFriendRemoved";
+        public const string UNREGISTER_STATUS = "status";
 
         // External auth types
         public static class Auth
