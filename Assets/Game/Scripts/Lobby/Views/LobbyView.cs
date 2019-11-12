@@ -113,7 +113,7 @@ namespace TurboLabz.InstantFramework
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
-        public Signal<string> showProfileDialogSignal = new Signal<string>();
+        public Signal<string, FriendBar> showProfileDialogSignal = new Signal<string, FriendBar>();
         public Signal<string, bool> playButtonClickedSignal = new Signal<string, bool>();
         public Signal<string, bool> quickMatchFriendButtonClickedSignal = new Signal<string, bool>();
         public Signal<string> acceptButtonClickedSignal = new Signal<string>();
@@ -373,7 +373,7 @@ namespace TurboLabz.InstantFramework
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
             friendBar.Init(localizationService);
             friendBar.lastMatchTimeStamp = friend.lastMatchTimestamp;
-            friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId));
+            friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId, friendBar));
             friendBar.stripButton.onClick.AddListener(() => PlayButtonClicked(friendBar));
             friendBar.acceptButton.onClick.AddListener(() => AcceptButtonClicked(friend.playerId, friendBar.acceptButton));
             friendBar.notNowButton.onClick.AddListener(() => DeclineButtonClicked(friend.playerId, friendBar.notNowButton));
@@ -695,10 +695,13 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void ViewProfile(string playerId)
+        void ViewProfile(string playerId, FriendBar bar)
         {
             audioService.PlayStandardClick();
-            showProfileDialogSignal.Dispatch(playerId);
+            showProfileDialogSignal.Dispatch(playerId, bar);
+
+            Debug.Log("BAR STATUS : ::: " + bar.longPlayStatus);
+
         }
 
         void PlayButtonClicked(FriendBar bar)

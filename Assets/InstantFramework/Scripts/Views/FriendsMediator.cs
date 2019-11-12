@@ -211,9 +211,9 @@ namespace TurboLabz.InstantFramework
             loadFriendsSignal.Dispatch();
         }
 
-        private void OnShowProfileDialog(string playerId)
+        private void OnShowProfileDialog(string playerId, FriendBar bar)
         {
-            showProfileDialogSignal.Dispatch(playerId);
+            showProfileDialogSignal.Dispatch(playerId, bar);
         }
 
         private void OnInviteFriend()

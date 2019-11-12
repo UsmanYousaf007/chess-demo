@@ -52,6 +52,12 @@ namespace TurboLabz.InstantFramework
 
                 if(bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
                 {
+                    if (status != LongPlayStatus.DEFAULT)
+                    {
+                        bar.gameObject.SetActive(false);
+                        continue;
+                    }
+
                     if (entry.Value.isOnline)
                     {
                         OnlineRecentCompleted.Add(bar);

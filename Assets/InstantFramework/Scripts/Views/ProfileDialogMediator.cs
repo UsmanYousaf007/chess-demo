@@ -91,6 +91,8 @@ namespace TurboLabz.InstantFramework
             else
             {
                 Debug.Log("Already your friend ::: " + playerId);
+                OnRemoveFriend(playerId);
+                OnAddFriend(playerId);
             }
         }
 

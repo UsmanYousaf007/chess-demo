@@ -55,8 +55,11 @@ namespace TurboLabz.InstantFramework
         public Button blockBtn;
         public Button closeBtn;
         public Button addFriendBtn;
+        public Text addFriendBtnText;
         public Button removeFriendBtn;
+        public Text removeFriendBtnText;
         public Text friendedText;
+        public GameObject thinking;
 
         [Inject] public ILocalizationService localizationService { get; set; }
 
@@ -82,6 +85,8 @@ namespace TurboLabz.InstantFramework
             drawsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
             vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
+            addFriendBtnText.text = "Add to Friends";
+            removeFriendBtnText.text = "Remove from Friends";
             friendedText.text = "Friended";
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
@@ -167,7 +172,23 @@ namespace TurboLabz.InstantFramework
             oppCountry.text = Flags.GetCountry(vo.oppCountryCode);
 
             blockBtn.gameObject.SetActive(!vo.isCommunity);
-            ShowFriended(!vo.isCommunity);
+
+            if (vo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
+            {
+                ShowFriended(false);
+            }
+            else
+            {
+                ShowFriended(!vo.isCommunity);
+            }
+
+            if (vo.longPlayStatus != LongPlayStatus.DEFAULT || vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
+            {
+                EnableAddButton(false);
+                EnableRemoveButton(false);
+            }
+
+            
         }
 
         public void Show()
@@ -196,20 +217,40 @@ namespace TurboLabz.InstantFramework
             blockUserSignal.Dispatch(blockPlayerId);
         }
 
-        private void OnAddFriendClicked()
+        private void TrigerAddFriendSignal()
         {
             addFriendSignal.Dispatch(playerId);
             ShowFriended(true);
         }
 
-        private void OnRemoveFriendClicked()
+        private void TrigerRemoveFriendSignal()
         {
             friendRemoveSignal.Dispatch(playerId);
             ShowFriended(false);
         }
 
+        private void OnAddFriendClicked()
+        {
+            thinking.gameObject.SetActive(true);
+            Invoke("TrigerAddFriendSignal", 2.0f);
+
+            EnableAddButton(false);
+        }
+
+        private void OnRemoveFriendClicked()
+        {
+            thinking.gameObject.SetActive(true);
+            Invoke("TrigerRemoveFriendSignal", 2.0f);
+
+            EnableRemoveButton(false);
+        }
+
         public void ShowFriended(bool flag)
         {
+            thinking.gameObject.SetActive(false);
+            EnableAddButton(true);
+            EnableRemoveButton(true);
+
             if (flag)
             {
                 friendedText.gameObject.SetActive(true);
@@ -222,7 +263,36 @@ namespace TurboLabz.InstantFramework
                 removeFriendBtn.gameObject.SetActive(false);
                 addFriendBtn.gameObject.SetActive(true);
             }
+        }
 
+        private void EnableRemoveButton(bool enableFlag)
+        {
+            if (enableFlag)
+            {
+                removeFriendBtn.interactable = true;
+                removeFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.9f);
+            }
+            else
+            {
+                removeFriendBtn.interactable = false;
+                removeFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.5f);
+
+            }
+        }
+
+        private void EnableAddButton(bool enableFlag)
+        {
+            if(enableFlag)
+            {
+                addFriendBtn.interactable = true;
+                addFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.9f);
+            }
+            else
+            {
+                addFriendBtn.interactable = false;
+                addFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.5f);
+
+            }
         }
 
     }

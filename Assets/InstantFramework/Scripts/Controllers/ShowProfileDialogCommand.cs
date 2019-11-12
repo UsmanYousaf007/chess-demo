@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         // Signal parameters
         [Inject] public string opponentId { get; set; }
+        [Inject] public FriendBar friendBar { get; set; }
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -82,6 +83,8 @@ namespace TurboLabz.InstantFramework
             vo.opponentWinsCount = friend.gamesLost;
             vo.opponentDrawsCount = friend.gamesDrawn;
             vo.totalGamesCount = friend.gamesWon + friend.gamesLost + friend.gamesDrawn;
+            vo.friendType = friend.friendType;
+            vo.longPlayStatus = friendBar.longPlayStatus;
 
             updateProfileDialogSignal.Dispatch(vo);
         }

@@ -79,7 +79,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateProfileDialogSignal : Signal<ProfileDialogVO> {}
     public class UpdateShareDialogSignal : Signal<Sprite> { }
     public class UpdateNewGameDialogSignal : Signal<string> {}
-    public class ShowProfileDialogSignal : Signal<string> {}
+    public class ShowProfileDialogSignal : Signal<string, FriendBar> {}
     public class ShowShareScreenDialogSignal : Signal { }
     public class LoadFriendsSignal : Signal {}
     public class ShareAppSignal : Signal {}
