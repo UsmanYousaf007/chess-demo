@@ -220,6 +220,10 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_FIND_FRIEND_SEARCH_INFO = "friendFindFriendSearchInfo";
         public const string FRIENDS_FIND_FRIEND_INVITE_INFO = "friendFindFriendInviteInfo";
 
+        public const string FRIENDS_ADD_TO_FRIENDS = "addToFriends";
+        public const string FRIENDS_REMOVE_FROM_FRIENDS = "removeFromFriends";
+        public const string FRIENDS_TEXT_FRIENDED = "FriendedText";
+
         #endregion
 
         #region Share

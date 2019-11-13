@@ -85,9 +85,9 @@ namespace TurboLabz.InstantFramework
             drawsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
             vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
-            addFriendBtnText.text = "Add to Friends";
-            removeFriendBtnText.text = "Remove from Friends";
-            friendedText.text = "Friended";
+            addFriendBtnText.text = localizationService.Get(LocalizationKey.FRIENDS_ADD_TO_FRIENDS);
+            removeFriendBtnText.text = localizationService.Get(LocalizationKey.FRIENDS_REMOVE_FROM_FRIENDS);
+            friendedText.text = localizationService.Get(LocalizationKey.FRIENDS_TEXT_FRIENDED);
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
            
