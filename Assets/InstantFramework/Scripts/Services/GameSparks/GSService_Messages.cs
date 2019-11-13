@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
+        [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
 
         public void AddChallengeListeners()
         {
@@ -124,6 +125,18 @@ namespace TurboLabz.InstantFramework
                 if (challengeId == matchInfoModel.activeChallengeId)
                 {
                     opponentPingedForConnectionSignal.Dispatch(true);
+                }
+            }
+            else if (message.ExtCode == GSBackendKeys.AI_TAKE_TURN_FAILED_MESSAGE)
+            {
+                string challengeId = message.Data.GetString("challengeId");
+                if (challengeId == matchInfoModel.activeChallengeId)
+                {
+                    syncReconnectDataSignal.Dispatch(matchInfoModel.activeChallengeId);
+                }
+                else
+                {
+                    LogUtil.Log("AiTakeTurnFailedMessage: challengeId=" + challengeId, "yellow");
                 }
             }
         }

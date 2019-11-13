@@ -14,6 +14,7 @@ using UnityEngine.UI;
 using TurboLabz.Chess;
 using UnityEngine;
 using TurboLabz.InstantFramework;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
@@ -22,6 +23,9 @@ namespace TurboLabz.Multiplayer
         [Header("Wifi")]
         public GameObject warning;
         public Text warningLabel;
+        public GameObject synchMoveDlg;
+
+        private Coroutine synchMovesDlgCR;
 
         public void InitWifi()
         {
@@ -55,5 +59,38 @@ namespace TurboLabz.Multiplayer
             warning.SetActive(false);
         }
 
+        private IEnumerator SynchMoveDlgCR()
+        {
+            yield return new WaitForSecondsRealtime(0.75f);
+            synchMoveDlg.SetActive(false);
+        }
+
+        public void EnableSynchMovesDlg(bool isEnable)
+        {
+            if (synchMovesDlgCR != null)
+            {
+                routineRunner.StopCoroutine(synchMovesDlgCR);
+                synchMovesDlgCR = null;
+            }
+
+            if (isEnable)
+            {
+                synchMoveDlg.SetActive(true);
+            }
+            else
+            {
+                synchMovesDlgCR = routineRunner.StartCoroutine(SynchMoveDlgCR());
+            }
+        }
+
+        private void HideSynchMovesDlg()
+        {
+            if (synchMovesDlgCR != null)
+            {
+                routineRunner.StopCoroutine(synchMovesDlgCR);
+                opponentConnectionMonitorCR = null;
+            }
+            synchMoveDlg.SetActive(false);
+        }
     }
 }

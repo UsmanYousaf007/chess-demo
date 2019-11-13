@@ -99,6 +99,7 @@ namespace TurboLabz.InstantFramework
         public const string MATCH_WATCHDOG_PING_MESSAGE = "MatchWatchdogPingMessage";
         public const string MATCH_WATCHDOG_OPPONENT_PINGED_MESSAGE = "MatchWatchdogOpponentPingedMessage";
         public const string MATCH_WATCHDOG_OPPONENT_ACKNOWLEDGED_MESSAGE = "MatchWatchdogOpponentAcknowlegedMessage";
+        public const string AI_TAKE_TURN_FAILED_MESSAGE = "AiTakeTurnFailedMessage";
 
         // Feature Shop Items
         public const string SHOP_ITEM_FEATURE_REMOVE_ADS_PERM = "FeatureRemoveAdsPerm";

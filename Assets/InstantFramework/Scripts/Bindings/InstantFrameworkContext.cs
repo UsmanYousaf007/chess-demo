@@ -138,6 +138,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateShareDialogSignal>().ToSingleton();
             injectionBinder.Bind<ChessboardBlockerEnableSignal>().ToSingleton();
             injectionBinder.Bind<PauseNotificationsSignal>().ToSingleton();
+            injectionBinder.Bind<SyncReconnectDataSignal>().ToSingleton();
+
 
 
             // Bind views to mediators

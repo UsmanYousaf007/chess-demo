@@ -11,6 +11,7 @@ namespace TurboLabz.Multiplayer
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -18,11 +19,11 @@ namespace TurboLabz.Multiplayer
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
+        private string challengeId = null;
+
         public override void Execute()
         {
             Retain();
-
-            string challengeId;
 
             if (opponentId == "")
             {
@@ -41,7 +42,10 @@ namespace TurboLabz.Multiplayer
         {
             if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
-                backendErrorSignal.Dispatch(result);
+                if (challengeId == matchInfoModel.activeChallengeId)
+                {
+                    syncReconnectDataSignal.Dispatch(challengeId);
+                }
             }
 
             Release();

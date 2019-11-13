@@ -124,6 +124,8 @@ namespace TurboLabz.InstantFramework
     public class ReconnectViewEnableSignal : Signal<bool> {}
     public class UpdateFindViewSignal : Signal<FindViewVO> {}
 
+    public class SyncReconnectDataSignal : Signal<string> { }
+
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}
     public class RefreshSkinLinksSignal : Signal {}

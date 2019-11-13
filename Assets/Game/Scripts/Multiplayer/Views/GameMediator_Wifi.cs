@@ -94,6 +94,19 @@ namespace TurboLabz.Multiplayer
         }
         */
 
+        [ListensTo(typeof(SyncReconnectDataSignal))]
+        public void SyncReconnectData(string challengeId)
+        {
+            InternetReachabilityMonitor.StopMonitor();
+
+            view.EnableSynchMovesDlg(true);
+
+            OnInternetConnectedTicked(false, InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED);
+            OnInternetConnectedTicked(true, InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED);
+
+            InternetReachabilityMonitor.StartMonitor();
+        }
+
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
@@ -141,6 +154,8 @@ namespace TurboLabz.Multiplayer
             {
                 LogUtil.Log("Match: May be Canceled or Timed Out OnSycReconnectionData!", "cyan");
             }
+
+            view.EnableSynchMovesDlg(false);
         }
 
         private void ReconnectMatch()
@@ -166,7 +181,6 @@ namespace TurboLabz.Multiplayer
             LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
             appInfoModel.syncInProgress = false;
             view.chessboardBlocker.SetActive(false);
-
         }
 
         private void SendReconnectionAck()

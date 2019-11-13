@@ -24,6 +24,7 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }
@@ -41,11 +42,13 @@ namespace TurboLabz.Multiplayer
         Chessboard chessboard;
         float startTime;
         AiMoveInputVO vo;
+        private string challengeId = null;
 
         public override void Execute()
         {
             Retain();
             startTime = Time.time;
+            challengeId = matchInfoModel.activeChallengeId;
 
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
@@ -90,7 +93,6 @@ namespace TurboLabz.Multiplayer
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
             }
-
 
 
             // TODO: In the future, if we add 1 minute games, use the IsOneMinuteGame flag in the vo
@@ -147,7 +149,7 @@ namespace TurboLabz.Multiplayer
         {
             if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
-                backendErrorSignal.Dispatch(result);
+                syncReconnectDataSignal.Dispatch(challengeId);
             }
 
             Release();
@@ -157,7 +159,7 @@ namespace TurboLabz.Multiplayer
         {
             if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
-                backendErrorSignal.Dispatch(result);
+                syncReconnectDataSignal.Dispatch(challengeId);
             }
 
             Release();
