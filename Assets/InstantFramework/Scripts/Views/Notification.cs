@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Notification : MonoBehaviour
 {
+    public Image background;
+    public Text titleLarge;
     public Text title;
     public Text body;
     public Button closeButton;
@@ -14,4 +16,7 @@ public class Notification : MonoBehaviour
     public Image senderPic;
     public Sprite whiteAvatar;
     public Sprite defaultAvatar;
+
+    public Button acceptQuickMatchButton;
+    public Text acceptQuickMatchButtonText;
 }

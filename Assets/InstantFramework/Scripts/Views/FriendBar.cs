@@ -64,7 +64,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector] public LongPlayStatus longPlayStatus;
         [HideInInspector] public bool isCommunity;
         [HideInInspector] public bool isSearched;
-        [HideInInspector] public bool isCommunityFriend;
+        [HideInInspector] public string friendType;
         [HideInInspector] public bool isGameCanceled;
         [HideInInspector] public bool isPlayerTurn;
         [HideInInspector] public bool isRanked;
@@ -109,7 +109,7 @@ namespace TurboLabz.InstantFramework
                     playArrow.gameObject.SetActive(true);
                     playArrowButton.gameObject.SetActive(false);
 
-                    if (isCommunityFriend)
+                    if (friendType == Friend.FRIEND_TYPE_COMMUNITY || friendType == Friend.FRIEND_TYPE_FAVOURITE)
                     {
                         removeCommunityFriendButton.gameObject.SetActive(true);
                     }

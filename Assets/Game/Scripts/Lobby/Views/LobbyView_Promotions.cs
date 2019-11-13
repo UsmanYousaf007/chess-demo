@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public partial class LobbyView : View
     {

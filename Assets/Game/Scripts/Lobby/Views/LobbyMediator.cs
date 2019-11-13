@@ -19,6 +19,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -62,6 +63,7 @@ namespace TurboLabz.InstantFramework
             view.refreshCommunityButton.onClick.AddListener(OnRefreshCommunity);
             //view.defaultInviteFriendsButton.onClick.AddListener(OnShareApp);
             view.playButtonClickedSignal.AddListener(OnPlayButtonClicked);
+            view.quickMatchFriendButtonClickedSignal.AddListener(OnQuickMatchFriendButtonClicked);
             view.actionCountUpdatedSignal.AddListener(OnActionCountUpdated);
             view.acceptButtonClickedSignal.AddListener(OnAcceptButtonClicked);
             view.declineButtonClickedSignal.AddListener(OnDeclineButtonClicked);
@@ -238,9 +240,9 @@ namespace TurboLabz.InstantFramework
             loadFriendsSignal.Dispatch();
         }
 
-        private void OnShowProfileDialog(string playerId)
+        private void OnShowProfileDialog(string playerId, FriendBar bar)
         {
-            showProfileDialogSignal.Dispatch(playerId);
+            showProfileDialogSignal.Dispatch(playerId, bar);
         }
 
         private void OnRefreshCommunity()
@@ -259,6 +261,12 @@ namespace TurboLabz.InstantFramework
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
             tapLongMatchSignal.Dispatch(playerId, isRanked);
+        }
+
+        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
+        {
+            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
+            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
         }
 
         private void OnAcceptButtonClicked(string playerId)
@@ -298,7 +306,42 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchBtnClicked()
         {
-            findMatchSignal.Dispatch();
+            FindMatchAction.Random(findMatchSignal);
+        }
+
+        [ListensTo(typeof(ShowPromotionSignal))]
+        public void OnShowPromotion(PromotionVO vo)
+        {
+            view.ShowPromotion(vo);
+        }
+
+        [ListensTo(typeof(ShowCoachTrainingDailogueSignal))]
+        public void OnShowCoachTrainingDailogue()
+        {
+            view.ShowCoachTrainingDailogue();
+        }
+
+        [ListensTo(typeof(ShowStrengthTrainingDailogueSignal))]
+        public void OnShowStrengthTrainingDailogue()
+        {
+            view.ShowStrengthTrainingDailogue();
+        }
+
+        [ListensTo(typeof(RemoveLobbyPromotionSignal))]
+        public void OnRemoveLobbyPromotion(string key)
+        {
+            view.RemovePromotion(key);
+        }
+
+        [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]
+        public void OnReportLobbyPromotionAnalytic(string key, AnalyticsEventId eventId)
+        {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
+            view.ReportAnalytic(key, eventId);
         }
     }
 }

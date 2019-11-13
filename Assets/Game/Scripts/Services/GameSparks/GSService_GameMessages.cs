@@ -85,6 +85,26 @@ namespace TurboLabz.InstantFramework
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+            GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
+
+            // Store the game end reason and reason (if any)
+            string gameEndReasonKey = gameData.GetString(GSBackendKeys.GAME_END_REASON);
+
+            if (gameEndReasonKey != null)
+            {
+                GameEndReason gameEndReason = GSBackendKeys.GAME_END_REASON_MAP[gameEndReasonKey];
+                //chessboard.gameEndReason = gameEndReason;
+
+                if (gameEndReason.Equals(GameEndReason.ABANDON))
+                {
+                    matchInfoModel.matches.Remove(message.Challenge.ChallengeId);
+                    chessboardModel.chessboards.Remove(message.Challenge.ChallengeId);
+                    matchInfoModel.activeChallengeId = null;
+                    matchInfoModel.activeLongMatchOpponentId = null;
+                    return;
+                }
+            }
+
             ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
 

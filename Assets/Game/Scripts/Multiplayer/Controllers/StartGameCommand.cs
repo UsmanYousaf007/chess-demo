@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -38,6 +39,22 @@ namespace TurboLabz.InstantFramework
             }
 
             Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
+
+            //reset onboarding tooltip pref
+            //if active chessboard's movelist is empty or one move then it means its a new game
+            if (activeChessboard.moveList.Count <= 1)
+            {
+                preferencesModel.isCoachTooltipShown = false;
+                preferencesModel.isStrengthTooltipShown = false;
+            }
+
+            OnboardingTooltipCommand.oldOpponentScore = 0;
+            OnboardingTooltipCommand.oldPlayerScore = 0;
+
+            if (!preferencesModel.isLobbyLoadedFirstTime)
+            {
+                preferencesModel.isLobbyLoadedFirstTime = true;
+            }
 
             MatchInfo matchInfo = matchInfoModel.activeMatch;
 

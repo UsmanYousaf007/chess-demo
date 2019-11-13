@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
             if (message.ExtCode == GSBackendKeys.NEW_FRIEND_MESSAGE)
             {
                 string friendId = message.Data.GetString(GSBackendKeys.Friend.FRIEND_ID);
-                newFriendSignal.Dispatch(friendId);
+                newFriendSignal.Dispatch(friendId, false);
             }
             else if (message.ExtCode == GSBackendKeys.NEW_COMMUNITY_FRIEND_MESSAGE)
             {
@@ -91,10 +91,11 @@ namespace TurboLabz.InstantFramework
                 string challengerId = message.Data.GetString("challengerId");
                 string challengedId = message.Data.GetString("challengedId");
                 string challengeId = message.Data.GetString("challengeId");
+                int moveCount = message.Data.GetInt("moveCount").Value;
 
                 if (challengeId == matchInfoModel.activeChallengeId)
                 {
-                    MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId);
+                    MatchWatchdogPingAck(currentTurnPlayerId, challengerId, challengedId, challengeId, moveCount);
                 }
                 else
                 {
@@ -148,6 +149,11 @@ namespace TurboLabz.InstantFramework
                 notificationVO.title = message.Data.GetString("title");
                 notificationVO.body = message.Data.GetString("body");
                 notificationVO.senderPlayerId = msg.senderId;
+                notificationVO.matchGroup = null;
+                notificationVO.avatarId = null;
+                notificationVO.avaterBgColorId = null;
+                notificationVO.profilePicURL = null;
+
                 notificationRecievedSignal.Dispatch(notificationVO);
 #endif
             } 

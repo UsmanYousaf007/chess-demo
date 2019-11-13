@@ -16,6 +16,6 @@ namespace TurboLabz.InstantFramework
         public IStoreSettingsModel store { get; set; } = null;
         public IAdsSettingsModel adsSettings { get; set; } = null;
         public IRewardsSettingsModel rewardsSettings { get; set; } = null;
-        public int maxLongMatchCount { get; set; }
+        public ISettingsModel settingsModel { get; set; } = null;
     }
 }

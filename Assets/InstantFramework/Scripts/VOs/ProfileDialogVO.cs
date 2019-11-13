@@ -37,5 +37,7 @@ namespace TurboLabz.InstantFramework
         public int totalGamesCount;
 
         public bool isCommunity;
+        public string friendType;
+        public LongPlayStatus longPlayStatus;
     }
 }

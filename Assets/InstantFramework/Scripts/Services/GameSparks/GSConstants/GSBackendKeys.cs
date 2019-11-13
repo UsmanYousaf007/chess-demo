@@ -24,7 +24,13 @@ namespace TurboLabz.InstantFramework
         public const string APP_IOS_URL = "iosURL";
         public const string APP_RATE_APP_THRESHOLD = "rateAppThreshold";
         public const string APP_ONLINE_COUNT = "onlineCount";
+        
+
+        //game Settings
+        public const string GAME_SETTINGS = "gameSettings";
         public const string MAX_LONG_MATCH_COUNT = "maxLongMatchCount";
+        public const string MAX_FRIENDS_COUNT = "maxFriendsCount";
+        public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
@@ -247,7 +253,9 @@ namespace TurboLabz.InstantFramework
             public const string IS_ONLINE = "isOnline";
             public const string TYPE_SOCIAL = "social";
             public const string TYPE_COMMUNITY = "community";
+            public const string TYPE_FAVOURITE = "favourite";
             public const string LAST_MATCH_TIMESTAMP = "lastMatchTimestamp";
+            
         }
 
 		public static class FriendsOp

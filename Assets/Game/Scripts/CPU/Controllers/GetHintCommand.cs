@@ -41,6 +41,7 @@ namespace TurboLabz.CPU
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
         {
@@ -138,11 +139,15 @@ namespace TurboLabz.CPU
             {
                 updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
                 consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+                preferencesModel.isCoachTooltipShown = true;
+                preferencesModel.coachUsedCount++;
             }
             else
             {
                 updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
                 consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+                preferencesModel.isStrengthTooltipShown = true;
+                preferencesModel.strengthUsedCount++;
             }
 
             Release();

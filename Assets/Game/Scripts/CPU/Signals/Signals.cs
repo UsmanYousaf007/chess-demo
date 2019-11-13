@@ -86,5 +86,7 @@ namespace TurboLabz.CPU
     public class StepSignal : Signal<bool> { }
     public class ToggleStepForwardSignal : Signal<bool> { }
     public class ToggleStepBackwardSignal : Signal<bool> { }
-
+    public class OnboardingTooltipSignal : Signal<MoveVO> { }
+    public class ShowStrengthOnboardingTooltipSignal : Signal<bool> { }
+    public class ShowCoachOnboardingTooltipSignal : Signal<bool> { }
 }

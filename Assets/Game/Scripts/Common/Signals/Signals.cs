@@ -24,6 +24,12 @@ namespace TurboLabz.InstantGame
 	public class UpdateThemeSignal : Signal<LobbyVO> {}
     public class UpdateLobbyAdsSignal : Signal<AdsVO>{}
     public class UpdateAdsSignal : Signal {}
+    public class ShowPromotionSignal : Signal<PromotionVO> {}
+    public class LoadPromotionSingal : Signal {}
+    public class ShowCoachTrainingDailogueSignal : Signal {}
+    public class ShowStrengthTrainingDailogueSignal : Signal {}
+    public class RemoveLobbyPromotionSignal : Signal<string> {}
+    public class ReportLobbyPromotionAnalyticSingal : Signal<string, AnalyticsEventId> {}
 
     // CPU STATS
     public class LoadStatsSignal : Signal {}
@@ -38,7 +44,7 @@ namespace TurboLabz.InstantGame
 	public class UpdateStoreBuyDlgSignal : Signal<StoreItem> {}
 	public class UpdateStoreNotEnoughBucksDlgSignal : Signal<StoreItem> {}
     public class ShowStoreTabSignal : Signal<StoreView.StoreTabs> {}
-    public class UpdateSpotPurchaseSignal : Signal<StoreVO, SpotPurchaseView.PowerUpSections> { }
+    public class UpdateSpotPurchaseSignal : Signal<StoreVO, SpotPurchaseView.PowerUpSections> {}
 
     // Top Inventory Bar
     public class UpdateTopInventoryBarSignal : Signal<PlayerInventoryVO> {}

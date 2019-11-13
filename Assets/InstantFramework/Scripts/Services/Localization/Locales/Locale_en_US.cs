@@ -136,6 +136,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Multiplayer
 
+                { LocalizationKey.MULTIPLAYER_WAITING_FOR_OPPONENT, "Waiting for opponent..." },
                 { LocalizationKey.MULTIPLAYER_SEARCHING, "Searching..." },
                 { LocalizationKey.MULTIPLAYER_FOUND, "Get Ready..." },
 
@@ -212,9 +213,9 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.FRIENDS_DRAWS_LABEL, "Draws" },
 				{ LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL, "Total Games: " },
 				{ LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
-                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Login to Social Network" },
+                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Login to Facebook" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
-                { LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, "Save your progress" },
+                { LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, "Get {0} Coins" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
 				{ LocalizationKey.FRIENDS_FIND_FRIEND_TITLE, "FIND YOUR FRIENDS" },
 				{ LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO, "Login to Facebook and friends who have the app will automactically appear" },
@@ -275,8 +276,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_CLEAR, "CLEAR" },
                 { LocalizationKey.CHAT_DEFAULT_DAY_LINE, "TODAY" },
                 { LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE, "Start a new conversation. Say hello." },
-                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "PLAY FRIENDLY"},
-                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "PLAY RANKED"},
+                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "QUICK MATCH"},
+                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "PLAY CLASSIC"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly Game"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "NO"},

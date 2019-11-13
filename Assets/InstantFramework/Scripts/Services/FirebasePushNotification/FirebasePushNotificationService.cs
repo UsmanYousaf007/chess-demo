@@ -29,13 +29,11 @@ namespace TurboLabz.InstantFramework
         public void Init() 
         {
 
-            Debug.Log("Firebase Init Start.");
             appEventSignal.AddListener(OnAppEvent);
 
             Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
             Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
                 {
-                    Debug.Log("Firebase Init Start. 1");
                     if (task.Result == Firebase.DependencyStatus.Available) 
                     {
                         Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
@@ -43,16 +41,13 @@ namespace TurboLabz.InstantFramework
                         Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
                         Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
                         TLUtils.LogUtil.Log("Firebase intialization success.");
-                        Debug.Log("Firebase intialization success.");
                     } 
                     else 
                     {
                         TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
-                        Debug.Log("Firebase could not resolve all dependencies: " + dependencyStatus + "red");
                     }
                 }
             );
-            Debug.Log("Firebase Init Start. 2");
         }
 
         public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token) 
@@ -61,7 +56,6 @@ namespace TurboLabz.InstantFramework
             backendService.PushNotificationRegistration(token.Token);
             pushToken = token.Token;
             TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
-            Debug.Log("Firebase deviceToken: " + pushToken + "red");
         }
 
         public string GetToken()
@@ -83,6 +77,10 @@ namespace TurboLabz.InstantFramework
                 notificationVO.title = notification.Title;
                 notificationVO.body = notification.Body;
                 notificationVO.senderPlayerId = e.Message.Data["senderPlayerId"];
+                notificationVO.matchGroup = e.Message.Data.ContainsKey("matchGroup") == true ?  e.Message.Data["matchGroup"] : "undefined";
+                notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
+                notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
+                notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
 
                 notificationRecievedSignal.Dispatch(notificationVO);
             }

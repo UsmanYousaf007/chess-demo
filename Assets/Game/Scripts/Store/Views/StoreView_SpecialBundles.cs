@@ -45,12 +45,13 @@ namespace TurboLabz.InstantGame
                 bundlePrefab.button.onClick.AddListener(() => OnStoreItemClicked(storeItem));
 
                 Sprite sprite = thumbsContainer.GetSprite(bundlePrefab.key);
+                Sprite icon = iconsContainer.GetSprite(bundlePrefab.key);
                 string textOwned = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
                 string textRemaining = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_REMAINING);
                 string textStoreNotAvailable = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
                 string textDays = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_DAYS);
 
-                bundlePrefab.Populate(vo, sprite, textStoreNotAvailable, textDays, textOwned, textRemaining);
+                bundlePrefab.Populate(vo, sprite, textStoreNotAvailable, textDays, textOwned, textRemaining, icon);
             }
         }
     }

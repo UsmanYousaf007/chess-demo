@@ -18,5 +18,6 @@ namespace TurboLabz.InstantGame
 		public Button button;
 		public Image bucksIcon;
         public Image tick;
+        public Image icon;
 	}
 }

@@ -49,6 +49,14 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        [ListensTo(typeof(UpdateFindViewSignal))]
+        public void UpdateFind(FindViewVO vo)
+        {
+            view.FindMatchTimeoutEnable(true, vo.timeoutSeconds);
+            view.UpdateFind(vo);
+        }
+
+
         [ListensTo(typeof(MatchFoundSignal))]
         public void OnMatchFound(ProfileVO vo)
         {
