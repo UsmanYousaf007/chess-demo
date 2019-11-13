@@ -7,6 +7,6 @@ namespace TurboLabz.InstantFramework
 {
     public interface IScreenCaptureService
     {
-        void CaptureScreenShot();
+        void CaptureScreenShot(Texture2D logo);
     }
 }

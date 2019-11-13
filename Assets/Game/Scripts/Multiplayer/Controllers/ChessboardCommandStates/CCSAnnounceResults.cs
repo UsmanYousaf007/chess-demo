@@ -27,6 +27,8 @@ namespace TurboLabz.Multiplayer
             vo.isRanked = cmd.activeMatchInfo.isRanked;
             vo.rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
             vo.removeAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
+            vo.playerName = cmd.playerModel.name;
+            vo.opponentName = cmd.activeMatchInfo.opponentPublicProfile.name;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
 

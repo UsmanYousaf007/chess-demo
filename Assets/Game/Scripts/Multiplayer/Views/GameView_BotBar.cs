@@ -25,13 +25,13 @@ namespace TurboLabz.Multiplayer
         public Button backToFriendsButton;
 
         public Button shareScreenButton;
+        public Texture2D logo;
         private bool showAdOnBack;
 
         public void InitBotBar()
         {
             backToFriendsLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
             backToFriendsButton.onClick.AddListener(OnBackToFriendsClicked);
-            
         }
 
         void OnParentShowBotBar()

@@ -48,6 +48,8 @@ namespace TurboLabz.Multiplayer
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
 
+        public ViewBoardResults viewBoardResultPanel;
+
         public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
         public Signal resultsDialogClosedSignal = new Signal();
@@ -67,8 +69,8 @@ namespace TurboLabz.Multiplayer
         private string adRewardType;
         private string collectRewardType;
         private float animDelay;
-
-
+        private string playerName;
+        private string opponentName;
         
         [Inject] public IAdsService adsService { get; set; }
 
@@ -166,6 +168,8 @@ namespace TurboLabz.Multiplayer
 
             bool isRewardedButton = adsService.IsRewardedVideoAvailable();
             EnableRewarededVideoButton(isRewardedButton);
+
+            viewBoardResultPanel.gameObject.SetActive(false);
         }
 
         public void HideResultsDialog()
@@ -268,6 +272,8 @@ namespace TurboLabz.Multiplayer
                     resultsGameResultReasonLabel.text = "Unknown Reason";
                     break;
             }
+
+            viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
         }
 
         private void UpdateGameResultHeadingSection()
@@ -277,6 +283,7 @@ namespace TurboLabz.Multiplayer
             {
                 resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
                 resultsGameResultLabel.color = Colors.YELLOW;
+                viewBoardResultPanel.result.text = "Drawn";
             }
             else
             {
@@ -284,11 +291,13 @@ namespace TurboLabz.Multiplayer
                 {
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
                     resultsGameResultLabel.color = Colors.GREEN;
+                    viewBoardResultPanel.result.text = string.Format("{0} won", playerName);
                 }
                 else
                 {
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
                     resultsGameResultLabel.color = Colors.RED;
+                    viewBoardResultPanel.result.text = string.Format("{0} won", opponentName);
                 }
             }
         }
@@ -304,6 +313,8 @@ namespace TurboLabz.Multiplayer
             }
 
             playerWins = vo.playerWins;
+            playerName = vo.playerName;
+            opponentName = vo.opponentName;
             isDraw = false;
             animDelay = RESULTS_DELAY_TIME;
             GameEndReason gameEndReason = vo.reason;
@@ -432,6 +443,7 @@ namespace TurboLabz.Multiplayer
         {
             uiBlocker.SetActive(false);
             resultsDialogClosedSignal.Dispatch();
+            viewBoardResultPanel.gameObject.SetActive(true);
         }
 
         public void OnResultsSkipRewardButtonClicked()

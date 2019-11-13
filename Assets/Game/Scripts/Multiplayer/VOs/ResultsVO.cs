@@ -24,5 +24,7 @@ namespace TurboLabz.Multiplayer
         public bool isRanked;
         public int rewardCoins;
         public bool removeAds;
+        public string playerName;
+        public string opponentName;
     }
 }

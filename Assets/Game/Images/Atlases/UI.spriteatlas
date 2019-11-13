@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 5339941
+    totalSpriteSurfaceArea: 5370002
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -62,7 +62,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: feb032e04b1854a99bc2672f82cb5a28, type: 3}
   - {fileID: 21300000, guid: 61c7a2e0410784c8b9217762e14b03c8, type: 3}
   - {fileID: 21300000, guid: e98bc4e0bb87a4bdfa089d4bdcadef30, type: 3}
-  - {fileID: 21300000, guid: 5e4af9e049da44d269e9e412fa54953c, type: 3}
   - {fileID: 21300000, guid: ea71d4f07d4d6470ebcb68ffdf468c9e, type: 3}
   - {fileID: 21300000, guid: 23660d219a98e477899e476efb6204cf, type: 3}
   - {fileID: 21300000, guid: bbba68310c26b4763a3953c4c04d2a5e, type: 3}
@@ -114,6 +113,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b19a7aa46b1034c92826082decfe225f, type: 3}
   - {fileID: 21300000, guid: dc5a3fb43067844199270ce0288d9c86, type: 3}
   - {fileID: 21300000, guid: baf397c4df788460e872d672a6724bdd, type: 3}
+  - {fileID: 21300000, guid: 7aeb41d4bb18046b992656f58eb330c4, type: 3}
   - {fileID: 21300000, guid: 4a29cad4991d94cc78d18c5895dd7973, type: 3}
   - {fileID: 21300000, guid: 918b5205ca86e4b43b9547a5b1b93d70, type: 3}
   - {fileID: 21300000, guid: 38fa6725424a44bb8a1a28e2191d0d65, type: 3}
@@ -167,6 +167,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 501b1de8e0eb246e6a703e52f4cde523, type: 3}
   - {fileID: 21300000, guid: 422753f8dd4c54108a32ce9032cf923a, type: 3}
   - {fileID: 21300000, guid: 870d4a09b33c6427bbe3e199ff6da15e, type: 3}
+  - {fileID: 21300000, guid: 0bc3e21960bb7418ba4b8b315a22cbf4, type: 3}
   - {fileID: 21300000, guid: b8a31b298150a41668804872372e30cb, type: 3}
   - {fileID: 21300000, guid: da65a539c14d74d12a75d40750c63288, type: 3}
   - {fileID: 21300000, guid: 8d4a88392160b4a01ae7b752052f373e, type: 3}
@@ -255,7 +256,6 @@ SpriteAtlas:
   - TVIcon
   - PlayComputerButtonIcon
   - DragInvalid
-  - MinusIcon
   - WhiteBox
   - ShareIcon
   - ChatIcon2
@@ -307,6 +307,7 @@ SpriteAtlas:
   - ShopIcon
   - strengthFiller
   - trashBtn
+  - PatternViewBoardResult
   - InfoIcon
   - HindsightIndicator
   - LastFriendStipGlow
@@ -360,6 +361,7 @@ SpriteAtlas:
   - SectionMask
   - WaitSpinner
   - RoundEdgesMask
+  - LogoShareDailouge
   - BtnGlassHalfBg
   - ErrorScreenBgTile
   - BtnIconUndo

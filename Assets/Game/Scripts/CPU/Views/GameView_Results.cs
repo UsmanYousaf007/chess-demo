@@ -53,6 +53,8 @@ namespace TurboLabz.CPU
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
 
+        public ViewBoardResults viewBoardResultPanel;
+
         public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
         public Signal resultsDialogClosedSignal = new Signal();
@@ -163,6 +165,8 @@ namespace TurboLabz.CPU
 
             bool isRewardedButton = adsService.IsRewardedVideoAvailable();
             EnableRewarededVideoButton(isRewardedButton);
+
+            viewBoardResultPanel.gameObject.SetActive(false);
         }
 
         public void HideResultsDialog()
@@ -256,6 +260,8 @@ namespace TurboLabz.CPU
                     resultsGameResultReasonLabel.text = "Unknown Reason";
                     break;
             }
+
+            viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
         }
 
         private void UpdateGameResultHeadingSection()
@@ -265,6 +271,7 @@ namespace TurboLabz.CPU
             {
                 resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
                 resultsGameResultLabel.color = Colors.YELLOW;
+                viewBoardResultPanel.result.text = "Drawn";
             }
             else
             {
@@ -272,11 +279,13 @@ namespace TurboLabz.CPU
                 {
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
                     resultsGameResultLabel.color = Colors.GREEN;
+                    viewBoardResultPanel.result.text = string.Format("{0} won", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
                 }
                 else
                 {
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
                     resultsGameResultLabel.color = Colors.RED;
+                    viewBoardResultPanel.result.text = "Computer won";
                 }
             }
         }
@@ -395,6 +404,7 @@ namespace TurboLabz.CPU
             menuOpensResultsDlg = true;
             EnableMenuButton();
             DisableModalBlocker();
+            viewBoardResultPanel.gameObject.SetActive(true);
         }
 
         private void OnPlaybackOverlayClicked()
