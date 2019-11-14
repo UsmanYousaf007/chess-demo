@@ -45,7 +45,8 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(RequestToggleBannerSignal))]
         public void OnRequestToggleBannerSignal()
         {
-            if (appInfoModel.isReconnecting == DisconnectStats.FALSE)
+            if (appInfoModel.isReconnecting == DisconnectStats.FALSE
+                && appInfoModel.gameMode != GameMode.NONE) 
             {
                 toggleBannerSignal.Dispatch(true);
             }

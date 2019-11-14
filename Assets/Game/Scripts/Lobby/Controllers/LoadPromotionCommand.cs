@@ -133,7 +133,8 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.ADS_BANNER,
                 condition = delegate
                 {
-                    return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG);
+                    return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG)
+                    && !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
                 },
                 onClick = delegate (string key)
                 {

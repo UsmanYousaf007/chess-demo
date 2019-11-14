@@ -45,10 +45,6 @@ namespace TurboLabz.CPU
                 chessboardModel.playerColor = (UnityEngine.Random.Range(0,2) == 0) ? ChessColor.BLACK : ChessColor.WHITE;
                 chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
 
-                //reset onboarding tooltip pref
-                preferencesModel.isStrengthTooltipShown = false;
-                preferencesModel.isCoachTooltipShown = false;
-
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
             }
 

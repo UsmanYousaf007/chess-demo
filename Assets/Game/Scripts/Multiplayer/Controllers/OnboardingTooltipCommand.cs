@@ -20,16 +20,14 @@ namespace TurboLabz.Multiplayer
         public static int oldOpponentScore;
         public static int oldPlayerScore;
 
-        private const int POWERUP_USE_LIMIT = 7;
+        private const int POWERUP_USE_LIMIT = 1;
         private const int POWERUP_TRAINING_DAYS_LIMIT = 30;
 
         public override void Execute()
         {
             if (!preferencesModel.isCoachTooltipShown
                && moveVo.opponentScore > 0
-               && moveVo.opponentScore > oldOpponentScore
-               && preferencesModel.coachUsedCount < POWERUP_USE_LIMIT
-               && (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays < POWERUP_TRAINING_DAYS_LIMIT)
+               && moveVo.opponentScore > oldOpponentScore)
             {
                 oldOpponentScore = moveVo.opponentScore;
                 showCoachOnboardingTooltipSignal.Dispatch(true);
@@ -37,9 +35,7 @@ namespace TurboLabz.Multiplayer
             }
             else if (!preferencesModel.isStrengthTooltipShown
                 && moveVo.playerScore > 0
-                && moveVo.playerScore > oldPlayerScore
-                && preferencesModel.strengthUsedCount < POWERUP_USE_LIMIT
-                && (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays < POWERUP_TRAINING_DAYS_LIMIT)
+                && moveVo.playerScore > oldPlayerScore)
             {
                 oldPlayerScore = moveVo.playerScore;
                 showStrengthOnboardingTooltipSignal.Dispatch(true);

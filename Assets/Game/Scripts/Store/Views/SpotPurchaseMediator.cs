@@ -10,6 +10,7 @@ namespace TurboLabz.InstantGame
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public UpdateStoreBuyDlgSignal updateStoreBuyDlgSignal { get; set; }
         [Inject] public ReportLobbyPromotionAnalyticSingal reportLobbyPromotionAnalyticSingal { get; set; }
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         // View injection
         [Inject] public SpotPurchaseView view { get; set; }
@@ -30,6 +31,7 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.SPOT_PURCHASE_DLG)
             {
                 view.Show();
+                toggleBannerSignal.Dispatch(false);
             }
         }
 
@@ -39,6 +41,7 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.SPOT_PURCHASE_DLG)
             {
                 view.Hide();
+                toggleBannerSignal.Dispatch(true);
             }
         }
 

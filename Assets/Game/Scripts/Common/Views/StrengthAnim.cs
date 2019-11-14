@@ -43,7 +43,7 @@ public class StrengthAnim : MonoBehaviour
     const int START_STRENGTH_TEXT_ANIMATION_FROM = 0;
     const float STRENGTH_TEXT_ANIMATION_DURATION = 1.0f;
     const int MAX_STRENGTH = 100;
-    const float IGNORE_CLOSE_DURATION = 2.3f;
+    const float IGNORE_CLOSE_DURATION = 2.7f;
 
     private StrengthVO strengthVO;
 
