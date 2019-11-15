@@ -157,6 +157,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<TopInventoryBarView>().To<TopInventoryBarMediator>();
             mediationBinder.Bind<NotificationView>().To<NotificationMediator>();
             mediationBinder.Bind<ShareDialogView>().To<ShareDialogMediator>();
+            mediationBinder.Bind<SkillLevelDlgView>().To<SkillLevelDlgMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

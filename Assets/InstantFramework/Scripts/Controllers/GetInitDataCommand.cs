@@ -78,6 +78,7 @@ namespace TurboLabz.InstantFramework
             appData.lastSavedChatId = chatModel.lastSavedChatIdOnLaunch;
             appData.clientVersion = appInfoModel.clientVersion;
             appData.isResume = isResume;
+            appData.playerSkillLevel = playerModel.skillLevel;
 
             return JsonUtility.ToJson(appData);
         }
@@ -89,5 +90,6 @@ namespace TurboLabz.InstantFramework
         public string lastSavedChatId;
         public string clientVersion;
         public bool isResume;
+        public string playerSkillLevel;
     }
 }

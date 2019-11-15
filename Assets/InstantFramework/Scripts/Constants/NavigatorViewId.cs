@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
         SPOT_PURCHASE_DLG,
         PURCHASED_DLG,
         SHARE_SCREEN_DIALOG,
-
+        SKILL_LEVEL_DLG,
         // TODO: I am possibly unused so remove me.
         AD_COVER
     }

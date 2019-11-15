@@ -80,8 +80,15 @@ namespace TurboLabz.InstantFramework
 		{
 			if (result == BackendResult.SUCCESS)
 			{
-				GotoReception();
-			}
+                if (playerModel.newUser)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
+                }
+                else
+                {
+                    GotoReception();
+                }
+            }
             else if (result != BackendResult.CANCELED)
 			{
 				backendErrorSignal.Dispatch(result);

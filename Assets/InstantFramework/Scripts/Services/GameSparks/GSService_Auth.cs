@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthGuest()
         {
-            return new GSAuthGuestRequest().Send();
+            return new GSAuthGuestRequest().Send(OnGuestAuthSuccess);
         }
 
         public IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer)
@@ -33,6 +33,12 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> AuthEmail(string email, string password, bool existingPlayer)
         {
             return new GSAuthEmailResquest().Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
+        }
+
+        private void OnGuestAuthSuccess(object r)
+        {
+            AuthenticationResponse response = (AuthenticationResponse)r;
+            playerModel.newUser = (bool)response.NewPlayer;
         }
 
         private void onFacebookAuthSuccess(object r)
@@ -112,9 +118,10 @@ namespace TurboLabz.InstantFramework
 
     public class GSAuthGuestRequest : GSFrameworkRequest
     {
-        public IPromise<BackendResult> Send()
+        public IPromise<BackendResult> Send(Action<object> onSuccess)
         {
             this.errorCode = BackendResult.AUTH_GUEST_REQUEST_FAILED;
+            this.onSuccess = onSuccess;
 
             new DeviceAuthenticationRequest().Send(OnRequestSuccess, OnRequestFailure);
             return promise;

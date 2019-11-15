@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
         public string avatarBgColorId { get; set; }
         public int notificationCount { get; set; }
         public string editedName { get; set; }
+        public bool newUser { get; set; }
+        public string skillLevel { get; set; }
 
         public string name
         {

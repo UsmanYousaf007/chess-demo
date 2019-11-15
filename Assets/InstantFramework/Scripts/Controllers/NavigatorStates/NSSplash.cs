@@ -29,6 +29,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSUpdate();
             }
+            else if (evt == NavigatorEvent.SHOW_SKILL_LEVEL_DLG)
+            {
+                return new NSSkillLevelDlg();
+            }
 
             return null;
         }
