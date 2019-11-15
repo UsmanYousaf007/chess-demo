@@ -55,7 +55,7 @@ namespace TurboLabz.InstantFramework
             while (true)
             {
                 RestartHealthCheckMonitor();
-                bool opCommunityPublicStatus = !(initialPingCount < (GSSettings.INITIAL_PING_COUNT - 1));
+                bool opCommunityPublicStatus = (!(initialPingCount < (GSSettings.INITIAL_PING_COUNT - 1))) && (appInfoModel.gameMode == GameMode.NONE);
                 new GSPingRequest().Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds, opCommunityPublicStatus);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
