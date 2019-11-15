@@ -213,6 +213,7 @@ namespace TurboLabz.Multiplayer
 
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
+            viewBoardResultPanel.reason.text = "";
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -228,10 +229,12 @@ namespace TurboLabz.Multiplayer
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
                         animDelay = RESULTS_SHORT_DELAY_TIME;
+                        viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerName);
                     }
                     else
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT);
+                        viewBoardResultPanel.reason.text = string.Format("{0} resigned", opponentName);
                     }
                     break;
 
@@ -261,10 +264,12 @@ namespace TurboLabz.Multiplayer
                     if (playerWins)
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_OPPONENT_LEFT);
+                        viewBoardResultPanel.reason.text = string.Format("{0} left", opponentName);
                     }
                     else
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
+                        viewBoardResultPanel.reason.text = string.Format("{0} left", playerName);
                     }
                     break;
 
@@ -273,7 +278,10 @@ namespace TurboLabz.Multiplayer
                     break;
             }
 
-            viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
+            if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
+            {
+                viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
+            }
         }
 
         private void UpdateGameResultHeadingSection()

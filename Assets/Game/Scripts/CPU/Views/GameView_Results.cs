@@ -208,6 +208,7 @@ namespace TurboLabz.CPU
 
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
+            viewBoardResultPanel.reason.text = "";
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -223,10 +224,13 @@ namespace TurboLabz.CPU
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
                         animDelay = RESULTS_SHORT_DELAY_TIME;
+                        viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
                     }
                     else
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT);
+                        viewBoardResultPanel.reason.text = "Computer resigned";
+
                     }
                     break;
 
@@ -254,6 +258,7 @@ namespace TurboLabz.CPU
 
                 case GameEndReason.PLAYER_DISCONNECTED:
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
+                    viewBoardResultPanel.reason.text = string.Format("{0} left", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
                     break;
 
                 default:
@@ -261,7 +266,10 @@ namespace TurboLabz.CPU
                     break;
             }
 
-            viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
+            if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
+            {
+                viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
+            }
         }
 
         private void UpdateGameResultHeadingSection()
