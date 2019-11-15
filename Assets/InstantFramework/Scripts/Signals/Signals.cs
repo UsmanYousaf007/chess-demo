@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
     public class NewFriendSignal : Signal<string, bool> {}
     public class BlockFriendSignal : Signal<string> {}
     public class RemoveCommunityFriendSignal : Signal<string> { }
-    public class UpdateFriendOnlineStatusSignal : Signal<ProfileVO> {}
+    public class UpdateFriendOnlineStatusSignal : Signal<string, bool> {}
     public class ClearCommunitySignal : Signal {}
     public class ClearFriendsSignal : Signal {}
     public class ClearFriendSignal : Signal<string> {}

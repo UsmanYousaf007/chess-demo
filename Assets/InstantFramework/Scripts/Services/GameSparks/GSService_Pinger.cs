@@ -20,6 +20,7 @@ using TurboLabz.InstantFramework;
 using GameSparks.Api.Requests;
 using strange.extensions.promise.api;
 using GameSparks.Core;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -54,7 +55,8 @@ namespace TurboLabz.InstantFramework
             while (true)
             {
                 RestartHealthCheckMonitor();
-                new GSPingRequest().Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds);
+                bool opCommunityPublicStatus = !(initialPingCount < (GSSettings.INITIAL_PING_COUNT - 1));
+                new GSPingRequest().Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds, opCommunityPublicStatus);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
 
@@ -68,6 +70,35 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        private void UpdateClockLatency(LogEventResponse response)
+        {
+            // Cache client recipt timestamp at the very top to get the true
+            // receipt time.
+            long clientReceiptTimestamp = TimeUtil.unixTimestampMilliseconds;
+            long clientSendTimestamp = response.ScriptData.GetLong(GSBackendKeys.CLIENT_SEND_TIMESTAMP).Value;
+            long serverReceiptTimestamp = response.ScriptData.GetLong(GSBackendKeys.SERVER_RECEIPT_TIMESTAMP).Value;
+
+            serverClock.CalculateLatency(clientSendTimestamp, serverReceiptTimestamp, clientReceiptTimestamp);
+        }
+
+        private void UpdateCommunityPublicStatus(LogEventResponse response)
+        {
+            if (!response.ScriptData.ContainsKey("communityPublicStatus"))
+            {
+                return;
+            }
+
+            GSData statusList = response.ScriptData.GetGSData("communityPublicStatus");
+            foreach (KeyValuePair<string, object> obj in statusList.BaseData)
+            {
+                GSData player = (GSData)obj.Value;
+                string playerId = obj.Key;
+                bool isOnline = player.GetBoolean("isOnline").Value;
+
+                updtateFriendOnlineStatusSignal.Dispatch(playerId, isOnline);
+            }
+        }
+
         private void OnPingSuccess(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
@@ -78,13 +109,9 @@ namespace TurboLabz.InstantFramework
                 wifiIsHealthySignal.Dispatch(true);
             }
 
-            // Cache client recipt timestamp at the very top to get the true
-            // receipt time.
-            long clientReceiptTimestamp = TimeUtil.unixTimestampMilliseconds;
-            long clientSendTimestamp = response.ScriptData.GetLong(GSBackendKeys.CLIENT_SEND_TIMESTAMP).Value;
-            long serverReceiptTimestamp = response.ScriptData.GetLong(GSBackendKeys.SERVER_RECEIPT_TIMESTAMP).Value;
+            UpdateClockLatency(response);
 
-            serverClock.CalculateLatency(clientSendTimestamp, serverReceiptTimestamp, clientReceiptTimestamp);
+            UpdateCommunityPublicStatus(response);
         }
             
         private void RestartHealthCheckMonitor()
@@ -112,22 +139,41 @@ namespace TurboLabz.InstantFramework
 
     #region REQUEST
 
+
+
+
     public class GSPingRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "Ping";
-        const string ATT_CLIENT_SEND_TIMESTAMP = "clientSendTimestamp";
 
-        public IPromise<BackendResult> Send(Action<object> onSuccess, long unixTimestamp)
+        public IPromise<BackendResult> Send(Action<object> onSuccess, long clientSendTimestamp, bool opCommunityPublicStatus)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.PING_REQUEST_FAILED;
 
+            string requestParams = BuildParams(clientSendTimestamp, opCommunityPublicStatus);
+
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)
-                .SetEventAttribute(ATT_CLIENT_SEND_TIMESTAMP, unixTimestamp)
+                .SetEventAttribute("params", requestParams)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;
+        }
+
+        [Serializable]
+        private struct RequestParams
+        {
+            public long clientSendTimestamp;
+            public bool opCommunityPublicStatus;
+        }
+
+        private string BuildParams(long clientSendTimestamp, bool opCommunityPublicStatus)
+        {
+            RequestParams requestParams;
+            requestParams.clientSendTimestamp = clientSendTimestamp;
+            requestParams.opCommunityPublicStatus = opCommunityPublicStatus;
+            return JsonUtility.ToJson(requestParams);
         }
     }
 
