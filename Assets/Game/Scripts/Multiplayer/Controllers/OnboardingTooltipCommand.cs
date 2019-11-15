@@ -31,6 +31,7 @@ namespace TurboLabz.Multiplayer
             {
                 oldOpponentScore = moveVo.opponentScore;
                 showCoachOnboardingTooltipSignal.Dispatch(true);
+                showStrengthOnboardingTooltipSignal.Dispatch(false);
                 preferencesModel.isCoachTooltipShown = true;
             }
             else if (!preferencesModel.isStrengthTooltipShown
@@ -39,6 +40,7 @@ namespace TurboLabz.Multiplayer
             {
                 oldPlayerScore = moveVo.playerScore;
                 showStrengthOnboardingTooltipSignal.Dispatch(true);
+                showCoachOnboardingTooltipSignal.Dispatch(false);
                 preferencesModel.isStrengthTooltipShown = true;
             }
         }
