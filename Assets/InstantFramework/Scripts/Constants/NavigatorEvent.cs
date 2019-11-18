@@ -42,7 +42,8 @@ namespace TurboLabz.InstantFramework
         SHOW_RATE_APP_DLG,
         SHOW_PURCHASED_DLG,
         SHOW_SHARE_SCREEN_DLG,
-        SHOW_SKILL_LEVEL_DLG
+        SHOW_SKILL_LEVEL_DLG,
+        SHOW_CHAT
 
     }
 }

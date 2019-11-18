@@ -27,8 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public BlockFriendSignal blockFriendSignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
-
-
+        [Inject] public LoadChatSignal loadChatSignal { get; set; }
 
         // View injection
         [Inject] public ProfileDialogView view { get; set; }
@@ -44,6 +43,7 @@ namespace TurboLabz.InstantFramework
             view.blockUserSignal.AddListener(OnBlock);
             view.addFriendSignal.AddListener(OnAddFriend);
             view.friendRemoveSignal.AddListener(OnRemoveFriend);
+            view.chatSignal.AddListener(OnChat);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -80,6 +80,11 @@ namespace TurboLabz.InstantFramework
         {
             OnClose();
             blockFriendSignal.Dispatch(playerId);
+        }
+
+        private void OnChat(string playerId)
+        {
+            loadChatSignal.Dispatch(playerId);
         }
 
         private void OnAddFriend(string playerId)

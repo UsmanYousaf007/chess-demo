@@ -60,12 +60,15 @@ namespace TurboLabz.InstantFramework
         public Text removeFriendBtnText;
         public Text friendedText;
         public GameObject thinking;
+        public Text chatLabel;
+        public Button chatBtn;
 
         [Inject] public ILocalizationService localizationService { get; set; }
 
         public Signal<string> blockUserSignal = new Signal<string>();
         public Signal<string> addFriendSignal = new Signal<string>();
         public Signal<string> friendRemoveSignal = new Signal<string>();
+        public Signal<string> chatSignal = new Signal<string>();
 
         string eloPrefix = null;
         string totalGamesPrefix = null;
@@ -85,6 +88,7 @@ namespace TurboLabz.InstantFramework
             drawsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
             vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
+            chatLabel.text = localizationService.Get(LocalizationKey.FRIENDS_CHAT_LABEL);
             addFriendBtnText.text = localizationService.Get(LocalizationKey.FRIENDS_ADD_TO_FRIENDS);
             removeFriendBtnText.text = localizationService.Get(LocalizationKey.FRIENDS_REMOVE_FROM_FRIENDS);
             friendedText.text = localizationService.Get(LocalizationKey.FRIENDS_TEXT_FRIENDED);
@@ -93,6 +97,7 @@ namespace TurboLabz.InstantFramework
            
 
             blockBtn.onClick.AddListener(OnBlockConfirm);
+            chatBtn.onClick.AddListener(OnChat);
             noBtn.onClick.AddListener(OnConfirmNo);
             yesBtn.onClick.AddListener(() => OnBlock(playerId));
             addFriendBtn.onClick.AddListener(OnAddFriendClicked);
@@ -210,6 +215,11 @@ namespace TurboLabz.InstantFramework
         private void OnBlockConfirm()
         {
             confirmDialog.SetActive(true);
+        }
+
+        private void OnChat()
+        {
+            chatSignal.Dispatch(playerId);
         }
 
         private void OnBlock(string blockPlayerId)

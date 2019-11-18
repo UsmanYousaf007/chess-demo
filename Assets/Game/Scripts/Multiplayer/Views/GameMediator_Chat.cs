@@ -15,7 +15,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public SendChatMessageSignal sendChatMessageSignal { get; set; }
         [Inject] public ClearActiveChatSignal clearActiveChatSignal { get; set; }
         [Inject] public ClearUnreadMessagesSignal clearUnreadMessagesSignal { get; set; }
-
+        [Inject] public LoadChatSignal loadChatSignal { get; set; }
 
         public void OnRegisterChat()
         {
@@ -86,9 +86,10 @@ namespace TurboLabz.Multiplayer
             sendChatMessageSignal.Dispatch(message);
         }
 
-        void OnOpenChatDlg()
+        void OnOpenChatDlg(string opponentId)
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_CHAT_DLG);
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_CHAT_DLG);
+            loadChatSignal.Dispatch(opponentId);
         }
 
         void OnCloseChatDlg()

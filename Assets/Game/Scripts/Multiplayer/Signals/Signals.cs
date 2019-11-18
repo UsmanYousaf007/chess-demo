@@ -74,6 +74,7 @@ namespace TurboLabz.Multiplayer
     public class ExitLongMatchSignal : Signal {}
     public class ResetActiveMatchSignal : Signal {}
     public class EnableGameChatSignal : Signal<ChatVO> {}
+    public class UpdateChatView : Signal<ChatVO> {}
     public class ToggleSafeModeSignal : Signal { }
     public class SafeMoveSignal : Signal<bool> { }
     public class RenderHintSignal : Signal<HintVO> { }

@@ -49,7 +49,7 @@ namespace TurboLabz.Multiplayer
         public Image chatPanelBackground;
 
         public Signal<ChatMessage> chatSubmitSignal = new Signal<ChatMessage>();
-        public Signal openChatDlgSignal = new Signal();
+        public Signal<string> openChatDlgSignal = new Signal<string>();
         public Signal closeChatDlgSignal = new Signal();
         public Signal<string> clearActiveChatSignal = new Signal<string>();
         public Signal<string> clearUnreadMessagesSignal = new Signal<string>();
@@ -318,7 +318,8 @@ namespace TurboLabz.Multiplayer
 
         void OnOpenChatDlg()
         {
-            openChatDlgSignal.Dispatch();
+            unreadMessagesIndicator.SetActive(false);
+            openChatDlgSignal.Dispatch(opponentId);
         }
 
         void OnCloseChatDlg()
