@@ -95,7 +95,19 @@ namespace TurboLabz.InstantFramework
                 string playerId = obj.Key;
                 bool isOnline = player.GetBoolean("isOnline").Value;
 
-                updtateFriendOnlineStatusSignal.Dispatch(playerId, isOnline);
+                PublicProfile publicProfile = playerModel.community[playerId].publicProfile;
+                ProfileVO pvo = new ProfileVO();
+                pvo.playerPic = publicProfile.profilePicture;
+                pvo.playerName = publicProfile.name;
+                pvo.eloScore = publicProfile.eloScore;
+                pvo.countryId = publicProfile.countryId;
+                pvo.playerId = publicProfile.playerId;
+                pvo.avatarColorId = publicProfile.avatarBgColorId;
+                pvo.avatarId = publicProfile.avatarId;
+                pvo.isOnline = isOnline;
+                pvo.isActive = publicProfile.isActive;
+
+                updtateFriendOnlineStatusSignal.Dispatch(pvo);
             }
         }
 

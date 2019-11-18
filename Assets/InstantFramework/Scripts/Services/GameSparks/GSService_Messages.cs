@@ -67,7 +67,6 @@ namespace TurboLabz.InstantFramework
                 {
                     playerModel.friends[friendId].publicProfile.isOnline = isOnline;
 
-                    /*
                     PublicProfile publicProfile = playerModel.friends[friendId].publicProfile;
                     ProfileVO pvo = new ProfileVO();
                     pvo.playerPic = publicProfile.profilePicture;
@@ -79,9 +78,9 @@ namespace TurboLabz.InstantFramework
                     pvo.avatarId = publicProfile.avatarId;
                     pvo.isOnline = isOnline;
                     pvo.isActive = publicProfile.isActive;
-                    */                   
+                                      
 
-                    updtateFriendOnlineStatusSignal.Dispatch(friendId, isOnline);
+                    updtateFriendOnlineStatusSignal.Dispatch(pvo);
                 }
                 else
                 {
