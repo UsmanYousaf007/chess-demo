@@ -38,7 +38,14 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NotificationRecievedSignal))]
         public void OnNotificationRecieved(NotificationVO notificationVO)
         {
-            view.AddNotification(notificationVO);
+            if (notificationVO.isOpened == false)
+            {
+                view.AddNotification(notificationVO);
+            }
+            else
+            {
+                view.ProcessOpenedNotification(notificationVO);
+            }
         }
 
         [ListensTo(typeof(PauseNotificationsSignal))]

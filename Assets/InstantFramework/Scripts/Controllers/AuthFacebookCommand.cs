@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ToggleFacebookButton toggleFacebookButton { get; set; }
+        [Inject] public SetSkinSignal setSkinSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -133,6 +134,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                setSkinSignal.Dispatch(playerModel.activeSkinId);
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
             }

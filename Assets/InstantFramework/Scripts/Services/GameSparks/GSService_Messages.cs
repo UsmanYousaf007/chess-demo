@@ -168,6 +168,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.avatarId = null;
                 notificationVO.avaterBgColorId = null;
                 notificationVO.profilePicURL = null;
+                notificationVO.isOpened = false;
 
                 notificationRecievedSignal.Dispatch(notificationVO);
 #endif

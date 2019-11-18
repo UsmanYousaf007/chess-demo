@@ -14,5 +14,6 @@ namespace TurboLabz.InstantFramework
         public string avatarId;
         public string avaterBgColorId;
         public string profilePicURL;
+        public bool isOpened;
     }
 }

@@ -251,6 +251,25 @@ namespace TurboLabz.InstantGame
             notifications.Add(notificationContainer);
         }
 
+        public void ProcessOpenedNotification(NotificationVO notificationVO)
+        {
+            string challengeId = GetChallengeId(notificationVO.senderPlayerId);
+            if (challengeId != null)
+            {
+                MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+                if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
+                {
+                    tapLongMatchSignal.Dispatch(notificationVO.senderPlayerId, false);
+                }
+            }
+
+            if (notificationVO.matchGroup != "undefined")
+            {
+                FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
+                                        notificationVO.avatarId, notificationVO.avaterBgColorId);
+            }
+        }
+
         private void OnCloseButtonClicked()
         {
             notifications[0].obj.SetActive(false);
