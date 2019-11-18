@@ -191,7 +191,10 @@ namespace TurboLabz.InstantGame
             notification.playButton.gameObject.SetActive(false);
 
             string challengeId = GetChallengeId(notificationVO.senderPlayerId);
-            if (challengeId != null)
+
+            // case: challengeId == notificationVO.challengeId indicates current challenge
+            // case  notificationVO.challengeId == "undefined" indicates running challenge
+            if (challengeId != null && ((challengeId == notificationVO.challengeId) || (notificationVO.challengeId == "undefined")))
             {
                 MatchInfo matchInfo = matchInfoModel.matches[challengeId];
                 if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
