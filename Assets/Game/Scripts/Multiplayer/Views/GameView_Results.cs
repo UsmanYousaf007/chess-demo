@@ -71,6 +71,7 @@ namespace TurboLabz.Multiplayer
         private float animDelay;
         private string playerName;
         private string opponentName;
+        private string challengeId;
         
         [Inject] public IAdsService adsService { get; set; }
 
@@ -364,6 +365,7 @@ namespace TurboLabz.Multiplayer
             resultsRewardCoinsLabel.text = vo.rewardCoins + " Coins";
             adRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
+            challengeId = vo.challengeId;
 
             if (playerWins)
             {
@@ -415,7 +417,13 @@ namespace TurboLabz.Multiplayer
 			
         private void OnResultsCollectRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.RewardedVideo;
+            vo.rewardType = adRewardType;
+            vo.challengeId = challengeId;
+            showAdSignal.Dispatch(vo);
+
+            //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
 
             if (isLongPlay)
             {
@@ -456,7 +464,13 @@ namespace TurboLabz.Multiplayer
 
         public void OnResultsSkipRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.Interstitial;
+            vo.rewardType = collectRewardType;
+            vo.challengeId = challengeId;
+            showAdSignal.Dispatch(vo);
+
+            //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
 
             if (isLongPlay)
             {

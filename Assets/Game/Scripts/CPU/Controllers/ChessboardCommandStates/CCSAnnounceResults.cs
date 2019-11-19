@@ -39,6 +39,7 @@ namespace TurboLabz.CPU
             }
 
             IChessboardModel model = cmd.chessboardModel;
+            IPlayerModel playerModel = cmd.playerModel;
             bool playerWins = (model.winnerId == cmd.playerModel.id) ? true : false;
 
             GameEndReason gameEndReason = model.gameEndReason;
@@ -84,7 +85,7 @@ namespace TurboLabz.CPU
                 cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength);
             }
 
-            int  rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
+            int rewardCoins = playerModel.cpuPowerupUsedCount;//playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
             bool isRemoveAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
 
             cmd.saveStatsSignal.Dispatch(statResult);

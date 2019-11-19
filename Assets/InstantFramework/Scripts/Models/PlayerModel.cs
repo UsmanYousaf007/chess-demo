@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         public string editedName { get; set; }
         public bool newUser { get; set; }
         public string skillLevel { get; set; }
+        public int cpuPowerupUsedCount { get; set; }
 
         public string name
         {
@@ -90,6 +91,7 @@ namespace TurboLabz.InstantFramework
             adLifetimeImpressions = 0;
             removeAdsTimeStamp = 0;
             removeAdsTimePeriod = 0;
+            cpuPowerupUsedCount = 0;
 
             // Inventory
             inventory = new OrderedDictionary<string, int>();

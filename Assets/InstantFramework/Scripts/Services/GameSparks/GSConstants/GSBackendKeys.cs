@@ -309,6 +309,7 @@ namespace TurboLabz.InstantFramework
             public const string REMOVE_ADS_TIMESTAMP = "removeAdsTimeStamp";
             public const string REMOVE_ADS_TIMEPERIOD = "removeAdsTimePeriod";
             public const string EDITED_NAME = "editedName";
+            public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
         }
 
         public static class Match

@@ -73,6 +73,7 @@ namespace TurboLabz.CPU
         private string collectRewardType;
         private float animDelay;
         private bool menuOpensResultsDlg;
+        private int resultRewardCoins;
 
         [Inject] public IAdsService adsService { get; set; }
 
@@ -341,7 +342,7 @@ namespace TurboLabz.CPU
             }
 
             // Reward
-            resultsRewardCoinsLabel.text = rewardCoins + " Coins"; ;
+            resultsRewardCoinsLabel.text = rewardCoins + " Coins"; 
             if (playerWins)
             {
                 resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_REWARD);
@@ -353,6 +354,7 @@ namespace TurboLabz.CPU
 
             adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             collectRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
+            resultRewardCoins = rewardCoins;
         }
 
         public bool IsResultsDialogVisible()
@@ -389,7 +391,13 @@ namespace TurboLabz.CPU
 
         private void OnResultsCollectRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.RewardedVideo;
+            vo.rewardType = adRewardType;
+            vo.challengeId = "";
+            showAdSignal.Dispatch(vo);
+
+           // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             backToLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);         
@@ -399,7 +407,13 @@ namespace TurboLabz.CPU
 
         public void OnResultsSkipRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.Interstitial;
+            vo.rewardType = collectRewardType;
+            vo.challengeId = "";
+            showAdSignal.Dispatch(vo);
+
+            //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
             backToLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
