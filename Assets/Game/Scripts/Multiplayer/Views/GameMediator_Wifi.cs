@@ -94,6 +94,7 @@ namespace TurboLabz.Multiplayer
         }
         */
 
+        // Failed server requests will trigger this signal
         [ListensTo(typeof(SyncReconnectDataSignal))]
         public void SyncReconnectData(string challengeId)
         {
@@ -105,6 +106,19 @@ namespace TurboLabz.Multiplayer
             OnInternetConnectedTicked(true, InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED);
 
             InternetReachabilityMonitor.StartMonitor();
+        }
+
+        // Chess board needs to be synched on app resume to keep clocks in synch with server
+        [ListensTo(typeof(AppEventSignal))]
+        public void OnAppEvent(AppEvent evt)
+        {
+            if (gameObject.activeSelf == true && evt == AppEvent.RESUMED)
+            {
+                if (matchInfoModel.activeChallengeId != null)
+                {
+                    SyncReconnectData(matchInfoModel.activeChallengeId);
+                }
+            }
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
