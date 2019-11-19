@@ -23,7 +23,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayer();
             }
-
+            else if (evt == NavigatorEvent.SHOW_CHAT)
+            {
+                return new NSChat();
+            }
             return null;
 		}
 	}

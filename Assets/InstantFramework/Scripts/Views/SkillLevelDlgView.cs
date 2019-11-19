@@ -23,11 +23,24 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public void Init()
         {
             mainPanel.transform.localPosition = startPivot.localPosition;
-            yesButton.onClick.AddListener(() => OnButtonClicked(BEGINNER_STR));
-            noButton.onClick.AddListener(() => OnButtonClicked(DEFAULT_STR));
+
+            yesButton.onClick.AddListener(() =>
+            {
+                OnButtonClicked(BEGINNER_STR);
+                analyticsService.Event(AnalyticsEventId.tap_yes_skill_level_dlg);
+            });
+
+            noButton.onClick.AddListener(() =>
+            {
+                OnButtonClicked(DEFAULT_STR);
+                analyticsService.Event(AnalyticsEventId.tap_no_skill_level_dlg);
+            });
         }
 
         public void Show()

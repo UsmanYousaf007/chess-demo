@@ -39,24 +39,21 @@ namespace TurboLabz.InstantFramework
             displayChatMessageSignal.Dispatch(chatMessage);
 
             // Setup the unread indicator
-            //if (navigatorModel.currentViewId != NavigatorViewId.MULTIPLAYER_CHAT_DLG)
-            //{
-            	TLUtils.LogUtil.LogNullValidation(chatMessage.senderId, "chatMessage.senderId");
+            TLUtils.LogUtil.LogNullValidation(chatMessage.senderId, "chatMessage.senderId");
             	
-                if (chatMessage.senderId != null && !chatMessage.senderId.Equals(chatModel.activeChatId))
+            if (chatMessage.senderId != null && !chatMessage.senderId.Equals(chatModel.activeChatId))
+            {
+                if (chatModel.hasUnreadMessages.ContainsKey(chatMessage.senderId))
                 {
-                    if (chatModel.hasUnreadMessages.ContainsKey(chatMessage.senderId))
-                    {
-                        chatModel.hasUnreadMessages[chatMessage.senderId] += 1;
-                    }
-                    else
-                    {
-                        chatModel.hasUnreadMessages.Add(chatMessage.senderId, 1);
-                    }
-
-                    addUnreadMessagesSignal.Dispatch(chatMessage.senderId, chatModel.hasUnreadMessages[chatMessage.senderId]);
+                    chatModel.hasUnreadMessages[chatMessage.senderId] += 1;
                 }
-            //}
+                else
+                {
+                    chatModel.hasUnreadMessages.Add(chatMessage.senderId, 1);
+                }
+
+                addUnreadMessagesSignal.Dispatch(chatMessage.senderId, chatModel.hasUnreadMessages[chatMessage.senderId]);
+            }
         }
     }
 }
