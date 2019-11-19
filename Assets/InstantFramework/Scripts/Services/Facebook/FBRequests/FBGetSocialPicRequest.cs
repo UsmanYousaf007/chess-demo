@@ -58,14 +58,23 @@ namespace TurboLabz.InstantFramework
             if (string.IsNullOrEmpty(www.error)) // Success
             {
                 Texture2D texture = www.texture;
-                texture.name = PLAYER_SOCIAL_PIC;
 
-                Sprite sprite = Sprite.Create(texture,
-                    new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f));
-                sprite.name = texture.name;
+                //deteting red question mark
+                if (texture.height == 8 || texture.width == 8)
+                {
+                    DispatchResponse(FacebookResult.FAILURE, null);
+                }
+                else
+                {
+                    texture.name = PLAYER_SOCIAL_PIC;
 
-                DispatchResponse(FacebookResult.SUCCESS, sprite);
+                    Sprite sprite = Sprite.Create(texture,
+                        new Rect(0, 0, texture.width, texture.height),
+                        new Vector2(0.5f, 0.5f));
+                    sprite.name = texture.name;
+
+                    DispatchResponse(FacebookResult.SUCCESS, sprite);
+                }
             }
             else // Failure
             {
