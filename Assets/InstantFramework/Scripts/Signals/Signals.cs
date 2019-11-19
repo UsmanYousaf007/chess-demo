@@ -125,6 +125,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateFindViewSignal : Signal<FindViewVO> {}
 
     public class SyncReconnectDataSignal : Signal<string> { }
+    public class CancelSearchResultSignal : Signal { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}

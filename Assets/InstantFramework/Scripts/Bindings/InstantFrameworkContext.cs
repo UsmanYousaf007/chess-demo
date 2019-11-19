@@ -139,10 +139,10 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ChessboardBlockerEnableSignal>().ToSingleton();
             injectionBinder.Bind<PauseNotificationsSignal>().ToSingleton();
             injectionBinder.Bind<SyncReconnectDataSignal>().ToSingleton();
+            injectionBinder.Bind<CancelSearchResultSignal>().ToSingleton();
 
 
-
-            // Bind views to mediators
+        // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
             mediationBinder.Bind<HardStopView>().To<HardStopMediator>();

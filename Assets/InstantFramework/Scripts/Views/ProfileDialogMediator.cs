@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public BlockFriendSignal blockFriendSignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
+        [Inject] public CancelSearchResultSignal cancelSearchResultSignal { get; set; }
 
 
 
@@ -87,6 +88,7 @@ namespace TurboLabz.InstantFramework
             if(!playerModel.friends.ContainsKey(playerId))
             {
                 newFriendSignal.Dispatch(playerId, true);
+                cancelSearchResultSignal.Dispatch();
             }
             else
             {

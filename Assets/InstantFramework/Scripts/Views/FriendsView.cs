@@ -905,6 +905,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void CancelSearchResult()
+        {
+            if (sectionSearched.gameObject.activeSelf)
+            {
+                OnCancelSearchClicked();
+            }
+        }
+
         #endregion StartGameConfirmationDialog
 
         void CreateMatchLimitReachedCloseBtnClicked()

@@ -201,6 +201,12 @@ namespace TurboLabz.InstantFramework
             view.ClearUnreadMessages(friendId);
         }
 
+        [ListensTo(typeof(CancelSearchResultSignal))]
+        public void cancelSearchResultSignal()
+        {
+            view.CancelSearchResult();
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
