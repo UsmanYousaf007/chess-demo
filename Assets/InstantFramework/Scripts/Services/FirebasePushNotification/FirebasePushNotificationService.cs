@@ -73,21 +73,24 @@ namespace TurboLabz.InstantFramework
             var notification = e.Message.Notification;
             bool isNotificationOpened = e.Message.NotificationOpened;
 
+            NotificationVO notificationVO;
+            notificationVO.title = "unassigned";
+            notificationVO.body = "unassigned";
+
             if (notification != null)
             {
-                NotificationVO notificationVO;
                 notificationVO.title = notification.Title;
                 notificationVO.body = notification.Body;
-                notificationVO.senderPlayerId = e.Message.Data["senderPlayerId"];
-                notificationVO.challengeId = e.Message.Data["challengeId"];
-                notificationVO.matchGroup = e.Message.Data.ContainsKey("matchGroup") == true ? e.Message.Data["matchGroup"] : "undefined";
-                notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
-                notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
-                notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
-                notificationVO.isOpened = isNotificationOpened;
-
-                notificationRecievedSignal.Dispatch(notificationVO);
             }
+            notificationVO.isOpened = isNotificationOpened;
+            notificationVO.senderPlayerId = e.Message.Data.ContainsKey("senderPlayerId") == true ? e.Message.Data["senderPlayerId"] : "undefined";
+            notificationVO.challengeId = e.Message.Data.ContainsKey("challengeId") == true ? e.Message.Data["challengeId"] : "undefined";
+            notificationVO.matchGroup = e.Message.Data.ContainsKey("matchGroup") == true ? e.Message.Data["matchGroup"] : "undefined";
+            notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
+            notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
+            notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
+
+            notificationRecievedSignal.Dispatch(notificationVO);
         }
 
     }
