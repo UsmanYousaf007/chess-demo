@@ -90,7 +90,10 @@ namespace TurboLabz.InstantFramework
             notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
             notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
 
-            notificationRecievedSignal.Dispatch(notificationVO);
+            if (notification != null || isNotificationOpened == true)
+            {
+                notificationRecievedSignal.Dispatch(notificationVO);
+            }
         }
 
     }
