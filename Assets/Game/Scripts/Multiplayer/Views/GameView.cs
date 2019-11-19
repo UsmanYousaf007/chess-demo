@@ -59,7 +59,6 @@ namespace TurboLabz.Multiplayer
             OnParentShowWifi();
             OnParentShowAccept();
             OnParentShowBotBar();
-            OnParentShowChat();
             OnParentShowSafeMove();
             OnParentShowHint();
             OnParentShowHindsight();

@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System.Collections.Generic;
 using strange.extensions.command.impl;
 using TurboLabz.Multiplayer;
 
@@ -12,6 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         //Parameters
         [Inject] public string opponentId { get; set; }
+        [Inject] public bool inGameChat { get; set; }
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -32,26 +34,33 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAT);
             chatModel.activeChatId = opponentId;
 
-            PublicProfile opponentProfile = null;
+            Friend opponentProfile = null;
 
             if (playerModel.friends.ContainsKey(opponentId))
             {
-                opponentProfile = playerModel.friends[opponentId].publicProfile;
+                opponentProfile = playerModel.friends[opponentId];
             }
             else if (playerModel.community.ContainsKey(opponentId))
             {
-                opponentProfile = playerModel.community[opponentId].publicProfile;
+                opponentProfile = playerModel.community[opponentId];
             }
             else if (playerModel.search.ContainsKey(opponentId))
             {
-                opponentProfile = playerModel.search[opponentId].publicProfile;
+                opponentProfile = playerModel.search[opponentId];
             }
+
+            PublicProfile opponentPublicProfile = null;
 
             //if opponentProfile is still null then it means match is made using random quick match
             //getting opponent profile from active match
             if (opponentProfile == null)
             {
-                opponentProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                opponentPublicProfile.isOnline = true;
+            }
+            else
+            {
+                opponentPublicProfile = opponentProfile.publicProfile;
             }
 
             ChatVO vo = new ChatVO();
@@ -60,20 +69,21 @@ namespace TurboLabz.InstantFramework
             vo.playerProfilePic = picsModel.GetPlayerPic(playerModel.id);
             vo.avatarBgColorId = playerModel.avatarBgColorId;
             vo.avatarId = playerModel.avatarId;
+            vo.inGame = inGameChat;
             vo.opponentProfilePic = picsModel.GetPlayerPic(opponentId);
 
-            if (opponentProfile != null)
+            if (opponentPublicProfile != null)
             {
                 vo.opponentId = opponentId;
-                vo.opponentName = opponentProfile.name;
-                vo.oppAvatarId = opponentProfile.avatarId;
-                vo.oppAvatarBgColorId = opponentProfile.avatarBgColorId;
-                vo.isOnline = opponentProfile.isOnline;
-                vo.isActive = opponentProfile.isActive;
+                vo.opponentName = opponentPublicProfile.name;
+                vo.oppAvatarId = opponentPublicProfile.avatarId;
+                vo.oppAvatarBgColorId = opponentPublicProfile.avatarBgColorId;
+                vo.isOnline = opponentPublicProfile.isOnline;
+                vo.isActive = opponentPublicProfile.isActive;
 
                 if (vo.opponentProfilePic == null)
                 {
-                    vo.opponentProfilePic = opponentProfile.profilePicture;
+                    vo.opponentProfilePic = opponentPublicProfile.profilePicture;
                 }
             }
 
@@ -85,7 +95,39 @@ namespace TurboLabz.InstantFramework
                 vo.unreadMessagesCount = chatModel.hasUnreadMessages[opponentId];
             }
 
+            vo.isChatEnabled = true;
+
+            //chat will be disbaled under these conditions
+            //1. no match completed with player
+            //2. long match with current player is not running with player
+            //3. no quick match is progress
+            //in other words chat will only be enabled in case if match is started with the player
+            if ((matchInfoModel.activeMatch == null
+                || (matchInfoModel.activeMatch != null
+                && !matchInfoModel.activeMatch.opponentPublicProfile.playerId.Equals(opponentId)))
+                && opponentProfile != null
+                && opponentProfile.lastMatchTimestamp <= 0
+                && !IsLongMatchActiveWithOpponent())
+            {
+                vo.isChatEnabled = false;
+            }
+
             updateChatView.Dispatch(vo);
+        }
+
+        private bool IsLongMatchActiveWithOpponent()
+        {
+            foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
+            {
+                if (entry.Value.opponentPublicProfile.playerId == opponentId
+                    && entry.Value.isLongPlay
+                    && entry.Value.acceptStatus.Equals(GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

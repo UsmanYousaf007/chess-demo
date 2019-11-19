@@ -219,7 +219,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnShowChat(string playerId)
         {
-            loadChatSignal.Dispatch(playerId);
+            loadChatSignal.Dispatch(playerId, false);
         }
 
         private void OnInviteFriend()

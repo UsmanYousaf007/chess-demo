@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         public Sprite online;
         public Sprite offline;
         public Sprite active;
+        public Button minimizeChatBtn;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -78,6 +79,7 @@ namespace TurboLabz.InstantFramework
             inputField.onEndEdit.AddListener(OnSubmit);
 
             backBtn.onClick.AddListener(OnClose);
+            minimizeChatBtn.onClick.AddListener(OnClose);
             clearBtn.onClick.AddListener(OnClear);
 
             hasUnreadMessages = false;
@@ -107,11 +109,15 @@ namespace TurboLabz.InstantFramework
             opponentHeaderName.text = vo.opponentName;
             hasUnreadMessages = vo.hasUnreadMessages;
             clearUnreadMessagesSignal.Dispatch(vo.opponentId);
+            minimizeChatBtn.gameObject.SetActive(vo.inGame);
 
-            opponentOnlineStatus.sprite = vo.isOnline ? online : offline;
-            if (vo.isActive)
+            if (!vo.isOnline && vo.isActive)
             {
                 opponentOnlineStatus.sprite = active;
+            }
+            else
+            {
+                opponentOnlineStatus.sprite = vo.isOnline ? online : offline;
             }
 
             if (vo.playerProfilePic != null)
@@ -120,7 +126,6 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-
                 playerProfilePic = null;
                 if (vo.avatarId != null)
                 {
@@ -148,6 +153,7 @@ namespace TurboLabz.InstantFramework
 
                 opponentHeaderAvatarBG.color = Colors.DISABLED_WHITE;
                 opponentAvatarBGColor = Colors.DISABLED_WHITE;
+
                 if (vo.oppAvatarBgColorId != null)
                 {
                     opponentHeaderAvatarBG.color = Colors.Color(vo.oppAvatarBgColorId);
@@ -164,6 +170,11 @@ namespace TurboLabz.InstantFramework
                 opponentHeaderProfilePic.sprite = defaultAvatar;
                 opponentHeaderProfilePic.gameObject.SetActive(true);
             }
+
+            inputField.enabled = vo.isChatEnabled;
+            defaultSystemMessage.text = vo.isChatEnabled ?
+                localizationService.Get(LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE) :
+                localizationService.Get(LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE);
 
             CleanUpChat();
 
@@ -386,10 +397,13 @@ namespace TurboLabz.InstantFramework
         {
             if (friendId == opponentId)
             {
-                opponentOnlineStatus.sprite = isOnline ? online : offline;
-                if (isActive)
+                if (!isOnline && isActive)
                 {
                     opponentOnlineStatus.sprite = active;
+                }
+                else
+                {
+                    opponentOnlineStatus.sprite = isOnline ? online : offline;
                 }
             }
         }

@@ -20,5 +20,7 @@ namespace TurboLabz.Multiplayer
         public string oppAvatarBgColorId;
         public bool isOnline;
         public bool isActive;
+        public bool inGame;
+        public bool isChatEnabled;
     }
 }

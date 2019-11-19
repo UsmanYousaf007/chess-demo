@@ -59,52 +59,22 @@ namespace TurboLabz.InstantFramework
 
             // PREPARE CHAT TODO: Switch over to central player profile management system
             ChatVO vo = new ChatVO();
-            vo.chatMessages = chatModel.GetChat(opponentId);
-            vo.opponentName = matchInfoModel.activeMatch.opponentPublicProfile.name;
             vo.playerId = playerModel.id;
-
-            if (playerModel.friends.ContainsKey(opponentId))
-            {
-                vo.opponentName = playerModel.friends[opponentId].publicProfile.name;
-            }
-            else if (playerModel.community.ContainsKey(opponentId))
-            {
-                vo.opponentName = playerModel.community[opponentId].publicProfile.name;
-            }
-
-            vo.playerProfilePic = picsModel.GetPlayerPic(playerModel.id);
-            vo.avatarBgColorId = playerModel.avatarBgColorId;
-            vo.avatarId = playerModel.avatarId;
-
-            vo.oppAvatarBgColorId = matchInfoModel.activeMatch.opponentPublicProfile.avatarBgColorId;
-            vo.oppAvatarId = matchInfoModel.activeMatch.opponentPublicProfile.avatarId;
             vo.opponentId = opponentId;
-            vo.opponentProfilePic = picsModel.GetPlayerPic(opponentId);
-
-            if (vo.opponentProfilePic == null)
-            {
-                // Try your best to grab the picture
-                if (playerModel.friends.ContainsKey(opponentId))
-                {
-                    vo.opponentProfilePic = playerModel.friends[opponentId].publicProfile.profilePicture;
-                }
-                else if (playerModel.community.ContainsKey(opponentId))
-                {
-                    vo.opponentProfilePic = playerModel.community[opponentId].publicProfile.profilePicture;
-                }
-
-                if (vo.opponentProfilePic == null)
-                {
-                    vo.opponentProfilePic = matchInfoModel.activeMatch.opponentPublicProfile.profilePicture;
-                }
-            }
-
             vo.hasUnreadMessages = chatModel.hasUnreadMessages.ContainsKey(opponentId);
             vo.unreadMessagesCount = 0;
 
             if (vo.hasUnreadMessages)
             {
                 vo.unreadMessagesCount = chatModel.hasUnreadMessages[opponentId];
+            }
+
+            vo.isChatEnabled = true;
+
+            if (matchInfo.isLongPlay &&
+                matchInfo.acceptStatus != GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
+            {
+                vo.isChatEnabled = false;
             }
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);

@@ -280,6 +280,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_CLEAR, "CLEAR" },
                 { LocalizationKey.CHAT_DEFAULT_DAY_LINE, "TODAY" },
                 { LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE, "Start a new conversation. Say hello." },
+                { LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE, "To enable chat you must start at least one match with this player." },
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "QUICK MATCH"},
                 { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "PLAY CLASSIC"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},

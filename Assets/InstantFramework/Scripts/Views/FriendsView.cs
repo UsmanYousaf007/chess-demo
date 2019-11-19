@@ -689,7 +689,7 @@ namespace TurboLabz.InstantFramework
             if (friendId != null && bars.ContainsKey(friendId))
             {
                 bars[friendId].unreadChat.gameObject.SetActive(true);
-                bars[friendId].unreadChatCount.text = string.Format("{0} {1}", localizationService.Get(LocalizationKey.FRIENDS_CHAT_LABEL), messageCount);
+                bars[friendId].unreadChatCount.text = messageCount.ToString();
             }
         }
 
