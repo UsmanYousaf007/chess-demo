@@ -42,6 +42,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSRateAppDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_CHAT)
+            {
+                return new NSChat();
+            }
 
             return null;
         }

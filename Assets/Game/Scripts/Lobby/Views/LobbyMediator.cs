@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public LoadChatSignal loadChatSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -72,6 +73,7 @@ namespace TurboLabz.InstantFramework
             view.removeCommunityFriendSignal.AddListener(OnRemoveCommunityFriend);
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
+            view.showChatSignal.AddListener(OnShowChat);
         }
 
         private void OnDecStrengthButtonClicked()
@@ -203,7 +205,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(AddUnreadMessagesToBarSignal))]
         public void OnAddUnreadMessages(string friendId, int messagesCount)
         {
-            view.AddUnreadMessages(friendId);
+            view.AddUnreadMessages(friendId, messagesCount);
         }
 
         [ListensTo(typeof(ClearUnreadMessagesFromBarSignal))]
@@ -243,6 +245,11 @@ namespace TurboLabz.InstantFramework
         private void OnShowProfileDialog(string playerId, FriendBar bar)
         {
             showProfileDialogSignal.Dispatch(playerId, bar);
+        }
+
+        private void OnShowChat(string playerId)
+        {
+            loadChatSignal.Dispatch(playerId, false);
         }
 
         private void OnRefreshCommunity()

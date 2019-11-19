@@ -210,6 +210,7 @@ namespace TurboLabz.InstantFramework
 		public const string FRIENDS_DRAWS_LABEL = "friendsDrawsLabel";
 		public const string FRIENDS_TOTAL_GAMES_LABEL = "friendsTotalGamesLabel";
 		public const string FRIENDS_BLOCK_LABEL = "friendsBlockLabel";
+        public const string FRIENDS_CHAT_LABEL = "friendsChatLabel";
         public const string FRIENDS_FACEBOOK_CONNECT_TEXT = "friendsFacebookConnectText";
         public const string FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT = "friendsFacebookLoginButtonText";
         public const string SAVE_YOUR_PROGRESS_TEXT = "saveYourProgressText";
@@ -280,6 +281,7 @@ namespace TurboLabz.InstantFramework
         public const string CHAT_CLEAR = "chatClear";
         public const string CHAT_DEFAULT_DAY_LINE = "chatDefaultDayLine";
         public const string CHAT_DEFAULT_SYSTEM_MESSAGE = "chatDefaultSystemMessage";
+        public const string CHAT_DISABLED_SYSTEM_MESSAGE = "chatDisabledSystemMessage";
         public const string REMOVE_COMMUNITY_FRIEND_YES = "removeCommunityFriendYes";
         public const string REMOVE_COMMUNITY_FRIEND_NO = "removeCommunityFriendNo";
         public const string REMOVE_COMMUNITY_FRIEND_TITLE = "removeCommunityFriendTitle";

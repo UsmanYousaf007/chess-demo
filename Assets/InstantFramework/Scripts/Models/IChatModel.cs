@@ -15,5 +15,6 @@ namespace TurboLabz.InstantFramework
         string lastSavedChatIdOnLaunch { get; set; }
 
         bool hasEngagedChat { get; set; }
+        string activeChatId { get; set; }
     }
 }

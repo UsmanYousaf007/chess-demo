@@ -241,6 +241,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
             commandBinder.Bind<RestorePurchasesSignal>().To<RestorePurchasesCommand>();
             commandBinder.Bind<LoadPromotionSingal>().To<LoadPromotionCommand>();
+            commandBinder.Bind<LoadChatSignal>().To<LoadChatCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -248,6 +249,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<FriendsView>().To<FriendsMediator>();
 			mediationBinder.Bind<StoreView>().To<StoreMediator>();
             mediationBinder.Bind<SpotPurchaseView>().To<SpotPurchaseMediator>();
+            mediationBinder.Bind<ChatView>().To<ChatMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

@@ -126,6 +126,7 @@ namespace TurboLabz.InstantFramework
         public Signal playMultiplayerButtonClickedSignal = new Signal();
         public Signal decStrengthButtonClickedSignal = new Signal();
         public Signal incStrengthButtonClickedSignal = new Signal();
+        public Signal<string> showChatSignal = new Signal<string>();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -380,6 +381,7 @@ namespace TurboLabz.InstantFramework
             friendBar.cancelButton.onClick.AddListener(() => CancelButtonClicked(friend.playerId, friendBar.cancelButton));
             friendBar.okButton.onClick.AddListener(() => OkButtonClicked(friend.playerId, friendBar.okButton));
             friendBar.viewButton.onClick.AddListener(() => PlayButtonClicked(friendBar));
+            friendBar.unreadChat.onClick.AddListener(() => ShowChat(friend.playerId));
             friendBar.removeCommunityFriendButton.onClick.AddListener(() => RemoveCommunityFriendButtonClicked(friend.playerId));
             friendBar.friendInfo = friend;
             friendBar.profileNameLabel.text = friend.publicProfile.name;
@@ -637,13 +639,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void AddUnreadMessages(string friendId)
+        public void AddUnreadMessages(string friendId, int messageCount)
         {
             TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
 
             if (friendId != null && bars.ContainsKey(friendId))
             {
-                bars[friendId].unreadChat.SetActive(true);
+                bars[friendId].unreadChat.gameObject.SetActive(true);
+                bars[friendId].unreadChatCount.text = messageCount.ToString();
             }
         }
 
@@ -653,7 +656,7 @@ namespace TurboLabz.InstantFramework
 
             if (friendId != null && bars.ContainsKey(friendId))
             {
-                bars[friendId].unreadChat.SetActive(false);
+                bars[friendId].unreadChat.gameObject.SetActive(false);
             }
         }
 
@@ -702,6 +705,11 @@ namespace TurboLabz.InstantFramework
 
             Debug.Log("BAR STATUS : ::: " + bar.longPlayStatus);
 
+        }
+
+        void ShowChat(string playerId)
+        {
+            showChatSignal.Dispatch(playerId);
         }
 
         void PlayButtonClicked(FriendBar bar)

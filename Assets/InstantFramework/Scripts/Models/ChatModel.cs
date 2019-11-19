@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         public Dictionary<string, int> hasUnreadMessages { get; set; }
         public string lastSavedChatIdOnLaunch { get; set; }
         public bool hasEngagedChat { get; set; } = false;
+        public string activeChatId { get; set; }
         string lastSavedChatId;
         ChatMessage lastSavedMessage;
         Dictionary<string, ChatMessages> chatHistory { get; set; }

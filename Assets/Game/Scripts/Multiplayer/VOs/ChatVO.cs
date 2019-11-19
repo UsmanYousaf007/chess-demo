@@ -16,8 +16,11 @@ namespace TurboLabz.Multiplayer
         public int unreadMessagesCount;
         public string avatarId;
         public string avatarBgColorId;
-
         public string oppAvatarId;
         public string oppAvatarBgColorId;
+        public bool isOnline;
+        public bool isActive;
+        public bool inGame;
+        public bool isChatEnabled;
     }
 }

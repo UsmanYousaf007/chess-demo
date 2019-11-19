@@ -68,6 +68,7 @@ namespace TurboLabz.InstantFramework
     public class GetSocialPicsSignal : Signal<Dictionary<string, Friend>> {}
     public class NewFriendSignal : Signal<string, bool> {}
     public class BlockFriendSignal : Signal<string> {}
+    public class LoadChatSignal : Signal<string, bool> { }
     public class RemoveCommunityFriendSignal : Signal<string> { }
     public class UpdateFriendOnlineStatusSignal : Signal<ProfileVO> {}
     public class ClearCommunitySignal : Signal {}

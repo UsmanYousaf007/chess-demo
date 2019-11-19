@@ -15,34 +15,13 @@ namespace TurboLabz.Multiplayer
         [Inject] public SendChatMessageSignal sendChatMessageSignal { get; set; }
         [Inject] public ClearActiveChatSignal clearActiveChatSignal { get; set; }
         [Inject] public ClearUnreadMessagesSignal clearUnreadMessagesSignal { get; set; }
-
+        [Inject] public LoadChatSignal loadChatSignal { get; set; }
 
         public void OnRegisterChat()
         {
             view.InitChat();
             view.chatSubmitSignal.AddListener(OnChatSubmit);
             view.openChatDlgSignal.AddListener(OnOpenChatDlg);
-            view.closeChatDlgSignal.AddListener(OnCloseChatDlg);
-            view.clearActiveChatSignal.AddListener(OnClearActiveChat);
-            view.clearUnreadMessagesSignal.AddListener(OnClearUnreadMessages);
-        }
-
-        [ListensTo(typeof(NavigatorShowViewSignal))]
-        public void OnShowChatDlg(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.MULTIPLAYER_CHAT_DLG) 
-            {
-                view.ShowChatDlg();
-            }
-        }
-
-        [ListensTo(typeof(NavigatorHideViewSignal))]
-        public void OnHideChatDlg(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.MULTIPLAYER_CHAT_DLG)
-            {
-                view.HideChatDlg();
-            }
         }
 
         [ListensTo(typeof(EnableGameChatSignal))]
@@ -63,48 +42,14 @@ namespace TurboLabz.Multiplayer
             view.EnableUnreadIndicator(friendId, messagesCount);
         }
 
-        [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
-        public void OnUpdateFriendOnlineStatusSignal(ProfileVO vo)
-        {
-            view.UpdateFriendOnlineStatusSignal(vo.playerId, vo.isOnline, vo.isActive);
-        }
-
-        [ListensTo(typeof(UpdateChatOpponentPicSignal))]
-        void OnUpdateOpponentProfilePic(Sprite sprite)
-        {
-            view.SetOpponentChatProfilePic(sprite);
-        }
-
-        [ListensTo(typeof(UpdateFriendPicSignal))]
-        public void OnUpdateFriendPic(string playerId, Sprite sprite)
-        {
-            view.SetOpponentChatProfilePic(sprite, playerId);
-        }
-
         void OnChatSubmit(ChatMessage message)
         {
             sendChatMessageSignal.Dispatch(message);
         }
 
-        void OnOpenChatDlg()
+        void OnOpenChatDlg(string opponentId)
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_CHAT_DLG);
+            loadChatSignal.Dispatch(opponentId, true);
         }
-
-        void OnCloseChatDlg()
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-        }
-
-        void OnClearActiveChat(string opponentId)
-        {
-            clearActiveChatSignal.Dispatch(opponentId);
-        }
-
-        void OnClearUnreadMessages(string opponentId)
-        {
-            clearUnreadMessagesSignal.Dispatch(opponentId);
-        }
-
     }
 }

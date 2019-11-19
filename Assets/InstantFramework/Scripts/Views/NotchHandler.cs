@@ -45,11 +45,11 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform[] mpLeft;
     public RectTransform[] mpRight;
 
-    [Header("Chat")]
-    public RectTransform chatTopBar;
-    public RectTransform chatBackLabel;
-    public RectTransform chatScrollView;
-    public RectTransform chatViewPort;
+    [Header("Chat New")]
+    public RectTransform chatNewTopBar;
+    public RectTransform chatNewBotBar;
+    public RectTransform chatNewScrollView;
+    public RectTransform chatNewViewPort;
 
     [Header("Notifications")]
     public RectTransform dummyPosition;
@@ -127,11 +127,12 @@ public class NotchHandler : MonoBehaviour {
         foreach (RectTransform tfm in mpRight)
             ShiftX(tfm, -10f);
 
-        // CHAT
-        SetY(chatTopBar, -193.1f);
-        SetY(chatScrollView, -45.07f);
-        SetHeight(chatScrollView, 1405.84f);
-        SetBottom(chatViewPort, 0f);
+        // CHAT NEW
+        SetY(chatNewTopBar, -193.1f);
+        SetY(chatNewScrollView, -45.07f);
+        SetHeight(chatNewScrollView, 1405.84f);
+        SetBottom(chatNewViewPort, 0f);
+        SetY(chatNewBotBar, 141f);
 
         // NOTIFICATIONS
         SetY(dummyPosition, -200f);

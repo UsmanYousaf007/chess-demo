@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
         PURCHASED_DLG,
         SHARE_SCREEN_DIALOG,
         SKILL_LEVEL_DLG,
+        CHAT,
         // TODO: I am possibly unused so remove me.
         AD_COVER
     }
