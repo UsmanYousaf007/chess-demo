@@ -17,6 +17,7 @@ namespace TurboLabz.InstantGame
 
         // Dispatch 
         [Inject] public LoadSkinRefsSignal loadSkinRefsSignal { get; set; }
+        [Inject] public SkinUpdatedSignal skinUpdatedSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -25,6 +26,7 @@ namespace TurboLabz.InstantGame
         {
             playerModel.activeSkinId = skinId;
             loadSkinRefsSignal.Dispatch(skinId);
+            skinUpdatedSignal.Dispatch();
 
             Resources.UnloadUnusedAssets();
         }

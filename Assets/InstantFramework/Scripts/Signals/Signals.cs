@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
     public class LoadLobbySignal : Signal {}
     public class SavePlayerInventorySignal : Signal {}
     public class SetSkinSignal : Signal<string> {}
+    public class SkinUpdatedSignal : Signal { }
     public class InitBackendOnceSignal : Signal {}
     public class PurchaseStoreItemSignal : Signal<string, bool> {}
     public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}

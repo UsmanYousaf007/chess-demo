@@ -465,6 +465,20 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void UpdateBarsSkin()
+        {
+            foreach (KeyValuePair<string, FriendBar> entry in bars)
+            {
+                FriendBar bar = entry.Value;
+                GameObject friendBarObj = bar.gameObject;
+                SkinLink[] objects = friendBarObj.GetComponentsInChildren<SkinLink>();
+                for (int i = 0; i < objects.Length; i++)
+                {
+                    objects[i].InitPrefabSkin();
+                }
+            }
+        }
+
         //private List<GameObject> removeBars = new List<GameObject>();
 
         public void UpdateFriendPic(string playerId, Sprite sprite)

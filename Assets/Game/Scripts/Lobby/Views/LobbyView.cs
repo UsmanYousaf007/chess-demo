@@ -800,7 +800,21 @@ namespace TurboLabz.InstantFramework
 
         }
 
-#region StartGameConfirmationDialog
+        public void UpdateBarsSkin()
+        {
+            foreach (KeyValuePair<string, FriendBar> entry in bars)
+            {
+                FriendBar bar = entry.Value;
+                GameObject friendBarObj = bar.gameObject;
+                SkinLink[] objects = friendBarObj.GetComponentsInChildren<SkinLink>();
+                for (int i = 0; i < objects.Length; i++)
+                {
+                    objects[i].InitPrefabSkin();
+                }
+            }
+        }
+
+        #region StartGameConfirmationDialog
 
         void SetToggleRankButtonState(bool state)
         {

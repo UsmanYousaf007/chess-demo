@@ -232,6 +232,12 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(SkinUpdatedSignal))]
+        public void OnSkinUpdated()
+        {
+            view.UpdateBarsSkin();
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();

@@ -256,6 +256,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SkinRefs>().To<SkinRefsMediator>();
             injectionBinder.Bind<LoadSkinRefsSignal>().ToSingleton();
             injectionBinder.Bind<RefreshSkinLinksSignal>().ToSingleton();
+            injectionBinder.Bind<SkinUpdatedSignal>().ToSingleton();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<UpdateMenuViewSignal>().ToSingleton();
