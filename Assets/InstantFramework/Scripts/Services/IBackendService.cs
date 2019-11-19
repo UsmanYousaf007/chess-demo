@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
         IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt);
         IPromise<BackendResult> ConsumeVirtualGood(GSRequestData jsonData);
-        IPromise<BackendResult> ClaimReward(string rewardType);
+        IPromise<BackendResult> ClaimReward(GSRequestData jsonData);
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId);
         IPromise<BackendResult> SetPlayerSocialName(string name);
         IPromise<BackendResult> FindMatch(string opponentId);

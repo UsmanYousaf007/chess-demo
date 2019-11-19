@@ -6,7 +6,7 @@ namespace TurboLabz.InstantFramework
     {
         public int maxLongMatchCount { get; set; }
         public int maxFriendsCount { get; set; }
-        public int facebookConnectReward { get; set; }
+        public int maxCommunityMatches { get; set; }
         
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
         {
             maxLongMatchCount = 2;
             maxFriendsCount = 2;
-            facebookConnectReward = 500;
+            maxCommunityMatches = 6;
         }
     }
 }

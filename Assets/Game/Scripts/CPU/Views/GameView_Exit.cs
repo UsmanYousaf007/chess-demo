@@ -184,6 +184,7 @@ namespace TurboLabz.CPU
                 vo.adsType = AdType.Interstitial;
                 vo.rewardType = GSBackendKeys.ClaimReward.NONE;
                 vo.challengeId = "";
+                vo.playerWins = false;
                 showAdSignal.Dispatch(vo);
 
                 showAdOnBack = false;

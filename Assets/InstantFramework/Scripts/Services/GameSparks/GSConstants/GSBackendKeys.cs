@@ -30,7 +30,8 @@ namespace TurboLabz.InstantFramework
         public const string GAME_SETTINGS = "gameSettings";
         public const string MAX_LONG_MATCH_COUNT = "maxLongMatchCount";
         public const string MAX_FRIENDS_COUNT = "maxFriendsCount";
-        public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
+        public const string MAX_COMMUNITY_MATECHES = "maxCommunityMatches";
+        
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
@@ -349,6 +350,15 @@ namespace TurboLabz.InstantFramework
             public const string MATCH_WIN_AD_REWARD = "matchWinAdReward";
             public const string MATCH_RUNNER_UP_REWARD = "matchRunnerUpReward";
             public const string MATCH_RUNNER_UP_AD_REWARD = "matchRunnerUpAdReward";
+            public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
+            public const string FAIL_SAFE_COIN_REWARD   = "failSafe";
+            public const string POWERUP_COIN_VALUE = "powerUpCoinsValue";
+            public const string COEFFICIENT_WIN_VIDEO = "winVideo";
+            public const string COEFFICIENT_WIN_INTERSITIAL = "winIntersitial";
+            public const string COEFFICIENT_LOSE_VIDEO = "loseVideo";
+            public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
+            
+
         }
 
         public static class PowerUp

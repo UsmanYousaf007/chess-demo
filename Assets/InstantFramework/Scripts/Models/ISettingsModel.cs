@@ -9,7 +9,7 @@ namespace TurboLabz.InstantFramework
     {
         int maxLongMatchCount { get; set; }
         int maxFriendsCount { get; set; }
-        int facebookConnectReward { get; set; }
+        int maxCommunityMatches { get; set; }
     
     }
 }

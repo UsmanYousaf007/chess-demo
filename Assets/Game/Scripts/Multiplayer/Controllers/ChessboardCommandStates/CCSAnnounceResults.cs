@@ -25,7 +25,7 @@ namespace TurboLabz.Multiplayer
             vo.currentEloScore = cmd.playerModel.eloScore;
             vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.playerEloScoreDelta;
             vo.isRanked = cmd.activeMatchInfo.isRanked;
-            vo.rewardCoins = cmd.matchInfoModel.activeMatch.playerPowerupUsedCount; //playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
+            vo.powerupUsedCount = cmd.matchInfoModel.activeMatch.playerPowerupUsedCount; //playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
             vo.removeAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
             vo.playerName = cmd.playerModel.name;
             vo.opponentName = cmd.activeMatchInfo.opponentPublicProfile.name;

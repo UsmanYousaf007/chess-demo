@@ -22,7 +22,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+        //[Inject] public ISettingsModel settingsModel { get; set; }
+
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -129,7 +131,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
-            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, settingsModel.facebookConnectReward);
+            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, rewardsSettingsModel.facebookConnectReward);
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
@@ -637,7 +639,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show() 
         {
-            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, settingsModel.facebookConnectReward);
+            saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, rewardsSettingsModel.facebookConnectReward);
             gameObject.SetActive(true);
             startGameConfirmationDlg.gameObject.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);

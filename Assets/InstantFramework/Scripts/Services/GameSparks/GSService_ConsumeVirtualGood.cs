@@ -47,6 +47,12 @@ namespace TurboLabz.InstantFramework
                 int quantity = response.ScriptData.GetInt("quantity").Value;
                 string shopItemId = response.ScriptData.GetString("shortCode");
 
+                if(response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT))
+                {
+                    playerModel.cpuPowerupUsedCount = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
+                }
+                
+
                 TLUtils.LogUtil.LogNullValidation(shopItemId, "shopItemId");
 
                 if (shopItemId != null && playerModel.inventory.ContainsKey(shopItemId))

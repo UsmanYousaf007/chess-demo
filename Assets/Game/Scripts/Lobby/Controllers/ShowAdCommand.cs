@@ -97,7 +97,7 @@ namespace TurboLabz.InstantGame
                                                       
 
 
-                backendService.ClaimReward(claimRewardType).Then(OnClaimReward);
+                backendService.ClaimReward(jsonData).Then(OnClaimReward);
             }
             else
             {
@@ -109,7 +109,6 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                playerModel.cpuPowerupUsedCount = 0;
                 updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
             }
 

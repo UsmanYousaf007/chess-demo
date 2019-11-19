@@ -13,6 +13,16 @@ namespace TurboLabz.InstantFramework
         int matchWinAdReward { get; set; }        // Additional Winner coins reward on Ad watch
         int matchRunnerUpReward { get; set; }     // Loser coins reward 
         int matchRunnerUpAdReward { get; set; }   // Additional Loser coins reward on Ad watch
+        int failSafeCoinReward { get; set; }
+        int facebookConnectReward { get; set; }
+        int powerUpCoinsValue { get; set; }
+
+        float coefficientWinVideo { get; set; }
+        float coefficientWinIntersitial { get; set; }
+        float coefficientLoseVideo { get; set; }
+        float coefficientLoseIntersitial { get; set; }
+
+        int getRewardCoins(AdType adType, int powerUpUsage, bool playerWins);
     }
 }
 

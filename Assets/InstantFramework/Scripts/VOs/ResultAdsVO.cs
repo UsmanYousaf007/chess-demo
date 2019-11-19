@@ -7,6 +7,7 @@ namespace TurboLabz.InstantFramework
         public AdType adsType;
         public string rewardType;
         public string challengeId;
+        public bool playerWins;
     }
 }
 

@@ -74,6 +74,8 @@ namespace TurboLabz.Multiplayer
         private string challengeId;
         
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+
 
         public void InitResults()
         {
@@ -361,8 +363,10 @@ namespace TurboLabz.Multiplayer
                 resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
             }
 
+            int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, vo.powerupUsedCount, playerWins);
+
             // Reward
-            resultsRewardCoinsLabel.text = vo.rewardCoins + " Coins";
+            resultsRewardCoinsLabel.text = rewardCoins + " Coins";
             adRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
             challengeId = vo.challengeId;
@@ -421,6 +425,7 @@ namespace TurboLabz.Multiplayer
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
             vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
             showAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
@@ -468,6 +473,7 @@ namespace TurboLabz.Multiplayer
             vo.adsType = AdType.Interstitial;
             vo.rewardType = collectRewardType;
             vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
             showAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);

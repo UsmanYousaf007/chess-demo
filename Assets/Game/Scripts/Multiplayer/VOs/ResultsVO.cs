@@ -22,7 +22,7 @@ namespace TurboLabz.Multiplayer
         public int currentEloScore;
         public int eloScoreDelta;
         public bool isRanked;
-        public int rewardCoins;
+        public int powerupUsedCount;
         public bool removeAds;
         public string playerName;
         public string opponentName;

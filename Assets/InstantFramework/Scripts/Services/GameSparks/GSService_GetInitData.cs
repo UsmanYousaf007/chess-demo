@@ -161,13 +161,23 @@ namespace TurboLabz.InstantFramework
             rewardsSettingsModel.matchWinAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_WIN_AD_REWARD).Value;
             rewardsSettingsModel.matchRunnerUpReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_REWARD).Value;
             rewardsSettingsModel.matchRunnerUpAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_AD_REWARD).Value;
+            rewardsSettingsModel.facebookConnectReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD).Value;
+            rewardsSettingsModel.failSafeCoinReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD).Value;
+            rewardsSettingsModel.powerUpCoinsValue = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.POWERUP_COIN_VALUE).Value;
+
+            rewardsSettingsModel.coefficientWinVideo = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_WIN_VIDEO).Value;
+            rewardsSettingsModel.coefficientWinIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_WIN_INTERSITIAL).Value;
+            rewardsSettingsModel.coefficientLoseVideo = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_VIDEO).Value;
+            rewardsSettingsModel.coefficientLoseIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_INTERSITIAL).Value;
+
+            
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)
         {
-            settingsModel.maxLongMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
-            settingsModel.maxFriendsCount   = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
-            settingsModel.facebookConnectReward = gsSettingsData.GetInt(GSBackendKeys.FACEBOOK_CONNECT_REWARD).Value;
+            settingsModel.maxLongMatchCount     = gsSettingsData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
+            settingsModel.maxFriendsCount       = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
+            settingsModel.maxCommunityMatches = gsSettingsData.GetInt(GSBackendKeys.MAX_COMMUNITY_MATECHES).Value;
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

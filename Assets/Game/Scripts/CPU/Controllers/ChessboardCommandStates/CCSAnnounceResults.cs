@@ -85,13 +85,13 @@ namespace TurboLabz.CPU
                 cmd.analyticsService.LevelFail(cmd.cpuGameModel.cpuStrength);
             }
 
-            int rewardCoins = playerModel.cpuPowerupUsedCount;//playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
+            int powerupUsedCount = playerModel.cpuPowerupUsedCount;//playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
             bool isRemoveAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
 
             cmd.saveStatsSignal.Dispatch(statResult);
 
 			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
-			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, rewardCoins, isRemoveAds);
+			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, powerupUsedCount, isRemoveAds);
 
             cmd.hintAvailableSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(false);

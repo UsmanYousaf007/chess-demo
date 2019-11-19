@@ -76,6 +76,7 @@ namespace TurboLabz.CPU
         private int resultRewardCoins;
 
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
 
         private void InitResultsCPU()
         {
@@ -299,7 +300,7 @@ namespace TurboLabz.CPU
             }
         }
 
-        public void UpdateResultsDialog(GameEndReason gameEndReason, bool isPlayerWins, int rewardCoins, bool removeAds)
+        public void UpdateResultsDialog(GameEndReason gameEndReason, bool isPlayerWins, int powerupUsage, bool removeAds)
         {
             DisableInteraction();
             EnableModalBlocker();
@@ -340,6 +341,8 @@ namespace TurboLabz.CPU
             {
                 resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
             }
+
+            int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, powerupUsage, playerWins);
 
             // Reward
             resultsRewardCoinsLabel.text = rewardCoins + " Coins"; 
@@ -395,6 +398,7 @@ namespace TurboLabz.CPU
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
             vo.challengeId = "";
+            vo.playerWins = playerWins;
             showAdSignal.Dispatch(vo);
 
            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
@@ -411,6 +415,7 @@ namespace TurboLabz.CPU
             vo.adsType = AdType.Interstitial;
             vo.rewardType = collectRewardType;
             vo.challengeId = "";
+            vo.playerWins = playerWins;
             showAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
