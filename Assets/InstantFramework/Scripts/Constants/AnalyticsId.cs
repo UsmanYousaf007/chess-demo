@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         spot_purchase_hindsight,
         spot_purchase_move_meter,
         spot_purchase_coach,
+        skill_level_dlg
     }
 
     public enum AnalyticsEventId
@@ -109,7 +110,9 @@ namespace TurboLabz.InstantFramework
         tap_coach_after_tooltip,
         tap_move_meter_after_tooltip,
         tap_coach_after_training,
-        tap_move_meter_after_training
+        tap_move_meter_after_training,
+        tap_yes_skill_level_dlg,
+        tap_no_skill_level_dlg
     }
 
     public enum AnalyticsContext

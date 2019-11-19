@@ -43,6 +43,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IChatModel chatModel { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -56,6 +57,7 @@ namespace TurboLabz.InstantGame
         [Inject] public TurboLabz.CPU.SaveGameSignal saveGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public LoadChatSignal loadChatSignal { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -147,7 +149,13 @@ namespace TurboLabz.InstantGame
                 {
                     return;
                 }
+            }
 
+            // Check if its message notifcation and on same chat window
+            if (notificationVO.title.Contains("sent you a message")
+                && notificationVO.senderPlayerId.Equals(chatModel.activeChatId))
+            {
+                return;
             }
 
             GameObject notifidationObj = Instantiate(notificationPrefab);
@@ -201,6 +209,14 @@ namespace TurboLabz.InstantGame
                 {
                     notification.playButton.gameObject.SetActive(true);
                 }
+            }
+
+            if (notificationVO.body.Contains("View in chat"))
+            {
+                notification.playButtonLabel.text = localizationService.Get(LocalizationKey.VIEW);
+                notification.playButton.gameObject.SetActive(true);
+                notification.playButton.onClick.RemoveAllListeners();
+                notification.playButton.onClick.AddListener(OnViewChatClicked);
             }
 
             // Quick Match invitation notification
@@ -304,6 +320,12 @@ namespace TurboLabz.InstantGame
             FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup,
                 notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId);
             FadeBlocker();
+        }
+
+        private void OnViewChatClicked()
+        {
+            notifications[0].obj.SetActive(false);
+            loadChatSignal.Dispatch(notifications[0].notificationVO.senderPlayerId, false);
         }
 
         void FadeBlocker()

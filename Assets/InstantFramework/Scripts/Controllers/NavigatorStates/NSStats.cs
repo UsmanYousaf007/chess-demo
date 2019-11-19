@@ -29,7 +29,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLobby();
             }
-
+            else if (evt == NavigatorEvent.SHOW_CHAT)
+            {
+                return new NSChat();
+            }
             return null;
         }
     }

@@ -7,6 +7,9 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public SkillLevelDlgView view { get; set; }
 
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -18,6 +21,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SKILL_LEVEL_DLG)
             {
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.skill_level_dlg);
             }
         }
 
