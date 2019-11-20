@@ -90,17 +90,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnAddFriend(string playerId)
         {
-            if(!playerModel.friends.ContainsKey(playerId))
-            {
-                newFriendSignal.Dispatch(playerId, true);
-                cancelSearchResultSignal.Dispatch();
-            }
-            else
-            {
-                Debug.Log("Already your friend ::: " + playerId);
-                OnRemoveFriend(playerId);
-                OnAddFriend(playerId);
-            }
+            newFriendSignal.Dispatch(playerId, true);
+            cancelSearchResultSignal.Dispatch();
         }
 
         private void OnRemoveFriend(string playerId)

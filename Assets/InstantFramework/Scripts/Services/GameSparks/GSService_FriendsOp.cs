@@ -103,20 +103,34 @@ namespace TurboLabz.InstantFramework
                     
                     if (friendId != null)
                     {
-	                    Friend friend = LoadFriend(friendId, friendData);
-	
-	                    // Remove if existed in community. Also, copy the community person's
-	                    // picture before removing
-	                    if (playerModel.community.ContainsKey(friendId))
-	                    {
-	                        friend.publicProfile.profilePicture = playerModel.community[friendId].publicProfile.profilePicture;
-	                        removeFriendSignal.Dispatch(friendId);
-	                    }
-	
-	                    playerModel.friends.Add(friendId, friend);
-	
-	                    refreshFriendsSignal.Dispatch();
-	                    refreshCommunitySignal.Dispatch();
+                        //if already your friend
+                        //only update the friend type
+                        if (playerModel.friends.ContainsKey(friendId))
+                        {
+                            playerModel.friends[friendId].friendType = friendData.GetString(GSBackendKeys.Friend.TYPE);
+                            refreshFriendsSignal.Dispatch();
+                            refreshCommunitySignal.Dispatch();
+                        }
+                        else
+                        {
+                            Friend friend = LoadFriend(friendId, friendData);
+
+                            // Remove if existed in community. Also, copy the community person's
+                            // picture before removing
+
+                            if (playerModel.community.ContainsKey(friendId))
+                            {
+                                friend.publicProfile.profilePicture = playerModel.community[friendId].publicProfile.profilePicture;
+                                removeFriendSignal.Dispatch(friendId);
+                            }
+
+                            playerModel.friends.Add(friendId, friend);
+
+                            refreshFriendsSignal.Dispatch();
+                            refreshCommunitySignal.Dispatch();
+
+                        }
+                      
                     }
                 }
             }
