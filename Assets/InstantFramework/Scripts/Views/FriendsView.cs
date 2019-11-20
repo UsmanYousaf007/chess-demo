@@ -251,6 +251,7 @@ namespace TurboLabz.InstantFramework
                 sectionPlayAFriendEmpty.gameObject.SetActive(false);
                 sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
                 sectionSearchResultsEmpty.gameObject.SetActive(false);
+                sectionRecentlyCompleted.gameObject.SetActive(false);
             }
         }
 
