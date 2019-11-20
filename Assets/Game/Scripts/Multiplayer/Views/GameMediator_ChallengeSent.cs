@@ -18,7 +18,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(ChallengeAcceptedSignal))]
         public void OnChallengeAccepted()
         {
-            view.inputField.enabled = true;
+            view.EnableInputField(true);
             if (view.challengeSentDialog.activeSelf)
             {
                 view.HideChallengeSent();

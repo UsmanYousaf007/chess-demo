@@ -71,6 +71,7 @@ namespace TurboLabz.InstantFramework
         public List<string> unregisteredChallengeIds { get; set; }
         public bool createLongMatchAborted { get; set; }
         public CreateLongMatchAbortReason createLongMatchAbortReason { get; set; }
+        public MatchInfo lastCompletedMatch { get; set; }
         public MatchInfo activeMatch 
         { 
             get

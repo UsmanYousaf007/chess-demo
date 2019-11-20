@@ -44,6 +44,8 @@ namespace TurboLabz.InstantFramework
         public Sprite offline;
         public Sprite active;
         public Button minimizeChatBtn;
+        public Text inputFieldDefaultText;
+        public Image inputFieldIcon;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -171,11 +173,7 @@ namespace TurboLabz.InstantFramework
                 opponentHeaderProfilePic.gameObject.SetActive(true);
             }
 
-            inputField.enabled = vo.isChatEnabled;
-            defaultSystemMessage.text = vo.isChatEnabled ?
-                localizationService.Get(LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE) :
-                localizationService.Get(LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE);
-
+            EnableChat(vo.isChatEnabled);
             CleanUpChat();
 
             foreach (ChatMessage message in vo.chatMessages.messageList)
@@ -211,10 +209,23 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void EnableChat()
+        public void EnableChat(bool isChatEnabled)
         {
-            inputField.enabled = true;
-            defaultSystemMessage.text = localizationService.Get(LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE);
+            inputField.enabled = isChatEnabled;
+            defaultSystemMessage.text = isChatEnabled ?
+                localizationService.Get(LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE) :
+                localizationService.Get(LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE);
+            inputFieldDefaultText.color = isChatEnabled ?
+                Colors.WHITE_150 :
+                Colors.DISABLED_WHITE;
+            inputFieldIcon.color = isChatEnabled ?
+                Colors.WHITE_150 :
+                Colors.DISABLED_WHITE;
+
+            if (!isChatEnabled)
+            {
+                clearChatSignal.Dispatch(opponentId);
+            }
         }
 
         void OnClose()

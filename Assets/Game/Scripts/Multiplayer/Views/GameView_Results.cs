@@ -373,6 +373,8 @@ namespace TurboLabz.Multiplayer
             {
                 resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
             }
+
+            EnableInputField(vo.isChatEnabled);
         }
 
         private void AnimateResultsDialog()
@@ -457,16 +459,15 @@ namespace TurboLabz.Multiplayer
         public void OnResultsSkipRewardButtonClicked()
         {
             showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
+            backToLobbySignal.Dispatch();
+            refreshLobbySignal.Dispatch();
 
             if (isLongPlay)
-            {
-                backToLobbySignal.Dispatch();
-                refreshLobbySignal.Dispatch();
+            { 
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.long_match);
             }
             else
             {
-                backToLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.quick_match);
             }
         }

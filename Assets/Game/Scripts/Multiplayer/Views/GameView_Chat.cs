@@ -29,6 +29,8 @@ namespace TurboLabz.Multiplayer
         public Text unreadMessagesCount;
         public Button maximizeChatDlgBtn;
         public Button editorSubmit;
+        public Text inputFieldDefaultText;
+        public Image inputFieldIcon;
 
         public Signal<ChatMessage> chatSubmitSignal = new Signal<ChatMessage>();
         public Signal<string> openChatDlgSignal = new Signal<string>();
@@ -63,7 +65,18 @@ namespace TurboLabz.Multiplayer
             unreadMessagesCount.text = vo.unreadMessagesCount.ToString();
             opponentId = vo.opponentId;
             playerId = vo.playerId;
-            inputField.enabled = vo.isChatEnabled;
+            EnableInputField(vo.isChatEnabled);
+        }
+
+        public void EnableInputField(bool isChatEnabled)
+        {
+            inputField.enabled = isChatEnabled;
+            inputFieldDefaultText.color = isChatEnabled ?
+                Colors.WHITE_150 :
+                Colors.DISABLED_WHITE;
+            inputFieldIcon.color = isChatEnabled ?
+                Colors.WHITE_150 :
+                Colors.DISABLED_WHITE;
         }
 
         public void EnableUnreadIndicator(string friendId, int messagesCount)

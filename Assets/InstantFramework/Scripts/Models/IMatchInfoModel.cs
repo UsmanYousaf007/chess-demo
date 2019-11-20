@@ -17,5 +17,6 @@ namespace TurboLabz.InstantFramework
         List<string> unregisteredChallengeIds { get; set; }
         bool createLongMatchAborted { get; set; }
         CreateLongMatchAbortReason createLongMatchAbortReason { get; set; }
+        MatchInfo lastCompletedMatch { get; set; }
     }
 }

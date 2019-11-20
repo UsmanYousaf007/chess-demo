@@ -55,7 +55,15 @@ namespace TurboLabz.InstantFramework
             //getting opponent profile from active match
             if (opponentProfile == null)
             {
-                opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                if (matchInfoModel.activeMatch != null)
+                {
+                    opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                }
+                else
+                {
+                    opponentPublicProfile = matchInfoModel.lastCompletedMatch.opponentPublicProfile;
+                }
+
                 opponentPublicProfile.isOnline = true;
             }
             else
@@ -102,12 +110,9 @@ namespace TurboLabz.InstantFramework
             //2. long match with current player is not running with player
             //3. no quick match is progress
             //in other words chat will only be enabled in case if match is started with the player
-            if ((matchInfoModel.activeMatch == null
-                || (matchInfoModel.activeMatch != null
-                && !matchInfoModel.activeMatch.opponentPublicProfile.playerId.Equals(opponentId)))
-                && opponentProfile != null
-                && opponentProfile.lastMatchTimestamp <= 0
-                && !IsLongMatchActiveWithOpponent())
+            if (opponentProfile != null &&
+                opponentProfile.lastMatchTimestamp <= 0 &&
+                !IsLongMatchActiveWithOpponent())
             {
                 vo.isChatEnabled = false;
             }

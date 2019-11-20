@@ -83,7 +83,7 @@ namespace TurboLabz.InstantFramework
             UpdateGame(challengeId, gameData);
  
             // Update the bars
-            if (matchInfoModel.matches.ContainsKey(challengeId) && matchInfoModel.matches[challengeId].isLongPlay)
+            if (matchInfoModel.matches.ContainsKey(challengeId) /*&& matchInfoModel.matches[challengeId].isLongPlay*/)
             {
                 string opponentId = matchInfoModel.matches[challengeId].opponentPublicProfile.playerId;
 

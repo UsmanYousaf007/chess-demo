@@ -87,8 +87,8 @@ public class NotchHandler : MonoBehaviour {
         SetY(lobbyScrollView, -66f - 100f);
         SetTop(lobbyViewPort, -6f);
         SetBottom(lobbyViewPort, 108f + 100f);
-        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -150f);
-        lobbyView.setScorllViewportBottomTo = 360;
+        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -162f);
+        lobbyView.setScorllViewportBottomTo = 373;
 
         // PROFILE
         SetY(profileFacebookButton, -270f);

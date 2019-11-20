@@ -29,6 +29,30 @@ namespace TurboLabz.Multiplayer
             vo.removeAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
             vo.playerName = cmd.playerModel.name;
             vo.opponentName = cmd.activeMatchInfo.opponentPublicProfile.name;
+            vo.isChatEnabled = true;
+
+            //incase of early resignation disabling chat in case on match played or not a friend
+            Friend opponentProfile = null;
+            string opponentId = cmd.activeMatchInfo.opponentPublicProfile.playerId;
+
+            if (cmd.playerModel.friends.ContainsKey(opponentId))
+            {
+                opponentProfile = cmd.playerModel.friends[opponentId];
+            }
+            else if (cmd.playerModel.community.ContainsKey(opponentId))
+            {
+                opponentProfile = cmd.playerModel.community[opponentId];
+            }
+            else if (cmd.playerModel.search.ContainsKey(opponentId))
+            {
+                opponentProfile = cmd.playerModel.search[opponentId];
+            }
+
+            if (opponentProfile != null &&
+                opponentProfile.lastMatchTimestamp <= 0)
+            {
+                vo.isChatEnabled = false;
+            }
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
 
@@ -61,6 +85,7 @@ namespace TurboLabz.Multiplayer
                     }
                 }
 
+                cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
                 cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.chessboardModel.chessboards.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.matchInfoModel.activeChallengeId = null;

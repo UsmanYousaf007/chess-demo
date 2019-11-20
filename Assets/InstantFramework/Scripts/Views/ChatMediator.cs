@@ -98,7 +98,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(ChallengeAcceptedSignal))]
         public void OnEnableChat()
         {
-            view.EnableChat();
+            view.EnableChat(true);
         }
     }
 }
