@@ -57,6 +57,11 @@ namespace TurboLabz.InstantFramework
                             IAPBanner.price.text = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
                             StartCoroutine(WaitForPriceToLoad(IAPBanner.price));
                             spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
+
+                            if (IAPBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
+                            {
+                                IAPBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
+                            }
                         }
                         else
                         {
