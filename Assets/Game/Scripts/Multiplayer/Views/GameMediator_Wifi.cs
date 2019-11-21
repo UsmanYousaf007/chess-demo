@@ -112,17 +112,27 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(AppEventSignal))]
         public void OnAppEvent(AppEvent evt)
         {
-            if (gameObject.activeSelf == true && evt == AppEvent.RESUMED)
+            if (!gameObject.activeSelf ||
+                evt != AppEvent.RESUMED ||
+                appInfoModel.syncInProgress ||
+                matchInfoModel.activeChallengeId == null ||
+                !chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
             {
-                if (matchInfoModel.activeChallengeId != null)
-                {
-                    SyncReconnectData(matchInfoModel.activeChallengeId);
-                }
+                return;
             }
+
+            SyncReconnectData(matchInfoModel.activeChallengeId);
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
+            // No need to sync an ended match
+            if (matchInfoModel.activeChallengeId == null ||
+                !chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            {
+                return;
+            }
+
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 if (matchInfoModel.activeChallengeId != null)
@@ -136,8 +146,7 @@ namespace TurboLabz.Multiplayer
                     //matchReconnection = true;
                 }
             }
-            else
-            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            else if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 view.WifiHealthUpdate(true);
 
@@ -146,14 +155,8 @@ namespace TurboLabz.Multiplayer
                     appInfoModel.syncInProgress = true;
 
                     LogUtil.Log("Match reconnecting..", "cyan");
-                    //if (chessboardModel.chessboards[matchInfoModel.activeChallengeId].isPlayerTurn)
-                    //{
-                    //    ReconnectMatch();
-                    //}
-                    //else
-                    //{
-                        backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
-                    //}
+
+                    backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
                 }
             }
         }
