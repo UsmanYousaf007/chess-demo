@@ -34,21 +34,7 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAT);
             chatModel.activeChatId = opponentId;
 
-            Friend opponentProfile = null;
-
-            if (playerModel.friends.ContainsKey(opponentId))
-            {
-                opponentProfile = playerModel.friends[opponentId];
-            }
-            else if (playerModel.community.ContainsKey(opponentId))
-            {
-                opponentProfile = playerModel.community[opponentId];
-            }
-            else if (playerModel.search.ContainsKey(opponentId))
-            {
-                opponentProfile = playerModel.search[opponentId];
-            }
-
+            Friend opponentProfile = playerModel.GetFriend(opponentId);
             PublicProfile opponentPublicProfile = null;
 
             //if opponentProfile is still null then it means match is made using random quick match

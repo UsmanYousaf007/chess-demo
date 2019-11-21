@@ -32,21 +32,9 @@ namespace TurboLabz.Multiplayer
             vo.isChatEnabled = true;
 
             //incase of early resignation disabling chat in case on match played or not a friend
-            Friend opponentProfile = null;
             string opponentId = cmd.activeMatchInfo.opponentPublicProfile.playerId;
 
-            if (cmd.playerModel.friends.ContainsKey(opponentId))
-            {
-                opponentProfile = cmd.playerModel.friends[opponentId];
-            }
-            else if (cmd.playerModel.community.ContainsKey(opponentId))
-            {
-                opponentProfile = cmd.playerModel.community[opponentId];
-            }
-            else if (cmd.playerModel.search.ContainsKey(opponentId))
-            {
-                opponentProfile = cmd.playerModel.search[opponentId];
-            }
+            Friend opponentProfile = cmd.playerModel.GetFriend(opponentId);
 
             if (opponentProfile != null &&
                 opponentProfile.lastMatchTimestamp <= 0)

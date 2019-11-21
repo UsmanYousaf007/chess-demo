@@ -58,7 +58,7 @@ namespace TurboLabz.InstantGame
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
-
+        [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -284,6 +284,15 @@ namespace TurboLabz.InstantGame
 
             if (notificationVO.matchGroup != "undefined")
             {
+                Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
+                if (pic == null)
+                {
+                    if (!(notificationVO.profilePicURL.Equals("unassignedURL") || notificationVO.Equals("undefined")))
+                    {
+                        facebookService.GetSocialPic(notificationVO.profilePicURL, notificationVO.senderPlayerId).Then(OnGetSocialPic);
+                    }
+                }
+                    
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
                                         notificationVO.avatarId, notificationVO.avaterBgColorId);
             }
@@ -358,6 +367,8 @@ namespace TurboLabz.InstantGame
             if (result == FacebookResult.SUCCESS)
             {
                 picsModel.SetPlayerPic(playerId, sprite, false);
+                updateFriendPicSignal.Dispatch(playerId, sprite);
+
                 if (notifications.Count > 0 && playerId.Equals(notifications[0].notificationVO.senderPlayerId))
                 {
                     notifications[0].notification.senderPic.gameObject.SetActive(true);

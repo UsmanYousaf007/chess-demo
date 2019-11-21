@@ -85,11 +85,16 @@ namespace TurboLabz.InstantFramework
             // Todo: create a separate signal for just updating the opponent picture.
             if (result == FacebookResult.SUCCESS)
             {
-                matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
-                ProfileVO pvo = GetOpponentProfile();
-                updateOpponentProfileSignal.Dispatch(pvo);
+                //in case of abandon it will be null
+                if (matchInfoModel.activeMatch != null)
+                {
+                    matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
 
-                updateChatOpponentPicSignal.Dispatch(sprite);
+                    ProfileVO pvo = GetOpponentProfile();
+                    updateOpponentProfileSignal.Dispatch(pvo);
+
+                    updateChatOpponentPicSignal.Dispatch(sprite);
+                }
             }
 
             Release();

@@ -57,20 +57,7 @@ namespace TurboLabz.InstantFramework
 
             string opponentId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
 
-            Friend opponentProfile = null;
-
-            if (playerModel.friends.ContainsKey(opponentId))
-            {
-                opponentProfile = playerModel.friends[opponentId];
-            }
-            else if (playerModel.community.ContainsKey(opponentId))
-            {
-                opponentProfile = playerModel.community[opponentId];
-            }
-            else if (playerModel.search.ContainsKey(opponentId))
-            {
-                opponentProfile = playerModel.search[opponentId];
-            }
+            Friend opponentProfile = playerModel.GetFriend(opponentId);
 
             // PREPARE CHAT TODO: Switch over to central player profile management system
             ChatVO vo = new ChatVO();
