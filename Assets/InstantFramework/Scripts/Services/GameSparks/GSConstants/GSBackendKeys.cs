@@ -24,7 +24,11 @@ namespace TurboLabz.InstantFramework
         public const string APP_IOS_URL = "iosURL";
         public const string APP_RATE_APP_THRESHOLD = "rateAppThreshold";
         public const string APP_ONLINE_COUNT = "onlineCount";
-        
+        public const string MAINTENANCE_FLAG = "maintenanceFlag";
+        public const string UPDATE_MESSAGE = "updateMessage";
+        public const string MAINTENANCE_MESSAGE = "maintenanceMessage";
+        public const string MINIMUM_CLIENT_VERSION = "minimumClientVersion";
+
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";

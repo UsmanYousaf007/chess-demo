@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }
-
+        
         enum subVersionIndex
         {
             MAJOR = 0,

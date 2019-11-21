@@ -10,6 +10,10 @@ namespace TurboLabz.InstantFramework
         int maxLongMatchCount { get; set; }
         int maxFriendsCount { get; set; }
         int maxCommunityMatches { get; set; }
-    
+        bool maintenanceFlag { get; set; }
+        string updateMessage { get; set; }
+        string maintenanceMessage { get; set; }
+        string minimumClientVersion { get; set; }
+
     }
 }

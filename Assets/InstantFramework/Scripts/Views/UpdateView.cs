@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         public Text updateLabel;
         public Text updateButtonText;
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            updateLabel.text = settingsModel.updateMessage;
             gameObject.SetActive(true);
         }
 
