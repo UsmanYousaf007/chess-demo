@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         public const string MAX_LONG_MATCH_COUNT = "maxLongMatchCount";
         public const string MAX_FRIENDS_COUNT = "maxFriendsCount";
         public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
+        public const string MAX_RECENTLY_COMPLETED_MATCH_COUNT = "maxRecentlyCompletedMatchCount";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";

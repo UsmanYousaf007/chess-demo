@@ -167,6 +167,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.maxLongMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
             settingsModel.maxFriendsCount   = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
             settingsModel.facebookConnectReward = gsSettingsData.GetInt(GSBackendKeys.FACEBOOK_CONNECT_REWARD).Value;
+            settingsModel.maxRecentlyCompletedMatchCount = gsSettingsData.GetInt(GSBackendKeys.FACEBOOK_CONNECT_REWARD).Value;
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)
