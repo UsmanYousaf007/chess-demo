@@ -234,7 +234,7 @@ namespace TurboLabz.InstantGame
 
                 notification.titleLarge.gameObject.SetActive(true);
                 notification.title.gameObject.SetActive(false);
-                notification.titleLarge.text = "Speed Chess";
+                notification.titleLarge.text = "5-Minutes Game";
                 notification.body.text = notificationVO.title;
 
                 if (!notification.senderPic.gameObject.activeSelf)
