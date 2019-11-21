@@ -86,10 +86,11 @@ namespace TurboLabz.InstantFramework
 
             vo.isChatEnabled = true;
 
-            if (matchInfo.isLongPlay &&
-                matchInfo.acceptStatus != GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED &&
-                opponentProfile != null &&
-                opponentProfile.lastMatchTimestamp <= 0)
+            if (opponentProfile != null &&
+                opponentProfile.lastMatchTimestamp <= 0 &&
+                !(matchInfo.isLongPlay &&
+                matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED) &&
+                !matchInfoModel.activeMatch.opponentPublicProfile.playerId.Equals(opponentId))
             {
                 vo.isChatEnabled = false;
             }

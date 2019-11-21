@@ -112,7 +112,10 @@ namespace TurboLabz.InstantFramework
             //in other words chat will only be enabled in case if match is started with the player
             if (opponentProfile != null &&
                 opponentProfile.lastMatchTimestamp <= 0 &&
-                !IsLongMatchActiveWithOpponent())
+                !IsLongMatchActiveWithOpponent() &&
+                (matchInfoModel.activeMatch == null ||
+                (matchInfoModel.activeMatch != null &&
+                !matchInfoModel.activeMatch.opponentPublicProfile.playerId.Equals(opponentId))))
             {
                 vo.isChatEnabled = false;
             }
