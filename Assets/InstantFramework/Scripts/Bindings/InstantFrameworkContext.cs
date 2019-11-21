@@ -203,7 +203,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateFriendBarStatusSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFriendOnlineStatusSignal>().ToSingleton();
             injectionBinder.Bind<SplashWifiIsHealthySignal>().ToSingleton();
-
+            injectionBinder.Bind<ShowSplashContentSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled

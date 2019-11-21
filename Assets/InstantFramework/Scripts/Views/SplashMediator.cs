@@ -49,6 +49,12 @@ namespace TurboLabz.InstantFramework
         {
             view.WifiHealthUpdate();
         }
+
+        [ListensTo(typeof(ShowSplashContentSignal))]
+        public void OnShowContent(bool show)
+        {
+            view.ShowContent(show);
+        }
     }
 }
 

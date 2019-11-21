@@ -10,6 +10,9 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        //Dispatch Signals
+        [Inject] public ShowSplashContentSignal showSplashContentSignal { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -21,6 +24,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SKILL_LEVEL_DLG)
             {
                 view.Show();
+                showSplashContentSignal.Dispatch(false);
                 analyticsService.ScreenVisit(AnalyticsScreen.skill_level_dlg);
             }
         }
@@ -31,6 +35,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SKILL_LEVEL_DLG)
             {
                 view.Hide();
+                showSplashContentSignal.Dispatch(true);
             }
         }
     }

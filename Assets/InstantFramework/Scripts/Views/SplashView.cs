@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
 
         public Text wifiWarning;
         public Text userMessage;
+        public GameObject connectingDots;
 
         public void Init()
         {
@@ -50,6 +51,12 @@ namespace TurboLabz.InstantFramework
             }
 
             wifiWarning.gameObject.SetActive(true);
+        }
+
+        public void ShowContent(bool show)
+        {
+            connectingDots.SetActive(show);
+            userMessage.gameObject.SetActive(show);
         }
     }
 }

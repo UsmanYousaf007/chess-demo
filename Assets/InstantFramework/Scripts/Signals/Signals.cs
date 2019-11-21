@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
     public class StartGameSignal : Signal {}
     public class WifiIsHealthySignal : Signal<bool> {}
     public class SplashWifiIsHealthySignal : Signal {}
+    public class ShowSplashContentSignal : Signal<bool> {}
     public class ResetCapturedPiecesSignal : Signal { }
     public class SetErrorAndHaltSignal : Signal<BackendResult, string> {}
     public class HaltSignal: Signal<BackendResult> {}
