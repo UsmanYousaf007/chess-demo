@@ -167,6 +167,7 @@ namespace TurboLabz.InstantFramework
             //    )
 
             int fbFriendCount = fbFriends.Count + onlineFbFriends.Count;
+            playerModel.playerFriendsCount = fbFriendCount;
 
             if (fbFriends.Count > 0 || onlineFbFriends.Count > 0)
             {

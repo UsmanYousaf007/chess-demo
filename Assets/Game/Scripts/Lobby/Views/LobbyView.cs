@@ -718,10 +718,11 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             actionBar = null;
 
-            //if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
-            //{
-            //    friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
-            //}
+            if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
+            {
+                friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
+                return;
+            }
 
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT)
             {

@@ -63,7 +63,18 @@ namespace TurboLabz.InstantFramework
         public Text chatLabel;
         public Button chatBtn;
 
+        [Header("Alert Dialog")]
+        public GameObject alertDialog;
+        public Text alertDialogTitle;
+        public Text alertDialogLabel;
+        public Text okButtonText;
+        public Button okBtn;
+
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
+
+
 
         public Signal<string> blockUserSignal = new Signal<string>();
         public Signal<string> addFriendSignal = new Signal<string>();
@@ -94,7 +105,7 @@ namespace TurboLabz.InstantFramework
             friendedText.text = localizationService.Get(LocalizationKey.FRIENDS_TEXT_FRIENDED);
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
-           
+            alertDialogTitle.text = "Limit Reached";
 
             blockBtn.onClick.AddListener(OnBlockConfirm);
             chatBtn.onClick.AddListener(OnChat);
@@ -102,13 +113,18 @@ namespace TurboLabz.InstantFramework
             yesBtn.onClick.AddListener(() => OnBlock(playerId));
             addFriendBtn.onClick.AddListener(OnAddFriendClicked);
             removeFriendBtn.onClick.AddListener(OnRemoveFriendClicked);
-            
+
+            okBtn.onClick.AddListener(OnAlertDialogOkButtonClicked);
+            alertDialog.SetActive(false);
+
         }
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
         {
+            alertDialogLabel.text = "Max add friend limit reached = " + settingsModel.maxFriendsCount;
             playerAvatarBg.gameObject.SetActive(false);
             playerAvatarIcon.gameObject.SetActive(false);
+            alertDialog.SetActive(false);
 
             playerId = vo.playerId;
             if (vo.playerProfilePic!= null)
@@ -241,10 +257,19 @@ namespace TurboLabz.InstantFramework
 
         private void OnAddFriendClicked()
         {
-            thinking.gameObject.SetActive(true);
-            Invoke("TrigerAddFriendSignal", 2.0f);
+            
+            if(playerModel.playerFriendsCount >= settingsModel.maxFriendsCount)
+            {
+                alertDialog.SetActive(true);
+            }
+            else
+            {
+                thinking.gameObject.SetActive(true);
+                Invoke("TrigerAddFriendSignal", 2.0f);
 
-            EnableAddButton(false);
+                EnableAddButton(false);
+
+            }
         }
 
         private void OnRemoveFriendClicked()
@@ -303,6 +328,11 @@ namespace TurboLabz.InstantFramework
                 addFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.5f);
 
             }
+        }
+
+        private void OnAlertDialogOkButtonClicked()
+        {
+            alertDialog.SetActive(false);
         }
 
     }

@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         string editedName { get; set; }
         bool newUser { get; set; }
         string skillLevel { get; set; }
+        int playerFriendsCount { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
