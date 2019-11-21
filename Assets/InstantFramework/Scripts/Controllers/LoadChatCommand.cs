@@ -110,32 +110,46 @@ namespace TurboLabz.InstantFramework
             //2. long match with current player is not running with player
             //3. no quick match is progress
             //in other words chat will only be enabled in case if match is started with the player
-            if (opponentProfile != null &&
-                opponentProfile.lastMatchTimestamp <= 0 &&
-                !IsLongMatchActiveWithOpponent() &&
-                (matchInfoModel.activeMatch == null ||
-                (matchInfoModel.activeMatch != null &&
-                !matchInfoModel.activeMatch.opponentPublicProfile.playerId.Equals(opponentId))))
+            if (opponentProfile != null && opponentProfile.lastMatchTimestamp <= 0)
             {
-                vo.isChatEnabled = false;
+                var activeMatch = GetActiveMatchWithOpponent();
+                if (activeMatch != null)
+                {
+                    if (activeMatch.isLongPlay)
+                    {
+                        if (activeMatch.acceptStatus != GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
+                        {
+                            vo.isChatEnabled = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!activeMatch.opponentPublicProfile.playerId.Equals(opponentId))
+                        {
+                            vo.isChatEnabled = false;
+                        }
+                    }
+                }
+                else
+                {
+                    vo.isChatEnabled = false;
+                }
             }
 
             updateChatView.Dispatch(vo);
         }
 
-        private bool IsLongMatchActiveWithOpponent()
+        private MatchInfo GetActiveMatchWithOpponent()
         {
             foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
             {
-                if (entry.Value.opponentPublicProfile.playerId == opponentId
-                    && entry.Value.isLongPlay
-                    && entry.Value.acceptStatus.Equals(GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED))
+                if (entry.Value.opponentPublicProfile.playerId.Equals(opponentId))
                 {
-                    return true;
+                    return entry.Value;
                 }
             }
-
-            return false;
+            return null;
         }
+
     }
 }

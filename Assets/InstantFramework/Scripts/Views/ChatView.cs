@@ -176,10 +176,13 @@ namespace TurboLabz.InstantFramework
             EnableChat(vo.isChatEnabled);
             CleanUpChat();
 
-            foreach (ChatMessage message in vo.chatMessages.messageList)
+            if (vo.isChatEnabled)
             {
-                bool isPlayerMessage = vo.playerId == message.senderId;
-                AddChatBubble(message, isPlayerMessage);
+                foreach (ChatMessage message in vo.chatMessages.messageList)
+                {
+                    bool isPlayerMessage = vo.playerId == message.senderId;
+                    AddChatBubble(message, isPlayerMessage);
+                }
             }
         }
 

@@ -123,6 +123,7 @@ namespace TurboLabz.InstantFramework
                     acceptButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     newMatchGreeting.gameObject.SetActive(true);
+                    unreadChat.gameObject.SetActive(false);
                     newMatchGreetingLabel.text = strNewMatchGreeting;
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
@@ -219,6 +220,7 @@ namespace TurboLabz.InstantFramework
                     okButton.gameObject.SetActive(true);
                     okButton.interactable = true;
                     newMatchGreeting.gameObject.SetActive(true);
+                    unreadChat.gameObject.SetActive(false);
                     newMatchGreetingLabel.text = strDeclineApology;
                     break;
             }

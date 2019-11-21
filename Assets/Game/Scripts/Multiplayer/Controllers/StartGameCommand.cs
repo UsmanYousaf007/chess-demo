@@ -86,13 +86,22 @@ namespace TurboLabz.InstantFramework
 
             vo.isChatEnabled = true;
 
-            if (opponentProfile != null &&
-                opponentProfile.lastMatchTimestamp <= 0 &&
-                !(matchInfo.isLongPlay &&
-                matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED) &&
-                !matchInfoModel.activeMatch.opponentPublicProfile.playerId.Equals(opponentId))
+            if (opponentProfile != null && opponentProfile.lastMatchTimestamp <= 0)
             {
-                vo.isChatEnabled = false;
+                if (matchInfo.isLongPlay)
+                {
+                    if (matchInfo.acceptStatus != GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
+                    {
+                        vo.isChatEnabled = false;
+                    }
+                }
+                else
+                {
+                    if (!matchInfo.opponentPublicProfile.playerId.Equals(opponentId))
+                    {
+                        vo.isChatEnabled = false;
+                    }
+                }
             }
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
