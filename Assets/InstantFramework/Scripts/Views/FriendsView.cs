@@ -705,6 +705,7 @@ namespace TurboLabz.InstantFramework
             {
                 bars[friendId].unreadChat.gameObject.SetActive(true);
                 bars[friendId].unreadChatCount.text = messageCount.ToString();
+                bars[friendId].newMatchGreeting.gameObject.SetActive(false);
             }
         }
 
