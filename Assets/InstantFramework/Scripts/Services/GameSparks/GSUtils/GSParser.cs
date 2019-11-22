@@ -245,6 +245,7 @@ namespace TurboLabz.InstantFramework
             long creationDateUTC = publicProfileData.GetLong(GSBackendKeys.PublicProfile.CREATION_DATE).Value;
             DateTime creationDateTime = TimeUtil.ToDateTime(creationDateUTC);
             publicProfile.creationDate = creationDateTime.ToLocalTime().ToLongDateString();
+            publicProfile.creationDateShort = creationDateTime.ToLocalTime().ToString("d MMM yyyy");
 
             long lastSeenDateUTC = publicProfileData.GetLong(GSBackendKeys.PublicProfile.LAST_SEEN).Value;
             publicProfile.lastSeenDateTime = TimeUtil.ToDateTime(lastSeenDateUTC);

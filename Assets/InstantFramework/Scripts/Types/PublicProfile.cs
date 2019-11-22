@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public int totalGamesLost;
         public string avatarId;
         public string avatarBgColorId;
+        public string creationDateShort;
 
         public string name
         {

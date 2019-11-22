@@ -36,6 +36,9 @@ namespace TurboLabz.InstantFramework
         public int opponentDrawsCount;
         public int totalGamesCount;
 
+        public bool oppOnline;
+        public bool oppActive;
+
         public bool isCommunity;
         public string friendType;
         public LongPlayStatus longPlayStatus;

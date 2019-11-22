@@ -72,8 +72,8 @@ namespace TurboLabz.InstantFramework
             vo.oppAvatarColor = friend.publicProfile.avatarBgColorId;
             vo.oppElo = friend.publicProfile.eloScore;
             vo.oppCountryCode = friend.publicProfile.countryId;
-            vo.oppPlayingSinceDate = friend.publicProfile.creationDate;
-            vo.oppLastSeen = friend.publicProfile.lastSeen;
+            vo.oppPlayingSinceDate = friend.publicProfile.creationDateShort;
+            vo.oppLastSeen = TimeUtil.DateTimeToRelativeTime(friend.publicProfile.lastSeenDateTime.ToLocalTime());
 
             vo.oppTotalGamesWon = friend.publicProfile.totalGamesWon;
             vo.oppTotalGamesLost = friend.publicProfile.totalGamesLost;
@@ -85,6 +85,8 @@ namespace TurboLabz.InstantFramework
             vo.totalGamesCount = friend.gamesWon + friend.gamesLost + friend.gamesDrawn;
             vo.friendType = friend.friendType;
             vo.longPlayStatus = friendBar.longPlayStatus;
+            vo.oppOnline = friend.publicProfile.isOnline;
+            vo.oppActive = friend.publicProfile.isActive;
 
             updateProfileDialogSignal.Dispatch(vo);
         }

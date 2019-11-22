@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 5439408
+    totalSpriteSurfaceArea: 5435966
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -55,6 +55,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 57fb4f305816148a7968dce8846ba273, type: 3}
   - {fileID: 21300000, guid: 3a4bd9407b09f44e2ab0d9c985dd8f13, type: 3}
   - {fileID: 21300000, guid: 5b68f350a02934c5bb79e1dc35987f3b, type: 3}
+  - {fileID: 21300000, guid: 5bb54850274ea467da2134bd935d650d, type: 3}
   - {fileID: 21300000, guid: 4b911b803eb1d4e2b99697684c6e42fe, type: 3}
   - {fileID: 21300000, guid: 7708e7c0b3f3b47a5b20d76b0a2a3fac, type: 3}
   - {fileID: 21300000, guid: 6b404ed06a2504dc68b1f84e1a2d734e, type: 3}
@@ -251,6 +252,7 @@ SpriteAtlas:
   - HomeIcon
   - NoSmileyIcon
   - strengthTrainingBg
+  - ProfileFlagMask
   - LobbyBtn
   - UndoBtn
   - ProfileFlagBorder
@@ -335,7 +337,7 @@ SpriteAtlas:
   - AudioOff
   - GreenBox
   - ImgSave40
-  - ProfileFlagMask
+  - 1ProfileFlagMask
   - ToggleBtnBall
   - f
   - strengthPanelBg

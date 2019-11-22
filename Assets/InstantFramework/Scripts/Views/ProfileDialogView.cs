@@ -40,19 +40,16 @@ namespace TurboLabz.InstantFramework
         public Button noBtn;
 
         [Header("Stats")]
-        public Text winsTitle;
-        public Text drawsTitle;
-        public Text playerWinsLabel;
-        public Text playerDrawsLabel;
-        public Text opponentWinsLabel;
-        public Text opponentDrawsLabel;
-        public Text totalGamesLabel;
+        public Text rankedTitle;
+        public Text playerRankedWinsLabel;
+        public Text opponentRankedWinsLabel;
 
         [Header("Others")]
         public Text vsLabel;
         public Sprite defaultAvatar;
         public Text blockLabel;
         public Button blockBtn;
+        public Image blockUnderline;
         public Button closeBtn;
         public Button addFriendBtn;
         public Text addFriendBtnText;
@@ -69,6 +66,12 @@ namespace TurboLabz.InstantFramework
         public Text alertDialogLabel;
         public Text okButtonText;
         public Button okBtn;
+
+        [Header("Online Status")]
+        public Image onlineStatus;
+        public Sprite online;
+        public Sprite offline;
+        public Sprite active;
 
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -95,8 +98,7 @@ namespace TurboLabz.InstantFramework
             confirmLabel.text = localizationService.Get(LocalizationKey.FRIENDS_CONFIRM_LABEL);
             yesLabel.text = localizationService.Get(LocalizationKey.FRIENDS_YES_LABEL);
             noLabel.text = localizationService.Get(LocalizationKey.FRIENDS_NO_LABEL);
-            winsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_WINS_LABEL);
-            drawsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_DRAWS_LABEL);
+            rankedTitle.text = localizationService.Get(LocalizationKey.FRIENDS_WINS_LABEL);
             vsLabel.text = localizationService.Get(LocalizationKey.FRIENDS_VS_LABEL);
             blockLabel.text = localizationService.Get(LocalizationKey.FRIENDS_BLOCK_LABEL);
             chatLabel.text = localizationService.Get(LocalizationKey.FRIENDS_CHAT_LABEL);
@@ -178,21 +180,20 @@ namespace TurboLabz.InstantFramework
             oppProfileName.text = vo.oppProfileName;
             oppEloLabel.text = eloPrefix + " " + vo.oppElo;
             oppFlag.sprite = Flags.GetFlag(vo.oppCountryCode);
-            oppPlayingSinceDate.text = "Playing since " + vo.oppPlayingSinceDate;
-            oppLastSeen.text = "Last played " + vo.oppLastSeen;
+            oppPlayingSinceDate.text = "Playing since, " + vo.oppPlayingSinceDate;
+            oppLastSeen.text = "Last played, " + vo.oppLastSeen;
 
             float total = vo.oppTotalGamesWon + vo.oppTotalGamesLost;
             float percentage = total > 0.0f ? (vo.oppTotalGamesWon / total) * 100.0f : 0.0f;
             oppWinPercentage.text = "Win Percentage: " + percentage.ToString("0.") + "%";
 
-            playerWinsLabel.text = vo.playerWinsCount.ToString();
-            playerDrawsLabel.text = vo.playerDrawsCount.ToString();
-            opponentWinsLabel.text = vo.opponentWinsCount.ToString();
-            opponentDrawsLabel.text = vo.opponentDrawsCount.ToString();
-            totalGamesLabel.text = totalGamesPrefix + vo.totalGamesCount;
+            playerRankedWinsLabel.text = vo.playerWinsCount.ToString();
+            opponentRankedWinsLabel.text = vo.opponentWinsCount.ToString();
             oppCountry.text = Flags.GetCountry(vo.oppCountryCode);
 
-            blockBtn.gameObject.SetActive(!vo.isCommunity);
+            blockBtn.interactable = !vo.isCommunity;
+            blockLabel.color = vo.isCommunity ? Colors.DISABLED_WHITE : Colors.WHITE;
+            blockUnderline.color = vo.isCommunity ? Colors.DISABLED_WHITE : Colors.WHITE;
 
             if (vo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
             {
@@ -209,7 +210,14 @@ namespace TurboLabz.InstantFramework
                 EnableRemoveButton(false);
             }
 
-            
+            if (!vo.oppOnline && vo.oppActive)
+            {
+                onlineStatus.sprite = active;
+            }
+            else
+            {
+                onlineStatus.sprite = vo.oppOnline ? online : offline;
+            }
         }
 
         public void Show()
@@ -275,6 +283,7 @@ namespace TurboLabz.InstantFramework
         private void OnRemoveFriendClicked()
         {
             thinking.gameObject.SetActive(true);
+            friendedText.gameObject.SetActive(false);
             Invoke("TrigerRemoveFriendSignal", 2.0f);
 
             EnableRemoveButton(false);
@@ -285,19 +294,9 @@ namespace TurboLabz.InstantFramework
             thinking.gameObject.SetActive(false);
             EnableAddButton(true);
             EnableRemoveButton(true);
-
-            if (flag)
-            {
-                friendedText.gameObject.SetActive(true);
-                removeFriendBtn.gameObject.SetActive(true);
-                addFriendBtn.gameObject.SetActive(false);
-            }
-            else
-            {
-                friendedText.gameObject.SetActive(false);
-                removeFriendBtn.gameObject.SetActive(false);
-                addFriendBtn.gameObject.SetActive(true);
-            }
+            friendedText.gameObject.SetActive(flag);
+            removeFriendBtn.gameObject.SetActive(flag);
+            addFriendBtn.gameObject.SetActive(!flag);
         }
 
         private void EnableRemoveButton(bool enableFlag)
@@ -305,12 +304,12 @@ namespace TurboLabz.InstantFramework
             if (enableFlag)
             {
                 removeFriendBtn.interactable = true;
-                removeFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.9f);
+                removeFriendBtnText.color = Colors.WHITE;
             }
             else
             {
                 removeFriendBtn.interactable = false;
-                removeFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.5f);
+                removeFriendBtnText.color = Colors.DISABLED_WHITE;
 
             }
         }
