@@ -718,6 +718,9 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             actionBar = null;
 
+            Debug.Log("matchInfoModel.matches.Count >>>>>>>>>>>>>> :::: " + matchInfoModel.matches.Count);
+            Debug.Log("settingsModel.maxLongMatchCount >>>>>>>>>>>>>> :::: " + settingsModel.maxLongMatchCount);
+
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
             {
                 friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
