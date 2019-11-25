@@ -125,7 +125,7 @@ namespace TurboLabz.TLUtils
             if (delta < 45 * MINUTE)
                 return ts.Minutes + " minutes ago";
 
-            if (delta < 90 * MINUTE)
+            if (delta < 120 * MINUTE)
                 return "an hour ago";
 
             if (delta < 24 * HOUR)
