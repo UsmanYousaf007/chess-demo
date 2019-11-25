@@ -117,7 +117,7 @@ namespace TurboLabz.TLUtils
             double delta = Math.Abs(ts.TotalSeconds);
 
             if (delta < 1 * MINUTE)
-                return ts.Seconds == 1 ? "one second ago" : ts.Seconds + " seconds ago";
+                return ts.Seconds == 1 ? "a second ago" : ts.Seconds + " seconds ago";
 
             if (delta < 2 * MINUTE)
                 return "a minute ago";

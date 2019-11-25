@@ -53,8 +53,10 @@ namespace TurboLabz.InstantFramework
         public Button closeBtn;
         public Button addFriendBtn;
         public Text addFriendBtnText;
+        public Image addFriendBtnUnderline;
         public Button removeFriendBtn;
         public Text removeFriendBtnText;
+        public Image removeFriendBtnUnderline;
         public Text friendedText;
         public GameObject thinking;
         public Text chatLabel;
@@ -192,8 +194,9 @@ namespace TurboLabz.InstantFramework
             oppCountry.text = Flags.GetCountry(vo.oppCountryCode);
 
             blockBtn.interactable = !vo.isCommunity;
-            blockLabel.color = vo.isCommunity ? Colors.DISABLED_WHITE : Colors.WHITE;
-            blockUnderline.color = vo.isCommunity ? Colors.DISABLED_WHITE : Colors.WHITE;
+            var colorToSet = vo.isCommunity ? Colors.DISABLED_WHITE : Colors.WHITE;
+            blockLabel.color = colorToSet;
+            blockUnderline.color = colorToSet;
 
             if (vo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
             {
@@ -301,32 +304,18 @@ namespace TurboLabz.InstantFramework
 
         private void EnableRemoveButton(bool enableFlag)
         {
-            if (enableFlag)
-            {
-                removeFriendBtn.interactable = true;
-                removeFriendBtnText.color = Colors.WHITE;
-            }
-            else
-            {
-                removeFriendBtn.interactable = false;
-                removeFriendBtnText.color = Colors.DISABLED_WHITE;
-
-            }
+            removeFriendBtn.interactable = enableFlag;
+            var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
+            removeFriendBtnText.color = colorToSet;
+            removeFriendBtnUnderline.color = colorToSet;
         }
 
         private void EnableAddButton(bool enableFlag)
         {
-            if(enableFlag)
-            {
-                addFriendBtn.interactable = true;
-                addFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.9f);
-            }
-            else
-            {
-                addFriendBtn.interactable = false;
-                addFriendBtnText.color = Colors.ColorAlpha(addFriendBtnText.color, 0.5f);
-
-            }
+            addFriendBtn.interactable = enableFlag;
+            var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
+            addFriendBtnText.color = colorToSet;
+            addFriendBtnUnderline.color = colorToSet;
         }
 
         private void OnAlertDialogOkButtonClicked()
