@@ -112,7 +112,10 @@ namespace TurboLabz.InstantFramework
         tap_coach_after_training,
         tap_move_meter_after_training,
         tap_yes_skill_level_dlg,
-        tap_no_skill_level_dlg
+        tap_no_skill_level_dlg,
+        tap_long_match_start_game_dlg,
+        tap_quick_match_start_game_dlg,
+        tap_chat_player_profile
     }
 
     public enum AnalyticsContext

@@ -86,6 +86,7 @@ namespace TurboLabz.InstantFramework
         private void OnChat(string playerId)
         {
             loadChatSignal.Dispatch(playerId, false);
+            analyticsService.Event(AnalyticsEventId.tap_chat_player_profile);
         }
 
         private void OnAddFriend(string playerId)
