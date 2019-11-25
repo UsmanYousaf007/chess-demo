@@ -93,6 +93,7 @@ namespace TurboLabz.InstantFramework
         {
             newFriendSignal.Dispatch(playerId, true);
             cancelSearchResultSignal.Dispatch();
+            analyticsService.Event(AnalyticsEventId.tap_add_friends);
         }
 
         private void OnRemoveFriend(string playerId)
@@ -100,6 +101,7 @@ namespace TurboLabz.InstantFramework
             if (playerModel.friends.ContainsKey(playerId))
             {
                 removeCommunityFriendSignal.Dispatch(playerId);
+                analyticsService.Event(AnalyticsEventId.tap_remove_friends);
             }
             else
             {

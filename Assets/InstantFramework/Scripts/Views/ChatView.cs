@@ -49,12 +49,16 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Signals
         public Signal<ChatMessage> chatSubmitSignal = new Signal<ChatMessage>();
         public Signal closeChatSignal = new Signal();
         public Signal<string> clearChatSignal = new Signal<string>();
         public Signal<string> clearUnreadMessagesSignal = new Signal<string>();
+
+        //Models
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
         private bool hasUnreadMessages;
@@ -69,6 +73,7 @@ namespace TurboLabz.InstantFramework
         private Sprite opponentProfilePic;
         private Sprite opponentAvatarIconSprite;
         private Color opponentAvatarBGColor;
+        private bool inGame;
 
         public void Init()
         {
@@ -108,6 +113,7 @@ namespace TurboLabz.InstantFramework
         {
             opponentId = vo.opponentId;
             playerId = vo.playerId;
+            inGame = vo.inGame;
             opponentHeaderName.text = vo.opponentName;
             hasUnreadMessages = vo.hasUnreadMessages;
             clearUnreadMessagesSignal.Dispatch(vo.opponentId);
@@ -200,6 +206,18 @@ namespace TurboLabz.InstantFramework
                 AddChatBubble(message, true);
                 inputField.text = "";
                 chatSubmitSignal.Dispatch(message);
+
+                if (!inGame)
+                {
+                    if (IsAnyMatchActiveWithOpponent())
+                    {
+                        analyticsService.Event(AnalyticsEventId.out_game_chat_match_active);
+                    }
+                    else
+                    {
+                        analyticsService.Event(AnalyticsEventId.out_game_chat_match_inactive);
+                    }
+                }
             }
         }
 
@@ -426,6 +444,18 @@ namespace TurboLabz.InstantFramework
                     opponentOnlineStatus.sprite = isOnline ? online : offline;
                 }
             }
+        }
+
+        bool IsAnyMatchActiveWithOpponent()
+        {
+            foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
+            {
+                if (entry.Value.opponentPublicProfile.playerId.Equals(opponentId))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

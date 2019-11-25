@@ -163,11 +163,11 @@ namespace TurboLabz.InstantFramework
                 notificationVO.title = message.Data.GetString("title");
                 notificationVO.body = message.Data.GetString("body");
                 notificationVO.senderPlayerId = msg.senderId;
-                notificationVO.challengeId = null;
-                notificationVO.matchGroup = null;
-                notificationVO.avatarId = null;
-                notificationVO.avaterBgColorId = null;
-                notificationVO.profilePicURL = null;
+                notificationVO.challengeId = message.Data.ContainsKey("challengeId") == true ? message.Data.GetString("challengeId") : "undefined";
+                notificationVO.matchGroup = message.Data.ContainsKey("matchGroup") == true ? message.Data.GetString("matchGroup") : "undefined";
+                notificationVO.avatarId = message.Data.ContainsKey("avatarId") == true ? message.Data.GetString("avatarId") : "undefined";
+                notificationVO.avaterBgColorId = message.Data.ContainsKey("avatarBgColorId") == true ? message.Data.GetString("avatarBgColorId") : "undefined";
+                notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") == true ? message.Data.GetString("profilePicURL") : "undefined";
                 notificationVO.isOpened = false;
 
                 notificationRecievedSignal.Dispatch(notificationVO);

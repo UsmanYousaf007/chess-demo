@@ -50,7 +50,10 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
-        
+
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -279,6 +282,14 @@ namespace TurboLabz.InstantFramework
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
         {
             analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
+
+            var friend = playerModel.GetFriend(playerId);
+
+            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+            {
+                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
+            }
+
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
         }
 

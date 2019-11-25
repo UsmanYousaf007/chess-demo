@@ -250,6 +250,11 @@ namespace TurboLabz.InstantGame
             {
                 notification.playButton.gameObject.SetActive(false);
                 notification.acceptQuickMatchButton.gameObject.SetActive(false);
+
+                if (notificationVO.matchGroup != "undefined")
+                {
+                    analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_timeout_ingame);
+                }
             }
 
             notifidationObj.transform.SetParent(gameObject.transform);
@@ -292,7 +297,7 @@ namespace TurboLabz.InstantGame
                         facebookService.GetSocialPic(notificationVO.profilePicURL, notificationVO.senderPlayerId).Then(OnGetSocialPic);
                     }
                 }
-                    
+                analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_accept);
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
                                         notificationVO.avatarId, notificationVO.avaterBgColorId);
             }

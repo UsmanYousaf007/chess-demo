@@ -39,7 +39,6 @@ namespace TurboLabz.InstantFramework
 
         void OnClose()
         {
-            chatModel.activeChatId = null;
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
@@ -62,6 +61,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAT)
             {
+                chatModel.activeChatId = null;
                 view.Hide();
             }
         }

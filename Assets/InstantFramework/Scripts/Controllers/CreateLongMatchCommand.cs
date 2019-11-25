@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
@@ -39,6 +40,13 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.tap_long_match_create, 
                 AnalyticsParameter.is_ranked,
                 isRanked);
+
+            var friend = playerModel.GetFriend(opponentId);
+
+            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+            {
+                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
+            }
         }
 
         private void OnCreateLongMatch(BackendResult result)

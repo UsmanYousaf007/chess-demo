@@ -928,14 +928,12 @@ namespace TurboLabz.InstantFramework
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
-            analyticsService.Event(AnalyticsEventId.tap_long_match_start_game_dlg);
         }
 
         void ConfirmFriendlyGameBtnClicked()
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
             CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
-            analyticsService.Event(AnalyticsEventId.tap_quick_match_start_game_dlg);
         }
 
         void ConfirmNewGameDlgNo()

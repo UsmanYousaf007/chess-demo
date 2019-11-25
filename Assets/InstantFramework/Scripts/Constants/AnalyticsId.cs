@@ -76,6 +76,7 @@ namespace TurboLabz.InstantFramework
         disconnection_time,
         quickmatch_direct_request,
         quickmatch_direct_request_accept,
+        quickmatch_direct_request_timeout_ingame,
         ads_rewared_request,
         ads_rewared_success,
         ads_rewared_show,
@@ -113,9 +114,12 @@ namespace TurboLabz.InstantFramework
         tap_move_meter_after_training,
         tap_yes_skill_level_dlg,
         tap_no_skill_level_dlg,
-        tap_long_match_start_game_dlg,
-        tap_quick_match_start_game_dlg,
-        tap_chat_player_profile
+        tap_chat_player_profile,
+        out_game_chat_match_active,
+        out_game_chat_match_inactive,
+        tap_add_friends,
+        tap_remove_friends,
+        start_match_with_favourite
     }
 
     public enum AnalyticsContext
