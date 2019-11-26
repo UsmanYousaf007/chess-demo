@@ -242,6 +242,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RestorePurchasesSignal>().To<RestorePurchasesCommand>();
             commandBinder.Bind<LoadPromotionSingal>().To<LoadPromotionCommand>();
             commandBinder.Bind<LoadChatSignal>().To<LoadChatCommand>();
+            commandBinder.Bind<ShowInGameProfileSingal>().To<ShowInGameProfileCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
