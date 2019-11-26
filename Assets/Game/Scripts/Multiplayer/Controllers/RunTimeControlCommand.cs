@@ -64,6 +64,9 @@ namespace TurboLabz.Multiplayer
                 if (!runTimeControlVO.playerJustAcceptedOnPlayerTurn)
                 {
                     long timeElapsedSinceLastMove = backendService.serverClock.currentTimestamp - TimeUtil.ToUnixTimestamp(chessboard.lastMoveTime);
+
+                    LogUtil.Log("Match elapsedTimeSinceGameStart > > > > > > : " + timeElapsedSinceLastMove, "cyan");
+
                     if (isPlayerTurn)
                     {
                         playerTimer -= TimeSpan.FromMilliseconds(timeElapsedSinceLastMove);
@@ -95,7 +98,12 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
+               
+
                     long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - TimeUtil.ToUnixTimestamp(chessboard.lastMoveTime);
+
+                    LogUtil.Log("Match elapsedTimeSinceGameStart > > > > > > : " + elapsedTimeSinceGameStart, "cyan");
+
                     if (isPlayerTurn)
                     {
                         playerTimer -= TimeSpan.FromMilliseconds(elapsedTimeSinceGameStart);

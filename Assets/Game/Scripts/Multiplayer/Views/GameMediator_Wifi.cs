@@ -201,19 +201,8 @@ namespace TurboLabz.Multiplayer
 
                 startGameSignal.Dispatch();
                 SendReconnectionAck();
-                //matchReconnection = false;
-
-                if (appInfoModel.gameMode != GameMode.NONE)
-                {
-                    stopTimersSignal.Dispatch();
-                    RunTimeControlVO vo;
-                    vo.pauseAfterSwap = false;
-                    vo.waitingForOpponentToAccept = false;
-                    vo.playerJustAcceptedOnPlayerTurn = false;
-                    runTimeControlSignal.Dispatch(vo);
-                }
-
                 view.FlashClocks(false);
+                //matchReconnection = false;
             }
 
             // Record analytics
