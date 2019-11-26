@@ -721,6 +721,14 @@ namespace TurboLabz.InstantFramework
             Debug.Log("matchInfoModel.matches.Count >>>>>>>>>>>>>> :::: " + matchInfoModel.matches.Count);
             Debug.Log("settingsModel.maxLongMatchCount >>>>>>>>>>>>>> :::: " + settingsModel.maxLongMatchCount);
 
+            if (matchInfoModel.matches.Count > 0)
+            {
+                foreach (KeyValuePair<string, MatchInfo> entry in matchInfoModel.matches)
+                {
+                    Debug.Log("matchInfoModel.matches CHALLENGE ID >>>>>>>>>>>>>> :::: " + entry.Key);
+                }
+            }
+
             if (bar.longPlayStatus == LongPlayStatus.DEFAULT && matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
             {
                 friendBarBusySignal.Dispatch(bar.friendInfo.playerId, false, CreateLongMatchAbortReason.SelfLimitReached);
