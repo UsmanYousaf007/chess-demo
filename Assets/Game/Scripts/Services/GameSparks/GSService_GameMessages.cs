@@ -147,7 +147,8 @@ namespace TurboLabz.InstantFramework
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
             IList<GSData> backendMoveList = gameData.GetGSDataList(GSBackendKeys.MOVE_LIST);
 
-            if (chessboardModel.chessboards[challengeId].moveList.Count >= backendMoveList.Count)
+            if (chessboardModel.chessboards.ContainsKey(challengeId) == false ||
+                    chessboardModel.chessboards[challengeId].moveList.Count >= backendMoveList.Count)
             {
                 return true;
             }

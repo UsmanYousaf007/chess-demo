@@ -22,6 +22,7 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         [Header("Exit")]
         public Button menuButton;
@@ -79,6 +80,11 @@ namespace TurboLabz.Multiplayer
 
         public void OnEscapeClicked()
         {
+            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            {
+                return;
+            }
+
             // Cannot escape the promo dialog or the results dialog
             if (IsPromoActive() || IsResultsDialogActive())
             {
@@ -112,6 +118,11 @@ namespace TurboLabz.Multiplayer
 
         void OnMenuButtonClicked()
         {
+            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            {
+                return;
+            }
+
             if (matchInfoModel.activeChallengeId == null)
             {
                 resultsDialogOpenedSignal.Dispatch();

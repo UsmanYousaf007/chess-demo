@@ -105,7 +105,6 @@ namespace TurboLabz.Multiplayer
             }
         }
         
-
         // Failed server requests will trigger this signal
         [ListensTo(typeof(SyncReconnectDataSignal))]
         public void SyncReconnectData(string challengeId)
@@ -134,14 +133,12 @@ namespace TurboLabz.Multiplayer
             }
 
             matchReconnection = true;
-            //SyncReconnectData(matchInfoModel.activeChallengeId);
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
             // No need to sync an ended match
-            if (matchInfoModel.activeChallengeId == null ||
-                !chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            if (matchInfoModel.activeChallengeId == null )
             {
                 return;
             }
@@ -156,7 +153,10 @@ namespace TurboLabz.Multiplayer
                     stopTimersSignal.Dispatch();
                     view.FlashClocks(true);
                     appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
-                    //matchReconnection = true;
+
+                    // Delete the current match and board
+                    matchInfoModel.matches.Remove(matchInfoModel.activeChallengeId);
+                    chessboardModel.chessboards.Remove(matchInfoModel.activeChallengeId);
                 }
             }
             else if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
@@ -166,9 +166,7 @@ namespace TurboLabz.Multiplayer
                 if (matchInfoModel.activeChallengeId != null)
                 {
                     appInfoModel.syncInProgress = true;
-
                     LogUtil.Log("Match reconnecting..", "cyan");
-
                     backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
                 }
             }
@@ -202,7 +200,6 @@ namespace TurboLabz.Multiplayer
                 startGameSignal.Dispatch();
                 SendReconnectionAck();
                 view.FlashClocks(false);
-                //matchReconnection = false;
             }
 
             // Record analytics

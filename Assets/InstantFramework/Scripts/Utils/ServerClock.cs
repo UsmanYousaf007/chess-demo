@@ -17,7 +17,7 @@ namespace TurboLabz.TLUtils
         {
             get
             {
-                return TimeUtil.unixTimestampMilliseconds + serverClockDelta;
+                return TimeUtil.unixTimestampMilliseconds;// + serverClockDelta;
             }
         }
 

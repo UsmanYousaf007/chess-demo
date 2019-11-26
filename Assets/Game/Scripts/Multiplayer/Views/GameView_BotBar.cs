@@ -49,6 +49,11 @@ namespace TurboLabz.Multiplayer
 
         void OnBackToFriendsClicked()
         {
+            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            {
+                return;
+            }
+
             if (matchInfoModel.activeChallengeId == null)
             {
                 resultsDialogOpenedSignal.Dispatch();
