@@ -11,6 +11,7 @@
 /// [add_description_here]
 using System;
 using GameSparks.Core;
+using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using UnityEngine;
@@ -43,6 +44,8 @@ namespace TurboLabz.Multiplayer
 
         // Dispatch Signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
+        [Inject] public RunTimeControlSignal runTimeControlSignal { get; set; }
+
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -55,7 +58,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
-        // private bool matchReconnection = false;
+        private bool matchReconnection = false;
 
         public void OnRegisterWifi()
         {
@@ -81,18 +84,27 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        /*
+        
         [ListensTo(typeof(ChallengeMessageProcessedSignal))]
         public void ChallengeMessagedProcessed(string challengeId)
         {
-            if (challengeId == matchInfoModel.activeChallengeId && matchReconnection)
+            if (appInfoModel.gameMode != GameMode.NONE &&
+                challengeId == matchInfoModel.activeChallengeId && matchReconnection)
             {
                 LogUtil.Log("ChallengeMessagedProcessed called..", "cyan");
-                ReconnectMatch();
-                //matchReconnection = false;
+                //stopTimersSignal.Dispatch();
+                //ReconnectMatch();
+                matchReconnection = false;
+
+                stopTimersSignal.Dispatch();
+                RunTimeControlVO vo;
+                vo.pauseAfterSwap = false;
+                vo.waitingForOpponentToAccept = false;
+                vo.playerJustAcceptedOnPlayerTurn = false;
+                runTimeControlSignal.Dispatch(vo);
             }
         }
-        */
+        
 
         // Failed server requests will trigger this signal
         [ListensTo(typeof(SyncReconnectDataSignal))]
@@ -121,7 +133,8 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
-            SyncReconnectData(matchInfoModel.activeChallengeId);
+            matchReconnection = true;
+            //SyncReconnectData(matchInfoModel.activeChallengeId);
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)

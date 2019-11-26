@@ -80,7 +80,7 @@ namespace TurboLabz.Multiplayer
             // Adjust for late joining in quick matches
             else
             {
-                if (chessboard.lastPlayerMove == null)
+                if (chessboard.moveList.Count <= 0)
                 {
                     long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
                     long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - gameStartTime;
@@ -95,7 +95,6 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
-                    long gameStartTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
                     long elapsedTimeSinceGameStart = backendService.serverClock.currentTimestamp - TimeUtil.ToUnixTimestamp(chessboard.lastMoveTime);
                     if (isPlayerTurn)
                     {
