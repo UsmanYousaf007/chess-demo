@@ -52,7 +52,7 @@ namespace TurboLabz.InstantFramework
 
             //[Note] : As game reconnects, We sync data from server to update the local game state,
             // This message also updates the local game state So to AVOID doublication / Ai crash :  we simply returns 
-            if (matchInfoModel.activeMatch != null && !matchInfoModel.activeMatch.isLongPlay && appInfoModel.syncInProgress)
+            if (matchInfoModel.activeMatch != null && appInfoModel.syncInProgress)
             { 
                 LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
                 return;

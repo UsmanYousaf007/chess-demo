@@ -69,6 +69,10 @@ namespace TurboLabz.InstantFramework
 
                 // Todo: condition needs to be game ended but still on board view
             }
+            else if (matchInfoModel.activeChallengeId != null && !chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+            {
+                LogUtil.Log("Ignore recover match for view on Ivalid game. NavigatorViewId.MULTIPLAYER", "cyan");
+            }
             else if (matchInfoModel.activeChallengeId != null)
             {
                 stopTimersSignal.Dispatch();
