@@ -49,7 +49,7 @@ namespace TurboLabz.CPU
             {
                 Retain();
 
-                chessboardModel.usedHelp = true;
+                //chessboardModel.usedHelp = true;
 
                 AiMoveInputVO vo = new AiMoveInputVO
                 {

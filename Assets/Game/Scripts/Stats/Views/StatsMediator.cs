@@ -17,6 +17,7 @@ using strange.extensions.mediation.impl;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.InstantGame
 {
@@ -25,18 +26,21 @@ namespace TurboLabz.InstantGame
         // Dispatch signals
         [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public ShowShareScreenDialogSignal shareScreenDialogSignal { get; set; }
 
         // View injection
         [Inject] public StatsView view { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IScreenCaptureService screenCaptureService { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
             view.restorePurchasesSignal.AddListener(OnRestorePurchases);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
+            view.shareBtn.onClick.AddListener(OnShareScreenClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -72,6 +76,28 @@ namespace TurboLabz.InstantGame
         void OnBackButtonClicked()
         {
             loadLobbySignal.Dispatch();
+        }
+
+        public void OnShareScreenClicked()
+        {
+            screenCaptureService.CaptureScreenShot(view.logo);
+            OpenShareDialog();
+        }
+
+        public void OnShowShareDialogSignal()
+        {
+            shareScreenDialogSignal.Dispatch();
+        }
+
+        public void OpenShareDialog()
+        {
+            StartCoroutine(DispatchShareSignal());
+        }
+
+        public IEnumerator DispatchShareSignal()
+        {
+            yield return new WaitForSeconds(.25f);
+            OnShowShareDialogSignal();
         }
     }
 }

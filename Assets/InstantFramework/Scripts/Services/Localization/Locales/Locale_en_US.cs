@@ -151,8 +151,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STATS_ONLINE_DRAWN, "Drawn" },
                 { LocalizationKey.STATS_ONLINE_TOTAL, "Total" },
                 { LocalizationKey.STATS_COMPUTER_TITLE, "Computer Difficulty Beaten" },
-                { LocalizationKey.STATS_LEGEND_GOLD, "Beat without PowerUps" },
+                { LocalizationKey.STATS_LEGEND_GOLD, "• Gold star for beaten without move take-back •" },
                 { LocalizationKey.STATS_LEGEND_SILVER, "Beat using PowerUps" },
+                { LocalizationKey.STATS_TAG, "Tag" },
 
                 #endregion
 

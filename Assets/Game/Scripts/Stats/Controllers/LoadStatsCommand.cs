@@ -54,6 +54,9 @@ namespace TurboLabz.InstantGame
             vo.onlineLost = lost;
             vo.onlineDrawn = drawn;
             vo.onlineTotal = totalGames;
+            vo.tag = playerModel.tag;
+            vo.playingSince = TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime().ToString("d MMM yyyy");
+            vo.country = playerModel.countryId;
 
             updateStatsSignal.Dispatch(vo);
         }

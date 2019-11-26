@@ -33,6 +33,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSChat();
             }
+            else if (evt == NavigatorEvent.SHOW_SHARE_SCREEN_DLG)
+            {
+                return new NSShareDlg();
+            }
             return null;
         }
     }
