@@ -310,6 +310,7 @@ namespace TurboLabz.InstantFramework
             public const string REMOVE_ADS_TIMESTAMP = "removeAdsTimeStamp";
             public const string REMOVE_ADS_TIMEPERIOD = "removeAdsTimePeriod";
             public const string EDITED_NAME = "editedName";
+            public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
         }
 
         public static class Match
