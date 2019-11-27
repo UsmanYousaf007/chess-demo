@@ -153,10 +153,6 @@ namespace TurboLabz.Multiplayer
                     stopTimersSignal.Dispatch();
                     view.FlashClocks(true);
                     appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
-
-                    // Delete the current match and board
-                    matchInfoModel.matches.Remove(matchInfoModel.activeChallengeId);
-                    chessboardModel.chessboards.Remove(matchInfoModel.activeChallengeId);
                 }
             }
             else if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
@@ -191,7 +187,7 @@ namespace TurboLabz.Multiplayer
             LogUtil.Log("Match reconnected Id: " + matchInfoModel.activeChallengeId, "cyan");
 
             // Reset the match if it has not ended
-            if (matchInfoModel.activeChallengeId != null)
+            if (matchInfoModel.activeChallengeId != null && chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
             {
                 Chessboard activeChessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
                 MatchInfo activeMatchInfo = matchInfoModel.activeMatch;
@@ -199,9 +195,9 @@ namespace TurboLabz.Multiplayer
 
                 startGameSignal.Dispatch();
                 SendReconnectionAck();
-                view.FlashClocks(false);
             }
 
+            view.FlashClocks(false);
             // Record analytics
             TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
             analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);

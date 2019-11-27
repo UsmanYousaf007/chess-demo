@@ -52,7 +52,7 @@ namespace TurboLabz.InstantFramework
 
             //[Note] : As game reconnects, We sync data from server to update the local game state,
             // This message also updates the local game state So to AVOID doublication / Ai crash :  we simply returns 
-            if (matchInfoModel.activeMatch != null && appInfoModel.syncInProgress)
+            if (appInfoModel.syncInProgress)
             { 
                 LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
                 return;
@@ -66,6 +66,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnGameChallengeWonMessage(ChallengeWonMessage message)
         {
+            if (appInfoModel.syncInProgress)
+            {
+                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
+                return;
+            }
+
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
@@ -75,6 +81,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnGameChallengeLostMessage(ChallengeLostMessage message)
         {
+            if (appInfoModel.syncInProgress)
+            {
+                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
+                return;
+            }
+
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
             HandleActiveGameEnd(message.Challenge.ChallengeId);
@@ -84,6 +96,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnGameChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
+            if (appInfoModel.syncInProgress)
+            {
+                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
+                return;
+            }
+
             GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
 

@@ -27,8 +27,15 @@ namespace TurboLabz.InstantFramework
             LogUtil.Log("SyncReconnectData: RESUME ChallengeID = " + challengeId, "cyan");
             if (challengeId != null)
             {
-                GSData challengeData = response.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
-                ParseChallengeData(challengeId, challengeData);
+                if (chessboardModel.isValidChallenge(challengeId))
+                {
+                    // Delete the current match and board
+                    matchInfoModel.matches.Remove(challengeId);
+                    chessboardModel.chessboards.Remove(challengeId);
+
+                    GSData challengeData = response.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+                    ParseChallengeData(challengeId, challengeData);
+                }
             }
         }
     }
