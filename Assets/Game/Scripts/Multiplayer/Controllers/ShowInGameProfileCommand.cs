@@ -41,6 +41,8 @@ namespace TurboLabz.InstantFramework
             vo.oppTotalGamesLost = opponentPublicProfile.totalGamesLost;
             vo.oppOnline = opponentPublicProfile.isOnline;
             vo.oppActive = opponentPublicProfile.isActive;
+            vo.inGame = true;
+            vo.isBot = matchInfoModel.activeMatch.isBotMatch;
 
             var friend = playerModel.GetFriend(opponentPublicProfile.playerId);
 
