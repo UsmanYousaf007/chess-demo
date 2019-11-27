@@ -109,7 +109,7 @@ namespace TurboLabz.InstantFramework
             friendedText.text = localizationService.Get(LocalizationKey.FRIENDS_TEXT_FRIENDED);
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
-            alertDialogTitle.text = "Limit Reached";
+            alertDialogTitle.text = "Friends Limit Reached";
 
             blockBtn.onClick.AddListener(OnBlockConfirm);
             chatBtn.onClick.AddListener(OnChat);
@@ -125,7 +125,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
         {
-            alertDialogLabel.text = "Max add friend limit reached = " + settingsModel.maxFriendsCount;
+            alertDialogLabel.text = "Please remove unused friend strips to add new friends";
             playerAvatarBg.gameObject.SetActive(false);
             playerAvatarIcon.gameObject.SetActive(false);
             alertDialog.SetActive(false);
