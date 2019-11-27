@@ -22,7 +22,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public RunTimeControlSignal runTimeControlSignal { get; set; }
         [Inject] public ChallengeMessageProcessedSignal challengeMessageProcessedSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         
+
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -115,10 +117,13 @@ namespace TurboLabz.InstantFramework
 
                 if (gameEndReason.Equals(GameEndReason.ABANDON))
                 {
+                    Debug.Log("MATCH ABANDON  > > > > > > > > > > " + message.Challenge.ChallengeId);
+
                     matchInfoModel.matches.Remove(message.Challenge.ChallengeId);
                     chessboardModel.chessboards.Remove(message.Challenge.ChallengeId);
                     matchInfoModel.activeChallengeId = null;
                     matchInfoModel.activeLongMatchOpponentId = null;
+                    loadLobbySignal.Dispatch();
                     return;
                 }
             }
