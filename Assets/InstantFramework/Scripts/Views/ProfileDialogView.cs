@@ -110,6 +110,7 @@ namespace TurboLabz.InstantFramework
             playerProfilePic.sprite = defaultAvatar;
             oppProfilePic.sprite = defaultAvatar;
             alertDialogTitle.text = "Friends Limit Reached";
+            alertDialogLabel.text = "Please remove unused friend strips to add new friends";
 
             blockBtn.onClick.AddListener(OnBlockConfirm);
             chatBtn.onClick.AddListener(OnChat);
@@ -125,7 +126,6 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
         {
-            alertDialogLabel.text = "Please remove unused friend strips to add new friends";
             playerAvatarBg.gameObject.SetActive(false);
             playerAvatarIcon.gameObject.SetActive(false);
             alertDialog.SetActive(false);
