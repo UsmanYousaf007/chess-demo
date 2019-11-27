@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
+        public Signal supportButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -104,12 +105,13 @@ namespace TurboLabz.InstantFramework
         {
             //Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
 
-            string email = Settings.SUPPORT_EMAIL;
-            string subject = MyEscapeURL("Feeback");
-            string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
+            //string email = Settings.SUPPORT_EMAIL;
+            //string subject = MyEscapeURL("Feeback");
+            //string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
 
-            Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+            //Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
 
+            supportButtonClickedSignal.Dispatch();
             analyticsService.Event(AnalyticsEventId.tap_support);
         }
 

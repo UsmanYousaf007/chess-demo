@@ -58,7 +58,10 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
     implementation 'com.android.support:appcompat-v7:27.1.1' // Assets/GameAnalytics/Editor/GameAnalyticsDependencies.xml:5
     implementation 'com.android.support:cardview-v7:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
+    implementation 'com.android.support:cardview-v7:26.0.2' // Assets/Helpshift/Editor/HelpshiftDependencies.xml:9
     implementation 'com.android.support:customtabs:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
+    implementation 'com.android.support:design:26.0.2' // Assets/Helpshift/Editor/HelpshiftDependencies.xml:7
+    implementation 'com.android.support:recyclerview-v7:26.0.2' // Assets/Helpshift/Editor/HelpshiftDependencies.xml:11
     implementation 'com.android.support:support-v4:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
     implementation 'com.applovin:applovin-sdk:9.2.1' // Assets/MoPub/Mediation/AppLovin/Editor/AppLovinDependencies.xml:4
     implementation 'com.facebook.android:audience-network-sdk:5.5.0' // Assets/MoPub/Mediation/FacebookAudienceNetwork/Editor/FacebookAudienceNetworkDependencies.xml:5
@@ -86,6 +89,15 @@ dependencies {
     implementation 'com.mopub.mediation:vungle:6.3.24.1' // Assets/MoPub/Mediation/Vungle/Editor/VungleDependencies.xml:3
     implementation 'com.parse.bolts:bolts-android:1.4.0' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:4
     implementation 'com.unity3d.ads:unity-ads:3.0.0' // Assets/MoPub/Mediation/UnityAds/Editor/UnityAdsDependencies.xml:4
+//helpshift dependencies start
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile(name: 'Helpshift', ext:'aar')
+    compile(name: 'helpshift-plugin-resources', ext:'aar')
+    compile project(':helpshift-plugin-wrapper')
+    compile 'com.android.support:design:26.0.2'
+    compile 'com.android.support:recyclerview-v7:26.0.2'
+    compile 'com.android.support:cardview-v7:26.0.2'
+//helpshift dependencies end
 // Android Resolver Dependencies End
 **DEPS**}
 

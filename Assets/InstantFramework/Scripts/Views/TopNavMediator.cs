@@ -16,13 +16,14 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadStoreSignal loadStoreSignal { get; set; }
         [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
-
+        [Inject] public ISupportService supportService { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
 
             view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
+            view.supportButtonClickedSignal.AddListener(OnSupportButtonClicked);
         }
 
         public override void OnRemove()
@@ -34,6 +35,11 @@ namespace TurboLabz.InstantFramework
         {
             loadStoreSignal.Dispatch();
             showStoreTabSignal.Dispatch(StoreView.StoreTabs.COINS);
+        }
+
+        private void OnSupportButtonClicked()
+        {
+            supportService.ShowFAQ();
         }
 
         [ListensTo(typeof(UpdatePlayerBucksSignal))]

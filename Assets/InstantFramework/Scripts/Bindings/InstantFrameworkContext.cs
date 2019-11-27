@@ -166,6 +166,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IScreenCaptureService>().To<NativeScreenCapture>().ToSingleton();
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<MoPubService>().ToSingleton();
+            injectionBinder.Bind<ISupportService>().To<HelpShiftService>().ToSingleton();
 #if UNITY_EDITOR
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsServiceEditor>().ToSingleton();
 #else
