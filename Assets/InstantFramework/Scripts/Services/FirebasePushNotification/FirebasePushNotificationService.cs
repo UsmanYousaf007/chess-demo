@@ -73,6 +73,13 @@ namespace TurboLabz.InstantFramework
             var notification = e.Message.Notification;
             bool isNotificationOpened = e.Message.NotificationOpened;
 
+            // Bail if push notification was not clicked.
+            // Socket messaging handles notifications when game is running.
+            if (!isNotificationOpened)
+            {
+                return;
+            }
+
             NotificationVO notificationVO;
             notificationVO.title = "unassigned";
             notificationVO.body = "unassigned";
@@ -90,10 +97,7 @@ namespace TurboLabz.InstantFramework
             notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
             notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
 
-            if (notification != null || isNotificationOpened == true)
-            {
-                notificationRecievedSignal.Dispatch(notificationVO);
-            }
+            notificationRecievedSignal.Dispatch(notificationVO);
         }
 
     }

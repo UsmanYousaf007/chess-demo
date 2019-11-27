@@ -140,6 +140,28 @@ namespace TurboLabz.InstantFramework
                     LogUtil.Log("AiTakeTurnFailedMessage: challengeId=" + challengeId, "yellow");
                 }
             }
+            else if (message.ExtCode == "PushNotificationStandard")
+            {
+                NotificationVO notificationVO;
+                notificationVO.title = "unassigned";
+                notificationVO.body = "unassigned";
+
+                notificationVO.isOpened = false;
+                notificationVO.title = message.Data.ContainsKey("title") ? message.Data.GetString("title") : "unassigned";
+                notificationVO.body = message.Data.ContainsKey("body") ? message.Data.GetString("body") : "unassigned";
+
+                notificationVO.senderPlayerId = message.Data.ContainsKey("senderPlayerId") ? message.Data.GetString("senderPlayerId") : "undefined";
+                notificationVO.challengeId = message.Data.ContainsKey("challengeId") ? message.Data.GetString("challengeId") : "undefined";
+                notificationVO.matchGroup = message.Data.ContainsKey("matchGroup") ? message.Data.GetString("matchGroup") : "undefined";
+                notificationVO.avatarId = message.Data.ContainsKey("avatarId") ? message.Data.GetString("avatarId") : "undefined";
+                notificationVO.avaterBgColorId = message.Data.ContainsKey("avatarBgColorId") ? message.Data.GetString("avatarBgColorId") : "undefined";
+                notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") ? message.Data.GetString("profilePicURL") : "undefined";
+
+                if (notificationVO.title != "unassigned")
+                {
+                    notificationRecievedSignal.Dispatch(notificationVO);
+                }
+            }
         }
 
         private void OnChatScriptMessage(ScriptMessage message)
@@ -157,8 +179,6 @@ namespace TurboLabz.InstantFramework
 
                 receiveChatMessageSignal.Dispatch(msg, false);
 
-#if UNITY_EDITOR
-                // editor only
                 NotificationVO notificationVO;
                 notificationVO.title = message.Data.GetString("title");
                 notificationVO.body = message.Data.GetString("body");
@@ -171,7 +191,6 @@ namespace TurboLabz.InstantFramework
                 notificationVO.isOpened = false;
 
                 notificationRecievedSignal.Dispatch(notificationVO);
-#endif
             } 
         }
 
