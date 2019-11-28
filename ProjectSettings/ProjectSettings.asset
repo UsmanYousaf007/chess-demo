@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 4.26.9
+  bundleVersion: 4.26.10
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -164,7 +164,7 @@ PlayerSettings:
     Android: com.turbolabz.instantchess.android.googleplay
     Standalone: com.turbolabz.chess.linux.steam
     Tizen: com.turbolabz.chess.google
-    iPhone: com.turbolabz.instantchess.android.googleplay
+    iPhone: com.turbolabz.instantchess.ios
     tvOS: com.turbolabz.chess.google
   buildNumber:
     iPhone: 448
@@ -985,6 +985,7 @@ PlayerSettings:
   il2cppCompilerConfiguration: {}
   managedStrippingLevel:
     Android: 1
+    iPhone: 1
   incrementalIl2cppBuild: {}
   allowUnsafeCode: 0
   additionalIl2CppArgs: 
