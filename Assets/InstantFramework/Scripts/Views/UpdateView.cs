@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         public Text updateLabel;
         public Text updateButtonText;
@@ -58,9 +59,9 @@ namespace TurboLabz.InstantFramework
             // TODO: Update this entire view to support multiple platforms
 
             #if UNITY_ANDROID
-            Application.OpenURL("market://details?id=com.turbolabz.instantchess.android.googleplay");
+            Application.OpenURL(appInfoModel.androidURL);
             #elif UNITY_IOS
-            Application.OpenURL("https://itunes.apple.com/us/app/chess/id1386718098?mt=8");
+            Application.OpenURL(appInfoModel.iosURL);
             #else
             LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
             #endif
