@@ -208,10 +208,14 @@ namespace TurboLabz.InstantFramework
                 ShowFriended(!vo.isCommunity);
             }
 
-            if (vo.longPlayStatus != LongPlayStatus.DEFAULT || vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
+            if (vo.longPlayStatus != LongPlayStatus.DEFAULT)
+            {
+                EnableRemoveButton(false);
+            }
+
+            if (vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
             {
                 EnableAddButton(false);
-                EnableRemoveButton(false);
             }
 
             if (!vo.oppOnline && vo.oppActive)

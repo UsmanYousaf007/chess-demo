@@ -15,13 +15,9 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            TLUtils.LogUtil.LogNullValidation(matchInfoModel.activeMatch, "matchInfoModel.activeMatch");
+            var activeMatch = matchInfoModel.activeMatch == null ? matchInfoModel.lastCompletedMatch : matchInfoModel.activeMatch;
 
-            if (matchInfoModel.activeMatch == null) return;
-
-            var opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
-
-            TLUtils.LogUtil.LogNullValidation(opponentPublicProfile, "opponentPublicProfile");
+            var opponentPublicProfile = activeMatch.opponentPublicProfile;
 
             if (opponentPublicProfile == null) return;
 
@@ -42,7 +38,7 @@ namespace TurboLabz.InstantFramework
             vo.oppOnline = opponentPublicProfile.isOnline;
             vo.oppActive = opponentPublicProfile.isActive;
             vo.inGame = true;
-            vo.isBot = matchInfoModel.activeMatch.isBotMatch;
+            vo.isBot = activeMatch.isBotMatch;
 
             var friend = playerModel.GetFriend(opponentPublicProfile.playerId);
 

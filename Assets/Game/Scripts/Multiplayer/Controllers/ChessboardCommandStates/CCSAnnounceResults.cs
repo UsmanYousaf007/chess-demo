@@ -46,6 +46,7 @@ namespace TurboLabz.Multiplayer
 
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
+            cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
 
             if (cmd.matchInfoModel.activeMatch.isLongPlay)
             {
@@ -76,7 +77,6 @@ namespace TurboLabz.Multiplayer
                     }
                 }
 
-                cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
                 cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.chessboardModel.chessboards.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.matchInfoModel.activeChallengeId = null;

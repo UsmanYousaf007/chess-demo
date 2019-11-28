@@ -183,7 +183,7 @@ namespace TurboLabz.InstantFramework
                 // matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
 
                 DateTime start = new DateTime(2017, 1, 1);
-                int range = (DateTime.Today - start).Days;
+                int range = (DateTime.UtcNow.AddMinutes(-10000) - start).Days;
                 DateTime creationDateTime = start.AddDays(new System.Random().Next(range));
                 opponentPublicProfile.creationDate = creationDateTime.ToLocalTime().ToLongDateString();
                 opponentPublicProfile.creationDateShort = creationDateTime.ToLocalTime().ToString("d MMM yyyy");
