@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 5435966
+    totalSpriteSurfaceArea: 5437180
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -146,6 +146,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 37835d07cfad9490192df6a43058e7a0, type: 3}
   - {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
   - {fileID: 21300000, guid: d7b9ff57f593947fa8bde4593ba25e1c, type: 3}
+  - {fileID: 21300000, guid: dcd82f67be70d4e7eb52a5cc98247b7f, type: 3}
   - {fileID: 21300000, guid: 04485b871853d4d84a2c48c7db84f512, type: 3}
   - {fileID: 21300000, guid: ccd5ad87c95ee4fedb19a7d48a8b50e8, type: 3}
   - {fileID: 21300000, guid: 71d93497839aa4070af72b5148138a4d, type: 3}
@@ -274,7 +275,7 @@ SpriteAtlas:
   - adsBannerBg
   - NoStar
   - EmptyBarBg
-  - nameEditBtn
+  - BtnNameEdit
   - RoundEdgesGlow
   - 5
   - LongMatchIcon
@@ -343,6 +344,7 @@ SpriteAtlas:
   - strengthPanelBg
   - PlayerOffline
   - ultimateBannerIcon
+  - BtnCopyTag
   - Error
   - bannerSale
   - handIcon

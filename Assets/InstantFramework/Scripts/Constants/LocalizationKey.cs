@@ -149,6 +149,7 @@ namespace TurboLabz.InstantFramework
         public const string STATS_COMPUTER_TITLE = "statsComputerTitle";
         public const string STATS_LEGEND_GOLD = "statsLegendGold";
         public const string STATS_LEGEND_SILVER = "statsLegendSilver";
+        public const string STATS_TAG = "statsTag";
 
         #endregion
 

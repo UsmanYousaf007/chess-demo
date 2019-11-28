@@ -121,6 +121,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSChat();
             }
+            else if (evt == NavigatorEvent.SHOW_PROFILE_DLG)
+            {
+                return new NSProfileDlg();
+            }
 
             return null;
         }

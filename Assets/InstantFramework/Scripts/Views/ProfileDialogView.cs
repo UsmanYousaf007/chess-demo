@@ -89,6 +89,7 @@ namespace TurboLabz.InstantFramework
         string eloPrefix = null;
         string totalGamesPrefix = null;
         string playerId = null;
+        bool inGame;
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -221,6 +222,29 @@ namespace TurboLabz.InstantFramework
             {
                 onlineStatus.sprite = vo.oppOnline ? online : offline;
             }
+
+            inGame = vo.inGame;
+            if (vo.inGame)
+            {
+                blockBtn.interactable = false;
+                blockLabel.color = Colors.DISABLED_WHITE;
+                blockUnderline.color = Colors.DISABLED_WHITE;
+
+                if (vo.friendType == null)
+                {
+                    ShowFriended(false);
+                }
+                else
+                {
+                    EnableRemoveButton(false);
+                }
+
+                if (vo.isBot)
+                {
+                    EnableAddButton(false);
+                    onlineStatus.sprite = online;
+                }
+            }
         }
 
         public void Show()
@@ -296,7 +320,7 @@ namespace TurboLabz.InstantFramework
         {
             thinking.gameObject.SetActive(false);
             EnableAddButton(true);
-            EnableRemoveButton(true);
+            EnableRemoveButton(!inGame);
             friendedText.gameObject.SetActive(flag);
             removeFriendBtn.gameObject.SetActive(flag);
             addFriendBtn.gameObject.SetActive(!flag);
