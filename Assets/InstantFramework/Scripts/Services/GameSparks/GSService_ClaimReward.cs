@@ -7,25 +7,33 @@ using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
 using System;
 using GameSparks.Api.Requests;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        string rewardTypeId;
-
-        public IPromise<BackendResult> ClaimReward(string rewardType)
+        public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
-            rewardTypeId = rewardType;
-            return new GSClaimRewardRequest().Send(rewardType, OnClaimRewardSuccess);
+            return new GSClaimRewardRequest().Send(jsonData, OnClaimRewardSuccess);
         }
 
         private void OnClaimRewardSuccess(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
-            var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
+            if (response != null && response.ScriptData != null)
+            {
+                if(response.ScriptData.ContainsKey(GSBackendKeys.ClaimReward.REWARD_INFO))
+                {
+                    var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
+                    
+                    playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
+                    playerModel.cpuPowerupUsedCount = 0;
 
-            playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
+                }
+                
+            }
+               
         }
     }
 
@@ -34,16 +42,16 @@ namespace TurboLabz.InstantFramework
     public class GSClaimRewardRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "ClaimReward";
-        const string ATT_REWARD_TYPE = "rewardType";
+        const string ATT_REWARD_JSON_DATA = "jsonData";
 
-        public IPromise<BackendResult> Send(string rewardType, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.CLAIM_REWARD_REQUEST_FAILED;
 
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)
-                .SetEventAttribute(ATT_REWARD_TYPE, rewardType)
+                .SetEventAttribute(ATT_REWARD_JSON_DATA, jsonData)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

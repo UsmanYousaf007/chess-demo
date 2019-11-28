@@ -43,7 +43,8 @@ namespace TurboLabz.InstantFramework
         SHOW_PURCHASED_DLG,
         SHOW_SHARE_SCREEN_DLG,
         SHOW_SKILL_LEVEL_DLG,
-        SHOW_CHAT
+        SHOW_CHAT,
+        SHOW_MAINTENANCE_SCREEN
 
     }
 }

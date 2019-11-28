@@ -12,6 +12,11 @@ namespace TurboLabz.InstantFramework
         int facebookConnectReward { get; set; }
         int maxRecentlyCompletedMatchCount { get; set; }
 
+        int maxCommunityMatches { get; set; }
+        bool maintenanceFlag { get; set; }
+        string updateMessage { get; set; }
+        string maintenanceMessage { get; set; }
+        string minimumClientVersion { get; set; }
 
     }
 }

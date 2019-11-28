@@ -53,6 +53,14 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            if (metaDataModel.settingsModel.maintenanceFlag == true)
+            {
+                TurboLabz.TLUtils.LogUtil.Log("ERROR: GAME  MAINTENENCE ON", "red");
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MAINTENANCE_SCREEN);
+                CommandEnd();
+                return;
+            }
+
             initBackendOnceSignal.Dispatch();
 
             if (!isResume)

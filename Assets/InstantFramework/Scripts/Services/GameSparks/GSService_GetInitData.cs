@@ -31,14 +31,23 @@ namespace TurboLabz.InstantFramework
             LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
+            appInfoModel.appBackendVersionValid = response.ScriptData.GetBoolean(GSBackendKeys.APP_VERSION_VALID).Value;
+
+            GSData gsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.GAME_SETTINGS);
+            FillGameSettingsModel(gsSettingsData);
 
             // Check app version match with back end. Bail if there is mismatch.
-            if (response.ScriptData.GetBoolean(GSBackendKeys.APP_VERSION_VALID) == false)
+            if (appInfoModel.appBackendVersionValid == false)
             {
-                appInfoModel.appBackendVersionValid = false;
                 return;
             }
-            appInfoModel.appBackendVersionValid = true;
+
+            // Check if game maintenance mode is On
+            if (settingsModel.maintenanceFlag == true)
+            {
+                return;
+            }
+
             appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
             appInfoModel.onlineCount = Int32.Parse(response.ScriptData.GetString(GSBackendKeys.APP_ONLINE_COUNT));
 
@@ -56,9 +65,6 @@ namespace TurboLabz.InstantFramework
 
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
-
-            GSData gsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.GAME_SETTINGS);
-            FillGameSettingsModel(gsSettingsData);
 
             storeAvailableSignal.Dispatch(false, new StoreVO());
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
@@ -123,6 +129,7 @@ namespace TurboLabz.InstantFramework
             playerModel.removeAdsTimePeriod = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMEPERIOD).Value;
             playerModel.editedName = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.EDITED_NAME);
             playerModel.isFBConnectRewardClaimed = playerDetailsData.GetBoolean(GSBackendKeys.PlayerDetails.IS_FACEBOOK_REWARD_CLAIMED).Value;
+            playerModel.cpuPowerupUsedCount = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
 
             // Split name to first and last initial
             // TODO: split in View
@@ -161,14 +168,34 @@ namespace TurboLabz.InstantFramework
             rewardsSettingsModel.matchWinAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_WIN_AD_REWARD).Value;
             rewardsSettingsModel.matchRunnerUpReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_REWARD).Value;
             rewardsSettingsModel.matchRunnerUpAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_AD_REWARD).Value;
+            rewardsSettingsModel.facebookConnectReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD).Value;
+            rewardsSettingsModel.failSafeCoinReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD).Value;
+            rewardsSettingsModel.powerUpCoinsValue = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.POWERUP_COIN_VALUE).Value;
+
+            rewardsSettingsModel.coefficientWinVideo = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_WIN_VIDEO).Value;
+            rewardsSettingsModel.coefficientWinIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_WIN_INTERSITIAL).Value;
+            rewardsSettingsModel.coefficientLoseVideo = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_VIDEO).Value;
+            rewardsSettingsModel.coefficientLoseIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_INTERSITIAL).Value;
+
+            
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)
         {
             settingsModel.maxLongMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
             settingsModel.maxFriendsCount   = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
-            settingsModel.facebookConnectReward = gsSettingsData.GetInt(GSBackendKeys.FACEBOOK_CONNECT_REWARD).Value;
             settingsModel.maxRecentlyCompletedMatchCount = gsSettingsData.GetInt(GSBackendKeys.FACEBOOK_CONNECT_REWARD).Value;
+            settingsModel.maxCommunityMatches   = gsSettingsData.GetInt(GSBackendKeys.MAX_COMMUNITY_MATECHES).Value;
+
+            settingsModel.maintenanceFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_FLAG).Value;
+            settingsModel.updateMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_MESSAGE);
+            settingsModel.maintenanceMessage = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_MESSAGE);
+            settingsModel.minimumClientVersion = gsSettingsData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
+
+            if(String.Compare(appInfoModel.clientVersion,settingsModel.minimumClientVersion) == -1)
+            {
+                LogUtil.Log("SHOW UPDATE BANNERRRRRRRR  > > > >  > >", "red");
+            }
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

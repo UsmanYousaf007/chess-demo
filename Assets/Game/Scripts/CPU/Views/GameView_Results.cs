@@ -73,8 +73,10 @@ namespace TurboLabz.CPU
         private string collectRewardType;
         private float animDelay;
         private bool menuOpensResultsDlg;
+        private int resultRewardCoins;
 
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
 
         private void InitResultsCPU()
         {
@@ -298,7 +300,7 @@ namespace TurboLabz.CPU
             }
         }
 
-        public void UpdateResultsDialog(GameEndReason gameEndReason, bool isPlayerWins, int rewardCoins, bool removeAds)
+        public void UpdateResultsDialog(GameEndReason gameEndReason, bool isPlayerWins, int powerupUsage, bool removeAds)
         {
             DisableInteraction();
             EnableModalBlocker();
@@ -340,8 +342,10 @@ namespace TurboLabz.CPU
                 resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
             }
 
+            int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, powerupUsage, playerWins);
+
             // Reward
-            resultsRewardCoinsLabel.text = rewardCoins + " Coins"; ;
+            resultsRewardCoinsLabel.text = rewardCoins + " Coins"; 
             if (playerWins)
             {
                 resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_REWARD);
@@ -353,6 +357,7 @@ namespace TurboLabz.CPU
 
             adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             collectRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
+            resultRewardCoins = rewardCoins;
         }
 
         public bool IsResultsDialogVisible()
@@ -389,7 +394,14 @@ namespace TurboLabz.CPU
 
         private void OnResultsCollectRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.RewardedVideo;
+            vo.rewardType = adRewardType;
+            vo.challengeId = "";
+            vo.playerWins = playerWins;
+            showAdSignal.Dispatch(vo);
+
+           // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             backToLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);         
@@ -399,7 +411,14 @@ namespace TurboLabz.CPU
 
         public void OnResultsSkipRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.Interstitial;
+            vo.rewardType = collectRewardType;
+            vo.challengeId = "";
+            vo.playerWins = playerWins;
+            showAdSignal.Dispatch(vo);
+
+            //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
             backToLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);

@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
         SHARE_SCREEN_DIALOG,
         SKILL_LEVEL_DLG,
         CHAT,
+        SHOW_MAINTENANCE_SCREEN,
         // TODO: I am possibly unused so remove me.
         AD_COVER
     }

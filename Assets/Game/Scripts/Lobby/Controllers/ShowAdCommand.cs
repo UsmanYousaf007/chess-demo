@@ -11,14 +11,17 @@ using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
 using UnityEngine;
 using strange.extensions.promise.api;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantGame
 {
     public class ShowAdCommand : Command
     {
         // Parameters
-        [Inject] public AdType adType { get; set; }
-        [Inject] public string claimRewardType { get; set; }
+        [Inject] public ResultAdsVO resultAdsVO { get; set; }
+
+        //[Inject] public AdType adType { get; set; }
+        //[Inject] public string claimRewardType { get; set; }
 
         // Dispatch signals
         [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
@@ -31,11 +34,18 @@ namespace TurboLabz.InstantGame
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+
+        public AdType adType;
+        public string claimRewardType;
 
         public override void Execute()
         {
             // All non-rewarded ads skipped if player owns the remove ads feature
             bool removeAds = playerModel.HasRemoveAds(metaDataModel.adsSettings);
+
+            adType = resultAdsVO.adsType;
+            claimRewardType = resultAdsVO.rewardType;
 
             // Case: Ad removed
             if (removeAds)
@@ -76,11 +86,18 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        string challengeId = "";
         private void ClaimReward(AdsResult result)
         {
             if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
             {
-                backendService.ClaimReward(claimRewardType).Then(OnClaimReward);
+
+                GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
+                                                            .AddString("challengeId", resultAdsVO.challengeId);
+                                                      
+
+
+                backendService.ClaimReward(jsonData).Then(OnClaimReward);
             }
             else
             {

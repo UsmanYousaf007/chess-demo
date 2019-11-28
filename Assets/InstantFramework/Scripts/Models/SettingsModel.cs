@@ -9,6 +9,12 @@ namespace TurboLabz.InstantFramework
         public int facebookConnectReward { get; set; }
         public int maxRecentlyCompletedMatchCount { get; set; }
 
+        public int maxCommunityMatches { get; set; }
+        public bool maintenanceFlag { get; set; }
+        public string updateMessage { get; set; }
+        public string maintenanceMessage { get; set; }
+        public string minimumClientVersion { get; set; }
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -24,6 +30,12 @@ namespace TurboLabz.InstantFramework
             maxFriendsCount = 2;
             facebookConnectReward = 10;
             maxRecentlyCompletedMatchCount = 10;
+
+            maxCommunityMatches = 6;
+            maintenanceFlag = false;
+            updateMessage = "";
+            maintenanceMessage = "";
+            minimumClientVersion = "";
         }
     }
 }

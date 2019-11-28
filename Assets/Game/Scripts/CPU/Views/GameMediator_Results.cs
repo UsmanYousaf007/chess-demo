@@ -62,9 +62,9 @@ namespace TurboLabz.CPU
         }
 
         [ListensTo(typeof(UpdateResultDialogSignal))]
-		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int rewardCoins, bool isRemoveAds)
+		public void OnUpdateResults(GameEndReason gameEndReason, bool playerWins, int powerupUsage, bool isRemoveAds)
         {
-            view.UpdateResultsDialog(gameEndReason, playerWins, rewardCoins, isRemoveAds);
+            view.UpdateResultsDialog(gameEndReason, playerWins, powerupUsage, isRemoveAds);
         }
 
         private void OnResultsExitButtonClicked()

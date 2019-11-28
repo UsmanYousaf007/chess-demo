@@ -26,6 +26,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+        //[Inject] public ISettingsModel settingsModel { get; set; }
+
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -669,7 +672,7 @@ namespace TurboLabz.InstantFramework
         {
             if(!playerModel.isFBConnectRewardClaimed)
             {
-                saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, settingsModel.facebookConnectReward);
+                saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, rewardsSettingsModel.facebookConnectReward);
             }
             
             gameObject.SetActive(true);

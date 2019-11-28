@@ -24,7 +24,10 @@ namespace TurboLabz.InstantFramework
         public const string APP_IOS_URL = "iosURL";
         public const string APP_RATE_APP_THRESHOLD = "rateAppThreshold";
         public const string APP_ONLINE_COUNT = "onlineCount";
-        
+        public const string MAINTENANCE_FLAG = "maintenanceFlag";
+        public const string UPDATE_MESSAGE = "updateMessage";
+        public const string MAINTENANCE_MESSAGE = "maintenanceMessage";
+        public const string MINIMUM_CLIENT_VERSION = "minimumClientVersion";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
@@ -32,7 +35,8 @@ namespace TurboLabz.InstantFramework
         public const string MAX_FRIENDS_COUNT = "maxFriendsCount";
         public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
         public const string MAX_RECENTLY_COMPLETED_MATCH_COUNT = "maxRecentlyCompletedMatchCount";
-
+        public const string MAX_COMMUNITY_MATECHES = "maxCommunityMatches";
+        
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
         public const string SHOP_ITEM_TAGS = "tags";
@@ -311,6 +315,7 @@ namespace TurboLabz.InstantFramework
             public const string REMOVE_ADS_TIMEPERIOD = "removeAdsTimePeriod";
             public const string EDITED_NAME = "editedName";
             public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
+            public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
         }
 
         public static class Match
@@ -350,6 +355,15 @@ namespace TurboLabz.InstantFramework
             public const string MATCH_WIN_AD_REWARD = "matchWinAdReward";
             public const string MATCH_RUNNER_UP_REWARD = "matchRunnerUpReward";
             public const string MATCH_RUNNER_UP_AD_REWARD = "matchRunnerUpAdReward";
+            public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
+            public const string FAIL_SAFE_COIN_REWARD   = "failSafe";
+            public const string POWERUP_COIN_VALUE = "powerUpCoinsValue";
+            public const string COEFFICIENT_WIN_VIDEO = "winVideo";
+            public const string COEFFICIENT_WIN_INTERSITIAL = "winIntersitial";
+            public const string COEFFICIENT_LOSE_VIDEO = "loseVideo";
+            public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
+            
+
         }
 
         public static class PowerUp

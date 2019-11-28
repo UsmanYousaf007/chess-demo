@@ -33,6 +33,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSkillLevelDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_MAINTENANCE_SCREEN)
+            {
+                return new NSMaintenance();
+            }
 
             return null;
         }

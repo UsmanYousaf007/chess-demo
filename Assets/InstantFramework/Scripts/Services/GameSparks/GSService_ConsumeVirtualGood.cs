@@ -7,53 +7,86 @@ using strange.extensions.promise.api;
 using System;
 using GameSparks.Api.Requests;
 using GameSparks.Api.Responses;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        public IPromise<BackendResult> ConsumeVirtualGood(int quantity, string shortCode)
+        public IPromise<BackendResult> ConsumeVirtualGood(GSRequestData jsonData)
         {
-            return new GSConsumeVirtualGoodRequest().Send(quantity, shortCode, OnConsumeVirtualGoodSuccess);
+            //return new GSConsumeVirtualGoodRequest().Send(quantity, shortCode, OnConsumeVirtualGoodSuccess);
+            return new GSConsumeVirtualGood().Send(jsonData, OnConsumeVirtualGoodSuccess);
+        }
+
+        public class GSConsumeVirtualGood : GSFrameworkRequest
+        {
+            const string SHORT_CODE = "ConsumeVirtualGood";
+            const string ATT_JSON_DATA = "jsonData";
+
+            public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object> onSuccess)
+            {
+                this.onSuccess = onSuccess;
+                this.errorCode = BackendResult.CONSUME_VIRTUAL_GOOD_FAILED;
+
+                new LogEventRequest()
+                    .SetEventKey(SHORT_CODE)
+                    .SetEventAttribute(ATT_JSON_DATA, jsonData)
+                    .Send(OnRequestSuccess, OnRequestFailure);
+
+                return promise;
+            }
         }
 
         private void OnConsumeVirtualGoodSuccess(object r)
         {
-            ConsumeVirtualGoodResponse response = (ConsumeVirtualGoodResponse)r;
-            int quantity = response.ScriptData.GetInt("quantity").Value;
-            string shopItemId = response.ScriptData.GetString("shortCode");
+           LogEventResponse response = (LogEventResponse)r;
 
-            TLUtils.LogUtil.LogNullValidation(shopItemId, "shopItemId");
-             
-            if (shopItemId != null && playerModel.inventory.ContainsKey(shopItemId))
+            if(response != null && response.ScriptData != null)
             {
-                int count = playerModel.inventory[shopItemId] - quantity;
-                playerModel.inventory[shopItemId] = count;
+                int quantity = response.ScriptData.GetInt("quantity").Value;
+                string shopItemId = response.ScriptData.GetString("shortCode");
+
+                if(response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT))
+                {
+                    playerModel.cpuPowerupUsedCount = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
+                }
+                
+
+                TLUtils.LogUtil.LogNullValidation(shopItemId, "shopItemId");
+
+                if (shopItemId != null && playerModel.inventory.ContainsKey(shopItemId))
+                {
+                    int count = playerModel.inventory[shopItemId] - quantity;
+                    playerModel.inventory[shopItemId] = count;
+                }
+
             }
-        }
-    }
-
-    #region REQUEST
-
-    public class GSConsumeVirtualGoodRequest : GSFrameworkRequest
-    {
         
-        public IPromise<BackendResult> Send(                      
-            int quantity,                                         // The number of items to consume
-            string shortCode,                                     // The short code of the virtual good to be consumed
-            Action<object> onSuccess)
-        {
-            this.onSuccess = onSuccess;
-            this.errorCode = BackendResult.CONSUME_VIRTUAL_GOOD_FAILED;
-
-            new ConsumeVirtualGoodRequest()                
-                .SetQuantity(quantity)
-                .SetShortCode(shortCode)
-                .Send(OnRequestSuccess, OnRequestFailure);
-
-            return promise;
         }
     }
 
-    #endregion
+    //#region REQUEST
+
+    //public class GSConsumeVirtualGoodRequest : GSFrameworkRequest
+    //{
+        
+    //    public IPromise<BackendResult> Send(                      
+    //        int quantity,                                         // The number of items to consume
+    //        string shortCode,                                     // The short code of the virtual good to be consumed
+    //        Action<object> onSuccess)
+    //    {
+    //        this.onSuccess = onSuccess;
+    //        this.errorCode = BackendResult.CONSUME_VIRTUAL_GOOD_FAILED;
+
+    //        new ConsumeVirtualGoodRequest()                
+    //            .SetQuantity(quantity)
+    //            .SetShortCode(shortCode)
+    //            .Send(OnRequestSuccess, OnRequestFailure);
+
+    //        return promise;
+    //    }
+    //}
+
+    //#endregion
 }
