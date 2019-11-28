@@ -191,11 +191,6 @@ namespace TurboLabz.InstantFramework
             settingsModel.updateMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_MESSAGE);
             settingsModel.maintenanceMessage = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_MESSAGE);
             settingsModel.minimumClientVersion = gsSettingsData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
-
-            if(String.Compare(appInfoModel.clientVersion,settingsModel.minimumClientVersion) == -1)
-            {
-                LogUtil.Log("SHOW UPDATE BANNERRRRRRRR  > > > >  > >", "red");
-            }
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

@@ -2,6 +2,7 @@
 using TurboLabz.InstantFramework;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -17,6 +18,8 @@ namespace TurboLabz.InstantGame
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -29,12 +32,17 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            if (ShowGameUpdateBanner())
+            {
+                return;
+            }
+
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
                 preferencesModel.timeAtLobbyLoadedFirstTime = DateTime.Now;
                 return;
             }
-
+            
             Init();
             IncrementPromotionCycleIndex();
 
@@ -61,6 +69,40 @@ namespace TurboLabz.InstantGame
                 analyticsService.Event(promotionCycle[promotionToShowIndex].analyticsImpId);
                 showPromotionSignal.Dispatch(promotionCycle[promotionToShowIndex]);
             }
+        }
+
+        private bool ShowGameUpdateBanner()
+        {
+            var gameUpdateItem = new PromotionVO
+            {
+                cycleIndex = 7,
+                key = LobbyPromotionKeys.GAME_UPDATE_BANNER,
+                condition = delegate
+                {
+                    return String.Compare(appInfoModel.clientVersion, settingsModel.minimumClientVersion) == -1;
+                },
+                onClick = delegate (string key)
+                {
+                    audioService.PlayStandardClick();
+#if UNITY_ANDROID
+                    Application.OpenURL(appInfoModel.androidURL);
+#elif UNITY_IOS
+                    Application.OpenURL(appInfoModel.iosURL);
+#else
+                    LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
+#endif
+                    //analyticsService.Event(AnalyticsEventId.tap_banner_move_meter_training);
+                },
+                //analyticsImpId = AnalyticsEventId.imp_banner_move_meter_training
+            };
+
+            if(gameUpdateItem.condition())
+            {
+                showPromotionSignal.Dispatch(gameUpdateItem);
+                return true;
+            }
+
+            return false;
         }
 
         private void IncrementPromotionCycleIndex()
