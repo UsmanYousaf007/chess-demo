@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
         string totalGamesPrefix = null;
         string playerId = null;
         bool inGame;
-
+        
         private SpritesContainer defaultAvatarContainer;
 
         public void Init()
@@ -131,7 +131,9 @@ namespace TurboLabz.InstantFramework
             playerAvatarIcon.gameObject.SetActive(false);
             alertDialog.SetActive(false);
 
+            inGame = vo.inGame;
             playerId = vo.playerId;
+
             if (vo.playerProfilePic!= null)
             {
                 playerProfilePic.sprite = vo.playerProfilePic;
@@ -209,6 +211,7 @@ namespace TurboLabz.InstantFramework
             {
                 EnableRemoveButton(false);
                 EnableBlockButton(false);
+                inGame = true;
             }
 
             if (vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
@@ -225,7 +228,6 @@ namespace TurboLabz.InstantFramework
                 onlineStatus.sprite = vo.oppOnline ? online : offline;
             }
 
-            inGame = vo.inGame;
             if (vo.inGame)
             {
                 blockBtn.interactable = false;
