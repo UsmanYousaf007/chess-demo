@@ -9,6 +9,7 @@ using TurboLabz.TLUtils;
 using System.Collections;
 using GameSparks.Core;
 using GameAnalyticsSDK;
+using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public SplashWifiIsHealthySignal splashWifiIsHealthySignal { get; set; }
+        [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
 
         // Services
         [Inject] public IAudioService audioService { get; set; }
@@ -51,6 +53,7 @@ namespace TurboLabz.InstantFramework
 			audioService.Init();
             GameAnalytics.Initialize();
             appsFlyerService.Init();
+            loadCPUGameDataSignal.Dispatch();
 
         }
 
