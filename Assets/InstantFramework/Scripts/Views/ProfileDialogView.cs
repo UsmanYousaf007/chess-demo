@@ -194,10 +194,7 @@ namespace TurboLabz.InstantFramework
             opponentRankedWinsLabel.text = vo.opponentWinsCount.ToString();
             oppCountry.text = Flags.GetCountry(vo.oppCountryCode);
 
-            blockBtn.interactable = !vo.isCommunity;
-            var colorToSet = vo.isCommunity ? Colors.DISABLED_WHITE : Colors.WHITE;
-            blockLabel.color = colorToSet;
-            blockUnderline.color = colorToSet;
+            EnableBlockButton(!vo.isCommunity);
 
             if (vo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
             {
@@ -211,6 +208,7 @@ namespace TurboLabz.InstantFramework
             if (vo.longPlayStatus != LongPlayStatus.DEFAULT)
             {
                 EnableRemoveButton(false);
+                EnableBlockButton(false);
             }
 
             if (vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
@@ -351,5 +349,12 @@ namespace TurboLabz.InstantFramework
             alertDialog.SetActive(false);
         }
 
+        private void EnableBlockButton(bool enableFlag)
+        {
+            blockBtn.interactable = enableFlag;
+            var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
+            blockLabel.color = colorToSet;
+            blockUnderline.color = colorToSet;
+        }
     }
 }
