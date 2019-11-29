@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public WifiIsHealthySignal wifiIsHealthySignal { get; set; }
+        [Inject] public ShowMaintenanceViewSignal showMaintenanceViewSignal { get; set; }
 
         private int initialPingCount;
         private long sendTime;
@@ -123,6 +124,19 @@ namespace TurboLabz.InstantFramework
 
             UpdateClockLatency(response);
 
+            if(response.ScriptData.ContainsKey(GSBackendKeys.MAINTENANCE_FLAG))
+            {
+                settingsModel.maintenanceFlag = response.ScriptData.GetBoolean(GSBackendKeys.MAINTENANCE_FLAG).Value;
+
+                if(settingsModel.maintenanceFlag == true)
+                {
+                    LogUtil.Log("ERROR: GAME  MAINTENENCE ON", "red");
+                    showMaintenanceViewSignal.Dispatch();
+                    routineRunner.StopCoroutine(pingerCR);
+                    return;                    
+                }
+            }
+            
             UpdateCommunityPublicStatus(response);
         }
             

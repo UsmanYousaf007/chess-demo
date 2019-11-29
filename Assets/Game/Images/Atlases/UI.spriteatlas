@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 5473292
+    totalSpriteSurfaceArea: 5725988
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -57,6 +57,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5b68f350a02934c5bb79e1dc35987f3b, type: 3}
   - {fileID: 21300000, guid: 5bb54850274ea467da2134bd935d650d, type: 3}
   - {fileID: 21300000, guid: 4b911b803eb1d4e2b99697684c6e42fe, type: 3}
+  - {fileID: 21300000, guid: 114257904be6d43c689cfe23bd246d07, type: 3}
   - {fileID: 21300000, guid: 7708e7c0b3f3b47a5b20d76b0a2a3fac, type: 3}
   - {fileID: 21300000, guid: 6b404ed06a2504dc68b1f84e1a2d734e, type: 3}
   - {fileID: 21300000, guid: 2a10fed0d13dc4d4893ddcfe933203a2, type: 3}
@@ -83,6 +84,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b684a052f6c644265a3737d5a4914353, type: 3}
   - {fileID: 21300000, guid: 78df8652dc6b741718cca27cec48b86f, type: 3}
   - {fileID: 21300000, guid: f5575b522f9274ffaae543e98b0f8d28, type: 3}
+  - {fileID: 21300000, guid: 72fbb762b56ab41cdba2df3f69743590, type: 3}
   - {fileID: 21300000, guid: d3cbc862f6a594b5682e751029a66f28, type: 3}
   - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
   - {fileID: 21300000, guid: b8f18e92c1067418f8fe7f5ec75c7361, type: 3}
@@ -256,6 +258,7 @@ SpriteAtlas:
   - strengthTrainingBg
   - ProfileFlagMask
   - LobbyBtn
+  - maintenanceIcon
   - UndoBtn
   - ProfileFlagBorder
   - MatchMakingIcon
@@ -282,6 +285,7 @@ SpriteAtlas:
   - LongMatchIcon
   - UpdateIcon
   - a
+  - gameUpdateBg
   - bannerButton
   - ProgressIcon
   - coachStickerBgWhite

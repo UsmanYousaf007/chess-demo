@@ -29,5 +29,11 @@ namespace TurboLabz.InstantFramework
                 view.Hide();
             }
         }
+
+        [ListensTo(typeof(ShowMaintenanceViewSignal))]
+        public void ShowMaintenanceView()
+        {
+            view.Show();
+        }
     }
 }
