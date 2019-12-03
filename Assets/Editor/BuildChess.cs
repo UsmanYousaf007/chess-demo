@@ -25,6 +25,8 @@ public class BuildChess : MonoBehaviour
     static string bundleVersionCodeiOS = PlayerSettings.iOS.buildNumber;
     static string bundleVersionCodeAndroid = PlayerSettings.Android.bundleVersionCode.ToString();
 
+    static string GameAnalyticsInternalBuildName = "internal";
+
     private static void ProcessArgs()
     {
         LogUtil.Log("Process Args", "yellow");
@@ -143,13 +145,22 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.SetManagedStrippingLevel(BuildTargetGroup.Android, ManagedStrippingLevel.Low);
     }
 
+    public static void GASettings(bool isInternal)
+    {
+        if (isInternal)
+        {
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(GameAnalyticsInternalBuildName);
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = false;
+        }
+        else
+        {
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = true;
+        }
+    }
+
     public static void BuildPlayerSettings()
     {
-        // Use version number for filtering GA crash bugs
-        GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
-        GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
-        GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = true;
-
         PlayerSettings.MTRendering = true;
         PlayerSettings.accelerometerFrequency = 0;
         PlayerSettings.actionOnDotNetUnhandledException = ActionOnDotNetUnhandledException.Crash;
@@ -271,23 +282,24 @@ public class BuildChess : MonoBehaviour
     }
 
 
-    [MenuItem("Build/Build Chess iOS Release")]
+    [MenuItem("Build/Build Chess iOS Release", false, 1)]
     public static void BuildiOS()
     {
-        LogUtil.Log("Start Build iOS", "yellow");
+        LogUtil.Log("Start Build iOS Release", "yellow");
         ProcessArgs();
         ProcessSkinLinks();
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
+        GASettings(true);
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_Release");
         ProcessBuild(buildPlayerOptions);
 
-        LogUtil.Log("End Build iOS", "yellow");
+        LogUtil.Log("End Build iOS Release", "yellow");
     }
 
-    [MenuItem("Build/Build Chess iOS Development")]
+    [MenuItem("Build/Build Chess iOS Development", false, 2)]
     public static void BuildiOSDevelopment()
     {
         LogUtil.Log("Start Build iOS Development", "yellow");
@@ -295,6 +307,7 @@ public class BuildChess : MonoBehaviour
         ProcessSkinLinks();
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
+        GASettings(true);
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.Development, "_Development");
@@ -303,20 +316,21 @@ public class BuildChess : MonoBehaviour
         LogUtil.Log("End Build iOS Development", "yellow");
     }
 
-    [MenuItem("Build/Build Chess Andriod Release")]
+    [MenuItem("Build/Build Chess Andriod Release", false, 3)]
     public static void BuildAndroid()
     {
-        LogUtil.Log("Start Build Android");
+        LogUtil.Log("Start Build Android Release");
         ProcessArgs();
         ProcessSkinLinks();
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
+        GASettings(true);
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_Release");
         ProcessBuild(buildPlayerOptions);
-        LogUtil.Log("End Build Android");
+        LogUtil.Log("End Build Android Release");
     }
 
-    [MenuItem("Build/Build Chess Andriod Development")]
+    [MenuItem("Build/Build Chess Andriod Development", false, 4)]
     public static void BuildAndroidDevelopment()
     {
         LogUtil.Log("Start Build Android Development");
@@ -324,8 +338,40 @@ public class BuildChess : MonoBehaviour
         ProcessSkinLinks();
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
+        GASettings(true);
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
         ProcessBuild(buildPlayerOptions);
         LogUtil.Log("End Build Android Development");
+    }
+
+    [MenuItem("Build/Build Chess iOS for Store", false, 15)]
+    public static void BuildiOSForStore()
+    {
+        LogUtil.Log("Start Build iOS for Store", "yellow");
+        ProcessArgs();
+        ProcessSkinLinks();
+        BuildPlayerSettings();
+        BuildPlayerSettingsiOS();
+        GASettings(false);
+        PlayerSettings.bundleVersion = bundleVersion;
+        PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
+        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_ReleaseStore");
+        ProcessBuild(buildPlayerOptions);
+
+        LogUtil.Log("End Build iOS for Store", "yellow");
+    }
+
+    [MenuItem("Build/Build Chess Andriod for Store", false, 15)]
+    public static void BuildAndroidForStore()
+    {
+        LogUtil.Log("Start Build Android for Store");
+        ProcessArgs();
+        ProcessSkinLinks();
+        BuildPlayerSettings();
+        BuildPlayerSettingsAndroid();
+        GASettings(false);
+        BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_ReleaseStore");
+        ProcessBuild(buildPlayerOptions);
+        LogUtil.Log("End Build Android for Store");
     }
 }
