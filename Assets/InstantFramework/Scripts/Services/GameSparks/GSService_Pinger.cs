@@ -130,13 +130,29 @@ namespace TurboLabz.InstantFramework
 
                 if(settingsModel.maintenanceFlag == true)
                 {
-                    LogUtil.Log("ERROR: GAME  MAINTENENCE ON", "red");
-                    showMaintenanceViewSignal.Dispatch();
+                    showMaintenanceViewSignal.Dispatch(1);
                     routineRunner.StopCoroutine(pingerCR);
                     return;                    
                 }
             }
-            
+
+            if (response.ScriptData.ContainsKey(GSBackendKeys.MAINTENANCE_WARNING_FLAG))
+            {
+                settingsModel.maintenanceWarningFlag = response.ScriptData.GetBoolean(GSBackendKeys.MAINTENANCE_WARNING_FLAG).Value;
+
+                if (settingsModel.maintenanceWarningFlag == true)
+                {
+                    settingsModel.maintenanceWarningMessege = response.ScriptData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
+                    showMaintenanceViewSignal.Dispatch(2);
+                  
+                }
+                else if (settingsModel.maintenanceWarningFlag == false)
+                {
+                    showMaintenanceViewSignal.Dispatch(3);
+                }
+            }
+
+
             UpdateCommunityPublicStatus(response);
         }
             
@@ -206,4 +222,3 @@ namespace TurboLabz.InstantFramework
     #endregion
 }
 
-    

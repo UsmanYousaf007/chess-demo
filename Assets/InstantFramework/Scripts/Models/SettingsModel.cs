@@ -14,6 +14,8 @@ namespace TurboLabz.InstantFramework
         public string updateMessage { get; set; }
         public string maintenanceMessage { get; set; }
         public string minimumClientVersion { get; set; }
+        public bool maintenanceWarningFlag { get; set; }
+        public string maintenanceWarningMessege { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }

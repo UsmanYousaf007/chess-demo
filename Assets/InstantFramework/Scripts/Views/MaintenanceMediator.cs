@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.SHOW_MAINTENANCE_SCREEN)
             {
-                view.Show();
+                view.ShowMaintenance();
             }
         }
 
@@ -26,14 +26,26 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.SHOW_MAINTENANCE_SCREEN)
             {
-                view.Hide();
+                view.HideMaintenance();
             }
         }
 
         [ListensTo(typeof(ShowMaintenanceViewSignal))]
-        public void ShowMaintenanceView()
+        public void ShowMaintenanceView(int maintenanceCounter)
         {
-            view.Show();
+            if(maintenanceCounter == 1) //Show maintenance
+            {
+                view.ShowMaintenance();
+            }
+            else if (maintenanceCounter == 2) // Show maintenance warning
+            {
+                view.ShowMaintenanceWarning();
+            }
+            else if (maintenanceCounter == 3) // Hide maintenance warning
+            {
+                view.HideMaintenanceWarning();
+            }
+
         }
     }
 }

@@ -18,5 +18,8 @@ namespace TurboLabz.InstantFramework
         string maintenanceMessage { get; set; }
         string minimumClientVersion { get; set; }
 
+        bool maintenanceWarningFlag { get; set; }
+        string maintenanceWarningMessege { get; set; }
+
     }
 }

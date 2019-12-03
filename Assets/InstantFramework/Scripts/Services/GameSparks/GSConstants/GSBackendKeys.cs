@@ -28,6 +28,9 @@ namespace TurboLabz.InstantFramework
         public const string UPDATE_MESSAGE = "updateMessage";
         public const string MAINTENANCE_MESSAGE = "maintenanceMessage";
         public const string MINIMUM_CLIENT_VERSION = "minimumClientVersion";
+        public const string MAINTENANCE_WARNING_FLAG = "maintenanceWarningFlag";
+        public const string MAINTENANCE_WARNING_MESSEGE = "maintenanceWarningMessage";
+        
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
