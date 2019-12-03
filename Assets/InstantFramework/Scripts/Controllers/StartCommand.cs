@@ -9,6 +9,7 @@ using TurboLabz.TLUtils;
 using System.Collections;
 using GameSparks.Core;
 using GameAnalyticsSDK;
+using HUF.AnalyticsHBI.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -51,7 +52,7 @@ namespace TurboLabz.InstantFramework
 			audioService.Init();
             GameAnalytics.Initialize();
             appsFlyerService.Init();
-
+            HAnalyticsHBI.Init();
         }
 
 		void GameSparksAvailable(bool isAvailable)
