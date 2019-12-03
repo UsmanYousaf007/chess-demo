@@ -168,12 +168,12 @@ namespace TurboLabz.InstantFramework
                                                     Action<LogEventResponse> onSuccess)
         {
             transactionIdRecord = transactionId;
-
             key = "VerifyRemoteStorePurchase";
-            request.SetEventAttribute("remoteProductId", remoteProductId);
-            //request.SetEventAttribute("transactionID", transactionID);
-            //request.SetEventAttribute("purchaseReceipt", purchaseReceipt);
             errorCode = BackendResult.VERIFY_REMOTE_STORE_PURCHASE_FAILED;
+
+            var jsonData = new GSRequestData().AddString("remoteProductId", remoteProductId).
+                                               AddJSONStringAsObject("purchaseReceipt", purchaseReceipt);
+            request.SetEventAttribute("jsonData", jsonData);
 
             // Do not modify below
             this.onSuccess = onSuccess;

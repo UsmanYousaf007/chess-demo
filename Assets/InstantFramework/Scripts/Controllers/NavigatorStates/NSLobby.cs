@@ -56,6 +56,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSChat();
             }
+            else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
+            {
+                return new NSConfirmDlg();
+            }
 
             return null;
         }

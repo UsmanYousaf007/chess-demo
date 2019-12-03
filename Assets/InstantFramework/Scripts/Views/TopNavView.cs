@@ -28,6 +28,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 
+        // Dispatch Signals
+        [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+
         public Button audioOffButton;
         public Button audioOnButton;
         public Button supportButton;
@@ -102,51 +105,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnSupportButtonClicked()
         {
-            //Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
-
-            string email = Settings.SUPPORT_EMAIL;
-            string subject = MyEscapeURL("Feeback");
-            string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
-
-            Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
-
-            analyticsService.Event(AnalyticsEventId.tap_support);
-        }
-
-        string MyEscapeURL(string URL)
-        {
-            return UnityWebRequest.EscapeURL(URL).Replace("+", "%20");
-        }
-
-        string AddPlayerData()
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-           
-            data.Add("DisplayName", playerModel.name);
-            data.Add("ClientVersion", appInfoModel.clientVersion);
-            data.Add("EditedName", playerModel.editedName);
-            data.Add("DeviceModel", SystemInfo.deviceModel);
-            data.Add("OsVersion", SystemInfo.operatingSystem);
-            data.Add("Memory", SystemInfo.systemMemorySize + " MB");
-
-            if (playerModel.isPremium)
-            {
-                data.Add("PlayerTag-P", playerModel.tag);
-            }
-            else
-            {
-                data.Add("PlayerTag-F", playerModel.tag);
-            }
-
-            string playerData = "\n";
-
-            foreach (KeyValuePair<string, string> entry in data)
-            {
-                playerData += "\n" + entry.Key + " : " + entry.Value.ToString();
-            }
-
-            return playerData;
-
+            contactSupportSignal.Dispatch();
         }
 
         private void OnRemoveAdsButtonClicked()

@@ -147,5 +147,11 @@ namespace TurboLabz.InstantGame
         {
             loadLobbySignal.Dispatch();
         }
+
+        [ListensTo(typeof(ShowIAPProcessingSignal))]
+        public void OnShowProcessingUI(bool show)
+        {
+            view.ShowProcessing(show);
+        }
     }
 }

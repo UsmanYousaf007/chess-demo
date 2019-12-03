@@ -89,14 +89,17 @@ namespace TurboLabz.InstantFramework
         {
             yield return new WaitForSeconds(1.0f);
 
-            if (storeItem.remoteProductPrice == null)
+            if (price != null)
             {
-                StartCoroutine(WaitForPriceToLoad(price));
-            }
+                if (storeItem.remoteProductPrice == null)
+                {
+                    StartCoroutine(WaitForPriceToLoad(price));
+                }
 
-            if (storeItem.remoteProductPrice != null && price.text.Equals(localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE)))
-            {
-                price.text = storeItem.remoteProductPrice;
+                if (storeItem.remoteProductPrice != null && price.text.Equals(localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE)))
+                {
+                    price.text = storeItem.remoteProductPrice;
+                }
             }
         }
 
