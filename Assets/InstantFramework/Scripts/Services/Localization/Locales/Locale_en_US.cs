@@ -189,6 +189,18 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON, "YES" },
                 { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON, "NO" },
 
+                { LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_TITLE, "Verification Failed" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_DESC, "If you had made the valid payment and haven't received the goods then please contact our support team" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_YES_BUTTON, "Contact Us" },
+                { LocalizationKey.STORE_PURCHASE_FAILED, "Purchase Failed" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_CANCEL, "Cancelled by user" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_DECLINED, "Payment declined" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_DUPLICATE, "Duplicate transaction for this item" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_INVALID, "Signature invalid" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_PENDING, "Existing purchase for this item is pending" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_PRODUCT_UNAVAILABLE, "Item is unavailable for purchase, please try again" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNAVAILABLE, "Purchasing is unavailable, check your payment settings" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNKNOWN, "Reason unknown" },
 				#endregion
 
                 #region Friends

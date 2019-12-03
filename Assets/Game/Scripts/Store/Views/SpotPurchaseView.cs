@@ -33,6 +33,9 @@ namespace TurboLabz.InstantGame
         public GameObject[] galleryCoins;
         private IDictionary<string, CoinShopItemPrefab> prefabsCoins = null;
 
+        public GameObject processingUi;
+        public GameObject uiBlocker;
+
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -160,5 +163,10 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        public void ShowProcessing(bool show)
+        {
+            processingUi.SetActive(show);
+            uiBlocker.SetActive(show);
+        }
     }
 }

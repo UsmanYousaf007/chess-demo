@@ -126,6 +126,8 @@ namespace TurboLabz.InstantFramework
     public class ChessboardBlockerEnableSignal : Signal<bool> {}
     public class ReconnectViewEnableSignal : Signal<bool> {}
     public class UpdateFindViewSignal : Signal<FindViewVO> {}
+    public class UpdateConfirmDlgSignal : Signal<ConfirmDlgVO> {}
+    public class ContactSupportSignal : Signal {}
 
     public class SyncReconnectDataSignal : Signal<string> { }
     public class CancelSearchResultSignal : Signal { }

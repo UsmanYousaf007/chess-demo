@@ -42,6 +42,8 @@ namespace TurboLabz.InstantGame
         public GameObject tabUnderlineThemes;
         public GameObject tabUnderlineCoins;
 
+        public GameObject processingUi;
+
         private StoreThumbsContainer thumbsContainer;
         private StoreIconsContainer iconsContainer;
 
@@ -118,5 +120,10 @@ namespace TurboLabz.InstantGame
             analyticsService.ScreenVisit(AnalyticsScreen.coins);
         }
 
+        public void ShowProcessing(bool show)
+        {
+            processingUi.SetActive(show);
+            uiBlocker.SetActive(show);
+        }
     }
 }

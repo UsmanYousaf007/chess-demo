@@ -95,5 +95,11 @@ namespace TurboLabz.InstantGame
             // Purchase item after confirmation. No confirmation for remote store items
             purchaseStoreItemSignal.Dispatch(item.key, true);
         }
+
+        [ListensTo(typeof(ShowIAPProcessingSignal))]
+        public void OnShowProcessingUI(bool show)
+        {
+            view.ShowProcessing(show);
+        }
     }
 }

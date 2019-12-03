@@ -52,6 +52,7 @@ namespace TurboLabz.InstantFramework
         SKILL_LEVEL_DLG,
         CHAT,
         SHOW_MAINTENANCE_SCREEN,
+        CONFIRM_DLG,
         // TODO: I am possibly unused so remove me.
         AD_COVER
     }
