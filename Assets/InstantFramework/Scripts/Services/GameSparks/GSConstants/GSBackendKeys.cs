@@ -276,7 +276,8 @@ namespace TurboLabz.InstantFramework
             public const string ADD = "add";
             public const string BLOCK = "block";
             public const string SEARCH = "search";
-		}
+            public const string STATUS = "status";
+        }
 
 		public static class PublicProfile
 		{

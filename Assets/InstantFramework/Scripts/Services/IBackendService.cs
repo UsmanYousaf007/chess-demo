@@ -55,5 +55,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> FriendsOpInitialize(); // initial setup after first facebook login
         IPromise<BackendResult> FriendsOpRemove(string friendId); // remove community friend
         IPromise<BackendResult> FriendsOpSearch(string matchString, int skip); // search players
+        IPromise<BackendResult> FriendsOpStatus(string friendId); // retrieve status of friends
     }
 }

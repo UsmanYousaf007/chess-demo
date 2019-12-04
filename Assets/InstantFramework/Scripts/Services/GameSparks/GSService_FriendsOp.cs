@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpInitialize() { return new GSFriendsOpRequest().Send("initialize", null, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpRemove(string friendId) { return new GSFriendsOpRequest().Send("remove", friendId, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpSearch(string matchString, int skip) { return new GSFriendsOpRequest().Send("search", matchString, OnFriendOpSuccess, skip); }
+        public IPromise<BackendResult> FriendsOpStatus(string friendId) { return new GSFriendsOpRequest().Send("status", friendId, OnFriendOpSuccess); }
 
         private void OnFriendOpSuccess(object r)
 		{
@@ -66,7 +67,7 @@ namespace TurboLabz.InstantFramework
             if (searchList != null)
             {
                 PopulateFriends(playerModel.search, searchList);
-                GSParser.LogFriends("search", playerModel.search);
+                //GSParser.LogFriends("search", playerModel.search);
             }
 
             // Friend added
@@ -82,11 +83,45 @@ namespace TurboLabz.InstantFramework
                 playerModel.friends.Remove(blockedId);
             }
 
+            // Update friend status 
+            GSData friendStatus = response.ScriptData.GetGSData(GSBackendKeys.FriendsOp.STATUS);
+            if (friendStatus != null)
+            {
+                UpdateCommunityFriendStatus(friendStatus);
+                //GSParser.LogFriends("status", playerModel.blocked);
+            }
+
             // Populate chat if any
             GSData chatData = response.ScriptData.GetGSData(GSBackendKeys.CHAT);
             if (chatData != null)
             {
                 FillChatModel(chatData);
+            }
+        }
+
+        private void UpdateCommunityFriendStatus(GSData statusList)
+        {
+            foreach (KeyValuePair<string, object> obj in statusList.BaseData)
+            {
+                GSData player = (GSData)obj.Value;
+                string playerId = obj.Key;
+                bool isOnline = player.GetBoolean("isOnline").Value;
+                string activity = player.GetString("activity");
+
+                PublicProfile publicProfile = playerModel.community[playerId].publicProfile;
+                ProfileVO pvo = new ProfileVO();
+                pvo.playerPic = publicProfile.profilePicture;
+                pvo.playerName = publicProfile.name;
+                pvo.eloScore = publicProfile.eloScore;
+                pvo.countryId = publicProfile.countryId;
+                pvo.playerId = publicProfile.playerId;
+                pvo.avatarColorId = publicProfile.avatarBgColorId;
+                pvo.avatarId = publicProfile.avatarId;
+                pvo.isOnline = isOnline;
+                pvo.isActive = publicProfile.isActive;
+                pvo.status = activity;
+
+                updtateFriendOnlineStatusSignal.Dispatch(pvo);
             }
         }
 
