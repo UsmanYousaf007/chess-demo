@@ -102,7 +102,7 @@ public class ChatBubble : MonoBehaviour
 
         if (inGameBubble)
         {
-            text.text = text.text.Length > 30 ? text.text.Remove(30) + ".." : text.text;
+            text.text = text.text.Length > 60 ? text.text.Remove(60) + ".." : text.text;
         }
         //if (text != null)
         //{
@@ -140,7 +140,7 @@ public class ChatBubble : MonoBehaviour
 
             bg.sizeDelta = new Vector2(
                 textBoundsSize.x + 57.65f,
-                textBoundsSize.y + 30f);
+                textBoundsSize.y + 60f);
 
             // Move the background into the center of the container
             float flipDiv = flipped ? -2f : 2f;
