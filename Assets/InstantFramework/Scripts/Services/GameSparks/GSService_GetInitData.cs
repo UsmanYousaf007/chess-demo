@@ -193,6 +193,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.minimumClientVersion = gsSettingsData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
             settingsModel.maintenanceWarningFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_WARNING_FLAG).Value;
             settingsModel.maintenanceWarningMessege = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
+            settingsModel.maintenanceWarningBgColor = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

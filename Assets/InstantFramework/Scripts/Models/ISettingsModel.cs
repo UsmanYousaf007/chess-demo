@@ -20,6 +20,9 @@ namespace TurboLabz.InstantFramework
 
         bool maintenanceWarningFlag { get; set; }
         string maintenanceWarningMessege { get; set; }
+        string maintenanceWarningBgColor { get; set; }
+
+
 
     }
 }
