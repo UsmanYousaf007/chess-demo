@@ -143,6 +143,8 @@ namespace TurboLabz.InstantFramework
                 if (settingsModel.maintenanceWarningFlag == true)
                 {
                     settingsModel.maintenanceWarningMessege = response.ScriptData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
+                    settingsModel.maintenanceWarningBgColor = response.ScriptData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
+
                     showMaintenanceViewSignal.Dispatch(2);
                   
                 }

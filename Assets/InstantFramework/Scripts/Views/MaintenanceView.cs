@@ -3,6 +3,7 @@
 using strange.extensions.mediation.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,6 +16,7 @@ namespace TurboLabz.InstantFramework
         public GameObject maintenanceWarningStrip;
         public Text maintenanceMsgLabel;
         public Text maintenanceWarningMsgLabel;
+        public Image maintenanceWarningBgColor;
 
         public void Init()
         {
@@ -40,9 +42,11 @@ namespace TurboLabz.InstantFramework
 
         public void ShowMaintenanceWarning()
         {
+            maintenanceWarningMsgLabel.text = settingsModel.maintenanceWarningMessege;
+            maintenanceWarningBgColor.color = Colors.Color(settingsModel.maintenanceWarningBgColor);
+
             if (maintenanceWarningStrip.activeSelf == false)
             {
-                maintenanceWarningMsgLabel.text = settingsModel.maintenanceWarningMessege;
                 gameObject.SetActive(true);
                 maintenancePanel.SetActive(false);
                 maintenanceWarningStrip.SetActive(true);

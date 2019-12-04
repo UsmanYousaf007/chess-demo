@@ -28,15 +28,15 @@ RectTransform:
   m_GameObject: {fileID: 11525904}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 1217091561}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -343, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: -446, y: 0}
+  m_SizeDelta: {x: 66, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &11525908
 CanvasRenderer:
@@ -198,7 +198,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 35.299988, y: 0}
-  m_SizeDelta: {x: 307.2, y: 46.35676}
+  m_SizeDelta: {x: 900, y: 46.35676}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &933586065
 CanvasRenderer:
@@ -230,18 +230,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2858f50c58f1a4aaaa54b8fdeac2e711, type: 3}
-    m_FontSize: 42
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 4
-    m_MaxSize: 42
+    m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ??Maintenance...
+  m_Text: Game is going under maintenance after 10 mintues
 --- !u!114 &933586063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933586061}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -817,6 +817,7 @@ MonoBehaviour:
   maintenanceWarningStrip: {fileID: 1166209546}
   maintenanceMsgLabel: {fileID: 5835422298951707046}
   maintenanceWarningMsgLabel: {fileID: 933586064}
+  maintenanceWarningBgColor: {fileID: 1217091562}
 --- !u!1 &5835422298951707043
 GameObject:
   m_ObjectHideFlags: 0
