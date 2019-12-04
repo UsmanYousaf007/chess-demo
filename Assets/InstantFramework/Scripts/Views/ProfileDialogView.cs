@@ -54,8 +54,12 @@ namespace TurboLabz.InstantFramework
         public Button addFriendBtn;
         public Text addFriendBtnText;
         public Image addFriendBtnUnderline;
+        public Image addFriendIcon;
+        public Image plusIcon;
         public Button removeFriendBtn;
         public Text removeFriendBtnText;
+        public Image removeFriendIcon;
+        public Image minusIcon;
         public Image removeFriendBtnUnderline;
         public Text friendedText;
         public GameObject thinking;
@@ -336,6 +340,8 @@ namespace TurboLabz.InstantFramework
             var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
             removeFriendBtnText.color = colorToSet;
             removeFriendBtnUnderline.color = colorToSet;
+            removeFriendIcon.color = colorToSet;
+            minusIcon.color = colorToSet;
         }
 
         private void EnableAddButton(bool enableFlag)
@@ -344,6 +350,8 @@ namespace TurboLabz.InstantFramework
             var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
             addFriendBtnText.color = colorToSet;
             addFriendBtnUnderline.color = colorToSet;
+            addFriendIcon.color = colorToSet;
+            plusIcon.color = colorToSet;
         }
 
         private void OnAlertDialogOkButtonClicked()

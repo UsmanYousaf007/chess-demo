@@ -258,7 +258,10 @@ namespace TurboLabz.InstantGame
             }
 
             notifidationObj.transform.SetParent(gameObject.transform);
-            notifidationObj.transform.position = positionDummy.transform.position;
+            var notificationPosition = new Vector3(0, positionDummy.transform.position.y, 0); 
+            notifidationObj.transform.position = notificationPosition;
+            var rt = notifidationObj.GetComponent<RectTransform>();
+            rt.offsetMax = new Vector2(0, rt.offsetMax.y);
 
             if (notifidationObj.gameObject.transform.localScale.x > 1.0f)
             {

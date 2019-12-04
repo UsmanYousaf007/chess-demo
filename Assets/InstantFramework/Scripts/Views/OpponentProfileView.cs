@@ -92,12 +92,14 @@ namespace TurboLabz.InstantGame
         {
             if (friendId == opponentId)
             {
-                onlineStatus.sprite = isOnline ? online : offline;
-
-                if (isActive)
+                if (!isOnline && isActive)
                 {
                     onlineStatus.sprite = activeStatus;
-                }            
+                }
+                else
+                {
+                    onlineStatus.sprite = isOnline ? online : offline;
+                }
             }
         }
 
