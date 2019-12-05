@@ -176,8 +176,6 @@ namespace TurboLabz.InstantFramework
             rewardsSettingsModel.coefficientWinIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_WIN_INTERSITIAL).Value;
             rewardsSettingsModel.coefficientLoseVideo = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_VIDEO).Value;
             rewardsSettingsModel.coefficientLoseIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_INTERSITIAL).Value;
-
-            
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)
@@ -194,6 +192,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.maintenanceWarningFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_WARNING_FLAG).Value;
             settingsModel.maintenanceWarningMessege = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
             settingsModel.maintenanceWarningBgColor = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
+            settingsModel.updateReleaseBannerMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_RELEASE_BANNER_MESSAGE);
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

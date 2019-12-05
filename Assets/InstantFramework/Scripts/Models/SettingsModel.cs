@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         public bool maintenanceWarningFlag { get; set; }
         public string maintenanceWarningMessege { get; set; }
         public string maintenanceWarningBgColor { get; set; }
+        public string updateReleaseBannerMessage { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
             maintenanceMessage = "";
             minimumClientVersion = "";
             maintenanceWarningBgColor = "";
+            updateReleaseBannerMessage = "";
         }
     }
 }

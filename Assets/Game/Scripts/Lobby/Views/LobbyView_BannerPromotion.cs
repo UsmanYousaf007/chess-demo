@@ -55,7 +55,9 @@ namespace TurboLabz.InstantFramework
 
                         if (storeItem != null)
                         {
-                            iapBanner.price.text = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
+                            iapBanner.price.text = storeItem.remoteProductPrice == null ?
+                                localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE) :
+                                storeItem.remoteProductPrice;
                             spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
 
                             if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
@@ -70,6 +72,12 @@ namespace TurboLabz.InstantFramework
                     }
                     else
                     {
+                        var updateBanner = spawnedBanner.GetComponent<UpdateBanner>();
+                        if (updateBanner != null)
+                        {
+                            updateBanner.updateReleaseMessage.text = settingsModel.updateReleaseBannerMessage;
+                        }
+
                         spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
                     }
                 }

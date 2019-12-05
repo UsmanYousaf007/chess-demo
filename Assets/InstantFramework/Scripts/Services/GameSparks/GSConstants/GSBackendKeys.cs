@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
         public const string MAINTENANCE_WARNING_FLAG = "maintenanceWarningFlag";
         public const string MAINTENANCE_WARNING_MESSEGE = "maintenanceWarningMessage";
         public const string MAINTENANCE_WARNING_BG_COLOR = "maintenanceWarningBgColor";
-
+        public const string UPDATE_RELEASE_BANNER_MESSAGE = "gameUpdateBannerMsg";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
