@@ -17,9 +17,31 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        //Dispatch Signals
+        [Inject] public FindMatchRequestCompleteSignal findMatchRequestCompleteSignal { get; set; }
+
         public IPromise<BackendResult> FindMatch(string action)
         {
-            return new GSFindMatchRequest().Send(action);
+            return new GSFindMatchRequest().Send(action, OnFindMatchSuccess);
+        }
+
+        private void OnFindMatchSuccess(object r)
+        {
+            LogEventResponse response = (LogEventResponse)r;
+
+            if (response.ScriptData == null)
+            {
+                return;
+            }
+
+            var opponentStatus = "available";
+
+            if (response.ScriptData.ContainsKey("opponentStatus"))
+            {
+                opponentStatus = response.ScriptData.GetString("opponentStatus");
+            }
+
+            findMatchRequestCompleteSignal.Dispatch(opponentStatus);
         }
     }
 
@@ -30,13 +52,14 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "FindMatch";
         const string ATT_ACTION = "action";
 
-        public IPromise<BackendResult> Send(string action)
+        public IPromise<BackendResult> Send(string action, Action<object> onSuccess)
         {
             this.errorCode = BackendResult.MATCHMAKING_REQUEST_FAILED;
+            this.onSuccess = onSuccess;
 
             new LogEventRequest().SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_ACTION, action)
-                .Send(null, OnRequestFailure);
+                .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;
         }

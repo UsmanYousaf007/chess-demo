@@ -2,6 +2,9 @@
 using TurboLabz.InstantFramework;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
+using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.InstantGame
 {
@@ -17,24 +20,33 @@ namespace TurboLabz.InstantGame
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
         private const int TOTAL_PROMOTIONS = 6;
         private const int POWERUP_USE_LIMIT = 7;
         private const int POWERUP_TRAINING_DAYS_LIMIT = 30;
         private List<PromotionVO> promotionCycle;
+        private static bool isUpdateBannerShown;
 
         public override void Execute()
         {
+            if (ShowGameUpdateBanner())
+            {
+                return;
+            }
+
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
                 preferencesModel.timeAtLobbyLoadedFirstTime = DateTime.Now;
                 return;
             }
-
+            
             Init();
             IncrementPromotionCycleIndex();
 
@@ -61,6 +73,42 @@ namespace TurboLabz.InstantGame
                 analyticsService.Event(promotionCycle[promotionToShowIndex].analyticsImpId);
                 showPromotionSignal.Dispatch(promotionCycle[promotionToShowIndex]);
             }
+        }
+
+        private bool ShowGameUpdateBanner()
+        {
+            var gameUpdateItem = new PromotionVO
+            {
+                cycleIndex = 7,
+                key = LobbyPromotionKeys.GAME_UPDATE_BANNER,
+                condition = delegate
+                {
+                    return String.Compare(appInfoModel.clientVersion, settingsModel.minimumClientVersion) == -1;
+                },
+                onClick = delegate (string key)
+                {
+                    audioService.PlayStandardClick();
+#if UNITY_ANDROID
+                    Application.OpenURL(appInfoModel.androidURL);
+#elif UNITY_IOS
+                    Application.OpenURL(appInfoModel.iosURL);
+#else
+                    LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
+#endif
+                    //analyticsService.Event(AnalyticsEventId.tap_banner_move_meter_training);
+                },
+                //analyticsImpId = AnalyticsEventId.imp_banner_move_meter_training
+            };
+
+            if(gameUpdateItem.condition() && !isUpdateBannerShown)
+            {
+                isUpdateBannerShown = true;
+                showPromotionSignal.Dispatch(gameUpdateItem);
+                routineRunner.StartCoroutine(LoadNextPromotionAfter(180f));
+                return true;
+            }
+
+            return false;
         }
 
         private void IncrementPromotionCycleIndex()
@@ -191,6 +239,12 @@ namespace TurboLabz.InstantGame
             promotionCycle.Add(coachPurchase);
 
             promotionCycle.Sort((x,y) => x.cycleIndex.CompareTo(y.cycleIndex));
+        }
+
+        IEnumerator LoadNextPromotionAfter(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            Execute();
         }
     }
 }

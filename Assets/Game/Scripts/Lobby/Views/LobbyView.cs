@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
-
+        [Inject] public IBackendService backendService { get; set; }
 
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
@@ -110,6 +110,11 @@ namespace TurboLabz.InstantFramework
         public GameObject createMatchLimitReachedDlg;
         public Button createMatchLimitReachedCloseBtn;
         public Text createMatchLimitReachedText;
+
+        [Header("Online Status")]
+        public Sprite online;
+        public Sprite offline;
+        public Sprite active;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -537,17 +542,18 @@ namespace TurboLabz.InstantFramework
             UpdateActionCount();
         }
 
-        public void UpdateFriendOnlineStatusSignal(string friendId, bool isOnline)
+        public void UpdateFriendOnlineStatusSignal(ProfileVO vo)
         {
-            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+
+            TLUtils.LogUtil.LogNullValidation(vo.playerId, "friendId");
         
-            if (friendId != null && !bars.ContainsKey(friendId))
+            if (vo.playerId != null && !bars.ContainsKey(vo.playerId))
             {
                 return;
             }
 
-            FriendBar friendBar = bars[friendId].GetComponent<FriendBar>();
-            friendBar.onlineStatus.sprite = isOnline ? friendBar.online : friendBar.activeStatus;
+            FriendBar friendBar = bars[vo.playerId].GetComponent<FriendBar>();
+            friendBar.onlineStatus.sprite = vo.isOnline ? friendBar.online : friendBar.activeStatus;
         }
 
         public void UpdateFriendBarBusy(string playerId, bool busy, CreateLongMatchAbortReason reason)
@@ -827,7 +833,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        #region StartGameConfirmationDialog
+#region StartGameConfirmationDialog
 
         void SetToggleRankButtonState(bool state)
         {
@@ -845,12 +851,24 @@ namespace TurboLabz.InstantFramework
         {
             PublicProfile opponentProfile = bar.friendInfo.publicProfile;
             startGameConfirmationDlg.opponentProfilePic.sprite = null;
+            startGameConfirmationDlg.opponentActivityText.text = "";
+
+            if (!bar.friendInfo.publicProfile.isOnline && bar.friendInfo.publicProfile.isActive)
+            {
+                startGameConfirmationDlg.onlineStatus.sprite = active;
+            }
+            else
+            {
+                startGameConfirmationDlg.onlineStatus.sprite = bar.friendInfo.publicProfile.isOnline ? online : offline;
+            }
+
+            //backendService.FriendsOpStatus(bar.friendInfo.playerId);
 
             if (bar.avatarImage != null)
             {
                 startGameConfirmationDlg.opponentProfilePic.sprite = bar.avatarImage.sprite;
             }
-            if(bar.avatarIcon!= null)
+            if (bar.avatarIcon != null)
             {
                 startGameConfirmationDlg.opponentAvatarIcon.sprite = bar.avatarIcon.sprite;
                 startGameConfirmationDlg.opponentAvatarBg.sprite = bar.avatarBG.sprite;
@@ -864,6 +882,8 @@ namespace TurboLabz.InstantFramework
 
             startGameConfirmationDlg.toggleRankButtonState = true;
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
+
+            startGameConfirmationDlg.playerId = bar.friendInfo.playerId;
 
             startGameConfirmationDlg.gameObject.SetActive(true);
         }
@@ -891,6 +911,35 @@ namespace TurboLabz.InstantFramework
             {
                 startGameConfirmationDlg.gameObject.SetActive(false);
             }
+        }
+
+        public void UpdateStartGameConfirmationDlg(ProfileVO vo)
+        {
+            TLUtils.LogUtil.LogNullValidation(vo.playerId, "friendId");
+
+            if (vo.playerId != null && startGameConfirmationDlg.playerId != vo.playerId)
+            {
+                return;
+            }
+
+            if (!vo.isOnline && vo.isActive)
+            {
+                startGameConfirmationDlg.onlineStatus.sprite = active;
+            }
+            else
+            {
+                startGameConfirmationDlg.onlineStatus.sprite = vo.isOnline ? online : offline;
+            }
+
+
+            //if (vo.isOnline)
+            //{
+            //    startGameConfirmationDlg.opponentActivityText.text = vo.activity;
+            //}
+            //else
+            //{
+            //    startGameConfirmationDlg.opponentActivityText.text = "";
+            //}
         }
 
 #endregion StartGameConfirmationDialog

@@ -10,6 +10,7 @@ using UnityEngine.Purchasing.Security;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -17,9 +18,14 @@ namespace TurboLabz.InstantFramework
     {
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
 
         // Dispatch Signals
-		[Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
+        [Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
+        [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+        [Inject] public ShowIAPProcessingSignal showIAPProcessingSignal { get; set; }
 
         IStoreController storeController = null;
         IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
@@ -134,6 +140,7 @@ namespace TurboLabz.InstantFramework
                 storeController.InitiatePurchase(product);
             }
 
+            showIAPProcessingSignal.Dispatch(true);
             return purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
         }
 
@@ -210,27 +217,65 @@ namespace TurboLabz.InstantFramework
 
         public void OnVerifiedPurchase(BackendResult result, string transactionID)
         {
-            if (result == BackendResult.SUCCESS)
+            if (pendingVerification.ContainsKey(transactionID))
             {
-                // Confirm the pending purchase
-                if (pendingVerification.ContainsKey(transactionID))
+                if (result == BackendResult.SUCCESS)
                 {
-                    storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
                     remoteStorePurchaseCompletedSignal.Dispatch(pendingVerification[transactionID].definition.id);
-
-                    pendingVerification.Remove(transactionID);
                 }
+                else
+                {
+                    //show dailogue
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+
+                    var vo = new ConfirmDlgVO
+                    {
+                        title = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_TITLE),
+                        desc = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_DESC),
+                        yesButtonText = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_YES_BUTTON),
+                        onClickYesButton = delegate
+                        {
+                            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                            contactSupportSignal.Dispatch();
+                        }
+                    };
+
+                    updateConfirmDlgSignal.Dispatch(vo);
+                }
+
+                storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
+                pendingVerification.Remove(transactionID);
             }
+
+            showIAPProcessingSignal.Dispatch(false);
         }
 
-		public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
+        public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
 		{
 			purchaseState = purchaseProcessState.PURCHASE_STATE_FAIL;
 
 			LogUtil.Log("UnityIAPService - Purchase failed: " + reason);
 
-			// Do nothing when user cancels
-			if (reason == PurchaseFailureReason.UserCancelled) 
+            //show dailogue
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+
+            var vo = new ConfirmDlgVO
+            {
+                title = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED),
+                desc = localizationService.Get(reason.ToString()),
+                yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
+                onClickYesButton = delegate
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                }
+            };
+
+            updateConfirmDlgSignal.Dispatch(vo);
+
+            showIAPProcessingSignal.Dispatch(false);
+
+            // Do nothing when user cancels
+            if (reason == PurchaseFailureReason.UserCancelled) 
 			{
 				return;
 			} 

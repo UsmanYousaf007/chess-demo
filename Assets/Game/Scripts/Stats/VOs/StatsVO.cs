@@ -22,5 +22,8 @@ namespace TurboLabz.InstantGame
         public int onlineLost;
         public int onlineDrawn;
         public int onlineTotal;
+        public string tag;
+        public string country;
+        public string playingSince;
     }
 }

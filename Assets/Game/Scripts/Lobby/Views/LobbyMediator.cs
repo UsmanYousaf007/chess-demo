@@ -165,7 +165,8 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateFriendOnlineStatusSignal))]
         public void OnUpdateFriendOnlineStatusSignal(ProfileVO vo)
         {
-            view.UpdateFriendOnlineStatusSignal(vo.playerId, vo.isOnline);
+            view.UpdateFriendOnlineStatusSignal(vo);
+            view.UpdateStartGameConfirmationDlg(vo);
         }
 
         [ListensTo(typeof(FriendBarBusySignal))]
@@ -366,6 +367,12 @@ namespace TurboLabz.InstantFramework
             }
 
             view.ReportAnalytic(key, eventId);
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable, StoreVO storeVO)
+        {
+            view.SetPriceOfIAPBanner(isAvailable);
         }
     }
 }

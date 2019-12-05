@@ -135,6 +135,8 @@ namespace TurboLabz.InstantFramework
         public const string MULTIPLAYER_WAITING_FOR_OPPONENT = "multiplayerWaitingForOpponent";
         public const string MULTIPLAYER_SEARCHING = "multiplayerSearching";
         public const string MULTIPLAYER_FOUND = "multiplayerFound";
+        public const string QUICK_MATCH_FAILED = "quickMatchFailed";
+        public const string QUICK_MATCH_FAILED_REASON = "quickMatchFailedReason";
 
         #endregion
 
@@ -149,6 +151,7 @@ namespace TurboLabz.InstantFramework
         public const string STATS_COMPUTER_TITLE = "statsComputerTitle";
         public const string STATS_LEGEND_GOLD = "statsLegendGold";
         public const string STATS_LEGEND_SILVER = "statsLegendSilver";
+        public const string STATS_TAG = "statsTag";
 
         #endregion
 
@@ -183,11 +186,24 @@ namespace TurboLabz.InstantFramework
 		public const string CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON = "storeNotEnoughBucksYes";
         public const string CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON = "storeNotEnoughBucksNo";
 
-		#endregion
+        public const string STORE_PURCHASE_FAILED_VERIFICATION_TITLE = "storePurchaseFailedVerificationTitle";
+        public const string STORE_PURCHASE_FAILED_VERIFICATION_DESC = "storePurchaseFailedVerificationDesc";
+        public const string STORE_PURCHASE_FAILED_VERIFICATION_YES_BUTTON = "storePurchaseFailedVerificationYesButton";
+        public const string STORE_PURCHASE_FAILED = "storePurchaseFailed";
+        public const string STORE_PURCHASE_FAILED_REASON_CANCEL = "UserCancelled";
+        public const string STORE_PURCHASE_FAILED_REASON_UNAVAILABLE = "PurchasingUnavailable";
+        public const string STORE_PURCHASE_FAILED_REASON_PENDING = "ExistingPurchasePending";
+        public const string STORE_PURCHASE_FAILED_REASON_PRODUCT_UNAVAILABLE = "ProductUnavailable";
+        public const string STORE_PURCHASE_FAILED_REASON_INVALID = "SignatureInvalid";
+        public const string STORE_PURCHASE_FAILED_REASON_DECLINED = "PaymentDeclined";
+        public const string STORE_PURCHASE_FAILED_REASON_DUPLICATE = "DuplicateTransaction";
+        public const string STORE_PURCHASE_FAILED_REASON_UNKNOWN = "Unknown";
+
+        #endregion
 
         #region Friends
 
-		public const string FRIENDS_SECTION_NEW_MATCHES = "friendsNewMatches";
+        public const string FRIENDS_SECTION_NEW_MATCHES = "friendsNewMatches";
         public const string FRIENDS_SECTION_ACTIVE_MATCHES = "friendsActiveMatches";
         public const string FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY = "friendsActiveMatchesEmpty";
         public const string FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES = "friendsRecentlyCompletedMatches";

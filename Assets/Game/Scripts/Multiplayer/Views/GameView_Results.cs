@@ -71,8 +71,11 @@ namespace TurboLabz.Multiplayer
         private float animDelay;
         private string playerName;
         private string opponentName;
+        private string challengeId;
         
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+
 
         public void InitResults()
         {
@@ -360,10 +363,13 @@ namespace TurboLabz.Multiplayer
                 resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
             }
 
+            int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, vo.powerupUsedCount, playerWins);
+
             // Reward
-            resultsRewardCoinsLabel.text = vo.rewardCoins + " Coins";
+            resultsRewardCoinsLabel.text = rewardCoins + " Coins";
             adRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
+            challengeId = vo.challengeId;
 
             if (playerWins)
             {
@@ -417,7 +423,14 @@ namespace TurboLabz.Multiplayer
 			
         private void OnResultsCollectRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.RewardedVideo;
+            vo.rewardType = adRewardType;
+            vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
+            showAdSignal.Dispatch(vo);
+
+            //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
 
             if (isLongPlay)
             {
@@ -458,9 +471,15 @@ namespace TurboLabz.Multiplayer
 
         public void OnResultsSkipRewardButtonClicked()
         {
-            showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
             backToLobbySignal.Dispatch();
             refreshLobbySignal.Dispatch();
+
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.Interstitial;
+            vo.rewardType = collectRewardType;
+            vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
+            showAdSignal.Dispatch(vo);
 
             if (isLongPlay)
             { 

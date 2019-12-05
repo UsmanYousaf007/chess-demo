@@ -100,6 +100,7 @@ namespace TurboLabz.InstantFramework
         {
             if (playerModel.friends.ContainsKey(playerId))
             {
+                OnClose();
                 removeCommunityFriendSignal.Dispatch(playerId);
                 analyticsService.Event(AnalyticsEventId.tap_remove_friends);
             }

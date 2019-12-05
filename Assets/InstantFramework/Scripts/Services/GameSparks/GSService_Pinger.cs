@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public WifiIsHealthySignal wifiIsHealthySignal { get; set; }
+        [Inject] public ShowMaintenanceViewSignal showMaintenanceViewSignal { get; set; }
 
         private int initialPingCount;
         private long sendTime;
@@ -94,8 +95,15 @@ namespace TurboLabz.InstantFramework
                 GSData player = (GSData)obj.Value;
                 string playerId = obj.Key;
                 bool isOnline = player.GetBoolean("isOnline").Value;
+                string activity = player.GetString("activity");
 
-                PublicProfile publicProfile = playerModel.community[playerId].publicProfile;
+                Friend friend = playerModel.GetFriend(playerId);
+                if (friend == null)
+                {
+                    continue;
+                }
+
+                PublicProfile publicProfile = friend.publicProfile;
                 ProfileVO pvo = new ProfileVO();
                 pvo.playerPic = publicProfile.profilePicture;
                 pvo.playerName = publicProfile.name;
@@ -106,6 +114,7 @@ namespace TurboLabz.InstantFramework
                 pvo.avatarId = publicProfile.avatarId;
                 pvo.isOnline = isOnline;
                 pvo.isActive = publicProfile.isActive;
+                pvo.activity = activity;
 
                 updtateFriendOnlineStatusSignal.Dispatch(pvo);
             }
@@ -122,6 +131,37 @@ namespace TurboLabz.InstantFramework
             }
 
             UpdateClockLatency(response);
+
+            if(response.ScriptData.ContainsKey(GSBackendKeys.MAINTENANCE_FLAG))
+            {
+                settingsModel.maintenanceFlag = response.ScriptData.GetBoolean(GSBackendKeys.MAINTENANCE_FLAG).Value;
+
+                if(settingsModel.maintenanceFlag == true)
+                {
+                    showMaintenanceViewSignal.Dispatch(1);
+                    routineRunner.StopCoroutine(pingerCR);
+                    return;                    
+                }
+            }
+
+            if (response.ScriptData.ContainsKey(GSBackendKeys.MAINTENANCE_WARNING_FLAG))
+            {
+                settingsModel.maintenanceWarningFlag = response.ScriptData.GetBoolean(GSBackendKeys.MAINTENANCE_WARNING_FLAG).Value;
+
+                if (settingsModel.maintenanceWarningFlag == true)
+                {
+                    settingsModel.maintenanceWarningMessege = response.ScriptData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
+                    settingsModel.maintenanceWarningBgColor = response.ScriptData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
+
+                    showMaintenanceViewSignal.Dispatch(2);
+                  
+                }
+                else if (settingsModel.maintenanceWarningFlag == false)
+                {
+                    showMaintenanceViewSignal.Dispatch(3);
+                }
+            }
+
 
             UpdateCommunityPublicStatus(response);
         }
@@ -192,4 +232,3 @@ namespace TurboLabz.InstantFramework
     #endregion
 }
 
-    

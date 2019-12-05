@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,8 +54,12 @@ namespace TurboLabz.InstantFramework
         public Button addFriendBtn;
         public Text addFriendBtnText;
         public Image addFriendBtnUnderline;
+        public Image addFriendIcon;
+        public Image plusIcon;
         public Button removeFriendBtn;
         public Text removeFriendBtnText;
+        public Image removeFriendIcon;
+        public Image minusIcon;
         public Image removeFriendBtnUnderline;
         public Text friendedText;
         public GameObject thinking;
@@ -89,7 +93,8 @@ namespace TurboLabz.InstantFramework
         string eloPrefix = null;
         string totalGamesPrefix = null;
         string playerId = null;
-
+        bool inGame;
+        
         private SpritesContainer defaultAvatarContainer;
 
         public void Init()
@@ -130,7 +135,9 @@ namespace TurboLabz.InstantFramework
             playerAvatarIcon.gameObject.SetActive(false);
             alertDialog.SetActive(false);
 
+            inGame = vo.inGame;
             playerId = vo.playerId;
+
             if (vo.playerProfilePic!= null)
             {
                 playerProfilePic.sprite = vo.playerProfilePic;
@@ -193,10 +200,7 @@ namespace TurboLabz.InstantFramework
             opponentRankedWinsLabel.text = vo.opponentWinsCount.ToString();
             oppCountry.text = Flags.GetCountry(vo.oppCountryCode);
 
-            blockBtn.interactable = !vo.isCommunity;
-            var colorToSet = vo.isCommunity ? Colors.DISABLED_WHITE : Colors.WHITE;
-            blockLabel.color = colorToSet;
-            blockUnderline.color = colorToSet;
+            EnableBlockButton(!vo.isCommunity);
 
             if (vo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
             {
@@ -207,10 +211,16 @@ namespace TurboLabz.InstantFramework
                 ShowFriended(!vo.isCommunity);
             }
 
-            if (vo.longPlayStatus != LongPlayStatus.DEFAULT || vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
+            if (vo.longPlayStatus != LongPlayStatus.DEFAULT)
+            {
+                EnableRemoveButton(false);
+                EnableBlockButton(false);
+                inGame = true;
+            }
+
+            if (vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
             {
                 EnableAddButton(false);
-                EnableRemoveButton(false);
             }
 
             if (!vo.oppOnline && vo.oppActive)
@@ -220,6 +230,28 @@ namespace TurboLabz.InstantFramework
             else
             {
                 onlineStatus.sprite = vo.oppOnline ? online : offline;
+            }
+
+            if (vo.inGame)
+            {
+                blockBtn.interactable = false;
+                blockLabel.color = Colors.DISABLED_WHITE;
+                blockUnderline.color = Colors.DISABLED_WHITE;
+
+                if (vo.friendType == null)
+                {
+                    ShowFriended(false);
+                }
+                else
+                {
+                    EnableRemoveButton(false);
+                }
+
+                if (vo.isBot)
+                {
+                    EnableAddButton(false);
+                    onlineStatus.sprite = online;
+                }
             }
         }
 
@@ -296,7 +328,7 @@ namespace TurboLabz.InstantFramework
         {
             thinking.gameObject.SetActive(false);
             EnableAddButton(true);
-            EnableRemoveButton(true);
+            EnableRemoveButton(!inGame);
             friendedText.gameObject.SetActive(flag);
             removeFriendBtn.gameObject.SetActive(flag);
             addFriendBtn.gameObject.SetActive(!flag);
@@ -308,6 +340,8 @@ namespace TurboLabz.InstantFramework
             var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
             removeFriendBtnText.color = colorToSet;
             removeFriendBtnUnderline.color = colorToSet;
+            removeFriendIcon.color = colorToSet;
+            minusIcon.color = colorToSet;
         }
 
         private void EnableAddButton(bool enableFlag)
@@ -316,6 +350,8 @@ namespace TurboLabz.InstantFramework
             var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
             addFriendBtnText.color = colorToSet;
             addFriendBtnUnderline.color = colorToSet;
+            addFriendIcon.color = colorToSet;
+            plusIcon.color = colorToSet;
         }
 
         private void OnAlertDialogOkButtonClicked()
@@ -323,5 +359,12 @@ namespace TurboLabz.InstantFramework
             alertDialog.SetActive(false);
         }
 
+        private void EnableBlockButton(bool enableFlag)
+        {
+            blockBtn.interactable = enableFlag;
+            var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
+            blockLabel.color = colorToSet;
+            blockUnderline.color = colorToSet;
+        }
     }
 }

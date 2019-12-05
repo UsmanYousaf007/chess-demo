@@ -86,7 +86,7 @@ namespace TurboLabz.InstantFramework
     public class ShowShareScreenDialogSignal : Signal { }
     public class LoadFriendsSignal : Signal {}
     public class ShareAppSignal : Signal {}
-    public class ShowAdSignal : Signal<AdType, string> {}
+    public class ShowAdSignal : Signal<ResultAdsVO> {}
     public class ToggleBannerSignal: Signal<bool> {}
     public class PauseNotificationsSignal : Signal<bool> { }
     public class RequestToggleBannerSignal : Signal {}
@@ -122,10 +122,13 @@ namespace TurboLabz.InstantFramework
     public class ChallengeAcceptedSignal : Signal {}
     public class ChangeUserDetailsSignal : Signal<string> {}
     public class OpponentPingedForConnectionSignal : Signal<bool> {}
-
+    public class ShowInGameProfileSingal : Signal {}
     public class ChessboardBlockerEnableSignal : Signal<bool> {}
     public class ReconnectViewEnableSignal : Signal<bool> {}
     public class UpdateFindViewSignal : Signal<FindViewVO> {}
+    public class UpdateConfirmDlgSignal : Signal<ConfirmDlgVO> {}
+    public class ContactSupportSignal : Signal {}
+    public class FindMatchRequestCompleteSignal : Signal<string> {}
 
     public class SyncReconnectDataSignal : Signal<string> { }
     public class CancelSearchResultSignal : Signal { }
@@ -133,4 +136,5 @@ namespace TurboLabz.InstantFramework
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> {}
     public class RefreshSkinLinksSignal : Signal {}
+    public class ShowMaintenanceViewSignal : Signal<int> { }
 }

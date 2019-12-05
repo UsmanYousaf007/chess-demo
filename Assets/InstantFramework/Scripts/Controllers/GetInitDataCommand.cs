@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public TurboLabz.CPU.ICPUGameModel cPUGameModel { get; set; }
 
 
         // Todo: Move this to the game folder
@@ -79,6 +80,8 @@ namespace TurboLabz.InstantFramework
             appData.clientVersion = appInfoModel.clientVersion;
             appData.isResume = isResume;
             appData.playerSkillLevel = playerModel.skillLevel;
+            appData.inProgress = cPUGameModel.inProgress;
+
 
             return JsonUtility.ToJson(appData);
         }
@@ -91,5 +94,6 @@ namespace TurboLabz.InstantFramework
         public string clientVersion;
         public bool isResume;
         public string playerSkillLevel;
+        public bool inProgress;
     }
 }

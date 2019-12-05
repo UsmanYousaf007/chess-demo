@@ -15,7 +15,6 @@ using UnityEngine.UI;
 
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 
 namespace TurboLabz.CPU
@@ -181,7 +180,13 @@ namespace TurboLabz.CPU
         {
             if (showAdOnBack)
             {
-                showAdSignal.Dispatch(AdType.Interstitial, GSBackendKeys.ClaimReward.NONE);
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.rewardType = GSBackendKeys.ClaimReward.NONE;
+                vo.challengeId = "";
+                vo.playerWins = false;
+                showAdSignal.Dispatch(vo);
+
                 showAdOnBack = false;
             }
             saveAndExitButtonClickedSignal.Dispatch();

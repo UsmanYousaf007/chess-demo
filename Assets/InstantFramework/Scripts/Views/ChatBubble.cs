@@ -102,7 +102,7 @@ public class ChatBubble : MonoBehaviour
 
         if (inGameBubble)
         {
-            text.text = text.text.Length > 30 ? text.text.Remove(30) + ".." : text.text;
+            text.text = text.text.Length > 60 ? text.text.Remove(60) + ".." : text.text;
         }
         //if (text != null)
         //{

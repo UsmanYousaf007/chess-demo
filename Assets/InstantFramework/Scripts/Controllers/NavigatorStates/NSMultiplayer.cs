@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    if (cmd.matchInfoModel.activeMatch.isLongPlay)
+                    if (cmd.matchInfoModel.activeMatch != null && cmd.matchInfoModel.activeMatch.isLongPlay)
                     {
                         cmd.exitLongMatchSignal.Dispatch();
                         cmd.cancelHintSingal.Dispatch();
@@ -120,6 +120,10 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
                 return new NSChat();
+            }
+            else if (evt == NavigatorEvent.SHOW_PROFILE_DLG)
+            {
+                return new NSProfileDlg();
             }
 
             return null;

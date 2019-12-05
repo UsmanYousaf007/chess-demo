@@ -32,6 +32,8 @@ namespace TurboLabz.InstantFramework
         public long createTimeMs { get; set; }
         public bool isRanked { get; set; }
         public bool acceptedThisSession { get; set; }
+        public int playerPowerupUsedCount { get; set; }
+        public int opponentPowerupUsedCount { get; set; }
 
         public bool isBotMatch
         {
@@ -57,6 +59,8 @@ namespace TurboLabz.InstantFramework
             createTimeMs = 0;
             isRanked = false;
             acceptedThisSession = false;
+            playerPowerupUsedCount = 0;
+            opponentPowerupUsedCount = 0;
         }
     }
 

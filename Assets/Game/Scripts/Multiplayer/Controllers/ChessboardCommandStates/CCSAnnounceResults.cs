@@ -25,7 +25,7 @@ namespace TurboLabz.Multiplayer
             vo.currentEloScore = cmd.playerModel.eloScore;
             vo.eloScoreDelta = cmd.matchInfoModel.activeMatch.playerEloScoreDelta;
             vo.isRanked = cmd.activeMatchInfo.isRanked;
-            vo.rewardCoins = playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
+            vo.powerupUsedCount = cmd.matchInfoModel.activeMatch.playerPowerupUsedCount; //playerWins ? cmd.metaDataModel.rewardsSettings.matchWinReward : cmd.metaDataModel.rewardsSettings.matchRunnerUpReward;
             vo.removeAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
             vo.playerName = cmd.playerModel.name;
             vo.opponentName = cmd.activeMatchInfo.opponentPublicProfile.name;
@@ -42,7 +42,11 @@ namespace TurboLabz.Multiplayer
                 vo.isChatEnabled = false;
             }
 
+            vo.challengeId = cmd.matchInfoModel.activeChallengeId;
+
+
             cmd.updateResultsDialogSignal.Dispatch(vo);
+            cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
 
             if (cmd.matchInfoModel.activeMatch.isLongPlay)
             {
@@ -73,7 +77,6 @@ namespace TurboLabz.Multiplayer
                     }
                 }
 
-                cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
                 cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.chessboardModel.chessboards.Remove(cmd.matchInfoModel.activeChallengeId);
                 cmd.matchInfoModel.activeChallengeId = null;

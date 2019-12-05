@@ -139,6 +139,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.MULTIPLAYER_WAITING_FOR_OPPONENT, "Waiting for opponent..." },
                 { LocalizationKey.MULTIPLAYER_SEARCHING, "Searching..." },
                 { LocalizationKey.MULTIPLAYER_FOUND, "Get Ready..." },
+                { LocalizationKey.QUICK_MATCH_FAILED, "Try Later" },
+                { LocalizationKey.QUICK_MATCH_FAILED_REASON, "Player is already in a 5 min game" },
 
                 #endregion
 
@@ -151,8 +153,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STATS_ONLINE_DRAWN, "Drawn" },
                 { LocalizationKey.STATS_ONLINE_TOTAL, "Total" },
                 { LocalizationKey.STATS_COMPUTER_TITLE, "Computer Difficulty Beaten" },
-                { LocalizationKey.STATS_LEGEND_GOLD, "Beat without PowerUps" },
+                { LocalizationKey.STATS_LEGEND_GOLD, "• Gold star for beaten without move take-back •" },
                 { LocalizationKey.STATS_LEGEND_SILVER, "Beat using PowerUps" },
+                { LocalizationKey.STATS_TAG, "Tag" },
 
                 #endregion
 
@@ -188,6 +191,18 @@ namespace TurboLabz.InstantFramework
 				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON, "YES" },
                 { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON, "NO" },
 
+                { LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_TITLE, "Verification Failed" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_DESC, "If you had made the valid payment and haven't received the goods then please contact our support team" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_YES_BUTTON, "Contact Us" },
+                { LocalizationKey.STORE_PURCHASE_FAILED, "Purchase Failed" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_CANCEL, "Cancelled by user" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_DECLINED, "Payment declined" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_DUPLICATE, "Duplicate transaction for this item" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_INVALID, "Signature invalid" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_PENDING, "Existing purchase for this item is pending" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_PRODUCT_UNAVAILABLE, "Item is unavailable for purchase, please try again" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNAVAILABLE, "Purchasing is unavailable, check your payment settings" },
+                { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNKNOWN, "Reason unknown" },
 				#endregion
 
                 #region Friends
@@ -282,7 +297,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_DEFAULT_DAY_LINE, "TODAY" },
                 { LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE, "Start a new conversation. Say hello." },
                 { LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE, "To enable chat you must start at least one match with this player." },
-                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5-MINS GAME"},
+                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 MIN GAME"},
                 { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "PLAY CLASSIC"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly Game"},

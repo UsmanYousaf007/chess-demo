@@ -59,6 +59,17 @@ namespace TurboLabz.InstantGame
         public TMP_InputField playerProfileNameInputField;
         public Button nameEditBtn;
 
+        public Text tagLabel;
+        public Text playerTag;
+        public Text country;
+        public Text playingSince;
+        public Button shareBtn;
+        public Button copyTagBtn;
+        public Button termsBtn;
+        public Image copiedToClipboardBg;
+        public Text copiedToClipboardText;
+        public Texture2D logo;
+
         public Signal restorePurchasesSignal = new Signal();
 
         [Header("Name Confirm Dialog")]
@@ -80,6 +91,7 @@ namespace TurboLabz.InstantGame
             computerTitle.text = localizationService.Get(LocalizationKey.STATS_COMPUTER_TITLE);
             legendGold.text = localizationService.Get(LocalizationKey.STATS_LEGEND_GOLD);
             legendSilver.text = localizationService.Get(LocalizationKey.STATS_LEGEND_SILVER);
+            tagLabel.text = localizationService.Get(LocalizationKey.STATS_TAG);
 
             playerProfileNameInputField.transform.gameObject.SetActive(false);
 
@@ -97,6 +109,8 @@ namespace TurboLabz.InstantGame
             }
 
             privacyPolicy.onClick.AddListener(OnPrivacyPolicyClicked);
+            termsBtn.onClick.AddListener(OnTermsClicked);
+            copyTagBtn.onClick.AddListener(OnCopyTagClicked);
 
             #if UNITY_IOS
             restorePurchases.gameObject.SetActive(true);
@@ -132,6 +146,9 @@ namespace TurboLabz.InstantGame
             onlineLostVal.text = vo.onlineLost.ToString();
             onlineDrawnVal.text = vo.onlineDrawn.ToString();
             onlineTotalVal.text = vo.onlineTotal.ToString();
+            playerTag.text = vo.tag;
+            country.text = Flags.GetCountry(vo.country);
+            playingSince.text = string.Format("Playing since, {0}", vo.playingSince);
 
             appVersion.text = "v" + Application.version;
         }
@@ -213,6 +230,46 @@ namespace TurboLabz.InstantGame
         void nameConfirmDlgNoBtnClicked()
         {
             nameConfirmDlg.SetActive(false); 
+        }
+
+        void OnTermsClicked()
+        {
+            Application.OpenURL("https://turbolabz.com/privacy-policy/");
+        }
+
+        void OnCopyTagClicked()
+        {
+            var textEditor = new TextEditor
+            {
+                text = playerTag.text
+            };
+            textEditor.SelectAll();
+            textEditor.Copy();
+
+            if (!copiedToClipboardBg.gameObject.activeSelf)
+            {
+                copiedToClipboardBg.gameObject.SetActive(true);
+                ResetCopiedToClipBoardText();
+                Invoke("FadeCopiedToClipBoardText", 3.3f);
+            }
+        }
+
+        void FadeCopiedToClipBoardText()
+        {
+            copiedToClipboardBg.CrossFadeAlpha(0.0f, 1.0f, true);
+            copiedToClipboardText.CrossFadeAlpha(0.0f, 1.0f, true);
+            Invoke("DisableCopiedToClipBoardText", 1.0f);
+        }
+
+        void DisableCopiedToClipBoardText()
+        {
+            copiedToClipboardBg.gameObject.SetActive(false);
+        }
+
+        void ResetCopiedToClipBoardText()
+        {
+            copiedToClipboardBg.CrossFadeAlpha(1.0f, 0.3f, true);
+            copiedToClipboardText.CrossFadeAlpha(1.0f, 0.3f, true);
         }
     }
 }

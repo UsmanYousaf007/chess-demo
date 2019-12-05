@@ -162,6 +162,7 @@ namespace TurboLabz.InstantFramework
             opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
             opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
             opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
+
             GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
             IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
             if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
@@ -169,7 +170,6 @@ namespace TurboLabz.InstantFramework
                 ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
                 opponentPublicProfile.facebookUserId = facebookAuthData.id;
             }
-            matchInfo.opponentPublicProfile = opponentPublicProfile;
 
             ///////////////////////////////////////////////////////////////////////////////////////
             // Initialize bots
@@ -179,9 +179,32 @@ namespace TurboLabz.InstantFramework
                 matchInfo.botDifficulty = opponentData.GetFloat(GSBackendKeys.ChallengeData.BOT_DIFFICULTY).Value;
 
                 // Assign a random name to the bot
-               // int randomSuffix = UnityEngine.Random.Range(100, 10001);
-               // matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
+                // int randomSuffix = UnityEngine.Random.Range(100, 10001);
+                // matchInfo.opponentPublicProfile.name = "Guest" + randomSuffix;
+
+                DateTime start = new DateTime(2017, 1, 1);
+                int range = (DateTime.UtcNow.AddMinutes(-10000) - start).Days;
+                DateTime creationDateTime = start.AddDays(new System.Random().Next(range));
+                opponentPublicProfile.creationDate = creationDateTime.ToLocalTime().ToLongDateString();
+                opponentPublicProfile.creationDateShort = creationDateTime.ToLocalTime().ToString("d MMM yyyy");
+                opponentPublicProfile.lastSeenDateTime = DateTime.UtcNow.AddMinutes(UnityEngine.Random.Range(10, 10000) * -1);
+                opponentPublicProfile.lastSeen = opponentPublicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
             }
+            else
+            {
+                long creationDateUTC = opponentProfile.GetLong(GSBackendKeys.PublicProfile.CREATION_DATE).Value;
+                DateTime creationDateTime = TimeUtil.ToDateTime(creationDateUTC);
+                opponentPublicProfile.creationDate = creationDateTime.ToLocalTime().ToLongDateString();
+                opponentPublicProfile.creationDateShort = creationDateTime.ToLocalTime().ToString("d MMM yyyy");
+
+                long lastSeenDateUTC = opponentProfile.GetLong(GSBackendKeys.PublicProfile.LAST_SEEN).Value;
+                opponentPublicProfile.lastSeenDateTime = TimeUtil.ToDateTime(lastSeenDateUTC);
+                opponentPublicProfile.lastSeen = opponentPublicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
+
+                opponentPublicProfile.isOnline = opponentProfile.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
+            }
+
+            matchInfo.opponentPublicProfile = opponentPublicProfile;
         }
 
         private void UpdateMatch(string challengeId, GSData matchData)

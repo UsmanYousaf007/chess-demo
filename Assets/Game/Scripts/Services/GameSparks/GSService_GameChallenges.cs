@@ -67,6 +67,16 @@ namespace TurboLabz.InstantFramework
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
 
+            if(playerData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
+            {
+                matchInfo.playerPowerupUsedCount = playerData.GetInt(GSBackendKeys.POWER_UP_USED_COUNT).Value;
+            }
+
+            if (opponentData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
+            {
+                matchInfo.opponentPowerupUsedCount = opponentData.GetInt(GSBackendKeys.POWER_UP_USED_COUNT).Value;
+            }
+
             chessboard.isPlayerTurn = (gameData.GetString(GSBackendKeys.CURRENT_TURN_PLAYER_ID) == playerModel.id) ? true : false;
             GSData lastMove = gameData.GetGSData(GSBackendKeys.LAST_MOVE);
 

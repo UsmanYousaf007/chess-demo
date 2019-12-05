@@ -24,9 +24,13 @@ namespace TurboLabz.InstantGame
         // View injection
         [Inject] public OpponentProfileView view { get; set; }
 
+        //Dispatch Signals
+        [Inject] public ShowInGameProfileSingal showInGameProfileSingal { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
+            view.viewProfileSignal.AddListener(OnViewProfile);
         }
 
         [ListensTo(typeof(UpdateOpponentProfileSignal))]
@@ -52,6 +56,11 @@ namespace TurboLabz.InstantGame
         public void OnUpdateFriendPic(string playerId, Sprite sprite)
         {
             view.UpdateProfilePic(playerId, sprite);
+        }
+
+        private void OnViewProfile()
+        {
+            showInGameProfileSingal.Dispatch();
         }
     }
 }

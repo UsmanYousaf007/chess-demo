@@ -15,7 +15,8 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform lobbyViewPort;
     public RectTransform lobbyScrollViewPivotForBanner;
     public LobbyView lobbyView;
-   
+    public RectTransform lobbyScrollViewTopShadow;
+
     [Header("Profile")]
     public RectTransform profileFacebookButton;
     public RectTransform profileCenterContent;
@@ -23,6 +24,7 @@ public class NotchHandler : MonoBehaviour {
     [Header("Friends")]
     public RectTransform friendsScrollView;
     public RectTransform friendsViewPort;
+    public RectTransform friendsScrollViewTopShadow;
 
     [Header("Store")]
     public RectTransform storeTitle;
@@ -84,20 +86,22 @@ public class NotchHandler : MonoBehaviour {
         }
 
         // LOBBY
-        SetY(lobbyScrollView, -66f - 100f);
-        SetTop(lobbyViewPort, -6f);
+        SetY(lobbyScrollView, -63f - 100f);
+        SetTop(lobbyViewPort, 9f);
         SetBottom(lobbyViewPort, 108f + 100f);
-        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -162f);
-        lobbyView.setScorllViewportBottomTo = 373;
+        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -176f);
+        lobbyView.setScorllViewportBottomTo = 384;
+        SetY(lobbyScrollViewTopShadow, -2);
 
         // PROFILE
         SetY(profileFacebookButton, -270f);
         SetY(profileCenterContent, -66f);
 
         // FRIENDS
-        SetY(friendsScrollView, -48f - 100f);
+        SetY(friendsScrollView, -31f - 100f);
         SetTop(friendsViewPort, 0f);
-        SetBottom(friendsViewPort, 115f + 100f);
+        SetBottom(friendsViewPort, 100f + 100f);
+        SetY(friendsScrollViewTopShadow, -10);
 
         // STORE
         SetY(storeTitle, 777f);

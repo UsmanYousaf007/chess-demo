@@ -43,14 +43,18 @@ namespace TurboLabz.InstantGame
         public Sprite online;
         public Sprite offline;
         public Sprite activeStatus;
+        public Button viewProfileBtn;
 
         private string opponentId;
         private SpritesContainer defaultAvatarContainer;
+
+        public Signal viewProfileSignal = new Signal();
 
         public void Init()
         {
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
+            viewProfileBtn.onClick.AddListener(ViewProfileClicked);
         }
 
         public void CleanUp()
@@ -88,12 +92,14 @@ namespace TurboLabz.InstantGame
         {
             if (friendId == opponentId)
             {
-                onlineStatus.sprite = isOnline ? online : offline;
-
-                if (isActive)
+                if (!isOnline && isActive)
                 {
                     onlineStatus.sprite = activeStatus;
-                }            
+                }
+                else
+                {
+                    onlineStatus.sprite = isOnline ? online : offline;
+                }
             }
         }
 
@@ -154,6 +160,11 @@ namespace TurboLabz.InstantGame
                     hasProfilePicBorder.SetActive(true);
                 }
             }
+        }
+
+        private void ViewProfileClicked()
+        {
+            viewProfileSignal.Dispatch();
         }
     }
 }

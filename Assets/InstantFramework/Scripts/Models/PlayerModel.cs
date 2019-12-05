@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         public string skillLevel { get; set; }
         public int playerFriendsCount { get; set; }
         public bool isFBConnectRewardClaimed { get; set; }
+        public int cpuPowerupUsedCount { get; set; }
 
         public string name
         {
@@ -94,6 +95,7 @@ namespace TurboLabz.InstantFramework
             removeAdsTimePeriod = 0;
             playerFriendsCount = 0;
             isFBConnectRewardClaimed = false;
+            cpuPowerupUsedCount = 0;
 
             // Inventory
             inventory = new OrderedDictionary<string, int>();

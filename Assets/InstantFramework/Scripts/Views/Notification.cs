@@ -19,4 +19,14 @@ public class Notification : MonoBehaviour
 
     public Button acceptQuickMatchButton;
     public Text acceptQuickMatchButtonText;
+
+    private void OnEnable()
+    {
+        iTween.MoveFrom(gameObject,
+            iTween.Hash(
+                "y", 0,
+                "time", 0.7f,
+                "islocal", true
+                ));
+    }
 }
