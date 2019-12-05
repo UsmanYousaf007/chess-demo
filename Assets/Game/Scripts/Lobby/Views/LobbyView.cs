@@ -851,7 +851,16 @@ namespace TurboLabz.InstantFramework
         {
             PublicProfile opponentProfile = bar.friendInfo.publicProfile;
             startGameConfirmationDlg.opponentProfilePic.sprite = null;
-            startGameConfirmationDlg.opponentStatusText.text = "";
+            startGameConfirmationDlg.opponentActivityText.text = "";
+
+            if (!bar.friendInfo.publicProfile.isOnline && bar.friendInfo.publicProfile.isActive)
+            {
+                startGameConfirmationDlg.onlineStatus.sprite = active;
+            }
+            else
+            {
+                startGameConfirmationDlg.onlineStatus.sprite = bar.friendInfo.publicProfile.isOnline ? online : offline;
+            }
 
             backendService.FriendsOpStatus(bar.friendInfo.playerId);
 
@@ -859,7 +868,7 @@ namespace TurboLabz.InstantFramework
             {
                 startGameConfirmationDlg.opponentProfilePic.sprite = bar.avatarImage.sprite;
             }
-            if(bar.avatarIcon!= null)
+            if (bar.avatarIcon != null)
             {
                 startGameConfirmationDlg.opponentAvatarIcon.sprite = bar.avatarIcon.sprite;
                 startGameConfirmationDlg.opponentAvatarBg.sprite = bar.avatarBG.sprite;
@@ -925,11 +934,11 @@ namespace TurboLabz.InstantFramework
 
             if (vo.isOnline)
             {
-                startGameConfirmationDlg.opponentStatusText.text = vo.status;
+                startGameConfirmationDlg.opponentActivityText.text = vo.activity;
             }
             else
             {
-                startGameConfirmationDlg.opponentStatusText.text = "";
+                startGameConfirmationDlg.opponentActivityText.text = "";
             }
         }
 

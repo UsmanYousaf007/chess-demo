@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 1265826169277402399}
   - component: {fileID: 133249816333951830}
   m_Layer: 5
-  m_Name: StatusLabel
+  m_Name: ActivityLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1295,7 +1295,7 @@ MonoBehaviour:
   ToggleRankON: {fileID: 9138179324416169355}
   ToggleRankOFF: {fileID: 9138179322993815334}
   onlineStatus: {fileID: 9190696902407274637}
-  opponentStatusText: {fileID: 1265826169277402399}
+  opponentActivityText: {fileID: 1265826169277402399}
   toggleRankButtonState: 0
   playerId: 
 --- !u!1 &9138179323372548531

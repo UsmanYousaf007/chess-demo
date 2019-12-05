@@ -21,6 +21,6 @@ namespace TurboLabz.InstantFramework
         public string avatarId;
         public string avatarColorId;
         public bool isActive;
-        public string status;
+        public string activity;
     }
 }

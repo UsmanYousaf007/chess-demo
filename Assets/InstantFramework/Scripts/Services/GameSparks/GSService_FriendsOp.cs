@@ -108,7 +108,14 @@ namespace TurboLabz.InstantFramework
                 bool isOnline = player.GetBoolean("isOnline").Value;
                 string activity = player.GetString("activity");
 
-                PublicProfile publicProfile = playerModel.community[playerId].publicProfile;
+                Friend friend = playerModel.GetFriend(playerId);
+                if (friend == null)
+                {
+                    continue;
+                }
+
+                PublicProfile publicProfile = friend.publicProfile;
+
                 ProfileVO pvo = new ProfileVO();
                 pvo.playerPic = publicProfile.profilePicture;
                 pvo.playerName = publicProfile.name;
@@ -119,7 +126,7 @@ namespace TurboLabz.InstantFramework
                 pvo.avatarId = publicProfile.avatarId;
                 pvo.isOnline = isOnline;
                 pvo.isActive = publicProfile.isActive;
-                pvo.status = activity;
+                pvo.activity = activity;
 
                 updtateFriendOnlineStatusSignal.Dispatch(pvo);
             }

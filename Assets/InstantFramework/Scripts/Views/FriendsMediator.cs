@@ -140,6 +140,7 @@ namespace TurboLabz.InstantFramework
         public void OnUpdateFriendOnlineStatusSignal(ProfileVO vo)
         {
             view.UpdateFriendOnlineStatusSignal(vo.playerId, vo.isOnline);
+            view.UpdateStartGameConfirmationDlg(vo);
         }
 
         [ListensTo(typeof(FriendBarBusySignal))]
