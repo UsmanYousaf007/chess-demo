@@ -931,7 +931,7 @@ namespace TurboLabz.InstantFramework
                 startGameConfirmationDlg.onlineStatus.sprite = bar.friendInfo.publicProfile.isOnline ? online : offline;
             }
 
-            backendService.FriendsOpStatus(bar.friendInfo.playerId);
+            //backendService.FriendsOpStatus(bar.friendInfo.playerId);
 
             if (bar.avatarImage != null)
             {
@@ -1001,14 +1001,14 @@ namespace TurboLabz.InstantFramework
             }
 
 
-            if (vo.isOnline)
-            {
-                startGameConfirmationDlg.opponentActivityText.text = vo.activity;
-            }
-            else
-            {
-                startGameConfirmationDlg.opponentActivityText.text = "";
-            }
+            //if (vo.isOnline)
+            //{
+            //    startGameConfirmationDlg.opponentActivityText.text = vo.activity;
+            //}
+            //else
+            //{
+            //    startGameConfirmationDlg.opponentActivityText.text = "";
+            //}
         }
 
         #endregion StartGameConfirmationDialog

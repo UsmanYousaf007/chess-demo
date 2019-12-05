@@ -135,6 +135,8 @@ namespace TurboLabz.InstantFramework
         public const string MULTIPLAYER_WAITING_FOR_OPPONENT = "multiplayerWaitingForOpponent";
         public const string MULTIPLAYER_SEARCHING = "multiplayerSearching";
         public const string MULTIPLAYER_FOUND = "multiplayerFound";
+        public const string QUICK_MATCH_FAILED = "quickMatchFailed";
+        public const string QUICK_MATCH_FAILED_REASON = "quickMatchFailedReason";
 
         #endregion
 

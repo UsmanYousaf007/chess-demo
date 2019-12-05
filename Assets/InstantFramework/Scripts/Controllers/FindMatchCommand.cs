@@ -23,13 +23,17 @@ namespace TurboLabz.InstantFramework
         [Inject] public MatchFoundSignal matchFoundSignal { get; set; }
         [Inject] public UpdateOpponentProfileSignal updateOpponentProfileSignal { get; set; }
         [Inject] public UpdateChatOpponentPicSignal updateChatOpponentPicSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
+        [Inject] public FindMatchRequestCompleteSignal findMatchRequestCompleteSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -38,14 +42,42 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            showFindMatchSignal.Dispatch(action);
 
             // This sends the backend request
             backendService.FindMatch(action).Then(HandleFindMatchErrors);
 
-            // The actual found match message arrives through a different pipeline
-            // from the backend
-            findMatchCompleteSignal.AddOnce(OnFindMatchComplete);
+            findMatchRequestCompleteSignal.AddOnce(OnFindMatchRequestCompleted);
+        }
+
+        private void OnFindMatchRequestCompleted(string opponentStatus)
+        {
+            if (opponentStatus.Equals("busy"))
+            {
+                //show dailogue
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+
+                var vo = new ConfirmDlgVO
+                {
+                    title = localizationService.Get(LocalizationKey.QUICK_MATCH_FAILED),
+                    desc = localizationService.Get(LocalizationKey.QUICK_MATCH_FAILED_REASON),
+                    yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
+                    onClickYesButton = delegate
+                    {
+                        navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                    }
+                };
+
+                updateConfirmDlgSignal.Dispatch(vo);
+
+            }
+            else
+            {
+                showFindMatchSignal.Dispatch(action);
+
+                // The actual found match message arrives through a different pipeline
+                // from the backend
+                findMatchCompleteSignal.AddOnce(OnFindMatchComplete);
+            }
         }
 
         private void OnFindMatchComplete(string challengeId)
