@@ -16,8 +16,19 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             var activeMatch = matchInfoModel.activeMatch == null ? matchInfoModel.lastCompletedMatch : matchInfoModel.activeMatch;
+            Friend opponentProfile = playerModel.GetFriend(activeMatch.opponentPublicProfile.playerId);
+            PublicProfile opponentPublicProfile = null;
 
-            var opponentPublicProfile = activeMatch.opponentPublicProfile;
+            //if opponentProfile is null then it means match is made using random quick match
+            //getting opponent profile from active match
+            if (opponentProfile == null)
+            {
+                opponentPublicProfile = activeMatch.opponentPublicProfile;
+            }
+            else
+            {
+                opponentPublicProfile = opponentProfile.publicProfile;
+            }
 
             if (opponentPublicProfile == null) return;
 
