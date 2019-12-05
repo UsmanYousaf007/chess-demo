@@ -200,6 +200,8 @@ namespace TurboLabz.InstantFramework
                 long lastSeenDateUTC = opponentProfile.GetLong(GSBackendKeys.PublicProfile.LAST_SEEN).Value;
                 opponentPublicProfile.lastSeenDateTime = TimeUtil.ToDateTime(lastSeenDateUTC);
                 opponentPublicProfile.lastSeen = opponentPublicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
+
+                opponentPublicProfile.isOnline = opponentProfile.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
             }
 
             matchInfo.opponentPublicProfile = opponentPublicProfile;

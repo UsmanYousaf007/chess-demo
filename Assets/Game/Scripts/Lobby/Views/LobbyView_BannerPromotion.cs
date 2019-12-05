@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         private StoreItem storeItem;
         private float scrollViewportOrginalBottom;
         private PromotionVO currentPromotion;
+        private IAPBanner iapBanner;
 
         public static bool isCoachTrainingShown;
         public static bool isStrengthTrainingShown;
@@ -47,25 +48,24 @@ namespace TurboLabz.InstantFramework
                     scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
                     scrollRect.verticalNormalizedPosition = 1;
 
-                    var IAPBanner = spawnedBanner.GetComponent<IAPBanner>();
-                    if (IAPBanner != null)
+                    iapBanner = spawnedBanner.GetComponent<IAPBanner>();
+                    if (iapBanner != null)
                     {
-                        storeItem = metaDataModel.store.items[IAPBanner.key];
+                        storeItem = metaDataModel.store.items[iapBanner.key];
 
                         if (storeItem != null)
                         {
-                            IAPBanner.price.text = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
-                            StartCoroutine(WaitForPriceToLoad(IAPBanner.price));
+                            iapBanner.price.text = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
                             spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
 
-                            if (IAPBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
+                            if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
                             {
-                                IAPBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
+                                iapBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
                             }
                         }
                         else
                         {
-                            LogUtil.Log(string.Format("Banner Promotion: store item against key '{0}' not found", IAPBanner.key), "red");
+                            LogUtil.Log(string.Format("Banner Promotion: store item against key '{0}' not found", iapBanner.key), "red");
                         }
                     }
                     else
@@ -85,21 +85,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private IEnumerator WaitForPriceToLoad(Text price)
+        public void SetPriceOfIAPBanner(bool isAvailable)
         {
-            yield return new WaitForSeconds(1.0f);
-
-            if (price != null)
+            if (isAvailable && iapBanner != null)
             {
-                if (storeItem.remoteProductPrice == null)
-                {
-                    StartCoroutine(WaitForPriceToLoad(price));
-                }
-
-                if (storeItem.remoteProductPrice != null && price.text.Equals(localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE)))
-                {
-                    price.text = storeItem.remoteProductPrice;
-                }
+                iapBanner.price.text = storeItem.remoteProductPrice;
             }
         }
 

@@ -368,6 +368,12 @@ namespace TurboLabz.InstantFramework
 
             view.ReportAnalytic(key, eventId);
         }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable, StoreVO storeVO)
+        {
+            view.SetPriceOfIAPBanner(isAvailable);
+        }
     }
 }
 
