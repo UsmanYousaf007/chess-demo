@@ -94,15 +94,19 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG
             };
 
-            string[] tagState = {
-                "Disabled"
-            };
+            //string[] tagState = {
+            //    "Disabled"
+            //};
 
-            string tags = itemData.GetString(GSBackendKeys.SHOP_ITEM_TAGS);
+            List <string> tagsList = itemData.GetStringList(GSBackendKeys.SHOP_ITEM_TAGS);
+            string tags = tagsList[0];
+
+           // string tags = itemData.GetString(GSBackendKeys.SHOP_ITEM_TAGS);
             string kind = SearchTags(tags, tagKinds);
-            string state = SearchTags(tags, tagState);
+            //string state = SearchTags(tags, tagState);
 
-            item.state = state == null ? StoreItem.State.ENABLED : StoreItem.State.DISABLED;
+            bool disabledState = itemData.GetBoolean(GSBackendKeys.SHOP_ITEM_DISABLED).Value;
+            item.state = disabledState == false ? StoreItem.State.ENABLED : StoreItem.State.DISABLED;
             item.key = itemData.GetString(GSBackendKeys.SHOP_ITEM_ID);
             item.type = itemData.GetString(GSBackendKeys.SHOP_ITEM_TYPE) == "VGOOD" ? StoreItem.Type.VGOOD : StoreItem.Type.CURRENCY;
             item.kind = kind ?? unrecognized;
@@ -111,9 +115,14 @@ namespace TurboLabz.InstantFramework
             item.currency1Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY1COST);
             item.currency2Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY2COST);
             item.maxQuantity = GetSafeInt(itemData,GSBackendKeys.SHOP_ITEM_MAX_QUANTITY);
-            item.remoteProductId = GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_STORE_PRODUCT_ID, null);
 
-            IList <GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
+#if UNITY_IOS
+            item.remoteProductId = GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_IOS_STORE_PRODUCT_ID, null);
+#else
+            item.remoteProductId = GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_STORE_PRODUCT_ID, null);
+#endif
+
+            IList<GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
             if (bundleData !=  null)
             {
                 item.bundledItems = new Dictionary<string, int>();

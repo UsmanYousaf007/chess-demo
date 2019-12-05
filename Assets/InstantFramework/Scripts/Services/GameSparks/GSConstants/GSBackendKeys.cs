@@ -54,8 +54,10 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_ITEM_UNLOCKATLEVEL = "unlockAtLevel";
         public const string SHOP_ITEM_CURRENCY1PAYOUT = "currency1Cost";
 		public const string SHOP_ITEM_STORE_PRODUCT_ID = "googlePlayProductId";
+        public const string SHOP_ITEM_IOS_STORE_PRODUCT_ID = "iosAppStoreProductId";
         public const string SHOP_ITEM_STORE_BUNDLED_GOODS = "bundledGoods";
         public const string SHOP_ITEM_QUANTITY = "qty";
+        public const string SHOP_ITEM_DISABLED = "disabled";
 
         // Account details
         public const string PLAYER_DETAILS = "playerDetails";
