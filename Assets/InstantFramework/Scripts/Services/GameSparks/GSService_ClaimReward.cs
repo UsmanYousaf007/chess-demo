@@ -28,10 +28,12 @@ namespace TurboLabz.InstantFramework
                     var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
                     
                     playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
-                    playerModel.cpuPowerupUsedCount = 0;
-
                 }
-                
+
+                if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT))
+                {
+                    playerModel.cpuPowerupUsedCount = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
+                }
             }
                
         }

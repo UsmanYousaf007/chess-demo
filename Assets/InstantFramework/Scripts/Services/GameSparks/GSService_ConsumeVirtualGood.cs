@@ -50,8 +50,7 @@ namespace TurboLabz.InstantFramework
                 if(response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT))
                 {
                     playerModel.cpuPowerupUsedCount = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
-
-                    TLUtils.LogUtil.Log("cpuPowerupUsedCount ########## : " + playerModel.cpuPowerupUsedCount, "red");
+                    TLUtils.LogUtil.Log("cpuPowerupUsedCount ########## : " + playerModel.cpuPowerupUsedCount);
                 }
                 
 
