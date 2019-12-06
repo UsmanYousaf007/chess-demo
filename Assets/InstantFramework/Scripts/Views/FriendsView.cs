@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
         public Text sectionSearchResultsTitle;
 
 		public GameObject confirmDlg;
-        public Text saveYourProgressText;
+        public Text facebookLoginRewardText;
         public Button facebookLoginButton;
         public Text facebookLoginButtonText;
         public GameObject facebookConnectAnim;
@@ -144,7 +144,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
-            saveYourProgressText.text = "";
+            facebookLoginRewardText.text = "";
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
@@ -684,7 +684,7 @@ namespace TurboLabz.InstantFramework
         {
             if(!playerModel.isFBConnectRewardClaimed)
             {
-                saveYourProgressText.text = localizationService.Get(LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, rewardsSettingsModel.facebookConnectReward);
+                facebookLoginRewardText.text = localizationService.Get(LocalizationKey.FACEBBOK_LOGIN_REWARD_TEXT, rewardsSettingsModel.facebookConnectReward);
             }
             
             gameObject.SetActive(true);

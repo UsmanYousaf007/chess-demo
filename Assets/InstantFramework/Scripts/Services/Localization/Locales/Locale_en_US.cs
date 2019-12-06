@@ -231,7 +231,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_CHAT_LABEL, "Chat" },
                 { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Login to Facebook" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
-                { LocalizationKey.SAVE_YOUR_PROGRESS_TEXT, "Get {0} Coins" },
+                { LocalizationKey.FACEBBOK_LOGIN_REWARD_TEXT, "Get {0} Coins" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
 				{ LocalizationKey.FRIENDS_FIND_FRIEND_TITLE, "FIND YOUR FRIENDS" },
 				{ LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO, "Login to Facebook and friends who have the app will automactically appear" },
