@@ -77,6 +77,7 @@ namespace TurboLabz.InstantFramework
 
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
+        public GameObject iapProcessingUi;
 
         public Image notificationTagImage;
         public Text notificationTagNumber;
@@ -1148,6 +1149,12 @@ namespace TurboLabz.InstantFramework
             {
                 sectionPlaySomeoneNewEmpty.gameObject.SetActive(true);
             }
+        }
+
+        public void ShowProcessing(bool show)
+        {
+            iapProcessingUi.SetActive(show);
+            uiBlocker.SetActive(show);
         }
     }
 }

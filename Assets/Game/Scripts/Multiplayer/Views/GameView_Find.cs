@@ -99,6 +99,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 findAvatarRoller.SetActive(true);
+                findAvatar.gameObject.SetActive(true);
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
                 RollOpponentProfilePicture();
             }
