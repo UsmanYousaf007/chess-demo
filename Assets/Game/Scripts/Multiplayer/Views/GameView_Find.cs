@@ -176,16 +176,10 @@ namespace TurboLabz.Multiplayer
         {
             StopRollingOpponentProfilePicture();
             FindMatchTimeoutEnable(false);
-
-            if (vo.playerPic == null)
-            {
-                findAvatar.sprite = defaultAvatar;
-            }
-            else
-            {
-                findAvatar.sprite = vo.playerPic;
-            }
-
+            findAvatar.gameObject.SetActive(false);
+            opponentFindProfile.SetActive(true);
+            SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
+                        vo.playerPic, vo.avatarId, vo.avatarColorId);
             searchingLabel.color = Colors.YELLOW;
             searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
         }
