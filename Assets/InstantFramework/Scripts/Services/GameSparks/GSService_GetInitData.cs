@@ -85,6 +85,13 @@ namespace TurboLabz.InstantFramework
                 // The matchInfoModel.activeChallengeId is retained for the session and maintained by the client so it 
                 // need not be set from the server. Do not set activeChallengeId here.
             }
+
+            //Send power up usage Analytics
+            if(response.ScriptData.ContainsKey(GSBackendKeys.EVENT_DATA))
+            {
+                var eventData = response.ScriptData.GetGSData(GSBackendKeys.EVENT_DATA);
+                SendPowerupUsageAnalytics(eventData);
+            }
         }
 
         private void OnStoreInit(bool success)
@@ -334,6 +341,33 @@ namespace TurboLabz.InstantFramework
                 msg.guid = pair.Key;
 
                 receiveChatMessageSignal.Dispatch(msg, true);
+            }
+        }
+
+        private void SendPowerupUsageAnalytics(GSData eventData)
+        {
+            var usagePercentage = eventData.GetInt(GSBackendKeys.POWERUP_USAGE_PERCENTAGE).Value;
+            var eventdayNo = eventData.GetInt(GSBackendKeys.EVENT_DAY_NUMBER).Value;
+
+            if (usagePercentage <= 0)
+            {
+                analyticsService.Event(AnalyticsEventId.powerup_usage_no, AnalyticsParameter.day, eventdayNo);
+            }
+            else if (usagePercentage > 0 && usagePercentage <= 2)
+            {
+                analyticsService.Event(AnalyticsEventId.powerup_usage_low, AnalyticsParameter.day, eventdayNo);
+            }
+            else if (usagePercentage > 2 && usagePercentage <= 5)
+            {
+                analyticsService.Event(AnalyticsEventId.powerup_usage_avg, AnalyticsParameter.day, eventdayNo);
+            }
+            else if (usagePercentage > 5 && usagePercentage <= 10)
+            {
+                analyticsService.Event(AnalyticsEventId.powerup_usage_good, AnalyticsParameter.day, eventdayNo);
+            }
+            else if (usagePercentage > 10)
+            {
+                analyticsService.Event(AnalyticsEventId.powerup_usage_awesome, AnalyticsParameter.day, eventdayNo);
             }
         }
     }

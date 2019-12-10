@@ -119,7 +119,12 @@ namespace TurboLabz.InstantFramework
         out_game_chat_match_inactive,
         tap_add_friends,
         tap_remove_friends,
-        start_match_with_favourite
+        start_match_with_favourite,
+        powerup_usage_no,
+        powerup_usage_low,
+        powerup_usage_avg,
+        powerup_usage_good,
+        powerup_usage_awesome,
     }
 
     public enum AnalyticsContext
@@ -143,7 +148,8 @@ namespace TurboLabz.InstantFramework
         theme_name,
         fb_logged_in,
         is_bot,
-        context
+        context,
+        day
     }
 
 }
