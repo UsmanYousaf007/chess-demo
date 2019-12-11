@@ -61,6 +61,7 @@ public class NotchHandler : MonoBehaviour {
 
     [Header("Reconnecting")]
     public RectTransform reconnectingPopup;
+    public RectTransform maintenanceWarningPopup;
 
     void Awake()
     {
@@ -143,6 +144,7 @@ public class NotchHandler : MonoBehaviour {
 
         // RECONNECTING
         SetY(reconnectingPopup, -130f);
+        SetY(maintenanceWarningPopup, -130f);
     }
 
     void SetY(RectTransform tfm, float y)
