@@ -35,6 +35,8 @@ namespace TurboLabz.InstantFramework
         public const string EVENT_DATA          = "eventData";
         public const string EVENT_DAY_NUMBER    = "eventdayNo";
         public const string POWERUP_USAGE_PERCENTAGE = "powerupUsagePercentage";
+        public const string STORE_IOS = "ios";
+        public const string STORE_ANDROID = "android";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";

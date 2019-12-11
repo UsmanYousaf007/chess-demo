@@ -195,11 +195,17 @@ namespace TurboLabz.InstantFramework
             settingsModel.maintenanceFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_FLAG).Value;
             settingsModel.updateMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_MESSAGE);
             settingsModel.maintenanceMessage = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_MESSAGE);
-            settingsModel.minimumClientVersion = gsSettingsData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
             settingsModel.maintenanceWarningFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_WARNING_FLAG).Value;
             settingsModel.maintenanceWarningMessege = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
             settingsModel.maintenanceWarningBgColor = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
-            settingsModel.updateReleaseBannerMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_RELEASE_BANNER_MESSAGE);
+
+#if UNITY_IOS
+            GSData storeData = gsSettingsData.GetGSData(GSBackendKeys.STORE_IOS);  
+#elif UNITY_ANDROID
+            GSData storeData = gsSettingsData.GetGSData(GSBackendKeys.STORE_ANDROID);
+#endif
+            settingsModel.minimumClientVersion = storeData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
+            settingsModel.updateReleaseBannerMessage = storeData.GetString(GSBackendKeys.UPDATE_RELEASE_BANNER_MESSAGE);
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)
