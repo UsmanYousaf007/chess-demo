@@ -1,13 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.turbolabz.instantchess.android.googleplay" android:versionCode="1" android:versionName="1.0">
-  <application android:label="@string/app_name" 
-               android:icon="@drawable/app_icon" 
-               android:theme="@style/UnityThemeSelector"
-               android:allowBackup="false" 
-               tools:replace="android:allowBackup">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.turbolabz.instantchess.ios" android:versionCode="1" android:versionName="1.0">
+  <application android:label="@string/app_name" android:icon="@drawable/app_icon" android:theme="@style/UnityThemeSelector" android:allowBackup="false" tools:replace="android:allowBackup">
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5333300631438831~9460958838" />
     <meta-data android:name="applovin.sdk.key" android:value="-5I9ieAWFzQGOpIiJwKiusemyKuvIEUdGuUnFE_NTz5TEfoDetSxebU4cAoF--PF7d9Ap57_zMtSVAwsJ-0zTT" />
-    <provider android:name="com.yasirkula.unity.UnitySSContentProvider" android:authorities="com.turbolabz.instantchess.android.googleplay" android:exported="false" android:grantUriPermissions="true" />
+    <provider android:name="com.yasirkula.unity.UnitySSContentProvider" android:authorities="com.turbolabz.instantchess.ios" android:exported="false" android:grantUriPermissions="true" />
     <meta-data android:name="android.max_aspect" android:value="3.0" />
     <!-- The MessagingUnityPlayerActivity is a class that extends
          UnityPlayerActivity to work around a known issue when receiving
@@ -32,12 +28,10 @@
     <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="true" />
     <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled" android:value="true" />
     <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider1684973821622562" android:exported="true" />
-        
-        <receiver android:name="com.appsflyer.SingleInstallBroadcastReceiver" android:exported="true">
-        <intent-filter>
-             <action android:name="com.android.vending.INSTALL_REFERRER" />
-         </intent-filter>
+    <receiver android:name="com.appsflyer.SingleInstallBroadcastReceiver" android:exported="true">
+      <intent-filter>
+        <action android:name="com.android.vending.INSTALL_REFERRER" />
+      </intent-filter>
     </receiver>
-        
   </application>
 </manifest>
