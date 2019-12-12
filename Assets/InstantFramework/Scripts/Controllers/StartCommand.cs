@@ -10,6 +10,7 @@ using System.Collections;
 using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
+using HUF.AnalyticsHBI.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -54,7 +55,7 @@ namespace TurboLabz.InstantFramework
             GameAnalytics.Initialize();
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
-
+            HAnalyticsHBI.Init();
         }
 
 		void GameSparksAvailable(bool isAvailable)
