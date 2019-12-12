@@ -75,20 +75,7 @@ namespace TurboLabz.InstantFramework
 
             if (opponentProfile != null && opponentProfile.lastMatchTimestamp <= 0)
             {
-                if (matchInfo.isLongPlay)
-                {
-                    if (matchInfo.acceptStatus != GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
-                    {
-                        vo.isChatEnabled = false;
-                    }
-                }
-                else
-                {
-                    if (!matchInfo.opponentPublicProfile.playerId.Equals(opponentId))
-                    {
-                        vo.isChatEnabled = false;
-                    }
-                }
+                vo.isChatEnabled &= !matchInfo.isLongPlay || matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
             }
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
