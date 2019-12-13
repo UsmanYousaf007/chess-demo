@@ -10,6 +10,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 
+
 namespace TurboLabz.InstantFramework
 {
     public partial class InstantFrameworkContext : MVCSContext
@@ -167,7 +168,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IShareService>().To<NativeShareService>().ToSingleton();
             injectionBinder.Bind<IScreenCaptureService>().To<NativeScreenCapture>().ToSingleton();
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
-            injectionBinder.Bind<IAdsService>().To<MoPubService>().ToSingleton();
+            injectionBinder.Bind<IAdsService>().To<TLAdsService>().ToSingleton();
 #if UNITY_EDITOR
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsServiceEditor>().ToSingleton();
 #else

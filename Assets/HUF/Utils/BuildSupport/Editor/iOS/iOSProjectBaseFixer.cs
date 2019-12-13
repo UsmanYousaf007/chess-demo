@@ -26,11 +26,7 @@ namespace HUF.Utils.BuildSupport.Editor.iOS
             projectPath = PBXProject.GetPBXProjectPath(report.summary.outputPath);
             project = new PBXProject();
             project.ReadFromString(File.ReadAllText(projectPath));
-#if UNITY_2019_3_OR_NEWER
-            string targetName = project.GetUnityMainTargetGuid();
-#else
-			string targetName = PBXProject.GetUnityTargetName();
-#endif
+            var targetName = PBXProject.GetUnityTargetName();
             var targetGuid = project.TargetGuidByName(targetName);
 
             if (Process(project, targetGuid, projectPath))
