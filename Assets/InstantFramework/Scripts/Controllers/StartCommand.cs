@@ -11,6 +11,7 @@ using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
 using HUF.AnalyticsHBI.API;
+using HUFEXT.GenericGDPR.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
 
 		bool gameSparksAvailable = false;
+        bool hbiGdprCallBackAdded = false;
 
         private Coroutine wifiHealthCheckCR = null;
         private int wifiHealthWaitCounter = 0;
@@ -61,7 +63,16 @@ namespace TurboLabz.InstantFramework
 		void GameSparksAvailable(bool isAvailable)
         {
 			gameSparksAvailable = isAvailable;
-			ProcessStartup();
+
+            if (HGenericGDPR.IsPolicyAccepted)
+            {
+                ProcessStartup();
+            }
+            else
+            {
+                HGenericGDPR.OnPolicyAccepted += ProcessStartup;
+                hbiGdprCallBackAdded = true;
+            }
 		}
 
 		void ProcessStartup()
@@ -87,6 +98,8 @@ namespace TurboLabz.InstantFramework
                 if (playerModel.newUser)
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
+                    RemoveListeners();
+                    CommandEnd();
                 }
                 else
                 {
@@ -118,6 +131,11 @@ namespace TurboLabz.InstantFramework
 		void RemoveListeners()
 		{
 			GS.GameSparksAvailable -= GameSparksAvailable;
+
+            if (hbiGdprCallBackAdded)
+            {
+                HGenericGDPR.OnPolicyAccepted -= ProcessStartup;
+            }
 		}
 
         IEnumerator CheckWifiHealthCR()
