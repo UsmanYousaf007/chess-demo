@@ -91,7 +91,6 @@ namespace TurboLabz.InstantFramework
             {
                 var eventData = response.ScriptData.GetGSData(GSBackendKeys.EVENT_DATA);
                 SendPowerupUsageAnalytics(eventData);
-                SendTimeSpentAnalytics();
             }
         }
 
@@ -376,19 +375,6 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.powerup_usage_awesome, AnalyticsParameter.day, eventdayNo);
             }
-        }
-
-        private void SendTimeSpentAnalytics()
-        {
-            analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentCpuMatch, 2));
-            analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLongMatch, 2));
-            analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentQuickMatch, 2));
-            analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLobby, 2));
-
-            preferencesModel.timeSpentCpuMatch = 0;
-            preferencesModel.timeSpentLongMatch = 0;
-            preferencesModel.timeSpentQuickMatch = 0;
-            preferencesModel.timeSpentLobby = 0;
         }
     }
 

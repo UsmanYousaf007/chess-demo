@@ -11,6 +11,7 @@
 /// [add_description_here]
 
 using System;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -20,13 +21,13 @@ namespace TurboLabz.InstantFramework
 
         public override void RenderDisplayOnEnter()
         {
-            timeAtScreenShown = DateTime.Now;
+            timeAtScreenShown = TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp);
             ShowView(NavigatorViewId.CPU);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            cmd.preferencesModel.timeSpentCpuMatch += (float)(DateTime.Now - timeAtScreenShown).TotalMinutes;
+            cmd.preferencesModel.timeSpentCpuMatch += (float)(TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
 
             if (evt == NavigatorEvent.SHOW_CPU_EXIT_DLG ||
                 evt == NavigatorEvent.ESCAPE)

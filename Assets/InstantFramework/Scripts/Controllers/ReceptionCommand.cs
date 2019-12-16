@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using strange.extensions.command.impl;
 using TurboLabz.InstantGame;
 using UnityEngine;
+using System;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,10 +31,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         public override void Execute()
         {
@@ -114,6 +118,14 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.session_premium);
             }
+
+            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
+
+            if (daysBetweenLastLogin >= 1)
+            {
+                preferencesModel.lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
+                SendTimeSpentAnalytics();
+            }
         }
 
         private void CommandBegin()
@@ -128,5 +140,17 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
+        private void SendTimeSpentAnalytics()
+        {
+            analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentCpuMatch, 2));
+            analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLongMatch, 2));
+            analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentQuickMatch, 2));
+            analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLobby, 2));
+
+            preferencesModel.timeSpentCpuMatch = 0;
+            preferencesModel.timeSpentLongMatch = 0;
+            preferencesModel.timeSpentQuickMatch = 0;
+            preferencesModel.timeSpentLobby = 0;
+        }
     }
 }

@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
 		[Inject] public IAndroidNativeService androidNativeService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         public override void Execute()
         {

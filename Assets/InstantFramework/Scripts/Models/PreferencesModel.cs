@@ -36,6 +36,7 @@ namespace TurboLabz.InstantGame
         public float timeSpentLongMatch { get; set; }
         public float timeSpentCpuMatch { get; set; }
         public float timeSpentLobby { get; set; }
+        public DateTime lastLaunchTime { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -64,6 +65,7 @@ namespace TurboLabz.InstantGame
             timeSpentLongMatch = 0;
             timeSpentCpuMatch = 0;
             timeSpentLobby = 0;
+            lastLaunchTime = DateTime.UtcNow;
         }
 
         private void LoadFromDisk()
@@ -156,6 +158,11 @@ namespace TurboLabz.InstantGame
                     timeSpentQuickMatch = reader.Read<float>(PrefKeys.TIME_SPENT_QUICK_MATCH);
                 }
 
+                if (reader.HasKey(PrefKeys.LAST_LAUNCH_TIME))
+                {
+                    lastLaunchTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.LAST_LAUNCH_TIME)));
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -190,6 +197,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_LOBBY, timeSpentLobby);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
+                writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
                 writer.Close();
             }
             catch (Exception e)

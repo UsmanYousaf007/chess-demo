@@ -27,5 +27,6 @@ namespace TurboLabz.InstantFramework
         float timeSpentLongMatch { get; set; }
         float timeSpentCpuMatch { get; set; }
         float timeSpentLobby { get; set; }
+        DateTime lastLaunchTime { get; set; }
     }
 }

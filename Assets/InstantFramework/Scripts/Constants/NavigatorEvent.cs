@@ -8,6 +8,7 @@ namespace TurboLabz.InstantFramework
     public enum NavigatorEvent
     {
         NONE,
+        IGNORE,
         SHOW_HARD_STOP,
         SHOW_RECONNECTING,
         ESCAPE,

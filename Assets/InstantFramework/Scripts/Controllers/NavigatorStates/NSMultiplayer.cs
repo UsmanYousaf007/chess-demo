@@ -4,7 +4,7 @@
 /// Proprietary and confidential
 
 using System;
-using TurboLabz.Multiplayer;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
 
         public override void RenderDisplayOnEnter()
         {
-            timeAtScreenShown = DateTime.Now;
+            timeAtScreenShown = TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp);
             ShowView(NavigatorViewId.MULTIPLAYER);
         }
 
@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
 
             if (matchInfo != null)
             {
-                var minutesSpent = (float)(DateTime.Now - timeAtScreenShown).TotalMinutes;
+                var minutesSpent = (float)(TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
 
                 if (matchInfo.isLongPlay)
                 {

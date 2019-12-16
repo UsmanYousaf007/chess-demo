@@ -14,13 +14,13 @@ namespace TurboLabz.InstantFramework
 
         public override void RenderDisplayOnEnter()
         {
-            timeAtScreenShown = DateTime.Now;
+            timeAtScreenShown = TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp);
             ShowView(NavigatorViewId.LOBBY);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            cmd.preferencesModel.timeSpentLobby += (float)(DateTime.Now - timeAtScreenShown).TotalMinutes;
+            cmd.preferencesModel.timeSpentLobby += (float)(TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
 
             if (evt == NavigatorEvent.SHOW_CPU)
             {
