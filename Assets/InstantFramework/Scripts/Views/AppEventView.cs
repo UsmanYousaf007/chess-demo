@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
         protected override void Start()
         {
             base.Start();
-            adsService.Init();
+            //adsService.Init();
         }
 
         // TODO: Verify that this class behaves correctly for EACH platform

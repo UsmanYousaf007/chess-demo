@@ -201,5 +201,10 @@ namespace TurboLabz.InstantFramework
             HAds.Banner.Hide();
            // MoPubBanner.Hide();
         }
+
+        public void CollectSensitiveData(bool consentStatus)
+        {
+            HAds.CollectSensitiveData(consentStatus);
+        }
     }
 }

@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IBackendService backendService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -58,6 +59,7 @@ namespace TurboLabz.InstantFramework
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
             HAnalyticsHBI.Init();
+            adsService.Init();
         }
 
 		void GameSparksAvailable(bool isAvailable)
@@ -88,7 +90,9 @@ namespace TurboLabz.InstantFramework
 				{
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
-			}
+
+                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+            }
 		}
 
 		private void OnAuthGuest(BackendResult result)
