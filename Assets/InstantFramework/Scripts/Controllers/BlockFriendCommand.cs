@@ -16,6 +16,7 @@ namespace TurboLabz.InstantGame
 
         // dispatch signals
         [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
+        [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantGame
             if (result == BackendResult.SUCCESS)
             {
                 clearFriendSignal.Dispatch(friendId);
+                sortFriendsSignal.Dispatch();
             }
 
             Release();
