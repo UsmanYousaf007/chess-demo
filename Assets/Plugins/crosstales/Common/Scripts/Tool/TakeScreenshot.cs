@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 
 namespace Crosstales.Common.Util
 {
@@ -22,7 +21,12 @@ namespace Crosstales.Common.Util
         [Tooltip("Key-press to capture the screen (default: F8).")]
         public KeyCode KeyCode = KeyCode.F8;
 
+        ///<summary>Show file location (default: true).</summary>
+        [Tooltip("Show file location (default: true).")]
+        public bool ShowFileLocation = true;
+
         private Texture2D texture;
+        private bool locationShown;
 
         #endregion
 
@@ -50,11 +54,17 @@ namespace Crosstales.Common.Util
         ///<summary>Capture the screen.</summary>
         public void Capture()
         {
-            string file = Prefix + DateTime.Now.ToString("_dd-MM-yyyy-HH-mm-ss-f") + ".png";
+            string file = Application.persistentDataPath + System.IO.Path.DirectorySeparatorChar + Prefix + System.DateTime.Now.ToString("_dd-MM-yyyy-HH-mm-ss-f") + ".png";
 
             ScreenCapture.CaptureScreenshot(file, Scale);
 
             Debug.Log("Screenshot saved: " + file);
+
+            if (!locationShown && ShowFileLocation)
+            {
+                BaseHelper.ShowFileLocation(file);
+                locationShown = true;
+            }
         }
 
         #endregion

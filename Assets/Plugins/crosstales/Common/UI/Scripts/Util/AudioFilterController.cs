@@ -9,8 +9,8 @@ namespace Crosstales.UI.Util
     {
         #region Variables
 
-        [Header("Audio Filters")]
         /// <summary>Searches for all audio filters in the whole scene (default: true).</summary>
+        [Header("Audio Filters")]
         [Tooltip("Searches for all audio filters in the whole scene (default: true).")]
         public bool FindAllAudioFiltersOnStart = true;
 
@@ -40,7 +40,7 @@ namespace Crosstales.UI.Util
         public Text LowpassText;
         public Text HighpassText;
 
-        private System.Collections.Generic.List<AudioReverbPreset> reverbPresets = new System.Collections.Generic.List<AudioReverbPreset>();
+        private readonly System.Collections.Generic.List<AudioReverbPreset> reverbPresets = new System.Collections.Generic.List<AudioReverbPreset>();
 
         private bool initalized = false;
 
@@ -124,27 +124,27 @@ namespace Crosstales.UI.Util
             }
         }
 
-        public void ChorusFilterEnabled(bool enabled)
+        public void ChorusFilterEnabled(bool isEnabled)
         {
             foreach (AudioChorusFilter chorusFilter in ChorusFilters)
             {
-                chorusFilter.enabled = enabled;
+                chorusFilter.enabled = isEnabled;
             }
         }
 
-        public void EchoFilterEnabled(bool enabled)
+        public void EchoFilterEnabled(bool isEnabled)
         {
             foreach (AudioEchoFilter echoFilter in EchoFilters)
             {
-                echoFilter.enabled = enabled;
+                echoFilter.enabled = isEnabled;
             }
         }
 
-        public void DistortionFilterEnabled(bool enabled)
+        public void DistortionFilterEnabled(bool isEnabled)
         {
             foreach (AudioDistortionFilter distortionFilter in DistortionFilters)
             {
-                distortionFilter.enabled = enabled;
+                distortionFilter.enabled = isEnabled;
             }
         }
 
@@ -161,11 +161,11 @@ namespace Crosstales.UI.Util
             }
         }
 
-        public void LowPassFilterEnabled(bool enabled)
+        public void LowPassFilterEnabled(bool isEnabled)
         {
             foreach (AudioLowPassFilter lowPassFilter in LowPassFilters)
             {
-                lowPassFilter.enabled = enabled;
+                lowPassFilter.enabled = isEnabled;
             }
         }
 
@@ -182,11 +182,11 @@ namespace Crosstales.UI.Util
             }
         }
 
-        public void HighPassFilterEnabled(bool enabled)
+        public void HighPassFilterEnabled(bool isEnabled)
         {
             foreach (AudioHighPassFilter highPassFilter in HighPassFilters)
             {
-                highPassFilter.enabled = enabled;
+                highPassFilter.enabled = isEnabled;
             }
         }
 

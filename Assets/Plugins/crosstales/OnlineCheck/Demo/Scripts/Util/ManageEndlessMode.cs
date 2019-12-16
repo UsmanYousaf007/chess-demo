@@ -9,7 +9,7 @@ namespace Crosstales.OnlineCheck.Demo.Util
 
         public bool EndlessMode = false;
 
-        void Awake()
+        public void Awake()
         {
             OnlineCheck.isEndlessMode = EndlessMode;
         }

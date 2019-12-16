@@ -6,7 +6,6 @@ using Crosstales.OnlineCheck.EditorUtil;
 namespace Crosstales.OnlineCheck.EditorExtension
 {
     /// <summary>Custom editor for the 'Proxy'-class.</summary>
-    [InitializeOnLoad]
     [CustomEditor(typeof(Tool.Proxy))]
     public class ProxyEditor : Editor
     {
@@ -28,7 +27,7 @@ namespace Crosstales.OnlineCheck.EditorExtension
         private string httpsProxyProtocol;
 
         private bool enableOnAwake;
-        
+
         #endregion
 
 
@@ -140,7 +139,7 @@ namespace Crosstales.OnlineCheck.EditorExtension
                     {
                         if (GUILayout.Button(new GUIContent(" Disable", EditorHelper.Icon_Minus, "Disable HTTP-Proxy.")))
                         {
-                            script.DisableHTTPProxy();
+                            Tool.Proxy.DisableHTTPProxy();
                         }
                     }
                     else
@@ -159,7 +158,7 @@ namespace Crosstales.OnlineCheck.EditorExtension
                     {
                         if (GUILayout.Button(new GUIContent(" Disable", EditorHelper.Icon_Minus, "Disable HTTPS-Proxy.")))
                         {
-                            script.DisableHTTPSProxy();
+                            Tool.Proxy.DisableHTTPSProxy();
                         }
                     }
                     else

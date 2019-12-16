@@ -10,7 +10,7 @@ namespace Crosstales.OnlineCheck.EditorTask
     public static class ReminderCheck
     {
         private const int numberOfDays = 17;
-        private static int maxDays = numberOfDays * 2;
+        private const int maxDays = numberOfDays * 2;
 
         #region Constructor
 
@@ -32,27 +32,27 @@ namespace Crosstales.OnlineCheck.EditorTask
                                 "Not right now",
                                 "Don't ask again!");
 
-                    if (option == 0)
+                    switch (option)
                     {
-                        Application.OpenURL(EditorConstants.ASSET_URL);
-                        //EditorConfig.REMINDER_CHECK = false;
-                        count = 9999;
+                        case 0:
+                            Application.OpenURL(EditorConstants.ASSET_URL);
+                            //EditorConfig.REMINDER_CHECK = false;
+                            count = 9999;
 
-                        Debug.LogWarning("<color=red>" + Common.Util.BaseHelper.CreateString("❤", 500) + "</color>");
-                        Debug.LogWarning("<b>+++ Thank you for rating <color=blue>" + Util.Constants.ASSET_NAME + "</color>! +++</b>");
-                        Debug.LogWarning("<color=red>" + Common.Util.BaseHelper.CreateString("❤", 500) + "</color>");
-                    }
-                    else if (option == 1)
-                    {
-                        // do nothing!
-                    }
-                    else
-                    {
-                        count = 9999;
-                        //EditorConfig.REMINDER_CHECK = false;
+                            Debug.LogWarning("<color=red>" + Common.Util.BaseHelper.CreateString("❤", 500) + "</color>");
+                            Debug.LogWarning("<b>+++ Thank you for rating <color=blue>" + Util.Constants.ASSET_NAME + "</color>! +++</b>");
+                            Debug.LogWarning("<color=red>" + Common.Util.BaseHelper.CreateString("❤", 500) + "</color>");
+                            break;
+                        case 1:
+                            // do nothing!
+                            break;
+                        default:
+                            count = 9999;
+                            //EditorConfig.REMINDER_CHECK = false;
+                            break;
                     }
 
-                    EditorConfig.Save();
+                    //EditorConfig.Save();
                 }
 
                 EditorPrefs.SetString(EditorConstants.KEY_REMINDER_DATE, date);

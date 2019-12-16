@@ -1,4 +1,6 @@
-﻿#if UNITY_EDITOR
+﻿
+using System.Linq;
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -9,9 +11,9 @@ namespace Crosstales.Common.EditorUtil
     {
         #region Static variables
 
-        private static System.Type moduleManager = System.Type.GetType("UnityEditor.Modules.ModuleManager,UnityEditor.dll");
-        private static System.Reflection.MethodInfo isPlatformSupportLoaded = moduleManager.GetMethod("IsPlatformSupportLoaded", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-        private static System.Reflection.MethodInfo getTargetStringFromBuildTarget = moduleManager.GetMethod("GetTargetStringFromBuildTarget", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+        private static readonly System.Type moduleManager = System.Type.GetType("UnityEditor.Modules.ModuleManager,UnityEditor.dll");
+        private static readonly System.Reflection.MethodInfo isPlatformSupportLoaded = moduleManager.GetMethod("IsPlatformSupportLoaded", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+        private static readonly System.Reflection.MethodInfo getTargetStringFromBuildTarget = moduleManager.GetMethod("GetTargetStringFromBuildTarget", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
 
         private static Texture2D logo_asset_bwf;
         private static Texture2D logo_asset_dj;
@@ -345,7 +347,7 @@ namespace Crosstales.Common.EditorUtil
             UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 
             bool success = false;
-            string scriptfile = string.Empty;
+            string scriptfile;
 
             using (System.Diagnostics.Process process = new System.Diagnostics.Process())
             {
@@ -354,37 +356,35 @@ namespace Crosstales.Common.EditorUtil
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.UseShellExecute = false;
 
-                    if (Application.platform == RuntimePlatform.WindowsEditor)
+                    switch (Application.platform)
                     {
-                        scriptfile = System.IO.Path.GetTempPath() + "RestartUnity-" + System.Guid.NewGuid() + ".cmd";
+                        case RuntimePlatform.WindowsEditor:
+                            scriptfile = System.IO.Path.GetTempPath() + "RestartUnity-" + System.Guid.NewGuid() + ".cmd";
 
-                        System.IO.File.WriteAllText(scriptfile, generateWindowsRestartScript(executeMethod));
+                            System.IO.File.WriteAllText(scriptfile, generateWindowsRestartScript(executeMethod));
 
-                        process.StartInfo.FileName = "cmd.exe";
-                        process.StartInfo.Arguments = "/c start  \"\" " + '"' + scriptfile + '"';
-                    }
-                    else if (Application.platform == RuntimePlatform.OSXEditor)
-                    {
-                        scriptfile = System.IO.Path.GetTempPath() + "RestartUnity-" + System.Guid.NewGuid() + ".sh";
+                            process.StartInfo.FileName = "cmd.exe";
+                            process.StartInfo.Arguments = "/c start  \"\" " + '"' + scriptfile + '"';
+                            break;
+                        case RuntimePlatform.OSXEditor:
+                            scriptfile = System.IO.Path.GetTempPath() + "RestartUnity-" + System.Guid.NewGuid() + ".sh";
 
-                        System.IO.File.WriteAllText(scriptfile, generateMacRestartScript(executeMethod));
+                            System.IO.File.WriteAllText(scriptfile, generateMacRestartScript(executeMethod));
 
-                        process.StartInfo.FileName = "/bin/sh";
-                        process.StartInfo.Arguments = '"' + scriptfile + "\" &";
-                    }
-                    else if (Application.platform == RuntimePlatform.LinuxEditor)
-                    {
-                        scriptfile = System.IO.Path.GetTempPath() + "RestartUnity-" + System.Guid.NewGuid() + ".sh";
+                            process.StartInfo.FileName = "/bin/sh";
+                            process.StartInfo.Arguments = '"' + scriptfile + "\" &";
+                            break;
+                        case RuntimePlatform.LinuxEditor:
+                            scriptfile = System.IO.Path.GetTempPath() + "RestartUnity-" + System.Guid.NewGuid() + ".sh";
 
-                        System.IO.File.WriteAllText(scriptfile, generateLinuxRestartScript(executeMethod));
+                            System.IO.File.WriteAllText(scriptfile, generateLinuxRestartScript(executeMethod));
 
-                        process.StartInfo.FileName = "/bin/sh";
-                        process.StartInfo.Arguments = '"' + scriptfile + "\" &";
-                    }
-                    else
-                    {
-                        Debug.LogError("Unsupported Unity Editor: " + Application.platform);
-                        return;
+                            process.StartInfo.FileName = "/bin/sh";
+                            process.StartInfo.Arguments = '"' + scriptfile + "\" &";
+                            break;
+                        default:
+                            Debug.LogError("Unsupported Unity Editor: " + Application.platform);
+                            return;
                     }
 
                     process.Start();
@@ -406,11 +406,11 @@ namespace Crosstales.Common.EditorUtil
         }
 
         /// <summary>Shows a separator-UI.</summary>
-        /// <param name="space">Space in pixels between the component and the seperator line (default: 12, optional).</param>
+        /// <param name="space">Space in pixels between the component and the separator line (default: 12, optional).</param>
         public static void SeparatorUI(int space = 12)
         {
             GUILayout.Space(space);
-            GUILayout.Box(string.Empty, new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
+            GUILayout.Box(string.Empty, GUILayout.ExpandWidth(true), GUILayout.Height(1));
         }
 
         /// <summary>Generates a read-only text field with a label.</summary>
@@ -425,11 +425,12 @@ namespace Crosstales.Common.EditorUtil
         }
 
         /// <summary>Refreshes the asset database.</summary>
-        public static void RefreshAssetDatabase()
+        /// <param name="options">Asset import options (default: ImportAssetOptions.Default, optional).</param>
+        public static void RefreshAssetDatabase(ImportAssetOptions options = ImportAssetOptions.Default)
         {
             if (isEditorMode)
             {
-                AssetDatabase.Refresh();
+                AssetDatabase.Refresh(options);
             }
         }
 
@@ -438,25 +439,22 @@ namespace Crosstales.Common.EditorUtil
             //Debug.Log("className: '" + className + "'");
             //Debug.Log("methodName: '" + methodName + "'");
 
-            foreach (System.Reflection.Assembly assembly in System.AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var type in System.AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()))
             {
-                foreach (System.Type type in assembly.GetTypes())
+                try
                 {
-                    try
+                    if (type.FullName != null && type.FullName.Equals(className))
                     {
-                        if ((type.FullName.Equals(className)))
+                        if (type.IsClass)
                         {
-                            if (type.IsClass)
-                            {
-                                type.GetMethod(methodName, (System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public)).Invoke(null, parameters);
-                            }
+                            type.GetMethod(methodName, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public).Invoke(null, parameters);
                         }
+                    }
 
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.LogWarning("Could not execute method call: " + ex);
-                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogWarning("Could not execute method call: " + ex);
                 }
             }
         }
@@ -466,8 +464,22 @@ namespace Crosstales.Common.EditorUtil
         /// <returns>True if the BuildTarget is installed in Unity.</returns>
         public static bool isValidBuildTarget(BuildTarget target)
         {
-            return (bool)isPlatformSupportLoaded.Invoke(null, new object[] { (string)getTargetStringFromBuildTarget.Invoke(null, new object[] { target }) });
+            return (bool)isPlatformSupportLoaded.Invoke(null, new object[] { (string)getTargetStringFromBuildTarget.Invoke(null, new object[] {target})});
         }
+
+        /*
+        public static IEnumerable<BuildTarget> GetAvailableBuildTargets()
+        {
+            foreach (BuildTarget target in (BuildTarget[])Enum.GetValues(typeof(BuildTarget)))
+            {
+                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
+                if (BuildPipeline.IsBuildTargetSupported(group, target))
+                {
+                    yield return target;
+                }
+            }
+        }
+        */
 
         /// <summary>Returns an argument for a name from the command line.</summary>
         /// <param name="name">Name for the argument</param>
@@ -494,84 +506,94 @@ namespace Crosstales.Common.EditorUtil
             {
                 return BuildTarget.StandaloneWindows;
             }
-            else if ("win64".CTEquals(build))
+
+            if ("win64".CTEquals(build))
             {
                 return BuildTarget.StandaloneWindows64;
             }
-            else if (!string.IsNullOrEmpty(build) && build.CTContains("osx"))
+
+            if (!string.IsNullOrEmpty(build) && build.CTContains("osx"))
             {
                 return BuildTarget.StandaloneOSX;
             }
 #if UNITY_2019_2_OR_NEWER
-            else if (!string.IsNullOrEmpty(build) && build.CTContains("linux"))
+            if (!string.IsNullOrEmpty(build) && build.CTContains("linux"))
             {
                 return BuildTarget.StandaloneLinux64;
             }
 #else
-            else if ("linux".CTEquals(build))
+            if ("linux".CTEquals(build))
             {
                 return BuildTarget.StandaloneLinux;
             }
-            else if ("linux64".CTEquals(build))
+
+            if ("linux64".CTEquals(build))
             {
                 return BuildTarget.StandaloneLinux64;
             }
-            else if ("linuxuniversal".CTEquals(build))
+
+            if ("linuxuniversal".CTEquals(build))
             {
                 return BuildTarget.StandaloneLinuxUniversal;
             }
 #endif
-            else if ("android".CTEquals(build))
+            if ("android".CTEquals(build))
             {
                 return BuildTarget.Android;
             }
-            else if ("ios".CTEquals(build))
+
+            if ("ios".CTEquals(build))
             {
                 return BuildTarget.iOS;
             }
-            else if ("wsaplayer".CTEquals(build) || "WindowsStoreApps".CTEquals(build))
+
+            if ("wsaplayer".CTEquals(build) || "WindowsStoreApps".CTEquals(build))
             {
                 return BuildTarget.WSAPlayer;
             }
-            else if ("webgl".CTEquals(build))
+
+            if ("webgl".CTEquals(build))
             {
                 return BuildTarget.WebGL;
             }
-            else if ("tvOS".CTEquals(build))
+
+            if ("tvOS".CTEquals(build))
             {
                 return BuildTarget.tvOS;
             }
-            else if ("ps4".CTEquals(build))
+
+            if ("ps4".CTEquals(build))
             {
                 return BuildTarget.PS4;
             }
 #if !UNITY_2018_2_OR_NEWER
-            else if ("psp2".CTEquals(build))
+            if ("psp2".CTEquals(build))
             {
                 return BuildTarget.PSP2;
             }
 #endif
-            else if ("xboxone".CTEquals(build))
+            if ("xboxone".CTEquals(build))
             {
                 return BuildTarget.XboxOne;
             }
 #if !UNITY_2018_1_OR_NEWER
-            else if ("wiiu".CTEquals(build))
+            if ("wiiu".CTEquals(build))
             {
                 return BuildTarget.WiiU;
             }
 #endif
 #if !UNITY_2018_2_OR_NEWER
-            else if ("N3DS".CTEquals(build))
+            if ("N3DS".CTEquals(build))
             {
                 return BuildTarget.N3DS;
             }
 #endif
-            else if ("switch".CTEquals(build))
+            if ("switch".CTEquals(build))
             {
                 return BuildTarget.Switch;
             }
 
+            Debug.LogWarning("Build target '" + build + "' not found! Returning Windows standalone.");
             return BuildTarget.StandaloneWindows64;
         }
 
@@ -580,95 +602,71 @@ namespace Crosstales.Common.EditorUtil
         /// <returns>The build name for a BuildTarget.</returns>
         public static string getBuildNameFromBuildTarget(BuildTarget build)
         {
-            if (build == BuildTarget.StandaloneWindows)
+            switch (build)
             {
-                return "Win";
-            }
-            else if (build == BuildTarget.StandaloneWindows64)
-            {
-                return "Win64";
-            }
-            else if (build == BuildTarget.StandaloneOSX)
-            {
-                return "OSXUniversal";
-            }
+                case BuildTarget.StandaloneWindows:
+                    return "Win";
+                case BuildTarget.StandaloneWindows64:
+                    return "Win64";
+                case BuildTarget.StandaloneOSX:
+                    return "OSXUniversal";
 #if UNITY_2019_2_OR_NEWER
-            else if (build == BuildTarget.StandaloneLinux64)
-            {
-                return "Linux64";
-            }
+                case BuildTarget.StandaloneLinux64:
+                    return "Linux64";
 #else
-            else if (build == BuildTarget.StandaloneLinux)
-            {
-                return "Linux";
-            }
-            else if (build == BuildTarget.StandaloneLinux64)
-            {
-                return "Linux64";
-            }
-            else if (build == BuildTarget.StandaloneLinuxUniversal)
-            {
-                return "LinuxUniversal";
-            }
+                case BuildTarget.StandaloneLinux:
+                    return "Linux";
+                case BuildTarget.StandaloneLinux64:
+                    return "Linux64";
+                case BuildTarget.StandaloneLinuxUniversal:
+                    return "LinuxUniversal";
 #endif
-            else if (build == BuildTarget.Android)
-            {
-                return "Android";
-            }
-            else if (build == BuildTarget.iOS)
-            {
-                return "iOS";
-            }
-            else if (build == BuildTarget.WSAPlayer)
-            {
-                return "WindowsStoreApps";
-            }
-            else if (build == BuildTarget.WebGL)
-            {
-                return "WebGL";
-            }
-            else if (build == BuildTarget.tvOS)
-            {
-                return "tvOS";
-            }
-            else if (build == BuildTarget.PS4)
-            {
-                return "PS4";
-            }
+                case BuildTarget.Android:
+                    return "Android";
+                case BuildTarget.iOS:
+                    return "iOS";
+                case BuildTarget.WSAPlayer:
+                    return "WindowsStoreApps";
+                case BuildTarget.WebGL:
+                    return "WebGL";
+                case BuildTarget.tvOS:
+                    return "tvOS";
+                case BuildTarget.PS4:
+                    return "PS4";
 #if !UNITY_2018_2_OR_NEWER
-            else if (build == BuildTarget.PSP2)
-            {
-                return "PSP2";
-            }
+                case BuildTarget.PSP2:
+                    return "PSP2";
 #endif
-            else if (build == BuildTarget.XboxOne)
-            {
-                return "XboxOne";
-            }
+                case BuildTarget.XboxOne:
+                    return "XboxOne";
 #if !UNITY_2018_1_OR_NEWER
-            else if (build == BuildTarget.WiiU)
-            {
-                return "WiiU";
-            }
+                case BuildTarget.WiiU:
+                    return "WiiU";
 #endif
 #if !UNITY_2018_2_OR_NEWER
-            else if (build == BuildTarget.N3DS)
-            {
-                return "N3DS";
-            }
+                case BuildTarget.N3DS:
+                    return "N3DS";
 #endif
-            else if (build == BuildTarget.Switch)
-            {
-                return "Switch";
+                case BuildTarget.Switch:
+                    return "Switch";
+                default:
+                    Debug.LogWarning("Build target '" + build + "' not found! Returning Windows standalone.");
+                    return "Win64";
             }
-
-            return "Win64";
         }
 
-        #endregion
+        /// <summary>Returns assets for a certain type.</summary>
+        /// <returns>List of assets for a certain type.</returns>
+        public static System.Collections.Generic.List<T> FindAssetsByType<T>() where T : Object
+        {
+            string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+            return guids.Select(t => AssetDatabase.GUIDToAssetPath(t)).Select(assetPath => AssetDatabase.LoadAssetAtPath<T>(assetPath)).Where(asset => asset != null).ToList();
+        }
+
+#endregion
 
 
-        #region Private methods
+#region Private methods
 
         private static string generateWindowsRestartScript(string executeMethod)
         {
@@ -686,7 +684,7 @@ namespace Crosstales.Common.EditorUtil
             // header
             sb.AppendLine("echo ##############################################################################");
             sb.AppendLine("echo #                                                                            #");
-            sb.AppendLine("echo #  Common 2019.2.2 - Windows                                                 #");
+            sb.AppendLine("echo #  Common 2019.5.0 - Windows                                                 #");
             sb.AppendLine("echo #  Copyright 2018-2019 by www.crosstales.com                                 #");
             sb.AppendLine("echo #                                                                            #");
             sb.AppendLine("echo #  This script restarts Unity.                                               #");
@@ -774,7 +772,7 @@ namespace Crosstales.Common.EditorUtil
             // header
             sb.AppendLine("echo \"+----------------------------------------------------------------------------+\"");
             sb.AppendLine("echo \"¦                                                                            ¦\"");
-            sb.AppendLine("echo \"¦  Common 2019.2.2 - macOS                                                   ¦\"");
+            sb.AppendLine("echo \"¦  Common 2019.5.0 - macOS                                                   ¦\"");
             sb.AppendLine("echo \"¦  Copyright 2018-2019 by www.crosstales.com                                 ¦\"");
             sb.AppendLine("echo \"¦                                                                            ¦\"");
             sb.AppendLine("echo \"¦  This script restarts Unity.                                               ¦\"");
@@ -859,7 +857,7 @@ namespace Crosstales.Common.EditorUtil
             // header
             sb.AppendLine("echo \"+----------------------------------------------------------------------------+\"");
             sb.AppendLine("echo \"¦                                                                            ¦\"");
-            sb.AppendLine("echo \"¦  Common 2019.2.2 - Linux                                                   ¦\"");
+            sb.AppendLine("echo \"¦  Common 2019.5.0 - Linux                                                   ¦\"");
             sb.AppendLine("echo \"¦  Copyright 2018-2019 by www.crosstales.com                                 ¦\"");
             sb.AppendLine("echo \"¦                                                                            ¦\"");
             sb.AppendLine("echo \"¦  This script restarts Unity.                                               ¦\"");
@@ -946,7 +944,7 @@ namespace Crosstales.Common.EditorUtil
             return logo;
         }
 
-        #endregion
+#endregion
 
 
         /*

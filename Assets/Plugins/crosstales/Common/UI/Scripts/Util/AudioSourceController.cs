@@ -9,8 +9,8 @@ namespace Crosstales.UI.Util
     {
         #region Variables
 
-        [Header("Audio Sources")]
         /// <summary>Searches for all AudioSource in the whole scene (default: true).</summary>
+        [Header("Audio Sources")]
         [Tooltip("Searches for all AudioSource in the whole scene (default: true).")]
         public bool FindAllAudioSourcesOnStart = true;
 
@@ -18,8 +18,9 @@ namespace Crosstales.UI.Util
         [Tooltip("Active controlled AudioSources.")]
         public AudioSource[] AudioSources;
 
-        [Header("Settings")]
+    
         /// <summary>Resets all active AudioSources (default: true).</summary>
+        [Header("Settings")]
         [Tooltip("Resets all active AudioSources (default: true).")]
         public bool ResetAudioSourcesOnStart = true;
 
@@ -91,22 +92,22 @@ namespace Crosstales.UI.Util
             LoopEnabled(Loop);
             VolumeChanged(Volume);
             PitchChanged(Pitch);
-            StereoPanChanged(0f);
+            StereoPanChanged(StereoPan);
         }
 
-        public void MuteEnabled(bool enabled)
+        public void MuteEnabled(bool isEnabled)
         {
             foreach (AudioSource source in AudioSources)
             {
-                source.mute = enabled;
+                source.mute = isEnabled;
             }
         }
 
-        public void LoopEnabled(bool enabled)
+        public void LoopEnabled(bool isEnabled)
         {
             foreach (AudioSource source in AudioSources)
             {
-                source.mute = enabled;
+                source.mute = isEnabled;
             }
         }
 

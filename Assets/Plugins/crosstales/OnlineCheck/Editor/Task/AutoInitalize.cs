@@ -2,13 +2,12 @@
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
-using Crosstales.OnlineCheck.EditorUtil;
 
 namespace Crosstales.OnlineCheck.EditorTask
 {
-    /// <summary>Automatically adds the neccessary TrueRandom-prefabs to the current scene.</summary>
+    /// <summary>Automatically adds the necessary TrueRandom-prefabs to the current scene.</summary>
     [InitializeOnLoad]
-    public class AutoInitalize
+    public class AutoInitialize
     {
 
         #region Variables
@@ -20,9 +19,9 @@ namespace Crosstales.OnlineCheck.EditorTask
 
         #region Constructor
 
-        static AutoInitalize()
+        static AutoInitialize()
         {
-#if UNITY_2018_1_OR_NEWER 
+#if UNITY_2018_1_OR_NEWER
             EditorApplication.hierarchyChanged += hierarchyWindowChanged;
 #else
             EditorApplication.hierarchyWindowChanged += hierarchyWindowChanged;
@@ -38,9 +37,10 @@ namespace Crosstales.OnlineCheck.EditorTask
         {
             if (currentScene != EditorSceneManager.GetActiveScene())
             {
-                if (EditorConfig.PREFAB_AUTOLOAD)
+                if (EditorUtil.EditorConfig.PREFAB_AUTOLOAD)
                 {
-                    EditorHelper.InstantiatePrefab(Util.Constants.ONLINECHECK_SCENE_OBJECT_NAME);
+                    if (!EditorUtil.EditorHelper.isOnlineCheckInScene)
+                        EditorUtil.EditorHelper.InstantiatePrefab(Util.Constants.ONLINECHECK_SCENE_OBJECT_NAME);
                 }
 
                 currentScene = EditorSceneManager.GetActiveScene();

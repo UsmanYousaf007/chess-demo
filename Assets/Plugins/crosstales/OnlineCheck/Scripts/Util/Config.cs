@@ -7,7 +7,7 @@
         #region Variables
 
         /// <summary>Enable or disable debug logging for the asset.</summary>
-        public static bool DEBUG = Constants.DEFAULT_DEBUG;
+        public static bool DEBUG = Constants.DEFAULT_DEBUG || Constants.DEV_DEBUG;
 
         /// <summary>Enable or disable the ensuring the name of the OnlineCheck gameobject.</summary>
         public static bool ENSURE_NAME = Constants.DEFAULT_ENSURE_NAME;
@@ -20,7 +20,7 @@
 #if UNITY_EDITOR
         #region Public static methods
 
-        /// <summary>Resets all changable variables to their default value.</summary>
+        /// <summary>Resets all changeable variables to their default value.</summary>
         public static void Reset()
         {
             if (!Constants.DEV_DEBUG)
@@ -29,7 +29,7 @@
             ENSURE_NAME = Constants.DEFAULT_ENSURE_NAME;
         }
 
-        /// <summary>Loads the all changable variables.</summary>
+        /// <summary>Loads the all changeable variables.</summary>
         public static void Load()
         {
             if (!Constants.DEV_DEBUG)
@@ -52,7 +52,7 @@
             isLoaded = true;
         }
 
-        /// <summary>Saves the all changable variables.</summary>
+        /// <summary>Saves the all changeable variables.</summary>
         public static void Save()
         {
             if (!Constants.DEV_DEBUG)

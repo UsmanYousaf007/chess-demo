@@ -60,7 +60,7 @@ namespace Crosstales.UI
 
         #region Private methods
 
-        private IEnumerator lerpAlphaDown(float startAlphaValue, float endAlphaValue, float time, float delay, CanvasGroup gameObjectToFade)
+        private IEnumerator lerpAlphaDown(float startAlphaValue, float endAlphaValue, float time, float delay, Component gameObjectToFade)
         {
             gameObjectToFade.gameObject.SetActive(true);
 
@@ -71,14 +71,14 @@ namespace Crosstales.UI
 
             while (Group.alpha >= endAlphaValue + 0.01f)
             {
-                Group.alpha -= ((1f - endAlphaValue) / time) * Time.deltaTime;
+                Group.alpha -= (1f - endAlphaValue) / time * Time.deltaTime;
                 yield return null;
             }
 
             gameObjectToFade.gameObject.SetActive(!Disable);
         }
 
-        private IEnumerator lerpAlphaUp(float startAlphaValue, float endAlphaValue, float time, float delay, CanvasGroup gameObjectToFade)
+        private IEnumerator lerpAlphaUp(float startAlphaValue, float endAlphaValue, float time, float delay, Component gameObjectToFade)
         {
             gameObjectToFade.gameObject.SetActive(true);
 
@@ -89,7 +89,7 @@ namespace Crosstales.UI
 
             while (Group.alpha <= endAlphaValue - 0.01f)
             {
-                Group.alpha += (endAlphaValue / time) * Time.deltaTime;
+                Group.alpha += endAlphaValue / time * Time.deltaTime;
                 yield return null;
             }
 

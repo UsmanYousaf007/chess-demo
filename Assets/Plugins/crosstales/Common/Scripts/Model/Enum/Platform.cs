@@ -11,7 +11,7 @@
         WSA,
         Web,
         Unsupported,
-        MaryTTS,
+        MaryTTS
     }
 }
 // © 2016-2019 crosstales LLC (https://www.crosstales.com)

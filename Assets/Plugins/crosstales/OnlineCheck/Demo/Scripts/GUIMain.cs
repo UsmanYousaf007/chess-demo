@@ -32,8 +32,8 @@ namespace Crosstales.OnlineCheck.Demo
         public Text Uptime;
         public Text Downtime;
 
-        private Color32 green = new Color32(129, 199, 132, 224);
-        private Color32 red = new Color32(150, 39, 39, 224);
+        private readonly Color32 green = new Color32(129, 199, 132, 224);
+        private readonly Color32 red = new Color32(150, 39, 39, 224);
 
         private float elapsedTime = 0f;
 
@@ -114,7 +114,7 @@ namespace Crosstales.OnlineCheck.Demo
 
                 if (Data != null)
                 {
-                    Data.text = Common.Util.BaseHelper.FormatBytesToHRF(OnlineCheck.DataDownloaded).ToString();
+                    Data.text = Common.Util.BaseHelper.FormatBytesToHRF(OnlineCheck.DataDownloaded);
                 }
 
                 if (Runtime != null)
@@ -189,14 +189,7 @@ namespace Crosstales.OnlineCheck.Demo
         {
             if (Status)
             {
-                if (available)
-                {
-                    Status.color = green;
-                }
-                else
-                {
-                    Status.color = red;
-                }
+                Status.color = available ? green : red;
             }
 
             //Debug.Log(networkReachability);
@@ -205,4 +198,4 @@ namespace Crosstales.OnlineCheck.Demo
         #endregion
     }
 }
-// © 2017-2019 crosstales LLC (https://www.crosstales.com)
+// Â© 2017-2019 crosstales LLC (https://www.crosstales.com)

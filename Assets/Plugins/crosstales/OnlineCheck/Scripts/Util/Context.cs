@@ -29,7 +29,7 @@
             }
         }
 
-        /// <summary>Calculates Internet inavailability.</summary>
+        /// <summary>Calculates Internet unavailability.</summary>
         /// <returns>Returns downtime in seconds.</returns>
         public static float Downtime // Runtime - Uptime
         {

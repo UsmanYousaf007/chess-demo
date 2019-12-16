@@ -7,14 +7,11 @@ namespace Crosstales.OnlineCheck.EditorTask
     [InitializeOnLoad]
     public class CompileDefines : Common.EditorTask.BaseCompileDefines
     {
-
-        private static readonly string[] symbols = new string[] {
-            "CT_OC",
-        };
+        private const string symbol = "CT_OC";
 
         static CompileDefines()
         {
-            setCompileDefines(symbols); //TODO replace with addSymbolsToAllTargets
+            addSymbolsToAllTargets(symbol);
         }
     }
 }

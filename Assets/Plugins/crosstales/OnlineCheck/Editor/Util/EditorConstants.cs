@@ -27,11 +27,11 @@ namespace Crosstales.OnlineCheck.EditorUtil
         // Default values
         public const string DEFAULT_ASSET_PATH = "/Plugins/crosstales/OnlineCheck/";
         public const bool DEFAULT_UPDATE_CHECK = false;
-        public const bool DEFAULT_UPDATE_OPEN_UAS = false;
+        //public const bool DEFAULT_UPDATE_OPEN_UAS = false;
         //public const bool DEFAULT_REMINDER_CHECK = true;
         public const bool DEFAULT_TRACER = true;
         public const bool DEFAULT_PREFAB_AUTOLOAD = false;
-        public const bool DEFAULT_HIERARCHY_ICON = true;
+        public const bool DEFAULT_HIERARCHY_ICON = false;
 
         #endregion
 

@@ -6,7 +6,6 @@ using Crosstales.OnlineCheck.EditorUtil;
 namespace Crosstales.OnlineCheck.EditorIntegration
 {
     /// <summary>Editor window extension.</summary>
-    [InitializeOnLoad]
     public class ConfigWindow : ConfigBase
     {
 
@@ -26,13 +25,13 @@ namespace Crosstales.OnlineCheck.EditorIntegration
         [MenuItem("Tools/" + Util.Constants.ASSET_NAME + "/Configuration...", false, EditorHelper.MENU_ID + 1)]
         public static void ShowWindow()
         {
-            EditorWindow.GetWindow(typeof(ConfigWindow));
+            GetWindow(typeof(ConfigWindow));
         }
 
         public static void ShowWindow(int tab)
         {
-            ConfigWindow window = EditorWindow.GetWindow(typeof(ConfigWindow)) as ConfigWindow;
-            window.tab = tab;
+            ConfigWindow window = GetWindow(typeof(ConfigWindow)) as ConfigWindow;
+            if (window != null) window.tab = tab;
         }
 
         public void OnEnable()
@@ -42,7 +41,7 @@ namespace Crosstales.OnlineCheck.EditorIntegration
 
         public void OnGUI()
         {
-            tab = GUILayout.Toolbar(tab, new string[] { "Config", "Prefabs", "TD", "Help", "About" });
+            tab = GUILayout.Toolbar(tab, new[] {"Config", "Prefabs", "TD", "Help", "About"});
 
             if (tab != lastTab)
             {
@@ -50,48 +49,48 @@ namespace Crosstales.OnlineCheck.EditorIntegration
                 GUI.FocusControl(null);
             }
 
-            if (tab == 0)
+            switch (tab)
             {
-                showConfiguration();
-
-                EditorHelper.SeparatorUI();
-
-                GUILayout.BeginHorizontal();
+                case 0:
                 {
-                    if (GUILayout.Button(new GUIContent(" Save", EditorHelper.Icon_Save, "Saves the configuration settings for this project")))
-                    {
-                        save();
-                    }
+                    showConfiguration();
 
-                    if (GUILayout.Button(new GUIContent(" Reset", EditorHelper.Icon_Reset, "Resets the configuration settings for this project.")))
+                    EditorHelper.SeparatorUI();
+
+                    GUILayout.BeginHorizontal();
                     {
-                        if (EditorUtility.DisplayDialog("Reset configuration?", "Reset the configuration of " + Util.Constants.ASSET_NAME + "?", "Yes", "No"))
+                        if (GUILayout.Button(new GUIContent(" Save", EditorHelper.Icon_Save, "Saves the configuration settings for this project")))
                         {
-                            Util.Config.Reset();
-                            EditorConfig.Reset();
                             save();
                         }
-                    }
-                }
-                GUILayout.EndHorizontal();
 
-                GUILayout.Space(6);
-            }
-            else if (tab == 1)
-            {
-                showPrefabs();
-            }
-            else if (tab == 2)
-            {
-                showTestDrive();
-            }
-            else if (tab == 3)
-            {
-                showHelp();
-            }
-            else
-            {
-                showAbout();
+                        if (GUILayout.Button(new GUIContent(" Reset", EditorHelper.Icon_Reset, "Resets the configuration settings for this project.")))
+                        {
+                            if (EditorUtility.DisplayDialog("Reset configuration?", "Reset the configuration of " + Util.Constants.ASSET_NAME + "?", "Yes", "No"))
+                            {
+                                Util.Config.Reset();
+                                EditorConfig.Reset();
+                                save();
+                            }
+                        }
+                    }
+                    GUILayout.EndHorizontal();
+
+                    GUILayout.Space(6);
+                    break;
+                }
+                case 1:
+                    showPrefabs();
+                    break;
+                case 2:
+                    showTestDrive();
+                    break;
+                case 3:
+                    showHelp();
+                    break;
+                default:
+                    showAbout();
+                    break;
             }
         }
 
@@ -174,15 +173,15 @@ namespace Crosstales.OnlineCheck.EditorIntegration
                         EditorHelper.SeparatorUI();
 
                         GUILayout.Label("Checks", EditorStyles.boldLabel);
-                        GUILayout.Label("Last checked:\t" + OnlineCheck.LastCheck.ToString());
-                        GUILayout.Label("Total:\t\t" + Util.Context.NumberOfChecks.ToString());
+                        GUILayout.Label("Last checked:\t" + OnlineCheck.LastCheck);
+                        GUILayout.Label("Total:\t\t" + Util.Context.NumberOfChecks);
 
 
                     }
                     if (!Util.Helper.isEditorMode)
                     {
                         GUILayout.Label("Per Minute:\t" + Util.Context.ChecksPerMinute.ToString("#0.0"));
-                        GUILayout.Label("Data downloaded:\t" + Util.Helper.FormatBytesToHRF(OnlineCheck.DataDownloaded).ToString());
+                        GUILayout.Label("Data downloaded:\t" + Util.Helper.FormatBytesToHRF(OnlineCheck.DataDownloaded));
 
                         EditorHelper.SeparatorUI();
 

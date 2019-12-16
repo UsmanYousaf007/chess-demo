@@ -10,12 +10,12 @@ namespace Crosstales.OnlineCheck.Demo
 
         #region Variables
 
-        [Tooltip("Name of the previous scene.")]
         /// <summary>Name of the previous scene.</summary>
+        [Tooltip("Name of the previous scene.")]
         public string PreviousScene;
 
-        [Tooltip("Name of the next scene.")]
         /// <summary>Name of the next scene.</summary>
+        [Tooltip("Name of the next scene.")]
         public string NextScene;
 
 

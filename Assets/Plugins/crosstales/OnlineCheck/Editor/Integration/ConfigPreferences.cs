@@ -25,10 +25,10 @@ namespace Crosstales.OnlineCheck.EditorIntegration
         {
             if (cp == null)
             {
-                cp = ScriptableObject.CreateInstance(typeof(ConfigPreferences)) as ConfigPreferences;
+                cp = CreateInstance(typeof(ConfigPreferences)) as ConfigPreferences;
             }
 
-            tab = GUILayout.Toolbar(tab, new string[] { "Configuration", "Help", "About" });
+            tab = GUILayout.Toolbar(tab, new[] {"Configuration", "Help", "About"});
 
             if (tab != lastTab)
             {
@@ -36,31 +36,33 @@ namespace Crosstales.OnlineCheck.EditorIntegration
                 GUI.FocusControl(null);
             }
 
-            if (tab == 0)
+            switch (tab)
             {
-                cp.showConfiguration();
-
-                EditorHelper.SeparatorUI();
-
-                if (GUILayout.Button(new GUIContent(" Reset", EditorHelper.Icon_Reset, "Resets the configuration settings for this project.")))
+                case 0:
                 {
-                    if (EditorUtility.DisplayDialog("Reset configuration?", "Reset the configuration of " + Util.Constants.ASSET_NAME + "?", "Yes", "No"))
-                    {
-                        Util.Config.Reset();
-                        EditorConfig.Reset();
-                        save();
-                    }
-                }
+                    cp.showConfiguration();
 
-                GUILayout.Space(6);
-            }
-            else if (tab == 1)
-            {
-                cp.showHelp();
-            }
-            else
-            {
-                cp.showAbout();
+                    EditorHelper.SeparatorUI();
+
+                    if (GUILayout.Button(new GUIContent(" Reset", EditorHelper.Icon_Reset, "Resets the configuration settings for this project.")))
+                    {
+                        if (EditorUtility.DisplayDialog("Reset configuration?", "Reset the configuration of " + Util.Constants.ASSET_NAME + "?", "Yes", "No"))
+                        {
+                            Util.Config.Reset();
+                            EditorConfig.Reset();
+                            save();
+                        }
+                    }
+
+                    GUILayout.Space(6);
+                    break;
+                }
+                case 1:
+                    cp.showHelp();
+                    break;
+                default:
+                    cp.showAbout();
+                    break;
             }
 
             if (GUI.changed)

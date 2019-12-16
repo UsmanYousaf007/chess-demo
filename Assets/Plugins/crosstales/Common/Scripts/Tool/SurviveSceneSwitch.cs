@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Crosstales.Common.Util
 {
@@ -54,10 +55,9 @@ namespace Crosstales.Common.Util
                         loggedOnlyOneInstance = true;
                     }
 
-                    foreach (GameObject _go in Survivors)
+                    foreach (var _go in Survivors.Where(_go => _go != null))
                     {
-                        if (_go != null)
-                            Destroy(_go);
+                        Destroy(_go);
                     }
 
                     Destroy(gameObject, 0.2f);
@@ -80,10 +80,9 @@ namespace Crosstales.Common.Util
             {
                 ensureParentTimer = 0f;
 
-                foreach (GameObject _go in Survivors)
+                foreach (var _go in Survivors.Where(_go => _go != null))
                 {
-                    if (_go != null)
-                        _go.transform.SetParent(tf);
+                    _go.transform.SetParent(tf);
                 }
             }
         }

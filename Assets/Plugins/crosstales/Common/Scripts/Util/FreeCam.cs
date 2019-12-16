@@ -50,60 +50,62 @@ namespace Crosstales.Common.Util
         public void Update()
         {
             bool fastMode = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-            float movementSpeed = fastMode ? this.FastMovementSpeed : this.MovementSpeed;
+            float movementSpeed = fastMode ? FastMovementSpeed : MovementSpeed;
 
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
-                tf.position = tf.position + (-tf.right * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * -tf.right;
             }
 
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
-                tf.position = tf.position + (tf.right * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * tf.right;
             }
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                tf.position = tf.position + (tf.forward * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * tf.forward;
             }
 
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
-                tf.position = tf.position + (-tf.forward * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * -tf.forward;
             }
 
             if (Input.GetKey(KeyCode.Q))
             {
-                tf.position = tf.position + (tf.up * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * tf.up;
             }
 
             if (Input.GetKey(KeyCode.E))
             {
-                tf.position = tf.position + (-tf.up * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * -tf.up;
             }
 
             if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
             {
-                tf.position = tf.position + (Vector3.up * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * Vector3.up;
             }
 
             if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
             {
-                tf.position = tf.position + (-Vector3.up * movementSpeed * Time.deltaTime);
+                tf.position += Time.deltaTime * movementSpeed * -Vector3.up;
             }
 
             if (looking)
             {
-                float newRotationX = tf.localEulerAngles.y + Input.GetAxis("Mouse X") * FreeLookSensitivity;
-                float newRotationY = tf.localEulerAngles.x - Input.GetAxis("Mouse Y") * FreeLookSensitivity;
-                tf.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
+                var localEulerAngles = tf.localEulerAngles;
+                float newRotationX = localEulerAngles.y + Input.GetAxis("Mouse X") * FreeLookSensitivity;
+                float newRotationY = localEulerAngles.x - Input.GetAxis("Mouse Y") * FreeLookSensitivity;
+                localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
+                tf.localEulerAngles = localEulerAngles;
             }
 
             float axis = Input.GetAxis("Mouse ScrollWheel");
-            if (axis != 0)
+            if (Mathf.Abs(axis) > BaseConstants.FLOAT_TOLERANCE)
             {
-                var zoomSensitivity = fastMode ? this.FastZoomSensitivity : this.ZoomSensitivity;
-                tf.position = tf.position + tf.forward * axis * zoomSensitivity;
+                var zoomSensitivity = fastMode ? FastZoomSensitivity : ZoomSensitivity;
+                tf.position += zoomSensitivity * axis * tf.forward;
             }
 
             if (Input.GetKeyDown(KeyCode.Mouse1))

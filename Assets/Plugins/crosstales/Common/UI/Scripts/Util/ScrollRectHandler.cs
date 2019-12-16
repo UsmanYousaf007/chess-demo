@@ -11,8 +11,8 @@ namespace Crosstales.UI.Util
         #region Variables
 
         public ScrollRect Scroll;
-        private float WindowsSensitivity = 35f;
-        private float MacSensitivity = 25f;
+        public float WindowsSensitivity = 35f;
+        public float MacSensitivity = 25f;
 
         #endregion
 

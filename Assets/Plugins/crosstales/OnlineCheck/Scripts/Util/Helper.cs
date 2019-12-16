@@ -5,6 +5,7 @@ namespace Crosstales.OnlineCheck.Util
     /// <summary>Various helper functions.</summary>
     public abstract class Helper : Common.Util.BaseHelper
     {
+        /// <summary>Creates a custom check asset.</summary>
         public static void CreateCustomCheck()
         {
 #if UNITY_EDITOR

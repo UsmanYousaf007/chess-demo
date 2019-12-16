@@ -4,29 +4,29 @@ using UnityEngine.Networking;
 
 namespace Crosstales.OnlineCheck
 {
+    /// <summary>Checks the Internet availabilty.</summary>
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
     [HelpURL("https://crosstales.com/media/data/assets/OnlineCheck/api/class_crosstales_1_1_online_check_1_1_online_check.html")]
-    /// <summary>Checks the Internet availabilty.</summary>
     public class OnlineCheck : MonoBehaviour
     {
 
         #region Variables
 
-        [Header("General Settings")]
         /// <summary>Continuously check for Internet availability within given intervals (default: true).</summary>
+        [Header("General Settings")]
         [Tooltip("Continuously check for Internet availability within given intervals (default: true).")]
         public bool EndlessMode = true;
 
-        /// <summary>Minimum delay between checks in seconds (default: 3, range: 3 - 120).</summary>
-        [Tooltip("Minimum delay between checks in seconds (default: 3, range: 3 - 120).")]
+        /// <summary>Minimum delay between checks in seconds (default: 8, range: 3 - 120).</summary>
+        [Tooltip("Minimum delay between checks in seconds (default: 8, range: 3 - 120).")]
         [Range(3, 119)]
-        public int IntervalMin = 4;
+        public int IntervalMin = 8;
 
-        /// <summary>Maximum delay between checks in seconds (default: 10, range: 4 - 120).</summary>
-        [Tooltip("Maximum delay between checks in seconds (default: 10, range: 4 - 120).")]
+        /// <summary>Maximum delay between checks in seconds (default: 12, range: 4 - 120).</summary>
+        [Tooltip("Maximum delay between checks in seconds (default: 12, range: 4 - 120).")]
         [Range(4, 120)]
-        public int IntervalMax = 10;
+        public int IntervalMax = 12;
 
         /// <summary>Timeout for every check in seconds (default: 2, range: 1 - 20).</summary>
         [Tooltip("Timeout for every check in seconds (default: 2, range: 1 - 20).")]
@@ -41,8 +41,9 @@ namespace Crosstales.OnlineCheck
         [ContextMenuItem("Create CustomCheck", "createCustomCheck")]
         public Data.CustomCheck CustomCheck;
 
-        [Header("Behaviour Settings")]
+
         /// <summary>Start at runtime (default: true).</summary>
+        [Header("Behaviour Settings")]
         [Tooltip("Start at runtime (default: true).")]
         public bool RunOnStart = true;
 
@@ -80,7 +81,7 @@ namespace Crosstales.OnlineCheck
 
         private const string microsoftUrl = "http://www.msftncsi.com/ncsi.txt";
         private const string appleUrl = "https://www.apple.com/library/test/success.html";
-        private const string ubuntutUrl = "https://start.ubuntu.com/connectivity-check";
+        private const string ubuntuUrl = "https://start.ubuntu.com/connectivity-check";
         private const string fallbackUrl = "https://crosstales.com/media/downloads/up.txt";
 
         private const string microsoftText = "Microsoft NCSI";
@@ -153,12 +154,7 @@ namespace Crosstales.OnlineCheck
         {
             get
             {
-                if (instance != null)
-                {
-                    return instance.EndlessMode;
-                }
-
-                return true;
+                return instance == null || instance.EndlessMode;
             }
 
             set
@@ -259,12 +255,7 @@ namespace Crosstales.OnlineCheck
         {
             get
             {
-                if (instance != null)
-                {
-                    return instance.ForceWWW;
-                }
-
-                return false;
+                return instance != null && instance.ForceWWW;
             }
 
             set
@@ -281,12 +272,7 @@ namespace Crosstales.OnlineCheck
         {
             get
             {
-                if (instance != null)
-                {
-                    return instance.CustomCheck;
-                }
-
-                return null;
+                return instance != null ? instance.CustomCheck : null;
             }
 
             set
@@ -308,10 +294,8 @@ namespace Crosstales.OnlineCheck
                 {
                     return Application.internetReachability != NetworkReachability.NotReachable;
                 }
-                else
-                {
-                    return internetAvailable;
-                }
+
+                return internetAvailable;
             }
         }
 
@@ -319,17 +303,7 @@ namespace Crosstales.OnlineCheck
         /// <returns>The Internet reachability.</returns>
         public static NetworkReachability NetworkReachability
         {
-            get
-            {
-                if (instance == null)
-                {
-                    return Application.internetReachability;
-                }
-                else
-                {
-                    return networkReachability;
-                }
-            }
+            get { return instance == null ? Application.internetReachability : networkReachability; }
         }
 
         /// <summary>Returns the time of the last availability check.</summary>
@@ -565,12 +539,12 @@ namespace Crosstales.OnlineCheck
         {
             StartCoroutine(internetCheck());
         }
-
+/*
         private void createCustomCheck()
         {
             Util.Helper.CreateCustomCheck();
         }
-
+*/
         private IEnumerator wwwCheck(string url, string data, bool equals, string type, bool showError = false)
         {
             available = false;
@@ -664,7 +638,7 @@ namespace Crosstales.OnlineCheck
         private IEnumerator googleBlankCheck(bool showError = false)
         {
             available = false;
-            string url = "https://www.google.com/blank.html";
+            const string url = "https://www.google.com/blank.html";
 
             using (UnityWebRequest www = UnityWebRequest.Get(URLAntiCacheRandomizer(url)))
             {
@@ -761,13 +735,13 @@ namespace Crosstales.OnlineCheck
                     Debug.LogWarning("[" + System.DateTime.Now + "] Compile define 'OC_UNAVAILABLE' enabled. Result of the check is always 'UNAVAILABLE'.");
 
                     available = false;
-                    
+
                     yield return null;
 #elif OC_AVAILABLE
                     Debug.LogWarning("[" + System.DateTime.Now + "] Compile define 'OC_AVAILABLE' enabled. Result of the check is always 'AVAILABLE'.");
 
                     available = true;
-                    
+
                     yield return null;
 #else
                 if (Util.Helper.isEditorMode)
@@ -804,7 +778,6 @@ namespace Crosstales.OnlineCheck
 #if !UNITY_WSA || UNITY_EDITOR
                     System.Net.ServicePointManager.ServerCertificateValidationCallback = Util.Helper.RemoteCertificateValidationCallback;
 #endif
-
                     // Custom check
                     if (CustomCheck != null && !string.IsNullOrEmpty(CustomCheck.URL))
                     {
@@ -831,7 +804,7 @@ namespace Crosstales.OnlineCheck
                         }
                     }
 
-                    if (CustomCheck == null || (CustomCheck != null && !CustomCheck.UseOnlyCustom))
+                    if (CustomCheck == null || CustomCheck != null && !CustomCheck.UseOnlyCustom)
                     {
                         // Microsoft check
                         if (!available && !Util.Helper.isAppleBasedPlatform)
@@ -847,10 +820,10 @@ namespace Crosstales.OnlineCheck
                             {
                                 yield return startWorker(microsoftUrl, microsoftText, microsoftEquals, windowsDesc);
                             }
-                        }
 
-                        if (Util.Constants.DEV_DEBUG)
-                            Debug.Log("Microsoft check: " + available);
+                            if (Util.Constants.DEV_DEBUG)
+                                Debug.Log("Microsoft check: " + available);
+                        }
 
                         // Apple check
                         if (!available && Util.Helper.isAppleBasedPlatform)
@@ -858,11 +831,11 @@ namespace Crosstales.OnlineCheck
                             if (Util.Constants.DEV_DEBUG)
                                 Debug.LogWarning("[" + System.DateTime.Now + testingDesc + appleDesc);
 
-                            startWorker(appleUrl, appleText, appleEquals, appleDesc);
-                        }
+                            yield return startWorker(appleUrl, appleText, appleEquals, appleDesc);
 
-                        if (Util.Constants.DEV_DEBUG)
-                            Debug.Log("Apple check: " + available);
+                            if (Util.Constants.DEV_DEBUG)
+                                Debug.Log("Apple check: " + available);
+                        }
 
                         /*
                         // Google204 check
@@ -873,10 +846,10 @@ namespace Crosstales.OnlineCheck
                                 Debug.LogWarning("[" + System.DateTime.Now + testingDesc + "Google204");
 
                             yield return google204Check();
-                        }
 
-                        if (Util.Constants.DEV_DEBUG)
-                            Debug.Log("Google204 check: " + available);
+                            if (Util.Constants.DEV_DEBUG)
+                                Debug.Log("Google204 check: " + available);
+                        }
                         */
 
                         // Ubuntu check
@@ -887,16 +860,16 @@ namespace Crosstales.OnlineCheck
 
                             if (Util.Helper.isWSAPlatform || ForceWWW)
                             {
-                                yield return wwwCheck(ubuntutUrl, ubuntuText, ubuntuEquals, ubuntuDesc);
+                                yield return wwwCheck(ubuntuUrl, ubuntuText, ubuntuEquals, ubuntuDesc);
                             }
                             else
                             {
-                                yield return startWorker(ubuntutUrl, ubuntuText, ubuntuEquals, ubuntuDesc);
+                                yield return startWorker(ubuntuUrl, ubuntuText, ubuntuEquals, ubuntuDesc);
                             }
-                        }
 
-                        if (Util.Constants.DEV_DEBUG)
-                            Debug.Log("Ubuntu check: " + available);
+                            if (Util.Constants.DEV_DEBUG)
+                                Debug.Log("Ubuntu check: " + available);
+                        }
 
                         // GoogleBlank check
                         if (!available)
@@ -905,10 +878,10 @@ namespace Crosstales.OnlineCheck
                                 Debug.LogWarning("[" + System.DateTime.Now + testingDesc + "GoogleBlank");
 
                             yield return googleBlankCheck();
-                        }
 
-                        if (Util.Constants.DEV_DEBUG)
-                            Debug.Log("GoogleBlank check: " + available);
+                            if (Util.Constants.DEV_DEBUG)
+                                Debug.Log("GoogleBlank check: " + available);
+                        }
 
                         // Fallback check
                         if (!available)
@@ -924,10 +897,10 @@ namespace Crosstales.OnlineCheck
                             {
                                 yield return startWorker(fallbackUrl, fallbackText, fallbackEquals, fallbackDesc);
                             }
-                        }
 
-                        if (Util.Constants.DEV_DEBUG)
-                            Debug.Log("Fallback check: " + available);
+                            if (Util.Constants.DEV_DEBUG)
+                                Debug.Log("Fallback check: " + available);
+                        }
                     }
                 }
 #endif
@@ -980,7 +953,7 @@ namespace Crosstales.OnlineCheck
 
         private static string URLAntiCacheRandomizer(string url)
         {
-            return url + "?p=" + Random.Range(1, 99999999).ToString();
+            return url + "?p=" + Random.Range(1, 99999999);
         }
 
         #endregion
@@ -988,7 +961,7 @@ namespace Crosstales.OnlineCheck
 
         #region Event-trigger methods
 
-        private void onInternetStatusChange(bool isConnected)
+        private static void onInternetStatusChange(bool isConnected)
         {
             if (Util.Config.DEBUG)
                 Debug.Log("onInternetStatusChange: " + isConnected);
@@ -999,7 +972,7 @@ namespace Crosstales.OnlineCheck
             }
         }
 
-        private void onNetworkReachabilityChange(NetworkReachability networkReachability)
+        private static void onNetworkReachabilityChange(NetworkReachability networkReachability)
         {
             if (Util.Config.DEBUG)
                 Debug.Log("onNetworkReachabilityChange: " + networkReachability);
@@ -1010,7 +983,7 @@ namespace Crosstales.OnlineCheck
             }
         }
 
-        private void onInternetCheckComplete(bool isConnected, NetworkReachability networkReachability)
+        private static void onInternetCheckComplete(bool isConnected, NetworkReachability networkReachability)
         {
             LastCheck = System.DateTime.Now;
 

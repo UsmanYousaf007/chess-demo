@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Crosstales.Common.Util
 {
@@ -9,9 +10,8 @@ namespace Crosstales.Common.Util
 
         #region Variables
 
-        [Header("Configuration")]
-
         ///<summary>Selected platforms for the controller.</summary>
+        [Header("Configuration")]
         [Tooltip("Selected platforms for the controller.")]
         public System.Collections.Generic.List<Model.Enum.Platform> Platforms;
 
@@ -20,8 +20,8 @@ namespace Crosstales.Common.Util
         public bool Active = true;
 
 
-        [Header("Objects")]
         ///<summary>Selected objects for the controller.</summary>
+        [Header("Objects")]
         [Tooltip("Selected objects for the controller.")]
         public GameObject[] Objects;
 
@@ -53,12 +53,9 @@ namespace Crosstales.Common.Util
         {
             bool active = Platforms.Contains(currentPlatform) ? Active : !Active;
 
-            foreach (GameObject go in Objects)
+            foreach (var go in Objects.Where(go => go != null))
             {
-                if (go != null)
-                {
-                    go.SetActive(active);
-                }
+                go.SetActive(active);
             }
         }
 

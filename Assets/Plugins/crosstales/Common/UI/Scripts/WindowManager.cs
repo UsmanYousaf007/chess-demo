@@ -59,7 +59,7 @@ namespace Crosstales.UI
 
         public void Update()
         {
-            centerPos = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            centerPos = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
 
             if (open && openProgress < 1f)
             {

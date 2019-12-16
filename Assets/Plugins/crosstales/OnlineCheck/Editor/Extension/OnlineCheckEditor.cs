@@ -69,13 +69,13 @@ namespace Crosstales.OnlineCheck.EditorExtension
                 EditorHelper.SeparatorUI();
 
                 GUILayout.Label("Checks", EditorStyles.boldLabel);
-                GUILayout.Label("Last checked:\t" + OnlineCheck.LastCheck.ToString());
-                GUILayout.Label("Total:\t\t" + Util.Context.NumberOfChecks.ToString());
+                GUILayout.Label("Last checked:\t" + OnlineCheck.LastCheck);
+                GUILayout.Label("Total:\t\t" + Util.Context.NumberOfChecks);
 
                 if (!Util.Helper.isEditorMode)
                 {
                     GUILayout.Label("Per Minute:\t" + Util.Context.ChecksPerMinute.ToString("#0.0"));
-                    GUILayout.Label("Data Downloaded:\t" + Util.Helper.FormatBytesToHRF(OnlineCheck.DataDownloaded).ToString());
+                    GUILayout.Label("Data Downloaded:\t" + Util.Helper.FormatBytesToHRF(OnlineCheck.DataDownloaded));
                     EditorHelper.SeparatorUI();
 
                     GUILayout.Label("Timers", EditorStyles.boldLabel);

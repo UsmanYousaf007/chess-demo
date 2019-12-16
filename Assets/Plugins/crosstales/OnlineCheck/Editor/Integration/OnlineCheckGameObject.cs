@@ -1,12 +1,11 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
 using Crosstales.OnlineCheck.EditorUtil;
 
 namespace Crosstales.OnlineCheck.EditorIntegration
 {
     /// <summary>Editor component for the "Hierarchy"-menu.</summary>
-    public class OnlineCheckGameObject : MonoBehaviour
+    public static class OnlineCheckGameObject
     {
         [MenuItem("GameObject/" + Util.Constants.ASSET_NAME + "/" + Util.Constants.ONLINECHECK_SCENE_OBJECT_NAME, false, EditorHelper.GO_ID)]
         private static void AddOnlineCheck()

@@ -41,11 +41,11 @@ namespace Crosstales.UI.Util
                     msec = deltaTime * 1000f;
                     fps = 1f / deltaTime;
 
-                    if (fps < 15)
+                    if (fps < 15f)
                     {
                         FPS.text = string.Format(red, fps, msec);
                     }
-                    else if (fps < 29)
+                    else if (fps < 29f)
                     {
                         FPS.text = string.Format(orange, fps, msec);
                     }

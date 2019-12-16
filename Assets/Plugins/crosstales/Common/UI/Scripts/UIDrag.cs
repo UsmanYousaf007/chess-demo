@@ -2,7 +2,7 @@
 
 namespace Crosstales.UI
 {
-    /// <summary>Allow to Drag the Windows arround.</summary>
+    /// <summary>Allow to Drag the Windows around.</summary>
     public class UIDrag : MonoBehaviour
     {
         #region Variables
@@ -30,8 +30,9 @@ namespace Crosstales.UI
         ///<summary>Drag started.</summary>
         public void BeginDrag()
         {
-            offsetX = tf.position.x - Input.mousePosition.x;
-            offsetY = tf.position.y - Input.mousePosition.y;
+            var position = tf.position;
+            offsetX = position.x - Input.mousePosition.x;
+            offsetY = position.y - Input.mousePosition.y;
         }
 
         ///<summary>While dragging.</summary>

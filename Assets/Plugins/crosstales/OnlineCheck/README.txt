@@ -1,4 +1,4 @@
-﻿# Online Check PRO 2019.2.2
+﻿# Online Check PRO 2019.3.2
 
 Thank you for buying our asset  "Online Check PRO"! 
 If you have questions about this asset, send us an email at [onlinecheck@crosstales.com](mailto:onlinecheck@crosstales.com). 
@@ -56,7 +56,7 @@ CH-8002 Zürich
 
 ## More information
 * [AssetStore](https://assetstore.unity.com/lists/crosstales-42213?aid=1011lNGT)
-* [Forum](https://goo.gl/9XH5Ke)
+* [Forum](https://forum.unity.com/threads/online-check-pro-verify-internet-reachability.472558/)
 * [Documentation](https://www.crosstales.com/media/data/assets/OnlineCheck/OnlineCheck-doc.pdf)
 * [API](https://crosstales.com/media/data/assets/OnlineCheck/api)
 
@@ -77,4 +77,4 @@ CH-8002 Zürich
 * [PlayMaker](https://assetstore.unity.com/packages/slug/368?aid=1011lNGT)
 
 
-`Version: 25.09.2019`
+`Version: 06.12.2019`

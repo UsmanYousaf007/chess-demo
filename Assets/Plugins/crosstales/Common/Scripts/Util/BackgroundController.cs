@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Crosstales.Common.Util
 {
     /// <summary>Enables or disable game objects on Android or iOS in the background.</summary>
-    //[HelpURL("https://www.crosstales.com/media/data/assets/rtvoice/api/class_crosstales_1_1_common_1_1_util_1_1_background_controller.html")] 
+    //[HelpURL("https://www.crosstales.com/media/data/assets/rtvoice/api/class_crosstales_1_1_common_1_1_util_1_1_background_controller.html")]
     public class BackgroundController : MonoBehaviour
     {
 
@@ -20,7 +21,7 @@ namespace Crosstales.Common.Util
 
         #region MonoBehaviour methods
 
-#if UNITY_ANDROID || UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS //|| CT_DEVELOP
         public void Start()
         {
             isFocused = Application.isFocused;
@@ -34,12 +35,9 @@ namespace Crosstales.Common.Util
 
                 if ((BaseHelper.isAndroidPlatform || BaseHelper.isIOSPlatform) && !TouchScreenKeyboard.visible)
                 {
-                    foreach (GameObject go in Objects)
+                    foreach (var go in Objects.Where(go => go != null))
                     {
-                        if (go != null)
-                        {
-                            go.SetActive(isFocused);
-                        }
+                        go.SetActive(isFocused);
                     }
 
                     if (BaseConstants.DEV_DEBUG)

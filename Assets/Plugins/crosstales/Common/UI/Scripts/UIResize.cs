@@ -31,7 +31,8 @@ namespace Crosstales.UI
         public void Awake()
         {
             panelRectTransform = transform.parent.GetComponent<RectTransform>();
-            originalSize = new Vector2(panelRectTransform.rect.width, panelRectTransform.rect.height);
+            var rect = panelRectTransform.rect;
+            originalSize = new Vector2(rect.width, rect.height);
         }
 
         public void OnPointerDown(PointerEventData data)

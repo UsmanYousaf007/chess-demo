@@ -29,6 +29,8 @@ namespace Crosstales.Common.EditorUtil
         #region Public methods
 
         /// <summary>Tracks an event from the asset.</summary>
+        /// <param name="name">Name of the asset.</param>
+        /// <param name="version">Version of the asset.</param>
         /// <param name="category">Specifies the event category.</param>
         /// <param name="action">Specifies the event action.</param>
         /// <param name="label">Specifies the event label.</param>
@@ -63,7 +65,7 @@ namespace Crosstales.Common.EditorUtil
             {
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = Util.BaseHelper.RemoteCertificateValidationCallback;
 
-                using (System.Net.WebClient client = new Common.Util.CTWebClient())
+                using (System.Net.WebClient client = new Util.CTWebClient())
                 {
                     client.Headers[System.Net.HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                     client.Headers[System.Net.HttpRequestHeader.UserAgent] = "Mozilla/5.0 (" + userAgent() + ")";
@@ -87,14 +89,8 @@ namespace Crosstales.Common.EditorUtil
             {
                 return "compatible; Windows NT 10.0; WOW64";
             }
-            else if (Util.BaseHelper.isMacOSEditor)
-            {
-                return "compatible; Macintosh; Intel Mac OS X";
-            }
-            else
-            {
-                return "compatible; X11; Linux i686";
-            }
+
+            return Util.BaseHelper.isMacOSEditor ? "compatible; Macintosh; Intel Mac OS X" : "compatible; X11; Linux i686";
         }
 
         private static string generalInfo(string appName, string appVersion)

@@ -76,6 +76,9 @@ namespace Crosstales.Common.Util
         /// <summary>Float value of 32768.</summary>
         public const float FLOAT_32768 = 32768f;
 
+        /// <summary>Float tolerance.</summary>
+        public const float FLOAT_TOLERANCE = 0.0001f;
+
         /// <summary>ToString for two decimal places.</summary>
         public const string FORMAT_TWO_DECIMAL_PLACES = "0.00";
 
@@ -159,14 +162,12 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                if ((BaseHelper.isWindowsBasedPlatform || BaseHelper.isWindowsEditor) && (!BaseHelper.isMacOSEditor && !BaseHelper.isLinuxEditor))
+                if ((BaseHelper.isWindowsBasedPlatform || BaseHelper.isWindowsEditor) && !BaseHelper.isMacOSEditor && !BaseHelper.isLinuxEditor)
                 {
                     return "file:///";
                 }
-                else
-                {
-                    return "file://";
-                }
+
+                return "file://";
             }
         }
 

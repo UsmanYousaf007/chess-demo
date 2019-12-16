@@ -53,6 +53,7 @@ namespace Crosstales.Common.Util
         private Color32 endColor;
 
         private float lerpProgress = 0f;
+        private static readonly int colorID = Shader.PropertyToID("_Color");
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace Crosstales.Common.Util
 
                 if (Material != null)
                 {
-                    Material.SetColor("_Color", startColor);
+                    Material.SetColor(colorID, startColor);
                 }
                 else
                 {
@@ -89,7 +90,7 @@ namespace Crosstales.Common.Util
             {
                 if (Material != null)
                 {
-                    startColor = Material.GetColor("_Color");
+                    startColor = Material.GetColor(colorID);
                 }
                 else
                 {
@@ -124,7 +125,7 @@ namespace Crosstales.Common.Util
 
                 if (Material != null)
                 {
-                    Material.SetColor("_Color", Color.Lerp(startColor, endColor, lerpProgress));
+                    Material.SetColor(colorID, Color.Lerp(startColor, endColor, lerpProgress));
                 }
                 else
                 {
@@ -137,14 +138,7 @@ namespace Crosstales.Common.Util
                 }
                 else
                 {
-                    if (Material != null)
-                    {
-                        startColor = Material.GetColor("_Color");
-                    }
-                    else
-                    {
-                        startColor = currentRenderer.material.color;
-                    }
+                    startColor = Material != null ? Material.GetColor(colorID) : currentRenderer.material.color;
                 }
             }
         }

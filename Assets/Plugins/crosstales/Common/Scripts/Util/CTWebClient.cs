@@ -44,7 +44,7 @@ namespace Crosstales.Common.Util
         {
             System.Net.WebRequest wr = base.GetWebRequest(uri);
 
-            if (wr.GetType() == typeof(System.Net.HttpWebRequest))
+            if (wr != null && wr.GetType() == typeof(System.Net.HttpWebRequest))
             {
                 System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)base.GetWebRequest(uri);
 

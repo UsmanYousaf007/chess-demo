@@ -218,129 +218,145 @@ namespace Crosstales.OnlineCheck.EditorIntegration
 
             EditorHelper.SeparatorUI();
 
-            aboutTab = GUILayout.Toolbar(aboutTab, new string[] { "Readme", "Versions", "Update" });
+            aboutTab = GUILayout.Toolbar(aboutTab, new[] {"Readme", "Versions", "Update"});
 
-            if (aboutTab == 2)
+            switch (aboutTab)
             {
-                scrollPosAboutUpdate = EditorGUILayout.BeginScrollView(scrollPosAboutUpdate, false, false);
+                case 2:
                 {
-                    Color fgColor = GUI.color;
-
-                    GUI.color = Color.yellow;
-
-                    if (updateStatus == UpdateStatus.NO_UPDATE)
+                    scrollPosAboutUpdate = EditorGUILayout.BeginScrollView(scrollPosAboutUpdate, false, false);
                     {
-                        GUI.color = Color.green;
-                        GUILayout.Label(updateText);
-                    }
-                    else if (updateStatus == UpdateStatus.UPDATE)
-                    {
-                        GUILayout.Label(updateText);
+                        Color fgColor = GUI.color;
 
-                        if (GUILayout.Button(new GUIContent(" Download", "Visit the 'Unity AssetStore' to download the latest version.")))
+                        GUI.color = Color.yellow;
+
+                        switch (updateStatus)
                         {
-                            //Application.OpenURL(EditorConstants.ASSET_URL);
-                            UnityEditorInternal.AssetStore.Open("content/" + EditorConstants.ASSET_ID);
-                        }
-                    }
-                    else if (updateStatus == UpdateStatus.UPDATE_PRO)
-                    {
-                        GUILayout.Label(updateText);
+                            case UpdateStatus.NO_UPDATE:
+                                GUI.color = Color.green;
+                                GUILayout.Label(updateText);
+                                break;
+                            case UpdateStatus.UPDATE:
+                            {
+                                GUILayout.Label(updateText);
 
-                        if (GUILayout.Button(new GUIContent(" Upgrade", "Upgrade to the PRO-version in the 'Unity AssetStore'.")))
+                                if (GUILayout.Button(new GUIContent(" Download", "Visit the 'Unity AssetStore' to download the latest version.")))
+                                {
+                                    //Application.OpenURL(EditorConstants.ASSET_URL);
+                                    UnityEditorInternal.AssetStore.Open("content/" + EditorConstants.ASSET_ID);
+                                }
+
+                                break;
+                            }
+                            case UpdateStatus.UPDATE_PRO:
+                            {
+                                GUILayout.Label(updateText);
+
+                                if (GUILayout.Button(new GUIContent(" Upgrade", "Upgrade to the PRO-version in the 'Unity AssetStore'.")))
+                                {
+                                    Application.OpenURL(Util.Constants.ASSET_PRO_URL);
+                                }
+
+                                break;
+                            }
+                            case UpdateStatus.UPDATE_VERSION:
+                            {
+                                GUILayout.Label(updateText);
+
+                                if (GUILayout.Button(new GUIContent(" Upgrade", "Upgrade to the newer version in the 'Unity AssetStore'")))
+                                {
+                                    Application.OpenURL(Util.Constants.ASSET_CT_URL);
+                                }
+
+                                break;
+                            }
+                            case UpdateStatus.DEPRECATED:
+                            {
+                                GUILayout.Label(updateText);
+
+                                if (GUILayout.Button(new GUIContent(" More Information", "Visit the 'crosstales'-site for more information.")))
+                                {
+                                    Application.OpenURL(Util.Constants.ASSET_AUTHOR_URL);
+                                }
+
+                                break;
+                            }
+                            default:
+                                GUI.color = Color.cyan;
+                                GUILayout.Label(updateText);
+                                break;
+                        }
+
+                        GUI.color = fgColor;
+                    }
+                    EditorGUILayout.EndScrollView();
+
+                    if (updateStatus == UpdateStatus.NOT_CHECKED || updateStatus == UpdateStatus.NO_UPDATE)
+                    {
+                        bool isChecking = !(worker == null || worker != null && !worker.IsAlive);
+
+                        GUI.enabled = OnlineCheck.isInternetAvailable && !isChecking;
+
+                        if (GUILayout.Button(new GUIContent(isChecking ? "Checking... Please wait." : " Check For Update", EditorHelper.Icon_Check, "Checks for available updates of " + Util.Constants.ASSET_NAME)))
                         {
-                            Application.OpenURL(Util.Constants.ASSET_PRO_URL);
+                            worker = new System.Threading.Thread(() => UpdateCheck.UpdateCheckForEditor(out updateText, out updateStatus));
+                            worker.Start();
                         }
-                    }
-                    else if (updateStatus == UpdateStatus.UPDATE_VERSION)
-                    {
-                        GUILayout.Label(updateText);
 
-                        if (GUILayout.Button(new GUIContent(" Upgrade", "Upgrade to the newer version in the 'Unity AssetStore'")))
-                        {
-                            Application.OpenURL(Util.Constants.ASSET_CT_URL);
-                        }
-                    }
-                    else if (updateStatus == UpdateStatus.DEPRECATED)
-                    {
-                        GUILayout.Label(updateText);
-
-                        if (GUILayout.Button(new GUIContent(" More Information", "Visit the 'crosstales'-site for more information.")))
-                        {
-                            Application.OpenURL(Util.Constants.ASSET_AUTHOR_URL);
-                        }
-                    }
-                    else
-                    {
-                        GUI.color = Color.cyan;
-                        GUILayout.Label(updateText);
+                        GUI.enabled = true;
                     }
 
-                    GUI.color = fgColor;
+                    break;
                 }
-                EditorGUILayout.EndScrollView();
-
-                if (updateStatus == UpdateStatus.NOT_CHECKED || updateStatus == UpdateStatus.NO_UPDATE)
+                case 0:
                 {
-                    bool isChecking = !(worker == null || (worker != null && !worker.IsAlive));
-
-                    GUI.enabled = OnlineCheck.isInternetAvailable && !isChecking;
-
-                    if (GUILayout.Button(new GUIContent(isChecking ? "Checking... Please wait." : " Check For Update", EditorHelper.Icon_Check, "Checks for available updates of " + Util.Constants.ASSET_NAME)))
+                    if (readme == null)
                     {
-                        worker = new System.Threading.Thread(() => UpdateCheck.UpdateCheckForEditor(out updateText, out updateStatus));
-                        worker.Start();
+                        string path = Application.dataPath + EditorConfig.ASSET_PATH + "README.txt";
+
+                        try
+                        {
+                            readme = System.IO.File.ReadAllText(path);
+                        }
+                        catch (System.Exception)
+                        {
+                            readme = "README not found: " + path;
+                        }
                     }
 
-                    GUI.enabled = true;
+                    scrollPosAboutReadme = EditorGUILayout.BeginScrollView(scrollPosAboutReadme, false, false);
+                    {
+                        GUILayout.Label(readme);
+                    }
+                    EditorGUILayout.EndScrollView();
+                    break;
+                }
+                default:
+                {
+                    if (versions == null)
+                    {
+                        string path = Application.dataPath + EditorConfig.ASSET_PATH + "Documentation/VERSIONS.txt";
+
+                        try
+                        {
+                            versions = System.IO.File.ReadAllText(path);
+                        }
+                        catch (System.Exception)
+                        {
+                            versions = "VERSIONS not found: " + path;
+                        }
+                    }
+
+                    scrollPosAboutVersions = EditorGUILayout.BeginScrollView(scrollPosAboutVersions, false, false);
+                    {
+                        GUILayout.Label(versions);
+                    }
+
+                    EditorGUILayout.EndScrollView();
+                    break;
                 }
             }
-            else if (aboutTab == 0)
-            {
-                if (readme == null)
-                {
-                    string path = Application.dataPath + EditorConfig.ASSET_PATH + "README.txt";
 
-                    try
-                    {
-                        readme = System.IO.File.ReadAllText(path);
-                    }
-                    catch (System.Exception)
-                    {
-                        readme = "README not found: " + path;
-                    }
-                }
-
-                scrollPosAboutReadme = EditorGUILayout.BeginScrollView(scrollPosAboutReadme, false, false);
-                {
-                    GUILayout.Label(readme);
-                }
-                EditorGUILayout.EndScrollView();
-            }
-            else
-            {
-                if (versions == null)
-                {
-                    string path = Application.dataPath + EditorConfig.ASSET_PATH + "Documentation/VERSIONS.txt";
-
-                    try
-                    {
-                        versions = System.IO.File.ReadAllText(path);
-                    }
-                    catch (System.Exception)
-                    {
-                        versions = "VERSIONS not found: " + path;
-                    }
-                }
-
-                scrollPosAboutVersions = EditorGUILayout.BeginScrollView(scrollPosAboutVersions, false, false);
-                {
-                    GUILayout.Label(versions);
-                }
-
-                EditorGUILayout.EndScrollView();
-            }
-            
             EditorHelper.SeparatorUI();
 
             GUILayout.BeginHorizontal();

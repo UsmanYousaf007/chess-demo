@@ -17,13 +17,10 @@ namespace Crosstales.Common.EditorTask
                 var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group).Split(';').Select(d => d.Trim()).ToList();
                 bool changed = false;
 
-                foreach (string symbol in symbols)
+                foreach (var symbol in symbols.Where(symbol => !defineSymbols.Contains(symbol)))
                 {
-                    if (!defineSymbols.Contains(symbol))
-                    {
-                        defineSymbols.Add(symbol);
-                        changed = true;
-                    }
+                    defineSymbols.Add(symbol);
+                    changed = true;
                 }
 
                 if (changed)
@@ -50,13 +47,10 @@ namespace Crosstales.Common.EditorTask
                 var defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group).Split(';').Select(d => d.Trim()).ToList();
                 bool changed = false;
 
-                foreach (string symbol in symbols)
+                foreach (var symbol in symbols.Where(symbol => defineSymbols.Contains(symbol)))
                 {
-                    if (defineSymbols.Contains(symbol))
-                    {
-                        defineSymbols.Remove(symbol);
-                        changed = true;
-                    }
+                    defineSymbols.Remove(symbol);
+                    changed = true;
                 }
 
                 if (changed)

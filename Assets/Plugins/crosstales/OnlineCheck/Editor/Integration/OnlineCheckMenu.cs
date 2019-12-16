@@ -6,7 +6,7 @@ using Crosstales.OnlineCheck.EditorUtil;
 namespace Crosstales.OnlineCheck.EditorIntegration
 {
     /// <summary>Editor component for the "Tools"-menu.</summary>
-    public class OnlineCheckMenu
+    public static class OnlineCheckMenu
     {
         [MenuItem("Tools/" + Util.Constants.ASSET_NAME + "/Prefabs/" + Util.Constants.ONLINECHECK_SCENE_OBJECT_NAME, false, EditorHelper.MENU_ID + 40)]
         private static void AddOnlineCheck()

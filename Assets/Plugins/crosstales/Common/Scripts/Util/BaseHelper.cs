@@ -345,32 +345,33 @@ namespace Crosstales.Common.Util
                 {
                     return Model.Enum.Platform.Windows;
                 }
-                else if (isMacOSPlatform)
+
+                if (isMacOSPlatform)
                 {
                     return Model.Enum.Platform.OSX;
                 }
-                else if (isLinuxPlatform)
+
+                if (isLinuxPlatform)
                 {
                     return Model.Enum.Platform.Linux;
                 }
-                else if (isAndroidPlatform)
+
+                if (isAndroidPlatform)
                 {
                     return Model.Enum.Platform.Android;
                 }
-                else if (isIOSBasedPlatform)
+
+                if (isIOSBasedPlatform)
                 {
                     return Model.Enum.Platform.IOS;
                 }
-                else if (isWSABasedPlatform)
+
+                if (isWSABasedPlatform)
                 {
                     return Model.Enum.Platform.WSA;
                 }
-                else if (isWebPlatform)
-                {
-                    return Model.Enum.Platform.Web;
-                }
 
-                return Model.Enum.Platform.Unsupported;
+                return isWebPlatform ? Model.Enum.Platform.Web : Model.Enum.Platform.Unsupported;
             }
         }
         /// <summary>Returns the path to the the "Streaming Assets".</summary>
@@ -383,14 +384,13 @@ namespace Crosstales.Common.Util
                 {
                     return "jar:file://" + Application.dataPath + "!/assets/";
                 }
-                else if (isIOSBasedPlatform && !isEditor)
+
+                if (isIOSBasedPlatform && !isEditor)
                 {
                     return Application.dataPath + "/Raw/";
                 }
-                else
-                {
-                    return Application.dataPath + "/StreamingAssets/";
-                }
+
+                return Application.dataPath + "/StreamingAssets/";
             }
         }
 
@@ -400,7 +400,7 @@ namespace Crosstales.Common.Util
         #region Public methods
 
         /// <summary>Creates a string of characters with a given length.</summary>
-        /// <param name="chars">Characters to generate the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
+        /// <param name="replaceChars">Characters to generate the string (if more than one character is used, the generated string will be a randomized result of all characters)</param>
         /// <param name="stringLength">Length of the generated string</param>
         /// <returns>Generated string</returns>
         public static string CreateString(string replaceChars, int stringLength)
@@ -416,12 +416,8 @@ namespace Crosstales.Common.Util
 
                 return new string(chars);
             }
-            else if (replaceChars.Length == 1)
-            {
-                return new string(replaceChars[0], stringLength);
-            }
 
-            return string.Empty;
+            return replaceChars.Length == 1 ? new string(replaceChars[0], stringLength) : string.Empty;
         }
 
         /// <summary>Determines if an AudioSource has an active clip.</summary>
@@ -437,8 +433,9 @@ namespace Crosstales.Common.Util
             Debug.Log("source.clip.samples: " + source.clip.samples);
             */
 
+            int timeSamples;
             return source != null && source.clip != null &&
-                ((!source.loop && source.timeSamples > 0 && source.timeSamples < source.clip.samples - 256) ||
+                (!source.loop && (timeSamples = source.timeSamples) > 0 && timeSamples < source.clip.samples - 256 ||
                 source.loop ||
                 source.isPlaying);
         }
@@ -452,17 +449,14 @@ namespace Crosstales.Common.Util
             // If there are errors in the certificate chain, look at each error to determine the cause.
             if (sslPolicyErrors != System.Net.Security.SslPolicyErrors.None)
             {
-                for (int i = 0; i < chain.ChainStatus.Length; i++)
+                foreach (var t in chain.ChainStatus.Where(t => t.Status != System.Security.Cryptography.X509Certificates.X509ChainStatusFlags.RevocationStatusUnknown))
                 {
-                    if (chain.ChainStatus[i].Status != System.Security.Cryptography.X509Certificates.X509ChainStatusFlags.RevocationStatusUnknown)
-                    {
-                        chain.ChainPolicy.RevocationFlag = System.Security.Cryptography.X509Certificates.X509RevocationFlag.EntireChain;
-                        chain.ChainPolicy.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.Online;
-                        chain.ChainPolicy.UrlRetrievalTimeout = new System.TimeSpan(0, 1, 0);
-                        chain.ChainPolicy.VerificationFlags = System.Security.Cryptography.X509Certificates.X509VerificationFlags.AllFlags;
+                    chain.ChainPolicy.RevocationFlag = System.Security.Cryptography.X509Certificates.X509RevocationFlag.EntireChain;
+                    chain.ChainPolicy.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.Online;
+                    chain.ChainPolicy.UrlRetrievalTimeout = new System.TimeSpan(0, 1, 0);
+                    chain.ChainPolicy.VerificationFlags = System.Security.Cryptography.X509Certificates.X509VerificationFlags.AllFlags;
 
-                        isOk = chain.Build((System.Security.Cryptography.X509Certificates.X509Certificate2)certificate);
-                    }
+                    isOk = chain.Build((System.Security.Cryptography.X509Certificates.X509Certificate2)certificate);
                 }
             }
 
@@ -479,9 +473,9 @@ namespace Crosstales.Common.Util
             if (!string.IsNullOrEmpty(path))
             {
                 string pathTemp = path.Trim();
-                string result = null;
+                string result;
 
-                if ((isWindowsBasedPlatform || isWindowsEditor) && (!isMacOSEditor && !isLinuxEditor))
+                if ((isWindowsBasedPlatform || isWindowsEditor) && !isMacOSEditor && !isLinuxEditor)
                 {
                     result = pathTemp.Replace('/', '\\');
 
@@ -526,8 +520,8 @@ namespace Crosstales.Common.Util
                     result = result.Substring(0, result.Length - 1);
                 }
 
-                string fileName = null;
-                if ((isWindowsBasedPlatform || isWindowsEditor) && (!isMacOSEditor && !isLinuxEditor))
+                string fileName;
+                if ((isWindowsBasedPlatform || isWindowsEditor) && !isMacOSEditor && !isLinuxEditor)
                 {
                     fileName = result.Substring(result.LastIndexOf(BaseConstants.PATH_DELIMITER_WINDOWS) + 1);
                 }
@@ -588,23 +582,20 @@ namespace Crosstales.Common.Util
                         {
                             return System.IO.Directory.GetFiles(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
                         }
-                        else
+
+                        if (extensions.Any(extension => extension.Equals("*") || extension.Equals("*.*")))
                         {
-                            foreach (string extension in extensions)
-                            {
-                                if (extension.Equals("*") || extension.Equals("*.*"))
-                                    return System.IO.Directory.GetFiles(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
-                            }
-
-                            System.Collections.Generic.List<string> files = new System.Collections.Generic.List<string>();
-
-                            foreach (string extension in extensions)
-                            {
-                                files.AddRange(System.IO.Directory.GetFiles(_path, "*." + extension, isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly));
-                            }
-
-                            return files.OrderBy(q => q).ToArray();
+                            return System.IO.Directory.GetFiles(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
                         }
+
+                        System.Collections.Generic.List<string> files = new System.Collections.Generic.List<string>();
+
+                        foreach (string extension in extensions)
+                        {
+                            files.AddRange(System.IO.Directory.GetFiles(_path, "*." + extension, isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly));
+                        }
+
+                        return files.OrderBy(q => q).ToArray();
                     }
                     catch (System.Exception ex)
                     {
@@ -745,7 +736,7 @@ namespace Crosstales.Common.Util
             //return System.Uri.EscapeDataString(path);
         }
 
-        /// <summary>Cleans a given URL.
+        /// <summary>Cleans a given URL.</summary>
         /// <param name="url">URL to clean</param>
         /// <param name="removeProtocol">Remove the protocol, e.g. http:// (default: true, optional).</param>
         /// <param name="removeWWW">Remove www (default: true, optional).</param>
@@ -876,12 +867,12 @@ namespace Crosstales.Common.Util
             while (len >= 1024 && order < sizes.Length - 1)
             {
                 order++;
-                len = len / 1024;
+                len /= 1024;
             }
 
             // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
             // show a single decimal place, and no space.
-            return System.String.Format("{0:0.##} {1}", len, sizes[order]);
+            return string.Format("{0:0.##} {1}", len, sizes[order]);
         }
 
         /// <summary>Format seconds to Human-Readable-Form.</summary>
@@ -897,20 +888,21 @@ namespace Crosstales.Common.Util
                 int calcHours = (totalSeconds -= calcDays * 86400) / 3600;
                 int calcMinutes = (totalSeconds - calcHours * 3600) / 60;
 
-                return calcDays + "d " + calcHours + ":" + (calcMinutes < 10 ? "0" + calcMinutes.ToString() : calcMinutes.ToString()) + ":" + (calcSeconds < 10 ? "0" + calcSeconds.ToString() : calcSeconds.ToString());
+                return calcDays + "d " + calcHours + ":" + (calcMinutes < 10 ? "0" + calcMinutes : calcMinutes.ToString()) + ":" + (calcSeconds < 10 ? "0" + calcSeconds : calcSeconds.ToString());
             }
-            else if (seconds >= 3600)
+
+            if (seconds >= 3600)
             {
                 int calcHours = totalSeconds / 3600;
                 int calcMinutes = (totalSeconds - calcHours * 3600) / 60;
 
-                return calcHours + ":" + (calcMinutes < 10 ? "0" + calcMinutes.ToString() : calcMinutes.ToString()) + ":" + (calcSeconds < 10 ? "0" + calcSeconds.ToString() : calcSeconds.ToString());
+                return calcHours + ":" + (calcMinutes < 10 ? "0" + calcMinutes : calcMinutes.ToString()) + ":" + (calcSeconds < 10 ? "0" + calcSeconds : calcSeconds.ToString());
             }
             else
             {
                 int calcMinutes = totalSeconds / 60;
 
-                return calcMinutes + ":" + (calcSeconds < 10 ? "0" + calcSeconds.ToString() : calcSeconds.ToString());
+                return calcMinutes + ":" + (calcSeconds < 10 ? "0" + calcSeconds : calcSeconds.ToString());
             }
         }
 
@@ -925,7 +917,7 @@ namespace Crosstales.Common.Util
         /// <returns>True if the current platform is supported.</returns>
         public static Color HSVToRGB(float h, float s, float v, float a = 1f)
         {
-            if (s == 0f)
+            if (Mathf.Abs(s) < BaseConstants.FLOAT_TOLERANCE)
             {
                 return new Color(v, v, v, a);
             }
@@ -959,7 +951,7 @@ namespace Crosstales.Common.Util
         /// <returns>True if the URL is valid.</returns>
         public static bool isValidURL(string url)
         {
-            return string.IsNullOrEmpty(url) ? false : url.StartsWith(file_prefix, System.StringComparison.OrdinalIgnoreCase) || url.StartsWith(BaseConstants.PREFIX_HTTP, System.StringComparison.OrdinalIgnoreCase) || url.StartsWith(BaseConstants.PREFIX_HTTPS, System.StringComparison.OrdinalIgnoreCase);
+            return !string.IsNullOrEmpty(url) && (url.StartsWith(file_prefix, System.StringComparison.OrdinalIgnoreCase) || url.StartsWith(BaseConstants.PREFIX_HTTP, System.StringComparison.OrdinalIgnoreCase) || url.StartsWith(BaseConstants.PREFIX_HTTPS, System.StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>Copy or move a file.</summary>
@@ -1026,12 +1018,10 @@ namespace Crosstales.Common.Util
         {
             //TODO make compatible with IL2CPP
 
-            if (isStandalonePlatform && !isIL2CPP)
+            if (isStandalonePlatform && !isIL2CPP || isEditor)
             {
-                Debug.Log("'" + file + "'");
-
                 string path;
-                if (isWindowsPlatform && file.Length < 4)
+                if ((isWindowsPlatform || isWindowsEditor) && file.Length < 4)
                 {
                     path = file; //root directory
                 }
@@ -1040,7 +1030,7 @@ namespace Crosstales.Common.Util
                     path = ValidatePath(System.IO.Path.GetDirectoryName(file));
                 }
 
-                Debug.Log("'" + path + "'");
+                //Debug.Log("'" + path + "'");
 
                 if (System.IO.Directory.Exists(path))
                 {
@@ -1063,7 +1053,7 @@ namespace Crosstales.Common.Util
             }
             else
             {
-                Debug.LogWarning("'ShowFileLocation' is not supported on the currrent platform!");
+                Debug.LogWarning("'ShowFileLocation' is not supported on the current platform!");
             }
         }
 
@@ -1076,11 +1066,11 @@ namespace Crosstales.Common.Util
         {
             //TODO make compatible with IL2CPP
 
-            if (isStandalonePlatform && !isIL2CPP)
+            if (isStandalonePlatform && !isIL2CPP || isEditor)
             {
                 if (System.IO.File.Exists(file))
                 {
-                    if (isMacOSPlatform)
+                    if (isMacOSPlatform || isMacOSEditor)
                     {
 #if (!UNITY_WSA && !UNITY_WEBGL) || UNITY_EDITOR
                         using (System.Diagnostics.Process process = new System.Diagnostics.Process())
@@ -1115,7 +1105,7 @@ namespace Crosstales.Common.Util
             }
             else
             {
-                Debug.LogWarning("'OpenFile' is not supported on the currrent platform!");
+                Debug.LogWarning("'OpenFile' is not supported on the current platform!");
             }
         }
 

@@ -9,9 +9,9 @@ namespace Crosstales.Common.Util
         //TODO add getter and setter: Vector2 - 4, Quaternion
 
 #if (!UNITY_WSA && !UNITY_WEBGL) || UNITY_EDITOR
-        private static SerializableDictionary<string, string> content = new SerializableDictionary<string, string>();
+        private static readonly SerializableDictionary<string, string> content = new SerializableDictionary<string, string>();
 
-        private static string fileName = Application.persistentDataPath + "/" + "crosstales.cfg";
+        private static readonly string fileName = Application.persistentDataPath + "/" + "crosstales.cfg";
 
         static CTPlayerPrefs()
         {
@@ -40,7 +40,7 @@ namespace Crosstales.Common.Util
         {
 #if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
             PlayerPrefs.DeleteAll();
-#else            
+#else
             content.Clear();
 #endif
         }
@@ -51,9 +51,9 @@ namespace Crosstales.Common.Util
         {
 #if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
             PlayerPrefs.DeleteKey(key);
-#else            
+#else
             content.Remove(key);
-#endif        
+#endif
         }
 
         /// <summary>Saves all modifications.</summary>
@@ -82,7 +82,7 @@ namespace Crosstales.Common.Util
         {
 #if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
             return PlayerPrefs.GetString(key);
-#else            
+#else
             return content[key];
 #endif
         }
@@ -95,11 +95,11 @@ namespace Crosstales.Common.Util
 #if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
             return PlayerPrefs.GetFloat(key);
 #else
-            float result = 0f;
+            float result;
             float.TryParse(GetString(key), out result);
 
             return result;
-#endif            
+#endif
         }
 
         /// <summary>Allows to get an int from a key.</summary>
@@ -110,11 +110,11 @@ namespace Crosstales.Common.Util
 #if (UNITY_WSA || UNITY_WEBGL) && !UNITY_EDITOR
             return PlayerPrefs.GetInt(key);
 #else
-            int result = 0;
+            int result;
             int.TryParse(GetString(key), out result);
 
             return result;
-#endif            
+#endif
         }
 
         /// <summary>Allows to get a bool from a key.</summary>
@@ -125,7 +125,7 @@ namespace Crosstales.Common.Util
             if (string.IsNullOrEmpty(key))
                 throw new System.ArgumentNullException("key");
 
-            return "true".CTEquals(GetString(key)) ? true : false;
+            return "true".CTEquals(GetString(key));
         }
 
         /// <summary>Allows to get a DateTime from a key.</summary>
@@ -136,7 +136,7 @@ namespace Crosstales.Common.Util
             if (string.IsNullOrEmpty(key))
                 throw new System.ArgumentNullException("key");
 
-            System.DateTime result = System.DateTime.Now;
+            System.DateTime result;
             System.DateTime.TryParse(GetString(key), out result);
 
             return result;
@@ -175,7 +175,7 @@ namespace Crosstales.Common.Util
             PlayerPrefs.SetFloat(key, value);
 #else
             SetString(key, value.ToString());
-#endif        
+#endif
         }
 
         /// <summary>Allows to set an int for a key.</summary>
@@ -187,7 +187,7 @@ namespace Crosstales.Common.Util
             PlayerPrefs.SetInt(key, value);
 #else
             SetString(key, value.ToString());
-#endif        
+#endif
         }
 
         /// <summary>Allows to set a bool for a key.</summary>

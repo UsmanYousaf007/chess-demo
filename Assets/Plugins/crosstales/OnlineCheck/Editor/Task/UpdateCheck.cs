@@ -1,4 +1,6 @@
-﻿#if UNITY_EDITOR
+﻿
+using System.Linq;
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using Crosstales.OnlineCheck.EditorUtil;
@@ -16,7 +18,7 @@ namespace Crosstales.OnlineCheck.EditorTask
 
         private static UpdateStatus status = UpdateStatus.NOT_CHECKED;
 
-        private static readonly char[] splitChar = new char[] { ';' };
+        private static readonly char[] splitChar = { ';' };
 
         #endregion
 
@@ -79,29 +81,26 @@ namespace Crosstales.OnlineCheck.EditorTask
 
             updateStatus(data);
 
-            if (status == UpdateStatus.UPDATE)
+            switch (status)
             {
-                result = updateTextForEditor(data);
-            }
-            else if (status == UpdateStatus.UPDATE_PRO)
-            {
-                result = updateProTextForEditor(data);
-            }
-            else if (status == UpdateStatus.V2019)
-            {
-                result = update2019(data);
-            }
-            else if (status == UpdateStatus.UPDATE_VERSION)
-            {
-                result = updateVersionTextForEditor(data);
-            }
-            else if (status == UpdateStatus.DEPRECATED)
-            {
-                result = deprecatedTextForEditor(data);
-            }
-            else
-            {
-                result = TEXT_NO_UPDATE;
+                case UpdateStatus.UPDATE:
+                    result = updateTextForEditor(data);
+                    break;
+                case UpdateStatus.UPDATE_PRO:
+                    result = updateProTextForEditor(data);
+                    break;
+                case UpdateStatus.V2019:
+                    result = update2019(data);
+                    break;
+                case UpdateStatus.UPDATE_VERSION:
+                    result = updateVersionTextForEditor(data);
+                    break;
+                case UpdateStatus.DEPRECATED:
+                    result = deprecatedTextForEditor(data);
+                    break;
+                default:
+                    result = TEXT_NO_UPDATE;
+                    break;
             }
 
             st = status;
@@ -118,126 +117,140 @@ namespace Crosstales.OnlineCheck.EditorTask
 
             updateStatus(data);
 
-            if (status == UpdateStatus.UPDATE)
+            switch (status)
             {
-                int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Update available",
-                updateText(data),
-                "Yes, let's do it!",
-                "Not right now",
-                "Don't check again!");
+                case UpdateStatus.UPDATE:
+                {
+                    int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Update available",
+                        updateText(data),
+                        "Yes, let's do it!",
+                        "Not right now",
+                        "Don't check again!");
 
-                if (option == 0)
-                {
-                    Application.OpenURL(EditorConstants.ASSET_URL);
-                    //UnityEditorInternal.AssetStore.Open("content/" + EditorConstants.ASSET_ID);
-                }
-                else if (option == 1)
-                {
-                    // do nothing!
-                }
-                else
-                {
-                    EditorConfig.UPDATE_CHECK = false;
+                    switch (option)
+                    {
+                        case 0:
+                            Application.OpenURL(EditorConstants.ASSET_URL);
+                            //UnityEditorInternal.AssetStore.Open("content/" + EditorConstants.ASSET_ID);
+                            break;
+                        case 1:
+                            // do nothing!
+                            break;
+                        default:
+                            EditorConfig.UPDATE_CHECK = false;
 
-                    EditorConfig.Save();
-                }
-            }
-            else if (status == UpdateStatus.UPDATE_PRO)
-            {
-                int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
-                updateProText(data),
-                "Yes, let's do it!",
-                "Not right now",
-                "Don't ask again!");
+                            EditorConfig.Save();
+                            break;
+                    }
 
-                if (option == 0)
-                {
-                    Application.OpenURL(Util.Constants.ASSET_PRO_URL);
+                    break;
                 }
-                else if (option == 1)
+                case UpdateStatus.UPDATE_PRO:
                 {
-                    // do nothing!
-                }
-                else
-                {
-                    EditorConfig.UPDATE_CHECK = false;
+                    int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
+                        updateProText(data),
+                        "Yes, let's do it!",
+                        "Not right now",
+                        "Don't ask again!");
 
-                    EditorConfig.Save();
-                }
-            }
-            else if (status == UpdateStatus.V2019)
-            {
-                int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
-                update2019(data),
-                "Yes, let's do it!",
-                "Not right now",
-                "Don't ask again!");
+                    switch (option)
+                    {
+                        case 0:
+                            Application.OpenURL(Util.Constants.ASSET_PRO_URL);
+                            break;
+                        case 1:
+                            // do nothing!
+                            break;
+                        default:
+                            EditorConfig.UPDATE_CHECK = false;
 
-                if (option == 0)
-                {
-                    Application.OpenURL(Util.Constants.ASSET_2019_URL);
-                }
-                else if (option == 1)
-                {
-                    // do nothing!
-                }
-                else
-                {
-                    EditorConfig.UPDATE_CHECK = false;
+                            EditorConfig.Save();
+                            break;
+                    }
 
-                    EditorConfig.Save();
+                    break;
                 }
-            }
-            else if (status == UpdateStatus.UPDATE_VERSION)
-            {
-                int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
-                updateVersionText(data),
-                "Yes, let's do it!",
-                "Not right now",
-                "Don't ask again!");
+                case UpdateStatus.V2019:
+                {
+                    int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
+                        update2019(data),
+                        "Yes, let's do it!",
+                        "Not right now",
+                        "Don't ask again!");
 
-                if (option == 0)
-                {
-                    Application.OpenURL(EditorConstants.ASSET_URL);
-                }
-                else if (option == 1)
-                {
-                    // do nothing!
-                }
-                else
-                {
-                    EditorConfig.UPDATE_CHECK = false;
+                    switch (option)
+                    {
+                        case 0:
+                            Application.OpenURL(Util.Constants.ASSET_2019_URL);
+                            break;
+                        case 1:
+                            // do nothing!
+                            break;
+                        default:
+                            EditorConfig.UPDATE_CHECK = false;
 
-                    EditorConfig.Save();
-                }
-            }
-            else if (status == UpdateStatus.DEPRECATED)
-            {
-                int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
-                deprecatedText(data),
-                "Learn more",
-                "Not right now",
-                "Don't bother me again!");
+                            EditorConfig.Save();
+                            break;
+                    }
 
-                if (option == 0)
-                {
-                    Application.OpenURL(Util.Constants.ASSET_AUTHOR_URL);
+                    break;
                 }
-                else if (option == 1)
+                case UpdateStatus.UPDATE_VERSION:
                 {
-                    // do nothing!
-                }
-                else
-                {
-                    EditorConfig.UPDATE_CHECK = false;
+                    int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
+                        updateVersionText(data),
+                        "Yes, let's do it!",
+                        "Not right now",
+                        "Don't ask again!");
 
-                    EditorConfig.Save();
+                    switch (option)
+                    {
+                        case 0:
+                            Application.OpenURL(EditorConstants.ASSET_URL);
+                            break;
+                        case 1:
+                            // do nothing!
+                            break;
+                        default:
+                            EditorConfig.UPDATE_CHECK = false;
+
+                            EditorConfig.Save();
+                            break;
+                    }
+
+                    break;
                 }
-            }
-            else
-            {
-                if (Util.Config.DEBUG)
-                    Debug.Log("Asset is up-to-date.");
+                case UpdateStatus.DEPRECATED:
+                {
+                    int option = EditorUtility.DisplayDialogComplex(Util.Constants.ASSET_NAME + " - Upgrade needed",
+                        deprecatedText(data),
+                        "Learn more",
+                        "Not right now",
+                        "Don't bother me again!");
+
+                    switch (option)
+                    {
+                        case 0:
+                            Application.OpenURL(Util.Constants.ASSET_AUTHOR_URL);
+                            break;
+                        case 1:
+                            // do nothing!
+                            break;
+                        default:
+                            EditorConfig.UPDATE_CHECK = false;
+
+                            EditorConfig.Save();
+                            break;
+                    }
+
+                    break;
+                }
+                default:
+                {
+                    if (Util.Config.DEBUG)
+                        Debug.Log("Asset is up-to-date.");
+                    break;
+                }
             }
         }
 
@@ -337,26 +350,19 @@ namespace Crosstales.OnlineCheck.EditorTask
                 {
                     string content = client.DownloadString(Util.Constants.ASSET_UPDATE_CHECK_URL);
 
-                    foreach (string line in Util.Helper.SplitStringToLines(content))
+                    foreach (var line in Util.Helper.SplitStringToLines(content).Where(line => line.StartsWith(EditorConstants.ASSET_UID.ToString())))
                     {
-                        //Debug.Log("Line: " + line);
+                        data = line.Split(splitChar, System.StringSplitOptions.RemoveEmptyEntries);
 
-                        if (line.StartsWith(EditorConstants.ASSET_UID.ToString()))
-                        {
-                            data = line.Split(splitChar, System.StringSplitOptions.RemoveEmptyEntries);
+                        //Debug.Log("data: " + data.CTDump());
 
-                            //Debug.Log("data: " + data.CTDump());
-
-                            if (data != null && data.Length >= 3)
-                            { //valid record?
-                                break;
-                            }
-                            else
-                            {
-                                //Debug.LogWarning("invalid data: " + data.Length);
-                                data = null;
-                            }
+                        if (data.Length >= 3)
+                        { //valid record?
+                            break;
                         }
+
+                        //Debug.LogWarning("invalid data: " + data.Length);
+                        data = null;
                     }
                 }
             }
@@ -380,25 +386,23 @@ namespace Crosstales.OnlineCheck.EditorTask
                     {
                         status = UpdateStatus.UPDATE;
                     }
-                    else if (buildNumber == -100)
+                    else switch (buildNumber)
                     {
-                        status = UpdateStatus.UPDATE_PRO;
-                    }
-                    else if (buildNumber == -200)
-                    {
-                        status = UpdateStatus.UPDATE_VERSION;
-                    }
-                    else if (buildNumber == -900)
-                    {
-                        status = UpdateStatus.DEPRECATED;
-                    }
-                    else if (buildNumber == -2019)
-                    {
-                        status = UpdateStatus.V2019;
-                    }
-                    else
-                    {
-                        status = UpdateStatus.NO_UPDATE;
+                        case -100:
+                            status = UpdateStatus.UPDATE_PRO;
+                            break;
+                        case -200:
+                            status = UpdateStatus.UPDATE_VERSION;
+                            break;
+                        case -900:
+                            status = UpdateStatus.DEPRECATED;
+                            break;
+                        case -2019:
+                            status = UpdateStatus.V2019;
+                            break;
+                        default:
+                            status = UpdateStatus.NO_UPDATE;
+                            break;
                     }
                 }
 

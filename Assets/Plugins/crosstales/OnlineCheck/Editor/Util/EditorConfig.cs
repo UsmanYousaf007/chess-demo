@@ -13,10 +13,10 @@ namespace Crosstales.OnlineCheck.EditorUtil
 
         /// <summary>Enable or disable update-checks for the asset.</summary>
         public static bool UPDATE_CHECK = EditorConstants.DEFAULT_UPDATE_CHECK;
-
+/*
         /// <summary>Enable or disable reminder-checks for the asset.</summary>
         //public static bool REMINDER_CHECK = EditorConstants.DEFAULT_REMINDER_CHECK;
-
+*/
         /// <summary>Enable or disable anonymous tracer data.</summary>
         public static bool TRACER = EditorConstants.DEFAULT_TRACER;
 
@@ -31,11 +31,11 @@ namespace Crosstales.OnlineCheck.EditorUtil
 
         private static string assetPath = null;
         private const string idPath = "Documentation/id/";
-        private readonly static string idName = EditorConstants.ASSET_UID + ".txt";
+        private static readonly string idName = EditorConstants.ASSET_UID + ".txt";
 
         #endregion
 
-        
+
         #region Constructor
 
         static EditorConfig()
@@ -106,7 +106,7 @@ namespace Crosstales.OnlineCheck.EditorUtil
 
         #region Public static methods
 
-        /// <summary>Resets all changable variables to their default value.</summary>
+        /// <summary>Resets all changeable variables to their default value.</summary>
         public static void Reset()
         {
             assetPath = null;
@@ -118,7 +118,7 @@ namespace Crosstales.OnlineCheck.EditorUtil
             HIERARCHY_ICON = EditorConstants.DEFAULT_HIERARCHY_ICON;
         }
 
-        /// <summary>Loads the all changable variables.</summary>
+        /// <summary>Loads the all changeable variables.</summary>
         public static void Load()
         {
             assetPath = null;
@@ -151,7 +151,7 @@ namespace Crosstales.OnlineCheck.EditorUtil
             isLoaded = true;
         }
 
-        /// <summary>Saves the all changable variables.</summary>
+        /// <summary>Saves the all changeable variables.</summary>
         public static void Save()
         {
             Common.Util.CTPlayerPrefs.SetBool(EditorConstants.KEY_UPDATE_CHECK, UPDATE_CHECK);
