@@ -51,7 +51,8 @@ public class GameSparksUnity : MonoBehaviour
 	}
 	
 	void OnGUI () {
-		if (GameSparksSettings.PreviewBuild == true) {
+/*
+        if (GameSparksSettings.PreviewBuild == true) {
 			GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
 
 			GUILayout.BeginVertical ();
@@ -70,6 +71,7 @@ public class GameSparksUnity : MonoBehaviour
 
 			GUILayout.EndArea ();
 		}
+*/
 	}
 
 #if UNITY_IOS && !UNITY_EDITOR
