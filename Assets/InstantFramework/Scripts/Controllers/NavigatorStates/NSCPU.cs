@@ -10,17 +10,24 @@
 /// @description
 /// [add_description_here]
 
+using System;
+
 namespace TurboLabz.InstantFramework
 {
     public class NSCPU : NS
     {
+        DateTime timeAtScreenShown;
+
         public override void RenderDisplayOnEnter()
         {
+            timeAtScreenShown = DateTime.Now;
             ShowView(NavigatorViewId.CPU);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
+            cmd.preferencesModel.timeSpentCpuMatch += (float)(DateTime.Now - timeAtScreenShown).TotalMinutes;
+
             if (evt == NavigatorEvent.SHOW_CPU_EXIT_DLG ||
                 evt == NavigatorEvent.ESCAPE)
             {

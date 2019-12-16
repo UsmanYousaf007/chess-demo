@@ -3,19 +3,39 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantFramework
 {
     public class NSMultiplayer : NS
     {
+        DateTime timeAtScreenShown;
+
         public override void RenderDisplayOnEnter()
         {
+            timeAtScreenShown = DateTime.Now;
             ShowView(NavigatorViewId.MULTIPLAYER);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
+            var matchInfo = cmd.matchInfoModel.activeMatch == null ? cmd.matchInfoModel.lastCompletedMatch : cmd.matchInfoModel.activeMatch;
+
+            if (matchInfo != null)
+            {
+                var minutesSpent = (float)(DateTime.Now - timeAtScreenShown).TotalMinutes;
+
+                if (matchInfo.isLongPlay)
+                {
+                    cmd.preferencesModel.timeSpentLongMatch += minutesSpent;
+                }
+                else
+                {
+                    cmd.preferencesModel.timeSpentQuickMatch += minutesSpent;
+                }
+            }
+
             if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG)
             {
                 TLUtils.LogUtil.LogNullValidation(cmd.matchInfoModel.activeChallengeId, "cmd.matchInfoModel.activeChallengeId");

@@ -3,19 +3,25 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
     public class NSLobby : NS
     {
+        DateTime timeAtScreenShown;
+
         public override void RenderDisplayOnEnter()
         {
+            timeAtScreenShown = DateTime.Now;
             ShowView(NavigatorViewId.LOBBY);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
+            cmd.preferencesModel.timeSpentLobby += (float)(DateTime.Now - timeAtScreenShown).TotalMinutes;
+
             if (evt == NavigatorEvent.SHOW_CPU)
             {
                 return new NSCPU();

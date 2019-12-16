@@ -32,6 +32,10 @@ namespace TurboLabz.InstantGame
         public int strengthUsedCount { get; set; }
         public int promotionCycleIndex { get; set; }
         public DateTime timeAtLobbyLoadedFirstTime { get; set; }
+        public float timeSpentQuickMatch { get; set; }
+        public float timeSpentLongMatch { get; set; }
+        public float timeSpentCpuMatch { get; set; }
+        public float timeSpentLobby { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -49,6 +53,17 @@ namespace TurboLabz.InstantGame
             hasRated = false;
             isSafeMoveOn = false;
             isFriendScreenVisited = false;
+            isCoachTooltipShown = false;
+            isStrengthTooltipShown = false;
+            isLobbyLoadedFirstTime = false;
+            coachUsedCount = 0;
+            strengthUsedCount = 0;
+            promotionCycleIndex = 0;
+            timeAtLobbyLoadedFirstTime = DateTime.Now;
+            timeSpentQuickMatch = 0;
+            timeSpentLongMatch = 0;
+            timeSpentCpuMatch = 0;
+            timeSpentLobby = 0;
         }
 
         private void LoadFromDisk()
@@ -121,6 +136,26 @@ namespace TurboLabz.InstantGame
                     timeAtLobbyLoadedFirstTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME)));
                 }
 
+                if (reader.HasKey(PrefKeys.TIME_SPENT_CPU_MATCH))
+                {
+                    timeSpentCpuMatch = reader.Read<float>(PrefKeys.TIME_SPENT_CPU_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_LOBBY))
+                {
+                    timeSpentLobby = reader.Read<float>(PrefKeys.TIME_SPENT_LOBBY);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_LONG_MATCH))
+                {
+                    timeSpentLongMatch = reader.Read<float>(PrefKeys.TIME_SPENT_LONG_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_QUICK_MATCH))
+                {
+                    timeSpentQuickMatch = reader.Read<float>(PrefKeys.TIME_SPENT_QUICK_MATCH);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -151,6 +186,10 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
                 writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
                 writer.Write<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME, timeAtLobbyLoadedFirstTime.ToBinary().ToString());
+                writer.Write<float>(PrefKeys.TIME_SPENT_QUICK_MATCH, timeSpentQuickMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_LOBBY, timeSpentLobby);
+                writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
                 writer.Close();
             }
             catch (Exception e)

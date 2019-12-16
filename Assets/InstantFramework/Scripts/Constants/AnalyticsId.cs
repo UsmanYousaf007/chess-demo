@@ -125,6 +125,10 @@ namespace TurboLabz.InstantFramework
         powerup_usage_avg,
         powerup_usage_good,
         powerup_usage_awesome,
+        time_spent_quick_macth,
+        time_spent_long_match,
+        time_spent_cpu_match,
+        time_spent_lobby
     }
 
     public enum AnalyticsContext
@@ -149,7 +153,8 @@ namespace TurboLabz.InstantFramework
         fb_logged_in,
         is_bot,
         context,
-        day
+        day,
+        minutes
     }
 
 }
