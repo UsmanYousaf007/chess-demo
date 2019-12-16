@@ -32,6 +32,9 @@ namespace TurboLabz.InstantGame
         public int strengthUsedCount { get; set; }
         public int promotionCycleIndex { get; set; }
         public DateTime timeAtLobbyLoadedFirstTime { get; set; }
+        public int videoFinishedCount { get; set; }
+        public int continousPlayCount { get; set; }
+        public DateTime lastLaunchTime { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -49,6 +52,15 @@ namespace TurboLabz.InstantGame
             hasRated = false;
             isSafeMoveOn = false;
             isFriendScreenVisited = false;
+            isCoachTooltipShown = false;
+            isStrengthTooltipShown = false;
+            isLobbyLoadedFirstTime = false;
+            coachUsedCount = 0;
+            strengthUsedCount = 0;
+            promotionCycleIndex = 0;
+            videoFinishedCount = 0;
+            continousPlayCount = 0;
+            lastLaunchTime = DateTime.Now;
         }
 
         private void LoadFromDisk()
@@ -121,6 +133,21 @@ namespace TurboLabz.InstantGame
                     timeAtLobbyLoadedFirstTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME)));
                 }
 
+                if (reader.HasKey(PrefKeys.VIDEO_FINISHED_COUNT))
+                {
+                    videoFinishedCount = reader.Read<int>(PrefKeys.VIDEO_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.COUNTINOUS_PLAY_COUNT))
+                {
+                    continousPlayCount = reader.Read<int>(PrefKeys.COUNTINOUS_PLAY_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.LAST_LAUNCH_TIME))
+                {
+                    lastLaunchTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.LAST_LAUNCH_TIME)));
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -151,6 +178,9 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
                 writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
                 writer.Write<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME, timeAtLobbyLoadedFirstTime.ToBinary().ToString());
+                writer.Write<int>(PrefKeys.VIDEO_FINISHED_COUNT, videoFinishedCount);
+                writer.Write<int>(PrefKeys.COUNTINOUS_PLAY_COUNT, continousPlayCount);
+                writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
                 writer.Close();
             }
             catch (Exception e)

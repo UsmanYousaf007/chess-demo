@@ -32,5 +32,10 @@ namespace TurboLabz.InstantGame
         public const string STRENGTH_USED_COUNT = "strengthUsedCount";
         public const string PROMOTION_CYCLE_INDEX = "promotionCycleIndex";
         public const string TIME_AT_LOBBY_LOADED_FIRST_TIME = "timeAtLobbyLoadedFirstTime";
+
+        //for appsflyer events for HUUUGE
+        public const string VIDEO_FINISHED_COUNT = "videoFinishedCount";
+        public const string COUNTINOUS_PLAY_COUNT = "continousPlayCount";
+        public const string LAST_LAUNCH_TIME = "lastLaunchDay";
     }
 }

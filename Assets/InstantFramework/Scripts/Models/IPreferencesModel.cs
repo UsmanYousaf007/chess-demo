@@ -23,5 +23,10 @@ namespace TurboLabz.InstantFramework
         int strengthUsedCount { get; set; }
         int promotionCycleIndex { get; set; }
         DateTime timeAtLobbyLoadedFirstTime { get; set; }
+
+        //for appsflyer events for HUUUGE
+        int videoFinishedCount { get; set; }
+        int continousPlayCount { get; set; }
+        DateTime lastLaunchTime { get; set; }
     }
 }

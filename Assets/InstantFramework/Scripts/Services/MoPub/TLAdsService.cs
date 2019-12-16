@@ -4,6 +4,7 @@ using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
 using HUF.Ads.API;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -12,6 +13,8 @@ namespace TurboLabz.InstantFramework
         //MoPubAdUnits adUnits;
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
         IPromise<AdsResult> rewardedAdPromiseOnSuccess;
 
         public void Init()
@@ -21,6 +24,7 @@ namespace TurboLabz.InstantFramework
             HAds.Rewarded.Fetch();
 
             HAds.Banner.OnShown += OnBannerLoadedEvent;
+            HAds.Banner.OnClicked += OnBannerClicked;
             HAds.Interstitial.OnEnded += OnInterstitailEnded;
             HAds.Rewarded.OnEnded += OnRewardedEnded;
             HAds.Rewarded.OnFetched += OnRewardedVideoLoadedEvent;
@@ -114,6 +118,21 @@ namespace TurboLabz.InstantFramework
             switch(data.Result)
             {
                 case AdResult.Completed:
+                    var videoEventData = new Dictionary<string, string>();
+                    videoEventData.Add("network", data.ProviderId);
+                    videoEventData.Add("placement", data.PlacementId);
+
+                    appsFlyerService.TrackRichEvent(AnalyticsEventId.video_finished.ToString(), videoEventData);
+
+                    preferencesModel.videoFinishedCount++;
+
+                    if (preferencesModel.videoFinishedCount <= 20 &&
+                        preferencesModel.videoFinishedCount % 5 == 0 ||
+                        preferencesModel.videoFinishedCount < 5)
+                    {
+                        appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.video_finished, preferencesModel.videoFinishedCount));
+                    }
+
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
                     break;
                 case AdResult.Skipped:
@@ -150,6 +169,7 @@ namespace TurboLabz.InstantFramework
             {
                 HideBanner();
             }
+            appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_displayed.ToString());
         }
 
         public void OnRewardedVideoLoadedEvent(IAdCallbackData data)
@@ -200,6 +220,11 @@ namespace TurboLabz.InstantFramework
         {
             HAds.Banner.Hide();
            // MoPubBanner.Hide();
+        }
+
+        private void OnBannerClicked(IBannerCallbackData data)
+        {
+            appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_clicked.ToString());
         }
     }
 }

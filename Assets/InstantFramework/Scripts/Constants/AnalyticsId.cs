@@ -125,6 +125,15 @@ namespace TurboLabz.InstantFramework
         powerup_usage_avg,
         powerup_usage_good,
         powerup_usage_awesome,
+
+        //apps flyer events for HUUUGE
+        launch,
+        ad_clicked,
+        ad_displayed,
+        video_finished,
+        game_started,
+        game_finished,
+        continuous_play
     }
 
     public enum AnalyticsContext
