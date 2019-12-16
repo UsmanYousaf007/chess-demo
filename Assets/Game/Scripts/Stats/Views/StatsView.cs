@@ -213,7 +213,7 @@ namespace TurboLabz.InstantGame
             var newName = playerProfileNameInputField.text;
             nameConfirmDlgTitleText.text = "Change name to "+ newName + "?";
             nameConfirmDlgSubheadingText.text = "You can change your name once. Are you sure to change your name?";
-            nameConfirmDlgYesBtnText.text = "YES";
+            nameConfirmDlgYesBtnText.text = "Yes";
 
             nameConfirmDlg.SetActive(true);
         }

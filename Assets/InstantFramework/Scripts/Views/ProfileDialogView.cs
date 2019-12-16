@@ -194,7 +194,7 @@ namespace TurboLabz.InstantFramework
 
             float total = vo.oppTotalGamesWon + vo.oppTotalGamesLost;
             float percentage = total > 0.0f ? (vo.oppTotalGamesWon / total) * 100.0f : 0.0f;
-            oppWinPercentage.text = "Win Percentage: " + percentage.ToString("0.") + "%";
+            oppWinPercentage.text = "Wins " + percentage.ToString("0.") + "%";
 
             playerRankedWinsLabel.text = vo.playerWinsCount.ToString();
             opponentRankedWinsLabel.text = vo.opponentWinsCount.ToString();
@@ -337,7 +337,7 @@ namespace TurboLabz.InstantFramework
         private void EnableRemoveButton(bool enableFlag)
         {
             removeFriendBtn.interactable = enableFlag;
-            var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
+            var colorToSet = enableFlag ? Colors.WHITE_150 : Colors.DISABLED_WHITE;
             removeFriendBtnText.color = colorToSet;
             removeFriendBtnUnderline.color = colorToSet;
             removeFriendIcon.color = colorToSet;
@@ -347,7 +347,7 @@ namespace TurboLabz.InstantFramework
         private void EnableAddButton(bool enableFlag)
         {
             addFriendBtn.interactable = enableFlag;
-            var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
+            var colorToSet = enableFlag ? Colors.WHITE_150 : Colors.DISABLED_WHITE;
             addFriendBtnText.color = colorToSet;
             addFriendBtnUnderline.color = colorToSet;
             addFriendIcon.color = colorToSet;
@@ -362,7 +362,7 @@ namespace TurboLabz.InstantFramework
         private void EnableBlockButton(bool enableFlag)
         {
             blockBtn.interactable = enableFlag;
-            var colorToSet = enableFlag ? Colors.WHITE : Colors.DISABLED_WHITE;
+            var colorToSet = enableFlag ? Colors.WHITE_150 : Colors.DISABLED_WHITE;
             blockLabel.color = colorToSet;
             blockUnderline.color = colorToSet;
         }

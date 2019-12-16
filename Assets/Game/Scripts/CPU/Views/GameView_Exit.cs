@@ -138,8 +138,8 @@ namespace TurboLabz.CPU
         {
             menuButton.interactable = true;
             backToLobbyButton.interactable = true;
-            backToLobbyButtonLabel.color = Colors.WHITE;
-            backToLobbyButtonUnderline.color = Colors.WHITE;
+            backToLobbyButtonLabel.color = Colors.WHITE_150;
+            backToLobbyButtonUnderline.color = Colors.WHITE_150;
         }
 
         void OnMenuButtonClicked()
