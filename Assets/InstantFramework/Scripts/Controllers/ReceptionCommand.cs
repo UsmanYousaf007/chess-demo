@@ -119,13 +119,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.session_premium);
             }
 
-            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
-
-            if (daysBetweenLastLogin >= 1)
-            {
-                preferencesModel.lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
-                SendTimeSpentAnalytics();
-            }
+            SendTimeSpentAnalytics();
         }
 
         private void CommandBegin()
@@ -142,15 +136,18 @@ namespace TurboLabz.InstantFramework
 
         private void SendTimeSpentAnalytics()
         {
-            analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentCpuMatch, 2));
-            analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLongMatch, 2));
-            analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentQuickMatch, 2));
-            analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLobby, 2));
+            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
 
-            preferencesModel.timeSpentCpuMatch = 0;
-            preferencesModel.timeSpentLongMatch = 0;
-            preferencesModel.timeSpentQuickMatch = 0;
-            preferencesModel.timeSpentLobby = 0;
+            if (daysBetweenLastLogin >= 1)
+            {
+                analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentCpuMatch, 2));
+                analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLongMatch, 2));
+                analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentQuickMatch, 2));
+                analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLobby, 2));
+
+                preferencesModel.ResetTimeSpentAnalyticsData();
+            }
+
         }
     }
 }

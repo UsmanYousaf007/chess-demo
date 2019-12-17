@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            cmd.preferencesModel.timeSpentLobby += (float)(TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
+            cmd.preferencesModel.UpdateTimeSpentAnalyticsData(AnalyticsEventId.time_spent_lobby, timeAtScreenShown);
 
             if (evt == NavigatorEvent.SHOW_CPU)
             {

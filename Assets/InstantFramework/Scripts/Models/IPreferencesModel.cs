@@ -28,5 +28,8 @@ namespace TurboLabz.InstantFramework
         float timeSpentCpuMatch { get; set; }
         float timeSpentLobby { get; set; }
         DateTime lastLaunchTime { get; set; }
+
+        void ResetTimeSpentAnalyticsData();
+        void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);
     }
 }

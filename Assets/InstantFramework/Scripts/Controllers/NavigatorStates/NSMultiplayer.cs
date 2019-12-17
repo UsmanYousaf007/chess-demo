@@ -24,15 +24,13 @@ namespace TurboLabz.InstantFramework
 
             if (matchInfo != null)
             {
-                var minutesSpent = (float)(TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
-
                 if (matchInfo.isLongPlay)
                 {
-                    cmd.preferencesModel.timeSpentLongMatch += minutesSpent;
+                    cmd.preferencesModel.UpdateTimeSpentAnalyticsData(AnalyticsEventId.time_spent_long_match, timeAtScreenShown);
                 }
                 else
                 {
-                    cmd.preferencesModel.timeSpentQuickMatch += minutesSpent;
+                    cmd.preferencesModel.UpdateTimeSpentAnalyticsData(AnalyticsEventId.time_spent_quick_macth, timeAtScreenShown);
                 }
             }
 

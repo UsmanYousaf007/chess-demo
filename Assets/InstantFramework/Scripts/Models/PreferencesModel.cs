@@ -13,6 +13,7 @@ namespace TurboLabz.InstantGame
     {
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -65,7 +66,7 @@ namespace TurboLabz.InstantGame
             timeSpentLongMatch = 0;
             timeSpentCpuMatch = 0;
             timeSpentLobby = 0;
-            lastLaunchTime = DateTime.UtcNow;
+            lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
         }
 
         private void LoadFromDisk()
@@ -209,6 +210,44 @@ namespace TurboLabz.InstantGame
 
                 LogUtil.Log("Critical error when saving prefs. File deleted. " + e, "red");
             }
+        }
+
+        public void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown)
+        {
+            var minutesSpent = (float)(TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
+
+            LogUtil.Log("[eventId] : " + eventId + "   [minutesSpent] : "+ minutesSpent, "orange");
+
+            if (eventId == AnalyticsEventId.time_spent_cpu_match)
+            {
+                timeSpentCpuMatch += minutesSpent;
+                LogUtil.Log("timeSpentCpuMatch ###  " + timeSpentCpuMatch, "cyan");
+            }
+            else if (eventId == AnalyticsEventId.time_spent_long_match)
+            {
+                timeSpentLongMatch += minutesSpent;
+                LogUtil.Log("timeSpentLongMatch ###  " + timeSpentLongMatch, "cyan");
+            }
+            else if (eventId == AnalyticsEventId.time_spent_quick_macth)
+            {
+                timeSpentQuickMatch += minutesSpent;
+                LogUtil.Log("timeSpentQuickMatch ###  " + timeSpentQuickMatch, "cyan");
+            }
+            else if (eventId == AnalyticsEventId.time_spent_lobby)
+            {
+                timeSpentLobby += minutesSpent;
+                LogUtil.Log("timeSpentLobby ###  " + timeSpentLobby, "cyan");
+            }
+        }
+
+        public void ResetTimeSpentAnalyticsData()
+        {
+            lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
+
+            timeSpentCpuMatch   = 0;
+            timeSpentLongMatch  = 0;
+            timeSpentQuickMatch = 0;
+            timeSpentLobby      = 0;
         }
     }
 }
