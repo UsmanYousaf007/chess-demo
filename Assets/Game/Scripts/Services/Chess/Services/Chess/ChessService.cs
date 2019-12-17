@@ -144,12 +144,10 @@ namespace TurboLabz.Chess
         {
             if (color == ChessColor.BLACK)
             {
-                return (Game.PlayerBlack.CapturedEnemyPiecesTotalBasicValue - Game.PlayerWhite.CapturedEnemyPiecesTotalBasicValue);
+                return Game.PlayerBlack.TotalPieceBasicValue - Game.PlayerWhite.TotalPieceBasicValue;
             }
-            else
-            {
-                return (Game.PlayerWhite.CapturedEnemyPiecesTotalBasicValue - Game.PlayerBlack.CapturedEnemyPiecesTotalBasicValue);
-            }
+
+            return Game.PlayerWhite.TotalPieceBasicValue - Game.PlayerBlack.TotalPieceBasicValue;
         }
 
         public FileRank GetFileRankLocation(char file, char rank)

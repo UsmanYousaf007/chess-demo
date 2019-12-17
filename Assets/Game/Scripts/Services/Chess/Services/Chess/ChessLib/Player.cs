@@ -510,6 +510,24 @@ namespace ChessboardLib
             }
         }
 
+        /// <summary>
+        ///   Gets the sum of the player's piece basic value.
+        /// </summary>
+        public int TotalPieceBasicValue
+        {
+            get
+            {
+                int intValue = 0;
+                foreach (Piece piece in this.Pieces)
+                {
+                    intValue += piece.BasicValue;
+                }
+
+                return intValue;
+            }
+        }
+
+
         #endregion
 
         #region Public Methods
