@@ -20,5 +20,6 @@ namespace TurboLabz.Chess
         void Shutdown();
         IPromise<FileRank, FileRank, string> GetAiMove(AiMoveInputVO vo);
         IPromise<FileRank, FileRank, string> GetAiMoveStrength(AiMoveInputVO vo);
+        bool IsReactionaryCaptureAvailable();
     }
 }

@@ -236,6 +236,22 @@ namespace TurboLabz.Chess
             return false;
         }
 
+        public bool IsReactionaryCaptureAvailable()
+        {
+            var cheapestAttackingMove = chessService.GetCheapestAttackingMoveToSquare(aiMoveInputVO.lastPlayerMove.to);
+
+            if (cheapestAttackingMove == null)
+                return false;
+
+            var landingDefended = chessService.IsSquareDefended(aiMoveInputVO.lastPlayerMove.to, aiMoveInputVO.playerColor);
+            var attackingPieceValue = GetValueForPiece(cheapestAttackingMove.piece.name);
+            var victimPieceValue = GetValueForPiece(aiMoveInputVO.lastPlayerMove.piece.name);
+            var exchange = (attackingPieceValue < victimPieceValue) ||
+                ((attackingPieceValue == victimPieceValue) && RollPercentageDice(ChessAiConfig.PIECE_EXCHANCE_CHANCE));
+
+            return !landingDefended || exchange;
+        }
+
         private bool MakeReactionaryCaptureMove()
         {
             if (aiMoveInputVO.lastPlayerMove == null)

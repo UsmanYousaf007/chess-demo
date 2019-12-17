@@ -136,7 +136,9 @@ namespace TurboLabz.Multiplayer
             //yield return new WaitForSecondsRealtime(delay);
 
             if (chessboard.aiWillResign &&
-                chessService.GetScore(chessboard.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD)
+                chessService.GetScore(chessboard.playerColor) > BotSettings.AI_RESIGN_SCORE_THRESHOLD &&
+                chessboard.backendPlayerTimer.TotalMinutes > 1 &&
+                !chessAiService.IsReactionaryCaptureAvailable())
             {
                 backendService.AiResign().Then(OnResign);
             }
