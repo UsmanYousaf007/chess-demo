@@ -57,6 +57,7 @@ namespace TurboLabz.CPU
             vo.aiMoveNumber = chessboardModel.aiMoveNumber;
             vo.cpuStrengthPct = (float)cpuGameModel.cpuStrength / (float)CPUSettings.MAX_STRENGTH;
             vo.fen = chessService.GetFen();
+            vo.isBot = false;
            
             double durationMins = chessboardModel.gameDuration.TotalMinutes;
 

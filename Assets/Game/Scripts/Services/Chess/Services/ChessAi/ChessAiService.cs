@@ -70,26 +70,17 @@ namespace TurboLabz.Chess
 			MoveRequest request;
 			request.promise = new Promise<FileRank, FileRank, string>();
 			request.vo = vo;
-
-            //routineRunner.StartCoroutine(ProcessQueue(request));
-            //return aiMovePromise;
             SetPosition(vo.fen);
-
             aiMoveInputVO = request.vo;
-            //aiMovePromise = request.promise;
             routineRunner.StartCoroutine(GetAiResult());
-            //return aiMovePromise;
         }
 
         private void _GetAiMoveStrength(AiMoveInputVO vo)
         {
             NewGame();
             SetPosition(vo.fen);
-
-            //aiMoveStrengthPromise = new Promise<FileRank, FileRank, string>();
             aiMoveInputVO = vo;
             routineRunner.StartCoroutine(GetAiResult());
-            //return aiMoveStrengthPromise;
         }
 
         //private IEnumerator ProcessQueue(MoveRequest request)
@@ -111,19 +102,8 @@ namespace TurboLabz.Chess
             string searchDepth;
 
             // Execute the move
-            if(aiMoveInputVO.isStrength || aiMoveInputVO.isHint)
-            {
-                int searchDepthRange = ChessAiConfig.SF_MAX_SEARCH_DEPTH - ChessAiConfig.SF_MIN_SEARCH_DEPTH;
-                int searchDepthInt = ChessAiConfig.SF_MIN_SEARCH_DEPTH + Mathf.FloorToInt(aiMoveInputVO.playerStrengthPct * searchDepthRange);
-                searchDepth = searchDepthInt.ToString();
-                AiLog("isStrength searchDepth = " + searchDepth);
-            }
-            else
-            {
-                searchDepth = aiMoveInputVO.isHint ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
-                AiLog("searchDepth = " + searchDepth);
-            }
-
+            searchDepth = (aiMoveInputVO.isStrength || aiMoveInputVO.isHint) ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+            AiLog("searchDepth = " + searchDepth);
             
             plugin.GoDepth(searchDepth);
 

@@ -26,6 +26,7 @@ namespace TurboLabz.Chess
         public float cpuStrengthPct;
         public bool isStrength;
         public float playerStrengthPct;
-        public string fen; 
+        public string fen;
+        public bool isBot;
     }
 }

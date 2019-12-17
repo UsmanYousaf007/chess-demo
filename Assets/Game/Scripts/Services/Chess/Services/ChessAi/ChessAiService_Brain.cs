@@ -57,7 +57,7 @@ namespace TurboLabz.Chess
                 DispatchMove(0);
                 return;
             }
-            else if (aiMoveInputVO.cpuStrengthPct == 1f)
+            else if (aiMoveInputVO.cpuStrengthPct >= 1f)
             {
                 AiLog("Epic max strength best move.");
                 DispatchMove(0);
@@ -73,13 +73,18 @@ namespace TurboLabz.Chess
             // of triggering these filters upto 50% computer strength.
             filterMoves = true;
 
-            float filterOffProb = Mathf.Max((0.5f - aiMoveInputVO.cpuStrengthPct) * 2f, 0f);
-            filterMoves = !RollPercentageDice(Mathf.FloorToInt(filterOffProb * 100));
+            //if not online match
+            if (!aiMoveInputVO.isBot)
+            {
+                float filterOffProb = Mathf.Max((0.5f - aiMoveInputVO.cpuStrengthPct) * 2f, 0f);
+                filterMoves = !RollPercentageDice(Mathf.FloorToInt(filterOffProb * 100));
+            }
 
             // For any other move, emulate a human player by thinking
             // 1 dimensionally.
             if (filterMoves)
             {
+                AiLog("Filtering moves");
                 if (
                     MakeOpeningMoves() ||
                     MakeOnlyMoveAvailable() ||
@@ -90,6 +95,11 @@ namespace TurboLabz.Chess
                 {
                     return;
                 }
+                AiLog("No filter triggered");
+            }
+            else
+            {
+                AiLog("Not filtering moves");
             }
 
             // We will apply a bit of variance offset to the move index
@@ -112,6 +122,7 @@ namespace TurboLabz.Chess
         /// </summary>
         private void DispatchMove(int index, bool panicMove = false)
         {
+            AiLog(string.Format("index : {0} panic move : {1}", index, panicMove));
             index = Math.Min(aiSearchResultMovesList.Count - 1, index);
             string selectedMove = aiSearchResultMovesList[index];
 
@@ -197,9 +208,10 @@ namespace TurboLabz.Chess
         {
             if (chessService.WillMoveCauseWeakExchangeOrFeed(from, to, promo))
             {
+                AiLog("detected weak exchange");
                 return true;
             }
-
+            AiLog("Did not detect weak exchange");
             return false;
         }
 
@@ -246,6 +258,7 @@ namespace TurboLabz.Chess
                 // If I can attack, Then make the capture using the cheapest piece
                 if (cheapestAttackingMove != null)
                 {
+                    AiLog("Make reactionary move 1");
                     int index = GetAiMoveIndex(cheapestAttackingMove);
                     DispatchMove(index);
                     return true;
@@ -272,6 +285,7 @@ namespace TurboLabz.Chess
 
                     if (exchange)
                     {
+                        AiLog("Make reactionary move 2");
                         int index = GetAiMoveIndex(cheapestAttackingMove);
                         DispatchMove(index);
                         return true;
@@ -329,7 +343,7 @@ namespace TurboLabz.Chess
                     {
                         DispatchMove(0);
                     }
-
+                    AiLog("MakeReactionaryEvasiveMove");
                     return true;
                 }
             }
@@ -365,6 +379,7 @@ namespace TurboLabz.Chess
             // If there is just one move, make it and get out
             if (scores.Count == 1)
             {
+                AiLog("MakeOnlyMoveAvailable");
                 DispatchMove(0);
                 return true;
             }
@@ -521,7 +536,7 @@ namespace TurboLabz.Chess
         [System.Diagnostics.Conditional("UNITY_EDITOR")]
         private void AiLog(string message)
         {
-            LogUtil.Log(this.GetType().Name + ": AI Log: " + message, "yellow");
+            //LogUtil.Log(this.GetType().Name + ": AI Log: " + message, "yellow");
         }
     }
 }

@@ -67,6 +67,7 @@ namespace TurboLabz.Multiplayer
             vo.opponentTimer = chessboard.backendOpponentTimer;
             vo.aiMoveNumber = chessboard.aiMoveNumber;
             vo.fen = chessService.GetFen();
+            vo.isBot = true;
 
             // Strength
             vo.cpuStrengthPct = matchInfoModel.activeMatch.botDifficulty;
