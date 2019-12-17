@@ -73,12 +73,8 @@ namespace TurboLabz.Chess
             // of triggering these filters upto 50% computer strength.
             filterMoves = true;
 
-            //if not online match
-            if (!aiMoveInputVO.isBot)
-            {
-                float filterOffProb = Mathf.Max((0.5f - aiMoveInputVO.cpuStrengthPct) * 2f, 0f);
-                filterMoves = !RollPercentageDice(Mathf.FloorToInt(filterOffProb * 100));
-            }
+            float filterOffProb = Mathf.Max((0.5f - aiMoveInputVO.cpuStrengthPct) * 2f, 0f);
+            filterMoves = !RollPercentageDice(Mathf.FloorToInt(filterOffProb * 100));
 
             // For any other move, emulate a human player by thinking
             // 1 dimensionally.
@@ -97,9 +93,9 @@ namespace TurboLabz.Chess
                 }
                 AiLog("No filter triggered");
             }
-            else
+            else if (aiMoveInputVO.isBot && MakeReactionaryCaptureMove())
             {
-                AiLog("Not filtering moves");
+                return;
             }
 
             // We will apply a bit of variance offset to the move index
@@ -140,7 +136,7 @@ namespace TurboLabz.Chess
             // the computer selects a random unfiltered move. This could be a very "off" looking move.
             // So unless we have rolled the best move possible and we're not panicing at this time,
             // we filter out this off move by move up one index of the scores count.
-            if (index > 0 && !panicMove && filterMoves) 
+            if (index > 0 && !panicMove && filterMoves)
             {
                 if (CancelMoveDueToFeedsOrWeakExchanges(from, to, promo, index) ||
                     CancelMoveDueToFreeCaptureAvailable(to, index) ||
@@ -151,6 +147,11 @@ namespace TurboLabz.Chess
                     DispatchMove(index - 1);
                     return;
                 }
+            }
+            else if (index > 0 && aiMoveInputVO.isBot && CancelMoveDueToFeedsOrWeakExchanges(from, to, promo, index))
+            {
+                DispatchMove(index - 1);
+                return;
             }
 
             lastDequeuedMethod.promise.Dispatch(from, to, promo);
@@ -552,7 +553,7 @@ namespace TurboLabz.Chess
         [System.Diagnostics.Conditional("UNITY_EDITOR")]
         private void AiLog(string message)
         {
-            //LogUtil.Log(this.GetType().Name + ": AI Log: " + message, "yellow");
+            LogUtil.Log(this.GetType().Name + ": AI Log: " + message, "yellow");
         }
     }
 }
