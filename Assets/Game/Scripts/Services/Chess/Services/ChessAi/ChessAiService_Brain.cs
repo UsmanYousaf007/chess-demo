@@ -275,6 +275,7 @@ namespace TurboLabz.Chess
         private bool MakeReactionaryQueenCaptureMove()
         {
             if (aiMoveInputVO.lastPlayerMove == null ||
+                aiMoveInputVO.lastPlayerMove.piece == null ||
                 !aiMoveInputVO.lastPlayerMove.piece.name.ToLower().Equals(ChessPieceName.BLACK_QUEEN))
                 return false;
 
