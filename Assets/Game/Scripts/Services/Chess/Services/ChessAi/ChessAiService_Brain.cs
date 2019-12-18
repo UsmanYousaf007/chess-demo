@@ -93,7 +93,7 @@ namespace TurboLabz.Chess
                 }
                 AiLog("No filter triggered");
             }
-            else if (aiMoveInputVO.isBot && MakeReactionaryCaptureMove())
+            else if (aiMoveInputVO.isBot && MakeReactionaryQueenCaptureMove())
             {
                 return;
             }
@@ -148,10 +148,15 @@ namespace TurboLabz.Chess
                     return;
                 }
             }
-            else if (index > 0 && aiMoveInputVO.isBot && CancelMoveDueToFeedsOrWeakExchanges(from, to, promo, index))
+            else if (index > 0 && !panicMove && aiMoveInputVO.isBot)
             {
-                DispatchMove(index - 1);
-                return;
+                if (CancelMoveDueToQueenFeedOrWeakExchange(from, to, promo, index) ||
+                    CancelMoveDueToRookRestriction(from, index) ||
+                    CancelMoveDueToNonPromotion(promo))
+                {
+                    DispatchMove(index - 1);
+                    return;
+                }
             }
 
             lastDequeuedMethod.promise.Dispatch(from, to, promo);
@@ -205,6 +210,18 @@ namespace TurboLabz.Chess
             return false;
         }
 
+        private bool CancelMoveDueToQueenFeedOrWeakExchange(FileRank from, FileRank to, string promo, int index)
+        {
+            var piece = chessService.GetPieceAtLocation(from);
+            if (piece == null ||
+                !piece.name.ToLower().Equals(ChessPieceName.BLACK_QUEEN))
+            {
+                return false;
+            }
+
+            return CancelMoveDueToFeedsOrWeakExchanges(from, to, promo, index);
+        }
+
         private bool CancelMoveDueToFeedsOrWeakExchanges(FileRank from, FileRank to, string promo, int index)
         {
             if (chessService.WillMoveCauseWeakExchangeOrFeed(from, to, promo))
@@ -242,7 +259,9 @@ namespace TurboLabz.Chess
             var cheapestAttackingMove = chessService.GetCheapestAttackingMoveToSquare(aiMoveInputVO.lastPlayerMove.to);
 
             if (cheapestAttackingMove == null)
+            {
                 return false;
+            }
 
             var landingDefended = chessService.IsSquareDefended(aiMoveInputVO.lastPlayerMove.to, aiMoveInputVO.playerColor);
             var attackingPieceValue = GetValueForPiece(cheapestAttackingMove.piece.name);
@@ -251,6 +270,15 @@ namespace TurboLabz.Chess
                 ((attackingPieceValue == victimPieceValue) && RollPercentageDice(ChessAiConfig.PIECE_EXCHANCE_CHANCE));
 
             return !landingDefended || exchange;
+        }
+
+        private bool MakeReactionaryQueenCaptureMove()
+        {
+            if (aiMoveInputVO.lastPlayerMove == null ||
+                !aiMoveInputVO.lastPlayerMove.piece.name.ToLower().Equals(ChessPieceName.BLACK_QUEEN))
+                return false;
+
+            return MakeReactionaryCaptureMove();
         }
 
         private bool MakeReactionaryCaptureMove()
