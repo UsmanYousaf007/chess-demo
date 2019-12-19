@@ -129,6 +129,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateConfirmDlgSignal : Signal<ConfirmDlgVO> {}
     public class ContactSupportSignal : Signal {}
     public class FindMatchRequestCompleteSignal : Signal<string> {}
+    public class ReportHAnalyticsForPurchaseResult : Signal<string, string> {}
 
     public class SyncReconnectDataSignal : Signal<string> { }
     public class CancelSearchResultSignal : Signal { }

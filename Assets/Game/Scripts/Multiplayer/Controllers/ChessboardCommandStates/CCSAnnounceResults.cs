@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using System;
+using HUF.Analytics.API;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
@@ -86,7 +87,10 @@ namespace TurboLabz.Multiplayer
             cmd.hintAvailableSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(false);
             cmd.disableUndoBtnSignal.Dispatch(false);
-            
+
+            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_finished.ToString())
+                .ST1("gameplay");
+            HAnalytics.LogEvent(analyticsEvent);
         }
     }
 }

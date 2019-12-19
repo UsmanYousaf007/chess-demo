@@ -12,6 +12,7 @@ using GameAnalyticsSDK;
 using TurboLabz.CPU;
 using HUF.AnalyticsHBI.API;
 using HUFEXT.GenericGDPR.Runtime.API;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -92,6 +93,7 @@ namespace TurboLabz.InstantFramework
 				}
 
                 adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
             }
 		}
 

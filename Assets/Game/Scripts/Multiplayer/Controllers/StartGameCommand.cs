@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using HUF.Analytics.API;
 using strange.extensions.command.impl;
 using strange.extensions.mediation.api;
 using TurboLabz.Multiplayer;
@@ -105,6 +106,10 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.ScreenVisit(AnalyticsScreen.quick_match, facebookService.isLoggedIn(), matchInfo.isBotMatch);
             }
+
+            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
+                .ST1("gameplay");
+            HAnalytics.LogEvent(analyticsEvent);
         }
     }
 }

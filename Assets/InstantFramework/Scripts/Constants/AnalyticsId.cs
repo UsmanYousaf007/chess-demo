@@ -130,10 +130,12 @@ namespace TurboLabz.InstantFramework
         launch,
         ad_clicked,
         ad_displayed,
+        video_started,
         video_finished,
         game_started,
         game_finished,
-        continuous_play
+        continuous_play,
+        focus_lost
     }
 
     public enum AnalyticsContext

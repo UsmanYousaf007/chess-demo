@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
 using System.Collections;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -134,6 +135,19 @@ namespace TurboLabz.InstantFramework
             if (currentPromotion.key.Equals(key))
             {
                 analyticsService.Event(eventId);
+            }
+        }
+
+        public void ReportHAnalytic(string key, string result)
+        {
+            if (iapBanner != null  && iapBanner.key.Equals(key) && storeItem != null)
+            {
+                var analyticsEvent = AnalyticsMonetizationEvent.Create(result, (int)(storeItem.productPrice * 100))
+                .ST1("iap_purchase")
+                .ST2(storeItem.displayName.Replace("Ad Free", "special").Replace(" ", "_").ToLower())
+                .ST3("lobby_banner")
+                .Value((int)(storeItem.productPrice * 100));
+                HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
             }
         }
     }

@@ -8,6 +8,8 @@ using strange.extensions.mediation.impl;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
+using HUF.Analytics.API;
+using IAnalyticsService = TurboLabz.InstantFramework.IAnalyticsService;
 
 namespace TurboLabz.InstantGame
 {
@@ -28,6 +30,8 @@ namespace TurboLabz.InstantGame
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        // Models
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void OnRegister()
         {
@@ -139,6 +143,12 @@ namespace TurboLabz.InstantGame
 
         private void OnStoreItemClicked(StoreItem item)
         {
+            var analyticsEvent = AnalyticsMonetizationEvent.Create("attempt", (int)(item.productPrice * 100))
+                .ST1("iap_purchase")
+                .ST2(item.displayName.Replace("Ad Free", "special").Replace(" ", "_").ToLower())
+                .ST3("shop")
+                .Value((int)(item.productPrice * 100));
+            HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
             // Purchase item after confirmation. No confirmation for remote store items
             purchaseStoreItemSignal.Dispatch(item.key, true);
         }
@@ -152,6 +162,27 @@ namespace TurboLabz.InstantGame
         public void OnShowProcessingUI(bool show)
         {
             view.ShowProcessing(show);
+        }
+
+        [ListensTo(typeof(ReportHAnalyticsForPurchaseResult))]
+        public void OnReportHAnalytics(string key, string result)
+        {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
+            var item = metaDataModel.store.items[key];
+
+            if (item != null)
+            {
+                var analyticsEvent = AnalyticsMonetizationEvent.Create(result, (int)(item.productPrice * 100))
+                .ST1("iap_purchase")
+                .ST2(item.displayName.Replace("Ad Free", "special").Replace(" ", "_").ToLower())
+                .ST3("shop")
+                .Value((int)(item.productPrice * 100));
+                HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
+            }
         }
     }
 }

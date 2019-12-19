@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public RemoveLobbyPromotionSignal removeLobbyPromotionSignal { get; set; }
         [Inject] public ReportLobbyPromotionAnalyticSingal reportLobbyPromotionAnalyticSingal { get; set; }
+        [Inject] public ReportHAnalyticsForPurchaseResult reportHAnalyticsForPurchaseResult { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -70,7 +71,7 @@ namespace TurboLabz.InstantFramework
 
                 updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shopItemId]);
 
-
+                reportHAnalyticsForPurchaseResult.Dispatch(shopItemId, "completed");
             }
 
             // Process bundled goods

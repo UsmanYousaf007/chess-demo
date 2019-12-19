@@ -16,6 +16,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -55,6 +56,10 @@ namespace TurboLabz.InstantFramework
             if (isPaused)
             {
                 appPausedSignal.Dispatch();
+
+                var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.focus_lost.ToString())
+                .ST1("focus");
+                HAnalytics.LogEvent(analyticsEvent);
             }
             else
             {
