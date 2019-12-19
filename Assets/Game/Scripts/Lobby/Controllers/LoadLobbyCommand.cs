@@ -54,12 +54,10 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-
             setSkinSignal.Dispatch(playerModel.activeSkinId);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
-
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
 
             if (facebookService.isLoggedIn())
             {
