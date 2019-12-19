@@ -63,6 +63,11 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                if (SplashLoader.launchCode != 1)
+                {
+                    SplashLoader.launchCode = 2;
+                }
+
                 appResumedSignal.Dispatch();
             }
         }

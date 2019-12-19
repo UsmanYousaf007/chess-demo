@@ -1,4 +1,5 @@
-﻿using HUF.Utils.Configs.API;
+﻿using HUF.Analytics.API;
+using HUF.Utils.Configs.API;
 using HUFEXT.GenericGDPR.Runtime.Implementation;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -59,6 +60,11 @@ namespace HUFEXT.GenericGDPR.Runtime.API
                 view = canvas.GetComponentInChildren<GenericGDPRView>();
                 view.Init();
                 OnPolicyAccepted += Dispose;
+
+                var analyticsEvent = AnalyticsEvent.Create("gdpr_displayed")
+                    .ST1("launch")
+                    .ST2("gdpr");
+                HAnalytics.LogEvent(analyticsEvent);
             }
         }
 
@@ -75,6 +81,11 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             {
                 PlayerPrefs.SetInt( config.PlayerPrefsKey, 1 );
             }
+
+            var analyticsEvent = AnalyticsEvent.Create("gdpr_accepted")
+                    .ST1("launch")
+                    .ST2("gdpr");
+            HAnalytics.LogEvent(analyticsEvent);
         }
         
         /// <summary>

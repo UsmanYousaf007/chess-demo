@@ -59,7 +59,6 @@ namespace TurboLabz.InstantFramework
             GameAnalytics.Initialize();
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
-            HAnalyticsHBI.Init();
             adsService.Init();
         }
 

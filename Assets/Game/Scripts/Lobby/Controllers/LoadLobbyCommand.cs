@@ -14,6 +14,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
 using UnityEngine;
 using TurboLabz.Multiplayer;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantGame
 {
@@ -43,7 +44,8 @@ namespace TurboLabz.InstantGame
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
-        
+        [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
+
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -94,6 +96,22 @@ namespace TurboLabz.InstantGame
             if (preferencesModel.promotionCycleIndex == 0 && preferencesModel.isLobbyLoadedFirstTime)
             {
                 loadPromotionSingal.Dispatch();
+            }
+
+            if (SplashLoader.launchCode == 1 || SplashLoader.launchCode == 2)
+            {
+                var launchStr = SplashLoader.launchCode == 1 ? "launch" : "launch_opened";
+
+                var analyticsEvent = AnalyticsEvent.Create(launchStr)
+                        .ST1("launch");
+
+                if (firebasePushNotificationService.IsNotificationOpened())
+                {
+                    analyticsEvent.ST2("notification");
+                }
+
+                HAnalytics.LogEvent(analyticsEvent);
+                SplashLoader.launchCode = 3;
             }
         }
 
