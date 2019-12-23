@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
         public const string POWERUP_USAGE_PERCENTAGE = "powerupUsagePercentage";
         public const string STORE_IOS = "ios";
         public const string STORE_ANDROID = "android";
+        public const string CONTACT_SUPPORT_URL = "contactSupportURL";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
