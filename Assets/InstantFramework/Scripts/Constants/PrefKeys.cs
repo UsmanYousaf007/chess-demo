@@ -37,5 +37,7 @@ namespace TurboLabz.InstantGame
         public const string VIDEO_FINISHED_COUNT = "videoFinishedCount";
         public const string COUNTINOUS_PLAY_COUNT = "continousPlayCount";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";
+        public const string GAME_START_COUNT = "gameStartCount";
+        public const string GAME_FINISHED_COUNT = "gameFinishedCount";
     }
 }

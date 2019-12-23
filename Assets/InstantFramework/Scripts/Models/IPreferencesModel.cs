@@ -28,5 +28,7 @@ namespace TurboLabz.InstantFramework
         int videoFinishedCount { get; set; }
         int continousPlayCount { get; set; }
         DateTime lastLaunchTime { get; set; }
+        int gameStartCount { get; set; }
+        int gameFinishedCount { get; set; }
     }
 }

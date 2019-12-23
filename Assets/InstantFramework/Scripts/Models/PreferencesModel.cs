@@ -35,6 +35,8 @@ namespace TurboLabz.InstantGame
         public int videoFinishedCount { get; set; }
         public int continousPlayCount { get; set; }
         public DateTime lastLaunchTime { get; set; }
+        public int gameStartCount { get; set; }
+        public int gameFinishedCount { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -148,6 +150,16 @@ namespace TurboLabz.InstantGame
                     lastLaunchTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.LAST_LAUNCH_TIME)));
                 }
 
+                if (reader.HasKey(PrefKeys.GAME_START_COUNT))
+                {
+                    gameStartCount = reader.Read<int>(PrefKeys.GAME_START_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_FINISHED_COUNT))
+                {
+                    gameFinishedCount = reader.Read<int>(PrefKeys.GAME_FINISHED_COUNT);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -181,6 +193,8 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.VIDEO_FINISHED_COUNT, videoFinishedCount);
                 writer.Write<int>(PrefKeys.COUNTINOUS_PLAY_COUNT, continousPlayCount);
                 writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
+                writer.Write<int>(PrefKeys.GAME_START_COUNT, gameStartCount);
+                writer.Write<int>(PrefKeys.GAME_FINISHED_COUNT, gameFinishedCount);
                 writer.Close();
             }
             catch (Exception e)
