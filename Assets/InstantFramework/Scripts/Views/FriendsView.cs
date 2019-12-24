@@ -69,6 +69,7 @@ namespace TurboLabz.InstantFramework
         public Text facebookConnectText;
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
+        public GameObject processingUi;
         public Button editorSubmit;
         public TMP_InputField inputField;
         public Button cancelSearchButton;
@@ -1036,5 +1037,11 @@ namespace TurboLabz.InstantFramework
             findFriendDlg.SetActive(false);
         }
         #endregion
+
+        public void ShowProcessing(bool show)
+        {
+            processingUi.SetActive(show);
+            uiBlocker.SetActive(show);
+        }
     }
 }

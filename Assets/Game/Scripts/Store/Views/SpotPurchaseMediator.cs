@@ -96,7 +96,7 @@ namespace TurboLabz.InstantGame
             purchaseStoreItemSignal.Dispatch(item.key, true);
         }
 
-        [ListensTo(typeof(ShowIAPProcessingSignal))]
+        [ListensTo(typeof(ShowProcessingSignal))]
         public void OnShowProcessingUI(bool show)
         {
             view.ShowProcessing(show);

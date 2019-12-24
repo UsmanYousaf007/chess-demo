@@ -7,6 +7,7 @@ using strange.extensions.command.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using System;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -25,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ToggleFacebookButton toggleFacebookButton { get; set; }
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
+        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -124,6 +126,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
             toggleFacebookButton.Dispatch(false);
+            showProcessingSignal.Dispatch(true);
         }
 
         private void CommandEnd(bool isSuccessful)
@@ -149,7 +152,7 @@ namespace TurboLabz.InstantFramework
 
             authFacebookResultSignal.Dispatch(vo);
             toggleFacebookButton.Dispatch(true);
-
+            showProcessingSignal.Dispatch(false);
 
             Release();
         }

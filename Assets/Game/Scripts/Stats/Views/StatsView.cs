@@ -70,6 +70,9 @@ namespace TurboLabz.InstantGame
         public Text copiedToClipboardText;
         public Texture2D logo;
 
+        public GameObject uiBlocker;
+        public GameObject processingUi;
+
         public Signal restorePurchasesSignal = new Signal();
 
         [Header("Name Confirm Dialog")]
@@ -270,6 +273,12 @@ namespace TurboLabz.InstantGame
         {
             copiedToClipboardBg.CrossFadeAlpha(1.0f, 0.3f, true);
             copiedToClipboardText.CrossFadeAlpha(1.0f, 0.3f, true);
+        }
+
+        public void ShowProcessing(bool show)
+        {
+            processingUi.SetActive(show);
+            uiBlocker.SetActive(show);
         }
     }
 }

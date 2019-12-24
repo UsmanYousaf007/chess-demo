@@ -162,7 +162,6 @@ namespace TurboLabz.InstantFramework
             playerEloLabel.text = eloPrefix + " " + vo.playerElo;
             playerFlag.sprite = Flags.GetFlag(vo.playerCountryCode);
 
-
             opponentAvatarBG.gameObject.SetActive(false);
             opponentAvatarIcon.gameObject.SetActive(false);
             if (vo.oppProfilePic != null)
@@ -184,7 +183,6 @@ namespace TurboLabz.InstantFramework
                     oppProfilePic.sprite = defaultAvatar;
                 }
             }
-
             
             oppProfileName.text = vo.oppProfileName;
             oppEloLabel.text = eloPrefix + " " + vo.oppElo;
@@ -365,6 +363,21 @@ namespace TurboLabz.InstantFramework
             var colorToSet = enableFlag ? Colors.WHITE_150 : Colors.DISABLED_WHITE;
             blockLabel.color = colorToSet;
             blockUnderline.color = colorToSet;
+        }
+
+        public void SetProfilePic(Sprite sprite, string playerId = null)
+        {
+            if (playerId == null || playerId != this.playerId)
+            {
+                return;
+            }
+
+            if (sprite != null)
+            {
+                opponentAvatarIcon.gameObject.SetActive(false);
+                opponentAvatarBG.gameObject.SetActive(false);
+                oppProfilePic.sprite = sprite;
+            }
         }
     }
 }

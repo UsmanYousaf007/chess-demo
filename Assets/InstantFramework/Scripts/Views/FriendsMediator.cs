@@ -291,5 +291,11 @@ namespace TurboLabz.InstantFramework
         {
             removeCommunityFriendSignal.Dispatch(opponentId);
         }
+
+        [ListensTo(typeof(ShowProcessingSignal))]
+        public void OnShowProcessingUI(bool show)
+        {
+            view.ShowProcessing(show);
+        }
     }
 }

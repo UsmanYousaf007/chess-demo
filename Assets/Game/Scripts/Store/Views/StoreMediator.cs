@@ -42,7 +42,7 @@ namespace TurboLabz.InstantGame
 
         public override void OnRemove()
         {
-            view.storeItemClickedSignal.RemoveAllListeners ();
+            view.storeItemClickedSignal.RemoveAllListeners();
 
             OnRemoveBuy();
             OnRemoveNotEnoughBucks();
@@ -52,7 +52,7 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.STORE) 
+            if (viewId == NavigatorViewId.STORE)
             {
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.shop);
@@ -148,7 +148,7 @@ namespace TurboLabz.InstantGame
             loadLobbySignal.Dispatch();
         }
 
-        [ListensTo(typeof(ShowIAPProcessingSignal))]
+        [ListensTo(typeof(ShowProcessingSignal))]
         public void OnShowProcessingUI(bool show)
         {
             view.ShowProcessing(show);

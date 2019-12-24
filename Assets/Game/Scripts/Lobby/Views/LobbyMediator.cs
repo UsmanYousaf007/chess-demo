@@ -375,7 +375,7 @@ namespace TurboLabz.InstantFramework
             view.SetPriceOfIAPBanner(isAvailable);
         }
 
-        [ListensTo(typeof(ShowIAPProcessingSignal))]
+        [ListensTo(typeof(ShowProcessingSignal))]
         public void OnShowProcessingUI(bool show)
         {
             view.ShowProcessing(show);

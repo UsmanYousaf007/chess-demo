@@ -51,16 +51,14 @@ namespace TurboLabz.InstantFramework
             vo.inGame = true;
             vo.isBot = activeMatch.isBotMatch;
 
-            var friend = playerModel.GetFriend(opponentPublicProfile.playerId);
-
-            if (friend != null)
+            if (opponentProfile != null)
             {
-                vo.playerWinsCount = friend.gamesWon;
-                vo.playerDrawsCount = friend.gamesDrawn;
-                vo.opponentWinsCount = friend.gamesLost;
-                vo.opponentDrawsCount = friend.gamesDrawn;
-                vo.totalGamesCount = friend.gamesWon + friend.gamesLost + friend.gamesDrawn;
-                vo.friendType = friend.friendType;
+                vo.playerWinsCount = opponentProfile.gamesWon;
+                vo.playerDrawsCount = opponentProfile.gamesDrawn;
+                vo.opponentWinsCount = opponentProfile.gamesLost;
+                vo.opponentDrawsCount = opponentProfile.gamesDrawn;
+                vo.totalGamesCount = opponentProfile.gamesWon + opponentProfile.gamesLost + opponentProfile.gamesDrawn;
+                vo.friendType = opponentProfile.friendType;
             }
 
             updateProfileDialogSignal.Dispatch(vo);

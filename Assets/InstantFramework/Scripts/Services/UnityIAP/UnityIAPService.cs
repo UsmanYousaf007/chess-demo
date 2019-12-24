@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
-        [Inject] public ShowIAPProcessingSignal showIAPProcessingSignal { get; set; }
+        [Inject] public ShowProcessingSignal showIAPProcessingSignal { get; set; }
 
         IStoreController storeController = null;
         IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.

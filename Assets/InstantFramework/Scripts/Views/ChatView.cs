@@ -415,7 +415,7 @@ namespace TurboLabz.InstantFramework
 
         public void SetOpponentProfilePic(Sprite sprite, string playerId = null)
         {
-            if (playerId != null && playerId != opponentId)
+            if (playerId == null || playerId != opponentId)
             {
                 return;
             }
