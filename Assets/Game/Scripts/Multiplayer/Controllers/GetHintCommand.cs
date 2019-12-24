@@ -33,6 +33,7 @@ namespace TurboLabz.Multiplayer
 
         // Services
         [Inject] public IChessAiService chessAiService { get; set; }
+        [Inject] public IChessService chessService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -60,7 +61,7 @@ namespace TurboLabz.Multiplayer
                 vo.isStrength = !isHindsight;
                 vo.playerStrengthPct = 0.5f;
                 vo.isHint = isHindsight;
-                vo.fen = chessboard.previousPlayerTurnFen;
+                vo.fen = chessService.GetFen();//chessboard.previousPlayerTurnFen;
 
                 IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
                 promise.Then(OnAiMoveStrength);
@@ -134,15 +135,15 @@ namespace TurboLabz.Multiplayer
 
             if (isHindsight)
             {
-                updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+                //updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
                 preferencesModel.isCoachTooltipShown = true;
                 preferencesModel.coachUsedCount++;
             }
             else
             {
-                updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+                //updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
                 preferencesModel.isStrengthTooltipShown = true;
                 preferencesModel.strengthUsedCount++;
             }

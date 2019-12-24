@@ -61,7 +61,7 @@ namespace TurboLabz.CPU
                     isStrength = !isHindsight,
                     playerStrengthPct = 0.5f,
                     isHint = isHindsight,
-                    fen = chessboardModel.previousPlayerTurnFen
+                    fen = chessService.GetFen()//chessboardModel.previousPlayerTurnFen
                 };
 
                 IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
@@ -137,15 +137,15 @@ namespace TurboLabz.CPU
 
             if (isHindsight)
             {
-                updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+                //updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
                 preferencesModel.isCoachTooltipShown = true;
                 preferencesModel.coachUsedCount++;
             }
             else
             {
-                updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+                //updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
                 preferencesModel.isStrengthTooltipShown = true;
                 preferencesModel.strengthUsedCount++;
             }

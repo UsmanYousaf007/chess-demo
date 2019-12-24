@@ -105,7 +105,7 @@ namespace TurboLabz.CPU
 
             if (strengthPanel.gameObject.activeSelf)
             {
-                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.computer_match);
+                //analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.computer_match);
             }
 
             strengthPanel.Hide();
@@ -143,16 +143,16 @@ namespace TurboLabz.CPU
                 if (isStrengthToolTipShown)
                 {
                     isStrengthToolTipShown = false;
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, AnalyticsContext.computer_match);
+                    //analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, AnalyticsContext.computer_match);
                 }
 
                 if (InstantFramework.LobbyView.isStrengthTrainingShown)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, AnalyticsContext.computer_match);
+                    //analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, AnalyticsContext.computer_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
+                    //analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
                 }
             }
         }
@@ -171,11 +171,11 @@ namespace TurboLabz.CPU
 
         public void DisableHintButton()
         {
-            hintButton.interactable = false;
-            hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 0.5f);
-            hintAdd.color = Colors.ColorAlpha(hintAdd.color, 0.5f);
-            hintLabel.color = Colors.ColorAlpha(hintLabel.color, 0.5f);
-            hintIcon.color = Colors.ColorAlpha(hintIcon.color, 0.5f);
+            //hintButton.interactable = false;
+            //hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 0.5f);
+            //hintAdd.color = Colors.ColorAlpha(hintAdd.color, 0.5f);
+            //hintLabel.color = Colors.ColorAlpha(hintLabel.color, 0.5f);
+            //hintIcon.color = Colors.ColorAlpha(hintIcon.color, 0.5f);
         }
 
         public void EnableHintButton()

@@ -104,7 +104,7 @@ namespace TurboLabz.Multiplayer
 
             if(coachView.gameObject.activeSelf)
             {
-                analyticsService.Event(AnalyticsEventId.cancel_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+                //analyticsService.Event(AnalyticsEventId.cancel_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
             }
 
             coachView.Hide();
@@ -135,16 +135,16 @@ namespace TurboLabz.Multiplayer
                 if (isCoachToolTipShown)
                 {
                     isCoachToolTipShown = false;
-                    analyticsService.Event(AnalyticsEventId.tap_coach_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+                    //analyticsService.Event(AnalyticsEventId.tap_coach_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
 
                 if (InstantFramework.LobbyView.isCoachTrainingShown)
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_coach_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+                    //analyticsService.Event(AnalyticsEventId.tap_coach_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
+                    //analyticsService.Event(AnalyticsEventId.tap_pow_coach, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
                 }
 
             }
@@ -164,11 +164,11 @@ namespace TurboLabz.Multiplayer
 
         public void DisableHindsightButton()
         {
-            hindsightButton.interactable = false;
-            hindsightCountLabel.color = Colors.ColorAlpha(hindsightCountLabel.color, 0.5f);
-            hindsightAdd.color = Colors.ColorAlpha(hindsightAdd.color, 0.5f);
-            hindsightLabel.color = Colors.ColorAlpha(hindsightLabel.color, 0.5f);
-            hindsightIcon.color = Colors.ColorAlpha(hindsightIcon.color, 0.5f);
+            //hindsightButton.interactable = false;
+            //hindsightCountLabel.color = Colors.ColorAlpha(hindsightCountLabel.color, 0.5f);
+            //hindsightAdd.color = Colors.ColorAlpha(hindsightAdd.color, 0.5f);
+            //hindsightLabel.color = Colors.ColorAlpha(hindsightLabel.color, 0.5f);
+            //hindsightIcon.color = Colors.ColorAlpha(hindsightIcon.color, 0.5f);
         }
 
         private void EnableHindsightButton()

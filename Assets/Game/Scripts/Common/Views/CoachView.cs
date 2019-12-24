@@ -214,7 +214,7 @@ public class CoachView : MonoBehaviour
         }
 
 
-        coachVO.analyticsService.Event(AnalyticsEventId.close_pow_coach, coachVO.analyticsContext);
+        //coachVO.analyticsService.Event(AnalyticsEventId.close_pow_coach, coachVO.analyticsContext);
 
         Invoke("Hide", FADE_DURATION);
         //Invoke("Reset", FADE_DURATION);
