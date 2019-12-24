@@ -162,6 +162,8 @@ namespace TurboLabz.InstantFramework
             opponentPublicProfile.name = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_NAME);
             opponentPublicProfile.countryId = opponentProfile.GetString(GSBackendKeys.ChallengeData.PROFILE_COUNTRY_ID);
             opponentPublicProfile.eloScore = opponentProfile.GetInt(GSBackendKeys.ChallengeData.PROFILE_ELO_SCORE).Value;
+            opponentPublicProfile.totalGamesWon = opponentProfile.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;
+            opponentPublicProfile.totalGamesLost = opponentProfile.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_LOST).Value;
 
             GSData externalIds = opponentProfile.GetGSData(GSBackendKeys.ChallengeData.PROFILE_EXTERNAL_IDS);
             IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);

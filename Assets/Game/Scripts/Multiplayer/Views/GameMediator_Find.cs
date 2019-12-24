@@ -60,11 +60,19 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(MatchFoundSignal))]
         public void OnMatchFound(ProfileVO vo)
         {
+            if (FindMatchAction.isMatchRequestedWithFriend)
+            {
+                analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_accept);
+            }
             view.MatchFound(vo);
         }
 
         public void OnFindMatchTimeout()
         {
+            if (FindMatchAction.isMatchRequestedWithFriend)
+            {
+                analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_timeout_ingame);
+            }
             loadLobbySignal.Dispatch();
         }
     }

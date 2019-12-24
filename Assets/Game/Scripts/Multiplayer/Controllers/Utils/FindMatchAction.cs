@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
 
         public const string ACTION_RANDOM = "Random";
         static ActionData actionData = new ActionData();
+        public static bool isMatchRequestedWithFriend;
 
         static public void Reset()
         {
@@ -35,6 +36,7 @@ namespace TurboLabz.InstantFramework
         static public void Random(FindMatchSignal signal)
         {
             Reset();
+            isMatchRequestedWithFriend = false;
             actionData.action = "Random";
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
@@ -42,6 +44,7 @@ namespace TurboLabz.InstantFramework
         static public void Challenge(FindMatchSignal signal, bool isRanked, string opponentId)
         {
             Reset();
+            isMatchRequestedWithFriend = true;
             actionData.action = "Challenge";
             actionData.isRanked = isRanked;
             actionData.opponentId = opponentId;
@@ -51,6 +54,7 @@ namespace TurboLabz.InstantFramework
         static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor)
         {
             Reset();
+            isMatchRequestedWithFriend = false;
             actionData.action = "Accept";
             actionData.matchGroup = matchGroup;
             actionData.opponentId = opponentId;
