@@ -89,9 +89,16 @@ namespace TurboLabz.CPU
 
             // Initialize the game powerups
             cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
-            if(cmd.chessboardModel.lastPlayerMove != null)
+            if (cmd.chessboardModel.lastPlayerMove != null)
             {
                 cmd.turnSwapSignal.Dispatch(isPlayerTurn);
+            }
+            // game crashes in case if first turn is of cpu
+            // and player presses menu button while cpu is executing move
+            // button will be enabled after cpu made its move
+            else if (!isPlayerTurn) 
+            {
+                cmd.disableMenuButtonSignal.Dispatch();
             }
             
 

@@ -306,7 +306,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove player "},
                 { LocalizationKey.LONG_PLAY_VIEW, "View"},
                 { LocalizationKey.SHARE_GAME_SCREENSHOT, "Share Game Screenshot"},
-                { LocalizationKey.SHARE, "SHARE"},
+                { LocalizationKey.SHARE, "Share"},
 
                 #endregion
 
