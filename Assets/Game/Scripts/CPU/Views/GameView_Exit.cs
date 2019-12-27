@@ -26,6 +26,7 @@ namespace TurboLabz.CPU
         public Button continueButton;
         public Button saveAndExitButton;
         public Button backToLobbyButton;
+        public Button closeButton;
 
         public Signal menuButtonClickedSignal = new Signal();
         public Signal resignButtonClickedSignal = new Signal();
@@ -50,6 +51,7 @@ namespace TurboLabz.CPU
             continueButton.onClick.AddListener(OnContinueButtonClicked);
             saveAndExitButton.onClick.AddListener(OnSaveAndExitButtonClicked);
             backToLobbyButton.onClick.AddListener(OnBackClicked);
+            closeButton.onClick.AddListener(OnContinueButtonClicked);
 
             titleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
@@ -69,6 +71,7 @@ namespace TurboLabz.CPU
             menuButton.onClick.RemoveAllListeners();
             continueButton.onClick.RemoveAllListeners();
             resignButton.onClick.RemoveAllListeners();
+            closeButton.onClick.RemoveAllListeners();
         }
 
         public void ShowMenu()
