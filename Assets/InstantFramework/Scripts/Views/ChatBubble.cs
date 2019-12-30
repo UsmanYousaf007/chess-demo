@@ -96,7 +96,10 @@ public class ChatBubble : MonoBehaviour
                 StopCoroutine(fadeRoutine);
             }
 
-            fadeRoutine = StartCoroutine(DoFade());
+            if (isActiveAndEnabled)
+            {
+                fadeRoutine = StartCoroutine(DoFade());
+            }
         }
         text.ForceMeshUpdate();
 

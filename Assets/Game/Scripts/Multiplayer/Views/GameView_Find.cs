@@ -193,7 +193,10 @@ namespace TurboLabz.Multiplayer
             }
 
             rollOpponentProfilePictureEnumerator = RollOpponentProfilePictureCR();
-            StartCoroutine(rollOpponentProfilePictureEnumerator);
+            if (IsVisible())
+            {
+                StartCoroutine(rollOpponentProfilePictureEnumerator);
+            }
         }
 
         private void StopRollingOpponentProfilePicture()
@@ -237,7 +240,10 @@ namespace TurboLabz.Multiplayer
                     routineRunner.StopCoroutine(findMatchTimeoutCR);
                 }
 
-                findMatchTimeoutCR = routineRunner.StartCoroutine(FindMatchTimeoutCR(seconds));
+                if (IsVisible())
+                {
+                    findMatchTimeoutCR = routineRunner.StartCoroutine(FindMatchTimeoutCR(seconds));
+                }
             }
             else
             {
