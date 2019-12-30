@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
         [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
 
+        [Inject] public SyncReconnectDataSignal syncReconnectData { get; set; }
+
         private NavigatorViewId prevViewId;
 
         public void MonitorConnectivity(bool enable)
@@ -59,11 +61,14 @@ namespace TurboLabz.InstantFramework
                 InternetReachabilityMonitor.StartMonitor();
                 // Begin processing hard reconnect
                 resumeMatchSignal.Dispatch(prevViewId);
+
                 // Start the pinger
                 StartPinger();
 
+                reconnectViewEnableSignal.Dispatch(false);
                 chessboardBlockerEnableSignal.Dispatch(false);
 
+                GS.Reconnect();
             }
             else
             {
@@ -88,6 +93,8 @@ namespace TurboLabz.InstantFramework
                 prevViewId = navigatorModel.currentViewId;
                 // Remove pending requests processing
                 GSFrameworkRequest.CancelRequestSession();
+                // Data Sync was cancelled 
+                appInfoModel.syncInProgress = false;
                 // Dispatch signal that we are in reconnection
                 gameDisconnectingSignal.Dispatch();
                 // Save models to disk to reload when coming back from background
