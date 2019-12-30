@@ -226,6 +226,7 @@ namespace TurboLabz.InstantFramework
                 if (result == BackendResult.SUCCESS)
                 {
                     remoteStorePurchaseCompletedSignal.Dispatch(pendingVerification[transactionID].definition.id);
+                    reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "completed");
                 }
                 else
                 {

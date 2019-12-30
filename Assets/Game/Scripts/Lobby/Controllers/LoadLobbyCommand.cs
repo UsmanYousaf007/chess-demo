@@ -98,11 +98,9 @@ namespace TurboLabz.InstantGame
                 loadPromotionSingal.Dispatch();
             }
 
-            if (SplashLoader.launchCode == 1 || SplashLoader.launchCode == 2)
+            if (SplashLoader.launchCode == 1)
             {
-                var launchStr = SplashLoader.launchCode == 1 ? "launch" : "launch_opened";
-
-                var analyticsEvent = AnalyticsEvent.Create(launchStr)
+                var analyticsEvent = AnalyticsEvent.Create("launch")
                         .ST1("launch");
 
                 if (firebasePushNotificationService.IsNotificationOpened())

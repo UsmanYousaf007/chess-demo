@@ -97,11 +97,11 @@ namespace TurboLabz.InstantGame
 
         private void OnStoreItemClicked(StoreItem item)
         {
-            var analyticsEvent = AnalyticsMonetizationEvent.Create("attempt", (int)(item.productPrice * 100))
+            var analyticsEvent = AnalyticsMonetizationEvent.Create("attempt", item.currency1Cost)
                 .ST1("iap_purchase")
                 .ST2(item.displayName.Replace(" ", "_").ToLower())
                 .ST3("on_spot")
-                .Value((int)(item.productPrice * 100));
+                .Value(item.currency1Cost);
             HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
 
             // Purchase item after confirmation. No confirmation for remote store items
@@ -126,11 +126,11 @@ namespace TurboLabz.InstantGame
 
             if (item != null)
             {
-                var analyticsEvent = AnalyticsMonetizationEvent.Create(result, (int)(item.productPrice * 100))
+                var analyticsEvent = AnalyticsMonetizationEvent.Create(result, item.currency1Cost)
                 .ST1("iap_purchase")
                 .ST2(item.displayName.Replace(" ", "_").ToLower())
                 .ST3("on_spot")
-                .Value((int)(item.productPrice * 100));
+                .Value(item.currency1Cost);
                 HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
             }
         }

@@ -142,11 +142,11 @@ namespace TurboLabz.InstantFramework
         {
             if (iapBanner != null  && iapBanner.key.Equals(key) && storeItem != null)
             {
-                var analyticsEvent = AnalyticsMonetizationEvent.Create(result, (int)(storeItem.productPrice * 100))
+                var analyticsEvent = AnalyticsMonetizationEvent.Create(result, storeItem.currency1Cost)
                 .ST1("iap_purchase")
                 .ST2(storeItem.displayName.Replace("Ad Free", "special").Replace(" ", "_").ToLower())
                 .ST3("lobby_banner")
-                .Value((int)(storeItem.productPrice * 100));
+                .Value(storeItem.currency1Cost);
                 HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
             }
         }
