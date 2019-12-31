@@ -67,8 +67,6 @@ namespace TurboLabz.InstantFramework
 
                 reconnectViewEnableSignal.Dispatch(false);
                 chessboardBlockerEnableSignal.Dispatch(false);
-
-                GS.Reconnect();
             }
             else
             {
