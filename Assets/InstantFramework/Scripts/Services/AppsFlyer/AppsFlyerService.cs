@@ -59,9 +59,9 @@ namespace TurboLabz.InstantFramework
         {
             TrackRichEvent(AnalyticsEventId.launch.ToString());
 
-            var daysBetweenLastLogin = (DateTime.Now - preferencesModel.lastLaunchTime).Days;
+            var daysBetweenLastLogin = (DateTime.Now - preferencesModel.lastLaunchTime).TotalMinutes;
 
-            if (daysBetweenLastLogin == 1)
+            if (daysBetweenLastLogin >= 5)
             {
                 preferencesModel.lastLaunchTime = DateTime.Now;
                 preferencesModel.continousPlayCount++;
@@ -70,11 +70,11 @@ namespace TurboLabz.InstantFramework
                     TrackRichEvent(string.Format("{0}_{1}_days", AnalyticsEventId.continuous_play, preferencesModel.continousPlayCount + 1));
                 }
             }
-            else if (daysBetweenLastLogin > 1)
-            {
-                preferencesModel.lastLaunchTime = DateTime.Now;
-                preferencesModel.continousPlayCount = 0;
-            }
+            //else if (daysBetweenLastLogin > 1)
+            //{
+            //    preferencesModel.lastLaunchTime = DateTime.Now;
+            //    preferencesModel.continousPlayCount = 0;
+            //}
         }
     }
 }
