@@ -1153,9 +1153,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void ShowProcessing(bool show)
+        public void ShowProcessing(bool show, bool showProcessingUi)
         {
-            iapProcessingUi.SetActive(show);
+            iapProcessingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
         }
     }

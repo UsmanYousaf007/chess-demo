@@ -97,9 +97,9 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessingUI(bool show)
+        public void OnShowProcessingUI(bool show, bool showProcessingUi)
         {
-            view.ShowProcessing(show);
+            view.ShowProcessing(show, showProcessingUi);
         }
     }
 }

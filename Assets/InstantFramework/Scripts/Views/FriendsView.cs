@@ -771,7 +771,7 @@ namespace TurboLabz.InstantFramework
                 {
                     destroyMe.Add(entry.Key);
                 }
-                if (friendCategory == FriendCategory.FRIEND)
+                if (friendCategory == FriendCategory.FRIEND && !entry.Value.isSearched)
                 {
                     destroyMe.Add(entry.Key);
                 }
@@ -1040,9 +1040,9 @@ namespace TurboLabz.InstantFramework
         }
         #endregion
 
-        public void ShowProcessing(bool show)
+        public void ShowProcessing(bool show, bool showProcessingUi)
         {
-            processingUi.SetActive(show);
+            processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
         }
     }

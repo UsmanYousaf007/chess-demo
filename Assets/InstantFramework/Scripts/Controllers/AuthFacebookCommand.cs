@@ -126,7 +126,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
             toggleFacebookButton.Dispatch(false);
-            showProcessingSignal.Dispatch(true);
+            showProcessingSignal.Dispatch(true, false);
         }
 
         private void CommandEnd(bool isSuccessful)
@@ -152,7 +152,7 @@ namespace TurboLabz.InstantFramework
 
             authFacebookResultSignal.Dispatch(vo);
             toggleFacebookButton.Dispatch(true);
-            showProcessingSignal.Dispatch(false);
+            showProcessingSignal.Dispatch(false, false);
 
             Release();
         }

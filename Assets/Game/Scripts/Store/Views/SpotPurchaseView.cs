@@ -163,9 +163,9 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void ShowProcessing(bool show)
+        public void ShowProcessing(bool show, bool showProcessingUi)
         {
-            processingUi.SetActive(show);
+            processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
         }
     }

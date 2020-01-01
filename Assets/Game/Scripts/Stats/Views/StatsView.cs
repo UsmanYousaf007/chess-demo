@@ -275,9 +275,9 @@ namespace TurboLabz.InstantGame
             copiedToClipboardText.CrossFadeAlpha(1.0f, 0.3f, true);
         }
 
-        public void ShowProcessing(bool show)
+        public void ShowProcessing(bool show, bool showProcessingUi)
         {
-            processingUi.SetActive(show);
+            processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
         }
     }

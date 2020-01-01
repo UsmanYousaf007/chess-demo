@@ -140,7 +140,7 @@ namespace TurboLabz.InstantFramework
                 storeController.InitiatePurchase(product);
             }
 
-            showIAPProcessingSignal.Dispatch(true);
+            showIAPProcessingSignal.Dispatch(true, true);
             return purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
         }
 
@@ -247,7 +247,7 @@ namespace TurboLabz.InstantFramework
                 pendingVerification.Remove(transactionID);
             }
 
-            showIAPProcessingSignal.Dispatch(false);
+            showIAPProcessingSignal.Dispatch(false, false);
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
@@ -272,7 +272,7 @@ namespace TurboLabz.InstantFramework
 
             updateConfirmDlgSignal.Dispatch(vo);
 
-            showIAPProcessingSignal.Dispatch(false);
+            showIAPProcessingSignal.Dispatch(false, false);
 
             // Do nothing when user cancels
             if (reason == PurchaseFailureReason.UserCancelled) 
