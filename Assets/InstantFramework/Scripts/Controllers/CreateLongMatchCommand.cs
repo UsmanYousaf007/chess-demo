@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -55,7 +56,8 @@ namespace TurboLabz.InstantFramework
             {
                 if (matchInfoModel.createLongMatchAborted)
                 {
-                    friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);    
+                    loadLobbySignal.Dispatch();
+                    friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);
                 }
             }
             else if (result != BackendResult.CANCELED)

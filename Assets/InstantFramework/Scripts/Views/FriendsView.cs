@@ -671,7 +671,9 @@ namespace TurboLabz.InstantFramework
             }
             else if (reason == CreateLongMatchAbortReason.CreateFailed)
             {
-                friendBar.playArrow.SetActive(true);
+                createMatchLimitReachedDlg.SetActive(true);
+                createMatchLimitReachedText.text = "Player is already waiting for you to \naccept a classic match";
+                friendBar.playArrow.SetActive(false);
                 friendBar.playArrowButton.SetActive(false);
             }
             else // Match successfully created
