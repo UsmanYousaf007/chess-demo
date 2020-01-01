@@ -95,7 +95,7 @@ namespace TurboLabz.InstantFramework
                 GSData player = (GSData)obj.Value;
                 string playerId = obj.Key;
                 bool isOnline = player.GetBoolean("isOnline").Value;
-                string activity = player.GetString("activity");
+                string activity = "available";//player.GetString("activity");
 
                 Friend friend = playerModel.GetFriend(playerId);
                 if (friend == null)
