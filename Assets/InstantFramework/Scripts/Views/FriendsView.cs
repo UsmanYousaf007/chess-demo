@@ -286,7 +286,7 @@ namespace TurboLabz.InstantFramework
             searchSkip = 0;
             isSearchNext = false;
             inputField.text = "";
-            searchBoxText.text = "Global Search by player display name..";
+            searchBoxText.text = "Search by player display name or tag..";
             foreach (GameObject obj in cacheEnabledSections)
             {
                 obj.SetActive(true);
