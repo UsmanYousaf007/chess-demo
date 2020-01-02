@@ -227,6 +227,7 @@ namespace TurboLabz.InstantFramework
 		public const string FRIENDS_TOTAL_GAMES_LABEL = "friendsTotalGamesLabel";
 		public const string FRIENDS_BLOCK_LABEL = "friendsBlockLabel";
         public const string FRIENDS_CHAT_LABEL = "friendsChatLabel";
+        public const string FRIENDS_BLOCK_TEXT = "friendsBlockText";
         public const string FRIENDS_FACEBOOK_CONNECT_TEXT = "friendsFacebookConnectText";
         public const string FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT = "friendsFacebookLoginButtonText";
         public const string FACEBBOK_LOGIN_REWARD_TEXT = "facebookLoginRewardText";
