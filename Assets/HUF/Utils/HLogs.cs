@@ -9,7 +9,7 @@ namespace HUF.Utils
         /// </summary>
         public static void LogFormatDebug(string logMessage, params object[] args)
         {
-            if (Debug.isDebugBuild)
+            //if (Debug.isDebugBuild)
                 Debug.LogFormat(logMessage, args);
         }
     }
