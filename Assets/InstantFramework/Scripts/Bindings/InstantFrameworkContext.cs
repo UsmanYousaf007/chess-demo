@@ -139,6 +139,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<CancelSearchResultSignal>().ToSingleton();
             injectionBinder.Bind<FindMatchRequestCompleteSignal>().ToSingleton();
             injectionBinder.Bind<RemoteStorePurchaseCompletedSignal>().ToSingleton();
+            injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
 
         // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

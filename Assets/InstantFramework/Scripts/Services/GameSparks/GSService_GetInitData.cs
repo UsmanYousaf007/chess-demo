@@ -66,6 +66,8 @@ namespace TurboLabz.InstantFramework
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
 
+            storeAvailableSignal.Dispatch(false);
+
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
             {
@@ -109,6 +111,8 @@ namespace TurboLabz.InstantFramework
                         storeItem.productPrice = storeService.GetItemPrice(storeItem.remoteProductId);
                     }
                 }
+
+                storeAvailableSignal.Dispatch(true);
             }
         }
 
@@ -207,14 +211,10 @@ namespace TurboLabz.InstantFramework
             List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SKIN_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> skinItems = PopulateStoreItems(skinShopItemsData);
 
-            List<GSData> specialBundleShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> specialBundleItems = PopulateCurrencyStoreItems(specialBundleShopItemsData);
-
             List<GSData> subscriptionItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> subscriptionItems = PopulateCurrencyStoreItems(subscriptionItemsData);
 
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG, specialBundleItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG, subscriptionItems);
         }
 

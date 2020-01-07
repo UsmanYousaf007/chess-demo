@@ -28,9 +28,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
 
-        public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt)
+        public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp)
         {
-            return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, 
+            return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, expiryTimeStamp
                                                             OnVerifyRemoteStorePurchaseSuccess).Send();
         }
 
@@ -159,15 +159,16 @@ namespace TurboLabz.InstantFramework
             promise.Dispatch(errorCode, transactionIdRecord);
         }
 
-        public GSVerifyRemoteStorePurchaseRequest(string remoteProductId, string transactionId, string purchaseReceipt,
+        public GSVerifyRemoteStorePurchaseRequest(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp,
                                                     Action<LogEventResponse> onSuccess)
         {
             transactionIdRecord = transactionId;
             key = "VerifyRemoteStorePurchase";
             errorCode = BackendResult.VERIFY_REMOTE_STORE_PURCHASE_FAILED;
 
-            var jsonData = new GSRequestData().AddString("remoteProductId", remoteProductId).
-                                               AddJSONStringAsObject("purchaseReceipt", purchaseReceipt);
+            var jsonData = new GSRequestData().AddString("remoteProductId", remoteProductId)
+                                              .AddJSONStringAsObject("purchaseReceipt", purchaseReceipt)
+                                              .AddNumber("expiryTimeStamp", expiryTimeStamp);
             request.SetEventAttribute("jsonData", jsonData);
 
             // Do not modify below
