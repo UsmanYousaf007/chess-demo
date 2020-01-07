@@ -23,8 +23,6 @@ namespace TurboLabz.InstantGame
 		public string activeSkinId;
         public int onlineCount;
 
-        public StoreVO storeVO;
-
         public LobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel, IMetaDataModel metaDataModel)
         {
             minStrength = CPUSettings.MIN_STRENGTH;
@@ -34,10 +32,6 @@ namespace TurboLabz.InstantGame
         	activeSkinId = playerModel.activeSkinId;
 			playerBucks = playerModel.bucks;
             onlineCount = metaDataModel.appInfo.onlineCount;
-
-            storeVO = new StoreVO();
-            storeVO.playerModel = playerModel;
-            storeVO.storeSettingsModel = metaDataModel;
         }
     }
 }

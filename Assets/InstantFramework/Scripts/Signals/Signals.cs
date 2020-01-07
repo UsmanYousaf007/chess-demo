@@ -50,7 +50,6 @@ namespace TurboLabz.InstantFramework
     public class PurchaseStoreItemSignal : Signal<string, bool> {}
     public class PurchaseStoreItemResultSignal : Signal<StoreItem, PurchaseResult> {}
     public class UpdatePurchasedStoreItemSignal : Signal<StoreItem> { }
-    public class UpdatePurchasedBundleStoreItemSignal : Signal<StoreVO, StoreItem> { }
     public class ConsumeVirtualGoodSignal : Signal<string, int> {}
     public class StartGameSignal : Signal {}
     public class WifiIsHealthySignal : Signal<bool> {}
@@ -101,7 +100,6 @@ namespace TurboLabz.InstantFramework
     public class SortFriendsSignal : Signal {}
     public class SortCommunitySignal : Signal { }
     public class SortSearchedSignal : Signal { }
-    public class StoreAvailableSignal : Signal<bool, StoreVO> {}
     public class SetActionCountSignal : Signal<int> {}
     public class ShowFriendsHelpSignal : Signal{ }
     public class SendChatMessageSignal : Signal<ChatMessage> {}

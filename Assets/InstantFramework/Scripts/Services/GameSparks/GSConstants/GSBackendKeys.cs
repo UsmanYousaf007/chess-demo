@@ -209,6 +209,7 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_HINT_SHOP_ITEMS = "powerUpHintShopItems";
             public const string POWERUP_HINDSIGHT_SHOP_ITEMS = "powerUpHindsightShopItems";
             public const string POWERUP_SAFEMOVE_SHOP_ITEMS = "powerUpSafeMoveShopItems";
+            public const string SUBSCRIPTION_SHOP_ITEMS = "subscriptionShopItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -219,6 +220,7 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_SHOP_TAG = "SpecialBundle";
             public const string AVATAR_TAG = "Avatar";
             public const string AVATAR_BG_COLOR_TAG = "AvatarBgColor";
+            public const string SUBSCRIPTION_TAG = "subscription";
 
             public const string POWERUP_HINT_SHOP_TAG = "PowerUpHint";
             public const string POWERUP_HINDSIGHT_SHOP_TAG = "PowerUpHindsight";

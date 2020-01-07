@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
         [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
-        [Inject] public StoreAvailableSignal storeAvailableSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public RemoveFriendSignal removeFriendSignal { get; set; }

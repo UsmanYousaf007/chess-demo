@@ -44,7 +44,6 @@ namespace TurboLabz.Multiplayer
             OnRegisterHint();
             OnRegisterHindsight();
             OnRegisterInfo();
-            OnRegisterSpotPurchase();
             OnRegisterChallengeSent();
         }
 

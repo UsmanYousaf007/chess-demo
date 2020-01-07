@@ -66,7 +66,6 @@ namespace TurboLabz.InstantFramework
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
 
-            storeAvailableSignal.Dispatch(false, new StoreVO());
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
             {
@@ -110,11 +109,6 @@ namespace TurboLabz.InstantFramework
                         storeItem.productPrice = storeService.GetItemPrice(storeItem.remoteProductId);
                     }
                 }
-
-                StoreVO storeVO = new StoreVO();
-                storeVO.playerModel = playerModel;
-                storeVO.storeSettingsModel = metaDataModel;
-                storeAvailableSignal.Dispatch(true, storeVO);
             }
         }
 
@@ -213,43 +207,15 @@ namespace TurboLabz.InstantFramework
             List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SKIN_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> skinItems = PopulateStoreItems(skinShopItemsData);
 
-            List<GSData> currencyShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.COINS_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> currencyItems = PopulateCurrencyStoreItems(currencyShopItemsData);
-
-            List<GSData> featureShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.FEATURE_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> featureItems = PopulateFeatureStoreItems(featureShopItemsData);
-
-            List<GSData> undoShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SAFE_MOVE_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> undoItems = PopulateStoreItems(undoShopItemsData);
-
-            List<GSData> hintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.HINT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> hintItems = PopulateStoreItems(hintShopItemsData);
-
-            List<GSData> hindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> hindsightItems = PopulateStoreItems(hindsightShopItemsData);
-
             List<GSData> specialBundleShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> specialBundleItems = PopulateCurrencyStoreItems(specialBundleShopItemsData);
 
-            List<GSData> powerUpHintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> powerUpHintItems = PopulateStoreItems(powerUpHintShopItemsData);
-
-            List<GSData> powerUpHindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> powerUpHindsightItems = PopulateStoreItems(powerUpHindsightShopItemsData);
-
-            List<GSData> powerUpSafeMoveShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> powerUpSafeMoveItems = PopulateStoreItems(powerUpSafeMoveShopItemsData);
+            List<GSData> subscriptionItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> subscriptionItems = PopulateCurrencyStoreItems(subscriptionItemsData);
 
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.COINS_SHOP_TAG, currencyItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.FEATURE_SHOP_TAG, featureItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.SAFE_MOVE_SHOP_TAG, undoItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.HINT_SHOP_TAG, hintItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG, hindsightItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG, specialBundleItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG, powerUpHintItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG, powerUpHindsightItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG, powerUpSafeMoveItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG, subscriptionItems);
         }
 
         private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData)

@@ -129,7 +129,6 @@ namespace TurboLabz.CPU
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
             }
             else
             {

@@ -30,10 +30,6 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSStats();
             }
-			else if (evt == NavigatorEvent.SHOW_STORE)
-			{
-				return new NSStore();
-			}
             else if (evt == NavigatorEvent.SHOW_FRIENDS)
             {
                 return new NSFriends();
@@ -53,10 +49,6 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_RATE_APP_DLG)
             {
                 return new NSRateAppDlg();
-            }
-            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
-            {
-                return new NSSpotPurchaseDlg();
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {

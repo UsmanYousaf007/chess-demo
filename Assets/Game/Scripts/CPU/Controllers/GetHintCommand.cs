@@ -28,7 +28,7 @@ namespace TurboLabz.CPU
         // Dispatch Signals
         [Inject] public RenderHintSignal renderHintSignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSignal { get; set; }
-        [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
+        //[Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
         [Inject] public UpdateHintCountSignal updateHintCountSignal { get; set; }
         [Inject] public UpdateHindsightCountSignal updateHindsightCountSignal { get; set; }
 
@@ -138,14 +138,14 @@ namespace TurboLabz.CPU
             if (isHindsight)
             {
                 updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
                 preferencesModel.isCoachTooltipShown = true;
                 preferencesModel.coachUsedCount++;
             }
             else
             {
                 updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
                 preferencesModel.isStrengthTooltipShown = true;
                 preferencesModel.strengthUsedCount++;
             }
@@ -169,12 +169,12 @@ namespace TurboLabz.CPU
             if (isHindsight)
             {
                 updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
             }
             else
             {
                 updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+                //consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
             }
 
             Release();

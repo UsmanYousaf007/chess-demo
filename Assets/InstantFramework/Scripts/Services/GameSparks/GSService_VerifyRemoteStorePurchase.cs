@@ -20,7 +20,6 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch Signals
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
-        [Inject] public UpdatePurchasedBundleStoreItemSignal updatePurchasedBundleStoreItemSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public RemoveLobbyPromotionSignal removeLobbyPromotionSignal { get; set; }
         [Inject] public ReportLobbyPromotionAnalyticSingal reportLobbyPromotionAnalyticSingal { get; set; }
@@ -108,9 +107,6 @@ namespace TurboLabz.InstantFramework
 
             if (bundledGoods != null)
             {
-                StoreVO storeVO = new StoreVO();
-                storeVO.playerModel = playerModel;
-                storeVO.storeSettingsModel = metaDataModel;
 
                 switch (shopItemId)
                 {
@@ -125,7 +121,6 @@ namespace TurboLabz.InstantFramework
                         break;
                 }
 
-                updatePurchasedBundleStoreItemSignal.Dispatch(storeVO, metaDataModel.store.items[shopItemId]);
             }
 
             if (!playerModel.HasAdsFreePeriod(metaDataModel.adsSettings))

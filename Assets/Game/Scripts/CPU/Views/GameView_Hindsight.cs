@@ -118,7 +118,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
+
             }
             else
             {

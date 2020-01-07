@@ -135,7 +135,6 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
             }
             else
             {

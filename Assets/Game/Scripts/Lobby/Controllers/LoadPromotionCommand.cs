@@ -13,7 +13,6 @@ namespace TurboLabz.InstantGame
         //Singals
         [Inject] public ShowPromotionSignal showPromotionSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
-        [Inject] public LoadSpotPurchaseSignal loadSpotPurchaseSignal { get; set; }
         [Inject] public ShowCoachTrainingDailogueSignal showCoachTrainingDailogueSignal { get; set; }
         [Inject] public ShowStrengthTrainingDailogueSignal showStrengthTrainingDailogueSignal { get; set; }
 
@@ -28,9 +27,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
-        private const int TOTAL_PROMOTIONS = 6;
-        private const int POWERUP_USE_LIMIT = 7;
-        private const int POWERUP_TRAINING_DAYS_LIMIT = 30;
+        private const int TOTAL_PROMOTIONS = 1;
         private List<PromotionVO> promotionCycle;
         private static bool isUpdateBannerShown;
 
@@ -51,9 +48,10 @@ namespace TurboLabz.InstantGame
             IncrementPromotionCycleIndex();
 
             int promotionToShowIndex = -1;
-
+            int loopCount = 0;
             while (promotionToShowIndex == -1)
             {
+                loopCount++;
                 for (int i = 0; i < promotionCycle.Count; i++)
                 {
                     if (preferencesModel.promotionCycleIndex.Equals(promotionCycle[i].cycleIndex))
@@ -66,12 +64,29 @@ namespace TurboLabz.InstantGame
                         IncrementPromotionCycleIndex();
                     }
                 }
+                if (loopCount > 1)
+                {
+                    break;
+                }
             }
 
             if (promotionToShowIndex != -1)
             {
                 analyticsService.Event(promotionCycle[promotionToShowIndex].analyticsImpId);
                 showPromotionSignal.Dispatch(promotionCycle[promotionToShowIndex]);
+            }
+            else
+            {
+                var emptyPromotion = new PromotionVO
+                {
+                    cycleIndex = 0,
+                    key = "none",
+                    condition = null,
+                    onClick = null,
+                    analyticsImpId = 0
+                };
+
+                showPromotionSignal.Dispatch(emptyPromotion);
             }
         }
 
@@ -83,7 +98,7 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.GAME_UPDATE_BANNER,
                 condition = delegate
                 {
-                    return String.Compare(appInfoModel.clientVersion, settingsModel.minimumClientVersion) == -1;
+                    return String.Compare(appInfoModel.clientVersion, settingsModel.minimumClientVersion) == -1 && !isUpdateBannerShown;
                 },
                 onClick = delegate (string key)
                 {
@@ -95,12 +110,10 @@ namespace TurboLabz.InstantGame
 #else
                     LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
 #endif
-                    //analyticsService.Event(AnalyticsEventId.tap_banner_move_meter_training);
                 },
-                //analyticsImpId = AnalyticsEventId.imp_banner_move_meter_training
             };
 
-            if(gameUpdateItem.condition() && !isUpdateBannerShown)
+            if(gameUpdateItem.condition())
             {
                 isUpdateBannerShown = true;
                 showPromotionSignal.Dispatch(gameUpdateItem);
@@ -121,50 +134,13 @@ namespace TurboLabz.InstantGame
         {
             promotionCycle = new List<PromotionVO>();
 
-            var strengthItem = new PromotionVO
-            {
-                cycleIndex = 1,
-                key = LobbyPromotionKeys.STRENGTH_BANNER,
-                condition = delegate
-                {
-                    return preferencesModel.strengthUsedCount < POWERUP_USE_LIMIT
-                    && (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays < POWERUP_TRAINING_DAYS_LIMIT;
-                },
-                onClick = delegate (string key)
-                {
-                    audioService.PlayStandardClick();
-                    analyticsService.Event(AnalyticsEventId.tap_banner_move_meter_training);
-                    showStrengthTrainingDailogueSignal.Dispatch();
-                },
-                analyticsImpId = AnalyticsEventId.imp_banner_move_meter_training
-            };
-
-            var coachItem = new PromotionVO
-            {
-                cycleIndex = 2,
-                key = LobbyPromotionKeys.COACH_BANNER,
-                condition = delegate
-                {
-                    return preferencesModel.coachUsedCount < POWERUP_USE_LIMIT
-                    && (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays < POWERUP_TRAINING_DAYS_LIMIT;
-
-                },
-                onClick = delegate (string key)
-                {
-                    audioService.PlayStandardClick();
-                    analyticsService.Event(AnalyticsEventId.tap_banner_coach_training);
-                    showCoachTrainingDailogueSignal.Dispatch();
-                },
-                analyticsImpId = AnalyticsEventId.imp_banner_coach_training
-            };
-
             var ultimateItem = new PromotionVO
             {
-                cycleIndex = 3,
+                cycleIndex = 1,
                 key = LobbyPromotionKeys.ULTIMATE_BANNER,
                 condition = delegate
                 {
-                    return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
+                    return true;// !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
                 },
                 onClick = delegate (string key)
                 {
@@ -175,70 +151,7 @@ namespace TurboLabz.InstantGame
                 analyticsImpId = AnalyticsEventId.imp_banner_ultimate_bundle
             };
 
-            var adsItem = new PromotionVO
-            {
-                cycleIndex = 4,
-                key = LobbyPromotionKeys.ADS_BANNER,
-                condition = delegate
-                {
-                    return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG)
-                    && !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
-                },
-                onClick = delegate (string key)
-                {
-                    audioService.PlayStandardClick();
-                    analyticsService.Event(AnalyticsEventId.tap_banner_ad_bundle);
-                    purchaseStoreItemSignal.Dispatch(key, true);
-                },
-                analyticsImpId = AnalyticsEventId.imp_banner_ad_bundle
-            };
-            
-            var strengthPurchase = new PromotionVO
-            {
-                cycleIndex = 5,
-                key = LobbyPromotionKeys.STRENGTH_PURCHASE,
-                condition = delegate
-                {
-                    return preferencesModel.strengthUsedCount >= POWERUP_USE_LIMIT
-                    || (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays >= POWERUP_TRAINING_DAYS_LIMIT;
-
-                },
-                onClick = delegate (string key)
-                {
-                    audioService.PlayStandardClick();
-                    analyticsService.Event(AnalyticsEventId.tap_banner_move_meter_purchase);
-                    loadSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
-                },
-                analyticsImpId = AnalyticsEventId.imp_banner_move_meter_purchase
-            };
-
-            var coachPurchase = new PromotionVO
-            {
-                cycleIndex = 6,
-                key = LobbyPromotionKeys.COACH_PURCHASE,
-                condition = delegate
-                {
-                    return preferencesModel.coachUsedCount >= POWERUP_USE_LIMIT
-                    || (int)(DateTime.Now - preferencesModel.timeAtLobbyLoadedFirstTime).TotalDays >= POWERUP_TRAINING_DAYS_LIMIT;
-
-                },
-                onClick = delegate (string key)
-                {
-                    audioService.PlayStandardClick();
-                    analyticsService.Event(AnalyticsEventId.tap_banner_coach_purchase);
-                    loadSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
-                },
-                analyticsImpId = AnalyticsEventId.imp_banner_coach_purchase
-            };
-
-            promotionCycle.Add(strengthItem);
-            promotionCycle.Add(coachItem);
             promotionCycle.Add(ultimateItem);
-            promotionCycle.Add(adsItem);
-            promotionCycle.Add(strengthPurchase);
-            promotionCycle.Add(coachPurchase);
-
-            promotionCycle.Sort((x,y) => x.cycleIndex.CompareTo(y.cycleIndex));
         }
 
         IEnumerator LoadNextPromotionAfter(float seconds)
