@@ -135,6 +135,7 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
+                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else
             {
@@ -195,7 +196,12 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateHintCount(int count)
         {
-            if (count == 0)
+            if (playerModel.HasSubscription())
+            {
+                hintAdd.gameObject.SetActive(false);
+                hintCountLabel.gameObject.SetActive(false);
+            }
+            else if (count <= 0)
             {
                 hintAdd.gameObject.SetActive(true);
                 hintCountLabel.gameObject.SetActive(false);

@@ -26,6 +26,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
         [Inject] public ShowProcessingSignal showIAPProcessingSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
+        [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal { get; set; }
+
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         IStoreController storeController = null;
         IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
@@ -78,22 +83,32 @@ namespace TurboLabz.InstantFramework
                 {
                     var p = new SubscriptionManager(product, null);
                     var info = p.getSubscriptionInfo();
-                    LogUtil.Log("[START]===========UNITY IAP SUBSCRITION INFO==============");
-                    LogUtil.Log("product id is: " + info.getProductId());
-                    LogUtil.Log("purchase date is: " + info.getPurchaseDate());
-                    LogUtil.Log("subscription next billing date is: " + info.getExpireDate());
-                    LogUtil.Log("is subscribed? " + info.isSubscribed().ToString());
-                    LogUtil.Log("is expired? " + info.isExpired().ToString());
-                    LogUtil.Log("is cancelled? " + info.isCancelled());
-                    LogUtil.Log("product is in free trial peroid? " + info.isFreeTrial());
-                    LogUtil.Log("product is auto renewing? " + info.isAutoRenewing());
-                    LogUtil.Log("subscription remaining valid time until next billing date is: " + info.getRemainingTime());
-                    LogUtil.Log("is this product in introductory price period? " + info.isIntroductoryPricePeriod());
-                    LogUtil.Log("the product introductory localized price is: " + info.getIntroductoryPrice());
-                    LogUtil.Log("the product introductory price period is: " + info.getIntroductoryPricePeriod());
-                    LogUtil.Log("the number of product introductory price period cycles is: " + info.getIntroductoryPricePeriodCycles());
-                    LogUtil.Log("[END]===========UNITY IAP SUBSCRITION INFO==============");
+
+                    LogUtil.Log("Subscription Info: user have active subscription");
+                    LogUtil.Log("Subscription Info: next billing date is: " + info.getExpireDate());
+                    LogUtil.Log("Subscription Info: is subscribed? " + info.isSubscribed().ToString());
+                    LogUtil.Log("Subscription Info: is expired? " + info.isExpired().ToString());
+                    LogUtil.Log("Subscription Info: is cancelled? " + info.isCancelled());
+                    LogUtil.Log("Subscription Info: is in free trial peroid? " + info.isFreeTrial());
+                    LogUtil.Log("Subscription Info: is auto renewing? " + info.isAutoRenewing());
+                    LogUtil.Log("Subscription Info: remaining time " + info.getRemainingTime());
+
+                    var expiryTimeStamp = TimeUtil.ToUnixTimestamp(info.getExpireDate());
+
+                    if (expiryTimeStamp > playerModel.subscriptionExipryTimeStamp)
+                    {
+                        playerModel.subscriptionExipryTimeStamp = expiryTimeStamp;
+                        updatePlayerDataSignal.Dispatch();
+                    }
                 }
+#if SUBSCRIPTION_TEST
+                else if (playerModel.subscriptionExipryTimeStamp > 0)
+                {
+                    playerModel.subscriptionExipryTimeStamp = 0;
+                    loadPromotionSingal.Dispatch();
+                    updatePlayerDataSignal.Dispatch();
+                }
+#endif 
             }
 
 			promise.Dispatch(true);

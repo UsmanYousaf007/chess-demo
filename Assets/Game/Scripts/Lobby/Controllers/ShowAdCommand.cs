@@ -94,9 +94,7 @@ namespace TurboLabz.InstantGame
 
                 GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
                                                             .AddString("challengeId", resultAdsVO.challengeId);
-                                                      
-
-
+                                                     
                 backendService.ClaimReward(jsonData).Then(OnClaimReward);
             }
             else

@@ -352,10 +352,10 @@ namespace TurboLabz.InstantFramework
             view.ShowStrengthTrainingDailogue();
         }
 
-        [ListensTo(typeof(RemoveLobbyPromotionSignal))]
-        public void OnRemoveLobbyPromotion(string key)
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnRemoveLobbyPromotion(StoreItem item)
         {
-            view.RemovePromotion(key);
+            view.RemovePromotion(item.key);
         }
 
         [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]

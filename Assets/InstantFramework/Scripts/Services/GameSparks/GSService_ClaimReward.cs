@@ -23,17 +23,17 @@ namespace TurboLabz.InstantFramework
             LogEventResponse response = (LogEventResponse)r;
             if (response != null && response.ScriptData != null)
             {
-                if(response.ScriptData.ContainsKey(GSBackendKeys.ClaimReward.REWARD_INFO))
-                {
-                    var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
+                //if(response.ScriptData.ContainsKey(GSBackendKeys.ClaimReward.REWARD_INFO))
+                //{
+                //    var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
                     
-                    playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
-                }
+                //    playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
+                //}
 
-                if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT))
-                {
-                    playerModel.cpuPowerupUsedCount = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
-                }
+                //if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT))
+                //{
+                //    playerModel.cpuPowerupUsedCount = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
+                //}
             }
                
         }

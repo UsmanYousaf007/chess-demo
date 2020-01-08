@@ -140,7 +140,7 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.ULTIMATE_BANNER,
                 condition = delegate
                 {
-                    return true;// !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG);
+                    return !playerModel.HasSubscription();
                 },
                 onClick = delegate (string key)
                 {

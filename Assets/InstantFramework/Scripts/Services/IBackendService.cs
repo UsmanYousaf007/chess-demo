@@ -43,7 +43,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId, int moveCount);
         IPromise<BackendResult> SyncReconnectData(string challengeId);
 
-        IPromise<BackendResult> UpdatePlayerData(int notificationCount);
+        IPromise<BackendResult> UpdatePlayerData();
 
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend
         IPromise<BackendResult> FriendsOpFriends(); // get backend saved friends

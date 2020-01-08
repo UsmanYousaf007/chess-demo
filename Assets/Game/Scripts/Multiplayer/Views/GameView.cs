@@ -24,6 +24,8 @@ namespace TurboLabz.Multiplayer
 
         [Inject] public ShowAdSignal showAdSignal { get; set; }
 
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         [Header("Main View")]
         public Camera chessboardCamera;
         public GameObject uiBlocker;

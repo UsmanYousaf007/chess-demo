@@ -50,7 +50,7 @@ public class SkinItemView : View
         }
 
         item = metaDataModel.store.items[key];
-        isPremium = playerModel.isPremium || playerModel.OwnsVGood(key);
+        isPremium = playerModel.HasSubscription() || playerModel.OwnsVGood(key);
 
         SetOwnedState();
 

@@ -13,6 +13,8 @@ namespace TurboLabz.InstantFramework
 {
     public class PlayerModel : IPlayerModel
     {
+        [Inject] public IBackendService backendService { get; set; }
+
         public string id { get; set; }
         public long creationDate { get; set; }
         public string tag { get; set; } 
@@ -32,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public int playerFriendsCount { get; set; }
         public bool isFBConnectRewardClaimed { get; set; }
         public int cpuPowerupUsedCount { get; set; }
+        public long subscriptionExipryTimeStamp { get; set; }
 
         public string name
         {
@@ -88,6 +91,7 @@ namespace TurboLabz.InstantFramework
             avatarBgColorId = null;
             notificationCount = 0;
             editedName = "";
+            subscriptionExipryTimeStamp = 0;
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -142,9 +146,17 @@ namespace TurboLabz.InstantFramework
 
         public bool HasRemoveAds(IAdsSettingsModel adsSettingsModel)
         {
-            return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
-                    (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
-                    (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
+            //return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
+            //        (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
+            //        (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
+
+            return HasSubscription();
+        }
+
+        public bool HasSubscription()
+        {
+            return isPremium ||
+                   subscriptionExipryTimeStamp - backendService.serverClock.currentTimestamp > 0;
         }
 
         public bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel)

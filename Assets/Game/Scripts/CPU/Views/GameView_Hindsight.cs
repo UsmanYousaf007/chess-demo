@@ -118,7 +118,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-
+                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else
             {
@@ -193,7 +193,12 @@ namespace TurboLabz.CPU
 
         public void UpdateHindsightCount(int count)
         {
-            if (count == 0)
+            if (playerModel.HasSubscription())
+            {
+                hindsightAdd.gameObject.SetActive(false);
+                hindsightCountLabel.gameObject.SetActive(false);
+            }
+            else if (count <= 0)
             {
                 hindsightAdd.gameObject.SetActive(true);
                 hindsightCountLabel.gameObject.SetActive(false);

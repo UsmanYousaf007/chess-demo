@@ -233,6 +233,8 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_STANDARD_SHOP_TAG = "SpecialBundleStandard";
             public const string SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG = "SpecialBundleNoAdsForever";
 
+            public const string SUBSCRIPTION_SHOP_TAG = "Weekly";
+
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";
             public const string SHOP_ITEM_TIER_EPIC = "Epic";
@@ -330,6 +332,7 @@ namespace TurboLabz.InstantFramework
             public const string EDITED_NAME = "editedName";
             public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
             public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
+            public const string SUBSCRIPTION_EXPIRY_TIMESTAMP = "subscriptionExpiryTime";
         }
 
         public static class Match

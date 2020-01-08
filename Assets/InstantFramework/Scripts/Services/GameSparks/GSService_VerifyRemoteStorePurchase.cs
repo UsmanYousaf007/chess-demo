@@ -28,9 +28,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
 
+        long subscriptionExpiryTimeStamp;
+
         public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp)
         {
-            return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, expiryTimeStamp
+            subscriptionExpiryTimeStamp = expiryTimeStamp;
+            return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, expiryTimeStamp,
                                                             OnVerifyRemoteStorePurchaseSuccess).Send();
         }
 
@@ -38,16 +41,11 @@ namespace TurboLabz.InstantFramework
         {
             var res = response.ScriptData.GetGSData("remotePurchase");
 
-            // Process bucks
-            int? bucks = res.GetInt("bucks");
-            playerModel.bucks += bucks != null ? bucks.Value : 0;
-
             // Process goods
-            string shopItemId = "";
             GSData boughtItem = res.GetGSData("boughtItem");
             if (boughtItem != null)
             {
-                shopItemId = boughtItem.GetString("shortCode");
+                string shopItemId = boughtItem.GetString("shortCode");
 
                 if (navigatorModel.currentViewId == NavigatorViewId.STORE)
                 {
@@ -67,65 +65,14 @@ namespace TurboLabz.InstantFramework
                     playerModel.inventory.Add(shopItemId, 1); 
                 }
 
-                updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shopItemId]);
-
-
-            }
-
-            // Process bundled goods
-            IList<GSData> bundledGoods = res.GetGSDataList("bundledGoods");
-            if (bundledGoods != null)
-            {
-                foreach (GSData item in bundledGoods)
-                {
-                    string shortCode = item.GetString("shortCode");
-                    int qty = item.GetInt("qty").Value;
-                    if (playerModel.inventory.ContainsKey(shortCode))
-                    {
-                        playerModel.inventory[shortCode] = playerModel.inventory[shortCode] + qty;
-                    }
-                    else
-                    {
-                        playerModel.inventory.Add(shortCode, qty);
-                    }
-
-                    updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shortCode]);
-                }
-
-                if (res.ContainsKey(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP))
-                {
-                    playerModel.removeAdsTimeStamp = res.GetLong(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP).Value;
-                }
-                if (res.ContainsKey(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMEPERIOD))
-                {
-                    playerModel.removeAdsTimePeriod = res.GetInt(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMEPERIOD).Value;
-                }
-            }
-
-            updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
-            updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
-
-            if (bundledGoods != null)
-            {
-
                 switch (shopItemId)
                 {
-                    case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG:
-                        reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.ULTIMATE_BANNER, AnalyticsEventId.banner_utlimate_bundle_purchase_success);
-                        removeLobbyPromotionSignal.Dispatch(LobbyPromotionKeys.ULTIMATE_BANNER);
-                        break;
-
-                    case GSBackendKeys.ShopItem.SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG:
-                        reportLobbyPromotionAnalyticSingal.Dispatch(LobbyPromotionKeys.ADS_BANNER, AnalyticsEventId.banner_ad_bundle_purchase_success);
-                        removeLobbyPromotionSignal.Dispatch(LobbyPromotionKeys.ADS_BANNER);
+                    case GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG:
+                        playerModel.subscriptionExipryTimeStamp = subscriptionExpiryTimeStamp;
                         break;
                 }
 
-            }
-
-            if (!playerModel.HasAdsFreePeriod(metaDataModel.adsSettings))
-            {
-                updateRemoveAdsDisplaySignal.Dispatch(null, false);
+                updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shopItemId]);
             }
         }
     }
