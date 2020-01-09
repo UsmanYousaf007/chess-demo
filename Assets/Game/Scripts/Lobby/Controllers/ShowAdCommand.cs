@@ -24,7 +24,8 @@ namespace TurboLabz.InstantGame
         //[Inject] public string claimRewardType { get; set; }
 
         // Dispatch signals
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
+        [Inject] public UpdatePlayerRewardsPointsSignal updatePlayerRewardsPointsSignal { get; set; }
+        [Inject] public RewardUnlockedSignal rewardUnlockedSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -38,6 +39,7 @@ namespace TurboLabz.InstantGame
 
         public AdType adType;
         public string claimRewardType;
+        public int currentRewardIndex;
 
         public override void Execute()
         {
@@ -91,6 +93,7 @@ namespace TurboLabz.InstantGame
         {
             if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
             {
+                currentRewardIndex = playerModel.rewardSkinIndex;
 
                 GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
                                                             .AddString("challengeId", resultAdsVO.challengeId);
@@ -107,7 +110,12 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+                updatePlayerRewardsPointsSignal.Dispatch();
+
+                if (currentRewardIndex != playerModel.rewardSkinIndex)
+                {
+                    rewardUnlockedSignal.Dispatch();
+                }
             }
 
             Release();

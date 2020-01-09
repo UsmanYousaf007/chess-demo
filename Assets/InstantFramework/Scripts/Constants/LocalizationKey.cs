@@ -36,6 +36,10 @@ namespace TurboLabz.InstantFramework
         public const string FREE_NO_ADS_HOURS = "freeNoAdsHours";
         public const string FREE_NO_ADS_DAYS = "freeNoAdsDays";
         public const string PLAYING_LEVEL = "playingLevel";
+        public const string DONE = "Done";
+        public const string SELECT_THEME = "selectTheme";
+        public const string REWARD_UNLOCKED_TITLE = "rewardUnlockedTitle";
+        public const string REWARD_THEME = "rewardTheme";
 
         #endregion
 

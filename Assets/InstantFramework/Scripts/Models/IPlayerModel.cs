@@ -63,5 +63,10 @@ namespace TurboLabz.InstantFramework
         Friend GetFriend(string friendId);
         bool IsFriend(string friendId);
         bool HasSubscription();
+
+        // Ads Reward Data
+        int rewardSkinIndex { get; set; }
+        int rewardCurrentPoints { get; set; }
+        int rewardPointsRequired { get; set; }
     }
 }

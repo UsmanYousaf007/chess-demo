@@ -44,7 +44,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
             commandBinder.Bind<LoadFriendsSignal>().To<LoadFriendsCommand>();
-			commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
+            commandBinder.Bind<FindMatchSignal>().To<FindMatchCommand>();
             commandBinder.Bind<TapLongMatchSignal>().To<TapLongMatchCommand>();
             commandBinder.Bind<StartLongMatchSignal>().To<StartLongMatchCommand>();
             commandBinder.Bind<CreateLongMatchSignal>().To<CreateLongMatchCommand>();
@@ -63,8 +63,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
             commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
 
-			// Bind signals to models data loader commands
-			commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();
+            // Bind signals to models data loader commands
+            commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();
             commandBinder.Bind<UpdatePlayerDataSignal>().To<UpdatePlayerDataCommand>();
 
             // Bind signals to social commands
@@ -78,7 +78,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RemoveCommunityFriendSignal>().To<RemoveCommunityFriendCommand>();
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<ShowShareScreenDialogSignal>().To<ShowShareDialogCommand>();
-            
+
 
             commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
@@ -109,7 +109,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateOpponentProfileSignal>().ToSingleton();
             injectionBinder.Bind<UpdateChatOpponentPicSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayerBucksSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePlayerRewardsPointsSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerInventorySignal>().ToSingleton();
             injectionBinder.Bind<UpdateRemoveAdsSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
@@ -140,8 +140,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<FindMatchRequestCompleteSignal>().ToSingleton();
             injectionBinder.Bind<RemoteStorePurchaseCompletedSignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
+            injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
 
-        // Bind views to mediators
+            // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
             mediationBinder.Bind<HardStopView>().To<HardStopMediator>();
@@ -171,7 +172,7 @@ namespace TurboLabz.InstantFramework
 #else
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsService>().ToSingleton();
 #endif
-			injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
+            injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
             injectionBinder.Bind<IPushNotificationService>().To<FirebasePushNotificationService>().ToSingleton();
@@ -182,7 +183,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
 #else
             injectionBinder.Bind<IAudioService>().To<UnityAudio>().ToSingleton();
-            #endif
+#endif
 
             // Bind utils
             injectionBinder.Bind<IRoutineRunner>().To<StrangeRoutineRunner>().ToSingleton();
@@ -217,7 +218,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton(); // Lifecyle handled
             injectionBinder.Bind<IRewardsSettingsModel>().To<RewardsSettingsModel>().ToSingleton(); // Lifecycle handled
             injectionBinder.Bind<ISettingsModel>().To<SettingsModel>().ToSingleton();
-           
+
 
             MapGameBindings();
             MapCPUGameBindings();
@@ -234,7 +235,7 @@ namespace TurboLabz.InstantFramework
             // Bind signals to commands
             commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
-			commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
+            commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
             commandBinder.Bind<ToggleBannerSignal>().To<ToggleBannerCommand>();
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();
@@ -247,6 +248,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<StatsView>().To<StatsMediator>();
             mediationBinder.Bind<FriendsView>().To<FriendsMediator>();
             mediationBinder.Bind<ChatView>().To<ChatMediator>();
+            mediationBinder.Bind<ThemeSelectionView>().To<ThemeSelectionMediator>();
+            mediationBinder.Bind<SkinItemView>().To<SkinItemMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -262,7 +265,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateStrengthSignal>().ToSingleton();
             injectionBinder.Bind<UpdateDurationSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePlayerColorSignal>().ToSingleton();
-			injectionBinder.Bind<UpdateThemeSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateThemeSignal>().ToSingleton();
             injectionBinder.Bind<UpdateStatsSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLobbyAdsSignal>().ToSingleton();
             injectionBinder.Bind<ToggleFacebookButton>().ToSingleton();

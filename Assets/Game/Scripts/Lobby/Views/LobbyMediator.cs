@@ -46,6 +46,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -77,6 +78,7 @@ namespace TurboLabz.InstantFramework
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
             view.showChatSignal.AddListener(OnShowChat);
+            view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
         }
 
         private void OnDecStrengthButtonClicked()
@@ -379,6 +381,17 @@ namespace TurboLabz.InstantFramework
         public void OnStoreAvailable(bool isAvailable)
         {
             view.SetPriceOfIAPBanner(isAvailable);
+        }
+
+        private void OnSelectThemeClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
+        }
+
+        [ListensTo(typeof(RewardUnlockedSignal))]
+        public void OnRewardUnlocked()
+        {
+            view.OnRewardUnlocked();
         }
 
     }

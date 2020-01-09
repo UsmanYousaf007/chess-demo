@@ -39,9 +39,10 @@ public class SkinItemView : View
         thumbsContainer = StoreThumbsContainer.Load();
         iconsContainer = StoreIconsContainer.Load();
         button.onClick.AddListener(OnButtonClicked);
+        UpdateView();
     }
 
-    public void OnVirtualGoodsAvailable()
+    public void UpdateView()
     {
         if (metaDataModel.store == null ||
            !metaDataModel.store.items.ContainsKey(key))
@@ -50,7 +51,7 @@ public class SkinItemView : View
         }
 
         item = metaDataModel.store.items[key];
-        isPremium = playerModel.HasSubscription() || playerModel.OwnsVGood(key);
+        isPremium = playerModel.HasSubscription() || item.skinIndex < playerModel.rewardSkinIndex;
 
         SetOwnedState();
 

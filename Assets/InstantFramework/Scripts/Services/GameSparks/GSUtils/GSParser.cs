@@ -38,12 +38,12 @@ namespace TurboLabz.InstantFramework
             return item.ContainsKey(key) ? item.GetLong(key).Value : defaultVal;
         }
 
-        public static GSData GetVGoodProperties(GSData itemData)
+        public static GSData GetVGoodProperties(GSData itemData, string propertyKey)
         {
-            GSData propertySet = itemData.GetGSData("propertySet");
+            GSData propertySet = itemData.GetGSData(GSBackendKeys.SHOP_ITEM_PROPERTY_SET);
             if (propertySet != null)
             {
-                GSData properties = propertySet.GetGSData("properties");
+                GSData properties = propertySet.GetGSData(propertyKey);
                 if (properties != null)
                 {
                     return properties;
@@ -122,6 +122,24 @@ namespace TurboLabz.InstantFramework
             item.remoteProductId = GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_STORE_PRODUCT_ID, null);
 #endif
 
+            var skinPropertyData = GetVGoodProperties(itemData, GSBackendKeys.SHOP_ITEM_SKIN_PROPERTY);
+
+            if (skinPropertyData != null)
+            {
+                item.skinIndex = GetSafeInt(skinPropertyData, GSBackendKeys.SHOP_ITEM_SKIN_INDEX);
+                item.pointsRequired = GetSafeInt(skinPropertyData, GSBackendKeys.SHOP_ITEM_SKIN_POINTS);
+                LogUtil.Log(string.Format("Found Skin property for {0} index {1} points {2}", item.key, item.skinIndex, item.pointsRequired));
+            }
+
+            if (itemData.ContainsKey(GSBackendKeys.SHOP_ITEM_PROPERTY_SET))
+            {
+                var propertySet = itemData.GetGSData(GSBackendKeys.SHOP_ITEM_PROPERTY_SET);
+                if (propertySet != null)
+                {
+                    
+                }
+            }
+
             IList<GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
             if (bundleData !=  null)
             {
@@ -148,6 +166,17 @@ namespace TurboLabz.InstantFramework
 
                     items.Add(itemId, quantity);
                 }
+            }
+        }
+
+        public static void PopulateAdsRewardData(IPlayerModel playerModel, GSData data)
+        {
+            var adsRewardData = data.GetGSData(GSBackendKeys.PlayerDetails.ADS_REWARD_DATA);
+            if (adsRewardData != null)
+            {
+                playerModel.rewardSkinIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_SKIN_INDEX);
+                playerModel.rewardCurrentPoints = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
+                playerModel.rewardPointsRequired = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
             }
         }
 

@@ -44,6 +44,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FREE_NO_ADS_MINUTES, "minutes" },
                 { LocalizationKey.FREE_NO_ADS_HOURS, "hours" },
                 { LocalizationKey.FREE_NO_ADS_DAYS, "days" },
+                { LocalizationKey.DONE, "Done"},
+                { LocalizationKey.SELECT_THEME, "Select Theme"},
+                { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations! You unlocked a reward"},
+                { LocalizationKey.REWARD_THEME, "Theme"},
 
                 #endregion
 

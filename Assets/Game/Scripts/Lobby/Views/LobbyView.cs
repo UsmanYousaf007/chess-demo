@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
-
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -37,7 +37,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
-
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -84,6 +83,9 @@ namespace TurboLabz.InstantFramework
 
         public Text onlinePlayersCountLabel;
 
+        public Button selectThemeButton;
+        public Text selectThemeText;
+
         [Header("Choose computer difficulty dialog")]
         public GameObject chooseComputerDifficultyDlg;
         public Button decStrengthButton;
@@ -117,6 +119,14 @@ namespace TurboLabz.InstantFramework
         public Sprite offline;
         public Sprite active;
 
+        [Header("Reward Unlocked Dlg")]
+        public GameObject rewardUnlockedDlg;
+        public Text rewardTitle;
+        public Text rewardName;
+        public Text rewardOkButtonText;
+        public Button rewardOkButton;
+        public GameObject rewardUnlockedAlert;
+
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
         public Signal<string, FriendBar> showProfileDialogSignal = new Signal<string, FriendBar>();
@@ -133,6 +143,7 @@ namespace TurboLabz.InstantFramework
         public Signal decStrengthButtonClickedSignal = new Signal();
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
+        public Signal selectThemeClickedSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -196,6 +207,13 @@ namespace TurboLabz.InstantFramework
 
             scrollViewOrignalPosition = scrollRect.transform.localPosition;
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
+
+            selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
+            selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
+
+            rewardTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_TITLE);
+            rewardOkButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
+            rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
         }
 
         void OnDecStrengthButtonClicked()
@@ -1157,6 +1175,32 @@ namespace TurboLabz.InstantFramework
         {
             iapProcessingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        private void OnSelectThemeClicked()
+        {
+            selectThemeClickedSignal.Dispatch();
+            rewardUnlockedAlert.gameObject.SetActive(false);
+        }
+
+        public void OnRewardUnlocked()
+        {
+            rewardUnlockedAlert.gameObject.SetActive(true);
+            rewardName.text = string.Format("{0} : {1}", localizationService.Get(LocalizationKey.REWARD_THEME), GetRewardName());
+            rewardUnlockedDlg.SetActive(true);
+        }
+
+        private string GetRewardName()
+        {
+            foreach (var item in metaDataModel.store.items)
+            {
+                if (item.Value.skinIndex == playerModel.rewardSkinIndex)
+                {
+                    return item.Value.displayName;
+                }
+            }
+
+            return string.Empty;
         }
     }
 }

@@ -30,12 +30,6 @@ namespace TurboLabz.InstantFramework
 
         }
 
-        [ListensTo(typeof(UpdatePlayerBucksSignal))]
-        public void OnUpdatePlayerBucksDisplay(long playerBucks)
-        {
-            view.UpdatePlayerBucks(playerBucks);
-        }
-
         [ListensTo(typeof(UpdateRemoveAdsSignal))]
         public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
         {

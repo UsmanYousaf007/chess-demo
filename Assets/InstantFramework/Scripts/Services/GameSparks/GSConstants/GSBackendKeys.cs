@@ -63,6 +63,10 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_ITEM_STORE_BUNDLED_GOODS = "bundledGoods";
         public const string SHOP_ITEM_QUANTITY = "qty";
         public const string SHOP_ITEM_DISABLED = "disabled";
+        public const string SHOP_ITEM_PROPERTY_SET = "propertySet";
+        public const string SHOP_ITEM_SKIN_PROPERTY = "SkinProperty";
+        public const string SHOP_ITEM_SKIN_INDEX = "skinIndex";
+        public const string SHOP_ITEM_SKIN_POINTS = "pointsRequired";
 
         // Account details
         public const string PLAYER_DETAILS = "playerDetails";
@@ -333,6 +337,10 @@ namespace TurboLabz.InstantFramework
             public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
             public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
             public const string SUBSCRIPTION_EXPIRY_TIMESTAMP = "subscriptionExpiryTime";
+            public const string REWARD_SKIN_INDEX = "skinIndex";
+            public const string REWARD_CURRENT_POINTS = "currentPoints";
+            public const string REWARD_REQUIRED_POINTS = "pointsRequired";
+            public const string ADS_REWARD_DATA = "adsRewardData";
         }
 
         public static class Match

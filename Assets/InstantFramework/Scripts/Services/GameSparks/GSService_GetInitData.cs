@@ -160,6 +160,9 @@ namespace TurboLabz.InstantFramework
 			GSData blockedList = playerDetailsData.GetGSData(GSBackendKeys.BLOCKED);
             PopulateFriends(playerModel.blocked, blockedList, true);
 
+            GSParser.PopulateAdsRewardData(playerModel, playerDetailsData);
+            LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardSkinIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
+
             GSParser.LogPlayerInfo(playerModel);
 			GSParser.LogFriends("friends", playerModel.friends);
         }

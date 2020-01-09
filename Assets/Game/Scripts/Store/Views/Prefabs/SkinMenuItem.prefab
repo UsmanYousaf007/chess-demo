@@ -89,9 +89,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224243161171037146}
   - component: {fileID: 222728086280862896}
-  - component: {fileID: 9045749172787171047}
+  - component: {fileID: 1249176385659459370}
   m_Layer: 5
-  m_Name: SkinShopItem
+  m_Name: SkinMenuItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +125,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1470712729698196}
   m_CullTransparentMesh: 0
---- !u!114 &9045749172787171047
+--- !u!114 &1249176385659459370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,10 +134,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1470712729698196}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 795bf9607bc6941cebda81f7307ee50a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3992685fa08ae4a1882772eec84d86dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: SkinHighrise
+  key: 
   thumbnail: {fileID: 4886967384716330241}
   icon: {fileID: 7041260138076395956}
   displayName: {fileID: 114208062369995762}

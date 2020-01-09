@@ -17,9 +17,6 @@ namespace TurboLabz.InstantGame
 		// Params
 		[Inject] public string remoteProductId { get; set; }
 
-		// Dispatch
-		[Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
-
 		// Models
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
@@ -33,7 +30,6 @@ namespace TurboLabz.InstantGame
 			{
 				return;
 			}
-			updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
             //appsflyer
             Dictionary<string, string> purchaseEvent = new Dictionary<string, string>();

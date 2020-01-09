@@ -11,19 +11,23 @@ public class SkinItemMediator : Mediator
 
     public override void OnRegister()
     {
-        view.Init();
         view.setSkinSignal.AddListener(OnSetSkin);
-    }
-
-    [ListensTo(typeof(StoreAvailableSignal))]
-    public void OnStoreAvailable(bool isAvailable)
-    {
-        view.OnVirtualGoodsAvailable();
     }
 
     public void OnSetSkin()
     {
         setSkinSignal.Dispatch(view.key);
+    }
+
+    [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+    public void OnRemoveLobbyPromotion(StoreItem item)
+    {
+        view.UpdateView();
+    }
+    [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
+    public void OnRewardClaimed()
+    {
+        view.UpdateView();
     }
 
     [ListensTo(typeof(SkinUpdatedSignal))]

@@ -65,6 +65,11 @@ namespace TurboLabz.InstantFramework
         public Dictionary<string, Friend> search { get; set; }
         public bool busyRefreshingCommunity { get; set; }
 
+        // Ads Reward Data
+        public int rewardSkinIndex { get; set; }
+        public int rewardCurrentPoints { get; set; }
+        public int rewardPointsRequired { get; set; }
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -111,6 +116,10 @@ namespace TurboLabz.InstantFramework
             search = new Dictionary<string, Friend>();
 
             busyRefreshingCommunity = false;
+
+            rewardSkinIndex = 2; // by default skins at index 0 and 1 will be unlocked
+            rewardCurrentPoints = 0;
+            rewardPointsRequired = 0;
         }
 
 		public bool OwnsVGood(string key)
@@ -156,7 +165,7 @@ namespace TurboLabz.InstantFramework
         public bool HasSubscription()
         {
             return isPremium ||
-                   subscriptionExipryTimeStamp - backendService.serverClock.currentTimestamp > 0;
+                   subscriptionExipryTimeStamp > backendService.serverClock.currentTimestamp;
         }
 
         public bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel)
