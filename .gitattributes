@@ -2,20 +2,16 @@
 # Handle line endings automatically for files detected as text and leave all
 # files detected as binary untouched.
 * text=auto
-
 #
 # The above will handle all files NOT found below.
 #
-
 # Note:
 # Text file should be normalized (Convert crlf => lf)
 # binary is a macro for -text -diff
 # Commenting lfs since we're not using it right now
-
 #
 # Code
 #
-
 # C/C++/Objective-C
 *.c    diff=cpp text
 *.cc   diff=cpp text
@@ -27,43 +23,31 @@
 *.hxx  diff=cpp text
 *.m    diff=objc text
 *.mm   diff=objc text
-
 # CSharp
 *.cs  diff=csharp text
-
 # Data exchange
 *.json  text
 *.xml   text
-
 #Java
 *.java  diff=java text
-
 # Shell
 *.sh    text
 *.bash  text
 *.zsh   text
-
 # Web
 *.css   diff=css text
 *.htm   diff=html text
 *.html  diff=html text
 *.js    text
-
-
 #
 # Non-code
 #
-
 # Normal text files (readme, etc.)
 *.md   text
 *.txt  text
-
-
 # Shaders
 *.cginc   text
 *.shader  text
-
-
 # Unity YAML
 *.anim               merge=unityyamlmerge eol=lf
 *.asset              merge=unityyamlmerge eol=lf
@@ -74,16 +58,11 @@
 *.physicsMaterial2D  merge=unityyamlmerge eol=lf
 *.prefab             merge=unityyamlmerge eol=lf
 *.unity              merge=unityyamlmerge eol=lf
-
-
 # Git LFS
 #*.cubemap       filter=lfs diff=lfs merge=lfs -text
 #*.unitypackage  filter=lfs diff=lfs merge=lfs -text
-
 *.cubemap       -text
 *.unitypackage  -text
-
-
 # Image
 #*.ai    filter=lfs diff=lfs merge=lfs -text
 #*.apng  filter=lfs diff=lfs merge=lfs -text
@@ -107,7 +86,6 @@
 #*.tiff  filter=lfs diff=lfs merge=lfs -text
 #*.webm  filter=lfs diff=lfs merge=lfs -text
 #*.webp  filter=lfs diff=lfs merge=lfs -text
-
 *.ai    -text
 *.apng  -text
 *.astc  -text
@@ -130,22 +108,17 @@
 *.tiff  -text
 *.webm  -text
 *.webp  -text
-
-
 # Audio
 #*.aif   filter=lfs diff=lfs merge=lfs -text
 #*.m4a   filter=lfs diff=lfs merge=lfs -text
 #*.mp3   filter=lfs diff=lfs merge=lfs -text
 #*.ogg   filter=lfs diff=lfs merge=lfs -text
 #*.wav   filter=lfs diff=lfs merge=lfs -text
-
 *.aif   -text
 *.m4a   -text
 *.mp3   -text
 *.ogg   -text
 *.wav   -text
-
-
 # Video
 #*.asf   filter=lfs diff=lfs merge=lfs -text
 #*.avi   filter=lfs diff=lfs merge=lfs -text
@@ -156,7 +129,6 @@
 #*.mpg   filter=lfs diff=lfs merge=lfs -text
 #*.ogv   filter=lfs diff=lfs merge=lfs -text
 #*.wmv   filter=lfs diff=lfs merge=lfs -text
-
 *.asf   -text
 *.avi   -text
 *.flv   -text
@@ -166,8 +138,6 @@
 *.mpg   -text
 *.ogv   -text
 *.wmv   -text
-
-
 # 3D Object
 #*.blend  filter=lfs diff=lfs merge=lfs -text
 #*.dxf    filter=lfs diff=lfs merge=lfs -text
@@ -177,7 +147,6 @@
 #*.max    filter=lfs diff=lfs merge=lfs -text
 #*.mb     filter=lfs diff=lfs merge=lfs -text
 #*.obj    filter=lfs diff=lfs merge=lfs -text
-
 *.blend  -text
 *.dxf    -text
 *.fbx    -text
@@ -186,8 +155,6 @@
 *.max    -text
 *.mb     -text
 *.obj    -text
-
-
 # Compressed Archive
 #*.7z   filter=lfs diff=lfs merge=lfs -text
 #*.bz2  filter=lfs diff=lfs merge=lfs -text
@@ -195,64 +162,45 @@
 #*.rar  filter=lfs diff=lfs merge=lfs -text
 #*.tar  filter=lfs diff=lfs merge=lfs -text
 #*.zip  filter=lfs diff=lfs merge=lfs -text
-
 *.7z   -text
 *.bz2  -text
 *.gz   -text
 *.rar  -text
 *.tar  -text
 *.zip  -text
-
-
 # Compiled Dynamic Library
 #*.dll  filter=lfs diff=lfs merge=lfs -text
 #*.pdb  filter=lfs diff=lfs merge=lfs -text
 #*.so   filter=lfs diff=lfs merge=lfs -text
-
 *.dll  -text
 *.pdb  -text
 *.so   -text
-
-
 # Compiled Static Library
 #*.a            filter=lfs diff=lfs merge=lfs -text
 #*.la           filter=lfs diff=lfs merge=lfs -text
 #*.lai          filter=lfs diff=lfs merge=lfs -text
 #*.lib          filter=lfs diff=lfs merge=lfs -text
 #*.llblgenproj  filter=lfs diff=lfs merge=lfs -text
-
-*.a            -text
+*.a filter=lfs diff=lfs merge=lfs -text
 *.la           -text
 *.lai          -text
 *.lib          -text
 *.llblgenproj  -text
-
-
 # Font
 #*.otf  filter=lfs diff=lfs merge=lfs -text
 #*.ttf  filter=lfs diff=lfs merge=lfs -text
-
 *.otf  -text
 *.ttf  -text
-
-
 # Executable/Installer
 #*.apk  filter=lfs diff=lfs merge=lfs -text
 #*.exe  filter=lfs diff=lfs merge=lfs -text
-
 *.apk  -text
 *.exe  -text
-
-
 # Documents
 #*.pdf  filter=lfs diff=lfs merge=lfs -text
-
 *.pdf  -text
-
-
 # Other
 #*.reason  filter=lfs diff=lfs merge=lfs -text
 #*.rns     filter=lfs diff=lfs merge=lfs -text
-
 *.reason  -text
 *.rns     -text

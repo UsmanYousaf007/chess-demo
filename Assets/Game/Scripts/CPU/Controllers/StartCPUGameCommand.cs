@@ -14,6 +14,8 @@ using TurboLabz.Chess;
 using System;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using HUF.Analytics.API;
+using IAnalyticsService = TurboLabz.InstantFramework.IAnalyticsService;
 
 namespace TurboLabz.CPU
 {
@@ -29,6 +31,7 @@ namespace TurboLabz.CPU
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
 
         public override void Execute()
         {
@@ -57,6 +60,19 @@ namespace TurboLabz.CPU
             }
 
             analyticsService.ScreenVisit(AnalyticsScreen.computer_match);
+
+            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
+                .ST1("gameplay");
+            HAnalytics.LogEvent(analyticsEvent);
+
+            preferencesModel.gameStartCount++;
+
+            if (preferencesModel.gameStartCount <= 20 &&
+                preferencesModel.gameStartCount % 5 == 0 ||
+                preferencesModel.gameStartCount < 5)
+            {
+                appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.game_started, preferencesModel.gameStartCount));
+            }
         }
     }
 }

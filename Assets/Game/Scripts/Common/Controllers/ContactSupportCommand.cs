@@ -16,11 +16,15 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            string email = Settings.SUPPORT_EMAIL;
-            string subject = MyEscapeURL("Feeback");
-            string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
+            //Turbo Labz Contact Support Via EMAIL
+            //string email = Settings.SUPPORT_EMAIL;
+            //string subject = MyEscapeURL("Feeback");
+            //string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
+            //Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
 
-            Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+            //Huuuuge Contact Support To URL
+            Application.OpenURL(appInfoModel.contactSupportURL);
+            TLUtils.LogUtil.Log("Contact US URL " + appInfoModel.contactSupportURL);
 
             analyticsService.Event(AnalyticsEventId.tap_support);
         }

@@ -1,0 +1,41 @@
+#admob
+-keep class com.google.unity.** { *; }
+-keep public class com.google.android.gms.ads.** { public *; }
+-keep public class com.google.ads.**{ public *; }
+-keepattributes *Annotation*
+
+#vungle
+-keep class com.vungle.** { *; }
+-dontwarn com.vungle.warren.error.VungleError$ErrorCode
+
+#vungle -> moatSDK
+-keep class com.moat.** { *; }
+-dontwarn com.moat.**
+
+#vungle -> okio
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+#vungle -> retrofit
+-dontwarn okio.**
+-dontwarn retrofit2.Platform$Java8
+
+#vungle -> Gson
+-keepattributes Signature
+-keepattributes *Annotation*
+-dontwarn sun.misc.**
+-keep class com.google.gson.examples.android.model.** { *; }
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+#vungle -> Google Android Advertising ID
+-keep class com.google.android.gms.internal.** { *; }
+-dontwarn com.google.android.gms.ads.identifier.**
+
+#applovin
+-dontwarn com.applovin.**
+-keep class com.applovin.** { *; }
+
+#facebook audience
+-keep class com.facebook.ads.** { *; }
+-dontwarn com.facebook.ads.**

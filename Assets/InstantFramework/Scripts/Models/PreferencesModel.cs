@@ -38,6 +38,11 @@ namespace TurboLabz.InstantGame
         public float timeSpentCpuMatch { get; set; }
         public float timeSpentLobby { get; set; }
         public DateTime lastLaunchTime { get; set; }
+        public int videoFinishedCount { get; set; }
+        public int continousPlayCount { get; set; }
+        public int gameStartCount { get; set; }
+        public int gameFinishedCount { get; set; }
+        public DateTime appsFlyerLastLaunchTime { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -67,6 +72,11 @@ namespace TurboLabz.InstantGame
             timeSpentCpuMatch = 0;
             timeSpentLobby = 0;
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
+            videoFinishedCount = 0;
+            continousPlayCount = 0;
+            gameStartCount = 0;
+            gameFinishedCount = 0;
+            appsFlyerLastLaunchTime = lastLaunchTime;
         }
 
         private void LoadFromDisk()
@@ -164,6 +174,31 @@ namespace TurboLabz.InstantGame
                     lastLaunchTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.LAST_LAUNCH_TIME)));
                 }
 
+                if (reader.HasKey(PrefKeys.VIDEO_FINISHED_COUNT))
+                {
+                    videoFinishedCount = reader.Read<int>(PrefKeys.VIDEO_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.COUNTINOUS_PLAY_COUNT))
+                {
+                    continousPlayCount = reader.Read<int>(PrefKeys.COUNTINOUS_PLAY_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_START_COUNT))
+                {
+                    gameStartCount = reader.Read<int>(PrefKeys.GAME_START_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_FINISHED_COUNT))
+                {
+                    gameFinishedCount = reader.Read<int>(PrefKeys.GAME_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.APPS_FLYER_LAST_LAUNCH_TIME))
+                {
+                    appsFlyerLastLaunchTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.APPS_FLYER_LAST_LAUNCH_TIME)));
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -199,6 +234,11 @@ namespace TurboLabz.InstantGame
                 writer.Write<float>(PrefKeys.TIME_SPENT_LOBBY, timeSpentLobby);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
                 writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
+                writer.Write<int>(PrefKeys.VIDEO_FINISHED_COUNT, videoFinishedCount);
+                writer.Write<int>(PrefKeys.COUNTINOUS_PLAY_COUNT, continousPlayCount);
+                writer.Write<int>(PrefKeys.GAME_START_COUNT, gameStartCount);
+                writer.Write<int>(PrefKeys.GAME_FINISHED_COUNT, gameFinishedCount);
+                writer.Write<string>(PrefKeys.APPS_FLYER_LAST_LAUNCH_TIME, appsFlyerLastLaunchTime.ToBinary().ToString());
                 writer.Close();
             }
             catch (Exception e)

@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         public string androidURL { get; set; }
         public int rateAppThreshold { get; set; }
         public int onlineCount { get; set; }
+        public string contactSupportURL { get; set; }
 
         //Persistant field ---- do not reset  
         public long reconnectTimeStamp { get; set; }
@@ -54,6 +55,7 @@ namespace TurboLabz.InstantFramework
             rateAppThreshold = 0;
             onlineCount = 0;
             isNotificationActive = false;
+            contactSupportURL = "";
         }
     }
 }

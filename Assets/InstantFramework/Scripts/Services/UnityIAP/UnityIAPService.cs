@@ -26,6 +26,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
         [Inject] public ShowProcessingSignal showIAPProcessingSignal { get; set; }
+        [Inject] public ReportHAnalyticsForPurchaseResult reportHAnalyticsForPurchaseResult { get; set; }
+
+        //Models
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         IStoreController storeController = null;
         IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
@@ -222,6 +226,7 @@ namespace TurboLabz.InstantFramework
                 if (result == BackendResult.SUCCESS)
                 {
                     remoteStorePurchaseCompletedSignal.Dispatch(pendingVerification[transactionID].definition.id);
+                    reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "completed");
                 }
                 else
                 {
@@ -241,6 +246,7 @@ namespace TurboLabz.InstantFramework
                     };
 
                     updateConfirmDlgSignal.Dispatch(vo);
+                    reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "failed");
                 }
 
                 storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
@@ -277,13 +283,14 @@ namespace TurboLabz.InstantFramework
             // Do nothing when user cancels
             if (reason == PurchaseFailureReason.UserCancelled) 
 			{
-				return;
+                reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "cancelled");
+                return;
 			} 
 			else 
 			{
-				
-			}
-		}
+                reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "failed");
+            }
+        }
 
         // Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google. 
         // Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
@@ -307,5 +314,19 @@ namespace TurboLabz.InstantFramework
 
 #endif
         }
-	}
+
+        private string FindRemoteStoreItemShortCode(string remoteId)
+        {
+            foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items)
+            {
+                StoreItem storeItem = item.Value;
+                if (storeItem.remoteProductId == remoteId)
+                {
+                    return item.Key;
+                }
+            }
+
+            return null;
+        }
+    }
 }

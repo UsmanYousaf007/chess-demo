@@ -380,6 +380,17 @@ namespace TurboLabz.InstantFramework
         {
             view.ShowProcessing(show, showProcessingUi);
         }
+
+        [ListensTo(typeof(ReportHAnalyticsForPurchaseResult))]
+        public void OnReportHAnalytics(string key, string result)
+        {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
+            view.ReportHAnalytic(key, result);
+        }
     }
 }
 

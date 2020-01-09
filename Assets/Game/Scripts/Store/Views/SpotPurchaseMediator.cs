@@ -1,5 +1,7 @@
-﻿using strange.extensions.mediation.impl;
+﻿using HUF.Analytics.API;
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
+using IAnalyticsService = TurboLabz.InstantFramework.IAnalyticsService;
 
 namespace TurboLabz.InstantGame
 {
@@ -17,6 +19,9 @@ namespace TurboLabz.InstantGame
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+
+        // Models
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void OnRegister()
         {
@@ -92,6 +97,13 @@ namespace TurboLabz.InstantGame
 
         private void OnStoreItemClicked(StoreItem item)
         {
+            var analyticsEvent = AnalyticsMonetizationEvent.Create("attempt", item.currency1Cost)
+                .ST1("iap_purchase")
+                .ST2(item.displayName.Replace(" ", "_").ToLower())
+                .ST3("on_spot")
+                .Value(item.currency1Cost);
+            HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
+
             // Purchase item after confirmation. No confirmation for remote store items
             purchaseStoreItemSignal.Dispatch(item.key, true);
         }
@@ -100,6 +112,27 @@ namespace TurboLabz.InstantGame
         public void OnShowProcessingUI(bool show, bool showProcessingUi)
         {
             view.ShowProcessing(show, showProcessingUi);
+        }
+
+        [ListensTo(typeof(ReportHAnalyticsForPurchaseResult))]
+        public void OnReportHAnalytics(string key, string result)
+        {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
+            var item = metaDataModel.store.items[key];
+
+            if (item != null)
+            {
+                var analyticsEvent = AnalyticsMonetizationEvent.Create(result, item.currency1Cost)
+                .ST1("iap_purchase")
+                .ST2(item.displayName.Replace(" ", "_").ToLower())
+                .ST3("on_spot")
+                .Value(item.currency1Cost);
+                HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
+            }
         }
     }
 }

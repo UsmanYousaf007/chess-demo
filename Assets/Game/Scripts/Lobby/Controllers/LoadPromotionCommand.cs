@@ -5,6 +5,8 @@ using System;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections;
+using HUF.Analytics.API;
+using IAnalyticsService = TurboLabz.InstantFramework.IAnalyticsService;
 
 namespace TurboLabz.InstantGame
 {
@@ -170,6 +172,14 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     analyticsService.Event(AnalyticsEventId.tap_banner_ultimate_bundle);
+
+                    var analyticsEvent = AnalyticsMonetizationEvent.Create("attempt", 999)
+                        .ST1("iap_purchase")
+                        .ST2("special_ultimate_bundle")
+                        .ST3("lobby_banner")
+                        .Value(999);
+                    HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
+
                     purchaseStoreItemSignal.Dispatch(key, true);
                 },
                 analyticsImpId = AnalyticsEventId.imp_banner_ultimate_bundle
@@ -188,6 +198,14 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     analyticsService.Event(AnalyticsEventId.tap_banner_ad_bundle);
+
+                    var analyticsEvent = AnalyticsMonetizationEvent.Create("attempt", 499)
+                        .ST1("iap_purchase")
+                        .ST2("remove_ads")
+                        .ST3("lobby_banner")
+                        .Value(499);
+                    HAnalytics.LogMonetizationEvent((AnalyticsMonetizationEvent)analyticsEvent);
+
                     purchaseStoreItemSignal.Dispatch(key, true);
                 },
                 analyticsImpId = AnalyticsEventId.imp_banner_ad_bundle

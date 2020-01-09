@@ -128,7 +128,17 @@ namespace TurboLabz.InstantFramework
         time_spent_quick_macth,
         time_spent_long_match,
         time_spent_cpu_match,
-        time_spent_lobby
+        time_spent_lobby,
+        //apps flyer events for HUUUGE
+        launch,
+        ad_clicked,
+        ad_displayed,
+        video_started,
+        video_finished,
+        game_started,
+        game_finished,
+        continuous_play,
+        focus_lost
     }
 
     public enum AnalyticsContext

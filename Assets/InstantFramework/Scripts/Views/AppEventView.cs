@@ -16,6 +16,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -27,6 +28,7 @@ namespace TurboLabz.InstantFramework
         public Signal appEscapeSignal = new Signal();
 
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
 
         // TODO: Ads need to be initialized in the start function of our app.
         // However our StartCommand is misleading because it is called through
@@ -37,7 +39,7 @@ namespace TurboLabz.InstantFramework
         protected override void Start()
         {
             base.Start();
-            adsService.Init();
+            //adsService.Init();
         }
 
         // TODO: Verify that this class behaves correctly for EACH platform
@@ -55,9 +57,27 @@ namespace TurboLabz.InstantFramework
             if (isPaused)
             {
                 appPausedSignal.Dispatch();
+
+                var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.focus_lost.ToString())
+                .ST1("focus");
+                HAnalytics.LogEvent(analyticsEvent);
             }
             else
             {
+                if (SplashLoader.launchCode != 1)
+                {
+                    var analyticsEvent = AnalyticsEvent.Create("launch_opened")
+                        .ST1("launch");
+
+                    if (firebasePushNotificationService.IsNotificationOpened())
+                    {
+                        analyticsEvent.ST2("notification");
+                    }
+
+                    HAnalytics.LogEvent(analyticsEvent);
+                    SplashLoader.launchCode = 2;
+                }
+
                 appResumedSignal.Dispatch();
             }
         }

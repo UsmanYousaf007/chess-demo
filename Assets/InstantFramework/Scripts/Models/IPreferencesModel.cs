@@ -31,5 +31,12 @@ namespace TurboLabz.InstantFramework
 
         void ResetTimeSpentAnalyticsData();
         void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);
+
+        //for appsflyer events for HUUUGE
+        int videoFinishedCount { get; set; }
+        int continousPlayCount { get; set; }
+        int gameStartCount { get; set; }
+        int gameFinishedCount { get; set; }
+        DateTime appsFlyerLastLaunchTime { get; set; }
     }
 }

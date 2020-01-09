@@ -14,6 +14,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using System.Collections.Generic;
 using TurboLabz.InstantGame;
+using HUF.Analytics.API;
 
 namespace TurboLabz.CPU
 {
@@ -98,6 +99,19 @@ namespace TurboLabz.CPU
             cmd.disableUndoBtnSignal.Dispatch(false);
             cmd.toggleStepBackwardSignal.Dispatch(false);
             cmd.toggleStepForwardSignal.Dispatch(false);
+
+            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_finished.ToString())
+                .ST1("gameplay");
+            HAnalytics.LogEvent(analyticsEvent);
+
+            cmd.preferencesModel.gameFinishedCount++;
+
+            if (cmd.preferencesModel.gameFinishedCount <= 20 &&
+                cmd.preferencesModel.gameFinishedCount % 5 == 0 ||
+                cmd.preferencesModel.gameFinishedCount < 5)
+            {
+                cmd.appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount));
+            }
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)
