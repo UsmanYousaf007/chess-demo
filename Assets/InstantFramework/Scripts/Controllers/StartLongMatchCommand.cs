@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
             pvo.avatarId = publicProfile.avatarId;
             pvo.avatarColorId = publicProfile.avatarBgColorId;
             pvo.isActive = publicProfile.isActive;
+            pvo.isPremium = publicProfile.isSubscriber;
 
             updateOpponentProfileSignal.Dispatch(pvo);
 

@@ -38,6 +38,12 @@ namespace TurboLabz.InstantFramework
             return item.ContainsKey(key) ? item.GetLong(key).Value : defaultVal;
         }
 
+        public static bool GetSafeBool(GSData item, string key, bool defaultVal = false)
+        {
+            if (key == null) return defaultVal;
+            return item.ContainsKey(key) ? item.GetBoolean(key).Value : defaultVal;
+        }
+
         public static GSData GetVGoodProperties(GSData itemData, string propertyKey)
         {
             GSData propertySet = itemData.GetGSData(GSBackendKeys.SHOP_ITEM_PROPERTY_SET);
@@ -274,7 +280,7 @@ namespace TurboLabz.InstantFramework
 			publicProfile.countryId = publicProfileData.GetString(GSBackendKeys.PublicProfile.COUNTRY_ID);
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
             publicProfile.isOnline = publicProfileData.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
-
+            publicProfile.isSubscriber = GetSafeBool(publicProfileData, GSBackendKeys.PublicProfile.IS_SUBSCRIBER);
            // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
 
             publicProfile.totalGamesWon = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;
@@ -308,7 +314,6 @@ namespace TurboLabz.InstantFramework
 			friend.gamesWon = friendData.GetInt(GSBackendKeys.Friend.GAMES_WON).Value;
             friend.friendType = friendData.GetString(GSBackendKeys.Friend.TYPE);
             friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
-
 
             GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);

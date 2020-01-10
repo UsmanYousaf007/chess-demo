@@ -475,6 +475,7 @@ namespace TurboLabz.InstantFramework
                     barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId) ;
                 }
             }
+            barData.premiumBorder.SetActive(publicProfile.isSubscriber);
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -905,6 +906,7 @@ namespace TurboLabz.InstantFramework
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
 
             startGameConfirmationDlg.playerId = bar.friendInfo.playerId;
+            startGameConfirmationDlg.premiumBorder.SetActive(bar.premiumBorder.activeSelf);
 
             startGameConfirmationDlg.gameObject.SetActive(true);
         }
@@ -1185,22 +1187,14 @@ namespace TurboLabz.InstantFramework
 
         public void OnRewardUnlocked()
         {
-            rewardUnlockedAlert.gameObject.SetActive(true);
-            rewardName.text = string.Format("{0} : {1}", localizationService.Get(LocalizationKey.REWARD_THEME), GetRewardName());
-            rewardUnlockedDlg.SetActive(true);
-        }
+            var reward = metaDataModel.store.GetItemBySkinIndex(playerModel.rewardSkinIndex - 1);
 
-        private string GetRewardName()
-        {
-            foreach (var item in metaDataModel.store.items)
+            if (reward != null  && !string.IsNullOrEmpty(reward.displayName))
             {
-                if (item.Value.skinIndex == playerModel.rewardSkinIndex)
-                {
-                    return item.Value.displayName;
-                }
+                rewardUnlockedAlert.gameObject.SetActive(true);
+                rewardName.text = string.Format("{0} : {1}", localizationService.Get(LocalizationKey.REWARD_THEME), reward.displayName);
+                rewardUnlockedDlg.SetActive(true);
             }
-
-            return string.Empty;
         }
     }
 }

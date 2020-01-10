@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public string avatarId;
         public string avatarBgColorId;
         public string creationDateShort;
+        public bool isSubscriber;
 
         public string name
         {

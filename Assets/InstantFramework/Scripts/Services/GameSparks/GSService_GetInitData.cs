@@ -113,6 +113,7 @@ namespace TurboLabz.InstantFramework
                 }
 
                 storeAvailableSignal.Dispatch(true);
+                setDefaultSkinSignal.Dispatch();
             }
         }
 

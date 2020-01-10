@@ -93,6 +93,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ChangeUserDetailsSignal>().To<ChangeUserDetailsCommand>();
             commandBinder.Bind<RestorePurchasesSignal>().To<RestorePurchasesCommand>();
             commandBinder.Bind<SetSkinSignal>().To<SetSkinCommand>();
+            commandBinder.Bind<SetDefaultSkinSignal>().To<SetDefaultSkinCommand>();
             commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
             commandBinder.Bind<ConsumeVirtualGoodSignal>().To<ConsumeVirtualGoodCommand>();
 

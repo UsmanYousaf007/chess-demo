@@ -165,8 +165,9 @@ namespace TurboLabz.InstantGame
             notification.body.text = notificationVO.body;
             notification.playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             notification.avatarBg.sprite = notification.defaultAvatar;
-
+            notification.premiumBorder.SetActive(notificationVO.isPremium);
             notification.senderPic.gameObject.SetActive(false);
+
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
             {

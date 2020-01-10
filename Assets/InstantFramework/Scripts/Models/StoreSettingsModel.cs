@@ -5,6 +5,7 @@
 
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -54,6 +55,15 @@ namespace TurboLabz.InstantFramework
             }
 
             lists.Add(kind,list);
+        }
+
+        public StoreItem GetItemBySkinIndex(int skinIndex)
+        {
+            var item = (from entry in items
+                        where entry.Value.skinIndex == skinIndex
+                        select entry).FirstOrDefault();
+
+            return item.Value;
         }
     }
 

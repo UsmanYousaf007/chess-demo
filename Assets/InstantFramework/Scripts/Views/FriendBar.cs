@@ -11,6 +11,7 @@ namespace TurboLabz.InstantFramework
         public Image avatarImage;
         public Image avatarBG;
         public Image avatarIcon;
+        public GameObject premiumBorder;
         public Text profileNameLabel;
         public Text eloScoreLabel;
         public GameObject timer;

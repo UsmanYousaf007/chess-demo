@@ -20,10 +20,11 @@ public class SkinItemMediator : Mediator
     }
 
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
-    public void OnRemoveLobbyPromotion(StoreItem item)
+    public void OnSubscriptionPurchased(StoreItem item)
     {
         view.UpdateView();
     }
+
     [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
     public void OnRewardClaimed()
     {

@@ -280,7 +280,6 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_COMMUNITY = "community";
             public const string TYPE_FAVOURITE = "favourite";
             public const string LAST_MATCH_TIMESTAMP = "lastMatchTimestamp";
-            
         }
 
 		public static class FriendsOp
@@ -311,10 +310,10 @@ namespace TurboLabz.InstantFramework
             public const string LAST_SEEN = "lastSeen";
             public const string TOTAL_GAMES_WON = "totalGamesWon";
             public const string TOTAL_GAMES_LOST = "totalGamesLost";
-
+            public const string IS_SUBSCRIBER = "isSubscriber";
         }
 
-		public static class  PlayerDetails
+        public static class  PlayerDetails
 		{
 			public const string PLAYER_ID = "playerId";
             public const string CREATION_DATE = "creationDate";

@@ -104,6 +104,7 @@ namespace TurboLabz.InstantGame
             pvo.playerId = playerModel.id;
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;
+            pvo.isPremium = playerModel.HasSubscription();
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {

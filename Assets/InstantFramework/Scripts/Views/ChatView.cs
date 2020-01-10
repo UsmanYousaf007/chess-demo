@@ -46,6 +46,7 @@ namespace TurboLabz.InstantFramework
         public Button minimizeChatBtn;
         public Text inputFieldDefaultText;
         public Image inputFieldIcon;
+        public GameObject premiumBorder;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -74,6 +75,8 @@ namespace TurboLabz.InstantFramework
         private Sprite opponentAvatarIconSprite;
         private Color opponentAvatarBGColor;
         private bool inGame;
+        private bool isPlayerPremium;
+        private bool isOpponentPremium;
 
         public void Init()
         {
@@ -118,6 +121,9 @@ namespace TurboLabz.InstantFramework
             hasUnreadMessages = vo.hasUnreadMessages;
             clearUnreadMessagesSignal.Dispatch(vo.opponentId);
             minimizeChatBtn.gameObject.SetActive(vo.inGame);
+            premiumBorder.SetActive(vo.isOpponentPremium);
+            isOpponentPremium = vo.isOpponentPremium;
+            isPlayerPremium = vo.isPlayerPremium;
 
             if (!vo.isOnline && vo.isActive)
             {
@@ -338,6 +344,7 @@ namespace TurboLabz.InstantFramework
 
                 bubble.avatarBg.gameObject.SetActive(false);
                 bubble.avatarIcon.gameObject.SetActive(false);
+                bubble.premiumBorder.SetActive(isPlayerPremium);
 
                 if (playerProfilePic != null)
                 {
@@ -367,9 +374,9 @@ namespace TurboLabz.InstantFramework
                 bubble = chatBubbleContainer.GetComponent<ChatBubble>();
                 bubble.profilePic.sprite = opponentProfilePic ?? defaultAvatar;
 
-
                 bubble.avatarBg.gameObject.SetActive(false);
                 bubble.avatarIcon.gameObject.SetActive(false);
+                bubble.premiumBorder.SetActive(isOpponentPremium);
 
                 if (opponentProfilePic != null)
                 {

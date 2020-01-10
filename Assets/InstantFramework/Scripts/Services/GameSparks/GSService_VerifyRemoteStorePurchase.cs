@@ -20,9 +20,6 @@ namespace TurboLabz.InstantFramework
     {
         // Dispatch Signals
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
-        [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
-        [Inject] public RemoveLobbyPromotionSignal removeLobbyPromotionSignal { get; set; }
-        [Inject] public ReportLobbyPromotionAnalyticSingal reportLobbyPromotionAnalyticSingal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }

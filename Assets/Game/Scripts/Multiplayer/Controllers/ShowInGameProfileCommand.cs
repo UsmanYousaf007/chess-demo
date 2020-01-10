@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
             vo.oppActive = opponentPublicProfile.isActive;
             vo.inGame = true;
             vo.isBot = activeMatch.isBotMatch;
+            vo.isOpponentPremium = opponentPublicProfile.isSubscriber;
 
             if (opponentProfile != null)
             {
