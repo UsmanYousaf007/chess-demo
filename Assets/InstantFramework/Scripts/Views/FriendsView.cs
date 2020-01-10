@@ -727,7 +727,7 @@ namespace TurboLabz.InstantFramework
 
         public void ClearFriend(string friendId)
         {
-            if (friendId != null && bars.ContainsKey(friendId))
+            if (friendId != null && bars.ContainsKey(friendId) && !bars[friendId].isSearched)
             {
                 GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
