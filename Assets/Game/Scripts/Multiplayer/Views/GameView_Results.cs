@@ -379,8 +379,6 @@ namespace TurboLabz.Multiplayer
             {
                 resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
             }
-
-            EnableInputField(vo.isChatEnabled);
         }
 
         private void AnimateResultsDialog()

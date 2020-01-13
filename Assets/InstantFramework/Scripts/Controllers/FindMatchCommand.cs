@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         public override void Execute()
         {
@@ -136,6 +137,12 @@ namespace TurboLabz.InstantFramework
         {
             PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
+            var friend = playerModel.GetFriend(publicProfile.playerId);
+            if (friend != null)
+            {
+                publicProfile = friend.publicProfile;
+            }
+
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = publicProfile.profilePicture;
             pvo.playerName = publicProfile.name;
@@ -146,6 +153,11 @@ namespace TurboLabz.InstantFramework
             pvo.avatarId = publicProfile.avatarId;
             pvo.isOnline = true;
             pvo.isActive = publicProfile.isActive;
+
+            if (pvo.playerPic == null)
+            {
+                pvo.playerPic = picsModel.GetPlayerPic(publicProfile.playerId);
+            }
 
             return pvo;
         }

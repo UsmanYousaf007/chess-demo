@@ -357,11 +357,14 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                sectionSearched.gameObject.SetActive(true);
-                sectionSearchResultsEmpty.gameObject.SetActive(true);
-                nextSearchButton.interactable = false;
-                nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
-                nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                if (cancelSearchButton.interactable)
+                {
+                    sectionSearched.gameObject.SetActive(true);
+                    sectionSearchResultsEmpty.gameObject.SetActive(true);
+                    nextSearchButton.interactable = false;
+                    nextSearchButtonText.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                    nextSearchButtonTextUnderline.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                }
             }
 
             uiBlocker.gameObject.SetActive(false);
