@@ -727,7 +727,7 @@ namespace TurboLabz.InstantFramework
 
         public void ClearFriend(string friendId)
         {
-            if (friendId != null && bars.ContainsKey(friendId) && !bars[friendId].isSearched)
+            if (friendId != null && bars.ContainsKey(friendId) && (!bars[friendId].isSearched || bars[friendId].isRemoved))
             {
                 GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
@@ -849,6 +849,7 @@ namespace TurboLabz.InstantFramework
         void RemoveCommunityFriendDlgYes()
         {
             removeCommunityFriendDlg.SetActive(false);
+            actionBar.isRemoved = true;
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
             analyticsService.Event(AnalyticsEventId.tap_long_match_remove);
         }
