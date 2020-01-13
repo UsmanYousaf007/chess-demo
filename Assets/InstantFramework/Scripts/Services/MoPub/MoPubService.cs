@@ -117,7 +117,7 @@ namespace TurboLabz.InstantFramework
         public void OnBannerLoadedEvent(string adUnit, float height)
         {
             Debug.Log("[ANALYITCS]: OnBannerLoadedEvent ");
-            if (appInfoModel.gameMode == GameMode.NONE || appInfoModel.isNotificationActive || appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            if (appInfoModel.gameMode == GameMode.NONE || appInfoModel.isNotificationActive || appInfoModel.isReconnecting != DisconnectStates.FALSE)
             {
                 HideBanner();
             }

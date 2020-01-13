@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
 
         //Persistant field ---- do not reset  
         public long reconnectTimeStamp { get; set; }
-        public DisconnectStats isReconnecting { get; set; }
+        public DisconnectStates isReconnecting { get; set; }
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }

@@ -15,6 +15,7 @@ namespace TurboLabz.TLUtils
     public static class InternetReachabilityMonitor
     {
         public static Signal<bool, ConnectionSwitchType> internetReachabilitySignal = new Signal<bool, ConnectionSwitchType>();
+        public static Signal<bool> slowInternetSignal = new Signal<bool>();
         public static bool enableDispatches = true;
 
         public enum ConnectionSwitchType {
@@ -34,6 +35,11 @@ namespace TurboLabz.TLUtils
             }
         }
 
+        private static void SlowInternetHandler(bool isSlowInternet)
+        {
+            slowInternetSignal.Dispatch(isSlowInternet);
+        }
+
         public static void EnableDispatches(bool enable)
         {
             enableDispatches = enable;
@@ -43,6 +49,9 @@ namespace TurboLabz.TLUtils
         {
             OnlineCheck.Refresh();
             OnlineCheck.OnOnlineStatusChange += InternetReachabilityHandler;
+            OnlineCheck.OnSlowInternetDetected += SlowInternetHandler;
+
+            OnlineCheck.CheckIntervalMin = 1;
         }
 
         public static void StopMonitor()
@@ -58,6 +67,16 @@ namespace TurboLabz.TLUtils
         public static void RemoveListener(Action<bool, ConnectionSwitchType> signalListener)
         {
             internetReachabilitySignal.RemoveListener(signalListener);
+        }
+
+        public static void AddSlowInternetListener(Action<bool> signalListener)
+        {
+            slowInternetSignal.AddListener(signalListener);
+        }
+
+        public static void RemoveSlowInternetListener(Action<bool> signalListener)
+        {
+            slowInternetSignal.RemoveListener(signalListener);
         }
     }
 }

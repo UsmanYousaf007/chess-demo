@@ -52,7 +52,6 @@ namespace TurboLabz.InstantGame
         [Inject] public PreShowNotificationSignal preShowNotificationSignal { get; set; }
         [Inject] public PostShowNotificationSignal postShowNotificationSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
-        [Inject] public StopTimersSignal stopTimersSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public TurboLabz.CPU.SaveGameSignal saveGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }

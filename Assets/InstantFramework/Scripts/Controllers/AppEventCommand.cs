@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (appEvent == AppEvent.ESCAPED)
             {
-                if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+                if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
                     return;
 
                // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))

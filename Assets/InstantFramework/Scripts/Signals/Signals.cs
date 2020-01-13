@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
     public class GameAppEventSignal : Signal<AppEvent> {}
     public class InitFacebookSignal : Signal{}
     public class GameDisconnectingSignal : Signal {}
+    public class ReconnectionCompleteSignal : Signal {}
     public class SetUpdateURLSignal : Signal<string> {}
     public class FindMatchSignal : Signal<string> {}
     public class FindMatchCompleteSignal : Signal<string> {}
