@@ -66,6 +66,7 @@ namespace TurboLabz.Multiplayer
             {
                 view.Show();
                 InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
+                InternetReachabilityMonitor.AddSlowInternetListener(OnSlowInternet);
             }
         }
 
@@ -75,6 +76,7 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER)
             {
                 InternetReachabilityMonitor.RemoveListener(OnInternetConnectedTicked);
+                InternetReachabilityMonitor.RemoveSlowInternetListener(OnSlowInternet);
                 stopTimersSignal.Dispatch();
                 view.Hide();
             }

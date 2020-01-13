@@ -50,15 +50,11 @@ namespace TurboLabz.InstantFramework
                 // Stop GS connection monitoring.
                 MonitorConnectivity(false);
 
-                appInfoModel.isReconnecting = DisconnectStats.FALSE;
-
                 // Reset all models
                 modelsResetSignal.Dispatch();
                 // Load saved models (perfs etc)
                 modelsLoadFromDiskSignal.Dispatch();
-                // Restart the reachability monitor
-                //InternetReachabilityMonitor.EnableDispatches(true);
-                InternetReachabilityMonitor.StartMonitor();
+
                 // Begin processing hard reconnect
                 resumeMatchSignal.Dispatch(prevViewId);
 
@@ -67,30 +63,36 @@ namespace TurboLabz.InstantFramework
 
                 reconnectViewEnableSignal.Dispatch(false);
                 chessboardBlockerEnableSignal.Dispatch(false);
+
+                // Restart the reachability monitor
+                InternetReachabilityMonitor.StartMonitor();
             }
             else
             {
                 LogUtil.Log("GS Disconnected", "red");
 
-                if(appInfoModel.isReconnecting == DisconnectStats.FALSE)
+                // Avoid soft reconnect processing
+                InternetReachabilityMonitor.StopMonitor();
+
+                if (appInfoModel.isReconnecting == DisconnectStates.FALSE)
                 {
                     appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
                 }
 
-                appInfoModel.isReconnecting = DisconnectStats.LONG_DISCONNET;
+                appInfoModel.isReconnecting = DisconnectStates.LONG_DISCONNET;
                 reconnectViewEnableSignal.Dispatch(true);
-
                 chessboardBlockerEnableSignal.Dispatch(true);
 
                 // Stop the pinger
                 StopPinger();
-                // Avoid soft reconnect processing
-                //InternetReachabilityMonitor.EnableDispatches(false);
-                InternetReachabilityMonitor.StopMonitor();
+
                 // Reconnect processing depends on last view
                 prevViewId = navigatorModel.currentViewId;
                 // Remove pending requests processing
-                GSFrameworkRequest.CancelRequestSession();
+                if (appInfoModel.syncInProgress == false)
+                {
+                    GSFrameworkRequest.CancelRequestSession();
+                }
                 // Data Sync was cancelled 
                 appInfoModel.syncInProgress = false;
                 // Dispatch signal that we are in reconnection

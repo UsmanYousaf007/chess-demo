@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
 
             string challengeId = response.ScriptData.GetString("challengeId");
             LogUtil.Log("SyncReconnectData: RESUME ChallengeID = " + challengeId, "cyan");
-            if (challengeId != null)
+            if (challengeId != null && (appInfoModel.isReconnecting != DisconnectStates.LONG_DISCONNET))
             {
                 if (chessboardModel.isValidChallenge(challengeId))
                 {

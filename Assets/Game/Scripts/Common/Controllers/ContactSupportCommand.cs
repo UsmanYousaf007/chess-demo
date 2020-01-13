@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             string email = Settings.SUPPORT_EMAIL;
-            string subject = MyEscapeURL("Feeback");
+            string subject = MyEscapeURL("Feedback");
             string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
 
             Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);

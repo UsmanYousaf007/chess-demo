@@ -100,15 +100,6 @@ namespace TurboLabz.Multiplayer
             {
                 SetOpponentTimerWaitingState(vo.isPlayerTurn);
             }
-
-            FlashClocks(false);
-
-            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
-            {
-                stopTimersSignal.Dispatch();
-                FlashClocks(true);
-            }
-           
         }
 
         public void PlayerTurnComplete()

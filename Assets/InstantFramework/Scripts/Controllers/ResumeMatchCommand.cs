@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public Multiplayer.StopTimersSignal stopTimersSignal { get; set; }
+        [Inject] public ReconnectionCompleteSignal reconnectionCompeteSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -112,12 +113,15 @@ namespace TurboLabz.InstantFramework
                 loadLobbySignal.Dispatch();
             }
 
+            reconnectionCompeteSignal.Dispatch();
             getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
             prevViewId = NavigatorViewId.NONE;
             appInfoModel.syncInProgress = false;
 
             // Resume GS connection monitoring
             backendService.MonitorConnectivity(true);
+
+            appInfoModel.isReconnecting = DisconnectStates.FALSE;
 
             Release();
         }
