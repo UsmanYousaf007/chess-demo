@@ -221,6 +221,7 @@ namespace TurboLabz.InstantFramework
             if (vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
             {
                 EnableAddButton(false);
+                EnableRemoveButton(false);
             }
 
             if (!vo.oppOnline && vo.oppActive)

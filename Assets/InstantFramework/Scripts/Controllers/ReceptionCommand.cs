@@ -140,10 +140,10 @@ namespace TurboLabz.InstantFramework
 
             if (daysBetweenLastLogin >= 1)
             {
-                analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentCpuMatch, 2));
-                analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLongMatch, 2));
-                analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentQuickMatch, 2));
-                analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLobby, 2));
+                analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentCpuMatch));
+                analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLongMatch));
+                analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentQuickMatch));
+                analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLobby));
 
                 preferencesModel.ResetTimeSpentAnalyticsData();
             }
