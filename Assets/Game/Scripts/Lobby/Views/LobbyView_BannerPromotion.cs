@@ -59,15 +59,15 @@ namespace TurboLabz.InstantFramework
 
                         if (storeItem != null)
                         {
-                            iapBanner.price.text = storeItem.remoteProductPrice == null ?
-                                localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE) :
-                                storeItem.remoteProductPrice;
+                            //iapBanner.price.text = storeItem.remoteProductPrice == null ?
+                                //localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE) :
+                                //storeItem.remoteProductPrice;
                             spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
 
-                            if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
-                            {
-                                iapBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
-                            }
+                            //if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
+                            //{
+                            //    iapBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
+                            //}
                         }
                         else
                         {

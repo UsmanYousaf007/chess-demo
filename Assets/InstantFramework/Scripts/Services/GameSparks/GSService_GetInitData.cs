@@ -113,7 +113,6 @@ namespace TurboLabz.InstantFramework
                 }
 
                 storeAvailableSignal.Dispatch(true);
-                setDefaultSkinSignal.Dispatch();
             }
 
             if (playerModel.HasSubscription())
@@ -124,6 +123,7 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("======= max match count " + settingsModel.maxLongMatchCount + " friends count " + settingsModel.maxFriendsCount);
             }
 
+            setDefaultSkinSignal.Dispatch();
             getInitDataCompleteSignal.Dispatch();
         }
 
