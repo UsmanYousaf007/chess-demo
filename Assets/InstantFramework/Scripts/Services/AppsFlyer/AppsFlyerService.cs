@@ -77,7 +77,7 @@ namespace TurboLabz.InstantFramework
             else if (daysBetweenLastLogin > 1)
             {
                 preferencesModel.appsFlyerLastLaunchTime = currentTime;
-                preferencesModel.continousPlayCount = 0;
+                preferencesModel.continousPlayCount = 10;
             }
         }
     }

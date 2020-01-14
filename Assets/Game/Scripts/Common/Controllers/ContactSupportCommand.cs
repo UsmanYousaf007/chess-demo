@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HUF.AnalyticsHBI.API;
 using strange.extensions.command.impl;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -23,8 +24,19 @@ namespace TurboLabz.InstantFramework
             //Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
 
             //Huuuuge Contact Support To URL
-            Application.OpenURL(appInfoModel.contactSupportURL);
-            TLUtils.LogUtil.Log("Contact US URL " + appInfoModel.contactSupportURL);
+            //https://contactus.huuugegames.com/? gdpr=0&tag=funstory&appversion=[APPVER]&hardwarekey=[DEVICE ID]&userid=[HBI ID , USER TAG]
+
+            var contactSupportUrl = string.Format(
+                "{0}/?gdpr={1}&tag={2}&appversion={3}&hardwarekey={4}&userid={5}",
+                appInfoModel.contactSupportURL,
+                0,
+                "funstory",
+                appInfoModel.clientVersion,
+                SystemInfo.deviceModel,
+                HAnalyticsHBI.UserId);
+
+            Application.OpenURL(contactSupportUrl);
+            TLUtils.LogUtil.Log("Contact US URL " + contactSupportUrl);
 
             analyticsService.Event(AnalyticsEventId.tap_support);
         }
