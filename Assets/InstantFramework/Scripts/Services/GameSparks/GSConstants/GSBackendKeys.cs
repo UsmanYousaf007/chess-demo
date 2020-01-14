@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         public const string MAINTENANCE_WARNING_MESSEGE = "maintenanceWarningMessage";
         public const string MAINTENANCE_WARNING_BG_COLOR = "maintenanceWarningBgColor";
         public const string UPDATE_RELEASE_BANNER_MESSAGE = "gameUpdateBannerMsg";
+        public const string MANAGE_SUBSCRIPTION_URL = "manageSubscriptionURL";
         public const string EVENT_DATA          = "eventData";
         public const string EVENT_DAY_NUMBER    = "eventdayNo";
         public const string POWERUP_USAGE_PERCENTAGE = "powerupUsagePercentage";
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
         public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
         public const string MAX_RECENTLY_COMPLETED_MATCH_COUNT = "maxRecentlyCompletedMatchCount";
         public const string MAX_COMMUNITY_MATECHES = "maxCommunityMatches";
+        public const string PREMIUM = "premium";
         
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";

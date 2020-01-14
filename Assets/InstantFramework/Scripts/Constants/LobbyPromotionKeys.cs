@@ -9,6 +9,7 @@
         public const string COACH_PURCHASE = "CoachPurchase";
         public const string STRENGTH_PURCHASE = "StrengthPurchase";
         public const string GAME_UPDATE_BANNER = "GameUpdateBanner";
+        public const string SUBSCRIPTION_BANNER = "SubscriptionBanner";
 
         public static bool Contains(string key)
         {
@@ -19,6 +20,7 @@
                 || key.Equals(COACH_PURCHASE)
                 || key.Equals(STRENGTH_PURCHASE)
                 || key.Equals(GAME_UPDATE_BANNER)
+                || key.Equals(SUBSCRIPTION_BANNER)
                 )
             {
                 return true;

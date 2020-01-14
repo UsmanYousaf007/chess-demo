@@ -115,6 +115,16 @@ namespace TurboLabz.InstantFramework
                 storeAvailableSignal.Dispatch(true);
                 setDefaultSkinSignal.Dispatch();
             }
+
+            if (playerModel.HasSubscription())
+            {
+                settingsModel.maxLongMatchCount = settingsModel.maxLongMatchCountPremium;
+                settingsModel.maxFriendsCount = settingsModel.maxFriendsCountPremium;
+
+                LogUtil.Log("======= max match count " + settingsModel.maxLongMatchCount + " friends count " + settingsModel.maxFriendsCount);
+            }
+
+            getInitDataCompleteSignal.Dispatch();
         }
 
 		private void FillPlayerDetails(GSData playerDetailsData)
@@ -195,7 +205,7 @@ namespace TurboLabz.InstantFramework
         private void FillGameSettingsModel(GSData gsSettingsData)
         {
             settingsModel.maxLongMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
-            settingsModel.maxFriendsCount   = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
+            settingsModel.maxFriendsCount = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
             settingsModel.maxRecentlyCompletedMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_RECENTLY_COMPLETED_MATCH_COUNT).Value;
             settingsModel.maxCommunityMatches   = gsSettingsData.GetInt(GSBackendKeys.MAX_COMMUNITY_MATECHES).Value;
 
@@ -206,6 +216,13 @@ namespace TurboLabz.InstantFramework
             settingsModel.maintenanceWarningMessege = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
             settingsModel.maintenanceWarningBgColor = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
 
+            if (gsSettingsData.ContainsKey(GSBackendKeys.PREMIUM))
+            {
+                var premiumData = gsSettingsData.GetGSData(GSBackendKeys.PREMIUM);
+                settingsModel.maxLongMatchCountPremium = premiumData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
+                settingsModel.maxFriendsCountPremium = premiumData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
+            }
+
 #if UNITY_IOS
             GSData storeData = gsSettingsData.GetGSData(GSBackendKeys.STORE_IOS);  
 #elif UNITY_ANDROID
@@ -213,6 +230,8 @@ namespace TurboLabz.InstantFramework
 #endif
             settingsModel.minimumClientVersion = storeData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
             settingsModel.updateReleaseBannerMessage = storeData.GetString(GSBackendKeys.UPDATE_RELEASE_BANNER_MESSAGE);
+            settingsModel.manageSubscriptionURL = storeData.GetString(GSBackendKeys.MANAGE_SUBSCRIPTION_URL);
+            LogUtil.Log("======= manage subscription url " + settingsModel.manageSubscriptionURL);
         }
 
         private void FillStoreSettingsModel(GSData storeSettingsData)

@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public OpponentPingedForConnectionSignal opponentPingedForConnectionSignal { get; set; }
         [Inject] public StoreAvailableSignal storeAvailableSignal { get; set; }
         [Inject] public SetDefaultSkinSignal setDefaultSkinSignal { get; set; }
+        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }

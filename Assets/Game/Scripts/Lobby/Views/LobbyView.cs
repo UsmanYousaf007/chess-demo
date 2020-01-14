@@ -207,6 +207,7 @@ namespace TurboLabz.InstantFramework
 
             scrollViewOrignalPosition = scrollRect.transform.localPosition;
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
+            playerProfileOriginalPosition = playerProfile.transform.localPosition;
 
             selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
             selectThemeButton.onClick.AddListener(OnSelectThemeClicked);

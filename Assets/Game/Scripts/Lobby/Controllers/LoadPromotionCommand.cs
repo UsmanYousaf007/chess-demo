@@ -137,7 +137,7 @@ namespace TurboLabz.InstantGame
             var ultimateItem = new PromotionVO
             {
                 cycleIndex = 1,
-                key = LobbyPromotionKeys.ULTIMATE_BANNER,
+                key = LobbyPromotionKeys.SUBSCRIPTION_BANNER,
                 condition = delegate
                 {
                     return !playerModel.HasSubscription();
@@ -145,10 +145,10 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
-                    analyticsService.Event(AnalyticsEventId.tap_banner_ultimate_bundle);
+                    analyticsService.Event(AnalyticsEventId.tap_banner_subscription);
                     purchaseStoreItemSignal.Dispatch(key, true);
                 },
-                analyticsImpId = AnalyticsEventId.imp_banner_ultimate_bundle
+                analyticsImpId = AnalyticsEventId.imp_banner_subscription
             };
 
             promotionCycle.Add(ultimateItem);

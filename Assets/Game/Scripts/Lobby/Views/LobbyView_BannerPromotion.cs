@@ -17,6 +17,8 @@ namespace TurboLabz.InstantFramework
         public RectTransform scrollViewport;
         public GameObject coachTrainingDailogue;
         public GameObject strengthTrainingDailogue;
+        public GameObject playerProfile;
+        public Transform movePlayerProfileToPivot;
 
         private GameObject spawnedBanner;
         private Vector3 scrollViewOrignalPosition;
@@ -24,6 +26,7 @@ namespace TurboLabz.InstantFramework
         private float scrollViewportOrginalBottom;
         private PromotionVO currentPromotion;
         private IAPBanner iapBanner;
+        private Vector3 playerProfileOriginalPosition;
 
         public static bool isCoachTrainingShown;
         public static bool isStrengthTrainingShown;
@@ -47,6 +50,7 @@ namespace TurboLabz.InstantFramework
                     scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
                     scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
                     scrollRect.verticalNormalizedPosition = 1;
+                    playerProfile.transform.localPosition = movePlayerProfileToPivot.localPosition;
 
                     iapBanner = spawnedBanner.GetComponent<IAPBanner>();
                     if (iapBanner != null)
@@ -90,6 +94,7 @@ namespace TurboLabz.InstantFramework
             {
                 scrollRect.transform.localPosition = scrollViewOrignalPosition;
                 scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
+                playerProfile.transform.localPosition = playerProfileOriginalPosition;
             }
         }
 
@@ -97,7 +102,7 @@ namespace TurboLabz.InstantFramework
         {
             if (isAvailable && iapBanner != null)
             {
-                iapBanner.price.text = storeItem.remoteProductPrice;
+                //iapBanner.price.text = storeItem.remoteProductPrice;
             }
         }
 
