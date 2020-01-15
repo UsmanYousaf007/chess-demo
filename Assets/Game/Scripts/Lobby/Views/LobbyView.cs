@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public GameObject quickMatchPlay;
         public Text quickMatchPlayTxt;
         public Text quickMatchDescriptionTxt;
+        public Button quickMatchShortcutBtn;
 
         public Button playComputerMatchBtn;
         public Text playComputerMatchTitleTxt;
@@ -192,6 +193,7 @@ namespace TurboLabz.InstantFramework
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
 
             quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
+            quickMatchShortcutBtn.onClick.AddListener(OnQuickMatchBtnClicked);
 
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
