@@ -194,17 +194,12 @@ namespace TurboLabz.InstantFramework
         private void HandleActiveGameEnd(string challengeId)
         {
             var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_finished.ToString())
-                .ST1("gameplay");
+                .ST1("gameplay")
+                .ST2(matchInfoModel.matches.ContainsKey(challengeId) && matchInfoModel.matches[challengeId].isLongPlay ? "long_match" : "quick_match");
             HAnalytics.LogEvent(analyticsEvent);
 
             preferencesModel.gameFinishedCount++;
-
-            if (preferencesModel.gameFinishedCount <= 20 &&
-                preferencesModel.gameFinishedCount % 5 == 0 ||
-                preferencesModel.gameFinishedCount < 5)
-            {
-                appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.game_finished, preferencesModel.gameFinishedCount));
-            }
+            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, preferencesModel.gameFinishedCount);
 
             if (challengeId != matchInfoModel.activeChallengeId)
                 return;

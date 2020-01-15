@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using TurboLabz.Multiplayer;
+using HUF.AnalyticsHBI.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -81,7 +82,7 @@ namespace TurboLabz.InstantFramework
             appData.isResume = isResume;
             appData.playerSkillLevel = playerModel.skillLevel;
             appData.inProgress = cPUGameModel.inProgress;
-
+            appData.hbiUserId = HAnalyticsHBI.UserId;
 
             return JsonUtility.ToJson(appData);
         }
@@ -95,5 +96,6 @@ namespace TurboLabz.InstantFramework
         public bool isResume;
         public string playerSkillLevel;
         public bool inProgress;
+        public string hbiUserId;
     }
 }

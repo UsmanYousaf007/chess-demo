@@ -45,13 +45,7 @@ namespace TurboLabz.InstantFramework
                     appsFlyerService.TrackRichEvent(AnalyticsEventId.video_finished.ToString(), videoEventData);
 
                     preferencesModel.videoFinishedCount++;
-
-                    if (preferencesModel.videoFinishedCount <= 20 &&
-                        preferencesModel.videoFinishedCount % 5 == 0 ||
-                        preferencesModel.videoFinishedCount < 5)
-                    {
-                        appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.video_finished, preferencesModel.videoFinishedCount));
-                    }
+                    appsFlyerService.TrackLimitedEvent(AnalyticsEventId.video_finished, preferencesModel.videoFinishedCount);
 
                     var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_finished.ToString())
                         .ST1("monetization")
@@ -149,7 +143,7 @@ namespace TurboLabz.InstantFramework
         {
             //MoPubInterstitial.Show();
             HAds.Interstitial.TryShow();
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_finished.ToString())
+            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_started.ToString())
                 .ST1("monetization")
                 .ST2("interstitial")
                 .ST3(HAds.Interstitial.GetAdProviderName());

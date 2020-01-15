@@ -27,13 +27,14 @@ namespace TurboLabz.InstantFramework
             //https://contactus.huuugegames.com/? gdpr=0&tag=funstory&appversion=[APPVER]&hardwarekey=[DEVICE ID]&userid=[HBI ID , USER TAG]
 
             var contactSupportUrl = string.Format(
-                "{0}/?gdpr={1}&tag={2}&appversion={3}&hardwarekey={4}&userid={5}",
+                "{0}/?gdpr={1}&tag={2}&appversion={3}&hardwarekey={4}&userid={5},{6}",
                 appInfoModel.contactSupportURL,
                 0,
                 "chess",
                 appInfoModel.clientVersion,
                 SystemInfo.deviceModel,
-                HAnalyticsHBI.UserId);
+                HAnalyticsHBI.UserId,
+                playerModel.tag);
 
             Application.OpenURL(contactSupportUrl);
             TLUtils.LogUtil.Log("Contact US URL " + contactSupportUrl);

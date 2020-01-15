@@ -101,17 +101,12 @@ namespace TurboLabz.CPU
             cmd.toggleStepForwardSignal.Dispatch(false);
 
             var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_finished.ToString())
-                .ST1("gameplay");
+                .ST1("gameplay")
+                .ST2("cpu_match");
             HAnalytics.LogEvent(analyticsEvent);
 
             cmd.preferencesModel.gameFinishedCount++;
-
-            if (cmd.preferencesModel.gameFinishedCount <= 20 &&
-                cmd.preferencesModel.gameFinishedCount % 5 == 0 ||
-                cmd.preferencesModel.gameFinishedCount < 5)
-            {
-                cmd.appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount));
-            }
+            cmd.appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

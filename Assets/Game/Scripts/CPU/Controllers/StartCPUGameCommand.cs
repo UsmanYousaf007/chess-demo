@@ -49,6 +49,15 @@ namespace TurboLabz.CPU
                 chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+
+                var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
+                .ST1("gameplay")
+                .ST2("cpu_match");
+                HAnalytics.LogEvent(analyticsEvent);
+
+                preferencesModel.gameStartCount++;
+                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+
             }
 
             OnboardingTooltipCommand.oldOpponentScore = 0;
@@ -60,19 +69,6 @@ namespace TurboLabz.CPU
             }
 
             analyticsService.ScreenVisit(AnalyticsScreen.computer_match);
-
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
-                .ST1("gameplay");
-            HAnalytics.LogEvent(analyticsEvent);
-
-            preferencesModel.gameStartCount++;
-
-            if (preferencesModel.gameStartCount <= 20 &&
-                preferencesModel.gameStartCount % 5 == 0 ||
-                preferencesModel.gameStartCount < 5)
-            {
-                appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.game_started, preferencesModel.gameStartCount));
-            }
         }
     }
 }

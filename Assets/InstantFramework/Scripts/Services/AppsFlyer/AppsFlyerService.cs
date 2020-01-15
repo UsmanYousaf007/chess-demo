@@ -80,5 +80,24 @@ namespace TurboLabz.InstantFramework
                 preferencesModel.continousPlayCount = 10;
             }
         }
+
+        public void TrackLimitedEvent(AnalyticsEventId eventName, int  currentValue)
+        {
+            if (IsWithInLimits(currentValue))
+            {
+                TrackRichEvent(string.Format("{0}_{1}", eventName, currentValue));
+            }
+        }
+
+        private bool IsWithInLimits(int currentValue)
+        {
+            if (currentValue <= 20 &&
+                currentValue % 5 == 0 ||
+                currentValue < 5)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

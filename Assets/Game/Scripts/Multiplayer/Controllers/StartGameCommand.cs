@@ -3,7 +3,6 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using HUF.Analytics.API;
 using strange.extensions.command.impl;
 using strange.extensions.mediation.api;
 using TurboLabz.Multiplayer;
@@ -28,7 +27,6 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
-        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
 
         public override void Execute()
         {
@@ -93,19 +91,6 @@ namespace TurboLabz.InstantFramework
             else
             {
                 analyticsService.ScreenVisit(AnalyticsScreen.quick_match, facebookService.isLoggedIn(), matchInfo.isBotMatch);
-            }
-
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
-                .ST1("gameplay");
-            HAnalytics.LogEvent(analyticsEvent);
-
-            preferencesModel.gameStartCount++;
-
-            if (preferencesModel.gameStartCount <= 20 &&
-                preferencesModel.gameStartCount % 5 == 0 ||
-                preferencesModel.gameStartCount < 5)
-            {
-                appsFlyerService.TrackRichEvent(string.Format("{0}_{1}", AnalyticsEventId.game_started, preferencesModel.gameStartCount));
             }
         }
     }

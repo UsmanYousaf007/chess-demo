@@ -10,6 +10,6 @@ namespace TurboLabz.InstantFramework
     {
         void Init();
         void TrackRichEvent(string eventName, Dictionary<string, string> eventValues = null);
-
+        void TrackLimitedEvent(AnalyticsEventId eventName, int currentValue);
     }
 }
