@@ -21,6 +21,7 @@ namespace TurboLabz.CPU
         public Signal hindsightClickedSignal = new Signal();
 
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
@@ -118,7 +119,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else
             {

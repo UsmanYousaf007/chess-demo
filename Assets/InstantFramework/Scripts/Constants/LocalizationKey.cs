@@ -203,6 +203,13 @@ namespace TurboLabz.InstantFramework
         public const string STORE_PURCHASE_FAILED_REASON_DUPLICATE = "DuplicateTransaction";
         public const string STORE_PURCHASE_FAILED_REASON_UNKNOWN = "Unknown";
 
+        public const string SUBSCRIPTION_DLG_TITLE = "subscriptionDlgTitle";
+        public const string SUBSCRIPTION_DLG_DISCLAIMER = "subscriptionDlgDisclaimer";
+        public const string SUBSCRIPTION_DLG_RESTORE_PURCHASE = "subscriptionDlgRestorePurchase";
+        public const string SUBSCRIPTION_DLG_PRIVACY_POLICY = "subscriptionDlgPrivacyPolicy";
+        public const string SUBSCRIPTION_DLG_TERMS_OF_USE = "subscriptionDlgTermsOfUse";
+        public const string SUBSCRIPTION_DLG_PURCHASE_BUTTON = "subscriptionDlgPurchaseButton";
+
         #endregion
 
         #region Friends

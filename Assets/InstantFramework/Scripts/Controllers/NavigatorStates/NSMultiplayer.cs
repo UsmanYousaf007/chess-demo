@@ -139,6 +139,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSProfileDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
+            {
+                return new NSSubscriptionDlg();
+            }
 
             return null;
         }

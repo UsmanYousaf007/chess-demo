@@ -207,7 +207,15 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_PRODUCT_UNAVAILABLE, "Item is unavailable for purchase, please try again" },
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNAVAILABLE, "Purchasing is unavailable, check your payment settings" },
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNKNOWN, "Reason unknown" },
-				#endregion
+
+                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "Chess Star Premium Subscription"},
+                { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unsued portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
+                { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Start 3 Days Free Trial"},
+                { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
+                { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
+
+                #endregion
 
                 #region Friends
 

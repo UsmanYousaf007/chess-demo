@@ -70,7 +70,8 @@ public class SkinItemView : View
         }
         else
         {
-            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
         }
     }
 

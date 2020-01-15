@@ -251,6 +251,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ChatView>().To<ChatMediator>();
             mediationBinder.Bind<ThemeSelectionView>().To<ThemeSelectionMediator>();
             mediationBinder.Bind<SkinItemView>().To<SkinItemMediator>();
+            mediationBinder.Bind<SubscriptionDlgView>().To<SubscriptionDlgMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

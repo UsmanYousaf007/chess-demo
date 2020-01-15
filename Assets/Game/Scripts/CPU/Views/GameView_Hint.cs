@@ -129,7 +129,7 @@ namespace TurboLabz.CPU
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else
             {

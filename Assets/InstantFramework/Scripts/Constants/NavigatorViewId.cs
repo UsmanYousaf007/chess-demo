@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
         CONFIRM_DLG,
         // TODO: I am possibly unused so remove me.
         AD_COVER,
-        THEME_SELECTION
+        THEME_SELECTION,
+        SUBSCRIPTION_DLG
     }
 }

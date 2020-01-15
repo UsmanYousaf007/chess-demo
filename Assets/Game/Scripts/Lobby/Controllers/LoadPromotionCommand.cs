@@ -12,9 +12,9 @@ namespace TurboLabz.InstantGame
     {
         //Singals
         [Inject] public ShowPromotionSignal showPromotionSignal { get; set; }
-        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public ShowCoachTrainingDailogueSignal showCoachTrainingDailogueSignal { get; set; }
         [Inject] public ShowStrengthTrainingDailogueSignal showStrengthTrainingDailogueSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -146,7 +146,7 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     analyticsService.Event(AnalyticsEventId.tap_banner_subscription);
-                    purchaseStoreItemSignal.Dispatch(key, true);
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 },
                 analyticsImpId = AnalyticsEventId.imp_banner_subscription
             };

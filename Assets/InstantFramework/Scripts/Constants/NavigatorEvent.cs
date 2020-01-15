@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         SHOW_CHAT,
         SHOW_MAINTENANCE_SCREEN,
         SHOW_CONFIRM_DLG,
-        SHOW_THEME_SELECTION_DLG
+        SHOW_THEME_SELECTION_DLG,
+        SHOW_SUBSCRIPTION_DLG
     }
 }

@@ -26,10 +26,15 @@
             {
                 return new NSChat();
             }
-            else if (evt == NavigatorEvent.SHOW_SHARE_SCREEN_DLG)
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
-                return new NSShareDlg();
+                return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
+            {
+                return new NSSubscriptionDlg();
+            }
+
             return null;
         }
     }
