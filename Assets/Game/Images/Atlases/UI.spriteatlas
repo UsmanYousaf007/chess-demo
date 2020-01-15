@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 4685409
+    totalSpriteSurfaceArea: 5945889
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -68,6 +68,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ea71d4f07d4d6470ebcb68ffdf468c9e, type: 3}
   - {fileID: 21300000, guid: 23660d219a98e477899e476efb6204cf, type: 3}
   - {fileID: 21300000, guid: bbba68310c26b4763a3953c4c04d2a5e, type: 3}
+  - {fileID: 21300000, guid: 31e8aa41dbe5f48ee9bdeb76adea8cc6, type: 3}
   - {fileID: 21300000, guid: 96a26f717338141168fc5c6098f18e5e, type: 3}
   - {fileID: 21300000, guid: e66fd081711464aafad86f1831f27b24, type: 3}
   - {fileID: 21300000, guid: f5996381c062f46bfaf14460ae9f9f49, type: 3}
@@ -84,12 +85,14 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b684a052f6c644265a3737d5a4914353, type: 3}
   - {fileID: 21300000, guid: 78df8652dc6b741718cca27cec48b86f, type: 3}
   - {fileID: 21300000, guid: f5575b522f9274ffaae543e98b0f8d28, type: 3}
+  - {fileID: 21300000, guid: 4d2ca662c6c48437280f7b7e78a9faa0, type: 3}
   - {fileID: 21300000, guid: 72fbb762b56ab41cdba2df3f69743590, type: 3}
   - {fileID: 21300000, guid: d3cbc862f6a594b5682e751029a66f28, type: 3}
   - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
   - {fileID: 21300000, guid: b8f18e92c1067418f8fe7f5ec75c7361, type: 3}
   - {fileID: 21300000, guid: f42082c2d8a10438dbdbc0fe4600e8bf, type: 3}
   - {fileID: 21300000, guid: 838e8fc2bb9e54657b14f648de8ecd9d, type: 3}
+  - {fileID: 21300000, guid: 244b6cd2a0b83465796fff040d55f5e2, type: 3}
   - {fileID: 21300000, guid: d067efd2bc8d7430ba27f4c445b565b8, type: 3}
   - {fileID: 21300000, guid: 5a6970e2b75f745248fe09d351b23616, type: 3}
   - {fileID: 21300000, guid: 33f181e2fa5224188b0855b086371e57, type: 3}
@@ -115,6 +118,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 504d5364e198b46a68b9acb87155a8f6, type: 3}
   - {fileID: 21300000, guid: 643a858481c4a4ef88c114f36548c456, type: 3}
   - {fileID: 21300000, guid: 799d8b8459dae4e7fb6aae552e6c65bb, type: 3}
+  - {fileID: 21300000, guid: 1e4e5c9455ec14f01b79be83148f48be, type: 3}
   - {fileID: 21300000, guid: b19a7aa46b1034c92826082decfe225f, type: 3}
   - {fileID: 21300000, guid: dc5a3fb43067844199270ce0288d9c86, type: 3}
   - {fileID: 21300000, guid: baf397c4df788460e872d672a6724bdd, type: 3}
@@ -137,6 +141,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 93f701363339b44e6b6eee9ad9b94abb, type: 3}
   - {fileID: 21300000, guid: ca157646a7dda4909a26599f73458794, type: 3}
   - {fileID: 21300000, guid: 9f7f64563b23745459269b3c7e8c32b8, type: 3}
+  - {fileID: 21300000, guid: 99506376977214cab95c679ad211687d, type: 3}
   - {fileID: 21300000, guid: 35ae75768389f43c795d66b09faab1d9, type: 3}
   - {fileID: 21300000, guid: 39b485762c5bb4909a4895da772b87cc, type: 3}
   - {fileID: 21300000, guid: b2eccf76e6ffb476699db71a4f2f06ed, type: 3}
@@ -167,6 +172,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 78c3f07820df749c080f83549436123c, type: 3}
   - {fileID: 21300000, guid: a671fb788740a4e29a23369e16c2b329, type: 3}
   - {fileID: 21300000, guid: d2a64188ef4ee46babfec152997e0a53, type: 3}
+  - {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
   - {fileID: 21300000, guid: 0b1f39e871df648a686799cd05e957ed, type: 3}
   - {fileID: 21300000, guid: 501b1de8e0eb246e6a703e52f4cde523, type: 3}
   - {fileID: 21300000, guid: 422753f8dd4c54108a32ce9032cf923a, type: 3}
@@ -264,6 +270,7 @@ SpriteAtlas:
   - WhiteBox
   - ShareIcon
   - ChatIcon2
+  - VictoryIcon
   - ChatMuteIconX
   - WhiteButtonBold
   - WhiteButton
@@ -280,12 +287,14 @@ SpriteAtlas:
   - LongMatchIcon
   - UpdateIcon
   - a
+  - SubDlg
   - gameUpdateBg
   - bannerButton
   - ProgressIcon
   - coachStickerBgWhite
   - bannerChessSquares
   - ComputerAvatar
+  - DrawIcon
   - QuickMatchPattern
   - ClockBorderBg
   - 7
@@ -311,6 +320,7 @@ SpriteAtlas:
   - WifiWarning
   - PlayerOnline
   - 8
+  - OpenGiftRewardIcon
   - ShopIcon
   - strengthFiller
   - trashBtn
@@ -333,6 +343,7 @@ SpriteAtlas:
   - AvatarOutline
   - DragIndicator
   - DifficultyBg
+  - ClosedGiftRewardIcon
   - InGameMenuIcon
   - TryMoveBoardBorder
   - CoachIcon
@@ -363,6 +374,7 @@ SpriteAtlas:
   - strengthTrainingBoard
   - CheckerBoardButtonBg
   - LoginGraphic
+  - DefeatIcon
   - DialogPattern
   - SectionMask
   - WaitSpinner
