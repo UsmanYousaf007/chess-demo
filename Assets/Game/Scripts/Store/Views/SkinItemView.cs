@@ -25,7 +25,6 @@ public class SkinItemView : View
     public Image icon;
     public Text displayName;
     public Image unlock;
-    //public Text owned;
     public Image tick;
     public Button button;
 
@@ -58,7 +57,6 @@ public class SkinItemView : View
         thumbnail.sprite = thumbsContainer.GetSprite(key);
         icon.sprite = iconsContainer.GetSprite(key);
         displayName.text = item.displayName;
-        //owned.text = localizationServicec.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
     }
 
     private void OnButtonClicked()
@@ -77,7 +75,6 @@ public class SkinItemView : View
     public void SetOwnedState()
     {
         unlock.gameObject.SetActive(!isPremium);
-        //owned.gameObject.SetActive(isPremium);
         tick.gameObject.SetActive(playerModel.activeSkinId == key);
     }
 }
