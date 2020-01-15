@@ -1,10 +1,16 @@
 Current plugin versions: 
-Google Mobile Ads Unity Plugin v3.17 - https://github.com/googleads/googleads-mobile-unity/releases/tag/3.17.0
+Google Mobile Ads Unity Plugin v4.1.0
 
-GoogleMobileAdsVungleMediation 3.1.1 - https://bintray.com/google/mobile-ads-adapters-unity/GoogleMobileAdsVungleMediation#files/GoogleMobileAdsVungleMediation%2F3.1.1
-GoogleMobileAdsAppLovinMediation 3.1.2 - https://bintray.com/google/mobile-ads-adapters-unity/GoogleMobileAdsAppLovinMediation#files/GoogleMobileAdsAppLovinMediation%2F3.1.2
-GoogleMobileAdsFacebookMediation 2.1.1 - https://bintray.com/google/mobile-ads-adapters-unity/GoogleMobileAdsFacebookMediation#files/GoogleMobileAdsFacebookMediation%2F2.1.1
+GoogleMobileAdsVungleMediation 3.2.0
+GoogleMobileAdsAppLovinMediation 4.3.0
+GoogleMobileAdsFacebookMediation 2.6.0
+GoogleMobileAdsIronsourceMediation 1.3.2
+GoogleMobileAdsAdColonyMediation 2.0.0
+GoogleMobileAdsChartboostMediation 2.4.0
+GoogleMobileAdsInMobiMediation 2.4.0
+GoogleMobileAdsTapjoyMediation 2.3.1
+GoogleMobileAdsUnityAdsMediation 2.3.0
 
-GoogleMobileAdsMediationTestSuite 1.0.0 - https://dl.google.com/googleadmobadssdk/GoogleMobileAdsMediationTestSuite.unitypackage
+GoogleMobileAdsMediationTestSuite 1.2.2 - https://dl.google.com/googleadmobadssdk/GoogleMobileAdsMediationTestSuite.unitypackage
 
-Minimal required: Android SDK 4.0 (API level 14), iOS 8
+Minimal required: Android SDK 4.0 (API level 14), iOS 8, Xcode 11+

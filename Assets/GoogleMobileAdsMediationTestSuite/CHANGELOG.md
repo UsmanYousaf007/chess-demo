@@ -1,3 +1,13 @@
+# Version 1.2.2
+*2019-12-10*
+- Fix issue with Android proguard file.
+- Updated Android mediation test suite dependency to version 1.2.2.
+
+# Version 1.2.1
+*2019-11-11*
+- Updated Android mediation test suite dependency to version 1.2.1.
+- Updated iOS mediation test suite dependency to version 1.1.1.
+
 # Version 1.2.0
 *2019-09-18*
 - Updated Android mediation test suite dependency to version 1.2.0.

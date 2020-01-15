@@ -1,12 +1,11 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 #if UNITY_EDITOR
 using System;
 using UnityEditor;
 using UnityEditor.Presets;
 using UnityEngine;
 
-namespace HUF.Utils.BuildSupport.ConfigPreset
+namespace HUF.Utils.Wrappers.BuildSupport.ConfigPreset
 {
     enum PresetApplyMode
     {
@@ -43,6 +42,10 @@ namespace HUF.Utils.BuildSupport.ConfigPreset
             const RuntimePlatform currentPlatform = RuntimePlatform.Android;
 #elif UNITY_IOS
             const RuntimePlatform currentPlatform = RuntimePlatform.IPhonePlayer;
+#elif UNITY_STANDALONE_OSX
+            RuntimePlatform currentPlatform = Debug.isDebugBuild ? RuntimePlatform.OSXEditor: RuntimePlatform.OSXPlayer;
+#else
+            RuntimePlatform currentPlatform = Debug.isDebugBuild ? RuntimePlatform.WindowsEditor: RuntimePlatform.WindowsPlayer;
 #endif
             var allConfigPresets = AssetDatabase.FindAssets($"t:{nameof(ConfigPresets)}");
 

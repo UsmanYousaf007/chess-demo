@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
                 "{0}/?gdpr={1}&tag={2}&appversion={3}&hardwarekey={4}&userid={5}",
                 appInfoModel.contactSupportURL,
                 0,
-                "funstory",
+                "chess",
                 appInfoModel.clientVersion,
                 SystemInfo.deviceModel,
                 HAnalyticsHBI.UserId);

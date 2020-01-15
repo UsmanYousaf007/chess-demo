@@ -22,7 +22,9 @@ namespace HUF.AdsAdMobMediation.Implementation
         bool isAdShowing;
         Coroutine waitForEnd;
 
-        public AdMobRewardedProvider(AdMobProviderBase baseProvider) : base(baseProvider) { }       
+        public AdMobRewardedProvider(AdMobProviderBase baseProvider) : base(baseProvider)
+        {
+        }
 
         public bool Show()
         {
@@ -44,13 +46,21 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         bool Show(AdPlacementData data)
         {
+            if (!baseProvider.IsInitialized)
+            {
+                return false;
+            }
+
             Debug.Log($"[{logPrefix}] Show Rewarded ad with placementId: {data.PlacementId}");
 
-            if (rewarded == null || !rewarded.IsLoaded() || 
-                lastRewardedAdPlacementData == null || data.AppId != lastRewardedAdPlacementData.AppId )
+            if (rewarded == null ||
+                !rewarded.IsLoaded() ||
+                lastRewardedAdPlacementData == null ||
+                data.AppId != lastRewardedAdPlacementData.AppId)
             {
                 Debug.LogWarning(
                     $"[{logPrefix}] Failed to show, Rewarded ad is not ready, placementId: {data.PlacementId}");
+
                 return false;
             }
 
@@ -59,7 +69,7 @@ namespace HUF.AdsAdMobMediation.Implementation
 
             KillWaitForEndCoroutine();
             waitForEnd = CoroutineManager.StartCoroutine(WaitForRewardedEnd());
-            
+
             rewarded.Show();
             return true;
         }
@@ -84,8 +94,11 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         bool IsReady(AdPlacementData data)
         {
-            return rewarded != null && rewarded.IsLoaded() &&
-                   lastRewardedAdPlacementData != null && data.AppId == lastRewardedAdPlacementData.AppId;
+            return baseProvider.IsInitialized &&
+                   rewarded != null &&
+                   rewarded.IsLoaded() &&
+                   lastRewardedAdPlacementData != null &&
+                   data.AppId == lastRewardedAdPlacementData.AppId;
         }
 
         public void Fetch()
@@ -108,8 +121,15 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         void Fetch(AdPlacementData data)
         {
+            if (!baseProvider.IsInitialized)
+            {
+                OnRewardedFetched.Dispatch(new AdCallbackData(ProviderId, data.PlacementId, AdResult.Failed));
+                return;
+            }
+
             Debug.Log($"[{logPrefix}] Fetch Rewarded ad with placementId: {data.PlacementId}");
             lastRewardedAdPlacementData = data;
+
             if (rewarded == null)
             {
                 rewarded = RewardBasedVideoAd.Instance;
@@ -132,17 +152,28 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         void OnRewardedLoaded(object sender, EventArgs args)
         {
-            Debug.Log($"[{logPrefix}] Rewarded ad loaded, placementId: {lastRewardedAdPlacementData.PlacementId}");
-            OnRewardedFetched.Dispatch(
-                new AdCallbackData(ProviderId, lastRewardedAdPlacementData.PlacementId, AdResult.Completed));
+            syncContext.Post(
+                s =>
+                {
+                    Debug.Log($"[{logPrefix}] Rewarded ad loaded, placementId: {lastRewardedAdPlacementData.PlacementId}");
+                    OnRewardedFetched.Dispatch(
+                        new AdCallbackData(ProviderId, lastRewardedAdPlacementData.PlacementId, AdResult.Completed));
+                },
+                null);
         }
 
         void OnRewardedFailedToLoad(object sender, AdFailedToLoadEventArgs args)
         {
-            Debug.LogWarning(
-                $"[{logPrefix}] Failed to load Rewarded ad, placementId: {lastRewardedAdPlacementData.PlacementId}, error: {args.Message}");
-            OnRewardedFetched.Dispatch(
-                new AdCallbackData(ProviderId, lastRewardedAdPlacementData.PlacementId, AdResult.Failed));
+            syncContext.Post(
+                s =>
+                {
+                    Debug.LogWarning(
+                        $"[{logPrefix}] Failed to load Rewarded ad, placementId: {lastRewardedAdPlacementData.PlacementId}, error: {args.Message}");
+
+                    OnRewardedFetched.Dispatch(
+                        new AdCallbackData(ProviderId, lastRewardedAdPlacementData.PlacementId, AdResult.Failed));
+                },
+                null);
         }
 
         void OnRewardedOpened(object sender, EventArgs args)
@@ -164,7 +195,7 @@ namespace HUF.AdsAdMobMediation.Implementation
         void OnRewardedClosed(object sender, EventArgs args)
         {
             Debug.Log($"[{logPrefix}] Rewarded ad closed, placementId: {lastRewardedAdPlacementData.PlacementId}");
-            
+
             isAdShowing = false;
         }
 
@@ -186,7 +217,7 @@ namespace HUF.AdsAdMobMediation.Implementation
                     new AdCallbackData(ProviderId, lastRewardedAdPlacementData.PlacementId, AdResult.Skipped));
             }
         }
-        
+
         void KillWaitForEndCoroutine()
         {
             if (waitForEnd != null)
@@ -195,9 +226,14 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         void OnRewardedAdClicked(object sender, EventArgs args)
         {
-            Debug.Log($"[{logPrefix}] Leaving app by click on Rewarded ad, placementId: {lastRewardedAdPlacementData.PlacementId}");
-            OnRewardedClicked.Dispatch(
-                new AdCallbackData(ProviderId, lastRewardedAdPlacementData.PlacementId, AdResult.Completed));
+            syncContext.Post(
+                s =>
+                {
+                    Debug.Log($"[{logPrefix}] Leaving app by click on Rewarded ad, placementId: {lastRewardedAdPlacementData.PlacementId}");
+                    OnRewardedClicked.Dispatch(
+                        new AdCallbackData(ProviderId, lastRewardedAdPlacementData.PlacementId, AdResult.Completed));
+                },
+                null);
         }
     }
 }

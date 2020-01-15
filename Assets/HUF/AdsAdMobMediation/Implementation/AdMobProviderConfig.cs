@@ -23,5 +23,8 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         [SerializeField] List<string> testDevices = default;
         public List<string> TestDevices => testDevices;
+        
+        [SerializeField] ApplicationIdentifier moPubAppId;
+        public string MoPubAppId => moPubAppId.Value;
     }
 }

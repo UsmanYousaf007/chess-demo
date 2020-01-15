@@ -39,7 +39,7 @@ namespace HUF.Ads.API
         /// </summary>
         /// <param name="provider">Interstitial ad provider</param>
         [PublicAPI]
-        public void RegisterAdProvider(IInterstitialAdProvider provider)
+        public IAdsService RegisterAdProvider(IInterstitialAdProvider provider)
         {
             if (service.InterstitialAdProvider != null)
             {
@@ -52,6 +52,8 @@ namespace HUF.Ads.API
             service.InterstitialAdProvider.OnInterstitialEnded += AdEnded;
             service.InterstitialAdProvider.OnInterstitialFetched += AdFetched;
             service.InterstitialAdProvider.OnInterstitialClicked += AdClicked;
+
+            return service;
         }
 
         /// <summary>

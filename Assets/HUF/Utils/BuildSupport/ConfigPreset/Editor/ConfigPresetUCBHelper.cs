@@ -1,7 +1,7 @@
-using HUF.Utils.BuildSupport.ConfigPreset;
+using HUF.Utils.Wrappers.BuildSupport.ConfigPreset;
 using UnityEditor;
 #if UNITY_CLOUD_BUILD
-namespace HUF.Utils.BuildSupport.ConfigPreset.Editor
+namespace HUF.Utils.Wrappers.BuildSupport.ConfigPreset.Editor
 {
     public static class ConfigPresetUCBHelper
     {

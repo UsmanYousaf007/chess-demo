@@ -1,7 +1,12 @@
+using UnityEngine.Events;
+
 namespace HUF.Ads.API
 {
     public interface IAdsService
     {
+        
+        
+        bool IsServiceInitialized { get;}
         IBannerAdProvider BannerAdProvider { get; set; }
         IInterstitialAdProvider InterstitialAdProvider { get; set; }
         IRewardedAdProvider RewardedAdProvider { get; set; }
@@ -25,5 +30,8 @@ namespace HUF.Ads.API
         bool IsRewardedReady(string placementId);
         void FetchRewarded();
         void FetchRewarded(string placementId);
+
+        void ServiceInitialized();  
+        void RegisterToInitializationEvent(UnityAction adsServiceInitializedEvent);
     }
 }

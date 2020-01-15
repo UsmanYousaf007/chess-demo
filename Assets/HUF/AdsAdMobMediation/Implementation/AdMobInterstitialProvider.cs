@@ -18,7 +18,9 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         readonly Dictionary<string, InterstitialAd> interstitials = new Dictionary<string, InterstitialAd>();
 
-        public AdMobInterstitialProvider(AdMobProviderBase baseProvider) : base(baseProvider) { }
+        public AdMobInterstitialProvider(AdMobProviderBase baseProvider) : base(baseProvider)
+        {
+        }
 
         public bool Show()
         {
@@ -40,13 +42,20 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         bool Show(AdPlacementData data)
         {
+            if (!baseProvider.IsInitialized)
+            {
+                return false;
+            }
+
             Debug.Log($"[{logPrefix}] Show Interstitial ad with placementId: {data.PlacementId}");
 
             interstitials.TryGetValue(data.PlacementId, out var interstitial);
+
             if (interstitial == null || !interstitial.IsLoaded())
             {
                 Debug.LogWarning(
                     $"[{logPrefix}] Failed to show, Interstitial ad is not ready, placementId: {data.PlacementId}");
+
                 return false;
             }
 
@@ -75,7 +84,8 @@ namespace HUF.AdsAdMobMediation.Implementation
         bool IsReady(AdPlacementData data)
         {
             interstitials.TryGetValue(data.PlacementId, out var interstitial);
-            return interstitial != null && interstitial.IsLoaded();
+
+            return baseProvider.IsInitialized && interstitial != null && interstitial.IsLoaded();
         }
 
         public void Fetch()
@@ -98,9 +108,15 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         void Fetch(AdPlacementData data)
         {
+            if (!baseProvider.IsInitialized)
+            {
+                OnInterstitialFetched.Dispatch(new AdCallbackData(ProviderId, data.PlacementId, AdResult.Failed));
+                return;
+            }
+
             Debug.Log($"[{logPrefix}] Fetch Interstitial ad with placementId: {data.PlacementId}");
             interstitials.TryGetValue(data.PlacementId, out var interstitial);
-            
+
             if (interstitial != null)
             {
                 UnsubscribeCallbacks(interstitial);
@@ -133,43 +149,68 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         void OnInterstitialLoaded(object sender, EventArgs args)
         {
-            string placementId = GetPlacementIdByInterstitial(sender);
-            Debug.Log($"[{logPrefix}] Interstitial ad loaded, placementId: {placementId}");
+            syncContext.Post(
+                s =>
+                {
+                    string placementId = GetPlacementIdByInterstitial(sender);
+                    Debug.Log($"[{logPrefix}] Interstitial ad loaded, placementId: {placementId}");
 
-            OnInterstitialFetched.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Completed));
+                    OnInterstitialFetched.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Completed));
+                },
+                null);
         }
 
         void OnInterstitialFailedToLoad(object sender, AdFailedToLoadEventArgs args)
         {
-            string placementId = GetPlacementIdByInterstitial(sender);
-            Debug.LogWarning(
-                $"[{logPrefix}] Failed to load Interstitial ad, placementId: {placementId}, error: {args.Message}");
-            
-            OnInterstitialFetched.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Failed));
+            syncContext.Post(
+                s =>
+                {
+                    string placementId = GetPlacementIdByInterstitial(sender);
+                    Debug.LogWarning(
+                        $"[{logPrefix}] Failed to load Interstitial ad, placementId: {placementId}, error: {args.Message}");
+
+                    OnInterstitialFetched.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Failed));
+                },
+                null);
         }
 
         void OnInterstitialOpened(object sender, EventArgs args)
         {
-            string placementId = GetPlacementIdByInterstitial(sender);
-            Debug.Log($"[{logPrefix}] Interstitial ad opened, placementId: {placementId}");
+            syncContext.Post(
+                s =>
+                {
+                    string placementId = GetPlacementIdByInterstitial(sender);
+                    Debug.Log($"[{logPrefix}] Interstitial ad opened, placementId: {placementId}");
+                },
+                null);
         }
 
         void OnInterstitialClosed(object sender, EventArgs args)
         {
-            string placementId = GetPlacementIdByInterstitial(sender);
-            Debug.Log($"[{logPrefix}] Interstitial ad closed, placementId: {placementId}");
+            syncContext.Post(
+                s =>
+                {
+                    string placementId = GetPlacementIdByInterstitial(sender);
+                    Debug.Log($"[{logPrefix}] Interstitial ad closed, placementId: {placementId}");
 
-            OnInterstitialEnded.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Completed));
+                    OnInterstitialEnded.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Completed));
+                },
+                null);
         }
-        
+
         void OnInterstitialAdClicked(object sender, EventArgs args)
         {
-            string placementId = GetPlacementIdByInterstitial(sender);
-            Debug.Log($"[{logPrefix}] Leaving app by click on Interstitial ad, placementId: {placementId}");
+            syncContext.Post(
+                s =>
+                {
+                    string placementId = GetPlacementIdByInterstitial(sender);
+                    Debug.Log($"[{logPrefix}] Leaving app by click on Interstitial ad, placementId: {placementId}");
 
-            OnInterstitialClicked.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Completed));
+                    OnInterstitialClicked.Dispatch(new AdCallbackData(ProviderId, placementId, AdResult.Completed));
+                },
+                null);
         }
-        
+
         string GetPlacementIdByInterstitial(object sender)
         {
             return interstitials.FirstOrDefault(x => x.Value == sender).Key;

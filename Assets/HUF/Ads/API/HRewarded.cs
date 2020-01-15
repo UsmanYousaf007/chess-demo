@@ -40,7 +40,7 @@ namespace HUF.Ads.API
         /// </summary>
         /// <param name="provider">Rewarded ad provider</param>
         [PublicAPI]
-        public void RegisterAdProvider(IRewardedAdProvider provider)
+        public IAdsService RegisterAdProvider(IRewardedAdProvider provider)
         {
             if (service.RewardedAdProvider != null)
             {
@@ -53,6 +53,8 @@ namespace HUF.Ads.API
             service.RewardedAdProvider.OnRewardedEnded += AdEnded;
             service.RewardedAdProvider.OnRewardedFetched += AdFetched;
             service.RewardedAdProvider.OnRewardedClicked += AdClicked;
+
+            return service;
         }
 
         /// <summary>

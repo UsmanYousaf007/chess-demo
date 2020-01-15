@@ -9,8 +9,26 @@ namespace HUF.Utils
         /// </summary>
         public static void LogFormatDebug(string logMessage, params object[] args)
         {
-            //if (Debug.isDebugBuild)
+            if (Debug.isDebugBuild)
                 Debug.LogFormat(logMessage, args);
+        }
+
+        /// <summary>
+        /// Logs message in console when build is set to DEBUG
+        /// </summary>
+        public static void Log(object message)
+        {
+            if (Debug.isDebugBuild)
+                Debug.Log(message);
+        }
+        
+        /// <summary>
+        /// Logs message in console when build is set to DEBUG
+        /// </summary>
+        public static void Log(object message, Object context)
+        {
+            if (Debug.isDebugBuild)
+                Debug.Log(message, context);
         }
     }
 }

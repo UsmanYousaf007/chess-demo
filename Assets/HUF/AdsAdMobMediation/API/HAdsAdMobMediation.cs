@@ -1,6 +1,3 @@
-#define HUF_ADS_ADMOBMEDIATION
-
-using System;
 using GoogleMobileAds.Api;
 using HUF.Ads.API;
 using HUF.AdsAdMobMediation.Implementation;
@@ -43,9 +40,10 @@ namespace HUF.AdsAdMobMediation.API
         static void InstallProvider()
         {
             baseProvider = new AdMobProviderBase();
-            HAds.Banner.RegisterAdProvider(bannerProvider = new AdMobBannerProvider(baseProvider));
+            var adsService = HAds.Banner.RegisterAdProvider(bannerProvider = new AdMobBannerProvider(baseProvider));
             HAds.Interstitial.RegisterAdProvider(new AdMobInterstitialProvider(baseProvider));
             HAds.Rewarded.RegisterAdProvider(new AdMobRewardedProvider(baseProvider));
+            baseProvider.SetAdsService(adsService);
         }
 
         /// <summary>

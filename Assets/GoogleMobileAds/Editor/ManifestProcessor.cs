@@ -104,14 +104,14 @@ public class ManifestProcessor : IPreprocessBuild
                     "Android AdMob app ID is empty. Please enter a valid app ID to run ads properly.");
             }
 
-            //if (elemAdMobEnabled == null)
-            //{
-            //    elemApplication.Add(CreateMetaElement(META_APPLICATION_ID, appId));
-            //}
-            //else
-            //{
-            //    elemAdMobEnabled.SetAttributeValue(ns + "value", appId);
-            //}
+            if (elemAdMobEnabled == null)
+            {
+                elemApplication.Add(CreateMetaElement(META_APPLICATION_ID, appId));
+            }
+            else
+            {
+                elemAdMobEnabled.SetAttributeValue(ns + "value", appId);
+            }
         }
         else
         {

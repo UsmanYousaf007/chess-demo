@@ -2,7 +2,9 @@ using System.Linq;
 using HUF.Ads.API;
 using HUF.Ads.Implementation.EditorAds;
 using HUF.Utils.Configs.API;
+using HUF.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HUF.Ads.Implementation
 {
@@ -14,6 +16,9 @@ namespace HUF.Ads.Implementation
 
         readonly string logPrefix;
 
+        bool isServiceInitialized;
+        UnityAction OnAdsServiceInitialized;
+
         static AdsProviderConfig AdsProviderConfig =>
             HConfigs.GetConfigsByBaseClass<AdsProviderConfig>().FirstOrDefault();
 
@@ -22,12 +27,14 @@ namespace HUF.Ads.Implementation
             get => bannerAdProvider;
             set
             {
+#if !DISABLE_HUF_EDITOR_ADS
                 if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
                 {
                     bannerAdProvider = new BannerEditorAdsProvider();
                     bannerAdProvider.Init();
                 }
                 else
+#endif
                 {
                     bannerAdProvider = value;
                     if (!bannerAdProvider.IsInitialized)
@@ -45,12 +52,14 @@ namespace HUF.Ads.Implementation
             get => interstitialAdProvider;
             set
             {
+#if !DISABLE_HUF_EDITOR_ADS
                 if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
                 {
                     interstitialAdProvider = new InterstitialEditorAdProvider();
                     interstitialAdProvider.Init();
                 }
                 else
+#endif
                 {
                     interstitialAdProvider = value;
                     if (!interstitialAdProvider.IsInitialized)
@@ -68,12 +77,14 @@ namespace HUF.Ads.Implementation
             get => rewardedAdProvider;
             set
             {
+#if !DISABLE_HUF_EDITOR_ADS
                 if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
                 {
                     rewardedAdProvider = new RewardedEditorAdsProvider();
                     rewardedAdProvider.Init();
                 }
                 else
+#endif
                 {
                     rewardedAdProvider = value;
                     if (!rewardedAdProvider.IsInitialized)
@@ -213,6 +224,22 @@ namespace HUF.Ads.Implementation
 
             Debug.LogWarning($"[{logPrefix}] Provider is not initialized yet!");
             return false;
+        }
+        
+        public bool IsServiceInitialized
+        {
+            get => isServiceInitialized;
+        }
+
+        public void ServiceInitialized()
+        {
+            isServiceInitialized = true;
+            OnAdsServiceInitialized.Dispatch();
+        }
+
+        public void RegisterToInitializationEvent(UnityAction adsServiceInitializedEvent)
+        {
+            OnAdsServiceInitialized += adsServiceInitializedEvent;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace HUF.Ads.API
         /// </summary>
         /// <param name="provider">Banner ad provider</param>
         [PublicAPI]
-        public void RegisterAdProvider(IBannerAdProvider provider)
+        public IAdsService RegisterAdProvider(IBannerAdProvider provider)
         {
             if (service.BannerAdProvider != null)
             {
@@ -57,6 +57,8 @@ namespace HUF.Ads.API
             service.BannerAdProvider.OnBannerFailed += AdFailed;
             service.BannerAdProvider.OnBannerClicked += AdClicked;
             service.BannerAdProvider.OnBannerHidden += AdHidden;
+
+            return service;
         }
 
         /// <summary>
