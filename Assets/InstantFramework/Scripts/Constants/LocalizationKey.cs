@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         public const string PLAYING_LEVEL = "playingLevel";
         public const string DONE = "Done";
         public const string SELECT_THEME = "selectTheme";
+        public const string CHOOSE_THEME = "chooseTheme";
         public const string REWARD_UNLOCKED_TITLE = "rewardUnlockedTitle";
         public const string REWARD_THEME = "rewardTheme";
 

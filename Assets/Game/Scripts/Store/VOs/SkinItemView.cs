@@ -24,8 +24,8 @@ public class SkinItemView : View
     public Image thumbnail;
     public Image icon;
     public Text displayName;
-    public Text price;
-    public Text owned;
+    public Image unlock;
+    //public Text owned;
     public Image tick;
     public Button button;
 
@@ -58,8 +58,7 @@ public class SkinItemView : View
         thumbnail.sprite = thumbsContainer.GetSprite(key);
         icon.sprite = iconsContainer.GetSprite(key);
         displayName.text = item.displayName;
-        price.text = "Pro Feature";
-        owned.text = localizationServicec.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
+        //owned.text = localizationServicec.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
     }
 
     private void OnButtonClicked()
@@ -77,8 +76,8 @@ public class SkinItemView : View
 
     public void SetOwnedState()
     {
-        price.gameObject.SetActive(!isPremium);
-        owned.gameObject.SetActive(isPremium);
+        unlock.gameObject.SetActive(!isPremium);
+        //owned.gameObject.SetActive(isPremium);
         tick.gameObject.SetActive(playerModel.activeSkinId == key);
     }
 }

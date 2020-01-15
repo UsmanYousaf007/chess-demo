@@ -15,7 +15,6 @@ public class ThemeSelectionMediator : Mediator
 
     public override void OnRegister()
     {
-        view.closeDailogueSignal.AddListener(OnCloseDailogue);
         view.applyThemeSignal.AddListener(OnApplyTheme);
     }
 
