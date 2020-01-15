@@ -1,14 +1,18 @@
-﻿using strange.extensions.mediation.impl;
+﻿using System;
+using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ThemeSelectionView : View
 {
     public SkinItemView[] skinMenuItems;
-    public Button closeButton;
     public Button applyButton;
-    public Text applyButtonText;
+    public Text chooseThemeText;
+    public Image scrollUpArrow;
+    public Image scrollDownArrow;
+    public ScrollRect scrollRect;
 
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -18,18 +22,50 @@ public class ThemeSelectionView : View
     [Inject] public ILocalizationService localizationService { get; set; }
 
     //Signals
-    public Signal closeDailogueSignal = new Signal();
     public Signal applyThemeSignal = new Signal();
 
     private string originalSkinId;
 
     public void Init()
     {
-        closeButton.onClick.AddListener(OnCloseButtonClicked);
+        chooseThemeText.text = localizationService.Get(LocalizationKey.CHOOSE_THEME);
+
         applyButton.onClick.AddListener(OnApplyButtonClicked);
-        applyButtonText.text = localizationService.Get(LocalizationKey.DONE);
+
+        scrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
+        var tempColor = scrollUpArrow.color;
+        tempColor.a = 0.3f;
+        scrollUpArrow.color = tempColor;
 
         SetupSkinMenuItems();
+    }
+
+    private void OnScrollRectValueChanged(Vector2 arg0)
+    {
+
+        if (scrollRect.verticalNormalizedPosition >= 0.9)
+            SetAlpha(scrollUpArrow, 0.3f);
+        else
+        {
+            if (scrollUpArrow.color.a < 1f)
+                SetAlpha(scrollUpArrow, 1f);
+        }
+
+        if (scrollRect.verticalNormalizedPosition <= 0.1)
+            SetAlpha(scrollDownArrow, 0.3f);
+        else
+        {
+            if(scrollDownArrow.color.a < 1f)
+                SetAlpha(scrollDownArrow, 1f);
+        }
+
+    }
+
+    private void SetAlpha(Image image, float alpha)
+    {
+        var tempColor = image.color;
+        tempColor.a = alpha;
+        image.color = tempColor;
     }
 
     public void Show()
@@ -58,11 +94,6 @@ public class ThemeSelectionView : View
     private void OnApplyButtonClicked()
     {
         applyThemeSignal.Dispatch();
-    }
-
-    private void OnCloseButtonClicked()
-    {
-        closeDailogueSignal.Dispatch();
     }
 
     public bool HasSkinChanged()
