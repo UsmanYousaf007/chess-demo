@@ -66,9 +66,11 @@ namespace TurboLabz.InstantFramework
         public bool busyRefreshingCommunity { get; set; }
 
         // Ads Reward Data
-        public int rewardSkinIndex { get; set; }
-        public int rewardCurrentPoints { get; set; }
-        public int rewardPointsRequired { get; set; }
+        public int rewardIndex { get; set; }
+        public string rewardShortCode { get; set; }
+        public int rewardQuantity { get; set; }
+        public float rewardCurrentPoints { get; set; }
+        public float rewardPointsRequired { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -117,9 +119,11 @@ namespace TurboLabz.InstantFramework
 
             busyRefreshingCommunity = false;
 
-            rewardSkinIndex = 2; // by default skins at index 0 and 1 will be unlocked
+            rewardIndex = 1; // by default skins at index 0 will be unlocked
             rewardCurrentPoints = 0;
             rewardPointsRequired = 0;
+            rewardShortCode = "";
+            rewardQuantity = 0;
         }
 
 		public bool OwnsVGood(string key)
@@ -222,6 +226,30 @@ namespace TurboLabz.InstantFramework
         {
             return friends.ContainsKey(friendId);
         }
+
+        public void UpdateGoodsInventory(string key, int quantity)
+        {
+            if (inventory.ContainsKey(key))
+            {
+                inventory[key] += quantity;
+            }
+            else
+            {
+                inventory.Add(key, quantity);
+            }
+        }
+
+        public AdsRewardVO GetAdsRewardsData()
+        {
+            var adsRewardVO = new AdsRewardVO();
+            adsRewardVO.rewardIndex = rewardIndex;
+            adsRewardVO.shortCode = rewardShortCode;
+            adsRewardVO.quantity = rewardQuantity;
+            adsRewardVO.currentPoints = rewardCurrentPoints;
+            adsRewardVO.requiredPoints = rewardPointsRequired;
+            return adsRewardVO;
+        }
+
     }
 }
 

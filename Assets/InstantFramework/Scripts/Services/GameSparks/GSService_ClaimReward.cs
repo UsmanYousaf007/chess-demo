@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
             if (response != null && response.ScriptData != null)
             {
                 GSParser.PopulateAdsRewardData(playerModel, response.ScriptData);
-                LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardSkinIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
+                LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
             }
                
         }

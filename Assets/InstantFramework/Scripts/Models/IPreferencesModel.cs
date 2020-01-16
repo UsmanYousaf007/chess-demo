@@ -28,8 +28,12 @@ namespace TurboLabz.InstantFramework
         float timeSpentCpuMatch { get; set; }
         float timeSpentLobby { get; set; }
         DateTime lastLaunchTime { get; set; }
+        int globalAdsCount { get; set; }
+        int rewardedAdsCount { get; set; }
+        int interstitialAdsCount { get; set; }
+        int resignCount { get; set; }
 
-        void ResetTimeSpentAnalyticsData();
+        void ResetDailyPrefers();
         void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);
     }
 }

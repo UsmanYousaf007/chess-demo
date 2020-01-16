@@ -25,8 +25,8 @@ public class SkinItemMediator : Mediator
         view.UpdateView();
     }
 
-    [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
-    public void OnRewardClaimed()
+    [ListensTo(typeof(RewardUnlockedSignal))]
+    public void OnRewardClaimed(string key, int quantity)
     {
         view.UpdateView();
     }

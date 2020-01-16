@@ -59,7 +59,7 @@ namespace TurboLabz.InstantFramework
     public class ResetCapturedPiecesSignal : Signal { }
     public class SetErrorAndHaltSignal : Signal<BackendResult, string> { }
     public class HaltSignal : Signal<BackendResult> { }
-    public class UpdatePlayerRewardsPointsSignal : Signal { }
+    public class UpdatePlayerRewardsPointsSignal : Signal<float, float> { }
     public class UpdatePlayerInventorySignal : Signal<PlayerInventoryVO> { }
     public class UpdateRemoveAdsSignal : Signal<string, bool> { }
     public class AddFriendsSignal : Signal<Dictionary<string, Friend>, FriendCategory> { }
@@ -87,6 +87,7 @@ namespace TurboLabz.InstantFramework
     public class LoadFriendsSignal : Signal { }
     public class ShareAppSignal : Signal { }
     public class ShowAdSignal : Signal<ResultAdsVO> { }
+    public class ShowRewardedAdSignal : Signal<ResultAdsVO> { }
     public class ToggleBannerSignal : Signal<bool> { }
     public class PauseNotificationsSignal : Signal<bool> { }
     public class RequestToggleBannerSignal : Signal { }
@@ -131,7 +132,7 @@ namespace TurboLabz.InstantFramework
     public class StoreAvailableSignal : Signal<bool> { }
     public class SyncReconnectDataSignal : Signal<string> { }
     public class CancelSearchResultSignal : Signal { }
-    public class RewardUnlockedSignal : Signal { }
+    public class RewardUnlockedSignal : Signal<string, int> { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }

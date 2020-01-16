@@ -237,6 +237,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SaveStatsSignal>().To<SaveStatsCommand>();
             commandBinder.Bind<AdjustStrengthSignal>().To<AdjustStrengthCommand>();
             commandBinder.Bind<ShowAdSignal>().To<ShowAdCommand>();
+            commandBinder.Bind<ShowRewardedAdSignal>().To<ShowRewardedAdCommand>();
             commandBinder.Bind<ToggleBannerSignal>().To<ToggleBannerCommand>();
             commandBinder.Bind<LoadLobbySignal>().To<LoadLobbyCommand>();
             commandBinder.Bind<UpdateAdsSignal>().To<UpdateAdCommand>();

@@ -10,6 +10,8 @@ namespace TurboLabz.InstantFramework
         MoPubAdUnits adUnits;
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         public void Init()
         {
@@ -17,7 +19,6 @@ namespace TurboLabz.InstantFramework
             MoPubManager.OnSdkInitializedEvent += OnSdkInitializedEvent;
             MoPubManager.OnRewardedVideoLoadedEvent += OnRewardedVideoLoadedEvent;
             MoPubManager.OnAdLoadedEvent += OnBannerLoadedEvent;
-
 
             // MoPub.InitializeSdk(adUnits.GetGenericAdUnit());
 
@@ -111,7 +112,9 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.ads_rewared_request);
             }
 
-            return availableFlag;
+            return availableFlag &&
+                (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+                (adsSettingsModel.rewardedVideoCap == 0 || preferencesModel.rewardedAdsCount <= adsSettingsModel.rewardedVideoCap);
         }
 
         public void OnBannerLoadedEvent(string adUnit, float height)
@@ -136,7 +139,9 @@ namespace TurboLabz.InstantFramework
 
         public bool IsInterstitialAvailable()
         {
-            return MoPubInterstitial.IsAvailable();
+            return MoPubInterstitial.IsAvailable() &&
+                (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+                (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
         }
 
         public void ShowInterstitial()

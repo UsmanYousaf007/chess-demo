@@ -37,5 +37,9 @@ namespace TurboLabz.InstantGame
         public const string TIME_SPENT_CPU_MATCH = "timeSpentCpuMatch";
         public const string TIME_SPENT_LOBBY = "timeSpentLobby";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";
+        public const string GLOBAL_ADS_COUNT = "globalAdsCount";
+        public const string REWARDED_ADS_COUNT = "rewardedAdsCount";
+        public const string INTERSTITIAL_ADS_COUNT = "interstitialAdsCount";
+        public const string RESIGN_COUNT = "resignCount";
     }
 }

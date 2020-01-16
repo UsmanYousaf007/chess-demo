@@ -177,12 +177,14 @@ namespace TurboLabz.InstantFramework
 
         public static void PopulateAdsRewardData(IPlayerModel playerModel, GSData data)
         {
+            playerModel.rewardQuantity = GetSafeInt(data, GSBackendKeys.PlayerDetails.REWARD_QUANITY);
             var adsRewardData = data.GetGSData(GSBackendKeys.PlayerDetails.ADS_REWARD_DATA);
             if (adsRewardData != null)
             {
-                playerModel.rewardSkinIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_SKIN_INDEX);
-                playerModel.rewardCurrentPoints = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
-                playerModel.rewardPointsRequired = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
+                playerModel.rewardIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_INDEX);
+                playerModel.rewardShortCode = adsRewardData.GetString(GSBackendKeys.PlayerDetails.REWARD_SHORT_CODE);
+                playerModel.rewardCurrentPoints = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
+                playerModel.rewardPointsRequired = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
             }
         }
 

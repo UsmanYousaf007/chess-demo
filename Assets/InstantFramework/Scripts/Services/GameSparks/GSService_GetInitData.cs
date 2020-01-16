@@ -57,8 +57,8 @@ namespace TurboLabz.InstantFramework
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
             FillAdsSettingsModel(adsSettingsData);
 
-			GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
-			FillPlayerDetails(playerDetailsData);
+            GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
+            FillPlayerDetails(playerDetailsData);
 
             GSData chatData = response.ScriptData.GetGSData(GSBackendKeys.CHAT);
             FillChatModel(chatData);
@@ -88,7 +88,7 @@ namespace TurboLabz.InstantFramework
             }
 
             //Send power up usage Analytics
-            if(response.ScriptData.ContainsKey(GSBackendKeys.EVENT_DATA))
+            if (response.ScriptData.ContainsKey(GSBackendKeys.EVENT_DATA))
             {
                 var eventData = response.ScriptData.GetGSData(GSBackendKeys.EVENT_DATA);
                 SendPowerupUsageAnalytics(eventData);
@@ -97,16 +97,16 @@ namespace TurboLabz.InstantFramework
 
         private void OnStoreInit(bool success)
         {
-            if (success) 
+            if (success)
             {
                 metaDataModel.store.remoteStoreAvailable = true;
 
-                foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items) 
+                foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items)
                 {
                     StoreItem storeItem = item.Value;
-                    if (storeItem.remoteProductId != null) 
+                    if (storeItem.remoteProductId != null)
                     {
-                        storeItem.remoteProductPrice = storeService.GetItemLocalizedPrice (storeItem.remoteProductId);
+                        storeItem.remoteProductPrice = storeService.GetItemLocalizedPrice(storeItem.remoteProductId);
                         storeItem.remoteProductCurrencyCode = storeService.GetItemCurrencyCode(storeItem.remoteProductId);
                         storeItem.productPrice = storeService.GetItemPrice(storeItem.remoteProductId);
                     }
@@ -127,20 +127,20 @@ namespace TurboLabz.InstantFramework
             getInitDataCompleteSignal.Dispatch();
         }
 
-		private void FillPlayerDetails(GSData playerDetailsData)
+        private void FillPlayerDetails(GSData playerDetailsData)
         {
-			playerModel.id = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.PLAYER_ID);
+            playerModel.id = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.PLAYER_ID);
             playerModel.creationDate = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.CREATION_DATE).Value;
-			playerModel.tag = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.TAG);
-			playerModel.name = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.DISPLAY_NAME);
-			playerModel.countryId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.COUNTRY_ID);
-			playerModel.bucks = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.BUCKS).Value;
-			playerModel.eloScore = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.ELO_SCORE).Value;
+            playerModel.tag = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.TAG);
+            playerModel.name = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.DISPLAY_NAME);
+            playerModel.countryId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.COUNTRY_ID);
+            playerModel.bucks = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.BUCKS).Value;
+            playerModel.eloScore = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.ELO_SCORE).Value;
             playerModel.isPremium = playerDetailsData.GetBoolean(GSBackendKeys.PlayerDetails.IS_PREMIUM).Value;
             playerModel.totalGamesWon = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_WON).Value;
-			playerModel.totalGamesLost = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_LOST).Value;
-			playerModel.totalGamesDrawn = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_DRAWN).Value;
-			playerModel.adLifetimeImpressions = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.AD_LIFETIME_IMPRESSIONS).Value;
+            playerModel.totalGamesLost = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_LOST).Value;
+            playerModel.totalGamesDrawn = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.GAMES_DRAWN).Value;
+            playerModel.adLifetimeImpressions = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.AD_LIFETIME_IMPRESSIONS).Value;
             playerModel.removeAdsTimeStamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMESTAMP).Value;
             playerModel.removeAdsTimePeriod = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.REMOVE_ADS_TIMEPERIOD).Value;
             playerModel.editedName = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.EDITED_NAME);
@@ -156,50 +156,41 @@ namespace TurboLabz.InstantFramework
             // TODO: split in View
             //playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);
 
-            IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>(); 
-			GSData inventoryData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.INVENTORY);
-			GSParser.PopulateInventory(inventory, inventoryData);
+            IOrderedDictionary<string, int> inventory = new OrderedDictionary<string, int>();
+            GSData inventoryData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.INVENTORY);
+            GSParser.PopulateInventory(inventory, inventoryData);
             playerModel.inventory = inventory;
 
-			// Populate inventory data
-			IList<GSData> playerActiveInventoryData = playerDetailsData.GetGSDataList(GSBackendKeys.PlayerDetails.PLAYER_ACTIVE_INVENTORY);
-			GSParser.PopulateActiveInventory(playerModel, playerActiveInventoryData);
+            // Populate inventory data
+            IList<GSData> playerActiveInventoryData = playerDetailsData.GetGSDataList(GSBackendKeys.PlayerDetails.PLAYER_ACTIVE_INVENTORY);
+            GSParser.PopulateActiveInventory(playerModel, playerActiveInventoryData);
 
-			// Populate friends data
-			GSData friendsList = playerDetailsData.GetGSData(GSBackendKeys.FRIENDS);
+            // Populate friends data
+            GSData friendsList = playerDetailsData.GetGSData(GSBackendKeys.FRIENDS);
             PopulateFriends(playerModel.friends, friendsList);
-			GSData blockedList = playerDetailsData.GetGSData(GSBackendKeys.BLOCKED);
+            GSData blockedList = playerDetailsData.GetGSData(GSBackendKeys.BLOCKED);
             PopulateFriends(playerModel.blocked, blockedList, true);
 
             GSParser.PopulateAdsRewardData(playerModel, playerDetailsData);
-            LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardSkinIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
+            LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
 
             GSParser.LogPlayerInfo(playerModel);
-			GSParser.LogFriends("friends", playerModel.friends);
+            GSParser.LogFriends("friends", playerModel.friends);
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)
         {
-            adsSettingsModel.adsRewardIncrement = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARD_INCREMENT).Value;
-            adsSettingsModel.maxImpressionsPerSlot = adsSettingsData.GetInt(GSBackendKeys.ADS_MAX_IMPRESSIONS_PER_SLOT).Value;
             adsSettingsModel.slotHour = adsSettingsData.GetInt(GSBackendKeys.ADS_SLOT_HOUR).Value;
             adsSettingsModel.freeNoAdsPeriod = adsSettingsData.GetInt(GSBackendKeys.ADS_FREE_NO_ADS_PERIOD).Value;
+            adsSettingsModel.globalCap = adsSettingsData.GetInt(GSBackendKeys.ADS_GLOBAL_CAP).Value;
+            adsSettingsModel.rewardedVideoCap = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARDED_VIDEO_CAP).Value;
+            adsSettingsModel.interstitialCap = adsSettingsData.GetInt(GSBackendKeys.ADS_INTERSTITIAL_CAP).Value;
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
         {
-            rewardsSettingsModel.matchWinReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_WIN_REWARD).Value;
-            rewardsSettingsModel.matchWinAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_WIN_AD_REWARD).Value;
-            rewardsSettingsModel.matchRunnerUpReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_REWARD).Value;
-            rewardsSettingsModel.matchRunnerUpAdReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.MATCH_RUNNER_UP_AD_REWARD).Value;
             rewardsSettingsModel.facebookConnectReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD).Value;
             rewardsSettingsModel.failSafeCoinReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD).Value;
-            rewardsSettingsModel.powerUpCoinsValue = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.POWERUP_COIN_VALUE).Value;
-
-            rewardsSettingsModel.coefficientWinVideo = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_WIN_VIDEO).Value;
-            rewardsSettingsModel.coefficientWinIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_WIN_INTERSITIAL).Value;
-            rewardsSettingsModel.coefficientLoseVideo = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_VIDEO).Value;
-            rewardsSettingsModel.coefficientLoseIntersitial = rewardsSettingsData.GetFloat(GSBackendKeys.Rewards.COEFFICIENT_LOSE_INTERSITIAL).Value;
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)
@@ -207,7 +198,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.maxLongMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_LONG_MATCH_COUNT).Value;
             settingsModel.maxFriendsCount = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
             settingsModel.maxRecentlyCompletedMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_RECENTLY_COMPLETED_MATCH_COUNT).Value;
-            settingsModel.maxCommunityMatches   = gsSettingsData.GetInt(GSBackendKeys.MAX_COMMUNITY_MATECHES).Value;
+            settingsModel.maxCommunityMatches = gsSettingsData.GetInt(GSBackendKeys.MAX_COMMUNITY_MATECHES).Value;
 
             settingsModel.maintenanceFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_FLAG).Value;
             settingsModel.updateMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_MESSAGE);
@@ -242,8 +233,16 @@ namespace TurboLabz.InstantFramework
             List<GSData> subscriptionItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> subscriptionItems = PopulateCurrencyStoreItems(subscriptionItemsData);
 
+            List<GSData> powerUpHintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> powerUpHintItems = PopulateStoreItems(powerUpHintShopItemsData);
+
+            List<GSData> powerUpHindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> powerUpHindsightItems = PopulateStoreItems(powerUpHindsightShopItemsData);
+
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG, subscriptionItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG, powerUpHintItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG, powerUpHindsightItems);
         }
 
         private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData)
@@ -296,7 +295,7 @@ namespace TurboLabz.InstantFramework
         {
             targetList.Clear();
 
-            foreach(KeyValuePair<string, object> obj in targetData.BaseData)
+            foreach (KeyValuePair<string, object> obj in targetData.BaseData)
             {
                 GSData friendData = (GSData)obj.Value;
                 string friendId = obj.Key;
@@ -380,14 +379,14 @@ namespace TurboLabz.InstantFramework
         const string ATT_APP_VERSION = "appVersion";
         const string ATT_APP_DATA = "appData";
 
-        public IPromise<BackendResult> Send(int appVersion, 
+        public IPromise<BackendResult> Send(int appVersion,
                                             string appData,
                                             Action<object> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;
 
-            new LogEventRequest()  
+            new LogEventRequest()
                 .SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_APP_VERSION, appVersion)
                 .SetEventAttribute(ATT_APP_DATA, appData)

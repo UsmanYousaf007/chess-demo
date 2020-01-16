@@ -9,10 +9,11 @@ namespace TurboLabz.InstantFramework
 {
     public class AdsSettingsModel : IAdsSettingsModel
     {
-        public int maxImpressionsPerSlot { get; set; }
         public int slotHour { get; set; }
-        public int adsRewardIncrement { get; set; }
         public int freeNoAdsPeriod { get; set; }
+        public int globalCap { get; set; }
+        public int rewardedVideoCap { get; set; }
+        public int interstitialCap { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -25,10 +26,11 @@ namespace TurboLabz.InstantFramework
 
         private void Reset()
         {
-            maxImpressionsPerSlot = 0;
             slotHour = 0;
-            adsRewardIncrement = 0;
             freeNoAdsPeriod = 0;
+            globalCap = 0;
+            rewardedVideoCap = 0;
+            interstitialCap = 0;
         }
     }
 }

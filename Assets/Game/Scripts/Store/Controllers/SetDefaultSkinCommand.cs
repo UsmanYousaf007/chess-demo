@@ -19,7 +19,7 @@ namespace TurboLabz.InstantGame
             //Set default skin in case subscription is expired
             //and player has active skin which is not yet unlocked by the reward system
             if (!playerModel.HasSubscription() &&
-                playerModel.rewardSkinIndex <= metaDataModel.store.items[playerModel.activeSkinId].skinIndex)
+                !playerModel.OwnsVGood(playerModel.activeSkinId))
             {
                 setSkinSignal.Dispatch(metaDataModel.store.GetItemBySkinIndex(0).key);
                 savePlayerInventorySignal.Dispatch();

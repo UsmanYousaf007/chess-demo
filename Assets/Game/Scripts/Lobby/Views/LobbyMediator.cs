@@ -389,9 +389,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(RewardUnlockedSignal))]
-        public void OnRewardUnlocked()
+        public void OnRewardUnlocked(string key, int quantity)
         {
-            view.OnRewardUnlocked();
+            view.OnRewardUnlocked(key, quantity);
         }
 
     }

@@ -9,10 +9,11 @@ namespace TurboLabz.InstantFramework
 {
     public interface IAdsSettingsModel
     {
-        int maxImpressionsPerSlot { get; set; }
         int slotHour { get; set; }
-        int adsRewardIncrement { get; set; }
         int freeNoAdsPeriod { get; set; }
+        int globalCap { get; set; }
+        int rewardedVideoCap { get; set; }
+        int interstitialCap { get; set; }
     }
 }
 

@@ -88,6 +88,9 @@ namespace TurboLabz.InstantFramework
         public const string ADS_SLOT_HOUR = "ADS_SLOT_HOUR";
         public const string ADS_REWARD_INCREMENT = "ADS_REWARD_INCREMENT";
         public const string ADS_FREE_NO_ADS_PERIOD = "ADS_FREE_NO_ADS_PERIOD";
+        public const string ADS_GLOBAL_CAP = "adsGlobalCap";
+        public const string ADS_REWARDED_VIDEO_CAP = "adsRewardedVideoCap";
+        public const string ADS_INTERSTITIAL_CAP = "adsInterstitialCap";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
@@ -262,6 +265,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_MATCH_WIN_AD = "rewardMatchWinAd";
             public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
             public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
+            public const string TYPE_PROMOTION = "rewardMatchPromotional";
 
             public const string NONE = "none";
         }
@@ -338,7 +342,9 @@ namespace TurboLabz.InstantFramework
             public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
             public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
             public const string SUBSCRIPTION_EXPIRY_TIMESTAMP = "subscriptionExpiryTime";
-            public const string REWARD_SKIN_INDEX = "skinIndex";
+            public const string REWARD_INDEX = "rewardIndex";
+            public const string REWARD_SHORT_CODE = "shortCode";
+            public const string REWARD_QUANITY = "addedAmount";
             public const string REWARD_CURRENT_POINTS = "currentPoints";
             public const string REWARD_REQUIRED_POINTS = "pointsRequired";
             public const string ADS_REWARD_DATA = "adsRewardData";

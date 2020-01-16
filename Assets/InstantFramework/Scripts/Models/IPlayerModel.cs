@@ -65,8 +65,13 @@ namespace TurboLabz.InstantFramework
         bool HasSubscription();
 
         // Ads Reward Data
-        int rewardSkinIndex { get; set; }
-        int rewardCurrentPoints { get; set; }
-        int rewardPointsRequired { get; set; }
+        int rewardIndex { get; set; }
+        string rewardShortCode { get; set; }
+        int rewardQuantity { get; set; }
+        float rewardCurrentPoints { get; set; }
+        float rewardPointsRequired { get; set; }
+
+        void UpdateGoodsInventory(string key, int quantity);
+        AdsRewardVO GetAdsRewardsData();
     }
 }

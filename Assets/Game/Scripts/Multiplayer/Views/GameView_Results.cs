@@ -428,7 +428,7 @@ namespace TurboLabz.Multiplayer
             vo.rewardType = adRewardType;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
-            showAdSignal.Dispatch(vo);
+            showRewardedAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
 
@@ -476,7 +476,7 @@ namespace TurboLabz.Multiplayer
 
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
-            vo.rewardType = collectRewardType;
+            vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
             showAdSignal.Dispatch(vo);
