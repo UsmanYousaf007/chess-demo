@@ -185,6 +185,7 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.globalCap = adsSettingsData.GetInt(GSBackendKeys.ADS_GLOBAL_CAP).Value;
             adsSettingsModel.rewardedVideoCap = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARDED_VIDEO_CAP).Value;
             adsSettingsModel.interstitialCap = adsSettingsData.GetInt(GSBackendKeys.ADS_INTERSTITIAL_CAP).Value;
+            adsSettingsModel.resignCap = adsSettingsData.GetInt(GSBackendKeys.RESIGN_CAP).Value;
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)

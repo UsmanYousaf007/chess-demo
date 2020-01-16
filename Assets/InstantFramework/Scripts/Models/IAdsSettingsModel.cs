@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         int globalCap { get; set; }
         int rewardedVideoCap { get; set; }
         int interstitialCap { get; set; }
+        int resignCap { get; set; }
     }
 }
 

@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 5962988
+    totalSpriteSurfaceArea: 5996800
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -198,6 +198,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ba9e1a4a49d6446d78db4d0a292d7a57, type: 3}
   - {fileID: 21300000, guid: be27606a54e8b4e0888bc06622be2604, type: 3}
   - {fileID: 21300000, guid: 6531c66afb50f4ae485a4be398117020, type: 3}
+  - {fileID: 21300000, guid: a8649e8a6c70849b2bdf19b6735fb96a, type: 3}
   - {fileID: 21300000, guid: a57fbeaa0ae994737b48281787a80889, type: 3}
   - {fileID: 21300000, guid: b4cf4cbaecf8a48a585cf362d6717ad5, type: 3}
   - {fileID: 21300000, guid: d20158daec0574849be222d77c55e384, type: 3}
@@ -239,7 +240,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0731c48de2dc04cd69ba96f2b2749a3d, type: 3}
   - {fileID: 21300000, guid: 40dc468d178234f53b6d87f3d8ea75e5, type: 3}
   - {fileID: 21300000, guid: f078d19d015e24296a146d1630bee914, type: 3}
-  - {fileID: 21300000, guid: a74a86dda381349e7ac4ca312b731e54, type: 3}
   - {fileID: 21300000, guid: 9d8b360ed7d614468904ecb99ac12668, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
@@ -403,6 +403,7 @@ SpriteAtlas:
   - CoachBg
   - YesSmileyIcon
   - AvatarMask
+  - SubDlgBtn
   - ToggleBtnBg
   - RefreshIcon
   - SmallTimer
@@ -444,7 +445,6 @@ SpriteAtlas:
   - ErrorImagePiece
   - UnreadChat
   - LogoSkillLevelDlg
-  - SubscribeButton
   - IconFreeCoins
   - SettingsIcon
   - RewardBtnDefeat

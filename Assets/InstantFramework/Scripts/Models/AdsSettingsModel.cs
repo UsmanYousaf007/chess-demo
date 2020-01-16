@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         public int globalCap { get; set; }
         public int rewardedVideoCap { get; set; }
         public int interstitialCap { get; set; }
+        public int resignCap { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
             globalCap = 0;
             rewardedVideoCap = 0;
             interstitialCap = 0;
+            resignCap = 0;
         }
     }
 }

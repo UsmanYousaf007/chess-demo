@@ -86,7 +86,7 @@ namespace TurboLabz.InstantGame
                     if (adsService.IsRewardedVideoAvailable())
                     {
                         preferencesModel.globalAdsCount++;
-                        preferencesModel.interstitialAdsCount++;
+                        preferencesModel.rewardedAdsCount++;
                         Retain();
                         IPromise<AdsResult> p = adsService.ShowRewardedVideo();
 

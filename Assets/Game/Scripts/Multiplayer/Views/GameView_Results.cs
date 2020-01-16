@@ -75,7 +75,8 @@ namespace TurboLabz.Multiplayer
         
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
-
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         public void InitResults()
         {
@@ -169,9 +170,7 @@ namespace TurboLabz.Multiplayer
 
             HideSafeMoveBorder();
 
-            bool isRewardedButton = adsService.IsRewardedVideoAvailable();
-            EnableRewarededVideoButton(isRewardedButton);
-
+            EnableRewarededVideoButton(true);
             viewBoardResultPanel.gameObject.SetActive(false);
         }
 
@@ -233,6 +232,7 @@ namespace TurboLabz.Multiplayer
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
                         animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerName);
+                        EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
                     }
                     else
                     {
