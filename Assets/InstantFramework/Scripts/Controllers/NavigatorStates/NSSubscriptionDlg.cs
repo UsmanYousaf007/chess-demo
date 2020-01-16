@@ -19,6 +19,7 @@
                 }
                 else if (viewId == NavigatorViewId.THEME_SELECTION)
                 {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SUBSCRIPTION_DLG);
                     return new NSThemeSelectionDlg();
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
@@ -41,6 +42,10 @@
             else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
             {
                 return new NSConfirmDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_THEME_SELECTION_DLG)
+            {
+                return new NSThemeSelectionDlg();
             }
 
             return null;

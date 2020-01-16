@@ -50,7 +50,7 @@ public class SkinItemView : View
         }
 
         item = metaDataModel.store.items[key];
-        isPremium = playerModel.HasSubscription() || item.skinIndex < playerModel.rewardSkinIndex;
+        isPremium = playerModel.HasSubscription() || playerModel.OwnsVGood(key);
 
         SetOwnedState();
 
@@ -67,7 +67,6 @@ public class SkinItemView : View
         }
         else
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
         }
     }
