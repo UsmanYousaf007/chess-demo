@@ -339,6 +339,21 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RATE_APP_LOVE_FROM_TEAM, "Your feedback is valuable. Thank you." },
 
                 #endregion
+
+                #region Settings
+
+                { LocalizationKey.SETTINGS_TITLE, "Settings" },
+                { LocalizationKey.SETTINGS_SOUND_TITLE, "SOUND" },
+                { LocalizationKey.SETTINGS_SOUND_EFFECT, "SoundEffects" },
+                { LocalizationKey.SETTINGS_ACCOUNT_TITLE, "ACCOUNT" },
+                { LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM, "Upgrade to premium" },
+                { LocalizationKey.SETTINGS_ACCOUNT_PERSONALIZED_ADS, "Personalized Ads" },
+                { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },
+                { LocalizationKey.SETTINGS_ACCOUNT_RESTORE_PURCHASE, "Restore Purchase" },
+                { LocalizationKey.SETTINGS_ACCOUNT_TERMS_OF_USE, "Terms of Use" },
+                { LocalizationKey.SETTINGS_ACCOUNT_PRIVACY_POLICY, "Privacy Policy" },
+
+                #endregion
             };
         }
     }

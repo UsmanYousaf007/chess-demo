@@ -340,5 +340,20 @@ namespace TurboLabz.InstantFramework
         public const string RATE_APP_LOVE_FROM_TEAM = "loveFromTeam";
 
         #endregion
+
+        #region Settings
+
+        public const string SETTINGS_TITLE = "settingsTitle";
+        public const string SETTINGS_SOUND_TITLE = "settingsSoundTitle";
+        public const string SETTINGS_SOUND_EFFECT = "settingsSoundEffect";
+        public const string SETTINGS_ACCOUNT_TITLE = "settingsAccountTitle";
+        public const string SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM = "settingsAccountUpgradeToPremium";
+        public const string SETTINGS_ACCOUNT_PERSONALIZED_ADS = "settingsAccountPersonalizedAds";
+        public const string SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION = "settingsAccountManageSubscription";
+        public const string SETTINGS_ACCOUNT_RESTORE_PURCHASE = "settingsAccountRestorePurchase";
+        public const string SETTINGS_ACCOUNT_TERMS_OF_USE = "settingsAccountTermsOfUse";
+        public const string SETTINGS_ACCOUNT_PRIVACY_POLICY = "settingsAccountPrivacyPolicy";
+
+        #endregion
     }
 }

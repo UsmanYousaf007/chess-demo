@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 5996800
+    totalSpriteSurfaceArea: 6000535
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -102,6 +102,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 10e778f2f8e204dccb1428acbd6e4960, type: 3}
   - {fileID: 21300000, guid: e23714035b1d047439525a3c62a1508f, type: 3}
   - {fileID: 21300000, guid: a31a4603e04ef44bbbc6dcbd37388fd3, type: 3}
+  - {fileID: 21300000, guid: 1a25aa035a26a452690f41eea66b5af3, type: 3}
   - {fileID: 21300000, guid: 359ffd032ccee4e79ba6aa23a334e4da, type: 3}
   - {fileID: 21300000, guid: 07f15c1303df147179710c38bceba9ca, type: 3}
   - {fileID: 21300000, guid: e5353f13b255a49b39fbddc6b66b8811, type: 3}
@@ -307,6 +308,7 @@ SpriteAtlas:
   - Switch
   - InviteUsIcon
   - HourGlass
+  - SectionMaskInvert
   - moveMeterFiller
   - GameToolButton
   - BtnIconHindsight
