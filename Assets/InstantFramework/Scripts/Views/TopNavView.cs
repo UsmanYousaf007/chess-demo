@@ -49,7 +49,10 @@ namespace TurboLabz.InstantFramework
             audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
             audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
             supportButton.onClick.AddListener(OnSupportButtonClicked);
-            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+            if (settingsButton != null)
+            {
+                settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+            }
 
             RefreshAudioButtons();
         }
