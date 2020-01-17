@@ -132,9 +132,9 @@ namespace TurboLabz.InstantFramework
                 #region GameResults
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
-                { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "2X COINS" },
-                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "COLLECT" },
-                { LocalizationKey.RESULTS_EARNED, "You Earned" },
+                { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
+                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to lobby" },
+                { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
 
                 #endregion
@@ -314,7 +314,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min Game"},
                 { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Play Classic"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
-                { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly Game"},
+                { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "No"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "Yes"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove player "},

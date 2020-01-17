@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 6000535
+    totalSpriteSurfaceArea: 6214573
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -175,6 +175,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a671fb788740a4e29a23369e16c2b329, type: 3}
   - {fileID: 21300000, guid: d2a64188ef4ee46babfec152997e0a53, type: 3}
   - {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
+  - {fileID: 21300000, guid: 817c6dc87df654c279c79037f3f4b421, type: 3}
   - {fileID: 21300000, guid: 0b1f39e871df648a686799cd05e957ed, type: 3}
   - {fileID: 21300000, guid: 501b1de8e0eb246e6a703e52f4cde523, type: 3}
   - {fileID: 21300000, guid: 422753f8dd4c54108a32ce9032cf923a, type: 3}
@@ -218,6 +219,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e0e0ac0c595614d4380fb3340c12f610, type: 3}
   - {fileID: 21300000, guid: 0ab7ba1c888d4440c910f465e5d7892c, type: 3}
   - {fileID: 21300000, guid: f769c84c9fc314a74baa81bd620e4b88, type: 3}
+  - {fileID: 21300000, guid: fc0f645c37b8f4c0eb83935ef96524b4, type: 3}
   - {fileID: 21300000, guid: 47d65c6c8db164c78bb724180437834d, type: 3}
   - {fileID: 21300000, guid: 11de3f6cf2c924951a340f2373a5a90a, type: 3}
   - {fileID: 21300000, guid: 30da4d8ce908641999e32e1efbc60371, type: 3}
@@ -381,6 +383,7 @@ SpriteAtlas:
   - CheckerBoardButtonBg
   - LoginGraphic
   - DefeatIcon
+  - GradientGoldText
   - DialogPattern
   - SectionMask
   - WaitSpinner
@@ -424,6 +427,7 @@ SpriteAtlas:
   - ErrorChess
   - ProfileIcon
   - SilverStar
+  - RewardBar
   - 2
   - difficultyArrow
   - DragValid

@@ -30,28 +30,28 @@ namespace TurboLabz.CPU
         public Button playbackOverlay;
 
         public GameObject resultsDialog;
+        public Image resultsGameImage;
+        public Sprite winSprite;
+        public Sprite defeatSprite;
+        public Sprite drawSprite;
         public Text resultsGameResultLabel;
         public Text resultsGameResultReasonLabel;
         public Text resultsFriendlyLabel;
 
-        public Text resultsRatingTitleLabel;
         public Text resultsRatingValueLabel;
         public Text resultsRatingChangeLabel;
 
         public Button resultsCollectRewardButton;
         public Text resultsCollectRewardButtonLabel;
-        public Text resultsCollectRewardHeadingLabel;
         public Button resultsCloseButton;
-        public Text resultsCloseButtonLabel;
-
         public Image resultsAdTVImage;
-        public Text resultsRewardCoinsLabel;
-        public Image resultsVictoryRewardImage;
-        public Image resultsDefeatRewardImage;
-        public Text resultsEarnedLabel;
 
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
+
+        public RectTransform rewardBar;
+        public Text earnRewardsText;
+        public GameObject earnRewardsSection;
 
         public ViewBoardResults viewBoardResultPanel;
 
@@ -66,6 +66,7 @@ namespace TurboLabz.CPU
         private const float RESULTS_DIALOG_DURATION = 0.5f;
         private float resultsDialogHalfHeight;
         private float declinedDialogHalfHeight;
+        private float rewardBarOriginalWidth;
 
         private bool playerWins;
         private bool isDraw;
@@ -108,12 +109,12 @@ namespace TurboLabz.CPU
 
             // Text Labels
             resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
-            resultsCloseButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
-            resultsRatingTitleLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
+            earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
 
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+            rewardBarOriginalWidth = rewardBar.sizeDelta.x;
         }
 
         public void CleanupResults()
@@ -128,8 +129,7 @@ namespace TurboLabz.CPU
             if (enable)
             {
                 resultsCollectRewardButton.interactable = true;
-                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.YELLOW, Colors.ENABLED_TEXT_ALPHA);
-                resultsCollectRewardHeadingLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
@@ -140,8 +140,7 @@ namespace TurboLabz.CPU
             else
             {
                 resultsCollectRewardButton.interactable = false;
-                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.YELLOW, Colors.DISABLED_TEXT_ALPHA);
-                resultsCollectRewardHeadingLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;
@@ -178,7 +177,6 @@ namespace TurboLabz.CPU
         private void UpdateResultRatingSection(bool isRanked, int currentEloScore, int eloScoreDelta)
         {
             resultsFriendlyLabel.gameObject.SetActive(false);
-            resultsRatingTitleLabel.gameObject.SetActive(true);
             resultsRatingValueLabel.gameObject.SetActive(false);
             resultsRatingChangeLabel.gameObject.SetActive(false);
 
@@ -198,12 +196,12 @@ namespace TurboLabz.CPU
             if (eloScoreDelta > 0)
             {
                 resultsRatingChangeLabel.text = "(+" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.GREEN;
+                resultsRatingChangeLabel.color = Colors.GREEN_DIM;
             }
             else if (eloScoreDelta < 0)
             {
                 resultsRatingChangeLabel.text = "(" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.RED;
+                resultsRatingChangeLabel.color = Colors.RED_DIM;
             }
         }
 
@@ -279,25 +277,30 @@ namespace TurboLabz.CPU
 
             if (isDraw)
             {
+                resultsGameImage.sprite = drawSprite;
                 resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
-                resultsGameResultLabel.color = Colors.YELLOW;
+                resultsGameResultLabel.color = Colors.YELLOW_DIM;
                 viewBoardResultPanel.result.text = "Drawn";
             }
             else
             {
                 if (playerWins)
                 {
+                    resultsGameImage.sprite = winSprite;
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
-                    resultsGameResultLabel.color = Colors.GREEN;
+                    resultsGameResultLabel.color = Colors.GREEN_DIM;
                     viewBoardResultPanel.result.text = string.Format("{0} won", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
                 }
                 else
                 {
+                    resultsGameImage.sprite = defeatSprite;
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
-                    resultsGameResultLabel.color = Colors.RED;
+                    resultsGameResultLabel.color = Colors.RED_DIM;
                     viewBoardResultPanel.result.text = "Computer won";
                 }
             }
+
+            resultsGameImage.SetNativeSize();
         }
 
         public void UpdateResultsDialog(GameEndReason gameEndReason, bool isPlayerWins, int powerupUsage, bool removeAds)
@@ -329,13 +332,9 @@ namespace TurboLabz.CPU
                 }
             }
 
-            resultsVictoryRewardImage.gameObject.SetActive(playerWins);
-            resultsDefeatRewardImage.gameObject.SetActive(!playerWins);
-
             resultsAdTVImage.gameObject.SetActive(!removeAds);
             resultsCollectRewardButton.gameObject.SetActive(!removeAds);
             resultsCollectRewardButtonLabel.gameObject.SetActive(!removeAds);
-            resultsCollectRewardHeadingLabel.gameObject.SetActive(!removeAds);
 
             if (removeAds)
             {
@@ -345,19 +344,13 @@ namespace TurboLabz.CPU
             int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, powerupUsage, playerWins);
 
             // Reward
-            resultsRewardCoinsLabel.text = rewardCoins + " Coins"; 
-            if (playerWins)
-            {
-                resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_REWARD);
-            }
-            else
-            {
-                resultsEarnedLabel.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
-            }
-
             adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
             collectRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
             resultRewardCoins = rewardCoins;
+
+            earnRewardsSection.SetActive(!playerModel.HasSubscription());
+            var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
+            rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
 
         public bool IsResultsDialogVisible()
