@@ -16,14 +16,20 @@ using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
-    public partial class SettingsView : View
+    public class SettingsView : View
     {
 
-        public Button backBtn;
+        public Button backButton;
+        public Text backButtonText;
         public Text settingsTitleText;
+        public Text appVersion;
 
         //Account
         public Text accountTitleText;
+
+        public Text infoText;
+        public Button personalisedAdsOnBtn;
+        public Button personalisedAdsOffBtn;
 
         public Button manageSubscriptionBtn;
         public Text manageSubscriptionText;
@@ -43,14 +49,15 @@ namespace TurboLabz.InstantFramework
         public Button personalizedAdsBtn;
         public Text personalizedAdsText;
 
+        public Text personalisedAdsOnText;
+        public Text personalisedAdsOffText;
+
 
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
         public Signal personalizedAdsButtonClickedSignal = new Signal();
         public Signal restorePurchaseButtonClickedSignal = new Signal();
-        public Signal termsOfUseButtonClickedSignal = new Signal();
-        public Signal privacyPolicyButtonClickedSignal = new Signal();
 
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -60,14 +67,18 @@ namespace TurboLabz.InstantFramework
             //Set texts
             settingsTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_TITLE);
             accountTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_TITLE);
+            backButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
+            infoText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
+            personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
+            personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
 
             //Account
             manageSubscriptionText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION);
-            restorePurchaseText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_RESTORE_PURCHASE);
-            termsOfUseText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_TERMS_OF_USE);
-            privacyPolicyText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PRIVACY_POLICY);
+            restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+            termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
+            privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
             upgradeToPremiumText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM);
-            personalizedAdsText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PERSONALIZED_ADS);
+            personalizedAdsText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS);
 
             //Set Button Listeners
 
@@ -78,6 +89,14 @@ namespace TurboLabz.InstantFramework
             termsOfUseBtn.onClick.AddListener(OnTermsOfUseButtonClicked);
             privacyPolicyBtn.onClick.AddListener(OnPrivacyPolicyButtonClicked);
 
+            appVersion.text = "v" + Application.version;
+
+            RefreshPersonalisedAdsToggleButtons();
+
+        }
+
+        void RefreshAccountPanel()
+        {
         }
 
         void OnManageSubscriptionButtonClicked()
@@ -106,15 +125,36 @@ namespace TurboLabz.InstantFramework
 
         void OnTermsOfUseButtonClicked()
         {
-            termsOfUseButtonClickedSignal.Dispatch();
+            OnPrivacyPolicyButtonClicked();
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         void OnPrivacyPolicyButtonClicked()
         {
-            privacyPolicyButtonClickedSignal.Dispatch();
+            Application.OpenURL("https://turbolabz.com/privacy-policy/");
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-        } 
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void OnBackButtonClicked()
+        {
+
+        }
+
+        private void RefreshPersonalisedAdsToggleButtons()
+        {
+            personalisedAdsOffBtn.gameObject.SetActive(false);
+            personalisedAdsOnBtn.gameObject.SetActive(true);
+        }
     }
 
      

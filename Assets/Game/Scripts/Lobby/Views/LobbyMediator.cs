@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public LoadSettingsSignal loadSettingsSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -226,6 +227,15 @@ namespace TurboLabz.InstantFramework
             if (gameObject.activeSelf)
             {
                 loadStatsSignal.Dispatch();
+            }
+        }
+
+        [ListensTo(typeof(SettingsButtonClickedSignal))]
+        public void OnSettingsButtonTapped()
+        {
+            if (gameObject.activeSelf)
+            {
+                loadSettingsSignal.Dispatch();
             }
         }
 

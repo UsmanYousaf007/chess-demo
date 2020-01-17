@@ -23,19 +23,49 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+
+        // Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
 
         public override void OnRegister()
         {
             view.Init();
 
-            view.privacyPolicyButtonClickedSignal.AddListener(OnPrivacyPolicyButtonClicked);
+            view.restorePurchaseButtonClickedSignal.AddListener(OnRestorePurchases);
+            view.backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
-        private void OnPrivacyPolicyButtonClicked()
+
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
+            if (viewId == NavigatorViewId.SETTINGS)
+            {
+                view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.show_settings);
+            }
         }
 
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.SETTINGS)
+            {
+                view.Hide();
+            }
+        }
+
+        private void OnRestorePurchases()
+        {
+            restorePurchasesSignal.Dispatch();
+        }
+        void OnBackButtonClicked()
+        {
+            loadLobbySignal.Dispatch();
+        }
     }
 }
 

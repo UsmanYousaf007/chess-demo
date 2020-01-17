@@ -16,6 +16,8 @@ namespace TurboLabz.InstantFramework
         public Button audioOnButton;
         public Text soundText;
         public Text soundEffectsText;
+        public Text soundOnText;
+        public Text soundOffText;
 
         //Injections
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -27,6 +29,8 @@ namespace TurboLabz.InstantFramework
          
             soundText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_TITLE);
             soundEffectsText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_EFFECT);
+            soundOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
+            soundOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
 
             //Set Button Listeners
             audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);

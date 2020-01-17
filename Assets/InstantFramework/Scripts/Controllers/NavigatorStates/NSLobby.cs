@@ -66,6 +66,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSubscriptionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SETTINGS)
+            {
+                return new NSSettings();
+            }
 
             return null;
         }

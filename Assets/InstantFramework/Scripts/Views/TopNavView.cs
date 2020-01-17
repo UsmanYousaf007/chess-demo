@@ -35,11 +35,13 @@ namespace TurboLabz.InstantFramework
         public Button audioOnButton;
         public Button supportButton;
         public Button addBucksButton;
+        public Button settingsButton;
         public Text playerBucks;
         public Text freeNoAdsPeriodLabel;
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
+        public Signal settingsButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -47,6 +49,7 @@ namespace TurboLabz.InstantFramework
             audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
             audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
             supportButton.onClick.AddListener(OnSupportButtonClicked);
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
 
             RefreshAudioButtons();
         }
@@ -112,5 +115,13 @@ namespace TurboLabz.InstantFramework
         {
             removeAdsButtonClickedSignal.Dispatch();
         }
+
+        private void OnSettingsButtonClicked()
+        {
+            Debug.Log("Dispatch Signal settings Btton Clicked:Top Nav View");
+            settingsButtonClickedSignal.Dispatch();
+        }
+
+
     }
 }

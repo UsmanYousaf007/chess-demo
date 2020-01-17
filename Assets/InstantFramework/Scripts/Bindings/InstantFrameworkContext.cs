@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
             commandBinder.Bind<UpdateFriendBarSignal>().To<UpdateFriendBarCommand>();
             commandBinder.Bind<ContactSupportSignal>().To<ContactSupportCommand>();
+            commandBinder.Bind<LoadSettingsSignal>().To<LoadSettingsCommand>();
 
             commandBinder.Bind<SavePlayerInventorySignal>().To<SavePlayerInventoryCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
@@ -255,6 +256,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ThemeSelectionView>().To<ThemeSelectionMediator>();
             mediationBinder.Bind<SkinItemView>().To<SkinItemMediator>();
             mediationBinder.Bind<SubscriptionDlgView>().To<SubscriptionDlgMediator>();
+            mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
+            mediationBinder.Bind<SoundView>().To<SoundMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -285,6 +288,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ReportLobbyPromotionAnalyticSingal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
+            injectionBinder.Bind<SettingsButtonClickedSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

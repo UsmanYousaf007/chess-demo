@@ -98,7 +98,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_DURATION = "cpuMenuDuration";
         public const string CPU_MENU_DURATION_NONE = "cpuMenuDurationNone";
         public const string CPU_MENU_PLAYER_COLOR = "cpuMenuPlayerColor";
-		public const string CPU_MENU_THEME = "cpuMenuTheme";
+        public const string CPU_MENU_THEME = "cpuMenuTheme";
         public const string CPU_MENU_PLAY_ONLINE = "cpuMenuPlayOnline";
         public const string CPU_MENU_PLAY_FRIENDS = "cpuMenuPlayFriends";
         public const string CPU_MENU_PLAY_CPU = "cpuMenuPlayCPU";
@@ -179,16 +179,16 @@ namespace TurboLabz.InstantFramework
         public const string STORE_NOT_AVAILABLE = "storeNotAvailable";
 
         public const string CPU_STORE_HEADING = "storeHeading";
-		public const string CPU_STORE_OWNED = "storeItemOwned";
-		public const string CPU_STORE_BUCKS = "bucks";
+        public const string CPU_STORE_OWNED = "storeItemOwned";
+        public const string CPU_STORE_BUCKS = "bucks";
 
-		public const string CPU_STORE_BUY_THEME_TITLE = "storeBuyThemeTitle";
-		public const string CPU_STORE_BUY_BUY_BUTTON = "storeBuyBuy";
+        public const string CPU_STORE_BUY_THEME_TITLE = "storeBuyThemeTitle";
+        public const string CPU_STORE_BUY_BUY_BUTTON = "storeBuyBuy";
 
-		public const string CPU_STORE_NOT_ENOUGH_BUCKS_TITLE = "storeNotEnoughBucksTitle";
-		public const string CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING = "storeNotEnoughBucksSubHeading";
-		public const string CPU_STORE_NOT_ENOUGH_BUCKS_BUY = "storeNotEnoughBucksBuy";
-		public const string CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON = "storeNotEnoughBucksYes";
+        public const string CPU_STORE_NOT_ENOUGH_BUCKS_TITLE = "storeNotEnoughBucksTitle";
+        public const string CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING = "storeNotEnoughBucksSubHeading";
+        public const string CPU_STORE_NOT_ENOUGH_BUCKS_BUY = "storeNotEnoughBucksBuy";
+        public const string CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON = "storeNotEnoughBucksYes";
         public const string CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON = "storeNotEnoughBucksNo";
 
         public const string STORE_PURCHASE_FAILED_VERIFICATION_TITLE = "storePurchaseFailedVerificationTitle";
@@ -221,23 +221,23 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES = "friendsRecentlyCompletedMatches";
         public const string FRIENDS_SECTION_PLAY_A_FRIEND = "friendsPlayAFriend";
         public const string FRIENDS_SECTION_PLAY_SOMEONE_NEW = "friendsPlaySomeoneNew";
-        
+
         public const string FRIENDS_SECTION_SEARCH_RESULTS = "friendsSearchResults";
 
         public const string FRIENDS_NO_FRIENDS_TEXT = "friendsInviteLabel";
-		public const string FRIENDS_INVITE_TEXT = "friendsInviteText";
+        public const string FRIENDS_INVITE_TEXT = "friendsInviteText";
         public const string FRIENDS_INVITE_BUTTON_TEXT = "friendsInviteButtonText";
         public const string FRIENDS_INVITE_TITLE_TEXT = "friendsInviteTitleText";
-       
+
         public const string FRIENDS_REFRESH_TEXT = "friendsRefreshText";
-		public const string FRIENDS_CONFIRM_LABEL = "friendsConfirmLabel";
-		public const string FRIENDS_YES_LABEL = "friendsYesLabel";
-		public const string FRIENDS_NO_LABEL = "friendsNoLabel";
-		public const string FRIENDS_VS_LABEL = "friendsVsLabel";
-		public const string FRIENDS_WINS_LABEL = "friendsWinsLabel";
-		public const string FRIENDS_DRAWS_LABEL = "friendsDrawsLabel";
-		public const string FRIENDS_TOTAL_GAMES_LABEL = "friendsTotalGamesLabel";
-		public const string FRIENDS_BLOCK_LABEL = "friendsBlockLabel";
+        public const string FRIENDS_CONFIRM_LABEL = "friendsConfirmLabel";
+        public const string FRIENDS_YES_LABEL = "friendsYesLabel";
+        public const string FRIENDS_NO_LABEL = "friendsNoLabel";
+        public const string FRIENDS_VS_LABEL = "friendsVsLabel";
+        public const string FRIENDS_WINS_LABEL = "friendsWinsLabel";
+        public const string FRIENDS_DRAWS_LABEL = "friendsDrawsLabel";
+        public const string FRIENDS_TOTAL_GAMES_LABEL = "friendsTotalGamesLabel";
+        public const string FRIENDS_BLOCK_LABEL = "friendsBlockLabel";
         public const string FRIENDS_CHAT_LABEL = "friendsChatLabel";
         public const string FRIENDS_BLOCK_TEXT = "friendsBlockText";
         public const string FRIENDS_FACEBOOK_CONNECT_TEXT = "friendsFacebookConnectText";
@@ -348,11 +348,11 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_SOUND_EFFECT = "settingsSoundEffect";
         public const string SETTINGS_ACCOUNT_TITLE = "settingsAccountTitle";
         public const string SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM = "settingsAccountUpgradeToPremium";
-        public const string SETTINGS_ACCOUNT_PERSONALIZED_ADS = "settingsAccountPersonalizedAds";
+        public const string SETTINGS_ACCOUNT_PERSONALISED_ADS = "settingsAccountPersonalisedAds";
         public const string SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION = "settingsAccountManageSubscription";
-        public const string SETTINGS_ACCOUNT_RESTORE_PURCHASE = "settingsAccountRestorePurchase";
-        public const string SETTINGS_ACCOUNT_TERMS_OF_USE = "settingsAccountTermsOfUse";
-        public const string SETTINGS_ACCOUNT_PRIVACY_POLICY = "settingsAccountPrivacyPolicy";
+        public const string SETTINGS_ACCOUNT_INFO = "settingsAccountInfo";
+        public const string SETTINGS_ON = "settingsOn";
+        public const string SETTINGS_OFF = "settingsOff";
 
         #endregion
     }

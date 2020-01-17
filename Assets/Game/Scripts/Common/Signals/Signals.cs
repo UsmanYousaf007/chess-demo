@@ -43,6 +43,11 @@ namespace TurboLabz.InstantGame
     // Player Profile
     public class PlayerProfilePicTappedSignal : Signal {};
 
+    //Settings
+    public class SettingsButtonClickedSignal : Signal { }
+    public class LoadSettingsSignal : Signal { }
+    
+
     // CPU Settings
     //public class NavPrivatePolicy : Signal { }
 }
