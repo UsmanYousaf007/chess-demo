@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         IPromise<AdsResult> rewardedAdPromiseOnSuccess;
 
         public void Init()
@@ -83,7 +84,9 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.ads_rewared_request);
             }
 
-            return availableFlag;
+            return availableFlag &&
+                (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+                (adsSettingsModel.rewardedVideoCap == 0 || preferencesModel.rewardedAdsCount <= adsSettingsModel.rewardedVideoCap);
         }
 
         public void OnBannerLoadedEvent(IBannerCallbackData data)
@@ -135,8 +138,9 @@ namespace TurboLabz.InstantFramework
 
         public bool IsInterstitialAvailable()
         {
-            //return MoPubInterstitial.IsAvailable();
-            return HAds.Interstitial.IsReady();
+            return HAds.Interstitial.IsReady() &&
+                (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+                (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
         }
 
         public void ShowInterstitial()
