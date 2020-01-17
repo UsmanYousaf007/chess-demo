@@ -291,6 +291,7 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(true);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_Release");
@@ -308,6 +309,7 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(true);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.Development, "_Development");
@@ -325,6 +327,7 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(true);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_Release");
         ProcessBuild(buildPlayerOptions);
         LogUtil.Log("End Build Android Release");
@@ -339,6 +342,7 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(true);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
         ProcessBuild(buildPlayerOptions);
         LogUtil.Log("End Build Android Development");
@@ -353,6 +357,7 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(false);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_ReleaseStore");
@@ -370,6 +375,7 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(false);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_ReleaseStore");
         ProcessBuild(buildPlayerOptions);
         LogUtil.Log("End Build Android for Store");

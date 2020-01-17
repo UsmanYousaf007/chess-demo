@@ -145,7 +145,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentQuickMatch, 2));
                 analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLobby, 2));
 
-                preferencesModel.ResetTimeSpentAnalyticsData();
+                preferencesModel.ResetDailyPrefers();
             }
 
         }

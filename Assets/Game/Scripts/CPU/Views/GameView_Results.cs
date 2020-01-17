@@ -77,6 +77,8 @@ namespace TurboLabz.CPU
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         private void InitResultsCPU()
         {
@@ -164,10 +166,7 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
-
-            bool isRewardedButton = adsService.IsRewardedVideoAvailable();
-            EnableRewarededVideoButton(isRewardedButton);
-
+            EnableRewarededVideoButton(true);
             viewBoardResultPanel.gameObject.SetActive(false);
         }
 
@@ -227,6 +226,7 @@ namespace TurboLabz.CPU
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
                         animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
+                        EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
                     }
                     else
                     {
@@ -399,7 +399,7 @@ namespace TurboLabz.CPU
             vo.rewardType = adRewardType;
             vo.challengeId = "";
             vo.playerWins = playerWins;
-            showAdSignal.Dispatch(vo);
+            showRewardedAdSignal.Dispatch(vo);
 
            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             backToLobbySignal.Dispatch();
@@ -413,7 +413,7 @@ namespace TurboLabz.CPU
         {
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
-            vo.rewardType = collectRewardType;
+            vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = "";
             vo.playerWins = playerWins;
             showAdSignal.Dispatch(vo);

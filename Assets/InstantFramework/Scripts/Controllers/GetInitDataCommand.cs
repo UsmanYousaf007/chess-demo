@@ -43,7 +43,6 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
 
         public override void Execute()
         {
@@ -62,8 +61,6 @@ namespace TurboLabz.InstantFramework
                 model.adsSettings = adsSettingsModel;
                 model.rewardsSettings = rewardsSettingsModel;
                 model.settingsModel = settingsModel;
-
-                getInitDataCompleteSignal.Dispatch();
             }
             else if (result != BackendResult.CANCELED)
             {

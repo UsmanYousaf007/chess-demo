@@ -71,5 +71,11 @@ namespace TurboLabz.InstantGame
         {
             playerProfilePicTappedSignal.Dispatch();
         }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscrionPurchased(StoreItem item)
+        {
+            view.ShowPremiumBorder(true);
+        }
     }
 }

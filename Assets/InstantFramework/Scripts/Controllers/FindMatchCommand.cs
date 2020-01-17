@@ -156,6 +156,7 @@ namespace TurboLabz.InstantFramework
             pvo.avatarId = publicProfile.avatarId;
             pvo.isOnline = true;
             pvo.isActive = publicProfile.isActive;
+            pvo.isPremium = publicProfile.isSubscriber;
 
             return pvo;
         }

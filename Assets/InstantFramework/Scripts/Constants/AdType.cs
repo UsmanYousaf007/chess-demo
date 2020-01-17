@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
     public enum AdType
     {
         RewardedVideo,
-        Interstitial
+        Interstitial,
+        Promotion
     }
 }

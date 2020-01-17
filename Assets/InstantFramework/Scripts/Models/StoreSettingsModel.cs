@@ -5,6 +5,7 @@
 
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -55,6 +56,15 @@ namespace TurboLabz.InstantFramework
 
             lists.Add(kind,list);
         }
+
+        public StoreItem GetItemBySkinIndex(int skinIndex)
+        {
+            var item = (from entry in items
+                        where entry.Value.skinIndex == skinIndex
+                        select entry).FirstOrDefault();
+
+            return item.Value;
+        }
     }
 
     //public class BundledItem
@@ -80,7 +90,8 @@ namespace TurboLabz.InstantFramework
         public string remoteProductPrice;        // Remote store product localized price
         public string remoteProductCurrencyCode; // Remote store product currency code
         public decimal productPrice;             // Remote store product prioce in decimal
-
+        public int skinIndex;                   // Skin sort index
+        public int pointsRequired;              // Points required to unlock skin
         public IDictionary<string, int> bundledItems;  // Bundled items
         //public IDictionary<string, BundledItem> bundleDescriptions;  // Bundled item descriptions
 
@@ -115,6 +126,8 @@ namespace TurboLabz.InstantFramework
             remoteProductCurrencyCode = null;
             productPrice = 0;
             bundledItems = null;
+            skinIndex = -1;
+            pointsRequired = 0;
         }
     }
 }

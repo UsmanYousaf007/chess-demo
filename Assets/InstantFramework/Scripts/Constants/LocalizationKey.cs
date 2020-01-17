@@ -36,6 +36,11 @@ namespace TurboLabz.InstantFramework
         public const string FREE_NO_ADS_HOURS = "freeNoAdsHours";
         public const string FREE_NO_ADS_DAYS = "freeNoAdsDays";
         public const string PLAYING_LEVEL = "playingLevel";
+        public const string DONE = "Done";
+        public const string SELECT_THEME = "selectTheme";
+        public const string CHOOSE_THEME = "chooseTheme";
+        public const string REWARD_UNLOCKED_TITLE = "rewardUnlockedTitle";
+        public const string REWARD_THEME = "rewardTheme";
 
         #endregion
 
@@ -199,6 +204,13 @@ namespace TurboLabz.InstantFramework
         public const string STORE_PURCHASE_FAILED_REASON_DUPLICATE = "DuplicateTransaction";
         public const string STORE_PURCHASE_FAILED_REASON_UNKNOWN = "Unknown";
 
+        public const string SUBSCRIPTION_DLG_TITLE = "subscriptionDlgTitle";
+        public const string SUBSCRIPTION_DLG_DISCLAIMER = "subscriptionDlgDisclaimer";
+        public const string SUBSCRIPTION_DLG_RESTORE_PURCHASE = "subscriptionDlgRestorePurchase";
+        public const string SUBSCRIPTION_DLG_PRIVACY_POLICY = "subscriptionDlgPrivacyPolicy";
+        public const string SUBSCRIPTION_DLG_TERMS_OF_USE = "subscriptionDlgTermsOfUse";
+        public const string SUBSCRIPTION_DLG_PURCHASE_BUTTON = "subscriptionDlgPurchaseButton";
+
         #endregion
 
         #region Friends
@@ -326,6 +338,21 @@ namespace TurboLabz.InstantFramework
         public const string RATE_APP_LIKE = "like";
         public const string RATE_APP_LOVE = "love";
         public const string RATE_APP_LOVE_FROM_TEAM = "loveFromTeam";
+
+        #endregion
+
+        #region Settings
+
+        public const string SETTINGS_TITLE = "settingsTitle";
+        public const string SETTINGS_SOUND_TITLE = "settingsSoundTitle";
+        public const string SETTINGS_SOUND_EFFECT = "settingsSoundEffect";
+        public const string SETTINGS_ACCOUNT_TITLE = "settingsAccountTitle";
+        public const string SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM = "settingsAccountUpgradeToPremium";
+        public const string SETTINGS_ACCOUNT_PERSONALIZED_ADS = "settingsAccountPersonalizedAds";
+        public const string SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION = "settingsAccountManageSubscription";
+        public const string SETTINGS_ACCOUNT_RESTORE_PURCHASE = "settingsAccountRestorePurchase";
+        public const string SETTINGS_ACCOUNT_TERMS_OF_USE = "settingsAccountTermsOfUse";
+        public const string SETTINGS_ACCOUNT_PRIVACY_POLICY = "settingsAccountPrivacyPolicy";
 
         #endregion
     }

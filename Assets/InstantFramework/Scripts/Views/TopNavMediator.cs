@@ -13,11 +13,6 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public TopNavView view { get; set; }
 
-        // Dispatch signals
-        [Inject] public LoadStoreSignal loadStoreSignal { get; set; }
-        [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
-
-
         public override void OnRegister()
         {
             view.Init();
@@ -32,26 +27,13 @@ namespace TurboLabz.InstantFramework
 
         private void OnAddBucksButtonClicked()
         {
-            loadStoreSignal.Dispatch();
-            showStoreTabSignal.Dispatch(StoreView.StoreTabs.COINS);
-        }
 
-        [ListensTo(typeof(UpdatePlayerBucksSignal))]
-        public void OnUpdatePlayerBucksDisplay(long playerBucks)
-        {
-            view.UpdatePlayerBucks(playerBucks);
         }
 
         [ListensTo(typeof(UpdateRemoveAdsSignal))]
         public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
         {
             view.UpdateRemoveAds(freePeriod, isRemoved);
-        }
-
-        [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable, StoreVO storeVO)
-        {
-            view.OnStoreAvailable(isAvailable);
         }
     }
 }

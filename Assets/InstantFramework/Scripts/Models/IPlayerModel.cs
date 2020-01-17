@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         string skillLevel { get; set; }
         int playerFriendsCount { get; set; }
         bool isFBConnectRewardClaimed { get; set; }
+        long subscriptionExipryTimeStamp { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
@@ -61,5 +62,16 @@ namespace TurboLabz.InstantFramework
 
         Friend GetFriend(string friendId);
         bool IsFriend(string friendId);
+        bool HasSubscription();
+
+        // Ads Reward Data
+        int rewardIndex { get; set; }
+        string rewardShortCode { get; set; }
+        int rewardQuantity { get; set; }
+        float rewardCurrentPoints { get; set; }
+        float rewardPointsRequired { get; set; }
+
+        void UpdateGoodsInventory(string key, int quantity);
+        AdsRewardVO GetAdsRewardsData();
     }
 }

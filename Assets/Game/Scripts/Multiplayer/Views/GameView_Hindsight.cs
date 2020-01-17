@@ -19,6 +19,7 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         public Signal hindsightClickedSignal = new Signal();
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
@@ -122,7 +123,7 @@ namespace TurboLabz.Multiplayer
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else
             {
@@ -182,7 +183,12 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateHindsightCount(int count)
         {
-            if (count == 0)
+            if (playerModel.HasSubscription())
+            {
+                hindsightAdd.gameObject.SetActive(false);
+                hindsightCountLabel.gameObject.SetActive(false);
+            }
+            else if (count <= 0)
             {
                 hindsightAdd.gameObject.SetActive(true);
                 hindsightCountLabel.gameObject.SetActive(false);

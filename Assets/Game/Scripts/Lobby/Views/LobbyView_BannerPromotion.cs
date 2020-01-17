@@ -18,6 +18,8 @@ namespace TurboLabz.InstantFramework
         public RectTransform scrollViewport;
         public GameObject coachTrainingDailogue;
         public GameObject strengthTrainingDailogue;
+        public GameObject playerProfile;
+        public Transform movePlayerProfileToPivot;
 
         private GameObject spawnedBanner;
         private Vector3 scrollViewOrignalPosition;
@@ -25,6 +27,7 @@ namespace TurboLabz.InstantFramework
         private float scrollViewportOrginalBottom;
         private PromotionVO currentPromotion;
         private IAPBanner iapBanner;
+        private Vector3 playerProfileOriginalPosition;
 
         public static bool isCoachTrainingShown;
         public static bool isStrengthTrainingShown;
@@ -48,6 +51,7 @@ namespace TurboLabz.InstantFramework
                     scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
                     scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
                     scrollRect.verticalNormalizedPosition = 1;
+                    playerProfile.transform.localPosition = movePlayerProfileToPivot.localPosition;
 
                     iapBanner = spawnedBanner.GetComponent<IAPBanner>();
                     if (iapBanner != null)
@@ -56,15 +60,15 @@ namespace TurboLabz.InstantFramework
 
                         if (storeItem != null)
                         {
-                            iapBanner.price.text = storeItem.remoteProductPrice == null ?
-                                localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE) :
-                                storeItem.remoteProductPrice;
+                            //iapBanner.price.text = storeItem.remoteProductPrice == null ?
+                                //localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE) :
+                                //storeItem.remoteProductPrice;
                             spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
 
-                            if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
-                            {
-                                iapBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
-                            }
+                            //if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
+                            //{
+                            //    iapBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
+                            //}
                         }
                         else
                         {
@@ -91,6 +95,7 @@ namespace TurboLabz.InstantFramework
             {
                 scrollRect.transform.localPosition = scrollViewOrignalPosition;
                 scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
+                playerProfile.transform.localPosition = playerProfileOriginalPosition;
             }
         }
 
@@ -98,7 +103,7 @@ namespace TurboLabz.InstantFramework
         {
             if (isAvailable && iapBanner != null)
             {
-                iapBanner.price.text = storeItem.remoteProductPrice;
+                //iapBanner.price.text = storeItem.remoteProductPrice;
             }
         }
 
@@ -116,8 +121,7 @@ namespace TurboLabz.InstantFramework
 
         public void RemovePromotion(string key)
         {
-            if (currentPromotion.key != null &&
-                currentPromotion.key.Equals(key))
+            if (iapBanner != null && iapBanner.key.Equals(key))
             {
                 //for closing promotion pass key 'none'
                 ShowPromotion(new PromotionVO

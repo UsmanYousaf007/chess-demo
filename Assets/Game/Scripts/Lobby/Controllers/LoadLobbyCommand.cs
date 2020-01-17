@@ -36,7 +36,6 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
 
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
 
@@ -84,7 +83,6 @@ namespace TurboLabz.InstantGame
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
-            updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
             if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {
@@ -122,6 +120,7 @@ namespace TurboLabz.InstantGame
             pvo.playerId = playerModel.id;
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;
+            pvo.isPremium = playerModel.HasSubscription();
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {

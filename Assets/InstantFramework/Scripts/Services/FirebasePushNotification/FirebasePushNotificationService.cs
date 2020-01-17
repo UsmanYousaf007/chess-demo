@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
             notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
             notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
             notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
+            notificationVO.isPremium = e.Message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(e.Message.Data["isSubscriber"]) : false;
 
             notificationRecievedSignal.Dispatch(notificationVO);
         }

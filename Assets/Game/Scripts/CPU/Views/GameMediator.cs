@@ -43,7 +43,6 @@ namespace TurboLabz.CPU
             OnRegisterHint();
             OnRegisterHindsight();
             OnRegisterInfo();
-            OnRegisterSpotPurchase();
             OnRegisterStep();
         }
 

@@ -24,7 +24,9 @@ namespace TurboLabz.InstantGame
         //[Inject] public string claimRewardType { get; set; }
 
         // Dispatch signals
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
+        [Inject] public UpdatePlayerRewardsPointsSignal updatePlayerRewardsPointsSignal { get; set; }
+        [Inject] public RewardUnlockedSignal rewardUnlockedSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -35,9 +37,11 @@ namespace TurboLabz.InstantGame
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public AdType adType;
         public string claimRewardType;
+        private AdsRewardVO adsRewardData;
 
         public override void Execute()
         {
@@ -55,34 +59,56 @@ namespace TurboLabz.InstantGame
                 return;
             }
 
-            // Case: Show Ads interstitial
-            if (adType == AdType.Interstitial)
+            switch (adType)
             {
-                Retain();
-                ClaimReward(AdsResult.BYPASS);
+                case AdType.Interstitial:
 
-                if (adsService.IsInterstitialAvailable())
-                {
-                    adsService.ShowInterstitial();
-                    analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.ads_interstitial_failed);
-                }
-                return;
-            }
+                    Retain();
+                    ClaimReward(AdsResult.BYPASS);
 
-            // Case: Show Ad rewarded viceo
-            if (adsService.IsRewardedVideoAvailable())
-            {
-                Retain();
-                IPromise<AdsResult> p = adsService.ShowRewardedVideo();
-                if (p != null)
-                {
-                    p.Then(ClaimReward);
-                }
-                return;
+                    if (adsService.IsInterstitialAvailable())
+                    {
+                        preferencesModel.globalAdsCount++;
+                        preferencesModel.interstitialAdsCount++;
+                        adsService.ShowInterstitial();
+                        analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
+                    }
+                    else
+                    {
+                        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                        analyticsService.Event(AnalyticsEventId.ads_interstitial_failed);
+                    }
+
+                    break;
+
+                case AdType.RewardedVideo:
+
+                    if (adsService.IsRewardedVideoAvailable())
+                    {
+                        preferencesModel.globalAdsCount++;
+                        preferencesModel.rewardedAdsCount++;
+                        Retain();
+                        IPromise<AdsResult> p = adsService.ShowRewardedVideo();
+
+                        if (p != null)
+                        {
+                            p.Then(ClaimReward);
+                        }
+                        else
+                        {
+                            Release();
+                        }
+                    }
+
+                    break;
+
+                case AdType.Promotion:
+
+                    Retain();
+                    ClaimReward(AdsResult.BYPASS);
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+
+                    break;
             }
         }
 
@@ -91,12 +117,11 @@ namespace TurboLabz.InstantGame
         {
             if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
             {
+                adsRewardData = playerModel.GetAdsRewardsData();
 
                 GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
                                                             .AddString("challengeId", resultAdsVO.challengeId);
-                                                      
-
-
+                                                     
                 backendService.ClaimReward(jsonData).Then(OnClaimReward);
             }
             else
@@ -109,7 +134,16 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
+                if (playerModel.rewardQuantity > 0)
+                {
+                    playerModel.UpdateGoodsInventory(adsRewardData.shortCode, playerModel.rewardQuantity);
+                    updatePlayerRewardsPointsSignal.Dispatch(0, playerModel.rewardCurrentPoints);
+                    rewardUnlockedSignal.Dispatch(adsRewardData.shortCode, playerModel.rewardQuantity);
+                }
+                else
+                {
+                    updatePlayerRewardsPointsSignal.Dispatch(adsRewardData.currentPoints, playerModel.rewardCurrentPoints);
+                }
             }
 
             Release();

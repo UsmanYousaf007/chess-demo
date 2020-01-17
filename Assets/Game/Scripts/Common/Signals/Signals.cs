@@ -38,18 +38,11 @@ namespace TurboLabz.InstantGame
     public class UpdateStatsSignal : Signal<StatsVO> {};
 
 	// CPU STORE
-	public class LoadStoreSignal : Signal {}
-    public class LoadSpotPurchaseSignal : Signal<SpotPurchaseView.PowerUpSections> { }
-    public class UpdateStoreSignal : Signal<StoreVO> {}
-	public class UpdateStoreBuyDlgSignal : Signal<StoreItem> {}
-	public class UpdateStoreNotEnoughBucksDlgSignal : Signal<StoreItem> {}
-    public class ShowStoreTabSignal : Signal<StoreView.StoreTabs> {}
-    public class UpdateSpotPurchaseSignal : Signal<StoreVO, SpotPurchaseView.PowerUpSections> {}
     public class ShowProcessingSignal : Signal<bool, bool> {}
-
-    // Top Inventory Bar
-    public class UpdateTopInventoryBarSignal : Signal<PlayerInventoryVO> {}
 
     // Player Profile
     public class PlayerProfilePicTappedSignal : Signal {};
+
+    // CPU Settings
+    //public class NavPrivatePolicy : Signal { }
 }

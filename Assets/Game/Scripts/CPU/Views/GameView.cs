@@ -30,6 +30,9 @@ namespace TurboLabz.CPU
         [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
+
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         [Header("Main View")]
         public Camera chessboardCamera;

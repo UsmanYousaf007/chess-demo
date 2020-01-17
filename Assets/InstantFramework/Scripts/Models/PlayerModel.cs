@@ -13,6 +13,8 @@ namespace TurboLabz.InstantFramework
 {
     public class PlayerModel : IPlayerModel
     {
+        [Inject] public IBackendService backendService { get; set; }
+
         public string id { get; set; }
         public long creationDate { get; set; }
         public string tag { get; set; } 
@@ -32,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public int playerFriendsCount { get; set; }
         public bool isFBConnectRewardClaimed { get; set; }
         public int cpuPowerupUsedCount { get; set; }
+        public long subscriptionExipryTimeStamp { get; set; }
 
         public string name
         {
@@ -62,6 +65,13 @@ namespace TurboLabz.InstantFramework
         public Dictionary<string, Friend> search { get; set; }
         public bool busyRefreshingCommunity { get; set; }
 
+        // Ads Reward Data
+        public int rewardIndex { get; set; }
+        public string rewardShortCode { get; set; }
+        public int rewardQuantity { get; set; }
+        public float rewardCurrentPoints { get; set; }
+        public float rewardPointsRequired { get; set; }
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -88,6 +98,7 @@ namespace TurboLabz.InstantFramework
             avatarBgColorId = null;
             notificationCount = 0;
             editedName = "";
+            subscriptionExipryTimeStamp = 0;
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -107,6 +118,12 @@ namespace TurboLabz.InstantFramework
             search = new Dictionary<string, Friend>();
 
             busyRefreshingCommunity = false;
+
+            rewardIndex = 1; // by default skins at index 0 will be unlocked
+            rewardCurrentPoints = 0;
+            rewardPointsRequired = 0;
+            rewardShortCode = "";
+            rewardQuantity = 0;
         }
 
 		public bool OwnsVGood(string key)
@@ -142,9 +159,17 @@ namespace TurboLabz.InstantFramework
 
         public bool HasRemoveAds(IAdsSettingsModel adsSettingsModel)
         {
-            return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
-                    (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
-                    (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
+            //return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
+            //        (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
+            //        (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
+
+            return HasSubscription();
+        }
+
+        public bool HasSubscription()
+        {
+            return isPremium ||
+                   subscriptionExipryTimeStamp > backendService.serverClock.currentTimestamp;
         }
 
         public bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel)
@@ -201,6 +226,30 @@ namespace TurboLabz.InstantFramework
         {
             return friends.ContainsKey(friendId);
         }
+
+        public void UpdateGoodsInventory(string key, int quantity)
+        {
+            if (inventory.ContainsKey(key))
+            {
+                inventory[key] += quantity;
+            }
+            else
+            {
+                inventory.Add(key, quantity);
+            }
+        }
+
+        public AdsRewardVO GetAdsRewardsData()
+        {
+            var adsRewardVO = new AdsRewardVO();
+            adsRewardVO.rewardIndex = rewardIndex;
+            adsRewardVO.shortCode = rewardShortCode;
+            adsRewardVO.quantity = rewardQuantity;
+            adsRewardVO.currentPoints = rewardCurrentPoints;
+            adsRewardVO.requiredPoints = rewardPointsRequired;
+            return adsRewardVO;
+        }
+
     }
 }
 

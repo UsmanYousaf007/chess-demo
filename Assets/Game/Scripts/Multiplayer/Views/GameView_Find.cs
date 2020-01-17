@@ -36,11 +36,13 @@ namespace TurboLabz.Multiplayer
         public Image playerFindProfilePic;
         public Image playerFindAvatarBg;
         public Image playerFindAvatarIcon;
+        public GameObject playerPremiumBorder;
 
         public GameObject opponentFindProfile;
         public Image opponentFindProfilePic;
         public Image opponentFindAvatarBg;
         public Image opponentFindAvatarIcon;
+        public GameObject opponentPremiumBorder;
 
         public Text timerLabel;
 
@@ -88,6 +90,7 @@ namespace TurboLabz.Multiplayer
 
             SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
                                 vo.player.playerPic, vo.player.avatarId, vo.player.avatarColorId);
+            playerPremiumBorder.SetActive(vo.player.isPremium);
 
             if (vo.opponent.playerId != null)
             {
@@ -95,6 +98,7 @@ namespace TurboLabz.Multiplayer
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_WAITING_FOR_OPPONENT);
                 SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
                         vo.opponent.playerPic, vo.opponent.avatarId, vo.opponent.avatarColorId);
+                opponentPremiumBorder.SetActive(vo.opponent.isPremium);
             }
             else
             {
@@ -181,6 +185,7 @@ namespace TurboLabz.Multiplayer
             opponentFindProfile.SetActive(true);
             SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
                         vo.playerPic, vo.avatarId, vo.avatarColorId);
+            opponentPremiumBorder.SetActive(vo.isPremium);
             searchingLabel.color = Colors.YELLOW;
             searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
         }

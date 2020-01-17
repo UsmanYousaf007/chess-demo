@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
-
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -37,7 +37,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
-
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -49,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public GameObject quickMatchPlay;
         public Text quickMatchPlayTxt;
         public Text quickMatchDescriptionTxt;
+        public Button quickMatchShortcutBtn;
 
         public Button playComputerMatchBtn;
         public Text playComputerMatchTitleTxt;
@@ -84,6 +84,9 @@ namespace TurboLabz.InstantFramework
 
         public Text onlinePlayersCountLabel;
 
+        public Button selectThemeButton;
+        public Text selectThemeText;
+
         [Header("Choose computer difficulty dialog")]
         public GameObject chooseComputerDifficultyDlg;
         public Button decStrengthButton;
@@ -117,6 +120,14 @@ namespace TurboLabz.InstantFramework
         public Sprite offline;
         public Sprite active;
 
+        [Header("Reward Unlocked Dlg")]
+        public GameObject rewardUnlockedDlg;
+        public Text rewardTitle;
+        public Text rewardName;
+        public Text rewardOkButtonText;
+        public Button rewardOkButton;
+        public GameObject rewardUnlockedAlert;
+
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
         public Signal<string, FriendBar> showProfileDialogSignal = new Signal<string, FriendBar>();
@@ -133,6 +144,7 @@ namespace TurboLabz.InstantFramework
         public Signal decStrengthButtonClickedSignal = new Signal();
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
+        public Signal selectThemeClickedSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -181,6 +193,7 @@ namespace TurboLabz.InstantFramework
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
 
             quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
+            quickMatchShortcutBtn.onClick.AddListener(OnQuickMatchBtnClicked);
 
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
@@ -196,6 +209,14 @@ namespace TurboLabz.InstantFramework
 
             scrollViewOrignalPosition = scrollRect.transform.localPosition;
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
+            playerProfileOriginalPosition = playerProfile.transform.localPosition;
+
+            selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
+            selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
+
+            rewardTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_TITLE);
+            rewardOkButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
+            rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
         }
 
         void OnDecStrengthButtonClicked()
@@ -221,9 +242,9 @@ namespace TurboLabz.InstantFramework
             if (vo.inProgress)
             {
                 playComputerLevelTxt.gameObject.SetActive(true);
-                playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL ) + vo.selectedStrength;
+                playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL) + vo.selectedStrength;
                 playComputerMatchPlay.SetActive(false);
-               
+
             }
             else
             {
@@ -233,16 +254,16 @@ namespace TurboLabz.InstantFramework
 
             onlinePlayersCountLabel.text = "Active Players " + vo.onlineCount.ToString();
 
-    }
+        }
 
-    public void UpdateStrength(LobbyVO vo)
+        public void UpdateStrength(LobbyVO vo)
         {
             isCPUGameInProgress = vo.inProgress;
             int selectedStrength = vo.selectedStrength;
             int minStrength = vo.minStrength;
             int maxStrength = vo.maxStrength;
 
-            UpdateStrength(selectedStrength,minStrength,maxStrength);
+            UpdateStrength(selectedStrength, minStrength, maxStrength);
         }
 
         private void UpdateStrength(int selectedStrength, int minStrength, int maxStrength)
@@ -293,7 +314,7 @@ namespace TurboLabz.InstantFramework
 
         void OnComputerDifficultyDlgCloseClicked()
         {
-            chooseComputerDifficultyDlg.SetActive(false) ;
+            chooseComputerDifficultyDlg.SetActive(false);
         }
 
         void OnComputerDifficultyDlgStartGameClicked()
@@ -362,7 +383,7 @@ namespace TurboLabz.InstantFramework
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
         {
             TLUtils.LogUtil.LogNullValidation(friend.playerId, "friend.playerId");
-            
+
             if (friend.playerId != null && bars.ContainsKey(friend.playerId))
             {
                 return;
@@ -422,7 +443,7 @@ namespace TurboLabz.InstantFramework
                 return;
 
             TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
-    
+
             if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
@@ -434,8 +455,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendPic(string playerId, PublicProfile publicProfile)
         {
-         	TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
-         
+            TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+
             if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
@@ -448,15 +469,16 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                if (publicProfile.avatarId!= null)
+                if (publicProfile.avatarId != null)
                 {
                     barData.avatarIcon.gameObject.SetActive(true);
                     barData.avatarBG.gameObject.SetActive(true);
 
                     barData.avatarBG.color = Colors.Color(publicProfile.avatarBgColorId);
-                    barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId) ;
+                    barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId);
                 }
             }
+            barData.premiumBorder.SetActive(publicProfile.isSubscriber);
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -473,8 +495,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarStatus(LongPlayStatusVO vo)
         {
-        	TLUtils.LogUtil.LogNullValidation(vo.playerId, "vo.playerId");
-        	
+            TLUtils.LogUtil.LogNullValidation(vo.playerId, "vo.playerId");
+
             if (vo.playerId != null && !bars.ContainsKey(vo.playerId))
             {
                 return;
@@ -547,7 +569,7 @@ namespace TurboLabz.InstantFramework
         {
 
             TLUtils.LogUtil.LogNullValidation(vo.playerId, "friendId");
-        
+
             if (vo.playerId != null && !bars.ContainsKey(vo.playerId))
             {
                 return;
@@ -562,7 +584,7 @@ namespace TurboLabz.InstantFramework
             // This function must be called in pairs (even if playerId becomes null or no longer friend) 
             // to ensure UI Blocker gets disabled
             uiBlocker.SetActive(busy);
-            
+
             TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
             if (playerId != null && !bars.ContainsKey(playerId))
@@ -836,7 +858,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-#region StartGameConfirmationDialog
+        #region StartGameConfirmationDialog
 
         void SetToggleRankButtonState(bool state)
         {
@@ -887,6 +909,7 @@ namespace TurboLabz.InstantFramework
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
 
             startGameConfirmationDlg.playerId = bar.friendInfo.playerId;
+            startGameConfirmationDlg.premiumBorder.SetActive(bar.premiumBorder.activeSelf);
 
             startGameConfirmationDlg.gameObject.SetActive(true);
         }
@@ -945,7 +968,7 @@ namespace TurboLabz.InstantFramework
             //}
         }
 
-#endregion StartGameConfirmationDialog
+        #endregion StartGameConfirmationDialog
 
 
         void CreateMatchLimitReachedCloseBtnClicked()
@@ -1004,13 +1027,13 @@ namespace TurboLabz.InstantFramework
                     //destroyMe.Add(entry.Key);
                 }
 
-                
+
                 if (bar.isPlayerTurn || bar.longPlayStatus == LongPlayStatus.DRAW || bar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE
                         || bar.longPlayStatus == LongPlayStatus.PLAYER_WON || bar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
                 {
                     notificationCounter++;
                 }
-                    
+
             }
 
             //foreach (string key in destroyMe)
@@ -1019,13 +1042,14 @@ namespace TurboLabz.InstantFramework
             //    bars.Remove(key);
             //}
 
-            if (notificationCounter > 0){
+            if (notificationCounter > 0)
+            {
                 notificationTagImage.gameObject.SetActive(true);
             }
 
             notificationTagNumber.text = notificationCounter.ToString();
             updatePlayerNotificationCountSignal.Dispatch(notificationCounter);
-            
+
             // Sort holders
             activeMatches.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
             recentlyCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
@@ -1033,7 +1057,7 @@ namespace TurboLabz.InstantFramework
 
             // Set sibling indexes
             int index = 0;
-            
+
 
             sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
@@ -1057,12 +1081,12 @@ namespace TurboLabz.InstantFramework
                 sectionActiveMatches.gameObject.SetActive(false);
             }
 
-            if (recentlyCompleted.Count>0)
+            if (recentlyCompleted.Count > 0)
             {
                 int maxCount = 5;
                 sectionRecentlyCompletedMatches.gameObject.SetActive(true);
                 index = sectionRecentlyCompletedMatches.GetSiblingIndex() + 1;
-                for (int i = 0; i< recentlyCompleted.Count; i++)
+                for (int i = 0; i < recentlyCompleted.Count; i++)
                 {
                     if (i < maxCount)
                     {
@@ -1090,7 +1114,7 @@ namespace TurboLabz.InstantFramework
             // Create holders
             List<FriendBar> communityOnline = new List<FriendBar>();
             List<FriendBar> communityOffline = new List<FriendBar>();
-            
+
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
@@ -1157,6 +1181,32 @@ namespace TurboLabz.InstantFramework
         {
             iapProcessingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        private void OnSelectThemeClicked()
+        {
+            selectThemeClickedSignal.Dispatch();
+            rewardUnlockedAlert.gameObject.SetActive(false);
+        }
+
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            var reward = metaDataModel.store.items[key];
+
+            if (reward != null && !string.IsNullOrEmpty(reward.displayName))
+            {
+                if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
+                {
+                    rewardUnlockedAlert.gameObject.SetActive(true);
+                    rewardName.text = string.Format("{0} : {1}", localizationService.Get(LocalizationKey.REWARD_THEME), reward.displayName);
+                }
+                else
+                {
+                    rewardName.text = string.Format("{0} x {1}", reward.displayName, quantity);
+                }
+
+                rewardUnlockedDlg.SetActive(true);
+            }
         }
     }
 }

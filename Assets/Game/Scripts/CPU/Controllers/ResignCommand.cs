@@ -24,6 +24,7 @@ namespace TurboLabz.CPU
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
         {
@@ -32,6 +33,7 @@ namespace TurboLabz.CPU
             chessboardModel.gameEndReason = TurboLabz.Chess.GameEndReason.RESIGNATION;
             chessboardModel.winnerId = null;
 
+            preferencesModel.resignCount++;
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
         }
     }
