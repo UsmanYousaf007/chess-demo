@@ -11,7 +11,9 @@ public class ThemeSelectionView : View
     public Button applyButton;
     public Text chooseThemeText;
     public Image scrollUpArrow;
+    public Button scrollUpButton;
     public Image scrollDownArrow;
+    public Button scrollDownButton;
     public ScrollRect scrollRect;
 
     //Models 
@@ -20,23 +22,23 @@ public class ThemeSelectionView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal applyThemeSignal = new Signal();
 
     private string originalSkinId;
+    private float moveScrollRectBy = 0.2f;
 
     public void Init()
     {
         chooseThemeText.text = localizationService.Get(LocalizationKey.CHOOSE_THEME);
-
         applyButton.onClick.AddListener(OnApplyButtonClicked);
-
         scrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
-        var tempColor = scrollUpArrow.color;
-        tempColor.a = 0.3f;
-        scrollUpArrow.color = tempColor;
+        scrollUpButton.onClick.AddListener(OnScrollUpButton);
+        scrollDownButton.onClick.AddListener(OnScrollDownButton);
 
+        SetAlpha(scrollUpArrow, 0.3f);
         SetupSkinMenuItems();
     }
 
@@ -44,21 +46,35 @@ public class ThemeSelectionView : View
     {
 
         if (scrollRect.verticalNormalizedPosition >= 0.9)
-            SetAlpha(scrollUpArrow, 0.3f);
+        {
+            EnableArrowButton(false, scrollUpButton, scrollUpArrow);
+        }
         else
         {
             if (scrollUpArrow.color.a < 1f)
-                SetAlpha(scrollUpArrow, 1f);
+            {
+                EnableArrowButton(true, scrollUpButton, scrollUpArrow);
+            }
         }
 
         if (scrollRect.verticalNormalizedPosition <= 0.1)
-            SetAlpha(scrollDownArrow, 0.3f);
+        {
+            EnableArrowButton(false, scrollDownButton, scrollDownArrow);
+        }
         else
         {
-            if(scrollDownArrow.color.a < 1f)
-                SetAlpha(scrollDownArrow, 1f);
+            if (scrollDownArrow.color.a < 1f)
+            {
+                EnableArrowButton(true, scrollDownButton, scrollDownArrow);
+            }
         }
 
+    }
+
+    private void EnableArrowButton(bool enable, Button button, Image image)
+    {
+        SetAlpha(image, enable ? 1f : 0.3f);
+        button.interactable = enable;
     }
 
     private void SetAlpha(Image image, float alpha)
@@ -93,11 +109,24 @@ public class ThemeSelectionView : View
 
     private void OnApplyButtonClicked()
     {
+        audioService.PlayStandardClick();
         applyThemeSignal.Dispatch();
     }
 
     public bool HasSkinChanged()
     {
         return originalSkinId != playerModel.activeSkinId;
+    }
+
+    private void OnScrollUpButton()
+    {
+        audioService.PlayStandardClick();
+        scrollRect.verticalNormalizedPosition += moveScrollRectBy;
+    }
+
+    private void OnScrollDownButton()
+    {
+        audioService.PlayStandardClick();
+        scrollRect.verticalNormalizedPosition -= moveScrollRectBy;
     }
 }

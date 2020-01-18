@@ -25,14 +25,14 @@ namespace TurboLabz.InstantGame
                 var vo = resultAdsVO;
                 vo.adsType = AdType.Interstitial;
                 vo.rewardType = GSBackendKeys.ClaimReward.TYPE_MATCH_WIN;
-                showAdSignal.Dispatch(resultAdsVO);
+                showAdSignal.Dispatch(vo);
             }
             else
             {
                 var vo = resultAdsVO;
                 vo.adsType = AdType.Promotion;
                 vo.rewardType = GSBackendKeys.ClaimReward.TYPE_PROMOTION;
-                showAdSignal.Dispatch(resultAdsVO);
+                showAdSignal.Dispatch(vo);
             }
         }
     }

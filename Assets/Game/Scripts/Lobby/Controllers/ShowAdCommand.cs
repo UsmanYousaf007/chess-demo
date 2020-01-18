@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdatePlayerRewardsPointsSignal updatePlayerRewardsPointsSignal { get; set; }
         [Inject] public RewardUnlockedSignal rewardUnlockedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -75,7 +76,7 @@ namespace TurboLabz.InstantGame
                     }
                     else
                     {
-                        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                        ShowPromotion();
                         analyticsService.Event(AnalyticsEventId.ads_interstitial_failed);
                     }
 
@@ -106,8 +107,7 @@ namespace TurboLabz.InstantGame
 
                     Retain();
                     ClaimReward(AdsResult.BYPASS);
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-
+                    ShowPromotion();
                     break;
             }
         }
@@ -147,6 +147,12 @@ namespace TurboLabz.InstantGame
             }
 
             Release();
+        }
+
+        private void ShowPromotion()
+        {
+            loadLobbySignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
         }
     }
 }
