@@ -17,13 +17,28 @@ namespace TurboLabz.InstantFramework
         public int rateAppThreshold { get; set; }
         public int onlineCount { get; set; }
         public string contactSupportURL { get; set; }
-
         //Persistant field ---- do not reset  
         public long reconnectTimeStamp { get; set; }
         public DisconnectStates isReconnecting { get; set; }
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }
+
+        public string privacyPolicyURL
+        {
+            get
+            {
+                return "https://huuugegames.com/privacy-policy/";
+            }
+        }
+
+        public string termsOfUseURL
+        {
+            get
+            {
+                return "https://huuugegames.com/terms-of-use";
+            }
+        }
 
         enum subVersionIndex
         {

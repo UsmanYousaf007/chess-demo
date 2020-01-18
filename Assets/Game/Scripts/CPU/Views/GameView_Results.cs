@@ -165,7 +165,6 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
-            EnableRewarededVideoButton(true);
             viewBoardResultPanel.gameObject.SetActive(false);
         }
 
@@ -207,6 +206,7 @@ namespace TurboLabz.CPU
 
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
+            EnableRewarededVideoButton(true);
             viewBoardResultPanel.reason.text = "";
             switch (gameEndReason)
             {

@@ -20,6 +20,8 @@ namespace TurboLabz.InstantFramework
         GameMode gameMode { get; set; }
         bool isNotificationActive { get; set; }
         string contactSupportURL { get; set; }
+        string privacyPolicyURL { get; }
+        string termsOfUseURL { get; }
     }
 
     public enum DisconnectStates

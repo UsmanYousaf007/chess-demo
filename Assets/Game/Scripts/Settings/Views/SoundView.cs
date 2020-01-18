@@ -47,21 +47,21 @@ namespace TurboLabz.InstantFramework
 
         private void OnAudioOffButtonClicked()
         {
-            audioService.ToggleAudio(false);
-            RefreshAudioButtons();
-        }
-
-        private void OnAudioOnButtonClicked()
-        {
             audioService.ToggleAudio(true);
             audioService.PlayStandardClick();
             RefreshAudioButtons();
         }
 
+        private void OnAudioOnButtonClicked()
+        {
+            audioService.ToggleAudio(false);
+            RefreshAudioButtons();
+        }
+
         private void RefreshAudioButtons()
         {
-            audioOffButton.gameObject.SetActive(audioService.IsAudioOn());
-            audioOnButton.gameObject.SetActive(!audioService.IsAudioOn());
+            audioOffButton.gameObject.SetActive(!audioService.IsAudioOn());
+            audioOnButton.gameObject.SetActive(audioService.IsAudioOn());
         }
     }
 

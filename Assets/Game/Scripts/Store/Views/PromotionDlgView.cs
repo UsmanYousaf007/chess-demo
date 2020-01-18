@@ -4,7 +4,7 @@ using TurboLabz.InstantFramework;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SubscriptionDlgView : View
+public class PromotionDlgView : View
 {
     public string key;
     public Text title;

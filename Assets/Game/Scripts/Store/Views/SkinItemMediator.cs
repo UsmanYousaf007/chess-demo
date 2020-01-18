@@ -14,9 +14,9 @@ public class SkinItemMediator : Mediator
         view.setSkinSignal.AddListener(OnSetSkin);
     }
 
-    public void OnSetSkin()
+    public void OnSetSkin(string key)
     {
-        setSkinSignal.Dispatch(view.key);
+        setSkinSignal.Dispatch(key);
     }
 
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
