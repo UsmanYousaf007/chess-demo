@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.THEME_SELECTION, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.THEME_SELECTION, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.SETTINGS);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -21,6 +21,11 @@
                 {
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.SUBSCRIPTION_DLG);
                     return new NSThemeSelectionDlg();
+                }
+                else if (viewId == NavigatorViewId.SETTINGS)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SUBSCRIPTION_DLG);
+                    return new NSSettings();
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
                 {
