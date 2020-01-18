@@ -62,9 +62,19 @@ namespace TurboLabz.InstantFramework
         {
             restorePurchasesSignal.Dispatch();
         }
+
         void OnBackButtonClicked()
         {
             loadLobbySignal.Dispatch();
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            if (isAvailable)
+            {
+                view.SetSubscriptionPrice();
+            }
         }
     }
 }

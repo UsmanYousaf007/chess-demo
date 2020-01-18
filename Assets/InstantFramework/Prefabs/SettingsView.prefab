@@ -2487,7 +2487,7 @@ GameObject:
   - component: {fileID: 441960217477380078}
   - component: {fileID: 9017663959981904042}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SubscriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2509,8 +2509,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -192.49982, y: 12.546955}
-  m_SizeDelta: {x: 292.6, y: 36}
+  m_AnchoredPosition: {x: -298.1, y: 12.546955}
+  m_SizeDelta: {x: 503.7, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &441960217477380078
 CanvasRenderer:
@@ -2547,7 +2547,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -4160,6 +4160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2242be6e01b4ab8a22320f4487d554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  key: 
   backButton: {fileID: 4202251804163189604}
   backButtonText: {fileID: 1363803957759641052}
   settingsTitleText: {fileID: 9111577796402759199}
