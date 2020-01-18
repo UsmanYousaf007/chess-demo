@@ -131,7 +131,7 @@ public class NotchHandler : MonoBehaviour {
         SetY(maintenanceWarningPopup, -130f);
 
         //SETTINGS
-        //SetY(topBar, -171f);
+        SetY(topBar, -106f);
     }
 
     void SetY(RectTransform tfm, float y)
