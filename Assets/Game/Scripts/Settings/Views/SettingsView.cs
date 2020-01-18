@@ -30,6 +30,8 @@ namespace TurboLabz.InstantFramework
         public Text accountTitleText;
 
         public Text priceText;
+
+        public Text personalizedAdsText;
         public Button personalisedAdsOnBtn;
         public Button personalisedAdsOffBtn;
 
@@ -47,9 +49,6 @@ namespace TurboLabz.InstantFramework
 
         public Button upgradeToPremiumBtn;
         public Text upgradeToPremiumText;
-
-        public Button personalizedAdsBtn;
-        public Text personalizedAdsText;
 
         public Text personalisedAdsOnText;
         public Text personalisedAdsOffText;
@@ -94,7 +93,6 @@ namespace TurboLabz.InstantFramework
             //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
             upgradeToPremiumBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
-            personalizedAdsBtn.onClick.AddListener(OnPersonalizedAdsButtonClicked);
             restorePurchaseBtn.onClick.AddListener(OnRestorePurchaseButtonClicked);
             termsOfUseBtn.onClick.AddListener(OnTermsOfUseButtonClicked);
             privacyPolicyBtn.onClick.AddListener(OnPrivacyPolicyButtonClicked);
@@ -142,11 +140,6 @@ namespace TurboLabz.InstantFramework
         }
 
         //Personalised Ads Button
-        void OnPersonalizedAdsButtonClicked()
-        {
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
-        }
-
         private void RefreshPersonalisedAdsToggleButtons()
         {
             personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPolicyAccepted);

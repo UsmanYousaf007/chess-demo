@@ -18129,6 +18129,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 34
       objectReference: {fileID: 0}
+    - target: {fileID: 1207189450850707211, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 107.700195
+      objectReference: {fileID: 0}
+    - target: {fileID: 1207189450850707211, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 28.000008
+      objectReference: {fileID: 0}
     - target: {fileID: 1344148826035705331, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -18304,11 +18314,53 @@ PrefabInstance:
       propertyPath: sourceImage
       value: 
       objectReference: {fileID: 830952924}
+    - target: {fileID: 4902543604437523616, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 45.259766
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471532649245558949, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 49.359863
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411826854047616841, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -108.299805
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623785241674760298, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -108.299805
+      objectReference: {fileID: 0}
+    - target: {fileID: 6281656606154055847, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -108.299805
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607377312672856734, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -108.299805
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc6cce3296d7c485bb4b081ef97abf63, type: 3}
 --- !u!224 &316917911 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 201036715348937678, guid: fc6cce3296d7c485bb4b081ef97abf63,
+    type: 3}
+  m_PrefabInstance: {fileID: 316917910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &316917912 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1905198602266441292, guid: fc6cce3296d7c485bb4b081ef97abf63,
+    type: 3}
+  m_PrefabInstance: {fileID: 316917910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &316917913 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4508432416221980756, guid: fc6cce3296d7c485bb4b081ef97abf63,
     type: 3}
   m_PrefabInstance: {fileID: 316917910}
   m_PrefabAsset: {fileID: 0}
@@ -106498,11 +106550,13 @@ MonoBehaviour:
   - {fileID: 1697306882}
   - {fileID: 1906630984}
   - {fileID: 431902463}
+  - {fileID: 316917913}
   lobbyScrollView: {fileID: 240792988}
   lobbyViewPort: {fileID: 1684588706}
   lobbyScrollViewPivotForBanner: {fileID: 173769391}
   lobbyView: {fileID: 1302150909}
   lobbyScrollViewTopShadow: {fileID: 1284766367}
+  quickMatchButton: {fileID: 423496877}
   profileFacebookButton: {fileID: 1744748723}
   profileCenterContent: {fileID: 152747280}
   friendsScrollView: {fileID: 1684146533}
@@ -106536,6 +106590,7 @@ MonoBehaviour:
   notchOverlay: {fileID: 1129350258}
   reconnectingPopup: {fileID: 2052405490}
   maintenanceWarningPopup: {fileID: 1805031680}
+  topBar: {fileID: 316917912}
 --- !u!1 &1901426452
 GameObject:
   m_ObjectHideFlags: 0
@@ -124656,7 +124711,7 @@ PrefabInstance:
     - target: {fileID: 8925774032801914318, guid: cdf3eb40fb8a04aee886c15bcbd0a78e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8925774032801914318, guid: cdf3eb40fb8a04aee886c15bcbd0a78e,
         type: 3}
