@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using HUFEXT.GenericGDPR.Runtime.API;
 using TurboLabz.TLUtils;
 using System;
 using TMPro;
@@ -57,7 +58,6 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
-        public Signal personalizedAdsButtonClickedSignal = new Signal();
         public Signal restorePurchaseButtonClickedSignal = new Signal();
 
         //Services
@@ -88,6 +88,9 @@ namespace TurboLabz.InstantFramework
             personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
             personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
 
+            personalisedAdsOffBtn.onClick.AddListener(OnPersonalizedAdsOffButtonClicked);
+            personalisedAdsOnBtn.onClick.AddListener(OnPersonalizedAdsOnButtonClicked);
+
             //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
             upgradeToPremiumBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
@@ -101,8 +104,10 @@ namespace TurboLabz.InstantFramework
             RefreshPersonalisedAdsToggleButtons();
         }
 
-        void RefreshAccountPanel()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+            RefreshPersonalisedAdsToggleButtons();
         }
 
         public void SetSubscriptionPrice()
@@ -136,10 +141,28 @@ namespace TurboLabz.InstantFramework
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
+        //Personalised Ads Button
         void OnPersonalizedAdsButtonClicked()
         {
-            personalizedAdsButtonClickedSignal.Dispatch();
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+        }
+
+        private void RefreshPersonalisedAdsToggleButtons()
+        {
+            personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPolicyAccepted);
+            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted);
+        }
+
+        private void OnPersonalizedAdsOffButtonClicked()
+        {
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            RefreshPersonalisedAdsToggleButtons();
+        }
+
+        private void OnPersonalizedAdsOnButtonClicked()
+        {
+            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            RefreshPersonalisedAdsToggleButtons();
         }
 
         void OnRestorePurchaseButtonClicked()
@@ -173,12 +196,6 @@ namespace TurboLabz.InstantFramework
         public void OnBackButtonClicked()
         {
 
-        }
-
-        private void RefreshPersonalisedAdsToggleButtons()
-        {
-            personalisedAdsOffBtn.gameObject.SetActive(false);
-            personalisedAdsOnBtn.gameObject.SetActive(true);
         }
     }
 
