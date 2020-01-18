@@ -10,6 +10,9 @@ using System.Collections;
 using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
+using HUF.AnalyticsHBI.API;
+using HUFEXT.GenericGDPR.Runtime.API;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,11 +34,13 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IBackendService backendService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
 		bool gameSparksAvailable = false;
+        bool hbiGdprCallBackAdded = false;
 
         private Coroutine wifiHealthCheckCR = null;
         private int wifiHealthWaitCounter = 0;
@@ -54,13 +59,22 @@ namespace TurboLabz.InstantFramework
             GameAnalytics.Initialize();
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
-
+            adsService.Init();
         }
 
 		void GameSparksAvailable(bool isAvailable)
         {
 			gameSparksAvailable = isAvailable;
-			ProcessStartup();
+
+            if (HGenericGDPR.IsPolicyAccepted)
+            {
+                ProcessStartup();
+            }
+            else
+            {
+                HGenericGDPR.OnPolicyAccepted += ProcessStartup;
+                hbiGdprCallBackAdded = true;
+            }
 		}
 
 		void ProcessStartup()
@@ -76,7 +90,10 @@ namespace TurboLabz.InstantFramework
 				{
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
-			}
+
+                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+            }
 		}
 
 		private void OnAuthGuest(BackendResult result)
@@ -86,6 +103,8 @@ namespace TurboLabz.InstantFramework
                 if (playerModel.newUser)
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
+                    RemoveListeners();
+                    CommandEnd();
                 }
                 else
                 {
@@ -117,6 +136,11 @@ namespace TurboLabz.InstantFramework
 		void RemoveListeners()
 		{
 			GS.GameSparksAvailable -= GameSparksAvailable;
+
+            if (hbiGdprCallBackAdded)
+            {
+                HGenericGDPR.OnPolicyAccepted -= ProcessStartup;
+            }
 		}
 
         IEnumerator CheckWifiHealthCR()

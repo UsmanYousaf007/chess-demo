@@ -77,7 +77,6 @@ namespace TurboLabz.Multiplayer
 
             if (!safeMoveOn && safeMoveAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.SAFEMOVES);
             }
             else
             {

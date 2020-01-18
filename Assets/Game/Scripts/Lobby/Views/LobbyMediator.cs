@@ -46,6 +46,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public LoadSettingsSignal loadSettingsSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -77,6 +79,7 @@ namespace TurboLabz.InstantFramework
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
             view.showChatSignal.AddListener(OnShowChat);
+            view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
         }
 
         private void OnDecStrengthButtonClicked()
@@ -227,6 +230,15 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(SettingsButtonClickedSignal))]
+        public void OnSettingsButtonTapped()
+        {
+            if (gameObject.activeSelf)
+            {
+                loadSettingsSignal.Dispatch();
+            }
+        }
+
         [ListensTo(typeof(ChessboardBlockerEnableSignal))]
         public void OnUIBlockerEnable(bool enable)
         {
@@ -352,10 +364,10 @@ namespace TurboLabz.InstantFramework
             view.ShowStrengthTrainingDailogue();
         }
 
-        [ListensTo(typeof(RemoveLobbyPromotionSignal))]
-        public void OnRemoveLobbyPromotion(string key)
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnRemoveLobbyPromotion(StoreItem item)
         {
-            view.RemovePromotion(key);
+            view.RemovePromotion(item.key);
         }
 
         [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]
@@ -369,16 +381,38 @@ namespace TurboLabz.InstantFramework
             view.ReportAnalytic(key, eventId);
         }
 
-        [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable, StoreVO storeVO)
-        {
-            view.SetPriceOfIAPBanner(isAvailable);
-        }
-
         [ListensTo(typeof(ShowProcessingSignal))]
         public void OnShowProcessingUI(bool show, bool showProcessingUi)
         {
             view.ShowProcessing(show, showProcessingUi);
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            view.SetPriceOfIAPBanner(isAvailable);
+        }
+
+        private void OnSelectThemeClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
+        }
+
+        [ListensTo(typeof(RewardUnlockedSignal))]
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            view.OnRewardUnlocked(key, quantity);
+        }
+
+        [ListensTo(typeof(ReportHAnalyticsForPurchaseResult))]
+        public void OnReportHAnalytics(string key, string result)
+        {
+            if (!view.IsVisible())
+            {
+                return;
+            }
+
+            view.ReportHAnalytic(key, result);
         }
     }
 }

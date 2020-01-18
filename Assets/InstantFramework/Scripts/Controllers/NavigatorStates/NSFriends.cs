@@ -30,10 +30,6 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLobby();
             }
-            else if (evt == NavigatorEvent.SHOW_STORE)
-            {
-                return new NSStore();
-            }
             else if (evt == NavigatorEvent.SHOW_STATS)
             {
                 return new NSStats();

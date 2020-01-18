@@ -128,8 +128,7 @@ namespace TurboLabz.InstantFramework
             var deviceId = SystemInfo.deviceUniqueIdentifier;
 #elif UNITY_IOS
             var deviceId = KeyChain.BindGetKeyChainUser();
-
-            if (string.IsNullOrEmpty(deviceId))
+            if (string.IsNullOrEmpty(deviceId) || string.IsNullOrWhiteSpace(deviceId))
             {
                 deviceId = SystemInfo.deviceUniqueIdentifier;
                 KeyChain.BindSetKeyChainUser("0", deviceId);

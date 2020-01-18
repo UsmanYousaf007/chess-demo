@@ -113,6 +113,7 @@ namespace TurboLabz.InstantFramework
                 pvo.isOnline = isOnline;
                 pvo.isActive = publicProfile.isActive;
                 pvo.activity = activity;
+                pvo.isPremium = publicProfile.isSubscriber;
 
                 updtateFriendOnlineStatusSignal.Dispatch(pvo);
             }

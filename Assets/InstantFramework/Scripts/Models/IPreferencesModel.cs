@@ -28,8 +28,19 @@ namespace TurboLabz.InstantFramework
         float timeSpentCpuMatch { get; set; }
         float timeSpentLobby { get; set; }
         DateTime lastLaunchTime { get; set; }
+        int globalAdsCount { get; set; }
+        int rewardedAdsCount { get; set; }
+        int interstitialAdsCount { get; set; }
+        int resignCount { get; set; }
 
-        void ResetTimeSpentAnalyticsData();
+        void ResetDailyPrefers();
         void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);
+
+        //for appsflyer events for HUUUGE
+        int videoFinishedCount { get; set; }
+        int continousPlayCount { get; set; }
+        int gameStartCount { get; set; }
+        int gameFinishedCount { get; set; }
+        DateTime appsFlyerLastLaunchTime { get; set; }
     }
 }

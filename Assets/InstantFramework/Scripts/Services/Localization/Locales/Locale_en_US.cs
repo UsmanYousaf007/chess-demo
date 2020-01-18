@@ -44,6 +44,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FREE_NO_ADS_MINUTES, "minutes" },
                 { LocalizationKey.FREE_NO_ADS_HOURS, "hours" },
                 { LocalizationKey.FREE_NO_ADS_DAYS, "days" },
+                { LocalizationKey.DONE, "Done"},
+                { LocalizationKey.SELECT_THEME, "Select Theme"},
+                { LocalizationKey.CHOOSE_THEME, "Choose Theme"},
+                { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations! You unlocked a reward"},
+                { LocalizationKey.REWARD_THEME, "Theme"},
 
                 #endregion
 
@@ -97,7 +102,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION, "Time Limit" },
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
-				{ LocalizationKey.CPU_MENU_THEME, "Theme" },
+                { LocalizationKey.CPU_MENU_THEME, "Theme" },
                 { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Quick Match" },
                 { LocalizationKey.CPU_MENU_PLAY_FRIENDS, "Friends & World" },
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "Play Computer" },
@@ -119,7 +124,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_SAVE_AND_EXIT, "Save & Exit" },
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "Resume" },
                 { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "Back to Game" },
-				{ LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
+                { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "GAMES" },
 
                 #endregion
@@ -127,9 +132,9 @@ namespace TurboLabz.InstantFramework
                 #region GameResults
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
-                { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "2X COINS" },
-                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "COLLECT" },
-                { LocalizationKey.RESULTS_EARNED, "You Earned" },
+                { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
+                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to lobby" },
+                { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
 
                 #endregion
@@ -179,16 +184,16 @@ namespace TurboLabz.InstantFramework
 
 
                 { LocalizationKey.CPU_STORE_HEADING, "THEMES" },
-				{ LocalizationKey.CPU_STORE_OWNED, "OWNED" },
-				{ LocalizationKey.CPU_STORE_BUCKS, "Coins" },
+                { LocalizationKey.CPU_STORE_OWNED, "OWNED" },
+                { LocalizationKey.CPU_STORE_BUCKS, "Coins" },
 
-				{ LocalizationKey.CPU_STORE_BUY_THEME_TITLE, "Buy Theme" },
-				{ LocalizationKey.CPU_STORE_BUY_BUY_BUTTON, "BUY" },
+                { LocalizationKey.CPU_STORE_BUY_THEME_TITLE, "Buy Theme" },
+                { LocalizationKey.CPU_STORE_BUY_BUY_BUTTON, "BUY" },
 
-				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE, "Not Enough Coins" },
-				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING, "Would you like to buy more coins?" },
-				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_BUY, "BUY" },
-				{ LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON, "Yes" },
+                { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_TITLE, "Not Enough Coins" },
+                { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_SUB_HEADING, "Would you like to buy more coins?" },
+                { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_BUY, "BUY" },
+                { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_YES_BUTTON, "Yes" },
                 { LocalizationKey.CPU_STORE_NOT_ENOUGH_BUCKS_NO_BUTTON, "No" },
 
                 { LocalizationKey.STORE_PURCHASE_FAILED_VERIFICATION_TITLE, "Verification Failed" },
@@ -203,7 +208,15 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_PRODUCT_UNAVAILABLE, "Item is unavailable for purchase, please try again" },
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNAVAILABLE, "Purchasing is unavailable, check your payment settings" },
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNKNOWN, "Reason unknown" },
-				#endregion
+
+                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "Chess Star Premium Subscription"},
+                { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unsued portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
+                { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Start 3 Days Free Trial"},
+                { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
+                { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
+
+                #endregion
 
                 #region Friends
 
@@ -211,33 +224,33 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES, "ACTIVE MATCHES" },
                 { LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY, "There are no active matches." },
                 { LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES, "RECENTLY PLAYED" },
-                
+
                 { LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND, "PLAY A FRIEND" },
                 { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW" },
                 { LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS, "SEARCH RESULTS" },
                 { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite Facebook Friends" },
-				{ LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
+                { LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
                 { LocalizationKey.FRIENDS_INVITE_BUTTON_TEXT, "Invite" },
                 { LocalizationKey.FRIENDS_INVITE_TITLE_TEXT, "Invite a Friend" },
                 { LocalizationKey.FRIENDS_REFRESH_TEXT, "Refresh" },
-				{ LocalizationKey.FRIENDS_CONFIRM_LABEL, "Are You Sure?" },
-				{ LocalizationKey.FRIENDS_YES_LABEL, "Yes" },
-				{ LocalizationKey.FRIENDS_NO_LABEL, "No" },
-				{ LocalizationKey.FRIENDS_VS_LABEL, "You VS Them" },
-				{ LocalizationKey.FRIENDS_WINS_LABEL, "Wins" },
-				{ LocalizationKey.FRIENDS_DRAWS_LABEL, "Draws" },
-				{ LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL, "Total Games: " },
-				{ LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
+                { LocalizationKey.FRIENDS_CONFIRM_LABEL, "Are You Sure?" },
+                { LocalizationKey.FRIENDS_YES_LABEL, "Yes" },
+                { LocalizationKey.FRIENDS_NO_LABEL, "No" },
+                { LocalizationKey.FRIENDS_VS_LABEL, "You VS Them" },
+                { LocalizationKey.FRIENDS_WINS_LABEL, "Wins" },
+                { LocalizationKey.FRIENDS_DRAWS_LABEL, "Draws" },
+                { LocalizationKey.FRIENDS_TOTAL_GAMES_LABEL, "Total Games: " },
+                { LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
                 { LocalizationKey.FRIENDS_BLOCK_TEXT, "Block"},
                 { LocalizationKey.FRIENDS_CHAT_LABEL, "Chat" },
                 { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Login to Facebook" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
                 { LocalizationKey.FACEBBOK_LOGIN_REWARD_TEXT, "Get {0} Coins" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
-				{ LocalizationKey.FRIENDS_FIND_FRIEND_TITLE, "FIND YOUR FRIENDS" },
-				{ LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO, "Login to Facebook and friends who have the app will automactically appear" },
-				{ LocalizationKey.FRIENDS_FIND_FRIEND_SEARCH_INFO, "Use the search bar to find your friends by name" },
-				{ LocalizationKey.FRIENDS_FIND_FRIEND_INVITE_INFO, "Use 'Invite' to send an invitation to your friend on your favorite app (Whatsapp, Facebook, etc)" },
+                { LocalizationKey.FRIENDS_FIND_FRIEND_TITLE, "FIND YOUR FRIENDS" },
+                { LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO, "Login to Facebook and friends who have the app will automactically appear" },
+                { LocalizationKey.FRIENDS_FIND_FRIEND_SEARCH_INFO, "Use the search bar to find your friends by name" },
+                { LocalizationKey.FRIENDS_FIND_FRIEND_INVITE_INFO, "Use 'Invite' to send an invitation to your friend on your favorite app (Whatsapp, Facebook, etc)" },
                 { LocalizationKey.FRIENDS_ADD_TO_FRIENDS, "Add to Friends" },
                 { LocalizationKey.FRIENDS_REMOVE_FROM_FRIENDS, "Remove from Friends" },
                 { LocalizationKey.FRIENDS_TEXT_FRIENDED, "Friend" },
@@ -301,7 +314,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min Game"},
                 { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Play Classic"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
-                { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly Game"},
+                { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "No"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "Yes"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE, "Remove player "},
@@ -324,6 +337,21 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RATE_APP_LIKE, "Yes" },
                 { LocalizationKey.RATE_APP_LOVE, "Yes" },
                 { LocalizationKey.RATE_APP_LOVE_FROM_TEAM, "Your feedback is valuable. Thank you." },
+
+                #endregion
+
+                #region Settings
+
+                { LocalizationKey.SETTINGS_TITLE, "Settings" },
+                { LocalizationKey.SETTINGS_SOUND_TITLE, "SOUND" },
+                { LocalizationKey.SETTINGS_SOUND_EFFECT, "Sound Effects" },
+                { LocalizationKey.SETTINGS_ACCOUNT_TITLE, "ACCOUNT" },
+                { LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM, "Upgrade to Premium" },
+                { LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS, "Personalised Ads" },
+                { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },
+                { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free then $4.99" },
+                { LocalizationKey.SETTINGS_ON, "On" },
+                { LocalizationKey.SETTINGS_OFF, "Off" }
 
                 #endregion
             };

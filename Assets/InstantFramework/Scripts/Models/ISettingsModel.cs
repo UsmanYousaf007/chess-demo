@@ -22,5 +22,9 @@ namespace TurboLabz.InstantFramework
         string maintenanceWarningMessege { get; set; }
         string maintenanceWarningBgColor { get; set; }
         string updateReleaseBannerMessage { get; set; }
+
+        string manageSubscriptionURL { get; set; }
+        int maxLongMatchCountPremium { get; set; }
+        int maxFriendsCountPremium { get; set; }
     }
 }

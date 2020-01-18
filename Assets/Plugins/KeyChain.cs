@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine.Purchasing;
+using System.Collections.Generic;
 
 public class KeyChain {
 	
@@ -10,7 +12,9 @@ public class KeyChain {
 	
 	public static string BindGetKeyChainUser()
 	{
-		return getKeyChainUser();
+		var jsonString = getKeyChainUser();
+		var userInfo = JsonUtility.FromJson<UserInfo>(jsonString);
+		return userInfo.uuid;
 	}
 	
 	[DllImport("__Internal")]
@@ -28,6 +32,11 @@ public class KeyChain {
 	{
 		deleteKeyChainUser();
 	}
-	
-	#endif
+
+	public struct UserInfo
+	{
+		public string userId;
+		public string uuid;
+	}
+#endif
 }

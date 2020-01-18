@@ -26,15 +26,6 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform friendsViewPort;
     public RectTransform friendsScrollViewTopShadow;
 
-    [Header("Store")]
-    public RectTransform storeTitle;
-    public RectTransform bundle1;
-    public RectTransform bundle2;
-    public RectTransform tabsBar;
-    public RectTransform[] storeScrollView;
-    public RectTransform[] storeViewPort;
-    public RectTransform[] storeScrollContents;
-
     [Header("CPU Game")]
     public RectTransform cpuTopBar;
     public RectTransform cpuBotBar;
@@ -90,8 +81,8 @@ public class NotchHandler : MonoBehaviour {
         SetY(lobbyScrollView, -63f - 100f);
         SetTop(lobbyViewPort, 9f);
         SetBottom(lobbyViewPort, 108f + 100f);
-        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -176f);
-        lobbyView.setScorllViewportBottomTo = 384;
+        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -141);
+        lobbyView.setScorllViewportBottomTo = 351;
         SetY(lobbyScrollViewTopShadow, -2);
 
         // PROFILE
@@ -103,18 +94,6 @@ public class NotchHandler : MonoBehaviour {
         SetTop(friendsViewPort, 0f);
         SetBottom(friendsViewPort, 100f + 100f);
         SetY(friendsScrollViewTopShadow, -10);
-
-        // STORE
-        SetY(storeTitle, 777f);
-        SetY(bundle1, -418f);
-        SetY(bundle2, -647f);
-        SetY(tabsBar, 215f - 33);
-        foreach (RectTransform tfm in storeScrollView)        
-            SetY(tfm, -418 -29);
-        foreach (RectTransform tfm in storeViewPort)
-            SetBottom(tfm, 88f + 120 + 30);
-        foreach (RectTransform tfm in storeScrollContents)
-            SetY(tfm, 517f - 41 -13);
 
         // CPU GAME
         SetY(cpuTopBar, -148f);

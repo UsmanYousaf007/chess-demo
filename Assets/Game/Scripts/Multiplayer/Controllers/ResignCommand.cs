@@ -18,6 +18,7 @@ namespace TurboLabz.Multiplayer
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         private string challengeId = null;
 
@@ -34,7 +35,7 @@ namespace TurboLabz.Multiplayer
                 challengeId = GetChallengeId();
             }
 
-
+            preferencesModel.resignCount++;
             backendService.PlayerResign(challengeId).Then(OnResign);
         }
 

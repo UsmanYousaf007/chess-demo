@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HUF.AnalyticsHBI.API;
 using strange.extensions.command.impl;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,11 +17,27 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            string email = Settings.SUPPORT_EMAIL;
-            string subject = MyEscapeURL("Feedback");
-            string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
+            //Turbo Labz Contact Support Via EMAIL
+            //string email = Settings.SUPPORT_EMAIL;
+            //string subject = MyEscapeURL("Feeback");
+            //string body = MyEscapeURL("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ***** DO NOT REMOVE THE TEXT BELOW *******" + AddPlayerData());
+            //Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
 
-            Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+            //Huuuuge Contact Support To URL
+            //https://contactus.huuugegames.com/? gdpr=0&tag=funstory&appversion=[APPVER]&hardwarekey=[DEVICE ID]&userid=[HBI ID , USER TAG]
+
+            var contactSupportUrl = string.Format(
+                "{0}/?gdpr={1}&tag={2}&appversion={3}&hardwarekey={4}&userid={5},{6}",
+                appInfoModel.contactSupportURL,
+                0,
+                "chess",
+                appInfoModel.clientVersion,
+                SystemInfo.deviceModel,
+                HAnalyticsHBI.UserId,
+                playerModel.tag);
+
+            Application.OpenURL(contactSupportUrl);
+            TLUtils.LogUtil.Log("Contact US URL " + contactSupportUrl);
 
             analyticsService.Event(AnalyticsEventId.tap_support);
         }

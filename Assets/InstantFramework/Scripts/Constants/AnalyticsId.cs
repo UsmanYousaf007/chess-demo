@@ -30,7 +30,10 @@ namespace TurboLabz.InstantFramework
         spot_purchase_hindsight,
         spot_purchase_move_meter,
         spot_purchase_coach,
-        skill_level_dlg
+        skill_level_dlg,
+        theme_selection_dlg,
+        subscription_dlg,
+        show_settings
     }
 
     public enum AnalyticsEventId
@@ -92,22 +95,8 @@ namespace TurboLabz.InstantFramework
         tap_pow_coach,
         cancel_pow_coach,
         close_pow_coach,
-        imp_banner_coach_training,
-        imp_banner_move_meter_training,
-        imp_banner_ultimate_bundle,
-        imp_banner_ad_bundle,
-        imp_banner_coach_purchase,
-        imp_banner_move_meter_purchase,
-        tap_banner_coach_training,
-        tap_banner_move_meter_training,
-        tap_banner_ultimate_bundle,
-        tap_banner_ad_bundle,
-        tap_banner_coach_purchase,
-        tap_banner_move_meter_purchase,
-        banner_utlimate_bundle_purchase_success,
-        banner_ad_bundle_purchase_success,
-        banner_coach_purchase_success,
-        banner_move_meter_purchase_success,
+        imp_banner_subscription,
+        tap_banner_subscription,
         tap_coach_after_tooltip,
         tap_move_meter_after_tooltip,
         tap_coach_after_training,
@@ -128,7 +117,17 @@ namespace TurboLabz.InstantFramework
         time_spent_quick_macth,
         time_spent_long_match,
         time_spent_cpu_match,
-        time_spent_lobby
+        time_spent_lobby,
+        //apps flyer events for HUUUGE
+        launch,
+        ad_clicked,
+        ad_displayed,
+        video_started,
+        video_finished,
+        game_started,
+        game_finished,
+        continuous_play,
+        focus_lost
     }
 
     public enum AnalyticsContext

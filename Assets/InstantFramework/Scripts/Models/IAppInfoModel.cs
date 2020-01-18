@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         bool syncInProgress { get; set; }
         GameMode gameMode { get; set; }
         bool isNotificationActive { get; set; }
+        string contactSupportURL { get; set; }
     }
 
     public enum DisconnectStates

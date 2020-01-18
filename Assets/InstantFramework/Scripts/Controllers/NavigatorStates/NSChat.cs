@@ -30,10 +30,6 @@ namespace TurboLabz.InstantFramework
                 {
                     return new NSMultiplayer();
                 }
-                else if (viewId == NavigatorViewId.STORE)
-                {
-                    return new NSStore();
-                }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {

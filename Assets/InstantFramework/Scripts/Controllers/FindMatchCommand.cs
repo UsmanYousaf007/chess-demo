@@ -7,7 +7,7 @@
 using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
-
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -34,11 +34,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
         {
@@ -98,6 +100,14 @@ namespace TurboLabz.InstantFramework
             // where both clients start at a synch time stamp
             getGameStartTimeSignal.Dispatch();
 
+            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
+                .ST1("gameplay")
+                .ST2("quick_match");
+            HAnalytics.LogEvent(analyticsEvent);
+
+            preferencesModel.gameStartCount++;
+            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+
             // Grab the opponent profile pic if any
             if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
             {
@@ -153,6 +163,7 @@ namespace TurboLabz.InstantFramework
             pvo.avatarId = publicProfile.avatarId;
             pvo.isOnline = true;
             pvo.isActive = publicProfile.isActive;
+            pvo.isPremium = publicProfile.isSubscriber;
 
             if (pvo.playerPic == null)
             {

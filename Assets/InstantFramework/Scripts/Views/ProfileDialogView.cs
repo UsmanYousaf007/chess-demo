@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         public Text oppLastSeen;
         public Text oppCountry;
         public Text oppWinPercentage;
+        public GameObject premiumBorder;
 
         [Header("Confirm Dialog")]
         public GameObject confirmDialog;
@@ -165,6 +166,8 @@ namespace TurboLabz.InstantFramework
 
             opponentAvatarBG.gameObject.SetActive(false);
             opponentAvatarIcon.gameObject.SetActive(false);
+            premiumBorder.gameObject.SetActive(vo.isOpponentPremium);
+
             if (vo.oppProfilePic != null)
             {
                 oppProfilePic.sprite = vo.oppProfilePic;

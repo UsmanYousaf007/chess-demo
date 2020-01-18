@@ -131,10 +131,6 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayerInfoDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
-            {
-                return new NSSpotPurchaseDlg();
-            }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
                 return new NSChat();
@@ -142,6 +138,10 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_PROFILE_DLG)
             {
                 return new NSProfileDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
+            {
+                return new NSSubscriptionDlg();
             }
 
             return null;

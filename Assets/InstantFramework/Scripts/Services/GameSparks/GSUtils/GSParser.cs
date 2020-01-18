@@ -38,12 +38,18 @@ namespace TurboLabz.InstantFramework
             return item.ContainsKey(key) ? item.GetLong(key).Value : defaultVal;
         }
 
-        public static GSData GetVGoodProperties(GSData itemData)
+        public static bool GetSafeBool(GSData item, string key, bool defaultVal = false)
         {
-            GSData propertySet = itemData.GetGSData("propertySet");
+            if (key == null) return defaultVal;
+            return item.ContainsKey(key) ? item.GetBoolean(key).Value : defaultVal;
+        }
+
+        public static GSData GetVGoodProperties(GSData itemData, string propertyKey)
+        {
+            GSData propertySet = itemData.GetGSData(GSBackendKeys.SHOP_ITEM_PROPERTY_SET);
             if (propertySet != null)
             {
-                GSData properties = propertySet.GetGSData("properties");
+                GSData properties = propertySet.GetGSData(propertyKey);
                 if (properties != null)
                 {
                     return properties;
@@ -122,6 +128,24 @@ namespace TurboLabz.InstantFramework
             item.remoteProductId = GetSafeString(itemData, GSBackendKeys.SHOP_ITEM_STORE_PRODUCT_ID, null);
 #endif
 
+            var skinPropertyData = GetVGoodProperties(itemData, GSBackendKeys.SHOP_ITEM_SKIN_PROPERTY);
+
+            if (skinPropertyData != null)
+            {
+                item.skinIndex = GetSafeInt(skinPropertyData, GSBackendKeys.SHOP_ITEM_SKIN_INDEX);
+                item.pointsRequired = GetSafeInt(skinPropertyData, GSBackendKeys.SHOP_ITEM_SKIN_POINTS);
+                LogUtil.Log(string.Format("Found Skin property for {0} index {1} points {2}", item.key, item.skinIndex, item.pointsRequired));
+            }
+
+            if (itemData.ContainsKey(GSBackendKeys.SHOP_ITEM_PROPERTY_SET))
+            {
+                var propertySet = itemData.GetGSData(GSBackendKeys.SHOP_ITEM_PROPERTY_SET);
+                if (propertySet != null)
+                {
+                    
+                }
+            }
+
             IList<GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
             if (bundleData !=  null)
             {
@@ -148,6 +172,19 @@ namespace TurboLabz.InstantFramework
 
                     items.Add(itemId, quantity);
                 }
+            }
+        }
+
+        public static void PopulateAdsRewardData(IPlayerModel playerModel, GSData data)
+        {
+            playerModel.rewardQuantity = GetSafeInt(data, GSBackendKeys.PlayerDetails.REWARD_QUANITY);
+            var adsRewardData = data.GetGSData(GSBackendKeys.PlayerDetails.ADS_REWARD_DATA);
+            if (adsRewardData != null)
+            {
+                playerModel.rewardIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_INDEX);
+                playerModel.rewardShortCode = adsRewardData.GetString(GSBackendKeys.PlayerDetails.REWARD_SHORT_CODE);
+                playerModel.rewardCurrentPoints = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
+                playerModel.rewardPointsRequired = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
             }
         }
 
@@ -245,7 +282,7 @@ namespace TurboLabz.InstantFramework
 			publicProfile.countryId = publicProfileData.GetString(GSBackendKeys.PublicProfile.COUNTRY_ID);
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
             publicProfile.isOnline = publicProfileData.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
-
+            publicProfile.isSubscriber = GetSafeBool(publicProfileData, GSBackendKeys.PublicProfile.IS_SUBSCRIBER);
            // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
 
             publicProfile.totalGamesWon = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;
@@ -279,7 +316,6 @@ namespace TurboLabz.InstantFramework
 			friend.gamesWon = friendData.GetInt(GSBackendKeys.Friend.GAMES_WON).Value;
             friend.friendType = friendData.GetString(GSBackendKeys.Friend.TYPE);
             friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
-
 
             GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
