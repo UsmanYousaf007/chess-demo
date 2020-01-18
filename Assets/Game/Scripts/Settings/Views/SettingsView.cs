@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
 {
     public class SettingsView : View
     {
+        public string key;
 
         public Button backButton;
         public Text backButtonText;
@@ -63,8 +64,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
-        //Models
-        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        //Models 
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public void Init()
         {
@@ -72,9 +74,7 @@ namespace TurboLabz.InstantFramework
             settingsTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_TITLE);
             accountTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_TITLE);
             backButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
-            infoText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
-            personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
-            personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
+           
 
             //Account
             manageSubscriptionText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION);
@@ -84,8 +84,11 @@ namespace TurboLabz.InstantFramework
             upgradeToPremiumText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM);
             personalizedAdsText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS);
 
-            //Set Button Listeners
 
+            personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
+            personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
+
+            //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
             upgradeToPremiumBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
             personalizedAdsBtn.onClick.AddListener(OnPersonalizedAdsButtonClicked);
@@ -96,16 +99,34 @@ namespace TurboLabz.InstantFramework
             appVersion.text = "v" + Application.version;
 
             RefreshPersonalisedAdsToggleButtons();
-
         }
 
         void RefreshAccountPanel()
         {
         }
 
+        public void SetSubscriptionPrice()
+        {
+            var storeItem = metaDataModel.store.items[key];
+
+            if (storeItem == null)
+                return;
+
+            string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
+            string price = storeItem.remoteProductPrice;
+
+            string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
+            infoText.text = subscriptionPriceString;
+
+            var isPremium = playerModel.HasSubscription();
+            infoText.gameObject.SetActive(!isPremium);
+            upgradeToPremiumBtn.gameObject.SetActive(!isPremium);
+            manageSubscriptionBtn.gameObject.SetActive(isPremium);
+        }
+
         void OnManageSubscriptionButtonClicked()
         {
-            manageSubscriptionButtonClickedSignal.Dispatch();
+            Application.OpenURL(metaDataModel.settingsModel.manageSubscriptionURL);
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
@@ -129,13 +150,13 @@ namespace TurboLabz.InstantFramework
 
         void OnTermsOfUseButtonClicked()
         {
-            Application.OpenURL(appInfoModel.termsOfUseURL);
+            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         void OnPrivacyPolicyButtonClicked()
         {
-            Application.OpenURL(appInfoModel.privacyPolicyURL);
+            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
