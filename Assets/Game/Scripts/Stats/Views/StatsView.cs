@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
         // Scene references
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         [Inject] public ChangeUserDetailsSignal changeUserDetailsSignal { get; set; }
 
@@ -179,7 +180,7 @@ namespace TurboLabz.InstantGame
 
         private void OnPrivacyPolicyClicked()
         {
-            Application.OpenURL("https://turbolabz.com/privacy-policy/");
+            Application.OpenURL(appInfoModel.privacyPolicyURL);
         }
 
         private void OnRestorePurchasesClicked()
@@ -237,7 +238,7 @@ namespace TurboLabz.InstantGame
 
         void OnTermsClicked()
         {
-            Application.OpenURL("https://turbolabz.com/privacy-policy/");
+            Application.OpenURL(appInfoModel.termsOfUseURL);
         }
 
         void OnCopyTagClicked()

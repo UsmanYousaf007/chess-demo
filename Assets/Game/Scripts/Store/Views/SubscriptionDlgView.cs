@@ -81,12 +81,12 @@ public class SubscriptionDlgView : View
 
     private void OnPrivacyPolicyClicked()
     {
-        Application.OpenURL("https://turbolabz.com/privacy-policy/");
+        Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
     }
 
     private void OnTermsOfUseClicked()
     {
-        OnPrivacyPolicyClicked();
+        Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 
     private void OnRestorePurchaseClicked()

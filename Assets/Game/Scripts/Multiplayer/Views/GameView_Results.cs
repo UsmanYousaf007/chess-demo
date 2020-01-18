@@ -169,7 +169,6 @@ namespace TurboLabz.Multiplayer
 
             HideSafeMoveBorder();
 
-            EnableRewarededVideoButton(true);
             viewBoardResultPanel.gameObject.SetActive(false);
         }
 
@@ -214,6 +213,7 @@ namespace TurboLabz.Multiplayer
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
             viewBoardResultPanel.reason.text = "";
+            EnableRewarededVideoButton(true);
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:

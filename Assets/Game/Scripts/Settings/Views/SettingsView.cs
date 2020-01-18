@@ -59,8 +59,12 @@ namespace TurboLabz.InstantFramework
         public Signal personalizedAdsButtonClickedSignal = new Signal();
         public Signal restorePurchaseButtonClickedSignal = new Signal();
 
+        //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+
+        //Models
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         public void Init()
         {
@@ -125,13 +129,13 @@ namespace TurboLabz.InstantFramework
 
         void OnTermsOfUseButtonClicked()
         {
-            OnPrivacyPolicyButtonClicked();
+            Application.OpenURL(appInfoModel.termsOfUseURL);
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
         void OnPrivacyPolicyButtonClicked()
         {
-            Application.OpenURL("https://turbolabz.com/privacy-policy/");
+            Application.OpenURL(appInfoModel.privacyPolicyURL);
             audioService.Play(audioService.sounds.SFX_STEP_CLICK);
         }
 
