@@ -136,7 +136,7 @@ namespace TurboLabz.InstantFramework
     public class SyncReconnectDataSignal : Signal<string> { }
     public class CancelSearchResultSignal : Signal { }
     public class RewardUnlockedSignal : Signal<string, int> { }
-
+    public class ShowPromotionDlgSignal : Signal { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

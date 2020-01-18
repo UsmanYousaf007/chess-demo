@@ -101,8 +101,7 @@ public class ThemeSelectionView : View
         {
             if (entry.Value.skinIndex != -1)
             {
-                skinMenuItems[entry.Value.skinIndex].key = entry.Value.key;
-                skinMenuItems[entry.Value.skinIndex].Init();
+                skinMenuItems[entry.Value.skinIndex].Init(entry.Value.key);
             }
         }
     }

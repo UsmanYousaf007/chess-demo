@@ -26,8 +26,7 @@ namespace TurboLabz.InstantGame
         // Dispatch signals
         [Inject] public UpdatePlayerRewardsPointsSignal updatePlayerRewardsPointsSignal { get; set; }
         [Inject] public RewardUnlockedSignal rewardUnlockedSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public ShowPromotionDlgSignal showPromotionDlgSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -151,8 +150,7 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotion()
         {
-            loadLobbySignal.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            showPromotionDlgSignal.Dispatch();
         }
     }
 }
