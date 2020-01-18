@@ -56,11 +56,15 @@ public class PromotionDlgView : View
             return;
 
         priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
-        var offers = storeItem.description.Split(',');
-        foreach (var offer in offers)
+
+        if (offersContainer.childCount == 0)
         {
-            var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;
-            offerObj.GetComponentInChildren<Text>().text = offer;
+            var offers = storeItem.description.Split(',');
+            foreach (var offer in offers)
+            {
+                var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;
+                offerObj.GetComponentInChildren<Text>().text = offer;
+            }
         }
     }
 
