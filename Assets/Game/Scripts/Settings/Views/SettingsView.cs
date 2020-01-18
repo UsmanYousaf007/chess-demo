@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         //Account
         public Text accountTitleText;
 
-        public Text infoText;
+        public Text priceText;
         public Button personalisedAdsOnBtn;
         public Button personalisedAdsOffBtn;
 
@@ -116,10 +116,10 @@ namespace TurboLabz.InstantFramework
             string price = storeItem.remoteProductPrice;
 
             string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
-            infoText.text = subscriptionPriceString;
+            priceText.text = subscriptionPriceString;
 
             var isPremium = playerModel.HasSubscription();
-            infoText.gameObject.SetActive(!isPremium);
+            priceText.gameObject.SetActive(!isPremium);
             upgradeToPremiumBtn.gameObject.SetActive(!isPremium);
             manageSubscriptionBtn.gameObject.SetActive(isPremium);
         }

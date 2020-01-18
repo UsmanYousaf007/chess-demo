@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
             view.Init();
 
             view.restorePurchaseButtonClickedSignal.AddListener(OnRestorePurchases);
+            view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
@@ -75,6 +76,11 @@ namespace TurboLabz.InstantFramework
             {
                 view.SetSubscriptionPrice();
             }
+        }
+
+        void OnUpgradeToPremiumClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
         }
     }
 }
