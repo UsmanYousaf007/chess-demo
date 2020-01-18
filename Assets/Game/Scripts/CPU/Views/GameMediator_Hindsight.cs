@@ -57,5 +57,6 @@ namespace TurboLabz.CPU
         {
             view.ShowCoachOnboardingTooltip(show);
         }
+
     }
 }

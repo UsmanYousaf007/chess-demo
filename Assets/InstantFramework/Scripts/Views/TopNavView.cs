@@ -31,36 +31,35 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
 
-        public Button audioOffButton;
-        public Button audioOnButton;
+        public Button selectThemeButton;
+        public Text selectThemeText;
         public Button supportButton;
         public Button addBucksButton;
         public Button settingsButton;
         public Text playerBucks;
         public Text freeNoAdsPeriodLabel;
+        public GameObject rewardUnlockedAlert;
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
         public Signal settingsButtonClickedSignal = new Signal();
+        public Signal selectThemeClickedSignal = new Signal();
 
         public void Init()
         {
             addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
-            audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
-            audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
+            selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
+            selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
             supportButton.onClick.AddListener(OnSupportButtonClicked);
             if (settingsButton != null)
             {
                 settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             }
-
-            RefreshAudioButtons();
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            RefreshAudioButtons();
         }
 
         public void UpdatePlayerBucks(long bucks)
@@ -90,25 +89,6 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.tap_coins);
         }
 
-        private void OnAudioOffButtonClicked()
-        {
-            audioService.ToggleAudio(false);
-            RefreshAudioButtons();
-        }
-
-        private void OnAudioOnButtonClicked()
-        {
-            audioService.ToggleAudio(true);
-            audioService.PlayStandardClick();
-            RefreshAudioButtons();
-        }
-
-        private void RefreshAudioButtons()
-        {
-            audioOffButton.gameObject.SetActive(audioService.IsAudioOn());
-            audioOnButton.gameObject.SetActive(!audioService.IsAudioOn());
-        }
-
         private void OnSupportButtonClicked()
         {
             contactSupportSignal.Dispatch();
@@ -125,6 +105,15 @@ namespace TurboLabz.InstantFramework
             settingsButtonClickedSignal.Dispatch();
         }
 
+        private void OnSelectThemeClicked()
+        {
+            selectThemeClickedSignal.Dispatch();
+            rewardUnlockedAlert.gameObject.SetActive(false);
+        }
 
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            //TODO show alert image in case theme is unlocked
+        }
     }
 }

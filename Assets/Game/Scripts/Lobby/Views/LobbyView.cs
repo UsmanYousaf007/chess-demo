@@ -84,9 +84,6 @@ namespace TurboLabz.InstantFramework
 
         public Text onlinePlayersCountLabel;
 
-        public Button selectThemeButton;
-        public Text selectThemeText;
-
         [Header("Choose computer difficulty dialog")]
         public GameObject chooseComputerDifficultyDlg;
         public Button decStrengthButton;
@@ -130,7 +127,6 @@ namespace TurboLabz.InstantFramework
         public Button rewardOkButton;
         public RectTransform themeIconPlacement;
         public RectTransform powerUpIconPlacement;
-        public GameObject rewardUnlockedAlert;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -148,7 +144,6 @@ namespace TurboLabz.InstantFramework
         public Signal decStrengthButtonClickedSignal = new Signal();
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
-        public Signal selectThemeClickedSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -215,9 +210,6 @@ namespace TurboLabz.InstantFramework
             scrollViewOrignalPosition = scrollRect.transform.localPosition;
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
             playerProfileOriginalPosition = playerProfile.transform.localPosition;
-
-            selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
-            selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
 
             rewardTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_TITLE);
             rewardSubTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_SUBTITLE);
@@ -1190,12 +1182,6 @@ namespace TurboLabz.InstantFramework
             uiBlocker.SetActive(show);
         }
 
-        private void OnSelectThemeClicked()
-        {
-            selectThemeClickedSignal.Dispatch();
-            rewardUnlockedAlert.gameObject.SetActive(false);
-        }
-
         public void OnRewardUnlocked(string key, int quantity)
         {
             var reward = metaDataModel.store.items[key];
@@ -1204,7 +1190,6 @@ namespace TurboLabz.InstantFramework
             {
                 if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
                 {
-                    rewardUnlockedAlert.gameObject.SetActive(true);
                     rewardName.text = string.Format("{0} {1}", reward.displayName, localizationService.Get(LocalizationKey.REWARD_THEME));
                     rewardIcon.rectTransform.localPosition = themeIconPlacement.localPosition;
                     rewardIcon.rectTransform.sizeDelta = themeIconPlacement.sizeDelta;

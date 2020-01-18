@@ -14,37 +14,42 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public TopNavView view { get; set; }
 
-        [Inject] public SettingsButtonClickedSignal settingsButtonClickedSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
 
-            view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
-
+            view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
         }
 
         public override void OnRemove()
         {
-            view.addBucksButtonClickedSignal.RemoveAllListeners();
-        }
-
-        private void OnAddBucksButtonClicked()
-        {
-
+            view.settingsButtonClickedSignal.RemoveAllListeners();
+            view.selectThemeClickedSignal.RemoveAllListeners();
         }
 
         private void OnSettingsButtonClicked()
         {
-            Debug.Log("Dispatch Settings Button Clicked: Top Nav Mediator");
-            settingsButtonClickedSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
         }
 
         [ListensTo(typeof(UpdateRemoveAdsSignal))]
         public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
         {
             view.UpdateRemoveAds(freePeriod, isRemoved);
+        }
+
+        private void OnSelectThemeClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
+        }
+
+        [ListensTo(typeof(RewardUnlockedSignal))]
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            view.OnRewardUnlocked(key, quantity);
         }
     }
 }

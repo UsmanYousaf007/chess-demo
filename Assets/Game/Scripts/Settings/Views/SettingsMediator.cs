@@ -3,16 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
-
 using strange.extensions.mediation.impl;
-using System.Collections.Generic;
-using TurboLabz.Multiplayer;
-using TurboLabz.Chess;
-using TurboLabz.TLUtils;
-using TurboLabz.InstantGame;
-using TurboLabz.CPU;
-using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -66,7 +57,7 @@ namespace TurboLabz.InstantFramework
 
         void OnBackButtonClicked()
         {
-            loadLobbySignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]
@@ -76,6 +67,12 @@ namespace TurboLabz.InstantFramework
             {
                 view.SetSubscriptionPrice();
             }
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            view.SetSubscriptionPrice();
         }
 
         void OnUpgradeToPremiumClicked()

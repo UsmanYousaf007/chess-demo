@@ -46,6 +46,14 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSConfirmDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SETTINGS)
+            {
+                return new NSSettings();
+            }
+            else if (evt == NavigatorEvent.SHOW_THEME_SELECTION_DLG)
+            {
+                return new NSThemeSelectionDlg();
+            }
 
             return null;
         }

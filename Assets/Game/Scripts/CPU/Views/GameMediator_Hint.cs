@@ -73,5 +73,15 @@ namespace TurboLabz.CPU
         {
             view.ShowStrengthOnboardingTooltip(show);
         }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            if (view.IsVisible())
+            {
+                view.UpdateHintCount(0);
+                view.UpdateHindsightCount(0);
+            }
+        }
     }
 }

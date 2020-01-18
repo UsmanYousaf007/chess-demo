@@ -24,7 +24,6 @@
                 }
                 else if (viewId == NavigatorViewId.SETTINGS)
                 {
-                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SUBSCRIPTION_DLG);
                     return new NSSettings();
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
