@@ -123,9 +123,13 @@ namespace TurboLabz.InstantFramework
         [Header("Reward Unlocked Dlg")]
         public GameObject rewardUnlockedDlg;
         public Text rewardTitle;
+        public Text rewardSubTitle;
+        public Image rewardIcon;
         public Text rewardName;
         public Text rewardOkButtonText;
         public Button rewardOkButton;
+        public RectTransform themeIconPlacement;
+        public RectTransform powerUpIconPlacement;
         public GameObject rewardUnlockedAlert;
 
         public Signal facebookButtonClickedSignal = new Signal();
@@ -155,6 +159,7 @@ namespace TurboLabz.InstantFramework
         private List<GameObject> cacheEnabledSections;
         private bool isCPUGameInProgress;
         List<FriendBar> recentlyCompleted = new List<FriendBar>();
+        private StoreIconsContainer iconsContainer;
 
         public void Init()
         {
@@ -215,8 +220,10 @@ namespace TurboLabz.InstantFramework
             selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
 
             rewardTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_TITLE);
-            rewardOkButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
+            rewardSubTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_SUBTITLE);
+            rewardOkButtonText.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_CLAIM);
             rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
+            iconsContainer = StoreIconsContainer.Load();
         }
 
         void OnDecStrengthButtonClicked()
@@ -1192,19 +1199,24 @@ namespace TurboLabz.InstantFramework
         public void OnRewardUnlocked(string key, int quantity)
         {
             var reward = metaDataModel.store.items[key];
-
+            
             if (reward != null && !string.IsNullOrEmpty(reward.displayName))
             {
                 if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
                 {
                     rewardUnlockedAlert.gameObject.SetActive(true);
-                    rewardName.text = string.Format("{0} : {1}", localizationService.Get(LocalizationKey.REWARD_THEME), reward.displayName);
+                    rewardName.text = string.Format("{0} {1}", reward.displayName, localizationService.Get(LocalizationKey.REWARD_THEME));
+                    rewardIcon.rectTransform.localPosition = themeIconPlacement.localPosition;
+                    rewardIcon.rectTransform.sizeDelta = themeIconPlacement.sizeDelta;
                 }
                 else
                 {
                     rewardName.text = string.Format("{0} x {1}", reward.displayName, quantity);
+                    rewardIcon.rectTransform.localPosition = powerUpIconPlacement.localPosition;
+                    rewardIcon.rectTransform.sizeDelta = powerUpIconPlacement.sizeDelta;
                 }
 
+                rewardIcon.sprite = iconsContainer.GetSprite(key);
                 rewardUnlockedDlg.SetActive(true);
             }
         }

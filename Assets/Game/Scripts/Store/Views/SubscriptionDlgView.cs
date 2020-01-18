@@ -57,6 +57,7 @@ public class SubscriptionDlgView : View
 
         priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
         var offers = storeItem.description.Split(',');
+
         foreach (var offer in offers)
         {
             var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;

@@ -47,8 +47,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.DONE, "Done"},
                 { LocalizationKey.SELECT_THEME, "Select Theme"},
                 { LocalizationKey.CHOOSE_THEME, "Choose Theme"},
-                { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations! You unlocked a reward"},
-                { LocalizationKey.REWARD_THEME, "Theme"},
+                { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations"},
+                { LocalizationKey.REWARD_UNLOCKED_SUBTITLE, "Reward Unlocked!"},
+                { LocalizationKey.REWARD_THEME, "Chess Theme"},
+                { LocalizationKey.REWARD_UNLOCKED_CLAIM, "Claim"},
 
                 #endregion
 

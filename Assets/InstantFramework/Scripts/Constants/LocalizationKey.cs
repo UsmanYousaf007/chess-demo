@@ -41,7 +41,8 @@ namespace TurboLabz.InstantFramework
         public const string CHOOSE_THEME = "chooseTheme";
         public const string REWARD_UNLOCKED_TITLE = "rewardUnlockedTitle";
         public const string REWARD_THEME = "rewardTheme";
-
+        public const string REWARD_UNLOCKED_SUBTITLE = "rewardUnlockedSubTitle";
+        public const string REWARD_UNLOCKED_CLAIM = "rewardUnlockedClaim";
         #endregion
 
         #region Game
