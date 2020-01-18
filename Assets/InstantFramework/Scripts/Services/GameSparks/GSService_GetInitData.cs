@@ -69,11 +69,7 @@ namespace TurboLabz.InstantFramework
 
             storeAvailableSignal.Dispatch(false);
 
-            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
-            if (promise != null)
-            {
-                promise.Then(OnStoreInit);
-            }
+
 
             ParseActiveChallenges(response.ScriptData);
 
@@ -88,11 +84,10 @@ namespace TurboLabz.InstantFramework
                 // need not be set from the server. Do not set activeChallengeId here.
             }
 
-            //Send power up usage Analytics
-            if (response.ScriptData.ContainsKey(GSBackendKeys.EVENT_DATA))
+            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
+            if (promise != null)
             {
-                var eventData = response.ScriptData.GetGSData(GSBackendKeys.EVENT_DATA);
-                SendPowerupUsageAnalytics(eventData);
+                promise.Then(OnStoreInit);
             }
         }
 
