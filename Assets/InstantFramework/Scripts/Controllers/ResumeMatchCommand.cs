@@ -23,9 +23,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public ReceptionSignal receptionSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+        [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public Multiplayer.StopTimersSignal stopTimersSignal { get; set; }
         [Inject] public ReconnectionCompleteSignal reconnectionCompeteSignal { get; set; }
+        [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
+        [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
+        [Inject] public GetInitDataSignal getInitDataSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -44,7 +48,19 @@ namespace TurboLabz.InstantFramework
             Retain();
 
             getInitDataCompleteSignal.AddListener(OnGetInitDataComplete);
-            receptionSignal.Dispatch(true);
+            getInitDataFailedSignal.AddListener(OnGetInitDataFailed);
+            getInitDataSignal.Dispatch(true);
+
+            //receptionSignal.Dispatch(true);
+        }
+
+        private void OnGetInitDataFailed(BackendResult result)
+        {
+            if (result != BackendResult.CANCELED)
+            {
+                TLUtils.LogUtil.Log("ResumeMatchCommand::OnGetInitDataFailed() GetInitData failed!");
+                CommandEnd();
+            }
         }
 
         private void OnGetInitDataComplete()
@@ -82,7 +98,7 @@ namespace TurboLabz.InstantFramework
                 // Record analytics
                 TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
                 analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);
-                TLUtils.LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
+                TLUtils.LogUtil.Log("ResumeMatchCommand() Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
 
                 // Send ack on resume for quick match. This ensures that even if watchdog ping was missed
                 // during disconnection, this ack will resume proper watchdog operation on server
@@ -113,13 +129,29 @@ namespace TurboLabz.InstantFramework
                 loadLobbySignal.Dispatch();
             }
 
+            CommandEnd();
+        }
+
+        private void CommandEnd()
+        {
             reconnectionCompeteSignal.Dispatch();
             getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
+            getInitDataFailedSignal.RemoveListener(OnGetInitDataFailed);
+
             prevViewId = NavigatorViewId.NONE;
             appInfoModel.syncInProgress = false;
 
             // Resume GS connection monitoring
             backendService.MonitorConnectivity(true);
+
+            // Start the pinger
+            backendService.StartPinger();
+
+            reconnectViewEnableSignal.Dispatch(false);
+            chessboardBlockerEnableSignal.Dispatch(false);
+
+            // Restart the reachability monitor
+            InternetReachabilityMonitor.StartMonitor();
 
             appInfoModel.isReconnecting = DisconnectStates.FALSE;
 

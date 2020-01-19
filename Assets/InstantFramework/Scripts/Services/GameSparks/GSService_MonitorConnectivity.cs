@@ -57,15 +57,6 @@ namespace TurboLabz.InstantFramework
 
                 // Begin processing hard reconnect
                 resumeMatchSignal.Dispatch(prevViewId);
-
-                // Start the pinger
-                StartPinger();
-
-                reconnectViewEnableSignal.Dispatch(false);
-                chessboardBlockerEnableSignal.Dispatch(false);
-
-                // Restart the reachability monitor
-                InternetReachabilityMonitor.StartMonitor();
             }
             else
             {

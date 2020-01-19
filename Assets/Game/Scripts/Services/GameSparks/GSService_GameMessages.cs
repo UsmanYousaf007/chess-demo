@@ -48,7 +48,7 @@ namespace TurboLabz.InstantFramework
 
             if (GameSparksOutOfOrderPatchFailed(message.Challenge.ChallengeId, challengeData))
             {
-                LogUtil.Log("OUT OF ORDER MESSAGE!!!", "red");
+                LogUtil.Log("OnChallengeTurnTakenMessage() OUT OF ORDER MESSAGE!!!", "red");
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
             // This message also updates the local game state So to AVOID doublication / Ai crash :  we simply returns 
             if (appInfoModel.syncInProgress)
             { 
-                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
+                LogUtil.Log("OnChallengeTurnTakenMessage() SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
                 return;
             }
 
@@ -70,7 +70,7 @@ namespace TurboLabz.InstantFramework
         {
             if (appInfoModel.syncInProgress)
             {
-                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
+                LogUtil.Log("OnGameChallengeWonMessage() SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace TurboLabz.InstantFramework
         {
             if (appInfoModel.syncInProgress)
             {
-                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
+                LogUtil.Log("OnGameChallengeLostMessage() SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
                 return;
             }
 
@@ -100,7 +100,7 @@ namespace TurboLabz.InstantFramework
         {
             if (appInfoModel.syncInProgress)
             {
-                LogUtil.Log("SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
+                LogUtil.Log("OnGameChallengeDrawnMessage() SYNC DATA IS IN PROCESS So RETURN PLZ !!!", "red");
                 return;
             }
 

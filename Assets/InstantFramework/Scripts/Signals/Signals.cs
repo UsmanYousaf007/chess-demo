@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
     public class ModelsLoadFromDiskSignal : Signal { }
     public class GetInitDataSignal : Signal<bool> { }
     public class GetInitDataCompleteSignal : Signal { }
+    public class GetInitDataFailedSignal : Signal<BackendResult> { }
     public class AuthFaceBookSignal : Signal { }
     public class AuthFacebookResultSignal : Signal<AuthFacebookResultVO> { }
     public class UpdateProfileSignal : Signal<ProfileVO> { }

@@ -159,7 +159,7 @@ namespace TurboLabz.Multiplayer
 
             if (appInfoModel.isReconnecting == DisconnectStates.LONG_DISCONNET)
             {
-                TLUtils.LogUtil.Log("SKIP match soft reconnect");
+                TLUtils.LogUtil.Log("Skip match soft reconnect");
                 return;
             }
 
@@ -167,8 +167,8 @@ namespace TurboLabz.Multiplayer
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {
-                    reconnectViewEnableSignal.Dispatch(true);
                     appInfoModel.syncInProgress = true;
+                    reconnectViewEnableSignal.Dispatch(true);
                     view.chessboardBlocker.SetActive(true);
                     TLUtils.LogUtil.Log("Match disconnected Id: " + matchInfoModel.activeChallengeId, "cyan");
                     GSFrameworkRequest.CancelRequestSession();
@@ -184,10 +184,9 @@ namespace TurboLabz.Multiplayer
                 {
                     if (appInfoModel.isReconnecting != DisconnectStates.LONG_DISCONNET)
                     {
-                        //GameSparks.Core.GS.Reconnect();
+                        LogUtil.Log("Match reconnecting..", "cyan");
+                        backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
                     }
-                    LogUtil.Log("Match reconnecting..", "cyan");
-                    backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
                 }
             }
         }
@@ -234,7 +233,7 @@ namespace TurboLabz.Multiplayer
             // Record analytics
             TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
             analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);
-            LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
+            LogUtil.Log("ReconnectMatch() Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
             view.chessboardBlocker.SetActive(false);
         }
 

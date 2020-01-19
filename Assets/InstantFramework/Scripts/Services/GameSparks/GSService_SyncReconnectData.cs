@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
             {
                 if (chessboardModel.isValidChallenge(challengeId))
                 {
+                    LogUtil.Log("SyncReconnectData: PERFORM RESUME ChallengeID = " + challengeId, "cyan");
                     // Delete the current match and board
                     matchInfoModel.matches.Remove(challengeId);
                     chessboardModel.chessboards.Remove(challengeId);

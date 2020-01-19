@@ -65,18 +65,18 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            initBackendOnceSignal.Dispatch();
-
             if (!isResume)
             {
+                initBackendOnceSignal.Dispatch();
+
                 loadLobbySignal.Dispatch();
                 loadPromotionSingal.Dispatch();
+
+                refreshFriendsSignal.Dispatch();
+                refreshCommunitySignal.Dispatch();
+
+                SendAnalytics();
             }
-
-            refreshFriendsSignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
-
-            SendAnalytics();
 
             CommandEnd();
         }

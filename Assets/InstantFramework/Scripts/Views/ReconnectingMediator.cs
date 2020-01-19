@@ -88,17 +88,25 @@ namespace TurboLabz.InstantFramework
 
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
-                appInfoModel.isReconnecting = DisconnectStates.SHORT_DISCONNECT;
-                backendService.StopPinger();
+                // Make sure state is not in long disconnect
+                if (appInfoModel.isReconnecting == DisconnectStates.FALSE)
+                {
+                    appInfoModel.isReconnecting = DisconnectStates.SHORT_DISCONNECT;
+                    backendService.StopPinger();
+                }
+
                 toggleBannerSignal.Dispatch(false);
                 pauseNotificationsSignal.Dispatch(true);
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
-                appInfoModel.isReconnecting = DisconnectStates.FALSE;
-                //GameSparks.Core.GS.Reconnect();
-                backendService.StartPinger();
+                if (appInfoModel.isReconnecting == DisconnectStates.SHORT_DISCONNECT)
+                {
+                    appInfoModel.isReconnecting = DisconnectStates.FALSE;
+                    //GameSparks.Core.GS.Reconnect();
+                    backendService.StartPinger();
+                }
 
                 // Switch on banner ads on reconnection when on chess board
                 if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER || 

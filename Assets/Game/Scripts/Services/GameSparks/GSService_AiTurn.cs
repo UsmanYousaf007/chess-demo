@@ -54,6 +54,8 @@ namespace TurboLabz.InstantFramework
                                             string promotion,
                                             long simulatedDelaySeconds)
         {
+            TLUtils.LogUtil.Log("GSAiTurnRequest().Send manual call.");
+
             this.errorCode = BackendResult.AI_TAKE_TURN_REQUEST_FAILED;
 
             new LogEventRequest().SetEventKey(SHORT_CODE)
