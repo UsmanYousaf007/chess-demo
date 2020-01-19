@@ -476,13 +476,13 @@ namespace GameSparks.Platforms
 			ExecuteOnMainThread(() => {
 				if (GameSparksSettings.DebugBuild)
 				{
-					//if (message.Length < 1500)
-					//{
+					if (message.Length < 1500)
+					{
 						Debug.Log("GS: " + message);
-					//} else
-					//{
-					//	Debug.Log("GS: " + message.Substring(0, 1500) + "...");
-					//}
+					} else
+					{
+						Debug.Log("GS: " + message.Substring(0, 1500) + "...");
+					}
 				}
 			});
 		}
@@ -533,6 +533,10 @@ namespace GameSparks.Platforms
 		/// Creates a (platform specific) Websocket and returns the instance.
 		/// </summary>
 		public abstract IGameSparksWebSocket GetSocket(string url, Action<string> messageReceived, Action closed, Action opened, Action<string> error);
-	}
+        /// <summary>
+		/// Creates a (platform specific) Websocket and returns the instance.
+		/// </summary>
+		public abstract IGameSparksWebSocket GetBinarySocket(string url, Action<byte[]> messageReceived, Action closed, Action opened, Action<string> error);
+    }
 
 }
