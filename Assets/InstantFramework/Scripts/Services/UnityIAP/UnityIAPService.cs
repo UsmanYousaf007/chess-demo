@@ -263,6 +263,10 @@ namespace TurboLabz.InstantFramework
                         .getExpireDate());
                 }
 
+#if UNITY_EDITOR
+                expiryTimeStamp = backendService.serverClock.currentTimestamp + (10 * 60 * 1000);
+#endif
+
                 // Unlock the appropriate content here.
                 backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
                                                             e.purchasedProduct.transactionID, 
