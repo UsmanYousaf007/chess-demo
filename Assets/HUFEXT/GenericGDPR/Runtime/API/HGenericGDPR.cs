@@ -29,16 +29,21 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         /// Returns information whether player accept policy.
         /// <returns> Return TRUE if player has policy accepted or if player prefs usage is disabled in config. <para/>
         /// </summary>
-        public static bool IsPolicyAccepted
+        public static GDPRStatus IsPolicyAccepted
         {
             get
             {
                 if( config == null || !config.UsePlayerPrefs )
                 {
-                    return false;
+                    return GDPRStatus.DECLINED;
                 }
 
-                return PlayerPrefs.GetInt( config.PlayerPrefsKey ) == 1;
+                return (GDPRStatus)PlayerPrefs.GetInt( config.PlayerPrefsKey ) ;
+            }
+
+            set
+            {
+                PlayerPrefs.SetInt(config.PlayerPrefsKey, (int)value);
             }
         }
         
@@ -79,7 +84,7 @@ namespace HUFEXT.GenericGDPR.Runtime.API
 
             if( config.UsePlayerPrefs )
             {
-                PlayerPrefs.SetInt( config.PlayerPrefsKey, 1 );
+                IsPolicyAccepted = GDPRStatus.ACCEPTED;
             }
 
             var analyticsEvent = AnalyticsEvent.Create("gdpr_accepted")
@@ -112,10 +117,17 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             }
             
             config = HConfigs.GetConfig<GDPRConfig>();
-            if( config != null && config.AutoInit && !IsPolicyAccepted )
+            if( config != null && config.AutoInit && !(IsPolicyAccepted == GDPRStatus.ACCEPTED || IsPolicyAccepted == GDPRStatus.TURNED_OFF) )
             {
                 Create();
             }
         }
+    }
+
+    public enum GDPRStatus
+    {
+        ACCEPTED = 1,
+        DECLINED = 2,
+        TURNED_OFF = 3
     }
 }

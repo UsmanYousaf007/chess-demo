@@ -398,6 +398,12 @@ namespace TurboLabz.InstantFramework
 
             view.ReportHAnalytic(key, result);
         }
+
+        [ListensTo(typeof(ShowAdSkippedDlgSignal))]
+        public void OnShowAdSkippedDlg()
+        {
+            view.ShowAdSkippedDailogue(true);
+        }
     }
 }
 

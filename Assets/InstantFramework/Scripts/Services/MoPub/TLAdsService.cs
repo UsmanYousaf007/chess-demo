@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
                     break;
                 case AdResult.Skipped:
+                    rewardedAdPromiseOnSuccess.Dispatch(AdsResult.SKIPPED);
                     break;
                 case AdResult.Failed:
                     break;

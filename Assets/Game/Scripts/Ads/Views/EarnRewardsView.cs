@@ -64,7 +64,7 @@ namespace TurboLabz.InstantFramework
         {
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
-            percentage.text = Mathf.RoundToInt(barFillPercentage*100) + "%";
+            percentage.text = Mathf.RoundToInt(barFillPercentage * 100) + "%";
         }
 
     }

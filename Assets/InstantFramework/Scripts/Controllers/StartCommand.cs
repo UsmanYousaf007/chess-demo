@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
         {
 			gameSparksAvailable = isAvailable;
 
-            if (HGenericGDPR.IsPolicyAccepted)
+            if (HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED || HGenericGDPR.IsPolicyAccepted == GDPRStatus.TURNED_OFF)
             {
                 ProcessStartup();
             }
@@ -91,8 +91,8 @@ namespace TurboLabz.InstantFramework
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
 
-                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
             }
 		}
 

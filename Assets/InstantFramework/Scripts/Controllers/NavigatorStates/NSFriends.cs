@@ -54,6 +54,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSThemeSelectionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_EARN_REWARDS_DLG)
+            {
+                return new NSEarnRewardsDlg();
+            }
 
             return null;
         }

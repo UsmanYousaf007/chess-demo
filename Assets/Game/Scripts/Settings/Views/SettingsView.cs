@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -62,6 +63,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         //Models 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -125,55 +127,66 @@ namespace TurboLabz.InstantFramework
             priceText.gameObject.SetActive(!isPremium);
             upgradeToPremiumBtn.gameObject.SetActive(!isPremium);
             manageSubscriptionBtn.gameObject.SetActive(isPremium);
+            personalizedAdsText.gameObject.SetActive(!isPremium);
         }
 
         void OnManageSubscriptionButtonClicked()
         {
             Application.OpenURL(metaDataModel.settingsModel.manageSubscriptionURL);
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
         }
 
         void OnUpgradeToPremiumButtonClicked()
         {
             upgradeToPremiumButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
         }
 
         //Personalised Ads Button
         private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPolicyAccepted);
-            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted);
+            personalisedAdsOffBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted != GDPRStatus.ACCEPTED);
+            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
         }
 
         private void OnPersonalizedAdsOffButtonClicked()
         {
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
+            HGenericGDPR.IsPolicyAccepted = GDPRStatus.ACCEPTED;
             RefreshPersonalisedAdsToggleButtons();
+            SetConsent();
         }
 
         private void OnPersonalizedAdsOnButtonClicked()
         {
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
+            HGenericGDPR.IsPolicyAccepted = GDPRStatus.TURNED_OFF;
             RefreshPersonalisedAdsToggleButtons();
+            SetConsent();
+        }
+
+        private void SetConsent()
+        {
+            adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+            HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
         }
 
         void OnRestorePurchaseButtonClicked()
         {
             restorePurchaseButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
         }
 
         void OnTermsOfUseButtonClicked()
         {
             Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
         }
 
         void OnPrivacyPolicyButtonClicked()
         {
             Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
         }
 
         public void Show()

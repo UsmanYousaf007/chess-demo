@@ -108,11 +108,13 @@ namespace TurboLabz.InstantFramework
         private void OnSettingsButtonClicked()
         {
             Debug.Log("Dispatch Signal settings Btton Clicked:Top Nav View");
+            audioService.PlayStandardClick();
             settingsButtonClickedSignal.Dispatch();
         }
 
         private void OnSelectThemeClicked()
         {
+            audioService.PlayStandardClick();
             selectThemeClickedSignal.Dispatch();
             rewardUnlockedAlert.gameObject.SetActive(false);
         }
@@ -182,6 +184,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnRewardBarClicked()
         {
+            audioService.PlayStandardClick();
             rewardBarClicked.Dispatch();
         }
     }

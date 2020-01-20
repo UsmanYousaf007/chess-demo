@@ -229,7 +229,7 @@ namespace TurboLabz.InstantFramework
             adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
             adSkippedInfoText.text = localizationService.Get(LocalizationKey.AD_SKIPPED_INFO_TEXT);
             adSkippedOkText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
-            
+            adSkippedOkButton.onClick.AddListener(() => ShowAdSkippedDailogue(false));
         }
 
         void OnDecStrengthButtonClicked()
@@ -1218,6 +1218,11 @@ namespace TurboLabz.InstantFramework
                 rewardIcon.sprite = iconsContainer.GetSprite(key);
                 rewardUnlockedDlg.SetActive(true);
             }
+        }
+
+        public void ShowAdSkippedDailogue(bool show)
+        {
+            adSkippedDlg.SetActive(show);
         }
     }
 }

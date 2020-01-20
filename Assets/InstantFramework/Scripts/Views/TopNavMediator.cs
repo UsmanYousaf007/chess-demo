@@ -77,7 +77,7 @@ namespace TurboLabz.InstantFramework
 
         private void RewardBarClicked()
         {
-
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EARN_REWARDS_DLG);
         }
     }
 }

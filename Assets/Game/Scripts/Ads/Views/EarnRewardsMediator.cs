@@ -14,6 +14,7 @@ public class EarnRewardsMediator : Mediator
 
     public override void OnRegister()
     {
+        view.Init();
         view.closeDialogueSignal.AddListener(OnCloseDailogue);
     }
 
@@ -47,5 +48,11 @@ public class EarnRewardsMediator : Mediator
     private void OnCloseDailogue()
     {
         navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+    }
+
+    [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
+    public void OnRewardClaimed(float from, float to)
+    {
+        view.SetupRewardBar();
     }
 }

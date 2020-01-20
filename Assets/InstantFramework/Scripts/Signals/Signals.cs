@@ -138,6 +138,7 @@ namespace TurboLabz.InstantFramework
     public class CancelSearchResultSignal : Signal { }
     public class RewardUnlockedSignal : Signal<string, int> { }
     public class ShowPromotionDlgSignal : Signal { }
+    public class ShowAdSkippedDlgSignal : Signal { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
