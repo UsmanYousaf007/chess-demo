@@ -51,7 +51,8 @@ public class GameSparksUnity : MonoBehaviour
 	}
 	
 	void OnGUI () {
-		if (GameSparksSettings.PreviewBuild == true) {
+        
+		if (GameSparksSettings.PreviewBuild == true && GameSparksSettings.ApiKey != "X356692AvDZZ") {
 			GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
 
 			GUILayout.BeginVertical ();
