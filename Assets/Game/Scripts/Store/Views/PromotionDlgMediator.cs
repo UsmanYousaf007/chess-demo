@@ -18,7 +18,7 @@ public class PromotionDlgMediator : Mediator
     public override void OnRegister()
     {
         view.closeDailogueSignal.AddListener(OnCloseDailogue);
-        view.restorePurchasesSignal.AddListener(OnRestorePurchases);
+        
         view.purchaseSignal.AddListener(OnPurchase);
     }
 

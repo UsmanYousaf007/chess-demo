@@ -11,13 +11,6 @@ public class PromotionDlgView : View
     public GameObject offerPrefab;
     public Transform offersContainer;
     public Button closeButton;
-    public Text disclaimer;
-    public Text privacyPolicyText;
-    public Button privacyPolicyButton;
-    public Text termsOfUseText;
-    public Button termsOfUseButton;
-    public Text restorePurchaseText;
-    public Button restorePurchaseButton;
     public Text priceText;
     public Text purchaseText;
     public Button purchaseButton;
@@ -32,22 +25,15 @@ public class PromotionDlgView : View
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
-    public Signal restorePurchasesSignal = new Signal();
     public Signal purchaseSignal = new Signal();
 
     public void Init()
     {
         title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
-        restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
-        disclaimer.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER);
-        privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
-        termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
+        
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
         closeButton.onClick.AddListener(OnCloseButtonClicked);
-        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
-        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
-        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
 
         var storeItem = metaDataModel.store.items[key];
@@ -81,21 +67,6 @@ public class PromotionDlgView : View
     private void OnCloseButtonClicked()
     {
         closeDailogueSignal.Dispatch();
-    }
-
-    private void OnPrivacyPolicyClicked()
-    {
-        Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
-    }
-
-    private void OnTermsOfUseClicked()
-    {
-        Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
-    }
-
-    private void OnRestorePurchaseClicked()
-    {
-        restorePurchasesSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
