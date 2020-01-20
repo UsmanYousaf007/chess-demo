@@ -128,6 +128,14 @@ namespace TurboLabz.InstantFramework
         public RectTransform themeIconPlacement;
         public RectTransform powerUpIconPlacement;
 
+        [Header("Ad Skipped Dlg")]
+        public GameObject adSkippedDlg;
+        public Text adSkippedTitle;
+        public Text adSkippedOkText;
+        public Button adSkippedOkButton;
+        public Text adSkippedInfoText;
+        public RectTransform adSkippedBar;
+
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
         public Signal<string, FriendBar> showProfileDialogSignal = new Signal<string, FriendBar>();
@@ -216,6 +224,12 @@ namespace TurboLabz.InstantFramework
             rewardOkButtonText.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_CLAIM);
             rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
             iconsContainer = StoreIconsContainer.Load();
+
+            //Ad Skipped Dlg 
+            adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
+            adSkippedInfoText.text = localizationService.Get(LocalizationKey.AD_SKIPPED_INFO_TEXT);
+            adSkippedOkText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
+            
         }
 
         void OnDecStrengthButtonClicked()

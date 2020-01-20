@@ -72,7 +72,7 @@ namespace TurboLabz.InstantFramework
             //Set texts
             settingsTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_TITLE);
             accountTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_TITLE);
-            backButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
+            backButtonText.text = localizationService.Get(LocalizationKey.BACK_TEXT);
            
 
             //Account
