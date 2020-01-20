@@ -38,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 166, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &7393273841178214190
@@ -191,7 +191,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 257, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &127531173427912254
@@ -906,7 +906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 209, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1166585433238330888
@@ -2205,7 +2205,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 215, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &3299681223987069837
@@ -3334,13 +3334,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2242be6e01b4ab8a22320f4487d554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: Weekly
+  key: Subscription
   backButton: {fileID: 4202251804163189604}
   backButtonText: {fileID: 1363803957759641052}
   settingsTitleText: {fileID: 9111577796402759199}
   appVersion: {fileID: 6159456838984801502}
   accountTitleText: {fileID: 7935739331051813729}
   priceText: {fileID: 9017663959981904042}
+  personalizedAdsText: {fileID: 4125980048037462345}
   personalisedAdsOnBtn: {fileID: 4571772330005928483}
   personalisedAdsOffBtn: {fileID: 2748345730804282898}
   manageSubscriptionBtn: {fileID: 1834560230498479844}
@@ -3353,8 +3354,6 @@ MonoBehaviour:
   privacyPolicyText: {fileID: 4906745201211451280}
   upgradeToPremiumBtn: {fileID: 6264593003651368852}
   upgradeToPremiumText: {fileID: 3449688065518602710}
-  personalizedAdsBtn: {fileID: 0}
-  personalizedAdsText: {fileID: 4125980048037462345}
   personalisedAdsOnText: {fileID: 1643180423892157014}
   personalisedAdsOffText: {fileID: 3488885812424683734}
 --- !u!1 &5071353484013424707
@@ -4634,7 +4633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 161, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &8890324793571143891

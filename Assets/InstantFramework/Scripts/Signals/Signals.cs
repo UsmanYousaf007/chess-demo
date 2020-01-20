@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
     public class ModelsLoadFromDiskSignal : Signal { }
     public class GetInitDataSignal : Signal<bool> { }
     public class GetInitDataCompleteSignal : Signal { }
+    public class GetInitDataFailedSignal : Signal<BackendResult> { }
     public class AuthFaceBookSignal : Signal { }
     public class AuthFacebookResultSignal : Signal<AuthFacebookResultVO> { }
     public class UpdateProfileSignal : Signal<ProfileVO> { }
@@ -137,6 +138,7 @@ namespace TurboLabz.InstantFramework
     public class CancelSearchResultSignal : Signal { }
     public class RewardUnlockedSignal : Signal<string, int> { }
     public class ShowPromotionDlgSignal : Signal { }
+    public class ShowAdSkippedDlgSignal : Signal { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

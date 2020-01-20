@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         FINISHED,
         BYPASS,
-        FAILED
+        FAILED,
+        SKIPPED
     }
 }

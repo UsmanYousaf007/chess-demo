@@ -26,6 +26,13 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
+        #region Common
+
+        public const string OKAY_TEXT = "okayText";
+        public const string BACK_TEXT = "backText";
+
+        #endregion
+
         #region Lobby
 
         public const string ELO_SCORE = "eloScore";
@@ -43,6 +50,8 @@ namespace TurboLabz.InstantFramework
         public const string REWARD_THEME = "rewardTheme";
         public const string REWARD_UNLOCKED_SUBTITLE = "rewardUnlockedSubTitle";
         public const string REWARD_UNLOCKED_CLAIM = "rewardUnlockedClaim";
+        public const string AD_SKIPPED_TITLE = "adSkippedTitle";
+        public const string AD_SKIPPED_INFO_TEXT = "adSkippedInfoText";
         #endregion
 
         #region Game
@@ -354,6 +363,13 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_ACCOUNT_INFO = "settingsAccountInfo";
         public const string SETTINGS_ON = "settingsOn";
         public const string SETTINGS_OFF = "settingsOff";
+
+        #endregion
+
+        #region EarnRewards
+
+        public const string EARN_REWARDS_TITLE = "earnRewardsTitle";
+        public const string EARN_REWARDS_INFO_TEXT = "earnRewardsInfoText";
 
         #endregion
     }

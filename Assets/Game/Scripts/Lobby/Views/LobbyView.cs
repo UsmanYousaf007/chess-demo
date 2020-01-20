@@ -84,9 +84,6 @@ namespace TurboLabz.InstantFramework
 
         public Text onlinePlayersCountLabel;
 
-        public Button selectThemeButton;
-        public Text selectThemeText;
-
         [Header("Choose computer difficulty dialog")]
         public GameObject chooseComputerDifficultyDlg;
         public Button decStrengthButton;
@@ -130,7 +127,14 @@ namespace TurboLabz.InstantFramework
         public Button rewardOkButton;
         public RectTransform themeIconPlacement;
         public RectTransform powerUpIconPlacement;
-        public GameObject rewardUnlockedAlert;
+
+        [Header("Ad Skipped Dlg")]
+        public GameObject adSkippedDlg;
+        public Text adSkippedTitle;
+        public Text adSkippedOkText;
+        public Button adSkippedOkButton;
+        public Text adSkippedInfoText;
+        public RectTransform adSkippedBar;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -148,7 +152,6 @@ namespace TurboLabz.InstantFramework
         public Signal decStrengthButtonClickedSignal = new Signal();
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
-        public Signal selectThemeClickedSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -216,14 +219,17 @@ namespace TurboLabz.InstantFramework
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
             playerProfileOriginalPosition = playerProfile.transform.localPosition;
 
-            selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
-            selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
-
             rewardTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_TITLE);
             rewardSubTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_SUBTITLE);
             rewardOkButtonText.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_CLAIM);
             rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
             iconsContainer = StoreIconsContainer.Load();
+
+            //Ad Skipped Dlg 
+            adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
+            adSkippedInfoText.text = localizationService.Get(LocalizationKey.AD_SKIPPED_INFO_TEXT);
+            adSkippedOkText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
+            adSkippedOkButton.onClick.AddListener(() => ShowAdSkippedDailogue(false));
         }
 
         void OnDecStrengthButtonClicked()
@@ -1190,12 +1196,6 @@ namespace TurboLabz.InstantFramework
             uiBlocker.SetActive(show);
         }
 
-        private void OnSelectThemeClicked()
-        {
-            selectThemeClickedSignal.Dispatch();
-            rewardUnlockedAlert.gameObject.SetActive(false);
-        }
-
         public void OnRewardUnlocked(string key, int quantity)
         {
             var reward = metaDataModel.store.items[key];
@@ -1204,7 +1204,6 @@ namespace TurboLabz.InstantFramework
             {
                 if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
                 {
-                    rewardUnlockedAlert.gameObject.SetActive(true);
                     rewardName.text = string.Format("{0} {1}", reward.displayName, localizationService.Get(LocalizationKey.REWARD_THEME));
                     rewardIcon.rectTransform.localPosition = themeIconPlacement.localPosition;
                     rewardIcon.rectTransform.sizeDelta = themeIconPlacement.sizeDelta;
@@ -1219,6 +1218,11 @@ namespace TurboLabz.InstantFramework
                 rewardIcon.sprite = iconsContainer.GetSprite(key);
                 rewardUnlockedDlg.SetActive(true);
             }
+        }
+
+        public void ShowAdSkippedDailogue(bool show)
+        {
+            adSkippedDlg.SetActive(show);
         }
     }
 }

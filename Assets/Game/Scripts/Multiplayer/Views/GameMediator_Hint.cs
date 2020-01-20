@@ -58,6 +58,16 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            if (view.IsVisible())
+            {
+                view.UpdateHintCount(0);
+                view.UpdateHindsightCount(0);
+            }
+        }
+
         [ListensTo(typeof(HintAvailableSignal))]
         public void OnHintAvailable(bool available)
         {

@@ -31,36 +31,41 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
 
-        public Button audioOffButton;
-        public Button audioOnButton;
+        public Button selectThemeButton;
+        public Text selectThemeText;
         public Button supportButton;
         public Button addBucksButton;
         public Button settingsButton;
         public Text playerBucks;
         public Text freeNoAdsPeriodLabel;
+        public GameObject rewardUnlockedAlert;
+        public RectTransform rewardBar;
+        public GameObject rewardBarObject;
+        public Button rewardBarButton;
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
         public Signal settingsButtonClickedSignal = new Signal();
+        public Signal selectThemeClickedSignal = new Signal();
+        public Signal rewardBarClicked = new Signal();
+
+        private float rewardBarOriginalWidth;
+        private Vector3 scaleRewardBarObjectTo = new Vector3(1.3f, 1.3f, 1);
 
         public void Init()
         {
             addBucksButton.onClick.AddListener(OnAddBucksButtonClicked);
-            audioOffButton.onClick.AddListener(OnAudioOffButtonClicked);
-            audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
+            selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
+            selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
             supportButton.onClick.AddListener(OnSupportButtonClicked);
-            if (settingsButton != null)
-            {
-                settingsButton.onClick.AddListener(OnSettingsButtonClicked);
-            }
-
-            RefreshAudioButtons();
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+            rewardBarButton.onClick.AddListener(OnRewardBarClicked);
+            rewardBarOriginalWidth = rewardBar.sizeDelta.x;
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            RefreshAudioButtons();
         }
 
         public void UpdatePlayerBucks(long bucks)
@@ -90,25 +95,6 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.tap_coins);
         }
 
-        private void OnAudioOffButtonClicked()
-        {
-            audioService.ToggleAudio(false);
-            RefreshAudioButtons();
-        }
-
-        private void OnAudioOnButtonClicked()
-        {
-            audioService.ToggleAudio(true);
-            audioService.PlayStandardClick();
-            RefreshAudioButtons();
-        }
-
-        private void RefreshAudioButtons()
-        {
-            audioOffButton.gameObject.SetActive(audioService.IsAudioOn());
-            audioOnButton.gameObject.SetActive(!audioService.IsAudioOn());
-        }
-
         private void OnSupportButtonClicked()
         {
             contactSupportSignal.Dispatch();
@@ -122,9 +108,84 @@ namespace TurboLabz.InstantFramework
         private void OnSettingsButtonClicked()
         {
             Debug.Log("Dispatch Signal settings Btton Clicked:Top Nav View");
+            audioService.PlayStandardClick();
             settingsButtonClickedSignal.Dispatch();
         }
 
+        private void OnSelectThemeClicked()
+        {
+            audioService.PlayStandardClick();
+            selectThemeClickedSignal.Dispatch();
+            rewardUnlockedAlert.gameObject.SetActive(false);
+        }
 
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            //TODO show alert image in case theme is unlocked
+        }
+
+
+        public void SetupRewardBar()
+        {
+            rewardBarObject.SetActive(!playerModel.HasSubscription());
+            var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
+            rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
+        }
+
+        public void ShowRewardBar()
+        {
+            rewardBarObject.SetActive(!playerModel.HasSubscription());
+        }
+
+        public void AnimateRewardBar(float from, float to)
+        {
+            iTween.ScaleTo(rewardBarObject,
+                iTween.Hash(
+                    "scale", scaleRewardBarObjectTo,
+                    "time", 0.3f,
+                    "islocal", true,
+                    "oncomplete", "OnScaleAnimationCompleted",
+                    "oncompletetarget", this.gameObject,
+                    "oncompleteparams", new Vector2(from, to)
+                ));
+        }
+
+        private void OnScaleAnimationCompleted(Vector2 values)
+        {
+            var barFillPercentageFrom = values.x / playerModel.rewardPointsRequired;
+            var barFillPercentageTo = values.y / playerModel.rewardPointsRequired;
+
+            iTween.ValueTo(this.gameObject,
+                iTween.Hash(
+                    "from", rewardBarOriginalWidth * barFillPercentageFrom,
+                    "to", rewardBarOriginalWidth * barFillPercentageTo,
+                    "time", 1f,
+                    "onupdate", "AnimateBar",
+                    "onupdatetarget", this.gameObject,
+                    "oncomplete", "OnCompleteBarFillAnimation",
+                    "oncompletetarget", this.gameObject
+                ));
+        }
+
+        private void AnimateBar(float value)
+        {
+            rewardBar.sizeDelta = new Vector2(value, rewardBar.sizeDelta.y);
+        }
+
+        private void OnCompleteBarFillAnimation()
+        {
+            iTween.ScaleTo(rewardBarObject,
+                iTween.Hash(
+                    "scale", Vector3.one,
+                    "time", 0.3f,
+                    "islocal", true
+                ));
+        }
+
+        private void OnRewardBarClicked()
+        {
+            audioService.PlayStandardClick();
+            rewardBarClicked.Dispatch();
+        }
     }
 }

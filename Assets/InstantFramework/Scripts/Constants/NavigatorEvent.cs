@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
         SHOW_CONFIRM_DLG,
         SHOW_THEME_SELECTION_DLG,
         SHOW_SUBSCRIPTION_DLG,
-        SHOW_SETTINGS
+        SHOW_SETTINGS,
+        SHOW_EARN_REWARDS_DLG,
     }
 }

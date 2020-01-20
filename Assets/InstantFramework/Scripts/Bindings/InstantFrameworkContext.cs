@@ -58,7 +58,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
             commandBinder.Bind<UpdateFriendBarSignal>().To<UpdateFriendBarCommand>();
             commandBinder.Bind<ContactSupportSignal>().To<ContactSupportCommand>();
-            commandBinder.Bind<LoadSettingsSignal>().To<LoadSettingsCommand>();
 
             commandBinder.Bind<SavePlayerInventorySignal>().To<SavePlayerInventoryCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
@@ -105,6 +104,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
             injectionBinder.Bind<GetInitDataCompleteSignal>().ToSingleton();
+            injectionBinder.Bind<GetInitDataFailedSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookResultSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
             injectionBinder.Bind<FindMatchCompleteSignal>().ToSingleton();
@@ -148,6 +148,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
             injectionBinder.Bind<ShowPromotionDlgSignal>().ToSingleton();
+            injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -262,6 +263,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
             mediationBinder.Bind<SoundView>().To<SoundMediator>();
             mediationBinder.Bind<PromotionDlgView>().To<PromotionDlgMediator>();
+            mediationBinder.Bind<EarnRewardsView>().To<EarnRewardsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -292,7 +294,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ReportLobbyPromotionAnalyticSingal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
-            injectionBinder.Bind<SettingsButtonClickedSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

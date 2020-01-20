@@ -23,10 +23,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public ResumeMatchSignal resumeMatchSignal { get; set; }
-
         [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
         [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
-
         [Inject] public SyncReconnectDataSignal syncReconnectData { get; set; }
 
         private NavigatorViewId prevViewId;
@@ -41,35 +39,41 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        void ProcessHardReconnection(BackendResult r)
+        {
+            // Stop GS connection monitoring.
+            MonitorConnectivity(false);
+
+            // Reset all models
+            modelsResetSignal.Dispatch();
+            // Load saved models (perfs etc)
+            modelsLoadFromDiskSignal.Dispatch();
+
+            // Begin processing hard reconnect
+            resumeMatchSignal.Dispatch(prevViewId);
+        }
+
         void GameSparksAvailable(bool isAvailable)
         {
             if (isAvailable)
             {
                 LogUtil.Log("GS Connected", "red");
 
-                // Stop GS connection monitoring.
-                MonitorConnectivity(false);
-
-                // Reset all models
-                modelsResetSignal.Dispatch();
-                // Load saved models (perfs etc)
-                modelsLoadFromDiskSignal.Dispatch();
-
-                // Begin processing hard reconnect
-                resumeMatchSignal.Dispatch(prevViewId);
-
-                // Start the pinger
-                StartPinger();
-
-                reconnectViewEnableSignal.Dispatch(false);
-                chessboardBlockerEnableSignal.Dispatch(false);
-
-                // Restart the reachability monitor
-                InternetReachabilityMonitor.StartMonitor();
+                string fbAccessToken = facebookService.GetAccessToken();
+                if (fbAccessToken == null)
+                {
+                    AuthGuest().Then(ProcessHardReconnection);
+                }
+                else
+                {
+                    AuthFacebook(fbAccessToken, true).Then(ProcessHardReconnection);
+                }
             }
             else
             {
                 LogUtil.Log("GS Disconnected", "red");
+
+                GS.Reset();
 
                 // Avoid soft reconnect processing
                 InternetReachabilityMonitor.StopMonitor();

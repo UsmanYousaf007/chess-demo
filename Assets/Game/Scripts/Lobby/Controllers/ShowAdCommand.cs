@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdatePlayerRewardsPointsSignal updatePlayerRewardsPointsSignal { get; set; }
         [Inject] public RewardUnlockedSignal rewardUnlockedSignal { get; set; }
         [Inject] public ShowPromotionDlgSignal showPromotionDlgSignal { get; set; }
+        [Inject] public ShowAdSkippedDlgSignal showAdSkippedDlgSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -120,8 +121,13 @@ namespace TurboLabz.InstantGame
 
                 GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
                                                             .AddString("challengeId", resultAdsVO.challengeId);
-                                                     
+
                 backendService.ClaimReward(jsonData).Then(OnClaimReward);
+            }
+            else if (result == AdsResult.SKIPPED)
+            {
+                showAdSkippedDlgSignal.Dispatch();
+                Release();
             }
             else
             {

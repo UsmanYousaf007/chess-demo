@@ -37,6 +37,13 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
+                #region Lobby
+
+                { LocalizationKey.OKAY_TEXT, "Ok" },
+                { LocalizationKey.BACK_TEXT, "BACK" },
+
+                #endregion
+
                 #region TopNav
 
                 { LocalizationKey.REMOVE_ADS, "Remove Ads" },
@@ -45,12 +52,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FREE_NO_ADS_HOURS, "hours" },
                 { LocalizationKey.FREE_NO_ADS_DAYS, "days" },
                 { LocalizationKey.DONE, "Done"},
-                { LocalizationKey.SELECT_THEME, "Select Theme"},
+                { LocalizationKey.SELECT_THEME, "Change Theme"},
                 { LocalizationKey.CHOOSE_THEME, "Choose Theme"},
                 { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations"},
                 { LocalizationKey.REWARD_UNLOCKED_SUBTITLE, "Reward Unlocked!"},
                 { LocalizationKey.REWARD_THEME, "Chess Theme"},
                 { LocalizationKey.REWARD_UNLOCKED_CLAIM, "Claim"},
+                { LocalizationKey.AD_SKIPPED_TITLE, "Ad Skipped"},
+                { LocalizationKey.AD_SKIPPED_INFO_TEXT, "Please watch Ads without skipping to earn reward points"},
 
                 #endregion
 
@@ -353,7 +362,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },
                 { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free then (price)" },
                 { LocalizationKey.SETTINGS_ON, "On" },
-                { LocalizationKey.SETTINGS_OFF, "Off" }
+                { LocalizationKey.SETTINGS_OFF, "Off" },
+
+                #endregion
+
+                #region Earn Rewards
+
+                { LocalizationKey.EARN_REWARDS_TITLE, "Earn Rewards" },
+                { LocalizationKey.EARN_REWARDS_INFO_TEXT, "Collect reward points on match result card" }
 
                 #endregion
             };
