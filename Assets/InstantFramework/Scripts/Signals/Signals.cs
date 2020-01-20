@@ -7,6 +7,7 @@ using UnityEngine;
 
 using strange.extensions.signal.impl;
 using System.Collections.Generic;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
@@ -137,7 +138,7 @@ namespace TurboLabz.InstantFramework
     public class SyncReconnectDataSignal : Signal<string> { }
     public class CancelSearchResultSignal : Signal { }
     public class RewardUnlockedSignal : Signal<string, int> { }
-    public class ShowPromotionDlgSignal : Signal { }
+    public class ShowPromotionDlgSignal : Signal<IPromise<AdsResult>> { }
     public class ShowAdSkippedDlgSignal : Signal { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }

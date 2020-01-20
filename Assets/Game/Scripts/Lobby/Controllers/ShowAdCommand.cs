@@ -12,6 +12,7 @@ using TurboLabz.CPU;
 using UnityEngine;
 using strange.extensions.promise.api;
 using GameSparks.Core;
+using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantGame
 {
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantGame
         public AdType adType;
         public string claimRewardType;
         private AdsRewardVO adsRewardData;
+        private IPromise<AdsResult> promotionAdPromise;
 
         public override void Execute()
         {
@@ -65,13 +67,21 @@ namespace TurboLabz.InstantGame
                 case AdType.Interstitial:
 
                     Retain();
-                    ClaimReward(AdsResult.BYPASS);
-
                     if (adsService.IsInterstitialAvailable())
                     {
                         preferencesModel.globalAdsCount++;
                         preferencesModel.interstitialAdsCount++;
-                        adsService.ShowInterstitial();
+
+                        var promise = adsService.ShowInterstitial();
+                        if (promise != null)
+                        {
+                            promise.Then(ClaimReward);
+                        }
+                        else
+                        {
+                            Release();
+                        }
+
                         analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
                     }
                     else
@@ -106,7 +116,6 @@ namespace TurboLabz.InstantGame
                 case AdType.Promotion:
 
                     Retain();
-                    ClaimReward(AdsResult.BYPASS);
                     ShowPromotion();
                     break;
             }
@@ -156,7 +165,9 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotion()
         {
-            showPromotionDlgSignal.Dispatch();
+            promotionAdPromise = new Promise<AdsResult>();
+            promotionAdPromise.Then(ClaimReward);
+            showPromotionDlgSignal.Dispatch(promotionAdPromise);
         }
     }
 }

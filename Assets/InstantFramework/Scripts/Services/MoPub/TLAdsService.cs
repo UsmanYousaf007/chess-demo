@@ -72,6 +72,7 @@ namespace TurboLabz.InstantFramework
                 .ST2("interstitial")
                 .ST3(data.ProviderId);
             HAnalytics.LogEvent(analyticsEvent);
+            rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
         }
 
         public bool IsRewardedVideoAvailable()
@@ -144,15 +145,17 @@ namespace TurboLabz.InstantFramework
                 (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
         }
 
-        public void ShowInterstitial()
+        public IPromise<AdsResult> ShowInterstitial()
         {
-            //MoPubInterstitial.Show();
+            rewardedAdPromiseOnSuccess = new Promise<AdsResult>();
             HAds.Interstitial.TryShow();
             var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_started.ToString())
                 .ST1("monetization")
                 .ST2("interstitial")
                 .ST3(HAds.Interstitial.GetAdProviderName());
             HAnalytics.LogEvent(analyticsEvent);
+            return rewardedAdPromiseOnSuccess;
+
         }
 
         public void ShowBanner()
