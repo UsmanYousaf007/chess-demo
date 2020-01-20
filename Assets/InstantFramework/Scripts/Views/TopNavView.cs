@@ -39,11 +39,18 @@ namespace TurboLabz.InstantFramework
         public Text playerBucks;
         public Text freeNoAdsPeriodLabel;
         public GameObject rewardUnlockedAlert;
+        public RectTransform rewardBar;
+        public GameObject rewardBarObject;
+        public Button rewardBarButton;
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
         public Signal settingsButtonClickedSignal = new Signal();
         public Signal selectThemeClickedSignal = new Signal();
+        public Signal rewardBarClicked = new Signal();
+
+        private float rewardBarOriginalWidth;
+        private Vector3 scaleRewardBarObjectTo = new Vector3(1.3f, 1.3f, 1);
 
         public void Init()
         {
@@ -51,10 +58,9 @@ namespace TurboLabz.InstantFramework
             selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
             selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
             supportButton.onClick.AddListener(OnSupportButtonClicked);
-            if (settingsButton != null)
-            {
-                settingsButton.onClick.AddListener(OnSettingsButtonClicked);
-            }
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+            rewardBarButton.onClick.AddListener(OnRewardBarClicked);
+            rewardBarOriginalWidth = rewardBar.sizeDelta.x;
         }
 
         protected override void OnEnable()
@@ -114,6 +120,69 @@ namespace TurboLabz.InstantFramework
         public void OnRewardUnlocked(string key, int quantity)
         {
             //TODO show alert image in case theme is unlocked
+        }
+
+
+        public void SetupRewardBar()
+        {
+            rewardBarObject.SetActive(!playerModel.HasSubscription());
+            var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
+            rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
+        }
+
+        public void ShowRewardBar()
+        {
+            rewardBarObject.SetActive(!playerModel.HasSubscription());
+        }
+
+        public void AnimateRewardBar(float from, float to)
+        {
+            iTween.ScaleTo(rewardBarObject,
+                iTween.Hash(
+                    "scale", scaleRewardBarObjectTo,
+                    "time", 0.3f,
+                    "islocal", true,
+                    "oncomplete", "OnScaleAnimationCompleted",
+                    "oncompletetarget", this.gameObject,
+                    "oncompleteparams", new Vector2(from, to)
+                ));
+        }
+
+        private void OnScaleAnimationCompleted(Vector2 values)
+        {
+            var barFillPercentageFrom = values.x / playerModel.rewardPointsRequired;
+            var barFillPercentageTo = values.y / playerModel.rewardPointsRequired;
+
+            iTween.ValueTo(this.gameObject,
+                iTween.Hash(
+                    "from", rewardBarOriginalWidth * barFillPercentageFrom,
+                    "to", rewardBarOriginalWidth * barFillPercentageTo,
+                    "time", 1f,
+                    "onupdate", "AnimateBar",
+                    "onupdatetarget", this.gameObject,
+                    "oncomplete", "OnCompleteBarFillAnimation",
+                    "oncompletetarget", this.gameObject
+                ));
+        }
+
+        private void AnimateBar(float value)
+        {
+            rewardBar.sizeDelta = new Vector2(value, rewardBar.sizeDelta.y);
+        }
+
+        private void OnCompleteBarFillAnimation()
+        {
+            iTween.ScaleTo(rewardBarObject,
+                iTween.Hash(
+                    "scale", Vector3.one,
+                    "time", 0.3f,
+                    "islocal", true
+                ));
+        }
+
+        private void OnRewardBarClicked()
+        {
+            rewardBarClicked.Dispatch();
         }
     }
 }

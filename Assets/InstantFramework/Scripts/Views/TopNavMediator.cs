@@ -22,12 +22,14 @@ namespace TurboLabz.InstantFramework
 
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
             view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
+            view.rewardBarClicked.AddListener(RewardBarClicked);
         }
 
         public override void OnRemove()
         {
             view.settingsButtonClickedSignal.RemoveAllListeners();
             view.selectThemeClickedSignal.RemoveAllListeners();
+            view.rewardBarClicked.RemoveAllListeners();
         }
 
         private void OnSettingsButtonClicked()
@@ -50,6 +52,32 @@ namespace TurboLabz.InstantFramework
         public void OnRewardUnlocked(string key, int quantity)
         {
             view.OnRewardUnlocked(key, quantity);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscrionPurchased(StoreItem item)
+        {
+            view.ShowRewardBar();
+        }
+
+        [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
+        public void OnRewardClaimed(float from, float to)
+        {
+            view.AnimateRewardBar(from, to);
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            if (isAvailable)
+            {
+                view.SetupRewardBar();
+            }
+        }
+
+        private void RewardBarClicked()
+        {
+
         }
     }
 }
