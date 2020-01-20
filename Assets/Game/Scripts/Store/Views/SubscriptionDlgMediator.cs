@@ -70,4 +70,13 @@ public class SubscriptionDlgMediator : Mediator
     {
         view.ShowProcessing(show, showProcessingUi);
     }
+
+    [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+    public void OnSubscriptionPurchased(StoreItem item)
+    {
+        if (item.key.Equals(view.key))
+        {
+            OnCloseDailogue();
+        }
+    }
 }
