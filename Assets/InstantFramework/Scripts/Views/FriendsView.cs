@@ -192,6 +192,7 @@ namespace TurboLabz.InstantFramework
             cacheEnabledSections = new List<GameObject>();
             searchSkip = 0;
             cancelSearchButton.interactable = false;
+            cancelSearchButton.gameObject.SetActive(false);
             inputField.onEndEdit.AddListener(OnSearchSubmit);
             cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
             nextSearchButton.interactable = false;
@@ -251,6 +252,7 @@ namespace TurboLabz.InstantFramework
             searchBoxText.text = inputField.text;
             searchBoxText.text  = searchBoxText.text.Replace("\n", " ");
             cancelSearchButton.interactable = true;
+            cancelSearchButton.gameObject.SetActive(true);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
 
             ClearType(FriendCategory.FRIEND);
@@ -283,6 +285,7 @@ namespace TurboLabz.InstantFramework
             sectionSearched.gameObject.SetActive(false);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
             cancelSearchButton.interactable = false;
+            cancelSearchButton.gameObject.SetActive(false);
             searchSkip = 0;
             isSearchNext = false;
             inputField.text = "";

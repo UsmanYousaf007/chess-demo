@@ -367,6 +367,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS, "Personalised Ads" },
                 { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },
                 { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free then (price)" },
+                { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Renews: (date)" },
                 { LocalizationKey.SETTINGS_ON, "On" },
                 { LocalizationKey.SETTINGS_OFF, "Off" },
 

@@ -97,6 +97,8 @@ namespace TurboLabz.InstantFramework
                     LogUtil.Log("Subscription Info: is auto renewing? " + info.isAutoRenewing());
                     LogUtil.Log("Subscription Info: remaining time " + info.getRemainingTime());
 
+                    playerModel.renewDate = info.getExpireDate().ToShortDateString();
+
                     var expiryTimeStamp = TimeUtil.ToUnixTimestamp(info.getExpireDate());
 
                     if (expiryTimeStamp > playerModel.subscriptionExipryTimeStamp)

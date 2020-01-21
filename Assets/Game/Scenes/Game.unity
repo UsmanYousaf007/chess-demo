@@ -16128,6 +16128,12 @@ MonoBehaviour:
   fileRank:
     file: 0
     rank: 0
+--- !u!224 &283992082 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7712761142396719298, guid: cdf3eb40fb8a04aee886c15bcbd0a78e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4544718625611399250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &286426911
 GameObject:
   m_ObjectHideFlags: 0
@@ -19737,6 +19743,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 342094009}
   m_CullTransparentMesh: 0
+--- !u!224 &346801249 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6549347377504621602, guid: cdf3eb40fb8a04aee886c15bcbd0a78e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4544718625611399250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &347070819
 GameObject:
   m_ObjectHideFlags: 0
@@ -72484,6 +72496,7 @@ MonoBehaviour:
   offline: {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
   active: {fileID: 21300000, guid: 3ec033e2ca4b64af7abb21319ab3b3e2, type: 3}
   rewardUnlockedDlg: {fileID: 1821426379}
+  rewardUnlockedDlgBg: {fileID: 1693543971}
   rewardTitle: {fileID: 584191075}
   rewardSubTitle: {fileID: 1778277233}
   rewardIcon: {fileID: 1692770995}
@@ -75475,7 +75488,7 @@ PrefabInstance:
     - target: {fileID: 5835422298911327426, guid: 6d0b5c7d3650f4ab6813296b5144905e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5835422298911327426, guid: 6d0b5c7d3650f4ab6813296b5144905e,
         type: 3}
@@ -87192,8 +87205,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185, y: 837}
-  m_SizeDelta: {x: 446.42365, y: 39.513958}
+  m_AnchoredPosition: {x: -185, y: 622.7}
+  m_SizeDelta: {x: 431.29065, y: 39.513958}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1576794180
 MonoBehaviour:
@@ -93469,7 +93482,7 @@ PrefabInstance:
     - target: {fileID: 6034242919449932427, guid: 977e6c75a96304c96ad82c730316c8d8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6034242919449932427, guid: 977e6c75a96304c96ad82c730316c8d8,
         type: 3}
@@ -108062,6 +108075,8 @@ MonoBehaviour:
   reconnectingPopup: {fileID: 2052405490}
   maintenanceWarningPopup: {fileID: 1805031680}
   topBar: {fileID: 316917912}
+  promotionTopNav: {fileID: 283992082}
+  promotionBottomNav: {fileID: 346801249}
 --- !u!1 &1901426452
 GameObject:
   m_ObjectHideFlags: 0

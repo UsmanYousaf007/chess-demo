@@ -367,6 +367,7 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_ACCOUNT_PERSONALISED_ADS = "settingsAccountPersonalisedAds";
         public const string SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION = "settingsAccountManageSubscription";
         public const string SETTINGS_ACCOUNT_INFO = "settingsAccountInfo";
+        public const string SETTINGS_ACCOUNT_RENEW = "settingsAccountRenew";
         public const string SETTINGS_ON = "settingsOn";
         public const string SETTINGS_OFF = "settingsOff";
 
