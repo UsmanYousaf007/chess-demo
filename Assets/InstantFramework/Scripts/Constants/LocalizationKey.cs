@@ -220,6 +220,12 @@ namespace TurboLabz.InstantFramework
         public const string SUBSCRIPTION_DLG_PRIVACY_POLICY = "subscriptionDlgPrivacyPolicy";
         public const string SUBSCRIPTION_DLG_TERMS_OF_USE = "subscriptionDlgTermsOfUse";
         public const string SUBSCRIPTION_DLG_PURCHASE_BUTTON = "subscriptionDlgPurchaseButton";
+        public const string SUBSCRIPTION_DLG_PRICE = "subscriptionDlgPrice";
+
+        public const string PROMOTON_DLG_TITLE = "promotionDlgTitle";
+        public const string PROMOTION_DLG_PURCHASE_BUTTON = "promotionDlgPurchaseButton";
+        public const string PROMOTION_DLG_PRICE = "promotionDlgPrice";
+        public const string PROMOTION_DLG_PURCHASE = "promotionDlgPurchase";
 
         #endregion
 
@@ -361,6 +367,7 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_ACCOUNT_PERSONALISED_ADS = "settingsAccountPersonalisedAds";
         public const string SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION = "settingsAccountManageSubscription";
         public const string SETTINGS_ACCOUNT_INFO = "settingsAccountInfo";
+        public const string SETTINGS_ACCOUNT_RENEW = "settingsAccountRenew";
         public const string SETTINGS_ON = "settingsOn";
         public const string SETTINGS_OFF = "settingsOff";
 

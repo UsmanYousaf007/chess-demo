@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 2.1, y: 2.7}
-  m_SizeDelta: {x: 530.2, y: 47.61}
+  m_AnchoredPosition: {x: 11.099983, y: 0.99}
+  m_SizeDelta: {x: 664, y: 47.61}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3798887574284283094
 CanvasRenderer:
@@ -67,7 +67,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2858f50c58f1a4aaaa54b8fdeac2e711, type: 3}
-    m_FontSize: 30
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 4371435767862062154}
   - component: {fileID: 198722708849517555}
   m_Layer: 5
-  m_Name: SubscriptionOffer
+  m_Name: PromotionOffer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

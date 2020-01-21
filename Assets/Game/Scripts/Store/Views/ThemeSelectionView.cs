@@ -34,7 +34,7 @@ public class ThemeSelectionView : View
     {
         chooseThemeText.text = localizationService.Get(LocalizationKey.CHOOSE_THEME);
         applyButton.onClick.AddListener(OnApplyButtonClicked);
-        scrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
+        //scrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
         scrollUpButton.onClick.AddListener(OnScrollUpButton);
         scrollDownButton.onClick.AddListener(OnScrollDownButton);
 

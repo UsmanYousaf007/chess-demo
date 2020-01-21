@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (!enable || appInfoModel.isNotificationActive || appInfoModel.isReconnecting != DisconnectStates.FALSE)
+            if (!enable)
             {
                 adsService.HideBanner();
             }

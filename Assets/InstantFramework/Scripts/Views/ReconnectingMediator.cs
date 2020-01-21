@@ -64,6 +64,7 @@ namespace TurboLabz.InstantFramework
         {
             if(enable)
             {
+                toggleBannerSignal.Dispatch(false);
                 view.ShowPopUp();
             }
             else

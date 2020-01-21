@@ -119,6 +119,7 @@ namespace TurboLabz.InstantFramework
 
         [Header("Reward Unlocked Dlg")]
         public GameObject rewardUnlockedDlg;
+        public GameObject rewardUnlockedDlgBg;
         public Text rewardTitle;
         public Text rewardSubTitle;
         public Image rewardIcon;
@@ -1216,7 +1217,11 @@ namespace TurboLabz.InstantFramework
                 }
 
                 rewardIcon.sprite = iconsContainer.GetSprite(key);
+                var originalPos = rewardUnlockedDlgBg.transform.localPosition;
+                rewardUnlockedDlgBg.transform.localPosition = new Vector3(originalPos.x, 1500f, originalPos.z);
                 rewardUnlockedDlg.SetActive(true);
+
+                iTween.MoveTo(rewardUnlockedDlgBg, iTween.Hash("position", originalPos, "time", 0.7f, "islocal", true));
             }
         }
 

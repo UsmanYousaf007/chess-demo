@@ -11,13 +11,13 @@ namespace TurboLabz.InstantFramework
 {
     public class TLAdsService : IAdsService
     {
-        //MoPubAdUnits adUnits;
         [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         IPromise<AdsResult> rewardedAdPromiseOnSuccess;
+
+        private bool bannerDisplay = false;
 
         public void Init()
         {
@@ -30,6 +30,8 @@ namespace TurboLabz.InstantFramework
             HAds.Interstitial.OnEnded += OnInterstitailEnded;
             HAds.Rewarded.OnEnded += OnRewardedEnded;
             HAds.Rewarded.OnFetched += OnRewardedVideoLoadedEvent;
+
+            bannerDisplay = false;
         }
 
         void OnRewardedEnded(IAdCallbackData data)
@@ -72,11 +74,11 @@ namespace TurboLabz.InstantFramework
                 .ST2("interstitial")
                 .ST3(data.ProviderId);
             HAnalytics.LogEvent(analyticsEvent);
+            rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
         }
 
         public bool IsRewardedVideoAvailable()
         {
-            //bool availableFlag = MoPubRewardedVideo.IsAvailable();
             bool availableFlag = HAds.Rewarded.IsReady();
 
             if (!availableFlag)
@@ -92,11 +94,17 @@ namespace TurboLabz.InstantFramework
 
         public void OnBannerLoadedEvent(IBannerCallbackData data)
         {
+            Debug.Log("TLAdsService::OnBannerLoadedEvent() called.");
             Debug.Log("[ANALYITCS]: OnBannerLoadedEvent data "+ data.ToString());
-            if (appInfoModel.gameMode == GameMode.NONE || appInfoModel.isNotificationActive || appInfoModel.isReconnecting != DisconnectStates.FALSE)
+
+            if (bannerDisplay == false)
             {
+                Debug.Log("TLAdsService::OnBannerLoadedEvent() will hide ad.");
                 HideBanner();
+                return;
             }
+
+            Debug.Log("TLAdsService::OnBannerLoadedEvent() will NOT hide ad.");
 
             appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_displayed.ToString());
             var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.ad_displayed.ToString())
@@ -144,27 +152,31 @@ namespace TurboLabz.InstantFramework
                 (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
         }
 
-        public void ShowInterstitial()
+        public IPromise<AdsResult> ShowInterstitial()
         {
-            //MoPubInterstitial.Show();
+            rewardedAdPromiseOnSuccess = new Promise<AdsResult>();
             HAds.Interstitial.TryShow();
             var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_started.ToString())
                 .ST1("monetization")
                 .ST2("interstitial")
                 .ST3(HAds.Interstitial.GetAdProviderName());
             HAnalytics.LogEvent(analyticsEvent);
+            return rewardedAdPromiseOnSuccess;
+
         }
 
         public void ShowBanner()
         {
-            // MoPubBanner.Show(MoPub.AdPosition.TopCenter);
+            Debug.Log("TLAdsService::ShowBanner() called.");
+            bannerDisplay = true;
             HAds.Banner.Show(BannerPosition.TopCenter);
         }
 
         public void HideBanner()
         {
+            Debug.Log("TLAdsService::HideBanner() called.");
+            bannerDisplay = false;
             HAds.Banner.Hide();
-           // MoPubBanner.Hide();
         }
 
         private void OnBannerClicked(IBannerCallbackData data)

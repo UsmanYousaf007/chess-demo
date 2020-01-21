@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
         [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
         [Inject] public GetInitDataSignal getInitDataSignal { get; set; }
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -50,8 +51,6 @@ namespace TurboLabz.InstantFramework
             getInitDataCompleteSignal.AddListener(OnGetInitDataComplete);
             getInitDataFailedSignal.AddListener(OnGetInitDataFailed);
             getInitDataSignal.Dispatch(true);
-
-            //receptionSignal.Dispatch(true);
         }
 
         private void OnGetInitDataFailed(BackendResult result)
@@ -71,6 +70,7 @@ namespace TurboLabz.InstantFramework
             {
                 stopTimersSignal.Dispatch();
                 startCPUGameSignal.Dispatch();
+                toggleBannerSignal.Dispatch(true);
             }
             else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
             {
@@ -94,6 +94,7 @@ namespace TurboLabz.InstantFramework
             {
                 stopTimersSignal.Dispatch();
                 startGameSignal.Dispatch();
+                toggleBannerSignal.Dispatch(true);
 
                 // Record analytics
                 TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);

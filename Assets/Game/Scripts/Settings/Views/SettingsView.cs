@@ -102,6 +102,10 @@ namespace TurboLabz.InstantFramework
             appVersion.text = "v" + Application.version;
 
             RefreshPersonalisedAdsToggleButtons();
+
+#if UNITY_ANDROID
+            restorePurchaseBtn.gameObject.SetActive(false);
+#endif
         }
 
         protected override void OnEnable()
@@ -117,17 +121,17 @@ namespace TurboLabz.InstantFramework
             if (storeItem == null)
                 return;
 
+            var isPremium = playerModel.HasSubscription();
+
             string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
+            string subscriptionRenewDate = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_RENEW);
             string price = storeItem.remoteProductPrice;
 
-            string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
+            string subscriptionPriceString = !isPremium ? subscriptionInfo.Replace("(price)", price) : subscriptionRenewDate.Replace("(date)", playerModel.renewDate);
             priceText.text = subscriptionPriceString;
-
-            var isPremium = playerModel.HasSubscription();
-            priceText.gameObject.SetActive(!isPremium);
+           
             upgradeToPremiumBtn.gameObject.SetActive(!isPremium);
             manageSubscriptionBtn.gameObject.SetActive(isPremium);
-            personalizedAdsText.gameObject.SetActive(!isPremium);
         }
 
         void OnManageSubscriptionButtonClicked()

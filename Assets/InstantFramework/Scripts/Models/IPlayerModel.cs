@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         int playerFriendsCount { get; set; }
         bool isFBConnectRewardClaimed { get; set; }
         long subscriptionExipryTimeStamp { get; set; }
+        string renewDate { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

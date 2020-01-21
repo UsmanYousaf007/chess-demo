@@ -55,7 +55,13 @@ public class SubscriptionDlgView : View
         if (storeItem == null)
             return;
 
-        priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
+        string subscriptionInfo = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRICE);
+        string price = storeItem.remoteProductPrice;
+
+        string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
+        priceText.text = subscriptionPriceString;
+
+        //priceText.text = string.Format("\nthen {0} per month", storeItem.remoteProductPrice);
 
         // Fill only once
         if (offersContainer.childCount == 0)

@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         public bool isFBConnectRewardClaimed { get; set; }
         public int cpuPowerupUsedCount { get; set; }
         public long subscriptionExipryTimeStamp { get; set; }
+        public string renewDate { get; set; }
 
         public string name
         {
@@ -99,6 +100,7 @@ namespace TurboLabz.InstantFramework
             notificationCount = 0;
             editedName = "";
             subscriptionExipryTimeStamp = 0;
+            renewDate = "";
 
             // Ads Info
             adLifetimeImpressions = 0;

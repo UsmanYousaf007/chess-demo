@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using HUF.Analytics.API;
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 
@@ -8,7 +9,7 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public SubscriptionDlgView view { get; set; }
 
     // Services
-    [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public TurboLabz.InstantFramework.IAnalyticsService analyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -38,6 +39,8 @@ public class SubscriptionDlgMediator : Mediator
         {
             view.Show();
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
+
+            HAnalytics.LogEvent(AnalyticsEvent.Create("subscription_popup_displayed").ST1("menu").ST2("subscription_popup"));
         }
     }
 
@@ -58,11 +61,18 @@ public class SubscriptionDlgMediator : Mediator
     private void OnRestorePurchases()
     {
         restorePurchasesSignal.Dispatch();
+
+#if UNITY_IOS
+        HAnalytics.LogEvent(AnalyticsEvent.Create("restore_ios_iap_clicked").ST1("menu").ST2("subscription_popup"));
+#endif
+
     }
 
     private void OnPurchase()
     {
         purchaseStoreItemSignal.Dispatch(view.key, true);
+
+        HAnalytics.LogEvent(AnalyticsEvent.Create("start_trial_clicked").ST1("menu").ST2("subscription_popup"));
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]

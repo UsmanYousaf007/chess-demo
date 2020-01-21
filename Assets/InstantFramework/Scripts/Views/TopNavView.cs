@@ -139,21 +139,8 @@ namespace TurboLabz.InstantFramework
 
         public void AnimateRewardBar(float from, float to)
         {
-            iTween.ScaleTo(rewardBarObject,
-                iTween.Hash(
-                    "scale", scaleRewardBarObjectTo,
-                    "time", 0.3f,
-                    "islocal", true,
-                    "oncomplete", "OnScaleAnimationCompleted",
-                    "oncompletetarget", this.gameObject,
-                    "oncompleteparams", new Vector2(from, to)
-                ));
-        }
-
-        private void OnScaleAnimationCompleted(Vector2 values)
-        {
-            var barFillPercentageFrom = values.x / playerModel.rewardPointsRequired;
-            var barFillPercentageTo = values.y / playerModel.rewardPointsRequired;
+            var barFillPercentageFrom = from / playerModel.rewardPointsRequired;
+            var barFillPercentageTo = to / playerModel.rewardPointsRequired;
 
             iTween.ValueTo(this.gameObject,
                 iTween.Hash(
@@ -161,25 +148,13 @@ namespace TurboLabz.InstantFramework
                     "to", rewardBarOriginalWidth * barFillPercentageTo,
                     "time", 1f,
                     "onupdate", "AnimateBar",
-                    "onupdatetarget", this.gameObject,
-                    "oncomplete", "OnCompleteBarFillAnimation",
-                    "oncompletetarget", this.gameObject
+                    "onupdatetarget", this.gameObject
                 ));
         }
 
         private void AnimateBar(float value)
         {
             rewardBar.sizeDelta = new Vector2(value, rewardBar.sizeDelta.y);
-        }
-
-        private void OnCompleteBarFillAnimation()
-        {
-            iTween.ScaleTo(rewardBarObject,
-                iTween.Hash(
-                    "scale", Vector3.one,
-                    "time", 0.3f,
-                    "islocal", true
-                ));
         }
 
         private void OnRewardBarClicked()
