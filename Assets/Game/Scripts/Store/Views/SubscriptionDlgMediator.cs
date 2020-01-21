@@ -84,7 +84,7 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
-        if (item.key.Equals(view.key))
+        if (view.IsVisible() && item.key.Equals(view.key))
         {
             OnCloseDailogue();
         }

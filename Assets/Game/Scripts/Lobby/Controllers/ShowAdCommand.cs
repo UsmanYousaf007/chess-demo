@@ -135,7 +135,12 @@ namespace TurboLabz.InstantGame
             }
             else if (result == AdsResult.SKIPPED)
             {
-                showAdSkippedDlgSignal.Dispatch();
+                if (!preferencesModel.isSkipVideoDlgShown)
+                {
+                    preferencesModel.isSkipVideoDlgShown = true;
+                    showAdSkippedDlgSignal.Dispatch();
+                }
+
                 Release();
             }
             else

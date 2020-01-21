@@ -47,6 +47,7 @@ namespace TurboLabz.InstantGame
         public int rewardedAdsCount { get; set; }
         public int interstitialAdsCount { get; set; }
         public int resignCount { get; set; }
+        public bool isSkipVideoDlgShown { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -81,6 +82,7 @@ namespace TurboLabz.InstantGame
             gameStartCount = 0;
             gameFinishedCount = 0;
             appsFlyerLastLaunchTime = lastLaunchTime;
+            isSkipVideoDlgShown = false;
             ResetDailyPrefers();
         }
 
@@ -224,6 +226,11 @@ namespace TurboLabz.InstantGame
                     resignCount = reader.Read<int>(PrefKeys.RESIGN_COUNT);
                 }
 
+                if (reader.HasKey(PrefKeys.SKIP_DLG_SHOWN))
+                {
+                    isSkipVideoDlgShown = reader.Read<bool>(PrefKeys.SKIP_DLG_SHOWN);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -268,6 +275,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.REWARDED_ADS_COUNT, globalAdsCount);
                 writer.Write<int>(PrefKeys.INTERSTITIAL_ADS_COUNT, interstitialAdsCount);
                 writer.Write<int>(PrefKeys.RESIGN_COUNT, resignCount);
+                writer.Write<bool>(PrefKeys.SKIP_DLG_SHOWN, isSkipVideoDlgShown);
                 writer.Close();
             }
             catch (Exception e)

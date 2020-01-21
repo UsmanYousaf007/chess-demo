@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
                     "Please download the latest version." },
                 { LocalizationKey.UPDATE_BUTTON, "UPDATE" },
                 { LocalizationKey.CHECK_INTERNET_CONNECTION, "Please check your internet connection." },
-                { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Star account because your account is signed in on another device." },
+                { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Stars account because your account is signed in on another device." },
                 
 
 
@@ -220,7 +220,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNAVAILABLE, "Purchasing is unavailable, check your payment settings" },
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNKNOWN, "Reason unknown" },
 
-                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "CHESS STAR\nPremium Subscription"},
+                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "CHESS STARS\nPremium Subscription"},
                 { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unsued portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
                 { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Try for free"},
@@ -228,7 +228,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRICE, "3 days free trial\nthen (price) per month"},
 
-                { LocalizationKey.PROMOTON_DLG_TITLE, "CHESS STAR\nPremium Subscription"},
+                { LocalizationKey.PROMOTON_DLG_TITLE, "CHESS STARS\nPremium Subscription"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Try for free"},
                 { LocalizationKey.PROMOTION_DLG_PRICE, "then (price) per month"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE, "3 days free trial"},

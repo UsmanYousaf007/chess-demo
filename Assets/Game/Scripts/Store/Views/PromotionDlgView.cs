@@ -86,6 +86,11 @@ public class PromotionDlgView : View
         processingUi.SetActive(showProcessingUi);
         uiBlocker.SetActive(show);
     }
+
+    public bool IsVisible()
+    {
+        return gameObject.activeSelf;
+    }
 }
 
 
