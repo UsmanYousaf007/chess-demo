@@ -211,6 +211,8 @@ namespace TurboLabz.Multiplayer
             if (appInfoModel.isReconnecting != DisconnectStates.LONG_DISCONNET)
             {
                 reconnectViewEnableSignal.Dispatch(false);
+                view.FlashClocks(false);
+                view.chessboardBlocker.SetActive(false);
             }
         }
 
