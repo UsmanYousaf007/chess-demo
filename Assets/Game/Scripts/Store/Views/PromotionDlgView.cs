@@ -22,6 +22,7 @@ public class PromotionDlgView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -66,11 +67,13 @@ public class PromotionDlgView : View
 
     private void OnCloseButtonClicked()
     {
+        audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
+        audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
     }
 

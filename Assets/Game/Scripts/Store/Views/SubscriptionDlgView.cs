@@ -29,6 +29,7 @@ public class SubscriptionDlgView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -67,6 +68,11 @@ public class SubscriptionDlgView : View
                 offerObj.GetComponentInChildren<Text>().text = offer;
             }
         }
+
+
+#if UNITY_ANDROID
+        restorePurchaseButton.gameObject.SetActive(false);
+#endif
     }
 
     public void Show()
@@ -82,25 +88,30 @@ public class SubscriptionDlgView : View
     private void OnCloseButtonClicked()
     {
         closeDailogueSignal.Dispatch();
+        audioService.PlayStandardClick();
     }
 
     private void OnPrivacyPolicyClicked()
     {
         Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
+        audioService.PlayStandardClick();
     }
 
     private void OnTermsOfUseClicked()
     {
+        audioService.PlayStandardClick();
         Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 
     private void OnRestorePurchaseClicked()
     {
+        audioService.PlayStandardClick();
         restorePurchasesSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
+        audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
     }
 

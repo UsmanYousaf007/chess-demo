@@ -102,6 +102,10 @@ namespace TurboLabz.InstantFramework
             appVersion.text = "v" + Application.version;
 
             RefreshPersonalisedAdsToggleButtons();
+
+#if UNITY_ANDROID
+            restorePurchaseBtn.gameObject.SetActive(false);
+#endif
         }
 
         protected override void OnEnable()
@@ -127,7 +131,6 @@ namespace TurboLabz.InstantFramework
             priceText.gameObject.SetActive(!isPremium);
             upgradeToPremiumBtn.gameObject.SetActive(!isPremium);
             manageSubscriptionBtn.gameObject.SetActive(isPremium);
-            personalizedAdsText.gameObject.SetActive(!isPremium);
         }
 
         void OnManageSubscriptionButtonClicked()
