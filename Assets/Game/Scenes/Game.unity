@@ -18681,11 +18681,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -108.299805
       objectReference: {fileID: 0}
-    - target: {fileID: 1950720284571066266, guid: fc6cce3296d7c485bb4b081ef97abf63,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 137.7002
-      objectReference: {fileID: 0}
     - target: {fileID: 6281656606154055847, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -18695,6 +18690,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -108.30029
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950720284571066266, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 137.7002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc6cce3296d7c485bb4b081ef97abf63, type: 3}
@@ -94312,16 +94312,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7617791129103262955, guid: 1c09f457dfb2743388ffeb792ce5845e,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6426655540321464078, guid: 1c09f457dfb2743388ffeb792ce5845e,
         type: 3}
       propertyPath: sourceImage
       value: 
       objectReference: {fileID: 105294782}
+    - target: {fileID: 7617791129103262955, guid: 1c09f457dfb2743388ffeb792ce5845e,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c09f457dfb2743388ffeb792ce5845e, type: 3}
 --- !u!224 &1675565152 stripped
@@ -104570,6 +104570,11 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4839277840668506254, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: sourceImage
+      value: 
+      objectReference: {fileID: 105294782}
+    - target: {fileID: 5270096511029390143, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: sourceImage
       value: 
@@ -126401,6 +126406,11 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4839277840668506254, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: sourceImage
+      value: 
+      objectReference: {fileID: 105294782}
+    - target: {fileID: 5270096511029390143, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: sourceImage
       value: 
