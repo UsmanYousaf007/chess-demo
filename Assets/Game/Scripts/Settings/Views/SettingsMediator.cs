@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using HUF.Analytics.API;
 using strange.extensions.mediation.impl;
 
 namespace TurboLabz.InstantFramework
@@ -53,6 +54,10 @@ namespace TurboLabz.InstantFramework
         private void OnRestorePurchases()
         {
             restorePurchasesSignal.Dispatch();
+
+#if UNITY_IOS
+        HAnalytics.LogEvent(AnalyticsEvent.Create("restore_ios_iap_clicked").ST1("menu").ST2("settings"));
+#endif
         }
 
         void OnBackButtonClicked()
@@ -78,6 +83,7 @@ namespace TurboLabz.InstantFramework
         void OnUpgradeToPremiumClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            HAnalytics.LogEvent(AnalyticsEvent.Create("upgrade_subscription_clicked").ST1("menu").ST2("settings"));
         }
     }
 }
