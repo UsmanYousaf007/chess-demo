@@ -31,12 +31,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4655784683583738394}
-  m_Father: {fileID: 1678089403420973842}
-  m_RootOrder: 1
+  m_Father: {fileID: 1300161157044051512}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 147.9, y: 91.30005}
+  m_AnchoredPosition: {x: 45.6, y: 0}
   m_SizeDelta: {x: 37, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3108869130255551450
@@ -1017,6 +1017,7 @@ RectTransform:
   - {fileID: 1300161158644412689}
   - {fileID: 2831997432854077507}
   - {fileID: 2797726236155485071}
+  - {fileID: 5669483241145015263}
   m_Father: {fileID: 1300161157010489617}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6138,9 +6139,6 @@ MonoBehaviour:
   noStar: {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
   silverStar: {fileID: 21300000, guid: f769c84c9fc314a74baa81bd620e4b88, type: 3}
   goldStar: {fileID: 21300000, guid: b6b8511ad05ed45e79e559d75821d2cd, type: 3}
-  privacyPolicy: {fileID: 0}
-  restorePurchases: {fileID: 0}
-  appVersion: {fileID: 0}
   backButton: {fileID: 8108993006669829666}
   playerProfileNameInputField: {fileID: 6275107654328529179}
   nameEditBtn: {fileID: 8968963145799433656}
@@ -6150,7 +6148,6 @@ MonoBehaviour:
   playingSince: {fileID: 4630960083294429216}
   shareBtn: {fileID: 1320517471718594369}
   copyTagBtn: {fileID: 1244333289524121483}
-  termsBtn: {fileID: 0}
   copiedToClipboardBg: {fileID: 2731534253021720530}
   copiedToClipboardText: {fileID: 6159811577106599673}
   logo: {fileID: 2800000, guid: 0bc3e21960bb7418ba4b8b315a22cbf4, type: 3}
@@ -7372,7 +7369,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 147.9, y: -1.7999039}
+  m_AnchoredPosition: {x: 48.9, y: -1.7999039}
   m_SizeDelta: {x: 39, y: 38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8250296488404604174
@@ -8156,7 +8153,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 859641381705763235}
-  - {fileID: 5669483241145015263}
   m_Father: {fileID: 2797726236155485071}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

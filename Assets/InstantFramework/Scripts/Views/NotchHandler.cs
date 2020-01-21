@@ -89,8 +89,8 @@ public class NotchHandler : MonoBehaviour {
         SetY(lobbyScrollView, -63f - 100f);
         SetTop(lobbyViewPort, 9f);
         SetBottom(lobbyViewPort, 108f + 100f);
-        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -141);
-        lobbyView.setScorllViewportBottomTo = 351;
+        SetY(lobbyScrollViewPivotForBanner, -318);
+        lobbyView.setScorllViewportBottomTo = 361;
         SetY(lobbyScrollViewTopShadow, -2);
         SetY(quickMatchButton, 347f);
 

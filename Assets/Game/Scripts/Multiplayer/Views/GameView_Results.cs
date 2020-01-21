@@ -116,6 +116,7 @@ namespace TurboLabz.Multiplayer
             {
                 resultsCollectRewardButton.interactable = true;
                 resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
@@ -133,7 +134,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 resultsCollectRewardButton.interactable = false;
-                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
+                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, 50f);
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;

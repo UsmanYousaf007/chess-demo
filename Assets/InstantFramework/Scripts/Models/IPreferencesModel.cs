@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         int rewardedAdsCount { get; set; }
         int interstitialAdsCount { get; set; }
         int resignCount { get; set; }
+        bool isSkipVideoDlgShown { get; set; }
 
         void ResetDailyPrefers();
         void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);

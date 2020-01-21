@@ -73,6 +73,8 @@ namespace TurboLabz.InstantFramework
         public float rewardCurrentPoints { get; set; }
         public float rewardPointsRequired { get; set; }
 
+        private bool isSubscriber = false;
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -170,8 +172,12 @@ namespace TurboLabz.InstantFramework
 
         public bool HasSubscription()
         {
-            return isPremium ||
-                   subscriptionExipryTimeStamp > backendService.serverClock.currentTimestamp;
+            if (!isSubscriber)
+            {
+                isSubscriber = subscriptionExipryTimeStamp > backendService.serverClock.currentTimestamp;
+            }
+
+            return isPremium || isSubscriber;
         }
 
         public bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel)

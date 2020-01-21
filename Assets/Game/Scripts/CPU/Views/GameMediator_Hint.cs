@@ -13,6 +13,7 @@ namespace TurboLabz.CPU
     {
         //Dispatch Signals
         [Inject] public GetHintSignal getHintSignal { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         private void OnRegisterHint()
         {
@@ -81,6 +82,7 @@ namespace TurboLabz.CPU
             {
                 view.UpdateHintCount(0);
                 view.UpdateHindsightCount(0);
+                adsService.HideBanner();
             }
         }
     }

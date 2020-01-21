@@ -115,6 +115,11 @@ public class SubscriptionDlgView : View
         processingUi.SetActive(showProcessingUi);
         uiBlocker.SetActive(show);
     }
+
+    public bool IsVisible()
+    {
+        return gameObject.activeSelf;
+    }
 }
 
 
