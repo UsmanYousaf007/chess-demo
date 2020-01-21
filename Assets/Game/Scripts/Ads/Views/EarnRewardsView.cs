@@ -15,7 +15,7 @@ namespace TurboLabz.InstantFramework
 
         public Button closeButton;
         public Text titleText;
-        public Text inforText;
+        public Text infoText;
         public RectTransform rewardBar;
         public Text percentage;
 
@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
         {
             //Set texts
             titleText.text = localizationService.Get(LocalizationKey.EARN_REWARDS_TITLE);
-            inforText.text = localizationService.Get(LocalizationKey.EARN_REWARDS_INFO_TEXT);
+            infoText.text = localizationService.Get(LocalizationKey.EARN_REWARDS_INFO_TEXT);
 
 
             //Set Button Listeners
@@ -64,7 +64,7 @@ namespace TurboLabz.InstantFramework
         {
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
-            percentage.text = Mathf.RoundToInt(barFillPercentage * 100) + "%";
+            percentage.text = Mathf.RoundToInt(barFillPercentage*100) + "%";
         }
 
     }

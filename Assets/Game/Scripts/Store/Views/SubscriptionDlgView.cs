@@ -29,7 +29,6 @@ public class SubscriptionDlgView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
-    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -56,7 +55,13 @@ public class SubscriptionDlgView : View
         if (storeItem == null)
             return;
 
-        priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
+        string subscriptionInfo = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRICE);
+        string price = storeItem.remoteProductPrice;
+
+        string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
+        priceText.text = subscriptionPriceString;
+
+        //priceText.text = string.Format("\nthen {0} per month", storeItem.remoteProductPrice);
 
         // Fill only once
         if (offersContainer.childCount == 0)
@@ -68,11 +73,6 @@ public class SubscriptionDlgView : View
                 offerObj.GetComponentInChildren<Text>().text = offer;
             }
         }
-
-
-#if UNITY_ANDROID
-        restorePurchaseButton.gameObject.SetActive(false);
-#endif
     }
 
     public void Show()
@@ -88,30 +88,25 @@ public class SubscriptionDlgView : View
     private void OnCloseButtonClicked()
     {
         closeDailogueSignal.Dispatch();
-        audioService.PlayStandardClick();
     }
 
     private void OnPrivacyPolicyClicked()
     {
         Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
-        audioService.PlayStandardClick();
     }
 
     private void OnTermsOfUseClicked()
     {
-        audioService.PlayStandardClick();
         Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 
     private void OnRestorePurchaseClicked()
     {
-        audioService.PlayStandardClick();
         restorePurchasesSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
-        audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
     }
 

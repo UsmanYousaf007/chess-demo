@@ -22,7 +22,6 @@ public class PromotionDlgView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
-    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -30,9 +29,9 @@ public class PromotionDlgView : View
 
     public void Init()
     {
-        title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
+        title.text = localizationService.Get(LocalizationKey.PROMOTON_DLG_TITLE);
         
-        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
+        purchaseText.text = localizationService.Get(LocalizationKey.PROMOTION_DLG_PURCHASE);
 
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
@@ -42,7 +41,14 @@ public class PromotionDlgView : View
         if (storeItem == null)
             return;
 
-        priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
+
+        string subscriptionInfo = localizationService.Get(LocalizationKey.PROMOTION_DLG_PRICE);
+        string price = storeItem.remoteProductPrice;
+
+        string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
+        priceText.text = subscriptionPriceString;
+
+        //priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
 
         if (offersContainer.childCount == 0)
         {
@@ -67,13 +73,11 @@ public class PromotionDlgView : View
 
     private void OnCloseButtonClicked()
     {
-        audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
-        audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
     }
 

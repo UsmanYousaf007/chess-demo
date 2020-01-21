@@ -58,6 +58,10 @@ public class NotchHandler : MonoBehaviour {
     [Header("Settings")]
     public RectTransform topBar;
 
+    [Header("Promotion")]
+    public RectTransform promotionTopNav;
+    public RectTransform promotionBottomNav;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -132,6 +136,10 @@ public class NotchHandler : MonoBehaviour {
 
         //SETTINGS
         SetY(topBar, -106f);
+
+        //PROMOTION
+        SetY(promotionTopNav, -85f);
+        SetY(promotionBottomNav, 94f);
     }
 
     void SetY(RectTransform tfm, float y)
