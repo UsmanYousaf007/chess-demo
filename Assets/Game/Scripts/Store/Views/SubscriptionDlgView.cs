@@ -29,6 +29,7 @@ public class SubscriptionDlgView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -87,26 +88,31 @@ public class SubscriptionDlgView : View
 
     private void OnCloseButtonClicked()
     {
+        audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPrivacyPolicyClicked()
     {
+        audioService.PlayStandardClick();
         Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
     }
 
     private void OnTermsOfUseClicked()
     {
+        audioService.PlayStandardClick();
         Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 
     private void OnRestorePurchaseClicked()
     {
+        audioService.PlayStandardClick();
         restorePurchasesSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
+        audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
     }
 

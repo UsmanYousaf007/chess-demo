@@ -387,6 +387,7 @@ namespace TurboLabz.CPU
 
         private void OnResultsCollectRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
@@ -404,6 +405,7 @@ namespace TurboLabz.CPU
 
         public void OnResultsSkipRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
@@ -419,6 +421,7 @@ namespace TurboLabz.CPU
 
         private void OnResultsClosed()
         {
+            audioService.PlayStandardClick();
             HideResultsDialog();
             //playbackOverlay.gameObject.SetActive(true);
             menuOpensResultsDlg = true;

@@ -414,6 +414,7 @@ namespace TurboLabz.Multiplayer
 			
         private void OnResultsCollectRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
@@ -443,6 +444,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnResultsDeclinedButtonClicked()
         {
+            audioService.PlayStandardClick();
             if (isLongPlay)
             {
                 backToLobbySignal.Dispatch();
@@ -455,6 +457,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnResultsClosed()
         {
+            audioService.PlayStandardClick();
             uiBlocker.SetActive(false);
             resultsDialogClosedSignal.Dispatch();
             viewBoardResultPanel.gameObject.SetActive(true);
@@ -462,6 +465,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnResultsSkipRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             backToLobbySignal.Dispatch();
             refreshLobbySignal.Dispatch();
 

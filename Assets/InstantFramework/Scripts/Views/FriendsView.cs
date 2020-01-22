@@ -920,6 +920,7 @@ namespace TurboLabz.InstantFramework
 
         void OnToggleRankButtonClicked()
         {
+            audioService.PlayStandardClick();
             startGameConfirmationDlg.toggleRankButtonState = !startGameConfirmationDlg.toggleRankButtonState;
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
         }

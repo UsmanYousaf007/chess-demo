@@ -882,6 +882,7 @@ namespace TurboLabz.InstantFramework
 
         void OnToggleRankButtonClicked()
         {
+            audioService.PlayStandardClick();
             startGameConfirmationDlg.toggleRankButtonState = !startGameConfirmationDlg.toggleRankButtonState;
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
         }
@@ -1199,6 +1200,8 @@ namespace TurboLabz.InstantFramework
 
         public void OnRewardUnlocked(string key, int quantity)
         {
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+
             var reward = metaDataModel.store.items[key];
             
             if (reward != null && !string.IsNullOrEmpty(reward.displayName))
