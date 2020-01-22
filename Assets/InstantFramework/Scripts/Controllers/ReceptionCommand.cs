@@ -28,7 +28,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Models
-        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -49,7 +50,7 @@ namespace TurboLabz.InstantFramework
         private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
-            if (metaDataModel.appInfo.appBackendVersionValid == false)
+            if (appInfoModel.appBackendVersionValid == false)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
@@ -57,7 +58,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (metaDataModel.settingsModel.maintenanceFlag == true)
+            if (settingsModel.maintenanceFlag == true)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: GAME  MAINTENENCE ON", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MAINTENANCE_SCREEN);
