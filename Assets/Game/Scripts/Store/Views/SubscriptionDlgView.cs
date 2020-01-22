@@ -29,11 +29,21 @@ public class SubscriptionDlgView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal restorePurchasesSignal = new Signal();
     public Signal purchaseSignal = new Signal();
+
+    public void InitOnce()
+    {
+        closeButton.onClick.AddListener(OnCloseButtonClicked);
+        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
+        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
+        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
+        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+    }
 
     public void Init()
     {
@@ -43,12 +53,6 @@ public class SubscriptionDlgView : View
         privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
         termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
-
-        closeButton.onClick.AddListener(OnCloseButtonClicked);
-        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
-        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
-        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
-        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
 
         var storeItem = metaDataModel.store.items[key];
 
@@ -87,26 +91,31 @@ public class SubscriptionDlgView : View
 
     private void OnCloseButtonClicked()
     {
+        audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPrivacyPolicyClicked()
     {
+        audioService.PlayStandardClick();
         Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
     }
 
     private void OnTermsOfUseClicked()
     {
+        audioService.PlayStandardClick();
         Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 
     private void OnRestorePurchaseClicked()
     {
+        audioService.PlayStandardClick();
         restorePurchasesSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
+        audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
     }
 

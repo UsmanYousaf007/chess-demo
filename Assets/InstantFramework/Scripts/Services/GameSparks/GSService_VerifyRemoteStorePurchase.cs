@@ -44,15 +44,6 @@ namespace TurboLabz.InstantFramework
             {
                 string shopItemId = boughtItem.GetString("shortCode");
 
-                if (navigatorModel.currentViewId == NavigatorViewId.STORE)
-                {
-                    analyticsService.Event(AnalyticsEventId.store_purchase_complete, AnalyticsParameter.item_id, shopItemId);
-                }
-                else if (navigatorModel.currentViewId == NavigatorViewId.SPOT_PURCHASE_DLG)
-                {
-                    analyticsService.Event(AnalyticsEventId.v1_spot_purchase_complete, AnalyticsParameter.item_id, shopItemId);
-                }
-
                 if (playerModel.inventory.ContainsKey(shopItemId))
                 {
                     playerModel.inventory[shopItemId] = playerModel.inventory[shopItemId] + 1;

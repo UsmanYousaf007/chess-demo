@@ -125,10 +125,8 @@ namespace TurboLabz.InstantFramework
 
             string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
             string subscriptionRenewDate = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_RENEW);
-            string price = storeItem.remoteProductPrice;
-
-            string subscriptionPriceString = !isPremium ? subscriptionInfo.Replace("(price)", price) : subscriptionRenewDate.Replace("(date)", playerModel.renewDate);
-            priceText.text = subscriptionPriceString;
+            
+            priceText.text = isPremium ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
            
             upgradeToPremiumBtn.gameObject.SetActive(!isPremium);
             manageSubscriptionBtn.gameObject.SetActive(isPremium);

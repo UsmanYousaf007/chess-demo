@@ -13,6 +13,7 @@ public class SkinItemView : View
 
     //Services
     [Inject] public ILocalizationService localizationServicec { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -62,6 +63,7 @@ public class SkinItemView : View
 
     private void OnButtonClicked()
     {
+        audioService.PlayStandardClick();
         if (isPremium)
         {
             setSkinSignal.Dispatch(key);

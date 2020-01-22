@@ -18,6 +18,7 @@ public class SubscriptionDlgMediator : Mediator
 
     public override void OnRegister()
     {
+        view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDailogue);
         view.restorePurchasesSignal.AddListener(OnRestorePurchases);
         view.purchaseSignal.AddListener(OnPurchase);
