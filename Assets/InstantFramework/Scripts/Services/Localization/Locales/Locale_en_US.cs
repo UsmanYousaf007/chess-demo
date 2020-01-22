@@ -260,7 +260,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
                 { LocalizationKey.FRIENDS_BLOCK_TEXT, "Block"},
                 { LocalizationKey.FRIENDS_CHAT_LABEL, "Chat" },
-                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Login to Facebook" },
+                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Connect with Facebook" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
                 { LocalizationKey.FACEBBOK_LOGIN_REWARD_TEXT, "Get {0} Coins" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
@@ -367,7 +367,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS, "Personalised Ads" },
                 { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },
                 { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free then (price)" },
-                { LocalizationKey.SETTINGS_ACCOUNT_RENEW, "Renews: (date)" },
+                { LocalizationKey.SETTINGS_ACCOUNT_RENEW, "Renews on (date)" },
                 { LocalizationKey.SETTINGS_ON, "On" },
                 { LocalizationKey.SETTINGS_OFF, "Off" },
 
