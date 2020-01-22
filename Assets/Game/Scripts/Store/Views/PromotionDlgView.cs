@@ -28,14 +28,17 @@ public class PromotionDlgView : View
     public Signal closeDailogueSignal = new Signal();
     public Signal purchaseSignal = new Signal();
 
+    public void InitOnce()
+    {
+        closeButton.onClick.AddListener(OnCloseButtonClicked);
+        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+    }
+
     public void Init()
     {
         title.text = localizationService.Get(LocalizationKey.PROMOTON_DLG_TITLE);
         
         purchaseText.text = localizationService.Get(LocalizationKey.PROMOTION_DLG_PURCHASE);
-
-        closeButton.onClick.AddListener(OnCloseButtonClicked);
-        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
 
         var storeItem = metaDataModel.store.items[key];
 

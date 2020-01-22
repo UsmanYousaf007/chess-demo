@@ -177,6 +177,7 @@ namespace TurboLabz.InstantFramework
 
 		public IPromise<BackendResult> BuyProduct(string storeProductId)
         {
+            LogUtil.Log("[IAP TEST] Buy product : " + storeProductId);
             storePromise = new Promise<BackendResult>();
 
             purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
@@ -199,7 +200,7 @@ namespace TurboLabz.InstantFramework
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
-
+            LogUtil.Log("[IAP TEST] Process Purchase : ");
             bool validPurchase = true; // Presume valid for platforms with no R.V.
 
 #if !UNITY_EDITOR
@@ -264,7 +265,14 @@ namespace TurboLabz.InstantFramework
                     CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
                 {
                     var subscriptionInfo = new SubscriptionManager(e.purchasedProduct, null).getSubscriptionInfo();
+
                     expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
+
+                    if (playerModel.subscriptionExipryTimeStamp >= expiryTimeStamp)
+                    {
+                        pendingVerification.Remove(e.purchasedProduct.transactionID);
+                        return PurchaseProcessingResult.Complete;
+                    }
 
                     if (subscriptionInfo.isFreeTrial() == Result.True)
                     {

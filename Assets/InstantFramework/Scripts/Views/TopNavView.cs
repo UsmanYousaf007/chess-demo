@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
         public RectTransform rewardBar;
         public GameObject rewardBarObject;
         public Button rewardBarButton;
+        public GameObject rewardBarGift;
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
@@ -127,14 +128,16 @@ namespace TurboLabz.InstantFramework
 
         public void SetupRewardBar()
         {
-            rewardBarObject.SetActive(!playerModel.HasSubscription());
+            ShowRewardBar();
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
 
         public void ShowRewardBar()
         {
-            rewardBarObject.SetActive(!playerModel.HasSubscription());
+            var isPremium = playerModel.HasSubscription();
+            rewardBarObject.SetActive(!isPremium);
+            rewardBarGift.SetActive(!isPremium);
         }
 
         public void AnimateRewardBar(float from, float to)

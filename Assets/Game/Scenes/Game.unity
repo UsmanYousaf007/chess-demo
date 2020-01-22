@@ -2610,6 +2610,11 @@ PrefabInstance:
       propertyPath: rewardBarButton
       value: 
       objectReference: {fileID: 2137377189}
+    - target: {fileID: 114968559837040244, guid: 3e9840371a731497786a843bfee65310,
+        type: 3}
+      propertyPath: rewardBarGift
+      value: 
+      objectReference: {fileID: 1294242393}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e9840371a731497786a843bfee65310, type: 3}
 --- !u!1 &39583557
@@ -18681,6 +18686,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -108.299805
       objectReference: {fileID: 0}
+    - target: {fileID: 1950720284571066266, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 137.7002
+      objectReference: {fileID: 0}
     - target: {fileID: 6281656606154055847, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -18690,11 +18700,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -108.30029
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950720284571066266, guid: fc6cce3296d7c485bb4b081ef97abf63,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 137.7002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc6cce3296d7c485bb4b081ef97abf63, type: 3}
@@ -32287,7 +32292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -1.3280945, y: 0}
+  m_AnchoredPosition: {x: -1.328125, y: 0}
   m_SizeDelta: {x: -47.260002, y: 77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &557696622
@@ -51479,7 +51484,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -29.492157, y: 1.3}
+  m_AnchoredPosition: {x: -29.492188, y: 1.3}
   m_SizeDelta: {x: -63.72998, y: 91.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &939099056
@@ -94393,16 +94398,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6426655540321464078, guid: 1c09f457dfb2743388ffeb792ce5845e,
-        type: 3}
-      propertyPath: sourceImage
-      value: 
-      objectReference: {fileID: 105294782}
     - target: {fileID: 7617791129103262955, guid: 1c09f457dfb2743388ffeb792ce5845e,
         type: 3}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6426655540321464078, guid: 1c09f457dfb2743388ffeb792ce5845e,
+        type: 3}
+      propertyPath: sourceImage
+      value: 
+      objectReference: {fileID: 105294782}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c09f457dfb2743388ffeb792ce5845e, type: 3}
 --- !u!224 &1675565152 stripped
@@ -108346,7 +108351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -15.4999695, y: 5.300049}
+  m_AnchoredPosition: {x: -15.5, y: 5.300049}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1900671253
@@ -120737,6 +120742,7 @@ MonoBehaviour:
   rewardBar: {fileID: 2039729818}
   rewardBarObject: {fileID: 970216110}
   rewardBarButton: {fileID: 970216112}
+  rewardBarGift: {fileID: 1694971208}
 --- !u!222 &222046557603847742
 CanvasRenderer:
   m_ObjectHideFlags: 0

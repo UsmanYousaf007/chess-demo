@@ -36,6 +36,15 @@ public class SubscriptionDlgView : View
     public Signal restorePurchasesSignal = new Signal();
     public Signal purchaseSignal = new Signal();
 
+    public void InitOnce()
+    {
+        closeButton.onClick.AddListener(OnCloseButtonClicked);
+        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
+        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
+        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
+        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+    }
+
     public void Init()
     {
         title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
@@ -44,12 +53,6 @@ public class SubscriptionDlgView : View
         privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
         termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
-
-        closeButton.onClick.AddListener(OnCloseButtonClicked);
-        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
-        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
-        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
-        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
 
         var storeItem = metaDataModel.store.items[key];
 
