@@ -60,7 +60,7 @@ namespace TurboLabz.InstantGame
         private void Reset()
         {
             isAudioOn = true;
-            adSlotId = 0;
+            adSlotId = 1;
             adSlotImpressions = 0;
             hasRated = false;
             isSafeMoveOn = false;
