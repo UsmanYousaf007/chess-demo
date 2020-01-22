@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FREE_NO_ADS_DAYS, "days" },
                 { LocalizationKey.DONE, "Done"},
                 { LocalizationKey.SELECT_THEME, "Change Theme"},
-                { LocalizationKey.CHOOSE_THEME, "Choose Theme"},
+                { LocalizationKey.CHOOSE_THEME, "Select Theme"},
                 { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations"},
                 { LocalizationKey.REWARD_UNLOCKED_SUBTITLE, "Reward Unlocked!"},
                 { LocalizationKey.REWARD_THEME, "Chess Theme"},
@@ -144,7 +144,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
-                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to lobby" },
+                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to Games" },
                 { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
 
@@ -366,7 +366,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM, "Upgrade to Premium" },
                 { LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS, "Personalised Ads" },
                 { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },
-                { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free then (price)" },
+                { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free" },
                 { LocalizationKey.SETTINGS_ACCOUNT_RENEW, "Renews on (date)" },
                 { LocalizationKey.SETTINGS_ON, "On" },
                 { LocalizationKey.SETTINGS_OFF, "Off" },
