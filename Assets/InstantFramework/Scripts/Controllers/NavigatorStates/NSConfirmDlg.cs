@@ -19,6 +19,7 @@
                 }
                 else if (viewId == NavigatorViewId.SUBSCRIPTION_DLG)
                 {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
                     return new NSSubscriptionDlg();
                 }
                 else if (viewId == NavigatorViewId.CPU)
