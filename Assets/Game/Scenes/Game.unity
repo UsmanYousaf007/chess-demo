@@ -910,6 +910,7 @@ MonoBehaviour:
   rewardBar: {fileID: 1846606087}
   earnRewardsText: {fileID: 1846606088}
   earnRewardsSection: {fileID: 1846606089}
+  dailogueBg: {fileID: 1102849668}
   viewBoardResultPanel: {fileID: 3350068405871205055}
   safeMoveBtn: {fileID: 197390123}
   safeMoveBg: {fileID: 197390124}
@@ -48808,6 +48809,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877411865}
   m_CullTransparentMesh: 0
+--- !u!114 &877582726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1863395504378795022, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 4839277838793125077}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &882688161
 GameObject:
   m_ObjectHideFlags: 0
@@ -49211,6 +49224,7 @@ MonoBehaviour:
   rewardBar: {fileID: 4839277838793125078}
   earnRewardsText: {fileID: 4839277838793125079}
   earnRewardsSection: {fileID: 4839277838793125080}
+  dailogueBg: {fileID: 877582726}
   viewBoardResultPanel: {fileID: 1851910895}
   safeMoveBtn: {fileID: 578126557}
   safeMoveBg: {fileID: 578126558}
@@ -61777,6 +61791,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102706692}
   m_CullTransparentMesh: 0
+--- !u!114 &1102849668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1863395504378795022, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1846606080}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1104169958
 GameObject:
   m_ObjectHideFlags: 0

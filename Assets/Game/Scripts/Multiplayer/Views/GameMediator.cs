@@ -107,5 +107,14 @@ namespace TurboLabz.Multiplayer
                 view.EnableOpponentConnectionMonitor(!isAck);
             }
         }
+
+        [ListensTo(typeof(DisableModalBlockersSignal))]
+        public void OnDisableModalBlockers()
+        {
+            if (view.IsVisible())
+            {
+                view.DisableModalBlocker();
+            }
+        }
     }
 }

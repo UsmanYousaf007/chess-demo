@@ -149,6 +149,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
             injectionBinder.Bind<ShowPromotionDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
+            injectionBinder.Bind<DisableModalBlockersSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

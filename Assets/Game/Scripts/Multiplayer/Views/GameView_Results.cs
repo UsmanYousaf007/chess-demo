@@ -47,6 +47,7 @@ namespace TurboLabz.Multiplayer
         public RectTransform rewardBar;
         public Text earnRewardsText;
         public GameObject earnRewardsSection;
+        public Image dailogueBg;
 
         public ViewBoardResults viewBoardResultPanel;
 
@@ -369,7 +370,10 @@ namespace TurboLabz.Multiplayer
             collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
             challengeId = vo.challengeId;
 
+            dailogueBg.enabled = false;
             earnRewardsSection.SetActive(!playerModel.HasSubscription());
+            dailogueBg.enabled = true;
+
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }

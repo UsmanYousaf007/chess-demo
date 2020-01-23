@@ -28,10 +28,12 @@
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
                 {
+                    cmd.disableModalBlockersSignal.Dispatch();
                     return new NSMultiplayer();
                 }
                 if (viewId == NavigatorViewId.CPU)
                 {
+                    cmd.disableModalBlockersSignal.Dispatch();
                     return new NSCPU();
                 }
             }
@@ -50,6 +52,21 @@
             else if (evt == NavigatorEvent.SHOW_THEME_SELECTION_DLG)
             {
                 return new NSThemeSelectionDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerResultsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerFiftyMoveDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
 
             return null;

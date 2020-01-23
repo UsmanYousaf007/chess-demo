@@ -122,5 +122,14 @@ namespace TurboLabz.CPU
             }
         }
 
+        [ListensTo(typeof(DisableModalBlockersSignal))]
+        public void OnDisableModalBlockers()
+        {
+            if (view.IsVisible())
+            {
+                view.DisableModalBlocker();
+            }
+        }
+
     }
 }
