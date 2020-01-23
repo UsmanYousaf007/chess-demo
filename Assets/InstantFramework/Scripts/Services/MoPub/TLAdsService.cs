@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
-            HAdsAdMobMediation.Init();
+            //HAdsAdMobMediation.Init();
             HAds.Interstitial.Fetch();
             HAds.Rewarded.Fetch();
 

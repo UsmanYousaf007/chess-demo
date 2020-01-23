@@ -39,29 +39,20 @@
             {
                 return new NSChat();
             }
-            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG && viewId == NavigatorViewId.SUBSCRIPTION_DLG)
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG && CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
             {
-                if (CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
-                {
-                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-                    return new NSMultiplayerResultsDlg();
-                }
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerResultsDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG && CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
             {
-                if (CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
-                {
-                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-                    return new NSMultiplayerFiftyMoveDrawDlg();
-                }
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerFiftyMoveDrawDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG && CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
             {
-                if (CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
-                {
-                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
-                    return new NSMultiplayerThreeFoldRepeatDrawDlg();
-                }
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
             return null;
         }
