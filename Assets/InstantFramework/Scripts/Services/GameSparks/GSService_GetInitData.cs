@@ -40,12 +40,14 @@ namespace TurboLabz.InstantFramework
             // Check app version match with back end. Bail if there is mismatch.
             if (appInfoModel.appBackendVersionValid == false)
             {
+                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
             // Check if game maintenance mode is On
             if (settingsModel.maintenanceFlag == true)
             {
+                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
@@ -68,8 +70,6 @@ namespace TurboLabz.InstantFramework
             FillRewardsSettingsModel(rewardsSettingsData);
 
             storeAvailableSignal.Dispatch(false);
-
-
 
             ParseActiveChallenges(response.ScriptData);
 

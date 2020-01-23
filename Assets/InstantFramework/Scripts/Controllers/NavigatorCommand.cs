@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
         [Inject] public TurboLabz.Multiplayer.CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public DisableModalBlockersSignal disableModalBlockersSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }

@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.SUBSCRIPTION_DLG, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER, NavigatorViewId.SUBSCRIPTION_DLG);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -38,6 +38,30 @@
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
                 return new NSChat();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG && viewId == NavigatorViewId.SUBSCRIPTION_DLG)
+            {
+                if (CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
+                {
+                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                    return new NSMultiplayerResultsDlg();
+                }
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                if (CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
+                {
+                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                    return new NSMultiplayerFiftyMoveDrawDlg();
+                }
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                if (CameFrom(NavigatorViewId.MULTIPLAYER) == NavigatorViewId.MULTIPLAYER)
+                {
+                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                    return new NSMultiplayerThreeFoldRepeatDrawDlg();
+                }
             }
             return null;
         }

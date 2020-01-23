@@ -268,12 +268,6 @@ namespace TurboLabz.InstantFramework
 
                     expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
 
-                    if (playerModel.subscriptionExipryTimeStamp >= expiryTimeStamp)
-                    {
-                        pendingVerification.Remove(e.purchasedProduct.transactionID);
-                        return PurchaseProcessingResult.Complete;
-                    }
-
                     if (subscriptionInfo.isFreeTrial() == Result.True)
                     {
                         metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)].currency1Cost = 0;
