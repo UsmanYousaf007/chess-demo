@@ -36,7 +36,7 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(NavigatorShowViewSignal))]
     public void OnShowView(NavigatorViewId viewId)
     {
-        if (viewId == NavigatorViewId.SUBSCRIPTION_DLG)
+        if (viewId == NavigatorViewId.SUBSCRIPTION_DLG && !view.IsVisible())
         {
             view.Show();
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
