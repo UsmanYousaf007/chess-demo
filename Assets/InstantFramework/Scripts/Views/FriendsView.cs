@@ -115,7 +115,6 @@ namespace TurboLabz.InstantFramework
         public Text findFriendInviteInfoText;
         public Button findFriendOkButton;
         public Text findFriendOkText;
-        bool inSearchView = false;
 
 
         public Signal facebookButtonClickedSignal = new Signal();
@@ -272,7 +271,6 @@ namespace TurboLabz.InstantFramework
                 sectionRecentlyCompleted.gameObject.SetActive(false);
             }
 
-            inSearchView = true;
         }
 
         void OnNextSearchBtnClicked()
@@ -303,7 +301,6 @@ namespace TurboLabz.InstantFramework
         public void OnCancelSearchClicked()
         {
             ResetSearch();
-            inSearchView = false;
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
         }

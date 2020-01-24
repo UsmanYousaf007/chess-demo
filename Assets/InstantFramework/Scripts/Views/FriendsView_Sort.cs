@@ -286,9 +286,6 @@ namespace TurboLabz.InstantFramework
 
         public void SortSearched()
         {
-            if (inSearchView)
-                return;
-
             // Create holders
             List<FriendBar> searchedOnline = new List<FriendBar>();
             List<FriendBar> searchedOffline = new List<FriendBar>();
