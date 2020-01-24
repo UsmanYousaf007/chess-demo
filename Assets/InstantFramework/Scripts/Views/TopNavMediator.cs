@@ -63,7 +63,14 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
         public void OnRewardClaimed(float from, float to)
         {
-            view.AnimateRewardBar(from, to);
+            if (view.isActiveAndEnabled)
+            {
+                view.AnimateRewardBar(from, to);
+            }
+            else
+            {
+                view.SetupRewardBar();
+            }
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]
