@@ -120,6 +120,7 @@ namespace TurboLabz.CPU
             if (hindsightAdd.gameObject.activeSelf)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                EnableModalBlocker();
             }
             else
             {

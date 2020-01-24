@@ -10,7 +10,6 @@ using System.Collections;
 using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
-using HUF.AnalyticsHBI.API;
 using HUFEXT.GenericGDPR.Runtime.API;
 using HUF.Analytics.API;
 
@@ -40,7 +39,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
 
 		bool gameSparksAvailable = false;
-        bool hbiGdprCallBackAdded = false;
 
         private Coroutine wifiHealthCheckCR = null;
         private int wifiHealthWaitCounter = 0;
@@ -65,16 +63,7 @@ namespace TurboLabz.InstantFramework
 		void GameSparksAvailable(bool isAvailable)
         {
 			gameSparksAvailable = isAvailable;
-
-            if (HGenericGDPR.IsPolicyAccepted)
-            {
-                ProcessStartup();
-            }
-            else
-            {
-                HGenericGDPR.OnPolicyAccepted += ProcessStartup;
-                hbiGdprCallBackAdded = true;
-            }
+            ProcessStartup();
 		}
 
 		void ProcessStartup()
@@ -91,8 +80,8 @@ namespace TurboLabz.InstantFramework
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
 
-                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
             }
 		}
 
@@ -136,11 +125,6 @@ namespace TurboLabz.InstantFramework
 		void RemoveListeners()
 		{
 			GS.GameSparksAvailable -= GameSparksAvailable;
-
-            if (hbiGdprCallBackAdded)
-            {
-                HGenericGDPR.OnPolicyAccepted -= ProcessStartup;
-            }
 		}
 
         IEnumerator CheckWifiHealthCR()

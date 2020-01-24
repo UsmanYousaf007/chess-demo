@@ -13,6 +13,7 @@ namespace TurboLabz.CPU
     {
         //Dispatch Signals
         [Inject] public GetHintSignal getHintSignal { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         private void OnRegisterHint()
         {
@@ -72,6 +73,17 @@ namespace TurboLabz.CPU
         public void OnShowOnboardTooltip(bool show)
         {
             view.ShowStrengthOnboardingTooltip(show);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            if (view.IsVisible())
+            {
+                view.UpdateHintCount(0);
+                view.UpdateHindsightCount(0);
+                adsService.HideBanner();
+            }
         }
     }
 }

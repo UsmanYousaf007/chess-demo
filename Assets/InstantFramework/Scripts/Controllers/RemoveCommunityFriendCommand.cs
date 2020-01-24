@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         // dispatch signals
         [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
+        [Inject] public SortSearchedSignal sortSearchedSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -35,6 +36,7 @@ namespace TurboLabz.InstantFramework
             clearFriendSignal.Dispatch(friendId);
             playerModel.friends.Remove(friendId);
             sortFriendsSignal.Dispatch();
+            sortSearchedSignal.Dispatch();
         }
 
         private void OnRemove(BackendResult result)

@@ -81,7 +81,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.iOS.appInBackgroundBehavior = iOSAppInBackgroundBehavior.Suspend;
         PlayerSettings.iOS.appleDeveloperTeamID = "WAJ9ZPXALN";
         PlayerSettings.iOS.appleEnableAutomaticSigning = true;
-        PlayerSettings.iOS.applicationDisplayName = "Chess Star";
+        PlayerSettings.iOS.applicationDisplayName = "Chess Stars";
         PlayerSettings.iOS.backgroundModes = iOSBackgroundMode.None;
         PlayerSettings.iOS.cameraUsageDescription = "";
         PlayerSettings.iOS.deferSystemGesturesMode = UnityEngine.iOS.SystemGestureDeferMode.None;
@@ -213,7 +213,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.muteOtherAudioSources = false;
         PlayerSettings.preserveFramebufferAlpha = false;
         //PlayerSettings.productGUID = "??"; // readonly
-        PlayerSettings.productName = "Chess Star";
+        PlayerSettings.productName = "Chess Stars";
         PlayerSettings.protectGraphicsMemory = false;
         // PlayerSettings.renderingPath = RenderingPath.Forward; obsolete (used with editor)
         PlayerSettings.resizableWindow = false;

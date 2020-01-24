@@ -34,7 +34,7 @@ public class ThemeSelectionView : View
     {
         chooseThemeText.text = localizationService.Get(LocalizationKey.CHOOSE_THEME);
         applyButton.onClick.AddListener(OnApplyButtonClicked);
-        scrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
+        //scrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
         scrollUpButton.onClick.AddListener(OnScrollUpButton);
         scrollDownButton.onClick.AddListener(OnScrollDownButton);
 
@@ -101,8 +101,7 @@ public class ThemeSelectionView : View
         {
             if (entry.Value.skinIndex != -1)
             {
-                skinMenuItems[entry.Value.skinIndex].key = entry.Value.key;
-                skinMenuItems[entry.Value.skinIndex].Init();
+                skinMenuItems[entry.Value.skinIndex].Init(entry.Value.key);
             }
         }
     }

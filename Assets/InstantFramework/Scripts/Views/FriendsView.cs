@@ -192,6 +192,7 @@ namespace TurboLabz.InstantFramework
             cacheEnabledSections = new List<GameObject>();
             searchSkip = 0;
             cancelSearchButton.interactable = false;
+            cancelSearchButton.gameObject.SetActive(false);
             inputField.onEndEdit.AddListener(OnSearchSubmit);
             cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
             nextSearchButton.interactable = false;
@@ -251,6 +252,7 @@ namespace TurboLabz.InstantFramework
             searchBoxText.text = inputField.text;
             searchBoxText.text  = searchBoxText.text.Replace("\n", " ");
             cancelSearchButton.interactable = true;
+            cancelSearchButton.gameObject.SetActive(true);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
 
             ClearType(FriendCategory.FRIEND);
@@ -268,6 +270,7 @@ namespace TurboLabz.InstantFramework
                 sectionSearchResultsEmpty.gameObject.SetActive(false);
                 sectionRecentlyCompleted.gameObject.SetActive(false);
             }
+
         }
 
         void OnNextSearchBtnClicked()
@@ -283,6 +286,7 @@ namespace TurboLabz.InstantFramework
             sectionSearched.gameObject.SetActive(false);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
             cancelSearchButton.interactable = false;
+            cancelSearchButton.gameObject.SetActive(false);
             searchSkip = 0;
             isSearchNext = false;
             inputField.text = "";
@@ -297,7 +301,6 @@ namespace TurboLabz.InstantFramework
         public void OnCancelSearchClicked()
         {
             ResetSearch();
-
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
         }
@@ -728,7 +731,7 @@ namespace TurboLabz.InstantFramework
 
         public void ClearFriend(string friendId)
         {
-            if (friendId != null && bars.ContainsKey(friendId))
+            if (friendId != null && bars.ContainsKey(friendId) && (!bars[friendId].isSearched || bars[friendId].isRemoved))
             {
                 GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
@@ -850,6 +853,7 @@ namespace TurboLabz.InstantFramework
         void RemoveCommunityFriendDlgYes()
         {
             removeCommunityFriendDlg.SetActive(false);
+            actionBar.isRemoved = true;
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
             analyticsService.Event(AnalyticsEventId.tap_long_match_remove);
         }
@@ -916,6 +920,7 @@ namespace TurboLabz.InstantFramework
 
         void OnToggleRankButtonClicked()
         {
+            audioService.PlayStandardClick();
             startGameConfirmationDlg.toggleRankButtonState = !startGameConfirmationDlg.toggleRankButtonState;
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
         }

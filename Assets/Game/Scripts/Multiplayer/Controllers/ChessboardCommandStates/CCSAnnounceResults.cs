@@ -29,21 +29,7 @@ namespace TurboLabz.Multiplayer
             vo.removeAds = cmd.playerModel.HasRemoveAds(cmd.metaDataModel.adsSettings);
             vo.playerName = cmd.playerModel.name;
             vo.opponentName = cmd.activeMatchInfo.opponentPublicProfile.name;
-            vo.isChatEnabled = true;
-
-            //incase of early resignation disabling chat in case on match played or not a friend
-            string opponentId = cmd.activeMatchInfo.opponentPublicProfile.playerId;
-
-            Friend opponentProfile = cmd.playerModel.GetFriend(opponentId);
-
-            if (opponentProfile != null &&
-                opponentProfile.lastMatchTimestamp <= 0)
-            {
-                vo.isChatEnabled = false;
-            }
-
             vo.challengeId = cmd.matchInfoModel.activeChallengeId;
-
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;

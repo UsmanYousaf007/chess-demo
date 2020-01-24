@@ -47,6 +47,7 @@ namespace TurboLabz.Multiplayer
         public RectTransform rewardBar;
         public Text earnRewardsText;
         public GameObject earnRewardsSection;
+        public Image dailogueBg;
 
         public ViewBoardResults viewBoardResultPanel;
 
@@ -116,6 +117,7 @@ namespace TurboLabz.Multiplayer
             {
                 resultsCollectRewardButton.interactable = true;
                 resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
+
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
@@ -169,7 +171,6 @@ namespace TurboLabz.Multiplayer
 
             HideSafeMoveBorder();
 
-            EnableRewarededVideoButton(true);
             viewBoardResultPanel.gameObject.SetActive(false);
         }
 
@@ -214,6 +215,7 @@ namespace TurboLabz.Multiplayer
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
             viewBoardResultPanel.reason.text = "";
+            EnableRewarededVideoButton(true);
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -368,9 +370,10 @@ namespace TurboLabz.Multiplayer
             collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
             challengeId = vo.challengeId;
 
-            EnableInputField(vo.isChatEnabled);
-
+            dailogueBg.enabled = false;
             earnRewardsSection.SetActive(!playerModel.HasSubscription());
+            dailogueBg.enabled = true;
+
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
@@ -415,6 +418,7 @@ namespace TurboLabz.Multiplayer
 			
         private void OnResultsCollectRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
@@ -444,6 +448,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnResultsDeclinedButtonClicked()
         {
+            audioService.PlayStandardClick();
             if (isLongPlay)
             {
                 backToLobbySignal.Dispatch();
@@ -456,6 +461,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnResultsClosed()
         {
+            audioService.PlayStandardClick();
             uiBlocker.SetActive(false);
             resultsDialogClosedSignal.Dispatch();
             viewBoardResultPanel.gameObject.SetActive(true);
@@ -463,6 +469,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnResultsSkipRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             backToLobbySignal.Dispatch();
             refreshLobbySignal.Dispatch();
 

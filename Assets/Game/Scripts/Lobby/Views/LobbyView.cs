@@ -84,9 +84,6 @@ namespace TurboLabz.InstantFramework
 
         public Text onlinePlayersCountLabel;
 
-        public Button selectThemeButton;
-        public Text selectThemeText;
-
         [Header("Choose computer difficulty dialog")]
         public GameObject chooseComputerDifficultyDlg;
         public Button decStrengthButton;
@@ -122,11 +119,23 @@ namespace TurboLabz.InstantFramework
 
         [Header("Reward Unlocked Dlg")]
         public GameObject rewardUnlockedDlg;
+        public GameObject rewardUnlockedDlgBg;
         public Text rewardTitle;
+        public Text rewardSubTitle;
+        public Image rewardIcon;
         public Text rewardName;
         public Text rewardOkButtonText;
         public Button rewardOkButton;
-        public GameObject rewardUnlockedAlert;
+        public RectTransform themeIconPlacement;
+        public RectTransform powerUpIconPlacement;
+
+        [Header("Ad Skipped Dlg")]
+        public GameObject adSkippedDlg;
+        public Text adSkippedTitle;
+        public Text adSkippedOkText;
+        public Button adSkippedOkButton;
+        public Text adSkippedInfoText;
+        public RectTransform adSkippedBar;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -144,7 +153,6 @@ namespace TurboLabz.InstantFramework
         public Signal decStrengthButtonClickedSignal = new Signal();
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
-        public Signal selectThemeClickedSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
@@ -155,6 +163,7 @@ namespace TurboLabz.InstantFramework
         private List<GameObject> cacheEnabledSections;
         private bool isCPUGameInProgress;
         List<FriendBar> recentlyCompleted = new List<FriendBar>();
+        private StoreIconsContainer iconsContainer;
 
         public void Init()
         {
@@ -211,12 +220,17 @@ namespace TurboLabz.InstantFramework
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
             playerProfileOriginalPosition = playerProfile.transform.localPosition;
 
-            selectThemeText.text = localizationService.Get(LocalizationKey.SELECT_THEME);
-            selectThemeButton.onClick.AddListener(OnSelectThemeClicked);
-
             rewardTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_TITLE);
-            rewardOkButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
+            rewardSubTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_SUBTITLE);
+            rewardOkButtonText.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_CLAIM);
             rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
+            iconsContainer = StoreIconsContainer.Load();
+
+            //Ad Skipped Dlg 
+            adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
+            adSkippedInfoText.text = localizationService.Get(LocalizationKey.AD_SKIPPED_INFO_TEXT);
+            adSkippedOkText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
+            adSkippedOkButton.onClick.AddListener(() => ShowAdSkippedDailogue(false));
         }
 
         void OnDecStrengthButtonClicked()
@@ -868,6 +882,7 @@ namespace TurboLabz.InstantFramework
 
         void OnToggleRankButtonClicked()
         {
+            audioService.PlayStandardClick();
             startGameConfirmationDlg.toggleRankButtonState = !startGameConfirmationDlg.toggleRankButtonState;
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
         }
@@ -1183,30 +1198,39 @@ namespace TurboLabz.InstantFramework
             uiBlocker.SetActive(show);
         }
 
-        private void OnSelectThemeClicked()
-        {
-            selectThemeClickedSignal.Dispatch();
-            rewardUnlockedAlert.gameObject.SetActive(false);
-        }
-
         public void OnRewardUnlocked(string key, int quantity)
         {
-            var reward = metaDataModel.store.items[key];
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
 
+            var reward = metaDataModel.store.items[key];
+            
             if (reward != null && !string.IsNullOrEmpty(reward.displayName))
             {
                 if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
                 {
-                    rewardUnlockedAlert.gameObject.SetActive(true);
-                    rewardName.text = string.Format("{0} : {1}", localizationService.Get(LocalizationKey.REWARD_THEME), reward.displayName);
+                    rewardName.text = string.Format("{0} {1}", reward.displayName, localizationService.Get(LocalizationKey.REWARD_THEME));
+                    rewardIcon.rectTransform.localPosition = themeIconPlacement.localPosition;
+                    rewardIcon.rectTransform.sizeDelta = themeIconPlacement.sizeDelta;
                 }
                 else
                 {
                     rewardName.text = string.Format("{0} x {1}", reward.displayName, quantity);
+                    rewardIcon.rectTransform.localPosition = powerUpIconPlacement.localPosition;
+                    rewardIcon.rectTransform.sizeDelta = powerUpIconPlacement.sizeDelta;
                 }
 
+                rewardIcon.sprite = iconsContainer.GetSprite(key);
+                var originalPos = rewardUnlockedDlgBg.transform.localPosition;
+                rewardUnlockedDlgBg.transform.localPosition = new Vector3(originalPos.x, 1500f, originalPos.z);
                 rewardUnlockedDlg.SetActive(true);
+
+                iTween.MoveTo(rewardUnlockedDlgBg, iTween.Hash("position", originalPos, "time", 0.7f, "islocal", true));
             }
+        }
+
+        public void ShowAdSkippedDailogue(bool show)
+        {
+            adSkippedDlg.SetActive(show);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IRateAppService rateAppService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         public override void OnRegister()
         {
@@ -72,21 +73,25 @@ namespace TurboLabz.InstantFramework
 
         private void OnImproveBtnClick()
         {
+            audioService.PlayStandardClick();
             view.ShowTellUs();
         }
 
         private void OnLikeBtnClick()
         {
+            audioService.PlayStandardClick();
             view.ShowRateUs();
         }
 
         private void OnLoveBtnClick()
         {
+            audioService.PlayStandardClick();
             view.ShowRateUs();
         }
 
         private void OnTellUsBtnClick()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
             analyticsService.Event(AnalyticsEventId.tap_support);

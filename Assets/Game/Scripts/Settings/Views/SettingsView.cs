@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using HUFEXT.GenericGDPR.Runtime.API;
 using TurboLabz.TLUtils;
 using System;
 using TMPro;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -28,7 +30,9 @@ namespace TurboLabz.InstantFramework
         //Account
         public Text accountTitleText;
 
-        public Text infoText;
+        public Text priceText;
+
+        public Text personalizedAdsText;
         public Button personalisedAdsOnBtn;
         public Button personalisedAdsOffBtn;
 
@@ -47,9 +51,6 @@ namespace TurboLabz.InstantFramework
         public Button upgradeToPremiumBtn;
         public Text upgradeToPremiumText;
 
-        public Button personalizedAdsBtn;
-        public Text personalizedAdsText;
-
         public Text personalisedAdsOnText;
         public Text personalisedAdsOffText;
 
@@ -57,14 +58,12 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
-        public Signal personalizedAdsButtonClickedSignal = new Signal();
         public Signal restorePurchaseButtonClickedSignal = new Signal();
-
-        //Injections
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         //Models 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -75,7 +74,7 @@ namespace TurboLabz.InstantFramework
             //Set texts
             settingsTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_TITLE);
             accountTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_TITLE);
-            backButtonText.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
+            backButtonText.text = localizationService.Get(LocalizationKey.BACK_TEXT);
            
 
             //Account
@@ -90,10 +89,12 @@ namespace TurboLabz.InstantFramework
             personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
             personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
 
+            personalisedAdsOffBtn.onClick.AddListener(OnPersonalizedAdsOffButtonClicked);
+            personalisedAdsOnBtn.onClick.AddListener(OnPersonalizedAdsOnButtonClicked);
+
             //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
             upgradeToPremiumBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
-            personalizedAdsBtn.onClick.AddListener(OnPersonalizedAdsButtonClicked);
             restorePurchaseBtn.onClick.AddListener(OnRestorePurchaseButtonClicked);
             termsOfUseBtn.onClick.AddListener(OnTermsOfUseButtonClicked);
             privacyPolicyBtn.onClick.AddListener(OnPrivacyPolicyButtonClicked);
@@ -102,12 +103,15 @@ namespace TurboLabz.InstantFramework
 
             RefreshPersonalisedAdsToggleButtons();
 
-            
-
+#if UNITY_ANDROID
+            restorePurchaseBtn.gameObject.SetActive(false);
+#endif
         }
 
-        void RefreshAccountPanel()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+            RefreshPersonalisedAdsToggleButtons();
         }
 
         public void SetSubscriptionPrice()
@@ -117,47 +121,74 @@ namespace TurboLabz.InstantFramework
             if (storeItem == null)
                 return;
 
-            string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
-            string price = storeItem.remoteProductPrice;
+            var isPremium = playerModel.HasSubscription();
 
-            string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
-            infoText.text = subscriptionPriceString;
+            string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
+            string subscriptionRenewDate = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_RENEW);
+            
+            priceText.text = isPremium ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
+           
+            upgradeToPremiumBtn.gameObject.SetActive(!isPremium);
+            manageSubscriptionBtn.gameObject.SetActive(isPremium);
         }
 
         void OnManageSubscriptionButtonClicked()
         {
-            manageSubscriptionButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            Application.OpenURL(metaDataModel.settingsModel.manageSubscriptionURL);
+            audioService.PlayStandardClick();
         }
 
         void OnUpgradeToPremiumButtonClicked()
         {
             upgradeToPremiumButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
         }
 
-        void OnPersonalizedAdsButtonClicked()
+        //Personalised Ads Button
+        private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalizedAdsButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            personalisedAdsOffBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted != GDPRStatus.ACCEPTED);
+            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+        }
+
+        private void OnPersonalizedAdsOffButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            HGenericGDPR.IsPolicyAccepted = GDPRStatus.ACCEPTED;
+            RefreshPersonalisedAdsToggleButtons();
+            SetConsent();
+        }
+
+        private void OnPersonalizedAdsOnButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            HGenericGDPR.IsPolicyAccepted = GDPRStatus.TURNED_OFF;
+            RefreshPersonalisedAdsToggleButtons();
+            SetConsent();
+        }
+
+        private void SetConsent()
+        {
+            adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+            HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
         }
 
         void OnRestorePurchaseButtonClicked()
         {
             restorePurchaseButtonClickedSignal.Dispatch();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            audioService.PlayStandardClick();
         }
 
         void OnTermsOfUseButtonClicked()
         {
-            OnPrivacyPolicyButtonClicked();
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
+            audioService.PlayStandardClick();
         }
 
         void OnPrivacyPolicyButtonClicked()
         {
-            Application.OpenURL("https://turbolabz.com/privacy-policy/");
-            audioService.Play(audioService.sounds.SFX_STEP_CLICK);
+            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
+            audioService.PlayStandardClick();
         }
 
         public void Show()
@@ -173,12 +204,6 @@ namespace TurboLabz.InstantFramework
         public void OnBackButtonClicked()
         {
 
-        }
-
-        private void RefreshPersonalisedAdsToggleButtons()
-        {
-            personalisedAdsOffBtn.gameObject.SetActive(false);
-            personalisedAdsOnBtn.gameObject.SetActive(true);
         }
     }
 

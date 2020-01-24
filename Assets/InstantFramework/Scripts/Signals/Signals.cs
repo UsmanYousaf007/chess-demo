@@ -7,9 +7,11 @@ using UnityEngine;
 
 using strange.extensions.signal.impl;
 using System.Collections.Generic;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
+    public class ReconnectionCompleteSignal : Signal {}
     public class StartSignal : Signal { }
     public class AppEventSignal : Signal<AppEvent> { }
     public class GameAppEventSignal : Signal<AppEvent> { }
@@ -34,6 +36,7 @@ namespace TurboLabz.InstantFramework
     public class ModelsLoadFromDiskSignal : Signal { }
     public class GetInitDataSignal : Signal<bool> { }
     public class GetInitDataCompleteSignal : Signal { }
+    public class GetInitDataFailedSignal : Signal<BackendResult> { }
     public class AuthFaceBookSignal : Signal { }
     public class AuthFacebookResultSignal : Signal<AuthFacebookResultVO> { }
     public class UpdateProfileSignal : Signal<ProfileVO> { }
@@ -57,6 +60,7 @@ namespace TurboLabz.InstantFramework
     public class SplashWifiIsHealthySignal : Signal { }
     public class ShowSplashContentSignal : Signal<bool> { }
     public class ResetCapturedPiecesSignal : Signal { }
+    public class UpdateSearchResultsSignal : Signal {}
     public class SetErrorAndHaltSignal : Signal<BackendResult, string> { }
     public class HaltSignal : Signal<BackendResult> { }
     public class UpdatePlayerRewardsPointsSignal : Signal<float, float> { }
@@ -134,7 +138,9 @@ namespace TurboLabz.InstantFramework
     public class SyncReconnectDataSignal : Signal<string> { }
     public class CancelSearchResultSignal : Signal { }
     public class RewardUnlockedSignal : Signal<string, int> { }
-
+    public class ShowPromotionDlgSignal : Signal<IPromise<AdsResult>> { }
+    public class ShowAdSkippedDlgSignal : Signal { }
+    public class DisableModalBlockersSignal : Signal { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

@@ -3,16 +3,8 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
-
+using HUF.Analytics.API;
 using strange.extensions.mediation.impl;
-using System.Collections.Generic;
-using TurboLabz.Multiplayer;
-using TurboLabz.Chess;
-using TurboLabz.TLUtils;
-using TurboLabz.InstantGame;
-using TurboLabz.CPU;
-using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -35,6 +27,7 @@ namespace TurboLabz.InstantFramework
             view.Init();
 
             view.restorePurchaseButtonClickedSignal.AddListener(OnRestorePurchases);
+            view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
@@ -61,11 +54,15 @@ namespace TurboLabz.InstantFramework
         private void OnRestorePurchases()
         {
             restorePurchasesSignal.Dispatch();
+
+#if UNITY_IOS
+        HAnalytics.LogEvent(AnalyticsEvent.Create("restore_ios_iap_clicked").ST1("menu").ST2("settings"));
+#endif
         }
 
         void OnBackButtonClicked()
         {
-            loadLobbySignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]
@@ -75,6 +72,18 @@ namespace TurboLabz.InstantFramework
             {
                 view.SetSubscriptionPrice();
             }
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            view.SetSubscriptionPrice();
+        }
+
+        void OnUpgradeToPremiumClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            HAnalytics.LogEvent(AnalyticsEvent.Create("upgrade_subscription_clicked").ST1("menu").ST2("settings"));
         }
     }
 }

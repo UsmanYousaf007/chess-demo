@@ -13,13 +13,14 @@ public class SkinItemView : View
 
     //Services
     [Inject] public ILocalizationService localizationServicec { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
-    public Signal setSkinSignal = new Signal();
+    public Signal<string> setSkinSignal = new Signal<string>();
 
-    public string key;
+    private string key;
 
     public Image thumbnail;
     public Image icon;
@@ -33,8 +34,9 @@ public class SkinItemView : View
     private StoreIconsContainer iconsContainer;
     private bool isPremium;
 
-    public void Init()
+    public void Init(string key)
     {
+        this.key = key;
         thumbsContainer = StoreThumbsContainer.Load();
         iconsContainer = StoreIconsContainer.Load();
         button.onClick.AddListener(OnButtonClicked);
@@ -61,9 +63,10 @@ public class SkinItemView : View
 
     private void OnButtonClicked()
     {
+        audioService.PlayStandardClick();
         if (isPremium)
         {
-            setSkinSignal.Dispatch();
+            setSkinSignal.Dispatch(key);
         }
         else
         {

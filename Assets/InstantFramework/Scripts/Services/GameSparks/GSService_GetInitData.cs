@@ -40,12 +40,14 @@ namespace TurboLabz.InstantFramework
             // Check app version match with back end. Bail if there is mismatch.
             if (appInfoModel.appBackendVersionValid == false)
             {
+                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
             // Check if game maintenance mode is On
             if (settingsModel.maintenanceFlag == true)
             {
+                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
@@ -69,12 +71,6 @@ namespace TurboLabz.InstantFramework
 
             storeAvailableSignal.Dispatch(false);
 
-            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
-            if (promise != null)
-            {
-                promise.Then(OnStoreInit);
-            }
-
             ParseActiveChallenges(response.ScriptData);
 
             // Parse active quick match
@@ -88,11 +84,10 @@ namespace TurboLabz.InstantFramework
                 // need not be set from the server. Do not set activeChallengeId here.
             }
 
-            //Send power up usage Analytics
-            if (response.ScriptData.ContainsKey(GSBackendKeys.EVENT_DATA))
+            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
+            if (promise != null)
             {
-                var eventData = response.ScriptData.GetGSData(GSBackendKeys.EVENT_DATA);
-                SendPowerupUsageAnalytics(eventData);
+                promise.Then(OnStoreInit);
             }
         }
 

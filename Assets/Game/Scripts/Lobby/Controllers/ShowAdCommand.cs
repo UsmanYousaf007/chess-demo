@@ -12,6 +12,7 @@ using TurboLabz.CPU;
 using UnityEngine;
 using strange.extensions.promise.api;
 using GameSparks.Core;
+using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantGame
 {
@@ -26,8 +27,8 @@ namespace TurboLabz.InstantGame
         // Dispatch signals
         [Inject] public UpdatePlayerRewardsPointsSignal updatePlayerRewardsPointsSignal { get; set; }
         [Inject] public RewardUnlockedSignal rewardUnlockedSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public ShowPromotionDlgSignal showPromotionDlgSignal { get; set; }
+        [Inject] public ShowAdSkippedDlgSignal showAdSkippedDlgSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantGame
         public AdType adType;
         public string claimRewardType;
         private AdsRewardVO adsRewardData;
+        private IPromise<AdsResult> promotionAdPromise;
 
         public override void Execute()
         {
@@ -65,13 +67,21 @@ namespace TurboLabz.InstantGame
                 case AdType.Interstitial:
 
                     Retain();
-                    ClaimReward(AdsResult.BYPASS);
-
                     if (adsService.IsInterstitialAvailable())
                     {
                         preferencesModel.globalAdsCount++;
                         preferencesModel.interstitialAdsCount++;
-                        adsService.ShowInterstitial();
+
+                        var promise = adsService.ShowInterstitial();
+                        if (promise != null)
+                        {
+                            promise.Then(ClaimReward);
+                        }
+                        else
+                        {
+                            Release();
+                        }
+
                         analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
                     }
                     else
@@ -106,7 +116,6 @@ namespace TurboLabz.InstantGame
                 case AdType.Promotion:
 
                     Retain();
-                    ClaimReward(AdsResult.BYPASS);
                     ShowPromotion();
                     break;
             }
@@ -121,8 +130,18 @@ namespace TurboLabz.InstantGame
 
                 GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
                                                             .AddString("challengeId", resultAdsVO.challengeId);
-                                                     
+
                 backendService.ClaimReward(jsonData).Then(OnClaimReward);
+            }
+            else if (result == AdsResult.SKIPPED)
+            {
+                if (!preferencesModel.isSkipVideoDlgShown)
+                {
+                    preferencesModel.isSkipVideoDlgShown = true;
+                    showAdSkippedDlgSignal.Dispatch();
+                }
+
+                Release();
             }
             else
             {
@@ -151,8 +170,9 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotion()
         {
-            loadLobbySignal.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            promotionAdPromise = new Promise<AdsResult>();
+            promotionAdPromise.Then(ClaimReward);
+            showPromotionDlgSignal.Dispatch(promotionAdPromise);
         }
     }
 }

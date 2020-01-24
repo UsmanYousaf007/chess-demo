@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
         AD_COVER,
         THEME_SELECTION,
         SUBSCRIPTION_DLG,
-        SETTINGS
+        SETTINGS,
+        EARN_REWARDS_DLG
     }
 }

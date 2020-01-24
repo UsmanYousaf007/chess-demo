@@ -71,6 +71,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector] public bool isPlayerTurn;
         [HideInInspector] public bool isRanked;
         [HideInInspector] public long lastMatchTimeStamp;
+        [HideInInspector] public bool isRemoved;
 
         [Header("Friends Bar Optimization")]
         public GameObject bottomAlphaBg;

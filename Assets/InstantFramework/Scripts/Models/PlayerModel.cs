@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         public bool isFBConnectRewardClaimed { get; set; }
         public int cpuPowerupUsedCount { get; set; }
         public long subscriptionExipryTimeStamp { get; set; }
+        public string renewDate { get; set; }
 
         public string name
         {
@@ -72,6 +73,8 @@ namespace TurboLabz.InstantFramework
         public float rewardCurrentPoints { get; set; }
         public float rewardPointsRequired { get; set; }
 
+        private bool isSubscriber = false;
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -99,6 +102,7 @@ namespace TurboLabz.InstantFramework
             notificationCount = 0;
             editedName = "";
             subscriptionExipryTimeStamp = 0;
+            renewDate = "";
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -168,8 +172,12 @@ namespace TurboLabz.InstantFramework
 
         public bool HasSubscription()
         {
-            return isPremium ||
-                   subscriptionExipryTimeStamp > backendService.serverClock.currentTimestamp;
+            if (!isSubscriber)
+            {
+                isSubscriber = subscriptionExipryTimeStamp > backendService.serverClock.currentTimestamp;
+            }
+
+            return isPremium || isSubscriber;
         }
 
         public bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel)

@@ -29,11 +29,21 @@ public class SubscriptionDlgView : View
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
+    [Inject] public IAudioService audioService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal restorePurchasesSignal = new Signal();
     public Signal purchaseSignal = new Signal();
+
+    public void InitOnce()
+    {
+        closeButton.onClick.AddListener(OnCloseButtonClicked);
+        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
+        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
+        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
+        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+    }
 
     public void Init()
     {
@@ -44,23 +54,28 @@ public class SubscriptionDlgView : View
         termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
-        closeButton.onClick.AddListener(OnCloseButtonClicked);
-        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
-        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
-        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
-        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
-
         var storeItem = metaDataModel.store.items[key];
 
         if (storeItem == null)
             return;
 
-        priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
-        var offers = storeItem.description.Split(',');
-        foreach (var offer in offers)
+        string subscriptionInfo = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRICE);
+        string price = storeItem.remoteProductPrice;
+
+        string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
+        priceText.text = subscriptionPriceString;
+
+        //priceText.text = string.Format("\nthen {0} per month", storeItem.remoteProductPrice);
+
+        // Fill only once
+        if (offersContainer.childCount == 0)
         {
-            var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;
-            offerObj.GetComponentInChildren<Text>().text = offer;
+            var offers = storeItem.description.Split(',');
+            foreach (var offer in offers)
+            {
+                var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;
+                offerObj.GetComponentInChildren<Text>().text = offer;
+            }
         }
     }
 
@@ -76,26 +91,31 @@ public class SubscriptionDlgView : View
 
     private void OnCloseButtonClicked()
     {
+        audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPrivacyPolicyClicked()
     {
-        Application.OpenURL("https://turbolabz.com/privacy-policy/");
+        audioService.PlayStandardClick();
+        Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
     }
 
     private void OnTermsOfUseClicked()
     {
-        OnPrivacyPolicyClicked();
+        audioService.PlayStandardClick();
+        Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 
     private void OnRestorePurchaseClicked()
     {
+        audioService.PlayStandardClick();
         restorePurchasesSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
+        audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
     }
 
@@ -103,6 +123,11 @@ public class SubscriptionDlgView : View
     {
         processingUi.SetActive(showProcessingUi);
         uiBlocker.SetActive(show);
+    }
+
+    public bool IsVisible()
+    {
+        return gameObject.activeSelf;
     }
 }
 

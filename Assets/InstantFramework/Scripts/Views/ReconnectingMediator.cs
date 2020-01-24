@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -45,7 +46,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(RequestToggleBannerSignal))]
         public void OnRequestToggleBannerSignal()
         {
-            if (appInfoModel.isReconnecting == DisconnectStats.FALSE
+            if (appInfoModel.isReconnecting == DisconnectStates.FALSE
                 && appInfoModel.gameMode != GameMode.NONE) 
             {
                 toggleBannerSignal.Dispatch(true);
@@ -63,39 +64,50 @@ namespace TurboLabz.InstantFramework
         {
             if(enable)
             {
+                toggleBannerSignal.Dispatch(false);
                 view.ShowPopUp();
             }
             else
             {
                 view.HidePopUp();
             }
-           
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
         {
-            if (isConnected && !appInfoModel.syncInProgress)
+            if (appInfoModel.gameMode == GameMode.NONE || matchInfoModel.activeChallengeId == null)
             {
-                view.HidePopUp();
-            }
-            else
-            {
-                view.ShowPopUp();
+                if (isConnected)
+                {
+                    view.HidePopUp();
+                }
+                else
+                {
+                    view.ShowPopUp();
+                }
             }
 
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
-                appInfoModel.isReconnecting = DisconnectStats.SHORT_DISCONNECT;
-                backendService.StopPinger();
+                // Make sure state is not in long disconnect
+                if (appInfoModel.isReconnecting == DisconnectStates.FALSE)
+                {
+                    appInfoModel.isReconnecting = DisconnectStates.SHORT_DISCONNECT;
+                    backendService.StopPinger();
+                }
+
                 toggleBannerSignal.Dispatch(false);
                 pauseNotificationsSignal.Dispatch(true);
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
-                appInfoModel.isReconnecting = DisconnectStats.FALSE;
-                GameSparks.Core.GS.Reconnect();
-                backendService.StartPinger();
+                if (appInfoModel.isReconnecting == DisconnectStates.SHORT_DISCONNECT)
+                {
+                    appInfoModel.isReconnecting = DisconnectStates.FALSE;
+                    //GameSparks.Core.GS.Reconnect();
+                    backendService.StartPinger();
+                }
 
                 // Switch on banner ads on reconnection when on chess board
                 if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER || 

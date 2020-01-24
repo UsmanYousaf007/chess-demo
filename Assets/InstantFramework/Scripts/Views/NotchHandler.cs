@@ -16,6 +16,7 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform lobbyScrollViewPivotForBanner;
     public LobbyView lobbyView;
     public RectTransform lobbyScrollViewTopShadow;
+    public RectTransform quickMatchButton;
 
     [Header("Profile")]
     public RectTransform profileFacebookButton;
@@ -54,6 +55,13 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform reconnectingPopup;
     public RectTransform maintenanceWarningPopup;
 
+    [Header("Settings")]
+    public RectTransform topBar;
+
+    [Header("Promotion")]
+    public RectTransform promotionTopNav;
+    public RectTransform promotionBottomNav;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -78,12 +86,13 @@ public class NotchHandler : MonoBehaviour {
         }
 
         // LOBBY
-        SetY(lobbyScrollView, -63f - 100f);
+        SetY(lobbyScrollView, -85f - 100f);
         SetTop(lobbyViewPort, 9f);
-        SetBottom(lobbyViewPort, 108f + 100f);
-        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -141);
-        lobbyView.setScorllViewportBottomTo = 351;
+        SetBottom(lobbyViewPort, 128f + 100f);
+        SetY(lobbyScrollViewPivotForBanner, -318);
+        lobbyView.setScorllViewportBottomTo = 361;
         SetY(lobbyScrollViewTopShadow, -2);
+        SetY(quickMatchButton, 347f);
 
         // PROFILE
         SetY(profileFacebookButton, -270f);
@@ -124,6 +133,13 @@ public class NotchHandler : MonoBehaviour {
         // RECONNECTING
         SetY(reconnectingPopup, -130f);
         SetY(maintenanceWarningPopup, -130f);
+
+        //SETTINGS
+        SetY(topBar, -106f);
+
+        //PROMOTION
+        SetY(promotionTopNav, -85f);
+        SetY(promotionBottomNav, 94f);
     }
 
     void SetY(RectTransform tfm, float y)

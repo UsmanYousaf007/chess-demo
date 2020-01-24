@@ -158,7 +158,10 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SortSearchedSignal))]
         public void OnSortSearched()
         {
-            view.SortSearched();
+            if (view.IsVisible())
+            {
+                view.SortSearched();
+            }
         }
 
         [ListensTo(typeof(ClearFriendsSignal))]

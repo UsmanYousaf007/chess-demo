@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
 
         public override void Execute()
         {
@@ -64,6 +65,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (result != BackendResult.CANCELED)
             {
+                getInitDataFailedSignal.Dispatch(result);
                 backendErrorSignal.Dispatch(result);    
             }
 

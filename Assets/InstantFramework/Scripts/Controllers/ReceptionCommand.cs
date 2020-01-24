@@ -28,7 +28,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Models
-        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -49,7 +50,7 @@ namespace TurboLabz.InstantFramework
         private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
-            if (metaDataModel.appInfo.appBackendVersionValid == false)
+            if (appInfoModel.appBackendVersionValid == false)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
@@ -57,7 +58,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (metaDataModel.settingsModel.maintenanceFlag == true)
+            if (settingsModel.maintenanceFlag == true)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: GAME  MAINTENENCE ON", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MAINTENANCE_SCREEN);
@@ -65,18 +66,18 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            initBackendOnceSignal.Dispatch();
-
             if (!isResume)
             {
+                initBackendOnceSignal.Dispatch();
+
                 loadLobbySignal.Dispatch();
                 loadPromotionSingal.Dispatch();
+
+                refreshFriendsSignal.Dispatch();
+                refreshCommunitySignal.Dispatch();
+
+                SendAnalytics();
             }
-
-            refreshFriendsSignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
-
-            SendAnalytics();
 
             CommandEnd();
         }
@@ -140,10 +141,10 @@ namespace TurboLabz.InstantFramework
 
             if (daysBetweenLastLogin >= 1)
             {
-                analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentCpuMatch, 2));
-                analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLongMatch, 2));
-                analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentQuickMatch, 2));
-                analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Math.Round(preferencesModel.timeSpentLobby, 2));
+                analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentCpuMatch));
+                analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLongMatch));
+                analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentQuickMatch));
+                analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLobby));
 
                 preferencesModel.ResetDailyPrefers();
             }

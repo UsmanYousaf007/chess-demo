@@ -58,7 +58,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<NavigatorIgnoreEventSignal>().To<NavigatorIgnoreEventCommand>();
             commandBinder.Bind<UpdateFriendBarSignal>().To<UpdateFriendBarCommand>();
             commandBinder.Bind<ContactSupportSignal>().To<ContactSupportCommand>();
-            commandBinder.Bind<LoadSettingsSignal>().To<LoadSettingsCommand>();
 
             commandBinder.Bind<SavePlayerInventorySignal>().To<SavePlayerInventoryCommand>();
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
@@ -73,6 +72,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
             commandBinder.Bind<RefreshCommunitySignal>().To<RefreshCommunityCommand>();
             commandBinder.Bind<SearchFriendSignal>().To<SearchFriendCommand>();
+            commandBinder.Bind<UpdateSearchResultsSignal>().To<UpdateSearchResultsCommand>();
             commandBinder.Bind<RefreshFriendsSignal>().To<RefreshFriendsCommand>();
             commandBinder.Bind<NewFriendSignal>().To<NewFriendCommand>();
             commandBinder.Bind<RemoveFriendSignal>().To<RemoveFriendCommand>();
@@ -104,6 +104,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
             injectionBinder.Bind<AudioStateChangedSignal>().ToSingleton();
             injectionBinder.Bind<GetInitDataCompleteSignal>().ToSingleton();
+            injectionBinder.Bind<GetInitDataFailedSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookResultSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
             injectionBinder.Bind<FindMatchCompleteSignal>().ToSingleton();
@@ -119,6 +120,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ReportHAnalyticsForPurchaseResult>().ToSingleton();
             injectionBinder.Bind<UpdatePurchasedStoreItemSignal>().ToSingleton();
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
+            injectionBinder.Bind<ReconnectionCompleteSignal>().ToSingleton();
             injectionBinder.Bind<FriendBarBusySignal>().ToSingleton();
             injectionBinder.Bind<SortFriendsSignal>().ToSingleton();
             injectionBinder.Bind<SortCommunitySignal>().ToSingleton();
@@ -145,6 +147,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RemoteStorePurchaseCompletedSignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
+            injectionBinder.Bind<ShowPromotionDlgSignal>().ToSingleton();
+            injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
+            injectionBinder.Bind<DisableModalBlockersSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -258,6 +263,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SubscriptionDlgView>().To<SubscriptionDlgMediator>();
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
             mediationBinder.Bind<SoundView>().To<SoundMediator>();
+            mediationBinder.Bind<PromotionDlgView>().To<PromotionDlgMediator>();
+            mediationBinder.Bind<EarnRewardsView>().To<EarnRewardsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -288,7 +295,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ReportLobbyPromotionAnalyticSingal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
-            injectionBinder.Bind<SettingsButtonClickedSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

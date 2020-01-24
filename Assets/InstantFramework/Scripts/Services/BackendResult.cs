@@ -57,6 +57,10 @@ namespace TurboLabz.InstantFramework
         SEND_TEST_REQUEST_FAILED,
         //SEND_BACKEND_ERROR_SIGNAL,
         GAME_CRAHSED,
+        PURCHASE_ATTEMPT,
+        PURCHASE_COMPLETE,
+        PURCHASE_CANCEL,
+        PURCHASE_FAILED
 
     }
 }

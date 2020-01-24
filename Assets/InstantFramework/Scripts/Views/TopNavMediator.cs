@@ -14,37 +14,77 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public TopNavView view { get; set; }
 
-        [Inject] public SettingsButtonClickedSignal settingsButtonClickedSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
 
-            view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
-
+            view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
+            view.rewardBarClicked.AddListener(RewardBarClicked);
         }
 
         public override void OnRemove()
         {
-            view.addBucksButtonClickedSignal.RemoveAllListeners();
-        }
-
-        private void OnAddBucksButtonClicked()
-        {
-
+            view.settingsButtonClickedSignal.RemoveAllListeners();
+            view.selectThemeClickedSignal.RemoveAllListeners();
+            view.rewardBarClicked.RemoveAllListeners();
         }
 
         private void OnSettingsButtonClicked()
         {
-            Debug.Log("Dispatch Settings Button Clicked: Top Nav Mediator");
-            settingsButtonClickedSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
         }
 
         [ListensTo(typeof(UpdateRemoveAdsSignal))]
         public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
         {
             view.UpdateRemoveAds(freePeriod, isRemoved);
+        }
+
+        private void OnSelectThemeClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
+        }
+
+        [ListensTo(typeof(RewardUnlockedSignal))]
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            view.OnRewardUnlocked(key, quantity);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscrionPurchased(StoreItem item)
+        {
+            view.ShowRewardBar();
+        }
+
+        [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
+        public void OnRewardClaimed(float from, float to)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.AnimateRewardBar(from, to);
+            }
+            else
+            {
+                view.SetupRewardBar();
+            }
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            if (isAvailable)
+            {
+                view.SetupRewardBar();
+            }
+        }
+
+        private void RewardBarClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EARN_REWARDS_DLG);
         }
     }
 }

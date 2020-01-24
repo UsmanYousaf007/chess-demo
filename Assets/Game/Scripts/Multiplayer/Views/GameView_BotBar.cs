@@ -49,7 +49,7 @@ namespace TurboLabz.Multiplayer
 
         void OnBackToFriendsClicked()
         {
-            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
             {
                 return;
             }

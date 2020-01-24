@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using HUF.Analytics.API;
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 
@@ -8,7 +9,7 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public SubscriptionDlgView view { get; set; }
 
     // Services
-    [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public TurboLabz.InstantFramework.IAnalyticsService analyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -17,6 +18,7 @@ public class SubscriptionDlgMediator : Mediator
 
     public override void OnRegister()
     {
+        view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDailogue);
         view.restorePurchasesSignal.AddListener(OnRestorePurchases);
         view.purchaseSignal.AddListener(OnPurchase);
@@ -34,10 +36,12 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(NavigatorShowViewSignal))]
     public void OnShowView(NavigatorViewId viewId)
     {
-        if (viewId == NavigatorViewId.SUBSCRIPTION_DLG)
+        if (viewId == NavigatorViewId.SUBSCRIPTION_DLG && !view.IsVisible())
         {
             view.Show();
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
+
+            HAnalytics.LogEvent(AnalyticsEvent.Create("subscription_popup_displayed").ST1("menu").ST2("subscription_popup"));
         }
     }
 
@@ -58,16 +62,32 @@ public class SubscriptionDlgMediator : Mediator
     private void OnRestorePurchases()
     {
         restorePurchasesSignal.Dispatch();
+
+#if UNITY_IOS
+        HAnalytics.LogEvent(AnalyticsEvent.Create("restore_ios_iap_clicked").ST1("menu").ST2("subscription_popup"));
+#endif
+
     }
 
     private void OnPurchase()
     {
         purchaseStoreItemSignal.Dispatch(view.key, true);
+
+        HAnalytics.LogEvent(AnalyticsEvent.Create("start_trial_clicked").ST1("menu").ST2("subscription_popup"));
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]
     public void OnShowProcessingUI(bool show, bool showProcessingUi)
     {
         view.ShowProcessing(show, showProcessingUi);
+    }
+
+    [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+    public void OnSubscriptionPurchased(StoreItem item)
+    {
+        if (view.IsVisible() && item.key.Equals(view.key))
+        {
+            OnCloseDailogue();
+        }
     }
 }

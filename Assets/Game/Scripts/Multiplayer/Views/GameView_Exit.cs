@@ -83,7 +83,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnEscapeClicked()
         {
-            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
             {
                 return;
             }
@@ -121,7 +121,7 @@ namespace TurboLabz.Multiplayer
 
         void OnMenuButtonClicked()
         {
-            if (appInfoModel.isReconnecting != DisconnectStats.FALSE)
+            if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
             {
                 return;
             }
@@ -142,7 +142,7 @@ namespace TurboLabz.Multiplayer
 
         void OnResignButtonClicked()
         {
-            if ((appInfoModel.isReconnecting == DisconnectStats.FALSE) && !appInfoModel.syncInProgress)
+            if ((appInfoModel.isReconnecting == DisconnectStates.FALSE) && !appInfoModel.syncInProgress)
             {
                 resignButtonClickedSignal.Dispatch();
                 EnableModalBlocker();

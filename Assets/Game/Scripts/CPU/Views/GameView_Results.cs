@@ -52,6 +52,7 @@ namespace TurboLabz.CPU
         public RectTransform rewardBar;
         public Text earnRewardsText;
         public GameObject earnRewardsSection;
+        public Image dailogueBg;
 
         public ViewBoardResults viewBoardResultPanel;
 
@@ -165,7 +166,6 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
-            EnableRewarededVideoButton(true);
             viewBoardResultPanel.gameObject.SetActive(false);
         }
 
@@ -207,6 +207,7 @@ namespace TurboLabz.CPU
 
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
+            EnableRewarededVideoButton(true);
             viewBoardResultPanel.reason.text = "";
             switch (gameEndReason)
             {
@@ -348,7 +349,10 @@ namespace TurboLabz.CPU
             collectRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
             resultRewardCoins = rewardCoins;
 
+            dailogueBg.enabled = false;
             earnRewardsSection.SetActive(!playerModel.HasSubscription());
+            dailogueBg.enabled = true;
+
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
@@ -387,6 +391,7 @@ namespace TurboLabz.CPU
 
         private void OnResultsCollectRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
@@ -404,6 +409,7 @@ namespace TurboLabz.CPU
 
         public void OnResultsSkipRewardButtonClicked()
         {
+            audioService.PlayStandardClick();
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
@@ -419,6 +425,7 @@ namespace TurboLabz.CPU
 
         private void OnResultsClosed()
         {
+            audioService.PlayStandardClick();
             HideResultsDialog();
             //playbackOverlay.gameObject.SetActive(true);
             menuOpensResultsDlg = true;

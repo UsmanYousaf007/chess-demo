@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
 		IPromise<bool> promise = null;
 		purchaseProcessState purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
+        IPromise<BackendResult> storePromise = null;
 
         private Dictionary<string, Product> pendingVerification = new Dictionary<string, Product>();
 
@@ -96,6 +97,8 @@ namespace TurboLabz.InstantFramework
                     LogUtil.Log("Subscription Info: is in free trial peroid? " + info.isFreeTrial());
                     LogUtil.Log("Subscription Info: is auto renewing? " + info.isAutoRenewing());
                     LogUtil.Log("Subscription Info: remaining time " + info.getRemainingTime());
+
+                    playerModel.renewDate = info.getExpireDate().ToShortDateString();
 
                     var expiryTimeStamp = TimeUtil.ToUnixTimestamp(info.getExpireDate());
 
@@ -172,13 +175,16 @@ namespace TurboLabz.InstantFramework
 			return product != null ? product.metadata.localizedPriceString : null;
 		}
 
-		public bool BuyProduct(string storeProductId)
+		public IPromise<BackendResult> BuyProduct(string storeProductId)
         {
-			purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
+            LogUtil.Log("[IAP TEST] Buy product : " + storeProductId);
+            storePromise = new Promise<BackendResult>();
+
+            purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
 
             if (storeController == null) 
             {
-                return false;
+                return null;
             }
 
             Product product = storeController.products.WithID(storeProductId);
@@ -188,12 +194,13 @@ namespace TurboLabz.InstantFramework
             }
 
             showIAPProcessingSignal.Dispatch(true, true);
-            return purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
+
+            return storePromise; //purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
         }
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
-
+            LogUtil.Log("[IAP TEST] Process Purchase : ");
             bool validPurchase = true; // Presume valid for platforms with no R.V.
 
 #if !UNITY_EDITOR
@@ -257,11 +264,19 @@ namespace TurboLabz.InstantFramework
                 if (e.purchasedProduct.definition.type == ProductType.Subscription &&
                     CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
                 {
-                    expiryTimeStamp = TimeUtil.ToUnixTimestamp(
-                        new SubscriptionManager(e.purchasedProduct, null)
-                        .getSubscriptionInfo()
-                        .getExpireDate());
+                    var subscriptionInfo = new SubscriptionManager(e.purchasedProduct, null).getSubscriptionInfo();
+
+                    expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
+
+                    if (subscriptionInfo.isFreeTrial() == Result.True)
+                    {
+                        metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)].currency1Cost = 0;
+                    }
                 }
+
+#if UNITY_EDITOR
+                expiryTimeStamp = backendService.serverClock.currentTimestamp + (10 * 60 * 1000);
+#endif
 
                 // Unlock the appropriate content here.
                 backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
@@ -282,7 +297,14 @@ namespace TurboLabz.InstantFramework
                 if (result == BackendResult.SUCCESS)
                 {
                     remoteStorePurchaseCompletedSignal.Dispatch(pendingVerification[transactionID].definition.id);
-                    reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "completed");
+
+                    if(storePromise != null)
+                    {
+                        storePromise.Dispatch(BackendResult.PURCHASE_COMPLETE);
+                        storePromise = null;
+                    }
+                   
+                    //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "completed");
                 }
                 else
                 {
@@ -302,7 +324,14 @@ namespace TurboLabz.InstantFramework
                     };
 
                     updateConfirmDlgSignal.Dispatch(vo);
-                    reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "failed");
+
+                    if (storePromise != null)
+                    {
+                        storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
+                        storePromise = null;
+                    }
+                        
+                    //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "failed");
                 }
 
                 storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
@@ -339,24 +368,38 @@ namespace TurboLabz.InstantFramework
             // Do nothing when user cancels
             if (reason == PurchaseFailureReason.UserCancelled) 
 			{
-                reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "cancelled");
+                //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "cancelled");
+
+                if (storePromise != null)
+                {
+                    storePromise.Dispatch(BackendResult.PURCHASE_CANCEL);
+                    storePromise = null;
+                }
+                   
                 return;
 			} 
 			else 
 			{
-                reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "failed");
+                if (storePromise != null)
+                {
+                    storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
+                    storePromise = null;
+                }
+                   
+                //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "failed");
             }
         }
 
         // Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google. 
         // Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
-        public void RestorePurchases()
+        public IPromise<BackendResult> RestorePurchases()
         {
 #if UNITY_IOS
+             storePromise = new Promise<BackendResult>();
 
             if (storeController == null || m_StoreExtensionProvider == null) 
             {
-                return;
+                return null;
             }
 
             // Fetch the Apple store-specific subsystem.
@@ -368,7 +411,10 @@ namespace TurboLabz.InstantFramework
                 // no purchases are available to be restored.
             });
 
+            return storePromise;
+
 #endif
+            return null;
         }
 
         private string FindRemoteStoreItemShortCode(string remoteId)

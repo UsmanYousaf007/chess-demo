@@ -31,9 +31,16 @@ namespace TurboLabz.InstantFramework
                     "Please download the latest version." },
                 { LocalizationKey.UPDATE_BUTTON, "UPDATE" },
                 { LocalizationKey.CHECK_INTERNET_CONNECTION, "Please check your internet connection." },
-                { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Star account because your account is signed in on another device." },
+                { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Stars account because your account is signed in on another device." },
                 
 
+
+                #endregion
+
+                #region Lobby
+
+                { LocalizationKey.OKAY_TEXT, "Ok" },
+                { LocalizationKey.BACK_TEXT, "BACK" },
 
                 #endregion
 
@@ -45,10 +52,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FREE_NO_ADS_HOURS, "hours" },
                 { LocalizationKey.FREE_NO_ADS_DAYS, "days" },
                 { LocalizationKey.DONE, "Done"},
-                { LocalizationKey.SELECT_THEME, "Select Theme"},
-                { LocalizationKey.CHOOSE_THEME, "Choose Theme"},
-                { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations! You unlocked a reward"},
-                { LocalizationKey.REWARD_THEME, "Theme"},
+                { LocalizationKey.SELECT_THEME, "Change Theme"},
+                { LocalizationKey.CHOOSE_THEME, "Select Theme"},
+                { LocalizationKey.REWARD_UNLOCKED_TITLE, "Congratulations"},
+                { LocalizationKey.REWARD_UNLOCKED_SUBTITLE, "Reward Unlocked!"},
+                { LocalizationKey.REWARD_THEME, "Chess Theme"},
+                { LocalizationKey.REWARD_UNLOCKED_CLAIM, "Claim"},
+                { LocalizationKey.AD_SKIPPED_TITLE, "Ad Skipped"},
+                { LocalizationKey.AD_SKIPPED_INFO_TEXT, "Please watch Ads without skipping to earn reward points"},
 
                 #endregion
 
@@ -133,7 +144,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
-                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to lobby" },
+                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to Games" },
                 { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
 
@@ -209,12 +220,18 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNAVAILABLE, "Purchasing is unavailable, check your payment settings" },
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNKNOWN, "Reason unknown" },
 
-                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "Chess Star Premium Subscription"},
-                { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unsued portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
+                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "CHESS STARS\nPremium Subscription"},
+                { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unused portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
-                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Start 3 Days Free Trial"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Try for free"},
                 { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PRICE, "3 days free trial\nthen (price) per month"},
+
+                { LocalizationKey.PROMOTON_DLG_TITLE, "CHESS STARS\nPremium Subscription"},
+                { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Try for free"},
+                { LocalizationKey.PROMOTION_DLG_PRICE, "then (price) per month"},
+                { LocalizationKey.PROMOTION_DLG_PURCHASE, "3 days free trial"},
 
                 #endregion
 
@@ -243,7 +260,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_BLOCK_LABEL, "Block User" },
                 { LocalizationKey.FRIENDS_BLOCK_TEXT, "Block"},
                 { LocalizationKey.FRIENDS_CHAT_LABEL, "Chat" },
-                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Login to Facebook" },
+                { LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT, "Connect with Facebook" },
                 { LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT, "Login" },
                 { LocalizationKey.FACEBBOK_LOGIN_REWARD_TEXT, "Get {0} Coins" },
                 { LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS, "Waiting for players ...\n" },
@@ -349,9 +366,17 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM, "Upgrade to Premium" },
                 { LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS, "Personalised Ads" },
                 { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },
-                { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free then (price)" },
+                { LocalizationKey.SETTINGS_ACCOUNT_INFO, "Try for free" },
+                { LocalizationKey.SETTINGS_ACCOUNT_RENEW, "Renews on (date)" },
                 { LocalizationKey.SETTINGS_ON, "On" },
-                { LocalizationKey.SETTINGS_OFF, "Off" }
+                { LocalizationKey.SETTINGS_OFF, "Off" },
+
+                #endregion
+
+                #region Earn Rewards
+
+                { LocalizationKey.EARN_REWARDS_TITLE, "Earn Rewards" },
+                { LocalizationKey.EARN_REWARDS_INFO_TEXT, "Collect reward points on match result card" }
 
                 #endregion
             };
