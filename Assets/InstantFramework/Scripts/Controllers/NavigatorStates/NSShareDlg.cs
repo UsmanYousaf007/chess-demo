@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
                 {
+                    cmd.disableModalBlockersSignal.Dispatch();
                     return new NSMultiplayer();
                 }
                 else if (viewId == NavigatorViewId.STATS)

@@ -62,7 +62,7 @@ public class GameSparksUnity : MonoBehaviour
 
 			GUILayout.Space (10);
 
-			GUILayout.Label ("GameSparks Preview mode", GUILayout.Width (200), GUILayout.Height (25));
+			GUILayout.Label ("", GUILayout.Width (200), GUILayout.Height (25));
 
 			GUILayout.EndHorizontal ();
 

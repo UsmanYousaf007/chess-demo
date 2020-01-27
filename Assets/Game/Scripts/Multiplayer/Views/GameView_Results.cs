@@ -135,7 +135,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 resultsCollectRewardButton.interactable = false;
-                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, 50f);
+                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;

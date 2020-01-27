@@ -84,6 +84,7 @@ namespace TurboLabz.InstantFramework
             if (!availableFlag)
             {
                 Debug.Log("[ANALYITCS]: ads_rewared_request:");
+                HAds.Rewarded.Fetch();
                 analyticsService.Event(AnalyticsEventId.ads_rewared_request);
             }
 
@@ -147,7 +148,14 @@ namespace TurboLabz.InstantFramework
 
         public bool IsInterstitialAvailable()
         {
-            return HAds.Interstitial.IsReady() &&
+            var availableFlag = HAds.Interstitial.IsReady();
+
+            if (!availableFlag)
+            {
+                HAds.Interstitial.Fetch();
+            }
+
+            return availableFlag &&
                 (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
                 (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
         }

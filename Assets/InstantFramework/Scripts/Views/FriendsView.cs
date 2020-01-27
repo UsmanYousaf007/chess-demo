@@ -270,6 +270,7 @@ namespace TurboLabz.InstantFramework
                 sectionSearchResultsEmpty.gameObject.SetActive(false);
                 sectionRecentlyCompleted.gameObject.SetActive(false);
             }
+
         }
 
         void OnNextSearchBtnClicked()
@@ -300,7 +301,6 @@ namespace TurboLabz.InstantFramework
         public void OnCancelSearchClicked()
         {
             ResetSearch();
-
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
         }
