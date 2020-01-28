@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
         [Inject] public GetInitDataSignal getInitDataSignal { get; set; }
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
+        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -155,6 +157,9 @@ namespace TurboLabz.InstantFramework
             InternetReachabilityMonitor.StartMonitor();
 
             appInfoModel.isReconnecting = DisconnectStates.FALSE;
+
+            refreshFriendsSignal.Dispatch();
+            refreshCommunitySignal.Dispatch();
 
             Release();
         }
