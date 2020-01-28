@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using HUF.Analytics.API;
+using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using UnityEngine;
@@ -68,6 +69,7 @@ public class PromotionDlgView : View
     public void Show()
     {
         gameObject.SetActive(true);
+        HAnalytics.LogEvent(AnalyticsEvent.Create("internal_ad_displayed").ST1("monetization").ST2("internal_fullscreen").ST3("internal"));
     }
 
     public void Hide()
@@ -78,12 +80,14 @@ public class PromotionDlgView : View
     private void OnCloseButtonClicked()
     {
         audioService.PlayStandardClick();
+        HAnalytics.LogEvent(AnalyticsEvent.Create("internal_ad_closed").ST1("monetization").ST2("internal_fullscreen").ST3("internal"));
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
         audioService.PlayStandardClick();
+        HAnalytics.LogEvent(AnalyticsEvent.Create("internal_ad_clicked").ST1("monetization").ST2("internal_fullscreen").ST3("internal"));
         purchaseSignal.Dispatch();
     }
 
