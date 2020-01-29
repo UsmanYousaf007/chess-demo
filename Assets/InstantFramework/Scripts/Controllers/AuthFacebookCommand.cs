@@ -27,10 +27,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public ToggleFacebookButton toggleFacebookButton { get; set; }
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         public override void Execute()
         {
@@ -140,6 +142,12 @@ namespace TurboLabz.InstantFramework
                 setSkinSignal.Dispatch(playerModel.activeSkinId);
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
+
+                //in case if fb logged in user has subscription, dispatch this signal in order to unlock all subscription features
+                if (playerModel.HasSubscription())
+                {
+                    updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG]);
+                }
             }
 
             Sprite playerPic = picsModel.GetPlayerPic(playerModel.id);

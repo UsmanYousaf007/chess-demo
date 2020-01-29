@@ -32,14 +32,17 @@ public class ThemeSelectionView : View
 
     public void Init()
     {
+        SetupSkinMenuItems();
+    }
+
+    public void InitOnce()
+    {
         chooseThemeText.text = localizationService.Get(LocalizationKey.CHOOSE_THEME);
         applyButton.onClick.AddListener(OnApplyButtonClicked);
         //scrollRect.onValueChanged.AddListener(OnScrollRectValueChanged);
-        scrollUpButton.onClick.AddListener(OnScrollUpButton);
-        scrollDownButton.onClick.AddListener(OnScrollDownButton);
-
-        SetAlpha(scrollUpArrow, 0.3f);
-        SetupSkinMenuItems();
+        //scrollUpButton.onClick.AddListener(OnScrollUpButton);
+        //scrollDownButton.onClick.AddListener(OnScrollDownButton);
+        //SetAlpha(scrollUpArrow, 0.3f);
     }
 
     private void OnScrollRectValueChanged(Vector2 arg0)
