@@ -26,7 +26,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
         [Inject] public ShowProcessingSignal showIAPProcessingSignal { get; set; }
-        [Inject] public ReportHAnalyticsForPurchaseResult reportHAnalyticsForPurchaseResult { get; set; }
 
         //Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -298,13 +297,11 @@ namespace TurboLabz.InstantFramework
                 {
                     remoteStorePurchaseCompletedSignal.Dispatch(pendingVerification[transactionID].definition.id);
 
-                    if(storePromise != null)
+                    if (storePromise != null)
                     {
                         storePromise.Dispatch(BackendResult.PURCHASE_COMPLETE);
                         storePromise = null;
                     }
-                   
-                    //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "completed");
                 }
                 else
                 {
@@ -330,8 +327,6 @@ namespace TurboLabz.InstantFramework
                         storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
                         storePromise = null;
                     }
-                        
-                    //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(pendingVerification[transactionID].definition.id), "failed");
                 }
 
                 storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
@@ -366,27 +361,23 @@ namespace TurboLabz.InstantFramework
             showIAPProcessingSignal.Dispatch(false, false);
 
             // Do nothing when user cancels
-            if (reason == PurchaseFailureReason.UserCancelled) 
-			{
-                //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "cancelled");
-
+            if (reason == PurchaseFailureReason.UserCancelled)
+            {
                 if (storePromise != null)
                 {
                     storePromise.Dispatch(BackendResult.PURCHASE_CANCEL);
                     storePromise = null;
                 }
-                   
+
                 return;
-			} 
-			else 
-			{
+            }
+            else
+            {
                 if (storePromise != null)
                 {
                     storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
                     storePromise = null;
                 }
-                   
-                //reportHAnalyticsForPurchaseResult.Dispatch(FindRemoteStoreItemShortCode(product.definition.id), "failed");
             }
         }
 

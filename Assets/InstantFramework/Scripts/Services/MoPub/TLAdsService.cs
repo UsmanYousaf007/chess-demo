@@ -1,11 +1,9 @@
 ﻿using HUF.Ads.Implementation;
-using HUF.AdsAdMobMediation.API;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
 using HUF.Ads.API;
 using System.Collections.Generic;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,13 +13,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
-        IPromise<AdsResult> rewardedAdPromiseOnSuccess;
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
+        private IPromise<AdsResult> rewardedAdPromiseOnSuccess;
         private bool bannerDisplay = false;
 
         public void Init()
         {
-            //HAdsAdMobMediation.Init();
             HAds.Interstitial.Fetch();
             HAds.Rewarded.Fetch();
 
@@ -41,20 +39,15 @@ namespace TurboLabz.InstantFramework
             switch(data.Result)
             {
                 case AdResult.Completed:
+                    preferencesModel.videoFinishedCount++;
+
                     var videoEventData = new Dictionary<string, string>();
                     videoEventData.Add("network", data.ProviderId);
                     videoEventData.Add("placement", data.PlacementId);
 
                     appsFlyerService.TrackRichEvent(AnalyticsEventId.video_finished.ToString(), videoEventData);
-
-                    preferencesModel.videoFinishedCount++;
                     appsFlyerService.TrackLimitedEvent(AnalyticsEventId.video_finished, preferencesModel.videoFinishedCount);
-
-                    var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_finished.ToString())
-                        .ST1("monetization")
-                        .ST2("rewarded_result_2xcoins")
-                        .ST3(data.ProviderId);
-                    HAnalytics.LogEvent(analyticsEvent);
+                    hAnalyticsService.LogEvent(AnalyticsEventId.video_finished.ToString(), "monetization", "rewarded_result_2xcoins", data.ProviderId);
 
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
                     break;
@@ -69,11 +62,7 @@ namespace TurboLabz.InstantFramework
         void OnInterstitailEnded(IAdCallbackData data)
         {
             HAds.Interstitial.Fetch();
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_finished.ToString())
-                .ST1("monetization")
-                .ST2("interstitial")
-                .ST3(data.ProviderId);
-            HAnalytics.LogEvent(analyticsEvent);
+            hAnalyticsService.LogEvent(AnalyticsEventId.video_finished.ToString(), "monetization", "interstitial", data.ProviderId);
             rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
         }
 
@@ -108,41 +97,20 @@ namespace TurboLabz.InstantFramework
             Debug.Log("TLAdsService::OnBannerLoadedEvent() will NOT hide ad.");
 
             appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_displayed.ToString());
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.ad_displayed.ToString())
-                .ST1("monetization")
-                .ST2("banner")
-                .ST3(data.ProviderId);
-            HAnalytics.LogEvent(analyticsEvent);
+            hAnalyticsService.LogEvent(AnalyticsEventId.ad_displayed.ToString(), "monetization", "banner", data.ProviderId);
         }
 
         public void OnRewardedVideoLoadedEvent(IAdCallbackData data)
         {
             Debug.Log("[ANALYITCS]: ads_rewared_success: Result" + data.Result.ToString());
             Debug.Log("[ANALYITCS]: IAdCallbackData ProviderId:" + data.ProviderId);
-
-            //switch (data.Result)
-            //{
-            //    case AdResult.Completed:
-            //        analyticsService.Event(AnalyticsEventId.ads_rewared_success);
-            //        break;
-            //    case AdResult.Skipped:
-            //        break;
-            //    case AdResult.Failed:
-            //        break;
-            //}
-            //analyticsService.Event(AnalyticsEventId.ads_rewared_success);
         }
 
         public IPromise<AdsResult> ShowRewardedVideo()
         {
-            //return MoPubRewardedVideo.Show();
             rewardedAdPromiseOnSuccess = new Promise<AdsResult>();
             HAds.Rewarded.TryShow();
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_started.ToString())
-                .ST1("monetization")
-                .ST2("rewarded_result_2xcoins")
-                .ST3(HAds.Rewarded.GetAdProviderName());
-            HAnalytics.LogEvent(analyticsEvent);
+            hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "rewarded_result_2xcoins", HAds.Rewarded.GetAdProviderName());
             return rewardedAdPromiseOnSuccess;
         }
 
@@ -164,13 +132,8 @@ namespace TurboLabz.InstantFramework
         {
             rewardedAdPromiseOnSuccess = new Promise<AdsResult>();
             HAds.Interstitial.TryShow();
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.video_started.ToString())
-                .ST1("monetization")
-                .ST2("interstitial")
-                .ST3(HAds.Interstitial.GetAdProviderName());
-            HAnalytics.LogEvent(analyticsEvent);
+            hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "interstitial", HAds.Interstitial.GetAdProviderName());
             return rewardedAdPromiseOnSuccess;
-
         }
 
         public void ShowBanner()
@@ -190,11 +153,7 @@ namespace TurboLabz.InstantFramework
         private void OnBannerClicked(IBannerCallbackData data)
         {
             appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_clicked.ToString());
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.ad_clicked.ToString())
-                .ST1("monetization")
-                .ST2("banner")
-                .ST3(data.ProviderId);
-            HAnalytics.LogEvent(analyticsEvent);
+            hAnalyticsService.LogEvent(AnalyticsEventId.ad_clicked.ToString(), "monetization", "banner", data.ProviderId);
         }
 
         public void CollectSensitiveData(bool consentStatus)
