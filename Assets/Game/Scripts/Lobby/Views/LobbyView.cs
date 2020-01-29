@@ -1127,10 +1127,8 @@ namespace TurboLabz.InstantFramework
         public void SortCommunity()
         {
             // Create holders
-            List<FriendBar> communitySubscriberOnline = new List<FriendBar>();
-            List<FriendBar> communitySubscriberOffline = new List<FriendBar>();
-            List<FriendBar> communityNonSubscriberOnline = new List<FriendBar>();
-            List<FriendBar> communityNonSubscriberOffline = new List<FriendBar>();
+            List<FriendBar> communityOnline = new List<FriendBar>();
+            List<FriendBar> communityOffline = new List<FriendBar>();
 
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
@@ -1146,53 +1144,33 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                if (entry.Value.friendInfo.publicProfile.isSubscriber)
+                if (entry.Value.isOnline)
                 {
-                    if (entry.Value.isOnline)
-                    {
-                        communitySubscriberOnline.Add(bar);
-                    }
-                    else
-                    {
-                        communitySubscriberOffline.Add(bar);
-                    }
+                    communityOnline.Add(bar);
                 }
                 else
                 {
-                    if (entry.Value.isOnline)
-                    {
-                        communityNonSubscriberOnline.Add(bar);
-                    }
-                    else
-                    {
-                        communityNonSubscriberOffline.Add(bar);
-                    }
+                    communityOffline.Add(bar);
                 }
             }
 
             // Sort holders
-
-            communitySubscriberOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-            communitySubscriberOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-
-            communityNonSubscriberOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-            communityNonSubscriberOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            communityOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            communityOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
 
             // Set sibling indexes
             int index = 0;
             sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
             sectionPlaySomeoneNew.gameObject.SetActive(true);
             int count = 0;
-            int maxCount = communitySubscriberOnline.Count + communitySubscriberOffline.Count
-                + communityNonSubscriberOnline.Count + communityNonSubscriberOffline.Count;
+            int maxCount = communityOnline.Count + communityOffline.Count;
 
 
-            if (communitySubscriberOnline.Count > 0 || communitySubscriberOffline.Count > 0
-                || communityNonSubscriberOnline.Count > 0 || communityNonSubscriberOffline.Count > 0)
+            if (communityOnline.Count > 0 || communityOffline.Count > 0)
             {
                 index = sectionPlaySomeoneNew.GetSiblingIndex() + 1;
 
-                foreach (FriendBar bar in communitySubscriberOnline)
+                foreach (FriendBar bar in communityOnline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
@@ -1200,23 +1178,7 @@ namespace TurboLabz.InstantFramework
                     bar.UpdateMasking(maxCount == count, true);
                 }
 
-                foreach (FriendBar bar in communitySubscriberOffline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                    count++;
-                    bar.UpdateMasking(maxCount == count, true);
-                }
-
-                foreach (FriendBar bar in communityNonSubscriberOnline)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    index++;
-                    count++;
-                    bar.UpdateMasking(maxCount == count, true);
-                }
-
-                foreach (FriendBar bar in communityNonSubscriberOffline)
+                foreach (FriendBar bar in communityOffline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;

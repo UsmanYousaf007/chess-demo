@@ -139,28 +139,23 @@ namespace TurboLabz.InstantFramework
             sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
             sectionRecentlyCompleted.gameObject.SetActive(false);
 
+
+            sectionPlayAFriend.gameObject.SetActive(true);
+
             int count = 0;
 
-            if (!inSearchView)
+            if (!facebookService.isLoggedIn())
             {
-                sectionPlayAFriend.gameObject.SetActive(true);
-
-
-
-                if (!facebookService.isLoggedIn())
-                {
-                    index = sectionPlayAFriend.GetSiblingIndex() + 1;
-                    sectionPlayAFriendEmptyNotLoggedIn.transform.SetSiblingIndex(index);
-                    sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
-                    count++;
-                    index++;
-                }
-                else
-                {
-                    index = sectionPlayAFriend.GetSiblingIndex() + 1;
-                }
+                index = sectionPlayAFriend.GetSiblingIndex() + 1;
+                sectionPlayAFriendEmptyNotLoggedIn.transform.SetSiblingIndex(index);
+                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
+                count++;
+                index++;
             }
-
+            else
+            {
+                index = sectionPlayAFriend.GetSiblingIndex() + 1;
+            }
 
 
             //if (yourMove.Count > 0 ||
@@ -208,8 +203,7 @@ namespace TurboLabz.InstantFramework
             int recentMatchCount = OnlineRecentCompleted.Count + recentCompleted.Count;
             if (OnlineRecentCompleted.Count > 0 || recentCompleted.Count > 0)
             {
-                if(!inSearchView)
-                    sectionRecentlyCompleted.gameObject.SetActive(true);
+                sectionRecentlyCompleted.gameObject.SetActive(true);
 
                 index = sectionRecentlyCompleted.GetSiblingIndex() + 1;
 
