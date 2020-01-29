@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
         public RectTransform rewardBar;
         public GameObject rewardBarObject;
         public Button rewardBarButton;
+        public ParticleSystem particlesSys;
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
@@ -142,14 +143,26 @@ namespace TurboLabz.InstantFramework
             var barFillPercentageFrom = from / playerModel.rewardPointsRequired;
             var barFillPercentageTo = to / playerModel.rewardPointsRequired;
 
+            if (!particlesSys.isPlaying)
+            {
+                particlesSys.Play();
+            }
+
+
             iTween.ValueTo(this.gameObject,
                 iTween.Hash(
                     "from", rewardBarOriginalWidth * barFillPercentageFrom,
                     "to", rewardBarOriginalWidth * barFillPercentageTo,
-                    "time", 1f,
+                    "time", 2f,
                     "onupdate", "AnimateBar",
-                    "onupdatetarget", this.gameObject
+                    "onupdatetarget", this.gameObject, "oncomplete", "StopPlayingParticles"
                 ));
+        }
+
+
+        private void StopPlayingParticles()
+        {
+            particlesSys.Stop();
         }
 
         private void AnimateBar(float value)
