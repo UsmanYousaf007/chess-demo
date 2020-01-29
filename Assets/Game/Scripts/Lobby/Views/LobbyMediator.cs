@@ -388,17 +388,6 @@ namespace TurboLabz.InstantFramework
             view.OnRewardUnlocked(key, quantity);
         }
 
-        [ListensTo(typeof(ReportHAnalyticsForPurchaseResult))]
-        public void OnReportHAnalytics(string key, string result)
-        {
-            if (!view.IsVisible())
-            {
-                return;
-            }
-
-            view.ReportHAnalytic(key, result);
-        }
-
         [ListensTo(typeof(ShowAdSkippedDlgSignal))]
         public void OnShowAdSkippedDlg()
         {

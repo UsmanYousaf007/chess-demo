@@ -10,11 +10,8 @@
 /// @description
 /// [add_description_here]
 using TurboLabz.Chess;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
-using System.Collections.Generic;
 using TurboLabz.InstantGame;
-using HUF.Analytics.API;
 
 namespace TurboLabz.CPU
 {
@@ -100,12 +97,8 @@ namespace TurboLabz.CPU
             cmd.toggleStepBackwardSignal.Dispatch(false);
             cmd.toggleStepForwardSignal.Dispatch(false);
 
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_finished.ToString())
-                .ST1("gameplay")
-                .ST2("cpu_match");
-            HAnalytics.LogEvent(analyticsEvent);
-
             cmd.preferencesModel.gameFinishedCount++;
+            cmd.hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", "cpu_match");
             cmd.appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount);
         }
 

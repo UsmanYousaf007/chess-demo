@@ -3,17 +3,12 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 using System;
-
-using GameSparks.Api.Messages;
 using GameSparks.Core;
-
 using TurboLabz.Chess;
 using UnityEngine;
 using TurboLabz.Multiplayer;
 using TurboLabz.TLUtils;
-using GameSparks.Api.Responses;
 using System.Collections.Generic;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -193,12 +188,9 @@ namespace TurboLabz.InstantFramework
 
         private void HandleActiveGameEnd(string challengeId)
         {
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_finished.ToString())
-                .ST1("gameplay")
-                .ST2(matchInfoModel.matches.ContainsKey(challengeId) && matchInfoModel.matches[challengeId].isLongPlay ? "long_match" : "quick_match");
-            HAnalytics.LogEvent(analyticsEvent);
-
             preferencesModel.gameFinishedCount++;
+            var matchType = matchInfoModel.matches.ContainsKey(challengeId) && matchInfoModel.matches[challengeId].isLongPlay ? "long_match" : "quick_match";
+            hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", matchType);
             appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, preferencesModel.gameFinishedCount);
 
             if (challengeId != matchInfoModel.activeChallengeId)

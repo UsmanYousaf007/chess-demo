@@ -12,10 +12,7 @@
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
 using System;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
-using HUF.Analytics.API;
-using IAnalyticsService = TurboLabz.InstantFramework.IAnalyticsService;
 
 namespace TurboLabz.CPU
 {
@@ -32,6 +29,7 @@ namespace TurboLabz.CPU
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         public override void Execute()
         {
@@ -50,14 +48,9 @@ namespace TurboLabz.CPU
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 
-                var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
-                .ST1("gameplay")
-                .ST2("cpu_match");
-                HAnalytics.LogEvent(analyticsEvent);
-
                 preferencesModel.gameStartCount++;
+                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "cpu_match");
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-
             }
 
             OnboardingTooltipCommand.oldOpponentScore = 0;
