@@ -147,6 +147,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RemoteStorePurchaseCompletedSignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
+            injectionBinder.Bind<ThemeAlertDisableSignal>().ToSingleton();
             injectionBinder.Bind<ShowPromotionDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
             injectionBinder.Bind<DisableModalBlockersSignal>().ToSingleton();
