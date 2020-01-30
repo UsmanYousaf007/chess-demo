@@ -141,6 +141,7 @@ namespace TurboLabz.InstantFramework
         private List<GameObject> cacheEnabledSections;
         private int searchSkip;
         private bool isSearchNext;
+        private bool inSearchView; 
 
         public void Init()
         {
@@ -248,6 +249,8 @@ namespace TurboLabz.InstantFramework
                 searchSkip = 0;
             }
 
+            inSearchView = true;
+
             uiBlocker.gameObject.SetActive(true);
             searchBoxText.text = inputField.text;
             searchBoxText.text  = searchBoxText.text.Replace("\n", " ");
@@ -270,7 +273,6 @@ namespace TurboLabz.InstantFramework
                 sectionSearchResultsEmpty.gameObject.SetActive(false);
                 sectionRecentlyCompleted.gameObject.SetActive(false);
             }
-
         }
 
         void OnNextSearchBtnClicked()
@@ -301,6 +303,7 @@ namespace TurboLabz.InstantFramework
         public void OnCancelSearchClicked()
         {
             ResetSearch();
+            inSearchView = false;
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
         }
