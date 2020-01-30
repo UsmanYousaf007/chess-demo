@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SetDefaultSkinSignal>().To<SetDefaultSkinCommand>();
             commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
             commandBinder.Bind<ConsumeVirtualGoodSignal>().To<ConsumeVirtualGoodCommand>();
+            commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -143,7 +144,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SyncReconnectDataSignal>().ToSingleton();
             injectionBinder.Bind<CancelSearchResultSignal>().ToSingleton();
             injectionBinder.Bind<FindMatchRequestCompleteSignal>().ToSingleton();
-            injectionBinder.Bind<RemoteStorePurchaseCompletedSignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
             injectionBinder.Bind<ThemeAlertDisableSignal>().ToSingleton();
