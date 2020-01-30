@@ -258,10 +258,10 @@ namespace TurboLabz.InstantGame
             var rt = notifidationObj.GetComponent<RectTransform>();
             rt.offsetMax = new Vector2(0, rt.offsetMax.y);
 
-            if (notifidationObj.gameObject.transform.localScale.x > 1.0f)
-            {
+            //if (notifidationObj.gameObject.transform.localScale.x > 1.0f)
+            //{
                 notifidationObj.gameObject.transform.localScale = Vector3.one;
-            }
+            //}
 
             NotificationContainer notificationContainer = new NotificationContainer();
             notificationContainer.obj = notifidationObj;

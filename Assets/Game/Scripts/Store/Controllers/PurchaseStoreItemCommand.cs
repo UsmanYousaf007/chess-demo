@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         private StoreItem item;
         private NS pState = null;
@@ -113,8 +114,7 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
-            HAnalytics.LogEvent(AnalyticsMonetizationEvent.Create(eventName, item.currency1Cost).ST1("iap_purchase")
-                                                             .ST2("subscription").ST3(cameFromScreen).Value(item.currency1Cost));
+            hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", "subscription", cameFromScreen);
         }
 
         private void OnPurchase(BackendResult result)

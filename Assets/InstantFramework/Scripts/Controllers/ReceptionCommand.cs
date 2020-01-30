@@ -68,6 +68,8 @@ namespace TurboLabz.InstantFramework
 
             if (!isResume)
             {
+                preferencesModel.sessionCount++;
+
                 initBackendOnceSignal.Dispatch();
 
                 loadLobbySignal.Dispatch();

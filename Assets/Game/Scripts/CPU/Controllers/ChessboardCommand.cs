@@ -86,6 +86,7 @@ namespace TurboLabz.CPU
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         public override void Execute()
         {

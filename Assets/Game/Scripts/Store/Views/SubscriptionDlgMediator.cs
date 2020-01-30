@@ -1,5 +1,4 @@
-﻿using HUF.Analytics.API;
-using strange.extensions.mediation.impl;
+﻿using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 
@@ -9,7 +8,8 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public SubscriptionDlgView view { get; set; }
 
     // Services
-    [Inject] public TurboLabz.InstantFramework.IAnalyticsService analyticsService { get; set; }
+    [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -39,9 +39,9 @@ public class SubscriptionDlgMediator : Mediator
         if (viewId == NavigatorViewId.SUBSCRIPTION_DLG && !view.IsVisible())
         {
             view.Show();
-            analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
 
-            HAnalytics.LogEvent(AnalyticsEvent.Create("subscription_popup_displayed").ST1("menu").ST2("subscription_popup"));
+            analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
+            hAnalyticsService.LogEvent("subscription_popup_displayed", "menu", "subscription_popup");
         }
     }
 
@@ -72,8 +72,7 @@ public class SubscriptionDlgMediator : Mediator
     private void OnPurchase()
     {
         purchaseStoreItemSignal.Dispatch(view.key, true);
-
-        HAnalytics.LogEvent(AnalyticsEvent.Create("start_trial_clicked").ST1("menu").ST2("subscription_popup"));
+        hAnalyticsService.LogEvent("start_trial_clicked", "menu", "subscription_popup");
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]

@@ -2,8 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-
-using HUF.Analytics.API;
 using strange.extensions.mediation.impl;
 
 namespace TurboLabz.InstantFramework
@@ -20,7 +18,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
-
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         public override void OnRegister()
         {
@@ -83,7 +81,7 @@ namespace TurboLabz.InstantFramework
         void OnUpgradeToPremiumClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-            HAnalytics.LogEvent(AnalyticsEvent.Create("upgrade_subscription_clicked").ST1("menu").ST2("settings"));
+            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "settings");
         }
     }
 }

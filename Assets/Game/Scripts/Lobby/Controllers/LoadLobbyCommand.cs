@@ -5,16 +5,11 @@
 /// 
 /// @description
 /// [add_description_here]
-
 using strange.extensions.command.impl;
-using TurboLabz.Chess;
-using System;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
-using UnityEngine;
 using TurboLabz.Multiplayer;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantGame
 {
@@ -45,6 +40,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IRateAppService rateAppService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -98,15 +94,14 @@ namespace TurboLabz.InstantGame
 
             if (SplashLoader.launchCode == 1)
             {
-                var analyticsEvent = AnalyticsEvent.Create("launch")
-                        .ST1("launch");
-
                 if (firebasePushNotificationService.IsNotificationOpened())
                 {
-                    analyticsEvent.ST2("notification");
+                    hAnalyticsService.LogEvent("launch", "launch", "notification");
                 }
-
-                HAnalytics.LogEvent(analyticsEvent);
+                else
+                {
+                    hAnalyticsService.LogEvent("launch", "launch");
+                }
                 SplashLoader.launchCode = 3;
             }
         }

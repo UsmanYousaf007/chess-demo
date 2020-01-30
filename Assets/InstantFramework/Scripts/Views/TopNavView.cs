@@ -66,6 +66,7 @@ namespace TurboLabz.InstantFramework
         protected override void OnEnable()
         {
             base.OnEnable();
+            particlesSys.Stop();
         }
 
         public void UpdatePlayerBucks(long bucks)
@@ -115,13 +116,20 @@ namespace TurboLabz.InstantFramework
         private void OnSelectThemeClicked()
         {
             audioService.PlayStandardClick();
-            selectThemeClickedSignal.Dispatch();
-            rewardUnlockedAlert.gameObject.SetActive(false);
+            selectThemeClickedSignal.Dispatch();   
         }
 
         public void OnRewardUnlocked(string key, int quantity)
         {
-            //TODO show alert image in case theme is unlocked
+            var reward = metaDataModel.store.items[key];
+
+            if (reward != null && !string.IsNullOrEmpty(reward.displayName))
+            {
+                if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
+                {
+                    rewardUnlockedAlert.SetActive(true);
+                }
+            }
         }
 
 
