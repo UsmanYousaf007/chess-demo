@@ -26,6 +26,8 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
 
+        bool isNotificationOpened;
+
         public void Init() 
         {
 
@@ -71,7 +73,7 @@ namespace TurboLabz.InstantFramework
         public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
         {
             var notification = e.Message.Notification;
-            bool isNotificationOpened = e.Message.NotificationOpened;
+            isNotificationOpened = e.Message.NotificationOpened;
 
             // Bail if push notification was not clicked.
             // Socket messaging handles notifications when game is running.
@@ -96,9 +98,14 @@ namespace TurboLabz.InstantFramework
             notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
             notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
             notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
+            notificationVO.isPremium = e.Message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(e.Message.Data["isSubscriber"]) : false;
 
             notificationRecievedSignal.Dispatch(notificationVO);
         }
 
+        public bool IsNotificationOpened()
+        {
+            return isNotificationOpened;
+        }
     }
 }

@@ -26,7 +26,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        [Inject] public WifiIsHealthySignal wifiIsHealthySignal { get; set; }
         [Inject] public ShowMaintenanceViewSignal showMaintenanceViewSignal { get; set; }
 
         private int initialPingCount;
@@ -55,7 +54,6 @@ namespace TurboLabz.InstantFramework
         {
             while (true)
             {
-                RestartHealthCheckMonitor();
                 bool opCommunityPublicStatus = (!(initialPingCount < (GSSettings.INITIAL_PING_COUNT - 1))) && (appInfoModel.gameMode == GameMode.NONE);
                 new GSPingRequest().Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds, opCommunityPublicStatus);
 
@@ -95,7 +93,7 @@ namespace TurboLabz.InstantFramework
                 GSData player = (GSData)obj.Value;
                 string playerId = obj.Key;
                 bool isOnline = player.GetBoolean("isOnline").Value;
-                string activity = player.GetString("activity");
+                string activity = "available";//player.GetString("activity");
 
                 Friend friend = playerModel.GetFriend(playerId);
                 if (friend == null)
@@ -115,6 +113,7 @@ namespace TurboLabz.InstantFramework
                 pvo.isOnline = isOnline;
                 pvo.isActive = publicProfile.isActive;
                 pvo.activity = activity;
+                pvo.isPremium = publicProfile.isSubscriber;
 
                 updtateFriendOnlineStatusSignal.Dispatch(pvo);
             }
@@ -123,12 +122,6 @@ namespace TurboLabz.InstantFramework
         private void OnPingSuccess(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
-            StopHealthCheckMonitor();
-            float secondsElapsed = (TimeUtil.unixTimestampMilliseconds - sendTime)/1000f;
-            if (secondsElapsed < GSSettings.SLOW_WIFI_WARNING_THRESHOLD)
-            {
-                wifiIsHealthySignal.Dispatch(true);
-            }
 
             UpdateClockLatency(response);
 
@@ -164,28 +157,6 @@ namespace TurboLabz.InstantFramework
 
 
             UpdateCommunityPublicStatus(response);
-        }
-            
-        private void RestartHealthCheckMonitor()
-        {
-            StopHealthCheckMonitor();
-            wifiHealthCheckCR = routineRunner.StartCoroutine(CheckWifiHealthCR());
-            sendTime = TimeUtil.unixTimestampMilliseconds;
-        }
-
-        private void StopHealthCheckMonitor()
-        {
-            if (wifiHealthCheckCR != null)
-            {
-                routineRunner.StopCoroutine(wifiHealthCheckCR);
-                wifiHealthCheckCR = null;
-            }
-        }
-
-        private IEnumerator CheckWifiHealthCR()
-        {
-            yield return new WaitForSecondsRealtime(GSSettings.SLOW_WIFI_WARNING_THRESHOLD);
-            wifiIsHealthySignal.Dispatch(false);
         }
     }
 

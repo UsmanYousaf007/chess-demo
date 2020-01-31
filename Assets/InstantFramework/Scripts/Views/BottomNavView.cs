@@ -35,15 +35,12 @@ namespace TurboLabz.InstantFramework
         public ButtonId buttonId;
 
         public Text homeLabel;
-        public Text shopLabel;
         public Text friendsLabel;
 
         public Image homeIcon;
-        public Image shopIcon;
         public Image friendsIcon;
 
         public Button homeButton;
-        public Button shopButton;
         public Button friendsButton;
 
         public Signal homeButtonClickedSignal = new Signal();
@@ -53,11 +50,9 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             homeLabel.text = localizationService.Get(LocalizationKey.NAV_HOME);
-            shopLabel.text = localizationService.Get(LocalizationKey.NAV_SHOP);
             friendsLabel.text = localizationService.Get(LocalizationKey.NAV_FRIENDS);
 
             homeButton.onClick.AddListener(HomeButtonClicked);
-            shopButton.onClick.AddListener(ShopButtonClicked);
             friendsButton.onClick.AddListener(SettingsButtonClicked);
 
             UpdateButtons();
@@ -69,10 +64,6 @@ namespace TurboLabz.InstantFramework
             homeIcon.color = Colors.WHITE_100;
             homeLabel.color = Colors.WHITE_100;
 
-            shopButton.interactable = true;
-            shopIcon.color = Colors.WHITE_100;
-            shopLabel.color = Colors.WHITE_100;
-
             friendsButton.interactable = true;
             friendsIcon.color = Colors.WHITE_100;
             friendsLabel.color = Colors.WHITE_100;
@@ -82,13 +73,6 @@ namespace TurboLabz.InstantFramework
                 homeButton.interactable = false;
                 homeIcon.color = Colors.YELLOW;
                 homeLabel.color = Colors.YELLOW;
-            }
-            else if (buttonId == ButtonId.Shop)
-            {
-                shopButton.interactable = false;
-                shopIcon.color = Colors.YELLOW;
-                shopLabel.color = Colors.YELLOW;
-
             }
             else if (buttonId == ButtonId.Friends)
             {
@@ -101,11 +85,6 @@ namespace TurboLabz.InstantFramework
         void HomeButtonClicked()
         {
             homeButtonClickedSignal.Dispatch();
-        }
-
-        void ShopButtonClicked()
-        {
-            shopButtonClickedSignal.Dispatch();
         }
 
         void SettingsButtonClicked()

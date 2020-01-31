@@ -43,7 +43,6 @@ namespace TurboLabz.CPU
             OnRegisterHint();
             OnRegisterHindsight();
             OnRegisterInfo();
-            OnRegisterSpotPurchase();
             OnRegisterStep();
         }
 
@@ -120,6 +119,15 @@ namespace TurboLabz.CPU
                 {
                     LogUtil.Log("CPU Match Connected", "cyan");
                 }
+            }
+        }
+
+        [ListensTo(typeof(DisableModalBlockersSignal))]
+        public void OnDisableModalBlockers()
+        {
+            if (view.IsVisible())
+            {
+                view.DisableModalBlocker();
             }
         }
 

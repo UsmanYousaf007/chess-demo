@@ -12,5 +12,6 @@ namespace TurboLabz.InstantFramework
     {
         void Init();
         string GetToken();
+        bool IsNotificationOpened();
     }
 }

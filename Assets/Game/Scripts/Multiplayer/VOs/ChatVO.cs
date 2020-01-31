@@ -22,5 +22,7 @@ namespace TurboLabz.Multiplayer
         public bool isActive;
         public bool inGame;
         public bool isChatEnabled;
+        public bool isPlayerPremium;
+        public bool isOpponentPremium;
     }
 }

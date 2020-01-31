@@ -2,12 +2,8 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-
-
 using UnityEngine;
 using strange.extensions.command.impl;
-using TurboLabz.TLUtils;
-
 
 namespace TurboLabz.InstantFramework
 {
@@ -34,10 +30,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
         {
@@ -97,6 +97,10 @@ namespace TurboLabz.InstantFramework
             // where both clients start at a synch time stamp
             getGameStartTimeSignal.Dispatch();
 
+            preferencesModel.gameStartCount++;
+            hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match");
+            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+
             // Grab the opponent profile pic if any
             if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
             {
@@ -136,6 +140,12 @@ namespace TurboLabz.InstantFramework
         {
             PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
+            var friend = playerModel.GetFriend(publicProfile.playerId);
+            if (friend != null)
+            {
+                publicProfile = friend.publicProfile;
+            }
+
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = publicProfile.profilePicture;
             pvo.playerName = publicProfile.name;
@@ -146,6 +156,12 @@ namespace TurboLabz.InstantFramework
             pvo.avatarId = publicProfile.avatarId;
             pvo.isOnline = true;
             pvo.isActive = publicProfile.isActive;
+            pvo.isPremium = publicProfile.isSubscriber;
+
+            if (pvo.playerPic == null)
+            {
+                pvo.playerPic = picsModel.GetPlayerPic(publicProfile.playerId);
+            }
 
             return pvo;
         }

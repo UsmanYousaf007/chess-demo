@@ -27,6 +27,7 @@ public class ChatBubble : MonoBehaviour
     public Image avatarBg;
     public Image avatarIcon;
     public Text timer;
+    public GameObject premiumBorder;
 
     Image bgImage;
     Coroutine fadeRoutine;
@@ -96,7 +97,10 @@ public class ChatBubble : MonoBehaviour
                 StopCoroutine(fadeRoutine);
             }
 
-            fadeRoutine = StartCoroutine(DoFade());
+            if (isActiveAndEnabled)
+            {
+                fadeRoutine = StartCoroutine(DoFade());
+            }
         }
         text.ForceMeshUpdate();
 

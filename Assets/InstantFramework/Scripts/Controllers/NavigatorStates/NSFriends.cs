@@ -30,10 +30,6 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLobby();
             }
-            else if (evt == NavigatorEvent.SHOW_STORE)
-            {
-                return new NSStore();
-            }
             else if (evt == NavigatorEvent.SHOW_STATS)
             {
                 return new NSStats();
@@ -49,6 +45,18 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
             {
                 return new NSConfirmDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_SETTINGS)
+            {
+                return new NSSettings();
+            }
+            else if (evt == NavigatorEvent.SHOW_THEME_SELECTION_DLG)
+            {
+                return new NSThemeSelectionDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_EARN_REWARDS_DLG)
+            {
+                return new NSEarnRewardsDlg();
             }
 
             return null;

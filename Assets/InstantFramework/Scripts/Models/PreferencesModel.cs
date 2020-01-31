@@ -38,6 +38,17 @@ namespace TurboLabz.InstantGame
         public float timeSpentCpuMatch { get; set; }
         public float timeSpentLobby { get; set; }
         public DateTime lastLaunchTime { get; set; }
+        public int videoFinishedCount { get; set; }
+        public int continousPlayCount { get; set; }
+        public int gameStartCount { get; set; }
+        public int gameFinishedCount { get; set; }
+        public DateTime appsFlyerLastLaunchTime { get; set; }
+        public int globalAdsCount { get; set; }
+        public int rewardedAdsCount { get; set; }
+        public int interstitialAdsCount { get; set; }
+        public int resignCount { get; set; }
+        public bool isSkipVideoDlgShown { get; set; }
+        public int sessionCount { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -50,7 +61,7 @@ namespace TurboLabz.InstantGame
         private void Reset()
         {
             isAudioOn = true;
-            adSlotId = 0;
+            adSlotId = 1;
             adSlotImpressions = 0;
             hasRated = false;
             isSafeMoveOn = false;
@@ -67,6 +78,14 @@ namespace TurboLabz.InstantGame
             timeSpentCpuMatch = 0;
             timeSpentLobby = 0;
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
+            videoFinishedCount = 0;
+            continousPlayCount = 0;
+            gameStartCount = 0;
+            gameFinishedCount = 0;
+            appsFlyerLastLaunchTime = lastLaunchTime;
+            isSkipVideoDlgShown = false;
+            sessionCount = 0;
+            ResetDailyPrefers();
         }
 
         private void LoadFromDisk()
@@ -164,6 +183,61 @@ namespace TurboLabz.InstantGame
                     lastLaunchTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.LAST_LAUNCH_TIME)));
                 }
 
+                if (reader.HasKey(PrefKeys.VIDEO_FINISHED_COUNT))
+                {
+                    videoFinishedCount = reader.Read<int>(PrefKeys.VIDEO_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.COUNTINOUS_PLAY_COUNT))
+                {
+                    continousPlayCount = reader.Read<int>(PrefKeys.COUNTINOUS_PLAY_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_START_COUNT))
+                {
+                    gameStartCount = reader.Read<int>(PrefKeys.GAME_START_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_FINISHED_COUNT))
+                {
+                    gameFinishedCount = reader.Read<int>(PrefKeys.GAME_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.APPS_FLYER_LAST_LAUNCH_TIME))
+                {
+                    appsFlyerLastLaunchTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.APPS_FLYER_LAST_LAUNCH_TIME)));
+                }
+
+                if (reader.HasKey(PrefKeys.GLOBAL_ADS_COUNT))
+                {
+                    globalAdsCount = reader.Read<int>(PrefKeys.GLOBAL_ADS_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.REWARDED_ADS_COUNT))
+                {
+                    rewardedAdsCount = reader.Read<int>(PrefKeys.REWARDED_ADS_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.INTERSTITIAL_ADS_COUNT))
+                {
+                    interstitialAdsCount = reader.Read<int>(PrefKeys.INTERSTITIAL_ADS_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.RESIGN_COUNT))
+                {
+                    resignCount = reader.Read<int>(PrefKeys.RESIGN_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.SKIP_DLG_SHOWN))
+                {
+                    isSkipVideoDlgShown = reader.Read<bool>(PrefKeys.SKIP_DLG_SHOWN);
+                }
+
+                if (reader.HasKey(PrefKeys.SESSION_COUNT))
+                {
+                    sessionCount = reader.Read<int>(PrefKeys.SESSION_COUNT);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -199,6 +273,17 @@ namespace TurboLabz.InstantGame
                 writer.Write<float>(PrefKeys.TIME_SPENT_LOBBY, timeSpentLobby);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
                 writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
+                writer.Write<int>(PrefKeys.VIDEO_FINISHED_COUNT, videoFinishedCount);
+                writer.Write<int>(PrefKeys.COUNTINOUS_PLAY_COUNT, continousPlayCount);
+                writer.Write<int>(PrefKeys.GAME_START_COUNT, gameStartCount);
+                writer.Write<int>(PrefKeys.GAME_FINISHED_COUNT, gameFinishedCount);
+                writer.Write<string>(PrefKeys.APPS_FLYER_LAST_LAUNCH_TIME, appsFlyerLastLaunchTime.ToBinary().ToString());
+                writer.Write<int>(PrefKeys.GLOBAL_ADS_COUNT, globalAdsCount);
+                writer.Write<int>(PrefKeys.REWARDED_ADS_COUNT, globalAdsCount);
+                writer.Write<int>(PrefKeys.INTERSTITIAL_ADS_COUNT, interstitialAdsCount);
+                writer.Write<int>(PrefKeys.RESIGN_COUNT, resignCount);
+                writer.Write<bool>(PrefKeys.SKIP_DLG_SHOWN, isSkipVideoDlgShown);
+                writer.Write<int>(PrefKeys.SESSION_COUNT, sessionCount);
                 writer.Close();
             }
             catch (Exception e)
@@ -240,7 +325,7 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void ResetTimeSpentAnalyticsData()
+        public void ResetDailyPrefers()
         {
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
 
@@ -248,6 +333,10 @@ namespace TurboLabz.InstantGame
             timeSpentLongMatch  = 0;
             timeSpentQuickMatch = 0;
             timeSpentLobby      = 0;
+            globalAdsCount      = 0;
+            rewardedAdsCount    = 0;
+            interstitialAdsCount= 0;
+            resignCount         = 0;
         }
     }
 }

@@ -46,6 +46,10 @@ namespace TurboLabz.InstantFramework
         SHOW_SKILL_LEVEL_DLG,
         SHOW_CHAT,
         SHOW_MAINTENANCE_SCREEN,
-        SHOW_CONFIRM_DLG
+        SHOW_CONFIRM_DLG,
+        SHOW_THEME_SELECTION_DLG,
+        SHOW_SUBSCRIPTION_DLG,
+        SHOW_SETTINGS,
+        SHOW_EARN_REWARDS_DLG,
     }
 }

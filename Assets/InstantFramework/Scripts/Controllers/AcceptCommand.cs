@@ -3,10 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using System.Collections;
-using UnityEngine;
 using strange.extensions.command.impl;
-using TurboLabz.TLUtils;
 using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework 
@@ -25,11 +22,13 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
-
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         string challengeId;
 
@@ -60,6 +59,11 @@ namespace TurboLabz.InstantFramework
                 updateFriendBarSignal.Dispatch(playerModel.friends[opponentId], opponentId);
                 sortFriendsSignal.Dispatch();
                 startLongMatchSignal.Dispatch(challengeId);
+
+                //Analytics
+                preferencesModel.gameStartCount++;
+                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match");
+                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
             }
 
             Release();

@@ -12,7 +12,6 @@
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
 using System;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 
 namespace TurboLabz.CPU
@@ -29,6 +28,8 @@ namespace TurboLabz.CPU
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         public override void Execute()
         {
@@ -46,6 +47,10 @@ namespace TurboLabz.CPU
                 chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
+
+                preferencesModel.gameStartCount++;
+                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "cpu_match");
+                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
             }
 
             OnboardingTooltipCommand.oldOpponentScore = 0;

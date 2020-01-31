@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
-
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -37,7 +37,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
-
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -49,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public GameObject quickMatchPlay;
         public Text quickMatchPlayTxt;
         public Text quickMatchDescriptionTxt;
+        public Button quickMatchShortcutBtn;
 
         public Button playComputerMatchBtn;
         public Text playComputerMatchTitleTxt;
@@ -117,6 +117,26 @@ namespace TurboLabz.InstantFramework
         public Sprite offline;
         public Sprite active;
 
+        [Header("Reward Unlocked Dlg")]
+        public GameObject rewardUnlockedDlg;
+        public GameObject rewardUnlockedDlgBg;
+        public Text rewardTitle;
+        public Text rewardSubTitle;
+        public Image rewardIcon;
+        public Text rewardName;
+        public Text rewardOkButtonText;
+        public Button rewardOkButton;
+        public RectTransform themeIconPlacement;
+        public RectTransform powerUpIconPlacement;
+
+        [Header("Ad Skipped Dlg")]
+        public GameObject adSkippedDlg;
+        public Text adSkippedTitle;
+        public Text adSkippedOkText;
+        public Button adSkippedOkButton;
+        public Text adSkippedInfoText;
+        public RectTransform adSkippedBar;
+
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
         public Signal<string, FriendBar> showProfileDialogSignal = new Signal<string, FriendBar>();
@@ -143,6 +163,7 @@ namespace TurboLabz.InstantFramework
         private List<GameObject> cacheEnabledSections;
         private bool isCPUGameInProgress;
         List<FriendBar> recentlyCompleted = new List<FriendBar>();
+        private StoreIconsContainer iconsContainer;
 
         public void Init()
         {
@@ -181,6 +202,7 @@ namespace TurboLabz.InstantFramework
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
 
             quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
+            quickMatchShortcutBtn.onClick.AddListener(OnQuickMatchBtnClicked);
 
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
@@ -196,6 +218,19 @@ namespace TurboLabz.InstantFramework
 
             scrollViewOrignalPosition = scrollRect.transform.localPosition;
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
+            playerProfileOriginalPosition = playerProfile.transform.localPosition;
+
+            rewardTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_TITLE);
+            rewardSubTitle.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_SUBTITLE);
+            rewardOkButtonText.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_CLAIM);
+            rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
+            iconsContainer = StoreIconsContainer.Load();
+
+            //Ad Skipped Dlg 
+            adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
+            adSkippedInfoText.text = localizationService.Get(LocalizationKey.AD_SKIPPED_INFO_TEXT);
+            adSkippedOkText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
+            adSkippedOkButton.onClick.AddListener(() => ShowAdSkippedDailogue(false));
         }
 
         void OnDecStrengthButtonClicked()
@@ -221,9 +256,9 @@ namespace TurboLabz.InstantFramework
             if (vo.inProgress)
             {
                 playComputerLevelTxt.gameObject.SetActive(true);
-                playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL ) + vo.selectedStrength;
+                playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL) + vo.selectedStrength;
                 playComputerMatchPlay.SetActive(false);
-               
+
             }
             else
             {
@@ -233,16 +268,16 @@ namespace TurboLabz.InstantFramework
 
             onlinePlayersCountLabel.text = "Active Players " + vo.onlineCount.ToString();
 
-    }
+        }
 
-    public void UpdateStrength(LobbyVO vo)
+        public void UpdateStrength(LobbyVO vo)
         {
             isCPUGameInProgress = vo.inProgress;
             int selectedStrength = vo.selectedStrength;
             int minStrength = vo.minStrength;
             int maxStrength = vo.maxStrength;
 
-            UpdateStrength(selectedStrength,minStrength,maxStrength);
+            UpdateStrength(selectedStrength, minStrength, maxStrength);
         }
 
         private void UpdateStrength(int selectedStrength, int minStrength, int maxStrength)
@@ -293,7 +328,7 @@ namespace TurboLabz.InstantFramework
 
         void OnComputerDifficultyDlgCloseClicked()
         {
-            chooseComputerDifficultyDlg.SetActive(false) ;
+            chooseComputerDifficultyDlg.SetActive(false);
         }
 
         void OnComputerDifficultyDlgStartGameClicked()
@@ -362,7 +397,7 @@ namespace TurboLabz.InstantFramework
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
         {
             TLUtils.LogUtil.LogNullValidation(friend.playerId, "friend.playerId");
-            
+
             if (friend.playerId != null && bars.ContainsKey(friend.playerId))
             {
                 return;
@@ -422,7 +457,7 @@ namespace TurboLabz.InstantFramework
                 return;
 
             TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
-    
+
             if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
@@ -434,8 +469,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendPic(string playerId, PublicProfile publicProfile)
         {
-         	TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
-         
+            TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+
             if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
@@ -448,15 +483,16 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                if (publicProfile.avatarId!= null)
+                if (publicProfile.avatarId != null)
                 {
                     barData.avatarIcon.gameObject.SetActive(true);
                     barData.avatarBG.gameObject.SetActive(true);
 
                     barData.avatarBG.color = Colors.Color(publicProfile.avatarBgColorId);
-                    barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId) ;
+                    barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId);
                 }
             }
+            barData.premiumBorder.SetActive(publicProfile.isSubscriber);
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -473,8 +509,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarStatus(LongPlayStatusVO vo)
         {
-        	TLUtils.LogUtil.LogNullValidation(vo.playerId, "vo.playerId");
-        	
+            TLUtils.LogUtil.LogNullValidation(vo.playerId, "vo.playerId");
+
             if (vo.playerId != null && !bars.ContainsKey(vo.playerId))
             {
                 return;
@@ -547,7 +583,7 @@ namespace TurboLabz.InstantFramework
         {
 
             TLUtils.LogUtil.LogNullValidation(vo.playerId, "friendId");
-        
+
             if (vo.playerId != null && !bars.ContainsKey(vo.playerId))
             {
                 return;
@@ -562,7 +598,7 @@ namespace TurboLabz.InstantFramework
             // This function must be called in pairs (even if playerId becomes null or no longer friend) 
             // to ensure UI Blocker gets disabled
             uiBlocker.SetActive(busy);
-            
+
             TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
             if (playerId != null && !bars.ContainsKey(playerId))
@@ -592,7 +628,9 @@ namespace TurboLabz.InstantFramework
             }
             else if (reason == CreateLongMatchAbortReason.CreateFailed)
             {
-                friendBar.playArrow.SetActive(true);
+                createMatchLimitReachedDlg.SetActive(true);
+                createMatchLimitReachedText.text = "Player is already waiting for you to \naccept a classic match";
+                friendBar.playArrow.SetActive(false);
                 friendBar.playArrowButton.SetActive(false);
             }
             else // Match successfully created
@@ -834,7 +872,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-#region StartGameConfirmationDialog
+        #region StartGameConfirmationDialog
 
         void SetToggleRankButtonState(bool state)
         {
@@ -844,6 +882,7 @@ namespace TurboLabz.InstantFramework
 
         void OnToggleRankButtonClicked()
         {
+            audioService.PlayStandardClick();
             startGameConfirmationDlg.toggleRankButtonState = !startGameConfirmationDlg.toggleRankButtonState;
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
         }
@@ -885,6 +924,7 @@ namespace TurboLabz.InstantFramework
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
 
             startGameConfirmationDlg.playerId = bar.friendInfo.playerId;
+            startGameConfirmationDlg.premiumBorder.SetActive(bar.premiumBorder.activeSelf);
 
             startGameConfirmationDlg.gameObject.SetActive(true);
         }
@@ -943,7 +983,7 @@ namespace TurboLabz.InstantFramework
             //}
         }
 
-#endregion StartGameConfirmationDialog
+        #endregion StartGameConfirmationDialog
 
 
         void CreateMatchLimitReachedCloseBtnClicked()
@@ -1002,13 +1042,13 @@ namespace TurboLabz.InstantFramework
                     //destroyMe.Add(entry.Key);
                 }
 
-                
+
                 if (bar.isPlayerTurn || bar.longPlayStatus == LongPlayStatus.DRAW || bar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE
                         || bar.longPlayStatus == LongPlayStatus.PLAYER_WON || bar.longPlayStatus == LongPlayStatus.OPPONENT_WON)
                 {
                     notificationCounter++;
                 }
-                    
+
             }
 
             //foreach (string key in destroyMe)
@@ -1017,13 +1057,14 @@ namespace TurboLabz.InstantFramework
             //    bars.Remove(key);
             //}
 
-            if (notificationCounter > 0){
+            if (notificationCounter > 0)
+            {
                 notificationTagImage.gameObject.SetActive(true);
             }
 
             notificationTagNumber.text = notificationCounter.ToString();
             updatePlayerNotificationCountSignal.Dispatch(notificationCounter);
-            
+
             // Sort holders
             activeMatches.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
             recentlyCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
@@ -1031,7 +1072,7 @@ namespace TurboLabz.InstantFramework
 
             // Set sibling indexes
             int index = 0;
-            
+
 
             sectionActiveMatchesEmpty.gameObject.SetActive(false);
 
@@ -1055,12 +1096,12 @@ namespace TurboLabz.InstantFramework
                 sectionActiveMatches.gameObject.SetActive(false);
             }
 
-            if (recentlyCompleted.Count>0)
+            if (recentlyCompleted.Count > 0)
             {
                 int maxCount = 5;
                 sectionRecentlyCompletedMatches.gameObject.SetActive(true);
                 index = sectionRecentlyCompletedMatches.GetSiblingIndex() + 1;
-                for (int i = 0; i< recentlyCompleted.Count; i++)
+                for (int i = 0; i < recentlyCompleted.Count; i++)
                 {
                     if (i < maxCount)
                     {
@@ -1086,9 +1127,11 @@ namespace TurboLabz.InstantFramework
         public void SortCommunity()
         {
             // Create holders
-            List<FriendBar> communityOnline = new List<FriendBar>();
-            List<FriendBar> communityOffline = new List<FriendBar>();
-            
+            List<FriendBar> communitySubscriberOnline = new List<FriendBar>();
+            List<FriendBar> communitySubscriberOffline = new List<FriendBar>();
+            List<FriendBar> communityNonSubscriberOnline = new List<FriendBar>();
+            List<FriendBar> communityNonSubscriberOffline = new List<FriendBar>();
+
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
             {
@@ -1103,33 +1146,53 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                if (entry.Value.isOnline)
+                if (entry.Value.friendInfo.publicProfile.isSubscriber)
                 {
-                    communityOnline.Add(bar);
+                    if (entry.Value.isOnline)
+                    {
+                        communitySubscriberOnline.Add(bar);
+                    }
+                    else
+                    {
+                        communitySubscriberOffline.Add(bar);
+                    }
                 }
                 else
                 {
-                    communityOffline.Add(bar);
+                    if (entry.Value.isOnline)
+                    {
+                        communityNonSubscriberOnline.Add(bar);
+                    }
+                    else
+                    {
+                        communityNonSubscriberOffline.Add(bar);
+                    }
                 }
             }
 
             // Sort holders
-            communityOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
-            communityOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+
+            communitySubscriberOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            communitySubscriberOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+
+            communityNonSubscriberOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            communityNonSubscriberOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
 
             // Set sibling indexes
             int index = 0;
             sectionPlaySomeoneNewEmpty.gameObject.SetActive(false);
             sectionPlaySomeoneNew.gameObject.SetActive(true);
             int count = 0;
-            int maxCount = communityOnline.Count + communityOffline.Count;
+            int maxCount = communitySubscriberOnline.Count + communitySubscriberOffline.Count
+                + communityNonSubscriberOnline.Count + communityNonSubscriberOffline.Count;
 
 
-            if (communityOnline.Count > 0 || communityOffline.Count > 0)
+            if (communitySubscriberOnline.Count > 0 || communitySubscriberOffline.Count > 0
+                || communityNonSubscriberOnline.Count > 0 || communityNonSubscriberOffline.Count > 0)
             {
                 index = sectionPlaySomeoneNew.GetSiblingIndex() + 1;
 
-                foreach (FriendBar bar in communityOnline)
+                foreach (FriendBar bar in communitySubscriberOnline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
@@ -1137,7 +1200,23 @@ namespace TurboLabz.InstantFramework
                     bar.UpdateMasking(maxCount == count, true);
                 }
 
-                foreach (FriendBar bar in communityOffline)
+                foreach (FriendBar bar in communitySubscriberOffline)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    index++;
+                    count++;
+                    bar.UpdateMasking(maxCount == count, true);
+                }
+
+                foreach (FriendBar bar in communityNonSubscriberOnline)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    index++;
+                    count++;
+                    bar.UpdateMasking(maxCount == count, true);
+                }
+
+                foreach (FriendBar bar in communityNonSubscriberOffline)
                 {
                     bar.transform.SetSiblingIndex(index);
                     index++;
@@ -1151,10 +1230,45 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void ShowProcessing(bool show)
+        public void ShowProcessing(bool show, bool showProcessingUi)
         {
-            iapProcessingUi.SetActive(show);
+            iapProcessingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+
+            var reward = metaDataModel.store.items[key];
+            
+            if (reward != null && !string.IsNullOrEmpty(reward.displayName))
+            {
+                if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
+                {
+                    rewardName.text = string.Format("{0} {1}", reward.displayName, localizationService.Get(LocalizationKey.REWARD_THEME));
+                    rewardIcon.rectTransform.localPosition = themeIconPlacement.localPosition;
+                    rewardIcon.rectTransform.sizeDelta = themeIconPlacement.sizeDelta;
+                }
+                else
+                {
+                    rewardName.text = string.Format("{0} x {1}", reward.displayName, quantity);
+                    rewardIcon.rectTransform.localPosition = powerUpIconPlacement.localPosition;
+                    rewardIcon.rectTransform.sizeDelta = powerUpIconPlacement.sizeDelta;
+                }
+
+                rewardIcon.sprite = iconsContainer.GetSprite(key);
+                var originalPos = rewardUnlockedDlgBg.transform.localPosition;
+                rewardUnlockedDlgBg.transform.localPosition = new Vector3(originalPos.x, 1500f, originalPos.z);
+                rewardUnlockedDlg.SetActive(true);
+
+                iTween.MoveTo(rewardUnlockedDlgBg, iTween.Hash("position", originalPos, "time", 0.7f, "islocal", true));
+            }
+        }
+
+        public void ShowAdSkippedDailogue(bool show)
+        {
+            adSkippedDlg.SetActive(show);
         }
     }
 }

@@ -18,6 +18,9 @@ namespace TurboLabz.InstantFramework
         public string maintenanceWarningMessege { get; set; }
         public string maintenanceWarningBgColor { get; set; }
         public string updateReleaseBannerMessage { get; set; }
+        public string manageSubscriptionURL { get; set; }
+        public int maxLongMatchCountPremium { get; set; }
+        public int maxFriendsCountPremium { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -42,6 +45,9 @@ namespace TurboLabz.InstantFramework
             minimumClientVersion = "";
             maintenanceWarningBgColor = "";
             updateReleaseBannerMessage = "";
+            manageSubscriptionURL = "";
+            maxLongMatchCountPremium = 0;
+            maxFriendsCountPremium = 0;
         }
     }
 }

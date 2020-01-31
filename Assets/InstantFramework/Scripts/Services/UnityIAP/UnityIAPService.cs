@@ -25,12 +25,21 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
-        [Inject] public ShowIAPProcessingSignal showIAPProcessingSignal { get; set; }
+        [Inject] public ShowProcessingSignal showIAPProcessingSignal { get; set; }
+
+        //Models
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
+        [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal { get; set; }
+
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         IStoreController storeController = null;
         IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
 		IPromise<bool> promise = null;
 		purchaseProcessState purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
+        IPromise<BackendResult> storePromise = null;
 
         private Dictionary<string, Product> pendingVerification = new Dictionary<string, Product>();
 
@@ -55,7 +64,7 @@ namespace TurboLabz.InstantFramework
 			// Add Products
 			foreach (var id in storeProductIds)
 			{
-				builder.AddProduct(id, ProductType.Consumable);
+				builder.AddProduct(id, ProductType.Subscription);
 			}
 
 			UnityPurchasing.Initialize(this, builder);
@@ -68,6 +77,46 @@ namespace TurboLabz.InstantFramework
 		{
 			storeController = controller;
             m_StoreExtensionProvider = extensions;
+
+            foreach (var product in controller.products.all)
+            {
+                if (product.availableToPurchase &&
+                    product.receipt != null &&
+                    product.definition.type == ProductType.Subscription &&
+                    CheckIfProductIsAvailableForSubscriptionManager(product.receipt))
+                {
+                    var p = new SubscriptionManager(product, null);
+                    var info = p.getSubscriptionInfo();
+
+                    LogUtil.Log("Subscription Info: user have active subscription");
+                    LogUtil.Log("Subscription Info: next billing date is: " + info.getExpireDate());
+                    LogUtil.Log("Subscription Info: is subscribed? " + info.isSubscribed().ToString());
+                    LogUtil.Log("Subscription Info: is expired? " + info.isExpired().ToString());
+                    LogUtil.Log("Subscription Info: is cancelled? " + info.isCancelled());
+                    LogUtil.Log("Subscription Info: is in free trial peroid? " + info.isFreeTrial());
+                    LogUtil.Log("Subscription Info: is auto renewing? " + info.isAutoRenewing());
+                    LogUtil.Log("Subscription Info: remaining time " + info.getRemainingTime());
+
+                    playerModel.renewDate = info.getExpireDate().ToShortDateString();
+
+                    var expiryTimeStamp = TimeUtil.ToUnixTimestamp(info.getExpireDate());
+
+                    if (expiryTimeStamp > playerModel.subscriptionExipryTimeStamp)
+                    {
+                        playerModel.subscriptionExipryTimeStamp = expiryTimeStamp;
+                        updatePlayerDataSignal.Dispatch();
+                    }
+                }
+#if SUBSCRIPTION_TEST
+                else if (playerModel.subscriptionExipryTimeStamp > 0)
+                {
+                    playerModel.subscriptionExipryTimeStamp = 0;
+                    loadPromotionSingal.Dispatch();
+                    updatePlayerDataSignal.Dispatch();
+                }
+#endif 
+            }
+
 			promise.Dispatch(true);
 		}
 
@@ -125,13 +174,16 @@ namespace TurboLabz.InstantFramework
 			return product != null ? product.metadata.localizedPriceString : null;
 		}
 
-		public bool BuyProduct(string storeProductId)
+		public IPromise<BackendResult> BuyProduct(string storeProductId)
         {
-			purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
+            LogUtil.Log("[IAP TEST] Buy product : " + storeProductId);
+            storePromise = new Promise<BackendResult>();
+
+            purchaseState = purchaseProcessState.PURCHASE_STATE_NONE;
 
             if (storeController == null) 
             {
-                return false;
+                return null;
             }
 
             Product product = storeController.products.WithID(storeProductId);
@@ -140,13 +192,14 @@ namespace TurboLabz.InstantFramework
                 storeController.InitiatePurchase(product);
             }
 
-            showIAPProcessingSignal.Dispatch(true);
-            return purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
+            showIAPProcessingSignal.Dispatch(true, true);
+
+            return storePromise; //purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
         }
 
 		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
-
+            LogUtil.Log("[IAP TEST] Process Purchase : ");
             bool validPurchase = true; // Presume valid for platforms with no R.V.
 
 #if !UNITY_EDITOR
@@ -204,10 +257,31 @@ namespace TurboLabz.InstantFramework
                 {
                     pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
                 }
+
+                long expiryTimeStamp = 0;
+
+                if (e.purchasedProduct.definition.type == ProductType.Subscription &&
+                    CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
+                {
+                    var subscriptionInfo = new SubscriptionManager(e.purchasedProduct, null).getSubscriptionInfo();
+
+                    expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
+
+                    if (subscriptionInfo.isFreeTrial() == Result.True)
+                    {
+                        metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)].currency1Cost = 0;
+                    }
+                }
+
+#if UNITY_EDITOR
+                expiryTimeStamp = backendService.serverClock.currentTimestamp + (10 * 60 * 1000);
+#endif
+
                 // Unlock the appropriate content here.
                 backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
                                                             e.purchasedProduct.transactionID, 
-                                                            e.purchasedProduct.receipt).Then(OnVerifiedPurchase);
+                                                            e.purchasedProduct.receipt,
+                                                            expiryTimeStamp).Then(OnVerifiedPurchase);
 
                 return PurchaseProcessingResult.Pending;
             }
@@ -222,6 +296,12 @@ namespace TurboLabz.InstantFramework
                 if (result == BackendResult.SUCCESS)
                 {
                     remoteStorePurchaseCompletedSignal.Dispatch(pendingVerification[transactionID].definition.id);
+
+                    if (storePromise != null)
+                    {
+                        storePromise.Dispatch(BackendResult.PURCHASE_COMPLETE);
+                        storePromise = null;
+                    }
                 }
                 else
                 {
@@ -241,13 +321,19 @@ namespace TurboLabz.InstantFramework
                     };
 
                     updateConfirmDlgSignal.Dispatch(vo);
+
+                    if (storePromise != null)
+                    {
+                        storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
+                        storePromise = null;
+                    }
                 }
 
                 storeController.ConfirmPendingPurchase(pendingVerification[transactionID]);
                 pendingVerification.Remove(transactionID);
             }
 
-            showIAPProcessingSignal.Dispatch(false);
+            showIAPProcessingSignal.Dispatch(false, false);
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
@@ -272,28 +358,39 @@ namespace TurboLabz.InstantFramework
 
             updateConfirmDlgSignal.Dispatch(vo);
 
-            showIAPProcessingSignal.Dispatch(false);
+            showIAPProcessingSignal.Dispatch(false, false);
 
             // Do nothing when user cancels
-            if (reason == PurchaseFailureReason.UserCancelled) 
-			{
-				return;
-			} 
-			else 
-			{
-				
-			}
-		}
+            if (reason == PurchaseFailureReason.UserCancelled)
+            {
+                if (storePromise != null)
+                {
+                    storePromise.Dispatch(BackendResult.PURCHASE_CANCEL);
+                    storePromise = null;
+                }
+
+                return;
+            }
+            else
+            {
+                if (storePromise != null)
+                {
+                    storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
+                    storePromise = null;
+                }
+            }
+        }
 
         // Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google. 
         // Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
-        public void RestorePurchases()
+        public IPromise<BackendResult> RestorePurchases()
         {
 #if UNITY_IOS
+             storePromise = new Promise<BackendResult>();
 
             if (storeController == null || m_StoreExtensionProvider == null) 
             {
-                return;
+                return null;
             }
 
             // Fetch the Apple store-specific subsystem.
@@ -305,7 +402,75 @@ namespace TurboLabz.InstantFramework
                 // no purchases are available to be restored.
             });
 
+            return storePromise;
+
 #endif
+            return null;
         }
-	}
+
+        private string FindRemoteStoreItemShortCode(string remoteId)
+        {
+            foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items)
+            {
+                StoreItem storeItem = item.Value;
+                if (storeItem.remoteProductId == remoteId)
+                {
+                    return item.Key;
+                }
+            }
+
+            return null;
+        }
+
+        private bool CheckIfProductIsAvailableForSubscriptionManager(string receipt)
+        {
+            var receipt_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode(receipt);
+            if (!receipt_wrapper.ContainsKey("Store") || !receipt_wrapper.ContainsKey("Payload"))
+            {
+                Debug.Log("The product receipt does not contain enough information");
+                return false;
+            }
+            var store = (string)receipt_wrapper["Store"];
+            var payload = (string)receipt_wrapper["Payload"];
+
+            if (payload != null)
+            {
+                switch (store)
+                {
+                    case GooglePlay.Name:
+                    {
+                        var payload_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode(payload);
+                        if (!payload_wrapper.ContainsKey("json"))
+                        {
+                            Debug.Log("The product receipt does not contain enough information, the 'json' field is missing");
+                            return false;
+                        }
+                        var original_json_payload_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode((string)payload_wrapper["json"]);
+                        if (original_json_payload_wrapper == null || !original_json_payload_wrapper.ContainsKey("developerPayload"))
+                        {
+                            Debug.Log("The product receipt does not contain enough information, the 'developerPayload' field is missing");
+                            return false;
+                        }
+                        var developerPayloadJSON = (string)original_json_payload_wrapper["developerPayload"];
+                        var developerPayload_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode(developerPayloadJSON);
+                        if (developerPayload_wrapper == null || !developerPayload_wrapper.ContainsKey("is_free_trial") || !developerPayload_wrapper.ContainsKey("has_introductory_price_trial"))
+                        {
+                            Debug.Log("The product receipt does not contain enough information, the product is not purchased using 1.19 or later");
+                            return false;
+                        }
+                        return true;
+                    }
+                    case AppleAppStore.Name:
+                    {
+                        return true;
+                    }
+                    default:
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+    }
 }

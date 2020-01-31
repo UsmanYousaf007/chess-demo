@@ -3,8 +3,11 @@ using System.Collections;
 using TurboLabz.InstantFramework;
 using UnityEngine.SceneManagement;
 using TurboLabz.TLUtils;
+using HUFEXT.GenericGDPR.Runtime.API;
 
 public class SplashLoader : MonoBehaviour {
+
+    public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
 
     void Awake()
     {
@@ -12,11 +15,33 @@ public class SplashLoader : MonoBehaviour {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
         Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
+        launchCode = 1;
     }
-        
-    IEnumerator Start() 
+
+    void OnEnable()
     {
-        AsyncOperation async = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
-        yield return async;
+        HGenericGDPR.OnPolicyAccepted += LoadGameScene;
+    }
+
+    void OnDisable()
+    {
+        HGenericGDPR.OnPolicyAccepted -= LoadGameScene;
+    }
+
+    void Start() 
+    {
+        if (!(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED || HGenericGDPR.IsPolicyAccepted == GDPRStatus.TURNED_OFF))
+        {
+            HGenericGDPR.Create();
+        }
+        else
+        {
+            LoadGameScene();
+        }
+    }
+
+    void LoadGameScene()
+    {
+        SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
     }
 }

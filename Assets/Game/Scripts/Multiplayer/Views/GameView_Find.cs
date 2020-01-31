@@ -36,11 +36,13 @@ namespace TurboLabz.Multiplayer
         public Image playerFindProfilePic;
         public Image playerFindAvatarBg;
         public Image playerFindAvatarIcon;
+        public GameObject playerPremiumBorder;
 
         public GameObject opponentFindProfile;
         public Image opponentFindProfilePic;
         public Image opponentFindAvatarBg;
         public Image opponentFindAvatarIcon;
+        public GameObject opponentPremiumBorder;
 
         public Text timerLabel;
 
@@ -48,6 +50,7 @@ namespace TurboLabz.Multiplayer
         private Coroutine findMatchTimeoutCR = null;
         private TimeSpan countDownTimer;
         public Signal findMatchTimeoutSignal = new Signal();
+        private string oppoenentId;
 
         public void InitFind()
         {
@@ -85,16 +88,19 @@ namespace TurboLabz.Multiplayer
         {
             findAvatarRoller.gameObject.SetActive(false);
             opponentFindProfile.SetActive(false);
-
+            playerId = vo.player.playerId;
             SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
                                 vo.player.playerPic, vo.player.avatarId, vo.player.avatarColorId);
+            playerPremiumBorder.SetActive(vo.player.isPremium);
 
             if (vo.opponent.playerId != null)
             {
+                opponentId = vo.opponent.playerId;
                 opponentFindProfile.SetActive(true);
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_WAITING_FOR_OPPONENT);
                 SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
                         vo.opponent.playerPic, vo.opponent.avatarId, vo.opponent.avatarColorId);
+                opponentPremiumBorder.SetActive(vo.opponent.isPremium);
             }
             else
             {
@@ -102,6 +108,20 @@ namespace TurboLabz.Multiplayer
                 findAvatar.gameObject.SetActive(true);
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
                 RollOpponentProfilePicture();
+            }
+        }
+
+        public void SetProfilePicById(string id, Sprite sprite)
+        {
+            if (id.Equals(playerId))
+            {
+                SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
+                                sprite, null, null);
+            }
+            else if (id.Equals(oppoenentId))
+            {
+                SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
+                        sprite, null, null);
             }
         }
 
@@ -141,7 +161,6 @@ namespace TurboLabz.Multiplayer
             OnParentShowAdBanner();
         }
 
-
         void SetupFindMode()
         {
             chessContainer.SetActive(true);
@@ -179,8 +198,10 @@ namespace TurboLabz.Multiplayer
             FindMatchTimeoutEnable(false);
             findAvatar.gameObject.SetActive(false);
             opponentFindProfile.SetActive(true);
+            opponentId = vo.playerId;
             SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
                         vo.playerPic, vo.avatarId, vo.avatarColorId);
+            opponentPremiumBorder.SetActive(vo.isPremium);
             searchingLabel.color = Colors.YELLOW;
             searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
         }
@@ -193,7 +214,10 @@ namespace TurboLabz.Multiplayer
             }
 
             rollOpponentProfilePictureEnumerator = RollOpponentProfilePictureCR();
-            StartCoroutine(rollOpponentProfilePictureEnumerator);
+            if (IsVisible())
+            {
+                StartCoroutine(rollOpponentProfilePictureEnumerator);
+            }
         }
 
         private void StopRollingOpponentProfilePicture()
@@ -237,7 +261,10 @@ namespace TurboLabz.Multiplayer
                     routineRunner.StopCoroutine(findMatchTimeoutCR);
                 }
 
-                findMatchTimeoutCR = routineRunner.StartCoroutine(FindMatchTimeoutCR(seconds));
+                if (IsVisible())
+                {
+                    findMatchTimeoutCR = routineRunner.StartCoroutine(FindMatchTimeoutCR(seconds));
+                }
             }
             else
             {

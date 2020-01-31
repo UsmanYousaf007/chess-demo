@@ -33,6 +33,11 @@ namespace Crosstales.OnlineCheck
         [Range(1, 20)]
         public int Timeout = 2;
 
+        /// <summary>Slow internet detection triggered (default: 1, range: 1 - 10000).</summary>
+        [Tooltip("Slow internet threshold in multiples of 250 milliseconds (default: 250, range: 100000).")]
+        [Range(1, 100000)]
+        public int SlowInternetThreshold = 2000;
+
         /// <summary>Force UnityWebRequest instead of WebClient (default: false).</summary>
         [Tooltip("Force UnityWebRequest instead of WebClient (default: false).")]
         public bool ForceWWW = false;
@@ -67,6 +72,7 @@ namespace Crosstales.OnlineCheck
         private float burstTime = 9999f;
         private float burstTimeCounter = 0f;
         private bool available = false;
+        private bool prevSlowInternetStatus = false;
 
         private static bool internetAvailable = false;
         private static NetworkReachability networkReachability;
@@ -110,6 +116,9 @@ namespace Crosstales.OnlineCheck
 
         #region Events
 
+        /// <summary>Callback to determine whether slow internet detected.</summary>
+        public delegate void SlowInternetDetected(bool isSlowInternet);
+
         /// <summary>Callback to determine whether the online status has changed or not.</summary>
         public delegate void OnlineStatusChange(bool isConnected);
 
@@ -118,6 +127,14 @@ namespace Crosstales.OnlineCheck
 
         /// <summary>Callback to determine whether the checks have completed or not.</summary>
         public delegate void OnlineCheckComplete(bool isConnected, NetworkReachability networkReachability);
+
+
+        /// <summary>An event triggered whenever slow internet detected.</summary>
+        public static event SlowInternetDetected OnSlowInternetDetected
+        {
+            add { _onSlowInternetDetected += value; }
+            remove { _onSlowInternetDetected -= value; }
+        }
 
         /// <summary>An event triggered whenever the Internet connection status changes.</summary>
         public static event OnlineStatusChange OnOnlineStatusChange
@@ -140,6 +157,7 @@ namespace Crosstales.OnlineCheck
             remove { _onOnlineCheckComplete -= value; }
         }
 
+        private static SlowInternetDetected _onSlowInternetDetected;
         private static OnlineStatusChange _onOnlineStatusChange;
         private static NetworkReachabilityChange _onNetworkReachabilityChange;
         private static OnlineCheckComplete _onOnlineCheckComplete;
@@ -490,6 +508,10 @@ namespace Crosstales.OnlineCheck
             if (IntervalMin >= IntervalMax)
                 IntervalMax = IntervalMin + 1;
 
+            if (SlowInternetThreshold >= 100000)
+                SlowInternetThreshold = (Timeout * 1000) >> 1;
+
+
         }
 
         #endregion
@@ -718,6 +740,30 @@ namespace Crosstales.OnlineCheck
 #endif
         }
 
+        private IEnumerator internetCheckMonitor()
+        {
+            System.DateTime startTimeStamp = System.DateTime.UtcNow;
+
+            while (isRunning)
+            {
+                yield return new WaitForSeconds(0.25f);
+
+                System.DateTime endTimeStamp = System.DateTime.UtcNow;
+                System.TimeSpan diffTime = endTimeStamp.Subtract(startTimeStamp);
+                if (diffTime.Milliseconds >= SlowInternetThreshold && available == true)
+                {
+                    Debug.Log("SLOW INTERNET DETECTED..." + diffTime.Milliseconds);
+                    onSlowInternetDetected(true);
+                    prevSlowInternetStatus = true;
+                }
+                else if (prevSlowInternetStatus == true)
+                {
+                    prevSlowInternetStatus = false;
+                    onSlowInternetDetected(false);
+                }
+            }
+        }
+
         private IEnumerator internetCheck()
         {
             if (!isRunning)
@@ -727,6 +773,8 @@ namespace Crosstales.OnlineCheck
                 isRunning = true;
 
                 available = false;
+
+                StartCoroutine(internetCheckMonitor());
 
                 if (Util.Config.DEBUG)
                     Debug.Log("[" + System.DateTime.Now + "] " + Util.Constants.ASSET_NAME + " running...");
@@ -960,6 +1008,17 @@ namespace Crosstales.OnlineCheck
 
 
         #region Event-trigger methods
+
+        private static void onSlowInternetDetected(bool isSlowInternet)
+        {
+            if (Util.Config.DEBUG)
+                Debug.Log("onSlowInternetDetected");
+
+            if (_onSlowInternetDetected != null)
+            {
+                _onSlowInternetDetected(isSlowInternet);
+            }
+        }
 
         private static void onInternetStatusChange(bool isConnected)
         {

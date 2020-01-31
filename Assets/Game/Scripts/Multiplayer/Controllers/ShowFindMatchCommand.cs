@@ -46,6 +46,7 @@ namespace TurboLabz.InstantFramework
             vo.player.playerPic = picsModel.GetPlayerPic(playerModel.id);
             vo.player.avatarId = playerModel.avatarId;
             vo.player.avatarColorId = playerModel.avatarBgColorId;
+            vo.player.isPremium = playerModel.HasSubscription();
 
             vo.opponent.playerId = null;
 
@@ -60,6 +61,7 @@ namespace TurboLabz.InstantFramework
                     vo.opponent.playerPic = friend.publicProfile.profilePicture;
                     vo.opponent.avatarId = friend.publicProfile.avatarId;
                     vo.opponent.avatarColorId = friend.publicProfile.avatarBgColorId;
+                    vo.opponent.isPremium = friend.publicProfile.isSubscriber;
                 }
                 else
                 {

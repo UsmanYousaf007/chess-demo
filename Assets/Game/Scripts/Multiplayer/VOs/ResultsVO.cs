@@ -26,7 +26,6 @@ namespace TurboLabz.Multiplayer
         public bool removeAds;
         public string playerName;
         public string opponentName;
-        public bool isChatEnabled;
         public string challengeId;
     }
 }

@@ -16,17 +16,19 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
         [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
-        [Inject] public StoreAvailableSignal storeAvailableSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public RemoveFriendSignal removeFriendSignal { get; set; }
         [Inject] public UpdateFriendOnlineStatusSignal updtateFriendOnlineStatusSignal { get; set; }
         [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
         [Inject] public ReceiveChatMessageSignal receiveChatMessageSignal { get; set; }
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
         [Inject] public ChallengeAcceptedSignal challengeAcceptedSignal { get; set; }
         [Inject] public OpponentPingedForConnectionSignal opponentPingedForConnectionSignal { get; set; }
+        [Inject] public StoreAvailableSignal storeAvailableSignal { get; set; }
+        [Inject] public SetDefaultSkinSignal setDefaultSkinSignal { get; set; }
+        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+        [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -44,6 +46,8 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IStoreService storeService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }

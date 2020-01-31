@@ -21,6 +21,7 @@ namespace TurboLabz.CPU
         public Signal hindsightClickedSignal = new Signal();
 
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
@@ -118,7 +119,8 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.COACH);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                EnableModalBlocker();
             }
             else
             {
@@ -193,7 +195,12 @@ namespace TurboLabz.CPU
 
         public void UpdateHindsightCount(int count)
         {
-            if (count == 0)
+            if (playerModel.HasSubscription())
+            {
+                hindsightAdd.gameObject.SetActive(false);
+                hindsightCountLabel.gameObject.SetActive(false);
+            }
+            else if (count <= 0)
             {
                 hindsightAdd.gameObject.SetActive(true);
                 hindsightCountLabel.gameObject.SetActive(false);

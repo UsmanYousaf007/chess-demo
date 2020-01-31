@@ -50,13 +50,13 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSCPUInfoDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
-            {
-                return new NSSpotPurchaseDlg();
-            }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
                 return new NSLobby();
+            }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
+            {
+                return new NSSubscriptionDlg();
             }
 
             return null;

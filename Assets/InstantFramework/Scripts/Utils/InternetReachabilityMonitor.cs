@@ -14,12 +14,8 @@ namespace TurboLabz.TLUtils
 {
     public static class InternetReachabilityMonitor
     {
-        private static readonly int INTERNET_REACHABILITY_STATUS_TICK_SECONDS = 1;
-        private static Coroutine interneReachablilityCR;
-        private static NormalRoutineRunner normalRoutineRunner = new NormalRoutineRunner();
         public static Signal<bool, ConnectionSwitchType> internetReachabilitySignal = new Signal<bool, ConnectionSwitchType>();
-        public static bool prevInternetReachability = false;
-        public static bool isInternetReachable = false;
+        public static Signal<bool> slowInternetSignal = new Signal<bool>();
         public static bool enableDispatches = true;
 
         public enum ConnectionSwitchType {
@@ -28,75 +24,39 @@ namespace TurboLabz.TLUtils
             FROM_DISCONNECTED_TO_CONNECTED
         }
 
-        private static void CheckInternetAccess()
+        private static void InternetReachabilityHandler(bool isInternetReachable)
         {
-            if (Application.internetReachability == NetworkReachability.NotReachable)
+            if (enableDispatches)
             {
-                isInternetReachable = false;
-            }
-            else
-            {
-                isInternetReachable = OnlineCheck.isInternetAvailable;
+                ConnectionSwitchType connectionSwitch = isInternetReachable ?
+                    ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED : ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED;
+
+                internetReachabilitySignal.Dispatch(isInternetReachable, connectionSwitch);
             }
         }
 
-        private static IEnumerator InternetReachabilityCR()
+        private static void SlowInternetHandler(bool isSlowInternet)
         {
-            while (true)
-            {
-                CheckInternetAccess();
-
-                if (!isInternetReachable)
-                {
-                    ConnectionSwitchType connectionSwitch = prevInternetReachability == true ? 
-                        ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED : ConnectionSwitchType.NONE;
-
-                    if (enableDispatches)
-                    {
-                        internetReachabilitySignal.Dispatch(false, connectionSwitch);
-                    }
-
-                    prevInternetReachability = false;
-                }
-                else
-                {
-                    ConnectionSwitchType connectionSwitch = prevInternetReachability == false ?
-                        ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED : ConnectionSwitchType.NONE;
-
-                    if (enableDispatches)
-                    {
-                        internetReachabilitySignal.Dispatch(true, connectionSwitch);
-                    }
-                    prevInternetReachability = true;
-                }
-
-                yield return new WaitForSecondsRealtime(INTERNET_REACHABILITY_STATUS_TICK_SECONDS);
-            }
+            slowInternetSignal.Dispatch(isSlowInternet);
         }
 
         public static void EnableDispatches(bool enable)
         {
-            //prevInternetReachability = isInternetReachable;
             enableDispatches = enable;
         }
 
         public static void StartMonitor()
         {
-            if (interneReachablilityCR == null)
-            {
-                CheckInternetAccess();
-                prevInternetReachability = isInternetReachable;
-                interneReachablilityCR = normalRoutineRunner.StartCoroutine(InternetReachabilityCR());
-            }
+            OnlineCheck.Refresh();
+            OnlineCheck.OnOnlineStatusChange += InternetReachabilityHandler;
+            OnlineCheck.OnSlowInternetDetected += SlowInternetHandler;
+
+            OnlineCheck.CheckIntervalMin = 1;
         }
 
         public static void StopMonitor()
         {
-            if (interneReachablilityCR != null)
-            {
-                normalRoutineRunner.StopCoroutine(interneReachablilityCR);
-                interneReachablilityCR = null;
-            }
+            OnlineCheck.OnOnlineStatusChange -= InternetReachabilityHandler;
         }
 
         public static void AddListener(Action<bool, ConnectionSwitchType> signalListener)
@@ -107,6 +67,16 @@ namespace TurboLabz.TLUtils
         public static void RemoveListener(Action<bool, ConnectionSwitchType> signalListener)
         {
             internetReachabilitySignal.RemoveListener(signalListener);
+        }
+
+        public static void AddSlowInternetListener(Action<bool> signalListener)
+        {
+            slowInternetSignal.AddListener(signalListener);
+        }
+
+        public static void RemoveSlowInternetListener(Action<bool> signalListener)
+        {
+            slowInternetSignal.RemoveListener(signalListener);
         }
     }
 }

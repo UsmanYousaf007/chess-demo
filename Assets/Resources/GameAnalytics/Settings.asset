@@ -32,8 +32,8 @@ MonoBehaviour:
   - fd2bf82f92f37951b8100822f83be47d198f1b3c
   - c4de07adc66841eff5d94d5e43262e6308e11997
   Build:
-  - 4.28.11
-  - 4.28.11
+  - 5.0.12
+  - 5.0.12
   - 4.25.9
   - 4.25.9
   - 4.25.9
@@ -47,25 +47,80 @@ MonoBehaviour:
   SelectedPlatformGameID: 3403010032030100
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 5.1.11
-  Changes: '5.1.11
+  NewVersion: 6.0.9
+  Changes: '6.0.9
 
-    - fixed import bug for 2019.2
-
-
-    5.1.10
-
-    - fixed compile error in GA_SettingsInspector script
+    - A/B testing fixes
 
 
-    5.1.9
+    6.0.8
 
-    - fixed typo in editor script
+    - namespace bug fix
+
+    - batchmode bug fix
 
 
-    5.1.8
+    6.0.7
 
-    - session fixes for desktop platforms'
+    - fixed getRemoteConfigsValueAsString bug (ios)
+
+
+    6.0.6
+
+    - remote configs fixes
+
+
+    6.0.5
+
+    - fixed javascript events bug
+
+
+    6.0.4
+
+    - fixed ios events bug
+
+
+    6.0.3
+
+    - fixed ios build error
+
+
+    6.0.2
+
+    - corrected naming of function
+
+
+    6.0.1
+
+    - small fixes
+
+
+    6.0.0
+
+    - Remote Config calls have been updated and the old calls have deprecated. Please
+    see GA documentation for the new SDK calls and migration guide
+
+    - A/B testing support added
+
+
+    5.2.2
+
+    - compile error fixes for windows builds
+
+
+    5.2.1
+
+    - fixed uwp compile errors
+
+
+    5.2.0
+
+    - improved device identifier flow (android)
+
+    - removed google play services dependency
+
+    - OPS refactored IMEI code out into a seperate library, please check the documentation
+    page for how to use it now (android, only relevant for apps using IMEI ids)'
   SignUpOpen: 0
   StudioName: Turbo Labz
   GameName: Chess Star
@@ -84,7 +139,7 @@ MonoBehaviour:
   ResourceCurrencies: []
   LastCreatedGamePlatform: -1
   Platforms: 0b00000008000000
-  CurrentInspectorState: 0
+  CurrentInspectorState: 1
   ClosedHints: 
   DisplayHints: 0
   DisplayHintsScrollState: {x: 0, y: 0}

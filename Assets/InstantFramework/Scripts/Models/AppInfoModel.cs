@@ -16,13 +16,29 @@ namespace TurboLabz.InstantFramework
         public string androidURL { get; set; }
         public int rateAppThreshold { get; set; }
         public int onlineCount { get; set; }
-
+        public string contactSupportURL { get; set; }
         //Persistant field ---- do not reset  
         public long reconnectTimeStamp { get; set; }
-        public DisconnectStats isReconnecting { get; set; }
+        public DisconnectStates isReconnecting { get; set; }
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }
+
+        public string privacyPolicyURL
+        {
+            get
+            {
+                return "https://huuugegames.com/privacy-policy/";
+            }
+        }
+
+        public string termsOfUseURL
+        {
+            get
+            {
+                return "https://huuugegames.com/terms-of-use";
+            }
+        }
 
         enum subVersionIndex
         {
@@ -54,6 +70,7 @@ namespace TurboLabz.InstantFramework
             rateAppThreshold = 0;
             onlineCount = 0;
             isNotificationActive = false;
+            contactSupportURL = "";
         }
     }
 }

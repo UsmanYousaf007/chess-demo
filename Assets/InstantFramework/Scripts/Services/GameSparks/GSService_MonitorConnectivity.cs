@@ -23,9 +23,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public ResumeMatchSignal resumeMatchSignal { get; set; }
-
         [Inject] public ChessboardBlockerEnableSignal chessboardBlockerEnableSignal { get; set; }
         [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
+        [Inject] public SyncReconnectDataSignal syncReconnectData { get; set; }
 
         private NavigatorViewId prevViewId;
 
@@ -39,55 +39,66 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        void ProcessHardReconnection(BackendResult r)
+        {
+            // Stop GS connection monitoring.
+            MonitorConnectivity(false);
+
+            // Reset all models
+            modelsResetSignal.Dispatch();
+            // Load saved models (perfs etc)
+            modelsLoadFromDiskSignal.Dispatch();
+
+            // Begin processing hard reconnect
+            resumeMatchSignal.Dispatch(prevViewId);
+        }
+
         void GameSparksAvailable(bool isAvailable)
         {
             if (isAvailable)
             {
                 LogUtil.Log("GS Connected", "red");
 
-                // Stop GS connection monitoring.
-                MonitorConnectivity(false);
-
-                appInfoModel.isReconnecting = DisconnectStats.FALSE;
-
-                // Reset all models
-                modelsResetSignal.Dispatch();
-                // Load saved models (perfs etc)
-                modelsLoadFromDiskSignal.Dispatch();
-                // Restart the reachability monitor
-                //InternetReachabilityMonitor.EnableDispatches(true);
-                InternetReachabilityMonitor.StartMonitor();
-                // Begin processing hard reconnect
-                resumeMatchSignal.Dispatch(prevViewId);
-                // Start the pinger
-                StartPinger();
-
-                chessboardBlockerEnableSignal.Dispatch(false);
-
+                string fbAccessToken = facebookService.GetAccessToken();
+                if (fbAccessToken == null)
+                {
+                    AuthGuest().Then(ProcessHardReconnection);
+                }
+                else
+                {
+                    AuthFacebook(fbAccessToken, true).Then(ProcessHardReconnection);
+                }
             }
             else
             {
                 LogUtil.Log("GS Disconnected", "red");
 
-                if(appInfoModel.isReconnecting == DisconnectStats.FALSE)
+                GS.Reset();
+
+                // Avoid soft reconnect processing
+                InternetReachabilityMonitor.StopMonitor();
+
+                if (appInfoModel.isReconnecting == DisconnectStates.FALSE)
                 {
                     appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
                 }
 
-                appInfoModel.isReconnecting = DisconnectStats.LONG_DISCONNET;
+                appInfoModel.isReconnecting = DisconnectStates.LONG_DISCONNET;
                 reconnectViewEnableSignal.Dispatch(true);
-
                 chessboardBlockerEnableSignal.Dispatch(true);
 
                 // Stop the pinger
                 StopPinger();
-                // Avoid soft reconnect processing
-                //InternetReachabilityMonitor.EnableDispatches(false);
-                InternetReachabilityMonitor.StopMonitor();
+
                 // Reconnect processing depends on last view
                 prevViewId = navigatorModel.currentViewId;
                 // Remove pending requests processing
-                GSFrameworkRequest.CancelRequestSession();
+                if (appInfoModel.syncInProgress == false)
+                {
+                    GSFrameworkRequest.CancelRequestSession();
+                }
+                // Data Sync was cancelled 
+                appInfoModel.syncInProgress = false;
                 // Dispatch signal that we are in reconnection
                 gameDisconnectingSignal.Dispatch();
                 // Save models to disk to reload when coming back from background

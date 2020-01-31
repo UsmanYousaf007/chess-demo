@@ -1,0 +1,9 @@
+{
+  "documentationUrl": "https://wiki.huuuge.in/display/UNIFRAME/Analytics+-+HBI",
+  "creator": "Marat Giliazov",
+  "submodules": [
+    "Analytics",
+    "Utils"
+  ],
+  "description": "AnalyticsHBI module is used to send analytics events to Huuuge BI service. Remember that configuration with project id and sku is required otherwise module will be disabled during playmode. Results of analytics events will be visible on development and production dashboard only after giving information about project to BI team."
+}

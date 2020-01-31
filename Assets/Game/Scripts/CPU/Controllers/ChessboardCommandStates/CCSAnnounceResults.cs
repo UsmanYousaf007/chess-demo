@@ -10,9 +10,7 @@
 /// @description
 /// [add_description_here]
 using TurboLabz.Chess;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
-using System.Collections.Generic;
 using TurboLabz.InstantGame;
 
 namespace TurboLabz.CPU
@@ -98,6 +96,10 @@ namespace TurboLabz.CPU
             cmd.disableUndoBtnSignal.Dispatch(false);
             cmd.toggleStepBackwardSignal.Dispatch(false);
             cmd.toggleStepForwardSignal.Dispatch(false);
+
+            cmd.preferencesModel.gameFinishedCount++;
+            cmd.hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", "cpu_match");
+            cmd.appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

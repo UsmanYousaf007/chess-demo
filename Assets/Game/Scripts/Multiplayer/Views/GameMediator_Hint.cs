@@ -13,6 +13,7 @@ namespace TurboLabz.Multiplayer
     {
         //Dispatch Signals
         [Inject] public GetHintSignal getHintSignal { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         private void OnRegisterHint()
         {
@@ -55,6 +56,17 @@ namespace TurboLabz.Multiplayer
             if (view.IsVisible())
             {
                 view.UpdateHintCount(count);
+            }
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            if (view.IsVisible())
+            {
+                view.UpdateHintCount(0);
+                view.UpdateHindsightCount(0);
+                adsService.HideBanner();
             }
         }
 

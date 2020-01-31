@@ -5,14 +5,10 @@
 /// 
 /// @description
 /// [add_description_here]
-
 using strange.extensions.command.impl;
-using TurboLabz.Chess;
-using System;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
-using UnityEngine;
 using TurboLabz.Multiplayer;
 
 namespace TurboLabz.InstantGame
@@ -26,6 +22,7 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal { get; set; }
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
@@ -35,7 +32,6 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
 
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
 
@@ -43,7 +39,9 @@ namespace TurboLabz.InstantGame
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
-        
+        [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -54,6 +52,7 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            toggleBannerSignal.Dispatch(false);
             setSkinSignal.Dispatch(playerModel.activeSkinId);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             resetActiveMatchSignal.Dispatch();
@@ -82,7 +81,6 @@ namespace TurboLabz.InstantGame
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
-            updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
 
             if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {
@@ -92,6 +90,19 @@ namespace TurboLabz.InstantGame
             if (preferencesModel.promotionCycleIndex == 0 && preferencesModel.isLobbyLoadedFirstTime)
             {
                 loadPromotionSingal.Dispatch();
+            }
+
+            if (SplashLoader.launchCode == 1)
+            {
+                if (firebasePushNotificationService.IsNotificationOpened())
+                {
+                    hAnalyticsService.LogEvent("launch", "launch", "notification");
+                }
+                else
+                {
+                    hAnalyticsService.LogEvent("launch", "launch");
+                }
+                SplashLoader.launchCode = 3;
             }
         }
 
@@ -106,6 +117,7 @@ namespace TurboLabz.InstantGame
             pvo.playerId = playerModel.id;
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;
+            pvo.isPremium = playerModel.HasSubscription();
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {

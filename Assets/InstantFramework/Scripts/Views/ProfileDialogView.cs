@@ -30,9 +30,11 @@ namespace TurboLabz.InstantFramework
         public Text oppLastSeen;
         public Text oppCountry;
         public Text oppWinPercentage;
+        public GameObject premiumBorder;
 
         [Header("Confirm Dialog")]
         public GameObject confirmDialog;
+        public Text blockNameText;
         public Text confirmLabel;
         public Text yesLabel;
         public Text noLabel;
@@ -162,9 +164,10 @@ namespace TurboLabz.InstantFramework
             playerEloLabel.text = eloPrefix + " " + vo.playerElo;
             playerFlag.sprite = Flags.GetFlag(vo.playerCountryCode);
 
-
             opponentAvatarBG.gameObject.SetActive(false);
             opponentAvatarIcon.gameObject.SetActive(false);
+            premiumBorder.gameObject.SetActive(vo.isOpponentPremium);
+
             if (vo.oppProfilePic != null)
             {
                 oppProfilePic.sprite = vo.oppProfilePic;
@@ -184,9 +187,9 @@ namespace TurboLabz.InstantFramework
                     oppProfilePic.sprite = defaultAvatar;
                 }
             }
-
             
             oppProfileName.text = vo.oppProfileName;
+            blockNameText.text = string.Format("{0} {1}", localizationService.Get(LocalizationKey.FRIENDS_BLOCK_TEXT), vo.oppProfileName);
             oppEloLabel.text = eloPrefix + " " + vo.oppElo;
             oppFlag.sprite = Flags.GetFlag(vo.oppCountryCode);
             oppPlayingSinceDate.text = "Playing since, " + vo.oppPlayingSinceDate;
@@ -221,6 +224,7 @@ namespace TurboLabz.InstantFramework
             if (vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
             {
                 EnableAddButton(false);
+                EnableRemoveButton(false);
             }
 
             if (!vo.oppOnline && vo.oppActive)
@@ -365,6 +369,21 @@ namespace TurboLabz.InstantFramework
             var colorToSet = enableFlag ? Colors.WHITE_150 : Colors.DISABLED_WHITE;
             blockLabel.color = colorToSet;
             blockUnderline.color = colorToSet;
+        }
+
+        public void SetProfilePic(Sprite sprite, string playerId = null)
+        {
+            if (playerId == null || playerId != this.playerId)
+            {
+                return;
+            }
+
+            if (sprite != null)
+            {
+                opponentAvatarIcon.gameObject.SetActive(false);
+                opponentAvatarBG.gameObject.SetActive(false);
+                oppProfilePic.sprite = sprite;
+            }
         }
     }
 }

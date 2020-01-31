@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
             vo.avatarId = playerModel.avatarId;
             vo.inGame = inGameChat;
             vo.opponentProfilePic = picsModel.GetPlayerPic(opponentId);
+            vo.isPlayerPremium = playerModel.HasSubscription();
 
             if (opponentPublicProfile != null)
             {
@@ -74,6 +75,7 @@ namespace TurboLabz.InstantFramework
                 vo.oppAvatarBgColorId = opponentPublicProfile.avatarBgColorId;
                 vo.isOnline = opponentPublicProfile.isOnline;
                 vo.isActive = opponentPublicProfile.isActive;
+                vo.isOpponentPremium = opponentPublicProfile.isSubscriber;
 
                 if (vo.opponentProfilePic == null)
                 {

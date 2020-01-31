@@ -15,13 +15,16 @@ namespace TurboLabz.InstantFramework
         int rateAppThreshold { get; set; }
         int onlineCount { get; set; }
         long reconnectTimeStamp { get; set; }
-        DisconnectStats isReconnecting { get; set; }
+        DisconnectStates isReconnecting { get; set; }
         bool syncInProgress { get; set; }
         GameMode gameMode { get; set; }
         bool isNotificationActive { get; set; }
+        string contactSupportURL { get; set; }
+        string privacyPolicyURL { get; }
+        string termsOfUseURL { get; }
     }
 
-    public enum DisconnectStats
+    public enum DisconnectStates
     {
         FALSE,
         SHORT_DISCONNECT,

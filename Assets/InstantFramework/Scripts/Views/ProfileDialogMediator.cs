@@ -109,5 +109,11 @@ namespace TurboLabz.InstantFramework
                 Debug.Log("not your friend ::: " + playerId);
             }
         }
+
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdatePic(string playerId, Sprite sprite)
+        {
+            view.SetProfilePic(sprite, playerId);
+        }
     }
 }

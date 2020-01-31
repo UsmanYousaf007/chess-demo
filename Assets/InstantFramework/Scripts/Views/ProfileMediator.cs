@@ -30,6 +30,9 @@ namespace TurboLabz.InstantGame
         // View injection
         [Inject] public ProfileView view { get; set; }
 
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -70,6 +73,12 @@ namespace TurboLabz.InstantGame
         private void OnProfilePicButtonClicked()
         {
             playerProfilePicTappedSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscrionPurchased(StoreItem item)
+        {
+            view.ShowPremiumBorder(playerModel.HasSubscription());
         }
     }
 }

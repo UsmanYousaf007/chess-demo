@@ -2,10 +2,7 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-using UnityEngine;
 using strange.extensions.command.impl;
-using TurboLabz.TLUtils;
-
 
 namespace TurboLabz.InstantFramework
 {
@@ -18,14 +15,18 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
         {
@@ -55,8 +56,14 @@ namespace TurboLabz.InstantFramework
             {
                 if (matchInfoModel.createLongMatchAborted)
                 {
-                    friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);    
+                    loadLobbySignal.Dispatch();
+                    friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);
                 }
+
+                preferencesModel.gameStartCount++;
+                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match");
+                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+
             }
             else if (result != BackendResult.CANCELED)
             {

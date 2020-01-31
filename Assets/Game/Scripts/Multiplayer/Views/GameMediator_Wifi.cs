@@ -45,6 +45,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch Signals
         [Inject] public StartGameSignal startGameSignal { get; set; }
         [Inject] public RunTimeControlSignal runTimeControlSignal { get; set; }
+        [Inject] public ReconnectViewEnableSignal reconnectViewEnableSignal { get; set; }
 
 
         // Models
@@ -65,36 +66,36 @@ namespace TurboLabz.Multiplayer
             view.InitWifi();
         }
 
-        [ListensTo(typeof(WifiIsHealthySignal))]
-        public void OnWifiHealthUpdate(bool isHealthy)
-        {
-            if (matchInfoModel.activeChallengeId != null)
-            {
-                view.WifiHealthUpdate(isHealthy);
-            }
-        }
-
         [ListensTo(typeof(GameDisconnectingSignal))]
         public void OnGameDisconnecting()
         {
-            if (gameObject.activeSelf)
+            if (gameObject.activeSelf && matchInfoModel.activeChallengeId != null)
             {
                 stopTimersSignal.Dispatch();
                 view.FlashClocks(true);
             }
         }
 
-        
+        [ListensTo(typeof(ReconnectionCompleteSignal))]
+        public void OnReconnectionComplete()
+        {
+            if (gameObject.activeSelf)
+            {
+                view.FlashClocks(false);
+            }
+        }
+
         [ListensTo(typeof(ChallengeMessageProcessedSignal))]
         public void ChallengeMessagedProcessed(string challengeId)
         {
-            if (appInfoModel.gameMode != GameMode.NONE &&
-                challengeId == matchInfoModel.activeChallengeId && matchReconnection)
+            if ((appInfoModel.gameMode != GameMode.NONE) &&
+                (challengeId == matchInfoModel.activeChallengeId) && 
+                (matchReconnection == true) &&
+                (appInfoModel.isReconnecting != DisconnectStates.LONG_DISCONNET))
             {
-                LogUtil.Log("ChallengeMessagedProcessed called..", "cyan");
+                LogUtil.Log("ChallengeMessagedProcessed called...", "cyan");
                 //stopTimersSignal.Dispatch();
                 //ReconnectMatch();
-                matchReconnection = false;
 
                 stopTimersSignal.Dispatch();
                 RunTimeControlVO vo;
@@ -103,8 +104,10 @@ namespace TurboLabz.Multiplayer
                 vo.playerJustAcceptedOnPlayerTurn = false;
                 runTimeControlSignal.Dispatch(vo);
             }
+
+            matchReconnection = false;
         }
-        
+
         // Failed server requests will trigger this signal
         [ListensTo(typeof(SyncReconnectDataSignal))]
         public void SyncReconnectData(string challengeId)
@@ -120,6 +123,7 @@ namespace TurboLabz.Multiplayer
         }
 
         // Chess board needs to be synched on app resume to keep clocks in synch with server
+        // Only meant for app going into background and back
         [ListensTo(typeof(AppEventSignal))]
         public void OnAppEvent(AppEvent evt)
         {
@@ -127,12 +131,22 @@ namespace TurboLabz.Multiplayer
                 evt != AppEvent.RESUMED ||
                 appInfoModel.syncInProgress ||
                 matchInfoModel.activeChallengeId == null ||
-                !chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+                !chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId) ||
+                appInfoModel.isReconnecting == DisconnectStates.LONG_DISCONNET)
             {
                 return;
             }
 
+            LogUtil.Log("OnAppEvent called for match app returning from background..", "cyan");
             matchReconnection = true;
+        }
+
+        private void OnSlowInternet(bool isSlowInternet)
+        {
+            if (matchInfoModel.activeChallengeId != null)
+            {
+                view.WifiHealthUpdate(!isSlowInternet);
+            }
         }
 
         private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
@@ -143,27 +157,36 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
+            if (appInfoModel.isReconnecting == DisconnectStates.LONG_DISCONNET)
+            {
+                TLUtils.LogUtil.Log("Skip match soft reconnect");
+                return;
+            }
+
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {
+                    appInfoModel.syncInProgress = true;
+                    reconnectViewEnableSignal.Dispatch(true);
                     view.chessboardBlocker.SetActive(true);
                     TLUtils.LogUtil.Log("Match disconnected Id: " + matchInfoModel.activeChallengeId, "cyan");
                     GSFrameworkRequest.CancelRequestSession();
                     stopTimersSignal.Dispatch();
                     view.FlashClocks(true);
                     appInfoModel.reconnectTimeStamp = TimeUtil.unixTimestampMilliseconds;
+                    matchReconnection = false;
                 }
             }
             else if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
-                view.WifiHealthUpdate(true);
-
                 if (matchInfoModel.activeChallengeId != null)
                 {
-                    appInfoModel.syncInProgress = true;
-                    LogUtil.Log("Match reconnecting..", "cyan");
-                    backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
+                    if (appInfoModel.isReconnecting != DisconnectStates.LONG_DISCONNET)
+                    {
+                        LogUtil.Log("Match reconnecting..", "cyan");
+                        backendService.SyncReconnectData(matchInfoModel.activeChallengeId).Then(OnSycReconnectionData);
+                    }
                 }
             }
         }
@@ -172,7 +195,10 @@ namespace TurboLabz.Multiplayer
         {
             if (backendResult == BackendResult.SUCCESS)
             {
-                ReconnectMatch();
+                if (appInfoModel.isReconnecting != DisconnectStates.LONG_DISCONNET)
+                {
+                    ReconnectMatch();
+                }
             }
             else
             {
@@ -180,6 +206,14 @@ namespace TurboLabz.Multiplayer
             }
 
             view.EnableSynchMovesDlg(false);
+            appInfoModel.syncInProgress = false;
+
+            if (appInfoModel.isReconnecting != DisconnectStates.LONG_DISCONNET)
+            {
+                reconnectViewEnableSignal.Dispatch(false);
+                view.FlashClocks(false);
+                view.chessboardBlocker.SetActive(false);
+            }
         }
 
         private void ReconnectMatch()
@@ -201,8 +235,7 @@ namespace TurboLabz.Multiplayer
             // Record analytics
             TimeSpan totalSeconds = TimeSpan.FromMilliseconds(TimeUtil.unixTimestampMilliseconds - appInfoModel.reconnectTimeStamp);
             analyticsService.Event(AnalyticsEventId.disconnection_time, AnalyticsParameter.count, totalSeconds.Seconds);
-            LogUtil.Log("Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
-            appInfoModel.syncInProgress = false;
+            LogUtil.Log("ReconnectMatch() Reconnection Time Seconds = " + totalSeconds.Seconds, "cyan");
             view.chessboardBlocker.SetActive(false);
         }
 

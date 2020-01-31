@@ -10,6 +10,8 @@ using System.Collections;
 using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
+using HUFEXT.GenericGDPR.Runtime.API;
+using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,6 +33,7 @@ namespace TurboLabz.InstantFramework
 		[Inject] public IBackendService backendService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -54,13 +57,13 @@ namespace TurboLabz.InstantFramework
             GameAnalytics.Initialize();
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
-
+            adsService.Init();
         }
 
 		void GameSparksAvailable(bool isAvailable)
         {
 			gameSparksAvailable = isAvailable;
-			ProcessStartup();
+            ProcessStartup();
 		}
 
 		void ProcessStartup()
@@ -76,7 +79,10 @@ namespace TurboLabz.InstantFramework
 				{
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
-			}
+
+                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+            }
 		}
 
 		private void OnAuthGuest(BackendResult result)
@@ -86,6 +92,8 @@ namespace TurboLabz.InstantFramework
                 if (playerModel.newUser)
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
+                    RemoveListeners();
+                    CommandEnd();
                 }
                 else
                 {

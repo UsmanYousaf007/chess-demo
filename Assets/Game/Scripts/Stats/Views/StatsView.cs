@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
         // Scene references
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         [Inject] public ChangeUserDetailsSignal changeUserDetailsSignal { get; set; }
 
@@ -50,10 +51,6 @@ namespace TurboLabz.InstantGame
         public Sprite silverStar;
         public Sprite goldStar;
 
-        public Button privacyPolicy;
-        public Button restorePurchases;
-        public Text appVersion;
-
         public Button backButton;
 
         public TMP_InputField playerProfileNameInputField;
@@ -65,10 +62,12 @@ namespace TurboLabz.InstantGame
         public Text playingSince;
         public Button shareBtn;
         public Button copyTagBtn;
-        public Button termsBtn;
         public Image copiedToClipboardBg;
         public Text copiedToClipboardText;
         public Texture2D logo;
+
+        public GameObject uiBlocker;
+        public GameObject processingUi;
 
         public Signal restorePurchasesSignal = new Signal();
 
@@ -108,16 +107,7 @@ namespace TurboLabz.InstantGame
                 stars[i].sprite = noStar;
             }
 
-            privacyPolicy.onClick.AddListener(OnPrivacyPolicyClicked);
-            termsBtn.onClick.AddListener(OnTermsClicked);
             copyTagBtn.onClick.AddListener(OnCopyTagClicked);
-
-            #if UNITY_IOS
-            restorePurchases.gameObject.SetActive(true);
-            restorePurchases.onClick.AddListener(OnRestorePurchasesClicked);
-            #else
-            restorePurchases.gameObject.SetActive(false);
-            #endif
         }
 
         public void UpdateView(StatsVO vo)
@@ -149,8 +139,6 @@ namespace TurboLabz.InstantGame
             playerTag.text = vo.tag;
             country.text = Flags.GetCountry(vo.country);
             playingSince.text = string.Format("Playing since, {0}", vo.playingSince);
-
-            appVersion.text = "v" + Application.version;
         }
 
         public void Show() 
@@ -172,16 +160,6 @@ namespace TurboLabz.InstantGame
         public void Hide()
         { 
             gameObject.SetActive(false);
-        }
-
-        private void OnPrivacyPolicyClicked()
-        {
-            Application.OpenURL("https://turbolabz.com/privacy-policy/");
-        }
-
-        private void OnRestorePurchasesClicked()
-        {
-            restorePurchasesSignal.Dispatch();
         }
 
         private void nameEditBtnClicked()
@@ -232,11 +210,6 @@ namespace TurboLabz.InstantGame
             nameConfirmDlg.SetActive(false); 
         }
 
-        void OnTermsClicked()
-        {
-            Application.OpenURL("https://turbolabz.com/privacy-policy/");
-        }
-
         void OnCopyTagClicked()
         {
             var textEditor = new TextEditor
@@ -270,6 +243,12 @@ namespace TurboLabz.InstantGame
         {
             copiedToClipboardBg.CrossFadeAlpha(1.0f, 0.3f, true);
             copiedToClipboardText.CrossFadeAlpha(1.0f, 0.3f, true);
+        }
+
+        public void ShowProcessing(bool show, bool showProcessingUi)
+        {
+            processingUi.SetActive(showProcessingUi);
+            uiBlocker.SetActive(show);
         }
     }
 }

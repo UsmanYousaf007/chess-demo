@@ -135,7 +135,8 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.MOVEMETER);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                EnableModalBlocker();
             }
             else
             {
@@ -196,7 +197,12 @@ namespace TurboLabz.Multiplayer
 
         public void UpdateHintCount(int count)
         {
-            if (count == 0)
+            if (playerModel.HasSubscription())
+            {
+                hintAdd.gameObject.SetActive(false);
+                hintCountLabel.gameObject.SetActive(false);
+            }
+            else if (count <= 0)
             {
                 hintAdd.gameObject.SetActive(true);
                 hintCountLabel.gameObject.SetActive(false);

@@ -52,7 +52,6 @@ namespace TurboLabz.InstantGame
         [Inject] public PreShowNotificationSignal preShowNotificationSignal { get; set; }
         [Inject] public PostShowNotificationSignal postShowNotificationSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
-        [Inject] public StopTimersSignal stopTimersSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public TurboLabz.CPU.SaveGameSignal saveGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
@@ -165,8 +164,9 @@ namespace TurboLabz.InstantGame
             notification.body.text = notificationVO.body;
             notification.playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             notification.avatarBg.sprite = notification.defaultAvatar;
-
+            notification.premiumBorder.SetActive(notificationVO.isPremium);
             notification.senderPic.gameObject.SetActive(false);
+
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
             {
@@ -258,10 +258,10 @@ namespace TurboLabz.InstantGame
             var rt = notifidationObj.GetComponent<RectTransform>();
             rt.offsetMax = new Vector2(0, rt.offsetMax.y);
 
-            if (notifidationObj.gameObject.transform.localScale.x > 1.0f)
-            {
+            //if (notifidationObj.gameObject.transform.localScale.x > 1.0f)
+            //{
                 notifidationObj.gameObject.transform.localScale = Vector3.one;
-            }
+            //}
 
             NotificationContainer notificationContainer = new NotificationContainer();
             notificationContainer.obj = notifidationObj;

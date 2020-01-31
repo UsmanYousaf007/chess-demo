@@ -3,7 +3,9 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using HUF.Analytics.API;
 using strange.extensions.command.impl;
+using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
@@ -16,24 +18,28 @@ namespace TurboLabz.InstantFramework
 
 		// Dispatch Signals
         [Inject] public PurchaseStoreItemResultSignal purchaseResultSignal { get; set; }
-        [Inject] public UpdatePlayerBucksSignal updatePlayerBucksDisplaySignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
 
         // Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
-		// Services
+        // Services
         [Inject] public IBackendService backendService { get; set; }
 		[Inject] public IStoreService storeService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         private StoreItem item;
+        private NS pState = null;
 
         public override void Execute()
         {
             item = metaDataModel.store.items[key];
+            pState = navigatorModel.previousState;
+
             PurchaseResult purchaseResult = PurchaseResult.NONE;
 
             if (item.maxQuantity == 1 && playerModel.OwnsVGood(key) == true)
@@ -64,8 +70,14 @@ namespace TurboLabz.InstantFramework
         {
             if (storeItem.remoteProductId != null) 
             {
+                OnPromiseReturn(BackendResult.PURCHASE_ATTEMPT);
+
                 // Purchase from remote store
-                storeService.BuyProduct(storeItem.remoteProductId);
+                IPromise<BackendResult> promise = storeService.BuyProduct(storeItem.remoteProductId);
+                if (promise != null)
+                {
+                    promise.Then(OnPromiseReturn);
+                }
             } 
             else 
             {
@@ -73,6 +85,36 @@ namespace TurboLabz.InstantFramework
                 Retain();
                 backendService.BuyVirtualGoods(2, 1, storeItem.key).Then(OnPurchase);
             }
+        }
+
+        private void OnPromiseReturn(BackendResult result)
+        {
+            string eventName = "attempt";
+            string cameFromScreen = "settings";
+
+            if(pState.GetType() == typeof(NSLobby))
+            {
+                cameFromScreen = "lobby";
+            }
+
+            if (result == BackendResult.PURCHASE_ATTEMPT)
+            {
+                eventName = "attempt";
+            }
+            else if (result == BackendResult.PURCHASE_COMPLETE)
+            {
+                eventName = "completed";
+            }
+            else if (result == BackendResult.PURCHASE_CANCEL)
+            {
+                eventName = "cancelled";
+            }
+            else if (result == BackendResult.PURCHASE_FAILED)
+            {
+                eventName = "failed";
+            }
+
+            hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", "subscription", cameFromScreen);
         }
 
         private void OnPurchase(BackendResult result)
@@ -84,7 +126,6 @@ namespace TurboLabz.InstantFramework
             else
             {
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
-                updatePlayerBucksDisplaySignal.Dispatch(playerModel.bucks);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
                 audioService.Play(audioService.sounds.SFX_SHOP_PURCHASE_ITEM);
             }

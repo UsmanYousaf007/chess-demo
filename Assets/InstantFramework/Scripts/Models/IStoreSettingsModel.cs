@@ -15,7 +15,7 @@ namespace TurboLabz.InstantFramework
         IOrderedDictionary<string, StoreItem> items { get; set; }
         void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems);
         List<string> getRemoteProductIds();
-
+        StoreItem GetItemBySkinIndex(int skinIndex);
     }
 }
 

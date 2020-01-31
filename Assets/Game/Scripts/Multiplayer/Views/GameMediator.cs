@@ -44,7 +44,6 @@ namespace TurboLabz.Multiplayer
             OnRegisterHint();
             OnRegisterHindsight();
             OnRegisterInfo();
-            OnRegisterSpotPurchase();
             OnRegisterChallengeSent();
         }
 
@@ -66,6 +65,7 @@ namespace TurboLabz.Multiplayer
             {
                 view.Show();
                 InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
+                InternetReachabilityMonitor.AddSlowInternetListener(OnSlowInternet);
             }
         }
 
@@ -75,6 +75,7 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER)
             {
                 InternetReachabilityMonitor.RemoveListener(OnInternetConnectedTicked);
+                InternetReachabilityMonitor.RemoveSlowInternetListener(OnSlowInternet);
                 stopTimersSignal.Dispatch();
                 view.Hide();
             }
@@ -104,6 +105,15 @@ namespace TurboLabz.Multiplayer
             if (gameObject.activeSelf)
             {
                 view.EnableOpponentConnectionMonitor(!isAck);
+            }
+        }
+
+        [ListensTo(typeof(DisableModalBlockersSignal))]
+        public void OnDisableModalBlockers()
+        {
+            if (view.IsVisible())
+            {
+                view.DisableModalBlocker();
             }
         }
     }

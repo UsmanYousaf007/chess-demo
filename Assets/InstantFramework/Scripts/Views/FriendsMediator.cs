@@ -158,7 +158,10 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SortSearchedSignal))]
         public void OnSortSearched()
         {
-            view.SortSearched();
+            if (view.IsVisible())
+            {
+                view.SortSearched();
+            }
         }
 
         [ListensTo(typeof(ClearFriendsSignal))]
@@ -290,6 +293,12 @@ namespace TurboLabz.InstantFramework
         private void OnRemoveCommunityFriend(string opponentId)
         {
             removeCommunityFriendSignal.Dispatch(opponentId);
+        }
+
+        [ListensTo(typeof(ShowProcessingSignal))]
+        public void OnShowProcessingUI(bool show, bool showProcessingUi)
+        {
+            view.ShowProcessing(show, showProcessingUi);
         }
     }
 }

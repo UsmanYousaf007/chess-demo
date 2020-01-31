@@ -32,11 +32,13 @@ namespace TurboLabz.InstantFramework
         public const string MAINTENANCE_WARNING_MESSEGE = "maintenanceWarningMessage";
         public const string MAINTENANCE_WARNING_BG_COLOR = "maintenanceWarningBgColor";
         public const string UPDATE_RELEASE_BANNER_MESSAGE = "gameUpdateBannerMsg";
+        public const string MANAGE_SUBSCRIPTION_URL = "manageSubscriptionURL";
         public const string EVENT_DATA          = "eventData";
         public const string EVENT_DAY_NUMBER    = "eventdayNo";
         public const string POWERUP_USAGE_PERCENTAGE = "powerupUsagePercentage";
         public const string STORE_IOS = "ios";
         public const string STORE_ANDROID = "android";
+        public const string CONTACT_SUPPORT_URL = "contactSupportURL";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
@@ -45,6 +47,7 @@ namespace TurboLabz.InstantFramework
         public const string FACEBOOK_CONNECT_REWARD = "facebookConnectReward";
         public const string MAX_RECENTLY_COMPLETED_MATCH_COUNT = "maxRecentlyCompletedMatchCount";
         public const string MAX_COMMUNITY_MATECHES = "maxCommunityMatches";
+        public const string PREMIUM = "premium";
         
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
@@ -63,6 +66,10 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_ITEM_STORE_BUNDLED_GOODS = "bundledGoods";
         public const string SHOP_ITEM_QUANTITY = "qty";
         public const string SHOP_ITEM_DISABLED = "disabled";
+        public const string SHOP_ITEM_PROPERTY_SET = "propertySet";
+        public const string SHOP_ITEM_SKIN_PROPERTY = "SkinProperty";
+        public const string SHOP_ITEM_SKIN_INDEX = "skinIndex";
+        public const string SHOP_ITEM_SKIN_POINTS = "pointsRequired";
 
         // Account details
         public const string PLAYER_DETAILS = "playerDetails";
@@ -82,6 +89,10 @@ namespace TurboLabz.InstantFramework
         public const string ADS_SLOT_HOUR = "ADS_SLOT_HOUR";
         public const string ADS_REWARD_INCREMENT = "ADS_REWARD_INCREMENT";
         public const string ADS_FREE_NO_ADS_PERIOD = "ADS_FREE_NO_ADS_PERIOD";
+        public const string ADS_GLOBAL_CAP = "adsGlobalCap";
+        public const string ADS_REWARDED_VIDEO_CAP = "adsRewardedVideoCap";
+        public const string ADS_INTERSTITIAL_CAP = "adsInterstitialCap";
+        public const string RESIGN_CAP = "resignCap";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
@@ -209,6 +220,7 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_HINT_SHOP_ITEMS = "powerUpHintShopItems";
             public const string POWERUP_HINDSIGHT_SHOP_ITEMS = "powerUpHindsightShopItems";
             public const string POWERUP_SAFEMOVE_SHOP_ITEMS = "powerUpSafeMoveShopItems";
+            public const string SUBSCRIPTION_SHOP_ITEMS = "subscriptionShopItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -219,6 +231,7 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_SHOP_TAG = "SpecialBundle";
             public const string AVATAR_TAG = "Avatar";
             public const string AVATAR_BG_COLOR_TAG = "AvatarBgColor";
+            public const string SUBSCRIPTION_TAG = "subscription";
 
             public const string POWERUP_HINT_SHOP_TAG = "PowerUpHint";
             public const string POWERUP_HINDSIGHT_SHOP_TAG = "PowerUpHindsight";
@@ -230,6 +243,8 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG = "SpecialBundleUltimate";
             public const string SPECIAL_BUNDLE_STANDARD_SHOP_TAG = "SpecialBundleStandard";
             public const string SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG = "SpecialBundleNoAdsForever";
+
+            public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";
@@ -252,6 +267,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_MATCH_WIN_AD = "rewardMatchWinAd";
             public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
             public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
+            public const string TYPE_PROMOTION = "rewardMatchPromotional";
 
             public const string NONE = "none";
         }
@@ -272,7 +288,6 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_COMMUNITY = "community";
             public const string TYPE_FAVOURITE = "favourite";
             public const string LAST_MATCH_TIMESTAMP = "lastMatchTimestamp";
-            
         }
 
 		public static class FriendsOp
@@ -303,10 +318,10 @@ namespace TurboLabz.InstantFramework
             public const string LAST_SEEN = "lastSeen";
             public const string TOTAL_GAMES_WON = "totalGamesWon";
             public const string TOTAL_GAMES_LOST = "totalGamesLost";
-
+            public const string IS_SUBSCRIBER = "isSubscriber";
         }
 
-		public static class  PlayerDetails
+        public static class  PlayerDetails
 		{
 			public const string PLAYER_ID = "playerId";
             public const string CREATION_DATE = "creationDate";
@@ -328,6 +343,13 @@ namespace TurboLabz.InstantFramework
             public const string EDITED_NAME = "editedName";
             public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
             public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
+            public const string SUBSCRIPTION_EXPIRY_TIMESTAMP = "subscriptionExpiryTime";
+            public const string REWARD_INDEX = "rewardIndex";
+            public const string REWARD_SHORT_CODE = "shortCode";
+            public const string REWARD_QUANITY = "addedAmount";
+            public const string REWARD_CURRENT_POINTS = "currentPoints";
+            public const string REWARD_REQUIRED_POINTS = "pointsRequired";
+            public const string ADS_REWARD_DATA = "adsRewardData";
         }
 
         public static class Match

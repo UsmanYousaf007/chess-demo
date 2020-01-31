@@ -75,5 +75,11 @@ namespace TurboLabz.Multiplayer
             }
             loadLobbySignal.Dispatch();
         }
+
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdatePic(string playerId, Sprite sprite)
+        {
+            view.SetProfilePicById(playerId, sprite);
+        }
     }
 }

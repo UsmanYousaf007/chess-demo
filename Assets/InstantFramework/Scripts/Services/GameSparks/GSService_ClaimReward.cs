@@ -8,6 +8,7 @@ using strange.extensions.promise.api;
 using System;
 using GameSparks.Api.Requests;
 using GameSparks.Core;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,17 +24,8 @@ namespace TurboLabz.InstantFramework
             LogEventResponse response = (LogEventResponse)r;
             if (response != null && response.ScriptData != null)
             {
-                if(response.ScriptData.ContainsKey(GSBackendKeys.ClaimReward.REWARD_INFO))
-                {
-                    var res = response.ScriptData.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO);
-                    
-                    playerModel.bucks += res.GetInt(GSBackendKeys.ClaimReward.BUCKS).Value;
-                }
-
-                if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT))
-                {
-                    playerModel.cpuPowerupUsedCount = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
-                }
+                GSParser.PopulateAdsRewardData(playerModel, response.ScriptData);
+                LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
             }
                
         }

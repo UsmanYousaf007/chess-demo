@@ -10,6 +10,7 @@ using System;
 using GameSparks.Api.Requests;
 using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -123,7 +124,20 @@ namespace TurboLabz.InstantFramework
             this.errorCode = BackendResult.AUTH_GUEST_REQUEST_FAILED;
             this.onSuccess = onSuccess;
 
-            new DeviceAuthenticationRequest().Send(OnRequestSuccess, OnRequestFailure);
+#if UNITY_ANDROID || UNITY_EDITOR
+            var deviceId = SystemInfo.deviceUniqueIdentifier;
+#elif UNITY_IOS
+            var deviceId = KeyChain.BindGetKeyChainUser();
+            if (string.IsNullOrEmpty(deviceId) || string.IsNullOrWhiteSpace(deviceId))
+            {
+                deviceId = SystemInfo.deviceUniqueIdentifier;
+                KeyChain.BindSetKeyChainUser("0", deviceId);
+            }
+#endif
+
+            new ExtendedDeviceAuthenticationRequest()
+                .SetDeviceId(deviceId)
+                .Send(OnRequestSuccess, OnRequestFailure);
             return promise;
         }
     }

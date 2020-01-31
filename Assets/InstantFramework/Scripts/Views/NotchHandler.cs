@@ -16,6 +16,7 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform lobbyScrollViewPivotForBanner;
     public LobbyView lobbyView;
     public RectTransform lobbyScrollViewTopShadow;
+    public RectTransform quickMatchButton;
 
     [Header("Profile")]
     public RectTransform profileFacebookButton;
@@ -25,15 +26,6 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform friendsScrollView;
     public RectTransform friendsViewPort;
     public RectTransform friendsScrollViewTopShadow;
-
-    [Header("Store")]
-    public RectTransform storeTitle;
-    public RectTransform bundle1;
-    public RectTransform bundle2;
-    public RectTransform tabsBar;
-    public RectTransform[] storeScrollView;
-    public RectTransform[] storeViewPort;
-    public RectTransform[] storeScrollContents;
 
     [Header("CPU Game")]
     public RectTransform cpuTopBar;
@@ -63,6 +55,13 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform reconnectingPopup;
     public RectTransform maintenanceWarningPopup;
 
+    [Header("Settings")]
+    public RectTransform topBar;
+
+    [Header("Promotion")]
+    public RectTransform promotionTopNav;
+    public RectTransform promotionBottomNav;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -87,12 +86,13 @@ public class NotchHandler : MonoBehaviour {
         }
 
         // LOBBY
-        SetY(lobbyScrollView, -63f - 100f);
+        SetY(lobbyScrollView, -85f - 100f);
         SetTop(lobbyViewPort, 9f);
-        SetBottom(lobbyViewPort, 108f + 100f);
-        SetY(lobbyScrollViewPivotForBanner, -66f - 100f -176f);
-        lobbyView.setScorllViewportBottomTo = 384;
+        SetBottom(lobbyViewPort, 128f + 100f);
+        SetY(lobbyScrollViewPivotForBanner, -318);
+        lobbyView.setScorllViewportBottomTo = 361;
         SetY(lobbyScrollViewTopShadow, -2);
+        SetY(quickMatchButton, 347f);
 
         // PROFILE
         SetY(profileFacebookButton, -270f);
@@ -103,18 +103,6 @@ public class NotchHandler : MonoBehaviour {
         SetTop(friendsViewPort, 0f);
         SetBottom(friendsViewPort, 100f + 100f);
         SetY(friendsScrollViewTopShadow, -10);
-
-        // STORE
-        SetY(storeTitle, 777f);
-        SetY(bundle1, -418f);
-        SetY(bundle2, -647f);
-        SetY(tabsBar, 215f - 33);
-        foreach (RectTransform tfm in storeScrollView)        
-            SetY(tfm, -418 -29);
-        foreach (RectTransform tfm in storeViewPort)
-            SetBottom(tfm, 88f + 120 + 30);
-        foreach (RectTransform tfm in storeScrollContents)
-            SetY(tfm, 517f - 41 -13);
 
         // CPU GAME
         SetY(cpuTopBar, -148f);
@@ -145,6 +133,13 @@ public class NotchHandler : MonoBehaviour {
         // RECONNECTING
         SetY(reconnectingPopup, -130f);
         SetY(maintenanceWarningPopup, -130f);
+
+        //SETTINGS
+        SetY(topBar, -106f);
+
+        //PROMOTION
+        SetY(promotionTopNav, -85f);
+        SetY(promotionBottomNav, 94f);
     }
 
     void SetY(RectTransform tfm, float y)

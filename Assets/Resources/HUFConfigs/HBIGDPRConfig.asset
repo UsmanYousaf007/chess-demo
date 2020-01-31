@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d27703383e042ea4e9848aaff1cac6b1, type: 3}
+  m_Name: HBIGDPRConfig
+  m_EditorClassIdentifier: 
+  configId: GDPRConfig
+  prefab: {fileID: 4648213415219233772, guid: d0d8d12e93958524c93707685098dae2, type: 3}
+  autoInit: 0
+  destroyOnAccept: 1
+  usePlayerPrefs: 1
+  playerPrefsKey: HUF_GDPR_PolicyAccepted
+  titleText: We Have Updated Our Terms
+  policyText: At Huuuge, we use certain personal information from you for our app
+    or to administer your account. We may also use your personal data for other purposes,
+    like contacting you with offers or updates from Huuuge.
+  detailedPolicyText: We inform you that our game is completely free for you, however,
+    within our game the advertisements of third party products or services are displayed.
+    It is possible that these ads displayed within our game would be customized to
+    your personal preferences and behaviors. In this case your device data collected
+    by us due to using our game will be shared and analyzed by the media advertising
+    publishers with which we are cooperating. The analysis of these data will allow
+    you to display ads customized to your needs and preferences. We also inform you
+    that the media advertising publishers will process the shared data for their own
+    purposes in accordance with their Privacy Policies.
+  moreInfoText: Show More
+  lessInfoText: Show Less
+  buttonText: Accept
+  privacyPolicy:
+    Type: 0
+    Text: PRIVACY POLICY
+    URL: https://www.huuugegames.com/privacy-policy
+  termsOfUse:
+    Type: 1
+    Text: TERMS OF USE
+    URL: https://www.huuugegames.com/terms-of-use
+  eula:
+    Type: 2
+    Text: EULA
+    URL: https://www.huuugegames.com/eula

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ae114108e94f659187ac552a0a95bf, type: 3}
+  m_Name: AdMobProviderConfig
+  m_EditorClassIdentifier: 
+  configId: AdMobProviderConfig
+  autoInit: 1
+  autoUpdateAndroidManifest: 0
+  appId:
+    iOSAppId: ca-app-pub-1220882738324941~2273400192
+    androidAppId: ca-app-pub-1220882738324941~5282706915
+  adPlacementData:
+  - appId:
+      iOSAppId: ca-app-pub-1220882738324941/8455665164
+      androidAppId: ca-app-pub-1220882738324941/4244957412
+    placementId: Banner
+    placementType: 0
+  - appId:
+      iOSAppId: ca-app-pub-1220882738324941/4139702552
+      androidAppId: ca-app-pub-1220882738324941/7992630736
+    placementId: Interstitial
+    placementType: 1
+  - appId:
+      iOSAppId: ca-app-pub-1220882738324941/9200457542
+      androidAppId: ca-app-pub-1220882738324941/2656543576
+    placementId: Rewarded
+    placementType: 2
+  useEditorMockProvider: 1
+  appLovinSdkKey: 4cGQClILnclNaflJM0vqqIM1cDbpyzU1amRnUk6FKrdwVNEsO7fCQ1D2EqrBnKCL4e7TMDph2QcXprOBz2OO4b
+  testDevices:
+  - D3F0E76B7D1FA1462D83EF4D6ABF761B
+  - cff85266f0523c0c242fb84ef06079df
+  - 58514B6908CB49C9FC929483247088CF
+  - 76dd46e0079df6a383bbcfa098197836
+  - 184ff6b8d959b8d4642a3b10bacb53a7
+  moPubAppId:
+    iOSAppId: 
+    androidAppId: 

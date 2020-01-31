@@ -16,14 +16,8 @@ namespace TurboLabz.InstantGame
         [Inject] public string matchString { get; set; }
         [Inject] public int skip { get; set; }
 
-        // dispatch signals
-        [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
-        [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
-        [Inject] public SortSearchedSignal sortSearchedSignal { get; set; }
-
-
-        // models
-        [Inject] public IPlayerModel playerModel { get; set; }
+        //Dispatch Singals
+        [Inject] public UpdateSearchResultsSignal updateSearchResultsSignal { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -39,9 +33,7 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                addFriendsSignal.Dispatch(playerModel.search, FriendCategory.SEARCHED);
-                getSocialPicsSignal.Dispatch(playerModel.search);
-                sortSearchedSignal.Dispatch();
+                updateSearchResultsSignal.Dispatch();
             }
 
             Release();

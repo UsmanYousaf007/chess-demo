@@ -75,7 +75,6 @@ namespace TurboLabz.CPU
 
             if (!safeMoveOn && safeMoveAdd.gameObject.activeSelf)
             {
-                openSpotPurchaseSignal.Dispatch(SpotPurchaseView.PowerUpSections.SAFEMOVES);
             }
             else
             {

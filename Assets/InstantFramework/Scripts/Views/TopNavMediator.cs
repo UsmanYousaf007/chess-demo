@@ -5,6 +5,7 @@
 
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -13,33 +14,28 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public TopNavView view { get; set; }
 
-        // Dispatch signals
-        [Inject] public LoadStoreSignal loadStoreSignal { get; set; }
-        [Inject] public ShowStoreTabSignal showStoreTabSignal { get; set; }
-
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ThemeAlertDisableSignal themeAlertDisableSignal { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
 
-            view.addBucksButtonClickedSignal.AddListener(OnAddBucksButtonClicked);
+            view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
+            view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
+            view.rewardBarClicked.AddListener(RewardBarClicked);
         }
 
         public override void OnRemove()
         {
-            view.addBucksButtonClickedSignal.RemoveAllListeners();
+            view.settingsButtonClickedSignal.RemoveAllListeners();
+            view.selectThemeClickedSignal.RemoveAllListeners();
+            view.rewardBarClicked.RemoveAllListeners();
         }
 
-        private void OnAddBucksButtonClicked()
+        private void OnSettingsButtonClicked()
         {
-            loadStoreSignal.Dispatch();
-            showStoreTabSignal.Dispatch(StoreView.StoreTabs.COINS);
-        }
-
-        [ListensTo(typeof(UpdatePlayerBucksSignal))]
-        public void OnUpdatePlayerBucksDisplay(long playerBucks)
-        {
-            view.UpdatePlayerBucks(playerBucks);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
         }
 
         [ListensTo(typeof(UpdateRemoveAdsSignal))]
@@ -48,10 +44,55 @@ namespace TurboLabz.InstantFramework
             view.UpdateRemoveAds(freePeriod, isRemoved);
         }
 
-        [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable, StoreVO storeVO)
+        private void OnSelectThemeClicked()
         {
-            view.OnStoreAvailable(isAvailable);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
+            themeAlertDisableSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(ThemeAlertDisableSignal))]
+        public void DisableAlert()
+        {
+            view.rewardUnlockedAlert.SetActive(false);
+        }
+
+        [ListensTo(typeof(RewardUnlockedSignal))]
+        public void OnRewardUnlocked(string key, int quantity)
+        {
+            view.OnRewardUnlocked(key, quantity);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscrionPurchased(StoreItem item)
+        {
+            view.ShowRewardBar();
+        }
+
+        [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
+        public void OnRewardClaimed(float from, float to)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.AnimateRewardBar(from, to);
+            }
+            else
+            {
+                view.SetupRewardBar();
+            }
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            if (isAvailable)
+            {
+                view.SetupRewardBar();
+            }
+        }
+
+        private void RewardBarClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EARN_REWARDS_DLG);
         }
     }
 }

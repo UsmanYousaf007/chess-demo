@@ -13,24 +13,19 @@ namespace TurboLabz.InstantFramework
 {
     public class UpdatePlayerDataCommand : Command
     {
-     
         // Dispatch signals
-        [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        //[Inject] public BackendErrorSignal backendErrorSignal { get; set; }
      
-
         // Services
         [Inject] public IBackendService backendService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
-        // Models
-        [Inject] public IPlayerModel playerModel { get; set; }
-
-
+      
         public override void Execute()
         {
             Retain();
-            backendService.UpdatePlayerData(playerModel.notificationCount).Then(OnResponse);
+            backendService.UpdatePlayerData().Then(OnResponse);
 
+            //playerModel.notificationCount
         }
 
         private void OnResponse(BackendResult result)
@@ -47,6 +42,5 @@ namespace TurboLabz.InstantFramework
 
             Release();
         }
-
     }
 }

@@ -69,6 +69,7 @@ namespace TurboLabz.InstantFramework
         public Text facebookConnectText;
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
+        public GameObject processingUi;
         public Button editorSubmit;
         public TMP_InputField inputField;
         public Button cancelSearchButton;
@@ -140,6 +141,7 @@ namespace TurboLabz.InstantFramework
         private List<GameObject> cacheEnabledSections;
         private int searchSkip;
         private bool isSearchNext;
+        private bool inSearchView; 
 
         public void Init()
         {
@@ -191,6 +193,7 @@ namespace TurboLabz.InstantFramework
             cacheEnabledSections = new List<GameObject>();
             searchSkip = 0;
             cancelSearchButton.interactable = false;
+            cancelSearchButton.gameObject.SetActive(false);
             inputField.onEndEdit.AddListener(OnSearchSubmit);
             cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
             nextSearchButton.interactable = false;
@@ -246,10 +249,13 @@ namespace TurboLabz.InstantFramework
                 searchSkip = 0;
             }
 
+            inSearchView = true;
+
             uiBlocker.gameObject.SetActive(true);
             searchBoxText.text = inputField.text;
             searchBoxText.text  = searchBoxText.text.Replace("\n", " ");
             cancelSearchButton.interactable = true;
+            cancelSearchButton.gameObject.SetActive(true);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
 
             ClearType(FriendCategory.FRIEND);
@@ -282,10 +288,11 @@ namespace TurboLabz.InstantFramework
             sectionSearched.gameObject.SetActive(false);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
             cancelSearchButton.interactable = false;
+            cancelSearchButton.gameObject.SetActive(false);
             searchSkip = 0;
             isSearchNext = false;
             inputField.text = "";
-            searchBoxText.text = "Global Search by player display name..";
+            searchBoxText.text = "Search by player display name or tag..";
             foreach (GameObject obj in cacheEnabledSections)
             {
                 obj.SetActive(true);
@@ -296,7 +303,7 @@ namespace TurboLabz.InstantFramework
         public void OnCancelSearchClicked()
         {
             ResetSearch();
-
+            inSearchView = false;
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch();
         }
@@ -536,6 +543,7 @@ namespace TurboLabz.InstantFramework
                     barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId);
                 }
             }
+            barData.premiumBorder.SetActive(publicProfile.isSubscriber);
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -670,7 +678,9 @@ namespace TurboLabz.InstantFramework
             }
             else if (reason == CreateLongMatchAbortReason.CreateFailed)
             {
-                friendBar.playArrow.SetActive(true);
+                createMatchLimitReachedDlg.SetActive(true);
+                createMatchLimitReachedText.text = "Player is already waiting for you to \naccept a classic match";
+                friendBar.playArrow.SetActive(false);
                 friendBar.playArrowButton.SetActive(false);
             }
             else // Match successfully created
@@ -724,7 +734,7 @@ namespace TurboLabz.InstantFramework
 
         public void ClearFriend(string friendId)
         {
-            if (friendId != null && bars.ContainsKey(friendId))
+            if (friendId != null && bars.ContainsKey(friendId) && (!bars[friendId].isSearched || bars[friendId].isRemoved))
             {
                 GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
@@ -768,7 +778,7 @@ namespace TurboLabz.InstantFramework
                 {
                     destroyMe.Add(entry.Key);
                 }
-                if (friendCategory == FriendCategory.FRIEND)
+                if (friendCategory == FriendCategory.FRIEND && !entry.Value.isSearched)
                 {
                     destroyMe.Add(entry.Key);
                 }
@@ -846,6 +856,7 @@ namespace TurboLabz.InstantFramework
         void RemoveCommunityFriendDlgYes()
         {
             removeCommunityFriendDlg.SetActive(false);
+            actionBar.isRemoved = true;
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
             analyticsService.Event(AnalyticsEventId.tap_long_match_remove);
         }
@@ -912,6 +923,7 @@ namespace TurboLabz.InstantFramework
 
         void OnToggleRankButtonClicked()
         {
+            audioService.PlayStandardClick();
             startGameConfirmationDlg.toggleRankButtonState = !startGameConfirmationDlg.toggleRankButtonState;
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
         }
@@ -953,6 +965,7 @@ namespace TurboLabz.InstantFramework
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
 
             startGameConfirmationDlg.playerId = bar.friendInfo.playerId;
+            startGameConfirmationDlg.premiumBorder.SetActive(bar.premiumBorder.activeSelf);
 
             startGameConfirmationDlg.gameObject.SetActive(true);
         }
@@ -1036,5 +1049,11 @@ namespace TurboLabz.InstantFramework
             findFriendDlg.SetActive(false);
         }
         #endregion
+
+        public void ShowProcessing(bool show, bool showProcessingUi)
+        {
+            processingUi.SetActive(showProcessingUi);
+            uiBlocker.SetActive(show);
+        }
     }
 }
