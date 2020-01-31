@@ -290,7 +290,7 @@ namespace TurboLabz.InstantFramework
             //}
         }
 
-        public void SortSearched()
+        public void SortSearched(bool isSuccess)
         {
             // Create holders
             List<FriendBar> searchedOnline = new List<FriendBar>();

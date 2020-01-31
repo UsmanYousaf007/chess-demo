@@ -54,7 +54,7 @@ namespace TurboLabz.InstantFramework
             restorePurchasesSignal.Dispatch();
 
 #if UNITY_IOS
-        HAnalytics.LogEvent(AnalyticsEvent.Create("restore_ios_iap_clicked").ST1("menu").ST2("settings"));
+            hAnalyticsService.LogEvent("restore_ios_iap_clicked", "menu", "settings");
 #endif
         }
 
