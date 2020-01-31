@@ -9,14 +9,9 @@
 /// 
 /// @description
 /// [add_description_here]
-
-using System.Collections;
-
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
-using TurboLabz.TLUtils;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,6 +24,7 @@ namespace TurboLabz.InstantFramework
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // TODO: Ads need to be initialized in the start function of our app.
         // However our StartCommand is misleading because it is called through
@@ -57,24 +53,20 @@ namespace TurboLabz.InstantFramework
             if (isPaused)
             {
                 appPausedSignal.Dispatch();
-
-                var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.focus_lost.ToString())
-                .ST1("focus");
-                HAnalytics.LogEvent(analyticsEvent);
+                hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
             }
             else
             {
                 if (SplashLoader.launchCode != 1)
                 {
-                    var analyticsEvent = AnalyticsEvent.Create("launch_opened")
-                        .ST1("launch");
-
                     if (firebasePushNotificationService.IsNotificationOpened())
                     {
-                        analyticsEvent.ST2("notification");
+                        hAnalyticsService.LogEvent("launch_opened", "launch", "notification");
                     }
-
-                    HAnalytics.LogEvent(analyticsEvent);
+                    else
+                    {
+                        hAnalyticsService.LogEvent("launch_opened", "launch");
+                    }
                     SplashLoader.launchCode = 2;
                 }
 

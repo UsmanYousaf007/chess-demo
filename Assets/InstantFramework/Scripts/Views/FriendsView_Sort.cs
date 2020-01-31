@@ -139,23 +139,28 @@ namespace TurboLabz.InstantFramework
             sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
             sectionRecentlyCompleted.gameObject.SetActive(false);
 
-
-            sectionPlayAFriend.gameObject.SetActive(true);
-
             int count = 0;
 
-            if (!facebookService.isLoggedIn())
+            if (!inSearchView)
             {
-                index = sectionPlayAFriend.GetSiblingIndex() + 1;
-                sectionPlayAFriendEmptyNotLoggedIn.transform.SetSiblingIndex(index);
-                sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
-                count++;
-                index++;
+                sectionPlayAFriend.gameObject.SetActive(true);
+
+
+
+                if (!facebookService.isLoggedIn())
+                {
+                    index = sectionPlayAFriend.GetSiblingIndex() + 1;
+                    sectionPlayAFriendEmptyNotLoggedIn.transform.SetSiblingIndex(index);
+                    sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(true);
+                    count++;
+                    index++;
+                }
+                else
+                {
+                    index = sectionPlayAFriend.GetSiblingIndex() + 1;
+                }
             }
-            else
-            {
-                index = sectionPlayAFriend.GetSiblingIndex() + 1;
-            }
+
 
 
             //if (yourMove.Count > 0 ||
@@ -203,7 +208,8 @@ namespace TurboLabz.InstantFramework
             int recentMatchCount = OnlineRecentCompleted.Count + recentCompleted.Count;
             if (OnlineRecentCompleted.Count > 0 || recentCompleted.Count > 0)
             {
-                sectionRecentlyCompleted.gameObject.SetActive(true);
+                if(!inSearchView)
+                    sectionRecentlyCompleted.gameObject.SetActive(true);
 
                 index = sectionRecentlyCompleted.GetSiblingIndex() + 1;
 
@@ -284,7 +290,7 @@ namespace TurboLabz.InstantFramework
             //}
         }
 
-        public void SortSearched()
+        public void SortSearched(bool isSuccess)
         {
             // Create holders
             List<FriendBar> searchedOnline = new List<FriendBar>();

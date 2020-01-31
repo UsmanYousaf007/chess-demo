@@ -2,13 +2,9 @@
 /// @copyright Copyright (C) Turbo Labz 2017 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-
-using HUF.Analytics.API;
 using strange.extensions.command.impl;
 using strange.extensions.promise.api;
 using TurboLabz.InstantFramework;
-using TurboLabz.TLUtils;
-using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -18,6 +14,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IStoreService storeService { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         private StoreItem item = null;
         private NS pState = null;
@@ -52,13 +49,11 @@ namespace TurboLabz.InstantGame
                     price = item.currency1Cost;
                 }
 
-                HAnalytics.LogEvent(AnalyticsMonetizationEvent.Create("restore_ios_iap_completed").ST1("menu")
-                                                                .ST2(cameFromScreen).Value(price));
+                hAnalyticsService.LogMonetizationEvent("restore_ios_iap_completed", price, "menu", cameFromScreen);
             }
             else if (result == BackendResult.PURCHASE_FAILED)
             {
-                HAnalytics.LogEvent(AnalyticsEvent.Create("restore_ios_iap_failed").ST1("menu")
-                                                                .ST2(cameFromScreen));
+                hAnalyticsService.LogEvent("restore_ios_iap_failed", "menu", cameFromScreen);
             }
         }
     }

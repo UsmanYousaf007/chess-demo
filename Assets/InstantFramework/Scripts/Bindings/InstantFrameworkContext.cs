@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SetDefaultSkinSignal>().To<SetDefaultSkinCommand>();
             commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
             commandBinder.Bind<ConsumeVirtualGoodSignal>().To<ConsumeVirtualGoodCommand>();
+            commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -117,7 +118,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdatePlayerInventorySignal>().ToSingleton();
             injectionBinder.Bind<UpdateRemoveAdsSignal>().ToSingleton();
             injectionBinder.Bind<PurchaseStoreItemResultSignal>().ToSingleton();
-            injectionBinder.Bind<ReportHAnalyticsForPurchaseResult>().ToSingleton();
             injectionBinder.Bind<UpdatePurchasedStoreItemSignal>().ToSingleton();
             injectionBinder.Bind<GameDisconnectingSignal>().ToSingleton();
             injectionBinder.Bind<ReconnectionCompleteSignal>().ToSingleton();
@@ -144,9 +144,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SyncReconnectDataSignal>().ToSingleton();
             injectionBinder.Bind<CancelSearchResultSignal>().ToSingleton();
             injectionBinder.Bind<FindMatchRequestCompleteSignal>().ToSingleton();
-            injectionBinder.Bind<RemoteStorePurchaseCompletedSignal>().ToSingleton();
             injectionBinder.Bind<StoreAvailableSignal>().ToSingleton();
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
+            injectionBinder.Bind<ThemeAlertDisableSignal>().ToSingleton();
             injectionBinder.Bind<ShowPromotionDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
             injectionBinder.Bind<DisableModalBlockersSignal>().ToSingleton();
@@ -176,6 +176,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IScreenCaptureService>().To<NativeScreenCapture>().ToSingleton();
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<TLAdsService>().ToSingleton();
+            injectionBinder.Bind<IHAnalyticsService>().To<HAnalyticsService>().ToSingleton();
 #if UNITY_EDITOR
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsServiceEditor>().ToSingleton();
 #else

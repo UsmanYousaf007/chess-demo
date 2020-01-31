@@ -33,7 +33,11 @@ namespace TurboLabz.InstantGame
         {
             if (result == BackendResult.SUCCESS)
             {
-                updateSearchResultsSignal.Dispatch();
+                updateSearchResultsSignal.Dispatch(true);
+            }
+            else
+            {
+                updateSearchResultsSignal.Dispatch(false);
             }
 
             Release();

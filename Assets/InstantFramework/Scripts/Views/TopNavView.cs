@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
         public RectTransform rewardBar;
         public GameObject rewardBarObject;
         public Button rewardBarButton;
+        public ParticleSystem particlesSys;
 
         public Signal addBucksButtonClickedSignal = new Signal();
         public Signal removeAdsButtonClickedSignal = new Signal();
@@ -66,6 +67,7 @@ namespace TurboLabz.InstantFramework
         protected override void OnEnable()
         {
             base.OnEnable();
+            particlesSys.Stop();
         }
 
         public void UpdatePlayerBucks(long bucks)
@@ -115,13 +117,20 @@ namespace TurboLabz.InstantFramework
         private void OnSelectThemeClicked()
         {
             audioService.PlayStandardClick();
-            selectThemeClickedSignal.Dispatch();
-            rewardUnlockedAlert.gameObject.SetActive(false);
+            selectThemeClickedSignal.Dispatch();   
         }
 
         public void OnRewardUnlocked(string key, int quantity)
         {
-            //TODO show alert image in case theme is unlocked
+            var reward = metaDataModel.store.items[key];
+
+            if (reward != null && !string.IsNullOrEmpty(reward.displayName))
+            {
+                if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
+                {
+                    rewardUnlockedAlert.SetActive(true);
+                }
+            }
         }
 
 
@@ -142,14 +151,26 @@ namespace TurboLabz.InstantFramework
             var barFillPercentageFrom = from / playerModel.rewardPointsRequired;
             var barFillPercentageTo = to / playerModel.rewardPointsRequired;
 
+            if (!particlesSys.isPlaying)
+            {
+                particlesSys.Play();
+            }
+
+
             iTween.ValueTo(this.gameObject,
                 iTween.Hash(
                     "from", rewardBarOriginalWidth * barFillPercentageFrom,
                     "to", rewardBarOriginalWidth * barFillPercentageTo,
-                    "time", 1f,
+                    "time", 2f,
                     "onupdate", "AnimateBar",
-                    "onupdatetarget", this.gameObject
+                    "onupdatetarget", this.gameObject, "oncomplete", "StopPlayingParticles"
                 ));
+        }
+
+
+        private void StopPlayingParticles()
+        {
+            particlesSys.Stop();
         }
 
         private void AnimateBar(float value)

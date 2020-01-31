@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public TopNavView view { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ThemeAlertDisableSignal themeAlertDisableSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -46,6 +47,13 @@ namespace TurboLabz.InstantFramework
         private void OnSelectThemeClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
+            themeAlertDisableSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(ThemeAlertDisableSignal))]
+        public void DisableAlert()
+        {
+            view.rewardUnlockedAlert.SetActive(false);
         }
 
         [ListensTo(typeof(RewardUnlockedSignal))]

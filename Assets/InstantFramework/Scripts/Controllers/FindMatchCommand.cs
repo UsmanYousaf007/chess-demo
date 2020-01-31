@@ -2,12 +2,8 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-
-
 using UnityEngine;
 using strange.extensions.command.impl;
-using TurboLabz.TLUtils;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -35,6 +31,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -100,12 +97,8 @@ namespace TurboLabz.InstantFramework
             // where both clients start at a synch time stamp
             getGameStartTimeSignal.Dispatch();
 
-            var analyticsEvent = AnalyticsEvent.Create(AnalyticsEventId.game_started.ToString())
-                .ST1("gameplay")
-                .ST2("quick_match");
-            HAnalytics.LogEvent(analyticsEvent);
-
             preferencesModel.gameStartCount++;
+            hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match");
             appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
 
             // Grab the opponent profile pic if any

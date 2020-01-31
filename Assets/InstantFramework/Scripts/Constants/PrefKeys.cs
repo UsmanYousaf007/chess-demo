@@ -45,6 +45,7 @@ namespace TurboLabz.InstantGame
         public const string GAME_START_COUNT = "gameStartCount";
         public const string GAME_FINISHED_COUNT = "gameFinishedCount";
         public const string APPS_FLYER_LAST_LAUNCH_TIME = "appsFlyerLastLaunchDay";
+        public const string SESSION_COUNT = "sessionCount";
 
         public const string GLOBAL_ADS_COUNT = "globalAdsCount";
         public const string REWARDED_ADS_COUNT = "rewardedAdsCount";

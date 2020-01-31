@@ -48,11 +48,21 @@ namespace TurboLabz.InstantGame
             {
                 Friend friend = obj.Value;
 
-                if(friend.publicProfile.facebookUserId != null)
+                if(friend.publicProfile.facebookUserId != null && picsModel.GetPlayerPic(friend.playerId) == null)
                 {
                     facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
                 }
+                else
+                {
+                    GetCachedPic(friend.playerId);
+                }
             }    
+        }
+
+        private void GetCachedPic(string friendId)
+        {
+            Sprite sprite = picsModel.GetPlayerPic(friendId);
+            updateFriendPicSignal.Dispatch(friendId, sprite);
         }
 
         private void OnGetSocialPic(FacebookResult result, Sprite sprite, string friendId)
