@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
             refreshCommunitySignal.Dispatch();
 
             // Refereshing search in case challenge is declined from searched results
-            updateSearchResultsSignal.Dispatch();
+            updateSearchResultsSignal.Dispatch(true);
 
             Release();
         }

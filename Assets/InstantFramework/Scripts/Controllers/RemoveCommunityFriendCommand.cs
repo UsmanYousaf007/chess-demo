@@ -36,7 +36,7 @@ namespace TurboLabz.InstantFramework
             clearFriendSignal.Dispatch(friendId);
             playerModel.friends.Remove(friendId);
             sortFriendsSignal.Dispatch();
-            sortSearchedSignal.Dispatch();
+            sortSearchedSignal.Dispatch(true);
         }
 
         private void OnRemove(BackendResult result)
