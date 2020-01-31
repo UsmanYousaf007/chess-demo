@@ -64,7 +64,7 @@ public class SubscriptionDlgMediator : Mediator
         restorePurchasesSignal.Dispatch();
 
 #if UNITY_IOS
-        HAnalytics.LogEvent(AnalyticsEvent.Create("restore_ios_iap_clicked").ST1("menu").ST2("subscription_popup"));
+        hAnalyticsService.LogEvent("restore_ios_iap_clicked", "menu", "subscription_popup");
 #endif
 
     }
