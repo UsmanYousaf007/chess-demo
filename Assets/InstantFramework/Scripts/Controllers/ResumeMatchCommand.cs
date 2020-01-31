@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
             if (result != BackendResult.CANCELED)
             {
                 TLUtils.LogUtil.Log("ResumeMatchCommand::OnGetInitDataFailed() GetInitData failed!");
-                CommandEnd();
+                getInitDataSignal.Dispatch(true);
             }
         }
 
