@@ -98,6 +98,8 @@ namespace TurboLabz.Chess
             int moveFoundIndex = GetMoveIndex(moveString);
             LogUtil.Log("moveString : " + moveString + " totolMoveCount : " + aiSearchResultMovesList.Count + " moveFoundIndex:" + moveFoundIndex);
 
+            var bestMove = ChessAiPlugin.results.aiBestMoveStr.Split(' ')[1];
+            LogUtil.Log("========== " + bestMove);
             bool playerMadeTheBestMove = false;
             if (moveFoundIndex >= 0
                 && scores[0] == scores[moveFoundIndex])
@@ -105,7 +107,7 @@ namespace TurboLabz.Chess
                 playerMadeTheBestMove = true;
             }
 
-            var selectedMove = playerMadeTheBestMove ? aiSearchResultMovesList[moveFoundIndex] : aiSearchResultMovesList[0];
+            var selectedMove = bestMove;//playerMadeTheBestMove ? aiSearchResultMovesList[moveFoundIndex] : aiSearchResultMovesList[0];
             var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
             var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
             var piece = chessService.GetPieceAtLocation(from);
