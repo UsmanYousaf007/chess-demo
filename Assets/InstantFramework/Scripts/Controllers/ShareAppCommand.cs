@@ -33,7 +33,7 @@ namespace TurboLabz.InstantFramework
         {
             shareService.ShareApp(
                 "Let's Play Chess",
-                "Hey, I am "+ playerModel.name +" (Tag: "+ playerModel.tag + ") let's play Chess!\n" + SHARE_URL,
+                "Hey, I am " + "\"" + playerModel.name + "\"" + "(Tag: "+ playerModel.tag + "). Let's play Chess!\n" + SHARE_URL,
                 "Invite a friend to play chess"
                 );
 
