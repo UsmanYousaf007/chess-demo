@@ -51,5 +51,6 @@ namespace TurboLabz.InstantGame
         public const string REWARDED_ADS_COUNT = "rewardedAdsCount";
         public const string INTERSTITIAL_ADS_COUNT = "interstitialAdsCount";
         public const string RESIGN_COUNT = "resignCount";
+        public const string S3_URL_PING_VERSION = "urlPingVersion";
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 using UnityEngine;
 
 public class GameSparksConfig : MonoBehaviour {
@@ -23,10 +25,26 @@ public class GameSparksConfig : MonoBehaviour {
 
     public string configURL = "";
 
+    /// <summary>
+    /// Returns saved s3 url ping version.
+    /// </summary>
+    public static string configURLSavedVersion
+    {
+        get
+        {
+            return PlayerPrefs.GetString(PrefKeys.S3_URL_PING_VERSION, "0");
+        }
+
+        set
+        {
+            PlayerPrefs.SetString(PrefKeys.S3_URL_PING_VERSION, value);
+        }
+    }
+
     // URL such as https://turbolabz.com/wp-content/uploads/2018/09/chessstar-3-3-2-1.odt;
 
-	// Use this for initialization
-	void Awake () 
+    // Use this for initialization
+    void Awake () 
     {
         Live.SetActive(false);
         Preview.SetActive(false);
@@ -64,12 +82,27 @@ public class GameSparksConfig : MonoBehaviour {
     {
         bool isLive = true;
 
-        WWW www = new WWW(url);
-        yield return www;
+        string configURLVersion = "";
+        string[] words = url.Split('/');
 
-        if (string.IsNullOrEmpty(www.error)) // Success
+        if(words.Length > 0)
         {
-            isLive = false;
+            configURLVersion = words[words.Length - 1];
+        }
+
+        if (configURLVersion != configURLSavedVersion)
+        {
+            WWW www = new WWW(url);
+            yield return www;
+
+            if (string.IsNullOrEmpty(www.error)) // Success
+            {
+                isLive = false;
+            }
+            else
+            {
+                configURLSavedVersion = configURLVersion;
+            }
         }
 
         Live.SetActive(isLive);
