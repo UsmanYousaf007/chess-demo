@@ -17,5 +17,6 @@ namespace TurboLabz.InstantFramework
         public string profilePicURL;
         public bool isOpened;
         public bool isPremium;
+        public long timeSent;
     }
 }

@@ -58,10 +58,13 @@ namespace TurboLabz.InstantGame
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         public void Init()
         {
@@ -287,6 +290,26 @@ namespace TurboLabz.InstantGame
 
             if (notificationVO.matchGroup != "undefined")
             {
+                if((backendService.serverClock.currentTimestamp - notificationVO.timeSent)/1000 > 15)
+                {
+                    //show dailogue
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+
+                    var vo = new ConfirmDlgVO
+                    {
+                        title = localizationService.Get(LocalizationKey.QUICK_MATCH_FAILED),
+                        desc = localizationService.Get(LocalizationKey.QUICK_MATCH_FAILED_REASON),
+                        yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
+                        onClickYesButton = delegate
+                        {
+                            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                        }
+                    };
+
+                    updateConfirmDlgSignal.Dispatch(vo);
+                    return;
+                }
+
                 Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
                 if (pic == null)
                 {
