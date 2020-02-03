@@ -22,6 +22,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IShareService shareService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         const string SHARE_URL = "https://chess.app.link/invite";
 
         // TODO: localize share text
@@ -30,7 +33,7 @@ namespace TurboLabz.InstantFramework
         {
             shareService.ShareApp(
                 "Let's Play Chess",
-                "Hey, let's play Chess!\n" + SHARE_URL,
+                "Hey, I am "+ playerModel.name +" (Tag: "+ playerModel.tag + ") let's play Chess!\n" + SHARE_URL,
                 "Invite a friend to play chess"
                 );
 
