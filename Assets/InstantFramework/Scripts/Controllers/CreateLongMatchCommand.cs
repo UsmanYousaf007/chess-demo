@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
             {
                 if (matchInfoModel.createLongMatchAborted)
                 {
-                    loadLobbySignal.Dispatch();
+                    //loadLobbySignal.Dispatch();
                     friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);
                 }
 
