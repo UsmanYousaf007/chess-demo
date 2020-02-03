@@ -297,8 +297,8 @@ namespace TurboLabz.InstantGame
 
                     var vo = new ConfirmDlgVO
                     {
-                        title = localizationService.Get(LocalizationKey.QUICK_MATCH_FAILED),
-                        desc = localizationService.Get(LocalizationKey.QUICK_MATCH_FAILED_REASON),
+                        title = localizationService.Get(LocalizationKey.QUICK_MATCH_EXPIRED),
+                        desc = localizationService.Get(LocalizationKey.QUICK_MATCH_EXPIRED_REASON),
                         yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
                         onClickYesButton = delegate
                         {

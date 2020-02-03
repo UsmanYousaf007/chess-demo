@@ -153,6 +153,9 @@ namespace TurboLabz.InstantFramework
         public const string QUICK_MATCH_FAILED = "quickMatchFailed";
         public const string QUICK_MATCH_FAILED_REASON = "quickMatchFailedReason";
 
+        public const string QUICK_MATCH_EXPIRED = "quickMatchExpired";
+        public const string QUICK_MATCH_EXPIRED_REASON = "quickMatchExpiredReason";
+
         #endregion
 
         #region Stats
