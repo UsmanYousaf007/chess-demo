@@ -41,7 +41,8 @@ namespace TurboLabz.InstantFramework
                 sounds.SFX_STEP_CLICK,
                 sounds.SFX_VICTORY,
                 sounds.SFX_SHOP_PURCHASE_ITEM,
-                sounds.SFX_TOOL_TIP
+                sounds.SFX_TOOL_TIP,
+                sounds.SFX_REWARD_UNLOCKED
             );
         }
 
