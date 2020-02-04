@@ -82,6 +82,7 @@ public class SubscriptionDlgMediator : Mediator
     {
         purchaseStoreItemSignal.Dispatch(view.key, true);
         hAnalyticsService.LogEvent("start_trial_clicked", "menu", "subscription_popup");
+        analyticsService.Event(AnalyticsEventId.get_free_trial_clicked, AnalyticsParameter.context, cameFromScreen);
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]

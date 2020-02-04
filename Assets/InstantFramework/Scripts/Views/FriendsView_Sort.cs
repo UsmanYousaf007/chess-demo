@@ -197,7 +197,10 @@ namespace TurboLabz.InstantFramework
                 if (facebookService.isLoggedIn())
                 {
                     sectionPlayAFriendEmpty.transform.SetSiblingIndex(index);
-                    sectionPlayAFriendEmpty.gameObject.SetActive(true);
+                    if (!inSearchView)
+                    {
+                        sectionPlayAFriendEmpty.gameObject.SetActive(true);
+                    }
                     count++;
                     index++;
                 }
