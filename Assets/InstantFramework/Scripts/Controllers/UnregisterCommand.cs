@@ -61,11 +61,7 @@ namespace TurboLabz.InstantFramework
             }
 
             friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
-
-            if (!playerModel.search.ContainsKey(opponentId))
-            {
-                refreshFriendsSignal.Dispatch();
-            }
+            refreshFriendsSignal.Dispatch();
 
             // Todo: Community update may not be needed. Investigate especially because this is a backend server request.
             refreshCommunitySignal.Dispatch();
