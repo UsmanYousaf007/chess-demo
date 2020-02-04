@@ -266,7 +266,7 @@ namespace TurboLabz.InstantFramework
                 playComputerMatchPlay.SetActive(true);
             }
 
-            onlinePlayersCountLabel.text = "Active Players " + vo.onlineCount.ToString();
+            onlinePlayersCountLabel.text = "Active Players " + FormatUtil.AbbreviateNumber(vo.onlineCount);
 
         }
 
