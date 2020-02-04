@@ -129,6 +129,7 @@ namespace TurboLabz.InstantFramework
         continuous_play,
         focus_lost,
         subscription_dlg_shown,
+        get_free_trial_clicked,
         subscription_purchased
     }
 
