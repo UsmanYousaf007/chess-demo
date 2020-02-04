@@ -24,7 +24,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public UpdateSearchResultsSignal updateSearchResultsSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -62,13 +61,14 @@ namespace TurboLabz.InstantFramework
             }
 
             friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
-            refreshFriendsSignal.Dispatch();
+
+            if (!playerModel.search.ContainsKey(opponentId))
+            {
+                refreshFriendsSignal.Dispatch();
+            }
 
             // Todo: Community update may not be needed. Investigate especially because this is a backend server request.
             refreshCommunitySignal.Dispatch();
-
-            // Refereshing search in case challenge is declined from searched results
-            updateSearchResultsSignal.Dispatch(true);
 
             Release();
         }
