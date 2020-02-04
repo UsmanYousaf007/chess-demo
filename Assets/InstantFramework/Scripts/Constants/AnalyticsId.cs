@@ -127,7 +127,9 @@ namespace TurboLabz.InstantFramework
         game_started,
         game_finished,
         continuous_play,
-        focus_lost
+        focus_lost,
+        subscription_dlg_shown,
+        subscription_purchased
     }
 
     public enum AnalyticsContext
