@@ -97,11 +97,11 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
-        public void SetFriendPics(Dictionary<string, Friend> friends)
+        public void SetFriendPics(Dictionary<string, Friend> friends, bool saveToDisk = true)
         {
             foreach (KeyValuePair<string, Friend> entry in friends)
             {
-                SetPlayerPic(entry.Key, entry.Value.publicProfile.profilePicture);
+                SetPlayerPic(entry.Key, entry.Value.publicProfile.profilePicture, saveToDisk);
             }
         }
 
