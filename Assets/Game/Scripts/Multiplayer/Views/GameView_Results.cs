@@ -38,7 +38,8 @@ namespace TurboLabz.Multiplayer
 
         public Button resultsCollectRewardButton;
         public Text resultsCollectRewardButtonLabel;
-        public Button resultsCloseButton;
+        public Button resultsViewBoardButton;
+        public Text resultsViewBoardButtonLabel;
         public Image resultsAdTVImage;
 
         public Button resultsSkipRewardButton;
@@ -85,13 +86,14 @@ namespace TurboLabz.Multiplayer
             // Button listeners
             resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
             declinedLobbyButton.onClick.AddListener(OnResultsDeclinedButtonClicked);
-            resultsCloseButton.onClick.AddListener(OnResultsClosed);
+            resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
 
             // Text Labels
             resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
+            resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
             declinedHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
             declinedReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
@@ -107,7 +109,7 @@ namespace TurboLabz.Multiplayer
         {
             resultsCollectRewardButton.onClick.RemoveAllListeners();
             declinedLobbyButton.onClick.RemoveAllListeners();
-            resultsCloseButton.onClick.RemoveAllListeners();
+            resultsViewBoardButton.onClick.RemoveAllListeners();
             resultsSkipRewardButton.onClick.RemoveAllListeners();
         }
 
