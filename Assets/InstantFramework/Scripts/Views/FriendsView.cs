@@ -285,6 +285,7 @@ namespace TurboLabz.InstantFramework
         public void ResetSearch()
         {
             ClearSearchResults();
+            inSearchView = false;
             sectionSearched.gameObject.SetActive(false);
             sectionSearchResultsEmpty.gameObject.SetActive(false);
             cancelSearchButton.interactable = false;
@@ -298,6 +299,8 @@ namespace TurboLabz.InstantFramework
                 obj.SetActive(true);
             }
             cacheEnabledSections.Clear();
+            if(playerModel.search != null)
+                playerModel.search.Clear();
         }
 
         public void OnCancelSearchClicked()
