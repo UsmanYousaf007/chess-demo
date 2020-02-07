@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Dispatch Signals
         [Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
@@ -302,6 +303,10 @@ namespace TurboLabz.InstantFramework
                         storePromise.Dispatch(BackendResult.PURCHASE_COMPLETE);
                         storePromise = null;
                     }
+                    else
+                    {
+                        LogAutoRenewEvent("completed", pendingVerification[transactionID].definition.id);
+                    }
                 }
                 else
                 {
@@ -326,6 +331,10 @@ namespace TurboLabz.InstantFramework
                     {
                         storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
                         storePromise = null;
+                    }
+                    else
+                    {
+                        LogAutoRenewEvent("failed", pendingVerification[transactionID].definition.id);
                     }
                 }
 
@@ -368,7 +377,10 @@ namespace TurboLabz.InstantFramework
                     storePromise.Dispatch(BackendResult.PURCHASE_CANCEL);
                     storePromise = null;
                 }
-
+                else
+                {
+                    LogAutoRenewEvent("cancelled", product.definition.id);
+                }
                 return;
             }
             else
@@ -377,6 +389,10 @@ namespace TurboLabz.InstantFramework
                 {
                     storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
                     storePromise = null;
+                }
+                else
+                {
+                    LogAutoRenewEvent("failed", product.definition.id);
                 }
             }
         }
@@ -471,6 +487,12 @@ namespace TurboLabz.InstantFramework
                 }
             }
             return false;
+        }
+
+        private void LogAutoRenewEvent(string name, string productId)
+        {
+            var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
+            hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", "subscription", "autorenew");
         }
     }
 }
