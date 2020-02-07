@@ -124,15 +124,11 @@ namespace TurboLabz.InstantFramework
         {
             var reward = metaDataModel.store.items[key];
 
-            if (reward != null && !string.IsNullOrEmpty(reward.displayName))
+            if (reward != null && reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
             {
-                if (reward.kind.Equals(GSBackendKeys.ShopItem.SKIN_SHOP_TAG))
-                {
-                    rewardUnlockedAlert.SetActive(true);
-                }
+                rewardUnlockedAlert.SetActive(true);
             }
         }
-
 
         public void SetupRewardBar()
         {
@@ -151,11 +147,16 @@ namespace TurboLabz.InstantFramework
             var barFillPercentageFrom = from / playerModel.rewardPointsRequired;
             var barFillPercentageTo = to / playerModel.rewardPointsRequired;
 
+            if (from >= to)
+            {
+                rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentageTo, rewardBar.sizeDelta.y);
+                return;
+            }
+
             if (!particlesSys.isPlaying)
             {
                 particlesSys.Play();
             }
-
 
             iTween.ValueTo(this.gameObject,
                 iTween.Hash(

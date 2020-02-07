@@ -26,43 +26,29 @@ namespace TurboLabz.InstantGame
 
         int picRequestCount = 0;
         int picResponseCount = 0;
-        bool cacheFriendPics = false;
 
         public override void Execute()
         {
             Retain();
 
-            //picRequestCount = friends.Count;
-
             foreach (KeyValuePair<string, Friend> obj in friends)
             {
                 Friend friend = obj.Value;
+                var cachedPic = picsModel.GetPlayerPic(friend.playerId);
 
-                if (friend.publicProfile.facebookUserId != null)
+                if (cachedPic == null)
                 {
-                    picRequestCount++;
-                }
-            }
-
-            foreach (KeyValuePair<string, Friend> obj in friends)
-            {
-                Friend friend = obj.Value;
-
-                if(friend.publicProfile.facebookUserId != null && picsModel.GetPlayerPic(friend.playerId) == null)
-                {
-                    facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
+                    if (friend.publicProfile.facebookUserId != null)
+                    {
+                        picRequestCount++;
+                        facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
+                    }
                 }
                 else
                 {
-                    GetCachedPic(friend.playerId);
+                    updateFriendPicSignal.Dispatch(friend.playerId, cachedPic);
                 }
-            }    
-        }
-
-        private void GetCachedPic(string friendId)
-        {
-            Sprite sprite = picsModel.GetPlayerPic(friendId);
-            updateFriendPicSignal.Dispatch(friendId, sprite);
+            }
         }
 
         private void OnGetSocialPic(FacebookResult result, Sprite sprite, string friendId)
@@ -85,7 +71,6 @@ namespace TurboLabz.InstantGame
                     }
                     else if (playerModel.friends.ContainsKey(friendId))
                     {
-                        cacheFriendPics = true;
                         playerModel.friends[friendId].publicProfile.profilePicture = sprite;
                     }
                 }
@@ -95,10 +80,10 @@ namespace TurboLabz.InstantGame
 
             if (picRequestCount == picResponseCount)
             {
-                if (cacheFriendPics)
-                {
-                    picsModel.SetFriendPics(playerModel.friends);
-                }
+                //Only saving frinds pics to disk
+                picsModel.SetFriendPics(playerModel.friends, true);
+                picsModel.SetFriendPics(playerModel.search, false);
+                picsModel.SetFriendPics(playerModel.community, false);
 
                 Resources.UnloadUnusedAssets();
                 Release();

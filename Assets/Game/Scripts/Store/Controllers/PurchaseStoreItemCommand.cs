@@ -92,9 +92,17 @@ namespace TurboLabz.InstantFramework
             string eventName = "attempt";
             string cameFromScreen = "settings";
 
-            if(pState.GetType() == typeof(NSLobby))
+            if (pState.GetType() == typeof(NSLobby))
             {
-                cameFromScreen = "lobby";
+                cameFromScreen = "lobby_banner";
+            }
+            else if (pState.GetType() == typeof(NSCPU) || pState.GetType() == typeof(NSMultiplayer))
+            {
+                cameFromScreen = "power_ups";
+            }
+            else if (pState.GetType() == typeof(NSThemeSelectionDlg))
+            {
+                cameFromScreen = "theme_selection";
             }
 
             if (result == BackendResult.PURCHASE_ATTEMPT)

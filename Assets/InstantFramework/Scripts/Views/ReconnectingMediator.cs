@@ -47,7 +47,8 @@ namespace TurboLabz.InstantFramework
         public void OnRequestToggleBannerSignal()
         {
             if (appInfoModel.isReconnecting == DisconnectStates.FALSE
-                && appInfoModel.gameMode != GameMode.NONE) 
+                && appInfoModel.gameMode != GameMode.NONE
+                && !appInfoModel.isNotificationActive) 
             {
                 toggleBannerSignal.Dispatch(true);
             }

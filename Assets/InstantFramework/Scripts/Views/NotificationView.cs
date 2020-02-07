@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections;
 using DG.Tweening;
 using TurboLabz.Multiplayer;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
@@ -35,7 +36,7 @@ namespace TurboLabz.InstantGame
         private bool isPaused = false;
 
         private const float NOTIFICATION_DURATION = 5.0f;
-        private const float NOTIFICATION_QUICKMATCH_DURATION = 11.0f;
+        private const float NOTIFICATION_QUICKMATCH_DURATION = 15.0f;
 
         // Models
         [Inject] public IPicsModel picsModel { get; set; }
@@ -58,10 +59,13 @@ namespace TurboLabz.InstantGame
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         public void Init()
         {
@@ -224,6 +228,11 @@ namespace TurboLabz.InstantGame
             notification.titleLarge.gameObject.SetActive(false);
             if (notificationVO.matchGroup != "undefined")
             {
+                if ((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent) / 1000 > NOTIFICATION_QUICKMATCH_DURATION)
+                {
+                    return;
+                }
+
                 Color specialColor = Colors.YELLOW;
                 specialColor.a = notification.background.color.a;
                 notification.background.color = specialColor;
@@ -287,6 +296,26 @@ namespace TurboLabz.InstantGame
 
             if (notificationVO.matchGroup != "undefined")
             {
+                if((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent)/1000 > NOTIFICATION_QUICKMATCH_DURATION)
+                {
+                    //show dailogue
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+
+                    var vo = new ConfirmDlgVO
+                    {
+                        title = localizationService.Get(LocalizationKey.QUICK_MATCH_EXPIRED),
+                        desc = localizationService.Get(LocalizationKey.QUICK_MATCH_EXPIRED_REASON),
+                        yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
+                        onClickYesButton = delegate
+                        {
+                            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                        }
+                    };
+
+                    updateConfirmDlgSignal.Dispatch(vo);
+                    return;
+                }
+
                 Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
                 if (pic == null)
                 {

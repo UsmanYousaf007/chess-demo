@@ -1,6 +1,7 @@
 ﻿using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 
 public class SubscriptionDlgMediator : Mediator
 {
@@ -15,6 +16,11 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
     [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
     [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+
+    //Models
+    [Inject] public INavigatorModel navigatorModel { get; set; }
+
+    private string cameFromScreen;
 
     public override void OnRegister()
     {
@@ -42,6 +48,9 @@ public class SubscriptionDlgMediator : Mediator
 
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "menu", "subscription_popup");
+            cameFromScreen = navigatorModel.previousState.ToString();
+            cameFromScreen = cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2);
+            analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
         }
     }
 
@@ -73,6 +82,7 @@ public class SubscriptionDlgMediator : Mediator
     {
         purchaseStoreItemSignal.Dispatch(view.key, true);
         hAnalyticsService.LogEvent("start_trial_clicked", "menu", "subscription_popup");
+        analyticsService.Event(AnalyticsEventId.get_free_trial_clicked, AnalyticsParameter.context, cameFromScreen);
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]
@@ -86,6 +96,7 @@ public class SubscriptionDlgMediator : Mediator
     {
         if (view.IsVisible() && item.key.Equals(view.key))
         {
+            analyticsService.Event(AnalyticsEventId.subscription_purchased, AnalyticsParameter.context, cameFromScreen);
             OnCloseDailogue();
         }
     }

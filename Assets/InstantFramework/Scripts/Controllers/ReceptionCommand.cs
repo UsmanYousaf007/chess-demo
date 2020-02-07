@@ -22,6 +22,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
         [Inject] public GetInitDataSignal getInitDataSignal  { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+        [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
+
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
@@ -46,7 +48,16 @@ namespace TurboLabz.InstantFramework
             getInitDataSignal.Dispatch(isResume);
 
         }
-            
+
+        private void OnGetInitDataFailed(BackendResult result)
+        {
+            if (result != BackendResult.CANCELED)
+            {
+                TLUtils.LogUtil.Log("ReceptionCommand::OnGetInitDataFailed() GetInitData failed!");
+                getInitDataSignal.Dispatch(isResume);
+            }
+        }
+
         private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
@@ -129,11 +140,13 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
             getInitDataCompleteSignal.AddListener(OnGetInitDataComplete);
+            getInitDataFailedSignal.AddListener(OnGetInitDataFailed);
         }
 
         private void CommandEnd()
         {
             getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
+            getInitDataFailedSignal.RemoveListener(OnGetInitDataFailed);
             Release();
         }
 

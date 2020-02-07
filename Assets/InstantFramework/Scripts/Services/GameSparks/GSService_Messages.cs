@@ -157,6 +157,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.avaterBgColorId = message.Data.ContainsKey("avatarBgColorId") ? message.Data.GetString("avatarBgColorId") : "undefined";
                 notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") ? message.Data.GetString("profilePicURL") : "undefined";
                 notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? (bool)message.Data.GetBoolean("isSubscriber") : false;
+                notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data.GetString("creationTimestamp")) : 0;
 
                 if (notificationVO.title != "unassigned")
                 {
@@ -190,6 +191,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.avaterBgColorId = message.Data.ContainsKey("avatarBgColorId") == true ? message.Data.GetString("avatarBgColorId") : "undefined";
                 notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") == true ? message.Data.GetString("profilePicURL") : "undefined";
                 notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? (bool)message.Data.GetBoolean("isSubscriber") : false;
+                notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data.GetString("creationTimestamp")) : 0;
                 notificationVO.isOpened = false;
 
                 notificationRecievedSignal.Dispatch(notificationVO);

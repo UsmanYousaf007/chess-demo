@@ -49,6 +49,11 @@ namespace TurboLabz.InstantGame
                 getSocialPicsSignal.Dispatch(playerModel.community);
                 sortCommunitySignal.Dispatch();
             }
+            else
+            {
+                clearCommunitySignal.Dispatch();
+                sortCommunitySignal.Dispatch();
+            }
 
             playerModel.busyRefreshingCommunity = false;
             Release();
