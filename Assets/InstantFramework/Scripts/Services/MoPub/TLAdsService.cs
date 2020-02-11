@@ -21,7 +21,9 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             HAds.Interstitial.Fetch();
+            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
             HAds.Rewarded.Fetch();
+            analyticsService.Event(AnalyticsEventId.ads_rewared_request);
 
             HAds.Banner.OnShown += OnBannerLoadedEvent;
             HAds.Banner.OnClicked += OnBannerClicked;
@@ -35,8 +37,9 @@ namespace TurboLabz.InstantFramework
         void OnRewardedEnded(IAdCallbackData data)
         {
             HAds.Rewarded.Fetch();
+            analyticsService.Event(AnalyticsEventId.ads_rewared_request);
 
-            switch(data.Result)
+            switch (data.Result)
             {
                 case AdResult.Completed:
                     preferencesModel.videoFinishedCount++;
@@ -62,6 +65,7 @@ namespace TurboLabz.InstantFramework
         void OnInterstitailEnded(IAdCallbackData data)
         {
             HAds.Interstitial.Fetch();
+            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_finished.ToString(), "monetization", "interstitial", data.ProviderId);
             rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
         }
@@ -121,6 +125,7 @@ namespace TurboLabz.InstantFramework
             if (!availableFlag)
             {
                 HAds.Interstitial.Fetch();
+                analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
             }
 
             return availableFlag &&
