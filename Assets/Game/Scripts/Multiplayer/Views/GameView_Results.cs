@@ -126,11 +126,11 @@ namespace TurboLabz.Multiplayer
 
                 if(isLongPlay)
                 {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_available, AnalyticsContext.long_match);
+                    analyticsService.Event(AnalyticsEventId.ads_rewarded_available, AnalyticsContext.long_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_available, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.ads_rewarded_available, AnalyticsContext.quick_match);
                 }
                 
             }
@@ -144,11 +144,11 @@ namespace TurboLabz.Multiplayer
 
                 if (isLongPlay)
                 {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_failed, AnalyticsContext.long_match);
+                    analyticsService.Event(AnalyticsEventId.ads_rewarded_failed, AnalyticsContext.long_match);
                 }
                 else
                 {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_failed, AnalyticsContext.quick_match);
+                    analyticsService.Event(AnalyticsEventId.ads_rewarded_failed, AnalyticsContext.quick_match);
                 }
             }
         }
@@ -435,7 +435,7 @@ namespace TurboLabz.Multiplayer
                 backToLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
 
-                analyticsService.Event(AnalyticsEventId.ads_rewared_show, AnalyticsContext.long_match);
+                analyticsService.Event(AnalyticsEventId.ads_rewarded_show, AnalyticsContext.long_match);
 
             }
             else
@@ -443,7 +443,7 @@ namespace TurboLabz.Multiplayer
                 backToLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
 
-                analyticsService.Event(AnalyticsEventId.ads_rewared_show, AnalyticsContext.quick_match);
+                analyticsService.Event(AnalyticsEventId.ads_rewarded_show, AnalyticsContext.quick_match);
 
             }
         }
