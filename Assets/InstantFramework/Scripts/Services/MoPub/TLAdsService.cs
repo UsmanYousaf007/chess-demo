@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
             HAds.Interstitial.OnEnded += OnInterstitailEnded;
             HAds.Rewarded.OnEnded += OnRewardedEnded;
             HAds.Rewarded.OnFetched += OnRewardedVideoLoadedEvent;
-
+            HAds.Rewarded.OnClicked += OnRewardedVideoClickedEvent;
             bannerDisplay = false;
         }
 
@@ -51,10 +51,12 @@ namespace TurboLabz.InstantFramework
                     appsFlyerService.TrackRichEvent(AnalyticsEventId.video_finished.ToString(), videoEventData);
                     appsFlyerService.TrackLimitedEvent(AnalyticsEventId.video_finished, preferencesModel.videoFinishedCount);
                     hAnalyticsService.LogEvent(AnalyticsEventId.video_finished.ToString(), "monetization", "rewarded_result_2xcoins", data.ProviderId);
+                    analyticsService.Event(AnalyticsEventId.ads_rewared_watched);
 
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
                     break;
                 case AdResult.Skipped:
+                    analyticsService.Event(AnalyticsEventId.ads_rewared_skipped);
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.SKIPPED);
                     break;
                 case AdResult.Failed:
@@ -108,6 +110,11 @@ namespace TurboLabz.InstantFramework
         {
             Debug.Log("[ANALYITCS]: ads_rewared_success: Result" + data.Result.ToString());
             Debug.Log("[ANALYITCS]: IAdCallbackData ProviderId:" + data.ProviderId);
+        }
+
+        public void OnRewardedVideoClickedEvent(IAdCallbackData data)
+        {
+            analyticsService.Event(AnalyticsEventId.ads_rewared_clicked);
         }
 
         public IPromise<AdsResult> ShowRewardedVideo()
