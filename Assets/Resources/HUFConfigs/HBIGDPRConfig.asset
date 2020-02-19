@@ -17,7 +17,8 @@ MonoBehaviour:
   autoInit: 0
   destroyOnAccept: 1
   usePlayerPrefs: 1
-  playerPrefsKey: HUF_GDPR_PolicyAccepted
+  policyAcceptedKey: HUF_GDPR_PolicyAccepted
+  personalizedAdsKey: HUF_GDPR_PersonalizedAds
   titleText: We Have Updated Our Terms
   policyText: At Huuuge, we use certain personal information from you for our app
     or to administer your account. We may also use your personal data for other purposes,
@@ -33,6 +34,7 @@ MonoBehaviour:
     purposes in accordance with their Privacy Policies.
   moreInfoText: Show More
   lessInfoText: Show Less
+  personalizedAdsText: I agree for personalized ads
   buttonText: Accept
   privacyPolicy:
     Type: 0
