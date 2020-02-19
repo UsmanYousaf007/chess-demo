@@ -8,8 +8,8 @@ namespace HUF.Utils.SafeArea
         RectTransform thisRect;
         Vector2 baseSizeDelta;
         Vector2 baseAnchoredPosition;
-        
-        void Awake()
+
+        new void Awake()
         {
             thisRect = GetComponent<RectTransform>();
             baseSizeDelta = thisRect.sizeDelta;

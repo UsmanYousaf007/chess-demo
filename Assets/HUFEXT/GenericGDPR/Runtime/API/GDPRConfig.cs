@@ -1,6 +1,7 @@
 ﻿using System;
 using HUF.Utils.Configs.API;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HUFEXT.GenericGDPR.Runtime.API
 {
@@ -29,7 +30,9 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         [SerializeField] bool autoInit = true;
         [SerializeField] bool destroyOnAccept = true;
         [SerializeField] bool usePlayerPrefs = true;
-        [SerializeField] string playerPrefsKey;
+        [FormerlySerializedAs("playerPrefsKey")]
+        [SerializeField] string policyAcceptedKey;
+        [SerializeField] string personalizedAdsKey;
         
         [Header("Texts")]
         public string titleText;
@@ -37,6 +40,7 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         public string detailedPolicyText;
         public string moreInfoText;
         public string lessInfoText;
+        public string personalizedAdsText;
         public string buttonText;
 
         [Header( "Links" )] 
@@ -48,7 +52,8 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         public bool AutoInit => autoInit;
         public bool DestroyOnAccept => destroyOnAccept;
         public bool UsePlayerPrefs => usePlayerPrefs;
-        public string PlayerPrefsKey => playerPrefsKey;
+        public string PolicyAcceptedKey => policyAcceptedKey;
+        public string PersonalizedAdsKey => personalizedAdsKey;
         public Link PrivacyPolicy => privacyPolicy;
         public Link TermsOfUse => termsOfUse;
         public Link Eula => eula;

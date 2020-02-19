@@ -8,8 +8,8 @@ namespace HUF.Utils.SafeArea
     {
         LayoutGroup layout;
         RectOffset baseOffsetValue;
-        
-        void Awake()
+
+        new void Awake()
         {
             layout = GetComponent<LayoutGroup>();
             if (layout == null)

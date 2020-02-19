@@ -17,18 +17,22 @@ namespace HUF.Utils.Configs.API
 
         void OnEnable()
         {
-            if (string.IsNullOrEmpty(configId))
+            if ( string.IsNullOrEmpty( configId ) )
+            {
                 configId = GetType().Name;
+            }
         }
 
         public void ApplyJson(string json)
         {
-            if (string.IsNullOrEmpty(json))
+            if ( string.IsNullOrEmpty( json ) )
+            {
                 return;
+            }
 
             try
             {
-                JsonUtility.FromJsonOverwrite(json, this);
+                JsonUtility.FromJsonOverwrite( json, this );
                 Debug.Log($"[Config] Json applied to config: {configId}.");
                 
                 ValidateConfig();

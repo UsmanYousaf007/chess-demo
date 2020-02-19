@@ -19,34 +19,26 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         static GameObject canvas;
         static GenericGDPRView view;
         static GDPRConfig config;
-        
+
         /// <summary>
         /// Returns information about GDPR window status.
         /// </summary>
         public static bool IsInitialized => view != null;
-        
+
         /// <summary>
         /// Returns information whether player accept policy.
         /// <returns> Return TRUE if player has policy accepted or if player prefs usage is disabled in config. <para/>
         /// </summary>
-        public static GDPRStatus IsPolicyAccepted
-        {
-            get
-            {
-                if( config == null || !config.UsePlayerPrefs )
-                {
-                    return GDPRStatus.DECLINED;
-                }
+        public static bool IsPolicyAccepted => ValidateConfig() &&
+                                               PlayerPrefs.GetInt( config.PolicyAcceptedKey ) == 1;
 
-                return (GDPRStatus)PlayerPrefs.GetInt( config.PlayerPrefsKey ) ;
-            }
+        /// <summary>
+        /// Returns information whether player accept personalized ads consent.
+        /// <returns> Return TRUE if player has ads consent or if player prefs usage is disabled in config. <para/>
+        /// </summary>
+        public static bool IsPersonalizedAdsAccepted => ValidateConfig() &&
+                                                        PlayerPrefs.GetInt( config.PersonalizedAdsKey ) == 1;
 
-            set
-            {
-                PlayerPrefs.SetInt(config.PlayerPrefsKey, (int)value);
-            }
-        }
-        
         /// <summary>
         /// Use this event to get information about panel being close
         /// at any point.
@@ -58,7 +50,7 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             {
                 config = HConfigs.GetConfig<GDPRConfig>();
             }
-            
+
             if( !IsInitialized && config != null && config.Prefab != null )
             {
                 canvas = Object.Instantiate( config.Prefab );
@@ -66,10 +58,9 @@ namespace HUFEXT.GenericGDPR.Runtime.API
                 view.Init();
                 OnPolicyAccepted += Dispose;
 
-                var analyticsEvent = AnalyticsEvent.Create("gdpr_displayed")
-                    .ST1("launch")
-                    .ST2("gdpr");
+                var analyticsEvent = AnalyticsEvent.Create("gdpr_displayed").ST1("launch").ST2("gdpr");
                 HAnalytics.LogEvent(analyticsEvent);
+
             }
         }
 
@@ -80,19 +71,19 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         [PublicAPI]
         public static void AcceptPolicy()
         {
-            OnPolicyAccepted?.Invoke();
-
             if( config.UsePlayerPrefs )
             {
-                IsPolicyAccepted = GDPRStatus.ACCEPTED;
+                PlayerPrefs.SetInt( config.PolicyAcceptedKey, 1 );
+                PlayerPrefs.SetInt( config.PersonalizedAdsKey, view.AdsConsent ? 1 : 0 );
             }
 
-            var analyticsEvent = AnalyticsEvent.Create("gdpr_accepted")
-                    .ST1("launch")
-                    .ST2("gdpr");
+            var analyticsEvent = AnalyticsEvent.Create("gdpr_accepted").ST1("launch").ST2("gdpr");
             HAnalytics.LogEvent(analyticsEvent);
+
+
+            OnPolicyAccepted?.Invoke();
         }
-        
+
         /// <summary>
         /// Use this event to get information about panel being close
         /// at any point.
@@ -104,30 +95,44 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             {
                 Object.Destroy( canvas );
             }
-            
+
             OnPolicyAccepted -= Dispose;
         }
-        
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void AutoInit()
         {
             if( !HConfigs.HasConfig<GDPRConfig>() )
             {
+                Debug.LogError( "[GenericGDPR] Missing GDPR config (check HUFConfigs directory)." );
                 return;
             }
-            
+
             config = HConfigs.GetConfig<GDPRConfig>();
-            if( config != null && config.AutoInit && !(IsPolicyAccepted == GDPRStatus.ACCEPTED || IsPolicyAccepted == GDPRStatus.TURNED_OFF) )
+            if( config != null && config.AutoInit && !IsPolicyAccepted )
             {
                 Create();
             }
         }
-    }
 
-    public enum GDPRStatus
-    {
-        ACCEPTED = 1,
-        DECLINED = 2,
-        TURNED_OFF = 3
+        private static bool ValidateConfig()
+        {
+            if( config == null )
+            {
+                if ( !HConfigs.HasConfig<GDPRConfig>() )
+                {
+                    Debug.LogError( "[GenericGDPR] Missing GDPR config (check HUFConfigs directory)." );
+                    return false;
+                }
+
+                config = HConfigs.GetConfig<GDPRConfig>();
+            }
+            return config != null && config.UsePlayerPrefs;
+        }
+
+        public static void SetPersonalizedAdsAccepted(bool value)
+        {
+            PlayerPrefs.SetInt(config.PersonalizedAdsKey, value ? 1 : 0);
+        }
     }
 }

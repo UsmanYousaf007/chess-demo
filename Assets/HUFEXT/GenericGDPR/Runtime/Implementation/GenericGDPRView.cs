@@ -12,6 +12,8 @@ namespace HUFEXT.GenericGDPR.Runtime.Implementation
         [SerializeField] TextMeshProUGUI m_headerText;
         [SerializeField] TextMeshProUGUI m_contentText;
         [SerializeField] TextMeshProUGUI m_moreInfoText;
+        [SerializeField] TextMeshProUGUI m_persnalizedAdsText;
+        [SerializeField] Toggle m_personalizedAdsToggle;
 
         [Header("Button")]
         [SerializeField] Button m_button;
@@ -19,6 +21,9 @@ namespace HUFEXT.GenericGDPR.Runtime.Implementation
 
         GDPRConfig m_config;
         bool m_detailsEnabled = false;
+        bool m_adsConsent = true;
+
+        public bool AdsConsent => m_adsConsent;
 
         public void Init()
         {
@@ -27,7 +32,9 @@ namespace HUFEXT.GenericGDPR.Runtime.Implementation
                 m_config = HConfigs.GetConfig<GDPRConfig>();
                 m_headerText.text = m_config.titleText;
                 m_buttonText.text = m_config.buttonText;
+                m_persnalizedAdsText.text = m_config.personalizedAdsText;
 
+                m_personalizedAdsToggle.onValueChanged.AddListener( OnToggle );
                 m_button.onClick.AddListener( HGenericGDPR.AcceptPolicy );
             }
             else
@@ -52,8 +59,14 @@ namespace HUFEXT.GenericGDPR.Runtime.Implementation
             }
         }
 
+        void OnToggle( bool consent )
+        {
+            m_adsConsent = consent;
+        }
+
         void OnDisable()
         {
+            m_personalizedAdsToggle.onValueChanged.RemoveListener( OnToggle );
             m_button?.onClick.RemoveListener( HGenericGDPR.AcceptPolicy );
         }
     }

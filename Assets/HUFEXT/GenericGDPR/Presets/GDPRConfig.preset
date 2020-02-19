@@ -47,38 +47,46 @@ Preset:
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: playerPrefsKey
+    propertyPath: policyAcceptedKey
     value: HUF_GDPR_PolicyAccepted
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: personalizedAdsKey
+    value: HUF_GDPR_PersonalizedAds
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: titleText
-    value: We Have Updated Our Terms
+    value: WE'VE UPDATED OUR TERMS
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: policyText
-    value: At Huuuge, we use certain personal information from you for our app or
-      to administer your account. We may also use your personal data for other purposes,
-      like contacting you with offers or updates from Huuuge.
+    value: At Huuuge, we use certain personal information from you for our app or       to
+      administer your account. We may also use your personal data for other purposes,       like
+      contacting you with offers or updates from Huuuge.
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: detailedPolicyText
-    value: We inform you that our game is completely free for you, however, within
-      our game the advertisements of third party products or services are displayed.
-      It is possible that these ads displayed within our game would be customized
-      to your personal preferences and behaviors. In this case your device data collected
-      by us due to using our game will be shared and analyzed by the media advertising
-      publishers with which we are cooperating. The analysis of these data will allow
-      you to display ads customized to your needs and preferences. We also inform
-      you that the media advertising publishers will process the shared data for their
-      own purposes in accordance with their Privacy Policies.
+    value: We inform you that our game is completely free for you, however, within       our
+      game the advertisements of third party products or services are displayed.       It
+      is possible that these ads displayed within our game would be customized       to
+      your personal preferences and behaviors. In this case your device data collected       by
+      us due to using our game will be shared and analyzed by the media advertising       publishers
+      with which we are cooperating. The analysis of these data will allow       you
+      to display ads customized to your needs and preferences. We also inform       you
+      that the media advertising publishers will process the shared data for their       own
+      purposes in accordance with their Privacy Policies.
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: moreInfoText
-    value: Show More
+    value: I WANT MORE INFO
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: lessInfoText
-    value: Show Less
+    value: I WANT LESS INFO
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: personalizedAdsText
+    value: I agree for personalized ads
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: buttonText
@@ -90,7 +98,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: privacyPolicy.Text
-    value: PRIVACY POLICY
+    value: Privacy Policy
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: privacyPolicy.URL
@@ -102,7 +110,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: termsOfUse.Text
-    value: TERMS OF USE
+    value: Terms of Use
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: termsOfUse.URL
