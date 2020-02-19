@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateChatOpponentPicSignal updateChatOpponentPicSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
+        [Inject] public NewFriendSignal newFriendSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -92,6 +93,10 @@ namespace TurboLabz.InstantFramework
 
             // Set the finding match view to a found match state
             matchFoundSignal.Dispatch(pvo);
+
+            // add friend
+            if (matchInfoModel.activeMatch.isBotMatch == false)
+                newFriendSignal.Dispatch(pvo.playerId, false);
 
             // For quick match games, the flow continues from the get game start time signal
             // where both clients start at a synch time stamp
