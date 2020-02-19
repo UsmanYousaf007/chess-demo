@@ -270,7 +270,9 @@ namespace TurboLabz.InstantFramework
 
                     if (subscriptionInfo.isFreeTrial() == Result.True)
                     {
-                        metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)].currency1Cost = 0;
+                        var storeItem = metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)];
+                        storeItem.currency1Cost = 0;
+                        storeItem.productPrice = 0;
                     }
                 }
 

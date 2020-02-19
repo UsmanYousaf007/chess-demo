@@ -51,7 +51,8 @@ namespace TurboLabz.InstantFramework
                 modelsSaveToDiskSignal.Dispatch();
 
                 //only schedule local notificaitons once player model is filled with data
-                if(playerModel.id != null) {
+                if (playerModel.id != null)
+                {
                     setLocalNotificationNumber();
                 }
             }
@@ -60,10 +61,14 @@ namespace TurboLabz.InstantFramework
                 if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
                     return;
 
-               // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
-                   // return;
+                // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+                // return;
 
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            }
+            else if (appEvent == AppEvent.RESUMED)
+            {
+                navigatorModel.currentState.RenderDisplayOnEnter();
             }
         }
 
