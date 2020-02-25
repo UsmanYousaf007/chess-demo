@@ -161,19 +161,25 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentQuickMatch));
                 analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLobby));
 
-                if (preferencesModel.gameStartCount > 0)
+                float totalGames = preferencesModel.cpuMatchStartCount
+                    + preferencesModel.longMatchStartCount
+                    + preferencesModel.quickMatchStartCount;
+
+                float THRESHOLD = 0.75f;
+
+                if (totalGames > 0)
                 {
                     var noOfDays = (preferencesModel.lastLaunchTime - TimeUtil.ToDateTime(playerModel.creationDate)).Days;
 
-                    if (preferencesModel.cpuMatchStartCount / (float)preferencesModel.gameStartCount >= 0.75f)
+                    if (preferencesModel.cpuMatchStartCount / totalGames >= THRESHOLD)
                     {
                         analyticsService.Event(AnalyticsEventId.cpu_mactch_player, AnalyticsParameter.day, noOfDays);
                     }
-                    else if (preferencesModel.longMatchStartCount / (float)preferencesModel.gameStartCount >= 0.75f)
+                    else if (preferencesModel.longMatchStartCount / totalGames >= THRESHOLD)
                     {
                         analyticsService.Event(AnalyticsEventId.long_match_player, AnalyticsParameter.day, noOfDays);
                     }
-                    else if (preferencesModel.quickMatchStartCount / (float)preferencesModel.gameStartCount >= 0.75f)
+                    else if (preferencesModel.quickMatchStartCount / totalGames >= THRESHOLD)
                     {
                         analyticsService.Event(AnalyticsEventId.quick_match_player, AnalyticsParameter.day, noOfDays);
                     }
