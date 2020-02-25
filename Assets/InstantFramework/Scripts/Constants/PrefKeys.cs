@@ -38,6 +38,9 @@ namespace TurboLabz.InstantGame
         public const string TIME_SPENT_LOBBY = "timeSpentLobby";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";
         public const string SKIP_DLG_SHOWN = "skipDlgShown";
+        public const string QUICK_MATCH_START_COUNT = "quickMatchStartCount";
+        public const string LONG_MATCH_START_COUNT = "longMatchStartCount";
+        public const string CPU_MATCH_START_COUNT = "cpuMatchStartCount";
 
         //for appsflyer events for HUUUGE
         public const string VIDEO_FINISHED_COUNT = "videoFinishedCount";

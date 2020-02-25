@@ -38,15 +38,16 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            MatchInfo matchInfo = matchInfoModel.activeMatch;
+
             OnboardingTooltipCommand.oldOpponentScore = 0;
             OnboardingTooltipCommand.oldPlayerScore = 0;
 
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
                 preferencesModel.isLobbyLoadedFirstTime = true;
+                analyticsService.Event(AnalyticsEventId.first_game_started, matchInfo.isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
             }
-
-            MatchInfo matchInfo = matchInfoModel.activeMatch;
 
             if (matchInfo.isLongPlay &&
                 matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_NEW &&

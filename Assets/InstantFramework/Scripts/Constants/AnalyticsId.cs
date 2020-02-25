@@ -121,6 +121,11 @@ namespace TurboLabz.InstantFramework
         time_spent_long_match,
         time_spent_cpu_match,
         time_spent_lobby,
+        first_game_started,
+        quick_match_player,
+        long_match_player,
+        cpu_mactch_player,
+        multi_mode_player,
         //apps flyer events for HUUUGE
         launch,
         ad_clicked,

@@ -49,6 +49,9 @@ namespace TurboLabz.InstantGame
         public int resignCount { get; set; }
         public bool isSkipVideoDlgShown { get; set; }
         public int sessionCount { get; set; }
+        public int quickMatchStartCount { get; set; }
+        public int longMatchStartCount { get; set; }
+        public int cpuMatchStartCount { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -85,6 +88,9 @@ namespace TurboLabz.InstantGame
             appsFlyerLastLaunchTime = lastLaunchTime;
             isSkipVideoDlgShown = false;
             sessionCount = 0;
+            quickMatchStartCount = 0;
+            longMatchStartCount = 0;
+            cpuMatchStartCount = 0;
             ResetDailyPrefers();
         }
 
@@ -238,6 +244,21 @@ namespace TurboLabz.InstantGame
                     sessionCount = reader.Read<int>(PrefKeys.SESSION_COUNT);
                 }
 
+                if (reader.HasKey(PrefKeys.QUICK_MATCH_START_COUNT))
+                {
+                    quickMatchStartCount = reader.Read<int>(PrefKeys.QUICK_MATCH_START_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.LONG_MATCH_START_COUNT))
+                {
+                    longMatchStartCount = reader.Read<int>(PrefKeys.LONG_MATCH_START_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.CPU_MATCH_START_COUNT))
+                {
+                    cpuMatchStartCount = reader.Read<int>(PrefKeys.CPU_MATCH_START_COUNT);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -284,6 +305,9 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.RESIGN_COUNT, resignCount);
                 writer.Write<bool>(PrefKeys.SKIP_DLG_SHOWN, isSkipVideoDlgShown);
                 writer.Write<int>(PrefKeys.SESSION_COUNT, sessionCount);
+                writer.Write<int>(PrefKeys.QUICK_MATCH_START_COUNT, quickMatchStartCount);
+                writer.Write<int>(PrefKeys.LONG_MATCH_START_COUNT, longMatchStartCount);
+                writer.Write<int>(PrefKeys.CPU_MATCH_START_COUNT, cpuMatchStartCount);
                 writer.Close();
             }
             catch (Exception e)
