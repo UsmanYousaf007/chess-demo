@@ -1,4 +1,4 @@
-Shader "UI Extensions/Particles/VertexLit Blended" {
+Shader "UIExtensions/Particles/VertexLit Blended" {
 Properties {
 	_EmisColor ("Emissive Color", Color) = (.2,.2,.2,0)
 	_MainTex ("Particle Texture", 2D) = "white" {}

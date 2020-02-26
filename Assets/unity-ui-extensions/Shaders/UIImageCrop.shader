@@ -3,7 +3,7 @@
 /// Credit 00christian00
 /// Sourced from - http://forum.unity3d.com/threads/any-way-to-show-part-of-an-image-without-using-mask.360085/#post-2332030
 
-Shader "UI Extensions/UI Image Crop" {
+Shader "UIExtensions/UI Image Crop" {
 	Properties
 	{
 		_MainTex ("Base (RGB)", 2D) = "white" {}

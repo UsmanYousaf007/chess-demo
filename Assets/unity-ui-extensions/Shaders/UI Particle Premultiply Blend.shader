@@ -1,4 +1,4 @@
-Shader "UI Extensions/Particles/Alpha Blended Premultiply" {
+Shader "UIExtensions/Particles/Alpha Blended Premultiply" {
 Properties {
 
 	_MainTex ("Particle Texture", 2D) = "white" {}

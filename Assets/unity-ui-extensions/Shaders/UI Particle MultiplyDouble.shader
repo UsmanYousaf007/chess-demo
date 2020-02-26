@@ -1,4 +1,4 @@
-Shader "UI Extensions/Particles/Multiply (Double)" {
+Shader "UIExtensions/Particles/Multiply (Double)" {
 Properties {
 	_MainTex ("Particle Texture", 2D) = "white" {}
 	_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
