@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using System.Text;
 using System;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -91,7 +92,6 @@ namespace TurboLabz.InstantFramework
             };
 
             Analytics.CustomEvent(evt.ToString(), p);
-
             Print(evt.ToString(), p);
         }
 
@@ -141,6 +141,13 @@ namespace TurboLabz.InstantFramework
 
             LogUtil.Log(builder, "yellow");
             #endif
+        }
+
+        public void DesignEvent(AnalyticsEventId evt, AnalyticsParameter param, object val, AnalyticsEventId subEvt)
+        {
+            var eventStr = string.Format("{0}:{1}{2:0#}:{3}", evt, param, val, subEvt);
+            GameAnalytics.NewDesignEvent(eventStr);
+            Print(eventStr);
         }
     }
 }

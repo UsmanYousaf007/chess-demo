@@ -126,6 +126,7 @@ namespace TurboLabz.InstantFramework
         long_match_player,
         cpu_mactch_player,
         multi_mode_player,
+        mode_distribution,
         //apps flyer events for HUUUGE
         launch,
         ad_clicked,

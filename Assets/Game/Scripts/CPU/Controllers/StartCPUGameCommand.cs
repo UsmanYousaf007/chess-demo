@@ -49,7 +49,6 @@ namespace TurboLabz.CPU
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 
                 preferencesModel.gameStartCount++;
-                preferencesModel.cpuMatchStartCount++;
                 hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "cpu_match");
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
                 analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.computer_match);

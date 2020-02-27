@@ -104,7 +104,6 @@ namespace TurboLabz.InstantFramework
             getGameStartTimeSignal.Dispatch();
 
             preferencesModel.gameStartCount++;
-            preferencesModel.quickMatchStartCount++;
             hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match");
             appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
             analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.quick_match);

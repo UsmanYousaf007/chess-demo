@@ -133,7 +133,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.session_premium);
             }
 
-            SendTimeSpentAnalytics();
+            SendDailyAnalytics();
         }
 
         private void CommandBegin()
@@ -150,7 +150,7 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
-        private void SendTimeSpentAnalytics()
+        private void SendDailyAnalytics()
         {
             var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
 
@@ -161,32 +161,31 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentQuickMatch));
                 analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLobby));
 
-                float totalGames = preferencesModel.cpuMatchStartCount
-                    + preferencesModel.longMatchStartCount
-                    + preferencesModel.quickMatchStartCount;
+                float totalGames = preferencesModel.cpuMatchFinishedCount
+                    + preferencesModel.longMatchFinishedCount
+                    + preferencesModel.quickMatchFinishedCount;
 
                 float THRESHOLD = 0.75f;
 
                 if (totalGames > 0)
                 {
                     var noOfDays = (preferencesModel.lastLaunchTime - TimeUtil.ToDateTime(playerModel.creationDate)).Days;
+                    var playerType = AnalyticsEventId.multi_mode_player;
 
-                    if (preferencesModel.cpuMatchStartCount / totalGames >= THRESHOLD)
+                    if (preferencesModel.cpuMatchFinishedCount / totalGames >= THRESHOLD)
                     {
-                        analyticsService.Event(AnalyticsEventId.cpu_mactch_player, AnalyticsParameter.day, noOfDays);
+                        playerType = AnalyticsEventId.cpu_mactch_player;
                     }
-                    else if (preferencesModel.longMatchStartCount / totalGames >= THRESHOLD)
+                    else if (preferencesModel.longMatchFinishedCount / totalGames >= THRESHOLD)
                     {
-                        analyticsService.Event(AnalyticsEventId.long_match_player, AnalyticsParameter.day, noOfDays);
+                        playerType = AnalyticsEventId.long_match_player;
                     }
-                    else if (preferencesModel.quickMatchStartCount / totalGames >= THRESHOLD)
+                    else if (preferencesModel.quickMatchFinishedCount / totalGames >= THRESHOLD)
                     {
-                        analyticsService.Event(AnalyticsEventId.quick_match_player, AnalyticsParameter.day, noOfDays);
+                        playerType = AnalyticsEventId.quick_match_player;
                     }
-                    else
-                    {
-                        analyticsService.Event(AnalyticsEventId.multi_mode_player, AnalyticsParameter.day, noOfDays);
-                    }
+
+                    analyticsService.DesignEvent(AnalyticsEventId.mode_distribution, AnalyticsParameter.day, noOfDays, playerType);
                 }
 
                 preferencesModel.ResetDailyPrefers();
