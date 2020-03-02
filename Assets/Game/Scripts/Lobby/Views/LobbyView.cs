@@ -620,7 +620,7 @@ namespace TurboLabz.InstantFramework
             else if (reason == CreateLongMatchAbortReason.SelfLimitReached)
             {
                 createMatchLimitReachedDlg.SetActive(true);
-                createMatchLimitReachedText.text = "Sorry, your max games limit reached. \nPlease Try Later";
+                createMatchLimitReachedText.text = "Finish/clear a game or match invitation.";
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
