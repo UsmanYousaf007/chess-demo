@@ -51,6 +51,7 @@ namespace TurboLabz.CPU
                 preferencesModel.gameStartCount++;
                 hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "cpu_match");
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.computer_match);
             }
 
             OnboardingTooltipCommand.oldOpponentScore = 0;
@@ -59,6 +60,7 @@ namespace TurboLabz.CPU
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
                 preferencesModel.isLobbyLoadedFirstTime = true;
+                analyticsService.Event(AnalyticsEventId.first_game_started, AnalyticsContext.computer_match);
             }
 
             analyticsService.ScreenVisit(AnalyticsScreen.computer_match);
