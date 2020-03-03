@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 10244209
+    totalSpriteSurfaceArea: 10500949
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -141,6 +141,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0a6735069c2e1439fbf46ae7c807915e, type: 3}
   - {fileID: 21300000, guid: 48e955063c7d742df8320acb7bc47571, type: 3}
   - {fileID: 21300000, guid: b8533a065c56f43128d6fd4322d9dc6b, type: 3}
+  - {fileID: 21300000, guid: 5bdd2c06b7e704024b3f6de80a342cf2, type: 3}
   - {fileID: 21300000, guid: b6c9ad06ffc204c7c9d9ae97cefa7924, type: 3}
   - {fileID: 21300000, guid: f31a7226831004ae2bea039d6fd9c1ae, type: 3}
   - {fileID: 21300000, guid: 93f701363339b44e6b6eee9ad9b94abb, type: 3}
@@ -210,12 +211,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a57fbeaa0ae994737b48281787a80889, type: 3}
   - {fileID: 21300000, guid: b4cf4cbaecf8a48a585cf362d6717ad5, type: 3}
   - {fileID: 21300000, guid: d20158daec0574849be222d77c55e384, type: 3}
+  - {fileID: 21300000, guid: 90a3bceafadd24bad8ce9ad7cb018ee2, type: 3}
   - {fileID: 21300000, guid: ac0fc3fa7d2cd443d9d1b504099b3622, type: 3}
   - {fileID: 21300000, guid: 8ec3110b4e2e644618f3141817770ad9, type: 3}
   - {fileID: 21300000, guid: 84c71f0b7b27a4e37a8cc48e0361b28f, type: 3}
   - {fileID: 21300000, guid: b1b8e21be0dc143a2b2c92c7d11c4e58, type: 3}
   - {fileID: 21300000, guid: dadc533b320e041fba65f59105ca3797, type: 3}
-  - {fileID: 21300000, guid: 9e60014b78de94fc49bcbbb079baeebb, type: 3}
   - {fileID: 21300000, guid: fadd426b9f38d434e961d21df5d5b3d1, type: 3}
   - {fileID: 21300000, guid: 1e051b6bbf3634fadbed7d3879feece1, type: 3}
   - {fileID: 21300000, guid: 901452bba01674b4c9d68f041f9ac046, type: 3}
@@ -357,6 +358,7 @@ SpriteAtlas:
   - h
   - ChatBubbleLeft
   - ChatMuteIcon
+  - BannerSub
   - UpdateImagePiece
   - 3
   - AvatarOutline
@@ -426,12 +428,12 @@ SpriteAtlas:
   - ToggleBtnBg
   - RefreshIcon
   - SmallTimer
+  - SubStarBg
   - StrengthCloseBg
   - SubAdStar
   - strengthFillerOutline
   - FrameworkButton
   - ChatMinIcon
-  - BannerSub
   - AddCoinPlate
   - moveMeterBg
   - coachStickerBgBlack

@@ -109,7 +109,6 @@ namespace TurboLabz.Multiplayer
         }
 
         // Failed server requests will trigger this signal
-        /*
         [ListensTo(typeof(SyncReconnectDataSignal))]
         public void SyncReconnectData(string challengeId)
         {
@@ -122,7 +121,6 @@ namespace TurboLabz.Multiplayer
 
             InternetReachabilityMonitor.StartMonitor();
         }
-        */
 
         // Chess board needs to be synched on app resume to keep clocks in synch with server
         // Only meant for app going into background and back

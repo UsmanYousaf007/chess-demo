@@ -127,7 +127,7 @@ namespace TurboLabz.InstantFramework
 
         public void DesignEvent(AnalyticsEventId evt, AnalyticsParameter param, object val, AnalyticsEventId subEvt)
         {
-            var eventStr = string.Format("{0}:{1}{2:0#}:{3}", evt, param, val, subEvt);
+            var eventStr = string.Format("{0}:{1}{2}:{3}", evt, param, val, subEvt);
             Print(eventStr);
         }
     }
