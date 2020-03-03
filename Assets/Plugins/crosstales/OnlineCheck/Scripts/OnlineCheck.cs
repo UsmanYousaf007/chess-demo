@@ -11,8 +11,6 @@ namespace Crosstales.OnlineCheck
     public class OnlineCheck : MonoBehaviour
     {
 
-
-
         #region Variables
 
         /// <summary>Continuously check for Internet availability within given intervals (default: true).</summary>
@@ -571,8 +569,7 @@ namespace Crosstales.OnlineCheck
 */
         private IEnumerator wwwCheck(string url, string data, bool equals, string type, bool showError = false)
         {
-            available = true;
-
+            available = false;
 
             using (UnityWebRequest www = UnityWebRequest.Get(URLAntiCacheRandomizer(url)))
             {
@@ -775,12 +772,8 @@ namespace Crosstales.OnlineCheck
 
                 isRunning = true;
 
-                available = true;
+                available = false;
 
-                yield return null;
-
-#if DISABLE_INTERNETCHECK
-                
                 StartCoroutine(internetCheckMonitor());
 
                 if (Util.Config.DEBUG)
@@ -960,8 +953,6 @@ namespace Crosstales.OnlineCheck
                 }
 #endif
 
-
-#endif
                 internetAvailable = available;
 
                 if (!internetAvailable || Application.internetReachability == NetworkReachability.NotReachable)
