@@ -18,20 +18,50 @@ namespace Crosstales.OnlineCheck
         [Tooltip("Continuously check for Internet availability within given intervals (default: true).")]
         public bool EndlessMode = true;
 
+        /// NORMAL INTERNET CHECKER STATE
         /// <summary>Minimum delay between checks in seconds (default: 8, range: 3 - 120).</summary>
         [Tooltip("Minimum delay between checks in seconds (default: 8, range: 3 - 120).")]
         [Range(3, 119)]
-        public int IntervalMin = 8;
+        public int Normal_IntervalMin = 5;
 
         /// <summary>Maximum delay between checks in seconds (default: 12, range: 4 - 120).</summary>
         [Tooltip("Maximum delay between checks in seconds (default: 12, range: 4 - 120).")]
         [Range(4, 120)]
-        public int IntervalMax = 12;
+        public int Normal_IntervalMax = 8;
 
         /// <summary>Timeout for every check in seconds (default: 2, range: 1 - 20).</summary>
         [Tooltip("Timeout for every check in seconds (default: 2, range: 1 - 20).")]
         [Range(1, 20)]
+        public int Normal_Timeout = 6;
+
+
+        /// RECONNECT INTERNET CHECKER STATE
+        /// <summary>Minimum delay between checks in seconds (default: 8, range: 3 - 120).</summary>
+        [Tooltip("Minimum delay between checks in seconds (default: 8, range: 3 - 120).")]
+        [Range(3, 119)]
+        public int Reconnect_IntervalMin = 3;
+
+        /// <summary>Maximum delay between checks in seconds (default: 12, range: 4 - 120).</summary>
+        [Tooltip("Maximum delay between checks in seconds (default: 12, range: 4 - 120).")]
+        [Range(4, 120)]
+        public int Reconnect_IntervalMax = 7;
+
+        /// <summary>Timeout for every check in seconds (default: 2, range: 1 - 20).</summary>
+        [Tooltip("Timeout for every check in seconds (default: 2, range: 1 - 20).")]
+        [Range(1, 20)]
+        public int Reconnect_Timeout = 6;
+
+
+        /// INTERNET CHECKER STATE
+        /// <summary>Minimum delay between checks in seconds (default: 8, range: 3 - 120).</summary>
+        public int IntervalMin = 8;
+
+        /// <summary>Maximum delay between checks in seconds (default: 12, range: 4 - 120).</summary>
+        public int IntervalMax = 12;
+
+        /// <summary>Timeout for every check in seconds (default: 2, range: 1 - 20).</summary>
         public int Timeout = 2;
+
 
         /// <summary>Slow internet detection triggered (default: 1, range: 1 - 10000).</summary>
         [Tooltip("Slow internet threshold in multiples of 250 milliseconds (default: 250, range: 100000).")]
@@ -128,8 +158,7 @@ namespace Crosstales.OnlineCheck
         /// <summary>Callback to determine whether the checks have completed or not.</summary>
         public delegate void OnlineCheckComplete(bool isConnected, NetworkReachability networkReachability);
 
-
-        /// <summary>An event triggered whenever slow internet detected.</summary>
+                /// <summary>An event triggered whenever slow internet detected.</summary>
         public static event SlowInternetDetected OnSlowInternetDetected
         {
             add { _onSlowInternetDetected += value; }
@@ -400,6 +429,10 @@ namespace Crosstales.OnlineCheck
 
         public void Start()
         {
+            instance.IntervalMin = instance.Normal_IntervalMin;
+            instance.IntervalMax = instance.Normal_IntervalMax;
+            instance.Timeout = instance.Normal_Timeout;
+
             if ((RunOnStart || Util.Helper.isEditorMode) && !isRunning)
             {
                 Invoke("run", Delay);
@@ -528,6 +561,26 @@ namespace Crosstales.OnlineCheck
             instance = null;
             loggedOnlyOneInstance = false;
             lastCheckTime = long.MinValue;
+        }
+
+        /// <summary>Sets normal interval settings.</summary>
+        public static void SetNormalState()
+        {
+            if (instance == null) return;
+
+            instance.IntervalMin = instance.Normal_IntervalMin;
+            instance.IntervalMax = instance.Normal_IntervalMax;
+            instance.Timeout = instance.Normal_Timeout;
+        }
+
+        /// <summary>Sets reconnecting interval settings.</summary>
+        public static void SetReconnectState()
+        {
+            if (instance == null) return;
+
+            instance.IntervalMin = instance.Reconnect_IntervalMin;
+            instance.IntervalMax = instance.Reconnect_IntervalMax;
+            instance.Timeout = instance.Reconnect_Timeout;
         }
 
         /// <summary>Checks for Internet availability.</summary>

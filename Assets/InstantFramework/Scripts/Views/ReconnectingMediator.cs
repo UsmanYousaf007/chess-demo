@@ -99,6 +99,8 @@ namespace TurboLabz.InstantFramework
 
                 toggleBannerSignal.Dispatch(false);
                 pauseNotificationsSignal.Dispatch(true);
+
+                Crosstales.OnlineCheck.OnlineCheck.SetReconnectState();
             }
             else
             if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
@@ -119,6 +121,8 @@ namespace TurboLabz.InstantFramework
                 }
 
                 pauseNotificationsSignal.Dispatch(false);
+
+                Crosstales.OnlineCheck.OnlineCheck.SetNormalState();
             }
         }
     }
