@@ -81,6 +81,7 @@ PlayerSettings:
   usePlayerLog: 1
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
+  useFlipModelSwapchain: 1
   resizableWindow: 0
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
@@ -261,7 +262,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: /Users/test/Desktop/data/turbo-labz/projects/keystores/instant-chess/instant-chess-signing.keystore
+  AndroidKeystoreName: /Users/maryamrasheed/Desktop/data/turbo-labz/projects/keystores/instant-chess/instant-chess-signing.keystore
   AndroidKeyaliasName: instant-chess-signing
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
@@ -963,7 +964,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: CT_OC
     4: CT_OC
-    7: CT_OC
+    7: CT_OC;SUBSCRIPTION_TEST
     13: CT_OC
     14: CT_OC
     19: CT_OC
