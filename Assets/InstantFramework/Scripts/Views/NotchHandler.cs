@@ -16,7 +16,6 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform lobbyScrollViewPivotForBanner;
     public LobbyView lobbyView;
     public RectTransform lobbyScrollViewTopShadow;
-    public RectTransform quickMatchButton;
 
     [Header("Profile")]
     public RectTransform profileFacebookButton;
@@ -92,7 +91,6 @@ public class NotchHandler : MonoBehaviour {
         SetY(lobbyScrollViewPivotForBanner, -318);
         lobbyView.setScorllViewportBottomTo = 361;
         SetY(lobbyScrollViewTopShadow, -2);
-        SetY(quickMatchButton, 347f);
 
         // PROFILE
         SetY(profileFacebookButton, -270f);
