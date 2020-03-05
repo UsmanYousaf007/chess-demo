@@ -433,6 +433,7 @@ namespace TurboLabz.Multiplayer
             if (isLongPlay)
             {
                 backToLobbySignal.Dispatch();
+                refreshLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
 
                 analyticsService.Event(AnalyticsEventId.ads_rewarded_show, AnalyticsContext.long_match);
@@ -441,6 +442,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 backToLobbySignal.Dispatch();
+                refreshLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
 
                 analyticsService.Event(AnalyticsEventId.ads_rewarded_show, AnalyticsContext.quick_match);
