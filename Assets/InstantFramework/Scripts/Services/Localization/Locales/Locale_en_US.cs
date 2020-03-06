@@ -225,15 +225,15 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "Premium Subscription"},
                 { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unused portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
-                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Try for free"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Start 3 Days Free Trial"},
                 { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
-                { LocalizationKey.SUBSCRIPTION_DLG_PRICE, "3 days free trial\nthen (price) per month"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PRICE, "then (price) per month"},
 
-                { LocalizationKey.PROMOTON_DLG_TITLE, "CHESS STARS\nPremium Subscription"},
+                { LocalizationKey.PROMOTON_DLG_TITLE, "Premium Subscription"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Try for free"},
                 { LocalizationKey.PROMOTION_DLG_PRICE, "then (price) per month"},
-                { LocalizationKey.PROMOTION_DLG_PURCHASE, "3 days free trial"},
+                { LocalizationKey.PROMOTION_DLG_PURCHASE, "Start 3 Days Free Trial"},
 
                 #endregion
 
