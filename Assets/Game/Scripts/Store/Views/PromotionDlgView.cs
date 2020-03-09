@@ -14,6 +14,7 @@ public class PromotionDlgView : View
     public Text priceText;
     public Text purchaseText;
     public Button purchaseButton;
+    public Text purchaseButtonText;
     public GameObject uiBlocker;
     public GameObject processingUi;
 
@@ -40,6 +41,7 @@ public class PromotionDlgView : View
         title.text = localizationService.Get(LocalizationKey.PROMOTON_DLG_TITLE);
         
         purchaseText.text = localizationService.Get(LocalizationKey.PROMOTION_DLG_PURCHASE);
+        purchaseButtonText.text = localizationService.Get(LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON);
 
         var storeItem = metaDataModel.store.items[key];
 

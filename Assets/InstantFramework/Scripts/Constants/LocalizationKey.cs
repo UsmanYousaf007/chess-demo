@@ -223,6 +223,7 @@ namespace TurboLabz.InstantFramework
         public const string SUBSCRIPTION_DLG_PRIVACY_POLICY = "subscriptionDlgPrivacyPolicy";
         public const string SUBSCRIPTION_DLG_TERMS_OF_USE = "subscriptionDlgTermsOfUse";
         public const string SUBSCRIPTION_DLG_PURCHASE_BUTTON = "subscriptionDlgPurchaseButton";
+        public const string SUBSCRIPTION_DLG_FREE_TRIAL = "subscriptionDlgFreeTrial";
         public const string SUBSCRIPTION_DLG_PRICE = "subscriptionDlgPrice";
 
         public const string PROMOTON_DLG_TITLE = "promotionDlgTitle";
