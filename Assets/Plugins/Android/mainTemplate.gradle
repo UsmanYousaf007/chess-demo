@@ -29,9 +29,12 @@ allprojects {
 }
 ([rootProject] + (rootProject.subprojects as List)).each { project ->
     project.repositories {
-        def unityProjectPath = "file:///" + file(rootProject.projectDir.path + "/../../").absolutePath
+        def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
         maven {
             url "https://maven.google.com"
+        }
+        maven {
+            url (unityProjectPath + "/Assets/Firebase/m2repository") // Assets/Firebase/Editor/AppDependencies.xml:20, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/MessagingDependencies.xml:20, Assets/Firebase/Editor/StorageDependencies.xml:20
         }
         maven {
             url "https://adcolony.bintray.com/AdColony" // Assets/GoogleMobileAds/Editor/AdColonyMediationDependencies.xml:7
@@ -88,11 +91,15 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:17.0.0' // Assets/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:7
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0' // Assets/GameAnalytics/Editor/GameAnalyticsDependencies.xml:3
     implementation 'com.google.android.gms:play-services-basement:17.0.0' // Assets/GameAnalytics/Editor/GameAnalyticsDependencies.xml:4
-    implementation 'com.google.auto.value:auto-value-annotations:1.6.3' // Assets/Firebase/Editor/AppDependencies.xml:22
-    implementation 'com.google.firebase:firebase-analytics:17.2.1' // Assets/Firebase/Editor/MessagingDependencies.xml:15
+    implementation 'com.google.firebase:firebase-analytics:17.2.2' // Assets/Firebase/Editor/StorageDependencies.xml:15
+    implementation 'com.google.firebase:firebase-app-unity:6.11.0' // Assets/Firebase/Editor/AppDependencies.xml:20
+    implementation 'com.google.firebase:firebase-auth:19.2.0' // Assets/Firebase/Editor/AuthDependencies.xml:13
+    implementation 'com.google.firebase:firebase-auth-unity:6.11.0' // Assets/Firebase/Editor/AuthDependencies.xml:20
     implementation 'com.google.firebase:firebase-common:19.3.0' // Assets/Firebase/Editor/AppDependencies.xml:13
-    implementation 'com.google.firebase:firebase-iid:[20.0.2]' // Assets/Firebase/Editor/MessagingDependencies.xml:13
-    implementation 'com.google.firebase:firebase-messaging:20.1.0' // Assets/Firebase/Editor/MessagingDependencies.xml:17
+    implementation 'com.google.firebase:firebase-messaging:20.1.0' // Assets/Firebase/Editor/MessagingDependencies.xml:13
+    implementation 'com.google.firebase:firebase-messaging-unity:6.11.0' // Assets/Firebase/Editor/MessagingDependencies.xml:20
+    implementation 'com.google.firebase:firebase-storage:19.1.1' // Assets/Firebase/Editor/StorageDependencies.xml:13
+    implementation 'com.google.firebase:firebase-storage-unity:6.11.0' // Assets/Firebase/Editor/StorageDependencies.xml:20
     implementation 'com.parse.bolts:bolts-android:1.4.0' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:4
 // Android Resolver Dependencies End
 **DEPS**}

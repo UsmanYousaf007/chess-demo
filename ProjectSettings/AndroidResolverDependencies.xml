@@ -22,14 +22,23 @@
     <package>com.google.android.gms:play-services-ads:17.0.0</package>
     <package>com.google.android.gms:play-services-ads-identifier:17.0.0</package>
     <package>com.google.android.gms:play-services-basement:17.0.0</package>
-    <package>com.google.auto.value:auto-value-annotations:1.6.3</package>
-    <package>com.google.firebase:firebase-analytics:17.2.1</package>
+    <package>com.google.firebase:firebase-analytics:17.2.2</package>
+    <package>com.google.firebase:firebase-app-unity:6.11.0</package>
+    <package>com.google.firebase:firebase-auth:19.2.0</package>
+    <package>com.google.firebase:firebase-auth-unity:6.11.0</package>
     <package>com.google.firebase:firebase-common:19.3.0</package>
-    <package>com.google.firebase:firebase-iid:[20.0.2]</package>
     <package>com.google.firebase:firebase-messaging:20.1.0</package>
+    <package>com.google.firebase:firebase-messaging-unity:6.11.0</package>
+    <package>com.google.firebase:firebase-storage:19.1.1</package>
+    <package>com.google.firebase:firebase-storage-unity:6.11.0</package>
     <package>com.parse.bolts:bolts-android:1.4.0</package>
   </packages>
-  <files />
+  <files>
+    <file>Assets/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.11.0/firebase-app-unity-6.11.0.aar</file>
+    <file>Assets/Firebase/m2repository/com/google/firebase/firebase-auth-unity/6.11.0/firebase-auth-unity-6.11.0.aar</file>
+    <file>Assets/Firebase/m2repository/com/google/firebase/firebase-messaging-unity/6.11.0/firebase-messaging-unity-6.11.0.aar</file>
+    <file>Assets/Firebase/m2repository/com/google/firebase/firebase-storage-unity/6.11.0/firebase-storage-unity-6.11.0.aar</file>
+  </files>
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
     <setting name="bundleId" value="com.turbolabz.instantchess.android.googleplay" />
