@@ -19,6 +19,7 @@ public class SubscriptionDlgView : View
     public Text restorePurchaseText;
     public Button restorePurchaseButton;
     public Text priceText;
+    public Text trialText;
     public Text purchaseText;
     public Button purchaseButton;
     public GameObject uiBlocker;
@@ -53,6 +54,7 @@ public class SubscriptionDlgView : View
         privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
         termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
+        trialText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_FREE_TRIAL);
 
         var storeItem = metaDataModel.store.items[key];
 
