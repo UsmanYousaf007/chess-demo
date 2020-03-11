@@ -204,3 +204,4 @@
 #*.rns     filter=lfs diff=lfs merge=lfs -text
 *.reason  -text
 *.rns     -text
+*.aar filter=lfs diff=lfs merge=lfs -text
