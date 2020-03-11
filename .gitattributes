@@ -172,7 +172,7 @@
 #*.dll  filter=lfs diff=lfs merge=lfs -text
 #*.pdb  filter=lfs diff=lfs merge=lfs -text
 #*.so   filter=lfs diff=lfs merge=lfs -text
-*.dll  -text
+*.dll filter=lfs diff=lfs merge=lfs -text
 *.pdb  -text
 *.so   -text
 # Compiled Static Library
@@ -204,4 +204,3 @@
 #*.rns     filter=lfs diff=lfs merge=lfs -text
 *.reason  -text
 *.rns     -text
-*.bundle filter=lfs diff=lfs merge=lfs -text
