@@ -5,7 +5,7 @@ namespace HUFEXT.PackageManager.Editor.Implementation.Remote.Data
     public static class RoutingScheme
     {
         public static string URL => "https://huf-packages.wt-prod.com";
-        public static int TimeoutInSeconds => 300;
+        public static int TimeoutInSeconds => 1999;
 
         public static class Scope
         {

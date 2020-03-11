@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CrossPromoLocalConfig
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 22cded663cc14f878d4637a6597dae47,
+      type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: configId
+    value: CrossPromoLocalConfig
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoRootPrefab
+    value: 
+    objectReference: {fileID: 3721922975555607160, guid: 6101623c8e20a524f9bba989b182f370,
+      type: 3}
+  - target: {fileID: 0}
+    propertyPath: tileContainerPrefab
+    value: 
+    objectReference: {fileID: 5822477989322713213, guid: c81ab0f94ec830640a6d2add403fa0ac,
+      type: 3}
+  - target: {fileID: 0}
+    propertyPath: bannerTileContainerPrefab
+    value: 
+    objectReference: {fileID: 4574131896147392632, guid: 73164b0746936c44fb5444ef9942a093,
+      type: 3}
+  - target: {fileID: 0}
+    propertyPath: bulletPointView
+    value: 
+    objectReference: {fileID: 2943495843432723460, guid: 8f9c1b75c8b71a54e8bcd8f542c5d153,
+      type: 3}
+  - target: {fileID: 0}
+    propertyPath: useDefaultAppOrientation
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAppOrientation
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: baseResolution.x
+    value: 1080
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: baseResolution.y
+    value: 1920
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoCanvasSortingOrder
+    value: 999
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: customBottomPanelContainer
+    value: 
+    objectReference: {fileID: 6515921960104580927, guid: 17f600328a6a75f4e8c1c890fd31bd38,
+      type: 3}
