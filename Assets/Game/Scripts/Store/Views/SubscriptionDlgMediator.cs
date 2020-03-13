@@ -94,7 +94,7 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
-        if (view.IsVisible() && item.key.Equals(view.key))
+        if (view.IsVisible())
         {
             analyticsService.Event(AnalyticsEventId.subscription_purchased, AnalyticsParameter.context, cameFromScreen);
             OnCloseDailogue();

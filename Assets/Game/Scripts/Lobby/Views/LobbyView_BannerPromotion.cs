@@ -121,7 +121,7 @@ namespace TurboLabz.InstantFramework
 
         public void RemovePromotion(string key)
         {
-            if (iapBanner != null && iapBanner.key.Equals(key))
+            if (iapBanner != null)
             {
                 //for closing promotion pass key 'none'
                 ShowPromotion(new PromotionVO
