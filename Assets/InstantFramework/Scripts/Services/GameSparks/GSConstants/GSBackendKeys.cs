@@ -245,6 +245,7 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG = "SpecialBundleNoAdsForever";
 
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
+            public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";
@@ -344,6 +345,7 @@ namespace TurboLabz.InstantFramework
             public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
             public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
             public const string SUBSCRIPTION_EXPIRY_TIMESTAMP = "subscriptionExpiryTime";
+            public const string SUBSCRIPTION_TYPE = "subscriptionType";
             public const string REWARD_INDEX = "rewardIndex";
             public const string REWARD_SHORT_CODE = "shortCode";
             public const string REWARD_QUANITY = "addedAmount";
