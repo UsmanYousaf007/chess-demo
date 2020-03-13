@@ -76,7 +76,7 @@ namespace TurboLabz.InstantFramework
                 GS.Reset();
 
                 // Avoid soft reconnect processing
-                InternetReachabilityMonitor.StopMonitor();
+                OnlineCheckerStop();
 
                 if (appInfoModel.isReconnecting == DisconnectStates.FALSE)
                 {

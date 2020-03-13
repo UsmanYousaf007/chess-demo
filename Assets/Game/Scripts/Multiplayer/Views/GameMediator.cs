@@ -64,8 +64,7 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER) 
             {
                 view.Show();
-                InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
-                InternetReachabilityMonitor.AddSlowInternetListener(OnSlowInternet);
+                backendService.OnlineCheckerAddListener(OnInternetConnectedTicked);
             }
         }
 
@@ -74,8 +73,7 @@ namespace TurboLabz.Multiplayer
         {
             if (viewId == NavigatorViewId.MULTIPLAYER)
             {
-                InternetReachabilityMonitor.RemoveListener(OnInternetConnectedTicked);
-                InternetReachabilityMonitor.RemoveSlowInternetListener(OnSlowInternet);
+                backendService.OnlineCheckerRemoveListener(OnInternetConnectedTicked);
                 stopTimersSignal.Dispatch();
                 view.Hide();
             }

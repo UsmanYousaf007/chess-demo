@@ -770,7 +770,6 @@ MonoBehaviour:
   resignButton: {fileID: 1446364531}
   continueButton: {fileID: 2113221096}
   closeButton: {fileID: 1280435782}
-  offerDrawButton: {fileID: 0}
   gameMenu: {fileID: 1503009838}
   exitTitleLabel: {fileID: 1309699338}
   resignButtonLabel: {fileID: 2094629847}
@@ -76520,15 +76519,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11438692, guid: 1ca595bea255461d9fab2cb24ae78e9d, type: 3}
       propertyPath: IntervalMax
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 11438692, guid: 1ca595bea255461d9fab2cb24ae78e9d, type: 3}
       propertyPath: IntervalMin
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11438692, guid: 1ca595bea255461d9fab2cb24ae78e9d, type: 3}
       propertyPath: Timeout
-      value: 3
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11438692, guid: 1ca595bea255461d9fab2cb24ae78e9d, type: 3}
+      propertyPath: RunOnStart
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ca595bea255461d9fab2cb24ae78e9d, type: 3}
@@ -108823,7 +108826,6 @@ MonoBehaviour:
   lobbyScrollViewPivotForBanner: {fileID: 173769391}
   lobbyView: {fileID: 1302150909}
   lobbyScrollViewTopShadow: {fileID: 1284766367}
-  quickMatchButton: {fileID: 0}
   profileFacebookButton: {fileID: 1744748723}
   profileCenterContent: {fileID: 152747280}
   friendsScrollView: {fileID: 1684146533}
