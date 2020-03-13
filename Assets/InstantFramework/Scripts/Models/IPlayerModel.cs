@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         bool isFBConnectRewardClaimed { get; set; }
         long subscriptionExipryTimeStamp { get; set; }
         string renewDate { get; set; }
+        string subscriptionType { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

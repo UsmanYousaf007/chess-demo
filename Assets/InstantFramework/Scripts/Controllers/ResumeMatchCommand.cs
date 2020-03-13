@@ -154,7 +154,7 @@ namespace TurboLabz.InstantFramework
             chessboardBlockerEnableSignal.Dispatch(false);
 
             // Restart the reachability monitor
-            InternetReachabilityMonitor.StartMonitor();
+            backendService.OnlineCheckerStart();
 
             appInfoModel.isReconnecting = DisconnectStates.FALSE;
 

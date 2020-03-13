@@ -22,4 +22,11 @@ namespace TurboLabz.InstantFramework
         public const int INITIAL_PING_COUNT = 6; // Note that in addition to this, the pinger does 1 extra instant ping as soon as it starts
         public const float SLOW_WIFI_WARNING_THRESHOLD = 1.0f;
     }
+
+    public enum ConnectionSwitchType
+    {
+        NONE,
+        FROM_CONNECTED_TO_DISCONNECTED,
+        FROM_DISCONNECTED_TO_CONNECTED
+    }
 }

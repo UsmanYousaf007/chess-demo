@@ -30,6 +30,8 @@ namespace TurboLabz.CPU
         [Inject] public ResumeTimersSignal resumeTimersSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
+        [Inject] public IBackendService backendService { get; set; }
+
         public override void OnRegister()
         {
             OnRegisterChessboard();
@@ -62,7 +64,7 @@ namespace TurboLabz.CPU
             if (viewId == NavigatorViewId.CPU) 
             {
                 view.Show();
-                InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
+                backendService.OnlineCheckerAddListener(OnInternetConnectedTicked);
             }
         }
 
@@ -73,7 +75,7 @@ namespace TurboLabz.CPU
             {
                 stopTimersSignal.Dispatch();
                 view.Hide();
-                InternetReachabilityMonitor.RemoveListener(OnInternetConnectedTicked);
+                backendService.OnlineCheckerRemoveListener(OnInternetConnectedTicked);
             }
         }
 
@@ -106,14 +108,14 @@ namespace TurboLabz.CPU
             }
         }
 
-        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
+        private void OnInternetConnectedTicked(bool isConnected, ConnectionSwitchType connectionSwitch)
         {
-            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
+            if (connectionSwitch == ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 LogUtil.Log("CPU Match Disconnected", "cyan");
             }
             else
-            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            if (connectionSwitch == ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 if (view.gameObject.activeSelf)
                 {

@@ -112,14 +112,14 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(SyncReconnectDataSignal))]
         public void SyncReconnectData(string challengeId)
         {
-            InternetReachabilityMonitor.StopMonitor();
+            backendService.OnlineCheckerStop();
 
             view.EnableSynchMovesDlg(true);
 
-            OnInternetConnectedTicked(false, InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED);
-            OnInternetConnectedTicked(true, InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED);
+            OnInternetConnectedTicked(false, ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED);
+            OnInternetConnectedTicked(true, ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED);
 
-            InternetReachabilityMonitor.StartMonitor();
+            backendService.OnlineCheckerStart();
         }
 
         // Chess board needs to be synched on app resume to keep clocks in synch with server
@@ -149,7 +149,7 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
+        private void OnInternetConnectedTicked(bool isConnected, ConnectionSwitchType connectionSwitch)
         {
             // No need to sync an ended match
             if (matchInfoModel.activeChallengeId == null )
@@ -163,7 +163,7 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
-            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
+            if (connectionSwitch == ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {
@@ -178,7 +178,7 @@ namespace TurboLabz.Multiplayer
                     matchReconnection = false;
                 }
             }
-            else if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            else if (connectionSwitch == ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {

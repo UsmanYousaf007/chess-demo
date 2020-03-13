@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
         PURCHASE_ATTEMPT,
         PURCHASE_COMPLETE,
         PURCHASE_CANCEL,
-        PURCHASE_FAILED
-
+        PURCHASE_FAILED,
+        ONLINECHECKER_REQUEST_FAILED
     }
 }
