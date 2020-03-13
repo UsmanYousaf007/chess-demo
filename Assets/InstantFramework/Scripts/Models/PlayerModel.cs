@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         public int cpuPowerupUsedCount { get; set; }
         public long subscriptionExipryTimeStamp { get; set; }
         public string renewDate { get; set; }
+        public string subscriptionType { get; set; }
 
         public string name
         {
@@ -103,6 +104,7 @@ namespace TurboLabz.InstantFramework
             editedName = "";
             subscriptionExipryTimeStamp = 0;
             renewDate = "";
+            subscriptionType = "";
 
             // Ads Info
             adLifetimeImpressions = 0;

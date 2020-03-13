@@ -148,6 +148,11 @@ namespace TurboLabz.InstantFramework
                 playerModel.subscriptionExipryTimeStamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP).Value;
             }
 
+            if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE))
+            {
+                playerModel.subscriptionType = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE);
+            }
+
             // Split name to first and last initial
             // TODO: split in View
             //playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);

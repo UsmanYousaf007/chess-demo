@@ -259,7 +259,10 @@ namespace TurboLabz.InstantFramework
                     pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
                 }
 
+                var storeItem = metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)];
+
                 long expiryTimeStamp = 0;
+                string shortCode = storeItem.key;
 
                 if (e.purchasedProduct.definition.type == ProductType.Subscription &&
                     CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
@@ -270,7 +273,6 @@ namespace TurboLabz.InstantFramework
 
                     if (subscriptionInfo.isFreeTrial() == Result.True)
                     {
-                        var storeItem = metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)];
                         storeItem.currency1Cost = 0;
                         storeItem.productPrice = 0;
                     }
@@ -284,7 +286,8 @@ namespace TurboLabz.InstantFramework
                 backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
                                                             e.purchasedProduct.transactionID, 
                                                             e.purchasedProduct.receipt,
-                                                            expiryTimeStamp).Then(OnVerifiedPurchase);
+                                                            expiryTimeStamp,
+                                                            shortCode).Then(OnVerifiedPurchase);
 
                 return PurchaseProcessingResult.Pending;
             }
