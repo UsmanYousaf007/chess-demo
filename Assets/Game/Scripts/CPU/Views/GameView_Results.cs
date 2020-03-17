@@ -21,6 +21,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
+using HUFEXT.CrossPromo.API;
 
 namespace TurboLabz.CPU
 {
@@ -49,6 +50,8 @@ namespace TurboLabz.CPU
 
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
+
+        public Button showCrossPromoButton;
 
         public RectTransform rewardBar;
         public Text earnRewardsText;
@@ -108,6 +111,7 @@ namespace TurboLabz.CPU
             resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
+            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
 
             // Text Labels
             resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
@@ -440,6 +444,11 @@ namespace TurboLabz.CPU
         {
             playbackOverlay.gameObject.SetActive(false);
             ShowResultsDialog();
+        }
+
+        private void OnCrossPromoButtonClicked()
+        {
+            HCrossPromo.OpenPanel();
         }
     }
 }

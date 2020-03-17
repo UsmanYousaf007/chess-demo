@@ -11,6 +11,7 @@ using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
+using HUFEXT.CrossPromo.API;
 
 namespace TurboLabz.Multiplayer
 {
@@ -44,6 +45,8 @@ namespace TurboLabz.Multiplayer
 
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
+
+        public Button showCrossPromoButton;
 
         public RectTransform rewardBar;
         public Text earnRewardsText;
@@ -88,6 +91,7 @@ namespace TurboLabz.Multiplayer
             declinedLobbyButton.onClick.AddListener(OnResultsDeclinedButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
+            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
 
             // Text Labels
             resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
@@ -490,6 +494,11 @@ namespace TurboLabz.Multiplayer
             {
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.quick_match);
             }
+        }
+
+        private void OnCrossPromoButtonClicked()
+        {
+            HCrossPromo.OpenPanel();
         }
     }
 }

@@ -24,8 +24,10 @@ namespace HUFEXT.CrossPromo.Implementation.View.BottomPanel
         {
             if (logoImageViewView == null)
                 return;
-            
+
             var sprite = Resources.Load<Sprite>(filePath);
+            Debug.Log(filePath);
+            Debug.Log(sprite);
             logoImageViewView.SetSprite(sprite);
         }
 
