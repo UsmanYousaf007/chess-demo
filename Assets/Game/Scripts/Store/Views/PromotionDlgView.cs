@@ -11,10 +11,12 @@ public class PromotionDlgView : View
     public GameObject offerPrefab;
     public Transform offersContainer;
     public Button closeButton;
-    public Text priceText;
+    public Text termsOfUseText;
+    public Button termsOfUseButton;
+    public Text restorePurchaseText;
+    public Button restorePurchaseButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public Text purchaseButtonText;
     public GameObject uiBlocker;
     public GameObject processingUi;
 
@@ -29,41 +31,40 @@ public class PromotionDlgView : View
     //Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal purchaseSignal = new Signal();
+    public Signal restorePurchasesSignal = new Signal();
+
+    private StoreIconsContainer iconsContainer;
 
     public void InitOnce()
     {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
+        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
+        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+        iconsContainer = StoreIconsContainer.Load();
     }
 
     public void Init()
     {
-        title.text = localizationService.Get(LocalizationKey.PROMOTON_DLG_TITLE);
-        
-        purchaseText.text = localizationService.Get(LocalizationKey.PROMOTION_DLG_PURCHASE);
-        purchaseButtonText.text = localizationService.Get(LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON);
+        title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
+        restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+        termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
+        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
         var storeItem = metaDataModel.store.items[key];
 
         if (storeItem == null)
             return;
 
-
-        string subscriptionInfo = localizationService.Get(LocalizationKey.PROMOTION_DLG_PRICE);
-        string price = storeItem.remoteProductPrice;
-
-        string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
-        priceText.text = subscriptionPriceString;
-
-        //priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
-
+        // Fill only once
         if (offersContainer.childCount == 0)
         {
             var offers = storeItem.description.Split(',');
             foreach (var offer in offers)
             {
                 var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;
-                offerObj.GetComponentInChildren<Text>().text = offer;
+                var text = offer.Trim();
+                offerObj.GetComponent<SubscriptionOffer>().Init(iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(text)), text);
             }
         }
     }
@@ -102,6 +103,18 @@ public class PromotionDlgView : View
     public bool IsVisible()
     {
         return gameObject.activeSelf;
+    }
+
+    private void OnRestorePurchaseClicked()
+    {
+        audioService.PlayStandardClick();
+        restorePurchasesSignal.Dispatch();
+    }
+
+    private void OnTermsOfUseClicked()
+    {
+        audioService.PlayStandardClick();
+        Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 }
 

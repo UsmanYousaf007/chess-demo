@@ -23,6 +23,7 @@ public class PromotionDlgMediator : Mediator
         view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDailogue);
         view.purchaseSignal.AddListener(OnPurchase);
+        view.restorePurchasesSignal.AddListener(OnRestorePurchases);
     }
 
     [ListensTo(typeof(StoreAvailableSignal))]
@@ -65,5 +66,21 @@ public class PromotionDlgMediator : Mediator
         {
             OnCloseDailogue();
         }
+    }
+
+    private void OnRestorePurchases()
+    {
+        restorePurchasesSignal.Dispatch();
+
+#if UNITY_IOS
+        hAnalyticsService.LogEvent("restore_ios_iap_clicked", "menu", "subscription_popup");
+#endif
+
+    }
+
+    [ListensTo(typeof(SelectTierSignal))]
+    public void OnTierSelected(string key)
+    {
+        view.key = key;
     }
 }
