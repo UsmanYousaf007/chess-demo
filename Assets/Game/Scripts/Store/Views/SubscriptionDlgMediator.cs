@@ -100,4 +100,10 @@ public class SubscriptionDlgMediator : Mediator
             OnCloseDailogue();
         }
     }
+
+    [ListensTo(typeof(SelectTierSignal))]
+    public void OnTierSelected(string key)
+    {
+        view.key = key;
+    }
 }

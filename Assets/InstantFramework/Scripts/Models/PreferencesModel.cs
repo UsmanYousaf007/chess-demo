@@ -52,6 +52,7 @@ namespace TurboLabz.InstantGame
         public int quickMatchFinishedCount { get; set; }
         public int longMatchFinishedCount { get; set; }
         public int cpuMatchFinishedCount { get; set; }
+        public bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -91,6 +92,7 @@ namespace TurboLabz.InstantGame
             quickMatchFinishedCount = 0;
             longMatchFinishedCount = 0;
             cpuMatchFinishedCount = 0;
+            isSubscriptionDlgShownOnFirstLaunch = false;
             ResetDailyPrefers();
         }
 
@@ -259,6 +261,11 @@ namespace TurboLabz.InstantGame
                     cpuMatchFinishedCount = reader.Read<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT);
                 }
 
+                if (reader.HasKey(PrefKeys.SUBSCRIPTION_DLG_SHOWN))
+                {
+                    isSubscriptionDlgShownOnFirstLaunch = reader.Read<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -308,6 +315,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.QUICK_MATCH_FINISHED_COUNT, quickMatchFinishedCount);
                 writer.Write<int>(PrefKeys.LONG_MATCH_FINISHED_COUNT, longMatchFinishedCount);
                 writer.Write<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT, cpuMatchFinishedCount);
+                writer.Write<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN, isSubscriptionDlgShownOnFirstLaunch);
                 writer.Close();
             }
             catch (Exception e)

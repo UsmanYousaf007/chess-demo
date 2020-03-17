@@ -254,6 +254,20 @@ namespace TurboLabz.InstantFramework
 
             public const string SHOP_ITEM_TYPE_CURRENCY = "CURRENCY";
             public const string SHOP_ITEM_TYPE_VGOOD = "VGOOD";
+
+            public static string GetOfferItemKey(string text)
+            {
+                switch (text)
+                {
+                    case "No Ads": return "NoAds";
+                    case "Unlimited Learning Tools Usage": return "LearningTools";
+                    case "All Themes Unlocked": return "UnlockAllThemes";
+                    case "Premium Display Picture Frame": return "PremiumBorder";
+                    case "Increased Friends Limit": return "IncreasedFriendsLimit";
+                    case "More Simultaneous Classic Matches": return "MoreMatches";
+                }
+                return "";
+            }
         }
 
         public static class ClaimReward
