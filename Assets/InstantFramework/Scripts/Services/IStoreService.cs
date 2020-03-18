@@ -16,5 +16,6 @@ namespace TurboLabz.InstantFramework
         string GetItemCurrencyCode(string storeProductId);
         decimal GetItemPrice(string storeProductId);
         IPromise<BackendResult> RestorePurchases();
+        void UpgardeSubscription(string oldProductId, string newProductId);
     }
 }

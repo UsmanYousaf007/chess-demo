@@ -268,6 +268,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<PromotionDlgView>().To<PromotionDlgMediator>();
             mediationBinder.Bind<EarnRewardsView>().To<EarnRewardsMediator>();
             mediationBinder.Bind<SubscriptionTierView>().To<SubscriptionTierMediator>();
+            mediationBinder.Bind<ManageSubscriptionView>().To<ManageSubscriptionMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

@@ -57,9 +57,13 @@ public class NotchHandler : MonoBehaviour {
     [Header("Settings")]
     public RectTransform topBar;
 
+    [Header("Subscription")]
+    public RectTransform subscriptionTitle;
+    public RectTransform subscriptionOffers;
+
     [Header("Promotion")]
-    public RectTransform promotionTopNav;
-    public RectTransform promotionBottomNav;
+    public RectTransform promotionTitle;
+    public RectTransform promotionOffers;
 
     void Awake()
     {
@@ -135,9 +139,13 @@ public class NotchHandler : MonoBehaviour {
         //SETTINGS
         SetY(topBar, -106f);
 
-        //PROMOTION
-        SetY(promotionTopNav, -85f);
-        SetY(promotionBottomNav, 94f);
+        //Subscription
+        SetY(subscriptionTitle, -106f);
+        SetY(subscriptionOffers, -435f);
+
+        //Promotion
+        SetY(promotionTitle, -106f);
+        SetY(promotionOffers, -435f);
     }
 
     void SetY(RectTransform tfm, float y)

@@ -383,5 +383,20 @@ namespace TurboLabz.InstantFramework
         public const string EARN_REWARDS_INFO_TEXT = "earnRewardsInfoText";
 
         #endregion
+
+        #region ManageSubscription
+
+        public const string SUB_MANAGE = "subManage";
+        public const string SUB_OPTIONS = "subOptions";
+        public const string SUB_BENEFITS = "subBenefits";
+        public const string SUB_POPULAR = "subPopular";
+        public const string SUB_MONTHLY = "subMonthly";
+        public const string SUB_ANNUAL = "subAnnual";
+        public const string SUB_SWITCH_MONTHLY = "subSwitchMonthly";
+        public const string SUB_SWITCH_ANNUAL = "subSwitchAnnual";
+        public const string SUB_SWITCH_MONTHLY_BTN = "subSwitchMonthlyBtn";
+        public const string SUB_SWITCH_ANNUAL_BTN = "subSwitchAnnualBtn";
+
+        #endregion
     }
 }

@@ -380,7 +380,22 @@ namespace TurboLabz.InstantFramework
                 #region Earn Rewards
 
                 { LocalizationKey.EARN_REWARDS_TITLE, "Earn Rewards" },
-                { LocalizationKey.EARN_REWARDS_INFO_TEXT, "Collect reward points on match result card" }
+                { LocalizationKey.EARN_REWARDS_INFO_TEXT, "Collect reward points on match result card" },
+
+                #endregion
+
+                #region ManageSubscription
+
+                { LocalizationKey.SUB_MANAGE, "Manage Your Subscription"},
+                { LocalizationKey.SUB_OPTIONS, "For other options, go to"},
+                { LocalizationKey.SUB_POPULAR, "Our most popular plan"},
+                { LocalizationKey.SUB_BENEFITS, "Same Benefits as above"},
+                { LocalizationKey.SUB_MONTHLY, "You are subscribed to the\n<b>Monthly</b> Plan"},
+                { LocalizationKey.SUB_ANNUAL, "You are subscribed to the\n<b>Yearly</b> Plan"},
+                { LocalizationKey.SUB_SWITCH_MONTHLY, "Switch to the <b>Monthly</b> Plan"},
+                { LocalizationKey.SUB_SWITCH_ANNUAL, "Switch to the <b>Yearly</b> Plan"},
+                { LocalizationKey.SUB_SWITCH_MONTHLY_BTN, "Switch to Monthly"},
+                { LocalizationKey.SUB_SWITCH_ANNUAL_BTN, "Switch to Yearly"},
 
                 #endregion
             };
