@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22cded663cc14f878d4637a6597dae47, type: 3}
+  m_Name: CrossPromoLocalConfig
+  m_EditorClassIdentifier: 
+  configId: CrossPromoLocalConfig
+  crossPromoRootPrefab: {fileID: 3721922975555607160, guid: 6101623c8e20a524f9bba989b182f370,
+    type: 3}
+  tileContainerPrefab: {fileID: 5822477989322713213, guid: c81ab0f94ec830640a6d2add403fa0ac,
+    type: 3}
+  bannerTileContainerPrefab: {fileID: 4574131896147392632, guid: 73164b0746936c44fb5444ef9942a093,
+    type: 3}
+  bulletPointView: {fileID: 2943495843432723460, guid: 8f9c1b75c8b71a54e8bcd8f542c5d153,
+    type: 3}
+  useDefaultAppOrientation: 0
+  defaultAppOrientation: 5
+  baseResolution: {x: 1080, y: 1920}
+  crossPromoCanvasSortingOrder: 999
+  customBottomPanelContainer: {fileID: 6515921960104580927, guid: 17f600328a6a75f4e8c1c890fd31bd38,
+    type: 3}
+  iOSEnabledCustomURLSchemes: []
+  iOSGameCustomURLSchemes: []
