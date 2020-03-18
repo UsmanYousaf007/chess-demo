@@ -178,6 +178,9 @@ namespace TurboLabz.Multiplayer
             HideSafeMoveBorder();
 
             viewBoardResultPanel.gameObject.SetActive(false);
+            
+            showCrossPromoButton.gameObject.SetActive(HCrossPromo.allFilesDownloaded);
+
         }
 
         public void HideResultsDialog()
@@ -498,6 +501,8 @@ namespace TurboLabz.Multiplayer
 
         private void OnCrossPromoButtonClicked()
         {
+            toggleBannerSignal.Dispatch(false);
+            analyticsService.Event(AnalyticsEventId.cross_promo_clicked);
             HCrossPromo.OpenPanel();
         }
     }

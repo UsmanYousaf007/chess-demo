@@ -6,6 +6,7 @@ using HUFEXT.CrossPromo.Implementation.Model;
 using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
+using HUFEXT.CrossPromo.API;
 
 namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
 {
@@ -62,6 +63,7 @@ namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
                 var name = resultContainer.StorageResultContainer.PathToFile;
                 if (sprite == null)
                 {
+                    HCrossPromo.allFilesDownloaded = false;
                     Debug.LogError($"{logPrefix} Failed to create sprite from remote texture {name}");
                     return;
                 }
@@ -71,6 +73,7 @@ namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
             }
             else
             {
+                HCrossPromo.allFilesDownloaded = false;
                 Debug.LogWarning($"{logPrefix} Failed to download texture from remote texture {resultContainer.StorageResultContainer.PathToFile}");
             }
         }

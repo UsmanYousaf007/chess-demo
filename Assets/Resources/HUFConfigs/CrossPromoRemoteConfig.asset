@@ -17,7 +17,7 @@ MonoBehaviour:
   topPanelCrossPromoGameModels:
   - uuid: 1
     title: Huuuge Casino Banner
-    spritePath: CrossPromoSprites/huuuge-casino-banner
+    spritePath: CrossPromoSprites/top_banner_domino
     androidStoreLink: https://play.google.com/store/apps/details?id=com.huuuge.casino.slots&hl=en
     iOSStoreLink: 
     androidPackageName: com.huuuge.casino.slots
@@ -25,18 +25,6 @@ MonoBehaviour:
     iOSURLScheme: 
     isRemote: 1
     priority: 0
-    isInteractive: 1
-    isButtonActive: 1
-  - uuid: 2
-    title: Huuuge Promo
-    spritePath: CrossPromoSprites/huuuge-promo
-    androidStoreLink: https://play.google.com/store/apps/details?id=com.huuuge.casino.slots&hl=en
-    iOSStoreLink: 
-    androidPackageName: com.huuuge.casino.slots
-    iOSPackageName: com.huuuge.casino.slots
-    iOSURLScheme: 
-    isRemote: 1
-    priority: 1
     isInteractive: 1
     isButtonActive: 1
   crossPromoPanelGameModels:
@@ -74,6 +62,18 @@ MonoBehaviour:
     iOSURLScheme: 
     isRemote: 1
     priority: 2
+    isInteractive: 1
+    isButtonActive: 1
+  - uuid: 4
+    title: 
+    spritePath: CrossPromoSprites/tile_domino
+    androidStoreLink: https://play.google.com/store/apps/details?id=com.huuuge.domino
+    iOSStoreLink: 
+    androidPackageName: com.huuuge.domino
+    iOSPackageName: com.huuuge.domino
+    iOSURLScheme: 
+    isRemote: 1
+    priority: 3
     isInteractive: 1
     isButtonActive: 1
   bottomPanelLogoSpritePath: CrossPromoSprites/coffee_break

@@ -3,6 +3,7 @@ using HUFEXT.CrossPromo.Implementation;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
+using TurboLabz.InstantFramework;
 
 namespace HUFEXT.CrossPromo.API
 {
@@ -14,9 +15,12 @@ namespace HUFEXT.CrossPromo.API
         /// </summary>
         [PublicAPI]
         public static event UnityAction OnCrossPromoPanelClosed;
-        
+
+        [Inject] public static ToggleBannerSignal toggleBannerSignal { get; set; }
+
         static CrossPromoService service;
         static bool isInitialized;
+        public static bool allFilesDownloaded;
 
         /// <summary>
         /// Use this method to close panel explicitly
@@ -24,6 +28,7 @@ namespace HUFEXT.CrossPromo.API
         [PublicAPI]
         public static void ClosePanel()
         {
+            toggleBannerSignal.Dispatch(true);
             service.ClosePanel();
             OnCrossPromoPanelClosed?.Invoke();
         }
