@@ -128,6 +128,7 @@ namespace TurboLabz.InstantFramework
         cpu_mactch_player,
         multi_mode_player,
         mode_distribution,
+        reconnection_shown,
         //apps flyer events for HUUUGE
         launch,
         ad_clicked,
