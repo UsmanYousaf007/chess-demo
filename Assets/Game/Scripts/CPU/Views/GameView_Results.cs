@@ -451,6 +451,7 @@ namespace TurboLabz.CPU
         {
             toggleBannerSignal.Dispatch(false);
             analyticsService.Event(AnalyticsEventId.cross_promo_clicked);
+            hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
             HCrossPromo.OpenPanel();
         }
     }
