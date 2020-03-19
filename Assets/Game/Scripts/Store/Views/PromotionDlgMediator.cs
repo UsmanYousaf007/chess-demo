@@ -10,6 +10,7 @@ public class PromotionDlgMediator : Mediator
 
     // Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }

@@ -12,35 +12,23 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSSettings : NS
+    public class NSManageSubscription : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.SETTINGS);
+            ShowView(NavigatorViewId.MANAGE_SUBSCRIPTION);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.FRIENDS);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.SETTINGS);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
-                if (viewId == NavigatorViewId.LOBBY)
+                if (viewId == NavigatorViewId.SETTINGS)
                 {
-                    return new NSLobby();
+                    return new NSSettings();
                 }
-                else if (viewId == NavigatorViewId.FRIENDS)
-                {
-                    return new NSFriends();
-                }
-            }
-            else if (evt == NavigatorEvent.SHOW_LOBBY)
-            {
-                return new NSLobby();
-            }
-            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
-            {
-                return new NSSubscriptionDlg();
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
@@ -61,6 +49,10 @@ namespace TurboLabz.InstantFramework
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SETTINGS)
+            {
+                return new NSSettings();
+            }
             else if (evt == NavigatorEvent.SHOW_MANAGE_SUBSCRIPTION)
             {
                 return new NSManageSubscription();
@@ -69,4 +61,3 @@ namespace TurboLabz.InstantFramework
         }
     }
 }
-

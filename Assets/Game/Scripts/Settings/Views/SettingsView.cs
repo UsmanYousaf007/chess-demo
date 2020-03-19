@@ -139,8 +139,8 @@ namespace TurboLabz.InstantFramework
 
         void OnManageSubscriptionButtonClicked()
         {
-            Application.OpenURL(metaDataModel.settingsModel.manageSubscriptionURL);
             audioService.PlayStandardClick();
+            manageSubscriptionButtonClickedSignal.Dispatch();
         }
 
         void OnUpgradeToPremiumButtonClicked()

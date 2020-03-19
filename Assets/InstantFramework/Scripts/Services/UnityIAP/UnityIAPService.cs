@@ -105,6 +105,7 @@ namespace TurboLabz.InstantFramework
                     if (expiryTimeStamp > playerModel.subscriptionExipryTimeStamp)
                     {
                         playerModel.subscriptionExipryTimeStamp = expiryTimeStamp;
+                        playerModel.subscriptionType = FindRemoteStoreItemShortCode(product.definition.id);
                         updatePlayerDataSignal.Dispatch();
                     }
                 }
@@ -498,6 +499,16 @@ namespace TurboLabz.InstantFramework
         {
             var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
             hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", "subscription", "autorenew");
+        }
+
+        public void UpgardeSubscription(string oldProductId, string newProductId)
+        {
+            SubscriptionManager.UpdateSubscriptionInGooglePlayStore(
+                storeController.products.WithID(oldProductId),
+                storeController.products.WithID(newProductId),
+                (oldSku, newSku) => {
+                    m_StoreExtensionProvider.GetExtension<IGooglePlayStoreExtensions>().UpgradeDowngradeSubscription(oldSku, newSku);
+                });
         }
     }
 }

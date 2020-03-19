@@ -42,6 +42,25 @@ namespace TurboLabz.InstantGame
 
             appsFlyerService.TrackRichEvent(AFInAppEvents.PURCHASE, purchaseEvent);
 #endif
+
+            var afEvent = "succ_annual_subs";
+            if (item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG))
+            {
+                if (item.currency1Cost == 0)
+                {
+                    afEvent = "succ_monthly_subs";
+                }
+                else
+                {
+                    afEvent = "succ_renew_monthly_subs";
+                }
+            }
+            else if (item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG) && item.currency1Cost > 0)
+            {
+                afEvent = "succ_renew_annual_subs";
+            }
+
+            appsFlyerService.TrackRichEvent(afEvent);
         }
 
         private StoreItem FindRemoteStoreItem(string remoteId)

@@ -33,7 +33,8 @@ namespace TurboLabz.InstantFramework
         skill_level_dlg,
         theme_selection_dlg,
         subscription_dlg,
-        show_settings
+        show_settings,
+        manage_subscription
     }
 
     public enum AnalyticsEventId
