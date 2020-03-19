@@ -9,6 +9,7 @@ public class ManageSubscriptionMediator : Mediator
     // Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
     [Inject] public IStoreService storeService { get; set; }
+    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
     // Dispatch signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -57,10 +58,12 @@ public class ManageSubscriptionMediator : Mediator
 
         if (isMonthlyActive)
         {
+            hAnalyticsService.LogEvent("switch_to_yearly_clicked", "menu", "settings");
             storeService.UpgardeSubscription(monthlySubscription.remoteProductId, annualSubscription.remoteProductId);
         }
         else
         {
+            hAnalyticsService.LogEvent("switch_to_monthly_clicked", "menu", "settings");
             storeService.UpgardeSubscription(annualSubscription.remoteProductId, monthlySubscription.remoteProductId);
         }
     }
