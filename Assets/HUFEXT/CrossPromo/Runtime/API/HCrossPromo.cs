@@ -4,6 +4,8 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 using TurboLabz.InstantFramework;
+using strange.extensions.promise.api;
+using strange.extensions.promise.impl;
 
 namespace HUFEXT.CrossPromo.API
 {
@@ -20,7 +22,6 @@ namespace HUFEXT.CrossPromo.API
 
         public static CrossPromoService service;
         static bool isInitialized;
-        public static bool allFilesDownloaded;
 
         /// <summary>
         /// Use this method to close panel explicitly
@@ -28,18 +29,21 @@ namespace HUFEXT.CrossPromo.API
         [PublicAPI]
         public static void ClosePanel()
         {
-            toggleBannerSignal.Dispatch(true);
+            promise.Dispatch();
+            promise = null;
             service.ClosePanel();
             OnCrossPromoPanelClosed?.Invoke();
         }
 
+        static IPromise promise = new Promise();
         /// <summary>
         /// Use this method to show panel
         /// </summary>
         [PublicAPI]
-        public static void OpenPanel()
+        public static IPromise OpenPanel()
         {
             service.OpenPanel();
+            return promise;
         }
 
         /// <summary>

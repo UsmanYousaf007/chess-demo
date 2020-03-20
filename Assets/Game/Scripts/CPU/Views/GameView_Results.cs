@@ -22,6 +22,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using HUFEXT.CrossPromo.API;
+using strange.extensions.promise.api;
 
 namespace TurboLabz.CPU
 {
@@ -450,9 +451,18 @@ namespace TurboLabz.CPU
         private void OnCrossPromoButtonClicked()
         {
             toggleBannerSignal.Dispatch(false);
-            analyticsService.Event(AnalyticsEventId.cross_promo_clicked);
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
-            HCrossPromo.OpenPanel();
+
+            IPromise promise = HCrossPromo.OpenPanel();
+            if (promise != null)
+            {
+                promise.Then(ToggleBannerSignalFunc);
+            }
+        }
+
+        private void ToggleBannerSignalFunc()
+        {
+            toggleBannerSignal.Dispatch(true);
         }
     }
 }
