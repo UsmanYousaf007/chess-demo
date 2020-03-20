@@ -18,8 +18,6 @@ namespace HUFEXT.CrossPromo.API
         [PublicAPI]
         public static event UnityAction OnCrossPromoPanelClosed;
 
-        [Inject] public static ToggleBannerSignal toggleBannerSignal { get; set; }
-
         public static CrossPromoService service;
         static bool isInitialized;
 
@@ -35,13 +33,14 @@ namespace HUFEXT.CrossPromo.API
             OnCrossPromoPanelClosed?.Invoke();
         }
 
-        static IPromise promise = new Promise();
+        static IPromise promise = null;
         /// <summary>
         /// Use this method to show panel
         /// </summary>
         [PublicAPI]
         public static IPromise OpenPanel()
         {
+            promise = new Promise();
             service.OpenPanel();
             return promise;
         }
