@@ -1,0 +1,363 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CrossPromoRemoteConfig
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 799d5d3ab0744c0d930936f6b290603b,
+      type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: configId
+    value: CrossPromoRemoteConfig
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: autoInit
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.size
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].uuid
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].title
+    value: Huuuge Casino Banner
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].spritePath
+    value: CrossPromoSprites/huuuge-casino-banner
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].androidStoreLink
+    value: https://play.google.com/store/apps/details?id=com.huuuge.casino.slots&hl=en
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].iOSStoreLink
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].androidPackageName
+    value: com.huuuge.casino.slots
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].iOSPackageName
+    value: com.huuuge.casino.slots
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].iOSURLScheme
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].isRemote
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].priority
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].isInteractive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[0].isButtonActive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].uuid
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].title
+    value: Huuuge Promo
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].spritePath
+    value: CrossPromoSprites/huuuge-promo
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].androidStoreLink
+    value: https://play.google.com/store/apps/details?id=com.huuuge.casino.slots&hl=en
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].iOSStoreLink
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].androidPackageName
+    value: com.huuuge.casino.slots
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].iOSPackageName
+    value: com.huuuge.casino.slots
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].iOSURLScheme
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].isRemote
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].priority
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].isInteractive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topPanelCrossPromoGameModels.Array.data[1].isButtonActive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.size
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].uuid
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].spritePath
+    value: CrossPromoSprites/tile_checkers
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].androidStoreLink
+    value: https://play.google.com/store/apps/details?id=com.huuuge.checkers
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].iOSStoreLink
+    value: https://play.google.com/store/apps/details?id=com.huuuge.checkers
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].androidPackageName
+    value: com.huuuge.checkers
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].iOSPackageName
+    value: com.huuuge.checkers
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].iOSURLScheme
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].isRemote
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].priority
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].isInteractive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[0].isButtonActive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].uuid
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].spritePath
+    value: CrossPromoSprites/tile_solitaire
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].androidStoreLink
+    value: https://play.google.com/store/apps/details?id=com.huuuge.solitaire
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].iOSStoreLink
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].androidPackageName
+    value: com.huuuge.solitaire
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].iOSPackageName
+    value: com.huuuge.solitaire
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].iOSURLScheme
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].isRemote
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].priority
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].isInteractive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[1].isButtonActive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].uuid
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].spritePath
+    value: CrossPromoSprites/tile_sudoku
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].androidStoreLink
+    value: https://play.google.com/store/apps/details?id=com.huuuge.sudoku
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].iOSStoreLink
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].androidPackageName
+    value: com.huuuge.sudoku
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].iOSPackageName
+    value: com.huuuge.sudoku
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].iOSURLScheme
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].isRemote
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].priority
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].isInteractive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: crossPromoPanelGameModels.Array.data[2].isButtonActive
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bottomPanelLogoSpritePath
+    value: CrossPromoSprites/coffee_break
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bannerTileRotateFrequency
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bannerTileRotationDuration
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: notInstalledStateButtonColor.r
+    value: 0.2784314
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: notInstalledStateButtonColor.g
+    value: 0.67058825
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: notInstalledStateButtonColor.b
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: notInstalledStateButtonColor.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: installedStateButtonColor.r
+    value: 0.003921569
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: installedStateButtonColor.g
+    value: 0.41176474
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: installedStateButtonColor.b
+    value: 0.6431373
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: installedStateButtonColor.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bulletPointImageColor.r
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bulletPointImageColor.g
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bulletPointImageColor.b
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bulletPointImageColor.a
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: topBannerHorizontalSwipeThreshold
+    value: 50
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: clickDetectionThreshold
+    value: 25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: imagesInteractionFadeValue
+    value: 0.7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: imagesInteractionFadeTime
+    value: 0.12
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: bulletPointFadeTime
+    value: 0.5
+    objectReference: {fileID: 0}

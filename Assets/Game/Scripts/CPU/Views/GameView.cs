@@ -28,6 +28,7 @@ namespace TurboLabz.CPU
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }

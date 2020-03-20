@@ -21,6 +21,7 @@ public class SubscriptionTierView : View
     public Button bg;
     public Text title;
     public Text actualPrice;
+    public Image actualPriceStrikeThrough;
     public Text price;
     public Text billed;
     public Text savings;
@@ -59,7 +60,7 @@ public class SubscriptionTierView : View
 
         if (isMonthly)
         {
-            actualPrice.text = $"{item.remoteProductCurrencyCode} {item.productPrice + (item.productPrice * (decimal)savingsValue)}";
+            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice + (item.productPrice * (decimal)savingsValue), 2)}";
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
             billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
             savings.text = $"Save {savingsValue * 100}%";
@@ -69,7 +70,7 @@ public class SubscriptionTierView : View
             var monthlyItem = metaDataModel.store.items["Subscription"];
             actualPrice.text = $"{monthlyItem.remoteProductCurrencyCode} {monthlyItem.productPrice}";
             var monthlyPrice = item.productPrice / 12;
-            price.text = $"{item.remoteProductCurrencyCode} {(int) monthlyPrice}/mo";
+            price.text = $"{item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo";
             billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} annually";
             savingsValue = (float)(monthlyPrice / monthlyItem.productPrice);
             savings.text = $"Save {(int)(savingsValue * 100)}%";
@@ -90,5 +91,6 @@ public class SubscriptionTierView : View
         bg.image.sprite = config.bg;
         this.transform.localScale = config.scale;
         bestValueObject.localPosition = config.bestValuePosition;
+        actualPriceStrikeThrough.color = config.textColor;
     }
 }

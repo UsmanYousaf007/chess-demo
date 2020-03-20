@@ -22,8 +22,8 @@ namespace TurboLabz.InstantFramework
         public void ScreenVisit(AnalyticsScreen screen)
         {
             AnalyticsEvent.ScreenVisit(screen.ToString());
-
-            Print("ScreenVisit:" + screen);
+            GameAnalytics.NewDesignEvent($"screen_visit:{screen}");
+            Print($"screen_visit:{screen}");
         }
 
         public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in)
@@ -34,8 +34,8 @@ namespace TurboLabz.InstantFramework
             };
 
             AnalyticsEvent.ScreenVisit(screen.ToString(), p);
-
-            Print("ScreenVisit:" + screen, p);
+            GameAnalytics.NewDesignEvent($"screen_visit:{screen}:fb_logged_in_{fb_logged_in}");
+            Print($"screen_visit:{screen}:fb_logged_in_{fb_logged_in}");
         }
 
         public void ScreenVisit(AnalyticsScreen screen, bool fb_logged_in, bool is_bot) 
@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
             };
 
             AnalyticsEvent.ScreenVisit(screen.ToString(), p);
-
+            GameAnalytics.NewDesignEvent($"screen_visit:{screen}:fb_logged_in_{fb_logged_in}:is_bot{is_bot}");
             Print("ScreenVisit:" + screen, p);
         }
 
@@ -59,14 +59,14 @@ namespace TurboLabz.InstantFramework
             };
 
             AnalyticsEvent.ScreenVisit(screen.ToString(), p);
-
+            GameAnalytics.NewDesignEvent($"screen_visit:{screen}:{context}");
             Print("ScreenVisit:" + screen, p);
         }
 
         public void Event(AnalyticsEventId evt)
         {
             Analytics.CustomEvent(evt.ToString());
-
+            GameAnalytics.NewDesignEvent(evt.ToString());
             Print(evt.ToString());
         }
 
@@ -92,6 +92,7 @@ namespace TurboLabz.InstantFramework
             };
 
             Analytics.CustomEvent(evt.ToString(), p);
+            GameAnalytics.NewDesignEvent($"{evt}:{param}:{val}");
             Print(evt.ToString(), p);
         }
 
@@ -103,21 +104,21 @@ namespace TurboLabz.InstantFramework
             };
 
             Analytics.CustomEvent(evt.ToString(), p);
-
+            GameAnalytics.NewDesignEvent($"{evt}:{context}");
             Print(evt.ToString(), p);
         }
 
         public void LevelComplete(int difficulty)
         {
             AnalyticsEvent.LevelComplete(difficulty);
-
+            GameAnalytics.NewDesignEvent($"level_complete:difficulty:{difficulty}");
             Print("LevelComplete:" + difficulty);
         }
 
         public void LevelFail(int difficulty)
         {
             AnalyticsEvent.LevelFail(difficulty);
-
+            GameAnalytics.NewDesignEvent($"level_failed:difficulty:{difficulty}");
             Print("LevelFail:" + difficulty);
         }
 
@@ -148,6 +149,27 @@ namespace TurboLabz.InstantFramework
             var eventStr = string.Format("{0}:{1}{2}:{3}", evt, param, val, subEvt);
             GameAnalytics.NewDesignEvent(eventStr);
             Print(eventStr);
+        }
+
+        public void HEvent(string evt, params string[] param)
+        {
+            var evtStr = evt;
+            if (param != null && param.Length > 0)
+            {
+                var paramDict = new Dictionary<string, object>();
+                for (int i = 0; i < param.Length; i++)
+                {
+                    paramDict.Add($"ST{i + 1}", param[i]);
+                    evtStr += $":{param[i]}";
+                }
+
+                Analytics.CustomEvent(evt, paramDict);
+            }
+            else
+            {
+                Analytics.CustomEvent(evt);
+            }
+            GameAnalytics.NewDesignEvent(evtStr);
         }
     }
 }

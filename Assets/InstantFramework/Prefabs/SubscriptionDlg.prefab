@@ -1228,6 +1228,7 @@ MonoBehaviour:
   bg: {fileID: 5022947465633576239}
   title: {fileID: 3378416366839571474}
   actualPrice: {fileID: 919995956143134697}
+  actualPriceStrikeThrough: {fileID: 6695497212883831608}
   price: {fileID: 2812439490860958872}
   billed: {fileID: 4526325608063649756}
   savings: {fileID: 7072169529015563941}
@@ -2099,7 +2100,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 8e89e5ce5e9234b23acfe6f8843eaa62, type: 3}
     m_FontSize: 81
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 5
     m_MaxSize: 81
     m_Alignment: 4
@@ -4020,6 +4021,7 @@ MonoBehaviour:
   bg: {fileID: 8369118228747709463}
   title: {fileID: 4694996655104073262}
   actualPrice: {fileID: 1066869196605801310}
+  actualPriceStrikeThrough: {fileID: 8002137961346273635}
   price: {fileID: 6125431864697197236}
   billed: {fileID: 2815045034726816789}
   savings: {fileID: 4552345973668918165}

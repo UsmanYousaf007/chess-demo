@@ -130,5 +130,26 @@ namespace TurboLabz.InstantFramework
             var eventStr = string.Format("{0}:{1}{2}:{3}", evt, param, val, subEvt);
             Print(eventStr);
         }
+
+        public void HEvent(string evt, params string[] param)
+        {
+            var evtStr = evt;
+            if (param != null && param.Length > 0)
+            {
+                var paramDict = new Dictionary<string, object>();
+                for (int i = 0; i < param.Length; i++)
+                {
+                    paramDict.Add($"ST{i + 1}", param[i]);
+                    evtStr += $":{param[i]}";
+                }
+
+                Print(evt, paramDict);
+            }
+            else
+            {
+                Print(evt);
+            }
+            Print(evtStr);
+        }
     }
 }
