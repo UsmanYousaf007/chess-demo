@@ -8,9 +8,15 @@ public class ManageSubscriptionMediator : Mediator
 
     // Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public IStoreService storeService { get; set; }
+    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
     // Dispatch signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
+    //Models
+    [Inject] public IMetaDataModel metaDataModel { get; set; }
+    [Inject] public IPlayerModel playerModel { get; set; }
 
     public override void OnRegister()
     {
@@ -46,6 +52,28 @@ public class ManageSubscriptionMediator : Mediator
 
     private void OnSwitchPlan()
     {
+        var monthlySubscription = metaDataModel.store.items[GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG];
+        var annualSubscription = metaDataModel.store.items[GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG];
+        var isMonthlyActive = playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG);
 
+        if (isMonthlyActive)
+        {
+            hAnalyticsService.LogEvent("switch_to_yearly_clicked", "menu", "settings");
+            storeService.UpgardeSubscription(monthlySubscription.remoteProductId, annualSubscription.remoteProductId);
+        }
+        else
+        {
+            hAnalyticsService.LogEvent("switch_to_monthly_clicked", "menu", "settings");
+            storeService.UpgardeSubscription(annualSubscription.remoteProductId, monthlySubscription.remoteProductId);
+        }
+    }
+
+    [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+    public void OnPlanSwitched(StoreItem item)
+    {
+        if (view.IsVisible())
+        {
+            view.Setup();
+        }
     }
 }

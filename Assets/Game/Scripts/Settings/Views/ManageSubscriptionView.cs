@@ -68,7 +68,7 @@ public class ManageSubscriptionView : View
         gameObject.SetActive(false);
     }
 
-    private void Setup()
+    public void Setup()
     {
         var monthlySubscription = metaDataModel.store.items[GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG];
         var annualSubscription = metaDataModel.store.items[GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG];
@@ -141,5 +141,10 @@ public class ManageSubscriptionView : View
     {
         audioService.PlayStandardClick();
         backSignal.Dispatch();
+    }
+
+    public bool IsVisible()
+    {
+        return gameObject.activeSelf;
     }
 }

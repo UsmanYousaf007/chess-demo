@@ -21,6 +21,7 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public INavigatorModel navigatorModel { get; set; }
 
     private string cameFromScreen;
+    private NS cameFromState;
 
     public override void OnRegister()
     {
@@ -28,6 +29,7 @@ public class SubscriptionDlgMediator : Mediator
         view.closeDailogueSignal.AddListener(OnCloseDailogue);
         view.restorePurchasesSignal.AddListener(OnRestorePurchases);
         view.purchaseSignal.AddListener(OnPurchase);
+        view.showTermsSignal.AddListener(OnTermsClicked);
     }
 
     [ListensTo(typeof(StoreAvailableSignal))]
@@ -47,8 +49,9 @@ public class SubscriptionDlgMediator : Mediator
             view.Show();
 
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
-            hAnalyticsService.LogEvent("subscription_popup_displayed", "menu", "subscription_popup");
-            cameFromScreen = navigatorModel.previousState.ToString();
+            cameFromState = navigatorModel.previousState;
+            hAnalyticsService.LogEvent("subscription_popup_displayed", "menu", "subscription_popup", cameFromState.GetType().Equals(typeof(NSLobby)) ? "banner" : "");
+            cameFromScreen = cameFromState.ToString();
             cameFromScreen = cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2);
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
         }
@@ -59,6 +62,7 @@ public class SubscriptionDlgMediator : Mediator
     {
         if (viewId == NavigatorViewId.SUBSCRIPTION_DLG)
         {
+            hAnalyticsService.LogEvent("close_popup_clicked", "menu", "subscription_popup", cameFromState.GetType().Equals(typeof(NSLobby)) ? "banner" : "");
             view.Hide();
         }
     }
@@ -81,7 +85,7 @@ public class SubscriptionDlgMediator : Mediator
     private void OnPurchase()
     {
         purchaseStoreItemSignal.Dispatch(view.key, true);
-        hAnalyticsService.LogEvent("start_trial_clicked", "menu", "subscription_popup");
+        hAnalyticsService.LogEvent("start_trial_clicked", "menu", "subscription_popup", cameFromState.GetType().Equals(typeof(NSLobby)) ? "banner" : "");
         analyticsService.Event(AnalyticsEventId.get_free_trial_clicked, AnalyticsParameter.context, cameFromScreen);
     }
 
@@ -105,5 +109,10 @@ public class SubscriptionDlgMediator : Mediator
     public void OnTierSelected(string key)
     {
         view.key = key;
+    }
+
+    private void OnTermsClicked()
+    {
+        hAnalyticsService.LogEvent("terms_clicked", "menu", "subscription_popup", cameFromState.GetType().Equals(typeof(NSLobby)) ? "banner" : "");
     }
 }

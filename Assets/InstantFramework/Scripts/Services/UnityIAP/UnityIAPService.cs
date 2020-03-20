@@ -503,6 +503,12 @@ namespace TurboLabz.InstantFramework
 
         public void UpgardeSubscription(string oldProductId, string newProductId)
         {
+            SubscriptionManager.UpdateSubscriptionInGooglePlayStore(
+                storeController.products.WithID(oldProductId),
+                storeController.products.WithID(newProductId),
+                (oldSku, newSku) => {
+                    m_StoreExtensionProvider.GetExtension<IGooglePlayStoreExtensions>().UpgradeDowngradeSubscription(oldSku, newSku);
+                });
         }
     }
 }

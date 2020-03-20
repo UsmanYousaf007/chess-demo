@@ -122,7 +122,7 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
-            hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", "subscription", cameFromScreen);
+            hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ","_")}", cameFromScreen);
         }
 
         private void OnPurchase(BackendResult result)

@@ -31,6 +31,7 @@ public class SubscriptionDlgView : View
     public Signal closeDailogueSignal = new Signal();
     public Signal restorePurchasesSignal = new Signal();
     public Signal purchaseSignal = new Signal();
+    public Signal showTermsSignal = new Signal();
 
     private StoreIconsContainer iconsContainer;
 
@@ -93,6 +94,7 @@ public class SubscriptionDlgView : View
     private void OnTermsOfUseClicked()
     {
         audioService.PlayStandardClick();
+        showTermsSignal.Dispatch();
         Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
     }
 

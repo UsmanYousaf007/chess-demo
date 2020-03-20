@@ -87,6 +87,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnManageSubscriptionClicked()
         {
+            hAnalyticsService.LogEvent("manage_subscription_clicked", "menu", "settings");
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MANAGE_SUBSCRIPTION);
         }
     }
