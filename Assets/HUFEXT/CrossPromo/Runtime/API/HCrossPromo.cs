@@ -18,7 +18,7 @@ namespace HUFEXT.CrossPromo.API
 
         [Inject] public static ToggleBannerSignal toggleBannerSignal { get; set; }
 
-        static CrossPromoService service;
+        public static CrossPromoService service;
         static bool isInitialized;
         public static bool allFilesDownloaded;
 

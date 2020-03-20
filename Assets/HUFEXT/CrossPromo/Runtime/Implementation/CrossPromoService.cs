@@ -25,6 +25,8 @@ namespace HUFEXT.CrossPromo.Implementation
         public static string InstalledStateTileLabelText = "installed";
         public static string CloseButtonText = "continue to game";
 
+        public bool hasContent;
+
         public CrossPromoService()
         {
             PauseManager.Instance.OnAppPause += HandleFocusLost;
@@ -138,6 +140,8 @@ namespace HUFEXT.CrossPromo.Implementation
             isInitialized = true;
             UpdateContainerPanels(remoteConfig);
             ClosePanel();
+
+            hasContent = remoteConfig.CrossPromoPanelGameModels.Count > 0 && remoteConfig.TopPanelCrossPromoGameModels.Count > 0;
         }
 
         void HandleRemoteConfigsInitialized()
