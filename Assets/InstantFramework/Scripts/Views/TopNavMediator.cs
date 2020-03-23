@@ -84,7 +84,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)
         {
-            if (isAvailable)
+            if (!isAvailable)
             {
                 view.SetupRewardBar();
             }

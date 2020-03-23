@@ -40,6 +40,9 @@ public class SubscriptionTierView : View
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
 
+    //Services
+    [Inject] public ILocalizationService localizationService { get; set; }
+
     public void InitOnce()
     {
         bg.onClick.AddListener(OnClickSelectButton);
@@ -47,8 +50,18 @@ public class SubscriptionTierView : View
         SelectTier(isSelected);
     }
 
-    public void Init()
+    public void Init(bool isStoreAvailable)
     {
+        if (!isStoreAvailable)
+        {
+            var storeNotAvailableText = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
+            actualPrice.text = storeNotAvailableText;
+            price.text = storeNotAvailableText;
+            billed.text = storeNotAvailableText;
+            savings.text = storeNotAvailableText;
+            return;
+        }
+
         var item = metaDataModel.store.items[key];
 
         if (item == null)

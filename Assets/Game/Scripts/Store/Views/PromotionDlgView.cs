@@ -21,6 +21,7 @@ public class PromotionDlgView : View
     public GameObject processingUi;
 
     //Models 
+    [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
     [Inject] public IMetaDataModel metaDataModel { get; set; }
 
     //Services
@@ -51,7 +52,7 @@ public class PromotionDlgView : View
         termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
-        var storeItem = metaDataModel.store.items[key];
+        var storeItem = storeSettingsModel.items[key];
 
         if (storeItem == null)
             return;
