@@ -39,6 +39,7 @@ public class SubscriptionDlgMediator : Mediator
         {
             view.Init();
         }
+        view.SetupPurchaseButton(isAvailable);
     }
 
     [ListensTo(typeof(NavigatorShowViewSignal))]
