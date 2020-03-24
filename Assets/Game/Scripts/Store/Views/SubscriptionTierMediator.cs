@@ -21,10 +21,7 @@ public class SubscriptionTierMediator : Mediator
     [ListensTo(typeof(StoreAvailableSignal))]
     public void OnStoreAvailable(bool isAvailable)
     {
-        if (isAvailable)
-        {
-            view.Init();
-        }
+        view.Init(isAvailable);
     }
 
     private void OnSelectTier()

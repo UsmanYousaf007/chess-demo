@@ -17,7 +17,7 @@ public class ThemeSelectionView : View
     public ScrollRect scrollRect;
 
     //Models 
-    [Inject] public IMetaDataModel metaDataModel { get; set; }
+    [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
     [Inject] public IPlayerModel playerModel { get; set; }
 
     //Services
@@ -100,7 +100,7 @@ public class ThemeSelectionView : View
 
     private void SetupSkinMenuItems()
     {
-        foreach (var entry in metaDataModel.store.items)
+        foreach (var entry in storeSettingsModel.items)
         {
             if (entry.Value.skinIndex != -1)
             {

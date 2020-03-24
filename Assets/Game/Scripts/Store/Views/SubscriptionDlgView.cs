@@ -22,6 +22,7 @@ public class SubscriptionDlgView : View
 
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
+    [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
@@ -51,7 +52,7 @@ public class SubscriptionDlgView : View
         termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
-        var storeItem = metaDataModel.store.items[key];
+        var storeItem = storeSettingsModel.items[key];
 
         if (storeItem == null)
             return;
