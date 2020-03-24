@@ -51,6 +51,14 @@ namespace TurboLabz.InstantFramework
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
+        static public void RandomLong(FindMatchSignal signal)
+        {
+            Reset();
+            isMatchRequestedWithFriend = false;
+            actionData.action = "RandomLong";
+            signal.Dispatch(JsonUtility.ToJson(actionData));
+        }
+
         static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor)
         {
             Reset();

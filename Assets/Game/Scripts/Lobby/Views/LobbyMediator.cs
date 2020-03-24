@@ -332,7 +332,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchBtnClicked()
         {
-            FindMatchAction.Random(findMatchSignal);
+            //FindMatchAction.Random(findMatchSignal);
+            FindMatchAction.RandomLong(findMatchSignal);
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]
