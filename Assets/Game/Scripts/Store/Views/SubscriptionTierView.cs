@@ -34,6 +34,12 @@ public class SubscriptionTierView : View
     public TierConfig selectedConfig;
     public TierConfig defaultConfig;
 
+    [Header("Not Available")]
+    public GameObject package;
+    public GameObject notAvailable;
+    public Text gettingPackage;
+    public Image[] processingDots;
+
     //Signals
     public Signal selectTierClicked = new Signal();
 
@@ -47,18 +53,17 @@ public class SubscriptionTierView : View
     {
         bg.onClick.AddListener(OnClickSelectButton);
         bestValueObject.gameObject.SetActive(showBestValue);
+        gettingPackage.text = localizationService.Get(LocalizationKey.STORE_GETTING_PACKAGE);
         SelectTier(isSelected);
     }
 
     public void Init(bool isStoreAvailable)
     {
+        package.SetActive(isStoreAvailable);
+        notAvailable.SetActive(!isStoreAvailable);
+
         if (!isStoreAvailable)
         {
-            var storeNotAvailableText = localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE);
-            actualPrice.text = storeNotAvailableText;
-            price.text = storeNotAvailableText;
-            billed.text = storeNotAvailableText;
-            savings.text = storeNotAvailableText;
             return;
         }
 
@@ -100,10 +105,14 @@ public class SubscriptionTierView : View
         this.isSelected = isSelected;
         var config = isSelected ? selectedConfig : defaultConfig;
         title.color = price.color = savings.color = config.headingsColor;
-        actualPrice.color = billed.color = config.textColor;
+        gettingPackage.color = actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
         bg.image.sprite = config.bg;
         this.transform.localScale = config.scale;
         bestValueObject.localPosition = config.bestValuePosition;
-        actualPriceStrikeThrough.color = config.textColor;
+
+        foreach (var dot in processingDots)
+        {
+            dot.color = config.textColor;
+        }
     }
 }

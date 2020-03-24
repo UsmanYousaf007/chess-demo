@@ -34,6 +34,7 @@ public class PromotionDlgMediator : Mediator
         {
             view.Init();
         }
+        view.SetupPurchaseButton(isAvailable);
     }
 
     [ListensTo(typeof(ShowPromotionDlgSignal))]
