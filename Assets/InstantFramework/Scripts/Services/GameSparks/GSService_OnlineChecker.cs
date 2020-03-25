@@ -18,8 +18,9 @@ namespace TurboLabz.InstantFramework
         private Coroutine onlineCheckerPingerCR = null;
         private long requestTimestamp = 0;
         private bool onlineCheckerPendingRequest = false;
-        private const int onlineCheckerFrequence = 5;
-        private int onlineCheckerSlowInternetThreshold = 3;
+        private const int onlineCheckerFrequence = 7;
+        private int onlineCheckerSlowInternetThreshold = 5;
+        private int requestTimeout = 6;
         private static Signal<bool, ConnectionSwitchType> internetReachabilitySignal = new Signal<bool, ConnectionSwitchType>();
         private bool onlineCheckerInternetAvailability = true;
         private bool onlineCheckerSlowInternet = false;
@@ -64,7 +65,7 @@ namespace TurboLabz.InstantFramework
                 if (onlineCheckerPendingRequest == false)
                 {
                     requestTimestamp = TimeUtil.unixTimestampMilliseconds;
-                    new GSOnlineCheckerPingRequest().Send().Then(OnlineCheckerCompleted);
+                    new GSOnlineCheckerPingRequest().Send(requestTimeout).Then(OnlineCheckerCompleted);
                     onlineCheckerPendingRequest = true;
                 }
 
@@ -105,13 +106,13 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "OnlineChecker";
 
-        public IPromise<BackendResult> Send()
+        public IPromise<BackendResult> Send(int timeout)
         {
             this.errorCode = BackendResult.ONLINECHECKER_REQUEST_FAILED;
 
             new LogEventRequest()  
                 .SetEventKey(SHORT_CODE)
-                .Send(OnRequestSuccess, OnRequestFailure, 5000);
+                .Send(OnRequestSuccess, OnRequestFailure, timeout * 1000);
 
             return promise;
         }
