@@ -41069,6 +41069,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 727598917}
   m_CullTransparentMesh: 0
+--- !u!224 &729954291 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2572119851665341761, guid: aa9fd5da5d8da49e387505b8badeaeee,
+    type: 3}
+  m_PrefabInstance: {fileID: 3533805873339012246}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &732453792
 GameObject:
   m_ObjectHideFlags: 0
@@ -108941,6 +108947,7 @@ MonoBehaviour:
   subscriptionOffers: {fileID: 889658473}
   promotionTitle: {fileID: 1922514714}
   promotionOffers: {fileID: 974868419}
+  manageSubscriptionBottomNav: {fileID: 729954291}
 --- !u!1 &1901426452
 GameObject:
   m_ObjectHideFlags: 0
@@ -125870,6 +125877,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 33.21081
+      objectReference: {fileID: 0}
+    - target: {fileID: 2572119851665341761, guid: aa9fd5da5d8da49e387505b8badeaeee,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa9fd5da5d8da49e387505b8badeaeee, type: 3}

@@ -82,7 +82,7 @@ namespace TurboLabz.InstantGame
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
 
-            if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch)
+            if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch && !playerModel.HasSubscription())
             {
                 preferencesModel.isSubscriptionDlgShownOnFirstLaunch = true;
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);

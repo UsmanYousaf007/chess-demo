@@ -65,6 +65,9 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform promotionTitle;
     public RectTransform promotionOffers;
 
+    [Header("Manage Subscription")]
+    public RectTransform manageSubscriptionBottomNav;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -146,6 +149,9 @@ public class NotchHandler : MonoBehaviour {
         //Promotion
         SetY(promotionTitle, -106f);
         SetY(promotionOffers, -435f);
+
+        //Manage Subscription
+        SetY(manageSubscriptionBottomNav, 60);
     }
 
     void SetY(RectTransform tfm, float y)
