@@ -90,7 +90,7 @@ public class SubscriptionTierView : View
             var monthlyPrice = item.productPrice / 12;
             price.text = $"{item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo";
             billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} annually";
-            savingsValue = (float)(monthlyPrice / monthlyItem.productPrice);
+            savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
             savings.text = $"Save {(int)(savingsValue * 100)}%";
         }
     }
