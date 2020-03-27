@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
 
             vo.opponent.playerId = null;
 
-            if (actionData.action != FindMatchAction.ACTION_RANDOM)
+            if (actionData.action != FindMatchAction.ACTION_RANDOM && actionData.action != FindMatchAction.ACTION_RANDOM_LONG)
             {
                 vo.opponent.playerId = actionData.opponentId;
 

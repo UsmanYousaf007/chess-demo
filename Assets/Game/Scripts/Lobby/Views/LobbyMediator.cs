@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -60,7 +61,9 @@ namespace TurboLabz.InstantFramework
             view.Init();
 
             view.playMultiplayerButtonClickedSignal.AddListener(OnQuickMatchBtnClicked);
+            view.playMultiplayerClassicButtonClickedSignal.AddListener(OnClassicMatchBtnClicked);
             view.playCPUButtonClickedSignal.AddListener(OnPlayComputerMatchBtnClicked);
+            view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
@@ -332,7 +335,11 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchBtnClicked()
         {
-            //FindMatchAction.Random(findMatchSignal);
+            FindMatchAction.Random(findMatchSignal);
+        }
+
+        private void OnClassicMatchBtnClicked()
+        {
             FindMatchAction.RandomLong(findMatchSignal);
         }
 
@@ -393,6 +400,12 @@ namespace TurboLabz.InstantFramework
         public void OnShowAdSkippedDlg()
         {
             view.ShowAdSkippedDailogue(true);
+        }
+
+        void OnUpgradeToPremiumClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "settings");
         }
     }
 }
