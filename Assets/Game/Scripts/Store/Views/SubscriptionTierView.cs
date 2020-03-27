@@ -92,6 +92,12 @@ public class SubscriptionTierView : View
             billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} annually";
             savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
             savings.text = $"Save {(int)(savingsValue * 100)}%";
+
+            if ((int)savingsValue == 0)
+            {
+                actualPrice.gameObject.SetActive(false);
+                savings.gameObject.SetActive(false);
+            }
         }
     }
 
