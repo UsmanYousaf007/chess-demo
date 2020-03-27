@@ -181,7 +181,7 @@ namespace TurboLabz.Multiplayer
 
             viewBoardResultPanel.gameObject.SetActive(false);
 
-            showCrossPromoButton.gameObject.SetActive(SpriteBank.Sprites.Count > 1);
+            showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
 
         }
 
