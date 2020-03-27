@@ -216,14 +216,14 @@ namespace TurboLabz.InstantFramework
             quickMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
             quickMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
 
-            //classicMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC);
-            //classicMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
+            classicMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC);
+            classicMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
 
             playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
 
             quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
-            //classicMatchBtn.onClick.AddListener(OnClassicMatchBtnClicked);
+            classicMatchBtn.onClick.AddListener(OnClassicMatchBtnClicked);
             
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
@@ -330,9 +330,8 @@ namespace TurboLabz.InstantFramework
 
         void OnQuickMatchBtnClicked()
         {
-            //Debug.Log("OnQuickMatchBtnClicked");
-            //playMultiplayerButtonClickedSignal.Dispatch();
-            OnClassicMatchBtnClicked();
+            Debug.Log("OnQuickMatchBtnClicked");
+            playMultiplayerButtonClickedSignal.Dispatch();
         }
 
         void OnClassicMatchBtnClicked()
