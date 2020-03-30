@@ -18,18 +18,17 @@ namespace TurboLabz.InstantFramework
 
 		// Dispatch signals
 		[Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-
-
-		// Services
-		[Inject] public IBackendService backendService { get; set; }
-		[Inject] public IAnalyticsService analyticsService { get; set; }
-
-		// Models
-		[Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IPicsModel picsModel { get; set; }
-        [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
 
+        // Services
+        [Inject] public IBackendService backendService { get; set; }
+		[Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
+
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         string challengeId;
 
@@ -60,6 +59,8 @@ namespace TurboLabz.InstantFramework
             pvo.eloScore = playerModel.eloScore;
             pvo.countryId = playerModel.countryId;
             pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
+            pvo.isAppleSignedIn = signInWithAppleService.IsSignedIn();
+            pvo.isAppleSignInSupported = signInWithAppleService.IsSupported();
             pvo.playerId = playerModel.id;
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;

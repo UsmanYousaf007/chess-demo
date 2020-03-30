@@ -23,6 +23,7 @@ namespace TurboLabz.InstantGame
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
 
         // Models
@@ -39,7 +40,7 @@ namespace TurboLabz.InstantGame
                 showFriendsHelpSignal.Dispatch();
             }
 
-            if (facebookService.isLoggedIn())
+            if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {
                 friendsShowConnectFacebookSignal.Dispatch(false);
             }

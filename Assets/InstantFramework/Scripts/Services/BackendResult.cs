@@ -61,6 +61,7 @@ namespace TurboLabz.InstantFramework
         PURCHASE_COMPLETE,
         PURCHASE_CANCEL,
         PURCHASE_FAILED,
-        ONLINECHECKER_REQUEST_FAILED
+        ONLINECHECKER_REQUEST_FAILED,
+        AUTH_SIGN_IN_WITH_APPLE_FAILED
     }
 }

@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }

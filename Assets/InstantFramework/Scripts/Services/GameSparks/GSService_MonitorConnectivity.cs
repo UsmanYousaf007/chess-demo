@@ -12,6 +12,7 @@
 
 using TurboLabz.TLUtils;
 using GameSparks.Core;
+using UnityEditor;
 
 namespace TurboLabz.InstantFramework
 {
@@ -62,7 +63,14 @@ namespace TurboLabz.InstantFramework
                 string fbAccessToken = facebookService.GetAccessToken();
                 if (fbAccessToken == null)
                 {
-                    AuthGuest().Then(ProcessHardReconnection);
+                    if (signInWithAppleService.IsSignedIn())
+                    {
+                        ProcessSignInWithApple();
+                    }
+                    else
+                    {
+                        AuthGuest().Then(ProcessHardReconnection);
+                    }
                 }
                 else
                 {
@@ -108,6 +116,16 @@ namespace TurboLabz.InstantFramework
                 // state will be obtained from full init data.
                 RemoveChallengeListeners();
             }
+        }
+
+        void ProcessSignInWithApple()
+        {
+            signInWithAppleService.GetCredentialState().Then((args) => {
+                if (string.IsNullOrEmpty(args.error))
+                {
+                    AuthSignInWithApple(args.userInfo.idToken, true).Then(ProcessHardReconnection);
+                }
+            });
         }
     }
 }

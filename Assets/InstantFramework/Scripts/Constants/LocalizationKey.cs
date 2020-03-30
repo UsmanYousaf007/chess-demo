@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
 
         public const string ELO_SCORE = "eloScore";
         public const string FACEBOOK_LOGIN = "facebookLogin";
+        public const string SIGN_IN = "signIn";
         public const string REMOVE_ADS = "removeAds";
         public const string FREE_NO_ADS_PERIOD = "freeNoAdsPeriod";
         public const string FREE_NO_ADS_MINUTES = "freeNoAdsMinutes";

@@ -1,0 +1,20 @@
+{
+  "name": "com.huuuge.huf.auth.siwa",
+  "displayName": "Auth SIWA",
+  "version": "1.0.1",
+  "unity": "2018.4",
+  "description": "Auth SIWA module offers authentication method for SignInWithApple service.",
+  "huf": {
+    "message": "Minimum supported Unity version is 2018.4 but Unity 2019.1 doesn't have automatic adding SIWA to XCode project, you must handle it other way\nMinimum XCode version is 11",
+    "details": [
+      "Sign in with Apple 1.0.3"
+    ],
+    "date": "28.02.2020 14:30",
+    "commit": "733810e",
+    "build": "21",
+    "scope": "public",
+    "channel": "stable",
+    "path": "Assets/HUF/AuthSIWA",
+    "rollout": "1.9"
+  }
+}

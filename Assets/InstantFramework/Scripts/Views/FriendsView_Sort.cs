@@ -185,7 +185,7 @@ namespace TurboLabz.InstantFramework
             
             sectionPlayAFriend.gameObject.SetActive(true);
 
-            if (!facebookService.isLoggedIn())
+            if (!(facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn()))
             {
                 index = sectionPlayAFriend.GetSiblingIndex() + 1;
                 sectionPlayAFriendEmptyNotLoggedIn.transform.SetSiblingIndex(index);
@@ -246,7 +246,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                if (facebookService.isLoggedIn())
+                if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
                 {
                     sectionPlayAFriendEmpty.transform.SetSiblingIndex(index);
                     sectionPlayAFriendEmpty.gameObject.SetActive(true);

@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
     {
         // Dispatch signals
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
+        [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
         [Inject] public PlayerProfilePicTappedSignal playerProfilePicTappedSignal { get; set; }
 
         // View injection
@@ -39,6 +40,7 @@ namespace TurboLabz.InstantGame
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.profilePicButtonClickedSignal.AddListener(OnProfilePicButtonClicked);
+            view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -59,6 +61,12 @@ namespace TurboLabz.InstantGame
             view.FacebookAuthResult(vo);
         }
 
+        [ListensTo(typeof(AuthSignInWithAppleResultSignal))]
+        public void OnAuthSignInWithAppleResult(AuthSignInWIthAppleResultVO vo)
+        {
+            view.SignInWithAppleResult(vo);
+        }
+
         [ListensTo(typeof(ToggleFacebookButton))]
         public void OnToggleFacebookButton(bool toggle)
         {
@@ -68,6 +76,11 @@ namespace TurboLabz.InstantGame
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
+        }
+
+        private void OnSignInWithAppleButtonClicked()
+        {
+            authSignInWithAppleSignal.Dispatch();
         }
 
         private void OnProfilePicButtonClicked()
