@@ -78,7 +78,7 @@ public class SubscriptionTierView : View
 
         if (isMonthly)
         {
-            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice + (item.productPrice * (decimal)savingsValue), 2)}";
+            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
             billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
             savings.text = $"Save {savingsValue * 100}%";
