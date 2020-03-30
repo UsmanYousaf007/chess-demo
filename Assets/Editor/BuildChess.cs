@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 public class BuildChess : MonoBehaviour
 { 
@@ -250,7 +251,9 @@ public class BuildChess : MonoBehaviour
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = gameScenFiles;
+#if !UNITY_CLOUD_BUILD
         buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_IOS_SUBPATH + postfix;
+#endif
         buildPlayerOptions.target = BuildTarget.iOS;
         buildPlayerOptions.options = buildOptions;
         buildPlayerOptions.targetGroup = BuildTargetGroup.iOS;
@@ -265,7 +268,9 @@ public class BuildChess : MonoBehaviour
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = gameScenFiles;
+#if !UNITY_CLOUD_BUILD
         buildPlayerOptions.locationPathName = desktopPath + BUILD_OUTPUT_PATH + BUILD_OUTPUT_ANDROID_SUBPATH + postfix + "/" + androidAPK + bundleVersionCodeAndroid + postfix + ".apk";
+#endif
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = buildOptions;
         buildPlayerOptions.targetGroup = BuildTargetGroup.Android;
@@ -321,7 +326,6 @@ public class BuildChess : MonoBehaviour
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
 #endif
-
         LogUtil.Log("End Build iOS Development", "yellow");
     }
 
@@ -353,7 +357,9 @@ public class BuildChess : MonoBehaviour
         GASettings(true);
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
+#if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
+#endif
         LogUtil.Log("End Build Android Development");
     }
 
@@ -393,26 +399,6 @@ public class BuildChess : MonoBehaviour
         ProcessBuild(buildPlayerOptions);
 #endif
         LogUtil.Log("End Build Android for Store");
-    }
-
-    public static void BuildiOSCloud(string xcodeproj)
-    {
-        BuildiOS();
-    }
-
-    public static void BuildAndroidloud(string player)
-    {
-        BuildAndroid();
-    }
-
-    public static void BuildiOSCloudDevelopment(string xcodeproj)
-    {
-        BuildiOSDevelopment();
-    }
-
-    public static void BuildAndroidloudDevelopment(string player)
-    {
-        BuildAndroidDevelopment();
     }
 
 }
