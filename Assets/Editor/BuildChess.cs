@@ -166,7 +166,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.actionOnDotNetUnhandledException = ActionOnDotNetUnhandledException.Crash;
         // PlayerSettings.advancedLicense = true; // readonly
         PlayerSettings.allowFullscreenSwitch = true;
-        PlayerSettings.allowUnsafeCode = false;
+        PlayerSettings.allowUnsafeCode = true;
         PlayerSettings.allowedAutorotateToLandscapeLeft = false;
         PlayerSettings.allowedAutorotateToLandscapeRight = false;
         PlayerSettings.allowedAutorotateToPortrait = true;
