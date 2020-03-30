@@ -78,7 +78,7 @@ public class SubscriptionTierView : View
 
         if (isMonthly)
         {
-            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice + (item.productPrice * (decimal)savingsValue), 2)}";
+            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
             billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
             savings.text = $"Save {savingsValue * 100}%";
@@ -92,12 +92,9 @@ public class SubscriptionTierView : View
             billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} annually";
             savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
             savings.text = $"Save {(int)(savingsValue * 100)}%";
-
-            if ((int)savingsValue == 0)
-            {
-                actualPrice.gameObject.SetActive(false);
-                savings.gameObject.SetActive(false);
-            }
+            var showSavings = savingsValue > 0;
+            actualPrice.gameObject.SetActive(showSavings);
+            savings.gameObject.SetActive(showSavings);
         }
     }
 
