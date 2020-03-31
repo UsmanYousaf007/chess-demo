@@ -32,8 +32,8 @@ MonoBehaviour:
   - fd2bf82f92f37951b8100822f83be47d198f1b3c
   - c4de07adc66841eff5d94d5e43262e6308e11997
   Build:
-  - 5.0.12
-  - 5.0.12
+  - 5.1.12
+  - 5.1.12
   - 4.25.9
   - 4.25.9
   - 4.25.9
@@ -47,8 +47,33 @@ MonoBehaviour:
   SelectedPlatformGameID: 3403010032030100
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.0.9
-  Changes: '6.0.9
+  NewVersion: 6.0.14
+  Changes: '6.0.14
+
+    - added session_num to init requests
+
+
+    6.0.13
+
+    - logo updated
+
+
+    6.0.12
+
+    - hiding archived games bug fix in editor
+
+
+    6.0.11
+
+    - removed facebook, gender and birthyear methods
+
+
+    6.0.10
+
+    - settings namespace fix
+
+
+    6.0.9
 
     - A/B testing fixes
 
