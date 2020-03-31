@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
         public Text personalisedAdsOnText;
         public Text personalisedAdsOffText;
 
+        public Button hufShowAdsTestSuite;
 
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
@@ -110,6 +111,8 @@ namespace TurboLabz.InstantFramework
 #if UNITY_ANDROID
             restorePurchaseBtn.gameObject.SetActive(false);
 #endif
+            hufShowAdsTestSuite.gameObject.SetActive(Debug.isDebugBuild);
+            hufShowAdsTestSuite.onClick.AddListener(adsService.ShowTestSuite);
         }
 
         protected override void OnEnable()

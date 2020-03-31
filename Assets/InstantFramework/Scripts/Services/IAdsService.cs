@@ -17,5 +17,6 @@ namespace TurboLabz.InstantFramework
         void ShowBanner();
         void HideBanner();
         void CollectSensitiveData(bool consentStatus);
+        void ShowTestSuite();
     }
 }
