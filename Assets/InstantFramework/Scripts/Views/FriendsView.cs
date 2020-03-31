@@ -977,6 +977,7 @@ namespace TurboLabz.InstantFramework
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
+            analyticsService.Event(AnalyticsEventId.tap_match, AnalyticsContext.long_match);
         }
 
         void ConfirmFriendlyGameBtnClicked()

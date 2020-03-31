@@ -46,7 +46,7 @@ namespace TurboLabz.Multiplayer
 
                 if (chessboard.gameEndReason == GameEndReason.TIMER_EXPIRED)
                 {
-                    cmd.analyticsService.Event(AnalyticsEventId.playerturn_timer_runs_out, AnalyticsContext.long_match);
+                    cmd.analyticsService.Event(AnalyticsEventId.playerturn_timer_runs_out_long);
                 }
             }
             else
