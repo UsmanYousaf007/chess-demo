@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         public const string ACTION_RANDOM_LONG = "RandomLong";
         static ActionData actionData = new ActionData();
         public static bool isMatchRequestedWithFriend;
+        public static bool isRandomLongMatch;
 
         static public void Reset()
         {
@@ -38,6 +39,7 @@ namespace TurboLabz.InstantFramework
         {
             Reset();
             isMatchRequestedWithFriend = false;
+            isRandomLongMatch = false;
             actionData.action = "Random";
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
@@ -46,6 +48,7 @@ namespace TurboLabz.InstantFramework
         {
             Reset();
             isMatchRequestedWithFriend = true;
+            isRandomLongMatch = false;
             actionData.action = "Challenge";
             actionData.isRanked = isRanked;
             actionData.opponentId = opponentId;
@@ -56,6 +59,7 @@ namespace TurboLabz.InstantFramework
         {
             Reset();
             isMatchRequestedWithFriend = false;
+            isRandomLongMatch = true;
             actionData.action = "RandomLong";
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
@@ -64,6 +68,7 @@ namespace TurboLabz.InstantFramework
         {
             Reset();
             isMatchRequestedWithFriend = false;
+            isRandomLongMatch = false;
             actionData.action = "Accept";
             actionData.matchGroup = matchGroup;
             actionData.opponentId = opponentId;

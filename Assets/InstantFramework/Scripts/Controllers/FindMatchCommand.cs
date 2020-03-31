@@ -101,12 +101,22 @@ namespace TurboLabz.InstantFramework
 
             // For quick match games, the flow continues from the get game start time signal
             // where both clients start at a synch time stamp
+
+
+
             getGameStartTimeSignal.Dispatch();
 
             preferencesModel.gameStartCount++;
-            hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match");
-            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-            analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.quick_match);
+
+
+            if (matchInfoModel.activeMatch.isLongPlay) {
+                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.random_long_match);
+            }
+            else{
+                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match");
+                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.quick_match);
+            }
 
             // Grab the opponent profile pic if any
             if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)

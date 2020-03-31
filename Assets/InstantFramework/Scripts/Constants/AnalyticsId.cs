@@ -142,7 +142,13 @@ namespace TurboLabz.InstantFramework
         subscription_dlg_shown,
         get_free_trial_clicked,
         subscription_purchased,
-        cross_promo_clicked
+        cross_promo_clicked,
+        tap_match_random,
+        tap_resign_game,
+        playerturn_timer_runs_out,
+        played_bot_match,
+        played_online_match,
+        match_timer_runs_out
     }
 
     public enum AnalyticsContext
@@ -151,6 +157,7 @@ namespace TurboLabz.InstantFramework
         long_match,
         quick_match,
         computer_match,
+        random_long_match,
         shop
     }
 

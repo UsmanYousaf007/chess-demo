@@ -337,7 +337,7 @@ namespace TurboLabz.InstantFramework
         void OnClassicMatchBtnClicked()
         {
             Debug.Log("OnClassicMatchBtnClicked");
-            
+            analyticsService.Event(AnalyticsEventId.tap_match_random, AnalyticsContext.random_long_match);
 
             audioService.PlayStandardClick();
             actionBar = null;
