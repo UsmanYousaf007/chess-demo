@@ -115,6 +115,7 @@ namespace TurboLabz.InstantFramework
         protected override void OnEnable()
         {
             base.OnEnable();
+            RefreshAudioButtons();
             RefreshPersonalisedAdsToggleButtons();
         }
 
