@@ -16,6 +16,7 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
     [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
     [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+    [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
 
     //Models
     [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -65,6 +66,7 @@ public class SubscriptionDlgMediator : Mediator
         {
             hAnalyticsService.LogEvent("close_popup_clicked", "menu", "subscription_popup", cameFromState.GetType().Equals(typeof(NSLobby)) ? "banner" : "");
             view.Hide();
+            subscriptionDlgClosedSignal.Dispatch();
         }
     }
 
