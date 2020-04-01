@@ -30,9 +30,9 @@ public class SplashLoader : MonoBehaviour {
 
     void Start() 
     {
-        if (!(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED || HGenericGDPR.IsPolicyAccepted == GDPRStatus.TURNED_OFF))
+        if (!HGenericGDPR.IsPolicyAccepted)
         {
-            HGenericGDPR.Create();
+            HGenericGDPR.Initialize();
         }
         else
         {

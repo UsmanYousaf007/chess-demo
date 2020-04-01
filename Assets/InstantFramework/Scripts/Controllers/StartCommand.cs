@@ -80,8 +80,8 @@ namespace TurboLabz.InstantFramework
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
 
-                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+                adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
             }
 		}
 

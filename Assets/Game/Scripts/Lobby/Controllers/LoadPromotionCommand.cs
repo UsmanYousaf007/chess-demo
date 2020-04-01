@@ -5,7 +5,7 @@ using System;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections;
-using HUF.Analytics.API;
+//using HUF.Analytics.API;
 using IAnalyticsService = TurboLabz.InstantFramework.IAnalyticsService;
 
 namespace TurboLabz.InstantGame
