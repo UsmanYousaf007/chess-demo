@@ -80,17 +80,18 @@ public class SubscriptionTierView : View
         {
             actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
-            billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
+            //billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
+            billed.gameObject.SetActive(false);
             savings.text = $"Save {savingsValue * 100}%";
         }
         else
         {
             var monthlyItem = metaDataModel.store.items["Subscription"];
-            actualPrice.text = $"{monthlyItem.remoteProductCurrencyCode} {monthlyItem.productPrice}";
             var monthlyPrice = item.productPrice / 12;
-            price.text = $"{item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo";
-            billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} annually";
             savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
+            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
+            price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/yr";
+            billed.text = $"Just {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo"; ;
             savings.text = $"Save {(int)(savingsValue * 100)}%";
             var showSavings = savingsValue > 0;
             actualPrice.gameObject.SetActive(showSavings);
