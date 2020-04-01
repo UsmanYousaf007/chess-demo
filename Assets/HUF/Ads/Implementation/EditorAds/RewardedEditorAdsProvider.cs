@@ -13,6 +13,7 @@ namespace HUF.Ads.Implementation.EditorAds
         public override bool Init()
         {
             placementType = PlacementType.Rewarded;
+            
             return base.Init();
         }
 

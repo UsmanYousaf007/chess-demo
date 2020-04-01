@@ -18,6 +18,10 @@ namespace HUF.Ads.Implementation
         public List<AdPlacementData> AdPlacementData => adPlacementData;
         public bool UseEditorMockProvider => useEditorMockProvider;
         
+#if UNITY_EDITOR
+        public ApplicationIdentifier EditorApplicationIdentifier => appId;
+#endif
+        
         public AdPlacementData GetPlacementData(string placementId)
         {
             var data = AdPlacementData.FirstOrDefault(x => x.PlacementId == placementId);

@@ -3,6 +3,7 @@ using HUF.Ads.API;
 using HUF.Ads.Implementation.EditorAds;
 using HUF.Utils.Configs.API;
 using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,7 +15,7 @@ namespace HUF.Ads.Implementation
         IInterstitialAdProvider interstitialAdProvider;
         IRewardedAdProvider rewardedAdProvider;
 
-        readonly string logPrefix;
+        static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(AdsService));
 
         bool isServiceInitialized;
         UnityAction OnAdsServiceInitialized;
@@ -27,21 +28,18 @@ namespace HUF.Ads.Implementation
             get => bannerAdProvider;
             set
             {
-#if !DISABLE_HUF_EDITOR_ADS
                 if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
                 {
                     bannerAdProvider = new BannerEditorAdsProvider();
                     bannerAdProvider.Init();
                 }
                 else
-#endif
                 {
                     bannerAdProvider = value;
                     if (!bannerAdProvider.IsInitialized)
                     {
                         if (!bannerAdProvider.Init())
-                            Debug.LogError($"[{logPrefix}] Failed to initialize banner ad provider! " +
-                                           $"Make sure you set application IDs in config file!");
+                            HLog.LogError(logPrefix, "Failed to initialize banner ad provider! Make sure you set application IDs in config file!");
                     }
                 }
             }
@@ -52,21 +50,18 @@ namespace HUF.Ads.Implementation
             get => interstitialAdProvider;
             set
             {
-#if !DISABLE_HUF_EDITOR_ADS
                 if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
                 {
                     interstitialAdProvider = new InterstitialEditorAdProvider();
                     interstitialAdProvider.Init();
                 }
                 else
-#endif
                 {
                     interstitialAdProvider = value;
                     if (!interstitialAdProvider.IsInitialized)
                     {
                         if (!interstitialAdProvider.Init())
-                            Debug.LogError($"[{logPrefix}] Failed to initialize interstitial ad provider! " +
-                                           $"Make sure you set application IDs in config file!");
+                            HLog.LogError(logPrefix, $"Failed to initialize interstitial ad provider! Make sure you set application IDs in config file!");
                     }
                 }
             }
@@ -77,29 +72,22 @@ namespace HUF.Ads.Implementation
             get => rewardedAdProvider;
             set
             {
-#if !DISABLE_HUF_EDITOR_ADS
                 if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
                 {
                     rewardedAdProvider = new RewardedEditorAdsProvider();
                     rewardedAdProvider.Init();
+                    ServiceInitialized();
                 }
                 else
-#endif
                 {
                     rewardedAdProvider = value;
                     if (!rewardedAdProvider.IsInitialized)
                     {
                         if (!rewardedAdProvider.Init())
-                            Debug.LogError($"[{logPrefix}] Failed to initialize rewarded ad provider! " +
-                                           $"Make sure you set application IDs in config file!");
+                            HLog.LogError(logPrefix, $"Failed to initialize rewarded ad provider! Make sure you set application IDs in config file!");
                     }
                 }
             }
-        }
-
-        public AdsService()
-        {
-            logPrefix = GetType().Name;
         }
 
         public void CollectSensitiveData(bool consentStatus)
@@ -222,7 +210,7 @@ namespace HUF.Ads.Implementation
                 return true;
             }
 
-            Debug.LogWarning($"[{logPrefix}] Provider is not initialized yet!");
+            HLog.LogWarning(logPrefix, "Provider is not initialized yet!");
             return false;
         }
         

@@ -1,5 +1,7 @@
 using System;
+using HUF.Ads.API;
 using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 
 namespace HUF.Ads.Implementation
@@ -7,8 +9,7 @@ namespace HUF.Ads.Implementation
     [Serializable]
     public struct ApplicationIdentifier
     {
-        const string LOG_PREFIX = "ApplicationIdentifier";
-        
+        static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(ApplicationIdentifier));
         #pragma warning disable 0649
         [SerializeField] string iOSAppId;
         [SerializeField] string androidAppId;
@@ -29,11 +30,14 @@ namespace HUF.Ads.Implementation
                     case RuntimePlatform.LinuxEditor:
                         return androidAppId.IsNullOrEmpty() ? iOSAppId : androidAppId;
                     default:
-                        Debug.LogWarning(
-                            $"[{LOG_PREFIX}] Using unsupported platform for current provider configuration.");
+                        HLog.LogWarning(logPrefix, $"Using unsupported platform for current provider configuration.");
                         return "";
                 }
             }
         }
+#if UNITY_EDITOR
+        public string EditoriOSAppId => iOSAppId;
+        public string EditorAndroidAppId => androidAppId;
+#endif
     }
 }
