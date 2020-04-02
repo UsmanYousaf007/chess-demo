@@ -127,7 +127,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string> okButtonClickedSignal = new Signal<string>();
         public Signal<int> actionCountUpdatedSignal = new Signal<int>();
         public Signal<string> removeCommunityFriendSignal = new Signal<string>();
-        public Signal<string, bool> quickMatchFriendButtonClickedSignal = new Signal<string, bool>();
+        public Signal<string, bool, string> quickMatchFriendButtonClickedSignal = new Signal<string, bool, string>();
         public Signal<string> showChatSignal = new Signal<string>();
 
         public Signal inviteFriendSignal = new Signal();
@@ -157,8 +157,12 @@ namespace TurboLabz.InstantFramework
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
             startGameConfirmationDlg.confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
-            startGameConfirmationDlg.confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
-            startGameConfirmationDlg.confirmFriendlyGameBtn.onClick.AddListener(ConfirmFriendlyGameBtnClicked);
+
+            //startGameConfirmationDlg.confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
+            startGameConfirmationDlg.confirmFriendlyGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge.ToString()); });
+            startGameConfirmationDlg.confirmFriendly10MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge10.ToString()); });
+
+
             startGameConfirmationDlg.confirmGameCloseBtn.onClick.AddListener(ConfirmNewGameDlgNo);
             startGameConfirmationDlg.ToggleRankButton.onClick.AddListener(OnToggleRankButtonClicked);
             startGameConfirmationDlg.toggleRankButtonState = true;
@@ -401,12 +405,12 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void CreateQuickMatchGame(string friendId, bool isRanked)
+        public void CreateQuickMatchGame(string friendId, bool isRanked, string actionCode)
         {
             // Start a quick match 
             if (friendId != null)
             {
-                quickMatchFriendButtonClickedSignal.Dispatch(friendId, isRanked);
+                quickMatchFriendButtonClickedSignal.Dispatch(friendId, isRanked, actionCode);
                 startGameFriendId = null;
             }
         }
@@ -977,12 +981,13 @@ namespace TurboLabz.InstantFramework
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
+            analyticsService.Event(AnalyticsEventId.tap_match, AnalyticsContext.long_match);
         }
 
-        void ConfirmFriendlyGameBtnClicked()
+        void ConfirmFriendlyGameBtnClicked(string actionCode)
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
-            CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
+            CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState, actionCode);
         }
 
         void ConfirmNewGameDlgNo()

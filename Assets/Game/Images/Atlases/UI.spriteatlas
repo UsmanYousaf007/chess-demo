@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 15545350
+    totalSpriteSurfaceArea: 15716929
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -236,6 +236,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7ef0320bcdde94f15a0fcd00c08b98d9, type: 3}
   - {fileID: 21300000, guid: 84c71f0b7b27a4e37a8cc48e0361b28f, type: 3}
   - {fileID: 21300000, guid: b1b8e21be0dc143a2b2c92c7d11c4e58, type: 3}
+  - {fileID: 21300000, guid: 1966e72bd1d1c482eafde761280e4629, type: 3}
   - {fileID: 21300000, guid: dadc533b320e041fba65f59105ca3797, type: 3}
   - {fileID: 21300000, guid: fadd426b9f38d434e961d21df5d5b3d1, type: 3}
   - {fileID: 21300000, guid: 1e051b6bbf3634fadbed7d3879feece1, type: 3}
@@ -259,6 +260,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 610441bca674d4b5a9ae5ac01381aabf, type: 3}
   - {fileID: 21300000, guid: 6155f5bcbb876439182b8a8a5c2e342d, type: 3}
   - {fileID: 21300000, guid: c1722abcc04494e2a93bd3dd97838dfa, type: 3}
+  - {fileID: 21300000, guid: f93e3abcbd29044e482188d41ca00ef6, type: 3}
   - {fileID: 21300000, guid: ca3e76dc38d534c12adb5328cadf8656, type: 3}
   - {fileID: 21300000, guid: 618042ec0509e4697920eb8fe9c1829a, type: 3}
   - {fileID: 21300000, guid: ef73f2ec35a474bd2b7cdba511a187c6, type: 3}
@@ -477,6 +479,7 @@ SpriteAtlas:
   - SelectedSubBg
   - strengthFillerOutline
   - FrameworkButton
+  - GameLimitIcon
   - ChatMinIcon
   - AddCoinPlate
   - moveMeterBg
@@ -500,6 +503,7 @@ SpriteAtlas:
   - QuickMatchIcon
   - InfinityIcon
   - coachTrainingArrow
+  - SubDlgBtnNew
   - Tick
   - ChatInGameEnterBg
   - CloseBtn

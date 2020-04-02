@@ -159,6 +159,7 @@ namespace TurboLabz.CPU
 
         void OnResignButtonClicked()
         {
+            analyticsService.Event(AnalyticsEventId.tap_resign_game);
             resignButtonClickedSignal.Dispatch();
         }
 

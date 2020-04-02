@@ -43,6 +43,11 @@ namespace TurboLabz.Multiplayer
                 long currentTime = cmd.backendService.serverClock.currentTimestamp;
                 TimeSpan elapsed = TimeSpan.FromMilliseconds(currentTime - startMs);
                 cmd.analyticsService.Event(AnalyticsEventId.long_match_complete_duration, AnalyticsParameter.duration, elapsed.TotalHours);
+
+                if (chessboard.gameEndReason == GameEndReason.TIMER_EXPIRED)
+                {
+                    cmd.analyticsService.Event(AnalyticsEventId.playerturn_timer_runs_out_long);
+                }
             }
             else
             {
@@ -61,6 +66,11 @@ namespace TurboLabz.Multiplayer
                             AnalyticsParameter.bot_difficulty,
                             cmd.activeMatchInfo.botDifficulty);
                     }
+                    cmd.analyticsService.Event(AnalyticsEventId.played_bot_match, AnalyticsContext.quick_match);
+                }
+                else
+                {
+                    cmd.analyticsService.Event(AnalyticsEventId.played_online_match, AnalyticsContext.quick_match);
                 }
 
                 cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);

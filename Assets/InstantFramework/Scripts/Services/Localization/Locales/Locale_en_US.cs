@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.OKAY_TEXT, "Ok" },
                 { LocalizationKey.BACK_TEXT, "BACK" },
+                 { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
 
                 #endregion
 
@@ -114,7 +115,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
                 { LocalizationKey.CPU_MENU_THEME, "Theme" },
-                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Quick Match" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Speed Chess 5m" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC, "Classic Chess" },
                 { LocalizationKey.CPU_MENU_PLAY_FRIENDS, "Friends & World" },
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "Play Computer" },
                 { LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME, "Single Player Game" },

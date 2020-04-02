@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
 
         public const string OKAY_TEXT = "okayText";
         public const string BACK_TEXT = "backText";
+        public const string UPGRADE_TEXT = "upgradeText";
 
         #endregion
 
@@ -110,6 +111,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_PLAYER_COLOR = "cpuMenuPlayerColor";
         public const string CPU_MENU_THEME = "cpuMenuTheme";
         public const string CPU_MENU_PLAY_ONLINE = "cpuMenuPlayOnline";
+        public const string CPU_MENU_PLAY_ONLINE_CLASSIC = "cpuMenuPlayOnlineClassic";
         public const string CPU_MENU_PLAY_FRIENDS = "cpuMenuPlayFriends";
         public const string CPU_MENU_PLAY_CPU = "cpuMenuPlayCPU";
         public const string CPU_MENU_SINGLE_PLAYER_GAME = "cpuMenuSinglePlayerGame";

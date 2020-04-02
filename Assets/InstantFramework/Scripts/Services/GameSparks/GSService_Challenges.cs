@@ -227,7 +227,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void HandleActiveNewMatch(string challengeId)
+        private void HandleActiveNewMatch(string challengeId, bool forceStart = false)
         {
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
 
@@ -236,8 +236,8 @@ namespace TurboLabz.InstantFramework
                 string opponentId = (playerModel.id == matchInfo.challengerId) ?
                     matchInfo.challengedId : matchInfo.challengerId;
 
-                if (opponentId == matchInfoModel.activeLongMatchOpponentId &&
-                    matchInfoModel.activeChallengeId == null)
+                if ((opponentId == matchInfoModel.activeLongMatchOpponentId &&
+                    matchInfoModel.activeChallengeId == null) || forceStart)
                 {
                     startLongMatchSignal.Dispatch(challengeId);
                 }
