@@ -17,6 +17,9 @@ public class PromotionDlgMediator : Mediator
     [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
     [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
+    //Models
+    [Inject] public IAppInfoModel appInfoModel { get; set; }
+
     private IPromise<AdsResult> promise;
 
     public override void OnRegister()
@@ -34,19 +37,28 @@ public class PromotionDlgMediator : Mediator
         {
             view.Init();
         }
+        view.SetupPurchaseButton(isAvailable);
     }
 
     [ListensTo(typeof(ShowPromotionDlgSignal))]
     public void OnShowView(IPromise<AdsResult> promise)
     {
         this.promise = promise;
+        appInfoModel.isInternalAdShown = true;
         view.Show();
+    }
+
+    [ListensTo(typeof(ClosePromotionDlgSignal))]
+    public void OnCloseDaiglogueSignal()
+    {
+        OnCloseDailogue();
     }
 
     private void OnCloseDailogue()
     {
         view.Hide();
         promise.Dispatch(AdsResult.FINISHED);
+        appInfoModel.isInternalAdShown = false;
     }
 
     private void OnPurchase()

@@ -1,6 +1,7 @@
 ﻿using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -120,6 +121,12 @@ public class SubscriptionDlgView : View
     public bool IsVisible()
     {
         return gameObject.activeSelf;
+    }
+
+    public void SetupPurchaseButton(bool isAvailable)
+    {
+        purchaseButton.interactable = isAvailable;
+        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
     }
 }
 

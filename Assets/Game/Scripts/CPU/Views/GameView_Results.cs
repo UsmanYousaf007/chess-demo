@@ -23,6 +23,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using HUFEXT.CrossPromo.API;
 using strange.extensions.promise.api;
+using HUFEXT.CrossPromo.Implementation;
 
 namespace TurboLabz.CPU
 {
@@ -173,8 +174,11 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
+
             viewBoardResultPanel.gameObject.SetActive(false);
+
             showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+
         }
 
         public void HideResultsDialog()

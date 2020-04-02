@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
         public Text personalisedAdsOnText;
         public Text personalisedAdsOffText;
 
+        public Button hufShowAdsTestSuite;
 
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
@@ -110,11 +111,14 @@ namespace TurboLabz.InstantFramework
 #if UNITY_ANDROID
             restorePurchaseBtn.gameObject.SetActive(false);
 #endif
+            hufShowAdsTestSuite.gameObject.SetActive(Debug.isDebugBuild);
+            hufShowAdsTestSuite.onClick.AddListener(adsService.ShowTestSuite);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
+            RefreshAudioButtons();
             RefreshPersonalisedAdsToggleButtons();
         }
 
@@ -152,14 +156,14 @@ namespace TurboLabz.InstantFramework
         //Personalised Ads Button
         private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalisedAdsOffBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted != GDPRStatus.ACCEPTED);
-            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+            personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPersonalizedAdsAccepted);
+            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         private void OnPersonalizedAdsOffButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPolicyAccepted = GDPRStatus.ACCEPTED;
+            HGenericGDPR.SetPersonalisedAds(true);
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
         }
@@ -167,15 +171,14 @@ namespace TurboLabz.InstantFramework
         private void OnPersonalizedAdsOnButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPolicyAccepted = GDPRStatus.TURNED_OFF;
+            HGenericGDPR.SetPersonalisedAds(false);
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
         }
 
         private void SetConsent()
         {
-            adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
-            HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+            adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         void OnRestorePurchaseButtonClicked()

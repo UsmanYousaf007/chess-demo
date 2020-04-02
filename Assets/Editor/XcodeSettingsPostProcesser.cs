@@ -31,7 +31,9 @@ public class XcodeSettingsPostProcesser
         // Additional files
         TurboLabz.TLUtils.LogUtil.Log("Adding ChessAI files..", "cyan");
         string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
-        string aiFolder = desktopPath + "/data/turbo-labz/projects/chess-ai-plugin/iOSChessPlugin/ChessAI/";
+
+        string aiFolder = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf('/')) + "/ChessAI/";
+        //string aiFolder =  desktopPath + "/data/turbo-labz/projects/chess-ai-plugin/iOSChessPlugin/ChessAI/";
 
         string[] arrayAIFiles = {
             "unity.h",

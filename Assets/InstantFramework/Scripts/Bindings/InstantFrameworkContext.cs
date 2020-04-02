@@ -148,6 +148,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
             injectionBinder.Bind<ThemeAlertDisableSignal>().ToSingleton();
             injectionBinder.Bind<ShowPromotionDlgSignal>().ToSingleton();
+            injectionBinder.Bind<ClosePromotionDlgSignal>().ToSingleton();
+            injectionBinder.Bind<SubscriptionDlgClosedSignal>().ToSingleton();
             injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
             injectionBinder.Bind<DisableModalBlockersSignal>().ToSingleton();
             injectionBinder.Bind<SelectTierSignal>().ToSingleton();

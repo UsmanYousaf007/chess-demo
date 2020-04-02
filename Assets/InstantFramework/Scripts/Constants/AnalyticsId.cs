@@ -73,19 +73,14 @@ namespace TurboLabz.InstantFramework
         level_complete,
         level_fail,
         player_elo,
-        
+        bot_quick_match_won,
+        bot_quick_match_lost,
         long_match_complete_duration,
         selected_theme,
         disconnection_time,
-
-        //random quick match
         quickmatch_direct_request,
         quickmatch_direct_request_accept,
         quickmatch_direct_request_timeout_ingame,
-        bot_quick_match_won,
-        bot_quick_match_lost,
-
-        //Ads
         ads_rewarded_request,
         ads_rewarded_success,
         ads_rewarded_show,
@@ -98,8 +93,6 @@ namespace TurboLabz.InstantFramework
         //ads_interstitial_success,
         ads_interstitial_show,
         ads_interstitial_failed,
-
-
         tap_pow_move_meter,
         cancel_pow_move_meter,
         close_pow_move_meter,
@@ -120,14 +113,11 @@ namespace TurboLabz.InstantFramework
         tap_add_friends,
         tap_remove_friends,
         start_match_with_favourite,
-
-        //powerups
         powerup_usage_no,
         powerup_usage_low,
         powerup_usage_avg,
         powerup_usage_good,
         powerup_usage_awesome,
-
         time_spent_quick_macth,
         time_spent_long_match,
         time_spent_cpu_match,
@@ -139,15 +129,6 @@ namespace TurboLabz.InstantFramework
         multi_mode_player,
         mode_distribution,
         reconnection_shown,
-
-
-        tap_match,
-        tap_resign_game,
-        playerturn_timer_runs_out_long,
-        played_bot_match,
-        played_online_match,
-        match_timer_runs_out,
-
         //apps flyer events for HUUUGE
         launch,
         ad_clicked,
@@ -162,7 +143,8 @@ namespace TurboLabz.InstantFramework
         get_free_trial_clicked,
         subscription_purchased,
         cross_promo_clicked,
-
+        terms_clicked,
+        close_subscription_clicked
     }
 
     public enum AnalyticsContext
@@ -171,7 +153,6 @@ namespace TurboLabz.InstantFramework
         long_match,
         quick_match,
         computer_match,
-        random_long_match,
         shop
     }
 

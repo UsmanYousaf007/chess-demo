@@ -196,6 +196,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.STORE_CONFIRM_DLG_TITLE_BUY, "Buy" },
                 { LocalizationKey.STORE_NOT_AVAILABLE, "Try Later" },
+                { LocalizationKey.STORE_GETTING_PACKAGE, "Getting Package" },
 
 
                 { LocalizationKey.CPU_STORE_HEADING, "THEMES" },

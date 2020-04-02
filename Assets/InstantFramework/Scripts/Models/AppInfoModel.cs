@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }
+        public bool isInternalAdShown { get; set; }
 
         public string privacyPolicyURL
         {
@@ -71,6 +72,7 @@ namespace TurboLabz.InstantFramework
             onlineCount = 0;
             isNotificationActive = false;
             contactSupportURL = "";
+            isInternalAdShown = false;
         }
     }
 }

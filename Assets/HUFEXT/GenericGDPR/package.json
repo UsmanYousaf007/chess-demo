@@ -1,0 +1,24 @@
+{
+  "name": "com.huuuge.hufext.genericgdpr",
+  "displayName": "Generic GDPR",
+  "version": "2.1.0",
+  "unity": "2018.4",
+  "description": "Generic GDPR is generic policy window that allows you to show policy to players and receive consent for personalized ads.",
+  "huf": {
+    "message": "If you have any problems with fonts, please re-import TextMeshPro essentials via Window->TextMeshPro->Import TMP Essential Resources menu item.",
+    "dependencies": [
+      "com.huuuge.hufext.countrycode@^1.0.1",
+      "com.huuuge.hufext.packagemanager@^1.0.1",
+      "com.huuuge.huf.utils@^1.9.5",
+      "com.huuuge.huf.analytics@^1.10.0",
+      "com.huuuge.huf.ads@^1.10.0"
+    ],
+    "date": "24.03.2020 17:50",
+    "commit": "7d7dd35",
+    "build": "69",
+    "scope": "public",
+    "channel": "stable",
+    "path": "Assets/HUFEXT/GenericGDPR",
+    "rollout": "1.10"
+  }
+}

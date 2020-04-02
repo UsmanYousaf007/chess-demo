@@ -13,6 +13,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using HUFEXT.CrossPromo.API;
 using strange.extensions.promise.api;
+using HUFEXT.CrossPromo.Implementation;
 
 namespace TurboLabz.Multiplayer
 {
@@ -179,7 +180,7 @@ namespace TurboLabz.Multiplayer
             HideSafeMoveBorder();
 
             viewBoardResultPanel.gameObject.SetActive(false);
-            
+
             showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
 
         }

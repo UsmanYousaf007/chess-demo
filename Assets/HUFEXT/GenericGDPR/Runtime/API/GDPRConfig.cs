@@ -1,56 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using HUF.Utils.Configs.API;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HUFEXT.GenericGDPR.Runtime.API
 {
     [Serializable]
-    public enum LinkType
+    public class TranslationFont
     {
-        PrivacyPolicy,
-        TermsOfUse,
-        EULA
+        public string key;
+        public TMP_FontAsset font;
     }
     
     [CreateAssetMenu(menuName = "HUFEXT/GDPR/GDPR Config", fileName = "GDPRConfig.asset")]
     public class GDPRConfig : AbstractConfig
     {
-        [Serializable]
-        public class Link
-        {
-            public LinkType Type;
-            public string Text;
-            public string URL;
-        }
-
-        [Header( "Common" )] 
-        [SerializeField] GameObject prefab;
-
+        [Header( "Common" )]
+        [SerializeField] GameObject prefab = null;
+        [SerializeField] 
+        [FormerlySerializedAs("customPrefsKey")]
+        string gdprCustomPlayerPrefsKey = string.Empty;
+        [SerializeField] string personalizedAdsCustomPlayerPrefsKey = string.Empty;
         [SerializeField] bool autoInit = true;
         [SerializeField] bool destroyOnAccept = true;
-        [SerializeField] bool usePlayerPrefs = true;
-        [SerializeField] string playerPrefsKey;
+        [SerializeField] TMP_FontAsset defaultFont;
+
+        [Header( "Translations" )] 
+        [SerializeField] bool enableTranslation = true;
+        [SerializeField] List<TranslationFont> fonts = new List<TranslationFont>();
         
-        [Header("Texts")]
-        public string titleText;
-        public string policyText;
-        public string detailedPolicyText;
-        public string moreInfoText;
-        public string lessInfoText;
-        public string buttonText;
-
-        [Header( "Links" )] 
-        [SerializeField] Link privacyPolicy;
-        [SerializeField] Link termsOfUse;
-        [SerializeField] Link eula;
-
         public GameObject Prefab => prefab;
+        public string CustomGDPRKey => gdprCustomPlayerPrefsKey;
+        public string CustomPersonalizedAdsKey => personalizedAdsCustomPlayerPrefsKey;
         public bool AutoInit => autoInit;
         public bool DestroyOnAccept => destroyOnAccept;
-        public bool UsePlayerPrefs => usePlayerPrefs;
-        public string PlayerPrefsKey => playerPrefsKey;
-        public Link PrivacyPolicy => privacyPolicy;
-        public Link TermsOfUse => termsOfUse;
-        public Link Eula => eula;
+        public TMP_FontAsset DefaultFont => defaultFont;
+        public bool IsTranslationEnabled => enableTranslation;
+        public List<TranslationFont> Fonts => fonts;
     }
 }

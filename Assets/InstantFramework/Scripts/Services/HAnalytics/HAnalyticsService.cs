@@ -87,6 +87,7 @@ namespace TurboLabz.InstantFramework
         {
             var analyticsEvent = GetParametersDictionary();
             analyticsEvent.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, name);
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.VALUE_KEY, value);
             analyticsEvent.Add(AnalyticsMonetizationEvent.CENTS_KEY, value);
             analyticsEvent.Add(AnalyticsEvent.EventConsts.ST1_KEY, ST1);
             analyticsEvent.Add(AnalyticsEvent.EventConsts.ST2_KEY, ST2);

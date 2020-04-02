@@ -175,5 +175,10 @@ namespace TurboLabz.InstantFramework
         {
             HAds.CollectSensitiveData(consentStatus);
         }
+
+        public void ShowTestSuite()
+        {
+            HUF.AdsAdMobMediation.API.HAdsAdMobMediation.ShowTestSuite();
+        }
     }
 }

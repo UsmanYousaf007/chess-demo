@@ -192,6 +192,7 @@ namespace TurboLabz.InstantFramework
 
         public const string STORE_CONFIRM_DLG_TITLE_BUY = "storeConfirmDlgTitleBuy";
         public const string STORE_NOT_AVAILABLE = "storeNotAvailable";
+        public const string STORE_GETTING_PACKAGE = "storeGetttingPackage";
 
         public const string CPU_STORE_HEADING = "storeHeading";
         public const string CPU_STORE_OWNED = "storeItemOwned";

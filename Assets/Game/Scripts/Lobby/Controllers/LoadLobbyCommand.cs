@@ -31,7 +31,7 @@ namespace TurboLabz.InstantGame
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
-
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
 
@@ -82,10 +82,10 @@ namespace TurboLabz.InstantGame
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
 
-            if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch)
+            if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch && !playerModel.HasSubscription())
             {
-                preferencesModel.isSubscriptionDlgShownOnFirstLaunch = true;
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                subscriptionDlgClosedSignal.AddOnce(() => preferencesModel.isSubscriptionDlgShownOnFirstLaunch = true);
             }
 
             if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))

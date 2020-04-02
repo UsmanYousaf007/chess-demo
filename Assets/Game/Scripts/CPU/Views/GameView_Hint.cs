@@ -130,6 +130,8 @@ namespace TurboLabz.CPU
             if (hintAdd.gameObject.activeSelf)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                OnParentHideAdBanner();
+                subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
                 EnableModalBlocker();
             }
             else
