@@ -156,14 +156,14 @@ namespace TurboLabz.InstantFramework
         //Personalised Ads Button
         private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalisedAdsOffBtn.gameObject.SetActive(HGenericGDPR.IsPersonalizedAdsAccepted);
+            personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPersonalizedAdsAccepted);
             personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         private void OnPersonalizedAdsOffButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPersonalizedAdsAccepted = false;
+            HGenericGDPR.SetPersonalisedAds(true);
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
         }
@@ -171,7 +171,7 @@ namespace TurboLabz.InstantFramework
         private void OnPersonalizedAdsOnButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPersonalizedAdsAccepted = true;
+            HGenericGDPR.SetPersonalisedAds(false);
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
         }
@@ -179,7 +179,6 @@ namespace TurboLabz.InstantFramework
         private void SetConsent()
         {
             adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
-            HAnalytics.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         void OnRestorePurchaseButtonClicked()

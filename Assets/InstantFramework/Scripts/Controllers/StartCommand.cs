@@ -81,7 +81,7 @@ namespace TurboLabz.InstantFramework
 				}
 
                 adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
             }
 		}
 

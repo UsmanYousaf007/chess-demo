@@ -86,10 +86,22 @@ namespace HUFEXT.GenericGDPR.Runtime.API
 
                 return false;
             }
-            set
+        }
+
+
+        public static void SetPersonalisedAds(bool value)
+        {
+            var adsConsent = HAds.GetGDPRConsent();
+
+            if (adsConsent.HasValue)
             {
-                IsPersonalizedAdsAccepted = value;
+                HAds.CollectSensitiveData(value);
             }
+            else
+            {
+                HPlayerPrefs.SetBool(config.CustomPersonalizedAdsKey, value);
+            }
+            
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
