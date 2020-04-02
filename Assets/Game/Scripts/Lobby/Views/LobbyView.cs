@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
         public GameObject friendBarPrefab;
 
         public Button quickMatchBtn;
+        public Button quickMatchTenMinBtn;
         public Text quickMatchTitleTxt;
         public GameObject quickMatchPlay;
         public Text quickMatchPlayTxt;
@@ -160,7 +161,7 @@ namespace TurboLabz.InstantFramework
         public Signal<int> actionCountUpdatedSignal = new Signal<int>();
         public Signal<string> removeCommunityFriendSignal = new Signal<string>();
         public Signal playCPUButtonClickedSignal = new Signal();
-        public Signal playMultiplayerButtonClickedSignal = new Signal();
+        public Signal<string> playMultiplayerButtonClickedSignal = new Signal<string>();
         public Signal playMultiplayerClassicButtonClickedSignal = new Signal();
         public Signal decStrengthButtonClickedSignal = new Signal();
         public Signal incStrengthButtonClickedSignal = new Signal();
@@ -222,7 +223,10 @@ namespace TurboLabz.InstantFramework
             playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
 
-            quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
+            //quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
+
+            quickMatchBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
+            quickMatchTenMinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
             classicMatchBtn.onClick.AddListener(OnClassicMatchBtnClicked);
             
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
@@ -328,10 +332,10 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void OnQuickMatchBtnClicked()
+        void OnQuickMatchBtnClicked(string actionCode)
         {
             Debug.Log("OnQuickMatchBtnClicked");
-            playMultiplayerButtonClickedSignal.Dispatch();
+            playMultiplayerButtonClickedSignal.Dispatch(actionCode);
         }
 
         void OnClassicMatchBtnClicked()

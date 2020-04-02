@@ -333,9 +333,9 @@ namespace TurboLabz.InstantFramework
             startCPUGameSignal.Dispatch();
         }
 
-        private void OnQuickMatchBtnClicked()
+        private void OnQuickMatchBtnClicked(string actionCode)
         {
-            FindMatchAction.Random(findMatchSignal);
+            FindMatchAction.Random(findMatchSignal, actionCode);
         }
 
         private void OnClassicMatchBtnClicked()
