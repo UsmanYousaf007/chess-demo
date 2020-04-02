@@ -251,7 +251,7 @@ namespace TurboLabz.InstantFramework
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
-        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
+        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
             analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
 
@@ -262,7 +262,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
             }
 
-            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
+            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
 
         private void OnAcceptButtonClicked(string playerId)
