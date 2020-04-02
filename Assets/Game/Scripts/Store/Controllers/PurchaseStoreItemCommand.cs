@@ -99,7 +99,7 @@ namespace TurboLabz.InstantFramework
 
                 if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch)
                 {
-                    cameFromScreen = "openning_popup";
+                    cameFromScreen = "opening_popup";
                 }
             }
             else if (pState.GetType() == typeof(NSCPU) || pState.GetType() == typeof(NSMultiplayer))
