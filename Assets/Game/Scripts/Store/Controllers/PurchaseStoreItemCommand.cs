@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -95,6 +96,11 @@ namespace TurboLabz.InstantFramework
             if (pState.GetType() == typeof(NSLobby))
             {
                 cameFromScreen = "lobby_banner";
+
+                if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch)
+                {
+                    cameFromScreen = "openning_popup";
+                }
             }
             else if (pState.GetType() == typeof(NSCPU) || pState.GetType() == typeof(NSMultiplayer))
             {
