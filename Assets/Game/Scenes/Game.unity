@@ -63217,18 +63217,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108406612}
   m_CullTransparentMesh: 0
---- !u!114 &1108975896 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8303001684748877334, guid: 361820d306d644d14a0537a1ed0b4bb9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1496238003}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1109329832
 GameObject:
   m_ObjectHideFlags: 0
@@ -74150,7 +74138,7 @@ MonoBehaviour:
   createMatchLimitReachedDlg: {fileID: 1686658070}
   createMatchLimitReachedCloseBtn: {fileID: 235115080}
   createMatchLimitReachedCloseBtnText: {fileID: 1138888823}
-  createMatchLimitReachedCrossBtn: {fileID: 1108975896}
+  createMatchLimitReachedCrossBtn: {fileID: 1496238004}
   createMatchLimitReachedUpgradeBtn: {fileID: 1487286308}
   createMatchLimitReachedUpgradeBtnText: {fileID: 9698302}
   createMatchLimitReachedText: {fileID: 175533433}
@@ -85540,7 +85528,7 @@ PrefabInstance:
     - target: {fileID: 1622576568112049721, guid: 361820d306d644d14a0537a1ed0b4bb9,
         type: 3}
       propertyPath: m_Name
-      value: CreateMatchLimitReachedDlg (1)
+      value: CreateMatchLimitReachedDlg
       objectReference: {fileID: 0}
     - target: {fileID: 1622576568112049721, guid: 361820d306d644d14a0537a1ed0b4bb9,
         type: 3}
@@ -85699,6 +85687,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 361820d306d644d14a0537a1ed0b4bb9, type: 3}
+--- !u!114 &1496238004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7135898437362343036, guid: 361820d306d644d14a0537a1ed0b4bb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1496238003}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1498505069
 GameObject:
   m_ObjectHideFlags: 0
@@ -127460,11 +127460,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2572119851665341761, guid: aa9fd5da5d8da49e387505b8badeaeee,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3533805873916822125, guid: aa9fd5da5d8da49e387505b8badeaeee,
         type: 3}
       propertyPath: sourceImage
@@ -127889,6 +127884,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 33.21081
+      objectReference: {fileID: 0}
+    - target: {fileID: 2572119851665341761, guid: aa9fd5da5d8da49e387505b8badeaeee,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa9fd5da5d8da49e387505b8badeaeee, type: 3}

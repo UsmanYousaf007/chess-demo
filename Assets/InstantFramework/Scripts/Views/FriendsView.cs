@@ -98,7 +98,12 @@ namespace TurboLabz.InstantFramework
         [Header("Limit Reached")]
         public GameObject createMatchLimitReachedDlg;
         public Button createMatchLimitReachedCloseBtn;
+        public Text createMatchLimitReachedCloseBtnText;
+        public Button createMatchLimitReachedCrossBtn;
+        public Button createMatchLimitReachedUpgradeBtn;
+        public Text createMatchLimitReachedUpgradeBtnText;
         public Text createMatchLimitReachedText;
+        public Text createMatchLimitReachedTitleText;
 
         [Header("Invite Friend")]
         public GameObject inviteFriendDlg;
@@ -175,6 +180,10 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
 
             createMatchLimitReachedCloseBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
+            createMatchLimitReachedCrossBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
+            createMatchLimitReachedUpgradeBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
+            createMatchLimitReachedCloseBtnText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
+            createMatchLimitReachedUpgradeBtnText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);
 
             inviteText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_BUTTON_TEXT);
             inviteFriendTitleText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TITLE_TEXT);
@@ -675,8 +684,8 @@ namespace TurboLabz.InstantFramework
             }
             else if (reason == CreateLongMatchAbortReason.SelfLimitReached)
             {
+                SetMatchLimitReachedDialogue();
                 createMatchLimitReachedDlg.SetActive(true);
-                createMatchLimitReachedText.text = "Finish/clear a game or match invitation.";
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
@@ -691,6 +700,24 @@ namespace TurboLabz.InstantFramework
             {
                 friendBar.playArrow.SetActive(false);
                 friendBar.playArrowButton.SetActive(false);
+            }
+        }
+
+        void SetMatchLimitReachedDialogue()
+        {
+            createMatchLimitReachedTitleText.gameObject.SetActive(true);
+            createMatchLimitReachedTitleText.text = "You have reached your active games limit";
+            if (playerModel.HasSubscription())
+            {
+                createMatchLimitReachedText.text = "Finish/clear a game or match invitation.";
+                createMatchLimitReachedUpgradeBtn.gameObject.SetActive(false);
+                createMatchLimitReachedCloseBtn.gameObject.SetActive(true);
+            }
+            else
+            {
+                createMatchLimitReachedText.text = "Go premium to increase the limit";
+                createMatchLimitReachedUpgradeBtn.gameObject.SetActive(true);
+                createMatchLimitReachedCloseBtn.gameObject.SetActive(false);
             }
         }
 
