@@ -22,6 +22,8 @@ namespace TurboLabz.InstantFramework
         string contactSupportURL { get; set; }
         string privacyPolicyURL { get; }
         string termsOfUseURL { get; }
+        bool isInternalAdShown { get; set; }
+        string faqURL { get; }
     }
 
     public enum DisconnectStates

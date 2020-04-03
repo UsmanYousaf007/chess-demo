@@ -32,8 +32,16 @@ Preset:
   - target: {fileID: 0}
     propertyPath: prefab
     value: 
-    objectReference: {fileID: 4648213415219233772, guid: d0d8d12e93958524c93707685098dae2,
+    objectReference: {fileID: 6461981786959110272, guid: 641b57ec8c78aa84fae9ed66cbfd8339,
       type: 3}
+  - target: {fileID: 0}
+    propertyPath: gdprCustomPlayerPrefsKey
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: personalizedAdsCustomPlayerPrefsKey
+    value: 
+    objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: autoInit
     value: 1
@@ -43,80 +51,30 @@ Preset:
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: usePlayerPrefs
+    propertyPath: defaultFont
+    value: 
+    objectReference: {fileID: 11400000, guid: 2fdb73814888546e5bcbff92ec6ec51c, type: 2}
+  - target: {fileID: 0}
+    propertyPath: enableTranslation
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: playerPrefsKey
-    value: HUF_GDPR_PolicyAccepted
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: titleText
-    value: We Have Updated Our Terms
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: policyText
-    value: At Huuuge, we use certain personal information from you for our app or
-      to administer your account. We may also use your personal data for other purposes,
-      like contacting you with offers or updates from Huuuge.
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: detailedPolicyText
-    value: We inform you that our game is completely free for you, however, within
-      our game the advertisements of third party products or services are displayed.
-      It is possible that these ads displayed within our game would be customized
-      to your personal preferences and behaviors. In this case your device data collected
-      by us due to using our game will be shared and analyzed by the media advertising
-      publishers with which we are cooperating. The analysis of these data will allow
-      you to display ads customized to your needs and preferences. We also inform
-      you that the media advertising publishers will process the shared data for their
-      own purposes in accordance with their Privacy Policies.
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: moreInfoText
-    value: Show More
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: lessInfoText
-    value: Show Less
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: buttonText
-    value: Accept
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: privacyPolicy.Type
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: privacyPolicy.Text
-    value: PRIVACY POLICY
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: privacyPolicy.URL
-    value: https://www.huuugegames.com/privacy-policy
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: termsOfUse.Type
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: termsOfUse.Text
-    value: TERMS OF USE
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: termsOfUse.URL
-    value: https://www.huuugegames.com/terms-of-use
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: eula.Type
+    propertyPath: fonts.Array.size
     value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: eula.Text
-    value: EULA
+    propertyPath: fonts.Array.data[0].key
+    value: ja
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: eula.URL
-    value: https://www.huuugegames.com/eula
+    propertyPath: fonts.Array.data[0].font
+    value: 
+    objectReference: {fileID: 11400000, guid: 20dbf950bb2414828a9e9f60742fb67a, type: 2}
+  - target: {fileID: 0}
+    propertyPath: fonts.Array.data[1].key
+    value: ko
     objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fonts.Array.data[1].font
+    value: 
+    objectReference: {fileID: 11400000, guid: 44be3828217b847049d687e28c4a2592, type: 2}

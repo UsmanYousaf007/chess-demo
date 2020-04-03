@@ -8,6 +8,7 @@ using GameSparks.Api.Messages;
 using GameSparks.Api.Responses;
 using GameSparks.Core;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -207,14 +208,27 @@ namespace TurboLabz.InstantFramework
         ///////////////////////////////////////////////////////////////////////////////////////
         // Handle challenge messages
 
+        [System.Serializable]
+        class challengeMessageData
+        {
+            public string botId;
+            public bool isRanked;
+            public string matchGroup;
+        };
+
         private void OnChallengeStartedMessage(ChallengeStartedMessage message)
         {
             // Script data will be null for pending challenges
             if (message.ScriptData != null)
             {
+                challengeMessageData data = new challengeMessageData();
+                data = JsonUtility.FromJson<challengeMessageData>(message.Challenge.ChallengeMessage);
+
+                bool forceStart = data.matchGroup == "RandomLong";
+
                 GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
                 ParseChallengeData(message.Challenge.ChallengeId, challengeData);
-                HandleActiveNewMatch(message.Challenge.ChallengeId);
+                HandleActiveNewMatch(message.Challenge.ChallengeId, forceStart);
             }
         }
 

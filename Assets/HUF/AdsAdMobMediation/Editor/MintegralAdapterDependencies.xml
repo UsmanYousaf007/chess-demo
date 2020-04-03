@@ -1,0 +1,25 @@
+<dependencies>
+    <androidPackages>
+      <androidPackage spec="com.mintegral.thrid.adapter:admob_adapter:2.2.4"/>
+  </androidPackages>
+
+   <iosPods>
+       <iosPod name="MintegralAdSDK"/>
+       <iosPod name="MintegralAdSDK/BidNativeAd"/>
+       <iosPod name="MintegralAdSDK/RewardVideoAd"/>
+       <iosPod name="MintegralAdSDK/BidRewardVideoAd"/>
+       <iosPod name="MintegralAdSDK/InterstitialVideoAd"/>
+       <iosPod name="MintegralAdSDK/BidInterstitialVideoAd"/>
+       <iosPod name="MintegralAdSDK/InterstitialAd"/>
+       <iosPod name="MintegralAdSDK/InterActiveAd"/>
+       <iosPod name="MintegralAdSDK/BannerAd"/>
+       <iosPod name="MintegralAdSDK/BidBannerAd"/>
+       
+       
+       <!--<iosPod name="MintegralAdSDKAdapterForAdmob/RewardVideoAdAdapter" version="5.8.7" />
+       <iosPod name="MintegralAdSDKAdapterForAdmob/RewardLegacyAdAdapter" version="5.8.7" />
+       <iosPod name="MintegralAdSDKAdapterForAdmob/InterstitialVideoAdAdapter" version="5.8.7" />
+       <iosPod name="MintegralAdSDKAdapterForAdmob/InterstitialAdAdapter" version="5.8.7" />
+       <iosPod name="MintegralAdSDKAdapterForAdmob/BannerAdAdapter" version="5.8.7" />!-->
+    </iosPods>
+</dependencies>

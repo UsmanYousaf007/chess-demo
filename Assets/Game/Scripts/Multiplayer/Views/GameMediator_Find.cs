@@ -72,6 +72,10 @@ namespace TurboLabz.Multiplayer
             if (FindMatchAction.isMatchRequestedWithFriend)
             {
                 analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_timeout_ingame);
+
+            }else if(FindMatchAction.isRandomLongMatch)
+            {
+                analyticsService.Event(AnalyticsEventId.match_timer_runs_out, AnalyticsContext.random_long_match);
             }
             loadLobbySignal.Dispatch();
         }

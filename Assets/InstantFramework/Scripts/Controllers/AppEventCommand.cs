@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GameAppEventSignal gameAppEventSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
+        [Inject] public ClosePromotionDlgSignal closePromotionDlgSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -61,6 +62,11 @@ namespace TurboLabz.InstantFramework
                 if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
                     return;
 
+                if (appInfoModel.isInternalAdShown)
+                {
+                    closePromotionDlgSignal.Dispatch();
+                    return;
+                }
                 // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
                 // return;
 

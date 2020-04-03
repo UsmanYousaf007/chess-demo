@@ -1,9 +1,0 @@
-{
-  "documentationUrl": "https://wiki.huuuge.in/display/UNIFRAME/Ads+-+AdMob+Mediation",
-  "creator": "Marat Giliazov",
-  "submodules": [
-    "Ads",
-    "Utils"
-  ],
-  "description": "AdMobMediation module offers full integration with Ads providers available under AdMob mediation.\nAds API is separated into 3 parts:\n\n•Banners - offers option to show banners in chosen place (Top-Left, Top-Center, Top-Right, Centered, Bottom-Left, Bottom-Center, Bottom-Right). Banner is great option to show advertisement during stay in game menu or during gameplay. To implement banners in correct way please check Android and iOS guide how to show ad banners in your product;\n•Interstitial - offers option to show interstitial ads which can be used between levels, after lose or when restart gameplay scene. To implement interstitials correctly in your application please check Android and iOS guide how to show ads in your product;\n•Rewarded - offers option to show rewarded ads which can be shown after clicking on reward button or in other situation when player will get reward after watching ad. Remember in your application you have to exactly show which elements will trigger playable ads. To implement rewarded ads correctly in your application please check Android and iOS guide how to show ads in your product;\n\n\nCurrent version of module includes adapters for:\n\n•AdMob\n•AppLovin\n•FB Audience\n•Vungle"
-}

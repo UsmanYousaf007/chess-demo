@@ -23,12 +23,21 @@ namespace TurboLabz.InstantFramework
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }
+        public bool isInternalAdShown { get; set; }
 
         public string privacyPolicyURL
         {
             get
             {
                 return "https://huuugegames.com/privacy-policy/";
+            }
+        }
+
+        public string faqURL
+        {
+            get
+            {
+                return "https://huuuge.helpshift.com/a/chess-stars/";
             }
         }
 
@@ -71,6 +80,7 @@ namespace TurboLabz.InstantFramework
             onlineCount = 0;
             isNotificationActive = false;
             contactSupportURL = "";
+            isInternalAdShown = false;
         }
     }
 }
