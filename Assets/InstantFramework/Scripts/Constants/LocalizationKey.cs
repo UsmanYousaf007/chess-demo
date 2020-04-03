@@ -380,6 +380,7 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_ACCOUNT_RENEW = "settingsAccountRenew";
         public const string SETTINGS_ON = "settingsOn";
         public const string SETTINGS_OFF = "settingsOff";
+        public const string SETTINGS_FAQ = "settingsFAQ";
 
         #endregion
 

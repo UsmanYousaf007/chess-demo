@@ -33,6 +33,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public string faqURL
+        {
+            get
+            {
+                return "https://huuuge.helpshift.com/a/chess-stars/";
+            }
+        }
+
         public string termsOfUseURL
         {
             get

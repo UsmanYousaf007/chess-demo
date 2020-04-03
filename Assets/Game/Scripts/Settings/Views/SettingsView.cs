@@ -49,6 +49,9 @@ namespace TurboLabz.InstantFramework
         public Button privacyPolicyBtn;
         public Text privacyPolicyText;
 
+        public Button FAQBtn;
+        public Text FAQText;
+
         public Button upgradeToPremiumBtn;
         public Text upgradeToPremiumText;
 
@@ -91,6 +94,7 @@ namespace TurboLabz.InstantFramework
             personalizedAdsText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS);
             personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
             personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
+            FAQText.text = localizationService.Get(LocalizationKey.SETTINGS_FAQ);
 
             //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
@@ -102,6 +106,7 @@ namespace TurboLabz.InstantFramework
             audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
             personalisedAdsOffBtn.onClick.AddListener(OnPersonalizedAdsOffButtonClicked);
             personalisedAdsOnBtn.onClick.AddListener(OnPersonalizedAdsOnButtonClicked);
+            FAQBtn.onClick.AddListener(OnFAQButtonClicked);
 
             appVersion.text = "v" + Application.version;
 
@@ -196,6 +201,12 @@ namespace TurboLabz.InstantFramework
         void OnPrivacyPolicyButtonClicked()
         {
             Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
+            audioService.PlayStandardClick();
+        }
+
+        void OnFAQButtonClicked()
+        {
+            Application.OpenURL(metaDataModel.appInfo.faqURL);
             audioService.PlayStandardClick();
         }
 

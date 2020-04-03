@@ -381,6 +381,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_ACCOUNT_RENEW, "Renews on (date)" },
                 { LocalizationKey.SETTINGS_ON, "On" },
                 { LocalizationKey.SETTINGS_OFF, "Off" },
+                { LocalizationKey.SETTINGS_FAQ, "FAQ" },
 
                 #endregion
 

@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         string privacyPolicyURL { get; }
         string termsOfUseURL { get; }
         bool isInternalAdShown { get; set; }
+        string faqURL { get; }
     }
 
     public enum DisconnectStates
