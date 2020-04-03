@@ -217,22 +217,23 @@ namespace TurboLabz.InstantFramework
             createMatchLimitReachedCloseBtnText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
             createMatchLimitReachedUpgradeBtnText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);
 
-            
-
-            classicMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC);
-            classicMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
-
-            playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
-            playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
 
             quickMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
+            quickMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION);
             quickMatchFiveMinPlayTxt.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
             quickMatchTenMinPlayTxt.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
             quickMatchBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
             quickMatchTenMinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
+
+            classicMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION);
+            classicMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC);
+            classicMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
             classicMatchBtn.onClick.AddListener(OnClassicMatchBtnClicked);
-            
+
+            playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
+            playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
+
 
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
