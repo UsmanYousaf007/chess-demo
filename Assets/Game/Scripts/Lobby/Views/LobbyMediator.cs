@@ -405,7 +405,7 @@ namespace TurboLabz.InstantFramework
         void OnUpgradeToPremiumClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "settings");
+            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
         }
     }
 }

@@ -134,6 +134,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string> removeCommunityFriendSignal = new Signal<string>();
         public Signal<string, bool, string> quickMatchFriendButtonClickedSignal = new Signal<string, bool, string>();
         public Signal<string> showChatSignal = new Signal<string>();
+        public Signal upgradeToPremiumButtonClickedSignal = new Signal();
 
         public Signal inviteFriendSignal = new Signal();
 
@@ -719,6 +720,12 @@ namespace TurboLabz.InstantFramework
                 createMatchLimitReachedUpgradeBtn.gameObject.SetActive(true);
                 createMatchLimitReachedCloseBtn.gameObject.SetActive(false);
             }
+        }
+
+        void OnUpgradeToPremiumButtonClicked()
+        {
+            upgradeToPremiumButtonClickedSignal.Dispatch();
+            audioService.PlayStandardClick();
         }
 
         public void Show() 
