@@ -41,7 +41,10 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.OKAY_TEXT, "Ok" },
                 { LocalizationKey.BACK_TEXT, "BACK" },
-                 { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
+                { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
+                { LocalizationKey.MIN5_GAME_TEXT, "5 MIN" },
+                { LocalizationKey.MIN10_GAME_TEXT, "10 MIN" },
+                 
 
                 #endregion
 
@@ -115,7 +118,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
                 { LocalizationKey.CPU_MENU_THEME, "Theme" },
-                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Speed Chess 5m" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Speed Chess" },
                 { LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC, "Classic Chess" },
                 { LocalizationKey.CPU_MENU_PLAY_FRIENDS, "Friends & World" },
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "Play Computer" },
@@ -335,8 +338,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_DEFAULT_DAY_LINE, "TODAY" },
                 { LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE, "Start a new conversation. Say hello." },
                 { LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE, "To enable chat you must start at least one match with this player." },
-                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min Game"},
-                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Play Classic"},
+                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min"},
+                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY_10_MIN, "10 Min"},
+                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Play"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "No"},

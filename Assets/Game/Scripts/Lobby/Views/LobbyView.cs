@@ -44,10 +44,11 @@ namespace TurboLabz.InstantFramework
         public GameObject friendBarPrefab;
 
         public Button quickMatchBtn;
+        public Text quickMatchFiveMinPlayTxt;
         public Button quickMatchTenMinBtn;
+        public Text quickMatchTenMinPlayTxt;
         public Text quickMatchTitleTxt;
         public GameObject quickMatchPlay;
-        public Text quickMatchPlayTxt;
         public Text quickMatchDescriptionTxt;
 
         public Button classicMatchBtn;
@@ -194,11 +195,9 @@ namespace TurboLabz.InstantFramework
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
-            startGameConfirmationDlg.confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY);
+            startGameConfirmationDlg.confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
+            startGameConfirmationDlg.confirmFriendly10MinGameText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
             startGameConfirmationDlg.confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
-
-            //startGameConfirmationDlg.confirmFriendlyGameBtn.onClick.AddListener(ConfirmFriendlyGameBtnClicked);
-
             startGameConfirmationDlg.confirmFriendlyGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge.ToString()); });
             startGameConfirmationDlg.confirmFriendly10MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge10.ToString()); });
             startGameConfirmationDlg.confirmGameCloseBtn.onClick.AddListener(ConfirmNewGameDlgNo);
@@ -218,8 +217,7 @@ namespace TurboLabz.InstantFramework
             createMatchLimitReachedCloseBtnText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
             createMatchLimitReachedUpgradeBtnText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);
 
-            quickMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
-            quickMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
+            
 
             classicMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC);
             classicMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
@@ -227,8 +225,9 @@ namespace TurboLabz.InstantFramework
             playComputerMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_CPU);
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
 
-            //quickMatchBtn.onClick.AddListener(OnQuickMatchBtnClicked);
-
+            quickMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE);
+            quickMatchFiveMinPlayTxt.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
+            quickMatchTenMinPlayTxt.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
             quickMatchBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
             quickMatchTenMinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
             classicMatchBtn.onClick.AddListener(OnClassicMatchBtnClicked);

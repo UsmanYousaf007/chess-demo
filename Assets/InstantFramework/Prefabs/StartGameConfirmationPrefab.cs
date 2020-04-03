@@ -16,8 +16,9 @@ namespace TurboLabz.InstantFramework
         public Button confirmRankedGameBtn;
         public Text confirmRankedGameBtnText;
         public Button confirmFriendlyGameBtn;
-        public Button confirmFriendly10MinGameBtn;
         public Text confirmFriendlyGameBtnText;
+        public Button confirmFriendly10MinGameBtn;
+        public Text confirmFriendly10MinGameText;
         public Button ToggleRankButton;
         public GameObject ToggleRankON;
         public GameObject ToggleRankOFF;
