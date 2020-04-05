@@ -12,6 +12,8 @@ using GameAnalyticsSDK;
 using TurboLabz.CPU;
 using HUFEXT.GenericGDPR.Runtime.API;
 using HUF.Analytics.API;
+using SocialEdge;
+using SocialEdge.Requests;
 
 namespace TurboLabz.InstantFramework
 {
@@ -58,6 +60,9 @@ namespace TurboLabz.InstantFramework
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
             adsService.Init();
+
+            new SocialEdgeBackendLoginRequest()
+                  .Send();
         }
 
 		void GameSparksAvailable(bool isAvailable)

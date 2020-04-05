@@ -4,13 +4,37 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 
-namespace Edge
+using SocialEdge.Requests;
+
+namespace SocialEdge
 {
-    public class Edge
+    public class SocialEdgeSDK
     {
-        public Edge()
+        public SocialEdgeSDK()
         {
         }
+
+        public void la()
+        {
+            new SocialEdgeBackendLoginRequest()
+                .SetUserName("blah")
+                .SetTimeout(200)
+                .SetSuccessCallback(successCB)
+                .SetFailureCallback(errorCB)
+                .Send();
+        }
+
+        public void successCB(SocialEdgeBackendLoginResponse s)
+        {
+            Debug.Log("SocialEdge::SUCCESS =" + s.isSuccess);
+        }
+
+        public void errorCB(SocialEdgeBackendLoginResponse s)
+        {
+
+        }
+
+
         /*
          * 
 
@@ -200,142 +224,144 @@ namespace Edge
             }
         */
 
-        #region public methods
-        public void UpdateDisplayName(string updatedName)
+        /*
+    #region public methods
+    public void UpdateDisplayName(string updatedName)
+    {
+        try
         {
-            try
+            var request = new UpdateUserTitleDisplayNameRequest
             {
-                var request = new UpdateUserTitleDisplayNameRequest
-                {
-                    DisplayName = updatedName
-                };
+                DisplayName = updatedName
+            };
 
-                PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnUpdateDisplayNameSuccess, OnError);
+            PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnUpdateDisplayNameSuccess, OnError);
 
-            }
-            catch (Exception ex)
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("Exception encountered in UpdateDisplayName due to " + ex.InnerException.ToString());
+        }
+    }
+
+
+    public void AddFriend(string id)
+    {
+        try
+        {
+            var request = new AddFriendRequest
             {
-                Debug.Log("Exception encountered in UpdateDisplayName due to " + ex.InnerException.ToString());
-            }
+                FriendPlayFabId = id
+            };
+
+            PlayFabClientAPI.AddFriend(request, OnAddFriendSuccess, OnAddFriendError);
         }
-
-
-        public void AddFriend(string id)
+        catch (Exception ex)
         {
-            try
+            Debug.Log("Exception encountered in AddFriend due to " + ex.InnerException.ToString());
+        }
+    }
+
+    public void RemoveFriend(string id)
+    {
+        try
+        {
+            var request = new RemoveFriendRequest
             {
-                var request = new AddFriendRequest
-                {
-                    FriendPlayFabId = id
-                };
+                FriendPlayFabId = id
+            };
 
-                PlayFabClientAPI.AddFriend(request, OnAddFriendSuccess, OnAddFriendError);
-            }
-            catch (Exception ex)
+            PlayFabClientAPI.RemoveFriend(request, OnRemoveFriendSuccess, OnRemoveFriendError);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("Exception encountered in RemoveFriend due to " + ex.InnerException.ToString());
+        }
+    }
+
+    public void GetSearchList()
+    {
+        try
+        {
+            var request = new GetFriendsListRequest();
+            PlayFabClientAPI.GetFriendsList(request, OnSearchSuccess, OnSearchError);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("Exception encountered in GetSearchList due to " + ex.InnerException.ToString());
+        }
+    }
+
+    public void AddFriendTag()
+    {
+        try
+        {
+            var request = new SetFriendTagsRequest
             {
-                Debug.Log("Exception encountered in AddFriend due to " + ex.InnerException.ToString());
-            }
-        }
+                FriendPlayFabId = "1202C3998588AAA7",
+                Tags = new List<string> { "blocked" }
 
-        public void RemoveFriend(string id)
+            };
+
+            PlayFabClientAPI.SetFriendTags(request, OnAddFriendTagSuccess, OnAddFriendTagFailure);
+        }
+        catch (Exception ex)
         {
-            try
-            {
-                var request = new RemoveFriendRequest
-                {
-                    FriendPlayFabId = id
-                };
-
-                PlayFabClientAPI.RemoveFriend(request, OnRemoveFriendSuccess, OnRemoveFriendError);
-            }
-            catch (Exception ex)
-            {
-                Debug.Log("Exception encountered in RemoveFriend due to " + ex.InnerException.ToString());
-            }
+            Debug.Log("Exception encountered in AddFriendTag due to " + ex.InnerException.ToString());
         }
 
-        public void GetSearchList()
-        {
-            try
-            {
-                var request = new GetFriendsListRequest();
-                PlayFabClientAPI.GetFriendsList(request, OnSearchSuccess, OnSearchError);
-            }
-            catch (Exception ex)
-            {
-                Debug.Log("Exception encountered in GetSearchList due to " + ex.InnerException.ToString());
-            }
-        }
+    }
 
-        public void AddFriendTag()
-        {
-            try
-            {
-                var request = new SetFriendTagsRequest
-                {
-                    FriendPlayFabId = "1202C3998588AAA7",
-                    Tags = new List<string> { "blocked" }
+    #endregion
 
-                };
+    #region private methods
+    private void OnUpdateDisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
+    {
+        Debug.Log("Congratulations, display name updated");
+    }
 
-                PlayFabClientAPI.SetFriendTags(request, OnAddFriendTagSuccess, OnAddFriendTagFailure);
-            }
-            catch (Exception ex)
-            {
-                Debug.Log("Exception encountered in AddFriendTag due to " + ex.InnerException.ToString());
-            }
+    private void OnError(PlayFabError error)
+    {
+        Debug.Log("Display name could not be updated due to " + error.Error.ToString());
+    }
 
-        }
+    private void OnAddFriendSuccess(AddFriendResult result)
+    {
+        Debug.Log("Congratulations, display name updated");
+    }
 
-        #endregion
+    private void OnAddFriendError(PlayFabError error)
+    {
+        Debug.Log("Display name could not be updated due to " + error.Error.ToString());
+    }
+    private void OnRemoveFriendSuccess(RemoveFriendResult result)
+    {
+        Debug.Log("Congratulations, display name updated");
+    }
 
-        #region private methods
-        private void OnUpdateDisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
-        {
-            Debug.Log("Congratulations, display name updated");
-        }
+    private void OnRemoveFriendError(PlayFabError error)
+    {
+        Debug.Log("Display name could not be updated due to " + error.Error.ToString());
+    }
+    private void OnSearchSuccess(GetFriendsListResult result)
+    {
+        Debug.Log("Congratulations, display name updated");
+    }
 
-        private void OnError(PlayFabError error)
-        {
-            Debug.Log("Display name could not be updated due to " + error.Error.ToString());
-        }
+    private void OnSearchError(PlayFabError error)
+    {
+        Debug.Log("Display name could not be updated due to " + error.Error.ToString());
+    }
+    private void OnAddFriendTagSuccess(SetFriendTagsResult result)
+    {
+        Debug.Log("Congratulations, display name updated");
+    }
 
-        private void OnAddFriendSuccess(AddFriendResult result)
-        {
-            Debug.Log("Congratulations, display name updated");
-        }
-
-        private void OnAddFriendError(PlayFabError error)
-        {
-            Debug.Log("Display name could not be updated due to " + error.Error.ToString());
-        }
-        private void OnRemoveFriendSuccess(RemoveFriendResult result)
-        {
-            Debug.Log("Congratulations, display name updated");
-        }
-
-        private void OnRemoveFriendError(PlayFabError error)
-        {
-            Debug.Log("Display name could not be updated due to " + error.Error.ToString());
-        }
-        private void OnSearchSuccess(GetFriendsListResult result)
-        {
-            Debug.Log("Congratulations, display name updated");
-        }
-
-        private void OnSearchError(PlayFabError error)
-        {
-            Debug.Log("Display name could not be updated due to " + error.Error.ToString());
-        }
-        private void OnAddFriendTagSuccess(SetFriendTagsResult result)
-        {
-            Debug.Log("Congratulations, display name updated");
-        }
-
-        private void OnAddFriendTagFailure(PlayFabError error)
-        {
-            Debug.Log("Display name could not be updated due to " + error.Error.ToString());
-        }
-        #endregion
+    private void OnAddFriendTagFailure(PlayFabError error)
+    {
+        Debug.Log("Display name could not be updated due to " + error.Error.ToString());
+    }
+    #endregion
+    */
     }
 }
