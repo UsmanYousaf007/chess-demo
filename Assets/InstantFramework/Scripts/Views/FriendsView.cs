@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         //[Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
@@ -182,8 +183,8 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
 
-            createMatchLimitReachedCloseBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
-            createMatchLimitReachedCrossBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
+            createMatchLimitReachedCloseBtn.onClick.AddListener(HideCreateMatchLimitReacDlg);
+            createMatchLimitReachedCrossBtn.onClick.AddListener(HideCreateMatchLimitReacDlg);
             createMatchLimitReachedUpgradeBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
             createMatchLimitReachedCloseBtnText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
             createMatchLimitReachedUpgradeBtnText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);
@@ -680,7 +681,7 @@ namespace TurboLabz.InstantFramework
 
             if (reason == CreateLongMatchAbortReason.LimitReached)
             {
-                createMatchLimitReachedDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 createMatchLimitReachedText.text = "Sorry, opponent max games limit reached. \nPlease Try Later";
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
@@ -688,13 +689,13 @@ namespace TurboLabz.InstantFramework
             else if (reason == CreateLongMatchAbortReason.SelfLimitReached)
             {
                 SetMatchLimitReachedDialogue();
-                createMatchLimitReachedDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
             else if (reason == CreateLongMatchAbortReason.CreateFailed)
             {
-                createMatchLimitReachedDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 createMatchLimitReachedText.text = "Player is already waiting for you to \naccept a classic match";
                 friendBar.playArrow.SetActive(false);
                 friendBar.playArrowButton.SetActive(false);
@@ -1074,9 +1075,15 @@ namespace TurboLabz.InstantFramework
                 OnCancelSearchClicked();
             }
         }
-        void CreateMatchLimitReachedCloseBtnClicked()
+
+        public void HideCreateMatchLimitReacDlg()
         {
             createMatchLimitReachedDlg.SetActive(false);
+        }
+
+        public void ShowCreateMatchLimitReacDlg()
+        {
+            createMatchLimitReachedDlg.SetActive(true);
         }
 
         #region FindYourFriendDialog

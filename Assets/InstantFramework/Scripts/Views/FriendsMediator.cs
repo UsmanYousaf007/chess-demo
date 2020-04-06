@@ -80,6 +80,10 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
             }
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.ShowCreateMatchLimitReacDlg();
+            }
         }
 
         [ListensTo(typeof(ShowFriendsHelpSignal))]
@@ -94,6 +98,10 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.FRIENDS)
             {
                 view.Hide();
+            }
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.HideCreateMatchLimitReacDlg();
             }
         }
 
