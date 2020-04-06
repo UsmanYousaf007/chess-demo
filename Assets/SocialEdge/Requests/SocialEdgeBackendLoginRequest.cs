@@ -1,7 +1,11 @@
-﻿using PlayFab;
-using PlayFab.ClientModels;
+﻿/// @license Propriety <http://license.url>
+/// @copyright Copyright (C) Turbo Labz - All rights reserved
+/// Unauthorized copying of this file, via any medium is strictly prohibited
+/// Proprietary and confidential
 
-using SocialEdge.Requests;
+
+using PlayFab;
+using PlayFab.ClientModels;
 
 namespace SocialEdge.Requests
 {

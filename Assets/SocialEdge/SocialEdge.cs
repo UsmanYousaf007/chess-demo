@@ -6,35 +6,10 @@ using UnityEngine;
 
 using SocialEdge.Requests;
 
-namespace SocialEdge
-{
+namespace SocialEdge { }
+
     public class SocialEdgeSDK
     {
-        public SocialEdgeSDK()
-        {
-        }
-
-        public void la()
-        {
-            new SocialEdgeBackendLoginRequest()
-                .SetUserName("blah")
-                .SetTimeout(200)
-                .SetSuccessCallback(successCB)
-                .SetFailureCallback(errorCB)
-                .Send();
-        }
-
-        public void successCB(SocialEdgeBackendLoginResponse s)
-        {
-            Debug.Log("SocialEdge::SUCCESS =" + s.isSuccess);
-        }
-
-        public void errorCB(SocialEdgeBackendLoginResponse s)
-        {
-
-        }
-
-
         /*
          * 
 
@@ -364,4 +339,3 @@ namespace SocialEdge
     #endregion
     */
     }
-}
