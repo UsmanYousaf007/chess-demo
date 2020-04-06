@@ -9,26 +9,24 @@ using PlayFab.ClientModels;
 
 namespace SocialEdge.Requests
 {
-    public class SocialEdgeBackendLoginResponse : SocialEdgeRequestResponse
+    public class SocialEdgeBackendLoginResponse : SocialEdgeRequestResponse<LoginResult, PlayFabError>
     {
         public string token;
 
         /// <summary>
         /// Build results on request success
         /// </summary>
-        public override void BuildSuccess(object resultSuccess)
+        public override void BuildSuccess(LoginResult resultSuccess)
         {
-            LoginResult lr = (LoginResult)resultSuccess;
             isSuccess = true;
-            token = lr.EntityToken.EntityToken;
+            token = resultSuccess.EntityToken.EntityToken;
         }
 
         /// <summary>
         /// Build results on request failure
         /// </summary>
-        public override void BuildFailure(object resultFailure)
+        public override void BuildFailure(PlayFabError resultFailure)
         {
-            PlayFabError pf = (PlayFabError)resultFailure;
             isSuccess = false;
         }
     }
@@ -60,8 +58,8 @@ namespace SocialEdge.Requests
         /// </summary>
         public override void Send()
         {
-            hrequest = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
-            PlayFabClientAPI.LoginWithCustomID((LoginWithCustomIDRequest)hrequest, OnSuccess, OnFailure);
+            LoginWithCustomIDRequest hrequest = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
+            PlayFabClientAPI.LoginWithCustomID(hrequest, OnSuccess, OnFailure);
         }
 
         private void OnSuccess(LoginResult result)

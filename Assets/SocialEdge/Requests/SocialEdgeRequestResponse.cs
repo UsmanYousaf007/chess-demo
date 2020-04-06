@@ -5,13 +5,11 @@
 
 namespace SocialEdge.Requests
 {
-    public abstract class SocialEdgeRequestResponse
+    public abstract class SocialEdgeRequestResponse<TSUCCESS, TFAILURE>
     {
         public bool isSuccess;
 
-        protected object hresult;
-
-        public abstract void BuildSuccess(object o);
-        public abstract void BuildFailure(object o);
+        public abstract void BuildSuccess(TSUCCESS o);
+        public abstract void BuildFailure(TFAILURE o);
     }
 }

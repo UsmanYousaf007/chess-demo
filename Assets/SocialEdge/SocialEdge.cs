@@ -6,7 +6,7 @@ using UnityEngine;
 
 using SocialEdge.Requests;
 
-namespace SocialEdge { }
+namespace SocialEdge {}
 
     public class SocialEdgeSDK
     {

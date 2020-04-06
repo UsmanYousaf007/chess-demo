@@ -9,8 +9,6 @@ namespace SocialEdge.Requests
 {
     public abstract class SocialEdgeRequest<TREQUEST, TRESPOINSE>
     {
-        protected object hrequest;
-
         protected TRESPOINSE response;
         protected Action<TRESPOINSE> actionSuccess;
         protected Action<TRESPOINSE> actionFailure;
