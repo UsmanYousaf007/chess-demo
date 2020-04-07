@@ -15,6 +15,7 @@ public class SubscriptionTierView : View
         public Color textColor;
         public Vector3 scale;
         public Vector3 bestValuePosition;
+        public Sprite processing;
     }
 
     public string key;
@@ -37,8 +38,7 @@ public class SubscriptionTierView : View
     [Header("Not Available")]
     public GameObject package;
     public GameObject notAvailable;
-    public Text gettingPackage;
-    public Image[] processingDots;
+    public Image[] processing;
 
     //Signals
     public Signal selectTierClicked = new Signal();
@@ -53,7 +53,6 @@ public class SubscriptionTierView : View
     {
         bg.onClick.AddListener(OnClickSelectButton);
         bestValueObject.gameObject.SetActive(showBestValue);
-        gettingPackage.text = localizationService.Get(LocalizationKey.STORE_GETTING_PACKAGE);
         SelectTier(isSelected);
     }
 
@@ -109,14 +108,14 @@ public class SubscriptionTierView : View
         this.isSelected = isSelected;
         var config = isSelected ? selectedConfig : defaultConfig;
         title.color = price.color = savings.color = config.headingsColor;
-        gettingPackage.color = actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
+        actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
         bg.image.sprite = config.bg;
         this.transform.localScale = config.scale;
         bestValueObject.localPosition = config.bestValuePosition;
 
-        foreach (var dot in processingDots)
+        foreach (var bar in processing)
         {
-            dot.color = config.textColor;
+            bar.sprite = config.processing;
         }
     }
 }

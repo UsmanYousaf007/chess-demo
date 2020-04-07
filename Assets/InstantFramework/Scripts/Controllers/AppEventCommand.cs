@@ -39,6 +39,8 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
 
         //bool softReconnecting = false;
 
@@ -50,6 +52,7 @@ namespace TurboLabz.InstantFramework
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.IGNORE);
                 modelsSaveToDiskSignal.Dispatch();
+                hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
 
                 //only schedule local notificaitons once player model is filled with data
                 if (playerModel.id != null)
@@ -74,6 +77,20 @@ namespace TurboLabz.InstantFramework
             }
             else if (appEvent == AppEvent.RESUMED)
             {
+                if (SplashLoader.launchCode != 1)
+                {
+                    if (firebasePushNotificationService.IsNotificationOpened())
+                    {
+                        hAnalyticsService.LogEvent("launch_opened", "launch", "notification");
+                    }
+                    else
+                    {
+                        hAnalyticsService.LogEvent("launch_opened", "launch");
+                    }
+                    SplashLoader.launchCode = 2;
+                }
+
+                firebasePushNotificationService.ClearNotifications();
                 navigatorModel.currentState.RenderDisplayOnEnter();
             }
         }
