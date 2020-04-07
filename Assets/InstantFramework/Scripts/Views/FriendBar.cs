@@ -229,6 +229,18 @@ namespace TurboLabz.InstantFramework
 
         }
 
+        public void UpdatePlayButtonStatus(bool isInRecentlyCompleted, ILocalizationService localizationService)
+        {
+            if (isInRecentlyCompleted)
+            {
+                playButtonLabel.text = localizationService.Get(LocalizationKey.REMATCH);
+            }
+            else
+            {
+                playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
+            }
+        }
+
         public void UpdateCommmunityStrip()
         {
             DisableOptionalElements();

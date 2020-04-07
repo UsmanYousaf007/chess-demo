@@ -1126,6 +1126,7 @@ namespace TurboLabz.InstantFramework
                                     (bar.lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (RECENTLY_COMPLETED_THRESHOLD_DAYS * 24 * 60 * 60 * 1000))) &&
                                     status == LongPlayStatus.DEFAULT)
                 {
+                    bar.UpdatePlayButtonStatus(true, localizationService);
                     recentlyCompleted.Add(bar);
                 }
                 else

@@ -308,6 +308,7 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_RANKED = "longPlayRanked";
         public const string PLAY = "play";
         public const string VIEW = "view";
+        public const string REMATCH = "rematch";
         public const string LONG_PLAY_ACCEPT = "longPlayAccept";
         public const string LONG_PLAY_CANCEL = "longPlayCancel";
         public const string LONG_PLAY_NEW_MATCH_GREETING = "longPlayNewMatchGreeting";
