@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -169,6 +170,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
 
+
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
@@ -211,8 +213,8 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
 
-            createMatchLimitReachedCloseBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
-            createMatchLimitReachedCrossBtn.onClick.AddListener(CreateMatchLimitReachedCloseBtnClicked);
+            createMatchLimitReachedCloseBtn.onClick.AddListener(HideCreateMatchLimitReacDlg);
+            createMatchLimitReachedCrossBtn.onClick.AddListener(HideCreateMatchLimitReacDlg);
             createMatchLimitReachedUpgradeBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
             createMatchLimitReachedCloseBtnText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
             createMatchLimitReachedUpgradeBtnText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);
@@ -364,7 +366,7 @@ namespace TurboLabz.InstantFramework
             if (matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
             {
                 SetMatchLimitReachedDialogue();
-                createMatchLimitReachedDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 return;
             }
             else
@@ -676,7 +678,7 @@ namespace TurboLabz.InstantFramework
 
             if (reason == CreateLongMatchAbortReason.LimitReached)
             {
-                createMatchLimitReachedDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 createMatchLimitReachedText.text = "Sorry, opponent max games limit reached. \nPlease Try Later";
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
@@ -684,13 +686,13 @@ namespace TurboLabz.InstantFramework
             else if (reason == CreateLongMatchAbortReason.SelfLimitReached)
             {
                 SetMatchLimitReachedDialogue();
-                createMatchLimitReachedDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
             else if (reason == CreateLongMatchAbortReason.CreateFailed)
             {
-                createMatchLimitReachedDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 createMatchLimitReachedText.text = "Player is already waiting for you to \naccept a classic match";
                 friendBar.playArrow.SetActive(false);
                 friendBar.playArrowButton.SetActive(false);
@@ -1066,9 +1068,14 @@ namespace TurboLabz.InstantFramework
         #endregion StartGameConfirmationDialog
 
 
-        void CreateMatchLimitReachedCloseBtnClicked()
+        public void HideCreateMatchLimitReacDlg()
         {
             createMatchLimitReachedDlg.SetActive(false);
+        }
+
+        public void ShowCreateMatchLimitReacDlg()
+        {
+            createMatchLimitReachedDlg.SetActive(true);
         }
 
         void OnUpgradeToPremiumButtonClicked()

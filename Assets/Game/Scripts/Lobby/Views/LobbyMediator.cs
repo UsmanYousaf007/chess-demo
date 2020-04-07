@@ -113,6 +113,10 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.lobby, facebookService.isLoggedIn());
             }
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.ShowCreateMatchLimitReacDlg();
+            }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -121,6 +125,11 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Hide();
+            }
+
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.HideCreateMatchLimitReacDlg();
             }
         }
 
@@ -405,7 +414,7 @@ namespace TurboLabz.InstantFramework
         void OnUpgradeToPremiumClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "settings");
+            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
         }
     }
 }

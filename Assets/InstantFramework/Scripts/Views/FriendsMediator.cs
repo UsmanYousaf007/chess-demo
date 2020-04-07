@@ -42,10 +42,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public RemoveCommunityFriendSignal removeCommunityFriendSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -67,6 +69,7 @@ namespace TurboLabz.InstantFramework
             view.okButtonClickedSignal.AddListener(OnOkButtonClicked);
             view.removeCommunityFriendSignal.AddListener(OnRemoveCommunityFriend);
             view.showChatSignal.AddListener(OnShowChat);
+            view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -76,6 +79,10 @@ namespace TurboLabz.InstantFramework
             {
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
+            }
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.ShowCreateMatchLimitReacDlg();
             }
         }
 
@@ -91,6 +98,10 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.FRIENDS)
             {
                 view.Hide();
+            }
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.HideCreateMatchLimitReacDlg();
             }
         }
 
@@ -299,6 +310,12 @@ namespace TurboLabz.InstantFramework
         public void OnShowProcessingUI(bool show, bool showProcessingUi)
         {
             view.ShowProcessing(show, showProcessingUi);
+        }
+
+        void OnUpgradeToPremiumClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "friends");
         }
     }
 }
