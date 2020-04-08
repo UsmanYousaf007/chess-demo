@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         int rewardedVideoCap { get; set; }
         int interstitialCap { get; set; }
         int resignCap { get; set; }
+        float minutesForVictoryInternalAd { get; set; }
     }
 }
 

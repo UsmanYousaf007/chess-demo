@@ -28,7 +28,6 @@ public class PromotionDlgView : View
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
     [Inject] public IAudioService audioService { get; set; }
-    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -74,7 +73,6 @@ public class PromotionDlgView : View
     public void Show()
     {
         gameObject.SetActive(true);
-        hAnalyticsService.LogEvent("internal_ad_displayed", "monetization", "internal_fullscreen", "internal");
     }
 
     public void Hide()
@@ -85,14 +83,12 @@ public class PromotionDlgView : View
     private void OnCloseButtonClicked()
     {
         audioService.PlayStandardClick();
-        hAnalyticsService.LogEvent("internal_ad_closed", "monetization", "internal_fullscreen", "internal");
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
         audioService.PlayStandardClick();
-        hAnalyticsService.LogEvent("internal_ad_clicked", "monetization", "internal_fullscreen", "internal");
         purchaseSignal.Dispatch();
     }
 

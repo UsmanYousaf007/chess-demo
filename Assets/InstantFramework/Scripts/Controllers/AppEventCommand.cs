@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
                 if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
                     return;
 
-                if (appInfoModel.isInternalAdShown)
+                if (appInfoModel.internalAdType != InternalAdType.NONE)
                 {
                     closePromotionDlgSignal.Dispatch();
                     return;

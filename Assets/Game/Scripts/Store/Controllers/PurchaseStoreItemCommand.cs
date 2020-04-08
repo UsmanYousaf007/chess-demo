@@ -110,6 +110,17 @@ namespace TurboLabz.InstantFramework
             {
                 cameFromScreen = "theme_selection";
             }
+            else if (pState.GetType() == typeof(NSCPUResultsDlg) || pState.GetType() == typeof(NSMultiplayerResultsDlg))
+            {
+                if (metaDataModel.appInfo.internalAdType == InternalAdType.FORCED_ON_WIN)
+                {
+                    cameFromScreen = "victory_popup";
+                }
+                else if (metaDataModel.appInfo.internalAdType == InternalAdType.INTERAL_AD)
+                {
+                    cameFromScreen = "interal_ad";
+                }
+            }
 
             if (result == BackendResult.PURCHASE_ATTEMPT)
             {

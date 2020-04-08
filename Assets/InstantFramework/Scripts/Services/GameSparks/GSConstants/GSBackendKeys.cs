@@ -93,6 +93,7 @@ namespace TurboLabz.InstantFramework
         public const string ADS_REWARDED_VIDEO_CAP = "adsRewardedVideoCap";
         public const string ADS_INTERSTITIAL_CAP = "adsInterstitialCap";
         public const string RESIGN_CAP = "resignCap";
+        public const string MINUTES_VICTORY_AD = "minutesForVictoryInteralAd";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
