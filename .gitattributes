@@ -98,7 +98,7 @@
 *.jpeg  -text
 *.jpg   -text
 *.ktx   -text
-*.png   -text
+*.png filter=lfs diff=lfs merge=lfs -text
 *.psd   -text
 *.pvr   -text
 *.svg   -text
