@@ -311,6 +311,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_FRIENDLY, "Friendly" },
                 { LocalizationKey.PLAY, "Play" },
                 { LocalizationKey.VIEW, "View" },
+                { LocalizationKey.REMATCH, "Rematch" },
                 { LocalizationKey.LONG_PLAY_ACCEPT, "Accept" },
                 { LocalizationKey.LONG_PLAY_CANCEL, "Cancel" },
                 { LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING, "Hey, let's play :)" },

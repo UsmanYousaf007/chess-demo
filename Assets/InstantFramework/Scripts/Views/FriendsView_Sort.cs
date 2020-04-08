@@ -70,6 +70,7 @@ namespace TurboLabz.InstantFramework
 
                     if (entry.Value.friendInfo.publicProfile.isSubscriber)
                     {
+                        bar.UpdatePlayButtonStatus(true, localizationService);
                         if (entry.Value.isOnline)
                         {
                             subsriberOnlineRecentCompleted.Add(bar);
@@ -81,6 +82,7 @@ namespace TurboLabz.InstantFramework
                     }
                     else
                     {
+                        bar.UpdatePlayButtonStatus(true, localizationService);
                         if (entry.Value.isOnline)
                         {
                             onlineRecentCompleted.Add(bar);

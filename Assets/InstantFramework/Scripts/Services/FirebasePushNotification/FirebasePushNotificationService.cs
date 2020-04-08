@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnAppEvent(AppEvent evt)
         {
-            // Clear all notifications from device
+
         }
 
         public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
@@ -107,6 +107,15 @@ namespace TurboLabz.InstantFramework
         public bool IsNotificationOpened()
         {
             return isNotificationOpened;
+        }
+
+        public void ClearNotifications()
+        {
+#if UNITY_IOS
+            UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
+#elif UNITY_ANDROID
+            Unity.Notifications.Android.AndroidNotificationCenter.CancelAllDisplayedNotifications();
+#endif
         }
     }
 }
