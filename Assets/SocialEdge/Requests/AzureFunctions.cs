@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class AzureFunction
+public class AzureFunctionResponse
+{
+    UnityWebRequest www;
+}
+
+public class AzureFunctionRequest
 {
     class RoutineRunnerBehavior : MonoBehaviour {}
     RoutineRunnerBehavior monoBehavior;
 
-    public class AzureFunctionResponse
-        {
-        }
-
-    public void Exectute(Action response)
+    public void Exectute(Action<AzureFunctionResponse> responseCallback)
     {
         monoBehavior.StartCoroutine(ExecuteAzureWebFunction());
     }

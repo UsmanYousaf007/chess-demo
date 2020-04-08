@@ -9,14 +9,14 @@ using PlayFab.ClientModels;
 
 namespace SocialEdge.Requests
 {
-    public class SocialEdgeAddFriendResponse : SocialEdgeRequestResponse<SetTagResult,PlayFabError>
+    public class SocialEdgeAddFriendResponse : SocialEdgeRequestResponse<AddFriendResult, PlayFabError>
     {
         public string token;
 
         /// <summary>
         /// Build results on request success
         /// </summary>
-        public override void BuildSuccess(SetTagResult resultSuccess)
+        public override void BuildSuccess(AddFriendResult resultSuccess)
         {
           
             isSuccess = true;
@@ -61,7 +61,7 @@ namespace SocialEdge.Requests
             PlayFabClientAPI.AddFriend(request, OnSuccess, OnFailure);
         }
 
-        private void OnSuccess(SetTagResult result)
+        private void OnSuccess(AddFriendResult result)
         {
             response.BuildSuccess(result);
             actionSuccess?.Invoke(response);
