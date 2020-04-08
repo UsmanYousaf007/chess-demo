@@ -162,7 +162,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.MULTIPLAYER_SEARCHING, "Searching..." },
                 { LocalizationKey.MULTIPLAYER_FOUND, "Get Ready..." },
                 { LocalizationKey.QUICK_MATCH_FAILED, "Try Later" },
-                { LocalizationKey.QUICK_MATCH_FAILED_REASON, "Player is already in a 5 min game" },
+                { LocalizationKey.QUICK_MATCH_FAILED_REASON, "Player is already in a game" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED, "Match Expired" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED_REASON, "You took too long to respond" },
 
