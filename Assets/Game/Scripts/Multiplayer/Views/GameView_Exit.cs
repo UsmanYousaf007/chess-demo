@@ -144,6 +144,7 @@ namespace TurboLabz.Multiplayer
         {
             if ((appInfoModel.isReconnecting == DisconnectStates.FALSE) && !appInfoModel.syncInProgress)
             {
+                analyticsService.Event(AnalyticsEventId.tap_resign_game);
                 resignButtonClickedSignal.Dispatch();
                 EnableModalBlocker();
             }
