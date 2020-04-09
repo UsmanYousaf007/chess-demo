@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -60,7 +61,9 @@ namespace TurboLabz.InstantFramework
             view.Init();
 
             view.playMultiplayerButtonClickedSignal.AddListener(OnQuickMatchBtnClicked);
+            view.playMultiplayerClassicButtonClickedSignal.AddListener(OnClassicMatchBtnClicked);
             view.playCPUButtonClickedSignal.AddListener(OnPlayComputerMatchBtnClicked);
+            view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
@@ -110,6 +113,10 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.lobby, facebookService.isLoggedIn());
             }
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.ShowCreateMatchLimitReacDlg();
+            }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -118,6 +125,11 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Hide();
+            }
+
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.HideCreateMatchLimitReacDlg();
             }
         }
 
@@ -281,7 +293,7 @@ namespace TurboLabz.InstantFramework
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
-        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
+        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
             analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
 
@@ -292,7 +304,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
             }
 
-            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
+            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
 
         private void OnAcceptButtonClicked(string playerId)
@@ -330,9 +342,14 @@ namespace TurboLabz.InstantFramework
             startCPUGameSignal.Dispatch();
         }
 
-        private void OnQuickMatchBtnClicked()
+        private void OnQuickMatchBtnClicked(string actionCode)
         {
-            FindMatchAction.Random(findMatchSignal);
+            FindMatchAction.Random(findMatchSignal, actionCode);
+        }
+
+        private void OnClassicMatchBtnClicked()
+        {
+            FindMatchAction.RandomLong(findMatchSignal);
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]
@@ -392,6 +409,12 @@ namespace TurboLabz.InstantFramework
         public void OnShowAdSkippedDlg()
         {
             view.ShowAdSkippedDailogue(true);
+        }
+
+        void OnUpgradeToPremiumClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
         }
     }
 }

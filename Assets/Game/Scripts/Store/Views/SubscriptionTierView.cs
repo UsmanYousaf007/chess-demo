@@ -15,6 +15,7 @@ public class SubscriptionTierView : View
         public Color textColor;
         public Vector3 scale;
         public Vector3 bestValuePosition;
+        public Sprite processing;
     }
 
     public string key;
@@ -37,8 +38,7 @@ public class SubscriptionTierView : View
     [Header("Not Available")]
     public GameObject package;
     public GameObject notAvailable;
-    public Text gettingPackage;
-    public Image[] processingDots;
+    public Image[] processing;
 
     //Signals
     public Signal selectTierClicked = new Signal();
@@ -53,7 +53,6 @@ public class SubscriptionTierView : View
     {
         bg.onClick.AddListener(OnClickSelectButton);
         bestValueObject.gameObject.SetActive(showBestValue);
-        gettingPackage.text = localizationService.Get(LocalizationKey.STORE_GETTING_PACKAGE);
         SelectTier(isSelected);
     }
 
@@ -80,17 +79,18 @@ public class SubscriptionTierView : View
         {
             actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
-            billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
+            //billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
+            billed.gameObject.SetActive(false);
             savings.text = $"Save {savingsValue * 100}%";
         }
         else
         {
             var monthlyItem = metaDataModel.store.items["Subscription"];
-            actualPrice.text = $"{monthlyItem.remoteProductCurrencyCode} {monthlyItem.productPrice}";
             var monthlyPrice = item.productPrice / 12;
-            price.text = $"{item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo";
-            billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} annually";
             savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
+            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
+            price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/yr";
+            billed.text = $"Just {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo"; ;
             savings.text = $"Save {(int)(savingsValue * 100)}%";
             var showSavings = savingsValue > 0;
             actualPrice.gameObject.SetActive(showSavings);
@@ -108,14 +108,14 @@ public class SubscriptionTierView : View
         this.isSelected = isSelected;
         var config = isSelected ? selectedConfig : defaultConfig;
         title.color = price.color = savings.color = config.headingsColor;
-        gettingPackage.color = actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
+        actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
         bg.image.sprite = config.bg;
         this.transform.localScale = config.scale;
         bestValueObject.localPosition = config.bestValuePosition;
 
-        foreach (var dot in processingDots)
+        foreach (var bar in processing)
         {
-            dot.color = config.textColor;
+            bar.sprite = config.processing;
         }
     }
 }

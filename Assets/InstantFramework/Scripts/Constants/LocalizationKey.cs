@@ -30,6 +30,9 @@ namespace TurboLabz.InstantFramework
 
         public const string OKAY_TEXT = "okayText";
         public const string BACK_TEXT = "backText";
+        public const string UPGRADE_TEXT = "upgradeText";
+        public const string MIN5_GAME_TEXT = "min5GameText";
+        public const string MIN10_GAME_TEXT = "min10GameText";
 
         #endregion
 
@@ -110,6 +113,8 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_PLAYER_COLOR = "cpuMenuPlayerColor";
         public const string CPU_MENU_THEME = "cpuMenuTheme";
         public const string CPU_MENU_PLAY_ONLINE = "cpuMenuPlayOnline";
+        public const string CPU_MENU_PLAY_ONLINE_CLASSIC = "cpuMenuPlayOnlineClassic";
+        public const string CPU_MENU_PLAY_ONLINE_DESCRIPTION = "cpuMenuPlayOnlineDescription";
         public const string CPU_MENU_PLAY_FRIENDS = "cpuMenuPlayFriends";
         public const string CPU_MENU_PLAY_CPU = "cpuMenuPlayCPU";
         public const string CPU_MENU_SINGLE_PLAYER_GAME = "cpuMenuSinglePlayerGame";
@@ -303,6 +308,7 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_RANKED = "longPlayRanked";
         public const string PLAY = "play";
         public const string VIEW = "view";
+        public const string REMATCH = "rematch";
         public const string LONG_PLAY_ACCEPT = "longPlayAccept";
         public const string LONG_PLAY_CANCEL = "longPlayCancel";
         public const string LONG_PLAY_NEW_MATCH_GREETING = "longPlayNewMatchGreeting";
@@ -338,6 +344,7 @@ namespace TurboLabz.InstantFramework
         public const string REMOVE_COMMUNITY_FRIEND_TITLE = "removeCommunityFriendTitle";
         public const string NEW_GAME_CONFIRM_RANKED = "newGameConfirmRanked";
         public const string NEW_GAME_CONFIRM_FRIENDLY = "newGameConfirmnFriendly";
+        public const string NEW_GAME_CONFIRM_FRIENDLY_10_MIN = "newGameConfirmnFriendly10Min"; 
         public const string NEW_GAME_CONFIRM_TITLE = "newGameConfirmTitle";
         public const string FRIENDLY_GAME_CAPTION = "friendlyGameCaption";
         public const string LONG_PLAY_VIEW = "longPlayView";
@@ -375,6 +382,7 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_ACCOUNT_RENEW = "settingsAccountRenew";
         public const string SETTINGS_ON = "settingsOn";
         public const string SETTINGS_OFF = "settingsOff";
+        public const string SETTINGS_FAQ = "settingsFAQ";
 
         #endregion
 

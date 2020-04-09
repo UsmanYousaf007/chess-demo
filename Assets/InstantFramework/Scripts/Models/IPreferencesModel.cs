@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
         int longMatchFinishedCount { get; set; }
         int cpuMatchFinishedCount { get; set; }
         bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
+        DateTime timeAtSubscrptionDlgShown { get; set; }
 
         void ResetDailyPrefers();
         void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);

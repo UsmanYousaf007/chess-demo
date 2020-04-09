@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnAppEvent(AppEvent evt)
         {
-            // Clear all notifications from device
+
         }
 
         public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
@@ -100,13 +100,23 @@ namespace TurboLabz.InstantFramework
             notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
             notificationVO.isPremium = e.Message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(e.Message.Data["isSubscriber"]) : false;
             notificationVO.timeSent = e.Message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(e.Message.Data["creationTimestamp"]) : 0;
+            notificationVO.actionCode = e.Message.Data.ContainsKey("actionCode") == true ? e.Message.Data["actionCode"] : "undefined";
 
-            notificationRecievedSignal.Dispatch(notificationVO);
+        notificationRecievedSignal.Dispatch(notificationVO);
         }
 
         public bool IsNotificationOpened()
         {
             return isNotificationOpened;
+        }
+
+        public void ClearNotifications()
+        {
+#if UNITY_IOS
+            UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
+#elif UNITY_ANDROID
+            Unity.Notifications.Android.AndroidNotificationCenter.CancelAllDisplayedNotifications();
+#endif
         }
     }
 }

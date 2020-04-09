@@ -50,7 +50,7 @@
 *.shader  text
 # Unity YAML
 *.anim               merge=unityyamlmerge eol=lf
-*.asset              merge=unityyamlmerge eol=lf
+*.asset filter=lfs diff=lfs merge=lfs -text
 *.controller         merge=unityyamlmerge eol=lf
 *.mat                merge=unityyamlmerge eol=lf
 *.meta               merge=unityyamlmerge eol=lf
@@ -179,7 +179,6 @@
 #*.lai          filter=lfs diff=lfs merge=lfs -text
 #*.lib          filter=lfs diff=lfs merge=lfs -text
 #*.llblgenproj  filter=lfs diff=lfs merge=lfs -text
-*.a filter=lfs diff=lfs merge=lfs -text
 *.la           -text
 *.lai          -text
 *.lib          -text
@@ -187,7 +186,6 @@
 # Font
 #*.otf  filter=lfs diff=lfs merge=lfs -text
 #*.ttf  filter=lfs diff=lfs merge=lfs -text
-*.otf  -text
 *.ttf  -text
 # Executable/Installer
 #*.apk  filter=lfs diff=lfs merge=lfs -text

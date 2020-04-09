@@ -18,5 +18,6 @@ namespace TurboLabz.InstantFramework
         public bool isOpened;
         public bool isPremium;
         public long timeSent;
+        public string actionCode;
     }
 }

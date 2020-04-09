@@ -3,7 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using HUF.Analytics.API;
+//using HUF.Analytics.API;
 using strange.extensions.command.impl;
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -95,6 +96,11 @@ namespace TurboLabz.InstantFramework
             if (pState.GetType() == typeof(NSLobby))
             {
                 cameFromScreen = "lobby_banner";
+
+                if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch)
+                {
+                    cameFromScreen = "opening_popup";
+                }
             }
             else if (pState.GetType() == typeof(NSCPU) || pState.GetType() == typeof(NSMultiplayer))
             {
@@ -103,6 +109,17 @@ namespace TurboLabz.InstantFramework
             else if (pState.GetType() == typeof(NSThemeSelectionDlg))
             {
                 cameFromScreen = "theme_selection";
+            }
+            else if (pState.GetType() == typeof(NSCPUResultsDlg) || pState.GetType() == typeof(NSMultiplayerResultsDlg))
+            {
+                if (metaDataModel.appInfo.internalAdType == InternalAdType.FORCED_ON_WIN)
+                {
+                    cameFromScreen = "victory_popup";
+                }
+                else if (metaDataModel.appInfo.internalAdType == InternalAdType.INTERAL_AD)
+                {
+                    cameFromScreen = "interal_ad";
+                }
             }
 
             if (result == BackendResult.PURCHASE_ATTEMPT)
