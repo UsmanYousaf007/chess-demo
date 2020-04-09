@@ -21,12 +21,21 @@ namespace TurboLabz.Multiplayer
         {
             if (CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_PROMO_DLG);
-
-                Chessboard chessboard = cmd.activeChessboard;
-                cmd.hidePossibleMovesSignal.Dispatch();
-                cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(chessboard, true));
-                cmd.updatePromoDialogSignal.Dispatch(cmd.activeChessboard.playerColor);
+                if (!cmd.playerModel.autoPromotionToQueen)
+                {
+                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_PROMO_DLG);
+                    Chessboard chessboard = cmd.activeChessboard;
+                    cmd.hidePossibleMovesSignal.Dispatch();
+                    cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(chessboard, true));
+                    cmd.updatePromoDialogSignal.Dispatch(cmd.activeChessboard.playerColor);
+                }
+                else
+                {
+                    Chessboard chessboard = cmd.activeChessboard;
+                    cmd.hidePossibleMovesSignal.Dispatch();
+                    cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(chessboard, true));
+                    cmd.autoQueenPromoSignal.Dispatch(cmd.activeChessboard.playerColor);
+                }
             }
         }
 

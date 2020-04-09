@@ -36,6 +36,14 @@ namespace TurboLabz.InstantFramework
         public Text personalizedAdsText;
         public Button personalisedAdsOnBtn;
         public Button personalisedAdsOffBtn;
+        public Text personalisedAdsOnText;
+        public Text personalisedAdsOffText;
+
+        public Text autoConvertPawntoQueenText;
+        public Button autoConvertPawntoQueenOnBtn;
+        public Button autoConvertPawntoQueenOffBtn;
+        public Text autoConvertPawntoQueenOnBtnText;
+        public Text autoConvertPawntoQueenOffBtnText;
 
         public Button manageSubscriptionBtn;
         public Text manageSubscriptionText;
@@ -55,8 +63,6 @@ namespace TurboLabz.InstantFramework
         public Button upgradeToPremiumBtn;
         public Text upgradeToPremiumText;
 
-        public Text personalisedAdsOnText;
-        public Text personalisedAdsOffText;
 
         public Button hufShowAdsTestSuite;
 
@@ -64,6 +70,7 @@ namespace TurboLabz.InstantFramework
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
         public Signal restorePurchaseButtonClickedSignal = new Signal();
+        public Signal applySettingsSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -74,6 +81,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        bool settingsChanged = false;
+
         public void Init()
         {
             //Set texts
@@ -82,8 +91,8 @@ namespace TurboLabz.InstantFramework
             backButtonText.text = localizationService.Get(LocalizationKey.BACK_TEXT);
             soundText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_TITLE);
             soundEffectsText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_EFFECT);
-            soundOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
-            soundOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
+            soundOnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
+            soundOffText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
 
             //Account
             manageSubscriptionText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION);
@@ -92,9 +101,11 @@ namespace TurboLabz.InstantFramework
             privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
             upgradeToPremiumText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM);
             personalizedAdsText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS);
-            personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
-            personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
+            personalisedAdsOnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
+            personalisedAdsOffText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
             FAQText.text = localizationService.Get(LocalizationKey.SETTINGS_FAQ);
+            autoConvertPawntoQueenOnBtnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
+            autoConvertPawntoQueenOffBtnText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
 
             //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
@@ -107,6 +118,8 @@ namespace TurboLabz.InstantFramework
             personalisedAdsOffBtn.onClick.AddListener(OnPersonalizedAdsOffButtonClicked);
             personalisedAdsOnBtn.onClick.AddListener(OnPersonalizedAdsOnButtonClicked);
             FAQBtn.onClick.AddListener(OnFAQButtonClicked);
+            autoConvertPawntoQueenOffBtn.onClick.AddListener(OnAutoConvertPawntoQueenOffButtonClicked);
+            autoConvertPawntoQueenOnBtn.onClick.AddListener(OnAutoConvertPawntoQueenOffButtonClicked);
 
             appVersion.text = "v" + Application.version;
 
@@ -125,6 +138,8 @@ namespace TurboLabz.InstantFramework
             base.OnEnable();
             RefreshAudioButtons();
             RefreshPersonalisedAdsToggleButtons();
+            RefreshAutoConvertPawntoQueenButtons();
+            settingsChanged = playerModel.autoPromotionToQueen;
         }
 
         public void SetSubscriptionPrice()
@@ -139,11 +154,11 @@ namespace TurboLabz.InstantFramework
             string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
             string subscriptionRenewDate = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_RENEW);
             
-            priceText.text = isSubscriber ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
+            //priceText.text = isSubscriber ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
            
             upgradeToPremiumBtn.gameObject.SetActive(!isSubscriber);
             manageSubscriptionBtn.gameObject.SetActive(isSubscriber && !playerModel.isPremium);
-            priceText.gameObject.SetActive((isSubscriber && !playerModel.isPremium) || !isSubscriber);
+            //priceText.gameObject.SetActive((isSubscriber && !playerModel.isPremium) || !isSubscriber);
         }
 
         void OnManageSubscriptionButtonClicked()
@@ -218,6 +233,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
+            applySettingsSignal.Dispatch();
         }
 
         public void OnBackButtonClicked()
@@ -242,6 +258,29 @@ namespace TurboLabz.InstantFramework
         {
             audioOffButton.gameObject.SetActive(!audioService.IsAudioOn());
             audioOnButton.gameObject.SetActive(audioService.IsAudioOn());
+        }
+
+        private void OnAutoConvertPawntoQueenOffButtonClicked()
+        {
+            playerModel.autoPromotionToQueen = !playerModel.autoPromotionToQueen;
+            audioService.PlayStandardClick();
+            RefreshAutoConvertPawntoQueenButtons();
+        }
+
+        private void OnAutoConvertPawntoQueenOnButtonClicked()
+        {
+            audioService.PlayStandardClick();
+        }
+
+        private void RefreshAutoConvertPawntoQueenButtons()
+        {
+            autoConvertPawntoQueenOffBtn.gameObject.SetActive(!playerModel.autoPromotionToQueen);
+            autoConvertPawntoQueenOnBtn.gameObject.SetActive(playerModel.autoPromotionToQueen);
+        }
+
+        public bool HasSettingsChanged()
+        {
+            return settingsChanged != playerModel.autoPromotionToQueen;
         }
     }
 }

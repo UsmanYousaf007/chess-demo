@@ -20,12 +20,22 @@ namespace TurboLabz.CPU
         {
             if (CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PROMO_DLG);
+                if(!cmd.playerModel.autoPromotionToQueen)
+                {
+                    cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PROMO_DLG);
 
-                IChessboardModel model = cmd.chessboardModel;
-                cmd.hidePossibleMovesSignal.Dispatch();
-                cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(model, true));
-                cmd.updatePromoDialogSignal.Dispatch(cmd.chessboardModel.playerColor);
+                    IChessboardModel model = cmd.chessboardModel;
+                    cmd.hidePossibleMovesSignal.Dispatch();
+                    cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(model, true));
+                    cmd.updatePromoDialogSignal.Dispatch(cmd.chessboardModel.playerColor);
+                }
+                else
+                {
+                    IChessboardModel model = cmd.chessboardModel;
+                    cmd.hidePossibleMovesSignal.Dispatch();
+                    cmd.updatePlayerPrePromoMoveSignal.Dispatch(GetMoveVO(model, true));
+                    cmd.autoQueenPromoSignal.Dispatch(cmd.chessboardModel.playerColor);
+                }
             }
         }
 

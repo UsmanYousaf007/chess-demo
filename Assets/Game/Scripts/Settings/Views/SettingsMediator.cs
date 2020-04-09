@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -28,6 +29,7 @@ namespace TurboLabz.InstantFramework
             view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
             view.manageSubscriptionButtonClickedSignal.AddListener(OnManageSubscriptionClicked);
+            view.applySettingsSignal.AddListener(OnApplySettings);
         }
 
 
@@ -89,6 +91,16 @@ namespace TurboLabz.InstantFramework
         {
             hAnalyticsService.LogEvent("manage_subscription_clicked", "menu", "settings");
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MANAGE_SUBSCRIPTION);
+        }
+
+        private void OnApplySettings()
+        {
+            if (view.HasSettingsChanged())
+            {
+                savePlayerInventorySignal.Dispatch();
+            }
+
+            //OnCloseDailogue();
         }
     }
 }

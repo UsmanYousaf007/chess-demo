@@ -66,6 +66,7 @@ namespace TurboLabz.Multiplayer
     public class UpdatePlayerMoveSignal : Signal<MoveVO> {}
     public class UpdatePlayerPrePromoMoveSignal : Signal<MoveVO> {}
     public class UpdatePromoDialogSignal : Signal<ChessColor> {}
+    public class AutoQueenPromoSignal : Signal<ChessColor> { }
     public class HidePromoDialogSignal : Signal {}
     public class UpdatePromoSignal : Signal<MoveVO> {}
     public class EnablePlayerTurnInteractionSignal : Signal {}

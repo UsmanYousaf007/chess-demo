@@ -44,6 +44,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
                 { LocalizationKey.MIN5_GAME_TEXT, "5 MIN" },
                 { LocalizationKey.MIN10_GAME_TEXT, "10 MIN" },
+                { LocalizationKey.ON_TEXT, "On" },
+                { LocalizationKey.OFF_TEXT, "Off" },
+                
                  
 
                 #endregion

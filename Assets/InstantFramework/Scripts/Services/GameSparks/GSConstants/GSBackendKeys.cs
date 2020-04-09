@@ -366,6 +366,7 @@ namespace TurboLabz.InstantFramework
             public const string REWARD_CURRENT_POINTS = "currentPoints";
             public const string REWARD_REQUIRED_POINTS = "pointsRequired";
             public const string ADS_REWARD_DATA = "adsRewardData";
+            public const string AUTO_PROMOTION_TO_QUEEN = "autoPromotionToQueen";
         }
 
         public static class Match

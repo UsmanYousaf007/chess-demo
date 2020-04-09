@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<HideOpponentToIndicatorSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePromoDialogSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePromoSignal>().ToSingleton();
+            injectionBinder.Bind<AutoQueenPromoSignal>().ToSingleton();
             injectionBinder.Bind<ShowFiftyMoveDrawDialogSignal>().ToSingleton();
             injectionBinder.Bind<ShowThreefoldRepeatDrawDialogSignal>().ToSingleton();
             injectionBinder.Bind<HideDrawDialogSignal>().ToSingleton();

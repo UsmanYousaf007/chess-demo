@@ -45,6 +45,7 @@ namespace TurboLabz.CPU
         [Inject] public UpdateResultDialogSignal updateResultsDialogSignal { get; set; }
         [Inject] public UpdatePromoDialogSignal updatePromoDialogSignal { get; set; }
         [Inject] public UpdatePromoSignal updatePromoSignal { get; set; }
+        [Inject] public AutoQueenPromoSignal autoQueenPromoSignal { get; set; }
         [Inject] public RunTimeControlSignal runTimeControlSignal { get; set; }
         [Inject] public TakeTurnSwapTimeControlSignal takeTurnSwapTimeControlSignal { get; set; }
         [Inject] public ReceiveTurnSwapTimeControlSignal receiveTurnSwapTimeControlSignal { get; set; }
