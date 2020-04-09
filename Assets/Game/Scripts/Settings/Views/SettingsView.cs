@@ -139,11 +139,11 @@ namespace TurboLabz.InstantFramework
             string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
             string subscriptionRenewDate = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_RENEW);
             
-            priceText.text = isSubscriber ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
+            //priceText.text = isSubscriber ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
            
             upgradeToPremiumBtn.gameObject.SetActive(!isSubscriber);
             manageSubscriptionBtn.gameObject.SetActive(isSubscriber && !playerModel.isPremium);
-            priceText.gameObject.SetActive((isSubscriber && !playerModel.isPremium) || !isSubscriber);
+            //priceText.gameObject.SetActive((isSubscriber && !playerModel.isPremium) || !isSubscriber);
         }
 
         void OnManageSubscriptionButtonClicked()
