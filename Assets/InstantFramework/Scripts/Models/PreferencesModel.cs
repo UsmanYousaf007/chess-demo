@@ -53,6 +53,7 @@ namespace TurboLabz.InstantGame
         public int longMatchFinishedCount { get; set; }
         public int cpuMatchFinishedCount { get; set; }
         public bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
+        public DateTime timeAtSubscrptionDlgShown { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -93,6 +94,7 @@ namespace TurboLabz.InstantGame
             longMatchFinishedCount = 0;
             cpuMatchFinishedCount = 0;
             isSubscriptionDlgShownOnFirstLaunch = false;
+            timeAtSubscrptionDlgShown = DateTime.Now;
             ResetDailyPrefers();
         }
 
@@ -266,6 +268,11 @@ namespace TurboLabz.InstantGame
                     isSubscriptionDlgShownOnFirstLaunch = reader.Read<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN);
                 }
 
+                if (reader.HasKey(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN))
+                {
+                    timeAtSubscrptionDlgShown = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN)));
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -316,6 +323,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.LONG_MATCH_FINISHED_COUNT, longMatchFinishedCount);
                 writer.Write<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT, cpuMatchFinishedCount);
                 writer.Write<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN, isSubscriptionDlgShownOnFirstLaunch);
+                writer.Write<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN, timeAtSubscrptionDlgShown.ToBinary().ToString());
                 writer.Close();
             }
             catch (Exception e)

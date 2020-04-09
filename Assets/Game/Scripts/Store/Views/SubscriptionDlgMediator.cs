@@ -51,7 +51,7 @@ public class SubscriptionDlgMediator : Mediator
         if (viewId == NavigatorViewId.SUBSCRIPTION_DLG && !view.IsVisible())
         {
             view.Show();
-
+            preferencesModel.timeAtSubscrptionDlgShown = System.DateTime.Now;
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
             cameFromState = navigatorModel.previousState;
             screenContext = cameFromState.GetType().Equals(typeof(NSLobby)) ? preferencesModel.isSubscriptionDlgShownOnFirstLaunch ? "banner" : "opening_popup" : "";

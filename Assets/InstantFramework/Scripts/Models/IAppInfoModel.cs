@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
         string contactSupportURL { get; set; }
         string privacyPolicyURL { get; }
         string termsOfUseURL { get; }
-        bool isInternalAdShown { get; set; }
+        InternalAdType internalAdType { get; set; }
         string faqURL { get; }
     }
 
@@ -31,7 +31,6 @@ namespace TurboLabz.InstantFramework
         FALSE,
         SHORT_DISCONNECT,
         LONG_DISCONNET
-
     }
 
     public enum GameMode
@@ -40,7 +39,12 @@ namespace TurboLabz.InstantFramework
         QUICK_MATCH,
         CPU,
         LONG_MATCH
-
     }
 
+    public enum InternalAdType
+    {
+        INTERAL_AD,
+        FORCED_ON_WIN,
+        NONE
+    }
 }

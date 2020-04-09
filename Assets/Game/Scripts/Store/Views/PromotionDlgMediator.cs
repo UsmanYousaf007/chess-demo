@@ -19,8 +19,10 @@ public class PromotionDlgMediator : Mediator
 
     //Models
     [Inject] public IAppInfoModel appInfoModel { get; set; }
+    [Inject] public IPreferencesModel preferencesModel { get; set; }
 
     private IPromise<AdsResult> promise;
+    private string screenContext;
 
     public override void OnRegister()
     {
@@ -41,11 +43,15 @@ public class PromotionDlgMediator : Mediator
     }
 
     [ListensTo(typeof(ShowPromotionDlgSignal))]
-    public void OnShowView(IPromise<AdsResult> promise)
+    public void OnShowView(IPromise<AdsResult> promise, InternalAdType internalAdType)
     {
         this.promise = promise;
-        appInfoModel.isInternalAdShown = true;
+        appInfoModel.internalAdType = internalAdType;
+        screenContext = internalAdType == InternalAdType.FORCED_ON_WIN ? "victory_popup" : "internal";
+        preferencesModel.timeAtSubscrptionDlgShown = System.DateTime.Now;
         view.Show();
+        hAnalyticsService.LogEvent("internal_ad_displayed", "monetization", "internal_fullscreen", screenContext);
+        analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, screenContext);
     }
 
     [ListensTo(typeof(ClosePromotionDlgSignal))]
@@ -57,12 +63,20 @@ public class PromotionDlgMediator : Mediator
     private void OnCloseDailogue()
     {
         view.Hide();
-        promise.Dispatch(AdsResult.FINISHED);
-        appInfoModel.isInternalAdShown = false;
+        appInfoModel.internalAdType = InternalAdType.NONE;
+        hAnalyticsService.LogEvent("internal_ad_closed", "monetization", "internal_fullscreen", screenContext);
+        analyticsService.Event(AnalyticsEventId.close_subscription_clicked, AnalyticsParameter.context, screenContext);
+
+        if (promise != null)
+        {
+            promise.Dispatch(AdsResult.FINISHED);
+        }
     }
 
     private void OnPurchase()
     {
+        hAnalyticsService.LogEvent("internal_ad_clicked", "monetization", "internal_fullscreen", screenContext);
+        analyticsService.Event(AnalyticsEventId.get_free_trial_clicked, AnalyticsParameter.context, screenContext);
         purchaseStoreItemSignal.Dispatch(view.key, true);
     }
 
@@ -77,6 +91,7 @@ public class PromotionDlgMediator : Mediator
     {
         if (view.IsVisible())
         {
+            analyticsService.Event(AnalyticsEventId.subscription_purchased, AnalyticsParameter.context, screenContext);
             OnCloseDailogue();
         }
     }

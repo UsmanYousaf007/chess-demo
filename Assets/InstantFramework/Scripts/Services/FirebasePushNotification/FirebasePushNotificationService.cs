@@ -100,8 +100,9 @@ namespace TurboLabz.InstantFramework
             notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
             notificationVO.isPremium = e.Message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(e.Message.Data["isSubscriber"]) : false;
             notificationVO.timeSent = e.Message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(e.Message.Data["creationTimestamp"]) : 0;
+            notificationVO.actionCode = e.Message.Data.ContainsKey("actionCode") == true ? e.Message.Data["actionCode"] : "undefined";
 
-            notificationRecievedSignal.Dispatch(notificationVO);
+        notificationRecievedSignal.Dispatch(notificationVO);
         }
 
         public bool IsNotificationOpened()

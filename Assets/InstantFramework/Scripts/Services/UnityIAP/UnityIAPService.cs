@@ -498,7 +498,7 @@ namespace TurboLabz.InstantFramework
         private void LogAutoRenewEvent(string name, string productId)
         {
             var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
-            hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", "subscription", "autorenew");
+            hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew");
         }
 
         public void UpgardeSubscription(string oldProductId, string newProductId)

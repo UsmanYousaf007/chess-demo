@@ -76,6 +76,7 @@ namespace TurboLabz.InstantGame
                         if (promise != null)
                         {
                             promise.Then(ClaimReward);
+                            promise.Then(ShowPromotionOnVictory);
                         }
                         else
                         {
@@ -104,6 +105,7 @@ namespace TurboLabz.InstantGame
                         if (p != null)
                         {
                             p.Then(ClaimReward);
+                            p.Then(ShowPromotionOnVictory);
                         }
                         else
                         {
@@ -172,7 +174,15 @@ namespace TurboLabz.InstantGame
         {
             promotionAdPromise = new Promise<AdsResult>();
             promotionAdPromise.Then(ClaimReward);
-            showPromotionDlgSignal.Dispatch(promotionAdPromise);
+            showPromotionDlgSignal.Dispatch(promotionAdPromise, InternalAdType.INTERAL_AD);
+        }
+
+        private void ShowPromotionOnVictory(AdsResult result)
+        {
+            if ((DateTime.Now - preferencesModel.timeAtSubscrptionDlgShown).TotalMinutes > metaDataModel.adsSettings.minutesForVictoryInternalAd && resultAdsVO.playerWins)
+            {
+                showPromotionDlgSignal.Dispatch(null, InternalAdType.FORCED_ON_WIN);
+            }
         }
     }
 }
