@@ -129,7 +129,7 @@ namespace TurboLabz.InstantFramework
 
             if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
-                view.HideCreateMatchLimitReacDlg();
+                view.HideCreateMatchLimitDlg();
             }
         }
 

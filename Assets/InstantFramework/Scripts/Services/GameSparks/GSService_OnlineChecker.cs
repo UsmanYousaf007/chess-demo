@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
 
         public void OnlineCheckerStart()
         {
+            return;
+
             if (onlineCheckerPingerCR != null)
             {
                 OnlineCheckerStop();

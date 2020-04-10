@@ -22,6 +22,10 @@
                     return new NSFriends();
                 }
             }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
+            {
+                return new NSSubscriptionDlg();
+            }
 
             return null;
         }

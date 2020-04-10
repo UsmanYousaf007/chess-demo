@@ -183,8 +183,8 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
 
-            createMatchLimitReachedCloseBtn.onClick.AddListener(HideCreateMatchLimitReacDlg);
-            createMatchLimitReachedCrossBtn.onClick.AddListener(HideCreateMatchLimitReacDlg);
+            createMatchLimitReachedCloseBtn.onClick.AddListener(OnCloseButtonClickedCreateMatchLimitDlg);
+            createMatchLimitReachedCrossBtn.onClick.AddListener(OnCloseButtonClickedCreateMatchLimitDlg);
             createMatchLimitReachedUpgradeBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
             createMatchLimitReachedCloseBtnText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
             createMatchLimitReachedUpgradeBtnText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);
@@ -1076,7 +1076,12 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void HideCreateMatchLimitReacDlg()
+        public void OnCloseButtonClickedCreateMatchLimitDlg()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        public void HideCreateMatchLimitDlg()
         {
             createMatchLimitReachedDlg.SetActive(false);
         }

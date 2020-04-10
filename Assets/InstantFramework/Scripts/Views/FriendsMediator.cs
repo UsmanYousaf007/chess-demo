@@ -75,7 +75,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.FRIENDS) 
+            if (viewId == NavigatorViewId.FRIENDS)
             {
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
@@ -101,13 +101,13 @@ namespace TurboLabz.InstantFramework
             }
             if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
-                view.HideCreateMatchLimitReacDlg();
+                view.HideCreateMatchLimitDlg();
             }
         }
 
-		[ListensTo(typeof(AddFriendsSignal))]
+        [ListensTo(typeof(AddFriendsSignal))]
         public void OnUpdateFriends(Dictionary<string, Friend> friends, FriendCategory friendCategory)
-		{
+        {
             bool isCommunity = false;
             bool isSearched = false;
             if (friendCategory == FriendCategory.COMMUNITY)
@@ -121,7 +121,7 @@ namespace TurboLabz.InstantFramework
             }
 
             view.AddFriends(friends, isCommunity, isSearched);
-		}
+        }
 
         [ListensTo(typeof(NewFriendAddedSignal))]
         public void OnNewFriendAdded(string friendId)
