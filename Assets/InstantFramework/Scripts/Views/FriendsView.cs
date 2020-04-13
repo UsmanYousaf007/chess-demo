@@ -744,16 +744,18 @@ namespace TurboLabz.InstantFramework
             createMatchLimitReachedDlg.SetActive(false);
             inviteFriendDlg.SetActive(false);
             findFriendDlg.SetActive(false);
-            SortFriends();
-        }
 
-        public void Hide()
-        {
             // TODO: Better handling needed
             if (sectionSearched.gameObject.activeSelf)
             {
                 OnCancelSearchClicked();
             }
+
+            SortFriends();
+        }
+
+        public void Hide()
+        {
             gameObject.SetActive(false); 
         }
 
