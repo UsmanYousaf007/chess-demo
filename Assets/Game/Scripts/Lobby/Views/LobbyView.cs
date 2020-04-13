@@ -363,7 +363,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            if (matchInfoModel.matches.Count >= 0)// settingsModel.maxLongMatchCount)
+            if (matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
             {
                 SetMatchLimitReachedDialogue();
                 navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
