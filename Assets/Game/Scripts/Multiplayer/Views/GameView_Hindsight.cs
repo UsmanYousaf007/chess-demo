@@ -125,7 +125,7 @@ namespace TurboLabz.Multiplayer
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch(isLongPlay ? "classic_" : isTenMinGame ? "ten_min_" : "five_min_", "coach");
+                setSubscriptionContext.Dispatch(isLongPlay ? "Classic" : isTenMinGame ? "TenMin" : "FiveMin", "Coach");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);

@@ -129,7 +129,7 @@ namespace TurboLabz.CPU
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch("cpu_", "move_meter");
+                setSubscriptionContext.Dispatch("Cpu", "MoveMeter");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
