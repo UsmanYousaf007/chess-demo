@@ -18,7 +18,7 @@ using UnityEngine.Networking;
 
 namespace GameAnalyticsSDK.Editor
 {
-    [CustomEditor(typeof(GameAnalyticsSDK.Setup.Settings))]
+    [CustomEditor(typeof(Settings))]
     public class GA_SettingsInspector : UnityEditor.Editor
     {
         private GUIContent _publicKeyLabel = new GUIContent("Game Key", "Your GameAnalytics Game Key - copy/paste from the GA website.");
@@ -32,7 +32,6 @@ namespace GameAnalyticsSDK.Editor
         private GUIContent _infoLogBuild = new GUIContent("Info Log Build", "Show info messages from GA in builds (f.x. Xcode for iOS).");
         private GUIContent _verboseLogBuild = new GUIContent("Verbose Log Build", "Show full info messages from GA in builds (f.x. Xcode for iOS). Noet that this option includes long JSON messages sent to the server.");
         private GUIContent _useManualSessionHandling = new GUIContent("Use manual session handling", "Manually choose when to end and start a new session. Note initializing of the SDK will automatically start the first session.");
-        private GUIContent _useIMEI = new GUIContent("Use IMEI (android only)", "When Google Ad Id is not available try to use IMEI id as user is. REMEMBER to add READ_PHONE_STATE permission.");
 #if UNITY_5_6_OR_NEWER
         private GUIContent _usePlayerSettingsBunldeVersionForBuild = new GUIContent("Send Version* (Android, iOS) as build number", "The SDK will automatically fetch the version* number on Android and iOS and send it as the GameAnalytics build number.");
 #else
@@ -91,7 +90,7 @@ namespace GameAnalyticsSDK.Editor
 
         void OnEnable()
         {
-            GameAnalyticsSDK.Setup.Settings ga = target as GameAnalyticsSDK.Setup.Settings;
+            Settings ga = target as Settings;
 
             if (ga.UpdateIcon == null)
             {
@@ -186,7 +185,7 @@ namespace GameAnalyticsSDK.Editor
 
         public override void OnInspectorGUI()
         {
-            GameAnalyticsSDK.Setup.Settings ga = target as GameAnalyticsSDK.Setup.Settings;
+            Settings ga = target as Settings;
 
             EditorGUI.indentLevel = 1;
             EditorGUILayout.Space();
@@ -218,7 +217,7 @@ namespace GameAnalyticsSDK.Editor
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.Label("Unity SDK v." + GameAnalyticsSDK.Setup.Settings.VERSION);
+            GUILayout.Label("Unity SDK v." + Settings.VERSION);
 
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
@@ -233,7 +232,7 @@ namespace GameAnalyticsSDK.Editor
 
             EditorGUILayout.Space();
 
-            string updateStatus = GA_UpdateWindow.UpdateStatus(GameAnalyticsSDK.Setup.Settings.VERSION);
+            string updateStatus = GA_UpdateWindow.UpdateStatus(Settings.VERSION);
 
             if (!updateStatus.Equals(string.Empty))
             {
@@ -398,7 +397,7 @@ namespace GameAnalyticsSDK.Editor
                     {
                         ga.IntroScreen = false;
                         ga.SignUpOpen = false;
-                        ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Account;
+                        ga.CurrentInspectorState = Settings.InspectorStates.Account;
 
                         ga.Studios = null;
                         SetLoginStatus("Contacting Server..", ga);
@@ -424,7 +423,7 @@ namespace GameAnalyticsSDK.Editor
                     if (GUILayout.Button("I want to fill in my game keys manually", EditorStyles.label, GUILayout.Width(207)))
                     {
                         ga.IntroScreen = false;
-                        ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Basic;
+                        ga.CurrentInspectorState = Settings.InspectorStates.Basic;
                     }
                     EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
                     GUILayout.FlexibleSpace();
@@ -449,32 +448,32 @@ namespace GameAnalyticsSDK.Editor
                 GUIStyle inactiveTabStyleLeft = new GUIStyle(EditorStyles.miniButtonLeft);
                 GUIStyle inactiveTabStyleRight = new GUIStyle(EditorStyles.miniButtonRight);
 
-                GUIStyle basicTabStyle = ga.CurrentInspectorState == GameAnalyticsSDK.Setup.Settings.InspectorStates.Basic ? activeTabStyleLeft : inactiveTabStyleLeft;
+                GUIStyle basicTabStyle = ga.CurrentInspectorState == Settings.InspectorStates.Basic ? activeTabStyleLeft : inactiveTabStyleLeft;
 
                 if (ga.Studios == null)
                 {
-                    if (GUILayout.Button(_account, ga.CurrentInspectorState == GameAnalyticsSDK.Setup.Settings.InspectorStates.Account ? activeTabStyleLeft : inactiveTabStyleLeft))
+                    if (GUILayout.Button(_account, ga.CurrentInspectorState == Settings.InspectorStates.Account ? activeTabStyleLeft : inactiveTabStyleLeft))
                     {
-                        ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Account;
+                        ga.CurrentInspectorState = Settings.InspectorStates.Account;
                     }
 
-                    basicTabStyle = ga.CurrentInspectorState == GameAnalyticsSDK.Setup.Settings.InspectorStates.Basic ? activeTabStyle : inactiveTabStyle;
+                    basicTabStyle = ga.CurrentInspectorState == Settings.InspectorStates.Basic ? activeTabStyle : inactiveTabStyle;
                 }
 
                 if (GUILayout.Button(_setup, basicTabStyle))
                 {
-                    ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Basic;
+                    ga.CurrentInspectorState = Settings.InspectorStates.Basic;
                 }
 
-                if (GUILayout.Button(_advanced, ga.CurrentInspectorState == GameAnalyticsSDK.Setup.Settings.InspectorStates.Pref ? activeTabStyleRight : inactiveTabStyleRight))
+                if (GUILayout.Button(_advanced, ga.CurrentInspectorState == Settings.InspectorStates.Pref ? activeTabStyleRight : inactiveTabStyleRight))
                 {
-                    ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Pref;
+                    ga.CurrentInspectorState = Settings.InspectorStates.Pref;
                 }
 
                 GUILayout.EndHorizontal();
 
                 #region Settings.InspectorStates.Account
-                if (ga.CurrentInspectorState == GameAnalyticsSDK.Setup.Settings.InspectorStates.Account)
+                if (ga.CurrentInspectorState == Settings.InspectorStates.Account)
                 {
                     EditorGUILayout.Space();
 
@@ -585,7 +584,7 @@ namespace GameAnalyticsSDK.Editor
                         GUILayout.FlexibleSpace();
                         if (GUILayout.Button("I want to fill in my game keys manually", EditorStyles.label, GUILayout.Width(207)))
                         {
-                            ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Basic;
+                            ga.CurrentInspectorState = Settings.InspectorStates.Basic;
                         }
                         EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
                         GUILayout.FlexibleSpace();
@@ -594,7 +593,7 @@ namespace GameAnalyticsSDK.Editor
                 }
                 #endregion // Settings.InspectorStates.Account
                 #region Settings.InspectorStates.Basic
-                else if (ga.CurrentInspectorState == GameAnalyticsSDK.Setup.Settings.InspectorStates.Basic)
+                else if (ga.CurrentInspectorState == Settings.InspectorStates.Basic)
                 {
                     EditorGUILayout.Space();
                     EditorGUILayout.Space();
@@ -1272,7 +1271,7 @@ namespace GameAnalyticsSDK.Editor
                 }
                 #endregion // Settings.InspectorStates.Basic
                 #region Settings.InspectorStates.Pref
-                else if (ga.CurrentInspectorState == GameAnalyticsSDK.Setup.Settings.InspectorStates.Pref)
+                else if (ga.CurrentInspectorState == Settings.InspectorStates.Pref)
                 {
                     EditorGUILayout.Space();
                     EditorGUILayout.Space();
@@ -1454,23 +1453,6 @@ namespace GameAnalyticsSDK.Editor
                     GUILayout.EndHorizontal();
 
                     EditorGUILayout.Space();
-                    EditorGUILayout.Space();
-                    EditorGUILayout.Space();
-
-                    GUILayout.BeginVertical();
-                    GUILayout.Space(-4);
-                    GUILayout.Label("IMEI", EditorStyles.largeLabel);
-                    GUILayout.EndVertical();
-
-                    EditorGUILayout.Space();
-
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label("", GUILayout.Width(-18));
-                    ga.UseIMEI = EditorGUILayout.Toggle("", ga.UseIMEI, GUILayout.Width(35));
-                    GUILayout.Label(_useIMEI);
-                    GUILayout.EndHorizontal();
-
-                    EditorGUILayout.Space();
                 }
                 #endregion // Settings.InspectorStates.Pref
             }
@@ -1481,22 +1463,22 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        private MessageType ConvertMessageType(GameAnalyticsSDK.Setup.Settings.MessageTypes msgType)
+        private MessageType ConvertMessageType(Settings.MessageTypes msgType)
         {
             switch (msgType)
             {
-                case GameAnalyticsSDK.Setup.Settings.MessageTypes.Error:
+                case Settings.MessageTypes.Error:
                     return MessageType.Error;
-                case GameAnalyticsSDK.Setup.Settings.MessageTypes.Info:
+                case Settings.MessageTypes.Info:
                     return MessageType.Info;
-                case GameAnalyticsSDK.Setup.Settings.MessageTypes.Warning:
+                case Settings.MessageTypes.Warning:
                     return MessageType.Warning;
                 default:
                     return MessageType.None;
             }
         }
 
-        public static void SignupUser(GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup)
+        public static void SignupUser(Settings ga, GA_SignUp signup)
         {
             Hashtable jsonTable = new Hashtable();
             jsonTable["email"] = ga.EmailGA;
@@ -1532,7 +1514,7 @@ namespace GameAnalyticsSDK.Editor
         }
 
 #if UNITY_2018_3_OR_NEWER
-        private static IEnumerator SignupUserFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup)
+        private static IEnumerator SignupUserFrontend(UnityWebRequest www, Settings ga, GA_SignUp signup)
 #else
         private static IEnumerator<WWW> SignupUserFrontend(WWW www, Settings ga, GA_SignUp signup)
 #endif
@@ -1616,7 +1598,7 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        private static void LoginUser(GameAnalyticsSDK.Setup.Settings ga)
+        private static void LoginUser(Settings ga)
         {
             Hashtable jsonTable = new Hashtable();
             jsonTable["email"] = ga.EmailGA;
@@ -1646,7 +1628,7 @@ namespace GameAnalyticsSDK.Editor
         }
 
 #if UNITY_2018_3_OR_NEWER
-        private static IEnumerator LoginUserFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga)
+        private static IEnumerator LoginUserFrontend(UnityWebRequest www, Settings ga)
 #else
         private static IEnumerator<WWW> LoginUserFrontend(WWW www, Settings ga)
 #endif
@@ -1722,7 +1704,7 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        private static void GetUserData(GameAnalyticsSDK.Setup.Settings ga)
+        private static void GetUserData(Settings ga)
         {
 #if UNITY_2018_3_OR_NEWER
             UnityWebRequest www = UnityWebRequest.Get(_gaUrl + "user");
@@ -1738,7 +1720,7 @@ namespace GameAnalyticsSDK.Editor
         }
 
 #if UNITY_2018_3_OR_NEWER
-        private static IEnumerator GetUserDataFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga)
+        private static IEnumerator GetUserDataFrontend(UnityWebRequest www, Settings ga)
 #else
         private static IEnumerator<WWW> GetUserDataFrontend(WWW www, Settings ga)
 #endif
@@ -1794,31 +1776,23 @@ namespace GameAnalyticsSDK.Editor
                         IDictionary<string, object> results = resultList[0] as IDictionary<string, object>;
                         IList<object> studioList = results["studios"] as IList<object>;
 
-                        List<GameAnalyticsSDK.Setup.Studio> returnStudios = new List<Studio>();
+                        List<Studio> returnStudios = new List<Studio>();
 
                         for (int s = 0; s < studioList.Count; s++)
                         {
                             IDictionary<string, object> studio = studioList[s] as IDictionary<string, object>;
-
-                            if ((!studio.ContainsKey("demo") || !((bool)studio["demo"])) && (!studio.ContainsKey("archived") || !((bool)studio["archived"])))
+                            if (!studio.ContainsKey("demo") || !((bool)studio["demo"]))
                             {
-                                List<GameAnalyticsSDK.Setup.Game> returnGames = new List<GameAnalyticsSDK.Setup.Game>();
+                                List<Game> returnGames = new List<Game>();
 
                                 List<object> gamesList = (List<object>)studio["games"];
                                 for (int g = 0; g < gamesList.Count; g++)
                                 {
-                                    IDictionary<string, object> game = gamesList[g] as IDictionary<string, object>;
-
-                                    if ((!game.ContainsKey("archived") || !((bool)game["archived"])) && (!game.ContainsKey("disabled") || !((bool)game["disabled"])))
-                                    {
-                                        returnGames.Add(new GameAnalyticsSDK.Setup.Game(game["name"].ToString(), int.Parse(game["id"].ToString()), game["key"].ToString(), game["secret"].ToString()));
-                                    }
+                                    IDictionary<string, object> games = gamesList[g] as IDictionary<string, object>;
+                                    returnGames.Add(new Game(games["name"].ToString(), int.Parse(games["id"].ToString()), games["key"].ToString(), games["secret"].ToString()));
                                 }
 
-                                if(returnGames.Count > 0)
-                                {
-                                    returnStudios.Add(new GameAnalyticsSDK.Setup.Studio(studio["name"].ToString(), studio["id"].ToString(), returnGames));
-                                }
+                                returnStudios.Add(new Studio(studio["name"].ToString(), studio["id"].ToString(), returnGames));
                             }
                         }
                         ga.Studios = returnStudios;
@@ -1844,7 +1818,7 @@ namespace GameAnalyticsSDK.Editor
                             SetLoginStatus("Received data. Add a platform..", ga);
                         }
 
-                        ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Basic;
+                        ga.CurrentInspectorState = Settings.InspectorStates.Basic;
                     }
                 }
                 else
@@ -1860,7 +1834,7 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        public static void CreateGame(GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup, int studioIndex, string gameTitle, string googlePlayPublicKey, RuntimePlatform platform, AppFiguresGame appFiguresGame)
+        public static void CreateGame(Settings ga, GA_SignUp signup, int studioIndex, string gameTitle, string googlePlayPublicKey, RuntimePlatform platform, AppFiguresGame appFiguresGame)
         {
             Hashtable jsonTable = new Hashtable();
 
@@ -1903,7 +1877,7 @@ namespace GameAnalyticsSDK.Editor
         }
 
 #if UNITY_2018_3_OR_NEWER
-        private static IEnumerator CreateGameFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup, RuntimePlatform platform, AppFiguresGame appFiguresGame)
+        private static IEnumerator CreateGameFrontend(UnityWebRequest www, Settings ga, GA_SignUp signup, RuntimePlatform platform, AppFiguresGame appFiguresGame)
 #else
         private static IEnumerator<WWW> CreateGameFrontend(WWW www, Settings ga, GA_SignUp signup, RuntimePlatform platform, AppFiguresGame appFiguresGame)
 #endif
@@ -1976,7 +1950,7 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        public static void GetAppFigures(GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup)
+        public static void GetAppFigures(Settings ga, GA_SignUp signup)
         {
 #if UNITY_2018_3_OR_NEWER
             UnityWebRequest www = UnityWebRequest.Get(_gaUrl + "apps/search?query=" + UnityWebRequest.EscapeURL(ga.GameName));
@@ -2048,7 +2022,7 @@ namespace GameAnalyticsSDK.Editor
         }
 
 #if UNITY_2018_3_OR_NEWER
-        private static IEnumerator GetAppFiguresFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup, string gameName)
+        private static IEnumerator GetAppFiguresFrontend(UnityWebRequest www, Settings ga, GA_SignUp signup, string gameName)
 #else
         private static IEnumerator<WWW> GetAppFiguresFrontend(WWW www, Settings ga, GA_SignUp signup, string gameName)
 #endif
@@ -2132,8 +2106,8 @@ namespace GameAnalyticsSDK.Editor
                     if (www.responseHeaders["status"] != null && www.responseHeaders["status"].Contains("401"))
 #endif
                     {
-                        Selection.objects = new UnityEngine.Object[] { AssetDatabase.LoadAssetAtPath("Assets/Resources/GameAnalytics/Settings.asset", typeof(GameAnalyticsSDK.Setup.Settings)) };
-                        ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Account;
+                        Selection.objects = new UnityEngine.Object[] { AssetDatabase.LoadAssetAtPath("Assets/Resources/GameAnalytics/Settings.asset", typeof(Settings)) };
+                        ga.CurrentInspectorState = Settings.InspectorStates.Account;
                         string message = "Please sign-in and try again to search for your game in the stores.";
                         SetLoginStatus(message, ga);
                         Debug.LogError(message);
@@ -2152,7 +2126,7 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        private static void SelectStudio(int index, GameAnalyticsSDK.Setup.Settings ga, int platform)
+        private static void SelectStudio(int index, Settings ga, int platform)
         {
             ga.SelectedStudio[platform] = index;
             if (ga.Studios[index - 1].Games.Count == 1)
@@ -2169,7 +2143,7 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        private static void SelectGame(int index, GameAnalyticsSDK.Setup.Settings ga, int platform)
+        private static void SelectGame(int index, Settings ga, int platform)
         {
             ga.SelectedGame[platform] = index;
 
@@ -2203,7 +2177,7 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-        private static void SetLoginStatus(string status, GameAnalyticsSDK.Setup.Settings ga)
+        private static void SetLoginStatus(string status, Settings ga)
         {
             ga.LoginStatus = status;
             EditorUtility.SetDirty(ga);
@@ -2211,12 +2185,12 @@ namespace GameAnalyticsSDK.Editor
 
         public static void CheckForUpdates()
         {
-            if (GameAnalyticsSDK.Setup.Settings.CheckingForUpdates)
+            if (Settings.CheckingForUpdates)
             {
                 return;
             }
 
-            GameAnalyticsSDK.Setup.Settings.CheckingForUpdates = true;
+            Settings.CheckingForUpdates = true;
 #if UNITY_2018_3_OR_NEWER
             UnityWebRequest www = UnityWebRequest.Get("https://s3.amazonaws.com/public.gameanalytics.com/sdk_status/current.json");
 #else
@@ -2271,7 +2245,7 @@ namespace GameAnalyticsSDK.Editor
                         {
                             string newVersion = (returnParam["unity"] as IDictionary<string, object>)["version"].ToString();
 
-                            if (IsNewVersion(newVersion, GameAnalyticsSDK.Setup.Settings.VERSION))
+                            if (IsNewVersion(newVersion, Settings.VERSION))
                             {
                                 GetChangeLogsAndShowUpdateWindow(newVersion);
                             }
@@ -2281,7 +2255,7 @@ namespace GameAnalyticsSDK.Editor
             }
             catch
             {
-                GameAnalyticsSDK.Setup.Settings.CheckingForUpdates = false;
+                Settings.CheckingForUpdates = false;
             }
         }
 
@@ -2322,7 +2296,7 @@ namespace GameAnalyticsSDK.Editor
                         IDictionary<string, object> unityHash = unity[i] as IDictionary<string, object>;
                         IList<object> changes = (unityHash["changes"] as IList<object>);
 
-                        if (unityHash["version"].ToString() == GameAnalyticsSDK.Setup.Settings.VERSION)
+                        if (unityHash["version"].ToString() == Settings.VERSION)
                         {
                             break;
                         }
@@ -2362,31 +2336,23 @@ namespace GameAnalyticsSDK.Editor
                         OpenUpdateWindow();
                     }
 
-                    GameAnalyticsSDK.Setup.Settings.CheckingForUpdates = false;
+                    Settings.CheckingForUpdates = false;
                 }
             }
             catch
             {
-                GameAnalyticsSDK.Setup.Settings.CheckingForUpdates = false;
+                Settings.CheckingForUpdates = false;
             }
         }
 
         private static void OpenUpdateWindow()
         {
-#if UNITY_2018_2_OR_NEWER
-            if(!Application.isBatchMode)
-#else
-            string commandLineOptions = System.Environment.CommandLine;
-            if (!commandLineOptions.Contains("-batchmode"))
-#endif
-            {
-                // TODO: possible to close existing window if already there?
-                //GA_UpdateWindow updateWindow = ScriptableObject.CreateInstance<GA_UpdateWindow> ();
-                GA_UpdateWindow updateWindow = (GA_UpdateWindow)EditorWindow.GetWindow(typeof(GA_UpdateWindow), utility: true);
-                updateWindow.position = new Rect(150, 150, 415, 340);
-                updateWindow.titleContent = new GUIContent("An update for GameAnalytics is available!");
-                updateWindow.Show();
-            }
+            // TODO: possible to close existing window if already there?
+            //GA_UpdateWindow updateWindow = ScriptableObject.CreateInstance<GA_UpdateWindow> ();
+            GA_UpdateWindow updateWindow = (GA_UpdateWindow)EditorWindow.GetWindow(typeof(GA_UpdateWindow), utility: true);
+            updateWindow.position = new Rect(150, 150, 415, 340);
+            updateWindow.titleContent = new GUIContent("An update for GameAnalytics is available!");
+            updateWindow.Show();
         }
 
         public static void Splitter(Color rgb, float thickness = 1, int margin = 0)
@@ -2502,9 +2468,9 @@ namespace GameAnalyticsSDK.Editor
 
         private void OpenSignUp()
         {
-            GameAnalyticsSDK.Setup.Settings ga = target as GameAnalyticsSDK.Setup.Settings;
+            Settings ga = target as Settings;
             ga.IntroScreen = false;
-            ga.CurrentInspectorState = GameAnalyticsSDK.Setup.Settings.InspectorStates.Account;
+            ga.CurrentInspectorState = Settings.InspectorStates.Account;
             ga.SignUpOpen = true;
 
             GA_SignUp signup = ScriptableObject.CreateInstance<GA_SignUp>();

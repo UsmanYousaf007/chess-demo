@@ -341,6 +341,12 @@ var gameanalytics;
         EGAErrorSeverity[EGAErrorSeverity["Error"] = 4] = "Error";
         EGAErrorSeverity[EGAErrorSeverity["Critical"] = 5] = "Critical";
     })(EGAErrorSeverity = gameanalytics.EGAErrorSeverity || (gameanalytics.EGAErrorSeverity = {}));
+    var EGAGender;
+    (function (EGAGender) {
+        EGAGender[EGAGender["Undefined"] = 0] = "Undefined";
+        EGAGender[EGAGender["Male"] = 1] = "Male";
+        EGAGender[EGAGender["Female"] = 2] = "Female";
+    })(EGAGender = gameanalytics.EGAGender || (gameanalytics.EGAGender = {}));
     var EGAProgressionStatus;
     (function (EGAProgressionStatus) {
         EGAProgressionStatus[EGAProgressionStatus["Undefined"] = 0] = "Undefined";
@@ -373,11 +379,11 @@ var gameanalytics;
             EGAHTTPApiResponse[EGAHTTPApiResponse["Unauthorized"] = 7] = "Unauthorized";
             EGAHTTPApiResponse[EGAHTTPApiResponse["UnknownResponseCode"] = 8] = "UnknownResponseCode";
             EGAHTTPApiResponse[EGAHTTPApiResponse["Ok"] = 9] = "Ok";
-            EGAHTTPApiResponse[EGAHTTPApiResponse["Created"] = 10] = "Created";
         })(EGAHTTPApiResponse = http.EGAHTTPApiResponse || (http.EGAHTTPApiResponse = {}));
     })(http = gameanalytics.http || (gameanalytics.http = {}));
 })(gameanalytics || (gameanalytics = {}));
 var EGAErrorSeverity = gameanalytics.EGAErrorSeverity;
+var EGAGender = gameanalytics.EGAGender;
 var EGAProgressionStatus = gameanalytics.EGAProgressionStatus;
 var EGAResourceFlowType = gameanalytics.EGAResourceFlowType;
 var gameanalytics;
@@ -797,12 +803,19 @@ var gameanalytics;
                 }
                 return true;
             };
-            GAValidator.validateAndCleanInitRequestResponse = function (initResponse, configsCreated) {
+            GAValidator.validateAndCleanInitRequestResponse = function (initResponse) {
                 if (initResponse == null) {
                     GALogger.w("validateInitRequestResponse failed - no response dictionary.");
                     return null;
                 }
                 var validatedDict = {};
+                try {
+                    validatedDict["enabled"] = initResponse["enabled"];
+                }
+                catch (e) {
+                    GALogger.w("validateInitRequestResponse failed - invalid type in 'enabled' field.");
+                    return null;
+                }
                 try {
                     var serverTsNumber = initResponse["server_ts"];
                     if (serverTsNumber > 0) {
@@ -817,39 +830,13 @@ var gameanalytics;
                     GALogger.w("validateInitRequestResponse failed - invalid type in 'server_ts' field. type=" + typeof initResponse["server_ts"] + ", value=" + initResponse["server_ts"] + ", " + e);
                     return null;
                 }
-                if (configsCreated) {
-                    try {
-                        var configurations = initResponse["configs"];
-                        validatedDict["configs"] = configurations;
-                    }
-                    catch (e) {
-                        GALogger.w("validateInitRequestResponse failed - invalid type in 'configs' field. type=" + typeof initResponse["configs"] + ", value=" + initResponse["configs"] + ", " + e);
-                        return null;
-                    }
-                    try {
-                        var configs_hash = initResponse["configs_hash"];
-                        validatedDict["configs_hash"] = configs_hash;
-                    }
-                    catch (e) {
-                        GALogger.w("validateInitRequestResponse failed - invalid type in 'configs_hash' field. type=" + typeof initResponse["configs_hash"] + ", value=" + initResponse["configs_hash"] + ", " + e);
-                        return null;
-                    }
-                    try {
-                        var ab_id = initResponse["ab_id"];
-                        validatedDict["ab_id"] = ab_id;
-                    }
-                    catch (e) {
-                        GALogger.w("validateInitRequestResponse failed - invalid type in 'ab_id' field. type=" + typeof initResponse["ab_id"] + ", value=" + initResponse["ab_id"] + ", " + e);
-                        return null;
-                    }
-                    try {
-                        var ab_variant_id = initResponse["ab_variant_id"];
-                        validatedDict["ab_variant_id"] = ab_variant_id;
-                    }
-                    catch (e) {
-                        GALogger.w("validateInitRequestResponse failed - invalid type in 'ab_variant_id' field. type=" + typeof initResponse["ab_variant_id"] + ", value=" + initResponse["ab_variant_id"] + ", " + e);
-                        return null;
-                    }
+                try {
+                    var configurations = initResponse["configurations"];
+                    validatedDict["configurations"] = configurations;
+                }
+                catch (e) {
+                    GALogger.w("validateInitRequestResponse failed - invalid type in 'configurations' field. type=" + typeof initResponse["configurations"] + ", value=" + initResponse["configurations"] + ", " + e);
+                    return null;
                 }
                 return validatedDict;
             };
@@ -989,6 +976,35 @@ var gameanalytics;
                         GALogger.w(arrayTag + " validation failed: a string exceeded max allowed length (which is: " + maxStringLength + "). String was: " + arrayOfStrings[i]);
                         return false;
                     }
+                }
+                return true;
+            };
+            GAValidator.validateFacebookId = function (facebookId) {
+                if (!GAValidator.validateString(facebookId, false)) {
+                    GALogger.w("Validation fail - facebook id: id cannot be (null), empty or above 64 characters.");
+                    return false;
+                }
+                return true;
+            };
+            GAValidator.validateGender = function (gender) {
+                if (isNaN(Number(gameanalytics.EGAGender[gender]))) {
+                    if (gender == gameanalytics.EGAGender.Undefined || !(gender == gameanalytics.EGAGender.Male || gender == gameanalytics.EGAGender.Female)) {
+                        GALogger.w("Validation fail - gender: Has to be 'male' or 'female'. Was: " + gender);
+                        return false;
+                    }
+                }
+                else {
+                    if (gender == gameanalytics.EGAGender[gameanalytics.EGAGender.Undefined] || !(gender == gameanalytics.EGAGender[gameanalytics.EGAGender.Male] || gender == gameanalytics.EGAGender[gameanalytics.EGAGender.Female])) {
+                        GALogger.w("Validation fail - gender: Has to be 'male' or 'female'. Was: " + gender);
+                        return false;
+                    }
+                }
+                return true;
+            };
+            GAValidator.validateBirthyear = function (birthYear) {
+                if (birthYear < 0 || birthYear > 9999) {
+                    GALogger.w("Validation fail - birthYear: Cannot be (null) or invalid range.");
+                    return false;
                 }
                 return true;
             };
@@ -1134,7 +1150,7 @@ var gameanalytics;
                 }
                 return result;
             };
-            GADevice.sdkWrapperVersion = "javascript 4.0.6";
+            GADevice.sdkWrapperVersion = "javascript 3.1.2";
             GADevice.osVersionPair = GADevice.matchItem([
                 navigator.platform,
                 navigator.userAgent,
@@ -1593,7 +1609,7 @@ var gameanalytics;
                 this.availableResourceCurrencies = [];
                 this.availableResourceItemTypes = [];
                 this.configurations = {};
-                this.remoteConfigsListeners = [];
+                this.commandCenterListeners = [];
                 this.sdkConfigDefault = {};
                 this.sdkConfig = {};
                 this.progressionTries = {};
@@ -1705,12 +1721,6 @@ var gameanalytics;
             GAState.isEventSubmissionEnabled = function () {
                 return GAState.instance._isEventSubmissionEnabled;
             };
-            GAState.getABTestingId = function () {
-                return GAState.instance.abId;
-            };
-            GAState.getABTestingVariantId = function () {
-                return GAState.instance.abVariantId;
-            };
             GAState.prototype.setDefaultId = function (value) {
                 this.defaultUserId = !value ? "" : value;
                 GAState.cacheIdentifier();
@@ -1748,7 +1758,11 @@ var gameanalytics;
                 return GAState.instance.sdkConfigDefault;
             };
             GAState.isEnabled = function () {
-                if (!GAState.instance.initAuthorized) {
+                var currentSdkConfig = GAState.getSdkConfig();
+                if (currentSdkConfig["enabled"] && currentSdkConfig["enabled"] == "false") {
+                    return false;
+                }
+                else if (!GAState.instance.initAuthorized) {
                     return false;
                 }
                 else {
@@ -1769,6 +1783,21 @@ var gameanalytics;
                 GAState.instance.currentCustomDimension03 = dimension;
                 GAStore.setItem(GAState.Dimension03Key, dimension);
                 GALogger.i("Set custom03 dimension value: " + dimension);
+            };
+            GAState.setFacebookId = function (facebookId) {
+                GAState.instance.facebookId = facebookId;
+                GAStore.setItem(GAState.FacebookIdKey, facebookId);
+                GALogger.i("Set facebook id: " + facebookId);
+            };
+            GAState.setGender = function (gender) {
+                GAState.instance.gender = isNaN(Number(gameanalytics.EGAGender[gender])) ? gameanalytics.EGAGender[gender].toString().toLowerCase() : gameanalytics.EGAGender[gameanalytics.EGAGender[gender]].toString().toLowerCase();
+                GAStore.setItem(GAState.GenderKey, GAState.instance.gender);
+                GALogger.i("Set gender: " + GAState.instance.gender);
+            };
+            GAState.setBirthYear = function (birthYear) {
+                GAState.instance.birthYear = birthYear;
+                GAStore.setItem(GAState.BirthYearKey, birthYear.toString());
+                GALogger.i("Set birth year: " + birthYear);
             };
             GAState.incrementSessionNum = function () {
                 var sessionNumInt = GAState.getSessionNum() + 1;
@@ -1833,24 +1862,17 @@ var gameanalytics;
                 if (GADevice.gameEngineVersion) {
                     annotations["engine_version"] = GADevice.gameEngineVersion;
                 }
-                if (GAState.instance.configurations) {
-                    var count = 0;
-                    for (var _ in GAState.instance.configurations) {
-                        count++;
-                        break;
-                    }
-                    if (count > 0) {
-                        annotations["configurations"] = GAState.instance.configurations;
-                    }
-                }
-                if (GAState.instance.abId) {
-                    annotations["ab_id"] = GAState.instance.abId;
-                }
-                if (GAState.instance.abVariantId) {
-                    annotations["ab_variant_id"] = GAState.instance.abVariantId;
-                }
                 if (GAState.instance.build) {
                     annotations["build"] = GAState.instance.build;
+                }
+                if (GAState.instance.facebookId) {
+                    annotations[GAState.FacebookIdKey] = GAState.instance.facebookId;
+                }
+                if (GAState.instance.gender) {
+                    annotations[GAState.GenderKey] = GAState.instance.gender;
+                }
+                if (GAState.instance.birthYear != 0) {
+                    annotations[GAState.BirthYearKey] = GAState.instance.birthYear;
                 }
                 return annotations;
             };
@@ -1874,20 +1896,10 @@ var gameanalytics;
             };
             GAState.getInitAnnotations = function () {
                 var initAnnotations = {};
-                if (!GAState.getIdentifier()) {
-                    GAState.cacheIdentifier();
-                }
                 initAnnotations["user_id"] = GAState.getIdentifier();
                 initAnnotations["sdk_version"] = GADevice.getRelevantSdkVersion();
                 initAnnotations["os_version"] = GADevice.osVersion;
                 initAnnotations["platform"] = GADevice.buildPlatform;
-                if (GAState.getBuild()) {
-                    initAnnotations["build"] = GAState.getBuild();
-                }
-                else {
-                    initAnnotations["build"] = null;
-                }
-                initAnnotations["random_salt"] = GAState.getSessionNum();
                 return initAnnotations;
             };
             GAState.getClientTsAdjusted = function () {
@@ -1919,6 +1931,30 @@ var gameanalytics;
                 instance.setDefaultId(GAStore.getItem(GAState.DefaultUserIdKey) != null ? GAStore.getItem(GAState.DefaultUserIdKey) : GAUtilities.createGuid());
                 instance.sessionNum = GAStore.getItem(GAState.SessionNumKey) != null ? Number(GAStore.getItem(GAState.SessionNumKey)) : 0.0;
                 instance.transactionNum = GAStore.getItem(GAState.TransactionNumKey) != null ? Number(GAStore.getItem(GAState.TransactionNumKey)) : 0.0;
+                if (instance.facebookId) {
+                    GAStore.setItem(GAState.FacebookIdKey, instance.facebookId);
+                }
+                else {
+                    instance.facebookId = GAStore.getItem(GAState.FacebookIdKey) != null ? GAStore.getItem(GAState.FacebookIdKey) : "";
+                    if (instance.facebookId) {
+                    }
+                }
+                if (instance.gender) {
+                    GAStore.setItem(GAState.GenderKey, instance.gender);
+                }
+                else {
+                    instance.gender = GAStore.getItem(GAState.GenderKey) != null ? GAStore.getItem(GAState.GenderKey) : "";
+                    if (instance.gender) {
+                    }
+                }
+                if (instance.birthYear && instance.birthYear != 0) {
+                    GAStore.setItem(GAState.BirthYearKey, instance.birthYear.toString());
+                }
+                else {
+                    instance.birthYear = GAStore.getItem(GAState.BirthYearKey) != null ? Number(GAStore.getItem(GAState.BirthYearKey)) : 0;
+                    if (instance.birthYear != 0) {
+                    }
+                }
                 if (instance.currentCustomDimension01) {
                     GAStore.setItem(GAState.Dimension01Key, instance.currentCustomDimension01);
                 }
@@ -1949,12 +1985,6 @@ var gameanalytics;
                     if (sdkConfigCached) {
                         instance.sdkConfigCached = sdkConfigCached;
                     }
-                }
-                {
-                    var currentSdkConfig = GAState.getSdkConfig();
-                    instance.configsHash = currentSdkConfig["configs_hash"] ? currentSdkConfig["configs_hash"] : "";
-                    instance.abId = currentSdkConfig["ab_id"] ? currentSdkConfig["ab_id"] : "";
-                    instance.abVariantId = currentSdkConfig["ab_variant_id"] ? currentSdkConfig["ab_variant_id"] : "";
                 }
                 var results_ga_progression = GAStore.select(EGAStore.Progression);
                 if (results_ga_progression) {
@@ -2033,34 +2063,33 @@ var gameanalytics;
                     return defaultValue;
                 }
             };
-            GAState.isRemoteConfigsReady = function () {
-                return GAState.instance.remoteConfigsIsReady;
+            GAState.isCommandCenterReady = function () {
+                return GAState.instance.commandCenterIsReady;
             };
-            GAState.addRemoteConfigsListener = function (listener) {
-                if (GAState.instance.remoteConfigsListeners.indexOf(listener) < 0) {
-                    GAState.instance.remoteConfigsListeners.push(listener);
+            GAState.addCommandCenterListener = function (listener) {
+                if (GAState.instance.commandCenterListeners.indexOf(listener) < 0) {
+                    GAState.instance.commandCenterListeners.push(listener);
                 }
             };
-            GAState.removeRemoteConfigsListener = function (listener) {
-                var index = GAState.instance.remoteConfigsListeners.indexOf(listener);
+            GAState.removeCommandCenterListener = function (listener) {
+                var index = GAState.instance.commandCenterListeners.indexOf(listener);
                 if (index > -1) {
-                    GAState.instance.remoteConfigsListeners.splice(index, 1);
+                    GAState.instance.commandCenterListeners.splice(index, 1);
                 }
             };
-            GAState.getRemoteConfigsContentAsString = function () {
+            GAState.getConfigurationsContentAsString = function () {
                 return JSON.stringify(GAState.instance.configurations);
             };
             GAState.populateConfigurations = function (sdkConfig) {
-                var configurations = sdkConfig["configs"];
+                var configurations = sdkConfig["configurations"];
                 if (configurations) {
-                    GAState.instance.configurations = {};
                     for (var i = 0; i < configurations.length; ++i) {
                         var configuration = configurations[i];
                         if (configuration) {
                             var key = configuration["key"];
                             var value = configuration["value"];
-                            var start_ts = configuration["start_ts"] ? configuration["start_ts"] : Number.MIN_VALUE;
-                            var end_ts = configuration["end_ts"] ? configuration["end_ts"] : Number.MAX_VALUE;
+                            var start_ts = configuration["start"] ? configuration["start"] : Number.MIN_VALUE;
+                            var end_ts = configuration["end"] ? configuration["end"] : Number.MAX_VALUE;
                             var client_ts_adjusted = GAState.getClientTsAdjusted();
                             if (key && value && client_ts_adjusted > start_ts && client_ts_adjusted < end_ts) {
                                 GAState.instance.configurations[key] = value;
@@ -2068,11 +2097,11 @@ var gameanalytics;
                         }
                     }
                 }
-                GAState.instance.remoteConfigsIsReady = true;
-                var listeners = GAState.instance.remoteConfigsListeners;
+                GAState.instance.commandCenterIsReady = true;
+                var listeners = GAState.instance.commandCenterListeners;
                 for (var i = 0; i < listeners.length; ++i) {
                     if (listeners[i]) {
-                        listeners[i].onRemoteConfigsUpdated();
+                        listeners[i].onCommandCenterUpdated();
                     }
                 }
             };
@@ -2084,6 +2113,9 @@ var gameanalytics;
             GAState.DefaultUserIdKey = "default_user_id";
             GAState.SessionNumKey = "session_num";
             GAState.TransactionNumKey = "transaction_num";
+            GAState.FacebookIdKey = "facebook_id";
+            GAState.GenderKey = "gender";
+            GAState.BirthYearKey = "birth_year";
             GAState.Dimension01Key = "dimension01";
             GAState.Dimension02Key = "dimension02";
             GAState.Dimension03Key = "dimension03";
@@ -2156,16 +2188,15 @@ var gameanalytics;
                 this.protocol = "https";
                 this.hostName = "api.gameanalytics.com";
                 this.version = "v2";
-                this.remoteConfigsVersion = "v1";
                 this.baseUrl = this.protocol + "://" + this.hostName + "/" + this.version;
-                this.remoteConfigsBaseUrl = this.protocol + "://" + this.hostName + "/remote_configs/" + this.remoteConfigsVersion;
                 this.initializeUrlPath = "init";
                 this.eventsUrlPath = "events";
                 this.useGzip = false;
             }
-            GAHTTPApi.prototype.requestInit = function (configsHash, callback) {
+            GAHTTPApi.prototype.requestInit = function (callback) {
                 var gameKey = GAState.getGameKey();
-                var url = this.remoteConfigsBaseUrl + "/" + this.initializeUrlPath + "?game_key=" + gameKey + "&interval_seconds=0&configs_hash=" + configsHash;
+                var url = this.baseUrl + "/" + gameKey + "/" + this.initializeUrlPath;
+                url = "https://rubick.gameanalytics.com/v2/command_center?game_key=" + gameKey + "&interval_seconds=1000000";
                 var initAnnotations = GAState.getInitAnnotations();
                 var JSONstring = JSON.stringify(initAnnotations);
                 if (!JSONstring) {
@@ -2229,7 +2260,7 @@ var gameanalytics;
                 body = request.responseText;
                 responseCode = request.status;
                 var requestResponseEnum = GAHTTPApi.instance.processRequestResponse(responseCode, request.statusText, body, "Events");
-                if (requestResponseEnum != http.EGAHTTPApiResponse.Ok && requestResponseEnum != http.EGAHTTPApiResponse.Created && requestResponseEnum != http.EGAHTTPApiResponse.BadRequest) {
+                if (requestResponseEnum != http.EGAHTTPApiResponse.Ok && requestResponseEnum != http.EGAHTTPApiResponse.BadRequest) {
                     callback(requestResponseEnum, null, requestId, eventCount);
                     return;
                 }
@@ -2257,7 +2288,7 @@ var gameanalytics;
                     }
                 };
                 request.open("POST", url, true);
-                request.setRequestHeader("Content-Type", "application/json");
+                request.setRequestHeader("Content-Type", "text/plain");
                 request.setRequestHeader("Authorization", authorization);
                 if (gzip) {
                     throw new Error("gzip not supported");
@@ -2279,7 +2310,7 @@ var gameanalytics;
                 responseCode = request.status;
                 var requestJsonDict = body ? JSON.parse(body) : {};
                 var requestResponseEnum = GAHTTPApi.instance.processRequestResponse(responseCode, request.statusText, body, "Init");
-                if (requestResponseEnum != http.EGAHTTPApiResponse.Ok && requestResponseEnum != http.EGAHTTPApiResponse.Created && requestResponseEnum != http.EGAHTTPApiResponse.BadRequest) {
+                if (requestResponseEnum != http.EGAHTTPApiResponse.Ok && requestResponseEnum != http.EGAHTTPApiResponse.BadRequest) {
                     callback(requestResponseEnum, null, "", 0);
                     return;
                 }
@@ -2291,12 +2322,12 @@ var gameanalytics;
                     callback(requestResponseEnum, null, "", 0);
                     return;
                 }
-                var validatedInitValues = GAValidator.validateAndCleanInitRequestResponse(requestJsonDict, requestResponseEnum === http.EGAHTTPApiResponse.Created);
+                var validatedInitValues = GAValidator.validateAndCleanInitRequestResponse(requestJsonDict);
                 if (!validatedInitValues) {
                     callback(http.EGAHTTPApiResponse.BadResponse, null, "", 0);
                     return;
                 }
-                callback(requestResponseEnum, validatedInitValues, "", 0);
+                callback(http.EGAHTTPApiResponse.Ok, validatedInitValues, "", 0);
             };
             GAHTTPApi.prototype.createPayloadData = function (payload, gzip) {
                 var payloadData;
@@ -2314,9 +2345,6 @@ var gameanalytics;
                 }
                 if (responseCode === 200) {
                     return http.EGAHTTPApiResponse.Ok;
-                }
-                if (responseCode === 201) {
-                    return http.EGAHTTPApiResponse.Created;
                 }
                 if (responseCode === 0 || responseCode === 401) {
                     return http.EGAHTTPApiResponse.Unauthorized;
@@ -2969,16 +2997,19 @@ var gameanalytics;
             GameAnalytics.methodMap['setCustomDimension01'] = GameAnalytics.setCustomDimension01;
             GameAnalytics.methodMap['setCustomDimension02'] = GameAnalytics.setCustomDimension02;
             GameAnalytics.methodMap['setCustomDimension03'] = GameAnalytics.setCustomDimension03;
+            GameAnalytics.methodMap['setFacebookId'] = GameAnalytics.setFacebookId;
+            GameAnalytics.methodMap['setGender'] = GameAnalytics.setGender;
+            GameAnalytics.methodMap['setBirthYear'] = GameAnalytics.setBirthYear;
             GameAnalytics.methodMap['setEventProcessInterval'] = GameAnalytics.setEventProcessInterval;
             GameAnalytics.methodMap['startSession'] = GameAnalytics.startSession;
             GameAnalytics.methodMap['endSession'] = GameAnalytics.endSession;
             GameAnalytics.methodMap['onStop'] = GameAnalytics.onStop;
             GameAnalytics.methodMap['onResume'] = GameAnalytics.onResume;
-            GameAnalytics.methodMap['addRemoteConfigsListener'] = GameAnalytics.addRemoteConfigsListener;
-            GameAnalytics.methodMap['removeRemoteConfigsListener'] = GameAnalytics.removeRemoteConfigsListener;
-            GameAnalytics.methodMap['getRemoteConfigsValueAsString'] = GameAnalytics.getRemoteConfigsValueAsString;
-            GameAnalytics.methodMap['isRemoteConfigsReady'] = GameAnalytics.isRemoteConfigsReady;
-            GameAnalytics.methodMap['getRemoteConfigsContentAsString'] = GameAnalytics.getRemoteConfigsContentAsString;
+            GameAnalytics.methodMap['addCommandCenterListener'] = GameAnalytics.addCommandCenterListener;
+            GameAnalytics.methodMap['removeCommandCenterListener'] = GameAnalytics.removeCommandCenterListener;
+            GameAnalytics.methodMap['getCommandCenterValueAsString'] = GameAnalytics.getCommandCenterValueAsString;
+            GameAnalytics.methodMap['isCommandCenterReady'] = GameAnalytics.isCommandCenterReady;
+            GameAnalytics.methodMap['getConfigurationsContentAsString'] = GameAnalytics.getConfigurationsContentAsString;
             if (typeof window !== 'undefined' && typeof window['GameAnalytics'] !== 'undefined' && typeof window['GameAnalytics']['q'] !== 'undefined') {
                 var q = window['GameAnalytics']['q'];
                 for (var i in q) {
@@ -3265,6 +3296,30 @@ var gameanalytics;
                 GAState.setCustomDimension03(dimension);
             });
         };
+        GameAnalytics.setFacebookId = function (facebookId) {
+            if (facebookId === void 0) { facebookId = ""; }
+            GAThreading.performTaskOnGAThread(function () {
+                if (GAValidator.validateFacebookId(facebookId)) {
+                    GAState.setFacebookId(facebookId);
+                }
+            });
+        };
+        GameAnalytics.setGender = function (gender) {
+            if (gender === void 0) { gender = gameanalytics.EGAGender.Undefined; }
+            GAThreading.performTaskOnGAThread(function () {
+                if (GAValidator.validateGender(gender)) {
+                    GAState.setGender(gender);
+                }
+            });
+        };
+        GameAnalytics.setBirthYear = function (birthYear) {
+            if (birthYear === void 0) { birthYear = 0; }
+            GAThreading.performTaskOnGAThread(function () {
+                if (GAValidator.validateBirthyear(birthYear)) {
+                    GAState.setBirthYear(birthYear);
+                }
+            });
+        };
         GameAnalytics.setEventProcessInterval = function (intervalInSeconds) {
             GAThreading.performTaskOnGAThread(function () {
                 GAThreading.setEventProcessInterval(intervalInSeconds);
@@ -3310,27 +3365,21 @@ var gameanalytics;
             };
             GAThreading.performTimedBlockOnGAThread(timedBlock);
         };
-        GameAnalytics.getRemoteConfigsValueAsString = function (key, defaultValue) {
+        GameAnalytics.getCommandCenterValueAsString = function (key, defaultValue) {
             if (defaultValue === void 0) { defaultValue = null; }
             return GAState.getConfigurationStringValue(key, defaultValue);
         };
-        GameAnalytics.isRemoteConfigsReady = function () {
-            return GAState.isRemoteConfigsReady();
+        GameAnalytics.isCommandCenterReady = function () {
+            return GAState.isCommandCenterReady();
         };
-        GameAnalytics.addRemoteConfigsListener = function (listener) {
-            GAState.addRemoteConfigsListener(listener);
+        GameAnalytics.addCommandCenterListener = function (listener) {
+            GAState.addCommandCenterListener(listener);
         };
-        GameAnalytics.removeRemoteConfigsListener = function (listener) {
-            GAState.removeRemoteConfigsListener(listener);
+        GameAnalytics.removeCommandCenterListener = function (listener) {
+            GAState.removeCommandCenterListener(listener);
         };
-        GameAnalytics.getRemoteConfigsContentAsString = function () {
-            return GAState.getRemoteConfigsContentAsString();
-        };
-        GameAnalytics.getABTestingId = function () {
-            return GAState.getABTestingId();
-        };
-        GameAnalytics.getABTestingVariantId = function () {
-            return GAState.getABTestingVariantId();
+        GameAnalytics.getConfigurationsContentAsString = function () {
+            return GAState.getConfigurationsContentAsString();
         };
         GameAnalytics.internalInitialize = function () {
             GAState.ensurePersistedStates();
@@ -3344,34 +3393,16 @@ var gameanalytics;
         GameAnalytics.newSession = function () {
             GALogger.i("Starting a new session.");
             GAState.validateAndFixCurrentDimensions();
-            GAHTTPApi.instance.requestInit(GAState.instance.configsHash, GameAnalytics.startNewSessionCallback);
+            GAHTTPApi.instance.requestInit(GameAnalytics.startNewSessionCallback);
         };
         GameAnalytics.startNewSessionCallback = function (initResponse, initResponseDict) {
-            if ((initResponse === EGAHTTPApiResponse.Ok || initResponse === EGAHTTPApiResponse.Created) && initResponseDict) {
+            if (initResponse === EGAHTTPApiResponse.Ok && initResponseDict) {
                 var timeOffsetSeconds = 0;
                 if (initResponseDict["server_ts"]) {
                     var serverTs = initResponseDict["server_ts"];
                     timeOffsetSeconds = GAState.calculateServerTimeOffset(serverTs);
                 }
                 initResponseDict["time_offset"] = timeOffsetSeconds;
-                if (initResponse != EGAHTTPApiResponse.Created) {
-                    var currentSdkConfig = GAState.getSdkConfig();
-                    if (currentSdkConfig["configs"]) {
-                        initResponseDict["configs"] = currentSdkConfig["configs"];
-                    }
-                    if (currentSdkConfig["configs_hash"]) {
-                        initResponseDict["configs_hash"] = currentSdkConfig["configs_hash"];
-                    }
-                    if (currentSdkConfig["ab_id"]) {
-                        initResponseDict["ab_id"] = currentSdkConfig["ab_id"];
-                    }
-                    if (currentSdkConfig["ab_variant_id"]) {
-                        initResponseDict["ab_variant_id"] = currentSdkConfig["ab_variant_id"];
-                    }
-                }
-                GAState.instance.configsHash = initResponseDict["configs_hash"] ? initResponseDict["configs_hash"] : "";
-                GAState.instance.abId = initResponseDict["ab_id"] ? initResponseDict["ab_id"] : "";
-                GAState.instance.abVariantId = initResponseDict["ab_variant_id"] ? initResponseDict["ab_variant_id"] : "";
                 GAStore.setItem(GAState.SdkConfigCachedKey, GAUtilities.encode64(JSON.stringify(initResponseDict)));
                 GAState.instance.sdkConfigCached = initResponseDict;
                 GAState.instance.sdkConfig = initResponseDict;

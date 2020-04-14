@@ -35,9 +35,6 @@ namespace GameAnalyticsSDK.Wrapper
 		[DllImport ("__Internal")]
 		private static extern void configureUserId(string userId);
 
-        [DllImport ("__Internal")]
-        private static extern void configureAutoDetectAppVersion(bool flag);
-
 		[DllImport ("__Internal")]
 		private static extern void initialize(string gamekey, string gamesecret);
 
@@ -74,15 +71,6 @@ namespace GameAnalyticsSDK.Wrapper
 		[DllImport ("__Internal")]
 		private static extern void addErrorEvent(int severity, string message, string fields);
 
-        [DllImport ("__Internal")]
-        private static extern void addAdEventWithDuration(int adAction, int adType, string adSdkName, string adPlacement, long duration);
-
-        [DllImport ("__Internal")]
-        private static extern void addAdEventWithReason(int adAction, int adType, string adSdkName, string adPlacement, int noAdReason);
-
-        [DllImport ("__Internal")]
-        private static extern void addAdEvent(int adAction, int adType, string adSdkName, string adPlacement);
-
 		[DllImport ("__Internal")]
 		private static extern void setEnabledInfoLog(bool enabled);
 
@@ -102,27 +90,24 @@ namespace GameAnalyticsSDK.Wrapper
 		private static extern void gameAnalyticsEndSession();
 
 		[DllImport ("__Internal")]
-		[return: MarshalAs(UnmanagedType.LPStr)]
-		private static extern string getRemoteConfigsValueAsString(string key, string defaultValue);
+		private static extern void setFacebookId(string facebookId);
 
 		[DllImport ("__Internal")]
-		private static extern bool isRemoteConfigsReady();
+		private static extern void setGender(string gender);
+
+		[DllImport ("__Internal")]
+		private static extern void setBirthYear(int birthYear);
 
 		[DllImport ("__Internal")]
 		[return: MarshalAs(UnmanagedType.LPStr)]
-		private static extern string getRemoteConfigsContentAsString();
+		private static extern string getCommandCenterValueAsString(string key, string defaultValue);
 
-        [DllImport ("__Internal")]
-        private static extern void startTimer(string key);
+		[DllImport ("__Internal")]
+		private static extern bool isCommandCenterReady();
 
-        [DllImport ("__Internal")]
-        private static extern void pauseTimer(string key);
-
-        [DllImport ("__Internal")]
-        private static extern void resumeTimer(string key);
-
-        [DllImport ("__Internal")]
-        private static extern long stopTimer(string key);
+		[DllImport ("__Internal")]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		private static extern string getConfigurationsContentAsString();
 
 #endif
     }

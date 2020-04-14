@@ -6,7 +6,6 @@ using GameAnalyticsSDK.Events;
 using GameAnalyticsSDK.Setup;
 using GameAnalyticsSDK.Wrapper;
 using GameAnalyticsSDK.State;
-using System.Runtime.InteropServices;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -23,9 +22,9 @@ namespace GameAnalyticsSDK
     {
         #region public values
 
-        private static GameAnalyticsSDK.Setup.Settings _settings;
+        private static Settings _settings;
 
-        public static GameAnalyticsSDK.Setup.Settings SettingsGA
+        public static Settings SettingsGA
         {
             get
             {
@@ -59,16 +58,6 @@ namespace GameAnalyticsSDK
         {
             EditorApplication.hierarchyWindowItemOnGUI -= GameAnalytics.HierarchyWindowCallback;
         }
-        #else
-        void OnEnable()
-        {
-            Application.logMessageReceived += GA_Debug.HandleLog;
-        }
-
-        void OnDisable()
-        {
-            Application.logMessageReceived -= GA_Debug.HandleLog;
-        }
         #endif
 
         public void Awake()
@@ -88,6 +77,8 @@ namespace GameAnalyticsSDK
             _instance = this;
 
             DontDestroyOnLoad(gameObject);
+
+            Application.logMessageReceived += GA_Debug.HandleLog;
         }
 
         void OnDestroy()
@@ -99,19 +90,10 @@ namespace GameAnalyticsSDK
                 _instance = null;
         }
 
-#if (!UNITY_EDITOR && UNITY_WSA)
-        [DllImport("GameAnalytics.UWP.dll")]
-        private static extern void onQuit();
-#endif
-
         void OnApplicationQuit()
         {
 #if (!UNITY_EDITOR && !UNITY_IOS && !UNITY_ANDROID && !UNITY_TVOS && !UNITY_WEBGL && !UNITY_TIZEN)
-#if (UNITY_WSA)
-            onQuit();
-#else
             GameAnalyticsSDK.Net.GameAnalytics.OnQuit();
-# endif
 #if UNITY_STANDALONE
             System.Threading.Thread.Sleep(1500);
 #endif
@@ -124,7 +106,7 @@ namespace GameAnalyticsSDK
         {
             try
             {
-                _settings = (GameAnalyticsSDK.Setup.Settings)Resources.Load("GameAnalytics/Settings", typeof(GameAnalyticsSDK.Setup.Settings));
+                _settings = (Settings)Resources.Load("GameAnalytics/Settings", typeof(Settings));
                 GameAnalyticsSDK.State.GAState.Init();
 
 #if UNITY_EDITOR
@@ -149,7 +131,7 @@ namespace GameAnalyticsSDK
                         AssetDatabase.Refresh();
                     }
 
-                    var asset = ScriptableObject.CreateInstance<GameAnalyticsSDK.Setup.Settings>();
+                    var asset = ScriptableObject.CreateInstance<Settings>();
                     AssetDatabase.CreateAsset(asset, path);
                     AssetDatabase.Refresh();
 
@@ -185,7 +167,7 @@ namespace GameAnalyticsSDK
 
             int platformIndex = GetPlatformIndex();
 
-            GA_Wrapper.SetUnitySdkVersion("unity " + GameAnalyticsSDK.Setup.Settings.VERSION);
+            GA_Wrapper.SetUnitySdkVersion("unity " + Settings.VERSION);
             GA_Wrapper.SetUnityEngineVersion("unity " + GetUnityVersion());
 
             if(platformIndex >= 0)
@@ -196,19 +178,8 @@ namespace GameAnalyticsSDK
                             GameAnalytics.SettingsGA.Build [i] = Application.version;
                         }
                     }
-                    if (GameAnalytics.SettingsGA.Platforms [platformIndex] == RuntimePlatform.Android || GameAnalytics.SettingsGA.Platforms [platformIndex] == RuntimePlatform.IPhonePlayer)
-                    {
-                        GA_Wrapper.SetAutoDetectAppVersion(true);
-                    }
-                    else
-                    {
-                        GA_Wrapper.SetBuild (SettingsGA.Build [platformIndex]);
-                    }
                 }
-                else
-                {
-                    GA_Wrapper.SetBuild (SettingsGA.Build [platformIndex]);
-                }
+                GA_Wrapper.SetBuild (SettingsGA.Build [platformIndex]);
             }
 
             if(SettingsGA.CustomDimensions01.Count > 0)
@@ -499,56 +470,30 @@ namespace GameAnalyticsSDK
         }
 
         /// <summary>
-        /// Track fill-rate of you ads.
+        /// Set user facebook id.
         /// </summary>
-        /// <param name="adAction">Action of ad (for example loaded, show).</param>
-        /// <param name="adType">Type of ad (for video, interstitial).</param>
-        /// <param name="adSdkName">Name of ad SDK.</param>
-        /// <param name="adPlacement">Placement of ad or identifier of the ad in the app</param>
-        /// <param name="duration">Duration of ad video</param>
-        public static void NewAdEvent(GAAdAction adAction, GAAdType adType, string adSdkName, string adPlacement, long duration)
+        /// <param name="facebookId">Facebook id of user (Persists cross session).</param>
+        public static void SetFacebookId(string facebookId)
         {
-            if(!GameAnalytics._hasInitializeBeenCalled)
-            {
-                Debug.LogError("GameAnalytics: REMEMBER THE SDK NEEDS TO BE MANUALLY INITIALIZED NOW");
-                return;
-            }
-            GA_Ads.NewEvent(adAction, adType, adSdkName, adPlacement, duration);
+            GA_Setup.SetFacebookId(facebookId);
         }
 
         /// <summary>
-        /// Track fill-rate of you ads.
+        /// Set user gender.
         /// </summary>
-        /// <param name="adAction">Action of ad (for example loaded, show).</param>
-        /// <param name="adType">Type of ad (for video, interstitial).</param>
-        /// <param name="adSdkName">Name of ad SDK.</param>
-        /// <param name="adPlacement">Placement of ad or identifier of the ad in the app</param>
-        /// <param name="noAdReason">Error reason for no ad available</param>
-        public static void NewAdEvent(GAAdAction adAction, GAAdType adType, string adSdkName, string adPlacement, GAAdError noAdReason)
+        /// <param name="gender">Gender of user (Persists cross session).</param>
+        public static void SetGender(GAGender gender)
         {
-            if (!GameAnalytics._hasInitializeBeenCalled)
-            {
-                Debug.LogError("GameAnalytics: REMEMBER THE SDK NEEDS TO BE MANUALLY INITIALIZED NOW");
-                return;
-            }
-            GA_Ads.NewEvent(adAction, adType, adSdkName, adPlacement, noAdReason);
+            GA_Setup.SetGender(gender);
         }
 
         /// <summary>
-        /// Track fill-rate of you ads.
+        /// Set user birth year.
         /// </summary>
-        /// <param name="adAction">Action of ad (for example loaded, show).</param>
-        /// <param name="adType">Type of ad (for video, interstitial).</param>
-        /// <param name="adSdkName">Name of ad SDK.</param>
-        /// <param name="adPlacement">Placement of ad or identifier of the ad in the app</param>
-        public static void NewAdEvent(GAAdAction adAction, GAAdType adType, string adSdkName, string adPlacement)
+        /// <param name="birthYear">Birth year of user (Persists cross session).</param>
+        public static void SetBirthYear(int birthYear)
         {
-            if (!GameAnalytics._hasInitializeBeenCalled)
-            {
-                Debug.LogError("GameAnalytics: REMEMBER THE SDK NEEDS TO BE MANUALLY INITIALIZED NOW");
-                return;
-            }
-            GA_Ads.NewEvent(adAction, adType, adSdkName, adPlacement);
+            GA_Setup.SetBirthYear(birthYear);
         }
 
         /// <summary>
@@ -622,64 +567,44 @@ namespace GameAnalyticsSDK
             GA_Setup.SetCustomDimension03(customDimension);
         }
 
-        // ----------------------- REMOTE CONFIGS ---------------------- //
-		public static event Action OnRemoteConfigsUpdatedEvent;
+        // ----------------------- COMMAND CENTER ---------------------- //
+		public static event Action OnCommandCenterUpdatedEvent;
 
-		public void OnRemoteConfigsUpdated()
+		public void OnCommandCenterUpdated()
 		{
-			if(OnRemoteConfigsUpdatedEvent != null)
+			if(OnCommandCenterUpdatedEvent != null)
 			{
-				OnRemoteConfigsUpdatedEvent();
+				OnCommandCenterUpdatedEvent();
 			}
 		}
 
-        public static void RemoteConfigsUpdated()
+        public static void CommandCenterUpdated()
         {
-            if (OnRemoteConfigsUpdatedEvent != null)
+            if (OnCommandCenterUpdatedEvent != null)
             {
-                OnRemoteConfigsUpdatedEvent();
+                OnCommandCenterUpdatedEvent();
             }
         }
 
-        public static string GetRemoteConfigsValueAsString(string key)
+        public static string GetCommandCenterValueAsString(string key)
         {
-            return GetRemoteConfigsValueAsString(key, null);
+            return GetCommandCenterValueAsString(key, null);
         }
 
-        public static string GetRemoteConfigsValueAsString(string key, string defaultValue)
+        public static string GetCommandCenterValueAsString(string key, string defaultValue)
         {
-			return GA_Wrapper.GetRemoteConfigsValueAsString(key, defaultValue);
+			return GA_Wrapper.GetCommandCenterValueAsString(key, defaultValue);
         }
 
-        public static bool IsRemoteConfigsReady()
+        public static bool IsCommandCenterReady()
         {
-			return GA_Wrapper.IsRemoteConfigsReady();
+			return GA_Wrapper.IsCommandCenterReady();
         }
 
-		public static string GetRemoteConfigsContentAsString()
+		public static string GetConfigurationsContentAsString()
 		{
-			return GA_Wrapper.GetRemoteConfigsContentAsString();
+			return GA_Wrapper.GetConfigurationsContentAsString();
 		}
-
-        public static void StartTimer(string key)
-        {
-            GA_Wrapper.StartTimer(key);
-        }
-
-        public static void PauseTimer(string key)
-        {
-            GA_Wrapper.PauseTimer(key);
-        }
-
-        public static void ResumeTimer(string key)
-        {
-            GA_Wrapper.ResumeTimer(key);
-        }
-
-        public static long StopTimer(string key)
-        {
-            return GA_Wrapper.StopTimer(key);
-        }
 
         private static string GetUnityVersion()
         {

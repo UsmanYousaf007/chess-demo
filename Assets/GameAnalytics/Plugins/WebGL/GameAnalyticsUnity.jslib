@@ -1,8 +1,8 @@
 var GameAnalyticsUnity = {
     $listener: {
-        onRemoteConfigsUpdated: function()
+        onCommandCenterUpdated: function()
         {
-            SendMessage("GameAnalytics", "OnRemoteConfigsUpdated");
+            SendMessage("GameAnalytics", "OnCommandCenterUpdated");
         }
     },
     configureAvailableCustomDimensions01: function(list)
@@ -43,7 +43,7 @@ var GameAnalyticsUnity = {
     },
     initialize: function(gamekey, gamesecret)
     {
-        gameanalytics.GameAnalytics.addRemoteConfigsListener(listener);
+        gameanalytics.GameAnalytics.addCommandCenterListener(listener);
         gameanalytics.GameAnalytics.initialize(Pointer_stringify(gamekey), Pointer_stringify(gamesecret));
     },
     setCustomDimension01: function(customDimension)
@@ -110,20 +110,32 @@ var GameAnalyticsUnity = {
     {
         gameanalytics.GameAnalytics.endSession();
     },
-    getRemoteConfigsValueAsString: function(key, defaultValue)
+    setFacebookId: function(facebookId)
     {
-        var returnStr = gameanalytics.GameAnalytics.getRemoteConfigsValueAsString(Pointer_stringify(key), Pointer_stringify(defaultValue));
+        gameanalytics.GameAnalytics.setFacebookId(Pointer_stringify(facebookId));
+    },
+    setGender: function(gender)
+    {
+        gameanalytics.GameAnalytics.setGender(gender);
+    },
+    setBirthYear: function(birthYear)
+    {
+        gameanalytics.GameAnalytics.setBirthYear(birthYear);
+    },
+    getCommandCenterValueAsString: function(key, defaultValue)
+    {
+        var returnStr = gameanalytics.GameAnalytics.getCommandCenterValueAsString(Pointer_stringify(key), Pointer_stringify(defaultValue));
         var buffer = _malloc(lengthBytesUTF8(returnStr) + 1);
         writeStringToMemory(returnStr, buffer);
         return buffer;
     },
-    isRemoteConfigsReady: function()
+    isCommandCenterReady: function()
     {
-        return gameanalytics.GameAnalytics.isRemoteConfigsReady();
+        return gameanalytics.GameAnalytics.isCommandCenterReady();
     },
-    getRemoteConfigsContentAsString: function()
+    getConfigurationsContentAsString: function()
     {
-        var returnStr = gameanalytics.GameAnalytics.getRemoteConfigsContentAsString();
+        var returnStr = gameanalytics.GameAnalytics.getConfigurationsContentAsString();
         var buffer = _malloc(lengthBytesUTF8(returnStr) + 1);
         writeStringToMemory(returnStr, buffer);
         return buffer;

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using System;
 using System.Runtime.InteropServices;
 using GameAnalyticsSDK.Utilities;
 
@@ -13,7 +12,6 @@ namespace GameAnalyticsSDK.Wrapper
 
         private static readonly AndroidJavaClass GA = new AndroidJavaClass("com.gameanalytics.sdk.GameAnalytics");
         private static readonly AndroidJavaClass UNITY_GA = new AndroidJavaClass("com.gameanalytics.sdk.unity.UnityGameAnalytics");
-        private static readonly AndroidJavaClass GA_IMEI = new AndroidJavaClass("com.gameanalytics.sdk.imei.GAImei");
 
         private static void configureAvailableCustomDimensions01(string list)
         {
@@ -91,23 +89,8 @@ namespace GameAnalyticsSDK.Wrapper
             GA.CallStatic("configureUserId", userId);
         }
 
-        private static void configureAutoDetectAppVersion(bool flag)
-        {
-            GA.CallStatic("configureAutoDetectAppVersion", flag);
-        }
-
         private static void initialize(string gamekey, string gamesecret)
         {
-            if(GameAnalytics.SettingsGA.UseIMEI)
-            {
-                try
-                {
-                    GA_IMEI.CallStatic("readImei");
-                }
-                catch(Exception)
-                {
-                }
-            }
             UNITY_GA.CallStatic("initialize");
 
             AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -174,21 +157,6 @@ namespace GameAnalyticsSDK.Wrapper
             GA.CallStatic("addErrorEventWithSeverity", severity, message/*, fields*/);
         }
 
-        private static void addAdEventWithDuration(int adAction, int adType, string adSdkName, string adPlacement, long duration)
-        {
-            GA.CallStatic("addAdEvent", adAction, adType, adSdkName, adPlacement, duration);
-        }
-
-        private static void addAdEventWithReason(int adAction, int adType, string adSdkName, string adPlacement, int noAdReason)
-        {
-            GA.CallStatic("addAdEvent", adAction, adType, adSdkName, adPlacement, noAdReason);
-        }
-
-        private static void addAdEvent(int adAction, int adType, string adSdkName, string adPlacement)
-        {
-            GA.CallStatic("addAdEvent", adAction, adType, adSdkName, adPlacement);
-        }
-
         private static void setEnabledInfoLog(bool enabled)
         {
             GA.CallStatic("setEnabledInfoLog", enabled);
@@ -197,6 +165,30 @@ namespace GameAnalyticsSDK.Wrapper
         private static void setEnabledVerboseLog(bool enabled)
         {
             GA.CallStatic("setEnabledVerboseLog", enabled);
+        }
+
+        private static void setFacebookId(string facebookId)
+        {
+            GA.CallStatic("setFacebookId", facebookId);
+        }
+
+        private static void setGender(string gender)
+        {
+            switch(gender)
+            {
+                case "male":
+                    GA.CallStatic("setGender", 1);
+                    break;
+                case "female":
+                    GA.CallStatic("setGender", 2);
+                    break;
+            }
+
+        }
+
+        private static void setBirthYear(int birthYear)
+        {
+            GA.CallStatic("setBirthYear", birthYear);
         }
 
         private static void setManualSessionHandling(bool enabled)
@@ -219,39 +211,19 @@ namespace GameAnalyticsSDK.Wrapper
             GA.CallStatic("endSession");
         }
 
-        private static string getRemoteConfigsValueAsString(string key, string defaultValue)
+        private static string getCommandCenterValueAsString(string key, string defaultValue)
         {
-            return GA.CallStatic<string>("getRemoteConfigsValueAsString", key, defaultValue);
+            return GA.CallStatic<string>("getCommandCenterValueAsString", key, defaultValue);
         }
 
-        private static bool isRemoteConfigsReady ()
+        private static bool isCommandCenterReady ()
         {
-            return GA.CallStatic<bool>("isRemoteConfigsReady");
+            return GA.CallStatic<bool>("isCommandCenterReady");
         }
 
-        private static string getRemoteConfigsContentAsString()
+        private static string getConfigurationsContentAsString()
         {
-            return GA.CallStatic<string>("getRemoteConfigsContentAsString");
-        }
-
-        private static void startTimer(string key)
-        {
-            GA.CallStatic("startTimer", key);
-        }
-
-        private static void pauseTimer(string key)
-        {
-            GA.CallStatic("pauseTimer", key);
-        }
-
-        private static void resumeTimer(string key)
-        {
-            GA.CallStatic("resumeTimer", key);
-        }
-
-        private static long stopTimer(string key)
-        {
-            return GA.CallStatic<long>("stopTimer", key);
+            return GA.CallStatic<string>("getConfigurationsContentAsString");
         }
 #endif
     }
