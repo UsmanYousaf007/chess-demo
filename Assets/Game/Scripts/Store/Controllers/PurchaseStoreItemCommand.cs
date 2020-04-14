@@ -97,9 +97,9 @@ namespace TurboLabz.InstantFramework
             {
                 cameFromScreen = "lobby_banner";
 
-                if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch)
+                if (metaDataModel.appInfo.isAutoSubscriptionDlgShown)
                 {
-                    cameFromScreen = "opening_popup";
+                    cameFromScreen = "auto_popup";
                 }
             }
             else if (pState.GetType() == typeof(NSCPU) || pState.GetType() == typeof(NSMultiplayer))

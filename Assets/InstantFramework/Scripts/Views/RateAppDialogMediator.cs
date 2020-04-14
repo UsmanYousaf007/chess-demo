@@ -43,7 +43,6 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.RATE_APP_DLG) 
             {
-                rateAppService.RateApp(false);
                 view.ShowAreYouEnjoying();
                 analyticsService.ScreenVisit(AnalyticsScreen.rate_dialog);
             }

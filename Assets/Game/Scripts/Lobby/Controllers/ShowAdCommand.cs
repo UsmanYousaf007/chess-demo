@@ -179,7 +179,11 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotionOnVictory(AdsResult result)
         {
-            if ((DateTime.Now - preferencesModel.timeAtSubscrptionDlgShown).TotalMinutes > metaDataModel.adsSettings.minutesForVictoryInternalAd && resultAdsVO.playerWins)
+            if (preferencesModel.hasRated
+                && !playerModel.HasSubscription()
+                && metaDataModel.adsSettings.minutesForVictoryInternalAd > 0
+                && (DateTime.Now - preferencesModel.timeAtSubscrptionDlgShown).TotalMinutes > metaDataModel.adsSettings.minutesForVictoryInternalAd
+                && resultAdsVO.playerWins)
             {
                 showPromotionDlgSignal.Dispatch(null, InternalAdType.FORCED_ON_WIN);
             }

@@ -21,10 +21,12 @@ public class SubscriptionDlgMediator : Mediator
     //Models
     [Inject] public INavigatorModel navigatorModel { get; set; }
     [Inject] public IPreferencesModel preferencesModel { get; set; }
+    [Inject] public IAppInfoModel appInfoModel { get; set; }
 
     private string cameFromScreen;
     private NS cameFromState;
     private string screenContext;
+    private string powerUpContext;
 
     public override void OnRegister()
     {
@@ -51,14 +53,18 @@ public class SubscriptionDlgMediator : Mediator
         if (viewId == NavigatorViewId.SUBSCRIPTION_DLG && !view.IsVisible())
         {
             view.Show();
+
             preferencesModel.timeAtSubscrptionDlgShown = System.DateTime.Now;
+
+            //analytics
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
             cameFromState = navigatorModel.previousState;
-            screenContext = cameFromState.GetType().Equals(typeof(NSLobby)) ? preferencesModel.isSubscriptionDlgShownOnFirstLaunch ? "banner" : "opening_popup" : "";
+            screenContext = cameFromState.GetType().Equals(typeof(NSLobby)) ? !appInfoModel.isAutoSubscriptionDlgShown ? "banner" : "auto_popup" : "";
             hAnalyticsService.LogEvent("subscription_popup_displayed", "menu", "subscription_popup", screenContext);
             cameFromScreen = cameFromState.ToString();
             cameFromScreen = cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2);
-            cameFromScreen = screenContext.Equals("opening_popup") ? screenContext : cameFromScreen;
+            cameFromScreen = screenContext.Equals("auto_popup") ? screenContext : cameFromScreen;
+            cameFromScreen = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ? powerUpContext : cameFromScreen;
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
         }
     }
@@ -123,5 +129,11 @@ public class SubscriptionDlgMediator : Mediator
     {
         hAnalyticsService.LogEvent("terms_clicked", "menu", "subscription_popup", screenContext);
         analyticsService.Event(AnalyticsEventId.terms_clicked, AnalyticsParameter.context, cameFromScreen);
+    }
+
+    [ListensTo(typeof(SetSubscriptionContext))]
+    public void OnSetContext(string gameType, string powerUp)
+    {
+        powerUpContext = string.Concat(gameType, powerUp);
     }
 }

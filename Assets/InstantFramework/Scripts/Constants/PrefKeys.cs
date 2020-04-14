@@ -41,8 +41,8 @@ namespace TurboLabz.InstantGame
         public const string QUICK_MATCH_FINISHED_COUNT = "quickMatchFinishedCount";
         public const string LONG_MATCH_FINISHED_COUNT = "longMatchFinishedCount";
         public const string CPU_MATCH_FINISHED_COUNT = "cpuMatchFinishedCount";
-        public const string SUBSCRIPTION_DLG_SHOWN = "subscriptionDlgShown";
         public const string TIME_AT_SUBSCRIPTION_DLG_SHOWN = "timeAtSubscriptionDlgShown";
+        public const string AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT = "autoSubscriptionDlgShownCount";
 
         //for appsflyer events for HUUUGE
         public const string VIDEO_FINISHED_COUNT = "videoFinishedCount";
