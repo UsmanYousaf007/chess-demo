@@ -20,7 +20,7 @@ namespace TurboLabz.CPU
         {
             if (CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {
-                if(!cmd.playerModel.autoPromotionToQueen)
+                if(!cmd.preferencesModel.autoPromotionToQueen)
                 {
                     cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_PROMO_DLG);
 

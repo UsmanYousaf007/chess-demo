@@ -316,7 +316,7 @@ namespace TurboLabz.InstantFramework
             public const string STATUS = "status";
         }
 
-		public static class PublicProfile
+        public static class PublicProfile
 		{
 			public const string PROFILE_NAME = "name";
 			public const string PROFILE_COUNTRY_ID = "countryId";
@@ -366,7 +366,6 @@ namespace TurboLabz.InstantFramework
             public const string REWARD_CURRENT_POINTS = "currentPoints";
             public const string REWARD_REQUIRED_POINTS = "pointsRequired";
             public const string ADS_REWARD_DATA = "adsRewardData";
-            public const string AUTO_PROMOTION_TO_QUEEN = "autoPromotionToQueen";
         }
 
         public static class Match

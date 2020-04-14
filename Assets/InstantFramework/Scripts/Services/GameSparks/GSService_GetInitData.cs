@@ -142,7 +142,6 @@ namespace TurboLabz.InstantFramework
             playerModel.editedName = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.EDITED_NAME);
             playerModel.isFBConnectRewardClaimed = playerDetailsData.GetBoolean(GSBackendKeys.PlayerDetails.IS_FACEBOOK_REWARD_CLAIMED).Value;
             playerModel.cpuPowerupUsedCount = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
-            playerModel.autoPromotionToQueen = playerDetailsData.GetBoolean(GSBackendKeys.PlayerDetails.AUTO_PROMOTION_TO_QUEEN).Value;
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {

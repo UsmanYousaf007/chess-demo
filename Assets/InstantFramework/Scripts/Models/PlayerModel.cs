@@ -37,7 +37,6 @@ namespace TurboLabz.InstantFramework
         public long subscriptionExipryTimeStamp { get; set; }
         public string renewDate { get; set; }
         public string subscriptionType { get; set; }
-        public bool autoPromotionToQueen { get; set; }
 
         public string name
         {
@@ -131,8 +130,6 @@ namespace TurboLabz.InstantFramework
             rewardPointsRequired = 0;
             rewardShortCode = "";
             rewardQuantity = 0;
-
-            autoPromotionToQueen = false;
     }
 
 		public bool OwnsVGood(string key)

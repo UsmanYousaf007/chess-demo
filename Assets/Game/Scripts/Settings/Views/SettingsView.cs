@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
         //Models 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         bool settingsChanged = false;
 
@@ -139,7 +140,8 @@ namespace TurboLabz.InstantFramework
             RefreshAudioButtons();
             RefreshPersonalisedAdsToggleButtons();
             RefreshAutoConvertPawntoQueenButtons();
-            settingsChanged = playerModel.autoPromotionToQueen;
+            //settingsChanged = playerModel.autoPromotionToQueen;
+            settingsChanged = preferencesModel.autoPromotionToQueen;
         }
 
         public void SetSubscriptionPrice()
@@ -233,7 +235,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
-            applySettingsSignal.Dispatch();
+            //applySettingsSignal.Dispatch();
         }
 
         public void OnBackButtonClicked()
@@ -262,7 +264,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnAutoConvertPawntoQueenOffButtonClicked()
         {
-            playerModel.autoPromotionToQueen = !playerModel.autoPromotionToQueen;
+            //playerModel.autoPromotionToQueen = !playerModel.autoPromotionToQueen;
+            preferencesModel.autoPromotionToQueen = !preferencesModel.autoPromotionToQueen;
             audioService.PlayStandardClick();
             RefreshAutoConvertPawntoQueenButtons();
         }
@@ -274,13 +277,17 @@ namespace TurboLabz.InstantFramework
 
         private void RefreshAutoConvertPawntoQueenButtons()
         {
-            autoConvertPawntoQueenOffBtn.gameObject.SetActive(!playerModel.autoPromotionToQueen);
-            autoConvertPawntoQueenOnBtn.gameObject.SetActive(playerModel.autoPromotionToQueen);
+            //autoConvertPawntoQueenOffBtn.gameObject.SetActive(!playerModel.autoPromotionToQueen);
+            //autoConvertPawntoQueenOnBtn.gameObject.SetActive(playerModel.autoPromotionToQueen);
+
+            autoConvertPawntoQueenOffBtn.gameObject.SetActive(!preferencesModel.autoPromotionToQueen);
+            autoConvertPawntoQueenOnBtn.gameObject.SetActive(preferencesModel.autoPromotionToQueen);
+
         }
 
         public bool HasSettingsChanged()
         {
-            return settingsChanged != playerModel.autoPromotionToQueen;
+            return settingsChanged != preferencesModel.autoPromotionToQueen;
         }
     }
 }
