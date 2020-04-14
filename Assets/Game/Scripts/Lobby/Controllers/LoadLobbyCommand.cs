@@ -82,12 +82,6 @@ namespace TurboLabz.InstantGame
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
 
-            if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch && !playerModel.HasSubscription())
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-                subscriptionDlgClosedSignal.AddOnce(() => preferencesModel.isSubscriptionDlgShownOnFirstLaunch = true);
-            }
-
             if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);

@@ -153,6 +153,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
             injectionBinder.Bind<DisableModalBlockersSignal>().ToSingleton();
             injectionBinder.Bind<SelectTierSignal>().ToSingleton();
+            injectionBinder.Bind<SetSubscriptionContext>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -191,6 +192,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IPushNotificationService>().To<FirebasePushNotificationService>().ToSingleton();
             injectionBinder.Bind<IRateAppService>().To<RateAppService>().ToSingleton();
             injectionBinder.Bind<IAppsFlyerService>().To<AppsFlyerService>().ToSingleton();
+            injectionBinder.Bind<IAutoSubscriptionDailogueService>().To<AutoSubscriptionDailogueService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();

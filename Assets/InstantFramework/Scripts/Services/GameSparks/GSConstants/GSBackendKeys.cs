@@ -94,6 +94,8 @@ namespace TurboLabz.InstantFramework
         public const string ADS_INTERSTITIAL_CAP = "adsInterstitialCap";
         public const string RESIGN_CAP = "resignCap";
         public const string MINUTES_VICTORY_AD = "minutesForVictoryInteralAd";
+        public const string AUTO_SUBSCRIPTION_THRESHOLD = "autoSubscriptionDlgThreshold";
+        public const string DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD = "daysPerAutoSubscriptionDlgThreshold";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
@@ -387,6 +389,7 @@ namespace TurboLabz.InstantFramework
             public const string ELO_CHANGE = "eloChange";
             public const string CREATE_TIME = "createTime";
             public const string IS_RANKED = "isRanked";
+            public const string DURATION = "gameDuration";
         }
 
         public static class Chat

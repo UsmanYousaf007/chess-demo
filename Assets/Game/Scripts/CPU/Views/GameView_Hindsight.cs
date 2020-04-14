@@ -23,6 +23,7 @@ namespace TurboLabz.CPU
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
+        [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
 
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
@@ -120,6 +121,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
+                setSubscriptionContext.Dispatch("cpu_", "coach");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);

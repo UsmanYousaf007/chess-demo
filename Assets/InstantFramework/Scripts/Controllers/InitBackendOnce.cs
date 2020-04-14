@@ -25,10 +25,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
-
-        // Models
-        [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
 
         //Signals
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
@@ -41,7 +38,7 @@ namespace TurboLabz.InstantFramework
             backendService.StartPinger();
             backendService.OnlineCheckerStart();
 
-            if (!preferencesModel.isSubscriptionDlgShownOnFirstLaunch && !playerModel.HasSubscription())
+            if (autoSubscriptionDailogueService.CanShow())
             {
                 subscriptionDlgClosedSignal.AddOnce(RegisterNotification);
             }

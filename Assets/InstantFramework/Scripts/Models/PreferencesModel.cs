@@ -52,8 +52,8 @@ namespace TurboLabz.InstantGame
         public int quickMatchFinishedCount { get; set; }
         public int longMatchFinishedCount { get; set; }
         public int cpuMatchFinishedCount { get; set; }
-        public bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
         public DateTime timeAtSubscrptionDlgShown { get; set; }
+        public int autoSubscriptionDlgShownCount { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -93,8 +93,8 @@ namespace TurboLabz.InstantGame
             quickMatchFinishedCount = 0;
             longMatchFinishedCount = 0;
             cpuMatchFinishedCount = 0;
-            isSubscriptionDlgShownOnFirstLaunch = false;
             timeAtSubscrptionDlgShown = DateTime.Now;
+            autoSubscriptionDlgShownCount = 0;
             ResetDailyPrefers();
         }
 
@@ -263,14 +263,14 @@ namespace TurboLabz.InstantGame
                     cpuMatchFinishedCount = reader.Read<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT);
                 }
 
-                if (reader.HasKey(PrefKeys.SUBSCRIPTION_DLG_SHOWN))
-                {
-                    isSubscriptionDlgShownOnFirstLaunch = reader.Read<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN);
-                }
-
                 if (reader.HasKey(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN))
                 {
                     timeAtSubscrptionDlgShown = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN)));
+                }
+
+                if (reader.HasKey(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT))
+                {
+                    autoSubscriptionDlgShownCount = reader.Read<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT);
                 }
 
                 reader.Close();
@@ -322,8 +322,8 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.QUICK_MATCH_FINISHED_COUNT, quickMatchFinishedCount);
                 writer.Write<int>(PrefKeys.LONG_MATCH_FINISHED_COUNT, longMatchFinishedCount);
                 writer.Write<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT, cpuMatchFinishedCount);
-                writer.Write<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN, isSubscriptionDlgShownOnFirstLaunch);
                 writer.Write<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN, timeAtSubscrptionDlgShown.ToBinary().ToString());
+                writer.Write<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT, autoSubscriptionDlgShownCount);
                 writer.Close();
             }
             catch (Exception e)

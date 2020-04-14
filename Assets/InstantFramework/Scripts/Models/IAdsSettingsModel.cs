@@ -16,6 +16,8 @@ namespace TurboLabz.InstantFramework
         int interstitialCap { get; set; }
         int resignCap { get; set; }
         float minutesForVictoryInternalAd { get; set; }
+        int autoSubscriptionDlgThreshold { get; set; }
+        int daysPerAutoSubscriptionDlgThreshold { get; set; }
     }
 }
 

@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }
         public InternalAdType internalAdType { get; set; }
+        public bool isAutoSubscriptionDlgShown { get; set; }
 
         public string privacyPolicyURL
         {
@@ -81,6 +82,7 @@ namespace TurboLabz.InstantFramework
             isNotificationActive = false;
             contactSupportURL = "";
             internalAdType = InternalAdType.NONE;
+            isAutoSubscriptionDlgShown = false;
         }
     }
 }

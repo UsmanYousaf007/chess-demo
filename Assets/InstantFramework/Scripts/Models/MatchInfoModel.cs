@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public bool acceptedThisSession { get; set; }
         public int playerPowerupUsedCount { get; set; }
         public int opponentPowerupUsedCount { get; set; }
+        public bool isTenMinGame { get; set; }
 
         public bool isBotMatch
         {
@@ -61,6 +62,7 @@ namespace TurboLabz.InstantFramework
             acceptedThisSession = false;
             playerPowerupUsedCount = 0;
             opponentPowerupUsedCount = 0;
+            isTenMinGame = false;
         }
     }
 

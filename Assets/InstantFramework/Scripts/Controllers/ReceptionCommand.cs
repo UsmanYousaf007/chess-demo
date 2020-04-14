@@ -35,11 +35,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
 
         public override void Execute()
         {
@@ -85,6 +87,8 @@ namespace TurboLabz.InstantFramework
 
                 loadLobbySignal.Dispatch();
                 loadPromotionSingal.Dispatch();
+
+                autoSubscriptionDailogueService.Show();
 
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
