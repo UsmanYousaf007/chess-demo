@@ -162,6 +162,19 @@ namespace TurboLabz.InstantFramework
                 runTimeControlSignal.Dispatch(vo);
 
                 challengeMessageProcessedSignal.Dispatch(challengeId);
+            }else if (message.ExtCode == GSBackendKeys.CHALLENGE_OFFER_DRAW_MESSAGE)
+            {
+                Debug.Log("OFFER-DRAW-----message received-----");
+                GSData challengeData = message.Data.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
+                string challengeId = message.Data.GetString(GSBackendKeys.ChallengeData.CHALLENGE_ID);
+
+                // If it is not the active challenge, we are done updating the challenge state
+                if (challengeId != matchInfoModel.activeChallengeId)
+                {
+                    return;
+                }
+
+                ParseChallengeDataOfferDraw(challengeId, challengeData, false);
             }
         }
 

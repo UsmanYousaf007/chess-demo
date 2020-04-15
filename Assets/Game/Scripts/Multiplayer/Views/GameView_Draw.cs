@@ -88,5 +88,31 @@ namespace TurboLabz.Multiplayer
         {
             drawRejectedSignal.Dispatch();
         }
+
+        public void OfferDraw(string status, string offeredBy)
+        {
+            Debug.Log("OFFER-DRAW--------"+ status+"----------"+ offeredBy);
+
+            if (status == "offered")
+            {
+                if (playerModel.id == offeredBy)
+                {
+                    //show text draw offer sent
+                    Debug.Log("OFFER-DRAW--------draw offer sent------");
+                }
+                else
+                {
+                    //accept or reject
+                    Debug.Log("OFFER-DRAW-----draw offered by opponent-----");
+                }
+            }else if(status == "rejected")
+            {
+                if (playerModel.id == offeredBy)
+                {
+                    //show text draw offer rejected
+                    Debug.Log("OFFER-DRAW------draw offer rejected-------");
+                }
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ClaimFiftyMoveDrawSignal>().To<ClaimFiftyMoveDrawCommand>();
             commandBinder.Bind<ClaimThreefoldRepeatDrawSignal>().To<ClaimThreefoldRepeatDrawCommand>();
             commandBinder.Bind<ResignSignal>().To<ResignCommand>();
+            commandBinder.Bind<OfferDrawSignal>().To<OfferDrawCommand>();
             commandBinder.Bind<AiTurnSignal>().To<AiTurnCommand>();
             commandBinder.Bind<ChessboardEventSignal>().To<ChessboardCommand>();
             commandBinder.Bind<SquareClickedSignal>().To<ChessboardSquareClickedCommand>();

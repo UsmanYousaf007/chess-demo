@@ -45,9 +45,13 @@ namespace TurboLabz.InstantFramework
         public const string AI_SPEED = "aiSpeed";
         public const string TIME_STAMP = "timestamp";
         public const string POWER_UP_USED_COUNT = "powerupUsedCount";
+        public const string OFFER_DRAW = "offerDraw";
+        public const string OFFER_DRAW_STATUS = "status";
+        public const string OFFER_DRAW_OFFERED_BY = "offeredBy";
 
         // Message ExtCodes
         public const string CHALLENGE_ACCEPT_MESSAGE = "ChallengeAcceptMessage";
+        public const string CHALLENGE_OFFER_DRAW_MESSAGE = "ChallengeOfferDrawMessage";
 
         // Challenge response keys
         public const string CHALLENGE_INSTANCE_ID = "challengeInstanceId";
