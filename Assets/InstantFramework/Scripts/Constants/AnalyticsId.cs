@@ -139,7 +139,8 @@ namespace TurboLabz.InstantFramework
         multi_mode_player,
         mode_distribution,
         reconnection_shown,
-
+        gs_call_fail,
+        internet_warning_on_splash,
 
         tap_match,
         tap_resign_game,
@@ -175,9 +176,10 @@ namespace TurboLabz.InstantFramework
         random_long_match,
         shop,
         gs_disconnect,
-        gs_call_fail,
         internet_disconnect,
-        internet_switch
+        internet_switch,
+        in_game,
+        not_in_game
     }
 
     public enum AnalyticsParameter

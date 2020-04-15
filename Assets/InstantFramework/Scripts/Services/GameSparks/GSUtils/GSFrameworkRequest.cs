@@ -6,6 +6,8 @@ using strange.extensions.promise.impl;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using GameSparks.Core;
+using UnityEngine.Analytics;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -52,6 +54,7 @@ namespace TurboLabz.InstantFramework
             {
                 GSData error = logEventResponse.Errors;
                 LogUtil.Log("OnRequestFailure error: " + error.JSON + " RequestId:" + logEventResponse.RequestId, "red");
+                LogAnalytic(AnalyticsEventId.gs_call_fail, AnalyticsContext.not_in_game);
                 string errorString = error.GetString("error");
 
                 if (errorString == "timeout")
@@ -67,6 +70,7 @@ namespace TurboLabz.InstantFramework
             {
                 GSData error = r.Errors;
                 LogUtil.Log("OnRequestFailure Challenge: " + error.JSON, "red");
+                LogAnalytic(AnalyticsEventId.gs_call_fail, AnalyticsContext.in_game);
 
                 string errorString = error.GetString("error");
                 if (errorString == "timeout")
@@ -106,5 +110,15 @@ namespace TurboLabz.InstantFramework
             return activePromises.IndexOf(promise) >= 0;
         }
 
+        private void LogAnalytic(AnalyticsEventId eventId, AnalyticsContext context)
+        {
+            Dictionary<string, object> p = new Dictionary<string, object>
+            {
+                { AnalyticsParameter.context.ToString(), context.ToString() }
+            };
+
+            Analytics.CustomEvent(eventId.ToString(), p);
+            GameAnalytics.NewDesignEvent($"{eventId}:{context}");
+        }
     }
 }

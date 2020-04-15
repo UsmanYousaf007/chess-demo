@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
     public class SplashView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public Text wifiWarning;
         public Text userMessage;
@@ -50,6 +51,7 @@ namespace TurboLabz.InstantFramework
                 wifiWarning.text = "Slow internet. Please wait..";
             }
 
+            analyticsService.Event(AnalyticsEventId.internet_warning_on_splash);
             wifiWarning.gameObject.SetActive(true);
         }
 
