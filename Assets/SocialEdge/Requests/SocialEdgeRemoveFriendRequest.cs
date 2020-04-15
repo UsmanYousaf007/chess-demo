@@ -43,7 +43,8 @@ namespace SocialEdge.Requests
 
         public SocialEdgeRemoveFriendRequest()
         {
-            request = this;
+            // Mandatory call to base class
+            Base(this);
         }
 
 

@@ -1,4 +1,8 @@
-﻿using System;
+﻿/// @license Propriety <http://license.url>
+/// @copyright Copyright (C) Turbo Labz - All rights reserved
+/// Unauthorized copying of this file, via any medium is strictly prohibited
+/// Proprietary and confidential
+
 using UnityEngine;
 
 namespace SocialEdge.Utils

@@ -43,7 +43,8 @@ namespace SocialEdge.Requests
 
         public SocialEdgeUnblockFriendRequest()
         {
-            request = this;
+            // Mandatory call to base class
+            Base(this);
         }
 
 
