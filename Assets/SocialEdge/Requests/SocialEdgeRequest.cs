@@ -7,13 +7,21 @@ using System;
 
 namespace SocialEdge.Requests
 {
-    public abstract class SocialEdgeRequest<TREQUEST, TRESPOINSE>
+    public abstract class SocialEdgeRequest<TREQUEST, TRESPONSE> where TRESPONSE : new()
     {
-        protected TRESPOINSE response;
-        protected Action<TRESPOINSE> actionSuccess;
-        protected Action<TRESPOINSE> actionFailure;
-        protected long timeoutMillis;
         protected TREQUEST request;
+        protected TRESPONSE response;
+        protected Action<TRESPONSE> actionSuccess;
+        protected Action<TRESPONSE> actionFailure;
+        protected long timeoutMillis;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public SocialEdgeRequest()
+        {
+            response = new TRESPONSE();
+        }
 
         /// <summary>
         /// Sets the request time out period
@@ -27,7 +35,7 @@ namespace SocialEdge.Requests
         /// <summary>
         /// Sets the request success callback
         /// </summary>
-        public TREQUEST SetSuccessCallback(Action<TRESPOINSE> successCB)
+        public TREQUEST SetSuccessCallback(Action<TRESPONSE> successCB)
         {
             actionSuccess = successCB;
             return request;
@@ -36,7 +44,7 @@ namespace SocialEdge.Requests
         /// <summary>
         /// Sets the request failure callback
         /// </summary>
-        public TREQUEST SetFailureCallback(Action<TRESPOINSE> failureCB)
+        public TREQUEST SetFailureCallback(Action<TRESPONSE> failureCB)
         {
             actionFailure = failureCB;
             return request;
