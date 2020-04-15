@@ -23,6 +23,12 @@ namespace SocialEdge.Requests
             response = new TRESPONSE();
         }
 
+        protected TREQUEST Base(TREQUEST thisRequest)
+        {
+            request = thisRequest;
+            return request;
+        }
+
         /// <summary>
         /// Sets the request time out period
         /// </summary>

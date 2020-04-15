@@ -39,9 +39,13 @@ namespace SocialEdge.Requests
         // Request parameters section
         public string userName;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SocialEdgeBackendLoginRequest()
         {
-            request = this;
+            // Mandatory call to base class
+            Base(this);
         }
 
         /// <summary>
