@@ -173,7 +173,11 @@ namespace TurboLabz.InstantFramework
         quick_match,
         computer_match,
         random_long_match,
-        shop
+        shop,
+        gs_disconnect,
+        gs_call_fail,
+        internet_disconnect,
+        internet_switch
     }
 
     public enum AnalyticsParameter

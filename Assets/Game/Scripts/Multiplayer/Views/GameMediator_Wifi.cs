@@ -168,6 +168,7 @@ namespace TurboLabz.Multiplayer
                 if (matchInfoModel.activeChallengeId != null)
                 {
                     appInfoModel.syncInProgress = true;
+                    analyticsService.Event(AnalyticsEventId.reconnection_shown, AnalyticsContext.internet_switch);
                     reconnectViewEnableSignal.Dispatch(true);
                     view.chessboardBlocker.SetActive(true);
                     TLUtils.LogUtil.Log("Match disconnected Id: " + matchInfoModel.activeChallengeId, "cyan");

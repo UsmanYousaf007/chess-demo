@@ -59,7 +59,7 @@ public class SubscriptionDlgMediator : Mediator
             //analytics
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
             cameFromState = navigatorModel.previousState;
-            screenContext = cameFromState.GetType().Equals(typeof(NSLobby)) ? !appInfoModel.isAutoSubscriptionDlgShown ? "banner" : "auto_popup" : "";
+            screenContext = cameFromState.GetType().Equals(typeof(NSLobby)) || cameFromState.GetType().Equals(typeof(NSRateAppDlg)) ? !appInfoModel.isAutoSubscriptionDlgShown ? "banner" : "auto_popup" : "";
             hAnalyticsService.LogEvent("subscription_popup_displayed", "menu", "subscription_popup", screenContext);
             cameFromScreen = cameFromState.ToString();
             cameFromScreen = cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2);

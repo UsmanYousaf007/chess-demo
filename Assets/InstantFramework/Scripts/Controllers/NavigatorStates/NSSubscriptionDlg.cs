@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.THEME_SELECTION, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.SETTINGS);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.THEME_SELECTION, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.SETTINGS, NavigatorViewId.RATE_APP_DLG);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -31,10 +31,15 @@
                     cmd.disableModalBlockersSignal.Dispatch();
                     return new NSMultiplayer();
                 }
-                if (viewId == NavigatorViewId.CPU)
+                else if (viewId == NavigatorViewId.CPU)
                 {
                     cmd.disableModalBlockersSignal.Dispatch();
                     return new NSCPU();
+                }
+                else if (viewId == NavigatorViewId.RATE_APP_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SUBSCRIPTION_DLG);
+                    return new NSRateAppDlg();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)

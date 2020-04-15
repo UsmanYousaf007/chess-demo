@@ -20,7 +20,6 @@ namespace TurboLabz.InstantFramework
     public class ReconnectingView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public Text reconnectingLabel;
         public GameObject popUp;
@@ -39,7 +38,6 @@ namespace TurboLabz.InstantFramework
         {
             if (!popUp.activeSelf)
             {
-                analyticsService.Event(AnalyticsEventId.reconnection_shown);
                 popUp.SetActive(true);
                 chessboardBlocker.SetActive(true);
             }

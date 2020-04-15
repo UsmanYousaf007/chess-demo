@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public SplashWifiIsHealthySignal splashWifiIsHealthySignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
+        [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
 
         // Services
         [Inject] public IAudioService audioService { get; set; }
@@ -50,8 +51,9 @@ namespace TurboLabz.InstantFramework
 
             modelsResetSignal.Dispatch();
             modelsLoadFromDiskSignal.Dispatch();
+            pauseNotificationsSignal.Dispatch(true);
 
-			ListenForKeyEvents();
+            ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
 			audioService.Init();
             GameAnalytics.Initialize();

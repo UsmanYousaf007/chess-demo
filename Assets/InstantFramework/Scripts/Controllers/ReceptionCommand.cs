@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetInitDataSignal getInitDataSignal  { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
+        [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
+
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
@@ -95,6 +97,9 @@ namespace TurboLabz.InstantFramework
 
                 SendAnalytics();
             }
+
+
+            pauseNotificationsSignal.Dispatch(false);
 
             CommandEnd();
         }

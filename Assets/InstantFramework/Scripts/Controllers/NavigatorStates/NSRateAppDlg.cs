@@ -37,6 +37,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSChat();
             }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
+            {
+                return new NSSubscriptionDlg();
+            }
             return null;
         }
     }
