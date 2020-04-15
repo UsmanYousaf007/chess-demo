@@ -84,6 +84,7 @@ namespace TurboLabz.InstantFramework
                 }
 
                 appInfoModel.isReconnecting = DisconnectStates.LONG_DISCONNET;
+                analyticsService.Event(AnalyticsEventId.reconnection_shown, AnalyticsContext.gs_disconnect);
                 reconnectViewEnableSignal.Dispatch(true);
                 chessboardBlockerEnableSignal.Dispatch(true);
 

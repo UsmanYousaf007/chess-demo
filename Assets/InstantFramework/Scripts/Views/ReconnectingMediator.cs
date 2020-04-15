@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
 
         // services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void OnRegister()
         {
@@ -84,6 +85,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
+                    analyticsService.Event(AnalyticsEventId.reconnection_shown, AnalyticsContext.internet_disconnect);
                     view.ShowPopUp();
                 }
             }
