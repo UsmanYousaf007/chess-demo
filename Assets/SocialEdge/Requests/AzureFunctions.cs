@@ -8,33 +8,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
+using SocialEdge.Utils;
 
 namespace SocialEdge.Requests
 {
-    public class AzureRoutineRunnerBehavior : MonoBehaviour { }
-    public class AzureRoutineRunner
-    {
-        private const string GAME_OBJECT_NAME = "AzureRoutineRunnerBehavior";
-        public MonoBehaviour monoBehavior;
-
-        public AzureRoutineRunner()
-        {
-            GameObject go = GameObject.Find(GAME_OBJECT_NAME);
-
-            if (go == null)
-            {
-                go = new GameObject(GAME_OBJECT_NAME);
-            }
-
-            monoBehavior = go.GetComponent<AzureRoutineRunnerBehavior>();
-
-            if (monoBehavior == null)
-            {
-                monoBehavior = go.AddComponent<AzureRoutineRunnerBehavior>();
-            }
-        }
-    }
-
     /// <summary>
     /// Azure function request result response
     /// </summary>
@@ -52,7 +29,7 @@ namespace SocialEdge.Requests
         // Todo: Prefab for settings
         private const string AZURE_TITLE_URL = "https://chessstars.azurewebsites.net/api/";
 
-        protected AzureRoutineRunner routineRunner;
+        protected SocialEdgeRoutineRunner routineRunner;
         Coroutine coroutineFunction;
         WWWForm form;
         long responseTime;
@@ -78,7 +55,7 @@ namespace SocialEdge.Requests
             titleURL = AZURE_TITLE_URL; // place holder
             form = new WWWForm();
             response = new AzureFunctionResponse();
-            routineRunner = new AzureRoutineRunner();
+            routineRunner = new SocialEdgeRoutineRunner();
         }
 
         /// <summary>
