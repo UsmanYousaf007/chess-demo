@@ -38,12 +38,25 @@ namespace TurboLabz.Multiplayer
         public Text drawYesButtonText;
         public Text drawNoButtonText;
 
+        [Header("Offer Draw")]
+        public GameObject offerDrawDialog;
+        public Button drawOfferAcceptButton;
+        public Button drawOfferRejectButton;
+        public Text drawOfferText;
+        public Text drawOfferAcceptButtonText;
+        public Text drawOfferRejectButtonText;
+
         public void InitDraw()
         {
             drawYesButton.onClick.AddListener(OnDrawClaimed);
             drawNoButton.onClick.AddListener(OnDrawRejected);
             drawYesButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON);
             drawNoButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON);
+
+            drawOfferAcceptButton.onClick.AddListener(OfferDrawAcceptButtonClicked);
+            drawOfferRejectButton.onClick.AddListener(OfferDrawRejectButtonClicked);
+            drawOfferAcceptButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON);
+            drawOfferRejectButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON);
         }
 
         public void CleanupDraw()
@@ -103,6 +116,8 @@ namespace TurboLabz.Multiplayer
                 else
                 {
                     //accept or reject
+                    drawOfferText.text = "Opponent has offered a draw";
+                    offerDrawDialog.SetActive(true);
                     Debug.Log("OFFER-DRAW-----draw offered by opponent-----");
                 }
             }else if(status == "rejected")
@@ -113,6 +128,19 @@ namespace TurboLabz.Multiplayer
                     Debug.Log("OFFER-DRAW------draw offer rejected-------");
                 }
             }
+        }
+
+        public void OfferDrawRejectButtonClicked()
+        {
+           
+
+            
+        }
+
+        public void OfferDrawAcceptButtonClicked()
+        {
+            
+            
         }
     }
 }
