@@ -36,7 +36,7 @@ namespace TurboLabz.InstantGame
         private bool isPaused = false;
 
         private const float NOTIFICATION_DURATION = 5.0f;
-        private const float NOTIFICATION_QUICKMATCH_DURATION = 15.0f;
+        private const float NOTIFICATION_QUICKMATCH_DURATION = 30.0f;
 
         // Models
         [Inject] public IPicsModel picsModel { get; set; }
