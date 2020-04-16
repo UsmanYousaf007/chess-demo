@@ -100,8 +100,8 @@ namespace TurboLabz.CPU
         private void OnSaveAndExitButtonClicked()
         {
             saveGameSignal.Dispatch();
-            loadLobbySignal.Dispatch();
-            cancelHintSignal.Dispatch();
+            //loadLobbySignal.Dispatch();
+            //cancelHintSignal.Dispatch();
         }
     }
 }
