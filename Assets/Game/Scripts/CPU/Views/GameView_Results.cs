@@ -412,7 +412,7 @@ namespace TurboLabz.CPU
             showRewardedAdSignal.Dispatch(vo);
 
            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
-            backToLobbySignal.Dispatch();
+            //backToLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);         
             analyticsService.Event(AnalyticsEventId.ads_rewarded_show, AnalyticsContext.computer_match);
@@ -430,7 +430,7 @@ namespace TurboLabz.CPU
             showAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
-            backToLobbySignal.Dispatch();
+            //backToLobbySignal.Dispatch();
 
             analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
         }
