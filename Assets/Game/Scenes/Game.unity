@@ -18688,6 +18688,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 33.6289
       objectReference: {fileID: 0}
+    - target: {fileID: 1207189450850707211, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 107.700195
+      objectReference: {fileID: 0}
+    - target: {fileID: 1207189450850707211, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 28.000008
+      objectReference: {fileID: 0}
     - target: {fileID: 1344148826035705331, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -18936,7 +18946,27 @@ PrefabInstance:
     - target: {fileID: 1471532649245558949, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 49.360107
+      value: 49.359863
+      objectReference: {fileID: 0}
+    - target: {fileID: 4902543604437523616, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 45.259766
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411826854047616841, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -108.299805
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623785241674760298, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -108.299805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950720284571066266, guid: fc6cce3296d7c485bb4b081ef97abf63,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 137.7002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc6cce3296d7c485bb4b081ef97abf63, type: 3}
@@ -117818,7 +117848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.87058824, g: 0.16862746, b: 0.16862746, a: 1}
+  m_Color: {r: 0.31764707, g: 0.35686275, b: 0.47058824, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
