@@ -346,6 +346,7 @@ namespace TurboLabz.InstantFramework
         public const string NEW_GAME_CONFIRM_FRIENDLY = "newGameConfirmnFriendly";
         public const string NEW_GAME_CONFIRM_FRIENDLY_10_MIN = "newGameConfirmnFriendly10Min"; 
         public const string NEW_GAME_CONFIRM_TITLE = "newGameConfirmTitle";
+        public const string NEW_GAME_CONFIRM_START_GAME = "newGameConfirmStartGame";
         public const string FRIENDLY_GAME_CAPTION = "friendlyGameCaption";
         public const string LONG_PLAY_VIEW = "longPlayView";
         public const string SHARE_GAME_SCREENSHOT = "shareGameShot";

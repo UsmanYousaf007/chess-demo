@@ -42,8 +42,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.OKAY_TEXT, "Ok" },
                 { LocalizationKey.BACK_TEXT, "BACK" },
                 { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
-                { LocalizationKey.MIN5_GAME_TEXT, "5 MIN" },
-                { LocalizationKey.MIN10_GAME_TEXT, "10 MIN" },
+                { LocalizationKey.MIN5_GAME_TEXT, "5 Min" },
+                { LocalizationKey.MIN10_GAME_TEXT, "10 Min" },
                  
 
                 #endregion
@@ -342,8 +342,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE, "To enable chat you must start at least one match with this player." },
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min"},
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY_10_MIN, "10 Min"},
-                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Play"},
+                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Classic"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
+                { LocalizationKey.NEW_GAME_CONFIRM_START_GAME, "Start Game"},
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "No"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "Yes"},

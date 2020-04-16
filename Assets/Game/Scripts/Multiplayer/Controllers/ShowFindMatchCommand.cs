@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
             FindViewVO vo = new FindViewVO();
             vo.player = new ProfileVO();
             vo.opponent = new ProfileVO();
-            vo.timeoutSeconds = 15;
+            vo.timeoutSeconds = 30;
 
             vo.player.playerPic = picsModel.GetPlayerPic(playerModel.id);
             vo.player.avatarId = playerModel.avatarId;

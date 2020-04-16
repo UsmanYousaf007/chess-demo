@@ -112,7 +112,7 @@ namespace HUF.AdsAdMobMediation.Implementation
         {
             HLog.Log(logPrefix, "Hide banner ad");
 
-            if (bannerStatus != BannerLoadingStatus.None)
+            //if (bannerStatus != BannerLoadingStatus.None)
                 banner?.Hide();
 
             bannerStatus = BannerLoadingStatus.None;

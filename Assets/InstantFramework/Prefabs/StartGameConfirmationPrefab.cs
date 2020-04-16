@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         public Image onlineStatus;
         public Text opponentActivityText;
         public GameObject premiumBorder;
+        public Text startGameText;
 
         [HideInInspector] public bool toggleRankButtonState;
         [HideInInspector] public string playerId;
