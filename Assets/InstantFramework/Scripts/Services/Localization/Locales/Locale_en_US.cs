@@ -120,7 +120,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_THEME, "Theme" },
                 { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Speed Chess" },
                 { LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC, "Classic Chess" },
-                { LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION, "Vs Random Player" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION, "vs Random Player" },
                 { LocalizationKey.CPU_MENU_PLAY_FRIENDS, "Friends & World" },
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "Play Computer" },
                 { LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME, "Single Player Game" },
