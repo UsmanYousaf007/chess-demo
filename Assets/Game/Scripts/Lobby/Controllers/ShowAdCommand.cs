@@ -29,6 +29,10 @@ namespace TurboLabz.InstantGame
         [Inject] public RewardUnlockedSignal rewardUnlockedSignal { get; set; }
         [Inject] public ShowPromotionDlgSignal showPromotionDlgSignal { get; set; }
         [Inject] public ShowAdSkippedDlgSignal showAdSkippedDlgSignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -75,6 +79,7 @@ namespace TurboLabz.InstantGame
                         var promise = adsService.ShowInterstitial();
                         if (promise != null)
                         {
+                            promise.Then(LoadLobby);
                             promise.Then(ClaimReward);
                             promise.Then(ShowPromotionOnVictory);
                         }
@@ -104,6 +109,7 @@ namespace TurboLabz.InstantGame
 
                         if (p != null)
                         {
+                            p.Then(LoadLobby);
                             p.Then(ClaimReward);
                             p.Then(ShowPromotionOnVictory);
                         }
@@ -172,9 +178,10 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotion()
         {
-            promotionAdPromise = new Promise<AdsResult>();
-            promotionAdPromise.Then(ClaimReward);
-            showPromotionDlgSignal.Dispatch(promotionAdPromise, InternalAdType.INTERAL_AD);
+            LoadLobby();
+            //promotionAdPromise = new Promise<AdsResult>();
+            //promotionAdPromise.Then(ClaimReward);
+            //showPromotionDlgSignal.Dispatch(promotionAdPromise, InternalAdType.INTERAL_AD);
         }
 
         private void ShowPromotionOnVictory(AdsResult result)
@@ -187,6 +194,14 @@ namespace TurboLabz.InstantGame
             {
                 showPromotionDlgSignal.Dispatch(null, InternalAdType.FORCED_ON_WIN);
             }
+        }
+
+        private void LoadLobby(AdsResult result = AdsResult.FINISHED)
+        {
+            loadLobbySignal.Dispatch();
+            refreshCommunitySignal.Dispatch();
+            refreshFriendsSignal.Dispatch();
+            cancelHintSingal.Dispatch();
         }
     }
 }

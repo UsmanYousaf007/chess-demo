@@ -441,8 +441,8 @@ namespace TurboLabz.Multiplayer
 
             if (isLongPlay)
             {
-                backToLobbySignal.Dispatch();
-                refreshLobbySignal.Dispatch();
+                //backToLobbySignal.Dispatch();
+                //refreshLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
 
                 analyticsService.Event(AnalyticsEventId.ads_rewarded_show, AnalyticsContext.long_match);
@@ -450,8 +450,8 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backToLobbySignal.Dispatch();
-                refreshLobbySignal.Dispatch();
+                //backToLobbySignal.Dispatch();
+                //refreshLobbySignal.Dispatch();
                 analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
 
                 analyticsService.Event(AnalyticsEventId.ads_rewarded_show, AnalyticsContext.quick_match);
@@ -483,8 +483,8 @@ namespace TurboLabz.Multiplayer
         public void OnResultsSkipRewardButtonClicked()
         {
             audioService.PlayStandardClick();
-            backToLobbySignal.Dispatch();
-            refreshLobbySignal.Dispatch();
+            //backToLobbySignal.Dispatch();
+            //refreshLobbySignal.Dispatch();
 
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
