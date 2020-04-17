@@ -32,6 +32,7 @@ namespace TurboLabz.CPU
         public Signal resignButtonClickedSignal = new Signal();
         public Signal continueButtonClickedSignal = new Signal();
         public Signal saveAndExitButtonClickedSignal = new Signal();
+        public Signal returnToLobbySignal = new Signal();
 
         public GameObject gameMenu;
 
@@ -194,6 +195,10 @@ namespace TurboLabz.CPU
                 showAdSignal.Dispatch(vo);
 
                 showAdOnBack = false;
+            }
+            else
+            {
+                returnToLobbySignal.Dispatch();
             }
         }
     }
