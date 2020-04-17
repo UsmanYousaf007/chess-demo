@@ -7,6 +7,7 @@ using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
 using System;
 using GameSparks.Api.Requests;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -20,15 +21,23 @@ namespace TurboLabz.InstantFramework
         private void OnCreateLongMatchResponse(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
-
             if (response != null &&
                 response.ScriptData != null && 
                 response.ScriptData.ContainsKey(GSBackendKeys.Match.ABORT_KEY))
             {
                 string reason = response.ScriptData.GetString(GSBackendKeys.Match.ABORT_KEY);
+
                 matchInfoModel.createLongMatchAborted = true;
-                matchInfoModel.createLongMatchAbortReason = reason == "LimitReached" ?
-                    CreateLongMatchAbortReason.LimitReached : CreateLongMatchAbortReason.CreateFailed;
+                if(reason == "LimitReached")
+                {
+                    matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.LimitReached;
+                }else if(reason == "Pending match already exists.")
+                {
+                    matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.Pending;
+                }else
+                {
+                    matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.CreateFailed;
+                }
             }
         }
     }

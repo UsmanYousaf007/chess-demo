@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
 
 
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantFramework
         void OnHomeButtonClicked()
         {
             loadLobbySignal.Dispatch();
+            refreshCommunitySignal.Dispatch();
         }
 
         void OnFriendsButtonClicked()

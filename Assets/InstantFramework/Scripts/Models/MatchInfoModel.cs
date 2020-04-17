@@ -12,7 +12,8 @@ namespace TurboLabz.InstantFramework
         Unassigned,
         CreateFailed,
         LimitReached,
-        SelfLimitReached
+        SelfLimitReached,
+        Pending
     };
 
     public class MatchInfo

@@ -366,7 +366,7 @@ namespace TurboLabz.InstantFramework
 
             if (matchInfoModel.matches.Count >= settingsModel.maxLongMatchCount)
             {
-                SetMatchLimitReachedDialogue();
+                SetMatchLimitReachedDialogue(true);
                 navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 return;
             }
@@ -679,23 +679,37 @@ namespace TurboLabz.InstantFramework
 
             if (reason == CreateLongMatchAbortReason.LimitReached)
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
                 createMatchLimitReachedText.text = "Sorry, opponent max games limit reached. \nPlease Try Later";
+                SetMatchLimitReachedDialogue(false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
+
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
             else if (reason == CreateLongMatchAbortReason.SelfLimitReached)
             {
-                SetMatchLimitReachedDialogue();
+                SetMatchLimitReachedDialogue(true);
                 navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
+
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
             else if (reason == CreateLongMatchAbortReason.CreateFailed)
             {
+                createMatchLimitReachedText.text = "Player is already waiting for you to accept a classic match";
+                SetMatchLimitReachedDialogue(false);
                 navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
-                createMatchLimitReachedText.text = "Player is already waiting for you to \naccept a classic match";
+
                 friendBar.playArrow.SetActive(false);
+                friendBar.playArrowButton.SetActive(false);
+            }
+            else if (reason == CreateLongMatchAbortReason.Pending)
+            {
+                createMatchLimitReachedText.text = "Sorry, Game not created. Opponent has Pending Invites.";
+                SetMatchLimitReachedDialogue(false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
+
+                friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
             else // Match successfully created
@@ -707,8 +721,8 @@ namespace TurboLabz.InstantFramework
 
         void SetMatchLimitReachedDialogue()
         {
-            createMatchLimitReachedTitleText.gameObject.SetActive(true);
             createMatchLimitReachedTitleText.text = "You have reached your active games limit";
+            createMatchLimitReachedTitleText.gameObject.SetActive(true);
             if (playerModel.HasSubscription())
             {
                 createMatchLimitReachedText.text = "Finish/clear a game or match invitation.";
@@ -720,6 +734,34 @@ namespace TurboLabz.InstantFramework
                 createMatchLimitReachedUpgradeBtn.gameObject.SetActive(true);
                 createMatchLimitReachedCloseBtn.gameObject.SetActive(false);
             } 
+        }
+
+
+        void SetMatchLimitReachedDialogue(bool isSelfLimitReached)
+        {
+            if (isSelfLimitReached)
+            {
+                createMatchLimitReachedTitleText.text = "You have reached your active games limit";
+                createMatchLimitReachedTitleText.gameObject.SetActive(true);
+                if (playerModel.HasSubscription())
+                {
+                    createMatchLimitReachedText.text = "Finish/clear a game or match invitation.";
+                    createMatchLimitReachedUpgradeBtn.gameObject.SetActive(false);
+                    createMatchLimitReachedCloseBtn.gameObject.SetActive(true);
+                }
+                else
+                {
+                    createMatchLimitReachedText.text = "Go premium to increase the limit";
+                    createMatchLimitReachedUpgradeBtn.gameObject.SetActive(true);
+                    createMatchLimitReachedCloseBtn.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                createMatchLimitReachedTitleText.gameObject.SetActive(false);
+                createMatchLimitReachedUpgradeBtn.gameObject.SetActive(false);
+                createMatchLimitReachedCloseBtn.gameObject.SetActive(true);
+            }
         }
 
         public void Show()

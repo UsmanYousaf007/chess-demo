@@ -22,10 +22,19 @@
                     return new NSFriends();
                 }
             }
+            else if (evt == NavigatorEvent.SHOW_CHAT)
+            {
+                return new NSChat();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
             {
                 return new NSSubscriptionDlg();
             }
+            
 
             return null;
         }

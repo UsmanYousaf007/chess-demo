@@ -33,6 +33,7 @@ namespace TurboLabz.CPU
             view.resignButtonClickedSignal.AddListener(OnResignClicked);
             view.continueButtonClickedSignal.AddListener(OnContinueButtonClicked);
             view.saveAndExitButtonClickedSignal.AddListener(OnSaveAndExitButtonClicked);
+            view.returnToLobbySignal.AddListener(OnReturnToLobby);
         }
 
         public void OnRemoveMenu()
@@ -102,6 +103,12 @@ namespace TurboLabz.CPU
             saveGameSignal.Dispatch();
             //loadLobbySignal.Dispatch();
             //cancelHintSignal.Dispatch();
+        }
+
+        private void OnReturnToLobby()
+        {
+            loadLobbySignal.Dispatch();
+            cancelHintSignal.Dispatch();
         }
     }
 }
