@@ -182,6 +182,8 @@ namespace TurboLabz.CPU
 
         void OnSaveAndExitButtonClicked()
         {
+            saveAndExitButtonClickedSignal.Dispatch();
+
             if (showAdOnBack)
             {
                 ResultAdsVO vo = new ResultAdsVO();
@@ -193,7 +195,6 @@ namespace TurboLabz.CPU
 
                 showAdOnBack = false;
             }
-            saveAndExitButtonClickedSignal.Dispatch();
         }
     }
 }

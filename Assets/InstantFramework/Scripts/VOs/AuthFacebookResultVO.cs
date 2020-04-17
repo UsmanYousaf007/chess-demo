@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         public Sprite pic;
         public string name;
         public string playerId;
+        public int rating;
     }
 }
 

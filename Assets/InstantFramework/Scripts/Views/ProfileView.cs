@@ -99,6 +99,7 @@ namespace TurboLabz.InstantGame
             {
                 SetProfilePic(vo.pic);
                 profileName.text = vo.name;
+                eloScoreValue.text = vo.rating.ToString();
 
                 if (facebookButton != null)
                 {
