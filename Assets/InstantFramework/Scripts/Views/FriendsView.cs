@@ -709,7 +709,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (reason == CreateLongMatchAbortReason.Pending)
             {
-                createMatchLimitReachedText.text = "Oops. Can't create a match";
+                createMatchLimitReachedText.text = "Sorry, Game not created. Opponent has Pending Invites.";
                 SetMatchLimitReachedDialogue(false);
                 navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
 

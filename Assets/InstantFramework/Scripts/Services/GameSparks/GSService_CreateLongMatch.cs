@@ -21,14 +21,12 @@ namespace TurboLabz.InstantFramework
         private void OnCreateLongMatchResponse(object r)
         {
             LogEventResponse response = (LogEventResponse)r;
-            Debug.Log("-------ABORT:REASON----------");
             if (response != null &&
                 response.ScriptData != null && 
                 response.ScriptData.ContainsKey(GSBackendKeys.Match.ABORT_KEY))
             {
                 string reason = response.ScriptData.GetString(GSBackendKeys.Match.ABORT_KEY);
 
-                Debug.Log("-------ABORT:REASON----------"+ reason);
                 matchInfoModel.createLongMatchAborted = true;
                 if(reason == "LimitReached")
                 {
