@@ -589,10 +589,10 @@ namespace TurboLabz.InstantFramework
             friendBar.isRanked = vo.isRanked;
             friendBar.UpdateStatus();
 
-            if (recentlyCompleted.Contains(friendBar))
-            {
-                friendBar.removeCommunityFriendButton.gameObject.SetActive(false);
-            }
+            //if (recentlyCompleted.Contains(friendBar))
+            //{
+            friendBar.removeCommunityFriendButton.gameObject.SetActive(false);
+            //}
 
             // Set the timer clocks
             if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||
