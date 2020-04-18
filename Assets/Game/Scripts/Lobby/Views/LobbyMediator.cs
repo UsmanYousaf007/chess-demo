@@ -146,6 +146,7 @@ namespace TurboLabz.InstantFramework
             {
                 isCommunity = true;
                 isSearched = true;
+                return;
             }
 
             view.AddFriends(friends, isCommunity, isSearched);

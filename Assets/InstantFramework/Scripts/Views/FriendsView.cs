@@ -799,6 +799,7 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
+            ResetSearch();
             gameObject.SetActive(false); 
         }
 

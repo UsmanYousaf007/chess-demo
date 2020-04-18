@@ -21,9 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public BottomNavView view { get; set; }
 
         // Dispatch signals
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
 
 
@@ -38,14 +36,12 @@ namespace TurboLabz.InstantFramework
         public override void OnRemove()
         {
             view.homeButtonClickedSignal.RemoveAllListeners();
-            view.shopButtonClickedSignal.RemoveAllListeners();
             view.friendsButtonClickedSignal.RemoveAllListeners();
         }
 
         void OnHomeButtonClicked()
         {
             loadLobbySignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
         }
 
         void OnFriendsButtonClicked()
