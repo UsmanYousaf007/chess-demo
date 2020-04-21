@@ -67,6 +67,7 @@ namespace TurboLabz.InstantFramework
                     break;
                 case AdResult.Failed:
                     analyticsService.Event(AnalyticsEventId.ads_rewarded_failed);
+                    rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FAILED);
                     break;
             }
         }

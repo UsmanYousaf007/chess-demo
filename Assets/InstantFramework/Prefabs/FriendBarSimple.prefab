@@ -567,7 +567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224974488282256158}
   - component: {fileID: 222666307821063844}
-  - component: {fileID: 114333027315664814}
+  - component: {fileID: 4666364082971594026}
   m_Layer: 5
   m_Name: FriendBarSimple
   m_TagString: FriendStrip.Target
@@ -604,7 +604,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791824185925394}
   m_CullTransparentMesh: 0
---- !u!114 &114333027315664814
+--- !u!114 &4666364082971594026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -613,57 +613,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1791824185925394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0e0d7070b5d44ee8fba2b7771e1ec7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c8e4c469942e4384b4cd4c90a0386a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   avatarImage: {fileID: 114525830320400354}
-  avatarBG: {fileID: 6982788216584619397}
+  avatarBg: {fileID: 6982788216584619397}
   avatarIcon: {fileID: 6444161948275402915}
   premiumBorder: {fileID: 8397443996172225290}
   profileNameLabel: {fileID: 114925137673807358}
   eloScoreLabel: {fileID: 114657010355341418}
-  timer: {fileID: 0}
-  timerLabel: {fileID: 0}
-  generalStatus: {fileID: 0}
-  yourMoveStatus: {fileID: 0}
-  viewProfileButton: {fileID: 0}
-  stripButton: {fileID: 0}
   thinking: {fileID: 1394679646611074}
   onlineStatus: {fileID: 114961063771315992}
   online: {fileID: 21300000, guid: 643a858481c4a4ef88c114f36548c456, type: 3}
   offline: {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
   activeStatus: {fileID: 21300000, guid: 3ec033e2ca4b64af7abb21319ab3b3e2, type: 3}
-  unreadChat: {fileID: 0}
-  unreadChatCount: {fileID: 0}
-  isOnline: 0
-  isActive: 0
-  playArrowButton: {fileID: 0}
-  playArrow: {fileID: 0}
-  playButtonLabel: {fileID: 0}
-  notNowButton: {fileID: 0}
-  notNowButtonLabel: {fileID: 0}
-  acceptButton: {fileID: 114096525338370168}
-  acceptButtonLabel: {fileID: 8266053483640717471}
-  cancelButton: {fileID: 0}
-  cancelButtonLabel: {fileID: 0}
-  okButton: {fileID: 0}
-  okButtonLabel: {fileID: 0}
-  viewButton: {fileID: 0}
-  viewButtonLabel: {fileID: 0}
-  removeCommunityFriendButton: {fileID: 0}
-  newMatchGreetingLabel: {fileID: 0}
-  newMatchGreeting: {fileID: 0}
-  rankedIcon: {fileID: 0}
-  friendlyIcon: {fileID: 0}
-  longPlayStatus: 0
-  isCommunity: 0
-  isSearched: 0
-  friendType: 
-  isGameCanceled: 0
-  isPlayerTurn: 0
-  isRanked: 0
-  lastMatchTimeStamp: 0
-  isRemoved: 0
+  unblockButton: {fileID: 114096525338370168}
+  unblockButtonLabel: {fileID: 8266053483640717471}
   bottomAlphaBg: {fileID: 7817692950968977916}
   maskObject: {fileID: 5817909771785993593}
   bgGlow: {fileID: 3147756649216108486}

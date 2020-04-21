@@ -282,6 +282,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_ADD_TO_FRIENDS, "Add to Friends" },
                 { LocalizationKey.FRIENDS_REMOVE_FROM_FRIENDS, "Remove from Friends" },
                 { LocalizationKey.FRIENDS_TEXT_FRIENDED, "Friend" },
+                { LocalizationKey.FRIENDS_MANAGE_BLOCKED, "Manage Blocked Players"},
+                { LocalizationKey.FRIENDS_BLOCK_SEARCH, "Search blocked players by name.."},
+                { LocalizationKey.FRIENDS_UNBLOCK, "Unblock"},
+                { LocalizationKey.FRIENDS_BLOCKED, "BLOCKED PLAYERS"},
                 #endregion
 
                 #region Share
