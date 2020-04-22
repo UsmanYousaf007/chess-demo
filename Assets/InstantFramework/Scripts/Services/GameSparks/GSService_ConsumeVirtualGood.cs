@@ -15,14 +15,21 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> ConsumeVirtualGood(GSRequestData jsonData)
         {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
             //return new GSConsumeVirtualGoodRequest().Send(quantity, shortCode, OnConsumeVirtualGoodSuccess);
-            return new GSConsumeVirtualGood().Send(jsonData, OnConsumeVirtualGoodSuccess);
+            return new GSConsumeVirtualGood(context).Send(jsonData, OnConsumeVirtualGoodSuccess);
         }
 
         public class GSConsumeVirtualGood : GSFrameworkRequest
         {
             const string SHORT_CODE = "ConsumeVirtualGood";
             const string ATT_JSON_DATA = "jsonData";
+
+            public GSConsumeVirtualGood(GSFrameworkRequestContext context) : base(context) { }
 
             public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object> onSuccess)
             {

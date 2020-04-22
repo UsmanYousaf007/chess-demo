@@ -14,7 +14,11 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> Accept(string challengeId)
         {
-            return new GSAcceptRequest().Send(challengeId);
+            var context = new GSFrameworkRequestContext {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSAcceptRequest(context).Send(challengeId);
         }
     }
 
@@ -24,6 +28,8 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "Accept";
         const string ATT_CHALLENGE_ID = "challengeId";
+
+        public GSAcceptRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string challengeId)
         {

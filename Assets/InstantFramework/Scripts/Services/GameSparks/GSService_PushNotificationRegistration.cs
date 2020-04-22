@@ -13,7 +13,12 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> PushNotificationRegistration(string token)
         {
-            return new GSPushNotificationRegistrationRequest().Send(token);
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSPushNotificationRegistrationRequest(context).Send(token);
         }
     }
 
@@ -22,6 +27,8 @@ namespace TurboLabz.InstantFramework
     public class GSPushNotificationRegistrationRequest : GSFrameworkRequest
     {
         const string DEVICE_OS_FCM = "fcm";
+
+        public GSPushNotificationRegistrationRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string token)
         {

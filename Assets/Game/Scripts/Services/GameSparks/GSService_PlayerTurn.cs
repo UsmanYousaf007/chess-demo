@@ -31,7 +31,12 @@ namespace TurboLabz.InstantFramework
             string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
             string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
 
-            return new GSTakeTurnRequest().Send(matchInfoModel.activeChallengeId,
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSTakeTurnRequest(context).Send(matchInfoModel.activeChallengeId,
                 fromStr,
                 toStr,
                 GSFormat.GetOptionalString(promotion),
@@ -52,6 +57,8 @@ namespace TurboLabz.InstantFramework
         const string ATT_CLAIM_FIFTY_MOVE_DRAW = "claimFiftyMoveDraw";
         const string ATT_CLAIM_THREEFOLD_REPEAT_DRAW = "claimThreefoldRepeatDraw";
         const string ATT_REJECT_THREEFOLD_REPEAT_DRAW = "rejectThreefoldRepeatDraw";
+
+        public GSTakeTurnRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string challengeId,
             string from,

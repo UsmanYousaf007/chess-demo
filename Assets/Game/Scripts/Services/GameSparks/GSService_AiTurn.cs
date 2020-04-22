@@ -29,7 +29,12 @@ namespace TurboLabz.InstantFramework
             string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
             string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
 
-            return new GSAiTurnRequest().Send(matchInfoModel.activeChallengeId,
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSAiTurnRequest(context).Send(matchInfoModel.activeChallengeId,
                                               fromStr,
                                               toStr,
                                               GSFormat.GetOptionalString(promotion),
@@ -47,6 +52,8 @@ namespace TurboLabz.InstantFramework
         const string ATT_TO = "shard2";
         const string ATT_PROMOTION = "shard3";
         const string ATT_SIMULATED_DELAY_SECONDS = "simulatedDelaySeconds";
+
+        public GSAiTurnRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string challengeId,
                                             string from,

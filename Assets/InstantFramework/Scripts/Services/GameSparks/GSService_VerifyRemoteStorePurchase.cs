@@ -18,13 +18,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        // Dispatch Signals
-        [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
-
-        // Services
-        [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public INavigatorModel navigatorModel { get; set; }
-
         long subscriptionExpiryTimeStamp;
         string subscriptionType;
 

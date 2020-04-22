@@ -15,7 +15,12 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> UpdatePlayerData()
         {
-            return new GSUpdatePlayerDataRequest().Send(playerModel);
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSUpdatePlayerDataRequest(context).Send(playerModel);
         }
     }
 
@@ -27,9 +32,11 @@ namespace TurboLabz.InstantFramework
         const string ATT_NOTIFICATION_COUNT = "notificationCount";
         const string ATT_JSON_DATA = "jsonData";
 
+        public GSUpdatePlayerDataRequest(GSFrameworkRequestContext context) : base(context) { }
+
         public IPromise<BackendResult> Send(IPlayerModel playerModel)
         {
-            this.errorCode = BackendResult.ACCEPT_FAILED;
+            this.errorCode = BackendResult.UPDATE_PLAYER_DATA_FAILED;
 
             var jsonData = new GSRequestData()
                 .AddNumber(ATT_NOTIFICATION_COUNT, playerModel.notificationCount)

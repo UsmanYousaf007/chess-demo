@@ -54,8 +54,13 @@ namespace TurboLabz.InstantFramework
         {
             while (true)
             {
+                var context = new GSFrameworkRequestContext
+                {
+                    currentViewId = navigatorModel.currentViewId
+                };
+
                 bool opCommunityPublicStatus = (!(initialPingCount < (GSSettings.INITIAL_PING_COUNT - 1))) && (appInfoModel.gameMode == GameMode.NONE);
-                new GSPingRequest().Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds, opCommunityPublicStatus);
+                new GSPingRequest(context).Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds, opCommunityPublicStatus);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
 
@@ -168,6 +173,8 @@ namespace TurboLabz.InstantFramework
     public class GSPingRequest : GSFrameworkRequest
     {
         const string SHORT_CODE = "Ping";
+
+        public GSPingRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(Action<object> onSuccess, long clientSendTimestamp, bool opCommunityPublicStatus)
         {

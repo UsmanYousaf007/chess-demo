@@ -12,7 +12,12 @@ namespace TurboLabz.InstantFramework
             string activeChessSkinsId
         )
         {
-            return new GSUpdateActiveInventoryRequest().Send(activeChessSkinsId);
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSUpdateActiveInventoryRequest(context).Send(activeChessSkinsId);
         }
     }
 
@@ -22,6 +27,8 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "UpdateActiveInventory";
         const string ATT_ACTIVE_CHESS_SKINS_ID = "activeChessSkinsId";
+
+        public GSUpdateActiveInventoryRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(
             string activeChessSkinsId)

@@ -14,7 +14,12 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> SendChatMessage(string recipientId, string text, string guid)
         {
-            return new GSSendChatMessageRequest().Send(recipientId, text, guid);
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSSendChatMessageRequest(context).Send(recipientId, text, guid);
         }
     }
 
@@ -27,6 +32,8 @@ namespace TurboLabz.InstantFramework
         const string ATT_RECIPIENT_ID = "recipientId";
         const string ATT_TEXT = "text";
         const string ATT_GUID = "guid";
+
+        public GSSendChatMessageRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string recipientId, string text, string guid)
         {

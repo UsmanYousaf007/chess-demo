@@ -16,17 +16,115 @@ namespace TurboLabz.InstantFramework
 {
 	public partial class GSService
 	{
-        public IPromise<BackendResult> FriendsOpBlock(string friendId) { return new GSFriendsOpRequest().Send("block", friendId, OnFriendOpSuccess); }
-        public IPromise<BackendResult> FriendsOpFriends() { return new GSFriendsOpRequest().Send("friends", null, OnFriendOpSuccess); } 
-        public IPromise<BackendResult> FriendsOpRefresh() { return new GSFriendsOpRequest().Send("refresh", null, OnFriendOpSuccess); } 
-        public IPromise<BackendResult> FriendsOpCommunity() { return new GSFriendsOpRequest().Send("community", null, OnFriendOpSuccess); }
-        public IPromise<BackendResult> FriendsOpRegCommunity() { return new GSFriendsOpRequest().Send("regcommunity", null, OnFriendOpSuccess); }
-        public IPromise<BackendResult> FriendsOpAdd(string friendId) { return new GSFriendsOpRequest().Send("add", friendId, OnFriendOpSuccess, 0, facebookService.GetAccessToken()); }
-        public IPromise<BackendResult> FriendsOpAddFavourite(string friendId) { return new GSFriendsOpRequest().Send("addFavourite", friendId, OnFriendOpSuccess, 0, facebookService.GetAccessToken()); }
-        public IPromise<BackendResult> FriendsOpInitialize() { return new GSFriendsOpRequest().Send("initialize", null, OnFriendOpSuccess); }
-        public IPromise<BackendResult> FriendsOpRemove(string friendId) { return new GSFriendsOpRequest().Send("remove", friendId, OnFriendOpSuccess); }
-        public IPromise<BackendResult> FriendsOpSearch(string matchString, int skip) { return new GSFriendsOpRequest().Send("search", matchString, OnFriendOpSuccess, skip); }
-        public IPromise<BackendResult> FriendsOpStatus(string friendId) { return new GSFriendsOpRequest().Send("status", friendId, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpBlock(string friendId)
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("block", friendId, OnFriendOpSuccess);
+        }
+
+        public IPromise<BackendResult> FriendsOpFriends()
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("friends", null, OnFriendOpSuccess);
+        }
+        
+        public IPromise<BackendResult> FriendsOpRefresh()
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("refresh", null, OnFriendOpSuccess);
+        }
+
+        public IPromise<BackendResult> FriendsOpCommunity()
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("community", null, OnFriendOpSuccess);
+        }
+
+        public IPromise<BackendResult> FriendsOpRegCommunity()
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("regcommunity", null, OnFriendOpSuccess);
+        }
+
+        public IPromise<BackendResult> FriendsOpAdd(string friendId)
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("add", friendId, OnFriendOpSuccess, 0, facebookService.GetAccessToken());
+        }
+
+        public IPromise<BackendResult> FriendsOpAddFavourite(string friendId)
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("addFavourite", friendId, OnFriendOpSuccess, 0, facebookService.GetAccessToken());
+        }
+
+        public IPromise<BackendResult> FriendsOpInitialize()
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("initialize", null, OnFriendOpSuccess);
+        }
+
+        public IPromise<BackendResult> FriendsOpRemove(string friendId)
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("remove", friendId, OnFriendOpSuccess);
+        }
+
+        public IPromise<BackendResult> FriendsOpSearch(string matchString, int skip)
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("search", matchString, OnFriendOpSuccess, skip);
+        }
+
+        public IPromise<BackendResult> FriendsOpStatus(string friendId)
+        {
+            var context = new GSFrameworkRequestContext
+            {
+                currentViewId = navigatorModel.currentViewId
+            };
+
+            return new GSFriendsOpRequest(context).Send("status", friendId, OnFriendOpSuccess);
+        }
 
         private void OnFriendOpSuccess(object r)
 		{
@@ -189,6 +287,8 @@ namespace TurboLabz.InstantFramework
 		const string ATT_OP = "op";
         const string ATT_FBTOKEN = "fbToken";
         const string ATT_SKIP = "skip";
+
+        public GSFriendsOpRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, int skip = 0, string fbToken = null)
 		{
