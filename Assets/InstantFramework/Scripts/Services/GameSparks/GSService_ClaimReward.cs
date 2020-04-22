@@ -16,12 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSClaimRewardRequest(context).Send(jsonData, OnClaimRewardSuccess);
+            return new GSClaimRewardRequest(GetRequestContext()).Send(jsonData, OnClaimRewardSuccess);
         }
 
         private void OnClaimRewardSuccess(object r)

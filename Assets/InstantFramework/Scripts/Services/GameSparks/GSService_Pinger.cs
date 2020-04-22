@@ -54,13 +54,8 @@ namespace TurboLabz.InstantFramework
         {
             while (true)
             {
-                var context = new GSFrameworkRequestContext
-                {
-                    currentViewId = navigatorModel.currentViewId
-                };
-
                 bool opCommunityPublicStatus = (!(initialPingCount < (GSSettings.INITIAL_PING_COUNT - 1))) && (appInfoModel.gameMode == GameMode.NONE);
-                new GSPingRequest(context).Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds, opCommunityPublicStatus);
+                new GSPingRequest(GetRequestContext()).Send(OnPingSuccess, TimeUtil.unixTimestampMilliseconds, opCommunityPublicStatus);
 
                 float frequency = GSSettings.PINGER_FREQUENCY;
 

@@ -21,12 +21,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> ClaimFiftyMoveDraw()
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSClaimFiftyMoveDrawRequest(context).Send(matchInfoModel.activeChallengeId);
+            return new GSClaimFiftyMoveDrawRequest(GetRequestContext()).Send(matchInfoModel.activeChallengeId);
         }
     }
 

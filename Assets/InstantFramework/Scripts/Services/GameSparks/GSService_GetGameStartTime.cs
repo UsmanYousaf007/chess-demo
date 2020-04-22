@@ -16,12 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetGameStartTime(string challengeId)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSGetGameStartTimeRequest(context).Send(challengeId, OnGetGameStartTimeSuccess);
+            return new GSGetGameStartTimeRequest(GetRequestContext()).Send(challengeId, OnGetGameStartTimeSuccess);
         }
 
         private void OnGetGameStartTimeSuccess(object m)

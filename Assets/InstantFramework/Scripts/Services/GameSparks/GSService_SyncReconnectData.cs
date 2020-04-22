@@ -16,12 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> SyncReconnectData(string challengeId)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSSyncReconnectDataRequest(context).Send(challengeId, OnSyncDataSuccess);
+            return new GSSyncReconnectDataRequest(GetRequestContext()).Send(challengeId, OnSyncDataSuccess);
         }
 
         private void OnSyncDataSuccess(object r)

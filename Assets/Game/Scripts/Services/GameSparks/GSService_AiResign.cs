@@ -21,12 +21,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> AiResign()
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSAiResignRequest(context).Send(matchInfoModel.activeChallengeId);
+            return new GSAiResignRequest(GetRequestContext()).Send(matchInfoModel.activeChallengeId);
         }
     }
 

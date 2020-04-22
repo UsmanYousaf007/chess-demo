@@ -15,12 +15,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> CreateLongMatch(string opponentId, bool isRanked)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSCreateLongMatchRequest(context).Send(opponentId, isRanked, OnCreateLongMatchResponse);
+            return new GSCreateLongMatchRequest(GetRequestContext()).Send(opponentId, isRanked, OnCreateLongMatchResponse);
         }
 
         private void OnCreateLongMatchResponse(object r)

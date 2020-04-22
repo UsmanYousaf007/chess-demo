@@ -17,12 +17,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSBuyVirtualGoodsRequest(context).Send(currencyType, quantity, shortCode, OnBuyVirtualGoodsSuccess);
+            return new GSBuyVirtualGoodsRequest(GetRequestContext()).Send(currencyType, quantity, shortCode, OnBuyVirtualGoodsSuccess);
         }
 
         private void OnBuyVirtualGoodsSuccess(object r)

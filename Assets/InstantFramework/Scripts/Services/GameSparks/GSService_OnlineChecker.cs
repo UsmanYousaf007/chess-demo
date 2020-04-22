@@ -66,13 +66,8 @@ namespace TurboLabz.InstantFramework
             {
                 if (onlineCheckerPendingRequest == false)
                 {
-                    var context = new GSFrameworkRequestContext
-                    {
-                        currentViewId = navigatorModel.currentViewId
-                    };
-
                     requestTimestamp = TimeUtil.unixTimestampMilliseconds;
-                    new GSOnlineCheckerPingRequest(context).Send(requestTimeout).Then(OnlineCheckerCompleted);
+                    new GSOnlineCheckerPingRequest(GetRequestContext()).Send(requestTimeout).Then(OnlineCheckerCompleted);
                     onlineCheckerPendingRequest = true;
                 }
 

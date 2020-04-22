@@ -17,12 +17,7 @@ namespace TurboLabz.InstantFramework
 	{
 		public IPromise<BackendResult> ChangeUserDetails(string name)
 		{
-			var context = new GSFrameworkRequestContext
-			{
-				currentViewId = navigatorModel.currentViewId
-			};
-
-			return new GSChangeUserDetailsRequest(context).Send(name, OnChangeUserDetailsSuccess);
+			return new GSChangeUserDetailsRequest(GetRequestContext()).Send(name, OnChangeUserDetailsSuccess);
 		}
 
 		private void OnChangeUserDetailsSuccess(object r)

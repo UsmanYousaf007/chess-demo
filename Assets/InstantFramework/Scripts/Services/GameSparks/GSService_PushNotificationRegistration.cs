@@ -13,12 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> PushNotificationRegistration(string token)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSPushNotificationRegistrationRequest(context).Send(token);
+            return new GSPushNotificationRegistrationRequest(GetRequestContext()).Send(token);
         }
     }
 

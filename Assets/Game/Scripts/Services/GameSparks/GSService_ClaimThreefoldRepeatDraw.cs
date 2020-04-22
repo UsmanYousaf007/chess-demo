@@ -21,12 +21,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> ClaimThreefoldRepeatDraw()
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSClaimThreefoldRepeatDrawRequest(context).Send(matchInfoModel.activeChallengeId);
+            return new GSClaimThreefoldRepeatDrawRequest(GetRequestContext()).Send(matchInfoModel.activeChallengeId);
         }
     }
 

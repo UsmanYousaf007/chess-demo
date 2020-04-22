@@ -23,32 +23,17 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthGuest()
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSAuthGuestRequest(context).Send(OnGuestAuthSuccess);
+            return new GSAuthGuestRequest(GetRequestContext()).Send(OnGuestAuthSuccess);
         }
 
         public IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSAuthFacebookRequest(context).Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
+            return new GSAuthFacebookRequest(GetRequestContext()).Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
         }
 
         public IPromise<BackendResult> AuthEmail(string email, string password, bool existingPlayer)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSAuthEmailResquest(context).Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
+            return new GSAuthEmailResquest(GetRequestContext()).Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
         }
 
         private void OnGuestAuthSuccess(object r)
@@ -77,12 +62,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSSetPlayerSocialNameRequest(context).Send(name, OnSetPlayerSocialNameSuccess);
+            return new GSSetPlayerSocialNameRequest(GetRequestContext()).Send(name, OnSetPlayerSocialNameSuccess);
         }
 
         private void OnSetPlayerSocialNameSuccess(object r)

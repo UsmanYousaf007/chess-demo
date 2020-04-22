@@ -12,12 +12,7 @@ namespace TurboLabz.InstantFramework
             string activeChessSkinsId
         )
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSUpdateActiveInventoryRequest(context).Send(activeChessSkinsId);
+            return new GSUpdateActiveInventoryRequest(GetRequestContext()).Send(activeChessSkinsId);
         }
     }
 

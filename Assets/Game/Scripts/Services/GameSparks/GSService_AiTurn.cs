@@ -29,12 +29,7 @@ namespace TurboLabz.InstantFramework
             string fromStr = GSFileRank.GSFiles[from.file] + GSFileRank.GSRanks[from.rank];
             string toStr = GSFileRank.GSFiles[to.file] + GSFileRank.GSRanks[to.rank];
 
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSAiTurnRequest(context).Send(matchInfoModel.activeChallengeId,
+            return new GSAiTurnRequest(GetRequestContext()).Send(matchInfoModel.activeChallengeId,
                                               fromStr,
                                               toStr,
                                               GSFormat.GetOptionalString(promotion),

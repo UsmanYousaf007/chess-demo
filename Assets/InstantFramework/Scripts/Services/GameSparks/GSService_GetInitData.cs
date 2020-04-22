@@ -20,15 +20,8 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetInitData(int appVersion, string appData)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
             // Fetch init data from server
-            return new GSGetInitDataRequest(context).Send(appVersion,
-                                                   appData,
-                                                   OnGetInitDataSuccess);
+            return new GSGetInitDataRequest(GetRequestContext()).Send(appVersion, appData, OnGetInitDataSuccess);
         }
 
         void OnGetInitDataSuccess(object r)

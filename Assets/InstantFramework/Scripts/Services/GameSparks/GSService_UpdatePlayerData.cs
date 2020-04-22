@@ -15,12 +15,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> UpdatePlayerData()
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSUpdatePlayerDataRequest(context).Send(playerModel);
+            return new GSUpdatePlayerDataRequest(GetRequestContext()).Send(playerModel);
         }
     }
 

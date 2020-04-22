@@ -14,12 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId, int moveCount)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSMatchWatchdogPingAckRequest(context).Send(currentTurnPlayerId, challengerId, challengedId, challengeId, moveCount);
+            return new GSMatchWatchdogPingAckRequest(GetRequestContext()).Send(currentTurnPlayerId, challengerId, challengedId, challengeId, moveCount);
         }
     }
 

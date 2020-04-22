@@ -14,12 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> Unregister(string challengeId)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSUnregisterRequest(context).Send(challengeId, OnUnregisterSuccess);
+            return new GSUnregisterRequest(GetRequestContext()).Send(challengeId, OnUnregisterSuccess);
         }
 
         // TODO: move this logic into the unregister command

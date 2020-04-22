@@ -14,12 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> Decline(string challengeId)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSDeclineRequest(context).Send(challengeId);
+            return new GSDeclineRequest(GetRequestContext()).Send(challengeId);
         }
     }
 

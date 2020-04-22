@@ -22,12 +22,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> FindMatch(string action)
         {
-            var context = new GSFrameworkRequestContext
-            {
-                currentViewId = navigatorModel.currentViewId
-            };
-
-            return new GSFindMatchRequest(context).Send(action, OnFindMatchSuccess);
+            return new GSFindMatchRequest(GetRequestContext()).Send(action, OnFindMatchSuccess);
         }
 
         private void OnFindMatchSuccess(object r)
