@@ -63,6 +63,7 @@ namespace TurboLabz.InstantGame
             {
                 Retain();
                 ClaimReward(AdsResult.BYPASS);
+                LoadLobby();
                 return;
             }
 

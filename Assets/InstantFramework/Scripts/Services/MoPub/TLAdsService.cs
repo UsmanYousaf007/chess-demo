@@ -66,7 +66,8 @@ namespace TurboLabz.InstantFramework
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.SKIPPED);
                     break;
                 case AdResult.Failed:
-                    analyticsService.Event(AnalyticsEventId.ads_rewarded_failed);
+                    analyticsService.Event(AnalyticsEventId.ads_rewarded_failed_new);
+                    rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FAILED);
                     break;
             }
         }
@@ -91,9 +92,15 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.ads_rewarded_not_available);
             }
 
-            return availableFlag &&
-                (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+            bool isNotCapped = (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
                 (adsSettingsModel.rewardedVideoCap == 0 || preferencesModel.rewardedAdsCount <= adsSettingsModel.rewardedVideoCap);
+
+            if (!isNotCapped)
+            {
+                analyticsService.Event(AnalyticsEventId.ads_rewarded_cap_reached);
+            }
+
+            return availableFlag && isNotCapped;
         }
 
         public void OnBannerLoadedEvent(IBannerCallbackData data)
@@ -118,6 +125,7 @@ namespace TurboLabz.InstantFramework
         {
             Debug.Log("[ANALYITCS]: ads_rewared_success: Result" + data.Result.ToString());
             Debug.Log("[ANALYITCS]: IAdCallbackData ProviderId:" + data.ProviderId);
+            analyticsService.Event(AnalyticsEventId.ads_rewarded_available_new);
         }
 
         public IPromise<AdsResult> ShowRewardedVideo()
