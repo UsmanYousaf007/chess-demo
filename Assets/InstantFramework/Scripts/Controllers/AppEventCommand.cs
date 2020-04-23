@@ -94,10 +94,6 @@ namespace TurboLabz.InstantFramework
                     }
                     SplashLoader.launchCode = 2;
                 }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.return_from_background);
-                }
 
                 firebasePushNotificationService.ClearNotifications();
                 navigatorModel.currentState.RenderDisplayOnEnter();

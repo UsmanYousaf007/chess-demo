@@ -170,7 +170,6 @@ namespace TurboLabz.InstantFramework
         terms_clicked,
         close_subscription_clicked,
 
-        return_from_background,
         app_quit_during_disconnected
     }
 
