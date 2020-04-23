@@ -63,55 +63,32 @@ namespace TurboLabz.InstantFramework
             routineRunner.StartCoroutine(SwithOffIsResumeCR());
         }
 
-        private void LogAnalytic(AnalyticsEventId evt, params string[] param)
-        {
-            var evtStr = evt.ToString();
-            if (param != null && param.Length > 0)
-            {
-                var paramDict = new Dictionary<string, object>();
-                for (int i = 0; i < param.Length; i++)
-                {
-                    paramDict.Add($"P{i + 1}", param[i]);
-                    evtStr += $":{param[i]}";
-                }
-
-                Analytics.CustomEvent(evt.ToString(), paramDict);
-            }
-            else
-            {
-                Analytics.CustomEvent(evt.ToString());
-            }
-            GameAnalytics.NewDesignEvent(evtStr);
-        }
-
-        
-
         void ReportDisconnectAnalytics()
         {
             // Log Forced Disconnect (app returning from background)
             if (appInfoModel.isResumeGS)
             {
                 appInfoModel.isResumeGS = false;
-                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.return_from_background.ToString());
+                analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.return_from_background);
             }
             // Log Disconnect during a multiplayer game
             else if (matchInfoModel.activeMatch != null)
             {
                 if (matchInfoModel.activeMatch.isBotMatch)
                 {
-                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.bot_match.ToString());
+                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.bot_match);
                 }
                 else if (matchInfoModel.activeMatch.isLongPlay)
                 {
-                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.long_match.ToString());
+                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.long_match);
                 }
                 else if (matchInfoModel.activeMatch.isTenMinGame)
                 {
-                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.tenmin_match.ToString());
+                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.tenmin_match);
                 }
                 else
                 {
-                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.quick_match.ToString());
+                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.quick_match);
                 }
             }
             // Log Disconnect during a CPU game
@@ -119,17 +96,17 @@ namespace TurboLabz.InstantFramework
                 navigatorModel.currentViewId == NavigatorViewId.CPU_EXIT_DLG ||
                 navigatorModel.currentViewId == NavigatorViewId.CPU_RESULTS_DLG)
             {
-                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.cpu_match.ToString());
+                analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.cpu_match);
             }
             // Log Disconnect during matchmaking
             else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER_FIND_DLG)
             {
-                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.matchmaking.ToString());
+                analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.matchmaking);
             }
             // Log Disconnect during other screens
             else
             {
-                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.not_in_game.ToString());
+                analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.not_in_game);
             }
         }
 
