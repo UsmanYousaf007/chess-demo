@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-11-01 11:39:01 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using GameSparks.Core;
 using strange.extensions.command.impl;
@@ -41,6 +34,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //bool softReconnecting = false;
 
@@ -48,8 +42,16 @@ namespace TurboLabz.InstantFramework
         {
             gameAppEventSignal.Dispatch(appEvent);
 
+            // Log analytics for quit while in reconnecting 
+            if (appEvent == AppEvent.QUIT && appInfoModel.isReconnecting != DisconnectStates.FALSE)
+            {
+                analyticsService.Event(AnalyticsEventId.app_quit_during_disconnected);
+            }
+
             if (appEvent == AppEvent.PAUSED || appEvent == AppEvent.QUIT)
             {
+                appInfoModel.isResumeGS = false;
+
                 navigatorEventSignal.Dispatch(NavigatorEvent.IGNORE);
                 modelsSaveToDiskSignal.Dispatch();
                 hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
@@ -77,6 +79,9 @@ namespace TurboLabz.InstantFramework
             }
             else if (appEvent == AppEvent.RESUMED)
             {
+                appInfoModel.isResumeGS = true;
+                backendService.ScheduleSwitchOffResumeGS();
+
                 if (SplashLoader.launchCode != 1)
                 {
                     if (firebasePushNotificationService.IsNotificationOpened())
@@ -88,6 +93,10 @@ namespace TurboLabz.InstantFramework
                         hAnalyticsService.LogEvent("launch_opened", "launch");
                     }
                     SplashLoader.launchCode = 2;
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.return_from_background);
                 }
 
                 firebasePushNotificationService.ClearNotifications();

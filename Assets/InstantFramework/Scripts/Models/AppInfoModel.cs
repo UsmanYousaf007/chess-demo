@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         public bool isNotificationActive { get; set; }
         public InternalAdType internalAdType { get; set; }
         public bool isAutoSubscriptionDlgShown { get; set; }
+        public bool isResumeGS { get; set; }
 
         public string privacyPolicyURL
         {
@@ -68,6 +69,7 @@ namespace TurboLabz.InstantFramework
             clientVersion = Application.version;
             gameMode = GameMode.NONE;
             isNotificationActive = false;
+            isResumeGS = false;
 
             modelsResetSignal.AddListener(Reset);
         }

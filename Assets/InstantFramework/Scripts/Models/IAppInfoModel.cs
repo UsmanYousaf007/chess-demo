@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         InternalAdType internalAdType { get; set; }
         string faqURL { get; }
         bool isAutoSubscriptionDlgShown { get; set; }
+        bool isResumeGS { get; set; }
     }
 
     public enum DisconnectStates

@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         void OnlineCheckerStop();
         void OnlineCheckerAddListener(Action<bool, ConnectionSwitchType> listener);
         void OnlineCheckerRemoveListener(Action<bool, ConnectionSwitchType> listener);
+        void ScheduleSwitchOffResumeGS();
 
         IPromise<BackendResult> GetInitData(int appVersion, string dataJson);
         IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer);

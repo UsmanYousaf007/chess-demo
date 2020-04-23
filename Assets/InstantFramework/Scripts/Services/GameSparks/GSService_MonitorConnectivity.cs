@@ -2,16 +2,14 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Faraz Ahmed <faraz@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-09-22 12:55:25 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using TurboLabz.TLUtils;
 using GameSparks.Core;
+using UnityEngine.Analytics;
+using GameAnalyticsSDK;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -53,6 +51,88 @@ namespace TurboLabz.InstantFramework
             resumeMatchSignal.Dispatch(prevViewId);
         }
 
+        public IEnumerator SwithOffIsResumeCR()
+        {
+            appInfoModel.isResumeGS = false;
+            yield return new WaitForEndOfFrame();
+            appInfoModel.isResumeGS = false;
+        }
+
+        public void ScheduleSwitchOffResumeGS()
+        {
+            routineRunner.StartCoroutine(SwithOffIsResumeCR());
+        }
+
+        private void LogAnalytic(AnalyticsEventId evt, params string[] param)
+        {
+            var evtStr = evt.ToString();
+            if (param != null && param.Length > 0)
+            {
+                var paramDict = new Dictionary<string, object>();
+                for (int i = 0; i < param.Length; i++)
+                {
+                    paramDict.Add($"P{i + 1}", param[i]);
+                    evtStr += $":{param[i]}";
+                }
+
+                Analytics.CustomEvent(evt.ToString(), paramDict);
+            }
+            else
+            {
+                Analytics.CustomEvent(evt.ToString());
+            }
+            GameAnalytics.NewDesignEvent(evtStr);
+        }
+
+        
+
+        void ReportDisconnectAnalytics()
+        {
+            // Log Forced Disconnect (app returning from background)
+            if (appInfoModel.isResumeGS)
+            {
+                appInfoModel.isResumeGS = false;
+                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.return_from_background.ToString());
+            }
+            // Log Disconnect during a multiplayer game
+            else if (matchInfoModel.activeMatch != null)
+            {
+                if (matchInfoModel.activeMatch.isBotMatch)
+                {
+                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.bot_match.ToString());
+                }
+                else if (matchInfoModel.activeMatch.isLongPlay)
+                {
+                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.long_match.ToString());
+                }
+                else if (matchInfoModel.activeMatch.isTenMinGame)
+                {
+                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.tenmin_match.ToString());
+                }
+                else
+                {
+                    LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.quick_match.ToString());
+                }
+            }
+            // Log Disconnect during a CPU game
+            else if (navigatorModel.currentViewId == NavigatorViewId.CPU ||
+                navigatorModel.currentViewId == NavigatorViewId.CPU_EXIT_DLG ||
+                navigatorModel.currentViewId == NavigatorViewId.CPU_RESULTS_DLG)
+            {
+                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.cpu_match.ToString());
+            }
+            // Log Disconnect during matchmaking
+            else if (navigatorModel.currentViewId == NavigatorViewId.MULTIPLAYER_FIND_DLG)
+            {
+                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.matchmaking.ToString());
+            }
+            // Log Disconnect during other screens
+            else
+            {
+                LogAnalytic(AnalyticsEventId.gs_disconneced, AnalyticsContext.not_in_game.ToString());
+            }
+        }
+
         void GameSparksAvailable(bool isAvailable)
         {
             if (isAvailable)
@@ -73,6 +153,8 @@ namespace TurboLabz.InstantFramework
             {
                 LogUtil.Log("GS Disconnected", "red");
 
+                ReportDisconnectAnalytics();
+
                 GS.Reset();
 
                 // Avoid soft reconnect processing
@@ -85,6 +167,7 @@ namespace TurboLabz.InstantFramework
 
                 appInfoModel.isReconnecting = DisconnectStates.LONG_DISCONNET;
                 analyticsService.Event(AnalyticsEventId.reconnection_shown, AnalyticsContext.gs_disconnect);
+
                 reconnectViewEnableSignal.Dispatch(true);
                 chessboardBlockerEnableSignal.Dispatch(true);
 
