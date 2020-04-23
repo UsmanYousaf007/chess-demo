@@ -53,8 +53,7 @@ namespace TurboLabz.InstantFramework
 
         public IEnumerator SwithOffIsResumeCR()
         {
-            appInfoModel.isResumeGS = false;
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.5f);
             appInfoModel.isResumeGS = false;
         }
 
