@@ -164,7 +164,6 @@ namespace TurboLabz.InstantFramework
                 challengeMessageProcessedSignal.Dispatch(challengeId);
             }else if (message.ExtCode == GSBackendKeys.CHALLENGE_OFFER_DRAW_MESSAGE)
             {
-                Debug.Log("OFFER-DRAW-----message received-----");
                 GSData challengeData = message.Data.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
                 string challengeId = message.Data.GetString(GSBackendKeys.ChallengeData.CHALLENGE_ID);
 

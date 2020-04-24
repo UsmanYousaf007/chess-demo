@@ -5,5 +5,6 @@
         public string status;
         public string offeredBy;
         public string opponentId;
+        public string challengeId;
     }
 }

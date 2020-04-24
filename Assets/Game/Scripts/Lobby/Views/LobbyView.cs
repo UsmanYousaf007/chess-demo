@@ -586,6 +586,7 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
+            friendBar.isOfferDraw = vo.offerDraw;
             friendBar.UpdateStatus();
 
             if (recentlyCompleted.Contains(friendBar))
@@ -724,9 +725,9 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
         {
-            TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+            //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
 
-            if (offeredBy != null && !bars.ContainsKey(opponentID))
+            if (!bars.ContainsKey(opponentID))
             {
                 return;
             }
@@ -735,13 +736,14 @@ namespace TurboLabz.InstantFramework
 
             if (status == "offered")
             {
-                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, -20);
-                friendBar.drawOffer.SetActive(true);
+                //friendBar.SetDrawOfferStatus(true);
+                friendBar.isOfferDraw = true;
+                friendBar.UpdateStatus();
             }
             else
             {
-                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, 0);
-                friendBar.drawOffer.SetActive(false);
+                friendBar.isOfferDraw = false;
+                friendBar.UpdateStatus();
             }
         }
 

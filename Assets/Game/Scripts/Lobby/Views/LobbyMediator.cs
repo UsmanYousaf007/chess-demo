@@ -421,8 +421,11 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateOfferDrawSignal))]
         public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
         {
-            Debug.Log("OFFER-DRAW--------CHECKING---------LOBBY");
-            view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+            if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
+            {
+                view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+                return;
+            }
         }
     }
 }

@@ -63,7 +63,14 @@ namespace TurboLabz.InstantFramework
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
 
-            if(playerData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
+
+            GSData offerDraw = gameData.GetGSData(GSBackendKeys.OFFER_DRAW);
+
+            matchInfo.drawOfferStatus = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
+            matchInfo.drawOfferedBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
+
+
+            if (playerData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
             {
                 matchInfo.playerPowerupUsedCount = playerData.GetInt(GSBackendKeys.POWER_UP_USED_COUNT).Value;
             }

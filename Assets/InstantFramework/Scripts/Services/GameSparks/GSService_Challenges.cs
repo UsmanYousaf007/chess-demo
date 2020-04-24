@@ -43,29 +43,33 @@ namespace TurboLabz.InstantFramework
 
         private void ParseChallengeDataOfferDraw(string challengeId, GSData challengeData, bool hasGameEnded = false)
         {
-            Debug.Log("OFFER-DRAW-----ParseChallengeDataOfferDraw-----");
+         
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
+            GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
 
-            Debug.Log("OFFER-DRAW--------ParseChallengeDataOfferDraw------" + gameData);
 
             GSData offerDraw = gameData.GetGSData(GSBackendKeys.OFFER_DRAW);
 
-            Debug.Log("OFFER-DRAW--------ParseChallengeDataOfferDraw------" + offerDraw);
-
-            string offerDrawStatus = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
-            string offerDrawOfferedBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
-            string opponentID = gameData.GetString(GSBackendKeys.OPPONENT_ID);
-
-            Debug.Log("OFFER-DRAW--------ParseChallengeDataOfferDraw------" + offerDrawStatus + "----------" + offerDrawOfferedBy);
 
             OfferDrawVO offerDrawVO = new OfferDrawVO();
 
 
+            string challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
+            string challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
+            string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
+
             offerDrawVO.status = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
             offerDrawVO.offeredBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
-            offerDrawVO.opponentId = gameData.GetString(GSBackendKeys.OPPONENT_ID);
+            offerDrawVO.opponentId = opponentId;
+            offerDrawVO.challengeId = challengeId;
 
-            updateOfferDrawSignal.Dispatch(offerDrawVO);
+            matchInfoModel.matches[challengeId].drawOfferStatus = offerDrawVO.status;
+            matchInfoModel.matches[challengeId].drawOfferedBy = offerDrawVO.offeredBy;
+
+            if (offerDrawVO.status != null)
+            {
+                updateOfferDrawSignal.Dispatch(offerDrawVO);
+            }
         }
 
 

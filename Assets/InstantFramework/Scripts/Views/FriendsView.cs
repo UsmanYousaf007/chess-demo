@@ -589,6 +589,7 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
+            friendBar.isOfferDraw = vo.offerDraw;
             friendBar.UpdateStatus();
 
             // Set the timer clocks
@@ -729,7 +730,7 @@ namespace TurboLabz.InstantFramework
         {
             //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
 
-            if (opponentID != null && !bars.ContainsKey(opponentID))
+            if (!bars.ContainsKey(opponentID))
             {
                 return;
             }
