@@ -38,6 +38,11 @@ namespace TurboLabz.Multiplayer
         public Text drawYesButtonText;
         public Text drawNoButtonText;
 
+
+        //Offer Draw
+        public Signal drawOfferAcceptedSignal = new Signal();
+        public Signal drawOfferRejectedSignal = new Signal();
+
         [Header("Offer Draw")]
         public GameObject offerDrawDialog;
         public Button drawOfferAcceptButton;
@@ -45,6 +50,9 @@ namespace TurboLabz.Multiplayer
         public Text drawOfferText;
         public Text drawOfferAcceptButtonText;
         public Text drawOfferRejectButtonText;
+        public GameObject offerButtonsDlg;
+        public GameObject offerTextDlg;
+
 
         public void InitDraw()
         {
@@ -111,13 +119,22 @@ namespace TurboLabz.Multiplayer
                 if (playerModel.id == offeredBy)
                 {
                     //show text draw offer sent
+                    drawOfferText.text = "Draw offer sent";
+                    offerDrawDialog.SetActive(true);
+                    offerButtonsDlg.SetActive(false);
+                    offerTextDlg.SetActive(true);
+                    CancelInvoke();
+                    Invoke("CloseDialogue", 4f);
                     Debug.Log("OFFER-DRAW--------draw offer sent------");
+                    analyticsService.Event(AnalyticsEventId.offer_draw_sent);
                 }
                 else
                 {
                     //accept or reject
-                    drawOfferText.text = "Opponent has offered a draw";
+                    //drawOfferText.text = "Opponent has offered a draw";
                     offerDrawDialog.SetActive(true);
+                    offerButtonsDlg.SetActive(true);
+                    offerTextDlg.SetActive(false);
                     Debug.Log("OFFER-DRAW-----draw offered by opponent-----");
                 }
             }else if(status == "rejected")
@@ -125,22 +142,35 @@ namespace TurboLabz.Multiplayer
                 if (playerModel.id == offeredBy)
                 {
                     //show text draw offer rejected
+                    drawOfferText.text = "Draw offer rejected";
+                    offerButtonsDlg.SetActive(false);
+                    offerTextDlg.SetActive(true);
+                    CancelInvoke();
+                    Invoke("CloseDialogue", 4f);
                     Debug.Log("OFFER-DRAW------draw offer rejected-------");
+                }else
+                {
+                    offerDrawDialog.SetActive(false);
                 }
             }
         }
 
         public void OfferDrawRejectButtonClicked()
         {
-           
-
-            
+            drawOfferRejectedSignal.Dispatch();
+            analyticsService.Event(AnalyticsEventId.offer_draw_rejected);
         }
 
         public void OfferDrawAcceptButtonClicked()
         {
-            
-            
+            offerDrawDialog.SetActive(false);
+            drawOfferAcceptedSignal.Dispatch();
+            analyticsService.Event(AnalyticsEventId.offer_draw_accepted);
+        }
+
+        void CloseDialogue()
+        {
+            offerTextDlg.SetActive(false);
         }
     }
 }

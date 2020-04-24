@@ -287,6 +287,11 @@ namespace TurboLabz.Multiplayer
                     }
                     break;
 
+                case GameEndReason.DRAW_BY_DRAW_OFFERED:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW);
+                    break;
+
                 default:
                     resultsGameResultReasonLabel.text = "Unknown Reason";
                     break;

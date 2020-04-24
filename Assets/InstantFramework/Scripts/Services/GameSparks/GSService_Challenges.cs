@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
         [Inject] public UpdateEloScoresSignal updateEloScoresSignal { get; set; }
         [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
+        
 
         // Called by get init data and facebook auth commands
         private void ParseActiveChallenges(GSData data)
@@ -53,10 +54,18 @@ namespace TurboLabz.InstantFramework
 
             string offerDrawStatus = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
             string offerDrawOfferedBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
+            string opponentID = gameData.GetString(GSBackendKeys.OPPONENT_ID);
 
             Debug.Log("OFFER-DRAW--------ParseChallengeDataOfferDraw------" + offerDrawStatus + "----------" + offerDrawOfferedBy);
 
-            updateOfferDrawSignal.Dispatch(offerDrawStatus, offerDrawOfferedBy);
+            OfferDrawVO offerDrawVO = new OfferDrawVO();
+
+
+            offerDrawVO.status = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
+            offerDrawVO.offeredBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
+            offerDrawVO.opponentId = gameData.GetString(GSBackendKeys.OPPONENT_ID);
+
+            updateOfferDrawSignal.Dispatch(offerDrawVO);
         }
 
 

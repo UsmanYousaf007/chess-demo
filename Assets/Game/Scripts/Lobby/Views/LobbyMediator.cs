@@ -14,7 +14,7 @@ using UnityEngine;
 
 using strange.extensions.mediation.impl;
 using System.Collections.Generic;
-using TurboLabz.Multiplayer;
+//using TurboLabz.Multiplayer;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -418,9 +419,10 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(UpdateOfferDrawSignal))]
-        public void OfferDrawStatusUpdate(string status, string offeredBy)
+        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
         {
-            //view.OfferDraw(status, offeredBy);
+            Debug.Log("OFFER-DRAW--------CHECKING---------LOBBY");
+            view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
         }
     }
 }

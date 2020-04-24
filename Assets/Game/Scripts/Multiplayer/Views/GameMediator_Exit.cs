@@ -62,7 +62,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnOfferDrawClicked()
         {
-            offerDrawSignal.Dispatch("");
+            offerDrawSignal.Dispatch("offered");
             view.OnContinueButtonClicked();
             //cancelHintSingal.Dispatch();
         }
@@ -73,11 +73,11 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(UpdateOfferDrawSignal))]
-        public void OfferDrawStatusUpdate(string status, string offeredBy)
+        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
         {
             Debug.Log("OFFER-DRAW----------Call back--------");
-            Debug.Log("OFFER-DRAW--------" + status + "----------" + offeredBy);
-            view.OfferDraw(status, offeredBy);
+            Debug.Log("OFFER-DRAW--------" + offerDrawVO.status + "----------" + offerDrawVO.offeredBy);
+            view.OfferDraw(offerDrawVO.status, offerDrawVO.offeredBy);
         }
     }
 }

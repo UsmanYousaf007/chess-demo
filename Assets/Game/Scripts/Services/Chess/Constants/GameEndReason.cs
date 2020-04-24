@@ -26,6 +26,7 @@ namespace TurboLabz.Chess
         RESIGNATION,
         PLAYER_DISCONNECTED,
         DECLINED,
-        ABANDON
+        ABANDON,
+        DRAW_BY_DRAW_OFFERED
     }
 }

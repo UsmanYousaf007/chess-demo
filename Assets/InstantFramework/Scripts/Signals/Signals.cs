@@ -144,7 +144,7 @@ namespace TurboLabz.InstantFramework
     public class ShowAdSkippedDlgSignal : Signal { }
     public class DisableModalBlockersSignal : Signal { }
     public class SelectTierSignal : Signal<string> { }
-    public class UpdateOfferDrawSignal : Signal<string, string> { }
+    public class UpdateOfferDrawSignal : Signal<OfferDrawVO> { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

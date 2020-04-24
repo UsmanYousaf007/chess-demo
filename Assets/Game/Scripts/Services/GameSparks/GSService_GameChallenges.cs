@@ -233,6 +233,7 @@ namespace TurboLabz.InstantFramework
                 (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
                 (gameEndReason != GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) &&
                 (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) &&
+                (gameEndReason != GameEndReason.DRAW_BY_DRAW_OFFERED) &&
                 (gameEndReason != GameEndReason.DECLINED) &&
                 (gameEndReason != GameEndReason.NONE))
             {

@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 15754095
+    totalSpriteSurfaceArea: 15794994
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -124,6 +124,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8e1acdf30cd854d35891383225e8c61f, type: 3}
   - {fileID: 21300000, guid: 6324c00404cd04778bb442e5232d7c2d, type: 3}
   - {fileID: 21300000, guid: 18efc90488cd0420689d56f56296da2d, type: 3}
+  - {fileID: 21300000, guid: 78d90c043cf4143b698096782183e944, type: 3}
   - {fileID: 21300000, guid: d38505243154b46f483cec8c61ba521f, type: 3}
   - {fileID: 21300000, guid: 1ab91544164ab4c009eeca374bd7cf24, type: 3}
   - {fileID: 21300000, guid: e347285435ba245b196efb86a6501193, type: 3}
@@ -220,6 +221,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7f80681a11128434eba305f8531b7d3e, type: 3}
   - {fileID: 21300000, guid: 7df7c02a6974443ffaad8fd2cfe79866, type: 3}
   - {fileID: 21300000, guid: 4d71572a5c766406f81efec6c0335425, type: 3}
+  - {fileID: 21300000, guid: 408b6a2a42e55449894163d824a39393, type: 3}
   - {fileID: 21300000, guid: 654d013a5d57d4c10befff4f6ee04bf6, type: 3}
   - {fileID: 21300000, guid: c287263a1b9254ea8bff5aa4199be697, type: 3}
   - {fileID: 21300000, guid: 6a76183a9dd824b159e789d1d099e1ce, type: 3}
@@ -281,6 +283,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4e94dbad2bbb2482d8359a61da45bd21, type: 3}
   - {fileID: 21300000, guid: 9d8b360ed7d614468904ecb99ac12668, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
+  - {fileID: 21300000, guid: 8052434e060894b4a92cbc310d430f8e, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
   - {fileID: 21300000, guid: 7220a37e96f94412f9e345436efd82b1, type: 3}
   - {fileID: 21300000, guid: 6a8697be8231c46b395a645b18af4804, type: 3}
@@ -370,6 +373,7 @@ SpriteAtlas:
   - d
   - MoveMeterOnboardingBg
   - strengthFillerEmpty
+  - DrawOfferBg
   - AddIcon
   - ChatInfoBubble
   - Arrow
@@ -466,6 +470,7 @@ SpriteAtlas:
   - Partition
   - UnselectedSubBg
   - g
+  - DrawCancelBtn
   - SubSettingBg
   - Smile
   - ChangeThemeIcon
@@ -527,6 +532,7 @@ SpriteAtlas:
   - MoreMatchesIcon
   - IconFreeCoins
   - SettingsIcon
+  - DrawAcceptBtn
   - RewardBtnDefeat
   - PremiumBorderIcon
   - KingCheckIndicator

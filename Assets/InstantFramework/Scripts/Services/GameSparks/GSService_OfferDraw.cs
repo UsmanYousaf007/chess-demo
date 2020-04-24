@@ -17,8 +17,8 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         public IPromise<BackendResult> PlayerOfferDraw(string challengeId) { return new GSPlayerOfferDrawOpRequest().Send("offered", challengeId); }//, OnOfferDrawOpSuccess); }
-        public IPromise<BackendResult> PlayerOfferDrawRejected(string challengeId) { return new GSPlayerOfferDrawOpRequest().Send("accepted", challengeId); }//, OnOfferDrawOpSuccess); }
-        public IPromise<BackendResult> PlayerOfferDrawAccepted(string challengeId) { return new GSPlayerOfferDrawOpRequest().Send("rejected", challengeId); }//, OnOfferDrawOpSuccess); }
+        public IPromise<BackendResult> PlayerOfferDrawRejected(string challengeId) { return new GSPlayerOfferDrawOpRequest().Send("rejected", challengeId); }//, OnOfferDrawOpSuccess); }
+        public IPromise<BackendResult> PlayerOfferDrawAccepted(string challengeId) { return new GSPlayerOfferDrawOpRequest().Send("accepted", challengeId); }//, OnOfferDrawOpSuccess); }
 
         private void OnOfferDrawOpSuccess(object r)
         {

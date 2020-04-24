@@ -51,6 +51,9 @@ namespace TurboLabz.InstantFramework
         public GameObject rankedIcon;
         public GameObject friendlyIcon;
 
+        public Text drawOfferText;
+        public GameObject drawOffer;
+
         bool stringsLoaded = false;
         static string strWaiting = "";
         static string strDeclined = "";
@@ -103,6 +106,8 @@ namespace TurboLabz.InstantFramework
         public void UpdateStatus()
         {
             DisableOptionalElements();
+            generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, 0);
+
 
             // Now enable required ones
             switch (longPlayStatus)
@@ -224,6 +229,13 @@ namespace TurboLabz.InstantFramework
                     newMatchGreeting.gameObject.SetActive(true);
                     unreadChat.gameObject.SetActive(false);
                     newMatchGreetingLabel.text = strDeclineApology;
+                    break;
+
+                case LongPlayStatus.OFFER_DRAW:
+                    generalStatus.gameObject.SetActive(true);
+                    generalStatus.text = strDraw;
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -20);
+
                     break;
             }
 

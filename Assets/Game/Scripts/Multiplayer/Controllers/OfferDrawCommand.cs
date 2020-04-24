@@ -7,7 +7,7 @@ namespace TurboLabz.Multiplayer
     public class OfferDrawCommand : Command
     {
         // Parameters
-        //[Inject] public string opponentId { get; set; }
+        [Inject] public string drawOfferOp { get; set; }
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
@@ -27,8 +27,16 @@ namespace TurboLabz.Multiplayer
             Retain();
 
             challengeId = matchInfoModel.activeChallengeId;
-            preferencesModel.resignCount++;
-            backendService.PlayerOfferDraw(challengeId).Then(OnOfferDraw);
+            
+            if (drawOfferOp == "offered") {
+                backendService.PlayerOfferDraw(challengeId).Then(OnOfferDraw);
+            }
+            else if (drawOfferOp == "rejected") {
+                backendService.PlayerOfferDrawRejected(challengeId).Then(OnOfferDraw);
+            }
+            else{
+                backendService.PlayerOfferDrawAccepted(challengeId).Then(OnOfferDraw);
+            }
         }
 
         private void OnOfferDraw(BackendResult result)

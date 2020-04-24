@@ -163,7 +163,12 @@ namespace TurboLabz.InstantFramework
         subscription_purchased,
         cross_promo_clicked,
         terms_clicked,
-        close_subscription_clicked
+        close_subscription_clicked,
+
+        //offer draw
+        offer_draw_sent,
+        offer_draw_rejected,
+        offer_draw_accepted
     }
 
     public enum AnalyticsContext

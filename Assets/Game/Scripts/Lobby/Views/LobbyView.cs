@@ -721,6 +721,30 @@ namespace TurboLabz.InstantFramework
             } 
         }
 
+
+        public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
+        {
+            TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+
+            if (offeredBy != null && !bars.ContainsKey(opponentID))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[opponentID].GetComponent<FriendBar>();
+
+            if (status == "offered")
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, -20);
+                friendBar.drawOffer.SetActive(true);
+            }
+            else
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, 0);
+                friendBar.drawOffer.SetActive(false);
+            }
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);

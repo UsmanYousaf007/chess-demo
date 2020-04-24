@@ -38,6 +38,8 @@ namespace TurboLabz.Multiplayer
     public class ResignSignal : Signal<string> {}
     public class AiTurnSignal : Signal {}
     public class OfferDrawSignal : Signal<string> { }
+    public class OfferDrawRejectSignal : Signal<string> { }
+    public class OfferDrawAcceptSignal : Signal<string> { }
 
     // Command to command signals
     public class TakeTurnSwapTimeControlSignal : Signal<bool> {}

@@ -169,10 +169,10 @@ namespace TurboLabz.InstantFramework
                 string challengeId = message.Data.GetString(GSBackendKeys.ChallengeData.CHALLENGE_ID);
 
                 // If it is not the active challenge, we are done updating the challenge state
-                if (challengeId != matchInfoModel.activeChallengeId)
-                {
-                    return;
-                }
+                //if (challengeId != matchInfoModel.activeChallengeId)
+                //{
+                  //  return;
+                //}
 
                 ParseChallengeDataOfferDraw(challengeId, challengeData, false);
             }

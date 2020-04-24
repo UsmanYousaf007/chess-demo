@@ -86,6 +86,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED, "DECLINED" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE, "By Checkmate" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_STALEMATE, "By Stalemate" },
+                { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW, "By Offered Draw" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL, "By Insufficient Material" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE, "By Fifty Move Rule" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE, "By Threefold Repeat Rule" },
