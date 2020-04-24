@@ -20,7 +20,6 @@ namespace SocialEdge.Requests
         {
 
             isSuccess = true;
-            token = resultSuccess.Request.AuthenticationContext.EntityToken;
         }
 
         /// <summary>

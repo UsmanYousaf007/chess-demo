@@ -20,7 +20,6 @@ namespace SocialEdge.Requests
         {
 
             isSuccess = true;
-            token = resultSuccess.Request.AuthenticationContext.EntityToken;
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace SocialEdge.Requests
     public class SocialEdgeRemoveFriendRequest : SocialEdgeRequest<SocialEdgeRemoveFriendRequest, SocialEdgeRemoveFriendResponse>
     {
         // Request parameters section
-        public string friendId { get; set; }
+        private string friendId { get; set; }
 
         public SocialEdgeRemoveFriendRequest()
         {
@@ -47,6 +46,11 @@ namespace SocialEdge.Requests
             Base(this);
         }
 
+        public SocialEdgeRemoveFriendRequest SetFriendUserId(string displayName)
+        {
+            friendId = displayName;
+            return this;
+        }
 
         /// <summary>
         /// Execute the request

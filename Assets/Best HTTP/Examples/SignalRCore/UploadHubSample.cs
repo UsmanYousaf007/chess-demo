@@ -20,7 +20,7 @@ namespace BestHTTP.Examples
 #pragma warning disable 0649
 
         [SerializeField]
-        private string _path = "/uploading";
+        private string _path = "/messages";
 
         [SerializeField]
         private ScrollRect _scrollRect;
@@ -71,7 +71,7 @@ namespace BestHTTP.Examples
 #else
             protocol = new JsonProtocol(new LitJsonEncoder());
 #endif
-
+            
             // Crete the HubConnection
             hub = new HubConnection(new Uri(this.sampleSelector.BaseURL + this._path), protocol);
 
@@ -131,7 +131,7 @@ namespace BestHTTP.Examples
                         .AddLeftPadding(20);
                     AddText("");
 
-                    StartCoroutine(ScoreTracker());
+                   // StartCoroutine(ScoreTracker());
                 });
 
             yield return new WaitForSeconds(_yieldWaitTime);

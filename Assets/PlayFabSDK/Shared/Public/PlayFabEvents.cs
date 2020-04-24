@@ -372,7 +372,7 @@ namespace PlayFab.Events
             if (OnAcceptTradeResultEvent != null) { foreach (var each in OnAcceptTradeResultEvent.GetInvocationList()) { if (ReferenceEquals(each.Target, instance)) { OnAcceptTradeResultEvent -= (PlayFabResultEvent<ClientModels.AcceptTradeResponse>)each; } } }
 
             if (OnAddFriendRequestEvent != null) { foreach (var each in OnAddFriendRequestEvent.GetInvocationList()) { if (ReferenceEquals(each.Target, instance)) { OnAddFriendRequestEvent -= (PlayFabRequestEvent<ClientModels.AddFriendRequest>)each; } } }
-            if (OnAddFriendResultEvent != null) { foreach (var each in OnAddFriendResultEvent.GetInvocationList()) { if (ReferenceEquals(each.Target, instance)) { OnAddFriendResultEvent -= (PlayFabResultEvent<ClientModels.AddFriendResult>)each; } } }
+            if (OnAddFriendResultEvent != null) { foreach (var each in OnAddFriendResultEvent.GetInvocationList()) { if (ReferenceEquals(each.Target, instance)) { OnAddFriendResultEvent -= (PlayFabResultEvent<ClientModels.SetTagResult>)each; } } }
 
             if (OnAddGenericIDRequestEvent != null) { foreach (var each in OnAddGenericIDRequestEvent.GetInvocationList()) { if (ReferenceEquals(each.Target, instance)) { OnAddGenericIDRequestEvent -= (PlayFabRequestEvent<ClientModels.AddGenericIDRequest>)each; } } }
             if (OnAddGenericIDResultEvent != null) { foreach (var each in OnAddGenericIDResultEvent.GetInvocationList()) { if (ReferenceEquals(each.Target, instance)) { OnAddGenericIDResultEvent -= (PlayFabResultEvent<ClientModels.AddGenericIDResult>)each; } } }
@@ -2302,7 +2302,7 @@ namespace PlayFab.Events
                 if (type == typeof(ClientModels.LoginResult)) { if (_instance.OnLoginResultEvent != null) { _instance.OnLoginResultEvent((ClientModels.LoginResult)e.Result); return; } }
 
                 if (type == typeof(ClientModels.AcceptTradeResponse)) { if (_instance.OnAcceptTradeResultEvent != null) { _instance.OnAcceptTradeResultEvent((ClientModels.AcceptTradeResponse)e.Result); return; } }
-                if (type == typeof(ClientModels.AddFriendResult)) { if (_instance.OnAddFriendResultEvent != null) { _instance.OnAddFriendResultEvent((ClientModels.AddFriendResult)e.Result); return; } }
+                if (type == typeof(ClientModels.SetTagResult)) { if (_instance.OnAddFriendResultEvent != null) { _instance.OnAddFriendResultEvent((ClientModels.SetTagResult)e.Result); return; } }
                 if (type == typeof(ClientModels.AddGenericIDResult)) { if (_instance.OnAddGenericIDResultEvent != null) { _instance.OnAddGenericIDResultEvent((ClientModels.AddGenericIDResult)e.Result); return; } }
                 if (type == typeof(ClientModels.AddOrUpdateContactEmailResult)) { if (_instance.OnAddOrUpdateContactEmailResultEvent != null) { _instance.OnAddOrUpdateContactEmailResultEvent((ClientModels.AddOrUpdateContactEmailResult)e.Result); return; } }
                 if (type == typeof(ClientModels.AddSharedGroupMembersResult)) { if (_instance.OnAddSharedGroupMembersResultEvent != null) { _instance.OnAddSharedGroupMembersResultEvent((ClientModels.AddSharedGroupMembersResult)e.Result); return; } }

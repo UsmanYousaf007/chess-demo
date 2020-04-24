@@ -10,7 +10,7 @@ namespace PlayFab.Events
         public event PlayFabRequestEvent<AcceptTradeRequest> OnAcceptTradeRequestEvent;
         public event PlayFabResultEvent<AcceptTradeResponse> OnAcceptTradeResultEvent;
         public event PlayFabRequestEvent<AddFriendRequest> OnAddFriendRequestEvent;
-        public event PlayFabResultEvent<AddFriendResult> OnAddFriendResultEvent;
+        public event PlayFabResultEvent<SetTagResult> OnAddFriendResultEvent;
         public event PlayFabRequestEvent<AddGenericIDRequest> OnAddGenericIDRequestEvent;
         public event PlayFabResultEvent<AddGenericIDResult> OnAddGenericIDResultEvent;
         public event PlayFabRequestEvent<AddOrUpdateContactEmailRequest> OnAddOrUpdateContactEmailRequestEvent;

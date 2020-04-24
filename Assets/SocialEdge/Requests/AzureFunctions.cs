@@ -5,10 +5,13 @@
 
 using System;
 using System.Collections;
+using BestHTTP;
+using BestHTTP.SignalRCore;
+using BestHTTP.SignalRCore.Encoders;
 using UnityEngine;
 using UnityEngine.Networking;
 
-using SocialEdge.Utils;
+//using SocialEdge.Utils;
 
 namespace SocialEdge.Requests
 {
@@ -21,14 +24,28 @@ namespace SocialEdge.Requests
         public long responseTime;
     }
 
+    public class SocialEdgeRoutineRunner
+    {
+        public MonoBehaviour monoBehavior;
+    }
+
+   
+
     /// <summary>
     /// Azure function request
     /// </summary>
     public class AzureFunctionRequest
     {
-        // Todo: Prefab for settings
-        private const string AZURE_TITLE_URL = "https://chessstars.azurewebsites.net/api/";
+        class TestMessage
+        {
+            public string sender;
+            public string text;
+        }
 
+        HubConnection connection;
+        // Todo: Prefab for settings
+        private const string AZURE_TITLE_URL = "https://chessstars.azurewebsites.net/api";
+        //private const string AZURE_TITLE_URL = "http://localhost:7071/api";
         protected SocialEdgeRoutineRunner routineRunner;
         Coroutine coroutineFunction;
         WWWForm form;
@@ -47,6 +64,8 @@ namespace SocialEdge.Requests
             Test
         };
 
+
+
         /// <summary>
         /// Azure function constructor
         /// </summary>
@@ -56,6 +75,7 @@ namespace SocialEdge.Requests
             form = new WWWForm();
             response = new AzureFunctionResponse();
             routineRunner = new SocialEdgeRoutineRunner();
+
         }
 
         /// <summary>
@@ -109,36 +129,59 @@ namespace SocialEdge.Requests
         /// </summary>
         public void Send()
         {
-            coroutineFunction = routineRunner.monoBehavior.StartCoroutine(ExecuteAzureWebFunction());
+            coroutineFunction = routineRunner.monoBehavior.StartCoroutine(ExecuteAzureWebFunctionPostRequest());
             Debug.Log("AZURE FUNCTION SEND");
         }
 
-        private IEnumerator ExecuteAzureWebFunction()
+        private IEnumerator ExecuteAzureWebFunctionPostRequest()
         {
             requestTimestamp = DateTime.UtcNow;
-            using (UnityWebRequest www = UnityWebRequest.Post(postURL, form))
+            using (UnityWebRequest request = UnityWebRequest.Post(postURL, form))
             {
-                yield return www.SendWebRequest();
+                yield return request.SendWebRequest();
 
                 responseTime = (long)((DateTime.UtcNow - requestTimestamp).TotalMilliseconds);
                 response.responseTime = responseTime;
 
-                if (www.isNetworkError || www.isHttpError)
+                ProcessResponse(request);
+            }
+
+        }
+
+        private IEnumerator ExecuteAzureWebFunctionGetRequest()
+        {
+            requestTimestamp = DateTime.UtcNow;
+            using (UnityWebRequest request = UnityWebRequest.Get(postURL))
+            {
+                yield return request.SendWebRequest();
+
+                responseTime = (long)((DateTime.UtcNow - requestTimestamp).TotalMilliseconds);
+                response.responseTime = responseTime;
+
+                ProcessResponse(request);
+            }
+
+        }
+
+        private void ProcessResponse(UnityWebRequest request)
+        {
+            if (request.isNetworkError || request.isHttpError)
+            {
+                if (failureCB != null)
                 {
-                    if (failureCB != null)
-                    {
-                        response.isSuccess = false;
-                        failureCB(response);
-                    }
-                }
-                else if (successCB != null)
-                {
-                    response.isSuccess = true;
-                    successCB(response);
+                    response.isSuccess = false;
+                    failureCB(response);
                 }
             }
+            else if (successCB != null)
+            {
+                response.isSuccess = true;
+                successCB(response);
+            }
         }
+       
     }
+    
 }
 
 
