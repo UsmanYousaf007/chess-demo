@@ -54,6 +54,7 @@ namespace TurboLabz.Multiplayer
             exitTitleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
+            offerDrawButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_OFFER_DRAW_BUTTON);
         }
 
         public void OnParentShowMenu()
