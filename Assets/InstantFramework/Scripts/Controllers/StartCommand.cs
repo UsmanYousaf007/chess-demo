@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
             adsService.Init();
         }
 
-		void GameSparksAvailable(bool isAvailable)
+		void StartGameSparksAvailable(bool isAvailable)
         {
 			gameSparksAvailable = isAvailable;
             ProcessStartup();
@@ -121,12 +121,12 @@ namespace TurboLabz.InstantFramework
         void ListenForKeyEvents()
 		{
             backendService.AddChatMessageListener();
-            GS.GameSparksAvailable += GameSparksAvailable;
+            GS.GameSparksAvailable += StartGameSparksAvailable;
 		}
 
 		void RemoveListeners()
 		{
-			GS.GameSparksAvailable -= GameSparksAvailable;
+			GS.GameSparksAvailable -= StartGameSparksAvailable;
 		}
 
         IEnumerator CheckWifiHealthCR()

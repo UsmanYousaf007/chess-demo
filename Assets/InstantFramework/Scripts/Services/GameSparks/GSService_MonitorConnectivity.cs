@@ -29,11 +29,11 @@ namespace TurboLabz.InstantFramework
 
         public void MonitorConnectivity(bool enable)
         {
-            GS.GameSparksAvailable -= GameSparksAvailable;
+            GS.GameSparksAvailable -= MonitorConnectivityGameSparksAvailable;
 
             if (enable)
             {
-                GS.GameSparksAvailable += GameSparksAvailable;
+                GS.GameSparksAvailable += MonitorConnectivityGameSparksAvailable;
             }
         }
 
@@ -109,7 +109,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void GameSparksAvailable(bool isAvailable)
+        void MonitorConnectivityGameSparksAvailable(bool isAvailable)
         {
             if (isAvailable)
             {
