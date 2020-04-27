@@ -56,6 +56,7 @@ namespace TurboLabz.InstantFramework
             {
                 GSData error = logEventResponse.Errors;
                 LogUtil.Log("OnRequestFailure error: " + error.JSON + " RequestId:" + logEventResponse.RequestId, "red");
+                GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, $"{errorCode}:{error.JSON}");
                 string errorString = error.GetString("error");
 
                 if (errorString == "timeout")
@@ -76,8 +77,9 @@ namespace TurboLabz.InstantFramework
             {
                 GSData error = r.Errors;
                 LogUtil.Log("OnRequestFailure Challenge: " + error.JSON, "red");
-
+                GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, $"{errorCode}:{error.JSON}");
                 string errorString = error.GetString("error");
+
                 if (errorString == "timeout")
                 {
                     LogUtil.Log("OnRequestFailure timeout error", "red");
