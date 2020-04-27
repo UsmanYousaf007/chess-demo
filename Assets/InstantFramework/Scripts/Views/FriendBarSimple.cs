@@ -71,6 +71,7 @@ public class FriendBarSimple : MonoBehaviour
         }
 
         premiumBorder.SetActive(friend.publicProfile.isSubscriber);
+        thinking.SetActive(false);
         unblockButton.onClick.AddListener(OnUnblockButtonPressed);
     }
 

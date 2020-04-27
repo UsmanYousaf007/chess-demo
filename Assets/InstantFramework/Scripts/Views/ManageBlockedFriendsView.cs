@@ -45,26 +45,10 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(false);
         }
 
-        public void UpdateView(List<Friend> blockedFriends)
+        public void UpdateView(Dictionary<string, Friend> blockedFriends)
         {
-            var count = 0;
-            foreach (var friend in blockedFriends)
-            {
-                count++;
-
-                var bar = Instantiate(friendBarPrefab, friendBarContainer) as GameObject;
-
-                foreach (var skinLink in bar.GetComponentsInChildren<SkinLink>())
-                {
-                    skinLink.InitPrefabSkin();
-                }
-
-                var simpleFriendBar = bar.GetComponent<FriendBarSimple>();
-                simpleFriendBar.Init(friend);
-                simpleFriendBar.UpdateMasking(count == blockedFriends.Count, true);
-                simpleFriendBar.unblockButton.onClick.AddListener(() => OnUnblockButtonPressed(friend.playerId));
-                simpleFriendBar.unblockButtonLabel.text = localizationService.Get(LocalizationKey.FRIENDS_UNBLOCK);
-            }
+            ClearFriendsBarContainer();
+            AddToFriendsBarContrainer(blockedFriends);
         }
 
         private void OnSearchSubmit(string s)
@@ -100,6 +84,36 @@ namespace TurboLabz.InstantFramework
         {
             onUnblockButtonPressedSignal.Dispatch(friendId);
             audioService.PlayStandardClick();
+        }
+
+        private void ClearFriendsBarContainer()
+        {
+            foreach (Transform bar in friendBarContainer)
+            {
+                Destroy(bar.gameObject);
+            }
+        }
+
+        private void AddToFriendsBarContrainer(Dictionary<string, Friend> blockedFriends)
+        {
+            var count = 0;
+            foreach (var entry in blockedFriends)
+            {
+                count++;
+
+                var bar = Instantiate(friendBarPrefab, friendBarContainer) as GameObject;
+
+                foreach (var skinLink in bar.GetComponentsInChildren<SkinLink>())
+                {
+                    skinLink.InitPrefabSkin();
+                }
+
+                var simpleFriendBar = bar.GetComponent<FriendBarSimple>();
+                simpleFriendBar.Init(entry.Value);
+                simpleFriendBar.UpdateMasking(count == blockedFriends.Count, true);
+                simpleFriendBar.unblockButton.onClick.AddListener(() => OnUnblockButtonPressed(entry.Value.playerId));
+                simpleFriendBar.unblockButtonLabel.text = localizationService.Get(LocalizationKey.FRIENDS_UNBLOCK);
+            }
         }
     }
 }

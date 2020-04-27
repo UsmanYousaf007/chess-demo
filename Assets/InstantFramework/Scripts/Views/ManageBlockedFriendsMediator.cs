@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -41,7 +42,8 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void OnUpdateView(List<Friend> blockedFriends)
+        [ListensTo(typeof(UpdateManageBlockedFriendsViewSignal))]
+        public void OnUpdateView(Dictionary<string, Friend> blockedFriends)
         {
             view.UpdateView(blockedFriends);
         }
@@ -53,7 +55,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnSubmitSearchSignal(string filter)
         {
-
+            manageBlockedFriendsSignal.Dispatch(filter);
         }
 
         private void OnUnblockFriendSignal(string friendId)

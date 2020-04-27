@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -70,6 +71,7 @@ namespace TurboLabz.InstantFramework
             view.removeCommunityFriendSignal.AddListener(OnRemoveCommunityFriend);
             view.showChatSignal.AddListener(OnShowChat);
             view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
+            view.manageBlockedFriendsButtonClickedSignal.AddListener(OnManageBlockedFriends);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -316,6 +318,11 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "friends");
+        }
+
+        private void OnManageBlockedFriends()
+        {
+            manageBlockedFriendsSignal.Dispatch("");
         }
     }
 }

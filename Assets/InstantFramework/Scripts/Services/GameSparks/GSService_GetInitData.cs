@@ -307,15 +307,17 @@ namespace TurboLabz.InstantFramework
 
                 Friend friend = null;
 
-                if (!isBlocked)
-                {
-                    friend = LoadFriend(friendId, friendData);
-                }
-                else
-                {
-                    friend = new Friend();
-                    friend.publicProfile = new PublicProfile();
-                }
+                //if (!isBlocked)
+                //{
+                //    friend = LoadFriend(friendId, friendData);
+                //}
+                //else
+                //{
+                //    friend = new Friend();
+                //    friend.publicProfile = new PublicProfile();
+                //}
+
+                friend = LoadFriend(friendId, friendData);
 
                 targetList.Add(friendId, friend);
             }

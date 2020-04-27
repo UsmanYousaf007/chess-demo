@@ -141,7 +141,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string, bool, string> quickMatchFriendButtonClickedSignal = new Signal<string, bool, string>();
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
-
+        public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -228,7 +228,7 @@ namespace TurboLabz.InstantFramework
 
             manageBlockedPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_MANAGE_BLOCKED);
             menuButton.onClick.AddListener(() => dropDownMenu.SetActive(true));
-            manageBlockedPlayersButton.onClick.AddListener(() => navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MANAGE_BLOCKED_FRIENDS));
+            manageBlockedPlayersButton.onClick.AddListener(OnManageBlockedFriendsClicked);
         }
 
         #region InviteFriendDialog
@@ -1162,6 +1162,12 @@ namespace TurboLabz.InstantFramework
         {
             processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        private void OnManageBlockedFriendsClicked()
+        {
+            manageBlockedFriendsButtonClickedSignal.Dispatch();
+            audioService.PlayStandardClick();
         }
     }
 }
