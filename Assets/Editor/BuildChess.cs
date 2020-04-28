@@ -130,7 +130,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.preferredInstallLocation = AndroidPreferredInstallLocation.Auto;
         PlayerSettings.Android.renderOutsideSafeArea = false;
         PlayerSettings.Android.showActivityIndicatorOnLoading = AndroidShowActivityIndicatorOnLoading.DontShow;
-        PlayerSettings.Android.splashScreenScale = AndroidSplashScreenScale.Center;
+        PlayerSettings.Android.splashScreenScale = AndroidSplashScreenScale.ScaleToFill;
         PlayerSettings.Android.startInFullscreen = true;
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64 | AndroidArchitecture.ARMv7;
         // PlayerSettings.Android.targetDevice = AndroidTargetDevice.FAT; // obsolete
@@ -221,10 +221,10 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.runInBackground = true;
         PlayerSettings.scriptingRuntimeVersion = ScriptingRuntimeVersion.Latest;
         //PlayerSettings.showUnitySplashScreen = true; // obsolete
-        PlayerSettings.SplashScreen.show = true;
+        PlayerSettings.SplashScreen.unityLogoStyle = PlayerSettings.SplashScreen.UnityLogoStyle.LightOnDark;
+        PlayerSettings.SplashScreen.show = false;
         // PlayerSettings.singlePassStereoRendering = false; // depricated
         //PlayerSettings.splashScreenStyle = SplashScreenStyle.Dark; // obsolete
-        PlayerSettings.SplashScreen.unityLogoStyle = PlayerSettings.SplashScreen.UnityLogoStyle.LightOnDark;
         PlayerSettings.statusBarHidden = true;
         PlayerSettings.stereoRenderingPath = StereoRenderingPath.MultiPass;
         //PlayerSettings.stereoscopic3D = false; // obsolete
