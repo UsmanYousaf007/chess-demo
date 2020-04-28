@@ -68,7 +68,17 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_false");
+                    errorString = error.GetString("authentication");
+                    if (errorString.Equals("NOTAUTHORIZED"))
+                    {
+                        Dispatch(BackendResult.NOT_AUTHORIZED);
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "not_authorized");
+                        return;
+                    }
+                    else
+                    {
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_false");
+                    }
                 }
             }
 
@@ -89,7 +99,17 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_false");
+                    errorString = error.GetString("authentication");
+                    if (errorString.Equals("NOTAUTHORIZED"))
+                    {
+                        Dispatch(BackendResult.NOT_AUTHORIZED);
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "not_authorized");
+                        return;
+                    }
+                    else
+                    {
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_false");
+                    }
                 }
 
                 string challengeInstanceId = error.GetString("challengeInstanceId");
