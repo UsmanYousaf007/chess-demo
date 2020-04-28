@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -49,60 +50,62 @@ namespace TurboLabz.InstantFramework
 		{
             CommandBegin();
 
+            GS.Instance.GameSparksAuthenticated += StartCheckIfAuth;
+
             modelsResetSignal.Dispatch();
             modelsLoadFromDiskSignal.Dispatch();
             pauseNotificationsSignal.Dispatch(true);
 
             ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
-			audioService.Init();
+            facebookService.Init();
+            audioService.Init();
             GameAnalytics.Initialize();
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
             adsService.Init();
         }
 
-		void GameSparksAvailable(bool isAvailable)
+        private void StartCheckIfAuth(string obj)
         {
-			gameSparksAvailable = isAvailable;
-            ProcessStartup();
-		}
+            TLUtils.LogUtil.Log("StartCheckIfAuth: " + obj);
 
-		void ProcessStartup()
-		{
-            if (gameSparksAvailable)
-			{
-				if (GS.Authenticated)
-                {
-                    GotoReception();
-				}
-                // New guest account
-				else
-				{
-					backendService.AuthGuest().Then(OnAuthGuest);
-				}
-
-                adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+            if (playerModel.newUser)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
+                RemoveListeners();
+                CommandEnd();
             }
-		}
+            else
+            {
+                GotoReception();
+            }
+        }
 
-		private void OnAuthGuest(BackendResult result)
-		{
-			if (result == BackendResult.SUCCESS)
-			{
-                if (playerModel.newUser)
+        void StartGameSparksAvailable(bool isAvailable)
+        {
+            if (isAvailable == true && GS.Authenticated == false)
+            {
+                string fbAccessToken = facebookService.GetAccessToken();
+                if (fbAccessToken == null)
                 {
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
-                    RemoveListeners();
-                    CommandEnd();
+                    TLUtils.LogUtil.Log("ProcessStartup: AuthGuest");
+                    backendService.AuthGuest().Then(OnAuthComplete);
                 }
                 else
                 {
-                    GotoReception();
+                    TLUtils.LogUtil.Log("ProcessStartup: AuthFacebook");
+                    backendService.AuthFacebook(fbAccessToken, true).Then(OnAuthComplete);
                 }
             }
-            else if (result != BackendResult.CANCELED)
+
+            adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
+            HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
+        }
+
+        private void OnAuthComplete(BackendResult result)
+		{
+            if (result != BackendResult.CANCELED)
 			{
 				backendErrorSignal.Dispatch(result);
                 CommandEnd();
@@ -121,12 +124,12 @@ namespace TurboLabz.InstantFramework
         void ListenForKeyEvents()
 		{
             backendService.AddChatMessageListener();
-            GS.GameSparksAvailable += GameSparksAvailable;
+            GS.GameSparksAvailable += StartGameSparksAvailable;
 		}
 
 		void RemoveListeners()
 		{
-			GS.GameSparksAvailable -= GameSparksAvailable;
+			GS.GameSparksAvailable -= StartGameSparksAvailable;
 		}
 
         IEnumerator CheckWifiHealthCR()

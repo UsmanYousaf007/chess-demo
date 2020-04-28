@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-            facebookService.Init().Then(OnFacebookInit);
+            OnFacebookInit(FacebookResult.SUCCESS);
 
         }
 
