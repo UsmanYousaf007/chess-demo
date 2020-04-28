@@ -26,15 +26,23 @@ namespace TurboLabz.InstantFramework
         [Inject] public SyncReconnectDataSignal syncReconnectData { get; set; }
 
         private NavigatorViewId prevViewId;
+        private BackendResult authBackendResult;
 
         public void MonitorConnectivity(bool enable)
         {
-            GS.GameSparksAvailable -= MonitorConnectivityGameSparksAvailable;
+            GS.GameSparksAvailable -= MonitorGameSparksAvailable;
+            GS.Instance.GameSparksAuthenticated -= MonitorGameSparksAuthenticated;
 
             if (enable)
             {
-                GS.GameSparksAvailable += MonitorConnectivityGameSparksAvailable;
+                GS.GameSparksAvailable += MonitorGameSparksAvailable;
             }
+        }
+
+        private void MonitorGameSparksAuthenticated(string id)
+        {
+            GS.Instance.GameSparksAuthenticated -= MonitorGameSparksAuthenticated;
+            ProcessHardReconnection(BackendResult.SUCCESS);
         }
 
         void ProcessHardReconnection(BackendResult r)
@@ -109,20 +117,33 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void MonitorConnectivityGameSparksAvailable(bool isAvailable)
+        private void OnAuthComplete(BackendResult result)
+        {
+            authBackendResult = result;
+
+            if (result != BackendResult.SUCCESS)
+            {
+                GS.Instance.GameSparksAuthenticated -= MonitorGameSparksAuthenticated;
+                backendErrorSignal.Dispatch(result);
+            }
+        }
+
+        void MonitorGameSparksAvailable(bool isAvailable)
         {
             if (isAvailable)
             {
                 LogUtil.Log("GS Connected", "red");
 
+                GS.Instance.GameSparksAuthenticated += MonitorGameSparksAuthenticated;
+
                 string fbAccessToken = facebookService.GetAccessToken();
                 if (fbAccessToken == null)
                 {
-                    AuthGuest().Then(ProcessHardReconnection);
+                    AuthGuest().Then(OnAuthComplete);
                 }
                 else
                 {
-                    AuthFacebook(fbAccessToken, true).Then(ProcessHardReconnection);
+                    AuthFacebook(fbAccessToken, true).Then(OnAuthComplete);
                 }
             }
             else
