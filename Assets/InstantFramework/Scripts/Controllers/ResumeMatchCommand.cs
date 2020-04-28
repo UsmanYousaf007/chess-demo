@@ -9,6 +9,7 @@ using TurboLabz.TLUtils;
 using System;
 using TurboLabz.Multiplayer;
 using TurboLabz.CPU;
+using GameSparks.Core;
 
 namespace TurboLabz.InstantFramework
 {
@@ -44,7 +45,9 @@ namespace TurboLabz.InstantFramework
         // services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IFacebookService facebookService { get; set; }
 
+        private BackendResult authBackendResult;
 
         public override void Execute()
         {
@@ -55,8 +58,45 @@ namespace TurboLabz.InstantFramework
             getInitDataSignal.Dispatch(true);
         }
 
+        private void OnAuthComplete(BackendResult result)
+        {
+            authBackendResult = result;
+
+            if (result != BackendResult.SUCCESS)
+            {
+                GS.Instance.GameSparksAuthenticated -= ResumeGameSparksAuthenticated;
+                backendErrorSignal.Dispatch(result);
+            }
+        }
+
+        private void AuthenticateOnFail()
+        {
+            GS.Instance.GameSparksAuthenticated += ResumeGameSparksAuthenticated;
+
+            string fbAccessToken = facebookService.GetAccessToken();
+            if (fbAccessToken == null)
+            {
+                backendService.AuthGuest().Then(OnAuthComplete);
+            }
+            else
+            {
+                backendService.AuthFacebook(fbAccessToken, true).Then(OnAuthComplete);
+            }
+        }
+
+        private void ResumeGameSparksAuthenticated(string id)
+        {
+            GS.Instance.GameSparksAuthenticated -= ResumeGameSparksAuthenticated;
+            getInitDataSignal.Dispatch(true);
+        }
+
         private void OnGetInitDataFailed(BackendResult result)
         {
+            if (result == BackendResult.NOT_AUTHORIZED)
+            {
+                AuthenticateOnFail();
+            }
+            else
             if (result != BackendResult.CANCELED)
             {
                 TLUtils.LogUtil.Log("ResumeMatchCommand::OnGetInitDataFailed() GetInitData failed!");
