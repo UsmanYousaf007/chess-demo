@@ -1,4 +1,5 @@
 ﻿using strange.extensions.command.impl;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,13 +23,9 @@ namespace TurboLabz.InstantFramework
 
             if (!string.IsNullOrEmpty(filter))
             {
-                foreach (var entry in playerModel.blocked)
-                {
-                    if (!entry.Value.publicProfile.name.ToLower().StartsWith(filter.ToLower()))
-                    {
-                        blockedFriends.Remove(entry.Key);
-                    }
-                }
+                blockedFriends = blockedFriends
+                    .Where(f => f.Value.publicProfile.name.ToLower().Replace(" ", string.Empty).StartsWith(filter.ToLower().Replace(" ", string.Empty)))
+                    .ToDictionary(f => f.Key, f => f.Value);
             }
 
             updateManageBlockedFriendsViewSignal.Dispatch(blockedFriends);
