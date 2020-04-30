@@ -34,6 +34,7 @@ namespace SocialEdge.SignalRNotifications
             
             connection.Options.PingInterval = new TimeSpan(0, 0, 5000);
 
+            
             connection.AuthenticationProvider = new AzureSignalRServiceAuthenticator(connection);
             connection.OnConnected += Hub_OnConnected;
             connection.OnError += Hub_OnError;

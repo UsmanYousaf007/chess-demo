@@ -7,6 +7,7 @@
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SocialEdge.Requests
 {
@@ -73,28 +74,31 @@ namespace SocialEdge.Requests
         /// </summary>
         public override void Send()
         {
-            //LoginWithAndroidDeviceIDRequest request = new LoginWithAndroidDeviceIDRequest
-            //{
-            //    AndroidDeviceId = GetDeviceId(),
-            //    CreateAccount = true
-            //};
-
-            //LoginWithIOSDeviceIDRequest request2 = new LoginWithIOSDeviceIDRequest
-            //{
-            //    DeviceId = GetDeviceId(),
-            //    CreateAccount = true
-            //};
-
-
-
-            LoginWithCustomIDRequest hrequest = new LoginWithCustomIDRequest
+#if UNITY_ANDROID
+            LoginWithAndroidDeviceIDRequest androidRequest = new LoginWithAndroidDeviceIDRequest
             {
-
-                CustomId = "user0",
-                CreateAccount = false
+                AndroidDeviceId = GetDeviceId(),
+                CreateAccount = true
             };
+            PlayFabClientAPI.LoginWithAndroidDeviceID(androidRequest,OnSuccess,OnFailure);
 
-            PlayFabClientAPI.LoginWithCustomID(hrequest, OnSuccess, OnFailure);
+#elif UNITY_IPHONE
+            LoginWithIOSDeviceIDRequest iosRequest = new LoginWithIOSDeviceIDRequest
+            {
+                DeviceId = GetDeviceId(),
+                CreateAccount = true
+            };
+            PlayFabClientAPI.LoginWithIOSDeviceID(iosRequest, OnSuccess, OnFailure);
+#endif            
+
+            //LoginWithCustomIDRequest hrequest = new LoginWithCustomIDRequest
+            //{
+
+            //    CustomId = "user0",
+            //    CreateAccount = false
+            //};
+
+            //PlayFabClientAPI.LoginWithCustomID(hrequest, OnSuccess, OnFailure);
         }
 
         private void OnSuccess(LoginResult result)
@@ -109,10 +113,31 @@ namespace SocialEdge.Requests
             actionFailure?.Invoke(response);
         }
 
+        //used this https://github.com/HuaYe1975/Unity-iOS-DeviceID
         private static string GetDeviceId()
         {
-            return SystemInfo.deviceUniqueIdentifier;
+            string deviceId=string.Empty;
+            //#if UNITY_ANDROID
+            //    deviceId = SystemInfo.deviceUniqueIdentifier;
+            //#endif
+
+            //#if UNITY_IPHONE
+                DeviceIDManager.deviceIDHandler += (string deviceid) => {
+
+                    if (!string.IsNullOrEmpty(deviceid))
+                    {
+                        deviceId = deviceid;
+                    }
+            
+                };
+                DeviceIDManager.GetDeviceID();
+            //#endif
+
+
+            return deviceId;
+	    }
+
+        
         }
 
     }
-}
