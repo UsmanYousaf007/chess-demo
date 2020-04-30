@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
+        [Inject] public UnblockFriendSignal unblockFriendSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -60,7 +61,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnUnblockFriendSignal(string friendId)
         {
-
+            unblockFriendSignal.Dispatch(friendId);
         }
     }
 }
