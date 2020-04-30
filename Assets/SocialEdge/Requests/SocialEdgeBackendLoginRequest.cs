@@ -6,6 +6,7 @@
 
 using PlayFab;
 using PlayFab.ClientModels;
+using UnityEngine;
 
 namespace SocialEdge.Requests
 {
@@ -48,6 +49,16 @@ namespace SocialEdge.Requests
             Base(this);
         }
 
+
+        /// <summary>
+        /// Gets display name and avatar from server side
+        /// </summary>
+        public SocialEdgeBackendLoginRequest GetBasicInfo()
+        {
+            /*Server side call here to get random display name and avatar*/
+            return this;
+        }
+
         /// <summary>
         /// Set login username
         /// </summary>
@@ -62,7 +73,27 @@ namespace SocialEdge.Requests
         /// </summary>
         public override void Send()
         {
-            LoginWithCustomIDRequest hrequest = new LoginWithCustomIDRequest { CustomId = "GettingStartedGuide", CreateAccount = true };
+            //LoginWithAndroidDeviceIDRequest request = new LoginWithAndroidDeviceIDRequest
+            //{
+            //    AndroidDeviceId = GetDeviceId(),
+            //    CreateAccount = true
+            //};
+
+            //LoginWithIOSDeviceIDRequest request2 = new LoginWithIOSDeviceIDRequest
+            //{
+            //    DeviceId = GetDeviceId(),
+            //    CreateAccount = true
+            //};
+
+
+
+            LoginWithCustomIDRequest hrequest = new LoginWithCustomIDRequest
+            {
+
+                CustomId = "user0",
+                CreateAccount = false
+            };
+
             PlayFabClientAPI.LoginWithCustomID(hrequest, OnSuccess, OnFailure);
         }
 
@@ -77,5 +108,11 @@ namespace SocialEdge.Requests
             response.BuildFailure(error);
             actionFailure?.Invoke(response);
         }
+
+        private static string GetDeviceId()
+        {
+            return SystemInfo.deviceUniqueIdentifier;
+        }
+
     }
 }

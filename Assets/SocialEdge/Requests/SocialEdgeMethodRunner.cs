@@ -21,7 +21,7 @@ public class SocialEdgeMethodRunner
     public void SocialEdge_Login_Success()
     {
         Action<SocialEdgeBackendLoginResponse> target = LoginSuccessCallBack;
-        new SocialEdgeBackendLoginRequest().SetSuccessCallback(target)
+        new SocialEdgeBackendLoginRequest().SetSuccessCallback(target).GetBasicInfo()
                  .Send();
     }
 
