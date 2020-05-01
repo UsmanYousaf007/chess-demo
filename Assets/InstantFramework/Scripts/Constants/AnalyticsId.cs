@@ -85,26 +85,6 @@ namespace TurboLabz.InstantFramework
         bot_quick_match_won,
         bot_quick_match_lost,
 
-        //Ads
-        ads_rewarded_request,
-        ads_rewarded_success,
-        ads_rewarded_show_new,
-        ads_rewarded_available_new,
-        ads_rewarded_failed_new,
-        ads_rewarded_clicked,
-        ads_rewarded_not_available,
-        ads_rewarded_cap_reached,
-        ads_rewarded_interstitial_show,
-        ads_rewarded_interstitial_not_available,
-        ads_rewarded_skipped,
-
-        ad_requested,
-        ad_available,
-        ad_not_available,
-        //ads_interstitial_success,
-        ad_shown,
-        ad_failed,
-
 
         tap_pow_move_meter,
         cancel_pow_move_meter,
@@ -156,9 +136,21 @@ namespace TurboLabz.InstantFramework
         played_online_match,
         match_timer_runs_out,
 
+
+        //Ads
+        ad_requested,
+        ad_not_available,
+        ad_available,
+        ad_shown,
+        ad_failed,
+        ad_player_shutdown,
+        ad_cap_reached,
+        ad_skipped,
+        ad_clicked,
+        ad_completed,
+
         //apps flyer events for HUUUGE
         launch,
-        ad_clicked,
         ad_displayed,
         video_started,
         video_finished,

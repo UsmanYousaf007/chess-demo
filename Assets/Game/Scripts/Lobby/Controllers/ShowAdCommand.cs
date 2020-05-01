@@ -76,20 +76,12 @@ namespace TurboLabz.InstantGame
                     Retain();
                     if (adsService.IsInterstitialAvailable())
                     {
-
-                        if (playerModel.isPregameAd)
-                        {
-                            analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.interstitial_pregame);
-                        }
-                        else
-                        {
-                            analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.interstitial_endgame);
-                        }
+                        analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
 
                         preferencesModel.globalAdsCount++;
                         preferencesModel.interstitialAdsCount++;
 
-                        if (playerModel.isPregameAd)
+                        if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
                         {
                             preferencesModel.pregameAdsPerDayCount++;
                         }
@@ -97,7 +89,7 @@ namespace TurboLabz.InstantGame
                         var promise = adsService.ShowInterstitial();
                         if (promise != null)
                         {
-                            if (playerModel.isPregameAd)
+                            if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
                             {
                                 promise.Then(LoadGameStartSignal);
                             }
@@ -112,27 +104,11 @@ namespace TurboLabz.InstantGame
                         {
                             Release();
                         }
-
-                        if (playerModel.isPregameAd)
-                        {
-                            analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.interstitial_pregame);
-                        }
-                        else
-                        {
-                            analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.interstitial_endgame);
-                        }
                     }
                     else
                     {
+                        analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
                         ShowPromotion();
-                        if (playerModel.isPregameAd)
-                        {
-                            analyticsService.Event(AnalyticsEventId.ad_not_available, AnalyticsContext.interstitial_pregame);
-                        }
-                        else
-                        {
-                            analyticsService.Event(AnalyticsEventId.ad_not_available, AnalyticsContext.interstitial_endgame);
-                        }
                     }
 
                     break;
@@ -217,6 +193,7 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotion()
         {
+            //analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.interstitial_replacement);
             LoadLobby();
             //promotionAdPromise = new Promise<AdsResult>();
             //promotionAdPromise.Then(ClaimReward);
@@ -245,7 +222,9 @@ namespace TurboLabz.InstantGame
 
         private void LoadGameStartSignal(AdsResult result = AdsResult.FINISHED)
         {
-            playerModel.isPregameAd = false;
+            playerModel.adContext = AnalyticsContext.unknown;
+
+
             preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             if (resultAdsVO.actionCode == FindMatchAction.ActionCode.RandomLong.ToString())
             {

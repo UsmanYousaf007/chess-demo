@@ -192,6 +192,7 @@ namespace TurboLabz.CPU
                 vo.rewardType = GSBackendKeys.ClaimReward.NONE;
                 vo.challengeId = "";
                 vo.playerWins = false;
+                playerModel.adContext = AnalyticsContext.interstitial_endgame;
                 showAdSignal.Dispatch(vo);
 
                 showAdOnBack = false;

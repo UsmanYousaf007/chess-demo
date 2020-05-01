@@ -269,7 +269,7 @@ namespace TurboLabz.InstantFramework
                     view.preferencesModel.sessionsBeforePregameAdCount >= view.adsSettingsModel.sessionsBeforePregameAd &&
                     view.preferencesModel.pregameAdsPerDayCount <= view.adsSettingsModel.maxPregameAdsPerDay)
                 {
-                    playerModel.isPregameAd = true;
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
                     vo.adsType = AdType.Interstitial;
                     vo.isRanked = isRanked;
@@ -302,7 +302,7 @@ namespace TurboLabz.InstantFramework
                     view.preferencesModel.sessionsBeforePregameAdCount >= view.adsSettingsModel.sessionsBeforePregameAd &&
                     view.preferencesModel.pregameAdsPerDayCount <= view.adsSettingsModel.maxPregameAdsPerDay)
                 {
-                    playerModel.isPregameAd = true;
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
                     vo.adsType = AdType.Interstitial;
                     vo.actionCode = actionCode;

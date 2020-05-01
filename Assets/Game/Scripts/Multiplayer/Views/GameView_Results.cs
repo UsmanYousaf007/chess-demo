@@ -416,6 +416,7 @@ namespace TurboLabz.Multiplayer
             vo.rewardType = adRewardType;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.rewarded;
             showRewardedAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
@@ -466,6 +467,7 @@ namespace TurboLabz.Multiplayer
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.interstitial_endgame;
             showAdSignal.Dispatch(vo);
 
             if (isLongPlay)

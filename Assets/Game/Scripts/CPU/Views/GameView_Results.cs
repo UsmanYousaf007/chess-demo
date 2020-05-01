@@ -403,6 +403,7 @@ namespace TurboLabz.CPU
             vo.rewardType = adRewardType;
             vo.challengeId = "";
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.rewarded;
             showRewardedAdSignal.Dispatch(vo);
 
            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
@@ -419,6 +420,7 @@ namespace TurboLabz.CPU
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = "";
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.interstitial_endgame;
             showAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);

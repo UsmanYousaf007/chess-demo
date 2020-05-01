@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
         public long subscriptionExipryTimeStamp { get; set; }
         public string renewDate { get; set; }
         public string subscriptionType { get; set; }
-        public bool isPregameAd { get; set; }
+        public AnalyticsContext adContext { get; set; }
 
         public string name
         {
@@ -131,7 +131,7 @@ namespace TurboLabz.InstantFramework
             rewardPointsRequired = 0;
             rewardShortCode = "";
             rewardQuantity = 0;
-            isPregameAd = false;
+            adContext = AnalyticsContext.unknown;
         }
 
 		public bool OwnsVGood(string key)
