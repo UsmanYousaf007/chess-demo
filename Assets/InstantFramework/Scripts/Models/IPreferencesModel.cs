@@ -49,5 +49,8 @@ namespace TurboLabz.InstantFramework
         int gameFinishedCount { get; set; }
         DateTime appsFlyerLastLaunchTime { get; set; }
         int sessionCount { get; set; }
+        int sessionsBeforePregameAdCount { get; set; }
+        int pregameAdsPerDayCount { get; set; }
+        DateTime intervalBetweenPregameAds { get; set; }
     }
 }

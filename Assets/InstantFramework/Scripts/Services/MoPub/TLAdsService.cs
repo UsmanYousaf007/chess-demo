@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         private IPromise<AdsResult> rewardedAdPromiseOnSuccess;
         private bool bannerDisplay = false;
@@ -21,7 +22,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             HAds.Interstitial.Fetch();
-            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
+            analyticsService.Event(AnalyticsEventId.ad_requested);
             HAds.Rewarded.Fetch();
             analyticsService.Event(AnalyticsEventId.ads_rewarded_request);
 
@@ -75,7 +76,7 @@ namespace TurboLabz.InstantFramework
         void OnInterstitailEnded(IAdCallbackData data)
         {
             HAds.Interstitial.Fetch();
-            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
+            analyticsService.Event(AnalyticsEventId.ad_requested);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_finished.ToString(), "monetization", "interstitial", data.ProviderId);
             rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
         }
@@ -143,7 +144,14 @@ namespace TurboLabz.InstantFramework
             if (!availableFlag)
             {
                 HAds.Interstitial.Fetch();
-                analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
+                if (playerModel.isPregameAd)
+                {
+                    analyticsService.Event(AnalyticsEventId.ad_requested, AnalyticsContext.interstitial_pregame);
+                }
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.ad_requested, AnalyticsContext.interstitial_endgame);
+                }
             }
 
             return availableFlag &&

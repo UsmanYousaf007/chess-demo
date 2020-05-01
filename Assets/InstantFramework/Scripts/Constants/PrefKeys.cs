@@ -44,6 +44,11 @@ namespace TurboLabz.InstantGame
         public const string TIME_AT_SUBSCRIPTION_DLG_SHOWN = "timeAtSubscriptionDlgShown";
         public const string AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT = "autoSubscriptionDlgShownCount";
 
+        //Pregame ads
+        public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";
+        public const string PREGAME_ADS_PER_DAY_COUNT = "pregameAdsPerDayCount";
+        public const string INTERVAL_BETWEEN_PREGAME_ADS = "intervalBetweenPregameAds";
+
         //for appsflyer events for HUUUGE
         public const string VIDEO_FINISHED_COUNT = "videoFinishedCount";
         public const string COUNTINOUS_PLAY_COUNT = "continousPlayCount";

@@ -29,6 +29,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }

@@ -97,10 +97,13 @@ namespace TurboLabz.InstantFramework
         ads_rewarded_interstitial_show,
         ads_rewarded_interstitial_not_available,
         ads_rewarded_skipped,
-        ads_interstitial_request,
+
+        ad_requested,
+        ad_available,
+        ad_not_available,
         //ads_interstitial_success,
-        ads_interstitial_show,
-        ads_interstitial_failed,
+        ad_shown,
+        ad_failed,
 
 
         tap_pow_move_meter,
@@ -190,7 +193,12 @@ namespace TurboLabz.InstantFramework
         tenmin_match,
         return_from_background,
         cpu_match,
-        matchmaking
+        matchmaking,
+        rewarded,
+        interstitial_pregame,
+        interstitial_endgame,
+        interstitial_replacement,
+        interstitial_capped
     }
 
     public enum AnalyticsParameter

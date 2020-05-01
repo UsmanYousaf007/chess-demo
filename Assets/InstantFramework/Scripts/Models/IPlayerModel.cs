@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         long subscriptionExipryTimeStamp { get; set; }
         string renewDate { get; set; }
         string subscriptionType { get; set; }
+        bool isPregameAd { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
