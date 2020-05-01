@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
         tap_pow_hindsight,
         v1_spot_purchase_complete,
         store_purchase_complete,
-        ad_rewarded_button_click,
+        ad_user_requested,
         ads_skip_reward,
         ads_friends_back,
         session_fb,
@@ -189,8 +189,8 @@ namespace TurboLabz.InstantFramework
         rewarded,
         interstitial_pregame,
         interstitial_endgame,
-        interstitial_replacement,
-        interstitial_capped
+        interstitial_rewarded_failed_replacement,
+        interstitial_rewarded_capped_replacement
     }
 
     public enum AnalyticsParameter

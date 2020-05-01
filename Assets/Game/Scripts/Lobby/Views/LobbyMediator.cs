@@ -306,6 +306,7 @@ namespace TurboLabz.InstantFramework
                     vo.isRanked = isRanked;
                     vo.friendId = playerId;
                     view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
                 }
@@ -341,6 +342,7 @@ namespace TurboLabz.InstantFramework
                     vo.friendId = playerId;
                     vo.isRanked = isRanked;
                     view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
                 }
@@ -394,6 +396,7 @@ namespace TurboLabz.InstantFramework
                     ResultAdsVO vo = new ResultAdsVO();
                     vo.adsType = AdType.Interstitial;
                     view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
                 }
@@ -417,6 +420,7 @@ namespace TurboLabz.InstantFramework
                     vo.adsType = AdType.Interstitial;
                     vo.actionCode = actionCode;
                     view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
                 }

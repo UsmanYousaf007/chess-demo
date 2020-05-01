@@ -406,10 +406,10 @@ namespace TurboLabz.CPU
             playerModel.adContext = AnalyticsContext.rewarded;
             showRewardedAdSignal.Dispatch(vo);
 
-           // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
+            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             //backToLobbySignal.Dispatch();
 
-            analyticsService.Event(AnalyticsEventId.ad_rewarded_button_click, AnalyticsContext.computer_match);         
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
         }
 
         public void OnResultsSkipRewardButtonClicked()
@@ -426,7 +426,7 @@ namespace TurboLabz.CPU
             //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
             //backToLobbySignal.Dispatch();
 
-            analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
+            //analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
         }
 
         private void OnResultsClosed()

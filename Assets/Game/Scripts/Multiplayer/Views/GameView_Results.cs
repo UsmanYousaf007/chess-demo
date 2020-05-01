@@ -421,18 +421,20 @@ namespace TurboLabz.Multiplayer
 
             //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
 
-            if (isLongPlay)
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+
+            /*if (isLongPlay)
             {
                 //backToLobbySignal.Dispatch();
                 //refreshLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ad_rewarded_button_click, AnalyticsContext.long_match);
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.rewarded);
             }
             else
             {
                 //backToLobbySignal.Dispatch();
                 //refreshLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ad_rewarded_button_click, AnalyticsContext.quick_match);
-            }
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.rewarded);
+            }*/
         }
 
         private void OnResultsDeclinedButtonClicked()
@@ -470,14 +472,14 @@ namespace TurboLabz.Multiplayer
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
             showAdSignal.Dispatch(vo);
 
-            if (isLongPlay)
+            /*if (isLongPlay)
             { 
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.long_match);
             }
             else
             {
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.quick_match);
-            }
+            }*/
         }
 
 

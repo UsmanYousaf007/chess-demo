@@ -193,6 +193,7 @@ namespace TurboLabz.CPU
                 vo.challengeId = "";
                 vo.playerWins = false;
                 playerModel.adContext = AnalyticsContext.interstitial_endgame;
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 showAdSignal.Dispatch(vo);
 
                 showAdOnBack = false;

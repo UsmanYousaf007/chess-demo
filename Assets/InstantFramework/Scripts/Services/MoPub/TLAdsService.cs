@@ -142,13 +142,13 @@ namespace TurboLabz.InstantFramework
             if (!isNotCapped)
             {
                 analyticsService.Event(AnalyticsEventId.ad_cap_reached, AnalyticsContext.rewarded);
-                playerModel.adContext = AnalyticsContext.interstitial_capped;
+                playerModel.adContext = AnalyticsContext.interstitial_rewarded_capped_replacement;
             }
 
 
             if(!availableFlag)
             {
-                playerModel.adContext = AnalyticsContext.interstitial_replacement;
+                playerModel.adContext = AnalyticsContext.interstitial_rewarded_failed_replacement;
             }
 
             return availableFlag && isNotCapped;
