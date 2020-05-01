@@ -409,7 +409,7 @@ namespace TurboLabz.CPU
            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             //backToLobbySignal.Dispatch();
 
-            analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);         
+            analyticsService.Event(AnalyticsEventId.ad_rewarded_button_click, AnalyticsContext.computer_match);         
         }
 
         public void OnResultsSkipRewardButtonClicked()

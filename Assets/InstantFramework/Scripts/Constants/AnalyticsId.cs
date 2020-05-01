@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
         tap_pow_hindsight,
         v1_spot_purchase_complete,
         store_purchase_complete,
-        ads_collect_reward,
+        ad_rewarded_button_click,
         ads_skip_reward,
         ads_friends_back,
         session_fb,

@@ -425,13 +425,13 @@ namespace TurboLabz.Multiplayer
             {
                 //backToLobbySignal.Dispatch();
                 //refreshLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
+                analyticsService.Event(AnalyticsEventId.ad_rewarded_button_click, AnalyticsContext.long_match);
             }
             else
             {
                 //backToLobbySignal.Dispatch();
                 //refreshLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
+                analyticsService.Event(AnalyticsEventId.ad_rewarded_button_click, AnalyticsContext.quick_match);
             }
         }
 
