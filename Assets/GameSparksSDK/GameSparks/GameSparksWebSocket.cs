@@ -50,7 +50,7 @@ namespace GameSparks
 			ws.OnError += OnError;
 
 			ws.StartPingThread = true;
-			ws.PingFrequency = 1000; // TODO: GS default was 30 seconds!!!
+			ws.PingFrequency = 30 * 1000; // TODO: GS default was 30 seconds!!!
 
 			ws.Open();
 		}
