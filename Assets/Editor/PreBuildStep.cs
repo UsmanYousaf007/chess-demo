@@ -24,8 +24,11 @@ public class PreBuildStep : IPreprocessBuild
 				Directory.CreateDirectory(TMProRunTimeDestinationPath);
 			}
 
-			string sourceFilePath = Path.Combine(TMProRunTimeSourcePath, TMProRunTimeFileNames[i]);
-			string destinationFilePath = Path.Combine(TMProRunTimeDestinationPath, TMProRunTimeFileNames[i]);
+            string TMProRunTimeSourcePathA = new string(TMProRunTimeSourcePath.ToCharArray());
+            string TMProRunTimeDestinationPathA = new string(TMProRunTimeDestinationPath.ToCharArray());
+
+            string sourceFilePath = Path.Combine(TMProRunTimeSourcePathA, TMProRunTimeFileNames[i]);
+			string destinationFilePath = Path.Combine(TMProRunTimeDestinationPathA, TMProRunTimeFileNames[i]);
 			if (File.Exists(destinationFilePath))
 			{
 				File.Delete(destinationFilePath);
