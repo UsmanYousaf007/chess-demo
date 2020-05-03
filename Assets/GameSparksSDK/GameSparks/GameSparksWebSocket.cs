@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
-using WebSocket4Net;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using BestHTTP;
+using BestHTTP.WebSocket;
 
 namespace GameSparks
 {
@@ -17,99 +20,133 @@ namespace GameSparks
 
 		protected WebSocket ws;
 
-		public static System.Net.EndPoint Proxy{get; set;}
+		public static System.Net.EndPoint Proxy { get; set; }
 
-		private void Initialize(String url, 
+		private void Initialize(String url,
 			Action onClose,
 			Action onOpen,
-			Action<String> onError){
+			Action<String> onError)
+		{
 
 			this.onOpen = onOpen;
 			this.onError = onError;
 			this.onClose = onClose;
 
-			ws = new WebSocket (url);
+			ws = new WebSocket(new Uri(url));
 
 			if (Proxy != null)
 			{
-				ws.Proxy = new SuperSocket.ClientEngine.Proxy.HttpConnectProxy(Proxy);
+				//ws.Proxy = new SuperSocket.ClientEngine.Proxy.HttpConnectProxy(Proxy);
+				ws.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
+
 			}
 
 #if !__IOS__
-			ws.NoDelay = true;
+			//ws.NoDelay = true;
 #endif
 
-			ws.Opened += new EventHandler(webSocketClient_Opened);
-			ws.Closed += new EventHandler(webSocketClient_Closed);
-			ws.Error += new EventHandler<SuperSocket.ClientEngine.ErrorEventArgs>(webSocketClient_Error);
-			ws.EnableAutoSendPing = true;
-			ws.AutoSendPingInterval = 30;
+			ws.OnOpen += OnOpen;
+			ws.OnClosed += OnClosed;
+			ws.OnError += OnError;
+
+			ws.StartPingThread = true;
+			ws.PingFrequency = 1000; // TODO: GS default was 30 seconds!!!
+
+			ws.Open();
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Initialize(String url, 
+		void OnOpen(WebSocket ws)
+		{
+            onOpen?.Invoke();
+        }
+
+		void OnMessageReceived(WebSocket ws, string message)
+		{
+            onMessage?.Invoke(message);
+        }
+
+		void OnBinaryMessage(WebSocket ws, byte[] data)
+		{
+            onBinaryMessage?.Invoke(data);
+        }
+
+		void OnClosed(WebSocket ws, UInt16 code, string message)
+		{
+            onClose?.Invoke();
+        }
+
+		void OnError(WebSocket ws, string error)
+		{
+            onError?.Invoke(error);
+        }
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void Initialize(String url,
 			Action<String> onMessage,
 			Action onClose,
 			Action onOpen,
-			Action<String> onError){
+			Action<String> onError)
+		{
 
-			Initialize (url, onClose, onOpen, onError);
+			Initialize(url, onClose, onOpen, onError);
 
 			this.onMessage = onMessage;
 
-			ws.MessageReceived += new EventHandler<MessageReceivedEventArgs>(webSocketClient_MessageReceived);
+			ws.OnMessage = OnMessageReceived;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public void Initialize(String url, 
+		public void Initialize(String url,
 			Action<byte[]> onBinaryMessage,
 			Action onClose,
 			Action onOpen,
-			Action<String> onError){
+			Action<String> onError)
+		{
 
-			Initialize (url, onClose, onOpen, onError);
+			Initialize(url, onClose, onOpen, onError);
 
 			this.onBinaryMessage = onBinaryMessage;
 
-			ws.DataReceived += new EventHandler<DataReceivedEventArgs>(webSocketClient_BinaryMessageReceived);
+			ws.OnBinary = OnBinaryMessage;
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Open()
-        {
-            GameSparks.Core.GameSparksUtil.Log("Opening Websocket");
-            try
-            {
-                ws.Open();
-            }
-            catch (Exception e)
-            {
-                GameSparks.Core.GameSparksUtil.LogException(e);
-            }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public void Open()
+		{
+			GameSparks.Core.GameSparksUtil.Log("Opening Websocket");
+			try
+			{
+				ws.Open();
+			}
+			catch (Exception e)
+			{
+				GameSparks.Core.GameSparksUtil.LogException(e);
+			}
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Close()
-        {
-			Terminate ();
-            GameSparks.Core.GameSparksUtil.Log("Closing Websocket");
-            try
-            {
-				ws.Close();
-            }
-            catch (Exception e)
-            {
-                GameSparks.Core.GameSparksUtil.LogException(e);
-            }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public void Close()
+		{
+			Terminate();
+			GameSparks.Core.GameSparksUtil.Log("Closing Websocket");
+			try
+			{
+				ws.Close(1000, "Bye! Socket closed!");
+			}
+			catch (Exception e)
+			{
+				GameSparks.Core.GameSparksUtil.LogException(e);
+			}
+		}
 
 		/// <summary>
 		/// 
@@ -119,13 +156,13 @@ namespace GameSparks
 			GameSparks.Core.GameSparksUtil.Log("Closing Websocket");
 			try
 			{
-				ws.Opened -= webSocketClient_Opened;
-				ws.Closed -= webSocketClient_Closed;
-				ws.Error -= webSocketClient_Error;
-				ws.MessageReceived -= webSocketClient_MessageReceived;
-				ws.DataReceived -= webSocketClient_BinaryMessageReceived;
-			
-				ws.CloseWithoutHandshake();
+				ws.OnOpen -= OnOpen;
+				ws.OnClosed -= OnClosed;
+				ws.OnError -= OnError;
+				ws.OnMessage -= OnMessageReceived;
+				ws.OnBinary -= OnBinaryMessage;
+
+				ws.Close();
 
 				if (onClose != null)
 				{
@@ -138,20 +175,20 @@ namespace GameSparks
 			}
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Send(String request)
-        {
-            try
-            {
-                ws.Send(request);
-            }
-            catch (Exception e)
-            {
-                GameSparks.Core.GameSparksUtil.LogException(e);
-            }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public void Send(String request)
+		{
+			try
+			{
+				ws.Send(request);
+			}
+			catch (Exception e)
+			{
+				GameSparks.Core.GameSparksUtil.LogException(e);
+			}
+		}
 
 		public void SendBinary(byte[] request, int offset, int length)
 		{
@@ -161,7 +198,11 @@ namespace GameSparks
 
 				list.Add(new ArraySegment<byte>(request, offset, length));
 
-				ws.Send(list);
+				var binFormatter = new BinaryFormatter();
+				var mStream = new MemoryStream();
+				binFormatter.Serialize(mStream, list);
+
+				ws.Send(mStream.GetBuffer());
 			}
 			catch (Exception e)
 			{
@@ -169,57 +210,29 @@ namespace GameSparks
 			}
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-		public GameSparksWebSocketState State{
-			
-            get{
-			
-                try{
-                    switch (ws.State) {
-				        case WebSocket4Net.WebSocketState.Closed:
-					        return GameSparksWebSocketState.Closed;
-				        case WebSocket4Net.WebSocketState.Closing:
-					        return GameSparksWebSocketState.Closing;
-				        case WebSocket4Net.WebSocketState.Connecting:
-					        return GameSparksWebSocketState.Connecting;
-				        case WebSocket4Net.WebSocketState.Open:
-					        return GameSparksWebSocketState.Open;
-				    }
-                }
-                catch{}
-                return GameSparksWebSocketState.None;
-			}
-		}
-
-		private void webSocketClient_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e){
-			if (onError != null) {
-				onError (e.Exception.Message);
-			}
-		}
-
-		private void webSocketClient_Opened(object sender, EventArgs e){
-			if (onOpen != null) {
-				onOpen ();
-			}
-		}
-
-		private void webSocketClient_Closed(object sender, EventArgs e){
-			if (onClose != null) {
-				onClose ();
-			}
-		}
-
-		private void webSocketClient_MessageReceived(object sender, MessageReceivedEventArgs e){
-			if (onMessage != null) {
-				onMessage (e.Message);
-			}
-		}
-
-		private void webSocketClient_BinaryMessageReceived(object sender, DataReceivedEventArgs e){
-			if (onBinaryMessage != null) {
-				onBinaryMessage (e.Data);
+		/// <summary>
+		/// 
+		/// </summary>
+		public GameSparksWebSocketState State
+		{
+			get
+			{
+				try
+				{
+					switch (ws.State)
+					{
+						case WebSocketStates.Closed:
+							return GameSparksWebSocketState.Closed;
+						case WebSocketStates.Closing:
+							return GameSparksWebSocketState.Closing;
+						case WebSocketStates.Connecting:
+							return GameSparksWebSocketState.Connecting;
+						case WebSocketStates.Open:
+							return GameSparksWebSocketState.Open;
+					}
+				}
+				catch { }
+				return GameSparksWebSocketState.None;
 			}
 		}
 	}
