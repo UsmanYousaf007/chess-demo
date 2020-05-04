@@ -591,10 +591,10 @@ namespace TurboLabz.InstantFramework
             friendBar.isRanked = vo.isRanked;
             friendBar.UpdateStatus();
 
-            //if (recentlyCompleted.Contains(friendBar))
-            //{
-            friendBar.removeCommunityFriendButton.gameObject.SetActive(false);
-            //}
+            if (recentlyCompleted.Contains(friendBar))
+            {
+                friendBar.removeCommunityFriendButton.gameObject.SetActive(true);
+            }
 
             // Set the timer clocks
             if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||
@@ -1250,7 +1250,7 @@ namespace TurboLabz.InstantFramework
                     {
                         recentlyCompleted[i].gameObject.SetActive(true);
                         recentlyCompleted[i].transform.SetSiblingIndex(index);
-                        //recentlyCompleted[i].removeCommunityFriendButton.gameObject.SetActive(false);
+                        recentlyCompleted[i].removeCommunityFriendButton.gameObject.SetActive(true);
                         index++;
                         recentlyCompleted[i].UpdateMasking((maxCount == (i + 1) || recentlyCompleted.Count == (i + 1)), false);
                     }
