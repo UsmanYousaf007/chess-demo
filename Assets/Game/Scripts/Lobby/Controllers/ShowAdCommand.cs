@@ -108,7 +108,13 @@ namespace TurboLabz.InstantGame
                     else
                     {
                         analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
-                        ShowPromotion();
+                        if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                        {
+                            LoadGameStartSignal();
+                        }else
+                        {
+                            ShowPromotion();
+                        }
                     }
 
                     break;
