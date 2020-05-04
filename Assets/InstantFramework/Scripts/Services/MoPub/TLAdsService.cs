@@ -1,9 +1,10 @@
-﻿using HUF.Ads.Implementation;
-using strange.extensions.promise.api;
+﻿using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
-using HUF.Ads.API;
 using System.Collections.Generic;
+using HUF.Ads.Runtime.API;
+using HUF.Ads.Runtime.Implementation;
+using HUF.AdsAdMobMediation.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -186,7 +187,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowTestSuite()
         {
-            HUF.AdsAdMobMediation.API.HAdsAdMobMediation.ShowTestSuite();
+            HAdsAdMobMediation.ShowTestSuite();
         }
     }
 }

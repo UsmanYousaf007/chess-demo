@@ -4,11 +4,21 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using HUF.Utils.Runtime.Extensions;
+using UnityEngine;
 
-namespace HUF.Utils
+namespace HUF.Utils.Runtime
 {
     public static class HUFJson
     {
+        public static List<T> DeserializeList<T>( string json )
+        {
+            if ( json.IsNullOrEmpty() || json == "[]" )
+                return new List<T>();
+
+            return ListParser<T>.Parse( json );
+        }
+
         public static object Deserialize(string json)
         {
             if (json == null)
@@ -20,6 +30,22 @@ namespace HUF.Utils
         public static string Serialize(object obj)
         {
             return HUFJson.Serializer.Serialize(obj);
+        }
+
+        static class ListParser<T>
+        {
+            public static List<T> Parse( string jsonList )
+            {
+                string data = $"{{\"{nameof(ListWrapper.list)}\":{jsonList}}}";
+                var wrapped = JsonUtility.FromJson<ListWrapper>( data );
+                return wrapped.list;
+            }
+
+            [Serializable]
+            struct ListWrapper
+            {
+                public List<T> list;
+            }
         }
 
         private sealed class Parser : IDisposable

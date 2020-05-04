@@ -1,9 +1,9 @@
-using HUF.Utils.Assets.Editor;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Attributes;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.Attributes.Editor
+namespace HUF.Utils.Editor.Attributes
 {
     [CustomPropertyDrawer(typeof(ConfigAutoInitWarningAttribute))]
     public class ConfigAutoInitWarningDrawer : PropertyDrawer

@@ -9,8 +9,8 @@ features on *iOS* and *Android*:
 | Firebase Analytics                 | FirebaseAnalytics.unitypackage    |
 | Firebase Authentication            | FirebaseAuth.unitypackage         |
 | Firebase Crashlytics               | FirebaseCrashlytics.unitypackage  |
-| Firebase Realtime Database         | FirebaseDatabase.unitypackage     |
 | Firebase Dynamic Links             | FirebaseDynamicLinks.unitypackage |
+| Cloud Firestore                    | FirebaseFirestore.unitypackage    |
 | Firebase Functions                 | FirebaseFunctions.unitypackage    |
 | Firebase Instance ID               | FirebaseInstanceId.unitypackage   |
 | Firebase Messaging                 | FirebaseMessaging.unitypackage    |
@@ -37,6 +37,7 @@ desktop builds on Windows, OS X, and Linux:
 |:----------------------------------:|:---------------------------------:|
 | Firebase Authentication            | FirebaseAuth.unitypackage         |
 | Firebase Realtime Database*        | FirebaseDatabase.unitypackage     |
+| Cloud Firestore                    | FirebaseFirestore.unitypackage    |
 | Firebase Functions                 | FirebaseFunctions.unitypackage    |
 | Firebase Remote Config             | FirebaseRemoteConfig.unitypackage |
 | Firebase Storage                   | FirebaseStorage.unitypackage      |
@@ -162,11 +163,21 @@ Support
 
 Release Notes
 -------------
+### 6.12.0
+  - Overview
+    - Added experimental support for Cloud Firestore SDK.
+  - Changes
+    - Firestore: Experimental release of Firestore is now available on all
+      supported platforms.
+
 ### 6.11.0
   - Overview
     - Updated dependencies, changed minimum Xcode, and fixed an issue in
       Database handling Auth token revocation.
   - Changes
+    - General (Editor): Added FirebaseAuth manifest file to
+      FirebaseDatabase.unitypackage and FirebaseStorage.unitypackage for better
+      package management through Play Services Resolver.
     - General (iOS): Minimum Xcode version is now 10.3.
     - General: When creating a FirebaseApp, the ProjectId from the default
       FirebaseApp is used if one is not provided.

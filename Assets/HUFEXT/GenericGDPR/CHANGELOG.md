@@ -1,3 +1,15 @@
+## [2.2.0] - 2020-03-30
+### Added
+- Added link for advertising network companies
+- Added Initialization method with prefab as parameter
+
+### Changed
+- Dispose method will be called only if DestroyOnAccept flag is enabled
+
+## [2.1.1] - 2020-03-30
+### Changed
+- fixed namespaces
+
 ## [2.1.0] - 2020-03-20
 ### Added
 - Custom prefs key for personalized ads.

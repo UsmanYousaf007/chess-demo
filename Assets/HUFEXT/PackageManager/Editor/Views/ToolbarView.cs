@@ -1,181 +1,167 @@
 ﻿using System;
-using HUFEXT.PackageManager.Editor.API.Views;
-using HUFEXT.PackageManager.Editor.Utils;
+using HUFEXT.PackageManager.Editor.Models;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
-using static HUFEXT.PackageManager.Editor.API.Data.PackageManagerState;
-using Cache = HUFEXT.PackageManager.Editor.Utils.Cache;
-
 
 namespace HUFEXT.PackageManager.Editor.Views
 {
-    public class ToolbarView : IPackageManagerView
+    public class ToolbarView : PackageManagerView
     {
-        private PackageManagerWindow window;
+        const string SEARCH_FIELD_NAME = "HUF_PM_Toolbar_Search";
 
-        public PackageManagerWindow Window => window;
+        readonly GUIContent copyButton;
+        readonly GUIContent refreshButton;
+        readonly GUIContent settingsButton;
 
-        public event UnityAction OnRefreshRequest;
-        //public event UnityAction OnUpdatePackagesRequest;
-        public event UnityAction<bool> OnGenerateBuildReportRequest;
-        public event UnityAction OnContactWithSupportRequest;
-        public event UnityAction OnInvalidateTokenRequest;
-
-        #region Content
-        private GUIContent copyButtonContent;
-        private GUIContent refreshButtonContent;
-        private GUIContent settingsButtonContent;
-        private const string SEARCH_FIELD_NAME = "HUF_PM_Toolbar_Search";
-        #endregion
-        
-        public void Initialize( PackageManagerWindow parent )
+        public ToolbarView( PackageManagerWindow window ) : base(window)
         {
-            window = parent;
-            
-            copyButtonContent = new GUIContent()
-            {
-                image = EditorGUIUtility.IconContent( "d_TreeEditor.Duplicate" ).image,
-                tooltip = "Copy your developer ID to clipboard."
-            };
-            
-            refreshButtonContent = new GUIContent()
-            {
-                image = EditorGUIUtility.IconContent("d_Refresh" ).image,
-                tooltip = "Fetch packages info from remote server."
-            };
-
-            settingsButtonContent = new GUIContent()
-            {
-                image = EditorGUIUtility.IconContent( "_Popup" ).image,
-                tooltip = "Settings for package manager."
-            };
+            copyButton = EditorGUIUtility.IconContent( "d_TreeEditor.Duplicate", "Copy your developer ID to clipboard." );
+            refreshButton = EditorGUIUtility.IconContent( "d_Refresh", "Fetch packages info from remote server." );
+            settingsButton = EditorGUIUtility.IconContent( "_Popup", "Settings for package manager." );
         }
-        
-        public void Repaint()
+
+        protected override void OnGUI()
         {
             using( new GUILayout.HorizontalScope( EditorStyles.toolbar ) )
             {
-                DrawDeveloperInfo();
-                DrawSortingTypeDropdown();
-                DrawCategoryTypeDropdown();
-                DrawRefreshLabel();
+                DrawCommonControls();
                 GUILayout.FlexibleSpace();
                 DrawSearchBar();
                 DrawSettingsDropdown();
             }
         }
         
-        void DrawDeveloperInfo()
+        void DrawCommonControls()
         {
-            GUILayout.Label( $"Developer ID: {Window.state.developerId}", EditorStyles.toolbarButton );
-            
-            if ( GUILayout.Button( copyButtonContent, EditorStyles.toolbarButton ) )
+            GUILayout.Label( $"Developer ID: {window.state.developerId}" );
+                
+            if ( GUILayout.Button( copyButton, EditorStyles.toolbarButton ) )
             {
-                GUIUtility.systemCopyBuffer = Window.state.developerId;
-                Debug.Log( $"Your developer ID was copied to clipboard: {GUIUtility.systemCopyBuffer}" );
+                window.Enqueue( ViewEvent.CopyDeveloperID );
             }
-        }
 
-        void DrawSortingTypeDropdown()
-        {
-            Window.state.sortingType = (SortingType) EditorGUILayout.EnumPopup( Window.state.sortingType,
-                                                                     EditorStyles.toolbarDropDown,
-                                                                     GUILayout.Width( 110f ) );
-        }
+            EditorGUI.BeginChangeCheck();
+            
+            window.state.sortingType = ( Models.PackageSortingType ) EditorGUILayout.EnumPopup( window.state.sortingType,
+                                                                                         EditorStyles.toolbarDropDown,
+                                                                                         GUILayout.Width( 110f ) );
+                
+            window.state.categoryType = ( Models.PackageCategoryType ) EditorGUILayout.EnumPopup( window.state.categoryType,
+                                                                                                  EditorStyles.toolbarDropDown,
+                                                                                                  GUILayout.Width( 110f ) );
 
-        void DrawCategoryTypeDropdown()
-        {
-            Window.state.categoryType = ( CategoryType ) EditorGUILayout.EnumPopup( Window.state.categoryType,
-                                                                                    EditorStyles.toolbarDropDown,
-                                                                                    GUILayout.Width( 60f ) );
-        }
-        
-        void DrawRefreshLabel()
-        {
-            GUILayout.Label( $"Last update: {Window.state.lastFetchDate}", EditorStyles.toolbarButton );
-            if ( GUILayout.Button( refreshButtonContent, EditorStyles.toolbarButton ) )
+            if ( EditorGUI.EndChangeCheck() )
             {
-                OnRefreshRequest?.Invoke();
+                window.Enqueue( ViewEvent.RefreshListView );
+            }
+
+            if ( Core.Packages.UpdateInProgress )
+            {
+                GUILayout.Label( "Update in progress..." );
+            }
+            else
+            {
+                GUILayout.Label( $"Last update: {window.state.lastFetchDate}" );
+            }
+            
+            if ( GUILayout.Button( refreshButton, EditorStyles.toolbarButton ) )
+            {
+                window.Enqueue( ViewEvent.RefreshPackages );
             }
         }
         
         void DrawSettingsDropdown()
         {
-            if ( GUILayout.Button( settingsButtonContent, EditorStyles.toolbarDropDown ) )
+            if ( GUILayout.Button( settingsButton, EditorStyles.toolbarDropDown ) )
             {
-                GenericMenu menu = new GenericMenu();
+                var menu = new GenericMenu();
 
-                menu.AddItem( new GUIContent("Show preview packages"), Window.state.showPreviewPackages, () =>
-                {
-                    Window.state.showPreviewPackages = !Window.state.showPreviewPackages;
-                } );
-
-                /*menu.AddItem( new GUIContent( "Update packages..." ), false, () =>
-                {
-                    OnUpdatePackagesRequest?.Invoke();
-                } );*/
-
-                menu.AddSeparator( "" );
-                
-                menu.AddItem( new GUIContent( "Generate HUF report/Full Log" ), false, () =>
-                {
-                    OnGenerateBuildReportRequest?.Invoke( true );
-                } );
-                
-                menu.AddItem( new GUIContent( "Generate HUF report/Only HUF Packages" ), false, () =>
-                {
-                    OnGenerateBuildReportRequest?.Invoke( false );
-                } );
-                
-                menu.AddItem( new GUIContent( "Help" ), false, () =>
-                {
-                    OnContactWithSupportRequest?.Invoke();
-                } );
+                RegisterMenuItem( ref menu, "Show preview packages", ViewEvent.ShowPreviewPackages, window.state.showPreviewPackages );
                 
                 menu.AddSeparator( "" );
                 
-                menu.AddItem( new GUIContent("Clear packages cache"), false, () =>
-                {
-                    Cache.RemoveFromCache( Registry.Keys.PACKAGES_CACHE_LIST_KEY );
-                    PackageManagerWindow.SetDirtyFlag();
-                });
+                RegisterMenuItem( ref menu, "Update packages...", ViewEvent.ShowUpdateWindow );
+
+                menu.AddSeparator( "" );
+                
+                RegisterMenuItem( ref menu, "Generate report/Only HUF", ViewEvent.GenerateReportHUF );
+                RegisterMenuItem( ref menu, "Generate report/Full", ViewEvent.GenerateReportFull );
+                RegisterMenuItem( ref menu, "Help", ViewEvent.ContactSupport );
+
+                menu.AddSeparator( "" );
+                
+                //RegisterMenuItem( ref menu, "Force resolve", ViewEvent.ForceResolvePackages );
+                RegisterMenuItem( ref menu, "Clear cache", ViewEvent.ClearCache );
                 
                 menu.AddSeparator( "" );
                 
-                menu.AddItem( new GUIContent( "Invalidate Token" ), false, () =>
-                {
-                    OnInvalidateTokenRequest?.Invoke();
-                } );
+                menu.AddDisabledItem( new GUIContent( $"Current channel: {window.state.channel.ToString()}" ) );
+                RegisterMenuItem( ref menu,
+                                  window.state.channel == PackageChannel.Stable
+                                      ? "Switch to Preview"
+                                      : "Switch to Stable", ViewEvent.TogglePreviewOrStableChannel );
+
+                menu.AddSeparator( "" );
+
+                RegisterMenuItem( ref menu, "Revoke HUF license", ViewEvent.RevokeLicense );
+                
+#if HPM_DEV_MODE
+                AddDebugOptions( menu );
+#endif
                 
                 menu.ShowAsContext();
             }
         }
-        
+
+        void RegisterMenuItem( ref GenericMenu menu, string label, ViewEvent ev, bool enabled = false )
+        {
+            menu.AddItem( new GUIContent( label ), enabled, () => window.Enqueue( ev ) );
+        }
+
         void DrawSearchBar()
         {
-            if ( Window == null )
-            {
-                return;
-            }
-
-            using ( new GUILayout.HorizontalScope( EditorStyles.toolbar, GUILayout.Width( 300f ) ) )
+            using ( new GUILayout.HorizontalScope( EditorStyles.toolbar ) )
             {
                 GUI.SetNextControlName( SEARCH_FIELD_NAME );
                 
-                var style = GUI.skin.FindStyle( "ToolbarSeachTextField" ) ?? new GUIStyle( "toolbarTextField" );
-                Window.SearchText = GUILayout.TextField( Window.SearchText, style,GUILayout.Width( 300f ) );
+                window.state.searchText = GUILayout.TextField( window.state.searchText,
+                                                         GUI.skin.FindStyle( "ToolbarSeachTextField" ) ??
+                                                         new GUIStyle( "toolbarTextField" ),
+                                                         GUILayout.Width( 200f ) );
                 
-                var focused = String.Compare( GUI.GetNameOfFocusedControl(),
-                                              SEARCH_FIELD_NAME,
-                                              StringComparison.Ordinal ) == 0;
-                
-                if ( focused && Event.current.type == EventType.MouseDown )
+                if ( string.Compare( GUI.GetNameOfFocusedControl(), SEARCH_FIELD_NAME, StringComparison.Ordinal ) == 0 && 
+                     Event.current.type == EventType.MouseDown )
                 {
                     GUI.FocusControl( null );
-                    Window.Repaint();
+                    window.Repaint();
                 }
             }
+        }
+
+        void AddDebugOptions( GenericMenu menu )
+        {
+            menu.AddSeparator( "" );
+            menu.AddDisabledItem( new GUIContent( "Development Options" ) );
+            menu.AddItem( new GUIContent("Ignore version tags"), window.state.ignoreVersionTags, () =>
+            {
+                window.state.ignoreVersionTags = !window.state.ignoreVersionTags;
+                window.state.Save();
+                Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand { downloadLatest = false } );
+            } );
+            menu.AddItem( new GUIContent("Enable debug logs"), window.state.enableDebugLogs, () =>
+            {
+                window.state.enableDebugLogs = !window.state.enableDebugLogs;
+                window.state.Save();
+                if ( window.state.enableDebugLogs )
+                {
+                    Core.Registry.Push( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS );
+                }
+                else
+                {
+                    Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS );
+                }
+            } );
+            menu.AddItem( new GUIContent("Show policy window"), window.state.ignoreVersionTags, PolicyWindow.Init );
         }
     }
 }

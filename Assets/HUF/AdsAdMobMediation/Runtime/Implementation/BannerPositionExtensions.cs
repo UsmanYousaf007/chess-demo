@@ -1,14 +1,14 @@
 using System;
 using GoogleMobileAds.Api;
-using HUF.Ads.API;
+using HUF.Ads.Runtime.API;
 
-namespace HUF.AdsAdMobMediation.Implementation
+namespace HUF.AdsAdMobMediation.Runtime.Implementation
 {
     public static class BannerPositionExtensions
     {
-        public static AdPosition ToAdMobBannerPosition(this BannerPosition position)
+        public static AdPosition ToAdMobBannerPosition( this BannerPosition position )
         {
-            switch (position)
+            switch ( position )
             {
                 case BannerPosition.TopLeft:
                     return AdPosition.TopLeft;
@@ -26,8 +26,9 @@ namespace HUF.AdsAdMobMediation.Implementation
                     return AdPosition.BottomRight;
                 default:
                 {
-                    throw new ArgumentOutOfRangeException(nameof(position), position, 
-                        $"Given banner position {position} is not defined");
+                    throw new ArgumentOutOfRangeException( nameof(position),
+                        position,
+                        $"Given banner position {position} is not defined" );
                 }
             }
         }

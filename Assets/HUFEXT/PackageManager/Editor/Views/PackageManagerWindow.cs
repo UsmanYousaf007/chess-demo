@@ -1,257 +1,398 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using HUFEXT.PackageManager.Editor.API.Controllers;
-using HUFEXT.PackageManager.Editor.API.Data;
-using HUFEXT.PackageManager.Editor.Implementation.Local.Services;
-using HUFEXT.PackageManager.Editor.Implementation.Remote.Auth;
-using HUFEXT.PackageManager.Editor.Utils;
-using HUFEXT.PackageManager.Editor.Utils.Helpers;
 using UnityEditor;
 using UnityEngine;
-using Cache = HUFEXT.PackageManager.Editor.Utils.Cache;
 
 namespace HUFEXT.PackageManager.Editor.Views
 {
-    public class PackageManagerWindow : EditorWindow
+    public enum ViewEvent
     {
-        [SerializeField] public PackageManagerState state;
-        [SerializeField] public PackageController controller;
+        Undefined,
+        CopyDeveloperID,
+        RefreshListView,
+        RefreshPackages,
+        ShowPreviewPackages,
+        ShowUpdateWindow,
+        ForceResolvePackages,
+        ClearCache,
+        GenerateReportHUF,
+        GenerateReportFull,
+        ContactSupport,
+        RevokeLicense,
+        SelectPackage,
+        InstallPackage,
+        RemovePackage,
+        ChangePackagesChannel,
+        TogglePreviewOrStableChannel,
+        ChangeDevelopmentEnvPath,
+        DisableDeveloperMode,
+    }
+    
+    public class PackageManagerWindow : EditorWindow, IHasCustomMenu
+    {
+        static bool isDirty = false;
         
-        private ToolbarView toolbarView;
-        private PackageListView packageListView;
-        private PackageView packageView;
-        private static int nextUpdateDelayInSeconds = 4 * 60 * 60;
-            
-        public static bool IsOpened = false;
-        public string SearchText { get; set; }
+        readonly Queue<ViewEvent> eventsQueue = new Queue<ViewEvent>();
+        readonly Dictionary<ViewEvent, object> eventsData = new Dictionary<ViewEvent, object>();
+        ViewEvent currentEvent = ViewEvent.Undefined;
+
+        readonly List<PackageManagerView> views = new List<PackageManagerView>();
+
+        [SerializeField] 
+        public Models.PackageManagerState state;
         
-        [MenuItem( Registry.MenuItems.PACKAGE_MANAGER )]
+        [MenuItem( Models.Keys.MENU_ITEM_OPEN_PACKAGE_MANAGER, false, 0 )]
         static void Init()
         {
-            var token = Token.LoadExistingToken();
-            if ( token != null && token.IsValidated )
+            if ( Models.Token.IsValid )
             {
-                PlayerPrefs.DeleteKey( Registry.Keys.PACKAGE_MANAGER_FORCE_CLOSE );
-                
+                Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_FORCE_CLOSE );
+
                 var window = GetWindow<PackageManagerWindow>( false );
-                if ( window != null )
+                if ( window == null )
                 {
-                    window.titleContent = new GUIContent()
-                    {
-                        text = " HUF Package Manager",
-                        image = HCommonGUI.Icons.WindowIcon
-                    };
-                    window.minSize = new Vector2( 800f, 250f );
-                    window.Show();
+                    return;
                 }
+                
+                window.titleContent = new GUIContent()
+                {
+                    text = " HUF Package Manager",
+                    image = Utils.HGUI.Icons.WindowIcon
+                };
+                window.minSize = new Vector2( 900f, 300f );
+                window.Show();
             }
             else
             {
-                //EditorApplication.ExecuteMenuItem( Registry.MenuItems.POLICY );
                 PolicyWindow.Init();
             }
-        }
-        
-        public static void SetDirtyFlag()
-        {
-            PlayerPrefs.SetInt( Registry.Keys.PACKAGE_MANAGER_DIRTY_FLAG, 1 );
-        }
-
-        public static void SetForceCloseFlag()
-        {
-            PlayerPrefs.SetInt( Registry.Keys.PACKAGE_MANAGER_FORCE_CLOSE, 1 );
         }
         
         private void OnEnable()
         {
             if ( state == null )
             {
-                state = new PackageManagerState();
-            }
-
-            if( string.IsNullOrEmpty( state.developerId ) )
-            {
+                state = new Models.PackageManagerState();
                 state.Load();
             }
 
-            if( controller == null )
+            // Order is important, it determine how items will be repainted.
+            if ( views.Count == 0 )
             {
-                controller = PackageController.CreateOrLoadFromCache();
-                controller.FetchLocalPackages();
-                controller.FetchRemotePackages();
+                views.Add( new ToolbarView( this ) );
+                views.Add( new DeveloperView( this ) );
+                views.Add( new PackageListView( this ) );
+                views.Add( new PackageView( this ) );
             }
 
-            InitializeViews();
-            
-            controller.OnPackageListChanged += OnPackagesFetchHandler;
+            isDirty = false;
+        }
 
-            IsOpened = true;
+        public void AddItemsToMenu(GenericMenu menu)
+        {
+            if ( Core.Packages.Installing )
+            {
+                menu.AddItem( new GUIContent( "HUF/Fix Me" ), false, () => Core.Packages.Installing = false );
+            }
+        }
+        
+        public static void RefreshViews()
+        {
+            isDirty = true;
+        }
+        
+        public void Enqueue( ViewEvent ev, object data = null )
+        {
+            if ( eventsQueue.Contains( ev ) )
+            {
+                Debug.Log( $"Duplicated event: {ev.ToString()}" );
+                return;
+            }
             
-            EditorApplication.update += OnEditorUpdate;
+            eventsQueue.Enqueue( ev );
+            if ( data != null )
+            {
+                eventsData[ev] = data;
+            }
+            
+            views.ForEach( view => view.OnEventEnter( ev ) );
         }
 
         private void OnDisable()
         {
-            EditorApplication.update -= OnEditorUpdate;
-            controller.OnPackageListChanged -= OnPackagesFetchHandler;
             state.Save();
-            IsOpened = false;
         }
         
-        public void SelectPackage( PackageManifest manifest )
-        {
-            state.selectedPackage = manifest;
-            packageView?.FetchOtherVersions();
-        }
-
-        void OnPackagesFetchHandler( PackageController.UpdateType updateType )
-        {
-            state.lastFetchDate = DateTime.Now.ToString( CultureInfo.CurrentCulture );
-            state.nextFetchTimestamp = GetTimestamp( nextUpdateDelayInSeconds );
-            
-            if ( state.selectedPackage != null )
-            {
-                var package = controller.Packages.Find( ( x ) => x.name == state.selectedPackage.name );
-                SelectPackage( package );
-            }
-            
-            Repaint();
-        }
-
-        void InitializeViews()
-        {
-            if ( toolbarView == null )
-            {
-                toolbarView = new ToolbarView();
-                toolbarView.Initialize( this );
-                toolbarView.OnRefreshRequest += OnRefresh;
-                //toolbarView.OnUpdatePackagesRequest += PackageUpdateWindow.Init;
-                toolbarView.OnGenerateBuildReportRequest += OnGenerateBuildReportHandler;
-                toolbarView.OnContactWithSupportRequest += OnHelpRequestHandler;
-                toolbarView.OnInvalidateTokenRequest += OnInvalidateTokenHandler;
-            }
-
-            if ( packageListView == null )
-            {
-                packageListView = new PackageListView();
-                packageListView.Initialize( this );
-            }
-
-            if ( packageView == null )
-            {
-                packageView = new PackageView();
-                packageView.Initialize( this );
-                packageView.OnInstallPackageRequest += controller.InstallPackageRequest;
-                packageView.OnRemovePackageRequest += ( name ) =>
-                {
-                    controller?.RemovePackageRequest( name );
-                    state.selectedPackage = null;
-                };
-            }
-        }
-
         void OnGUI()
         {
-            toolbarView?.Repaint();
-            using( new GUILayout.HorizontalScope() )
+            if ( views == null || views.Count < 4 )
             {
-                packageListView?.Repaint();
-                packageView?.Repaint();
+                return;
             }
-        }
-
-        void OnEditorUpdate()
-        {
-            if( PlayerPrefs.HasKey( Registry.Keys.PACKAGE_MANAGER_DIRTY_FLAG ) )
+            
+            using ( new EditorGUI.DisabledScope( Core.Packages.UpdateInProgress || Core.Packages.Installing ) )
             {
-                controller?.Refresh();
-                PlayerPrefs.DeleteKey( Registry.Keys.PACKAGE_MANAGER_DIRTY_FLAG );
-            }
-
-            if ( PlayerPrefs.HasKey( Registry.Keys.PACKAGE_MANAGER_FORCE_CLOSE ) )
-            {
-                PlayerPrefs.DeleteKey( Registry.Keys.PACKAGE_MANAGER_FORCE_CLOSE );
-                OnInvalidateTokenHandler();
-            }
-
-            if ( state != null )
-            {
-                if( state.selectedPackage == null && controller?.Packages.Count > 0 )
+                views[0]?.Repaint();
+                views[1]?.Repaint();
+                using ( new GUILayout.HorizontalScope() )
                 {
-                    SelectPackage( controller.Packages[0] );
-                }
-
-                if ( GetTimestamp() >= state.nextFetchTimestamp )
-                {
-                    controller?.Refresh();
-                    state.nextFetchTimestamp = GetTimestamp( nextUpdateDelayInSeconds );
+                    views[2]?.Repaint();
+                    views[3]?.Repaint();
                 }
             }
         }
-
-        #region ToolbarViewBindings
-
-        private void OnRefresh()
+        
+        void OnInspectorUpdate()
         {
-            state.lastFetchDate = "Updating...";
-            controller.Refresh( PackageController.RefreshType.Clear | PackageController.RefreshType.FetchAll );
+            currentEvent = eventsQueue.Count > 0 ? eventsQueue.Dequeue() : ViewEvent.Undefined;
+
+            if ( currentEvent != ViewEvent.Undefined )
+            {
+                HandleEvents( currentEvent );
+            }
+
+            if ( isDirty )
+            {
+                views.ForEach( view => view.RefreshView( currentEvent ) );
+                isDirty = false;
+                Repaint();
+            }
+            
+            if ( Core.Registry.IsSet( Models.Keys.PACKAGE_MANAGER_LAST_FETCH_KEY ) )
+            {
+                Core.Registry.Load( Models.Keys.PACKAGE_MANAGER_LAST_FETCH_KEY, out state.lastFetchDate );
+                Core.Registry.Remove( Models.Keys.PACKAGE_MANAGER_LAST_FETCH_KEY );
+            }
+            
+            if( Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_DIRTY_FLAG ) )
+            {
+                Core.Registry.Load( Models.Keys.CACHE_LAST_FETCH_TIME_KEY, out state.lastFetchDate );
+            }
+
+            if ( !Models.Token.Exists )
+            {
+                Close();
+            }
+            
+            if ( Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_FORCE_CLOSE ) )
+            {
+                Close();
+            }
         }
 
-        void OnGenerateBuildReportHandler( bool fullLog )
+        void HandleEvents( ViewEvent ev )
         {
-            if ( fullLog )
+            switch ( ev )
             {
-                BuildReportPreprocess.GenerateBuildInfo( ( report ) =>
+                case ViewEvent.CopyDeveloperID:
                 {
-                    var serializedReport = BuildReportPreprocess.SerializeReport( report );
-                    Debug.Log( "Build report: \n" + serializedReport );
-                    GUIUtility.systemCopyBuffer = serializedReport;
-                    Debug.Log( "Build report copied to clipboard." );
-                } );
-            }
-            else
-            {
-                List<string> packageLog = new List<string>();
-                new LocalPackagesService().RequestPackagesList( string.Empty, ( localPackages ) =>
+                    GUIUtility.systemCopyBuffer = state.developerId;
+                    Debug.Log( $"Your developer ID was copied to clipboard: {GUIUtility.systemCopyBuffer}" );
+                    break;
+                }
+
+                case ViewEvent.RefreshListView:
+                {
+                    isDirty = true;
+                    break;
+                }
+                
+                case ViewEvent.RefreshPackages:
+                {
+                    Core.Packages.Installing = true;
+                    Repaint();
+                    
+                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
+                    {
+                        OnComplete = ( result, serializedData ) =>
+                        {
+                            //state.lastFetchDate = DateTime.Now.ToString( CultureInfo.InvariantCulture );
+                            Core.Packages.Installing = false;
+                            isDirty = true;
+                        }
+                    });
+                    break;
+                }
+
+                case ViewEvent.ShowPreviewPackages:
+                {
+                    state.showPreviewPackages = !state.showPreviewPackages;
+                    isDirty = true;
+                    break;
+                }
+
+                case ViewEvent.ShowUpdateWindow:
+                {
+                    Views.PackageUpdateWindow.Init();
+                    break;
+                }
+
+                case ViewEvent.GenerateReportHUF:
                 {
                     var builder = new StringBuilder();
-                    foreach ( var package in localPackages )
+                    foreach ( var package in Core.Packages.Local )
                     {
                         builder.Append( $"{package.displayName} {package.version}\n" );
                     }
-
                     var log = builder.ToString();
                     Debug.Log( $"HUF Packages installed in {PlayerSettings.applicationIdentifier}: \n" + log );
                     GUIUtility.systemCopyBuffer = log;
-                    Debug.Log( "Build report copied to clipboard." );
-                } );
+                    break;
+                }
+
+                case ViewEvent.GenerateReportFull:
+                {
+                    Utils.BuildReportPreprocess.GenerateBuildInfo( report =>
+                    {
+                        var serializedReport = Utils.BuildReportPreprocess.SerializeReport( report );
+                        Debug.Log( "Build report: \n" + serializedReport );
+                        GUIUtility.systemCopyBuffer = serializedReport;
+                        Debug.Log( "Build report copied to clipboard." );
+                    } );
+                    break;
+                }
+                
+                case ViewEvent.ContactSupport:
+                {
+                    Application.OpenURL( Models.Keys.HELPSHIFT_URL_KEY + state.developerId );
+                    break;
+                }
+
+                case ViewEvent.SelectPackage:
+                {
+                    Core.Command.Execute( new Commands.Processing.SelectPackageCommand( this, eventsData[ev] as string )
+                    {
+                        OnComplete = ( result, data ) =>
+                        {
+                            if ( result )
+                            {
+                                RefreshViews();
+                            }
+                        }
+                    } );
+                    break;
+                }
+
+                case ViewEvent.InstallPackage:
+                {
+                    Core.Packages.Installing = true;
+                    Repaint();
+                    
+                    var package = eventsData[ev] as Models.PackageManifest;
+                    if ( package == null )
+                    {
+                        break;
+                    }
+
+                    var useLatestVersion = package.huf.status == Models.PackageStatus.UpdateAvailable ||
+                                           package.huf.status == Models.PackageStatus.ForceUpdate ||
+                                           package.huf.status == Models.PackageStatus.Migration;
+                    
+                    Core.Command.Enqueue( new Commands.Processing.PackageResolveCommand( package, useLatestVersion ) );
+                    Core.Command.Enqueue( new Commands.Processing.PackageLockCommand() );
+                    Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
+                    break;
+                }
+
+                case ViewEvent.RemovePackage:
+                {
+                    Core.Packages.Installing = true;
+                    Repaint();
+                    
+                    var package = eventsData[ev] as Models.PackageManifest;
+                    if ( package == null )
+                    {
+                        break;
+                    }
+                    
+                    Core.Command.Enqueue( new Commands.Processing.RemovePackageCommand
+                    {
+                        path = package.huf.path,
+                        OnComplete = ( result, data ) =>
+                        {
+                            Core.Packages.Installing = false;
+                            EditorUtility.ClearProgressBar();
+                            AssetDatabase.Refresh();
+                            isDirty = true;
+                        }
+                    });
+                    break;
+                }
+
+                case ViewEvent.ClearCache:
+                {
+                    if ( Directory.Exists( Models.Keys.CACHE_DIRECTORY ) )
+                    {
+                        Directory.Delete( Models.Keys.CACHE_DIRECTORY, true );
+                    }
+                    Core.Packages.RemoveLock();
+                    break;
+                }
+
+                case ViewEvent.ChangePackagesChannel:
+                {
+                    Core.Packages.Channel = state.channel;
+                    Enqueue( ViewEvent.RefreshPackages );
+                    break;
+                }
+
+                case ViewEvent.TogglePreviewOrStableChannel:
+                {
+                    if ( state.channel == Models.PackageChannel.Stable )
+                    {
+                        state.channel = Models.PackageChannel.Preview;
+                    }
+                    else
+                    {
+                        state.channel = Models.PackageChannel.Stable;
+                    }
+                    Enqueue( ViewEvent.ChangePackagesChannel );
+                    break;
+                }
+                
+                case ViewEvent.ChangeDevelopmentEnvPath:
+                {
+                    var temp = EditorUtility.OpenFolderPanel( "Change development registry", eventsData[ev] as string, "" );
+                    if ( temp != string.Empty )
+                    {
+                        Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, temp );
+                        Enqueue( ViewEvent.RefreshPackages );
+                    }
+                    break;
+                }
+
+                case ViewEvent.DisableDeveloperMode:
+                {
+                    Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS );
+                    Core.Packages.Channel = Models.PackageChannel.Stable;
+                    state.channel = Models.PackageChannel.Stable;
+                    
+                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
+                    {
+                        downloadLatest = true,
+                        OnComplete = ( result, serializedData ) =>
+                        {
+                            var group = BuildPipeline.GetBuildTargetGroup( EditorUserBuildSettings.activeBuildTarget );
+                            var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup( group );
+                            var replace = defines.Replace( "HPM_DEV_MODE", "" );
+                            PlayerSettings.SetScriptingDefineSymbolsForGroup( group, replace );
+                        }
+                    });
+                    break;
+                }
+
+                case ViewEvent.RevokeLicense:
+                {
+                    if ( EditorUtility.DisplayDialogComplex( "Are you sure?", "Cache data and your HUF license will be removed from this machine.", "OK", "Cancel", "" ) == 0 )
+                    {
+                        Models.Token.Invalidate();
+                    }
+                    break;
+                }
             }
-        }
 
-        void OnHelpRequestHandler()
-        {
-            Application.OpenURL( Registry.Urls.CONTACT_SUPPORT_URL + state.developerId );
+            eventsData.Remove( ev );
         }
-
-        void OnInvalidateTokenHandler()
-        {
-            state.Invalidate();
-            Cache.RemoveFromCache( Registry.Keys.PACKAGES_CACHE_LIST_KEY );
-            controller?.Refresh( PackageController.RefreshType.Clear );
-            Close();
-        }
-
-        private int GetTimestamp( int delay = 0 )
-        {
-            return ( int ) ( DateTime.UtcNow
-                                     .AddSeconds( delay )
-                                     .Subtract( new DateTime( 1970, 1, 1 ) ) )
-                                     .TotalSeconds;
-        }
-        #endregion
     }
 }

@@ -55,6 +55,7 @@
 -keep class com.inmobi.sdk.InMobiSdk.** { *; }
 -keep class jp.co.imobile.sdkads.android.** { *; }
 -keep class jp.co.imobile.sdkads.android.ImobileSdkAd.** { *; }
+-dontwarn com.inmobi.**
 
 #Unity
 -keep class com.unity.** { *; }

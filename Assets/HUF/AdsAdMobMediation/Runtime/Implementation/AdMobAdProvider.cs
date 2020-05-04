@@ -1,25 +1,21 @@
 using System.Threading;
-using HUF.Ads.API;
+using HUF.Ads.Runtime.API;
 using HUF.Utils.Runtime.Logging;
-using UnityEngine;
 
-namespace HUF.AdsAdMobMediation.Implementation
+namespace HUF.AdsAdMobMediation.Runtime.Implementation
 {
     public abstract class AdMobAdProvider : IAdProvider
     {
-        
-        
         public bool IsInitialized => baseProvider.IsInitialized;
         public string ProviderId => baseProvider.ProviderId;
 
         protected readonly AdMobProviderBase baseProvider;
         protected readonly HLogPrefix logPrefix;
         protected SynchronizationContext syncContext;
-        
-        protected AdMobProviderConfig Config => baseProvider.Config;
-        
 
-        protected AdMobAdProvider(AdMobProviderBase baseProvider)
+        protected AdMobProviderConfig Config => baseProvider.Config;
+
+        protected AdMobAdProvider( AdMobProviderBase baseProvider )
         {
             this.baseProvider = baseProvider;
             logPrefix = new HLogPrefix( GetType().Name );
@@ -28,9 +24,9 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         public bool Init()
         {
-            if (IsInitialized)
+            if ( IsInitialized )
             {
-                HLog.LogWarning(logPrefix, "Already initialized!");
+                HLog.LogWarning( logPrefix, "Already initialized!" );
                 return false;
             }
 
@@ -38,9 +34,9 @@ namespace HUF.AdsAdMobMediation.Implementation
             return true;
         }
 
-        public void CollectSensitiveData(bool consentStatus)
+        public void CollectSensitiveData( bool consentStatus )
         {
-            baseProvider.CollectSensitiveData(consentStatus);
+            baseProvider.CollectSensitiveData( consentStatus );
         }
     }
 }

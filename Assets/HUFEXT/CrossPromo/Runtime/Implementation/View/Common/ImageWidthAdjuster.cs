@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HUFEXT.CrossPromo.Implementation.View.Common
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.Common
 {
     [RequireComponent(typeof(HorizontalOrVerticalLayoutGroup)), ExecuteAlways]
     public class ImageWidthAdjuster : MonoBehaviour

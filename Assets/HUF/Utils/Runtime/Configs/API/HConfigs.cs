@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using HUF.Utils.Configs.Implementation;
+using HUF.Utils.Runtime.Configs.Implementation;
 using JetBrains.Annotations;
 
-namespace HUF.Utils.Configs.API
+namespace HUF.Utils.Runtime.Configs.API
 {
     public static class HConfigs
     {

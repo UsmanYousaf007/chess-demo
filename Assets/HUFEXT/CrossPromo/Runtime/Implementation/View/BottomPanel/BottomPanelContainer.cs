@@ -1,8 +1,8 @@
-using HUFEXT.CrossPromo.API;
-using HUFEXT.CrossPromo.Implementation.View.Common;
+using HUFEXT.CrossPromo.Runtime.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.Common;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.BottomPanel
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel
 {
     public class BottomPanelContainer : MonoBehaviour
     {
@@ -24,10 +24,8 @@ namespace HUFEXT.CrossPromo.Implementation.View.BottomPanel
         {
             if (logoImageViewView == null)
                 return;
-
+            
             var sprite = Resources.Load<Sprite>(filePath);
-            Debug.Log(filePath);
-            Debug.Log(sprite);
             logoImageViewView.SetSprite(sprite);
         }
 

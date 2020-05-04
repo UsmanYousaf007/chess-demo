@@ -21,9 +21,8 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
-using HUFEXT.CrossPromo.API;
 using strange.extensions.promise.api;
-using HUFEXT.CrossPromo.Implementation;
+using HUFEXT.CrossPromo.Runtime.API;
 
 namespace TurboLabz.CPU
 {

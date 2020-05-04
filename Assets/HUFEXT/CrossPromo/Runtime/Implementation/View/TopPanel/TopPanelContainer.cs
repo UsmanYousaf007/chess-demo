@@ -1,13 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.API;
-using HUFEXT.CrossPromo.Implementation.Model;
-using HUFEXT.CrossPromo.Implementation.View.BannerTile;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.Model;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.TopPanel
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.TopPanel
 {
     public class TopPanelContainer : MonoBehaviour
     {

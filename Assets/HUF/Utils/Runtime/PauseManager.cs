@@ -1,7 +1,7 @@
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using UnityEngine.Events;
 
-namespace HUF.Utils
+namespace HUF.Utils.Runtime
 {
     public class PauseManager : HSingleton<PauseManager>
     {

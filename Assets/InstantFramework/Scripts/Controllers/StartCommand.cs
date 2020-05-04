@@ -11,7 +11,7 @@ using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
 using HUFEXT.GenericGDPR.Runtime.API;
-using HUF.Analytics.API;
+using HUF.Analytics.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {

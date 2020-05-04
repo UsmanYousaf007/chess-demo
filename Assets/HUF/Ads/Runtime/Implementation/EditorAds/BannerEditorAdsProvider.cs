@@ -1,8 +1,8 @@
-using HUF.Ads.API;
+using HUF.Ads.Runtime.API;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Ads.Implementation.EditorAds
+namespace HUF.Ads.Runtime.Implementation.EditorAds
 {
     public class BannerEditorAdsProvider : IBannerAdProvider
     {

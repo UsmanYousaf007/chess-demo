@@ -1,8 +1,8 @@
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation.View.Common;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.Common;
 using UnityEngine.EventSystems;
 
-namespace HUFEXT.CrossPromo.Implementation.View.CrossPromoTile
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.CrossPromoTile
 {
     public class TileImage : BaseImage, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
     {

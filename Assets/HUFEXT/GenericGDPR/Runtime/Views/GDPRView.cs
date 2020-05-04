@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.GenericGDPR.Runtime.API;
 using HUFEXT.GenericGDPR.Runtime.Utils;

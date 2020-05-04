@@ -1,7 +1,7 @@
 #if UNITY_IOS
 using System.Runtime.InteropServices;
 
-namespace HUFEXT.CrossPromo.AppLauncher
+namespace HUFEXT.CrossPromo.Runtime.AppLauncher
 {
     public class IOSAppLauncherService : IAppLauncher
     {

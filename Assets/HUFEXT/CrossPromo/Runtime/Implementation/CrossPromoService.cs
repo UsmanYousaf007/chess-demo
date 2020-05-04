@@ -1,15 +1,15 @@
 using System.Collections;
-using HUF.InitFirebase.API;
-using HUF.RemoteConfigs.API;
-using HUF.Utils;
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation.View.BottomPanel;
-using HUFEXT.CrossPromo.Implementation.View.ContentPanel;
-using HUFEXT.CrossPromo.Implementation.View.TopPanel;
+using HUF.InitFirebase.Runtime.API;
+using HUF.RemoteConfigs.Runtime.API;
+using HUF.Utils.Runtime;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.ContentPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.TopPanel;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HUFEXT.CrossPromo.Implementation
+namespace HUFEXT.CrossPromo.Runtime.Implementation
 {
     public class CrossPromoService
     {

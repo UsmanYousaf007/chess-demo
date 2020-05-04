@@ -2,7 +2,7 @@ using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public static class HAdsUtils
     {

@@ -1,6 +1,25 @@
+## [2.0.0] - 2020-04-02
+### Added
+- Service registration with callback
+- Missing PM dependencies
+
+### Changed
+- Self Containing Package
+- Namespacesfeature
+
+### Removed
+- Define from HAnalytics
+
+## [1.11.0] - 2020-02-20
+### Added
+- Cache events if GDPR consent is null or false.
+
+### Changed
+- Services are initialized after CollectSensitiveData method invoke.
+
 ## [1.10.0] - 2020-02-04
 ### Added
-- Store GDPR Consent in PlayerPrefs
+- Store GDPR Consent in PlayerPrefs.
 
 ### Changed
 - Changed structure of OnCollectSensitiveDataSetEvent event.

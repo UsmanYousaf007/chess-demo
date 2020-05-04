@@ -1,4 +1,4 @@
-﻿namespace HUF.Utils.MinMaxRange
+﻿namespace HUF.Utils.Runtime.MinMaxRange
 {
     [System.Serializable]
     public class MinMaxRange<T>

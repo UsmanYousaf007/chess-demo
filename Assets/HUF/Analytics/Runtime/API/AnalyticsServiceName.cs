@@ -1,4 +1,4 @@
-﻿namespace HUF.Analytics.API
+﻿namespace HUF.Analytics.Runtime.API
 {
     public static class AnalyticsServiceName
     {

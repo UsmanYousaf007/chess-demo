@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using TurboLabz.Multiplayer;
-using HUF.AnalyticsHBI.API;
+using HUF.AnalyticsHBI.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HUF.Utils
+namespace HUF.Utils.Runtime
 {
     public static class DateTimeUtils
     {

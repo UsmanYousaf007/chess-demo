@@ -1,4 +1,4 @@
-namespace HUF.Ads.Implementation
+namespace HUF.Ads.Runtime.Implementation
 {
     public enum AdResult
     {

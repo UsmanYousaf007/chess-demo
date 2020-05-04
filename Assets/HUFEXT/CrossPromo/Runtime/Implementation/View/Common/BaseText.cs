@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.Common
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.Common
 {
     [RequireComponent(typeof(TMP_Text))]
     public class BaseText : MonoBehaviour

@@ -54,12 +54,7 @@
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity android:name="com.mintegral.msdk.interactiveads.activity.InteractiveShowActivity"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-                  android:configChanges="keyboardHidden|orientation|screenSize"/>
-
-        
-
+       
       //Apps that do not release on the google play required, on the contrary, can be ignore
       <receiver android:name="com.mintegral.msdk.click.AppReceiver" >
         <intent-filter>

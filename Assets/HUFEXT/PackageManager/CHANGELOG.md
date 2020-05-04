@@ -1,3 +1,13 @@
+## [1.1.0] - 2020-03-31
+### Added
+- Added menu item to change package scope between stable and preview.
+- Added ability to change package version to any other.
+- Added package dependency resolving.
+
+### Changed
+- UI & UX tweaks.
+- Stability and performance improvements.
+
 ## [1.0.1] - 2020-02-06
 ### Fixed
 - Fixed issue with socket exception on MacOS.

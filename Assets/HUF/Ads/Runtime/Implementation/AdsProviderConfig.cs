@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using HUF.Ads.API;
-using HUF.Utils.AndroidManifest;
+using HUF.Ads.Runtime.API;
+using HUF.Utils.Runtime.AndroidManifest;
 using UnityEngine;
 
-namespace HUF.Ads.Implementation
+namespace HUF.Ads.Runtime.Implementation
 {
     public abstract class AdsProviderConfig : AndroidManifestKeysConfig, IAdsProviderConfig
     {

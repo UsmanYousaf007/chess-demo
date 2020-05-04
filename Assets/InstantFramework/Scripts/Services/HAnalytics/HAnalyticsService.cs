@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HUF.Analytics.API;
+using HUF.Analytics.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {

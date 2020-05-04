@@ -1,35 +1,64 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace HUF.Utils.Configs.Implementation
+namespace HUF.Utils.Runtime.Configs.Implementation
 {
     [UsedImplicitly]
-    public class ConfigsModel : IConfigsModel
-    {       
-        static readonly string configsPathInfo = $"Resources/{HConfigs.CONFIGS_FOLDER}";
+    public class ConfigsModel :
+#if UNITY_EDITOR
+        UnityEditor.AssetPostprocessor,
+#endif
+        IConfigsModel
+    {
+        public static readonly string configsPathInfo = Path.Combine( "Resources", HConfigs.CONFIGS_FOLDER );
         readonly string className;
-        
+
         Dictionary<Type, List<AbstractConfig>> configMap;
 
         public bool IsAutoInitEnabled {
             get
             {
-                var initializationConfig = Resources.Load<ConfigsInitializationConfig>($"{HConfigs.CONFIGS_FOLDER}/{ConfigsInitializationConfig.NAME}");
-                return initializationConfig == null || initializationConfig.AutoInit;    
+                var initializationConfig = Resources.Load<ConfigsInitializationConfig>(
+                    Path.Combine(
+                        HConfigs.CONFIGS_FOLDER,
+                        ConfigsInitializationConfig.NAME ) );
+                return initializationConfig == null || initializationConfig.AutoInit;
             }
         }
+
+        static event Action OnConfigReloadRequired;
 
         public ConfigsModel()
         {
             className = GetType().Name;
             Debug.Log($"[{className}] Initializing");
             InitConfigsMap();
+            OnConfigReloadRequired += BuildConfigMap;
         }
+
+        ~ConfigsModel()
+        {
+            OnConfigReloadRequired -= BuildConfigMap;
+        }
+
+#if UNITY_EDITOR
+        static void OnPostprocessAllAssets( string[] importedAssets,
+            string[] deletedAssets,
+            string[] movedAssets,
+            string[] movedFromAssetPaths )
+        {
+            if(importedAssets.Any(path => path.Contains( configsPathInfo ))
+            || deletedAssets.Any( path => path.Contains( configsPathInfo ) ) )
+                OnConfigReloadRequired.Dispatch();
+        }
+#endif
 
         void InitConfigsMap()
         {
@@ -56,7 +85,7 @@ namespace HUF.Utils.Configs.Implementation
                     configsArray[i] = Object.Instantiate(configsArray[i]);
                 }
             }
-            
+
             configMap = new Dictionary<Type, List<AbstractConfig>>();
 
             foreach (var config in configsArray)
@@ -107,7 +136,7 @@ namespace HUF.Utils.Configs.Implementation
 
             return configsList.Last() as T;
         }
-        
+
         public bool HasConfig<T>() where T : AbstractConfig
         {
             var type = typeof(T);
@@ -131,18 +160,18 @@ namespace HUF.Utils.Configs.Implementation
 
             return configMap[type].Select(q => q as T);
         }
-        
+
         public IEnumerable<T> GetConfigsByBaseClass<T>() where T : AbstractConfig
         {
             var type = typeof(T);
             var configs = new List<AbstractConfig>();
-            
+
             foreach (var mapKeyType in configMap.Keys)
             {
                 if (type.IsAssignableFrom(mapKeyType))
                 {
                     configs.AddRange(configMap[mapKeyType]);
-                }    
+                }
             }
 
             return configs.Select(q => q as T);
@@ -155,7 +184,7 @@ namespace HUF.Utils.Configs.Implementation
                 AddConfig(config);
             }
         }
-        
+
         public void AddConfigsByOwnTypes<T>(IEnumerable<T> configs) where T : AbstractConfig
         {
             foreach (var config in configs)
@@ -163,18 +192,18 @@ namespace HUF.Utils.Configs.Implementation
                 AddConfig(config, config.GetType());
             }
         }
-        
+
         public void AddConfig<T>(T config) where T : AbstractConfig
         {
             var type = typeof(T);
             AddConfigToMap(config, type);
         }
-        
+
         public void AddConfig<T>(T config, Type type) where T : AbstractConfig
         {
             AddConfigToMap(config, type);
         }
-        
+
         void AddConfigToMap<T>(T config, Type type) where T : AbstractConfig
         {
             var configIndex = -1;
@@ -202,9 +231,9 @@ namespace HUF.Utils.Configs.Implementation
         public bool TryRemoveConfigs<T>() where T : AbstractConfig
         {
             var configType = typeof(T);
-            if (!configMap.ContainsKey(configType)) 
+            if (!configMap.ContainsKey(configType))
                 return false;
-            
+
             configMap.Remove(configType);
             return true;
         }
@@ -212,9 +241,9 @@ namespace HUF.Utils.Configs.Implementation
         public bool TryRemoveConfig<T>(string configId) where T : AbstractConfig
         {
             var configType = typeof(T);
-            if (!configMap.ContainsKey(configType)) 
+            if (!configMap.ContainsKey(configType))
                 return false;
-            
+
             return configMap[configType].RemoveAll(q => q.ConfigId.Equals(configId)) > 0;
         }
 

@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace HUF.Auth.API
+namespace HUF.Auth.Runtime.API
 {
     public interface IAuthService
     {
@@ -8,10 +8,10 @@ namespace HUF.Auth.API
         bool IsSignedIn { get; }
         string UserId { get; }
         bool IsInitialized { get; }
-        
+
         event UnityAction<string> OnInitialized;
-        event UnityAction<string> OnSignInSuccess;
-        event UnityAction<string> OnSignInFailure;
+        event UnityAction OnInitializationFailure;
+        event UnityAction<string,bool> OnSignIn;
         event UnityAction<string> OnSignOutComplete;
 
         void Init();

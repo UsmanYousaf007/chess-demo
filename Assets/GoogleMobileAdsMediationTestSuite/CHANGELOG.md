@@ -1,3 +1,9 @@
+# Version 1.3.0
+*2020-02-28*
+- Added Open Bidding loading support.
+- Updated Android mediation test suite dependency to version 1.3.0.
+- Updated iOS mediation test suite dependency to version 1.2.0.
+
 # Version 1.2.2
 *2019-12-10*
 - Fix issue with Android proguard file.

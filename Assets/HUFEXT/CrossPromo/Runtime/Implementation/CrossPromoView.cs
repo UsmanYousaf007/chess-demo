@@ -1,9 +1,9 @@
-using HUFEXT.CrossPromo.Implementation.View.BottomPanel;
-using HUFEXT.CrossPromo.Implementation.View.ContentPanel;
-using HUFEXT.CrossPromo.Implementation.View.TopPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.ContentPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.TopPanel;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation
+namespace HUFEXT.CrossPromo.Runtime.Implementation
 {
     public class CrossPromoView : MonoBehaviour
     {

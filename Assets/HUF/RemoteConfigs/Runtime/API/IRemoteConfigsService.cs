@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEngine.Events;
 
-namespace HUF.RemoteConfigs.API
+namespace HUF.RemoteConfigs.Runtime.API
 {
     public interface IRemoteConfigsService
     {

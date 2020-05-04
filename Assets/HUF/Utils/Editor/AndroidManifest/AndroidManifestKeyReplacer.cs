@@ -4,12 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using HUF.Utils.Configs.API;
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.AndroidManifest;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using UnityEditor;
 
-namespace HUF.Utils.AndroidManifest.Editor
+namespace HUF.Utils.Editor.AndroidManifest
 {
     public static class AndroidManifestKeyReplacer
     {
@@ -125,7 +126,6 @@ namespace HUF.Utils.AndroidManifest.Editor
                 Directory.CreateDirectory( finalFolderPath );
             xmlDocument.Save(finalPath);
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-            HLog.Log(logPrefix, $"Created new manifest file at {finalPath}");
         }
     }
 }

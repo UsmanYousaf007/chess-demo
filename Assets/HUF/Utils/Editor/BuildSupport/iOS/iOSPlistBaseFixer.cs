@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿#if UNITY_IOS
+using System.IO;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -15,16 +16,8 @@ namespace HUF.Utils.BuildSupport.Editor.iOS
         
         public abstract int callbackOrder { get; }
 
-        static bool IsCorrectPlatform(BuildReport report)
-        {
-            return report.summary.platform == BuildTarget.iOS;
-        }
-
         public virtual void OnPostprocessBuild(BuildReport report)
         {
-            if (!IsCorrectPlatform(report)) 
-                return;
-
             plistPath = report.summary.outputPath + PLIST_FILE;
             plistDocument = new PlistDocument();
             plistDocument.ReadFromString(File.ReadAllText(plistPath));
@@ -42,3 +35,4 @@ namespace HUF.Utils.BuildSupport.Editor.iOS
         }
     }
 }
+#endif

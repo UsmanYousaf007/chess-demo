@@ -1,4 +1,4 @@
-namespace HUF.Utils.SafeArea
+namespace HUF.Utils.Runtime.SafeArea
 {
     public static class ScreenSize
     {

@@ -1,4 +1,4 @@
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public interface IAdProvider
     {

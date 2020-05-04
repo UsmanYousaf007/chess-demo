@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HUF.Utils.Configs.API
+namespace HUF.Utils.Runtime.Configs.API
 {
     public interface IConfigsModel
     {

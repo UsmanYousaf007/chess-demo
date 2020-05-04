@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -36,10 +37,17 @@ namespace HUF.Utils.Runtime.Logging
         
         static HLogConfig GetLogConfig()
         {
-            var files = AssetDatabase.FindAssets( "t:HLogConfig" );
+            var files = AssetDatabase.FindAssets( $"t:{nameof(HLogConfig)}" );
 
+            if ( files.Length == 0 )
+                return null;
+            
             var configPath = files.Select( AssetDatabase.GUIDToAssetPath )
-                .First( s => s.Contains( "Resources/HUFConfigs/" ) );
+                .FirstOrDefault( s => s.Contains( "Resources/HUFConfigs/" ) );
+
+            if ( configPath.IsNullOrEmpty() )
+                return null;
+            
             return AssetDatabase.LoadAssetAtPath<HLogConfig>( configPath );
         }
 #endif

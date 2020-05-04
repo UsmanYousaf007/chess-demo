@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Wyra\u017Cam zgod\u0119"
+  m_text: I Accept
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2fdb73814888546e5bcbff92ec6ec51c, type: 2}
   m_sharedMaterial: {fileID: 21857035810820052, guid: 2fdb73814888546e5bcbff92ec6ec51c,
@@ -1074,7 +1074,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 6461981786418400441}
-    characterCount: 13
+    characterCount: 8
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
@@ -1139,7 +1139,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000029058318}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6461981786491147650
@@ -1389,10 +1389,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Klikaj\u0105c w OK powy\u017Cej, akceptujesz nasze <link=\"https://www.huuugegames.com/terms-of-use\"><color=#E90526><u>Warunki
-    Korzystania</u></color></link> oraz <link=\"https://huuugegames.com/privacy-policy\"><color=#E90526><u>Polityk\u0119
-    Prywatno\u015Bci</u></color></link> oraz potwierdzasz uko\u0144czenie 16-ego roku
-    \u017Cycia."
+  m_text: By clicking OK above, you agree to be bound by our <link="https://www.huuugegames.com/terms-of-use"><color=#E90526><u>Terms
+    of Use</u></color></link> and our <link="https://huuugegames.com/privacy-policy"><color=#E90526><u>Privacy
+    Policy</u></color></link> and you affirm that you are older than 16.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2fdb73814888546e5bcbff92ec6ec51c, type: 2}
   m_sharedMaterial: {fileID: 21857035810820052, guid: 2fdb73814888546e5bcbff92ec6ec51c,
@@ -1421,7 +1420,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 35.2
+  m_fontSize: 32.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1462,10 +1461,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 6461981786794516801}
-    characterCount: 134
+    characterCount: 129
     spriteCount: 0
-    spaceCount: 16
-    wordCount: 17
+    spaceCount: 26
+    wordCount: 27
     linkCount: 2
     lineCount: 3
     pageCount: 1
@@ -1518,10 +1517,10 @@ RectTransform:
   m_Father: {fileID: 6461981786959110283}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -100, y: -600}
+  m_SizeDelta: {x: 850, y: 1250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6461981786880075503
 MonoBehaviour:
@@ -1848,12 +1847,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Wyra\u017Cam zgod\u0119 na u\u017Cywanie i ujawnianie moich danych osobowych
-    (w tym informacje o urz\u0105dzeniu i moich preferencjach) <link=\"https://www.huuugegames.com/partner-list\"><color=#E90526><u>sieciom
-    reklamowym</u></color></link> w celu dostarczania mi dopasowanych reklam w grze.
-    Rozumiem, \u017Ce mog\u0119 wycofa\u0107 swoj\u0105 zgod\u0119 w dowolnej chwili
-    w Ustawieniach gry, jak wskazano te\u017C w <link=\"https://huuugegames.com/privacy-policy\"><color=#E90526><u>Polityce
-    Prywatno\u015Bci</u></color></link>."
+  m_text: I hereby consent to the usage and disclosure of my personal data (including
+    device information and my preferences) to <link="https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list"><color=#E90526><u>advertising
+    network companies</u></color></link> for the purpose of serving targeted advertisements
+    to me in the game. I understand that I can withdraw this consent at any time within
+    the game Settings, as also described in our <link="https://huuugegames.com/privacy-policy"><color=#E90526><u>Privacy
+    Policy</u></color></link>.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2fdb73814888546e5bcbff92ec6ec51c, type: 2}
   m_sharedMaterial: {fileID: 21857035810820052, guid: 2fdb73814888546e5bcbff92ec6ec51c,
@@ -1882,7 +1881,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36.15
+  m_fontSize: 32.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1923,12 +1922,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 6461981787153038502}
-    characterCount: 302
+    characterCount: 342
     spriteCount: 0
-    spaceCount: 44
-    wordCount: 45
+    spaceCount: 55
+    wordCount: 56
     linkCount: 2
-    lineCount: 8
+    lineCount: 9
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -1985,7 +1984,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &6461981787359072340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2421,7 +2420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Wa\u017Cna Informacja"
+  m_text: IMPORTANT NOTICE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2fdb73814888546e5bcbff92ec6ec51c, type: 2}
   m_sharedMaterial: {fileID: 21857035810820052, guid: 2fdb73814888546e5bcbff92ec6ec51c,
@@ -2450,7 +2449,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 80
+  m_fontSize: 70.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2664,7 +2663,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6461981786131351483}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
