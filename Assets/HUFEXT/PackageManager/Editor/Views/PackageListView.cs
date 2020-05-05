@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using HUFEXT.PackageManager.Editor.Views.Items;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,329 +10,151 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public class PackageListView : PackageManagerView
     {
-        class PackageItemView
-        {
-            public readonly Color color = Color.clear;
-            public readonly Models.PackageManifest manifest = null;
-            public readonly string rollout = string.Empty;
-            public readonly string tooltip = string.Empty;
-            public readonly bool isTag = false;
-
-            public PackageItemView( Models.PackageManifest manifest )
-            {
-                this.manifest = manifest;
-                isTag = false;
-            }
-
-            public PackageItemView( string rollout, string tooltip, Color color )
-            {
-                this.rollout = rollout;
-                this.color = color;
-                isTag = true;
-            }
-        }
-        
         const float ITEM_HEIGHT = 30f;
-        const string EXPERIMENTAL_LABEL = "Experimental";
-        const string DEVELOPMENT_LABEL = "Development";
-        const string NOT_INSTALLED_LABEL = "Not Installed";
-        const string UNDEFINED_LABEL = "Undefined";
-        const float ICON_WIDTH = 16f;
-
-        private static readonly Color labelColor = new Color( 0.27f, 0.27f, 0.27f ); //new Color( 0.25f, 0.25f, 0.25f );
+        const float VIEW_WIDTH = 310f;
+        const string SEARCH_FIELD_NAME = "HUF_PM_Toolbar_Search";
         
+        private static readonly Color labelColor = new Color( 0.27f, 0.27f, 0.27f );
+
+        private bool isInitialized = false;
         private Vector2 scrollPosition;
-        private List<Models.PackageManifest> packages;
-        private readonly List<PackageItemView> items = new List<PackageItemView>();
-        private string selectedPackageName = string.Empty;
 
-        static readonly Dictionary<string, PackageItemView> rolloutLabels = new Dictionary<string, PackageItemView>
-        {
-            {
-                EXPERIMENTAL_LABEL, 
-                new PackageItemView( EXPERIMENTAL_LABEL, "", labelColor)
-            },
-            {
-                DEVELOPMENT_LABEL, 
-                new PackageItemView( DEVELOPMENT_LABEL, "", labelColor)
-            },
-            {
-                UNDEFINED_LABEL, 
-                new PackageItemView( UNDEFINED_LABEL, "", labelColor)
-            },
-            {
-                NOT_INSTALLED_LABEL, 
-                new PackageItemView( NOT_INSTALLED_LABEL, "", labelColor)
-            }
-        };
+        private readonly List<ListItem> baseItems = new List<ListItem>();
+        private readonly List<ListItem> currentItems = new List<ListItem>();
         
-        static readonly Dictionary<Models.PackageStatus, GUIContent> statusContent = new Dictionary<Models.PackageStatus, GUIContent>
+        bool refreshItemsList = false;
+        bool regenerateItemsList = false;
+        GUIStyle searchBarStyle;
+        GUIStyle searchBarButtonStyle;
+
+        public enum ItemType
         {
-            {
-                Models.PackageStatus.NotInstalled, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageNotInstalledIcon,
-                    tooltip = "This package is not installed."
-                }
-            },
-            {
-                Models.PackageStatus.Installed, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageInstalledIcon,
-                    tooltip = "This package is installed."
-                }
-            },
-            {
-                Models.PackageStatus.Migration, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageMigrationIcon,
-                    tooltip = "This package has old format. Migration will update package to latest version."
-                }
-            },
-            {
-                Models.PackageStatus.UpdateAvailable, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageUpdateIcon,
-                    tooltip = "There is new version of this package available."
-                }
-            },
-            {
-                Models.PackageStatus.ForceUpdate, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageForceUpdateIcon,
-                    tooltip = "There is new mandatory version of this package available."
-                }
-            },
-            {
-                Models.PackageStatus.Unknown, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageErrorIcon,
-                    tooltip = "There is an error with this package. Try reimport package."
-                }
-            },
-            {
-                Models.PackageStatus.Unavailable, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageErrorIcon,
-                    tooltip = "This package is unavailable. Please, contact HUF support."
-                }
-            },
-            {
-                Models.PackageStatus.Conflict, new GUIContent()
-                {
-                    image = Utils.HGUI.Icons.PackageConflictIcon,
-                    tooltip = "There are different packages with same path. Please, contact HUF support."
-                }
-            },
-            {
-                Models.PackageStatus.Development, new GUIContent()
-                {
-                    image   = Utils.HGUI.Icons.PackageConflictIcon,
-                    tooltip = "This package is still in development."
-                }
-            },
-            {
-                Models.PackageStatus.Embedded, new GUIContent()
-                {
-                    text = "embedded",
-                    tooltip = "Package manifest not found or package is part of other package."
-                }
-            }
-        };
+            RolloutTag,
+            PackageHUF,
+            PackageUnity
+        }
         
         public PackageListView( PackageManagerWindow parent ) : base( parent )
         {
-            GenerateItemsList();
+            regenerateItemsList = true;
         }
         
-        public override void RefreshView( ViewEvent ev ) 
+        public override void RefreshView( ViewEvent ev )
         {
-            GenerateItemsList();
+            switch ( ev )
+            {
+                case ViewEvent.Undefined:
+                case ViewEvent.RefreshListView:
+                {
+                    refreshItemsList = true;
+                    break;
+                }
+
+                case ViewEvent.RefreshPackages:
+                {
+                    regenerateItemsList = true;
+                    break;
+                }
+            }
         }
 
         protected override void OnGUI()
         {
-            using ( var scope =
-                new GUILayout.ScrollViewScope( scrollPosition, false, true, GUILayout.MinWidth( 310f ) ) )
+            if ( !isInitialized || regenerateItemsList )
             {
-                scrollPosition = scope.scrollPosition;
+                RegenerateItems();
+                regenerateItemsList = false;
+                isInitialized = true;
+            }
 
-                if ( items.Count == 0 )
+            if ( refreshItemsList )
+            {
+                RefreshItems();
+                refreshItemsList = false;
+            }
+            
+            using ( new EditorGUILayout.VerticalScope() )
+            {
+                DrawSearchBar();
+
+                using ( var scope =
+                    new GUILayout.ScrollViewScope( scrollPosition, false, true, GUILayout.MinWidth( VIEW_WIDTH ) ) )
                 {
-                    using ( new EditorGUILayout.VerticalScope() )
+                    scrollPosition = scope.scrollPosition;
+
+                    if ( currentItems.Count == 0 )
                     {
-                        GUILayout.FlexibleSpace();
-                        GUILayout.Label( "No packages available.", EditorStyles.centeredGreyMiniLabel );
-                        GUILayout.FlexibleSpace();
+                        using ( new EditorGUILayout.VerticalScope() )
+                        {
+                            GUILayout.FlexibleSpace();
+                            GUILayout.Label( "No packages available.", EditorStyles.centeredGreyMiniLabel );
+                            GUILayout.FlexibleSpace();
+                        }
                     }
-                }
-                else
-                {
-                    DrawPackages();
+                    else
+                    {
+                        DrawPackages();
+                    }
                 }
             }
 
             Utils.HGUI.VerticalSeparator();
         }
 
-        void DrawPackages()
+        void RegenerateItems()
         {
-            var index = ( int ) ( scrollPosition.y / ITEM_HEIGHT );
-            var visibleCount = ( int ) window.position.height / 30 + 1;
+            var packages = Core.Packages.Data;
+            var tags = GetSortedTags( ref packages );
+            
+            baseItems.Clear();
+            AddItemsByTag( Models.Rollout.VCS_LABEL, true, true, false );
+            AddItemsByTag( Models.Rollout.EXPERIMENTAL_LABEL, true, true, false);
+            foreach ( var tag in tags )
+            {
+                AddItemsByTag( $"Rollout {tag}", true, true, false);
+            }
+            AddItemsByTag( Models.Rollout.UNDEFINED_LABEL, true, true, false );
+            AddItemsByTag( Models.Rollout.NOT_HUF_LABEL, true, true, false );
+            AddItemsByTag( Models.Rollout.DEVELOPMENT_LABEL, true, true, false );
+            AddItemsByTag( Models.Rollout.NOT_INSTALLED_LABEL, false, false, true );
+            
+            RefreshItems();
+            
+            void AddItemsByTag( string tag, bool compareTag, bool ignoreNotInstalled, bool ignoreInstalled )
+            {
+                var anyItemAdded = false;
+                var rolloutTag = new RolloutLabel( tag, labelColor );
+                baseItems.Add( rolloutTag );
                 
-            index = Mathf.Clamp( index, 0, Mathf.Max( 0, items.Count - visibleCount ) );
-            GUILayout.Space( index * ITEM_HEIGHT );
-            for ( var i = index; i < Mathf.Min( items.Count, index + visibleCount ); i++ )
-            {
-                if ( items[i].isTag )
+                foreach ( var package in packages )
                 {
-                    DrawPackageLabel( items[i] );
-                }
-                else
-                {
-                    DrawPackageItem( items[i] );
-                }
-            }
-            GUILayout.Space( Mathf.Max( 0, ( items.Count - index - visibleCount ) * ITEM_HEIGHT ) );
-        }
-        
-        void DrawPackageItem( PackageItemView item )
-        {
-            var isActive = false;
-            if ( window.state.selectedPackage != null && item.manifest != null )
-            {
-                isActive = window.state.selectedPackage.name == item.manifest.name;
-            }
-            
-            var myStyle = new GUIStyle { margin = new RectOffset( 0, 0, 0, 0 ) };
-            
-            using ( var v = new EditorGUILayout.VerticalScope( myStyle, GUILayout.Height( 30f ) ) )
-            {
-                GUILayout.FlexibleSpace();
-                using ( new GUILayout.HorizontalScope() )
-                {
-                    if ( isActive )
+                    if ( tag.Contains( package.huf.rollout ) || !compareTag )
                     {
-                        EditorGUI.DrawRect( v.rect, new Color( 0f, 0f, 0f, 0.2f ) );
-                        GUI.contentColor = Color.white;
+                        if ( ( ignoreNotInstalled && package.huf.status == Models.PackageStatus.NotInstalled ) || 
+                             ( ignoreInstalled && package.huf.status != Models.PackageStatus.NotInstalled ) )
+                        {
+                            continue;
+                        }
+
+                        if ( string.IsNullOrEmpty( package.huf.rollout ) && tag != Models.Rollout.UNDEFINED_LABEL )
+                        {
+                            continue;
+                        }
+                        
+                        baseItems.Add( new PackageItemHUF( window, package ) );
+                        anyItemAdded = true;
                     }
-
-                    if ( GUI.Button( v.rect, GUIContent.none, EditorStyles.label ) && !isActive )
-                    {
-                        selectedPackageName = item.manifest.name;
-                        window.Enqueue( ViewEvent.SelectPackage, selectedPackageName );
-                    }
-
-                    var displayName = item.manifest.displayName.Length > 25
-                                          ? item.manifest.displayName.Substring( 0, 22 ) + "..."
-                                          : item.manifest.displayName;
-
-                    if ( item.manifest.huf.status == Models.PackageStatus.UpdateAvailable )
-                    {
-                        displayName = $"<color=orange>{displayName}</color>";
-                    }
-
-                    if ( item.manifest.huf.status == Models.PackageStatus.ForceUpdate )
-                    {
-                        displayName = $"<color=red>{displayName}</color>";
-                    }
-
-                    GUILayout.Label( displayName, new GUIStyle( EditorStyles.label )
-                    {
-                        fontSize = 11,
-                        fontStyle = isActive ? FontStyle.Bold : FontStyle.Normal,
-                        richText = true
-                    } );
-                    
-                    if ( item.manifest.huf.isLocal )
-                    {
-                        var style = new GUIStyle( EditorStyles.centeredGreyMiniLabel ); ;
-                        style.normal.textColor = isActive ? Color.white : Color.grey;
-                        GUILayout.Label( "local",  style );
-                    }
-
-                    if ( item.manifest.huf.isPreview )
-                    {
-                        var style = new GUIStyle( EditorStyles.centeredGreyMiniLabel ); ;
-                        style.normal.textColor = isActive ? Color.white : Color.gray;
-                        GUILayout.Label( "preview", style );
-                    }
-
-                    GUILayout.FlexibleSpace();
-                    DrawPackageVersionAndStatus( item.manifest, isActive );
-                }
-                GUILayout.FlexibleSpace();
-            }
-            Utils.HGUI.HorizontalSeparator();
-        }
-
-        void DrawPackageLabel( PackageItemView view )
-        {
-            var noMargins = new GUIStyle { margin = new RectOffset( 0, 0, 0, 0 ) };
-            using ( var v = new EditorGUILayout.VerticalScope( noMargins, GUILayout.Height( 30f ) ) )
-            {
-                GUILayout.FlexibleSpace();
-                EditorGUI.DrawRect( v.rect, view.color );
-                GUILayout.Label( new GUIContent( view.rollout, view.tooltip ),
-                                 new GUIStyle( EditorStyles.centeredGreyMiniLabel )
-                                 {
-                                     normal = { textColor = Color.white },
-                                     fontStyle = FontStyle.Bold
-                                 } );
-                GUILayout.FlexibleSpace();
-            }
-
-            Utils.HGUI.HorizontalSeparator();
-        }
-        
-        private void DrawPackageVersionAndStatus( Models.PackageManifest manifest, bool isActive = false )
-        {
-            if ( manifest == null )
-            {
-                return;
-            }
-            
-            var width = GUILayout.Width( 16f );
-            
-            switch ( manifest.huf.status )
-            {
-                case Models.PackageStatus.NotInstalled:
-                case Models.PackageStatus.Installed:
-                case Models.PackageStatus.UpdateAvailable:
-                case Models.PackageStatus.ForceUpdate:
-                case Models.PackageStatus.Migration:
-                case Models.PackageStatus.Development:
-                {
-                    GUILayout.Label( manifest.huf.version );
-                    GUILayout.Label( statusContent[manifest.huf.status], width );
-                    break;
                 }
 
-                case Models.PackageStatus.Unknown:
-                case Models.PackageStatus.Unavailable:
-                case Models.PackageStatus.Conflict:
+                if ( !anyItemAdded )
                 {
-                    GUILayout.Label( statusContent[manifest.huf.status], width );
-                    break;
-                }
-
-                case Models.PackageStatus.Embedded:
-                {
-                    GUILayout.Label( statusContent[Models.PackageStatus.Embedded], new GUIStyle( EditorStyles.centeredGreyMiniLabel )
-                    {
-                        normal = { textColor = isActive ? Color.white : Color.grey }
-                    } );
-                    break;
+                    baseItems.Remove( rolloutTag );
                 }
             }
         }
-        
-        void GenerateItemsList()
-        {
-            Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand { downloadLatest = false } );
-            
-            packages = Core.Packages.Data;
 
+        List<string> GetSortedTags( ref List<Models.PackageManifest> packages )
+        {
             var tags = packages
                        .Where( package => package.huf.rollout.Contains( "." ) ||
                                           package.huf.rollout.All( char.IsDigit ) &&
@@ -346,44 +170,114 @@ namespace HUFEXT.PackageManager.Editor.Views
                 return first > second ? -1 : 1;
             } );
 
-            items.Clear();
-            AddItemsByTag( rolloutLabels[EXPERIMENTAL_LABEL], EXPERIMENTAL_LABEL, true, true, false);
-            foreach ( var tag in tags )
-            {
-               AddItemsByTag( new PackageItemView( $"Rollout {tag}", "Test", labelColor ),
-                              tag, true, true, false);
-            }
-            AddItemsByTag( rolloutLabels[UNDEFINED_LABEL], "", true, true, false);
-            AddItemsByTag( rolloutLabels[DEVELOPMENT_LABEL], DEVELOPMENT_LABEL, true, true, false);
-            AddItemsByTag( rolloutLabels[NOT_INSTALLED_LABEL], "", false, false, true);
+            return tags;
         }
-
-        void AddItemsByTag( PackageItemView view, string tag, bool compareTag, bool ignoreNotInstalled, bool ignoreInstalled )
+        
+        void RefreshItems()
         {
-            var anyItemAdded = false;
-            items.Add( view );
-            foreach ( var package in packages )
+            currentItems.Clear();
+            for( int i = 0; i < baseItems.Count; ++i )
             {
-                if ( package.huf.rollout == tag || !compareTag )
+                switch ( baseItems[i].Type )
                 {
-                    if ( ( ignoreNotInstalled && package.huf.status == Models.PackageStatus.NotInstalled ) || 
-                         ( ignoreInstalled && package.huf.status != Models.PackageStatus.NotInstalled ) ||
-                         !ShouldDrawPackageItem( package ) )
+                    case ItemType.RolloutTag:
                     {
-                        continue;
+                        // Replace last rollout tag if there are no packages in.
+                        if ( i != baseItems.Count - 1 )
+                        {
+                            var lastIndex = currentItems.Count - 1;
+                            if ( currentItems.Count == 0 || currentItems[lastIndex].Type != ItemType.RolloutTag )
+                            {
+                                currentItems.Add( baseItems[i] );
+                            }
+                            else
+                            {
+                                currentItems[lastIndex] = baseItems[i];
+                            }
+                        }
+                        
+                        break;
                     }
 
-                    items.Add( new PackageItemView( package ) );
-                    anyItemAdded = true;
+                    case ItemType.PackageHUF:
+                    {
+                        var package = ( PackageItemHUF ) baseItems[i];
+                        if ( ShouldDrawPackageItem( package.manifest ) )
+                        {
+                            currentItems.Add( baseItems[i] );
+                        }
+                        break;
+                    }
                 }
             }
 
-            if ( !anyItemAdded )
+            // Don't render empty rollout labels.
+            if ( currentItems.Count == 1 )
             {
-                items.Remove( view );
+                currentItems.Clear();
+            }
+            else if( currentItems.Count > 0 && currentItems[currentItems.Count - 1].Type == ItemType.RolloutTag )
+            {
+                currentItems.RemoveAt( currentItems.Count - 1 );
             }
         }
 
+        void DrawPackages()
+        {
+            var index = ( int ) ( scrollPosition.y / ITEM_HEIGHT );
+            var visibleCount = ( int ) window.position.height / 30 + 1;
+                
+            index = Mathf.Clamp( index, 0, Mathf.Max( 0, currentItems.Count - visibleCount ) );
+            GUILayout.Space( index * ITEM_HEIGHT );
+            for ( var i = index; i < Mathf.Min( currentItems.Count, index + visibleCount ); i++ )
+            {
+                currentItems[i].Draw();
+            }
+            GUILayout.Space( Mathf.Max( 0, ( currentItems.Count - index - visibleCount ) * ITEM_HEIGHT ) );
+        }
+        
+        void DrawSearchBar()
+        {
+            using ( new GUILayout.HorizontalScope( EditorStyles.toolbar,
+                GUILayout.MinWidth( VIEW_WIDTH ) ) )
+            {
+                if ( searchBarStyle == null )
+                {
+                    searchBarStyle = GUI.skin.FindStyle( "ToolbarSeachTextField" ) ??
+                                     new GUIStyle( "toolbarTextField" );
+                }
+
+                if ( searchBarButtonStyle == null )
+                {
+                    searchBarButtonStyle = GUI.skin.FindStyle( "ToolbarSeachCancelButton" ) ?? 
+                                           EditorStyles.toolbarButton;
+                }
+
+                GUI.SetNextControlName( SEARCH_FIELD_NAME );
+                
+                EditorGUI.BeginChangeCheck();
+                
+                window.state.searchText = GUILayout.TextField( window.state.searchText, searchBarStyle );
+                
+                var isSearchBarFocused = string.Compare( GUI.GetNameOfFocusedControl(),
+                    SEARCH_FIELD_NAME,
+                    StringComparison.Ordinal ) == 0;
+
+                if ( isSearchBarFocused && Event.current != null && Event.current.type == EventType.MouseDown  )
+                {
+                    GUI.FocusControl( null );
+                }
+
+                if ( GUILayout.Button(string.Empty, searchBarButtonStyle ) )
+                {
+                    window.state.searchText = string.Empty;
+                    GUI.FocusControl( null );
+                }
+                
+                refreshItemsList = EditorGUI.EndChangeCheck();
+            }
+        }
+        
         private bool ShouldDrawPackageItem( Models.PackageManifest manifest )
         {
             // If user search for package we should always return it even if it's disabled by other sorting option.

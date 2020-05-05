@@ -26,6 +26,7 @@ Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/IronSou
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/AdColonyAppOptionsClientFactory.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/ChartboostClientFactory.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/VerizonMediaClientFactory.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/FyberClientFactory.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/TapjoyClientFactory.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/MoPubClientFactory.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Mediation/AppLovinClientFactory.cs
@@ -44,6 +45,8 @@ Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/Vun
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/Vungle/VungleClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/InMobi/Externs.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/InMobi/InMobiClient.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/Fyber/Externs.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/Fyber/FyberClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/Tapjoy/Externs.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/Tapjoy/TapjoyClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/iOS/Mediation/AppLovin/Externs.cs
@@ -70,6 +73,7 @@ Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Initializ
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Mediation/UnityAds/UnityAdsClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Mediation/Vungle/VungleClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Mediation/InMobi/InMobiClient.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Mediation/Fyber/FyberClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Mediation/Tapjoy/TapjoyClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Mediation/AppLovin/AppLovinClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Platforms/Android/Mediation/AdColony/AdColonyAppOptionsClient.cs
@@ -110,6 +114,7 @@ Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/GADUMInMobiInte
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/GADUMTapjoyInterface.m
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/GADUPluginUtil.h
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/GADURewardedAd.h
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/GADUMFyberInterface.m
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/GADUNativeCustomTemplateAd.m
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/AdColonyExtrasBuilder.m
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Plugins/iOS/GADUObjectCache.m
@@ -137,6 +142,8 @@ Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/Vungle/Dum
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/Vungle/IVungleClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/InMobi/DummyClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/InMobi/IInMobiClient.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/Fyber/DummyClient.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/Fyber/IFyberClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/Tapjoy/ITapjoyClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/Tapjoy/DummyClient.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Common/Mediation/AppLovin/DummyClient.cs
@@ -171,6 +178,7 @@ Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/Vungle/Vungle
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/Vungle/Vungle.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/Vungle/VungleInterstitialMediationExtras.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/InMobi/InMobi.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/Fyber/Fyber.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/Tapjoy/Tapjoy.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/AppLovin/AppLovin.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Api/Mediation/AdColony/AdColonyAppOptions.cs
@@ -207,6 +215,7 @@ Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/MoPubMediationDepend
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/TapjoyMediationDependencies.xml
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/InMobiMediationDependencies.xml
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/PListProcessor.cs
+Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/FyberMediationDependencies.xml
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/GoogleMobileAdsSettings.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/AppLovinPostProcessBuild.cs
 Assets/HUF/AdsAdMobMediation/Plugins/GoogleMobileAds/Editor/AndroidBuildPostProcessor.cs

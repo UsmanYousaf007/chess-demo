@@ -52,6 +52,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                     window.Enqueue( ViewEvent.DisableDeveloperMode );
                 }
                 
+                GUILayout.Label( "|" );
+                
+                if ( GUILayout.Button( "Edit", EditorStyles.miniButton ) )
+                {
+                    PackageVersionEditor.Init( window );
+                }
+                
                 GUILayout.Label( "| Channel:" );
                 GUI.SetNextControlName( "HUF_ChannelToggle" );
                 

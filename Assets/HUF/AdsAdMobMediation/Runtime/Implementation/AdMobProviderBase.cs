@@ -8,6 +8,7 @@ using GoogleMobileAds.Api;
 using GoogleMobileAds.Api.Mediation.AdColony;
 using GoogleMobileAds.Api.Mediation.AppLovin;
 using GoogleMobileAds.Api.Mediation.Chartboost;
+using GoogleMobileAds.Api.Mediation.Fyber;
 using GoogleMobileAds.Api.Mediation.InMobi;
 using GoogleMobileAds.Api.Mediation.Tapjoy;
 using GoogleMobileAds.Api.Mediation.UnityAds;
@@ -134,6 +135,7 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
             AdColonyAppOptions.SetGDPRConsentString( consentStatus ? "1" : "0" );
             Tapjoy.SetUserConsent( consentStatus ? "1" : "0" );
             Tapjoy.SubjectToGDPR( consentStatus );
+            Fyber.SetGDPRConsent(consentStatus);
 /* Uncomment when we will be whitelisted by Ogury
  #if UNITY_IOS
             ConsentIos.ClientConsent.SetConsent(Config.OguryAppId, "Huuuge", new string[0],0);

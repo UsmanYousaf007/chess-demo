@@ -10,21 +10,6 @@ namespace HUFEXT.PackageManager.Editor.Core
         static bool? updateInProgress = null;
         
         public static bool Locked => File.Exists( Models.Keys.FILE_PACKAGE_LOCK );
-        
-        public static bool LockIsEmpty
-        {
-            get
-            {
-                if ( !Locked )
-                {
-                    return false;
-                }
-                
-                var locked = Registry.Get<Models.Dependencies>( Models.Keys.FILE_PACKAGE_LOCK, CachePolicy.File );
-                return locked.Items.Count == 0;
-            }
-        }
-        
         public static bool Empty => !Registry.IsSet( Models.Keys.CACHE_PACKAGE_REGISTRY_KEY );
 
         public static bool Installing

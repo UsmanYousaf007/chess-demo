@@ -153,6 +153,8 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             {
                 HLog.LogError( prefix, "GDPR prefab doesn't have required GDPR View component." );
                 Object.Destroy( canvas );
+                canvas = null;
+                view   = null;
                 return;
             }
 
@@ -198,6 +200,8 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             if( IsInitialized )
             {
                 Object.Destroy( canvas );
+                canvas = null;
+                view = null;
             }
 
             if ( config.DestroyOnAccept )

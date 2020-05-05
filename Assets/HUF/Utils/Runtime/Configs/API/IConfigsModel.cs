@@ -6,6 +6,7 @@ namespace HUF.Utils.Runtime.Configs.API
     public interface IConfigsModel
     {
         bool IsAutoInitEnabled { get; }
+        void InitConfigsMap();
         T GetConfig<T>() where T : AbstractConfig;
         T GetConfig<T>(string configId) where T : AbstractConfig;
         bool HasConfig<T>() where T : AbstractConfig;

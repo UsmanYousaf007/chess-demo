@@ -49,6 +49,14 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             
             var packages = new List<Models.PackageManifest>();
             packages.AddRange( local );
+
+            for ( int i = 0; i < packages.Count; ++i )
+            {
+                if ( !packages[i].name.Contains( ".huuuge." ) )
+                {
+                    packages[i].huf.rollout = Models.Rollout.NOT_HUF_LABEL;
+                }
+            }
             
             foreach ( var remotePackage in remote )
             {
@@ -68,7 +76,30 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 packages[index].huf.channel = remotePackage.huf.channel;
                 packages[index].huf.scope = remotePackage.huf.scope;
 
-                if ( packages[index].name == "" )
+                var nameIsEmpty = packages[index].name == string.Empty;
+
+                if ( packages[index].huf.status == Models.PackageStatus.Git )
+                {
+                    if ( nameIsEmpty )
+                    {
+                        packages[index].name = remotePackage.name;
+                    }
+
+                    if ( Utils.VersionComparer.Compare( remotePackage.version, ">", packages[index].version, true ) )
+                    {
+                        packages[index].huf.status = Models.PackageStatus.GitError;
+                    }
+                    else if ( Utils.VersionComparer.Compare( remotePackage.version, "=", packages[index].version, true ) )
+                    {
+                        packages[index].huf.status = Models.PackageStatus.GitUpdate;
+                    }
+
+                    packages[index].huf.rollout = Models.Rollout.VCS_LABEL;
+                    
+                    continue;
+                }
+                
+                if ( nameIsEmpty )
                 {
                     packages[index] = remotePackage;
                     packages[index].huf.status = Models.PackageStatus.Migration;

@@ -26,6 +26,9 @@ namespace HUFEXT.PackageManager.Editor.Utils
             public static Texture2D PackageForceUpdateIcon => GetIcon( Models.Keys.Resources.Icons.FORCE_UPDATE );
             public static Texture2D PackageMigrationIcon => GetIcon( Models.Keys.Resources.Icons.MIGRATION );
             public static Texture2D PackageConflictIcon => GetIcon( Models.Keys.Resources.Icons.CONFLICT );
+            public static Texture2D PackageGitIcon => GetIcon( Models.Keys.Resources.Icons.GIT );
+            public static Texture2D PackageGitUpdateIcon => GetIcon( Models.Keys.Resources.Icons.GIT_UPDATE );
+            public static Texture2D PackageGitErrorIcon => GetIcon( Models.Keys.Resources.Icons.GIT_ERROR );
         }
 
         public static class Banners

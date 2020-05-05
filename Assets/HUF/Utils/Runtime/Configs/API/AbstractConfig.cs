@@ -45,15 +45,14 @@ namespace HUF.Utils.Runtime.Configs.API
             try
             {
                 JsonUtility.FromJsonOverwrite( json, this );
-                Debug.Log($"[Config] Json applied to config: {configId}.");
+                HLog.Log( logPrefix, $"Json applied to config: {configId}." );
 
                 ValidateConfig();
                 OnChanged.Dispatch(this);
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Config] Problem with parsing Json for config {GetType().Name} type" +
-                               $"\n{e.Message}");
+                HLog.LogError( logPrefix, $"Problem with parsing Json for config {GetType().Name} type\n{e.Message}" );
             }
         }
 

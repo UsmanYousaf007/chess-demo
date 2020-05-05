@@ -1,3 +1,11 @@
+## [1.2.0] - 2020-04-24
+### Added
+- Detection for packages with git repository.
+- Added support for scoped registries.
+
+### Fixed
+- Issues with search bar.
+
 ## [1.1.0] - 2020-03-31
 ### Added
 - Added menu item to change package scope between stable and preview.

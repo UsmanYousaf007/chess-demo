@@ -168,7 +168,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Utils
 
         public static List<GDPRTranslation> Translations => translations;
         
-        public static GDPRTranslation GetTranslation( GDPRConfig config )
+        public static GDPRTranslation GetTranslation( GDPRConfig config, string forceLang = "" )
         {
             if ( config == null || !config.IsTranslationEnabled )
             {
@@ -178,6 +178,12 @@ namespace HUFEXT.GenericGDPR.Runtime.Utils
             var lang = HNativeCountryCode.GetCountryCode().Language;
             var code = HNativeCountryCode.GetCountryCode().GetCountryCode();
 
+            if ( !string.IsNullOrEmpty( forceLang ) )
+            {
+                lang = forceLang;
+                code = forceLang;
+            }
+            
             // Check by full country code {xx-yy}.
             for ( int i = 0; i < translations.Count; ++i )
             {

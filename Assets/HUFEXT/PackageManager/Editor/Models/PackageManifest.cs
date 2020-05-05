@@ -17,9 +17,22 @@ namespace HUFEXT.PackageManager.Editor.Models
         Migration,       // Status for packages that have different names but same path.
         Conflict,        // Status for packages that have same name but different paths.
         Embedded,        // Status for packages without manifest and version data (Used for submodules in old format).
-        Development      // Status for packages in development.
+        Development,     // Status for packages in development.
+        Git,             // Status for repositories with package structure.
+        GitUpdate,       // Status for repositories with not updated package version.
+        GitError         // Status for repositories with old package version.
     }
 
+    public static class Rollout
+    {
+        public const string NOT_HUF_LABEL       = "Not HUF";
+        public const string VCS_LABEL           = "Version Control";
+        public const string EXPERIMENTAL_LABEL  = "Experimental";
+        public const string DEVELOPMENT_LABEL   = "Development";
+        public const string NOT_INSTALLED_LABEL = "Not Installed";
+        public const string UNDEFINED_LABEL     = "Undefined";
+    }
+    
     [Serializable]
     public class PackageManifest
     {
@@ -67,6 +80,10 @@ namespace HUFEXT.PackageManager.Editor.Models
 
         public bool IsUpdate => huf.status == PackageStatus.UpdateAvailable ||
                                 huf.status == PackageStatus.ForceUpdate;
+        
+        public bool IsRepository => huf.status == PackageStatus.Git || 
+                                    huf.status == PackageStatus.GitUpdate || 
+                                    huf.status == PackageStatus.GitError;
         
         public static PackageManifest ParseManifest( string file, bool loadFromMemory = false )
         {

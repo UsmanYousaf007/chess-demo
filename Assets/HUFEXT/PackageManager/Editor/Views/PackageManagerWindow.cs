@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using HUFEXT.PackageManager.Editor.Commands.Base;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ namespace HUFEXT.PackageManager.Editor.Views
         ShowPreviewPackages,
         ShowUpdateWindow,
         ForceResolvePackages,
+        AddScopedRegistry,
+        AddDefaultRegistries,
         ClearCache,
         GenerateReportHUF,
         GenerateReportFull,
@@ -36,6 +39,7 @@ namespace HUFEXT.PackageManager.Editor.Views
         readonly Queue<ViewEvent> eventsQueue = new Queue<ViewEvent>();
         readonly Dictionary<ViewEvent, object> eventsData = new Dictionary<ViewEvent, object>();
         ViewEvent currentEvent = ViewEvent.Undefined;
+        ViewEvent asyncEvent = ViewEvent.Undefined;
 
         readonly List<PackageManagerView> views = new List<PackageManagerView>();
 
@@ -91,9 +95,14 @@ namespace HUFEXT.PackageManager.Editor.Views
 
         public void AddItemsToMenu(GenericMenu menu)
         {
-            if ( Core.Packages.Installing )
+            if ( Core.Packages.Installing || Core.Packages.UpdateInProgress )
             {
-                menu.AddItem( new GUIContent( "HUF/Fix Me" ), false, () => Core.Packages.Installing = false );
+                menu.AddItem( new GUIContent( "HUF/Fix Me" ), false,
+                    () =>
+                    {
+                        Core.Packages.Installing = false;
+                        Core.Packages.UpdateInProgress = false;
+                    } );
             }
         }
         
@@ -154,6 +163,12 @@ namespace HUFEXT.PackageManager.Editor.Views
 
             if ( isDirty )
             {
+                if ( asyncEvent != ViewEvent.Undefined )
+                {
+                    views.ForEach( view => view.RefreshView( asyncEvent ) );
+                    asyncEvent = ViewEvent.Undefined;
+                }
+                
                 views.ForEach( view => view.RefreshView( currentEvent ) );
                 isDirty = false;
                 Repaint();
@@ -207,14 +222,26 @@ namespace HUFEXT.PackageManager.Editor.Views
                     {
                         OnComplete = ( result, serializedData ) =>
                         {
-                            //state.lastFetchDate = DateTime.Now.ToString( CultureInfo.InvariantCulture );
                             Core.Packages.Installing = false;
+                            asyncEvent = ViewEvent.RefreshPackages;
                             isDirty = true;
                         }
                     });
                     break;
                 }
 
+                case ViewEvent.AddScopedRegistry:
+                {
+                    // Show editor window.
+                    break;
+                }
+
+                case ViewEvent.AddDefaultRegistries:
+                {
+                    Core.Command.Execute( new AddGoogleScopedRegistryCommand() );
+                    break;
+                }
+                
                 case ViewEvent.ShowPreviewPackages:
                 {
                     state.showPreviewPackages = !state.showPreviewPackages;

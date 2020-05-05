@@ -1,3 +1,11 @@
+## [2.3.0] - 2020-04-15
+### Added
+- Added ability to force language in editor and build.
+
+### Changed
+- Moved font assets to HUFEXT/GenericGDPR/Fonts directory.
+- Moved font configuration from GDPR config to GDPRView component in prefab.
+
 ## [2.2.0] - 2020-03-30
 ### Added
 - Added link for advertising network companies

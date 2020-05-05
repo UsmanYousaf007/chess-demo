@@ -698,7 +698,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 7014020839191017567}
   m_TextComponent: {fileID: 6461981787387012419}
   m_materialReferenceIndex: 1
@@ -1139,7 +1139,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000029058318}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6461981786491147650
@@ -1695,6 +1695,13 @@ MonoBehaviour:
   headerText: {fileID: 6461981787413680613}
   acceptPolicyButton: {fileID: 6461981787368956385}
   adsConsentToggle: {fileID: 6461981785984949110}
+  defaultFont: {fileID: 11400000, guid: 2fdb73814888546e5bcbff92ec6ec51c, type: 2}
+  customFonts:
+  - key: ja
+    font: {fileID: 11400000, guid: 20dbf950bb2414828a9e9f60742fb67a, type: 2}
+  - key: ko
+    font: {fileID: 11400000, guid: 44be3828217b847049d687e28c4a2592, type: 2}
+  forceLanguage: 
   linkColor: {r: 0.9137255, g: 0.019607844, b: 0.14901961, a: 1}
   elements:
   - name: Buttons
@@ -2663,7 +2670,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6461981786131351483}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

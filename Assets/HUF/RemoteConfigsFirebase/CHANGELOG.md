@@ -1,3 +1,7 @@
+## [2.1.0] - 2020-04-29
+### Added
+- Option to overwrite local configs with Firebase ones
+
 ## [2.0.0] - 2020-03-16
 ### Added
 - HIP support

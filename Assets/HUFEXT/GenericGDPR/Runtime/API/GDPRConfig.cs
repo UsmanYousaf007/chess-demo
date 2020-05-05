@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using HUF.Utils.Runtime.Configs.API;
 using TMPro;
 using UnityEngine;
@@ -24,19 +23,15 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         string gdprCustomPlayerPrefsKey = string.Empty;
         [SerializeField] string personalizedAdsCustomPlayerPrefsKey = string.Empty;
         [SerializeField] bool destroyOnAccept = true;
-        [SerializeField] TMP_FontAsset defaultFont;
 
         [Header( "Translations" )] 
         [SerializeField] bool enableTranslation = true;
-        [SerializeField] List<TranslationFont> fonts = new List<TranslationFont>();
         
         public GameObject Prefab => prefab;
         public string CustomGDPRKey => gdprCustomPlayerPrefsKey;
         public string CustomPersonalizedAdsKey => personalizedAdsCustomPlayerPrefsKey;
         public bool DestroyOnAccept => destroyOnAccept;
-        public TMP_FontAsset DefaultFont => defaultFont;
         public bool IsTranslationEnabled => enableTranslation;
-        public List<TranslationFont> Fonts => fonts;
         
         public override void RegisterManualInitializers()
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -46,21 +47,18 @@ namespace HUFEXT.PackageManager.Editor.Views
                 return;
             }
 
-            //using ( new EditorGUI.DisabledScope( window.state.selectedPackage.huf.status == Models.PackageStatus.Embedded ) )
+            using ( new GUILayout.VerticalScope() )
             {
-                using ( new GUILayout.VerticalScope() )
-                {
-                    EditorGUILayout.Space();
-                    DrawHeader( window.state.selectedPackage );
-                    EditorGUILayout.Space();
-                    Utils.HGUI.HorizontalSeparator();
+                EditorGUILayout.Space();
+                DrawHeader( window.state.selectedPackage );
+                EditorGUILayout.Space();
+                Utils.HGUI.HorizontalSeparator();
 
-                    using ( new GUILayout.HorizontalScope() )
-                    {
-                        DrawBasicInfo( window.state.selectedPackage );
-                        Utils.HGUI.VerticalSeparator();
-                        DrawDetailedInfo( window.state.selectedPackage );
-                    }
+                using ( new GUILayout.HorizontalScope() )
+                {
+                    DrawBasicInfo( window.state.selectedPackage );
+                    Utils.HGUI.VerticalSeparator();
+                    DrawDetailedInfo( window.state.selectedPackage );
                 }
             }
         }
@@ -305,14 +303,37 @@ namespace HUFEXT.PackageManager.Editor.Views
         {
             using ( new GUILayout.HorizontalScope() )
             {
+                // For now. TODO: In next update this should be reworked.
                 using ( new EditorGUI.DisabledScope( true ) )
                 {
-                    if ( GUILayout.Button( new GUIContent("Documentation", "Coming soon"), EditorStyles.miniButton ) )
+                    if ( GUILayout.Button( new GUIContent( "Documentation" ), EditorStyles.miniButton ) )
                     {
-                        // Placeholder until we implement proper solution.
+                        try
+                        {
+                            var directoryInfoVariable = new DirectoryInfo( $"{package.huf.path}/Documentation~" );
+                            var files = directoryInfoVariable.GetFiles( "*.md", SearchOption.AllDirectories );
+                            foreach ( var file in files )
+                            {
+                                EditorUtility.RevealInFinder( file.FullName );
+                            }
+
+                            if ( files.Length == 0 )
+                            {
+                                UnableToFindDocumentationDialog();
+                            }
+                        }
+                        catch ( Exception )
+                        {
+                            UnableToFindDocumentationDialog();
+                        }
                     }
                 }
 
+                if ( package.IsRepository )
+                {
+                    return;
+                }
+                
                 using ( new EditorGUI.DisabledScope( package.huf.config.previewVersions.Count == 0 &&
                                                      package.huf.config.stableVersions.Count == 0 && 
                                                      package.huf.config.experimentalVersions.Count == 0 ) )
@@ -326,9 +347,9 @@ namespace HUFEXT.PackageManager.Editor.Views
                             package );
                         
                         DisplayVersionsMenu( ref menu,
-                                             ref package.huf.config.previewVersions,
-                                             Models.Keys.Routing.PREVIEW_CHANNEL,
-                                             package );
+                            ref package.huf.config.previewVersions,
+                            Models.Keys.Routing.PREVIEW_CHANNEL,
+                            package );
 
                         DisplayVersionsMenu( ref menu,
                             ref package.huf.config.experimentalVersions,
@@ -340,6 +361,13 @@ namespace HUFEXT.PackageManager.Editor.Views
             }
         }
 
+        void UnableToFindDocumentationDialog()
+        {
+            EditorUtility.DisplayDialog( "Documentation",
+                "Documentation is not found for this package.",
+                "Ok" );
+        }
+        
         void DisplayVersionsMenu( ref GenericMenu menu, ref List<string> versions, string channel, Models.PackageManifest package )
         {
             foreach ( var version in versions )

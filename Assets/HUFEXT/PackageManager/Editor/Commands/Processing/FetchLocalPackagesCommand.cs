@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 
 namespace HUFEXT.PackageManager.Editor.Commands.Processing
 {
@@ -48,6 +47,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             
             base.Complete( result, serializedData );
         }
+
+        bool IsRepository( string path )
+        {
+            return File.Exists( path + "/.git" ) || Directory.Exists( path + "/.git" );
+        }
         
         void ParseManifest( string path )
         {
@@ -58,7 +62,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 parsedPath = parsedPath.Substring( 0, parsedPath.LastIndexOf( '/' ) );
                 
                 var manifest = Models.PackageManifest.ParseManifest( path );
-                manifest.huf.status = Models.PackageStatus.Installed;
+
+                manifest.huf.status = IsRepository( parsedPath )
+                    ? Models.PackageStatus.Git
+                    : Models.PackageStatus.Installed;
+                
                 manifest.huf.isLocal = true;
                 manifest.huf.path = parsedPath;
                 packages.Add( manifest );
@@ -106,7 +114,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 manifest = new Models.PackageManifest
                 {
                     displayName = defaultName,
-                    huf = new Models.PackageManifest.Metadata() { status = Models.PackageStatus.Embedded }
+                    huf = new Models.PackageManifest.Metadata()
+                    {
+                        status = IsRepository( path ) ? Models.PackageStatus.Git : Models.PackageStatus.Embedded
+                    }
                 };
 
                 manifest.ParseVersion();

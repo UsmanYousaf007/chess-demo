@@ -75,6 +75,11 @@
                 internal const string TITLE = "Huuuge Unity Framework - Update Packages";
                 internal const string SELECT = "Select packages to update:";
             }
+
+            internal static class VersionEditor
+            {
+                internal const string TITLE = "Huuuge Unity Framework - Edit package version";
+            }
         }
         
         internal static class Resources
@@ -92,6 +97,9 @@
                 internal const string FORCE_UPDATE = ICON_PREFIX + "huf_pm_force_upgrade.png";
                 internal const string MIGRATION = ICON_PREFIX + "huf_pm_migration.png";
                 internal const string CONFLICT = ICON_PREFIX + "huf_pm_conflict.png";
+                internal const string GIT = ICON_PREFIX + "huf_pm_git.png";
+                internal const string GIT_UPDATE = ICON_PREFIX + "huf_pm_git_update.png";
+                internal const string GIT_ERROR = ICON_PREFIX + "huf_pm_git_error.png";
             }
         }
 
