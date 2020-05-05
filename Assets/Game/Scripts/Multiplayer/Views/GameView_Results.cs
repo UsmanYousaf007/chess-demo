@@ -227,6 +227,8 @@ namespace TurboLabz.Multiplayer
         {
             viewBoardResultPanel.reason.text = "";
             EnableRewarededVideoButton(true);
+            offerTextDlg.SetActive(false);
+
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
