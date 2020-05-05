@@ -9141,7 +9141,6 @@ GameObject:
   m_Component:
   - component: {fileID: 152751734}
   - component: {fileID: 152751735}
-  - component: {fileID: 152751736}
   m_Layer: 5
   m_Name: HardStopView
   m_TagString: Untagged
@@ -9185,27 +9184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   errorMessageLabel: {fileID: 1577837808}
   errorCodeLabel: {fileID: 727555498}
---- !u!223 &152751736
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152751733}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!1 &154837243
 GameObject:
   m_ObjectHideFlags: 0
@@ -77473,6 +77451,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaintenanceView
       objectReference: {fileID: 0}
+    - target: {fileID: 5835422298911327437, guid: 6d0b5c7d3650f4ab6813296b5144905e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5835422298911327426, guid: 6d0b5c7d3650f4ab6813296b5144905e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -77578,9 +77561,9 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 933586062, guid: 6d0b5c7d3650f4ab6813296b5144905e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 15.1484375
+    - target: {fileID: 1166209546, guid: 6d0b5c7d3650f4ab6813296b5144905e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d0b5c7d3650f4ab6813296b5144905e, type: 3}
@@ -96174,12 +96157,42 @@ PrefabInstance:
     - target: {fileID: 6034242918619860835, guid: 977e6c75a96304c96ad82c730316c8d8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 29.05946
+      value: 28.584564
       objectReference: {fileID: 0}
     - target: {fileID: 6034242918619860835, guid: 977e6c75a96304c96ad82c730316c8d8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40.12973
+      value: 39.513958
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034242918362152799, guid: 977e6c75a96304c96ad82c730316c8d8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034242918619860837, guid: 977e6c75a96304c96ad82c730316c8d8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034242919267751657, guid: 977e6c75a96304c96ad82c730316c8d8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034242917786850357, guid: 977e6c75a96304c96ad82c730316c8d8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034242917843481409, guid: 977e6c75a96304c96ad82c730316c8d8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034242918732618698, guid: 977e6c75a96304c96ad82c730316c8d8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 977e6c75a96304c96ad82c730316c8d8, type: 3}
