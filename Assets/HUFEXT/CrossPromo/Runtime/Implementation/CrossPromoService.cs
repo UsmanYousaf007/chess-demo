@@ -56,7 +56,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         public void ClosePanel()
         {
             crossPromoView.gameObject.SetActive(false);
-            Screen.orientation = defaultAppOrientation;
+            //Screen.orientation = defaultAppOrientation;
         }
 
         public void OpenPanel()
@@ -96,8 +96,8 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
 
             if (!localConfig.UseDefaultAppOrientation)
                 defaultAppOrientation = Screen.orientation;
-            Screen.orientation = ScreenOrientation.Portrait;
-            yield return new WaitUntil(() => Screen.orientation == ScreenOrientation.Portrait);
+            //Screen.orientation = ScreenOrientation.Portrait;
+            //yield return new WaitUntil(() => Screen.orientation == ScreenOrientation.Portrait);
             crossPromoView.gameObject.SetActive(true);
             yield return null;
             LayoutRebuilder.ForceRebuildLayoutImmediate(crossPromoView.GetComponent<RectTransform>());
