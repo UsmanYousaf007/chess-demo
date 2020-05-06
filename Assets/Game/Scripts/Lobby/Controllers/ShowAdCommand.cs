@@ -35,6 +35,7 @@ namespace TurboLabz.InstantGame
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -229,7 +230,7 @@ namespace TurboLabz.InstantGame
         private void LoadGameStartSignal(AdsResult result = AdsResult.FINISHED)
         {
             playerModel.adContext = AnalyticsContext.unknown;
-
+            Debug.Log("ACTION CODE: " + resultAdsVO.actionCode);
 
             preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             if (resultAdsVO.actionCode == FindMatchAction.ActionCode.RandomLong.ToString())
@@ -242,11 +243,17 @@ namespace TurboLabz.InstantGame
                 FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString());
             }
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
-                resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString())
             {
                 FindMatchAction.Challenge(findMatchSignal, resultAdsVO.isRanked, resultAdsVO.friendId, resultAdsVO.actionCode.ToString());
             }
-            else{
+            else if (resultAdsVO.actionCode == "ChallengeClassic")
+            {
+                tapLongMatchSignal.Dispatch(resultAdsVO.friendId, resultAdsVO.isRanked);
+            }
+            
+            else
+            {
                 startCPUGameSignal.Dispatch();
             }
         }

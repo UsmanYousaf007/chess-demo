@@ -279,7 +279,7 @@ namespace TurboLabz.InstantFramework
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;
                 }
-                view.preferencesModel.sessionsBeforePregameAdCount++;
+                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
@@ -314,7 +314,7 @@ namespace TurboLabz.InstantFramework
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;
                 }
-                view.preferencesModel.sessionsBeforePregameAdCount++;
+                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);

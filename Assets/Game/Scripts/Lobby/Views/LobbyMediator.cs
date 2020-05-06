@@ -305,12 +305,13 @@ namespace TurboLabz.InstantFramework
                     vo.adsType = AdType.Interstitial;
                     vo.isRanked = isRanked;
                     vo.friendId = playerId;
+                    vo.actionCode = "ChallengeClassic";
                     view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                view.preferencesModel.sessionsBeforePregameAdCount++;
+                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
 
             tapLongMatchSignal.Dispatch(playerId, isRanked);
@@ -346,7 +347,7 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                view.preferencesModel.sessionsBeforePregameAdCount++;
+                //view.preferencesModel.sessionsBeforePregameAdCount++;
              }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
@@ -400,7 +401,7 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                view.preferencesModel.sessionsBeforePregameAdCount++;
+                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
             startCPUGameSignal.Dispatch();
         }
@@ -424,7 +425,7 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                view.preferencesModel.sessionsBeforePregameAdCount++;
+                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
 
             FindMatchAction.Random(findMatchSignal, actionCode);
@@ -448,7 +449,7 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                view.preferencesModel.sessionsBeforePregameAdCount++;
+                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
             FindMatchAction.RandomLong(findMatchSignal);
         }
