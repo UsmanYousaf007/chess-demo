@@ -76,7 +76,7 @@ namespace TurboLabz.InstantFramework
         public void HideBanner()
         {
             bannerDisplay = false;
-            HAdsManager.HideBanner();
+            HAdsManager.HideBanner(PLACEMENT_ID_BANNER);
         }
 
         private void OnRewardedClicked(IAdCallbackData data)
