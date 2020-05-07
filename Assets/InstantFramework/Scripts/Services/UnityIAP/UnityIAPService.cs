@@ -112,7 +112,7 @@ namespace TurboLabz.InstantFramework
 #if SUBSCRIPTION_TEST
                 else if (playerModel.subscriptionExipryTimeStamp > 0)
                 {
-                    playerModel.subscriptionExipryTimeStamp = 0;
+                    playerModel.subscriptionExipryTimeStamp = 1;
                     loadPromotionSingal.Dispatch();
                     updatePlayerDataSignal.Dispatch();
                 }

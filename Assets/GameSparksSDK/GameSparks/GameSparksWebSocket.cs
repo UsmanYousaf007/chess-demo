@@ -78,6 +78,8 @@ namespace GameSparks
 		void OnError(WebSocket ws, string error)
 		{
             onError?.Invoke(error);
+
+			ws.Close();
         }
 
 
