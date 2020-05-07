@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.ContentPanel
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.ContentPanel
 {
     public class ContentPanelScrollView : MonoBehaviour
     {

@@ -3,8 +3,6 @@ using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
-using System.Collections;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {

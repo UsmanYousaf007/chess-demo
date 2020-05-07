@@ -1,9 +1,8 @@
 using System;
-using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace HUF.Utils
+namespace HUF.Utils.Runtime.Logging
 {
     public static class HLogs
     {

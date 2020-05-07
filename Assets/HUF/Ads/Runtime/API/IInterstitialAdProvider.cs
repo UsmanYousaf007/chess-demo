@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public interface IInterstitialAdProvider : IAdProvider
     {

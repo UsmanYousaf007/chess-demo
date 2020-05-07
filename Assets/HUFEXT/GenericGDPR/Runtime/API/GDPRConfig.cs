@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,7 +14,7 @@ namespace HUFEXT.GenericGDPR.Runtime.API
     }
     
     [CreateAssetMenu(menuName = "HUFEXT/GDPR/GDPR Config", fileName = "GDPRConfig.asset")]
-    public class GDPRConfig : AbstractConfig
+    public class GDPRConfig : FeatureConfigBase
     {
         [Header( "Common" )]
         [SerializeField] GameObject prefab = null;
@@ -23,21 +22,20 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         [FormerlySerializedAs("customPrefsKey")]
         string gdprCustomPlayerPrefsKey = string.Empty;
         [SerializeField] string personalizedAdsCustomPlayerPrefsKey = string.Empty;
-        [SerializeField] bool autoInit = true;
         [SerializeField] bool destroyOnAccept = true;
-        [SerializeField] TMP_FontAsset defaultFont;
 
         [Header( "Translations" )] 
         [SerializeField] bool enableTranslation = true;
-        [SerializeField] List<TranslationFont> fonts = new List<TranslationFont>();
         
         public GameObject Prefab => prefab;
         public string CustomGDPRKey => gdprCustomPlayerPrefsKey;
         public string CustomPersonalizedAdsKey => personalizedAdsCustomPlayerPrefsKey;
-        public bool AutoInit => autoInit;
         public bool DestroyOnAccept => destroyOnAccept;
-        public TMP_FontAsset DefaultFont => defaultFont;
         public bool IsTranslationEnabled => enableTranslation;
-        public List<TranslationFont> Fonts => fonts;
+        
+        public override void RegisterManualInitializers()
+        {
+            AddManualInitializer( "GenericGDPR", HGenericGDPR.Initialize );
+        }
     }
 }

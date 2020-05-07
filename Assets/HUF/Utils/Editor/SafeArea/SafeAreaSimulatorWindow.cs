@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using HUF.Utils.Runtime.SafeArea;
 using UnityEditor;
+using UnityEngine;
 
-namespace HUF.Utils.SafeArea.Editor
+namespace HUF.Utils.Editor.SafeArea
 {
     public class SafeAreaSimulatorWindow : EditorWindow
     {

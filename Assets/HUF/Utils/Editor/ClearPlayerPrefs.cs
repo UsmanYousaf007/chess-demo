@@ -1,6 +1,7 @@
-﻿using UnityEditor;
+﻿using HUF.Utils.Runtime.PlayerPrefs;
+using UnityEditor;
 
-namespace HUF.Utils.PlayerPrefs.Editor
+namespace HUF.Utils.Editor
 {
     public class ClearPlayerPrefs : EditorWindow
     {

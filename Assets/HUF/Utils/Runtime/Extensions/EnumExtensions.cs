@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HUF.Utils.Extensions
+namespace HUF.Utils.Runtime.Extensions
 {
     public static class EnumExtensions
     {

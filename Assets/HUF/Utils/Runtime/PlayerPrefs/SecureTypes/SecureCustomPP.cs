@@ -1,7 +1,7 @@
-﻿using BlowFishCS;
+﻿using HUF.Utils.Runtime._3rdParty.Blowfish;
 using UnityEngine;
 
-namespace HUF.Utils.PlayerPrefs.SecureTypes  
+namespace HUF.Utils.Runtime.PlayerPrefs.SecureTypes  
 {
     public sealed class SecureCustomPP<T> : CustomPP<T>
     {

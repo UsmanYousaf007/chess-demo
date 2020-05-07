@@ -1,5 +1,5 @@
-using HUF.StorageFirebase.Implementation;
-using HUF.Utils.Configs.API.Editor;
+using HUF.StorageFirebase.Runtime.Implementation;
+using HUF.Utils.Editor.Configs;
 
 namespace HUF.StorageFirebase.Editor
 {

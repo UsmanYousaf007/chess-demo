@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using HUF.Ads.API;
-using HUF.Ads.Implementation;
-using HUF.Utils.Configs.API;
-using HUF.Utils.Extensions;
+using HUF.Ads.Runtime.API;
+using HUF.Ads.Runtime.Implementation;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.AdsManager.Runtime.AdManagers;
+using HUFEXT.AdsManager.Runtime.AdMediation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.Config;
 using UnityEngine.Events;
@@ -14,71 +14,59 @@ namespace HUFEXT.AdsManager.Runtime.Service
 {
     public class HUFAdsService
     {
-        public static readonly HLogPrefix logPrefix = new HLogPrefix( HAdsManager.logPrefix, nameof(HUFAdsService) );
+        public static HLogPrefix logPrefix = new HLogPrefix( HAdsManager.logPrefix, nameof(HUFAdsService) );
+
+        public string DefaultBannerPlacement => bannerPlacement;
+        public string DefaultInterstitialPlacement => interstitialPlacement;
+        public string DefaultRewardedPlacement => rewardedPlacement;
+
         readonly AdsManagerConfig adsManagerConfig;
-        AdsProviderConfig adsConfig;
         Dictionary<string, AdManagerBase> ads = new Dictionary<string, AdManagerBase>();
         string bannerPlacement = null;
         string interstitialPlacement = null;
         string rewardedPlacement = null;
-        BannerPosition bannerPosition = BannerPosition.BottomCenter;
         List<string> rewardedAdsQueue = new List<string>();
 
-        public UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
+        IAdMediation mediation;
+        bool isAlternativeMediation;
 
-        public HUFAdsService()
+        internal AdsManagerConfig ManagerConfig => adsManagerConfig;
+        internal IAdMediation Mediation => mediation;
+
+        public event UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
+
+        public HUFAdsService( IAdMediation inMediation, bool inIsAlternativeMediation = true )
         {
+            isAlternativeMediation = inIsAlternativeMediation;
+            mediation = inMediation;
+
+            if ( isAlternativeMediation )
+            {
+                logPrefix = new HLogPrefix( logPrefix, mediation.MediationId );
+            }
+
             adsManagerConfig = HConfigs.GetConfig<AdsManagerConfig>();
 
-            if ( HAds.IsAdsServiceInitialized() == false )
-                HAds.OnAdsServiceInitialized += OnAdsServiceInitialized;
+            if ( mediation.IsInitialized == false )
+                mediation.OnInitialize += HandleAdsServiceInitialized;
             else
-                OnAdsServiceInitialized();
-        }
-
-        void GetProperAdsConfig()
-        {
-            if ( adsConfig != null )
-            {
-                adsConfig.OnChanged -= AdsConfigOnOnChanged;
-            }
-
-            var adsProviderConfigs = HConfigs.GetConfigsByBaseClass<AdsProviderConfig>().ToList();
-
-            if ( adsProviderConfigs.Count == 0 )
-            {
-                HLog.LogError( logPrefix, $"No ads mediation config" );
-                return;
-            }
-
-            adsConfig = adsProviderConfigs[0];
-
-            if ( adsProviderConfigs.Count > 1 )
-            {
-                var adMediationName = HAds.Interstitial.GetAdProviderName().ToLower();
-
-                foreach ( var adConfig in adsProviderConfigs )
-                {
-                    if ( adConfig.name.ToLower().Contains( adMediationName ) )
-                    {
-                        adsConfig = adConfig;
-                        return;
-                    }
-                }
-            }
+                HandleAdsServiceInitialized();
         }
 
         bool IsMediationUsingOnlyAdPlacements()
         {
-            return adsManagerConfig.AdsProvider == AdsMediator.Ironsource ||
-                   adsManagerConfig.AdsProvider == AdsMediator.UnityAds ||
-                   adsManagerConfig.AdsProvider == AdsMediator.Chartboost;
+            var mediator = isAlternativeMediation ? mediation.AdsMediation : adsManagerConfig.AdsProvider;
+
+            return mediator == AdsMediator.Ironsource ||
+                   mediator == AdsMediator.UnityAds ||
+                   mediator == AdsMediator.Chartboost;
         }
 
         void ClearAdsData()
         {
             foreach ( var ad in ads )
             {
+                ad.Value.OnAdFetch -= HandleAdFetch;
                 ad.Value.Destroy();
             }
 
@@ -91,25 +79,27 @@ namespace HUFEXT.AdsManager.Runtime.Service
 
         void AdsConfigOnOnChanged( AbstractConfig arg0 )
         {
-            OnAdsServiceInitialized();
+            HandleAdsServiceInitialized();
         }
 
-        void OnAdsServiceInitialized()
+        void HandleAdsServiceInitialized()
         {
             HLog.Log( logPrefix, $" Ads Service Initialized" );
-            GetProperAdsConfig();
             ClearAdsData();
 
-            if ( adsConfig == null )
+            if ( mediation.AdsProviderConfig == null )
             {
                 HLog.LogError( logPrefix, $" No ads mediation config" );
                 return;
             }
 
-            HLog.Log( logPrefix, $" config {adsConfig.name}" );
-            adsConfig.OnChanged += AdsConfigOnOnChanged;
-            var adPlacements = adsConfig.AdPlacementData;
-            var queueFetchingRewarded = adsManagerConfig.AdsProvider == AdsMediator.AdMob;
+            mediation.AdsProviderConfig.OnChanged -= AdsConfigOnOnChanged;
+            mediation.AdsProviderConfig.OnChanged += AdsConfigOnOnChanged;
+            HLog.Log( logPrefix, $" config {mediation.AdsProviderConfig.name}" );
+            var adPlacements = mediation.AdsProviderConfig.AdPlacementData;
+
+            var queueFetchingRewarded =
+                ( isAlternativeMediation ? mediation.AdsMediation : adsManagerConfig.AdsProvider ) == AdsMediator.AdMob;
             var createdAds = new Dictionary<string, AdManagerBase>();
 
             for ( int i = 0; i < adPlacements.Count; i++ )
@@ -130,14 +120,14 @@ namespace HUFEXT.AdsManager.Runtime.Service
                     {
                         if ( bannerPlacement == null )
                             bannerPlacement = adPlacements[i].PlacementId;
-                        ad = new AdManagerBanner( adPlacements[i], adsManagerConfig, this );
+                        ad = new AdManagerBanner( adPlacements[i], this );
                     }
                         break;
                     case PlacementType.Interstitial:
                     {
                         if ( interstitialPlacement == null )
                             interstitialPlacement = adPlacements[i].PlacementId;
-                        ad = new AdManagerInterstitial( adPlacements[i], adsManagerConfig, this );
+                        ad = new AdManagerInterstitial( adPlacements[i], this );
                     }
                         break;
                     case PlacementType.Rewarded:
@@ -146,20 +136,26 @@ namespace HUFEXT.AdsManager.Runtime.Service
                             rewardedPlacement = adPlacements[i].PlacementId;
 
                         if ( queueFetchingRewarded )
-                            ad = new AdManagerRewardedQueue( adPlacements[i], adsManagerConfig, this );
+                            ad = new AdManagerRewardedQueue( adPlacements[i], this );
                         else
-                            ad = new AdManagerRewarded( adPlacements[i], adsManagerConfig, this );
+                            ad = new AdManagerRewarded( adPlacements[i], this );
                     }
                         break;
                     default:
                         continue;
                 }
 
+                ad.OnAdFetch += HandleAdFetch;
                 ads.Add( adPlacements[i].PlacementId, ad );
 
                 if ( !IsMediationUsingOnlyAdPlacements() )
                     createdAds.Add( adPlacements[i].AppId, ad );
             }
+        }
+
+        void HandleAdFetch( AdsManagerFetchCallbackData adData )
+        {
+            OnAdFetch.Dispatch( adData );
         }
 
         public string GetMainPlacementId( string placementId )
@@ -178,7 +174,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
             return placementId;
         }
 
-        public bool CanShowAd( string placementId )
+        public bool CanShowAd( string placementId, bool checkAlternative = false )
         {
             string mainPlacement = GetMainPlacementId( placementId );
             return ads.ContainsKey( mainPlacement ) && ads[mainPlacement].IsReady();
@@ -190,7 +186,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
 
             if ( placementId == null || !CanShowAd( placementId ) )
             {
-                resultCallback.Dispatch( new AdManagerCallback( HAds.Interstitial.GetAdProviderName(),
+                resultCallback.Dispatch( new AdManagerCallback( mediation.MediationId,
                     placementId,
                     AdResult.Failed ) );
                 return;
@@ -203,8 +199,9 @@ namespace HUFEXT.AdsManager.Runtime.Service
 
         public void SetBannerPosition( BannerPosition position )
         {
-            bannerPosition = position;
+            Mediation.SetBannerPosition( position );
         }
+        
 
         public void HideBanner( string placementId )
         {
@@ -222,29 +219,6 @@ namespace HUFEXT.AdsManager.Runtime.Service
             }
 
             bannerAd.HideBanner();
-        }
-
-        public void HideBanner()
-        {
-            HideBanner( bannerPlacement );
-        }
-
-        public void ShowBanner( UnityAction<AdManagerCallback> resultCallback, BannerPosition position )
-        {
-            ShowBanner( bannerPlacement, resultCallback, position );
-        }
-
-        public void ShowBanner( string placementId,
-            UnityAction<AdManagerCallback> resultCallback,
-            BannerPosition position )
-        {
-            SetBannerPosition( position );
-            ShowAd( placementId, resultCallback );
-        }
-
-        public void ShowBanner( string placementId, UnityAction<AdManagerCallback> resultCallback )
-        {
-            ShowBanner( placementId, resultCallback, bannerPosition );
         }
 
         public void ShowBannerPersistent( string placementId, BannerPosition position )
@@ -269,27 +243,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
 
             bannerAd.ShowBannerPersistent( placementId );
         }
-
-        public void ShowInterstitial( string placementId, UnityAction<AdManagerCallback> resultCallback )
-        {
-            ShowAd( placementId, resultCallback );
-        }
-
-        public void ShowInterstitial( UnityAction<AdManagerCallback> resultCallback )
-        {
-            ShowAd( interstitialPlacement, resultCallback );
-        }
-
-        public void ShowRewarded( string placementId, UnityAction<AdManagerCallback> resultCallback )
-        {
-            ShowAd( placementId, resultCallback );
-        }
-
-        public void ShowRewarded( UnityAction<AdManagerCallback> resultCallback )
-        {
-            ShowAd( rewardedPlacement, resultCallback );
-        }
-
+        
         public void RemoveFromRewardedAdQueue( string placementId )
         {
             rewardedAdsQueue.Remove( placementId );

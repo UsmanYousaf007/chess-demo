@@ -1,6 +1,6 @@
-﻿using BlowFishCS;
+﻿using HUF.Utils.Runtime._3rdParty.Blowfish;
 
-namespace HUF.Utils.PlayerPrefs.SecureTypes
+namespace HUF.Utils.Runtime.PlayerPrefs.SecureTypes
 {
     public class SecureStringArrayPP
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace HUF.Utils.AndroidManifest
+namespace HUF.Utils.Runtime.AndroidManifest
 {
     public class AndroidManifestAttribute : Attribute
     {

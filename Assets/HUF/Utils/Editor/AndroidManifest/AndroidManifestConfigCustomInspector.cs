@@ -1,9 +1,10 @@
-using HUF.Utils.Configs.API.Editor;
-using HUF.Utils.Extensions;
+using HUF.Utils.Editor.Configs;
+using HUF.Utils.Runtime.AndroidManifest;
+using HUF.Utils.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.AndroidManifest.Editor
+namespace HUF.Utils.Editor.AndroidManifest
 {
     [CustomEditor(typeof(AndroidManifestKeysConfig), true)]
     public class AndroidManifestConfigCustomInspector : AbstractConfigEditor

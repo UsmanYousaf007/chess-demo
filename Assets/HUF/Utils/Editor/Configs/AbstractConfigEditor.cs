@@ -1,64 +1,64 @@
+using HUF.Utils.Runtime.Configs.API;
 using UnityEditor;
 using UnityEngine;
-using HUF.Utils.Editor;
 
-namespace HUF.Utils.Configs.API.Editor
+namespace HUF.Utils.Editor.Configs
 {
     [CustomEditor( typeof( AbstractConfig ), true )]
     public class AbstractConfigEditor : UnityEditor.Editor
     {
-        private bool m_showConfigEditor = true;
-        private static GUIContent m_headerContent = null;
-        private static GUIContent m_copyConfigContent = null;
-        private static GUIContent m_applyConfigContent = null;
-        
-        private static GUIContent HeaderContent
+        bool showConfigEditor = true;
+        static GUIContent headerContent = null;
+        static GUIContent copyConfigContent = null;
+        static GUIContent applyConfigContent = null;
+
+        public static GUIContent HeaderContent
         {
             get
             {
-                if ( m_headerContent == null )
+                if ( headerContent == null )
                 {
-                    m_headerContent = new GUIContent()
+                    headerContent = new GUIContent()
                     {
                         text = " HUF Config",
                         image = HEditorGUI.Res.WindowIcon
                     };
                 }
-                return m_headerContent;
+                return headerContent;
             }
         }
-        
-        private static GUIContent CopyConfigContent
+
+        static GUIContent CopyConfigContent
         {
             get
             {
-                if ( m_copyConfigContent == null )
+                if ( copyConfigContent == null )
                 {
-                    m_copyConfigContent = new GUIContent()
+                    copyConfigContent = new GUIContent()
                     {
                         text = " Copy Config",
                         image = EditorGUIUtility.IconContent( "d_TreeEditor.Duplicate" ).image,
                         tooltip = "Copy config values to clipboard."
                     };
                 }
-                return m_copyConfigContent;
+                return copyConfigContent;
             }
         }
 
-        private static GUIContent ApplyConfigContent
+        static GUIContent ApplyConfigContent
         {
             get
             {
-                if ( m_applyConfigContent == null )
+                if ( applyConfigContent == null )
                 {
-                    m_applyConfigContent = new GUIContent()
+                    applyConfigContent = new GUIContent()
                     {
                         text = " Apply Config",
                         image = EditorGUIUtility.IconContent( "d_editicon.sml" ).image,
                         tooltip = "Replace config values with values from clipboard."
                     };
                 }
-                return m_applyConfigContent;
+                return applyConfigContent;
             }
         }
 
@@ -67,7 +67,7 @@ namespace HUF.Utils.Configs.API.Editor
             using( new GUILayout.VerticalScope( EditorStyles.helpBox ) )
             {
                 DrawHeaderPanel();
-                if ( m_showConfigEditor )
+                if ( showConfigEditor )
                 {
                     HEditorGUI.HorizontalSeparator();
                     OnConfigGUI();
@@ -76,23 +76,10 @@ namespace HUF.Utils.Configs.API.Editor
             EditorGUILayout.Space();
             base.OnInspectorGUI();
         }
-        
-        private void DrawHeaderPanel()
-        {
-            using( new GUILayout.HorizontalScope() )
-            {
-                EditorGUILayout.LabelField( HeaderContent, EditorStyles.boldLabel );
-                GUILayout.FlexibleSpace();
-                if ( GUILayout.Button( m_showConfigEditor ? "Hide" : "Show", EditorStyles.miniButton ) )
-                {
-                    m_showConfigEditor = !m_showConfigEditor;
-                }
-            }
-        }
 
         protected virtual void OnConfigGUI()
         {
-            using( new GUILayout.HorizontalScope() )
+            using ( new GUILayout.HorizontalScope() )
             {
                 if ( GUILayout.Button( CopyConfigContent, GUILayout.Height( 22f ) ) )
                 {
@@ -103,14 +90,27 @@ namespace HUF.Utils.Configs.API.Editor
 
                 if ( GUILayout.Button( ApplyConfigContent, GUILayout.Height( 22f ) ) &&
                      EditorUtility.DisplayDialog( "Are you sure?",
-                                                  "Are you sure you want to replace current config?",
-                                                  "Yes",
-                                                  "No" ) )
+                         "Are you sure you want to replace current config?",
+                         "Yes",
+                         "No" ) )
                 {
                     EditorUtility.SetDirty( target );
-                    var config = ( AbstractConfig ) target;
+                    var config = (AbstractConfig)target;
                     config.ApplyJson( EditorGUIUtility.systemCopyBuffer );
                     AssetDatabase.Refresh();
+                }
+            }
+        }
+
+        void DrawHeaderPanel()
+        {
+            using( new GUILayout.HorizontalScope() )
+            {
+                EditorGUILayout.LabelField( HeaderContent, EditorStyles.boldLabel );
+                GUILayout.FlexibleSpace();
+                if ( GUILayout.Button( showConfigEditor ? "Hide" : "Show", EditorStyles.miniButton ) )
+                {
+                    showConfigEditor = !showConfigEditor;
                 }
             }
         }

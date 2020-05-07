@@ -1,6 +1,7 @@
-using HUF.Utils.Configs.API.Editor;
+using HUF.RemoteConfigsFirebase.Runtime.Implementation;
+using HUF.Utils.Editor.Configs;
 
-namespace HUF.RemoteConfigsFirebase.Implementation.Editor
+namespace HUF.RemoteConfigsFirebase.Editor
 {
     public class FirebaseRemoteConfigInstaller : BaseConfigInstaller
     {

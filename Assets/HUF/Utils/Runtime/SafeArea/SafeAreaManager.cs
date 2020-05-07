@@ -1,9 +1,9 @@
-﻿using HUF.Utils.Extensions;
+﻿using HUF.Utils.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Utils.SafeArea
+namespace HUF.Utils.Runtime.SafeArea
 {
 #if UNITY_EDITOR
     public struct SafeAreaSimulatorHelper
@@ -16,7 +16,7 @@ namespace HUF.Utils.SafeArea
     }
 #endif
 
-
+    [AddComponentMenu("")]
     public class SafeAreaManager : HSingleton<SafeAreaManager>
     {
         public static event UnityAction OnSafeAreaChange;

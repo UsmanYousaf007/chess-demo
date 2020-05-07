@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using HUFEXT.CrossPromo.Implementation.Model;
-using HUFEXT.CrossPromo.Implementation.View.CrossPromoTile;
+using HUFEXT.CrossPromo.Runtime.Implementation.Model;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.CrossPromoTile;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.ContentPanel
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.ContentPanel
 {
     public class ContentPanelContainer : MonoBehaviour
     {

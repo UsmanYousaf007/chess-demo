@@ -1,11 +1,11 @@
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation.View.BannerTile;
-using HUFEXT.CrossPromo.Implementation.View.BottomPanel;
-using HUFEXT.CrossPromo.Implementation.View.BulletPoint;
-using HUFEXT.CrossPromo.Implementation.View.CrossPromoTile;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BulletPoint;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.CrossPromoTile;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation
+namespace HUFEXT.CrossPromo.Runtime.Implementation
 {
     [CreateAssetMenu(fileName = "CrossPromoLocalConfig", menuName = "HUFEXT/CrossPromo/CrossPromoLocalConfig")]
     public class CrossPromoLocalConfig : AbstractConfig
@@ -19,9 +19,9 @@ namespace HUFEXT.CrossPromo.Implementation
         [SerializeField] Vector2 baseResolution = new Vector2(1080.0f, 1920.0f);
         [SerializeField] int crossPromoCanvasSortingOrder = default;
         [SerializeField] BottomPanelContainer customBottomPanelContainer = default;
-        [SerializeField] private string[] iOSEnabledCustomURLSchemes = default;
-        [SerializeField] private string[] iOSGameCustomURLSchemes = default;
-        
+        [SerializeField] string[] iOSEnabledCustomURLSchemes = default;
+        [SerializeField] string[] iOSGameCustomURLSchemes = default;
+
         public CrossPromoView CrossPromoRootPrefab => crossPromoRootPrefab;
         public TileContainer TileContainerPrefab => tileContainerPrefab;
         public BannerTileContainer BannerTileContainerPrefab => bannerTileContainerPrefab;

@@ -1,4 +1,4 @@
-namespace HUF.StorageFirebase.API
+namespace HUF.StorageFirebase.Runtime.API
 {
     public static class FirebaseErrorMessages
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HUF.Analytics.API
+namespace HUF.Analytics.Runtime.API
 {
     public class AnalyticsEvent
     {
@@ -187,7 +187,13 @@ namespace HUF.Analytics.API
         {
             if (value == null)
             {
-                Debug.LogWarning($"[AnalyticsEvent] Parameter can't be null. Parameter {name} won't be added.");
+                Debug.LogError($"[AnalyticsEvent] Parameter can't be null. Parameter {name} won't be added.");
+                return;
+            }
+
+            if (value is string && ((string)value).IsNullOrEmpty() )
+            {
+                Debug.LogError($"[AnalyticsEvent] String parameter can't be empty. Parameter {name} won't be added.");
                 return;
             }
 

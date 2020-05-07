@@ -1,9 +1,7 @@
-using HUFEXT.NativeCountryCode.API;
-
-namespace HUFEXT.NativeCountryCode.Implementation
+namespace HUFEXT.CountryCode.Runtime.Implementation
 {
     public interface ICountryCodeProvider
     {
-        CountryCode GetCountryCode();
+        API.CountryCode GetCountryCode();
     }
 }

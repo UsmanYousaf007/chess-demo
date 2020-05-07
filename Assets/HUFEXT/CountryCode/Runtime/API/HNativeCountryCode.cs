@@ -1,16 +1,14 @@
-using HUFEXT.NativeCountryCode.Implementation;
-using JetBrains.Annotations;
-using UnityEngine;
-
 #if UNITY_ANDROID && !UNITY_EDITOR
-using PlatformCountryCodeProvider = HUFEXT.NativeCountryCode.Implementation.AndroidCountryCodeProvider;
+using PlatformCountryCodeProvider = HUFEXT.CountryCode.Runtime.Implementation.AndroidCountryCodeProvider;
 #elif UNITY_IPHONE && !UNITY_EDITOR
-using PlatformCountryCodeProvider = HUFEXT.NativeCountryCode.Implementation.iOSCountryCodeProvider;
+using PlatformCountryCodeProvider = HUFEXT.CountryCode.Runtime.Implementation.iOSCountryCodeProvider;
 #else
-using PlatformCountryCodeProvider = HUFEXT.NativeCountryCode.Implementation.DefaultCountryCodeProvider;
+using PlatformCountryCodeProvider = HUFEXT.CountryCode.Runtime.Implementation.DefaultCountryCodeProvider;
 #endif
+using HUFEXT.CountryCode.Runtime.Implementation;
+using JetBrains.Annotations;
 
-namespace HUFEXT.NativeCountryCode.API
+namespace HUFEXT.CountryCode.Runtime.API
 {
     public static class HNativeCountryCode
     {

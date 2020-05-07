@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace HUFEXT.CrossPromo.Implementation.View.TopPanel
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.TopPanel
 {
     public class TopPanelCloseButton : MonoBehaviour
     {

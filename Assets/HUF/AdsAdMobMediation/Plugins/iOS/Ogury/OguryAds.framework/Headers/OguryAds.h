@@ -10,6 +10,7 @@
 #import <OguryAds/OguryAdsInterstitial.h>
 #import <OguryAds/OguryAdsOptinVideo.h>
 #import <OguryAds/OGARewardItem.h>
+#import <OguryAds/Ogury.h>
 
 typedef void (^SetupCompletionBlock)(NSError* error);
 @interface OguryAds : NSObject

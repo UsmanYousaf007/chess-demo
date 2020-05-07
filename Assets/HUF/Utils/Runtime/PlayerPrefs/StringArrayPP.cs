@@ -1,6 +1,6 @@
-﻿using HUF.Utils.Extensions;
+﻿using HUF.Utils.Runtime.Extensions;
 
-namespace HUF.Utils.PlayerPrefs
+namespace HUF.Utils.Runtime.PlayerPrefs
 {
     public class StringArrayPP
     {

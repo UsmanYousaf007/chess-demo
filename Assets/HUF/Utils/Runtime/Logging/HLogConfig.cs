@@ -1,5 +1,4 @@
-using System.Collections;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEngine;
 
 namespace HUF.Utils.Runtime.Logging
@@ -16,5 +15,13 @@ namespace HUF.Utils.Runtime.Logging
         public bool CanLogOnProd => canLogOnProd;
         public string RegexFilter => regexFilter;
         public bool IgnoreCaseInRegex => ignoreCaseInRegex;
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            HLog.RefreshConfig();
+            base.OnValidate();
+        }
+#endif
     }
 }

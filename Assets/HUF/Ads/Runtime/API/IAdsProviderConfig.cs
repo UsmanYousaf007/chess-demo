@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using HUF.Ads.Implementation;
+using HUF.Ads.Runtime.Implementation;
 
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public interface IAdsProviderConfig
     {

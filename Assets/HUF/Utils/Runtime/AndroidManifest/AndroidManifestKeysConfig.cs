@@ -1,7 +1,7 @@
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEngine;
 
-namespace HUF.Utils.AndroidManifest
+namespace HUF.Utils.Runtime.AndroidManifest
 {
     public abstract class AndroidManifestKeysConfig : FeatureConfigBase
     {

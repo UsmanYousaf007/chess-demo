@@ -1,10 +1,10 @@
-using HUF.Storage.API;
-using HUF.Storage.API.Structs;
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation.Model;
+using HUF.Storage.Runtime.API;
+using HUF.Storage.Runtime.API.Structs;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.Model;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.CrossPromoTile
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.CrossPromoTile
 {
     public class TileViewModel
     {

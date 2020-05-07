@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.Model
+namespace HUFEXT.CrossPromo.Runtime.Implementation.Model
 {
     [Serializable]
     public class TileModel

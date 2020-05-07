@@ -1,8 +1,8 @@
-using HUFEXT.CrossPromo.Implementation.View.Common;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.Common;
 using TMPro;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.CrossPromoTile
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.CrossPromoTile
 {
     public class TileLabel : BaseImage
     {

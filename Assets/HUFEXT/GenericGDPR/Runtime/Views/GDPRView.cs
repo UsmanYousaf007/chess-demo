@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.GenericGDPR.Runtime.API;
 using HUFEXT.GenericGDPR.Runtime.Utils;
@@ -31,6 +31,11 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
         [SerializeField] Button acceptPolicyButton = null;
         [SerializeField] Toggle adsConsentToggle = null;
 
+        [Header( "Fonts" )] 
+        [SerializeField] TMP_FontAsset defaultFont;
+        [SerializeField] List<TranslationFont> customFonts;
+        [SerializeField] string forceLanguage = string.Empty;
+        
         [Header( "Color Scheme" )]
         [SerializeField] Color linkColor = Color.blue;
         [SerializeField] List<ColorScheme> elements = new List<ColorScheme>();
@@ -48,7 +53,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
             {
                 mainText.gameObject.AddComponent<Hyperlink>();
                 footerText.gameObject.AddComponent<Hyperlink>();
-                Refresh();
+                Refresh( Debug.isDebugBuild ? forceLanguage : string.Empty );
                 acceptPolicyButton.onClick.AddListener( HGenericGDPR.AcceptPolicy );
             }
             else
@@ -57,14 +62,14 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
             }
         }
 
-        public void Refresh()
+        public void Refresh( string forceLang = "" )
         {
             var translation = GDPRTranslationsProvider.DefaultTranslation;
 
             if ( HConfigs.HasConfig<GDPRConfig>() )
             {
                 var config = HConfigs.GetConfig<GDPRConfig>();
-                translation = GDPRTranslationsProvider.GetTranslation( config );
+                translation = GDPRTranslationsProvider.GetTranslation( config, forceLang );
                 ApplyTranslationFont( translation.lang, config );
             }
 
@@ -90,10 +95,10 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
                 return;
             }
             
-            var font = config.DefaultFont;
+            var font = defaultFont;
 
-            var customFont = config.Fonts.Find( ( lang ) => lang.key == country );
-            if ( customFont != null )
+            var customFont = customFonts.Find( lang => lang.key == country );
+            if ( customFont != null && customFont.font != null )
             {
                 font = customFont.font;
             }

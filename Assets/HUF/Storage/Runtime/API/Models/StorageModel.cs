@@ -1,6 +1,6 @@
 using System;
 
-namespace HUF.Storage.API.Models
+namespace HUF.Storage.Runtime.API.Models
 {
     public class StorageModel : IDisposable
     {
