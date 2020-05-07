@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         private IPromise<AdsResult> rewardedAdPromiseOnSuccess;
         private bool bannerDisplay = false;
@@ -21,13 +22,17 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             HAds.Interstitial.Fetch();
-            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
+            analyticsService.Event(AnalyticsEventId.ad_requested, AnalyticsContext.interstitial_endgame);
             HAds.Rewarded.Fetch();
-            analyticsService.Event(AnalyticsEventId.ads_rewarded_request);
+            analyticsService.Event(AnalyticsEventId.ad_requested, AnalyticsContext.rewarded);
 
             HAds.Banner.OnShown += OnBannerLoadedEvent;
             HAds.Banner.OnClicked += OnBannerClicked;
+
             HAds.Interstitial.OnEnded += OnInterstitailEnded;
+            HAds.Interstitial.OnClicked += OnInterstitialClicked;
+            HAds.Interstitial.OnFetched += OnInterstitialClicked;
+
             HAds.Rewarded.OnEnded += OnRewardedEnded;
             HAds.Rewarded.OnFetched += OnRewardedVideoLoadedEvent;
             HAds.Rewarded.OnClicked += OnRewardedClicked;
@@ -35,15 +40,36 @@ namespace TurboLabz.InstantFramework
             bannerDisplay = false;
         }
 
+        private void OnApplicationFocus(bool focus)
+        {
+            if(!focus && playerModel.adContext != AnalyticsContext.unknown)
+            {
+                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (playerModel.adContext != AnalyticsContext.unknown)
+            {
+                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
+            }
+        }
+
         void OnRewardedClicked(IAdCallbackData data)
         {
-            analyticsService.Event(AnalyticsEventId.ads_rewarded_clicked);
+            analyticsService.Event(AnalyticsEventId.ad_clicked, AnalyticsContext.rewarded);
+        }
+
+        void OnInterstitialClicked(IAdCallbackData data)
+        {
+            analyticsService.Event(AnalyticsEventId.ad_clicked, playerModel.adContext);
         }
 
         void OnRewardedEnded(IAdCallbackData data)
         {
             HAds.Rewarded.Fetch();
-            analyticsService.Event(AnalyticsEventId.ads_rewarded_request);
+            analyticsService.Event(AnalyticsEventId.ad_requested, AnalyticsContext.rewarded);
 
             switch (data.Result)
             {
@@ -56,28 +82,46 @@ namespace TurboLabz.InstantFramework
 
                     appsFlyerService.TrackRichEvent(AnalyticsEventId.video_finished.ToString(), videoEventData);
                     appsFlyerService.TrackLimitedEvent(AnalyticsEventId.video_finished, preferencesModel.videoFinishedCount);
+
                     hAnalyticsService.LogEvent(AnalyticsEventId.video_finished.ToString(), "monetization", "rewarded_result_2xcoins", data.ProviderId);
-                    analyticsService.Event(AnalyticsEventId.ads_rewarded_success);
+                    analyticsService.Event(AnalyticsEventId.ad_completed, AnalyticsContext.rewarded);
 
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
                     break;
                 case AdResult.Skipped:
-                    analyticsService.Event(AnalyticsEventId.ads_rewarded_skipped);
+                    analyticsService.Event(AnalyticsEventId.ad_skipped, AnalyticsContext.rewarded);
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.SKIPPED);
                     break;
                 case AdResult.Failed:
-                    analyticsService.Event(AnalyticsEventId.ads_rewarded_failed_new);
+                    analyticsService.Event(AnalyticsEventId.ad_failed, AnalyticsContext.rewarded);
                     rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FAILED);
                     break;
             }
+
+            playerModel.adContext = AnalyticsContext.unknown;
         }
 
         void OnInterstitailEnded(IAdCallbackData data)
         {
+            switch (data.Result)
+            {
+                case AdResult.Completed:
+                    analyticsService.Event(AnalyticsEventId.ad_completed, playerModel.adContext);
+                    break;
+                case AdResult.Skipped:
+                    analyticsService.Event(AnalyticsEventId.ad_skipped, playerModel.adContext);
+                    break;
+                case AdResult.Failed:
+                    analyticsService.Event(AnalyticsEventId.ad_failed, playerModel.adContext);
+                    break;
+            }
+
             HAds.Interstitial.Fetch();
-            analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
+            analyticsService.Event(AnalyticsEventId.ad_requested, playerModel.adContext);
+
             hAnalyticsService.LogEvent(AnalyticsEventId.video_finished.ToString(), "monetization", "interstitial", data.ProviderId);
             rewardedAdPromiseOnSuccess.Dispatch(AdsResult.FINISHED);
+            playerModel.adContext = AnalyticsContext.unknown;
         }
 
         public bool IsRewardedVideoAvailable()
@@ -86,10 +130,10 @@ namespace TurboLabz.InstantFramework
 
             if (!availableFlag)
             {
+                analyticsService.Event(AnalyticsEventId.ad_not_available, AnalyticsContext.rewarded);
                 Debug.Log("[ANALYITCS]: ads_rewared_request:");
                 HAds.Rewarded.Fetch();
-                analyticsService.Event(AnalyticsEventId.ads_rewarded_request);
-                analyticsService.Event(AnalyticsEventId.ads_rewarded_not_available);
+                analyticsService.Event(AnalyticsEventId.ad_requested, AnalyticsContext.rewarded);
             }
 
             bool isNotCapped = (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
@@ -97,7 +141,14 @@ namespace TurboLabz.InstantFramework
 
             if (!isNotCapped)
             {
-                analyticsService.Event(AnalyticsEventId.ads_rewarded_cap_reached);
+                analyticsService.Event(AnalyticsEventId.ad_cap_reached, AnalyticsContext.rewarded);
+                playerModel.adContext = AnalyticsContext.interstitial_rewarded_capped_replacement;
+            }
+
+
+            if(!availableFlag)
+            {
+                playerModel.adContext = AnalyticsContext.interstitial_rewarded_failed_replacement;
             }
 
             return availableFlag && isNotCapped;
@@ -125,7 +176,12 @@ namespace TurboLabz.InstantFramework
         {
             Debug.Log("[ANALYITCS]: ads_rewared_success: Result" + data.Result.ToString());
             Debug.Log("[ANALYITCS]: IAdCallbackData ProviderId:" + data.ProviderId);
-            analyticsService.Event(AnalyticsEventId.ads_rewarded_available_new);
+            analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.rewarded);
+        }
+
+        public void OnInterstitialLoadedEvent(IAdCallbackData data)
+        {
+            analyticsService.Event(AnalyticsEventId.ad_available, playerModel.adContext);
         }
 
         public IPromise<AdsResult> ShowRewardedVideo()
@@ -142,13 +198,23 @@ namespace TurboLabz.InstantFramework
 
             if (!availableFlag)
             {
+                analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
                 HAds.Interstitial.Fetch();
-                analyticsService.Event(AnalyticsEventId.ads_interstitial_request);
+                analyticsService.Event(AnalyticsEventId.ad_requested, playerModel.adContext);
+
             }
 
-            return availableFlag &&
-                (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+            bool isNotCapped = (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
                 (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
+
+            if (!isNotCapped)
+            {
+                analyticsService.Event(AnalyticsEventId.ad_cap_reached, playerModel.adContext);
+            }
+
+            return availableFlag && isNotCapped;
+                //(adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+                //(adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
         }
 
         public IPromise<AdsResult> ShowInterstitial()

@@ -403,12 +403,13 @@ namespace TurboLabz.CPU
             vo.rewardType = adRewardType;
             vo.challengeId = "";
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.rewarded;
             showRewardedAdSignal.Dispatch(vo);
 
-           // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
+            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
             //backToLobbySignal.Dispatch();
 
-            analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);         
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
         }
 
         public void OnResultsSkipRewardButtonClicked()
@@ -419,12 +420,13 @@ namespace TurboLabz.CPU
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = "";
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.interstitial_endgame;
             showAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
             //backToLobbySignal.Dispatch();
 
-            analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
+            //analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
         }
 
         private void OnResultsClosed()

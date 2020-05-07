@@ -18,6 +18,10 @@ namespace TurboLabz.InstantFramework
         float minutesForVictoryInternalAd { get; set; }
         int autoSubscriptionDlgThreshold { get; set; }
         int daysPerAutoSubscriptionDlgThreshold { get; set; }
+        int sessionsBeforePregameAd { get; set; }
+        int maxPregameAdsPerDay { get; set; }
+        double intervalsBetweenPregameAds { get; set; }
+
     }
 }
 

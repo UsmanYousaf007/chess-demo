@@ -33,6 +33,9 @@ namespace TurboLabz.InstantGame
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
@@ -74,27 +77,45 @@ namespace TurboLabz.InstantGame
                     Retain();
                     if (adsService.IsInterstitialAvailable())
                     {
+                        analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
+
                         preferencesModel.globalAdsCount++;
                         preferencesModel.interstitialAdsCount++;
+
+                        if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                        {
+                            preferencesModel.pregameAdsPerDayCount++;
+                        }
 
                         var promise = adsService.ShowInterstitial();
                         if (promise != null)
                         {
-                            promise.Then(LoadLobby);
-                            promise.Then(ClaimReward);
-                            promise.Then(ShowPromotionOnVictory);
+                            if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                            {
+                                promise.Then(LoadGameStartSignal);
+                            }
+                            else
+                            {
+                                promise.Then(LoadLobby);
+                                promise.Then(ClaimReward);
+                                promise.Then(ShowPromotionOnVictory);
+                            }
                         }
                         else
                         {
                             Release();
                         }
-
-                        analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
                     }
                     else
                     {
-                        ShowPromotion();
-                        analyticsService.Event(AnalyticsEventId.ads_interstitial_failed);
+                        analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
+                        if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                        {
+                            LoadGameStartSignal();
+                        }else
+                        {
+                            ShowPromotion();
+                        }
                     }
 
                     break;
@@ -179,6 +200,7 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotion()
         {
+            //analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.interstitial_replacement);
             LoadLobby();
             //promotionAdPromise = new Promise<AdsResult>();
             //promotionAdPromise.Then(ClaimReward);
@@ -203,6 +225,37 @@ namespace TurboLabz.InstantGame
             refreshCommunitySignal.Dispatch();
             refreshFriendsSignal.Dispatch();
             cancelHintSingal.Dispatch();
+        }
+
+        private void LoadGameStartSignal(AdsResult result = AdsResult.FINISHED)
+        {
+            playerModel.adContext = AnalyticsContext.unknown;
+            Debug.Log("ACTION CODE: " + resultAdsVO.actionCode);
+
+            preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+            if (resultAdsVO.actionCode == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
+                FindMatchAction.RandomLong(findMatchSignal);
+            }
+            else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Random.ToString()
+              || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random10.ToString())
+            {
+                FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString());
+            }
+            else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
+                resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString())
+            {
+                FindMatchAction.Challenge(findMatchSignal, resultAdsVO.isRanked, resultAdsVO.friendId, resultAdsVO.actionCode.ToString());
+            }
+            else if (resultAdsVO.actionCode == "ChallengeClassic")
+            {
+                tapLongMatchSignal.Dispatch(resultAdsVO.friendId, resultAdsVO.isRanked);
+            }
+            
+            else
+            {
+                startCPUGameSignal.Dispatch();
+            }
         }
     }
 }

@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
         tap_pow_hindsight,
         v1_spot_purchase_complete,
         store_purchase_complete,
-        ads_collect_reward,
+        ad_user_requested,
         ads_skip_reward,
         ads_friends_back,
         session_fb,
@@ -84,23 +84,6 @@ namespace TurboLabz.InstantFramework
         quickmatch_direct_request_timeout_ingame,
         bot_quick_match_won,
         bot_quick_match_lost,
-
-        //Ads
-        ads_rewarded_request,
-        ads_rewarded_success,
-        ads_rewarded_show_new,
-        ads_rewarded_available_new,
-        ads_rewarded_failed_new,
-        ads_rewarded_clicked,
-        ads_rewarded_not_available,
-        ads_rewarded_cap_reached,
-        ads_rewarded_interstitial_show,
-        ads_rewarded_interstitial_not_available,
-        ads_rewarded_skipped,
-        ads_interstitial_request,
-        //ads_interstitial_success,
-        ads_interstitial_show,
-        ads_interstitial_failed,
 
 
         tap_pow_move_meter,
@@ -153,9 +136,21 @@ namespace TurboLabz.InstantFramework
         played_online_match,
         match_timer_runs_out,
 
+
+        //Ads
+        ad_requested,
+        ad_not_available,
+        ad_available,
+        ad_shown,
+        ad_failed,
+        ad_player_shutdown,
+        ad_cap_reached,
+        ad_skipped,
+        ad_clicked,
+        ad_completed,
+
         //apps flyer events for HUUUGE
         launch,
-        ad_clicked,
         ad_displayed,
         video_started,
         video_finished,
@@ -190,7 +185,12 @@ namespace TurboLabz.InstantFramework
         tenmin_match,
         return_from_background,
         cpu_match,
-        matchmaking
+        matchmaking,
+        rewarded,
+        interstitial_pregame,
+        interstitial_endgame,
+        interstitial_rewarded_failed_replacement,
+        interstitial_rewarded_capped_replacement
     }
 
     public enum AnalyticsParameter
