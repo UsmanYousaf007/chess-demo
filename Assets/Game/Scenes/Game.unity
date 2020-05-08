@@ -9090,7 +9090,7 @@ GameObject:
   - component: {fileID: 151485767}
   - component: {fileID: 151485766}
   m_Layer: 5
-  m_Name: BotBar
+  m_Name: BotBarCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22731,27 +22731,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlayStandardClick
       objectReference: {fileID: 0}
-    - target: {fileID: 6127300155147210964, guid: 51141be06fe73479bac825617d3f1c73,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 2045259342}
     - target: {fileID: 1116585389322696988, guid: 51141be06fe73479bac825617d3f1c73,
         type: 3}
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6224098419149964746, guid: 51141be06fe73479bac825617d3f1c73,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 752687430827446667, guid: 51141be06fe73479bac825617d3f1c73,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8207225707659127209, guid: 51141be06fe73479bac825617d3f1c73,
         type: 3}
       propertyPath: m_RaycastTarget
       value: 0
@@ -22767,6 +22752,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6745423948959052456, guid: 51141be06fe73479bac825617d3f1c73,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6127300155147210964, guid: 51141be06fe73479bac825617d3f1c73,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2045259342}
+    - target: {fileID: 6224098419149964746, guid: 51141be06fe73479bac825617d3f1c73,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8207225707659127209, guid: 51141be06fe73479bac825617d3f1c73,
         type: 3}
       propertyPath: m_RaycastTarget
       value: 0
@@ -56897,7 +56897,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 983374614}
-  - component: {fileID: 983374615}
   m_Layer: 5
   m_Name: CapturedPieces
   m_TagString: Untagged
@@ -56934,27 +56933,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &983374615
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983374613}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!1 &985373413
 GameObject:
   m_ObjectHideFlags: 0
@@ -63850,15 +63828,13 @@ GameObject:
   - component: {fileID: 1104169962}
   - component: {fileID: 1104169961}
   - component: {fileID: 1104169960}
-  - component: {fileID: 1104169964}
-  - component: {fileID: 1104169963}
   m_Layer: 5
-  m_Name: TopBarCanvas
+  m_Name: TopBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1104169959
 RectTransform:
   m_ObjectHideFlags: 0
@@ -63931,44 +63907,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104169958}
   m_CullTransparentMesh: 0
---- !u!114 &1104169963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1104169958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1104169964
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1104169958}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!1 &1108406612
 GameObject:
   m_ObjectHideFlags: 0
@@ -79772,11 +79710,6 @@ PrefabInstance:
       propertyPath: moveMeterButton
       value: 
       objectReference: {fileID: 640980670}
-    - target: {fileID: 840264049144853742, guid: c39e2365f3db641268b85555a3d3e8cf,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 2045259342}
     - target: {fileID: 1713002902378559619, guid: c39e2365f3db641268b85555a3d3e8cf,
         type: 3}
       propertyPath: m_RaycastTarget
@@ -79817,6 +79750,11 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 840264049144853742, guid: c39e2365f3db641268b85555a3d3e8cf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2045259342}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c39e2365f3db641268b85555a3d3e8cf, type: 3}
 --- !u!224 &1403585773 stripped
@@ -108098,7 +108036,7 @@ PrefabInstance:
     - target: {fileID: 4839277840668506252, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_Name
-      value: ResultsDialog
+      value: ResultsDialogCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 4839277840668506252, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
@@ -108368,7 +108306,7 @@ PrefabInstance:
     - target: {fileID: 4567701791907224388, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 335.35962
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4839277839409823260, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
@@ -108488,6 +108426,16 @@ PrefabInstance:
     - target: {fileID: 4839277839926210765, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6652948792139980685, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496759025262906091, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -112068,6 +112016,44 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 4839277838793125077}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1893209179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893209177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1893209180
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893209177}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1894951032
 GameObject:
   m_ObjectHideFlags: 0
@@ -131668,7 +131654,7 @@ PrefabInstance:
     - target: {fileID: 4839277840668506252, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_Name
-      value: ResultsDialog
+      value: ResultsDialogCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 4839277838749912496, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
@@ -131818,7 +131804,7 @@ PrefabInstance:
     - target: {fileID: 4839277839125063739, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 371.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4839277839125063739, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
@@ -131928,7 +131914,7 @@ PrefabInstance:
     - target: {fileID: 4567701791907224388, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 335.35962
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4839277839409823260, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
@@ -132048,6 +132034,16 @@ PrefabInstance:
     - target: {fileID: 4839277839926210765, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6652948792139980685, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496759025262906091, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4839277838922718946, guid: 91a22b3c6348040ba9fe46b345aca015,
