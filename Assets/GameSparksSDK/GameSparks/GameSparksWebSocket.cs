@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using BestHTTP;
 using BestHTTP.WebSocket;
+using GameAnalyticsSDK;
 
 namespace GameSparks
 {
@@ -77,7 +78,9 @@ namespace GameSparks
 
 		void OnError(WebSocket ws, string error)
 		{
-            onError?.Invoke(error);
+			GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "Websocket OnError:" + error);
+
+			onError?.Invoke(error);
 
 			ws.Close();
         }
