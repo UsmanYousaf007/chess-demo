@@ -286,6 +286,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_BLOCK_SEARCH, "Search blocked players by name.."},
                 { LocalizationKey.FRIENDS_UNBLOCK, "Unblock"},
                 { LocalizationKey.FRIENDS_BLOCKED, "BLOCKED PLAYERS"},
+                { LocalizationKey.FRIENDS_BLOCKED_EMPTY_LIST, "You haven't blocked anyone"},
                 #endregion
 
                 #region Share

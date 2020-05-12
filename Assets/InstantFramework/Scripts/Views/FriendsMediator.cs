@@ -366,7 +366,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnManageBlockedFriends()
         {
-            manageBlockedFriendsSignal.Dispatch("");
+            manageBlockedFriendsSignal.Dispatch(string.Empty);
         }
     }
 }

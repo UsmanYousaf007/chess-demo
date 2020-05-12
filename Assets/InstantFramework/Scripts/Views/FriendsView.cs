@@ -812,6 +812,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             ResetSearch();
+            refreshFriendsSignal.Dispatch();
             gameObject.SetActive(false); 
         }
 

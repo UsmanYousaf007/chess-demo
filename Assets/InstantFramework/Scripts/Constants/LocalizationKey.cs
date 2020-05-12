@@ -284,6 +284,7 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_BLOCK_SEARCH = "friendsSearch";
         public const string FRIENDS_UNBLOCK = "friendsUnblock";
         public const string FRIENDS_BLOCKED = "friendsBlocked";
+        public const string FRIENDS_BLOCKED_EMPTY_LIST = "friendsBlockedEmptyList";
         #endregion
 
         #region Share

@@ -71,6 +71,7 @@ public class NotchHandler : MonoBehaviour {
     [Header("Manage Blocked Friends")]
     public RectTransform blockedFriendsScrollView;
     public RectTransform blockedFriendsScrollViewPort;
+    public RectTransform blockedFriendsSearchBarShadow;
 
     void Awake()
     {
@@ -160,6 +161,7 @@ public class NotchHandler : MonoBehaviour {
         // Blocked Friends
         SetY(blockedFriendsScrollView, -20f);
         blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 60);
+        SetY(blockedFriendsSearchBarShadow, -125);
 
     }
 
