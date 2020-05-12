@@ -55,7 +55,7 @@ namespace TurboLabz.InstantFramework
             restorePurchasesSignal.Dispatch();
 
 #if UNITY_IOS
-            hAnalyticsService.LogEvent("restore_ios_iap_clicked", "menu", "settings");
+            hAnalyticsService.LogEvent("clicked", "settings", "", "restore_ios_iap");
 #endif
         }
 
@@ -82,12 +82,11 @@ namespace TurboLabz.InstantFramework
         void OnUpgradeToPremiumClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "settings");
         }
 
         private void OnManageSubscriptionClicked()
         {
-            hAnalyticsService.LogEvent("manage_subscription_clicked", "menu", "settings");
+            hAnalyticsService.LogEvent("clicked", "settings", "", "manage_subscription");
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MANAGE_SUBSCRIPTION);
         }
     }

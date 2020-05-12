@@ -197,13 +197,13 @@ namespace TurboLabz.InstantFramework
                 if (matchInfoModel.matches[challengeId].isLongPlay)
                 {
                     preferencesModel.longMatchFinishedCount++;
-                    hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString());
+                    hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString(), challengeId);
                     analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.long_match);
                 }
                 else
                 {
                     preferencesModel.quickMatchFinishedCount++;
-                    hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString());
+                    hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString(), challengeId);
                     analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.quick_match);
                 }
             }            

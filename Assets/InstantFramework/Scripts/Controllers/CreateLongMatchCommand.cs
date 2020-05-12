@@ -61,7 +61,7 @@ namespace TurboLabz.InstantFramework
                 }
 
                 preferencesModel.gameStartCount++;
-                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match");
+                hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match", matchInfoModel.activeChallengeId);
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
                 analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.long_match);
             }

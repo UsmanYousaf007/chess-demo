@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 //using HUF.Analytics.API;
+using System.Collections.Generic;
 using strange.extensions.command.impl;
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
@@ -125,6 +126,7 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.PURCHASE_ATTEMPT)
             {
                 eventName = "attempt";
+                metaDataModel.store.lastPurchaseAttemptTimestamp = backendService.serverClock.currentTimestamp;
             }
             else if (result == BackendResult.PURCHASE_COMPLETE)
             {
@@ -139,7 +141,16 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
-            hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ","_")}", cameFromScreen);
+            if (eventName.Equals("failed"))
+            {
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen,
+                    new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
+
+            }
+            else
+            {
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen);
+            }
         }
 
         private void OnPurchase(BackendResult result)

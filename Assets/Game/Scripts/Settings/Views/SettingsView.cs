@@ -68,6 +68,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         //Models 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -170,6 +171,7 @@ namespace TurboLabz.InstantFramework
             HGenericGDPR.IsPersonalizedAdsAccepted = true;
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
+            hAnalyticsService.LogEvent("turn_on", "settings", "", "personalised_ads");
         }
 
         private void OnPersonalizedAdsOnButtonClicked()
@@ -178,6 +180,7 @@ namespace TurboLabz.InstantFramework
             HGenericGDPR.IsPersonalizedAdsAccepted = false;
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
+            hAnalyticsService.LogEvent("turn_off", "settings", "", "personalised_ads");
         }
 
         private void SetConsent()
@@ -193,20 +196,22 @@ namespace TurboLabz.InstantFramework
 
         void OnTermsOfUseButtonClicked()
         {
-            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
+            hAnalyticsService.LogEvent("terms_clicked", "settings", "", "terms");
             audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
         }
 
         void OnPrivacyPolicyButtonClicked()
         {
-            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
+            hAnalyticsService.LogEvent("clicked", "settings", "", "privacy_policy");
             audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
         }
 
         void OnFAQButtonClicked()
         {
-            Application.OpenURL(metaDataModel.appInfo.faqURL);
             audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.faqURL);
         }
 
         public void Show()
@@ -229,12 +234,14 @@ namespace TurboLabz.InstantFramework
             audioService.ToggleAudio(true);
             audioService.PlayStandardClick();
             RefreshAudioButtons();
+            hAnalyticsService.LogEvent("turn_on", "settings", "", "sounds");
         }
 
         private void OnAudioOnButtonClicked()
         {
             audioService.ToggleAudio(false);
             RefreshAudioButtons();
+            hAnalyticsService.LogEvent("turn_off", "settings", "", "sounds");
         }
 
         private void RefreshAudioButtons()
