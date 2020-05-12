@@ -221,8 +221,8 @@ namespace TurboLabz.InstantFramework
 
             analyticsEvent.Add("funnel_instance_id", string.Concat(playerModel.id, metaDataModel.store.lastPurchaseAttemptTimestamp));
             analyticsEvent.Add("iap_currency_id", storeItem.remoteProductCurrencyCode);
-            analyticsEvent.Add("iap_amount", storeItem.productPrice);
-            analyticsEvent.Add("original_amount",storeItem.originalPrice);
+            analyticsEvent.Add("iap_amount", (float)storeItem.productPrice);
+            analyticsEvent.Add("original_amount",(float)storeItem.originalPrice);
             analyticsEvent.Add("discount_perc", (int)(storeItem.discountedRatio * 100));
             analyticsEvent.Add("is_best_value", isYearly);
         }

@@ -68,6 +68,10 @@ public class NotchHandler : MonoBehaviour {
     [Header("Manage Subscription")]
     public RectTransform manageSubscriptionBottomNav;
 
+    [Header("Manage Blocked Friends")]
+    public RectTransform blockedFriendsScrollView;
+    public RectTransform blockedFriendsScrollViewPort;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -152,6 +156,11 @@ public class NotchHandler : MonoBehaviour {
 
         //Manage Subscription
         SetY(manageSubscriptionBottomNav, 60);
+
+        // Blocked Friends
+        SetY(blockedFriendsScrollView, -20f);
+        blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 60);
+
     }
 
     void SetY(RectTransform tfm, float y)
