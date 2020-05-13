@@ -101,7 +101,7 @@ namespace TurboLabz.InstantGame
             timeAtSubscrptionDlgShown = DateTime.Now;
             autoSubscriptionDlgShownCount = 0;
             sessionsBeforePregameAdCount = 0;
-            intervalBetweenPregameAds = DateTime.Now;
+            intervalBetweenPregameAds = DateTime.MaxValue;
             isSubscriptionDlgShownOnFirstLaunch = false;
             autoPromotionToQueen = false;
             ResetDailyPrefers();
