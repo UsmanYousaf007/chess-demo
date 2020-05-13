@@ -185,8 +185,12 @@ namespace TurboLabz.InstantFramework
         classic_match_find_random,
         classic_match_find_friends,
         classic_match_find_community,
-        match_find
+        match_find,
 
+        //offer draw
+        offer_draw_sent,
+        offer_draw_rejected,
+        offer_draw_accepted
     }
 
     public enum AnalyticsContext

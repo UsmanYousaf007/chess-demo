@@ -156,5 +156,13 @@ namespace TurboLabz.Multiplayer
         {
             HidePromoDialog();
         }
+
+        public void AutoQueenPromotion(ChessColor color)
+        {
+            if(color == ChessColor.BLACK)
+                OnPromoClicked(ChessPieceName.BLACK_QUEEN);
+            else
+                OnPromoClicked(ChessPieceName.WHITE_QUEEN);
+        }
     }
 }

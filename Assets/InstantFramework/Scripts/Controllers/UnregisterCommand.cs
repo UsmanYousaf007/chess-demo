@@ -48,6 +48,8 @@ namespace TurboLabz.InstantFramework
             vo.isGameCanceled = false;
             vo.isPlayerTurn = false;
             vo.isRanked = false;
+            vo.offerDraw = false;
+
             updateFriendBarStatusSignal.Dispatch(vo);
 
             friendBarBusySignal.Dispatch(opponentId, true, CreateLongMatchAbortReason.Unassigned);

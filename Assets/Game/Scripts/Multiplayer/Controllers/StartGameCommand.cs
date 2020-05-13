@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -83,6 +84,19 @@ namespace TurboLabz.InstantFramework
 
             enableGameChatSignal.Dispatch(vo);
             chatModel.hasEngagedChat = false;
+
+
+            if (matchInfoModel.activeMatch.drawOfferStatus == "offered")
+            {
+                OfferDrawVO offerDrawVO = new OfferDrawVO();
+
+                offerDrawVO.status = matchInfoModel.activeMatch.drawOfferStatus;
+                offerDrawVO.offeredBy = matchInfoModel.activeMatch.drawOfferedBy;
+                offerDrawVO.opponentId = opponentId;
+                offerDrawVO.challengeId = matchInfoModel.activeChallengeId;
+
+                updateOfferDrawSignal.Dispatch(offerDrawVO);
+            }
 
             // Analytics
             if (matchInfo.isLongPlay)

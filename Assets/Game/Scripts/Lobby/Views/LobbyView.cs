@@ -589,6 +589,8 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
+            friendBar.isOfferDraw = vo.offerDraw;
+
 
             if (recentlyCompleted.Contains(friendBar))
             {
@@ -739,7 +741,6 @@ namespace TurboLabz.InstantFramework
             } 
         }
 
-
         void SetMatchLimitReachedDialogue(bool isSelfLimitReached)
         {
             if (isSelfLimitReached)
@@ -764,6 +765,31 @@ namespace TurboLabz.InstantFramework
                 createMatchLimitReachedTitleText.gameObject.SetActive(false);
                 createMatchLimitReachedUpgradeBtn.gameObject.SetActive(false);
                 createMatchLimitReachedCloseBtn.gameObject.SetActive(true);
+
+            }
+        }
+
+        public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
+        {
+            //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+
+            if (!bars.ContainsKey(opponentID))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[opponentID].GetComponent<FriendBar>();
+
+            if (status == "offered")
+            {
+                //friendBar.SetDrawOfferStatus(true);
+                friendBar.isOfferDraw = true;
+                friendBar.UpdateStatus();
+            }
+            else
+            {
+                friendBar.isOfferDraw = false;
+                friendBar.UpdateStatus();
             }
         }
 

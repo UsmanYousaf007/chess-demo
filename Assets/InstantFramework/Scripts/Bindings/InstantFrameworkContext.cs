@@ -156,6 +156,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<DisableModalBlockersSignal>().ToSingleton();
             injectionBinder.Bind<SelectTierSignal>().ToSingleton();
             injectionBinder.Bind<SetSubscriptionContext>().ToSingleton();
+            injectionBinder.Bind<UpdateOfferDrawSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

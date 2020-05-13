@@ -52,5 +52,6 @@ namespace TurboLabz.InstantFramework
         int sessionsBeforePregameAdCount { get; set; }
         int pregameAdsPerDayCount { get; set; }
         DateTime intervalBetweenPregameAds { get; set; }
+        bool autoPromotionToQueen { get; set; }
     }
 }

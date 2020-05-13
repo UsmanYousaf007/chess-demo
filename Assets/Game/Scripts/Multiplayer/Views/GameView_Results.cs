@@ -207,6 +207,8 @@ namespace TurboLabz.Multiplayer
         {
             viewBoardResultPanel.reason.text = "";
             EnableRewarededVideoButton(true);
+            offerTextDlg.SetActive(false);
+
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -265,6 +267,11 @@ namespace TurboLabz.Multiplayer
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
                         viewBoardResultPanel.reason.text = string.Format("{0} left", playerName);
                     }
+                    break;
+
+                case GameEndReason.DRAW_BY_DRAW_OFFERED:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW);
                     break;
 
                 default:

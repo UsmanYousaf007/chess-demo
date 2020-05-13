@@ -322,7 +322,14 @@ namespace TurboLabz.InstantFramework
             public const string STATUS = "status";
         }
 
-		public static class PublicProfile
+        public static class OfferDrawOp
+        {
+            public const string OFFER_DRAW = "offerDraw";
+            public const string REJECT_OFFER_DRAW = "rejectOfferDraw";
+            public const string ACCEPT_OFFER_DRAW = "accepttOfferDraw";
+        }
+
+        public static class PublicProfile
 		{
 			public const string PROFILE_NAME = "name";
 			public const string PROFILE_COUNTRY_ID = "countryId";

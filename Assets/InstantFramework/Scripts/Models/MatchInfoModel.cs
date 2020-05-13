@@ -36,6 +36,8 @@ namespace TurboLabz.InstantFramework
         public int playerPowerupUsedCount { get; set; }
         public int opponentPowerupUsedCount { get; set; }
         public bool isTenMinGame { get; set; }
+        public string drawOfferStatus { get; set; }
+        public string drawOfferedBy { get; set; }
 
         public bool isBotMatch
         {
@@ -64,6 +66,8 @@ namespace TurboLabz.InstantFramework
             playerPowerupUsedCount = 0;
             opponentPowerupUsedCount = 0;
             isTenMinGame = false;
+            drawOfferStatus = null;
+            drawOfferedBy = null;
         }
     }
 

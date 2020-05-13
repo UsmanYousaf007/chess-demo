@@ -370,5 +370,16 @@ namespace TurboLabz.InstantFramework
         {
             manageBlockedFriendsSignal.Dispatch(string.Empty);
         }
+
+        [ListensTo(typeof(UpdateOfferDrawSignal))]
+        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
+        {
+            if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
+            {
+                view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+                return;
+            }
+
+        }
     }
 }

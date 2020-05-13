@@ -600,6 +600,7 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
+            friendBar.isOfferDraw = vo.offerDraw;
             friendBar.UpdateStatus();
 
             // Set the timer clocks
@@ -776,6 +777,29 @@ namespace TurboLabz.InstantFramework
                 createMatchLimitReachedTitleText.gameObject.SetActive(false);
                 createMatchLimitReachedUpgradeBtn.gameObject.SetActive(false);
                 createMatchLimitReachedCloseBtn.gameObject.SetActive(true);
+            }
+        }
+
+        public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
+        {
+            //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+
+            if (!bars.ContainsKey(opponentID))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[opponentID].GetComponent<FriendBar>();
+
+            if (status == "offered")
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, -20);
+                friendBar.drawOffer.SetActive(true);
+            }
+            else
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, 0);
+                friendBar.drawOffer.SetActive(false);
             }
         }
 

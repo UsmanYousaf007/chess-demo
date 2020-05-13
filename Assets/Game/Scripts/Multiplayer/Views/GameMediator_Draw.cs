@@ -16,11 +16,16 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
+
         public void OnRegisterDraw()
         {
             view.InitDraw();
             view.drawClaimedSignal.AddListener(OnDrawClaimed);
             view.drawRejectedSignal.AddListener(OnDrawRejected);
+
+            //Offer Draw
+            view.drawOfferAcceptedSignal.AddListener(OnDrawOfferAccepted);
+            view.drawOfferRejectedSignal.AddListener(OnOfferDrawRejected);
         }
 
         public void OnRemoveDraw()
@@ -67,6 +72,18 @@ namespace TurboLabz.Multiplayer
         private void OnDrawRejected()
         {
             chessboardEventSignal.Dispatch(ChessboardEvent.DRAW_REJECTED);
+        }
+
+
+        //Offer Draw 
+        private void OnDrawOfferAccepted()
+        {
+            offerDrawSignal.Dispatch("accepted");
+        }
+
+        private void OnOfferDrawRejected()
+        {
+            offerDrawSignal.Dispatch("rejected");
         }
     }
 }

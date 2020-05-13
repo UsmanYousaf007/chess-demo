@@ -18,5 +18,6 @@ namespace TurboLabz.InstantFramework
         public bool isGameCanceled;
         public bool isPlayerTurn;
         public bool isRanked;
+        public bool offerDraw;
     }
 }

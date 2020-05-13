@@ -29,6 +29,7 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             loadLobbySignal.Dispatch();
+
             //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             //resetActiveMatchSignal.Dispatch();
 

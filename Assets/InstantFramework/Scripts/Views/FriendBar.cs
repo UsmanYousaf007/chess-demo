@@ -51,6 +51,9 @@ namespace TurboLabz.InstantFramework
         public GameObject rankedIcon;
         public GameObject friendlyIcon;
 
+        public Text drawOfferText;
+        public GameObject drawOffer;
+
         bool stringsLoaded = false;
         static string strWaiting = "";
         static string strDeclined = "";
@@ -72,6 +75,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector] public bool isRanked;
         [HideInInspector] public long lastMatchTimeStamp;
         [HideInInspector] public bool isRemoved;
+        [HideInInspector] public bool isOfferDraw;
 
         [Header("Friends Bar Optimization")]
         public GameObject bottomAlphaBg;
@@ -97,6 +101,26 @@ namespace TurboLabz.InstantFramework
             else
             {
                 bgGlow.SetActive(true);
+            }
+        }
+
+        public void SetDrawOfferStatus(bool isDrawOffer)
+        {
+            if (isDrawOffer)
+            {
+                drawOffer.SetActive(true);
+                if(yourMoveStatus.gameObject.activeSelf)
+                    yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -20);
+                else
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -20);
+            }
+            else
+            {
+                drawOffer.SetActive(false);
+                if (yourMoveStatus.gameObject.activeSelf)
+                    yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, 0);
+                else
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, 0);
             }
         }
 
@@ -155,6 +179,17 @@ namespace TurboLabz.InstantFramework
                     playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
 
+                    if (isOfferDraw)
+                    {
+                        drawOffer.SetActive(true);
+                        yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -20);
+                    }
+                    else
+                    {
+                        drawOffer.SetActive(false);
+                        yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, 0);
+                    }
+
                     break;
 
                 case LongPlayStatus.OPPONENT_TURN:
@@ -165,6 +200,16 @@ namespace TurboLabz.InstantFramework
                     playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
 
+                    if (isOfferDraw)
+                    {
+                        drawOffer.SetActive(true);
+                        generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -20);
+                    }
+                    else
+                    {
+                        drawOffer.SetActive(false);
+                        generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, 0);
+                    }
                     break;
 
                 case LongPlayStatus.PLAYER_WON:
