@@ -268,8 +268,8 @@ namespace TurboLabz.InstantFramework
                 var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
 
                 if (minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds &&
-                    view.preferencesModel.sessionsBeforePregameAdCount >= view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount <= view.adsSettingsModel.maxPregameAdsPerDay)
+                    view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
+                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay)
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
@@ -300,8 +300,8 @@ namespace TurboLabz.InstantFramework
                 var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
 
                 if (minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds &&
-                    view.preferencesModel.sessionsBeforePregameAdCount >= view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount <= view.adsSettingsModel.maxPregameAdsPerDay)
+                    view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
+                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay)
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
