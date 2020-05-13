@@ -281,15 +281,13 @@ namespace TurboLabz.InstantFramework
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;
                 }
-                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
+            analyticsService.Event("classic_" + AnalyticsEventId.match_find_friends, AnalyticsContext.start_attempt);
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
-            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
-
             var friend = playerModel.GetFriend(playerId);
 
             if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
@@ -316,8 +314,12 @@ namespace TurboLabz.InstantFramework
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;
                 }
-                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
+
+            if (actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                analyticsService.Event("5m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.start_attempt);
+            else
+                analyticsService.Event("10m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.start_attempt);
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }

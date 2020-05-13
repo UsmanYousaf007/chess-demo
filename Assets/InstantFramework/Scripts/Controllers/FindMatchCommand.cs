@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -95,28 +96,55 @@ namespace TurboLabz.InstantFramework
             // Set the finding match view to a found match state
             matchFoundSignal.Dispatch(pvo);
 
+            MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+            matchAnalyticsVO.context = AnalyticsContext.success;
+
             // add friend
             if (matchInfoModel.activeMatch.isBotMatch == false)
+            {
                 newFriendSignal.Dispatch(pvo.playerId, false);
+            }else
+            {
+                matchAnalyticsVO.context = AnalyticsContext.success_bot;
+            }
 
             // For quick match games, the flow continues from the get game start time signal
             // where both clients start at a synch time stamp
-
-
 
             getGameStartTimeSignal.Dispatch();
 
             preferencesModel.gameStartCount++;
 
 
+            var friend = playerModel.GetFriend(pvo.playerId);
+
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString()
+                || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+                matchAnalyticsVO.friendType = "random";
+            else
+                matchAnalyticsVO.friendType = friend.friendType;
+
+            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+
             if (matchInfoModel.activeMatch.isLongPlay) {
-                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.random_long_match);
+
+                //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.success);
+                matchAnalyticsVO.matchType = "classic";
+
             }
-            else{
-                hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match", challengeId);
+            else {
+                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match");
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.quick_match);
+
+
+                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString()) 
+                    matchAnalyticsVO.matchType = "5m";
+                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
+                    matchAnalyticsVO.matchType = "10m";
+                //analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.quick_match);
             }
+
+            matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
 
             // Grab the opponent profile pic if any
             if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
@@ -193,6 +221,32 @@ namespace TurboLabz.InstantFramework
             }
             else if (result != BackendResult.SUCCESS)
             {
+                MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+                matchAnalyticsVO.context = AnalyticsContext.failed;
+
+                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString()
+                    || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+                    matchAnalyticsVO.friendType = "random";
+                else
+                {
+                    var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
+                    matchAnalyticsVO.friendType = friend.friendType;
+                }
+
+                matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+
+                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+                {
+                    matchAnalyticsVO.matchType = "classic";
+                }
+                else
+                {
+                    if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
+                        matchAnalyticsVO.matchType = "5m";
+                    else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
+                        matchAnalyticsVO.matchType = "10m";
+                }
+
                 backendErrorSignal.Dispatch(result);
                 Release();
             }

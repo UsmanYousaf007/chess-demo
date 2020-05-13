@@ -93,6 +93,16 @@ namespace TurboLabz.InstantFramework
             Print(evt.ToString(), p);
         }
 
+        public void Event(string evt, AnalyticsContext context)
+        {
+            Dictionary<string, object> p = new Dictionary<string, object>
+            {
+                { AnalyticsParameter.context.ToString(), context.ToString() }
+            };
+
+            Print(evt, p);
+        }
+
         public void LevelComplete(int difficulty)
         {
             Print("LevelComplete:" + difficulty);

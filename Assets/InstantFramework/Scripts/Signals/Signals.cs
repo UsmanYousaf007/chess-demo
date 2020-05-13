@@ -11,7 +11,7 @@ using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
-    public class ReconnectionCompleteSignal : Signal { }
+    public class ReconnectionCompleteSignal : Signal {}
     public class StartSignal : Signal { }
     public class AppEventSignal : Signal<AppEvent> { }
     public class GameAppEventSignal : Signal<AppEvent> { }
@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
     public class SplashWifiIsHealthySignal : Signal { }
     public class ShowSplashContentSignal : Signal<bool> { }
     public class ResetCapturedPiecesSignal : Signal { }
-    public class UpdateSearchResultsSignal : Signal<bool> { }
+    public class UpdateSearchResultsSignal : Signal<bool> {}
     public class SetErrorAndHaltSignal : Signal<BackendResult, string> { }
     public class HaltSignal : Signal<BackendResult> { }
     public class UpdatePlayerRewardsPointsSignal : Signal<float, float> { }
@@ -145,9 +145,8 @@ namespace TurboLabz.InstantFramework
     public class DisableModalBlockersSignal : Signal { }
     public class SelectTierSignal : Signal<string> { }
     public class SetSubscriptionContext : Signal<string, string> { }
-    public class ManageBlockedFriendsSignal : Signal<string> { }
-    public class UpdateManageBlockedFriendsViewSignal : Signal<Dictionary<string, Friend>> { }
-    public class UnblockFriendSignal : Signal<string> { }
+    public class MatchAnalyticsSignal : Signal<MatchAnalyticsVO> { }
+    
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

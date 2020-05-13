@@ -33,7 +33,7 @@ namespace TurboLabz.InstantFramework
         }
 
         public const string ACTION_RANDOM = "Random";
-        static ActionData actionData = new ActionData();
+        public static ActionData actionData = new ActionData();
         public static bool isMatchRequestedWithFriend;
         public static bool isRandomLongMatch;
 

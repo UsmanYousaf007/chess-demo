@@ -86,6 +86,7 @@ namespace TurboLabz.CPU
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         private void InitResultsCPU()
         {
@@ -214,6 +215,9 @@ namespace TurboLabz.CPU
         {
             EnableRewarededVideoButton(true);
             viewBoardResultPanel.reason.text = "";
+
+            string analyName = AnalyticsEventId.cpu_end_lvl_.ToString() + cpuGameModel.cpuStrength;
+
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -222,6 +226,11 @@ namespace TurboLabz.CPU
 
                 case GameEndReason.CHECKMATE:
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE);
+
+                    if(playerWins)
+                        analyticsService.Event(analyName, AnalyticsContext.won_checkmate);
+                    else
+                        analyticsService.Event(analyName, AnalyticsContext.lost_checkmate);
                     break;
 
                 case GameEndReason.RESIGNATION:
@@ -238,28 +247,38 @@ namespace TurboLabz.CPU
                         viewBoardResultPanel.reason.text = "Computer resigned";
 
                     }
+
+                    if (playerWins)
+                        analyticsService.Event(analyName, AnalyticsContext.won_resign);
+                    else
+                        analyticsService.Event(analyName, AnalyticsContext.lost_resign);
+
                     break;
 
                 case GameEndReason.STALEMATE:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_STALEMATE);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_stalemate);
                     break;
 
                 case GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_insufficient_material);
                     break;
 
                 case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE:
                 case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_fifty_move);
                     break;
 
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE:
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_threefold_repetition);
                     break;
 
                 case GameEndReason.PLAYER_DISCONNECTED:
@@ -276,6 +295,9 @@ namespace TurboLabz.CPU
             {
                 viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
             }
+
+
+            
         }
 
         private void UpdateGameResultHeadingSection()

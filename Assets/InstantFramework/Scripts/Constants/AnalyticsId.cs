@@ -44,7 +44,6 @@ namespace TurboLabz.InstantFramework
         tap_support,
         tap_coins,
         tap_lobby_bundle,
-        tap_community_refresh,
         tap_long_match_create,
         tap_long_match_accept,
         tap_long_match_decline,
@@ -80,8 +79,6 @@ namespace TurboLabz.InstantFramework
         disconnection_time,
 
         //random quick match
-        quickmatch_direct_request,
-        quickmatch_direct_request_accept,
         quickmatch_direct_request_timeout_ingame,
         bot_quick_match_won,
         bot_quick_match_lost,
@@ -166,7 +163,30 @@ namespace TurboLabz.InstantFramework
         terms_clicked,
         close_subscription_clicked,
 
-        app_quit_during_disconnected
+        app_quit_during_disconnected,
+
+        //UI Interaction
+        refresh_community,
+
+        //Session
+        session_facebook,
+
+        //CPU Levels Distribution
+        cpu_end_lvl_,
+
+        //Match Start Distrubtion
+        match_find_random,
+        match_find_friends,
+        match_find_friends_notification_in_app,
+        match_find_friends_notification_out_app,
+        match_find_community,
+        match_find_community_notification_in_app,
+        match_find_community_notification_out_app,
+        classic_match_find_random,
+        classic_match_find_friends,
+        classic_match_find_community,
+        match_find
+
     }
 
     public enum AnalyticsContext
@@ -187,11 +207,37 @@ namespace TurboLabz.InstantFramework
         return_from_background,
         cpu_match,
         matchmaking,
+
+        //Ads
         rewarded,
         interstitial_pregame,
         interstitial_endgame,
         interstitial_rewarded_failed_replacement,
-        interstitial_rewarded_capped_replacement
+        interstitial_rewarded_capped_replacement,
+
+        //Session
+        num_facebook_friends,
+
+        //CPU Levels Distribution
+        won_checkmate,
+        won_resign,
+        lost_checkmate,
+        lost_resign,
+        draw_agreement,
+        draw_stalemate,
+        draw_insufficient_material,
+        draw_fifty_move,
+        draw_threefold_repetition,
+
+        //Match Start Distrubtion
+        start_attempt,
+        success,
+        failed,
+        success_bot,
+        accepted,
+        rejected,
+        cancelled
+
     }
 
     public enum AnalyticsParameter
@@ -208,7 +254,8 @@ namespace TurboLabz.InstantFramework
         is_bot,
         context,
         day,
-        minutes
+        minutes,
+        num_facebook_friends
     }
 
 }
