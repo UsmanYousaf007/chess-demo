@@ -141,7 +141,7 @@ namespace TurboLabz.Multiplayer
                     offerButtonsDlg.SetActive(false);
                     offerTextDlg.SetActive(true);
                     CancelInvoke();
-                    Invoke("CloseDialogue", 4f);
+                    Invoke("CloseDialogue", 8f);
                 }else
                 {
                     offerDrawDialog.SetActive(false);
