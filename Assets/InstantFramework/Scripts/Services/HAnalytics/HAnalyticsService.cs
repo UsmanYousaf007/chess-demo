@@ -221,8 +221,8 @@ namespace TurboLabz.InstantFramework
 
             analyticsEvent.Add("funnel_instance_id", string.Concat(playerModel.id, metaDataModel.store.lastPurchaseAttemptTimestamp));
             analyticsEvent.Add("iap_currency_id", storeItem.remoteProductCurrencyCode);
-            analyticsEvent.Add("iap_amount", (float)storeItem.productPrice);
-            analyticsEvent.Add("original_amount",(float)storeItem.originalPrice);
+            analyticsEvent.Add("iap_amount", (double)storeItem.productPrice);
+            analyticsEvent.Add("original_amount",(double)storeItem.originalPrice);
             analyticsEvent.Add("discount_perc", (int)(storeItem.discountedRatio * 100));
             analyticsEvent.Add("is_best_value", isYearly);
         }
@@ -235,14 +235,19 @@ namespace TurboLabz.InstantFramework
             }
 
             var gameInfo = matchInfoModel.matches[challengeId];
+            var opponentId = gameInfo.challengerId.Equals(playerModel.id) ? gameInfo.challengedId : gameInfo.challengerId;
+
             analyticsEvent.Add("funnel_instance_id", string.Concat(gameInfo.challengerId, gameInfo.challengedId));
-            analyticsEvent.Add("opponenet_player_id", gameInfo.challengerId.Equals(playerModel.id) ? gameInfo.challengedId : gameInfo.challengerId);
+            analyticsEvent.Add("opponenet_player_id", opponentId);
             analyticsEvent.Add("difficulty", gameInfo.opponentPublicProfile.eloScore);
             analyticsEvent.Add("theme", playerModel.activeSkinId);
 
             if (name.Equals("game_finished"))
             {
-                analyticsEvent.Add("gameplay_result", gameInfo.endGameResult.ToString());
+                var endGameResult = gameInfo.winnerId == playerModel.id ? EndGameResult.PLAYER_WON :
+                    gameInfo.winnerId == opponentId ? EndGameResult.OPPONENT_WON : EndGameResult.GAME_DRAWN;
+
+                analyticsEvent.Add("gameplay_result", endGameResult.ToString());
                 analyticsEvent.Add("score", gameInfo.playerEloScoreDelta);
                 analyticsEvent.Add("duration", (int)gameInfo.gameDurationMs/1000);
 
@@ -264,10 +269,10 @@ namespace TurboLabz.InstantFramework
 
             if (name.Equals("game_finished"))
             {
-                var endGameResult = cpuChessboardModel.winnerId.Equals(playerModel.id) ? EndGameResult.PLAYER_WON :
+                var endGameResult = cpuChessboardModel.winnerId == playerModel.id ? EndGameResult.PLAYER_WON :
                     cpuChessboardModel.gameEndReason == GameEndReason.STALEMATE || cpuChessboardModel.gameEndReason == GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL ? EndGameResult.GAME_DRAWN : EndGameResult.OPPONENT_WON;
                 
-                analyticsEvent.Add("gameplay_result", endGameResult);
+                analyticsEvent.Add("gameplay_result", endGameResult.ToString());
                 analyticsEvent.Add("steps_used", cpuChessboardModel.moveList.Count);
                 analyticsEvent.Add("end_type", cpuChessboardModel.gameEndReason.ToString());
             }

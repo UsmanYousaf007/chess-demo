@@ -20,8 +20,6 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
-        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -59,11 +57,6 @@ namespace TurboLabz.InstantFramework
                     //loadLobbySignal.Dispatch();
                     friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);
                 }
-
-                preferencesModel.gameStartCount++;
-                hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match", matchInfoModel.activeChallengeId);
-                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.long_match);
             }
             else if (result != BackendResult.CANCELED)
             {
