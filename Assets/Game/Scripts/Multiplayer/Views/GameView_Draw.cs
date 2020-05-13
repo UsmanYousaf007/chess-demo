@@ -112,8 +112,6 @@ namespace TurboLabz.Multiplayer
 
         public void OfferDraw(string status, string offeredBy)
         {
-            Debug.Log("OFFER-DRAW--------"+ status+"----------"+ offeredBy);
-
             if (status == "offered")
             {
                 if (playerModel.id == offeredBy)
@@ -125,17 +123,14 @@ namespace TurboLabz.Multiplayer
                     offerTextDlg.SetActive(true);
                     CancelInvoke();
                     Invoke("CloseDialogue", 4f);
-                    Debug.Log("OFFER-DRAW--------draw offer sent------");
                     analyticsService.Event(AnalyticsEventId.offer_draw_sent);
                 }
                 else
                 {
                     //accept or reject
-                    //drawOfferText.text = "Opponent has offered a draw";
                     offerDrawDialog.SetActive(true);
                     offerButtonsDlg.SetActive(true);
                     offerTextDlg.SetActive(false);
-                    Debug.Log("OFFER-DRAW-----draw offered by opponent-----");
                 }
             }else if(status == "rejected")
             {
@@ -147,11 +142,14 @@ namespace TurboLabz.Multiplayer
                     offerTextDlg.SetActive(true);
                     CancelInvoke();
                     Invoke("CloseDialogue", 4f);
-                    Debug.Log("OFFER-DRAW------draw offer rejected-------");
                 }else
                 {
                     offerDrawDialog.SetActive(false);
                 }
+            }
+            else if (status == null)
+            {
+                offerDrawDialog.SetActive(false);
             }
         }
 

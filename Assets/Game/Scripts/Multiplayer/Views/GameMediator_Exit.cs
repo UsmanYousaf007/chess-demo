@@ -75,8 +75,6 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdateOfferDrawSignal))]
         public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
         {
-            Debug.Log("OFFER-DRAW----------Call back--------");
-            Debug.Log("OFFER-DRAW--------" + offerDrawVO.status + "----------" + offerDrawVO.offeredBy);
             view.OfferDraw(offerDrawVO.status, offerDrawVO.offeredBy);
         }
     }

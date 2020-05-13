@@ -111,6 +111,17 @@ namespace TurboLabz.InstantFramework
 
                 SetupMatch(challengeId, matchData, gameData);
                 SetupGame(challengeId, gameData);
+
+                OfferDrawVO offerDrawVO = new OfferDrawVO();
+                offerDrawVO.status = null;
+                offerDrawVO.offeredBy = null;
+                offerDrawVO.opponentId = opponentId;
+                offerDrawVO.challengeId = challengeId;
+
+                matchInfoModel.matches[challengeId].drawOfferStatus = offerDrawVO.status;
+                matchInfoModel.matches[challengeId].drawOfferedBy = offerDrawVO.offeredBy;
+                updateOfferDrawSignal.Dispatch(offerDrawVO);
+                
             }
 
             UpdateMatch(challengeId, matchData);
