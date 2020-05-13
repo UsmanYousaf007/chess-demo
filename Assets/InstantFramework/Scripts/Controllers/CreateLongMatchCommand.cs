@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
             backendService.CreateLongMatch(opponentId, isRanked).Then(OnCreateLongMatch);
 
             // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_long_match_create, 
+            /*analyticsService.Event(AnalyticsEventId.tap_long_match_create, 
                 AnalyticsParameter.is_ranked,
                 isRanked);
 
@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
             if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
             {
                 analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
-            }
+            }*/
         }
 
         private void OnCreateLongMatch(BackendResult result)
@@ -63,7 +63,7 @@ namespace TurboLabz.InstantFramework
                 preferencesModel.gameStartCount++;
                 hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match");
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.long_match);
+                //analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.long_match);
             }
             else if (result != BackendResult.CANCELED)
             {

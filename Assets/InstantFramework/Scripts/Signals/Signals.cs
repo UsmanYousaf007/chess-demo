@@ -145,6 +145,8 @@ namespace TurboLabz.InstantFramework
     public class DisableModalBlockersSignal : Signal { }
     public class SelectTierSignal : Signal<string> { }
     public class SetSubscriptionContext : Signal<string, string> { }
+    public class MatchAnalyticsSignal : Signal<MatchAnalyticsVO> { }
+    
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

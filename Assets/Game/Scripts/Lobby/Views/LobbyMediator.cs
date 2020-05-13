@@ -282,7 +282,7 @@ namespace TurboLabz.InstantFramework
             refreshCommunitySignal.Dispatch();
 
             // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_community_refresh);
+            analyticsService.Event(AnalyticsEventId.refresh_community);
         }
 
         private void OnShareApp()
@@ -311,16 +311,14 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
 
+            analyticsService.Event("classic_" + AnalyticsEventId.match_find_community, AnalyticsContext.start_attempt);
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
-            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
-
             var friend = playerModel.GetFriend(playerId);
 
             if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
@@ -347,8 +345,13 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                //view.preferencesModel.sessionsBeforePregameAdCount++;
              }
+
+
+            if (actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                analyticsService.Event("5m_" + AnalyticsEventId.match_find_community.ToString(), AnalyticsContext.start_attempt);
+            else
+                analyticsService.Event("10m_" + AnalyticsEventId.match_find_community.ToString(), AnalyticsContext.start_attempt);
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
@@ -401,7 +404,6 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
             startCPUGameSignal.Dispatch();
         }
@@ -425,8 +427,12 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
+
+            if (actionCode == FindMatchAction.ActionCode.Random.ToString())
+                analyticsService.Event("5m_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.start_attempt);
+            else
+                analyticsService.Event("10m_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.start_attempt);
 
             FindMatchAction.Random(findMatchSignal, actionCode);
         }
@@ -449,8 +455,9 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-                //view.preferencesModel.sessionsBeforePregameAdCount++;
             }
+            
+            analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.RandomLong(findMatchSignal);
         }
 
