@@ -4,6 +4,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using BestHTTP;
 using BestHTTP.WebSocket;
+using GameAnalyticsSDK;
+using UnityEngine;
 
 namespace GameSparks
 {
@@ -77,7 +79,18 @@ namespace GameSparks
 
 		void OnError(WebSocket ws, string error)
 		{
-            onError?.Invoke(error);
+			string DeviceName = SystemInfo.deviceName.ToString();
+			string DeviceType = SystemInfo.deviceType.ToString();
+
+			if (DeviceName == null)
+				DeviceName = "unknown";
+
+			if (DeviceType == null)
+				DeviceType = "unknown";
+
+			GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "Websocket OnError:" + error + " Device Info:" + DeviceName + ", " + DeviceType);
+
+			onError?.Invoke(error);
 
 			ws.Close();
         }

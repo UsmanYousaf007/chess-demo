@@ -144,6 +144,7 @@ namespace TurboLabz.InstantFramework
         reconnection_shown,
         gs_disconneced,
         gs_call_fail,
+        gs_disconnected_unique,
         internet_warning_on_splash,
 
         tap_match,

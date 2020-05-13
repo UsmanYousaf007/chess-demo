@@ -72,6 +72,8 @@ namespace TurboLabz.InstantFramework
 
         void ReportDisconnectAnalytics()
         {
+            bool isResumeGS = appInfoModel.isResumeGS;
+
             // Log Forced Disconnect (app returning from background)
             if (appInfoModel.isResumeGS)
             {
@@ -114,6 +116,11 @@ namespace TurboLabz.InstantFramework
             else
             {
                 analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.not_in_game);
+            }
+
+            if (isResumeGS == false)
+            {
+                analyticsService.Event(AnalyticsEventId.gs_disconnected_unique);
             }
         }
 
