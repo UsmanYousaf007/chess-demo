@@ -49096,6 +49096,7 @@ GameObject:
   - component: {fileID: 851753736}
   - component: {fileID: 851753735}
   - component: {fileID: 851753734}
+  - component: {fileID: 851753737}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -49172,6 +49173,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851753732}
   m_CullTransparentMesh: 0
+--- !u!223 &851753737
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851753732}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &853097083
 GameObject:
   m_ObjectHideFlags: 0
@@ -57247,6 +57269,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &985085122 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1973637947714276568, guid: fc6cce3296d7c485bb4b081ef97abf63,
+    type: 3}
+  m_PrefabInstance: {fileID: 316917910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &985085123
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985085122}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &985373413
 GameObject:
   m_ObjectHideFlags: 0
@@ -64316,6 +64365,7 @@ GameObject:
   - component: {fileID: 1109329836}
   - component: {fileID: 1109329835}
   - component: {fileID: 1109329834}
+  - component: {fileID: 1109329837}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -64392,6 +64442,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109329832}
   m_CullTransparentMesh: 0
+--- !u!223 &1109329837
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109329832}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1111048235
 GameObject:
   m_ObjectHideFlags: 0
