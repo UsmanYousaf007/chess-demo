@@ -16,6 +16,9 @@ namespace HUF.InitFirebase.Runtime.API
         [PublicAPI]
         public static bool IsInitialized => Initializer.IsInitialized;
 
+        [PublicAPI]
+        public static string FCM_TOKEN => Initializer.FCM_TOKEN;
+
         /// <summary>
         /// Occurs when Firebase initialization finish with success.
         /// </summary>

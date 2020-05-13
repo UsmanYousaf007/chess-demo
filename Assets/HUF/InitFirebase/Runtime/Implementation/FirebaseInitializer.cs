@@ -14,7 +14,11 @@ namespace HUF.InitFirebase.Runtime.Implementation
         FirebaseApp firebaseApp;
 
         public bool IsInitialized => firebaseApp != null;
+
+        public string FCM_TOKEN => fcm_token;
+
         bool isInitializing = false;
+        string fcm_token = string.Empty;
 
         public event UnityAction OnInitializationSuccess;
         public event UnityAction OnInitializationFailure;
@@ -49,6 +53,7 @@ namespace HUF.InitFirebase.Runtime.Implementation
         {
             firebaseApp = FirebaseApp.DefaultInstance;
             OnInitializationSuccess.Dispatch();
+            Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
             HLog.Log( logPrefix, "Firebase initialized" );
         }
 
@@ -56,6 +61,13 @@ namespace HUF.InitFirebase.Runtime.Implementation
         {
             OnInitializationFailure.Dispatch();
             HLog.LogError( logPrefix, "Unable to initialize Firebase" );
+        }
+
+        public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token)
+        {
+            Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
+            fcm_token = token.Token;
+            HLog.Log(logPrefix, "Firebase token received " + FCM_TOKEN);
         }
     }
 }
