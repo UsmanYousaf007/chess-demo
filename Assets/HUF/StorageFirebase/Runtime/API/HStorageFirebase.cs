@@ -30,19 +30,19 @@ namespace HUF.StorageFirebase.Runtime.API
             }
         }
 
-        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
-        static void AutoInit()
-        {
-            if ( !HConfigs.HasConfig<FirebaseStorageConfig>() )
-            {
-                HLog.LogError( logPrefix, FirebaseErrorMessages.CONFIG_MISSING_ERROR );
-                return;
-            }
+        //[RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
+        //static void AutoInit()
+        //{
+        //    if ( !HConfigs.HasConfig<FirebaseStorageConfig>() )
+        //    {
+        //        HLog.LogError( logPrefix, FirebaseErrorMessages.CONFIG_MISSING_ERROR );
+        //        return;
+        //    }
 
-            TryInitServices();
-        }
+        //    TryInitServices();
+        //}
 
-        static void TryInitServices()
+        public static void TryInitServices()
         {
             if ( HInitFirebase.IsInitialized )
             {
