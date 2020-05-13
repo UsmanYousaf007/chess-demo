@@ -589,12 +589,13 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
-            friendBar.UpdateStatus();
 
             if (recentlyCompleted.Contains(friendBar))
             {
                 friendBar.removeCommunityFriendButton.gameObject.SetActive(true);
             }
+
+            friendBar.UpdateStatus();
 
             // Set the timer clocks
             if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||

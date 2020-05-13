@@ -129,6 +129,7 @@ namespace TurboLabz.InstantFramework
                     newMatchGreetingLabel.text = strNewMatchGreeting;
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
+                    removeCommunityFriendButton.gameObject.SetActive(false);
 
                     break;
 
@@ -139,6 +140,7 @@ namespace TurboLabz.InstantFramework
                     cancelButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     stripButton.gameObject.SetActive(true);
+                    removeCommunityFriendButton.gameObject.SetActive(false);
 
                     if (isPlayerTurn)
                     {
