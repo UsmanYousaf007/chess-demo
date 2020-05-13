@@ -3,13 +3,10 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
-using UnityEngine.Purchasing;
-using System.Collections.Generic;
-using UnityEngine.Purchasing.Security;
-using strange.extensions.promise.api;
-using strange.extensions.promise.impl;
-using TurboLabz.TLUtils;
+using HUF.InitFirebase.Runtime.API;
+using HUF.RemoteConfigsFirebase.Runtime.API;
+using HUF.StorageFirebase.Runtime.API;
+using HUFEXT.CrossPromo.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -30,26 +27,35 @@ namespace TurboLabz.InstantFramework
 
         public void Init() 
         {
-
             appEventSignal.AddListener(OnAppEvent);
+            HInitFirebase.Init();
+            HInitFirebase.OnInitializationSuccess += OnFirebaseInitSuccess;
 
-            Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
-            Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
-                {
-                    if (task.Result == Firebase.DependencyStatus.Available) 
-                    {
-                        Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
-                        Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
-                        Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
-                        Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
-                        TLUtils.LogUtil.Log("Firebase intialization success.");
-                    } 
-                    else 
-                    {
-                        TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
-                    }
-                }
-            );
+            //Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
+            //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
+            //    {
+            //        if (task.Result == Firebase.DependencyStatus.Available) 
+            //        {
+                        
+            //        } 
+            //        else 
+            //        {
+            //            TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
+            //        }
+            //    }
+            //);
+        }
+
+        private void OnFirebaseInitSuccess()
+        {
+            HRemoteConfigsFirebase.Init();
+            HCrossPromo.Init();
+            HStorageFirebase.TryInitServices();
+            Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
+            Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
+            Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
+            Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
+            TLUtils.LogUtil.Log("Firebase intialization success.");
         }
 
         public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token) 
