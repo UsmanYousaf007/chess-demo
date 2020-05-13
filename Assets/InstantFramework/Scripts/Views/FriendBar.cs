@@ -216,6 +216,7 @@ namespace TurboLabz.InstantFramework
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = isGameCanceled ? strCanceled: strYouWon;
 
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, 0);
                     if (isGameCanceled)
                     {
                         okButton.gameObject.SetActive(true);
@@ -316,6 +317,7 @@ namespace TurboLabz.InstantFramework
             rankedIcon.SetActive(false);
             friendlyIcon.SetActive(false);
             viewButton.gameObject.SetActive(false);
+            drawOffer.SetActive(false);
         }
 
         public void Init(ILocalizationService localizationService)
