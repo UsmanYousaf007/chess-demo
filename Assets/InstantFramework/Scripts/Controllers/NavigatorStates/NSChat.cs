@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.MULTIPLAYER, NavigatorViewId.FRIENDS, NavigatorViewId.LOBBY, NavigatorViewId.STORE);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.MULTIPLAYER, NavigatorViewId.FRIENDS, NavigatorViewId.LOBBY, NavigatorViewId.MANAGE_BLOCKED_FRIENDS);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -29,6 +29,10 @@ namespace TurboLabz.InstantFramework
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
                 {
                     return new NSMultiplayer();
+                }
+                else if (viewId == NavigatorViewId.MANAGE_BLOCKED_FRIENDS)
+                {
+                    return new NSManageBlockedFriends();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)

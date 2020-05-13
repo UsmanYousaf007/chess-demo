@@ -270,6 +270,7 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT = "friendsFacebookLoginButtonText";
         public const string FACEBBOK_LOGIN_REWARD_TEXT = "facebookLoginRewardText";
         public const string FRIENDS_WAITING_FOR_PLAYERS = "friendsWaitingForPlayers";
+        public const string FRIENDS_MANAGE_BLOCKED = "friendsManageBlocked";
 
         public const string FRIENDS_FIND_FRIEND_TITLE = "friendsFindFriendTitle";
         public const string FRIENDS_FIND_FRIEND_LOGIN_INFO = "friendFindFriendLoginInfo";
@@ -280,6 +281,10 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_REMOVE_FROM_FRIENDS = "removeFromFriends";
         public const string FRIENDS_TEXT_FRIENDED = "FriendedText";
 
+        public const string FRIENDS_BLOCK_SEARCH = "friendsSearch";
+        public const string FRIENDS_UNBLOCK = "friendsUnblock";
+        public const string FRIENDS_BLOCKED = "friendsBlocked";
+        public const string FRIENDS_BLOCKED_EMPTY_LIST = "friendsBlockedEmptyList";
         #endregion
 
         #region Share

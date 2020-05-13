@@ -34,7 +34,8 @@ namespace TurboLabz.InstantFramework
         theme_selection_dlg,
         subscription_dlg,
         show_settings,
-        manage_subscription
+        manage_subscription,
+        manage_blocked_friends
     }
 
     public enum AnalyticsEventId

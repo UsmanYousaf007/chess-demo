@@ -81,7 +81,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RemoveCommunityFriendSignal>().To<RemoveCommunityFriendCommand>();
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<ShowShareScreenDialogSignal>().To<ShowShareDialogCommand>();
-
+            commandBinder.Bind<UnblockFriendSignal>().To<UnblockFriendCommand>();
 
             commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
@@ -100,6 +100,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<PurchaseStoreItemSignal>().To<PurchaseStoreItemCommand>();
             commandBinder.Bind<ConsumeVirtualGoodSignal>().To<ConsumeVirtualGoodCommand>();
             commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
+            commandBinder.Bind<ManageBlockedFriendsSignal>().To<ManageBlockedFriendsCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -221,6 +222,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateFriendOnlineStatusSignal>().ToSingleton();
             injectionBinder.Bind<SplashWifiIsHealthySignal>().ToSingleton();
             injectionBinder.Bind<ShowSplashContentSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateManageBlockedFriendsViewSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
@@ -274,6 +276,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<EarnRewardsView>().To<EarnRewardsMediator>();
             mediationBinder.Bind<SubscriptionTierView>().To<SubscriptionTierMediator>();
             mediationBinder.Bind<ManageSubscriptionView>().To<ManageSubscriptionMediator>();
+            mediationBinder.Bind<ManageBlockedFriendsView>().To<ManageBlockedFriendsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

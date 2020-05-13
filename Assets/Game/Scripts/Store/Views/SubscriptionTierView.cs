@@ -77,24 +77,28 @@ public class SubscriptionTierView : View
 
         if (isMonthly)
         {
-            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
+            item.originalPrice = Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2);
+            actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
             //billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
             billed.gameObject.SetActive(false);
             savings.text = $"Save {savingsValue * 100}%";
+            item.discountedRatio = savingsValue;
         }
         else
         {
             var monthlyItem = metaDataModel.store.items["Subscription"];
             var monthlyPrice = item.productPrice / 12;
             savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
-            actualPrice.text = $"{item.remoteProductCurrencyCode} {Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2)}";
+            item.originalPrice = Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2);
+            actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/yr";
             billed.text = $"Just {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo"; ;
             savings.text = $"Save {(int)(savingsValue * 100)}%";
             var showSavings = savingsValue > 0;
             actualPrice.gameObject.SetActive(showSavings);
             savings.gameObject.SetActive(showSavings);
+            item.discountedRatio = savingsValue;
         }
     }
 

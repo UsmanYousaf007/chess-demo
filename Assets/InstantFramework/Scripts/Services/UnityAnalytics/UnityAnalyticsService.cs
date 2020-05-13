@@ -169,6 +169,7 @@ namespace TurboLabz.InstantFramework
                 var paramDict = new Dictionary<string, object>();
                 for (int i = 0; i < param.Length; i++)
                 {
+                    param[i] = string.IsNullOrEmpty(param[i]) ? "null" : param[i];
                     paramDict.Add($"ST{i + 1}", param[i]);
                     evtStr += $":{param[i]}";
                 }

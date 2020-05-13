@@ -22,7 +22,7 @@ public class FullScreenTap : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonUp(0))
         {
             action.Invoke();
         }
