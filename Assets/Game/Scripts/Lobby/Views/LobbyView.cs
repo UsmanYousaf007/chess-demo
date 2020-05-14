@@ -717,6 +717,15 @@ namespace TurboLabz.InstantFramework
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
+            else if (reason == CreateLongMatchAbortReason.Blocked)
+            {
+                createMatchLimitReachedText.text = "Sorry, a game could not be created. Please try later.";
+                SetMatchLimitReachedDialogue(false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
+
+                friendBar.playArrow.SetActive(true);
+                friendBar.playArrowButton.SetActive(false);
+            }
             else // Match successfully created
             {
                 friendBar.playArrow.SetActive(false);

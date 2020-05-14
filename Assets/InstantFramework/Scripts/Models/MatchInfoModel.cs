@@ -13,7 +13,8 @@ namespace TurboLabz.InstantFramework
         CreateFailed,
         LimitReached,
         SelfLimitReached,
-        Pending
+        Pending,
+        Blocked
     };
 
     public class MatchInfo
