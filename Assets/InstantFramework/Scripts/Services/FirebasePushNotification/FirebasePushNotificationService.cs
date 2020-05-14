@@ -30,13 +30,15 @@ namespace TurboLabz.InstantFramework
             appEventSignal.AddListener(OnAppEvent);
             HInitFirebase.Init();
             HInitFirebase.OnInitializationSuccess += OnFirebaseInitSuccess;
+            HCrossPromo.Init();
+            HStorageFirebase.TryInitServices();
 
             //Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
             //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
             //    {
             //        if (task.Result == Firebase.DependencyStatus.Available) 
             //        {
-                        
+
             //        } 
             //        else 
             //        {
@@ -49,8 +51,6 @@ namespace TurboLabz.InstantFramework
         private void OnFirebaseInitSuccess()
         {
             HRemoteConfigsFirebase.Init();
-            HCrossPromo.Init();
-            HStorageFirebase.TryInitServices();
             Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
             Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
             Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
