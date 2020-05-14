@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
+        [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -45,6 +46,12 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
+
+            OfferDrawVO offerDrawVO = new OfferDrawVO();
+            offerDrawVO.status = null;
+            offerDrawVO.offeredBy = null;
+            offerDrawVO.opponentId = null;
+            updateOfferDrawSignal.Dispatch(offerDrawVO);
 
             // This sends the backend request
             backendService.FindMatch(action).Then(HandleFindMatchErrors);
