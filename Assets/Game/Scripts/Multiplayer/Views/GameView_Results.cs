@@ -208,6 +208,7 @@ namespace TurboLabz.Multiplayer
             viewBoardResultPanel.reason.text = "";
             EnableRewarededVideoButton(true);
             offerTextDlg.SetActive(false);
+            offerDrawDialog.SetActive(false);
 
             switch (gameEndReason)
             {
