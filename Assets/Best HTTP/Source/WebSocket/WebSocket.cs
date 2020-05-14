@@ -165,6 +165,8 @@ namespace BestHTTP.WebSocket
         /// The internal WebSocketResponse object
         /// </summary>
         private WebSocketResponse webSocket;
+
+        public bool isPingFail { get { return webSocket != null && webSocket.IsPingFail; } }
 #else
         internal static Dictionary<uint, WebSocket> WebSockets = new Dictionary<uint, WebSocket>();
 
@@ -309,21 +311,37 @@ namespace BestHTTP.WebSocket
                 // The request finished with an unexpected error. The request's Exception property may contain more info about the error.
                 case HTTPRequestStates.Error:
                     reason = "Request Finished with Error! " + (req.Exception != null ? ("Exception: " + req.Exception.Message + req.Exception.StackTrace) : string.Empty);
+                    if (resp != null)
+                    {
+                        reason = "[StatusCode:" + resp.StatusCode + "] " + reason;
+                    }
                     break;
 
                 // The request aborted, initiated by the user.
                 case HTTPRequestStates.Aborted:
                     reason = "Request Aborted!";
+                    if (resp != null)
+                    {
+                        reason = "[StatusCode:" + resp.StatusCode + "] " + reason;
+                    }
                     break;
 
                 // Connecting to the server is timed out.
                 case HTTPRequestStates.ConnectionTimedOut:
                     reason = "Connection Timed Out!";
+                    if (resp != null)
+                    {
+                        reason = "[StatusCode:" + resp.StatusCode.ToString() + "] " + reason;
+                    }
                     break;
 
                 // The request didn't finished in the given time.
                 case HTTPRequestStates.TimedOut:
                     reason = "Processing the request Timed Out!";
+                    if (resp != null)
+                    {
+                        reason = "[StatusCode:" + resp.StatusCode + "] " + reason;
+                    }
                     break;
 
                 default:
