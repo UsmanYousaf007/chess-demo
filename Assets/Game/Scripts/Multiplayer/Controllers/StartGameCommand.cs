@@ -85,18 +85,13 @@ namespace TurboLabz.InstantFramework
             enableGameChatSignal.Dispatch(vo);
             chatModel.hasEngagedChat = false;
 
+            OfferDrawVO offerDrawVO = new OfferDrawVO();
+            offerDrawVO.status = matchInfoModel.activeMatch.drawOfferStatus;
+            offerDrawVO.offeredBy = matchInfoModel.activeMatch.drawOfferedBy;
+            offerDrawVO.opponentId = opponentId;
+            offerDrawVO.challengeId = matchInfoModel.activeChallengeId;
+            updateOfferDrawSignal.Dispatch(offerDrawVO);
 
-            if (matchInfoModel.activeMatch.drawOfferStatus == "offered")
-            {
-                OfferDrawVO offerDrawVO = new OfferDrawVO();
-
-                offerDrawVO.status = matchInfoModel.activeMatch.drawOfferStatus;
-                offerDrawVO.offeredBy = matchInfoModel.activeMatch.drawOfferedBy;
-                offerDrawVO.opponentId = opponentId;
-                offerDrawVO.challengeId = matchInfoModel.activeChallengeId;
-
-                updateOfferDrawSignal.Dispatch(offerDrawVO);
-            }
 
             // Analytics
             if (matchInfo.isLongPlay)

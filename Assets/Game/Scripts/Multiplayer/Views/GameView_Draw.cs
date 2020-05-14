@@ -167,6 +167,10 @@ namespace TurboLabz.Multiplayer
             else if (status == null)
             {
                 offerDrawDialog.SetActive(false);
+                offerDrawButton.interactable = true;
+                var tempColor = offerDrawButtonLabel.color;
+                tempColor.a = 0.87f;
+                offerDrawButtonLabel.color = tempColor;
             }
         }
 
