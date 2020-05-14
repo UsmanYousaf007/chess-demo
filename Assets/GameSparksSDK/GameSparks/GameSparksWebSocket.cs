@@ -59,7 +59,7 @@ namespace GameSparks
 
 			// Todo: Move to one time initialization
 			HTTPManager.MaxConnectionIdleTime = TimeSpan.FromSeconds(7200);
-			ws.CloseAfterNoMesssage = TimeSpan.FromSeconds(20);
+			ws.CloseAfterNoMesssage = TimeSpan.FromSeconds(30);
 
 			ws.Open();
 		}
@@ -88,23 +88,35 @@ namespace GameSparks
 		void OnError(WebSocket ws, string error)
 		{
 			string DeviceName = SystemInfo.deviceName.ToString();
+			bool closeSocket = false;
 
 			if (DeviceName == null)
 				DeviceName = "unknown";
 
-			onError?.Invoke(error);
-
 			if (ws.isPingFail)
 			{
+				UnityEngine.Debug.Log("Websocket OnError [Ping Fail]:" + error + " Device Info:" + DeviceName);
+
 				string stackTrace = System.Environment.StackTrace;
 				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "[PING FAIL] Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
                     " [Stack:] " + stackTrace +  " [Device:]" + DeviceName);
-
-				ws.Close();
+				closeSocket = true;
 			}
 			else
 			{
-				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "Websocket OnError:" + error + " Device Info:" + DeviceName);
+				UnityEngine.Debug.Log("Websocket OnError:" + error + " Device Info:" + DeviceName);
+
+				string stackTrace = System.Environment.StackTrace;
+				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
+					" [Stack:] " + stackTrace + " [Device:]" + DeviceName);
+				closeSocket = true;
+			}
+
+			onError?.Invoke(error);
+
+            if (closeSocket)
+            {
+				ws.Close();
 			}
 		}
 
