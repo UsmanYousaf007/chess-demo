@@ -425,11 +425,6 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            if (actionCode == FindMatchAction.ActionCode.Random.ToString())
-                analyticsService.Event("5m_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.start_attempt);
-            else
-                analyticsService.Event("10m_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.start_attempt);
-
             FindMatchAction.Random(findMatchSignal, actionCode);
         }
 
@@ -454,7 +449,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
             
-            analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
+            //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.RandomLong(findMatchSignal);
         }
 
