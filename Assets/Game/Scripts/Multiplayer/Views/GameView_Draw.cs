@@ -121,8 +121,11 @@ namespace TurboLabz.Multiplayer
                     offerDrawDialog.SetActive(true);
                     offerButtonsDlg.SetActive(false);
                     offerTextDlg.SetActive(true);
-                    //CancelInvoke();
-                    //Invoke("CloseDialogue", 4f);
+                    var tempColor = offerDrawButtonLabel.color;
+                    tempColor.a = 0.3f;
+                    offerDrawButtonLabel.color = tempColor;
+                    offerDrawButton.interactable = false;
+
                     analyticsService.Event(AnalyticsEventId.offer_draw_sent);
                 }
                 else
@@ -131,6 +134,12 @@ namespace TurboLabz.Multiplayer
                     offerDrawDialog.SetActive(true);
                     offerButtonsDlg.SetActive(true);
                     offerTextDlg.SetActive(false);
+
+                    var tempColor = offerDrawButtonLabel.color;
+                    tempColor.a = 0.3f;
+                    offerDrawButtonLabel.color = tempColor;
+
+                    offerDrawButton.interactable = false;
                 }
             }else if(status == "rejected")
             {
@@ -140,11 +149,19 @@ namespace TurboLabz.Multiplayer
                     drawOfferText.text = "Draw offer rejected";
                     offerButtonsDlg.SetActive(false);
                     offerTextDlg.SetActive(true);
+                    offerDrawButton.interactable = true;
+                    var tempColor = offerDrawButtonLabel.color;
+                    tempColor.a = 0.87f;
+                    offerDrawButtonLabel.color = tempColor;
                     CancelInvoke();
                     Invoke("CloseDialogue", 8f);
                 }else
                 {
                     offerDrawDialog.SetActive(false);
+                    offerDrawButton.interactable = true;
+                    var tempColor = offerDrawButtonLabel.color;
+                    tempColor.a = 0.7f;
+                    offerDrawButtonLabel.color = tempColor;
                 }
             }
             else if (status == null)

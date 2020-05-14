@@ -64,7 +64,6 @@ namespace TurboLabz.Multiplayer
         {
             offerDrawSignal.Dispatch("offered");
             view.OnContinueButtonClicked();
-            //cancelHintSingal.Dispatch();
         }
 
         private void OnContinueButtonClicked()
