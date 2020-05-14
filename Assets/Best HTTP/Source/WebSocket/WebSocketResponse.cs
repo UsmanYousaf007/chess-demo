@@ -104,6 +104,9 @@ namespace BestHTTP.WebSocket
         /// </summary>
         private volatile bool closed;
 
+        public bool IsPingFail { get { return pingFail; } }
+        private volatile bool pingFail;
+
         /// <summary>
         /// When we sent out the last ping.
         /// </summary>
@@ -610,6 +613,8 @@ namespace BestHTTP.WebSocket
                     this.lastMessage, this.PingFrequnecy, this.WebSocket.CloseAfterNoMesssage, now));
 
                 CloseWithError(HTTPRequestStates.Error, "No message received in the given time!");
+
+                this.pingFail = true;
             }
         }
 
@@ -638,9 +643,11 @@ namespace BestHTTP.WebSocket
             {
                 HTTPManager.Logger.Information("WebSocketResponse", "Error while sending PING message! Closing WebSocket.");
                 CloseWithError(HTTPRequestStates.Error, "Error while sending PING message!");
+                this.pingFail = true;
             }
         }
 
+        // NOORJ
         private void CloseWithError(HTTPRequestStates state, string message)
         {
             if (!string.IsNullOrEmpty(message))
