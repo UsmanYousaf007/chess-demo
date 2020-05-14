@@ -283,7 +283,6 @@ namespace TurboLabz.InstantFramework
                     return;
                 }
             }
-            analyticsService.Event("classic_" + AnalyticsEventId.match_find_friends, AnalyticsContext.start_attempt);
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
@@ -317,11 +316,6 @@ namespace TurboLabz.InstantFramework
                     return;
                 }
             }
-
-            if (actionCode == FindMatchAction.ActionCode.Challenge.ToString())
-                analyticsService.Event("5m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.start_attempt);
-            else
-                analyticsService.Event("10m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.start_attempt);
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }

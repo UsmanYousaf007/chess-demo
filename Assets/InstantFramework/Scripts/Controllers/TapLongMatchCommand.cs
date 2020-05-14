@@ -19,15 +19,26 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public CreateLongMatchSignal createLongMatchSignal { get; set; }
         [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
             matchInfoModel.activeLongMatchOpponentId = opponentId;
 
             string challengeId = GetChallengeId();
+
+            MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+            matchAnalyticsVO.context = AnalyticsContext.start_attempt;
+            matchAnalyticsVO.matchType = "classic";
+            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+            var friend = playerModel.GetFriend(opponentId);
+            matchAnalyticsVO.friendType = friend.friendType;
+            matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
 
             if (challengeId == null)
             {

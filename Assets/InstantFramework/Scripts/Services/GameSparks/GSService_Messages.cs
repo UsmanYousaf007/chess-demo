@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
         [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         public void AddChallengeListeners()
         {
@@ -112,6 +113,16 @@ namespace TurboLabz.InstantFramework
                 {
                     challengeAcceptedSignal.Dispatch();
                 }
+
+                MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+                matchAnalyticsVO.context = AnalyticsContext.accepted;
+                matchAnalyticsVO.matchType = "classic";
+                matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+                Friend friend = playerModel.GetFriend(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
+                matchAnalyticsVO.friendType = friend.friendType;
+
+                matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
             }
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_OPPONENT_PINGED_MESSAGE)
             {

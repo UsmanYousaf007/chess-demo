@@ -49,6 +49,36 @@ namespace TurboLabz.InstantFramework
             // This sends the backend request
             backendService.FindMatch(action).Then(HandleFindMatchErrors);
 
+
+            MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+            matchAnalyticsVO.context = AnalyticsContext.start_attempt;
+
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString()
+                || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+                matchAnalyticsVO.friendType = "random";
+            else
+            {
+                var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
+                matchAnalyticsVO.friendType = friend.friendType;
+            }
+
+            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
+                matchAnalyticsVO.matchType = "classic";
+            }
+            else
+            {
+                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
+                    matchAnalyticsVO.matchType = "5m";
+                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
+                    matchAnalyticsVO.matchType = "10m";
+            }
+
+            matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
+
             findMatchRequestCompleteSignal.AddOnce(OnFindMatchRequestCompleted);
         }
 
@@ -246,6 +276,8 @@ namespace TurboLabz.InstantFramework
                     else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
                         matchAnalyticsVO.matchType = "10m";
                 }
+
+                matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
 
                 backendErrorSignal.Dispatch(result);
                 Release();
