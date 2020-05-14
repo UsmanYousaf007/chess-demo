@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using TurboLabz.Multiplayer;
-using HUF.AnalyticsHBI.API;
+using HUF.AnalyticsHBI.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
+        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
 
         public override void Execute()
         {
@@ -62,6 +63,11 @@ namespace TurboLabz.InstantFramework
                 model.adsSettings = adsSettingsModel;
                 model.rewardsSettings = rewardsSettingsModel;
                 model.settingsModel = settingsModel;
+
+                if (playerModel.subscriptionExipryTimeStamp == 0)
+                {
+                    getInitDataCompleteSignal.Dispatch();
+                }
             }
             else if (result != BackendResult.CANCELED)
             {

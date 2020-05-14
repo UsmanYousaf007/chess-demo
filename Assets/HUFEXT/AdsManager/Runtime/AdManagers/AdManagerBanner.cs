@@ -1,8 +1,8 @@
-using HUF.Ads.API;
-using HUF.Ads.Implementation;
+using HUF.Ads.Runtime.Implementation;
 using HUF.Utils;
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+using HUFEXT.AdsManager.Runtime.AdMediation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.Config;
 using HUFEXT.AdsManager.Runtime.Service;
@@ -16,10 +16,8 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         bool isFetchingBanner;
 
         public AdManagerBanner( AdPlacementData inAdPlacementData,
-            AdsManagerConfig inAdsManagerConfig,
             HUFAdsService inAdsService ) : base(
             inAdPlacementData,
-            inAdsManagerConfig,
             inAdsService )
         {
             adStatus = AdStatus.ReadyToShow;
@@ -28,6 +26,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
         public void HideBanner()
         {
+            HLog.Log( logPrefix, $"HideBanner {isFetchingBanner} {didFetchBanner}" );
             tryShowBannerPersistent = false;
             StartFetching();
         }
@@ -38,75 +37,77 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             HLog.Log( logPrefix, $"ShowAd {adPlacementData.PlacementId}" );
             base.ShowAd( resultCallback, alternativeAdPlacement );
 
-            if ( HAds.Banner.Show( adPlacementData.PlacementId ) == false )
-            {
-                OnFailToShow();
-            }
+            adsService.Mediation.ShowBanner( adPlacementData.PlacementId);
         }
 
         protected override void StartFetching()
         {
+            HLog.Log( logPrefix, $"StartFetching  {isFetchingBanner} {didFetchBanner}" );
+            
             if ( didFetchBanner || isFetchingBanner )
             {
-                HAds.Banner.Hide();
+                adsService.Mediation.HideBanner( shownPlacementId );
                 didFetchBanner = false;
             }
-
+            
             isFetchingBanner = false;
             base.StartFetching();
         }
 
-        protected override void RegisterEvents()
-        {
-            HAds.Banner.OnShown += OnShownBanner;
-            HAds.Banner.OnFailed += OnFailed;
-        }
-
-        void OnShownBanner( IBannerCallbackData callbackData )
+        void HandleShown( AdCallback callbackData )
         {
             if ( callbackData.PlacementId != adPlacementData.PlacementId )
                 return;
 
-            HLog.Log( logPrefix, $"OnShownBanner {adPlacementData.PlacementId}" );
+            if ( callbackData.Result != AdResult.Completed )
+            {
+                HLog.Log( logPrefix, $"HandleShown Failed {adPlacementData.PlacementId}" );
+                isFetchingBanner = false;
+                HandleFailToShow();
+                return;
+            }
+
+            HLog.Log( logPrefix, $"HandleShown {adPlacementData.PlacementId}" );
             didFetchBanner = true;
             currentFetchTimes = 0;
 
-            showResponseCallbacks.Dispatch( new AdManagerCallback( HAds.Banner.GetAdProviderName(),
+            showResponseCallbacks.Dispatch( new AdManagerCallback( callbackData.MediationId,
                 adPlacementData.PlacementId,
                 callbackData.HeightInPx ) );
             showResponseCallbacks = null;
         }
 
-        void OnFailed( IBannerCallbackData callbackData )
+        protected override void HandleFetched( AdCallback callbackData )
         {
             if ( callbackData.PlacementId != adPlacementData.PlacementId )
                 return;
 
+            isFetchingBanner = false;
+            
+            base.HandleFetched(callbackData);
+            
+            if (callbackData.Result == AdResult.Completed && tryShowBannerPersistent )
+            {
+                ShowAd( showResponseCallbacks, shownPlacementId );
+            }
+        }
+        
+        void HandleHidden( AdCallback callbackData )
+        {
+            if ( callbackData.PlacementId != adPlacementData.PlacementId )
+                return;
+
+            isFetchingBanner = false;
+            didFetchBanner = false;
             HLog.Log( logPrefix, $"OnFailed {adPlacementData.PlacementId}" );
-            OnFailToShow();
+            AdEnded( AdResult.Completed);
         }
 
         protected override void Fetch()
         {
-            if ( tryShowBannerPersistent )
-            {
-                base.Fetch();
-                ShowAd( showResponseCallbacks, shownPlacementId );
-                return;
-            }
-
-            adStatus = AdStatus.ReadyToShow;
-
-            adsService.OnAdFetch.Dispatch(
-                new AdsManagerFetchCallbackData( GetAdMediationName(), adPlacementData.PlacementId ) );
-
-            for ( int i = 0; i < alternativePlacements.Count; i++ )
-            {
-                adsService.OnAdFetch.Dispatch(
-                    new AdsManagerFetchCallbackData( GetAdMediationName(), alternativePlacements[i] ) );
-            }
-
-            currentFetchTimes = 0;
+            base.Fetch();
+            adsService.Mediation.FetchBanner( adPlacementData.PlacementId );
+            
         }
 
         protected override void SendAdEvent( AdResult result, string placementId )
@@ -117,12 +118,6 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
                     placementId,
                     result ) );
         }
-
-        protected override string GetAdMediationName()
-        {
-            return HAds.Banner.GetAdProviderName();
-        }
-
         bool tryShowBannerPersistent = false;
 
         public void ShowBannerPersistent( string placementId )
@@ -131,16 +126,23 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             ShowAd( null, placementId );
         }
 
-        protected override void DisconnectFromAds()
+        protected override void SubscribeToEvents()
         {
-            HAds.Banner.OnShown -= OnShownBanner;
-            HAds.Banner.OnFailed -= OnFailed;
+            adsService.Mediation.OnBannerShown += HandleShown;
+            adsService.Mediation.OnBannerFetched += HandleFetched;
+            adsService.Mediation.OnBannerHidden += HandleHidden;
+        }
+        
+        protected override void UnsubscribeFromEvents()
+        {
+            adsService.Mediation.OnBannerShown -= HandleShown;
+            adsService.Mediation.OnBannerFetched -= HandleFetched;
+            adsService.Mediation.OnBannerHidden -= HandleHidden;
         }
 
         protected override bool NativeIsReady()
         {
-            HLog.Log( logPrefix, $"NativeIsReady {adPlacementData.PlacementId}" );
-            return true;
+            return adsService.Mediation.IsBannerReady( adPlacementData.PlacementId );
         }
     }
 }

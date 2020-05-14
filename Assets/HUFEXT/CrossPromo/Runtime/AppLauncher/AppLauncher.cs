@@ -1,12 +1,12 @@
 #if UNITY_ANDROID && !UNITY_EDITOR
-using PlatformAppLauncher = HUFEXT.CrossPromo.AppLauncher.AndroidAppLauncherService;
+using PlatformAppLauncher = HUFEXT.CrossPromo.Runtime.AppLauncher.AndroidAppLauncherService;
 #elif UNITY_IPHONE && !UNITY_EDITOR
-using PlatformAppLauncher = HUFEXT.CrossPromo.AppLauncher.IOSAppLauncherService;
+using PlatformAppLauncher = HUFEXT.CrossPromo.Runtime.AppLauncher.IOSAppLauncherService;
 #else
-using PlatformAppLauncher = HUFEXT.CrossPromo.AppLauncher.DummyAppLauncherService;
+using PlatformAppLauncher = HUFEXT.CrossPromo.Runtime.AppLauncher.DummyAppLauncherService;
 #endif
 
-namespace HUFEXT.CrossPromo.AppLauncher
+namespace HUFEXT.CrossPromo.Runtime.AppLauncher
 {
     public static class AppLauncher
     {

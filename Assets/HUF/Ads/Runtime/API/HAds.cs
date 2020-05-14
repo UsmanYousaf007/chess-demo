@@ -1,12 +1,12 @@
 using System;
-using HUF.Ads.Implementation;
-using HUF.Utils.Extensions;
-using HUF.Utils.PlayerPrefs;
+using HUF.Ads.Runtime.Implementation;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+using HUF.Utils.Runtime.PlayerPrefs;
 using JetBrains.Annotations;
 using UnityEngine.Events;
 
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public static class HAds
     {

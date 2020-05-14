@@ -1,13 +1,13 @@
 using System.Linq;
-using HUF.Ads.API;
-using HUF.Ads.Implementation.EditorAds;
-using HUF.Utils.Configs.API;
-using HUF.Utils.Extensions;
+using HUF.Ads.Runtime.API;
+using HUF.Ads.Runtime.Implementation.EditorAds;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Ads.Implementation
+namespace HUF.Ads.Runtime.Implementation
 {
     public class AdsService : IAdsService
     {

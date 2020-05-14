@@ -1,11 +1,11 @@
-using HUF.Storage.API;
-using HUF.Storage.API.Structs;
-using HUF.Storage.Implementation.ActionHandlers;
-using HUF.Utils.Extensions;
+using HUF.Storage.Runtime.API;
+using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.Implementation.ActionHandlers;
+using HUF.Utils.Runtime.Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Storage.Implementation
+namespace HUF.Storage.Runtime.Implementation
 {
     public class LocalStorageService : IDownloadService
     {   

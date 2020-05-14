@@ -1,7 +1,8 @@
+using HUF.Utils.Runtime.BuildSupport.ConfigPreset;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.Wrappers.BuildSupport.ConfigPreset.Editor
+namespace HUF.Utils.Editor.BuildSupport.ConfigPreset
 {
     [CustomEditor(typeof(ConfigPresets))]
     public class ConfigPresetsEditor : UnityEditor.Editor

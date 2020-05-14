@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿#if UNITY_IOS
+using JetBrains.Annotations;
 using UnityEditor.iOS.Xcode;
 
 namespace HUF.Utils.BuildSupport.Editor.iOS
@@ -15,3 +16,4 @@ namespace HUF.Utils.BuildSupport.Editor.iOS
         }
     }
 }
+#endif

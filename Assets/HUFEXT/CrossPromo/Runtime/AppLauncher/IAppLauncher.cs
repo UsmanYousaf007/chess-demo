@@ -1,4 +1,4 @@
-namespace HUFEXT.CrossPromo.AppLauncher
+namespace HUFEXT.CrossPromo.Runtime.AppLauncher
 {
     public interface IAppLauncher
     {

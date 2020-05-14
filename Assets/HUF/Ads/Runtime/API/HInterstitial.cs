@@ -1,8 +1,8 @@
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine.Events;
 
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public class HInterstitial
     {

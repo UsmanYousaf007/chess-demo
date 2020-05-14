@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using HUFEXT.PackageManager.Editor.Implementation.Local.Services;
-using HUFEXT.PackageManager.Editor.Implementation.Remote.Auth;
 using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Events;
-using Report = HUF.Build.Report.Sender;
 
 namespace HUFEXT.PackageManager.Editor.Utils
 {
@@ -40,22 +35,22 @@ namespace HUFEXT.PackageManager.Editor.Utils
         }
 
         private static Dictionary<string, string> buildParameters;
-        private static ListRequest packagesRequest;
+        private static UnityEditor.PackageManager.Requests.ListRequest packagesRequest;
 
         static UnityAction<Dictionary<string, string>> OnReportGenerationCompleted;
 
         public static ReportStatus GenerateBuildInfo( UnityAction<Dictionary<string, string>> response )
         {
             var status = ReportStatus.Success;
-            var token = Token.LoadExistingToken();
-            if ( token == null )
+            
+            if ( !Models.Token.Exists )
             {
                 return ReportStatus.Failed;
             }
 
             buildParameters = new Dictionary<string, string>()
             {
-                { Keys.DEV_ID, token.DeveloperID },
+                { Keys.DEV_ID, Models.Token.ID },
                 { Keys.PACKAGE_NAME, PlayerSettings.applicationIdentifier },
                 { Keys.VERSION, PlayerSettings.bundleVersion },
                 { Keys.BUILD_TIME, DateTime.Now.ToString( CultureInfo.InvariantCulture ) },
@@ -78,28 +73,20 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 }
             }
 
-            new LocalPackagesService().RequestPackagesList( string.Empty, ( localPackages ) =>
+            foreach ( var package in Core.Packages.Local )
             {
-                if ( !token.IsValid && localPackages.Count > 0)
+                var name = string.Empty;
+                var arr = package.name.Split( '.' );
+                if ( arr.Length > 0 )
                 {
-                    status = ReportStatus.Failed;
+                    name = arr.Last();
                 }
-
-                foreach ( var package in localPackages )
-                {
-                    var name = string.Empty;
-                    var arr = package.name.Split( '.' );
-                    if ( arr.Length > 0 )
-                    {
-                        name = arr.Last();
-                    }
-                    buildParameters[Keys.HUF_PACKAGE + name] = package.version;
-                }
-            } );
+                buildParameters[Keys.HUF_PACKAGE + name] = package.version;
+            }
 
             OnReportGenerationCompleted = response;
 
-            packagesRequest = Client.List( true );
+            packagesRequest = UnityEditor.PackageManager.Client.List( true );
             EditorApplication.update += FetchUnityPackages;
 
             return status;
@@ -121,7 +108,7 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 }
             }
 
-            if ( packagesRequest.Status != StatusCode.InProgress )
+            if ( packagesRequest.Status != UnityEditor.PackageManager.StatusCode.InProgress )
             {
                 OnReportGenerationCompleted?.Invoke( buildParameters );
                 OnReportGenerationCompleted = null;
@@ -137,7 +124,7 @@ namespace HUFEXT.PackageManager.Editor.Utils
         
         public void OnPreprocessBuild( UnityEditor.Build.Reporting.BuildReport report )
         {
-            GenerateBuildInfo( Report.SendReport );
+            GenerateBuildInfo( HUF.Build.Report.Sender.SendReport );
         }
     }
 }

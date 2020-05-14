@@ -1,8 +1,8 @@
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine.Events;
 
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public class HRewarded
     {
@@ -29,7 +29,7 @@ namespace HUF.Ads.API
 
         readonly IAdsService service;
 
-        internal HRewarded(IAdsService service)
+        internal HRewarded( IAdsService service )
         {
             this.service = service;
         }
@@ -40,20 +40,19 @@ namespace HUF.Ads.API
         /// </summary>
         /// <param name="provider">Rewarded ad provider</param>
         [PublicAPI]
-        public IAdsService RegisterAdProvider(IRewardedAdProvider provider)
+        public IAdsService RegisterAdProvider( IRewardedAdProvider provider )
         {
-            if (service.RewardedAdProvider != null)
+            if ( service.RewardedAdProvider != null )
             {
                 service.RewardedAdProvider.OnRewardedEnded -= AdEnded;
                 service.RewardedAdProvider.OnRewardedFetched -= AdFetched;
                 service.RewardedAdProvider.OnRewardedClicked -= AdClicked;
             }
-            
+
             service.RewardedAdProvider = provider;
             service.RewardedAdProvider.OnRewardedEnded += AdEnded;
             service.RewardedAdProvider.OnRewardedFetched += AdFetched;
             service.RewardedAdProvider.OnRewardedClicked += AdClicked;
-
             return service;
         }
 
@@ -67,16 +66,16 @@ namespace HUF.Ads.API
         {
             return service.TryShowRewarded();
         }
-        
+
         /// <summary>
         /// Use this to show rewarded ad with given placement id
         /// </summary>
         /// <param name="placementId">Your placement id</param>
         /// <returns>Whether ad shown operation has started successfully or not</returns>
         [PublicAPI]
-        public bool TryShow(string placementId)
+        public bool TryShow( string placementId )
         {
-            return service.TryShowRewarded(placementId);
+            return service.TryShowRewarded( placementId );
         }
 
         /// <summary>
@@ -89,16 +88,16 @@ namespace HUF.Ads.API
         {
             return service.IsRewardedReady();
         }
-        
+
         /// <summary>
         /// Use this to check whether a rewarded ad with given placement id is ready to play or not.
         /// </summary>
         /// <param name="placementId">Your placement id</param>
         /// <returns>Status of ad</returns>
         [PublicAPI]
-        public bool IsReady(string placementId)
+        public bool IsReady( string placementId )
         {
-            return service.IsRewardedReady(placementId);
+            return service.IsRewardedReady( placementId );
         }
 
         /// <summary>
@@ -111,16 +110,16 @@ namespace HUF.Ads.API
         {
             service.FetchRewarded();
         }
-        
+
         /// <summary>
         /// Use this to fetch rewarded ad with given placement id
         /// Although fetch might not be required by some Ads implementations we highly recommend to do so
         /// </summary>
         /// <param name="placementId">Your placement id</param>
         [PublicAPI]
-        public void Fetch(string placementId)
+        public void Fetch( string placementId )
         {
-            service.FetchRewarded(placementId);
+            service.FetchRewarded( placementId );
         }
 
         /// <summary>
@@ -133,19 +132,19 @@ namespace HUF.Ads.API
             return service.RewardedAdProvider.ProviderId;
         }
 
-        void AdEnded(IAdCallbackData data)
+        void AdEnded( IAdCallbackData data )
         {
-            OnEnded.Dispatch(data);
+            OnEnded.Dispatch( data );
         }
 
-        void AdFetched(IAdCallbackData data)
+        void AdFetched( IAdCallbackData data )
         {
-            OnFetched.Dispatch(data);
+            OnFetched.Dispatch( data );
         }
 
-        void AdClicked(IAdCallbackData data)
+        void AdClicked( IAdCallbackData data )
         {
-            OnClicked.Dispatch(data);
+            OnClicked.Dispatch( data );
         }
     }
 }

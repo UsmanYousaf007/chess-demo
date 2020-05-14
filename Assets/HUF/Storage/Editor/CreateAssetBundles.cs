@@ -2,7 +2,7 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 
-namespace HUF.Storage.AssetBundleTools.Editor
+namespace HUF.Storage.Editor
 {
     public static class CreateAssetBundles
     {

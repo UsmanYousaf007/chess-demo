@@ -30,6 +30,10 @@ Preset:
     value: GDPRConfig
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: autoInit
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: prefab
     value: 
     objectReference: {fileID: 6461981786959110272, guid: 641b57ec8c78aa84fae9ed66cbfd8339,
@@ -43,38 +47,10 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: autoInit
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: destroyOnAccept
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: defaultFont
-    value: 
-    objectReference: {fileID: 11400000, guid: 2fdb73814888546e5bcbff92ec6ec51c, type: 2}
-  - target: {fileID: 0}
     propertyPath: enableTranslation
     value: 1
     objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: fonts.Array.size
-    value: 2
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: fonts.Array.data[0].key
-    value: ja
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: fonts.Array.data[0].font
-    value: 
-    objectReference: {fileID: 11400000, guid: 20dbf950bb2414828a9e9f60742fb67a, type: 2}
-  - target: {fileID: 0}
-    propertyPath: fonts.Array.data[1].key
-    value: ko
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: fonts.Array.data[1].font
-    value: 
-    objectReference: {fileID: 11400000, guid: 44be3828217b847049d687e28c4a2592, type: 2}

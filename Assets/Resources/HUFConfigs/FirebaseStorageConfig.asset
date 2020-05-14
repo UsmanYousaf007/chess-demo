@@ -1,20 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c73e6f10f2dc4b9e9193e95d5f53c811, type: 3}
-  m_Name: FirebaseStorageConfig
-  m_EditorClassIdentifier: 
-  configId: FirebaseStorageConfig
-  autoInit: 1
-  databaseAddress: gs://chess-dev-7d79d.appspot.com
-  autoInitDownloadService: 1
-  autoInitUploadService: 1
-  autoInitRemoveService: 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:6ec8769c192cd729adf3ecb4528198cb615bab380db4c44d5e77afa970cbcfc6
+size 593

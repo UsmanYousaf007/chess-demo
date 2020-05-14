@@ -46,7 +46,7 @@ public class GameSparksUnity : MonoBehaviour
 //		GS.TraceMessages = true;
 //		GameSparks.Core.GameSparksUtil.LogMessageHandler = Debug.Log;
 #if UNITY_IOS && !UNITY_EDITOR
-		GSGetProxySettings(this.name);
+		//GSGetProxySettings(this.name);
 #endif
 	}
 	
@@ -89,8 +89,8 @@ public class GameSparksUnity : MonoBehaviour
 		Debug.Log("Proxy settings : " + proxyString);
 	}
 
-	[System.Runtime.InteropServices.DllImport("__Internal")]
-	private static extern void GSGetProxySettings(string gameObjectName);
+	//[System.Runtime.InteropServices.DllImport("__Internal")]
+	//private static extern void GSGetProxySettings(string gameObjectName);
 
 #endif
 }

@@ -1,3 +1,4 @@
+#if UNITY_IOS
 using HUF.Utils.BuildSupport.Editor.iOS;
 using JetBrains.Annotations;
 using UnityEditor.iOS.Xcode;
@@ -16,3 +17,4 @@ namespace HUF.AdsAdMobMediation.Editor
         }
     }
 }
+#endif

@@ -31,6 +31,9 @@ namespace TurboLabz.InstantFramework
         //[Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -122,6 +125,11 @@ namespace TurboLabz.InstantFramework
         public Button findFriendOkButton;
         public Text findFriendOkText;
 
+        [Header("Drop Down Menu")]
+        public Button menuButton;
+        public GameObject dropDownMenu;
+        public Button manageBlockedPlayersButton;
+        public Text manageBlockedPlayersText;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -136,7 +144,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string, bool, string> quickMatchFriendButtonClickedSignal = new Signal<string, bool, string>();
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
-
+        public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -221,6 +229,9 @@ namespace TurboLabz.InstantFramework
             findFriendOkButton.onClick.AddListener(HideFriendsHelpDialog);
             findFriendOkText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
 
+            manageBlockedPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_MANAGE_BLOCKED);
+            menuButton.onClick.AddListener(() => dropDownMenu.SetActive(true));
+            manageBlockedPlayersButton.onClick.AddListener(OnManageBlockedFriendsClicked);
         }
 
         #region InviteFriendDialog
@@ -589,6 +600,7 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
+            friendBar.isOfferDraw = vo.offerDraw;
             friendBar.UpdateStatus();
 
             // Set the timer clocks
@@ -768,6 +780,29 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
+        {
+            //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+
+            if (!bars.ContainsKey(opponentID))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[opponentID].GetComponent<FriendBar>();
+
+            if (status == "offered")
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, -20);
+                friendBar.drawOffer.SetActive(true);
+            }
+            else
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, 0);
+                friendBar.drawOffer.SetActive(false);
+            }
+        }
+
         void OnUpgradeToPremiumButtonClicked()
         {
             upgradeToPremiumButtonClickedSignal.Dispatch();
@@ -787,6 +822,7 @@ namespace TurboLabz.InstantFramework
             createMatchLimitReachedDlg.SetActive(false);
             inviteFriendDlg.SetActive(false);
             findFriendDlg.SetActive(false);
+            dropDownMenu.SetActive(false);
 
             // TODO: Better handling needed
             if (sectionSearched.gameObject.activeSelf)
@@ -800,6 +836,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             ResetSearch();
+            refreshFriendsSignal.Dispatch();
             gameObject.SetActive(false); 
         }
 
@@ -1153,6 +1190,12 @@ namespace TurboLabz.InstantFramework
         {
             processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        private void OnManageBlockedFriendsClicked()
+        {
+            manageBlockedFriendsButtonClickedSignal.Dispatch();
+            audioService.PlayStandardClick();
         }
     }
 }

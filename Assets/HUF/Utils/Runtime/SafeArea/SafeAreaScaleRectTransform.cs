@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HUF.Utils.SafeArea
+namespace HUF.Utils.Runtime.SafeArea
 {
     [RequireComponent(typeof(RectTransform))]
     public class SafeAreaScaleRectTransform : SafeAreaBase

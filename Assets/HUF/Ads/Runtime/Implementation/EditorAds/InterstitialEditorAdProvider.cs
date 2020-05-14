@@ -1,8 +1,8 @@
-using HUF.Ads.API;
-using HUF.Utils.Extensions;
+using HUF.Ads.Runtime.API;
+using HUF.Utils.Runtime.Extensions;
 using UnityEngine.Events;
 
-namespace HUF.Ads.Implementation.EditorAds
+namespace HUF.Ads.Runtime.Implementation.EditorAds
 {
     public class InterstitialEditorAdProvider : BaseEditorAdProvider, IInterstitialAdProvider
     {

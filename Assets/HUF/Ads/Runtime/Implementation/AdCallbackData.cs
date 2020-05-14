@@ -1,6 +1,6 @@
-using HUF.Ads.API;
+using HUF.Ads.Runtime.API;
 
-namespace HUF.Ads.Implementation
+namespace HUF.Ads.Runtime.Implementation
 {
     public struct AdCallbackData : IAdCallbackData
     {

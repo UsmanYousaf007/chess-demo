@@ -54,6 +54,11 @@ namespace TurboLabz.InstantGame
         public int cpuMatchFinishedCount { get; set; }
         public DateTime timeAtSubscrptionDlgShown { get; set; }
         public int autoSubscriptionDlgShownCount { get; set; }
+        public int sessionsBeforePregameAdCount { get; set; }
+        public int pregameAdsPerDayCount { get; set; }
+        public DateTime intervalBetweenPregameAds { get; set; }
+        public bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
+        public bool autoPromotionToQueen { get; set;}
 
         [PostConstruct]
         public void PostConstruct()
@@ -95,6 +100,10 @@ namespace TurboLabz.InstantGame
             cpuMatchFinishedCount = 0;
             timeAtSubscrptionDlgShown = DateTime.Now;
             autoSubscriptionDlgShownCount = 0;
+            sessionsBeforePregameAdCount = 0;
+            intervalBetweenPregameAds = DateTime.MaxValue;
+            isSubscriptionDlgShownOnFirstLaunch = false;
+            autoPromotionToQueen = false;
             ResetDailyPrefers();
         }
 
@@ -273,6 +282,26 @@ namespace TurboLabz.InstantGame
                     autoSubscriptionDlgShownCount = reader.Read<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT);
                 }
 
+                if (reader.HasKey(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT))
+                {
+                    sessionsBeforePregameAdCount = reader.Read<int>(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.PREGAME_ADS_PER_DAY_COUNT))
+                {
+                    pregameAdsPerDayCount = reader.Read<int>(PrefKeys.PREGAME_ADS_PER_DAY_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS))
+                {
+                    intervalBetweenPregameAds = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS)));
+                }
+
+                if (reader.HasKey(PrefKeys.AUTO_PROMOTION_TO_QUEEN))
+                {
+                    autoPromotionToQueen = reader.Read<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -324,6 +353,11 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT, cpuMatchFinishedCount);
                 writer.Write<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN, timeAtSubscrptionDlgShown.ToBinary().ToString());
                 writer.Write<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT, autoSubscriptionDlgShownCount);
+                writer.Write<int>(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT, sessionsBeforePregameAdCount);
+                writer.Write<int>(PrefKeys.PREGAME_ADS_PER_DAY_COUNT, pregameAdsPerDayCount);
+                writer.Write<string>(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS, intervalBetweenPregameAds.ToBinary().ToString());
+                //writer.Write<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN, isSubscriptionDlgShownOnFirstLaunch);
+                writer.Write<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN, autoPromotionToQueen);
                 writer.Close();
             }
             catch (Exception e)
@@ -377,6 +411,7 @@ namespace TurboLabz.InstantGame
             rewardedAdsCount = 0;
             interstitialAdsCount = 0;
             resignCount = 0;
+            pregameAdsPerDayCount = 0;
         }
     }
 }

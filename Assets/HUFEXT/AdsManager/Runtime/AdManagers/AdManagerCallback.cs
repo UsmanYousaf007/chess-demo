@@ -1,5 +1,5 @@
-using HUF.Ads.API;
-using HUF.Ads.Implementation;
+using HUF.Ads.Runtime.API;
+using HUF.Ads.Runtime.Implementation;
 
 namespace HUFEXT.AdsManager.Runtime.AdManagers
 {

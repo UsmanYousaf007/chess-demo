@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HUF.Utils.SafeArea
+namespace HUF.Utils.Runtime.SafeArea
 {
     [RequireComponent(typeof(LayoutGroup))]
     public class SafeAreaLayoutGroup : SafeAreaBase

@@ -28,9 +28,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 
-        // Dispatch Signals
-        [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
-
         public Button selectThemeButton;
         public Text selectThemeText;
         public Button supportButton;
@@ -49,6 +46,7 @@ namespace TurboLabz.InstantFramework
         public Signal settingsButtonClickedSignal = new Signal();
         public Signal selectThemeClickedSignal = new Signal();
         public Signal rewardBarClicked = new Signal();
+        public Signal supportButtonClicked = new Signal();
 
         private float rewardBarOriginalWidth;
         private Vector3 scaleRewardBarObjectTo = new Vector3(1.3f, 1.3f, 1);
@@ -99,7 +97,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnSupportButtonClicked()
         {
-            contactSupportSignal.Dispatch();
+            supportButtonClicked.Dispatch();
         }
 
         private void OnRemoveAdsButtonClicked()

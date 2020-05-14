@@ -8,6 +8,9 @@ namespace TurboLabz.InstantFramework
         public string rewardType;
         public string challengeId;
         public bool playerWins;
+        public string actionCode;
+        public string friendId;
+        public bool isRanked;
     }
 }
 

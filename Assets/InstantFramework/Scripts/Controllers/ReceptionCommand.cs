@@ -125,7 +125,7 @@ namespace TurboLabz.InstantFramework
 
                 analyticsService.Event(AnalyticsEventId.session_fb);
                 analyticsService.Event(AnalyticsEventId.friends_community, AnalyticsParameter.count, communityFriendCount);
-                analyticsService.Event(AnalyticsEventId.friends_facebook, AnalyticsParameter.count, facebookFriendCount);
+                analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, facebookFriendCount);
                 analyticsService.Event(AnalyticsEventId.friends_active_games, AnalyticsParameter.count, matchInfoModel.matches.Count);
                 analyticsService.Event(AnalyticsEventId.friends_blocked, AnalyticsParameter.count, playerModel.blocked.Count);
             }

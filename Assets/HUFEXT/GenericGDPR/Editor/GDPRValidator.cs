@@ -5,6 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using HUF.Utils.Runtime.Logging;
+using HUFEXT.GenericGDPR.Runtime.Utils;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -18,38 +19,46 @@ namespace HUFEXT.GenericGDPR.Editor
         
         public int callbackOrder => 0;
 
-        //[MenuItem( "HUF/GDPR/Validate" )]
+#if HUF_TESTS
+        [MenuItem( "HUF/GDPR/Validate" )]
         public static void Validate()
         {
             new GDPRValidator().OnPreprocessBuild( null );
+            Debug.Log( GenerateHash() );
         }
+#endif
         
         public void OnPreprocessBuild( BuildReport report )
         {
             var detected = GenerateHash();
-            const string expected = "917278a3be363c4155abd55557e09c27f1c1a6caf12d74656ee0c95e94bb2d18";
+            const string expected = "fce94f1d98c11fd55f134fffce7087fbca97d4930444e4f91f0e34840c6dd19d";
             
             if ( detected != expected )
             {
                 GenerateInvalidHashReport( detected, expected );
-                HLog.LogError( prefix, "Policy text mismatch detected. Please contact HUF support." );
+                HLog.LogWarning( prefix, "Policy text mismatch detected. Please contact HUF support." );
             }
         }
         
-        string GenerateHash()
+        static string GenerateHash()
         {
+            var data = new StringBuilder();
+            foreach ( var translation in GDPRTranslationsProvider.Translations )
+            {
+                data.Append( translation.policy )
+                    .Append( translation.footer )
+                    .Append( translation.toggle );
+            }
+
             using ( var crypto = SHA256.Create() )
             {
-                using ( var stream = File.OpenRead( "Assets/HUFEXT/GenericGDPR/Runtime/Utils/GDPRTranslationsProvider.cs" ) )
+                var bytes = crypto.ComputeHash( Encoding.UTF8.GetBytes( data.ToString() ) );
+                data.Clear();
+                foreach ( var character in bytes )
                 {
-                    var bytes = crypto.ComputeHash( stream );
-                    var builder = new StringBuilder();  
-                    for ( int i = 0; i < bytes.Length; i++ )
-                    {
-                        builder.Append( bytes[i].ToString( "x2" ) );
-                    }
-                    return builder.ToString();
+                    data.Append( character.ToString( "x2" ) );
                 }
+                return data.ToString();
             }
         }
 

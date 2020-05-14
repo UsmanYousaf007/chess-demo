@@ -1,12 +1,13 @@
-using GoogleMobileAds.Api;
-using HUF.Ads.API;
-using HUF.AdsAdMobMediation.Implementation;
-using HUF.Utils.Configs.API;
+using HUF.Ads.Runtime.API;
+using HUF.AdsAdMobMediation.Runtime.Implementation;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Events;
 
-namespace HUF.AdsAdMobMediation.API
+namespace HUF.AdsAdMobMediation.Runtime.API
 {
     public static class HAdsAdMobMediation
     {
@@ -16,34 +17,47 @@ namespace HUF.AdsAdMobMediation.API
         static AdMobProviderBase baseProvider;
         static AdMobBannerProvider bannerProvider;
 
+        public static event UnityAction<PaidEventData> OnPaidEvent;
+
         /// <summary>
         /// Use this method to initialize AdMob manually
         /// </summary>
         [PublicAPI]
         public static void Init()
         {
-            if (isInitialized)
+            if ( isInitialized )
+            {
+                HLog.LogWarning( logPrefix, "Service already initialized" );
                 return;
-            
+            }
+
             InstallProvider();
             isInitialized = true;
+            HLog.Log( logPrefix, "Service initialized" );
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void AutoInit()
         {
             var hasConfig = HConfigs.HasConfig<AdMobProviderConfig>();
-            if (hasConfig && HConfigs.GetConfig<AdMobProviderConfig>().AutoInit)
+
+            if ( hasConfig && HConfigs.GetConfig<AdMobProviderConfig>().AutoInit )
                 Init();
         }
 
         static void InstallProvider()
         {
             baseProvider = new AdMobProviderBase();
-            var adsService = HAds.Banner.RegisterAdProvider(bannerProvider = new AdMobBannerProvider(baseProvider));
-            HAds.Interstitial.RegisterAdProvider(new AdMobInterstitialProvider(baseProvider));
-            HAds.Rewarded.RegisterAdProvider(new AdMobRewardedProvider(baseProvider));
-            baseProvider.SetAdsService(adsService);
+            var adsService = HAds.Banner.RegisterAdProvider( bannerProvider = new AdMobBannerProvider( baseProvider ) );
+            HAds.Interstitial.RegisterAdProvider( new AdMobInterstitialProvider( baseProvider ) );
+            HAds.Rewarded.RegisterAdProvider( new AdMobRewardedProvider( baseProvider ) );
+            baseProvider.SetAdsService( adsService );
+            baseProvider.OnPaidEvent += HandPaidEvent;
+        }
+
+        static void HandPaidEvent( PaidEventData eventData )
+        {
+            OnPaidEvent.Dispatch( eventData );
         }
 
         /// <summary>
@@ -53,13 +67,29 @@ namespace HUF.AdsAdMobMediation.API
         [PublicAPI]
         public static void ShowTestSuite()
         {
-            if (isInitialized && baseProvider != null)
+            if ( isInitialized && baseProvider != null )
             {
                 baseProvider.ShowTestSuite();
             }
             else
             {
-                HLog.LogError(logPrefix, "AdMob is not initialized yet, can't show test suite");
+                HLog.LogError( logPrefix, "AdMob is not initialized yet, can't show test suite" );
+            }
+        }
+
+        /// <summary>
+        /// Use this to enable test mode for current device. Called automatically for debug builds.
+        /// </summary>
+        [PublicAPI]
+        public static void EnableTestMode()
+        {
+            if (isInitialized && baseProvider != null)
+            {
+                baseProvider.EnableTestMode();
+            }
+            else
+            {
+                HLog.LogError(logPrefix, "AdMob is not initialized yet, can't enable test mode");
             }
         }
         
@@ -76,15 +106,15 @@ namespace HUF.AdsAdMobMediation.API
         /// By default it's set to AdSize.Smart</param>
         /// <returns>Return TRUE if operation is finished with success. FALSE otherwise. </returns>
         [PublicAPI]
-        public static bool SetBannerSize(AdMobBannerAdSize size)
+        public static bool SetBannerSize( AdMobBannerAdSize size )
         {
-            if (bannerProvider == null)
+            if ( bannerProvider == null )
             {
-                HLog.LogWarning(logPrefix, "Can't SetBannerSize(), banner ads provider is not initialized");
+                HLog.LogWarning( logPrefix, "Can't SetBannerSize(), banner ads provider is not initialized" );
                 return false;
             }
 
-            bannerProvider.SetBannerSize(size);
+            bannerProvider.SetBannerSize( size );
             return true;
         }
     }

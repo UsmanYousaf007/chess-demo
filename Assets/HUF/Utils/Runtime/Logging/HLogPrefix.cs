@@ -2,7 +2,7 @@ using System.Text;
 
 namespace HUF.Utils.Runtime.Logging {
     public class HLogPrefix {
-        const string CHAIN_SEPARATOR = ".";
+        const string CHAIN_SEPARATOR = ":";
 
         readonly string localPrefix;
         readonly HLogPrefix parent;

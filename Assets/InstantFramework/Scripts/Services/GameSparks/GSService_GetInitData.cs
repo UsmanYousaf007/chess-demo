@@ -38,14 +38,12 @@ namespace TurboLabz.InstantFramework
             // Check app version match with back end. Bail if there is mismatch.
             if (appInfoModel.appBackendVersionValid == false)
             {
-                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
             // Check if game maintenance mode is On
             if (settingsModel.maintenanceFlag == true)
             {
-                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
@@ -118,7 +116,11 @@ namespace TurboLabz.InstantFramework
             }
 
             setDefaultSkinSignal.Dispatch();
-            getInitDataCompleteSignal.Dispatch();
+
+            if (playerModel.subscriptionExipryTimeStamp > 0)
+            {
+                getInitDataCompleteSignal.Dispatch();
+            }
         }
 
         private void FillPlayerDetails(GSData playerDetailsData)
@@ -188,6 +190,9 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.minutesForVictoryInternalAd = GSParser.GetSafeFloat(adsSettingsData, GSBackendKeys.MINUTES_VICTORY_AD);
             adsSettingsModel.autoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.AUTO_SUBSCRIPTION_THRESHOLD);
             adsSettingsModel.daysPerAutoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD);
+            adsSettingsModel.sessionsBeforePregameAd = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.SESSIONS_BEFORE_PREGAME_AD);
+            adsSettingsModel.maxPregameAdsPerDay = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MAX_PREGAME_ADS_PER_DAY);
+            adsSettingsModel.intervalsBetweenPregameAds = GSParser.GetSafeFloat(adsSettingsData, GSBackendKeys.INTERVALS_BETWEEN_PREGAME_ADS);
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
@@ -305,15 +310,17 @@ namespace TurboLabz.InstantFramework
 
                 Friend friend = null;
 
-                if (!isBlocked)
-                {
-                    friend = LoadFriend(friendId, friendData);
-                }
-                else
-                {
-                    friend = new Friend();
-                    friend.publicProfile = new PublicProfile();
-                }
+                //if (!isBlocked)
+                //{
+                //    friend = LoadFriend(friendId, friendData);
+                //}
+                //else
+                //{
+                //    friend = new Friend();
+                //    friend.publicProfile = new PublicProfile();
+                //}
+
+                friend = LoadFriend(friendId, friendData);
 
                 targetList.Add(friendId, friend);
             }

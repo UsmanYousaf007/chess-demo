@@ -1,7 +1,7 @@
 #if UNITY_ANDROID
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.AppLauncher
+namespace HUFEXT.CrossPromo.Runtime.AppLauncher
 {
     public class AndroidAppLauncherService : IAppLauncher
     {

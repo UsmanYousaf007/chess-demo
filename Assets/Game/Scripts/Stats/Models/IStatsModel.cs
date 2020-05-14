@@ -20,5 +20,6 @@ namespace TurboLabz.InstantGame
         void Save(int difficulty, int result);
         void Reset();
         int GetStarsCount();
+        int GetHighestDifficultyLevelBeaten();
     }
 }

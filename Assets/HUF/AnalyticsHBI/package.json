@@ -1,0 +1,20 @@
+{
+  "name": "com.huuuge.huf.analytics.hbi",
+  "displayName": "Analytics HBI",
+  "version": "2.0.0",
+  "unity": "2018.4",
+  "description": "Analytics HBI module is used to send analytics events to Huuuge BI service. Remember that configuration with project id and sku is required otherwise module will be disabled during play mode. Results of analytics events will be visible on development and production dashboard only after giving information about project to BI team.",
+  "huf": {
+    "dependencies": [
+      "com.huuuge.huf.utils@^2.2.0",
+      "com.huuuge.huf.analytics@^2.0.0"
+    ],
+    "date": "06.04.2020 16:41",
+    "commit": "a7c333a",
+    "build": "12",
+    "scope": "public",
+    "channel": "stable",
+    "path": "Assets/HUF/AnalyticsHBI",
+    "rollout": "11"
+  }
+}

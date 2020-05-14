@@ -1,7 +1,7 @@
-using HUF.Storage.API.Structs;
+using HUF.Storage.Runtime.API.Structs;
 using UnityEngine.Events;
 
-namespace HUF.Storage.API
+namespace HUF.Storage.Runtime.API
 {
     public interface IObjectStorage<T> where T : class
     {

@@ -96,6 +96,9 @@ namespace TurboLabz.InstantFramework
         public const string MINUTES_VICTORY_AD = "minutesForVictoryInteralAd";
         public const string AUTO_SUBSCRIPTION_THRESHOLD = "autoSubscriptionDlgThreshold";
         public const string DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD = "daysPerAutoSubscriptionDlgThreshold";
+        public const string SESSIONS_BEFORE_PREGAME_AD = "sessionsBeforePregameAd";
+        public const string MAX_PREGAME_ADS_PER_DAY = "maxPregameAdsPerDay";
+        public const string INTERVALS_BETWEEN_PREGAME_ADS = "intervalsBetweenPregameAds";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
@@ -319,7 +322,14 @@ namespace TurboLabz.InstantFramework
             public const string STATUS = "status";
         }
 
-		public static class PublicProfile
+        public static class OfferDrawOp
+        {
+            public const string OFFER_DRAW = "offerDraw";
+            public const string REJECT_OFFER_DRAW = "rejectOfferDraw";
+            public const string ACCEPT_OFFER_DRAW = "accepttOfferDraw";
+        }
+
+        public static class PublicProfile
 		{
 			public const string PROFILE_NAME = "name";
 			public const string PROFILE_COUNTRY_ID = "countryId";

@@ -1,10 +1,11 @@
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
+using HUFEXT.AdsManager.Runtime.API;
 using UnityEngine;
 
 namespace HUFEXT.AdsManager.Runtime.Config
 {
-    [CreateAssetMenu( menuName = "HUFEXT/Ads/AdsManagerConfig", fileName = "AdsManagerConfig.asset" )]
+    [CreateAssetMenu( menuName = "HUFEXT/Ads/AdsManagerConfig", fileName = "AdsManagerConfig" )]
     public class AdsManagerConfig : FeatureConfigBase
     {
         [SerializeField] int fetchShortTimes = 3;
@@ -16,5 +17,10 @@ namespace HUFEXT.AdsManager.Runtime.Config
         public int DelayBetweenFetchShort => delayBetweenFetchShort;
         public int DelayBetweenFetchLong => delayBetweenFetchLong;
         public AdsMediator AdsProvider => adsProvider;
+
+        public override void RegisterManualInitializers()
+        {
+            AddManualInitializer( "Ads Manager", HAdsManager.Init );
+        }
     }
 }

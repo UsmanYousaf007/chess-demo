@@ -44,6 +44,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
                 { LocalizationKey.MIN5_GAME_TEXT, "5 Min" },
                 { LocalizationKey.MIN10_GAME_TEXT, "10 Min" },
+                { LocalizationKey.ON_TEXT, "On" },
+                { LocalizationKey.OFF_TEXT, "Off" },
                  
 
                 #endregion
@@ -83,6 +85,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED, "DECLINED" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE, "By Checkmate" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_STALEMATE, "By Stalemate" },
+                { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW, "By Offered Draw" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL, "By Insufficient Material" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE, "By Fifty Move Rule" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE, "By Threefold Repeat Rule" },
@@ -140,6 +143,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
                 { LocalizationKey.CPU_GAME_SAVE_AND_EXIT, "Save & Exit" },
                 { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "Resume" },
+                { LocalizationKey.CPU_GAME_OFFER_DRAW_BUTTON, "Offer Draw" },
                 { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "Back to Game" },
                 { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "GAMES" },
@@ -282,6 +286,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_ADD_TO_FRIENDS, "Add to Friends" },
                 { LocalizationKey.FRIENDS_REMOVE_FROM_FRIENDS, "Remove from Friends" },
                 { LocalizationKey.FRIENDS_TEXT_FRIENDED, "Friend" },
+                { LocalizationKey.FRIENDS_MANAGE_BLOCKED, "Manage Blocked Players"},
+                { LocalizationKey.FRIENDS_BLOCK_SEARCH, "Search blocked players by name.."},
+                { LocalizationKey.FRIENDS_UNBLOCK, "Unblock"},
+                { LocalizationKey.FRIENDS_BLOCKED, "BLOCKED PLAYERS"},
+                { LocalizationKey.FRIENDS_BLOCKED_EMPTY_LIST, "You haven't blocked anyone"},
                 #endregion
 
                 #region Share

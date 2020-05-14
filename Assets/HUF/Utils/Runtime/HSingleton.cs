@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HUF.Utils
+namespace HUF.Utils.Runtime
 {
     public class HSingleton<T> : MonoBehaviour where T : Component
     {

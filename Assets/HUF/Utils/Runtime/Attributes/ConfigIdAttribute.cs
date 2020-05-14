@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HUF.Utils.Attributes
+namespace HUF.Utils.Runtime.Attributes
 {
     public class ConfigIdAttribute : PropertyAttribute
     {

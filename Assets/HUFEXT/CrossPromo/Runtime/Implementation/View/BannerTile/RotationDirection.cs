@@ -1,4 +1,4 @@
-namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
 {
     public enum RotationDirection
     {

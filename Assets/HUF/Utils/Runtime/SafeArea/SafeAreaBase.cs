@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace HUF.Utils.SafeArea
+namespace HUF.Utils.Runtime.SafeArea
 {
     public abstract class SafeAreaBase : MonoBehaviour
     {

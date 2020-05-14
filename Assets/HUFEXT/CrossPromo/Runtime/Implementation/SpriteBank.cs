@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation
+namespace HUFEXT.CrossPromo.Runtime.Implementation
 {
     public static class SpriteBank
     {

@@ -33,6 +33,8 @@ namespace TurboLabz.InstantFramework
         public const string UPGRADE_TEXT = "upgradeText";
         public const string MIN5_GAME_TEXT = "min5GameText";
         public const string MIN10_GAME_TEXT = "min10GameText";
+        public const string ON_TEXT = "onText";
+        public const string OFF_TEXT = "offText";
 
         #endregion
 
@@ -65,6 +67,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_RESULT_DIALOG_HEADING_DECLINED = "gmResultDialogHeadingDeclined";
         public const string GM_RESULT_DIALOG_REASON_CHECKMATE = "gmResultDialogReasonCheckmate";
         public const string GM_RESULT_DIALOG_REASON_STALEMATE = "gmResultDialogReasonStalemate";
+        public const string GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW = "gmResultDialogReasonDrawByOfferedDraw";
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL = "gmResultDialogReasonDrawByInsufficientMaterial";
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE = "gmResultDialogReasonDrawByFiftyMoveRule";
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE = "gmResultDialogReasonDrawByThreefoldRepeatRule";
@@ -132,6 +135,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_GAME_EXIT_DLG_TITLE = "cpuGameExitDlgTitle";
         public const string CPU_GAME_SAVE_AND_EXIT = "cpuGameSaveAndExit";
         public const string CPU_GAME_CONTINUE_BUTTON = "cpuGameContinueButton";
+        public const string CPU_GAME_OFFER_DRAW_BUTTON = "cpuGameOfferDrawButton";
         public const string CPU_GAME_EXIT_EXPLAINATION = "cpuGameExitExplanation";
         public const string CPU_RESULTS_CLOSE_BUTTON = "cpuResultsCloseButton";
         public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
@@ -270,6 +274,7 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT = "friendsFacebookLoginButtonText";
         public const string FACEBBOK_LOGIN_REWARD_TEXT = "facebookLoginRewardText";
         public const string FRIENDS_WAITING_FOR_PLAYERS = "friendsWaitingForPlayers";
+        public const string FRIENDS_MANAGE_BLOCKED = "friendsManageBlocked";
 
         public const string FRIENDS_FIND_FRIEND_TITLE = "friendsFindFriendTitle";
         public const string FRIENDS_FIND_FRIEND_LOGIN_INFO = "friendFindFriendLoginInfo";
@@ -280,6 +285,10 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_REMOVE_FROM_FRIENDS = "removeFromFriends";
         public const string FRIENDS_TEXT_FRIENDED = "FriendedText";
 
+        public const string FRIENDS_BLOCK_SEARCH = "friendsSearch";
+        public const string FRIENDS_UNBLOCK = "friendsUnblock";
+        public const string FRIENDS_BLOCKED = "friendsBlocked";
+        public const string FRIENDS_BLOCKED_EMPTY_LIST = "friendsBlockedEmptyList";
         #endregion
 
         #region Share

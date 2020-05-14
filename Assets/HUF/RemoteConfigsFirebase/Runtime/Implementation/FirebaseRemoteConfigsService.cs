@@ -1,29 +1,32 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Firebase.RemoteConfig;
 using Firebase.Extensions;
-using HUF.InitFirebase;
-using HUF.InitFirebase.API;
-using HUF.RemoteConfigs.Implementation;
-using HUF.Utils.Configs.API;
-using HUF.Utils.Extensions;
+using Firebase.RemoteConfig;
+using HUF.InitFirebase.Runtime;
+using HUF.InitFirebase.Runtime.API;
+using HUF.InitFirebase.Runtime.Config;
+using HUF.RemoteConfigs.Runtime.Implementation;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
+using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.RemoteConfigsFirebase.Implementation
+namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
 {
     public class FirebaseRemoteConfigsService : BaseRemoteService
     {
-        readonly string logPrefix;
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(FirebaseRemoteConfigsService) );
         public override bool IsInitialized => HInitFirebase.IsInitialized;
-        
+
         FirebaseRemoteConfigsConfig config;
+
         FirebaseRemoteConfigsConfig Config
         {
             get
             {
-                if (config == null)
+                if ( config == null )
                     config = HConfigs.GetConfig<FirebaseRemoteConfigsConfig>();
                 return config;
             }
@@ -39,10 +42,9 @@ namespace HUF.RemoteConfigsFirebase.Implementation
 
         public FirebaseRemoteConfigsService()
         {
-            logPrefix = GetType().Name;
             remoteConfigsCacheService = new FirebaseRemoteConfigsCacheService();
-            
-            if (HInitFirebase.IsInitialized)
+
+            if ( HInitFirebase.IsInitialized )
             {
                 FinishInitialization();
             }
@@ -50,7 +52,9 @@ namespace HUF.RemoteConfigsFirebase.Implementation
             {
                 HInitFirebase.OnInitializationFailure += OnFirebaseInitFail;
                 HInitFirebase.OnInitializationSuccess += OnFirebaseInitSuccess;
-                HInitFirebase.Init();
+
+                if ( !HConfigs.HasConfig<HFirebaseConfig>() || HConfigs.GetConfig<HFirebaseConfig>().AutoInit )
+                    HInitFirebase.Init();
                 CreateFetchedDictFromCache();
             }
         }
@@ -58,64 +62,67 @@ namespace HUF.RemoteConfigsFirebase.Implementation
         void SaveCache()
         {
             remoteConfigsCacheService.ClearCache();
-            foreach (var fetchedConfig in fetchedDict)
+
+            foreach ( var fetchedConfig in fetchedDict )
             {
-                remoteConfigsCacheService.CacheConfig(fetchedConfig.Key, fetchedConfig.Value);
+                remoteConfigsCacheService.CacheConfig( fetchedConfig.Key, fetchedConfig.Value );
             }
         }
 
         void OnFirebaseInitFail()
         {
-            Debug.LogWarning($"[{logPrefix}] Firebase Init failed. Something went wrong. " +
-                             "Please address console logs for more info.");
+            HLog.LogWarning( logPrefix,
+                $"Firebase Init failed. Something went wrong. " +
+                "Please address console logs for more info." );
         }
 
         void OnFirebaseInitSuccess()
         {
             HInitFirebase.OnInitializationFailure -= OnFirebaseInitFail;
             HInitFirebase.OnInitializationSuccess -= OnFirebaseInitSuccess;
-
             FinishInitialization();
         }
 
         void FinishInitialization()
         {
             CreateFetchedDict();
+            HLog.Log( logPrefix, "Service initialized" );
             OnInitComplete.Dispatch();
         }
 
         public override void Fetch()
         {
-            if (!IsInitialized)
+            if ( !IsInitialized )
             {
-                Debug.LogWarning($"[{logPrefix}] Firebase RemoteConfig is not initialized yet.");
+                HLog.LogWarning( logPrefix, $"Firebase RemoteConfig is not initialized yet." );
                 return;
             }
-            
-            Debug.Log($"[{logPrefix}] Fetch started.");
-            var cacheExpirationTimeSpan = TimeSpan.FromSeconds(Config.CacheExpirationInSeconds);
-            FirebaseRemoteConfig.FetchAsync(cacheExpirationTimeSpan).ContinueWithOnMainThread(HandleFetchCompleted);
+
+            HLog.Log( logPrefix, $"Fetch started." );
+            var cacheExpirationTimeSpan = TimeSpan.FromSeconds( Config.CacheExpirationInSeconds );
+            FirebaseRemoteConfig.FetchAsync( cacheExpirationTimeSpan ).ContinueWithOnMainThread( HandleFetchCompleted );
         }
 
-        void HandleFetchCompleted(Task fetchTask)
+        void HandleFetchCompleted( Task fetchTask )
         {
-            if (TryActivateFetchedConfig())
+            if ( TryActivateFetchedConfig() )
             {
-                Debug.LogFormat($"[{logPrefix}] Fetch completed.");
+                HLog.Log( logPrefix, $"Fetch completed." );
                 FinalizeFetchCompleted();
             }
             else
             {
                 string failReason;
-                if (fetchTask.Exception != null)
+
+                if ( fetchTask.Exception != null )
                 {
                     failReason = fetchTask.Exception.GetFullErrorMessage();
                 }
-                else if (fetchTask.IsCanceled)
+                else if ( fetchTask.IsCanceled )
                 {
                     failReason = "Fetch task was cancelled";
-                } 
-                else if (fetchTask.IsFaulted)
+                }
+                else if ( fetchTask.IsFaulted )
                 {
                     failReason = "Unknown error";
                 }
@@ -125,8 +132,8 @@ namespace HUF.RemoteConfigsFirebase.Implementation
                                  "Probably 'Fetch' was called before the previously cached data expired. " +
                                  "Check 'CacheExpirationInSeconds' field in 'FirebaseRemoteConfigsConfig'";
                 }
-                Debug.LogWarning($"[{logPrefix}] Fetch failed. {failReason}");
 
+                HLog.LogWarning( logPrefix, $"Fetch failed. {failReason}" );
                 OnFetchFailed();
             }
         }
@@ -139,9 +146,9 @@ namespace HUF.RemoteConfigsFirebase.Implementation
 
         bool TryActivateFetchedConfig()
         {
-            if (!FirebaseRemoteConfig.ActivateFetched())
+            if ( !FirebaseRemoteConfig.ActivateFetched() )
                 return false;
-            
+
             CreateFetchedDict();
             return true;
         }
@@ -155,10 +162,11 @@ namespace HUF.RemoteConfigsFirebase.Implementation
         void CreateFetchedDict()
         {
             fetchedDict.Clear();
-            foreach (var key in FirebaseRemoteConfig.Keys)
+
+            foreach ( var key in FirebaseRemoteConfig.Keys )
             {
-                var value = FirebaseRemoteConfig.GetValue(key).StringValue;
-                fetchedDict.Add(key, value);
+                var value = FirebaseRemoteConfig.GetValue( key ).StringValue;
+                fetchedDict.Add( key, value );
             }
         }
 
@@ -167,17 +175,17 @@ namespace HUF.RemoteConfigsFirebase.Implementation
             return fetchedDict;
         }
 
-        public override string GetConfigJSON(string configId)
+        public override string GetConfigJSON( string configId )
         {
-            return fetchedDict.ContainsKey(configId) ? fetchedDict[configId] : string.Empty;
+            return fetchedDict.ContainsKey( configId ) ? fetchedDict[configId] : string.Empty;
         }
 
-        public override void ApplyConfig<T>(ref T config)
+        public override void ApplyConfig<T>( ref T config )
         {
-            if (fetchedDict != null && fetchedDict.ContainsKey(config.ConfigId))
+            if ( fetchedDict != null && fetchedDict.ContainsKey( config.ConfigId ) )
             {
                 var json = fetchedDict[config.ConfigId];
-                config.ApplyJson(json);
+                config.ApplyJson( json );
             }
         }
     }

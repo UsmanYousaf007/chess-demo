@@ -63,7 +63,14 @@ namespace TurboLabz.InstantFramework
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
 
-            if(playerData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
+
+            GSData offerDraw = gameData.GetGSData(GSBackendKeys.OFFER_DRAW);
+
+            matchInfo.drawOfferStatus = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
+            matchInfo.drawOfferedBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
+
+
+            if (playerData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
             {
                 matchInfo.playerPowerupUsedCount = playerData.GetInt(GSBackendKeys.POWER_UP_USED_COUNT).Value;
             }
@@ -197,13 +204,13 @@ namespace TurboLabz.InstantFramework
                 if (matchInfoModel.matches[challengeId].isLongPlay)
                 {
                     preferencesModel.longMatchFinishedCount++;
-                    hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString());
+                    hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString(), challengeId);
                     analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.long_match);
                 }
                 else
                 {
                     preferencesModel.quickMatchFinishedCount++;
-                    hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString());
+                    hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString(), challengeId);
                     analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.quick_match);
                 }
             }            
@@ -233,6 +240,7 @@ namespace TurboLabz.InstantFramework
                 (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
                 (gameEndReason != GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) &&
                 (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) &&
+                (gameEndReason != GameEndReason.DRAW_BY_DRAW_OFFERED) &&
                 (gameEndReason != GameEndReason.DECLINED) &&
                 (gameEndReason != GameEndReason.NONE))
             {

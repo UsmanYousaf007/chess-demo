@@ -1,12 +1,10 @@
-using HUFEXT.NativeCountryCode.API;
-
-namespace HUFEXT.NativeCountryCode.Implementation
+namespace HUFEXT.CountryCode.Runtime.Implementation
 {
     public class DefaultCountryCodeProvider : ICountryCodeProvider
     {
-        public CountryCode GetCountryCode()
+        public API.CountryCode GetCountryCode()
         {
-            return new CountryCode("en", "US");
+            return new API.CountryCode("en", "US");
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace HUF.Utils.RandomGenerators
+namespace HUF.Utils.Runtime.RandomGenerators
 {
     public static class SecureStringGenerator
     {

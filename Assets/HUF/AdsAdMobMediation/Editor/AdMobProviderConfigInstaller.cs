@@ -1,6 +1,7 @@
-using HUF.Utils.Configs.API.Editor;
+using HUF.AdsAdMobMediation.Runtime.Implementation;
+using HUF.Utils.Editor.Configs;
 
-namespace HUF.AdsAdMobMediation.Implementation.Editor
+namespace HUF.AdsAdMobMediation.Editor
 {
     public class AdMobProviderConfigInstaller : BaseConfigInstaller
     {

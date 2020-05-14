@@ -1,9 +1,9 @@
-﻿using HUF.Ads.API;
-using HUF.Analytics.API;
-using HUF.Utils.Configs.API;
-using HUF.Utils.Extensions;
-using HUF.Utils.PlayerPrefs;
+﻿using HUF.Ads.Runtime.API;
+using HUF.Analytics.Runtime.API;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+using HUF.Utils.Runtime.PlayerPrefs;
 using HUFEXT.GenericGDPR.Runtime.Views;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -36,6 +36,11 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         /// </summary>
         public static bool IsInitialized => view != null;
 
+        /// <summary>
+        /// Returns GDPR prefab instance with view that exists on scene.
+        /// </summary>
+        public static GameObject ViewCanvas => canvas;
+        
         /// <summary>
         /// Returns information whether player accept policy.
         /// If consent is not found, getter will check for custom prefs key and try to parse it from int value.
@@ -86,22 +91,12 @@ namespace HUFEXT.GenericGDPR.Runtime.API
 
                 return false;
             }
-        }
 
-
-        public static void SetPersonalisedAds(bool value)
-        {
-            var adsConsent = HAds.GetGDPRConsent();
-
-            if (adsConsent.HasValue)
+            set
             {
                 HAds.CollectSensitiveData(value);
-            }
-            else
-            {
                 HPlayerPrefs.SetBool(config.CustomPersonalizedAdsKey, value);
             }
-            
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -126,20 +121,54 @@ namespace HUFEXT.GenericGDPR.Runtime.API
                 FetchConfig();
             }
 
-            if( !IsInitialized && config != null && config.Prefab != null )
+            if ( !IsInitialized && config != null )
             {
-                canvas = Object.Instantiate( config.Prefab );
-                view = canvas.GetComponent<GDPRView>();
-                OnPolicyAccepted += Dispose;
-                OnPolicyWindowShow.Dispatch();
-
-                var analyticsEvent = AnalyticsEvent.Create("gdpr_displayed")
-                    .ST1("launch")
-                    .ST2("gdpr");
-                HAnalytics.LogEvent(analyticsEvent);
+                Initialize( config.Prefab );
             }
         }
 
+        /// <summary>
+        /// This method will fetch GDPR config and instantiate prefab.
+        /// Should be called only if you have AutoInit option disabled.
+        /// Please notice that in this case, prefab in config must be set to None.
+        /// </summary>
+        [PublicAPI]
+        public static void Initialize( GameObject prefab )
+        {
+            if ( !ValidateConfig() )
+            {
+                FetchConfig();
+            }
+
+            if ( IsInitialized || config == null || prefab == null )
+            {
+                HLog.LogError( prefix, "Unable to instantiate GDPR prefab." );
+                return;
+            }
+            
+            canvas = Object.Instantiate( prefab );
+            view = canvas.GetComponent<GDPRView>();
+
+            if ( !IsInitialized )
+            {
+                HLog.LogError( prefix, "GDPR prefab doesn't have required GDPR View component." );
+                Object.Destroy( canvas );
+                canvas = null;
+                view   = null;
+                return;
+            }
+
+            if ( config.DestroyOnAccept )
+            {
+                OnPolicyAccepted += Dispose;
+            }
+
+            var analyticsEvent = AnalyticsEvent.Create("gdpr_displayed").ST1("launch").ST2("gdpr");
+            HAnalytics.LogEvent(analyticsEvent);
+
+            OnPolicyWindowShow.Dispatch();
+        }
+        
         /// <summary>
         /// This method is called when user click on OK button.
         /// It should be connected to button out of the box.
@@ -147,14 +176,19 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         [PublicAPI]
         public static void AcceptPolicy()
         {
+            if ( !IsInitialized )
+            {
+                HLog.LogError( prefix, "Unable to accept policy, GDPR view is not initialized." );
+                return;
+            }
+            
             HAnalytics.CollectSensitiveData( true );
             HAds.CollectSensitiveData( view.AdsConsentToggle );
-            OnPolicyAccepted.Dispatch();
 
-            var analyticsEvent = AnalyticsEvent.Create("gdpr_accepted")
-                   .ST1("launch")
-                   .ST2("gdpr");
+            var analyticsEvent = AnalyticsEvent.Create("gdpr_accepted").ST1("launch").ST2("gdpr");
             HAnalytics.LogEvent(analyticsEvent);
+
+            OnPolicyAccepted.Dispatch();
         }
 
         /// <summary>
@@ -163,12 +197,17 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         [PublicAPI]
         public static void Dispose()
         {
-            if( IsInitialized && config.DestroyOnAccept )
+            if( IsInitialized )
             {
                 Object.Destroy( canvas );
+                canvas = null;
+                view = null;
             }
 
-            OnPolicyAccepted -= Dispose;
+            if ( config.DestroyOnAccept )
+            {
+                OnPolicyAccepted -= Dispose;
+            }
         }
 
         private static void FetchConfig()

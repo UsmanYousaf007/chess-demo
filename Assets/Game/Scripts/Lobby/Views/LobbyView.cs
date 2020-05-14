@@ -29,6 +29,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -587,12 +589,15 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
-            friendBar.UpdateStatus();
+            friendBar.isOfferDraw = vo.offerDraw;
 
-            //if (recentlyCompleted.Contains(friendBar))
-            //{
-            friendBar.removeCommunityFriendButton.gameObject.SetActive(false);
-            //}
+
+            if (recentlyCompleted.Contains(friendBar))
+            {
+                friendBar.removeCommunityFriendButton.gameObject.SetActive(true);
+            }
+
+            friendBar.UpdateStatus();
 
             // Set the timer clocks
             if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||
@@ -736,7 +741,6 @@ namespace TurboLabz.InstantFramework
             } 
         }
 
-
         void SetMatchLimitReachedDialogue(bool isSelfLimitReached)
         {
             if (isSelfLimitReached)
@@ -761,6 +765,31 @@ namespace TurboLabz.InstantFramework
                 createMatchLimitReachedTitleText.gameObject.SetActive(false);
                 createMatchLimitReachedUpgradeBtn.gameObject.SetActive(false);
                 createMatchLimitReachedCloseBtn.gameObject.SetActive(true);
+
+            }
+        }
+
+        public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
+        {
+            //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+
+            if (!bars.ContainsKey(opponentID))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[opponentID].GetComponent<FriendBar>();
+
+            if (status == "offered")
+            {
+                //friendBar.SetDrawOfferStatus(true);
+                friendBar.isOfferDraw = true;
+                friendBar.UpdateStatus();
+            }
+            else
+            {
+                friendBar.isOfferDraw = false;
+                friendBar.UpdateStatus();
             }
         }
 
@@ -1248,7 +1277,7 @@ namespace TurboLabz.InstantFramework
                     {
                         recentlyCompleted[i].gameObject.SetActive(true);
                         recentlyCompleted[i].transform.SetSiblingIndex(index);
-                        recentlyCompleted[i].removeCommunityFriendButton.gameObject.SetActive(false);
+                        recentlyCompleted[i].removeCommunityFriendButton.gameObject.SetActive(true);
                         index++;
                         recentlyCompleted[i].UpdateMasking((maxCount == (i + 1) || recentlyCompleted.Count == (i + 1)), false);
                     }

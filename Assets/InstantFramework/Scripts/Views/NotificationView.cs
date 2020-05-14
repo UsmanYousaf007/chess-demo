@@ -299,6 +299,7 @@ namespace TurboLabz.InstantGame
                 MatchInfo matchInfo = matchInfoModel.matches[challengeId];
                 if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
                 {
+                    analyticsService.Event("classic_" + AnalyticsEventId.match_find_friends, AnalyticsContext.accepted);
                     tapLongMatchSignal.Dispatch(notificationVO.senderPlayerId, false);
                 }
             }
@@ -333,6 +334,12 @@ namespace TurboLabz.InstantGame
                         facebookService.GetSocialPic(notificationVO.profilePicURL, notificationVO.senderPlayerId).Then(OnGetSocialPic);
                     }
                 }
+               
+                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                    analyticsService.Event("5m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.accepted);
+                else
+                    analyticsService.Event("10m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.accepted);
+
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
                                         notificationVO.avatarId, notificationVO.avaterBgColorId);
             }

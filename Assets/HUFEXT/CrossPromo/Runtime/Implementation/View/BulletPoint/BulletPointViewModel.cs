@@ -1,7 +1,7 @@
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation.View.BulletPoint
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BulletPoint
 {
     public class BulletPointViewModel
     {

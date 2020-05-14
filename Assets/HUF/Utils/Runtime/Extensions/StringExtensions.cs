@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace HUF.Utils.Extensions
+namespace HUF.Utils.Runtime.Extensions
 {
     public static class StringExtensions
     {

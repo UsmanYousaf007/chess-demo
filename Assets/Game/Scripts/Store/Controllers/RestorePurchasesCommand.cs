@@ -34,29 +34,29 @@ namespace TurboLabz.InstantGame
 
         private void OnPromiseReturn(BackendResult result)
         {
-            string cameFromScreen = "settings";
+            //string cameFromScreen = "settings";
 
-            if (pState.GetType() == typeof(NSSubscriptionDlg))
-            {
-                cameFromScreen = "subscription";
-            }
+            //if (pState.GetType() == typeof(NSSubscriptionDlg))
+            //{
+            //    cameFromScreen = "subscription";
+            //}
 
-            if (result == BackendResult.PURCHASE_COMPLETE)
-            {
-                int price = 0;
-                item = metaDataModel.store.items[playerModel.subscriptionType];
+            //if (result == BackendResult.PURCHASE_COMPLETE)
+            //{
+            //    int price = 0;
+            //    item = metaDataModel.store.items[playerModel.subscriptionType];
 
-                if(item != null)
-                {
-                    price = item.currency1Cost;
-                }
+            //    if(item != null)
+            //    {
+            //        price = item.currency1Cost;
+            //    }
 
-                hAnalyticsService.LogMonetizationEvent("restore_ios_iap_completed", price, "menu", cameFromScreen);
-            }
-            else if (result == BackendResult.PURCHASE_FAILED)
-            {
-                hAnalyticsService.LogEvent("restore_ios_iap_failed", "menu", cameFromScreen);
-            }
+            //    hAnalyticsService.LogMonetizationEvent("restore_ios_iap_completed", price, "menu", cameFromScreen);
+            //}
+            //else if (result == BackendResult.PURCHASE_FAILED)
+            //{
+            //    hAnalyticsService.LogEvent("restore_ios_iap_failed", "menu", cameFromScreen);
+            //}
         }
     }
 }

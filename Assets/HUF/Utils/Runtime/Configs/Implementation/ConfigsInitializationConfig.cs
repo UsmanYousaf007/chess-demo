@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HUF.Utils.Configs.Implementation
+namespace HUF.Utils.Runtime.Configs.Implementation
 {
     [CreateAssetMenu(fileName = NAME, menuName = "HUF/" + NAME)]
     public class ConfigsInitializationConfig : ScriptableObject

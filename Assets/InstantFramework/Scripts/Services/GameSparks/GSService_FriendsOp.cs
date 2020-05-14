@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpRemove(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("remove", friendId, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpSearch(string matchString, int skip) { return new GSFriendsOpRequest(GetRequestContext()).Send("search", matchString, OnFriendOpSuccess, skip); }
         public IPromise<BackendResult> FriendsOpStatus(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("status", friendId, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpUnblock(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("unblock", friendId, OnFriendOpSuccess); }
 
         private void OnFriendOpSuccess(object r)
 		{

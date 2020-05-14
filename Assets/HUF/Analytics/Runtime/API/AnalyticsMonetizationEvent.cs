@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
-using UnityEngine;
 
-namespace HUF.Analytics.API
+namespace HUF.Analytics.Runtime.API
 {
     public class AnalyticsMonetizationEvent : AnalyticsEvent
     {

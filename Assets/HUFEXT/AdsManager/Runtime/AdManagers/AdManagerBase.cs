@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using HUF.Ads.API;
-using HUF.Ads.Implementation;
+using HUF.Ads.Runtime.Implementation;
 using HUF.Utils;
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+using HUFEXT.AdsManager.Runtime.AdMediation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.Config;
 using HUFEXT.AdsManager.Runtime.Service;
@@ -25,8 +26,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             ReadyToShow,
             Showing
         }
-
-        protected AdsManagerConfig adsManagerConfig;
+        
         protected AdPlacementData adPlacementData;
         protected HUFAdsService adsService;
         protected AdStatus adStatus = AdStatus.WaitingForFetch;
@@ -40,15 +40,15 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         protected HLogPrefix logPrefix = new HLogPrefix( HAdsManager.logPrefix, nameof(AdManagerBase) );
 
         Coroutine delayFetchCoroutine = null;
+        
+        public event UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
 
         public AdManagerBase( AdPlacementData inAdPlacementData,
-            AdsManagerConfig inAdsManagerConfig,
             HUFAdsService inAdsService )
         {
             adPlacementData = inAdPlacementData;
-            adsManagerConfig = inAdsManagerConfig;
             adsService = inAdsService;
-            RegisterEvents();
+            SubscribeToEvents();
             StartFetching();
         }
 
@@ -58,7 +58,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
             if ( adStatus == AdStatus.ReadyToShow )
             {
-                adsService.OnAdFetch.Dispatch( new AdsManagerFetchCallbackData( GetAdMediationName(), inPlacement ) );
+                OnAdFetch.Dispatch( new AdsManagerFetchCallbackData( GetAdMediationName(), inPlacement ) );
             }
         }
 
@@ -67,11 +67,16 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             return alternativePlacements.Contains( inPlacement );
         }
 
+        bool CanAdExpire()
+        {
+            return adsService.Mediation.AdsMediation != AdsMediator.HuuugeAds;
+        }
+
         public bool IsReady()
         {
-            if ( adStatus == AdStatus.ReadyToShow && NativeIsReady() == false )
+            if ( CanAdExpire() && adStatus == AdStatus.ReadyToShow && NativeIsReady() == false )
             {
-                HLog.Log( logPrefix, $"Ad did expired - fetch new one {adPlacementData.PlacementId}" );
+                HLog.LogWarning( logPrefix, $"Ad did expired - fetch new one {adPlacementData.PlacementId}" );
                 StartFetching();
             }
 
@@ -102,23 +107,23 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             delayFetchCoroutine = CoroutineManager.StartCoroutine( FetchWithDelay() );
         }
 
-        protected virtual void RegisterEvents() { }
+        protected virtual void SubscribeToEvents() { }
 
         IEnumerator FetchWithDelay()
         {
             adStatus = AdStatus.WaitingForFetch;
 
-            if ( currentFetchTimes <= adsManagerConfig.FetchShortTimes )
+            if ( currentFetchTimes <= adsService.ManagerConfig.FetchShortTimes )
             {
-                if ( adsManagerConfig.DelayBetweenFetchShort == 0 )
+                if ( adsService.ManagerConfig.DelayBetweenFetchShort == 0 )
                     yield return null;
                 else
-                    yield return new WaitForSeconds( Mathf.Max( adsManagerConfig.DelayBetweenFetchShort,
+                    yield return new WaitForSeconds( Mathf.Max( adsService.ManagerConfig.DelayBetweenFetchShort,
                         MINIMUM_SHORT_FETCH_TIME ) );
             }
             else
             {
-                yield return new WaitForSeconds( Mathf.Max( adsManagerConfig.DelayBetweenFetchLong,
+                yield return new WaitForSeconds( Mathf.Max( adsService.ManagerConfig.DelayBetweenFetchLong,
                     MINIMUM_LONG_FETCH_TIME ) );
             }
 
@@ -135,7 +140,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             currentFetchTimes++;
         }
 
-        protected virtual void OnFetched( IAdCallbackData callbackData )
+        protected virtual void HandleFetched( AdCallback callbackData )
         {
             if ( callbackData.PlacementId != adPlacementData.PlacementId )
                 return;
@@ -143,17 +148,15 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             HLog.Log( logPrefix, $"OnFetched {adPlacementData.PlacementId} Result: {callbackData.Result.ToString()}" );
 
             if ( callbackData.Result == AdResult.Completed )
-            {
+            { 
                 currentFetchTimes = 0;
                 adStatus = AdStatus.ReadyToShow;
 
-                adsService.OnAdFetch.Dispatch(
-                    new AdsManagerFetchCallbackData( GetAdMediationName(), adPlacementData.PlacementId ) );
+                OnAdFetch.Dispatch( new AdsManagerFetchCallbackData( GetAdMediationName(), adPlacementData.PlacementId ) );
 
                 for ( int i = 0; i < alternativePlacements.Count; i++ )
                 {
-                    adsService.OnAdFetch.Dispatch(
-                        new AdsManagerFetchCallbackData( GetAdMediationName(), alternativePlacements[i] ) );
+                    OnAdFetch.Dispatch( new AdsManagerFetchCallbackData( GetAdMediationName(), alternativePlacements[i] ) );
                 }
             }
             else
@@ -162,7 +165,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             }
         }
 
-        protected void OnEnded( IAdCallbackData callbackData )
+        protected void HandleEnded( AdCallback callbackData )
         {
             if ( callbackData.PlacementId != adPlacementData.PlacementId )
                 return;
@@ -171,12 +174,12 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             AdEnded( callbackData.Result );
         }
 
-        protected void OnFailToShow()
+        protected void HandleFailToShow()
         {
             AdEnded( AdResult.Failed );
         }
 
-        void AdEnded( AdResult adResult )
+        protected void AdEnded( AdResult adResult )
         {
             adStatus = AdStatus.WaitingForFetch;
             SendAdEvent( adResult, shownPlacementId );
@@ -186,15 +189,18 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
         protected virtual void SendAdEvent( AdResult result, string placementId ) { }
 
-        protected abstract string GetAdMediationName();
+        protected string GetAdMediationName()
+        {
+            return adsService.Mediation.MediationId;
+        }
 
         public void Destroy()
         {
             if ( delayFetchCoroutine != null )
                 CoroutineManager.StopCoroutine( delayFetchCoroutine );
-            DisconnectFromAds();
+            UnsubscribeFromEvents();
         }
 
-        protected abstract void DisconnectFromAds();
+        protected abstract void UnsubscribeFromEvents();
     }
 }

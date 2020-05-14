@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
 #if UNITY_IOS
             UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.None);
 #endif
+            pushNotificationService.ClearNotifications();
         }
     }
 }
