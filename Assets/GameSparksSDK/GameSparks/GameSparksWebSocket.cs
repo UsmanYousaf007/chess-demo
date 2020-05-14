@@ -9,6 +9,11 @@ using UnityEngine;
 
 namespace GameSparks
 {
+    public static class LastErrorCache
+    {
+		public static string lastError;
+    }
+
 	/// <summary>
 	/// Default WebSocket implementation used in the sdk. 
 	/// </summary>
@@ -98,8 +103,9 @@ namespace GameSparks
 				UnityEngine.Debug.Log("Websocket OnError [Ping Fail]:" + error + " Device Info:" + DeviceName);
 
 				string stackTrace = System.Environment.StackTrace;
-				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "[PING FAIL] Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
-                    " [Stack:] " + stackTrace +  " [Device:]" + DeviceName);
+				LastErrorCache.lastError = "[PING FAIL] Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
+					" [Stack:] " + stackTrace + " [Device:]" + DeviceName;
+				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, LastErrorCache.lastError);
 				closeSocket = true;
 			}
 			else
@@ -107,8 +113,9 @@ namespace GameSparks
 				UnityEngine.Debug.Log("Websocket OnError:" + error + " Device Info:" + DeviceName);
 
 				string stackTrace = System.Environment.StackTrace;
-				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
-					" [Stack:] " + stackTrace + " [Device:]" + DeviceName);
+				LastErrorCache.lastError = "Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
+					" [Stack:] " + stackTrace + " [Device:]" + DeviceName;
+				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, LastErrorCache.lastError);
 				closeSocket = true;
 			}
 
