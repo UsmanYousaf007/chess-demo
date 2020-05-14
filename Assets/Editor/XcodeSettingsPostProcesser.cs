@@ -88,8 +88,8 @@ public class XcodeSettingsPostProcesser
         proj.AddCapability(targetGuid, PBXCapabilityType.BackgroundModes);
 
         //patch v.5.13.14,its for xcode below v11.4
-        proj.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "false");
-        proj.SetBuildProperty(targetGuid, "CLANG_ENABLE_MODULES", "true");
+        proj.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+        proj.SetBuildProperty(targetGuid, "CLANG_ENABLE_MODULES", "YES");
 
         // Get plist
         string plistPath = pathToBuiltProject + "/Info.plist";

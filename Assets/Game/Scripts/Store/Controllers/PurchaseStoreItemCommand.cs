@@ -35,12 +35,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         private StoreItem item;
-        private NS pState = null;
+        private static NS pState = null;
 
         public override void Execute()
         {
             item = metaDataModel.store.items[key];
-            pState = navigatorModel.previousState;
+            if (navigatorModel.previousState.GetType() != typeof(NSConfirmDlg))
+            {
+                pState = navigatorModel.previousState;
+            }
 
             PurchaseResult purchaseResult = PurchaseResult.NONE;
 
