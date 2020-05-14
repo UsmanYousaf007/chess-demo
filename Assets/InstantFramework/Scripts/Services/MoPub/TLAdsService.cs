@@ -19,6 +19,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
 
+        [Inject] public AppEventSignal appEventSignal { get; set; }
+
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
@@ -34,6 +36,7 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            appEventSignal.AddListener(OnAppEvent);
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
             HAdsManager.OnAdFetch += OnAdFetched;
             HAds.Banner.OnClicked += OnBannerClicked;
@@ -227,7 +230,7 @@ namespace TurboLabz.InstantFramework
             HAdsAdMobMediation.ShowTestSuite();
         }
 
-        private void OnApplicationFocus(bool focus)
+        /*private void OnApplicationFocus(bool focus)
         {
             if (!focus && playerModel.adContext != AnalyticsContext.unknown)
             {
@@ -238,6 +241,18 @@ namespace TurboLabz.InstantFramework
         private void OnApplicationQuit()
         {
             if (playerModel.adContext != AnalyticsContext.unknown)
+            {
+                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
+            }
+        }*/
+
+        public void OnAppEvent(AppEvent evt)
+        {
+            if (evt == AppEvent.QUIT && playerModel.adContext != AnalyticsContext.unknown)
+            {
+                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
+            }
+            else if(evt == AppEvent.PAUSED && playerModel.adContext != AnalyticsContext.unknown)
             {
                 analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
             }
