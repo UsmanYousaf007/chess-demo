@@ -189,9 +189,7 @@ namespace TurboLabz.InstantFramework
         match_find,
 
         //offer draw
-        offer_draw_sent,
-        offer_draw_rejected,
-        offer_draw_accepted
+        offer_draw
     }
 
     public enum AnalyticsContext
@@ -241,7 +239,8 @@ namespace TurboLabz.InstantFramework
         success_bot,
         accepted,
         rejected,
-        cancelled
+        cancelled,
+        sent
 
     }
 

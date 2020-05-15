@@ -163,6 +163,7 @@ namespace TurboLabz.Multiplayer
         void OnOfferDrawButtonClicked()
         {
             offerDrawButtonClickedSignal.Dispatch();
+            analyticsService.Event(AnalyticsEventId.offer_draw, AnalyticsContext.sent);
         }
 
     }
