@@ -119,7 +119,11 @@ namespace TurboLabz.InstantFramework
                 matchAnalyticsVO.matchType = "classic";
                 matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
                 Friend friend = playerModel.GetFriend(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
-                matchAnalyticsVO.friendType = friend.friendType;
+
+                if (friend != null)
+                    matchAnalyticsVO.friendType = friend.friendType;
+                else
+                    matchAnalyticsVO.friendType = "community";
 
                 matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
 

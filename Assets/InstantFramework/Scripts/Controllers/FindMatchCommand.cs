@@ -159,7 +159,12 @@ namespace TurboLabz.InstantFramework
                 || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
                 matchAnalyticsVO.friendType = "random";
             else
-                matchAnalyticsVO.friendType = friend.friendType;
+            {
+                if(friend != null)
+                    matchAnalyticsVO.friendType = friend.friendType;
+                else
+                    matchAnalyticsVO.friendType = "community";
+            }
 
             matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
 
