@@ -125,8 +125,6 @@ namespace TurboLabz.Multiplayer
                     tempColor.a = 0.3f;
                     offerDrawButtonLabel.color = tempColor;
                     offerDrawButton.interactable = false;
-
-                    analyticsService.Event(AnalyticsEventId.offer_draw_sent);
                 }
                 else
                 {
@@ -177,14 +175,14 @@ namespace TurboLabz.Multiplayer
         public void OfferDrawRejectButtonClicked()
         {
             drawOfferRejectedSignal.Dispatch();
-            analyticsService.Event(AnalyticsEventId.offer_draw_rejected);
+            analyticsService.Event(AnalyticsEventId.offer_draw, AnalyticsContext.rejected);
         }
 
         public void OfferDrawAcceptButtonClicked()
         {
             offerDrawDialog.SetActive(false);
             drawOfferAcceptedSignal.Dispatch();
-            analyticsService.Event(AnalyticsEventId.offer_draw_accepted);
+            analyticsService.Event(AnalyticsEventId.offer_draw, AnalyticsContext.accepted);
         }
 
         void CloseDialogue()

@@ -31,17 +31,16 @@ namespace TurboLabz.InstantFramework
 
             string challengeId = GetChallengeId();
 
-            MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
-            matchAnalyticsVO.context = AnalyticsContext.start_attempt;
-            matchAnalyticsVO.matchType = "classic";
-            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
-            var friend = playerModel.GetFriend(opponentId);
-            matchAnalyticsVO.friendType = friend.friendType;
-            matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
-
-
             if (challengeId == null)
             {
+                MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+                matchAnalyticsVO.context = AnalyticsContext.start_attempt;
+                matchAnalyticsVO.matchType = "classic";
+                matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+                var friend = playerModel.GetFriend(opponentId);
+                matchAnalyticsVO.friendType = friend.friendType;
+                matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
                 createLongMatchSignal.Dispatch(opponentId, isRanked);
             }
             else
