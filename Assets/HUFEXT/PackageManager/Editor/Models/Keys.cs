@@ -131,5 +131,22 @@
                 public const string LATEST_PACKAGES = URL + "/v1/scopes/channels/{channel}/packages/latest-versions";
             }
         }
+        
+        internal static class BuildEventKey
+        {
+            private const  string PREFIX        = "huf_";
+            internal const string DEV_ID        = PREFIX + "developer_id";
+            internal const string PACKAGE_NAME  = PREFIX + "package_name";
+            internal const string VERSION       = PREFIX + "version";
+            internal const string BUILD_TIME    = PREFIX + "build_time";
+            internal const string UNITY_VERSION = PREFIX + "unity";
+            internal const string OS            = PREFIX + "operating_system";
+            internal const string PLATFORM      = PREFIX + "platform";
+            internal const string API_VERSION   = PREFIX + "minimum_api_version";
+            internal const string HUF_PACKAGE   = PREFIX + "package_";
+            internal const string UNITY_PACKAGE = "unity_package_";
+        }
+
+        internal const string REPORT_URL = "https://hbi-ingest.net/pcfK6gOAtE2kWQOL";
     }
 }

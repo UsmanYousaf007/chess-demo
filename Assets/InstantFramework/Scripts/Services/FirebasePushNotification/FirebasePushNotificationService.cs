@@ -2,11 +2,9 @@
 /// @copyright Copyright (C) Turbo Labz 2018 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
+///
 
-using HUF.InitFirebase.Runtime.API;
-using HUF.RemoteConfigsFirebase.Runtime.API;
-using HUF.StorageFirebase.Runtime.API;
-using HUFEXT.CrossPromo.Runtime.API;
+using HUF.Notifications.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -27,42 +25,15 @@ namespace TurboLabz.InstantFramework
 
         public void Init() 
         {
-            appEventSignal.AddListener(OnAppEvent);
-            HInitFirebase.Init();
-            HInitFirebase.OnInitializationSuccess += OnFirebaseInitSuccess;
-            HCrossPromo.Init();
-            HStorageFirebase.TryInitServices();
-
-            //Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
-            //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
-            //    {
-            //        if (task.Result == Firebase.DependencyStatus.Available) 
-            //        {
-
-            //        } 
-            //        else 
-            //        {
-            //            TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
-            //        }
-            //    }
-            //);
+            HNotifications.Push.OnFirebaseNotificationsReceived += OnMessageReceived;
+            ProcessToken(HNotifications.Push.CachedToken);
         }
 
-        private void OnFirebaseInitSuccess()
+        private void ProcessToken(string token) 
         {
-            HRemoteConfigsFirebase.Init();
-            Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
-            Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
-            Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
-            Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
-            TLUtils.LogUtil.Log("Firebase intialization success.");
-        }
-
-        public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token) 
-        {
-            Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
-            backendService.PushNotificationRegistration(token.Token);
-            pushToken = token.Token;
+            if (token == null) return;
+            backendService.PushNotificationRegistration(token);
+            pushToken = token;
             TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
         }
 
@@ -76,10 +47,10 @@ namespace TurboLabz.InstantFramework
 
         }
 
-        public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
+        public virtual void OnMessageReceived(Firebase.Messaging.FirebaseMessage message)
         {
-            var notification = e.Message.Notification;
-            isNotificationOpened = e.Message.NotificationOpened;
+            var notification = message.Notification;
+            isNotificationOpened = message.NotificationOpened;
 
             // Bail if push notification was not clicked.
             // Socket messaging handles notifications when game is running.
@@ -98,15 +69,15 @@ namespace TurboLabz.InstantFramework
                 notificationVO.body = notification.Body;
             }
             notificationVO.isOpened = isNotificationOpened;
-            notificationVO.senderPlayerId = e.Message.Data.ContainsKey("senderPlayerId") == true ? e.Message.Data["senderPlayerId"] : "undefined";
-            notificationVO.challengeId = e.Message.Data.ContainsKey("challengeId") == true ? e.Message.Data["challengeId"] : "undefined";
-            notificationVO.matchGroup = e.Message.Data.ContainsKey("matchGroup") == true ? e.Message.Data["matchGroup"] : "undefined";
-            notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
-            notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
-            notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
-            notificationVO.isPremium = e.Message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(e.Message.Data["isSubscriber"]) : false;
-            notificationVO.timeSent = e.Message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(e.Message.Data["creationTimestamp"]) : 0;
-            notificationVO.actionCode = e.Message.Data.ContainsKey("actionCode") == true ? e.Message.Data["actionCode"] : "undefined";
+            notificationVO.senderPlayerId = message.Data.ContainsKey("senderPlayerId") == true ? message.Data["senderPlayerId"] : "undefined";
+            notificationVO.challengeId = message.Data.ContainsKey("challengeId") == true ? message.Data["challengeId"] : "undefined";
+            notificationVO.matchGroup = message.Data.ContainsKey("matchGroup") == true ? message.Data["matchGroup"] : "undefined";
+            notificationVO.avatarId = message.Data.ContainsKey("avatarId") == true ? message.Data["avatarId"] : "undefined";
+            notificationVO.avaterBgColorId = message.Data.ContainsKey("avatarBgColorId") == true ? message.Data["avatarBgColorId"] : "undefined";
+            notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") == true ? message.Data["profilePicURL"] : "undefined";
+            notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(message.Data["isSubscriber"]) : false;
+            notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data["creationTimestamp"]) : 0;
+            notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data["actionCode"] : "undefined";
 
         notificationRecievedSignal.Dispatch(notificationVO);
         }
