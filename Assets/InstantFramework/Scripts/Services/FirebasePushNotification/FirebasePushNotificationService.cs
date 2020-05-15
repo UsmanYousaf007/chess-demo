@@ -10,6 +10,7 @@ using UnityEngine.Purchasing.Security;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
+using HUF.InitFirebase.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -39,9 +40,18 @@ namespace TurboLabz.InstantFramework
                 if (task.Result == Firebase.DependencyStatus.Available)
                 {
                     Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
-                    Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
                     Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
                     Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
+
+                    if (string.IsNullOrEmpty(HInitFirebase.CachedToken))
+                    {
+                        Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
+                    }
+                    else
+                    {
+                        ProcessToken(HInitFirebase.CachedToken);
+                    }
+
                     TLUtils.LogUtil.Log("Firebase intialization success.");
                 }
                 else
@@ -55,8 +65,13 @@ namespace TurboLabz.InstantFramework
         public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token)
         {
             Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
-            backendService.PushNotificationRegistration(token.Token);
-            pushToken = token.Token;
+            ProcessToken(token.Token);
+        }
+
+        private void ProcessToken(string token)
+        {
+            backendService.PushNotificationRegistration(token);
+            pushToken = token;
             TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
         }
 
