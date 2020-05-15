@@ -34,6 +34,9 @@ namespace TurboLabz.InstantFramework
         private const string PLACEMENT_ID_REWARDED = "Rewarded";
         private const string PLACEMENT_ID_INTERSTITIAL = "Interstitial";
 
+        public bool adStatus = false;
+        public bool showAd = false;
+
         public void Init()
         {
             appEventSignal.AddListener(OnAppEvent);
@@ -62,6 +65,8 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<AdsResult> ShowInterstitial()
         {
+            adStatus = false;
+            showAd = true;
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
             HAdsManager.ShowAd(PLACEMENT_ID_INTERSTITIAL, OnInterstitailEnded);
@@ -72,6 +77,8 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<AdsResult> ShowRewardedVideo()
         {
+            adStatus = false;
+            showAd = true;
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
             HAdsManager.ShowAd(PLACEMENT_ID_REWARDED, OnRewardedEnded);
@@ -118,11 +125,13 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.ad_not_available, AnalyticsContext.rewarded);
                 playerModel.adContext = AnalyticsContext.interstitial_rewarded_failed_replacement;
+                adStatus = true;
             }
             else if (!isNotCapped)
             {
                 analyticsService.Event(AnalyticsEventId.ad_cap_reached, AnalyticsContext.rewarded);
                 playerModel.adContext = AnalyticsContext.interstitial_rewarded_capped_replacement;
+                adStatus = true;
             }
 
             return availableFlag && isNotCapped;
@@ -137,10 +146,12 @@ namespace TurboLabz.InstantFramework
             if (!availableFlag)
             {
                 analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
+                adStatus = true;
             }
             else if (!isNotCapped)
             {
                 analyticsService.Event(AnalyticsEventId.ad_cap_reached, playerModel.adContext);
+                adStatus = true;
             }
 
             return availableFlag && isNotCapped;
@@ -179,8 +190,9 @@ namespace TurboLabz.InstantFramework
                     adEndedPromise.Dispatch(AdsResult.FAILED);
                     break;
             }
-
-            playerModel.adContext = AnalyticsContext.unknown;
+            adStatus = true;
+            showAd = false;
+            //playerModel.adContext = AnalyticsContext.unknown;
         }
 
         void OnInterstitailEnded(AdManagerCallback data)
@@ -205,7 +217,10 @@ namespace TurboLabz.InstantFramework
                 new KeyValuePair<string, object>("duration", (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(videoStartTime)).TotalSeconds),
                 new KeyValuePair<string, object>("end_type", data.Result.ToString()));
             adEndedPromise.Dispatch(AdsResult.FINISHED);
-            playerModel.adContext = AnalyticsContext.unknown;
+
+            adStatus = true;
+            showAd = false;
+            //playerModel.adContext = AnalyticsContext.unknown;
         }
 
         public void OnBannerShown(AdManagerCallback data)
@@ -230,32 +245,16 @@ namespace TurboLabz.InstantFramework
             HAdsAdMobMediation.ShowTestSuite();
         }
 
-        /*private void OnApplicationFocus(bool focus)
+        /*public void OnAppEvent(AppEvent evt)
         {
-            if (!focus && playerModel.adContext != AnalyticsContext.unknown)
+            if (evt == AppEvent.ESCAPED && showAd && !adStatus)
             {
                 analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
             }
-        }
-
-        private void OnApplicationQuit()
-        {
-            if (playerModel.adContext != AnalyticsContext.unknown)
+            else if(evt == AppEvent.PAUSED && showAd && !adStatus)
             {
                 analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
             }
         }*/
-
-        public void OnAppEvent(AppEvent evt)
-        {
-            if (evt == AppEvent.QUIT && playerModel.adContext != AnalyticsContext.unknown)
-            {
-                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
-            }
-            else if(evt == AppEvent.PAUSED && playerModel.adContext != AnalyticsContext.unknown)
-            {
-                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
-            }
-        }
     }
 }

@@ -108,7 +108,6 @@ namespace TurboLabz.InstantGame
                     }
                     else
                     {
-                        analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
                         if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
                         {
                             LoadGameStartSignal();
@@ -229,7 +228,7 @@ namespace TurboLabz.InstantGame
 
         private void LoadGameStartSignal(AdsResult result = AdsResult.FINISHED)
         {
-            playerModel.adContext = AnalyticsContext.unknown;
+            //playerModel.adContext = AnalyticsContext.interstitial_endgame;
             Debug.Log("ACTION CODE: " + resultAdsVO.actionCode);
 
             preferencesModel.intervalBetweenPregameAds = DateTime.Now;

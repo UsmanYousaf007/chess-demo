@@ -36,7 +36,6 @@ namespace TurboLabz.InstantGame
                 vo.adsType = AdType.Promotion;
                 vo.rewardType = GSBackendKeys.ClaimReward.TYPE_PROMOTION;
                 showAdSignal.Dispatch(vo);
-                analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
             }
         }
     }
