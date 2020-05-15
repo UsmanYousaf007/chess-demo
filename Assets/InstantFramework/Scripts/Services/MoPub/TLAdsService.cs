@@ -245,16 +245,16 @@ namespace TurboLabz.InstantFramework
             HAdsAdMobMediation.ShowTestSuite();
         }
 
-        /*public void OnAppEvent(AppEvent evt)
+        public void OnAppEvent(AppEvent evt)
         {
-            if (evt == AppEvent.ESCAPED && showAd && !adStatus)
+            /*if (evt == AppEvent.ESCAPED && showAd && !adStatus)
             {
                 analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
             }
             else if(evt == AppEvent.PAUSED && showAd && !adStatus)
             {
                 analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
-            }
-        }*/
+            }*/
+        }
     }
 }
