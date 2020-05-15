@@ -1,3 +1,7 @@
+## [1.2.1] - 2020-05-05
+### Changed
+- Changed HBI endpoint.
+
 ## [1.2.0] - 2020-04-24
 ### Added
 - Detection for packages with git repository.
