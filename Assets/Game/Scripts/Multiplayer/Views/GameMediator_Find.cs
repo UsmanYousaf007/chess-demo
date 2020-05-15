@@ -75,7 +75,10 @@ namespace TurboLabz.Multiplayer
             else
             {
                 var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
-                matchAnalyticsVO.friendType = friend.friendType;
+                if(friend == null)
+                    matchAnalyticsVO.friendType = "community";
+                else
+                    matchAnalyticsVO.friendType = friend.friendType;
             }
 
             matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
