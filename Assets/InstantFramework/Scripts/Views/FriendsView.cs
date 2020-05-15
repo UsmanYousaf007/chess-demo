@@ -802,7 +802,7 @@ namespace TurboLabz.InstantFramework
 
             if (status == "offered")
             {
-                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, -20);
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, -27);
                 friendBar.drawOffer.SetActive(true);
             }
             else

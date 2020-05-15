@@ -35,6 +35,8 @@ namespace TurboLabz.InstantFramework
         public const string MIN10_GAME_TEXT = "min10GameText";
         public const string ON_TEXT = "onText";
         public const string OFF_TEXT = "offText";
+        public const string ACCEPT_TEXT = "acceptText";
+        public const string DECLINE_TEXT = "declineText";
 
         #endregion
 
@@ -134,6 +136,7 @@ namespace TurboLabz.InstantFramework
         public const string CPU_GAME_TURN_OPPONENT = "cpuGameTurnOpponent";
         public const string CPU_GAME_EXIT_DLG_TITLE = "cpuGameExitDlgTitle";
         public const string CPU_GAME_SAVE_AND_EXIT = "cpuGameSaveAndExit";
+        public const string CPU_GAME_SAVE_AND_EXIT_CAP = "cpuGameSaveAndExitCap";
         public const string CPU_GAME_CONTINUE_BUTTON = "cpuGameContinueButton";
         public const string CPU_GAME_OFFER_DRAW_BUTTON = "cpuGameOfferDrawButton";
         public const string CPU_GAME_EXIT_EXPLAINATION = "cpuGameExitExplanation";

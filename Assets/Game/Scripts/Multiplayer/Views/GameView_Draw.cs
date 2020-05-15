@@ -63,8 +63,8 @@ namespace TurboLabz.Multiplayer
 
             drawOfferAcceptButton.onClick.AddListener(OfferDrawAcceptButtonClicked);
             drawOfferRejectButton.onClick.AddListener(OfferDrawRejectButtonClicked);
-            drawOfferAcceptButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON);
-            drawOfferRejectButtonText.text = localizationService.Get(LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON);
+            drawOfferAcceptButtonText.text = localizationService.Get(LocalizationKey.ACCEPT_TEXT);
+            drawOfferRejectButtonText.text = localizationService.Get(LocalizationKey.DECLINE_TEXT);
         }
 
         public void CleanupDraw()
@@ -117,7 +117,7 @@ namespace TurboLabz.Multiplayer
                 if (playerModel.id == offeredBy)
                 {
                     //show text draw offer sent
-                    drawOfferText.text = "Draw offer sent";
+                    drawOfferText.text = "Draw offer sent.";
                     offerDrawDialog.SetActive(true);
                     offerButtonsDlg.SetActive(false);
                     offerTextDlg.SetActive(true);
@@ -144,7 +144,7 @@ namespace TurboLabz.Multiplayer
                 if (playerModel.id == offeredBy)
                 {
                     //show text draw offer rejected
-                    drawOfferText.text = "Draw offer rejected";
+                    drawOfferText.text = "Draw offer rejected.";
                     offerButtonsDlg.SetActive(false);
                     offerTextDlg.SetActive(true);
                     offerDrawButton.interactable = true;

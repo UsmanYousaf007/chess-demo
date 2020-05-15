@@ -110,9 +110,9 @@ namespace TurboLabz.InstantFramework
             {
                 drawOffer.SetActive(true);
                 if(yourMoveStatus.gameObject.activeSelf)
-                    yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -20);
+                    yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -27);
                 else
-                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -20);
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -27);
             }
             else
             {
@@ -182,7 +182,7 @@ namespace TurboLabz.InstantFramework
                     if (isOfferDraw)
                     {
                         drawOffer.SetActive(true);
-                        yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -20);
+                        yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -27);
                     }
                     else
                     {
@@ -203,7 +203,7 @@ namespace TurboLabz.InstantFramework
                     if (isOfferDraw)
                     {
                         drawOffer.SetActive(true);
-                        generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -20);
+                        generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -27);
                     }
                     else
                     {

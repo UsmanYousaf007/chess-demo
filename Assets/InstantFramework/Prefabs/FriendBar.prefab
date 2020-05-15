@@ -2139,6 +2139,7 @@ MonoBehaviour:
   isRanked: 0
   lastMatchTimeStamp: 0
   isRemoved: 0
+  isOfferDraw: 0
   bottomAlphaBg: {fileID: 7817692950968977916}
   maskObject: {fileID: 5817909771785993593}
   bgGlow: {fileID: 3147756649216108486}
@@ -3655,8 +3656,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -341.25, y: 20}
-  m_SizeDelta: {x: 133.8, y: 46.51}
+  m_AnchoredPosition: {x: -339.44, y: 27}
+  m_SizeDelta: {x: 154, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2692341053281237748
 CanvasRenderer:
@@ -3686,7 +3687,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 529470412ee7b48a9bc6ee754b8130f4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9fc89eac8b2b647378f09e3cc8c29d0c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3729,8 +3730,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 4.01}
-  m_SizeDelta: {x: 0, y: -8.02}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2025585735735519386
 CanvasRenderer:
@@ -3762,11 +3763,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 11baf4b87a60d4bd09b6cb3128f59de2, type: 3}
-    m_FontSize: 12
+    m_FontSize: 0
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 3
-    m_MaxSize: 14
+    m_MinSize: 0
+    m_MaxSize: 28
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
