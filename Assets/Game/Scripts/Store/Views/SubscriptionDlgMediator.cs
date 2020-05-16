@@ -134,6 +134,8 @@ public class SubscriptionDlgMediator : Mediator
     public void OnTierSelected(string key)
     {
         view.key = key;
+        view.offerBg.childAlignment = UnityEngine.TextAnchor.MiddleRight;
+        view.offerBg.childAlignment = UnityEngine.TextAnchor.MiddleCenter;
     }
 
     private void OnTermsClicked()
