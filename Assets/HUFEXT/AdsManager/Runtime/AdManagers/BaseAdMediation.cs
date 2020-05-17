@@ -199,6 +199,8 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         {
             HLog.Log( logPrefix, $"OnFailed {callbackData.PlacementId}" );
 
+            HideBanner(callbackData.PlacementId);
+
             OnBannerShown.Dispatch( new AdCallback( callbackData.PlacementId,
                 MediationId,
                 AdResult.Failed,
