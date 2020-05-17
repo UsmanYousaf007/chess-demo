@@ -20,6 +20,7 @@ public class SubscriptionDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public HorizontalLayoutGroup offerBg;
 
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }

@@ -16,6 +16,7 @@ public class SubscriptionTierView : View
         public Vector3 scale;
         public Vector3 bestValuePosition;
         public Sprite processing;
+        public float bottomContainerSpacing;
     }
 
     public string key;
@@ -25,6 +26,7 @@ public class SubscriptionTierView : View
     public Image actualPriceStrikeThrough;
     public Text price;
     public Text billed;
+    public GameObject billedSeperator;
     public Text savings;
     public Text bestValue;
     public RectTransform bestValueObject;
@@ -34,9 +36,11 @@ public class SubscriptionTierView : View
     public float savingsValue;
     public TierConfig selectedConfig;
     public TierConfig defaultConfig;
+    public RectTransform root;
+    public HorizontalLayoutGroup bottomContainer;
 
     [Header("Not Available")]
-    public GameObject package;
+    public RectTransform package;
     public GameObject notAvailable;
     public Image[] processing;
 
@@ -58,7 +62,7 @@ public class SubscriptionTierView : View
 
     public void Init(bool isStoreAvailable)
     {
-        package.SetActive(isStoreAvailable);
+        package.gameObject.SetActive(isStoreAvailable);
         notAvailable.SetActive(!isStoreAvailable);
 
         if (!isStoreAvailable)
@@ -82,6 +86,7 @@ public class SubscriptionTierView : View
             price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
             //billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
             billed.gameObject.SetActive(false);
+            billedSeperator.gameObject.SetActive(false);
             savings.text = $"Save {savingsValue * 100}%";
             item.discountedRatio = savingsValue;
         }
@@ -114,8 +119,11 @@ public class SubscriptionTierView : View
         title.color = price.color = savings.color = config.headingsColor;
         actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
         bg.image.sprite = config.bg;
-        this.transform.localScale = config.scale;
+        bg.image.SetNativeSize();
+        root.sizeDelta = bg.image.rectTransform.sizeDelta;
         bestValueObject.localPosition = config.bestValuePosition;
+        title.transform.localScale = price.transform.localScale = savings.transform.localScale = actualPrice.transform.localScale = billed.transform.localScale = config.scale;
+        bottomContainer.spacing = config.bottomContainerSpacing;
 
         foreach (var bar in processing)
         {
