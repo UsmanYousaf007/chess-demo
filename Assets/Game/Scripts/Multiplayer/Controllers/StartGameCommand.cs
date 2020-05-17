@@ -59,6 +59,13 @@ namespace TurboLabz.InstantFramework
 
             string opponentId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
 
+            OfferDrawVO offerDrawVO = new OfferDrawVO();
+            offerDrawVO.status = matchInfoModel.activeMatch.drawOfferStatus;
+            offerDrawVO.offeredBy = matchInfoModel.activeMatch.drawOfferedBy;
+            offerDrawVO.opponentId = opponentId;
+            offerDrawVO.challengeId = matchInfoModel.activeChallengeId;
+            updateOfferDrawSignal.Dispatch(offerDrawVO);
+
             Friend opponentProfile = playerModel.GetFriend(opponentId);
 
             // PREPARE CHAT TODO: Switch over to central player profile management system
@@ -84,14 +91,6 @@ namespace TurboLabz.InstantFramework
 
             enableGameChatSignal.Dispatch(vo);
             chatModel.hasEngagedChat = false;
-
-            OfferDrawVO offerDrawVO = new OfferDrawVO();
-            offerDrawVO.status = matchInfoModel.activeMatch.drawOfferStatus;
-            offerDrawVO.offeredBy = matchInfoModel.activeMatch.drawOfferedBy;
-            offerDrawVO.opponentId = opponentId;
-            offerDrawVO.challengeId = matchInfoModel.activeChallengeId;
-            updateOfferDrawSignal.Dispatch(offerDrawVO);
-
 
             // Analytics
             if (matchInfo.isLongPlay)
