@@ -60,9 +60,13 @@ namespace TurboLabz.InstantFramework
             MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
             matchAnalyticsVO.context = AnalyticsContext.start_attempt;
 
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString()
-                || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Accept.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
                 matchAnalyticsVO.friendType = "random";
+            }
             else
             {
                 var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
