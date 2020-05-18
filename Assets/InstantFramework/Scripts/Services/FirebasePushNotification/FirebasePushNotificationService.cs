@@ -11,6 +11,8 @@ using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
 using HUF.InitFirebase.Runtime.API;
+using HUF.Notifications.Runtime.API;
+using Firebase.Messaging;
 
 namespace TurboLabz.InstantFramework
 {
@@ -34,38 +36,62 @@ namespace TurboLabz.InstantFramework
 
             appEventSignal.AddListener(OnAppEvent);
 
-            Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
-            Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+#if !UNITY_EDITOR
+            if (HInitFirebase.IsInitialized)
             {
-                if (task.Result == Firebase.DependencyStatus.Available)
-                {
-                    Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
-                    Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
-                    Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
-
-                    if (string.IsNullOrEmpty(HInitFirebase.CachedToken))
-                    {
-                        Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
-                    }
-                    else
-                    {
-                        ProcessToken(HInitFirebase.CachedToken);
-                    }
-
-                    TLUtils.LogUtil.Log("Firebase intialization success.");
-                }
-                else
-                {
-                    TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
-                }
+                LogUtil.Log("FB Notif initialized");
+                HandleFirebaseInitComplete();
             }
-            );
+            else
+            {
+                LogUtil.Log("FB Notif handler added");
+                HInitFirebase.OnInitializationSuccess += HandleFirebaseInitComplete;
+            }
+#endif
+
+            //Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
+            //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+            //{
+            //    if (task.Result == Firebase.DependencyStatus.Available)
+            //    {
+            //        Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
+            //        Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
+            //        Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
+
+            //        //if (string.IsNullOrEmpty(HInitFirebase.CachedToken))
+            //        //{
+            //        //    Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
+            //        //}
+            //        //else
+            //        //{
+            //        //    ProcessToken(HInitFirebase.CachedToken);
+            //        //}
+
+            //        TLUtils.LogUtil.Log("Firebase intialization success.");
+            //    }
+            //    else
+            //    {
+            //        TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
+            //    }
+            //}
+            //);
+        }
+
+        void HandleFirebaseInitComplete()
+        {
+            ProcessToken(HNotifications.Push.CachedToken);
+            ProcessMessage(HNotifications.Push.CachedMessage);
         }
 
         public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token)
         {
-            Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
+            FirebaseMessaging.TokenReceived -= OnTokenReceived;
             ProcessToken(token.Token);
+        }
+
+        public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
+        {
+            ProcessMessage(e.Message);
         }
 
         private void ProcessToken(string token)
@@ -75,27 +101,26 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
         }
 
-        public string GetToken()
+        private void ProcessMessage(FirebaseMessage message)
         {
-            return pushToken;
-        }
+            if (message == null)
+            {
+                LogUtil.Log("FB Notif message null");
+                return;
+            }
 
-        private void OnAppEvent(AppEvent evt)
-        {
-
-        }
-
-        public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
-        {
-            var notification = e.Message.Notification;
-            isNotificationOpened = e.Message.NotificationOpened;
+            var notification = message.Notification;
+            isNotificationOpened = message.NotificationOpened;
 
             // Bail if push notification was not clicked.
             // Socket messaging handles notifications when game is running.
             if (!isNotificationOpened)
             {
+                LogUtil.Log("FB Notif not opened");
                 return;
             }
+
+            LogUtil.Log("FB Notif opened");
 
             NotificationVO notificationVO;
             notificationVO.title = "unassigned";
@@ -106,18 +131,29 @@ namespace TurboLabz.InstantFramework
                 notificationVO.title = notification.Title;
                 notificationVO.body = notification.Body;
             }
+
             notificationVO.isOpened = isNotificationOpened;
-            notificationVO.senderPlayerId = e.Message.Data.ContainsKey("senderPlayerId") == true ? e.Message.Data["senderPlayerId"] : "undefined";
-            notificationVO.challengeId = e.Message.Data.ContainsKey("challengeId") == true ? e.Message.Data["challengeId"] : "undefined";
-            notificationVO.matchGroup = e.Message.Data.ContainsKey("matchGroup") == true ? e.Message.Data["matchGroup"] : "undefined";
-            notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
-            notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
-            notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
-            notificationVO.isPremium = e.Message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(e.Message.Data["isSubscriber"]) : false;
-            notificationVO.timeSent = e.Message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(e.Message.Data["creationTimestamp"]) : 0;
-            notificationVO.actionCode = e.Message.Data.ContainsKey("actionCode") == true ? e.Message.Data["actionCode"] : "undefined";
+            notificationVO.senderPlayerId = message.Data.ContainsKey("senderPlayerId") == true ? message.Data["senderPlayerId"] : "undefined";
+            notificationVO.challengeId = message.Data.ContainsKey("challengeId") == true ? message.Data["challengeId"] : "undefined";
+            notificationVO.matchGroup = message.Data.ContainsKey("matchGroup") == true ? message.Data["matchGroup"] : "undefined";
+            notificationVO.avatarId = message.Data.ContainsKey("avatarId") == true ? message.Data["avatarId"] : "undefined";
+            notificationVO.avaterBgColorId = message.Data.ContainsKey("avatarBgColorId") == true ? message.Data["avatarBgColorId"] : "undefined";
+            notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") == true ? message.Data["profilePicURL"] : "undefined";
+            notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(message.Data["isSubscriber"]) : false;
+            notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data["creationTimestamp"]) : 0;
+            notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data["actionCode"] : "undefined";
 
             notificationRecievedSignal.Dispatch(notificationVO);
+        }
+
+        public string GetToken()
+        {
+            return pushToken;
+        }
+
+        private void OnAppEvent(AppEvent evt)
+        {
+
         }
 
         public bool IsNotificationOpened()

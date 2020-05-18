@@ -17,6 +17,7 @@ using System.Collections;
 using Facebook.Unity;
 using GameSparks.Core;
 using GameSparks.Api.Messages;
+using HUFEXT.CrossPromo.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantFramework
             backendService.AddChallengeListeners();
             backendService.StartPinger();
             backendService.OnlineCheckerStart();
+            HCrossPromo.Init();
 
             if (autoSubscriptionDailogueService.CanShow())
             {

@@ -85,10 +85,10 @@ namespace TurboLabz.InstantFramework
             {
                 preferencesModel.sessionCount++;
 
-                initBackendOnceSignal.Dispatch();
-
                 loadLobbySignal.Dispatch();
                 loadPromotionSingal.Dispatch();
+
+                initBackendOnceSignal.Dispatch();
 
                 autoSubscriptionDailogueService.Show();
 
