@@ -19,7 +19,9 @@ namespace TurboLabz.InstantFramework
             RandomLong,
             Challenge,
             Accept,
-            Challenge10
+            Challenge10,
+            Random1,
+            Challenge1
         }
 
         public struct ActionData
