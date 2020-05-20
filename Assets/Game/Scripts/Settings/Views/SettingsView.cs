@@ -22,13 +22,13 @@ namespace TurboLabz.InstantFramework
         //Sound
         public Button audioOffButton;
         public Button audioOnButton;
-        public Text soundText;
+        //public Text soundText;
         public Text soundEffectsText;
         public Text soundOnText;
         public Text soundOffText;
 
         //Account
-        public Text accountTitleText;
+        //public Text accountTitleText;
 
         public Text priceText;
 
@@ -88,9 +88,9 @@ namespace TurboLabz.InstantFramework
         {
             //Set texts
             settingsTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_TITLE);
-            accountTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_TITLE);
+            //accountTitleText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_TITLE);
             backButtonText.text = localizationService.Get(LocalizationKey.BACK_TEXT);
-            soundText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_TITLE);
+            //soundText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_TITLE);
             soundEffectsText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_EFFECT);
             soundOnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
             soundOffText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
