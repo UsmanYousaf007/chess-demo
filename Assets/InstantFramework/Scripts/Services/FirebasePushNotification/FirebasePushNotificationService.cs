@@ -3,16 +3,10 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
-using UnityEngine.Purchasing;
-using System.Collections.Generic;
-using UnityEngine.Purchasing.Security;
-using strange.extensions.promise.api;
-using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
-using HUF.InitFirebase.Runtime.API;
 using HUF.Notifications.Runtime.API;
 using Firebase.Messaging;
+using HUF.InitFirebase.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
