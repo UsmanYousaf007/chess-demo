@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
-
+using SocialEdge.Communication;
 using SocialEdge.Requests;
 
 namespace SocialEdge {}
 
     public class SocialEdgeSDK
     {
+        
         /*
          * 
 

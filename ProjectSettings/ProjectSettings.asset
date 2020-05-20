@@ -165,7 +165,7 @@ PlayerSettings:
     Android: com.turbolabz.instantchess.android.googleplay
     Standalone: com.turbolabz.chess.linux.steam
     Tizen: com.turbolabz.chess.google
-    iPhone: com.turbolabz.instantchess.ios
+    iPhone: com.turbolabz.instantchess.android.googleplay
     tvOS: com.turbolabz.chess.google
   buildNumber:
     iPhone: 457
@@ -262,7 +262,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: /Users/maryamrasheed/Desktop/data/turbo-labz/projects/keystores/instant-chess/instant-chess-signing.keystore
+  AndroidKeystoreName: /Users/TurboLabz/Desktop/data/turbo-labz/projects/keystores/instant-chess/instant-chess-signing.keystore
   AndroidKeyaliasName: instant-chess-signing
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
@@ -963,7 +963,7 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: CT_OC
-    4: CT_OC
+    4: CT_OC;SUBSCRIPTION_TEST
     7: CT_OC;SUBSCRIPTION_TEST
     13: CT_OC
     14: CT_OC

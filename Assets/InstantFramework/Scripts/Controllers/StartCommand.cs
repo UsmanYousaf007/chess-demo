@@ -16,7 +16,7 @@ using SocialEdge;
 using SocialEdge.Requests;
 using BestHTTP.Examples;
 using BestHTTP.Examples.HTTP;
-using SocialEdge.SignalRNotifications;
+using SocialEdge.Communication;
 
 namespace TurboLabz.InstantFramework
 {
@@ -65,9 +65,9 @@ namespace TurboLabz.InstantFramework
             adsService.Init();
 
 
-            new SocialEdgeMethodRunner().Run();
-            new SocialEdgeSignalR().Run();
-            
+            //new SocialEdgeMethodRunner().Run();
+            //new SocialEdgeSignalR().Run();
+            new CommunicationHub("user1").Setup();
           
         }
 

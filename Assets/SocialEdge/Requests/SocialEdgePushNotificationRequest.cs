@@ -6,17 +6,19 @@
 
 using PlayFab;
 using PlayFab.ClientModels;
+
 namespace SocialEdge.Requests
 {
-    public class SocialEdgeAddFriendResponse : SocialEdgeRequestResponse<SetTagResult, PlayFabError>
+    public class SocialEdgePushNotificationResponse : SocialEdgeRequestResponse<ExecuteCloudScriptResult, PlayFabError>
     {
         public string token;
 
         /// <summary>
         /// Build results on request success
         /// </summary>
-        public override void BuildSuccess(SetTagResult resultSuccess)
-        {          
+        public override void BuildSuccess(ExecuteCloudScriptResult resultSuccess)
+        {
+
             isSuccess = true;
         }
 
@@ -33,37 +35,45 @@ namespace SocialEdge.Requests
     /// <summary>
     /// Backend login to server request
     /// </summary>
-    public class SocialEdgeAddFriendRequest : SocialEdgeRequest<SocialEdgeAddFriendRequest, SocialEdgeAddFriendResponse>
+    public class SocialEdgePushNotificationRequest : SocialEdgeRequest<SocialEdgePushNotificationRequest, SocialEdgePushNotificationResponse>
     {
         // Request parameters section
+        private string receiverId { get; set; }
+        private string funcName { get; set; }
 
-        private string friendId { get; set; }
-        public SocialEdgeAddFriendRequest()
+        public SocialEdgePushNotificationRequest()
         {
-            request = this;
+            // Mandatory call to base class
+            Base(this);
         }
 
-        public SocialEdgeAddFriendRequest SetFriendUseId(string displayName)
+        public SocialEdgePushNotificationRequest SetFunction(string funcName)
         {
-            friendId = displayName;
+            this.funcName = funcName;
             return this;
         }
+
+        public SocialEdgePushNotificationRequest SetReceiver(string receiverId)
+        {
+            this.receiverId = receiverId;
+            return this;
+        }
+
         /// <summary>
         /// Execute the request
         /// </summary>
         ///
-        public override void Send()
-        {
-            var request = new AddFriendRequest
+        public override void Send() {
+            var request = new ExecuteCloudScriptRequest
             {
-                FriendPlayFabId = friendId
-
+                FunctionName = funcName,
+                FunctionParameter = receiverId
             };
 
-            PlayFabClientAPI.AddFriend(request, OnSuccess, OnFailure);
+            PlayFabClientAPI.ExecuteCloudScript(request, OnSuccess, OnFailure);
         }
 
-        private void OnSuccess(SetTagResult result)
+        private void OnSuccess(ExecuteCloudScriptResult result)
         {
             response.BuildSuccess(result);
             actionSuccess?.Invoke(response);

@@ -90,7 +90,7 @@ namespace SocialEdge.Requests
             };
             PlayFabClientAPI.LoginWithIOSDeviceID(iosRequest, OnSuccess, OnFailure);
 #endif            
-
+            //PlayFabClientAPI.RegisterForIOSPushNotifica
             //LoginWithCustomIDRequest hrequest = new LoginWithCustomIDRequest
             //{
 

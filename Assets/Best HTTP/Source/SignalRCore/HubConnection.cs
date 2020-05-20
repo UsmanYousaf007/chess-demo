@@ -10,12 +10,19 @@ using BestHTTP.SignalRCore.Authentication;
 using BestHTTP.SignalRCore.Messages;
 using System;
 using System.Collections.Generic;
-
+using CustomHelperClasses;
 namespace BestHTTP.SignalRCore
 {
     public sealed class HubConnection : BestHTTP.Extensions.IHeartbeat
     {
+
         public static readonly object[] EmptyArgs = new object[0];
+
+        /// <summary>
+        /// Custom implementation
+        /// User and group for this connection
+        /// </summary>
+        public UserOptions user { get; set; }
 
         /// <summary>
         /// Uri of the Hub endpoint
@@ -93,6 +100,11 @@ namespace BestHTTP.SignalRCore
         public HubOptions Options { get; private set; }
 
         /// <summary>
+        /// Options that has been used to create the HubConnection.
+        /// </summary>
+        public UserOptions userOptions { get;  set; }
+
+        /// <summary>
         /// How many times this connection is redirected.
         /// </summary>
         public int RedirectCount { get; private set; }
@@ -137,6 +149,7 @@ namespace BestHTTP.SignalRCore
         public HubConnection(Uri hubUri, IProtocol protocol)
             : this(hubUri, protocol, new HubOptions())
         {
+
         }
 
         public HubConnection(Uri hubUri, IProtocol protocol, HubOptions options)
@@ -147,6 +160,25 @@ namespace BestHTTP.SignalRCore
             this.Protocol = protocol;
             this.Protocol.Connection = this;
             this.AuthenticationProvider = new DefaultAccessTokenAuthenticator(this);
+        }
+        /// <summary>
+        /// Custom constructor
+        /// </summary>
+
+        public HubConnection(Uri hubUri, IProtocol protocol, string user)
+        : this(hubUri, protocol, new HubOptions(), new UserOptions(user))
+        {
+        }
+
+        public HubConnection(Uri hubUri, IProtocol protocol, HubOptions options, UserOptions userOptions)
+        {
+            this.Uri = hubUri;
+            this.State = ConnectionStates.Initial;
+            this.Options = options;
+            this.Protocol = protocol;
+            this.Protocol.Connection = this;
+            this.AuthenticationProvider = new DefaultAccessTokenAuthenticator(this);
+            this.userOptions = userOptions;
         }
 
         public void StartConnect()
@@ -236,8 +268,14 @@ namespace BestHTTP.SignalRCore
             SetState(ConnectionStates.Closed, reason);
         }
 
+        private void PrepareNegotiationRequest(BestHTTP.HTTPRequest request)
+        {
+            request.SetHeader("x-ms-signalr-userid", this.userOptions.UserId);
+        }
+
         private void StartNegotiation()
         {
+            HTTPRequest request;
             HTTPManager.Logger.Verbose("HubConnection", "StartNegotiation");
 
             if (this.State == ConnectionStates.CloseInitiated)
@@ -261,22 +299,31 @@ namespace BestHTTP.SignalRCore
             // https://github.com/aspnet/SignalR/blob/dev/specs/TransportProtocols.md#post-endpoint-basenegotiate-request
             // Send out a negotiation request. While we could skip it and connect right with the websocket transport
             //  it might return with additional information that could be useful.
-
             UriBuilder builder = new UriBuilder(this.Uri);
             if (builder.Path.EndsWith("/"))
                 builder.Path += "negotiate";
             else
                 builder.Path += "/negotiate";
-
-            string query = builder.Query;
+                
+                string query = builder.Query;
             if (string.IsNullOrEmpty(query))
+            {
                 query = "negotiateVersion=1";
+                builder.Query = query;
+                request = new HTTPRequest(builder.Uri, HTTPMethods.Post, OnNegotiationRequestFinished);
+                this.PrepareNegotiationRequest(request);
+            }
             else
+            {
                 query = query.Remove(0, 1) + "&negotiateVersion=1";
+                builder.Query = query;
+                request = new HTTPRequest(builder.Uri, HTTPMethods.Post, OnNegotiationRequestFinished);
+            }
+            //builder.Query = query;
 
-            builder.Query = query;
-
-            var request = new HTTPRequest(builder.Uri, HTTPMethods.Post, OnNegotiationRequestFinished);
+            //var request = new HTTPRequest(builder.Uri, HTTPMethods.Post, OnNegotiationRequestFinished);
+            //if (negotiate)
+            //    this.PrepareNegotiationRequest(request);
             if (this.AuthenticationProvider != null)
                 this.AuthenticationProvider.PrepareRequest(request);
 
