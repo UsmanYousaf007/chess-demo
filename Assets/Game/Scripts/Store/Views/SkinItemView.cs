@@ -8,7 +8,7 @@ using strange.extensions.signal.impl;
 public class SkinItemView : View
 {
     //Models 
-    [Inject] public IMetaDataModel metaDataModel { get; set; }
+    [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
     [Inject] public IPlayerModel playerModel { get; set; }
 
     //Services
@@ -45,13 +45,13 @@ public class SkinItemView : View
 
     public void UpdateView()
     {
-        if (metaDataModel.store == null ||
-           !metaDataModel.store.items.ContainsKey(key))
+        if (storeSettingsModel == null ||
+           !storeSettingsModel.items.ContainsKey(key))
         {
             return;
         }
 
-        item = metaDataModel.store.items[key];
+        item = storeSettingsModel.items[key];
         isPremium = playerModel.HasSubscription() || playerModel.OwnsVGood(key);
 
         SetOwnedState();

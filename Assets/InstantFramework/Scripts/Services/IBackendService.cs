@@ -21,12 +21,17 @@ namespace TurboLabz.InstantFramework
         void StartPinger();
         void StopPinger();
         void MonitorConnectivity(bool enable);
+        void OnlineCheckerStart();
+        void OnlineCheckerStop();
+        void OnlineCheckerAddListener(Action<bool, ConnectionSwitchType> listener);
+        void OnlineCheckerRemoveListener(Action<bool, ConnectionSwitchType> listener);
+        void ScheduleSwitchOffResumeGS();
 
         IPromise<BackendResult> GetInitData(int appVersion, string dataJson);
         IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer);
         IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
-        IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt, long expiryTimeStamp);
+        IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt, long expiryTimeStamp, string subscriptionType);
         IPromise<BackendResult> ConsumeVirtualGood(GSRequestData jsonData);
         IPromise<BackendResult> ClaimReward(GSRequestData jsonData);
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId);
@@ -56,5 +61,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> FriendsOpRemove(string friendId); // remove community friend
         IPromise<BackendResult> FriendsOpSearch(string matchString, int skip); // search players
         IPromise<BackendResult> FriendsOpStatus(string friendId); // retrieve status of friends
+        IPromise<BackendResult> FriendsOpUnblock(string friendId); // unblock a friend
     }
 }

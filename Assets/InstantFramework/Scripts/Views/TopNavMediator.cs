@@ -14,8 +14,13 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public TopNavView view { get; set; }
 
+        //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ThemeAlertDisableSignal themeAlertDisableSignal { get; set; }
+        [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+
+        //Services
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         public override void OnRegister()
         {
@@ -24,6 +29,7 @@ namespace TurboLabz.InstantFramework
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
             view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
             view.rewardBarClicked.AddListener(RewardBarClicked);
+            view.supportButtonClicked.AddListener(OnSupportButtonClicked);
         }
 
         public override void OnRemove()
@@ -36,6 +42,13 @@ namespace TurboLabz.InstantFramework
         private void OnSettingsButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
+            hAnalyticsService.LogEvent("clicked", "menu", "", "settings");
+        }
+
+        private void OnSupportButtonClicked()
+        {
+            hAnalyticsService.LogEvent("clicked", "menu", "", "support");
+            contactSupportSignal.Dispatch();
         }
 
         [ListensTo(typeof(UpdateRemoveAdsSignal))]
@@ -84,7 +97,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)
         {
-            if (isAvailable)
+            if (!isAvailable)
             {
                 view.SetupRewardBar();
             }

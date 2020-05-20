@@ -49,6 +49,16 @@ namespace TurboLabz.InstantGame
         public int resignCount { get; set; }
         public bool isSkipVideoDlgShown { get; set; }
         public int sessionCount { get; set; }
+        public int quickMatchFinishedCount { get; set; }
+        public int longMatchFinishedCount { get; set; }
+        public int cpuMatchFinishedCount { get; set; }
+        public DateTime timeAtSubscrptionDlgShown { get; set; }
+        public int autoSubscriptionDlgShownCount { get; set; }
+        public int sessionsBeforePregameAdCount { get; set; }
+        public int pregameAdsPerDayCount { get; set; }
+        public DateTime intervalBetweenPregameAds { get; set; }
+        public bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
+        public bool autoPromotionToQueen { get; set;}
 
         [PostConstruct]
         public void PostConstruct()
@@ -85,6 +95,15 @@ namespace TurboLabz.InstantGame
             appsFlyerLastLaunchTime = lastLaunchTime;
             isSkipVideoDlgShown = false;
             sessionCount = 0;
+            quickMatchFinishedCount = 0;
+            longMatchFinishedCount = 0;
+            cpuMatchFinishedCount = 0;
+            timeAtSubscrptionDlgShown = DateTime.Now;
+            autoSubscriptionDlgShownCount = 0;
+            sessionsBeforePregameAdCount = 0;
+            intervalBetweenPregameAds = DateTime.MaxValue;
+            isSubscriptionDlgShownOnFirstLaunch = false;
+            autoPromotionToQueen = false;
             ResetDailyPrefers();
         }
 
@@ -238,6 +257,51 @@ namespace TurboLabz.InstantGame
                     sessionCount = reader.Read<int>(PrefKeys.SESSION_COUNT);
                 }
 
+                if (reader.HasKey(PrefKeys.QUICK_MATCH_FINISHED_COUNT))
+                {
+                    quickMatchFinishedCount = reader.Read<int>(PrefKeys.QUICK_MATCH_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.LONG_MATCH_FINISHED_COUNT))
+                {
+                    longMatchFinishedCount = reader.Read<int>(PrefKeys.LONG_MATCH_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.CPU_MATCH_FINISHED_COUNT))
+                {
+                    cpuMatchFinishedCount = reader.Read<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN))
+                {
+                    timeAtSubscrptionDlgShown = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN)));
+                }
+
+                if (reader.HasKey(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT))
+                {
+                    autoSubscriptionDlgShownCount = reader.Read<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT))
+                {
+                    sessionsBeforePregameAdCount = reader.Read<int>(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.PREGAME_ADS_PER_DAY_COUNT))
+                {
+                    pregameAdsPerDayCount = reader.Read<int>(PrefKeys.PREGAME_ADS_PER_DAY_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS))
+                {
+                    intervalBetweenPregameAds = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS)));
+                }
+
+                if (reader.HasKey(PrefKeys.AUTO_PROMOTION_TO_QUEEN))
+                {
+                    autoPromotionToQueen = reader.Read<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -284,6 +348,16 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.RESIGN_COUNT, resignCount);
                 writer.Write<bool>(PrefKeys.SKIP_DLG_SHOWN, isSkipVideoDlgShown);
                 writer.Write<int>(PrefKeys.SESSION_COUNT, sessionCount);
+                writer.Write<int>(PrefKeys.QUICK_MATCH_FINISHED_COUNT, quickMatchFinishedCount);
+                writer.Write<int>(PrefKeys.LONG_MATCH_FINISHED_COUNT, longMatchFinishedCount);
+                writer.Write<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT, cpuMatchFinishedCount);
+                writer.Write<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN, timeAtSubscrptionDlgShown.ToBinary().ToString());
+                writer.Write<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT, autoSubscriptionDlgShownCount);
+                writer.Write<int>(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT, sessionsBeforePregameAdCount);
+                writer.Write<int>(PrefKeys.PREGAME_ADS_PER_DAY_COUNT, pregameAdsPerDayCount);
+                writer.Write<string>(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS, intervalBetweenPregameAds.ToBinary().ToString());
+                //writer.Write<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN, isSubscriptionDlgShownOnFirstLaunch);
+                writer.Write<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN, autoPromotionToQueen);
                 writer.Close();
             }
             catch (Exception e)
@@ -301,7 +375,7 @@ namespace TurboLabz.InstantGame
         {
             var minutesSpent = (float)(TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
 
-            LogUtil.Log("[eventId] : " + eventId + "   [minutesSpent] : "+ minutesSpent, "orange");
+            LogUtil.Log("[eventId] : " + eventId + "   [minutesSpent] : " + minutesSpent, "orange");
 
             if (eventId == AnalyticsEventId.time_spent_cpu_match)
             {
@@ -329,14 +403,15 @@ namespace TurboLabz.InstantGame
         {
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
 
-            timeSpentCpuMatch   = 0;
-            timeSpentLongMatch  = 0;
+            timeSpentCpuMatch = 0;
+            timeSpentLongMatch = 0;
             timeSpentQuickMatch = 0;
-            timeSpentLobby      = 0;
-            globalAdsCount      = 0;
-            rewardedAdsCount    = 0;
-            interstitialAdsCount= 0;
-            resignCount         = 0;
+            timeSpentLobby = 0;
+            globalAdsCount = 0;
+            rewardedAdsCount = 0;
+            interstitialAdsCount = 0;
+            resignCount = 0;
+            pregameAdsPerDayCount = 0;
         }
     }
 }

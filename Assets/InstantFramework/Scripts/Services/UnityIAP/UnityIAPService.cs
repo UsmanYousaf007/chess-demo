@@ -105,13 +105,21 @@ namespace TurboLabz.InstantFramework
                     if (expiryTimeStamp > playerModel.subscriptionExipryTimeStamp)
                     {
                         playerModel.subscriptionExipryTimeStamp = expiryTimeStamp;
+                        playerModel.subscriptionType = FindRemoteStoreItemShortCode(product.definition.id);
                         updatePlayerDataSignal.Dispatch();
+                    }
+
+                    if (info.isCancelled() == Result.True)
+                    {
+                        var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(product.definition.id)];
+                        hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
+                            new KeyValuePair<string, object>("store_iap_id", product.transactionID));
                     }
                 }
 #if SUBSCRIPTION_TEST
                 else if (playerModel.subscriptionExipryTimeStamp > 0)
                 {
-                    playerModel.subscriptionExipryTimeStamp = 0;
+                    playerModel.subscriptionExipryTimeStamp = 1;
                     loadPromotionSingal.Dispatch();
                     updatePlayerDataSignal.Dispatch();
                 }
@@ -259,7 +267,10 @@ namespace TurboLabz.InstantFramework
                     pendingVerification.Add(e.purchasedProduct.transactionID, e.purchasedProduct);
                 }
 
+                var storeItem = metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)];
+
                 long expiryTimeStamp = 0;
+                string shortCode = storeItem.key;
 
                 if (e.purchasedProduct.definition.type == ProductType.Subscription &&
                     CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
@@ -270,7 +281,8 @@ namespace TurboLabz.InstantFramework
 
                     if (subscriptionInfo.isFreeTrial() == Result.True)
                     {
-                        metaDataModel.store.items[FindRemoteStoreItemShortCode(e.purchasedProduct.definition.id)].currency1Cost = 0;
+                        storeItem.currency1Cost = 0;
+                        storeItem.productPrice = 0;
                     }
                 }
 
@@ -282,7 +294,8 @@ namespace TurboLabz.InstantFramework
                 backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
                                                             e.purchasedProduct.transactionID, 
                                                             e.purchasedProduct.receipt,
-                                                            expiryTimeStamp).Then(OnVerifiedPurchase);
+                                                            expiryTimeStamp,
+                                                            shortCode).Then(OnVerifiedPurchase);
 
                 return PurchaseProcessingResult.Pending;
             }
@@ -326,6 +339,8 @@ namespace TurboLabz.InstantFramework
                     };
 
                     updateConfirmDlgSignal.Dispatch(vo);
+
+                    metaDataModel.store.failedPurchaseTransactionId = transactionID;
 
                     if (storePromise != null)
                     {
@@ -385,6 +400,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                metaDataModel.store.failedPurchaseTransactionId = product.transactionID;
                 if (storePromise != null)
                 {
                     storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
@@ -492,7 +508,26 @@ namespace TurboLabz.InstantFramework
         private void LogAutoRenewEvent(string name, string productId)
         {
             var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
-            hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", "subscription", "autorenew");
+
+            if (name.Equals("failed"))
+            {
+                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew",
+                    new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
+            }
+            else
+            {
+                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew");
+            }
+        }
+
+        public void UpgardeSubscription(string oldProductId, string newProductId)
+        {
+            SubscriptionManager.UpdateSubscriptionInGooglePlayStore(
+                storeController.products.WithID(oldProductId),
+                storeController.products.WithID(newProductId),
+                (oldSku, newSku) => {
+                    m_StoreExtensionProvider.GetExtension<IGooglePlayStoreExtensions>().UpgradeDowngradeSubscription(oldSku, newSku);
+                });
         }
     }
 }

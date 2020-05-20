@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
-            return new GSClaimRewardRequest().Send(jsonData, OnClaimRewardSuccess);
+            return new GSClaimRewardRequest(GetRequestContext()).Send(jsonData, OnClaimRewardSuccess);
         }
 
         private void OnClaimRewardSuccess(object r)
@@ -37,6 +37,8 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "ClaimReward";
         const string ATT_REWARD_JSON_DATA = "jsonData";
+
+        public GSClaimRewardRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object> onSuccess)
         {

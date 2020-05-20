@@ -22,10 +22,6 @@ namespace TurboLabz.InstantFramework
         public Signal appQuitSignal = new Signal();
         public Signal appEscapeSignal = new Signal();
 
-        [Inject] public IAdsService adsService { get; set; }
-        [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
-        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
-
         // TODO: Ads need to be initialized in the start function of our app.
         // However our StartCommand is misleading because it is called through
         // the "Awake" chain of Unity so we fire the init signal here directly.
@@ -53,23 +49,9 @@ namespace TurboLabz.InstantFramework
             if (isPaused)
             {
                 appPausedSignal.Dispatch();
-                hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
             }
             else
             {
-                if (SplashLoader.launchCode != 1)
-                {
-                    if (firebasePushNotificationService.IsNotificationOpened())
-                    {
-                        hAnalyticsService.LogEvent("launch_opened", "launch", "notification");
-                    }
-                    else
-                    {
-                        hAnalyticsService.LogEvent("launch_opened", "launch");
-                    }
-                    SplashLoader.launchCode = 2;
-                }
-
                 appResumedSignal.Dispatch();
             }
         }

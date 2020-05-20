@@ -23,17 +23,17 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthGuest()
         {
-            return new GSAuthGuestRequest().Send(OnGuestAuthSuccess);
+            return new GSAuthGuestRequest(GetRequestContext()).Send(OnGuestAuthSuccess);
         }
 
         public IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer)
         {
-            return new GSAuthFacebookRequest().Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
+            return new GSAuthFacebookRequest(GetRequestContext()).Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
         }
 
         public IPromise<BackendResult> AuthEmail(string email, string password, bool existingPlayer)
         {
-            return new GSAuthEmailResquest().Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
+            return new GSAuthEmailResquest(GetRequestContext()).Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
         }
 
         private void OnGuestAuthSuccess(object r)
@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> SetPlayerSocialName(string name)
         {
-            return new GSSetPlayerSocialNameRequest().Send(name, OnSetPlayerSocialNameSuccess);
+            return new GSSetPlayerSocialNameRequest(GetRequestContext()).Send(name, OnSetPlayerSocialNameSuccess);
         }
 
         private void OnSetPlayerSocialNameSuccess(object r)
@@ -80,6 +80,8 @@ namespace TurboLabz.InstantFramework
 
     public class GSAuthFacebookRequest : GSFrameworkRequest
     {
+        public GSAuthFacebookRequest(GSFrameworkRequestContext context) : base(context) { }
+
         public IPromise<BackendResult> Send(string accessToken, bool existingPlayer, Action<object> onFacebookAuthSuccess)
         {
             this.onSuccess = onFacebookAuthSuccess;
@@ -99,6 +101,8 @@ namespace TurboLabz.InstantFramework
 
     public class GSAuthEmailResquest : GSFrameworkRequest
     {
+        public GSAuthEmailResquest(GSFrameworkRequestContext context) : base(context) { }
+
         public IPromise<BackendResult> Send(string email, string password, bool existingPlayer, Action<object> onEmailAuthSuccess)
         {
             this.onSuccess = onEmailAuthSuccess;
@@ -119,6 +123,8 @@ namespace TurboLabz.InstantFramework
 
     public class GSAuthGuestRequest : GSFrameworkRequest
     {
+        public GSAuthGuestRequest(GSFrameworkRequestContext context) : base(context) { }
+
         public IPromise<BackendResult> Send(Action<object> onSuccess)
         {
             this.errorCode = BackendResult.AUTH_GUEST_REQUEST_FAILED;
@@ -144,6 +150,8 @@ namespace TurboLabz.InstantFramework
 
     public class GSSetPlayerSocialNameRequest : GSFrameworkRequest
     {
+        public GSSetPlayerSocialNameRequest(GSFrameworkRequestContext context) : base(context) { }
+
         const string SHORT_CODE = "SetPlayerSocialName";
         const string ATT_NAME = "name";
 

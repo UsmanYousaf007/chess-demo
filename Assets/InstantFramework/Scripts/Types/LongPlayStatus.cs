@@ -12,7 +12,8 @@ namespace TurboLabz.InstantFramework
         OPPONENT_TURN,
         PLAYER_WON,
         OPPONENT_WON,
-        DRAW
+        DRAW,
+        OFFER_DRAW
     }
 }
 

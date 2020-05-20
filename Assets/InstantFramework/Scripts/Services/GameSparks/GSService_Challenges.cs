@@ -22,6 +22,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
         [Inject] public UpdateEloScoresSignal updateEloScoresSignal { get; set; }
+        [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
+        
 
         // Called by get init data and facebook auth commands
         private void ParseActiveChallenges(GSData data)
@@ -38,6 +40,38 @@ namespace TurboLabz.InstantFramework
                 ParseChallengeData(entry.Key, challengeData);
             }
         }
+
+        private void ParseChallengeDataOfferDraw(string challengeId, GSData challengeData, bool hasGameEnded = false)
+        {
+         
+            GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
+            GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
+
+
+            GSData offerDraw = gameData.GetGSData(GSBackendKeys.OFFER_DRAW);
+
+
+            OfferDrawVO offerDrawVO = new OfferDrawVO();
+
+
+            string challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
+            string challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
+            string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
+
+            offerDrawVO.status = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
+            offerDrawVO.offeredBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
+            offerDrawVO.opponentId = opponentId;
+            offerDrawVO.challengeId = challengeId;
+
+            matchInfoModel.matches[challengeId].drawOfferStatus = offerDrawVO.status;
+            matchInfoModel.matches[challengeId].drawOfferedBy = offerDrawVO.offeredBy;
+
+            if (offerDrawVO.status != null)
+            {
+                updateOfferDrawSignal.Dispatch(offerDrawVO);
+            }
+        }
+
 
         private void ParseChallengeData(string challengeId, GSData challengeData, bool hasGameEnded = false)
         {
@@ -77,6 +111,17 @@ namespace TurboLabz.InstantFramework
 
                 SetupMatch(challengeId, matchData, gameData);
                 SetupGame(challengeId, gameData);
+
+                OfferDrawVO offerDrawVO = new OfferDrawVO();
+                offerDrawVO.status = null;
+                offerDrawVO.offeredBy = null;
+                offerDrawVO.opponentId = opponentId;
+                offerDrawVO.challengeId = challengeId;
+
+                matchInfoModel.matches[challengeId].drawOfferStatus = offerDrawVO.status;
+                matchInfoModel.matches[challengeId].drawOfferedBy = offerDrawVO.offeredBy;
+                updateOfferDrawSignal.Dispatch(offerDrawVO);
+                
             }
 
             UpdateMatch(challengeId, matchData);
@@ -111,6 +156,7 @@ namespace TurboLabz.InstantFramework
             // Initialize fixed match data
             string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
             matchInfo.isLongPlay = (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) ? true : false;
+            matchInfo.isTenMinGame = GSParser.GetSafeLong(matchData, GSBackendKeys.Match.DURATION) == 10 * 60 * 1000;
             matchInfo.challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
             matchInfo.challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
             if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)
@@ -227,7 +273,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void HandleActiveNewMatch(string challengeId)
+        private void HandleActiveNewMatch(string challengeId, bool forceStart = false)
         {
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
 
@@ -236,10 +282,13 @@ namespace TurboLabz.InstantFramework
                 string opponentId = (playerModel.id == matchInfo.challengerId) ?
                     matchInfo.challengedId : matchInfo.challengerId;
 
-                if (opponentId == matchInfoModel.activeLongMatchOpponentId &&
-                    matchInfoModel.activeChallengeId == null)
+                if ((opponentId == matchInfoModel.activeLongMatchOpponentId &&
+                    matchInfoModel.activeChallengeId == null) || forceStart)
                 {
                     startLongMatchSignal.Dispatch(challengeId);
+                    preferencesModel.gameStartCount++;
+                    hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match", matchInfoModel.activeChallengeId);
+                    appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
                 }
             }
             else

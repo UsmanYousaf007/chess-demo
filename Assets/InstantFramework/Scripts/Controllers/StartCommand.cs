@@ -11,7 +11,7 @@ using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
 using HUFEXT.GenericGDPR.Runtime.API;
-using HUF.Analytics.API;
+using HUF.Analytics.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public SplashWifiIsHealthySignal splashWifiIsHealthySignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
+        [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
 
         // Services
         [Inject] public IAudioService audioService { get; set; }
@@ -50,8 +51,9 @@ namespace TurboLabz.InstantFramework
 
             modelsResetSignal.Dispatch();
             modelsLoadFromDiskSignal.Dispatch();
+            pauseNotificationsSignal.Dispatch(true);
 
-			ListenForKeyEvents();
+            ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
 			audioService.Init();
             GameAnalytics.Initialize();
@@ -60,7 +62,7 @@ namespace TurboLabz.InstantFramework
             adsService.Init();
         }
 
-		void GameSparksAvailable(bool isAvailable)
+		void StartGameSparksAvailable(bool isAvailable)
         {
 			gameSparksAvailable = isAvailable;
             ProcessStartup();
@@ -80,8 +82,8 @@ namespace TurboLabz.InstantFramework
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
 
-                adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+                adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
+                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
             }
 		}
 
@@ -119,12 +121,12 @@ namespace TurboLabz.InstantFramework
         void ListenForKeyEvents()
 		{
             backendService.AddChatMessageListener();
-            GS.GameSparksAvailable += GameSparksAvailable;
+            GS.GameSparksAvailable += StartGameSparksAvailable;
 		}
 
 		void RemoveListeners()
 		{
-			GS.GameSparksAvailable -= GameSparksAvailable;
+			GS.GameSparksAvailable -= StartGameSparksAvailable;
 		}
 
         IEnumerator CheckWifiHealthCR()

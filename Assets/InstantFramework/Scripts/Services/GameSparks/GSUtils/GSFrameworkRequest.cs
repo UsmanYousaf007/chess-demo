@@ -6,6 +6,8 @@ using strange.extensions.promise.impl;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using GameSparks.Core;
+using UnityEngine.Analytics;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -16,6 +18,7 @@ namespace TurboLabz.InstantFramework
         protected IPromise<BackendResult> promise;
         protected Action<object> onSuccess;
         protected BackendResult errorCode;
+        private GSFrameworkRequestContext context;
 
         public static void CancelRequestSession()
         {
@@ -26,10 +29,11 @@ namespace TurboLabz.InstantFramework
             activePromises.Clear();
         }
 
-        public GSFrameworkRequest()
+        public GSFrameworkRequest(GSFrameworkRequestContext context)
         {
             promise = new Promise<BackendResult>();
             activePromises.Add(promise);
+            this.context = context;
         }
 
         protected void OnRequestSuccess(object response)
@@ -52,13 +56,29 @@ namespace TurboLabz.InstantFramework
             {
                 GSData error = logEventResponse.Errors;
                 LogUtil.Log("OnRequestFailure error: " + error.JSON + " RequestId:" + logEventResponse.RequestId, "red");
+                GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, $"{errorCode}:{error.JSON}");
                 string errorString = error.GetString("error");
 
                 if (errorString == "timeout")
                 {
                     LogUtil.Log("OnRequestFailure timeout error", "red");
                     Dispatch(BackendResult.REQUEST_TIMEOUT);
+                    LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_true");
                     return;
+                }
+                else
+                {
+                    errorString = error.GetString("authentication");
+                    if (errorString.Equals("NOTAUTHORIZED"))
+                    {
+                        Dispatch(BackendResult.NOT_AUTHORIZED);
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "not_authorized");
+                        return;
+                    }
+                    else
+                    {
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_false");
+                    }
                 }
             }
 
@@ -67,13 +87,29 @@ namespace TurboLabz.InstantFramework
             {
                 GSData error = r.Errors;
                 LogUtil.Log("OnRequestFailure Challenge: " + error.JSON, "red");
-
+                GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, $"{errorCode}:{error.JSON}");
                 string errorString = error.GetString("error");
+
                 if (errorString == "timeout")
                 {
                     LogUtil.Log("OnRequestFailure timeout error", "red");
                     Dispatch(BackendResult.REQUEST_TIMEOUT);
+                    LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_true");
                     return;
+                }
+                else
+                {
+                    errorString = error.GetString("authentication");
+                    if (errorString.Equals("NOTAUTHORIZED"))
+                    {
+                        Dispatch(BackendResult.NOT_AUTHORIZED);
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "not_authorized");
+                        return;
+                    }
+                    else
+                    {
+                        LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "timeout_false");
+                    }
                 }
 
                 string challengeInstanceId = error.GetString("challengeInstanceId");
@@ -106,5 +142,25 @@ namespace TurboLabz.InstantFramework
             return activePromises.IndexOf(promise) >= 0;
         }
 
+        public void LogAnalytic(AnalyticsEventId evt, params string[] param)
+        {
+            var evtStr = evt.ToString();
+            if (param != null && param.Length > 0)
+            {
+                var paramDict = new Dictionary<string, object>();
+                for (int i = 0; i < param.Length; i++)
+                {
+                    paramDict.Add($"P{i + 1}", param[i]);
+                    evtStr += $":{param[i]}";
+                }
+
+                Analytics.CustomEvent(evt.ToString(), paramDict);
+            }
+            else
+            {
+                Analytics.CustomEvent(evt.ToString());
+            }
+            GameAnalytics.NewDesignEvent(evtStr);
+        }
     }
 }

@@ -30,6 +30,13 @@ namespace TurboLabz.InstantFramework
 
         public const string OKAY_TEXT = "okayText";
         public const string BACK_TEXT = "backText";
+        public const string UPGRADE_TEXT = "upgradeText";
+        public const string MIN5_GAME_TEXT = "min5GameText";
+        public const string MIN10_GAME_TEXT = "min10GameText";
+        public const string ON_TEXT = "onText";
+        public const string OFF_TEXT = "offText";
+        public const string ACCEPT_TEXT = "acceptText";
+        public const string DECLINE_TEXT = "declineText";
 
         #endregion
 
@@ -62,6 +69,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_RESULT_DIALOG_HEADING_DECLINED = "gmResultDialogHeadingDeclined";
         public const string GM_RESULT_DIALOG_REASON_CHECKMATE = "gmResultDialogReasonCheckmate";
         public const string GM_RESULT_DIALOG_REASON_STALEMATE = "gmResultDialogReasonStalemate";
+        public const string GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW = "gmResultDialogReasonDrawByOfferedDraw";
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL = "gmResultDialogReasonDrawByInsufficientMaterial";
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE = "gmResultDialogReasonDrawByFiftyMoveRule";
         public const string GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE = "gmResultDialogReasonDrawByThreefoldRepeatRule";
@@ -110,6 +118,8 @@ namespace TurboLabz.InstantFramework
         public const string CPU_MENU_PLAYER_COLOR = "cpuMenuPlayerColor";
         public const string CPU_MENU_THEME = "cpuMenuTheme";
         public const string CPU_MENU_PLAY_ONLINE = "cpuMenuPlayOnline";
+        public const string CPU_MENU_PLAY_ONLINE_CLASSIC = "cpuMenuPlayOnlineClassic";
+        public const string CPU_MENU_PLAY_ONLINE_DESCRIPTION = "cpuMenuPlayOnlineDescription";
         public const string CPU_MENU_PLAY_FRIENDS = "cpuMenuPlayFriends";
         public const string CPU_MENU_PLAY_CPU = "cpuMenuPlayCPU";
         public const string CPU_MENU_SINGLE_PLAYER_GAME = "cpuMenuSinglePlayerGame";
@@ -126,7 +136,9 @@ namespace TurboLabz.InstantFramework
         public const string CPU_GAME_TURN_OPPONENT = "cpuGameTurnOpponent";
         public const string CPU_GAME_EXIT_DLG_TITLE = "cpuGameExitDlgTitle";
         public const string CPU_GAME_SAVE_AND_EXIT = "cpuGameSaveAndExit";
+        public const string CPU_GAME_SAVE_AND_EXIT_CAP = "cpuGameSaveAndExitCap";
         public const string CPU_GAME_CONTINUE_BUTTON = "cpuGameContinueButton";
+        public const string CPU_GAME_OFFER_DRAW_BUTTON = "cpuGameOfferDrawButton";
         public const string CPU_GAME_EXIT_EXPLAINATION = "cpuGameExitExplanation";
         public const string CPU_RESULTS_CLOSE_BUTTON = "cpuResultsCloseButton";
         public const string CPU_RESULTS_STATS_BUTTON = "cpuResultsStatsButton";
@@ -190,6 +202,7 @@ namespace TurboLabz.InstantFramework
 
         public const string STORE_CONFIRM_DLG_TITLE_BUY = "storeConfirmDlgTitleBuy";
         public const string STORE_NOT_AVAILABLE = "storeNotAvailable";
+        public const string STORE_GETTING_PACKAGE = "storeGetttingPackage";
 
         public const string CPU_STORE_HEADING = "storeHeading";
         public const string CPU_STORE_OWNED = "storeItemOwned";
@@ -223,6 +236,7 @@ namespace TurboLabz.InstantFramework
         public const string SUBSCRIPTION_DLG_PRIVACY_POLICY = "subscriptionDlgPrivacyPolicy";
         public const string SUBSCRIPTION_DLG_TERMS_OF_USE = "subscriptionDlgTermsOfUse";
         public const string SUBSCRIPTION_DLG_PURCHASE_BUTTON = "subscriptionDlgPurchaseButton";
+        public const string SUBSCRIPTION_DLG_FREE_TRIAL = "subscriptionDlgFreeTrial";
         public const string SUBSCRIPTION_DLG_PRICE = "subscriptionDlgPrice";
 
         public const string PROMOTON_DLG_TITLE = "promotionDlgTitle";
@@ -263,6 +277,7 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT = "friendsFacebookLoginButtonText";
         public const string FACEBBOK_LOGIN_REWARD_TEXT = "facebookLoginRewardText";
         public const string FRIENDS_WAITING_FOR_PLAYERS = "friendsWaitingForPlayers";
+        public const string FRIENDS_MANAGE_BLOCKED = "friendsManageBlocked";
 
         public const string FRIENDS_FIND_FRIEND_TITLE = "friendsFindFriendTitle";
         public const string FRIENDS_FIND_FRIEND_LOGIN_INFO = "friendFindFriendLoginInfo";
@@ -273,6 +288,10 @@ namespace TurboLabz.InstantFramework
         public const string FRIENDS_REMOVE_FROM_FRIENDS = "removeFromFriends";
         public const string FRIENDS_TEXT_FRIENDED = "FriendedText";
 
+        public const string FRIENDS_BLOCK_SEARCH = "friendsSearch";
+        public const string FRIENDS_UNBLOCK = "friendsUnblock";
+        public const string FRIENDS_BLOCKED = "friendsBlocked";
+        public const string FRIENDS_BLOCKED_EMPTY_LIST = "friendsBlockedEmptyList";
         #endregion
 
         #region Share
@@ -301,6 +320,7 @@ namespace TurboLabz.InstantFramework
         public const string LONG_PLAY_RANKED = "longPlayRanked";
         public const string PLAY = "play";
         public const string VIEW = "view";
+        public const string REMATCH = "rematch";
         public const string LONG_PLAY_ACCEPT = "longPlayAccept";
         public const string LONG_PLAY_CANCEL = "longPlayCancel";
         public const string LONG_PLAY_NEW_MATCH_GREETING = "longPlayNewMatchGreeting";
@@ -336,7 +356,9 @@ namespace TurboLabz.InstantFramework
         public const string REMOVE_COMMUNITY_FRIEND_TITLE = "removeCommunityFriendTitle";
         public const string NEW_GAME_CONFIRM_RANKED = "newGameConfirmRanked";
         public const string NEW_GAME_CONFIRM_FRIENDLY = "newGameConfirmnFriendly";
+        public const string NEW_GAME_CONFIRM_FRIENDLY_10_MIN = "newGameConfirmnFriendly10Min"; 
         public const string NEW_GAME_CONFIRM_TITLE = "newGameConfirmTitle";
+        public const string NEW_GAME_CONFIRM_START_GAME = "newGameConfirmStartGame";
         public const string FRIENDLY_GAME_CAPTION = "friendlyGameCaption";
         public const string LONG_PLAY_VIEW = "longPlayView";
         public const string SHARE_GAME_SCREENSHOT = "shareGameShot";
@@ -373,6 +395,7 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_ACCOUNT_RENEW = "settingsAccountRenew";
         public const string SETTINGS_ON = "settingsOn";
         public const string SETTINGS_OFF = "settingsOff";
+        public const string SETTINGS_FAQ = "settingsFAQ";
 
         #endregion
 
@@ -380,6 +403,21 @@ namespace TurboLabz.InstantFramework
 
         public const string EARN_REWARDS_TITLE = "earnRewardsTitle";
         public const string EARN_REWARDS_INFO_TEXT = "earnRewardsInfoText";
+
+        #endregion
+
+        #region ManageSubscription
+
+        public const string SUB_MANAGE = "subManage";
+        public const string SUB_OPTIONS = "subOptions";
+        public const string SUB_BENEFITS = "subBenefits";
+        public const string SUB_POPULAR = "subPopular";
+        public const string SUB_MONTHLY = "subMonthly";
+        public const string SUB_ANNUAL = "subAnnual";
+        public const string SUB_SWITCH_MONTHLY = "subSwitchMonthly";
+        public const string SUB_SWITCH_ANNUAL = "subSwitchAnnual";
+        public const string SUB_SWITCH_MONTHLY_BTN = "subSwitchMonthlyBtn";
+        public const string SUB_SWITCH_ANNUAL_BTN = "subSwitchAnnualBtn";
 
         #endregion
     }

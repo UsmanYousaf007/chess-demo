@@ -1,6 +1,7 @@
 ﻿using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,57 +12,60 @@ public class PromotionDlgView : View
     public GameObject offerPrefab;
     public Transform offersContainer;
     public Button closeButton;
-    public Text priceText;
+    public Text termsOfUseText;
+    public Button termsOfUseButton;
+    public Text restorePurchaseText;
+    public Button restorePurchaseButton;
     public Text purchaseText;
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
 
     //Models 
+    [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
     [Inject] public IMetaDataModel metaDataModel { get; set; }
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
     [Inject] public IAudioService audioService { get; set; }
-    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal purchaseSignal = new Signal();
+    public Signal restorePurchasesSignal = new Signal();
+
+    private StoreIconsContainer iconsContainer;
 
     public void InitOnce()
     {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
+        termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
+        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+        iconsContainer = StoreIconsContainer.Load();
     }
 
     public void Init()
     {
-        title.text = localizationService.Get(LocalizationKey.PROMOTON_DLG_TITLE);
-        
-        purchaseText.text = localizationService.Get(LocalizationKey.PROMOTION_DLG_PURCHASE);
+        title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
+        restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+        termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
+        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
-        var storeItem = metaDataModel.store.items[key];
+        var storeItem = storeSettingsModel.items[key];
 
         if (storeItem == null)
             return;
 
-
-        string subscriptionInfo = localizationService.Get(LocalizationKey.PROMOTION_DLG_PRICE);
-        string price = storeItem.remoteProductPrice;
-
-        string subscriptionPriceString = subscriptionInfo.Replace("(price)", price);
-        priceText.text = subscriptionPriceString;
-
-        //priceText.text = string.Format("then {0} per month", storeItem.remoteProductPrice);
-
+        // Fill only once
         if (offersContainer.childCount == 0)
         {
             var offers = storeItem.description.Split(',');
             foreach (var offer in offers)
             {
                 var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;
-                offerObj.GetComponentInChildren<Text>().text = offer;
+                var text = offer.Trim();
+                offerObj.GetComponent<SubscriptionOffer>().Init(iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(text)), text);
             }
         }
     }
@@ -69,7 +73,6 @@ public class PromotionDlgView : View
     public void Show()
     {
         gameObject.SetActive(true);
-        hAnalyticsService.LogEvent("internal_ad_displayed", "monetization", "internal_fullscreen", "internal");
     }
 
     public void Hide()
@@ -80,14 +83,12 @@ public class PromotionDlgView : View
     private void OnCloseButtonClicked()
     {
         audioService.PlayStandardClick();
-        hAnalyticsService.LogEvent("internal_ad_closed", "monetization", "internal_fullscreen", "internal");
         closeDailogueSignal.Dispatch();
     }
 
     private void OnPurchaseButtonClicked()
     {
         audioService.PlayStandardClick();
-        hAnalyticsService.LogEvent("internal_ad_clicked", "monetization", "internal_fullscreen", "internal");
         purchaseSignal.Dispatch();
     }
 
@@ -100,6 +101,24 @@ public class PromotionDlgView : View
     public bool IsVisible()
     {
         return gameObject.activeSelf;
+    }
+
+    private void OnRestorePurchaseClicked()
+    {
+        audioService.PlayStandardClick();
+        restorePurchasesSignal.Dispatch();
+    }
+
+    private void OnTermsOfUseClicked()
+    {
+        audioService.PlayStandardClick();
+        Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
+    }
+
+    public void SetupPurchaseButton(bool isAvailable)
+    {
+        purchaseButton.interactable = isAvailable;
+        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
     }
 }
 

@@ -1,0 +1,19 @@
+{
+  "name": "com.huuuge.huf.storage",
+  "displayName": "Storage",
+  "version": "2.0.0",
+  "unity": "2018.4",
+  "description": "Storage package is base module for other storage services like HUF and Firebase.",
+  "huf": {
+    "dependencies": [
+      "com.huuuge.huf.utils@^2.0.0"
+    ],
+    "date": "06.04.2020 16:54",
+    "commit": "9aa5cf9",
+    "build": "4",
+    "scope": "public",
+    "channel": "stable",
+    "path": "Assets/HUF/Storage",
+    "rollout": "11"
+  }
+}

@@ -1,46 +1,87 @@
 fileFormatVersion: 2
 guid: e185dadd9acc8487d8d4bb2936a243cc
-timeCreated: 1565687809
-licenseType: Pro
 PluginImporter:
-  serializedVersion: 1
+  externalObjects: {}
+  serializedVersion: 2
   iconMap: {}
   executionOrder: {}
+  defineConstraints: []
   isPreloaded: 0
+  isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
   platformData:
-    Any:
+  - first:
+      '': OSXIntel
+    second:
+      enabled: 1
+      settings: {}
+  - first:
+      '': OSXIntel64
+    second:
+      enabled: 1
+      settings: {}
+  - first:
+      Any: 
+    second:
       enabled: 0
       settings: {}
-    Editor:
+  - first:
+      Editor: Editor
+    second:
       enabled: 0
       settings:
         DefaultValueInitialized: true
-    Linux:
+  - first:
+      Facebook: Win
+    second:
       enabled: 1
       settings: {}
-    Linux64:
+  - first:
+      Facebook: Win64
+    second:
       enabled: 1
       settings: {}
-    LinuxUniversal:
+  - first:
+      Standalone: Linux
+    second:
       enabled: 1
-      settings: {}
-    OSXIntel:
+      settings:
+        CPU: 
+  - first:
+      Standalone: Linux64
+    second:
       enabled: 1
-      settings: {}
-    OSXIntel64:
+      settings:
+        CPU: 
+  - first:
+      Standalone: LinuxUniversal
+    second:
       enabled: 1
-      settings: {}
-    OSXUniversal:
+      settings:
+        CPU: 
+  - first:
+      Standalone: OSXUniversal
+    second:
       enabled: 1
-      settings: {}
-    Win:
+      settings:
+        CPU: 
+  - first:
+      Standalone: Win
+    second:
       enabled: 1
-      settings: {}
-    Win64:
+      settings:
+        CPU: 
+  - first:
+      Standalone: Win64
+    second:
       enabled: 1
-      settings: {}
-    WindowsStoreApps:
-      enabled: 1
+      settings:
+        CPU: 
+  - first:
+      Windows Store Apps: WindowsStoreApps
+    second:
+      enabled: 0
       settings:
         CPU: AnyCPU
         SDK: UWP

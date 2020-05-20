@@ -83,9 +83,11 @@ public class CoachView : MonoBehaviour
 
         coachVO.audioService.Play(coachVO.audioService.sounds.SFX_HINT);
 
+        Camera mainCamera = Camera.main;
+
         var angle = Mathf.Atan2(coachVO.fromPosition.y - coachVO.toPosition.y, coachVO.fromPosition.x - coachVO.toPosition.x) * Mathf.Rad2Deg;
-        var toScreenPosition = Camera.main.WorldToScreenPoint(coachVO.toPosition);
-        var stickerFromPosition = Camera.main.WorldToScreenPoint(coachVO.fromPosition);
+        var toScreenPosition = mainCamera.WorldToScreenPoint(coachVO.toPosition);
+        var stickerFromPosition = mainCamera.WorldToScreenPoint(coachVO.fromPosition);
 
         stickerBg.transform.SetParent(this.transform.parent.parent, true);
         stickerBg.transform.SetAsFirstSibling();
@@ -101,7 +103,7 @@ public class CoachView : MonoBehaviour
         arrowHead.rectTransform.position = arrowPivot.position;
         arrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
 
-        line.Draw(coachVO.fromPosition, Camera.main.ScreenToWorldPoint(lineEndPivot.position));
+        line.Draw(coachVO.fromPosition, mainCamera.ScreenToWorldPoint(lineEndPivot.position));
 
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;

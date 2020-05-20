@@ -15,6 +15,13 @@ namespace TurboLabz.InstantFramework
         int rewardedVideoCap { get; set; }
         int interstitialCap { get; set; }
         int resignCap { get; set; }
+        float minutesForVictoryInternalAd { get; set; }
+        int autoSubscriptionDlgThreshold { get; set; }
+        int daysPerAutoSubscriptionDlgThreshold { get; set; }
+        int sessionsBeforePregameAd { get; set; }
+        int maxPregameAdsPerDay { get; set; }
+        double intervalsBetweenPregameAds { get; set; }
+
     }
 }
 

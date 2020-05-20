@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SetDefaultSkinSignal setDefaultSkinSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
+        [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -42,15 +43,22 @@ namespace TurboLabz.InstantFramework
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         // Services
         [Inject] public IStoreService storeService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IServerClock serverClock { get; set; }
+
+        private GSFrameworkRequestContext GetRequestContext()
+        {
+            return new GSFrameworkRequestContext { currentViewId = navigatorModel.currentViewId };
+        }
     }
 }

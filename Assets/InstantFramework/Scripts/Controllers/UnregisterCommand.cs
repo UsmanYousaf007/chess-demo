@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public UpdateSearchResultsSignal updateSearchResultsSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -47,6 +48,8 @@ namespace TurboLabz.InstantFramework
             vo.isGameCanceled = false;
             vo.isPlayerTurn = false;
             vo.isRanked = false;
+            vo.offerDraw = false;
+
             updateFriendBarStatusSignal.Dispatch(vo);
 
             friendBarBusySignal.Dispatch(opponentId, true, CreateLongMatchAbortReason.Unassigned);
@@ -61,10 +64,18 @@ namespace TurboLabz.InstantFramework
             }
 
             friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
-            refreshFriendsSignal.Dispatch();
+            if (playerModel.search.Count == 0)
+            {
+                refreshFriendsSignal.Dispatch();
 
-            // Todo: Community update may not be needed. Investigate especially because this is a backend server request.
-            refreshCommunitySignal.Dispatch();
+                // Todo: Community update may not be needed. Investigate especially because this is a backend server request.
+                refreshCommunitySignal.Dispatch();
+            }
+            else
+            {
+                // Refereshing search in case challenge is declined from searched results
+                updateSearchResultsSignal.Dispatch(true);
+            }
 
             Release();
         }

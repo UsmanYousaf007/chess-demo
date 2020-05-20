@@ -33,7 +33,9 @@ namespace TurboLabz.InstantFramework
         skill_level_dlg,
         theme_selection_dlg,
         subscription_dlg,
-        show_settings
+        show_settings,
+        manage_subscription,
+        manage_blocked_friends
     }
 
     public enum AnalyticsEventId
@@ -42,7 +44,6 @@ namespace TurboLabz.InstantFramework
         tap_support,
         tap_coins,
         tap_lobby_bundle,
-        tap_community_refresh,
         tap_long_match_create,
         tap_long_match_accept,
         tap_long_match_decline,
@@ -59,7 +60,7 @@ namespace TurboLabz.InstantFramework
         tap_pow_hindsight,
         v1_spot_purchase_complete,
         store_purchase_complete,
-        ads_collect_reward,
+        ad_user_requested,
         ads_skip_reward,
         ads_friends_back,
         session_fb,
@@ -72,23 +73,17 @@ namespace TurboLabz.InstantFramework
         level_complete,
         level_fail,
         player_elo,
-        bot_quick_match_won,
-        bot_quick_match_lost,
+        
         long_match_complete_duration,
         selected_theme,
         disconnection_time,
-        quickmatch_direct_request,
-        quickmatch_direct_request_accept,
+
+        //random quick match
         quickmatch_direct_request_timeout_ingame,
-        ads_rewared_request,
-        ads_rewared_success,
-        ads_rewared_show,
-        ads_rewared_available,
-        ads_rewared_failed,
-        //ads_interstitial_request,
-        //ads_interstitial_success,
-        ads_interstitial_show,
-        ads_interstitial_failed,
+        bot_quick_match_won,
+        bot_quick_match_lost,
+
+
         tap_pow_move_meter,
         cancel_pow_move_meter,
         close_pow_move_meter,
@@ -109,18 +104,52 @@ namespace TurboLabz.InstantFramework
         tap_add_friends,
         tap_remove_friends,
         start_match_with_favourite,
+
+        //powerups
         powerup_usage_no,
         powerup_usage_low,
         powerup_usage_avg,
         powerup_usage_good,
         powerup_usage_awesome,
+
         time_spent_quick_macth,
         time_spent_long_match,
         time_spent_cpu_match,
         time_spent_lobby,
+        first_game_started,
+        quick_match_player,
+        long_match_player,
+        cpu_mactch_player,
+        multi_mode_player,
+        mode_distribution,
+        reconnection_shown,
+        gs_disconneced,
+        gs_call_fail,
+        gs_disconnected_unique,
+        internet_warning_on_splash,
+
+        tap_match,
+        tap_resign_game,
+        playerturn_timer_runs_out_long,
+        played_bot_match,
+        played_online_match,
+        match_timer_runs_out,
+
+
+        //Ads
+        ad_requested,
+        ad_not_available,
+        ad_available,
+        ad_shown,
+        ad_failed,
+        ad_player_shutdown,
+        ad_cap_reached,
+        ad_skipped,
+        ad_clicked,
+        ad_completed,
+
         //apps flyer events for HUUUGE
         launch,
-        ad_clicked,
         ad_displayed,
         video_started,
         video_finished,
@@ -130,7 +159,37 @@ namespace TurboLabz.InstantFramework
         focus_lost,
         subscription_dlg_shown,
         get_free_trial_clicked,
-        subscription_purchased
+        subscription_purchased,
+        cross_promo_clicked,
+        terms_clicked,
+        close_subscription_clicked,
+
+        app_quit_during_disconnected,
+
+        //UI Interaction
+        refresh_community,
+
+        //Session
+        session_facebook,
+
+        //CPU Levels Distribution
+        cpu_end_lvl_,
+
+        //Match Start Distrubtion
+        match_find_random,
+        match_find_friends,
+        match_find_friends_notification_in_app,
+        match_find_friends_notification_out_app,
+        match_find_community,
+        match_find_community_notification_in_app,
+        match_find_community_notification_out_app,
+        classic_match_find_random,
+        classic_match_find_friends,
+        classic_match_find_community,
+        match_find,
+
+        //offer draw
+        offer_draw
     }
 
     public enum AnalyticsContext
@@ -139,7 +198,50 @@ namespace TurboLabz.InstantFramework
         long_match,
         quick_match,
         computer_match,
-        shop
+        random_long_match,
+        shop,
+        gs_disconnect,
+        internet_disconnect,
+        internet_switch,
+        in_game,
+        not_in_game,
+        bot_match,
+        tenmin_match,
+        return_from_background,
+        cpu_match,
+        matchmaking,
+
+        //Ads
+        rewarded,
+        interstitial_pregame,
+        interstitial_endgame,
+        interstitial_rewarded_failed_replacement,
+        interstitial_rewarded_capped_replacement,
+
+        //Session
+        num_facebook_friends,
+
+        //CPU Levels Distribution
+        won_checkmate,
+        won_resign,
+        lost_checkmate,
+        lost_resign,
+        draw_agreement,
+        draw_stalemate,
+        draw_insufficient_material,
+        draw_fifty_move,
+        draw_threefold_repetition,
+
+        //Match Start Distrubtion
+        start_attempt,
+        success,
+        failed,
+        success_bot,
+        accepted,
+        rejected,
+        cancelled,
+        sent
+
     }
 
     public enum AnalyticsParameter
@@ -156,7 +258,8 @@ namespace TurboLabz.InstantFramework
         is_bot,
         context,
         day,
-        minutes
+        minutes,
+        num_facebook_friends
     }
 
 }

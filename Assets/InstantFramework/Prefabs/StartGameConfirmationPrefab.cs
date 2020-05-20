@@ -17,12 +17,15 @@ namespace TurboLabz.InstantFramework
         public Text confirmRankedGameBtnText;
         public Button confirmFriendlyGameBtn;
         public Text confirmFriendlyGameBtnText;
+        public Button confirmFriendly10MinGameBtn;
+        public Text confirmFriendly10MinGameText;
         public Button ToggleRankButton;
         public GameObject ToggleRankON;
         public GameObject ToggleRankOFF;
         public Image onlineStatus;
         public Text opponentActivityText;
         public GameObject premiumBorder;
+        public Text startGameText;
 
         [HideInInspector] public bool toggleRankButtonState;
         [HideInInspector] public string playerId;

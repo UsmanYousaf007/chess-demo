@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.FRIENDS);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.FRIENDS, NavigatorViewId.MANAGE_BLOCKED_FRIENDS);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -33,6 +33,10 @@ namespace TurboLabz.InstantFramework
                 {
                     return new NSFriends();
                 }
+                else if (viewId == NavigatorViewId.MANAGE_BLOCKED_FRIENDS)
+                {
+                    return new NSManageBlockedFriends();
+                }
             }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
@@ -42,7 +46,29 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSubscriptionDlg();
             }
-
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerResultsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerFiftyMoveDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG && viewId == NavigatorViewId.MULTIPLAYER)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerThreeFoldRepeatDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MANAGE_SUBSCRIPTION)
+            {
+                return new NSManageSubscription();
+            }
             return null;
         }
     }

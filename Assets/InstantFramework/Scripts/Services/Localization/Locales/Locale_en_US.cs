@@ -41,6 +41,14 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.OKAY_TEXT, "Ok" },
                 { LocalizationKey.BACK_TEXT, "BACK" },
+                { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
+                { LocalizationKey.MIN5_GAME_TEXT, "5 Min" },
+                { LocalizationKey.MIN10_GAME_TEXT, "10 Min" },
+                { LocalizationKey.ON_TEXT, "On" },
+                { LocalizationKey.OFF_TEXT, "Off" },
+                { LocalizationKey.ACCEPT_TEXT, "Accept" },
+                { LocalizationKey.DECLINE_TEXT, "Decline" },
+                 
 
                 #endregion
 
@@ -79,6 +87,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED, "DECLINED" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE, "By Checkmate" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_STALEMATE, "By Stalemate" },
+                { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW, "By Agreement" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL, "By Insufficient Material" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE, "By Fifty Move Rule" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE, "By Threefold Repeat Rule" },
@@ -114,7 +123,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
                 { LocalizationKey.CPU_MENU_THEME, "Theme" },
-                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Quick Match" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Speed Chess" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC, "Classic Chess" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION, "vs Random Player" },
                 { LocalizationKey.CPU_MENU_PLAY_FRIENDS, "Friends & World" },
                 { LocalizationKey.CPU_MENU_PLAY_CPU, "Play Computer" },
                 { LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME, "Single Player Game" },
@@ -126,14 +137,16 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_GAME_PLAYER_NAME, "Player" },
                 { LocalizationKey.CLASSIC_MODE_TIME, "Long Play" },
 
-                { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "Resign Game" },
+                { LocalizationKey.CPU_GAME_RESIGN_BUTTON, "RESIGN GAME" },
                 { LocalizationKey.CPU_GAME_UNDO_BUTTON, "UNDO" },
                 { LocalizationKey.CPU_GAME_HINT_BUTTON, "HINT" },
                 { LocalizationKey.CPU_GAME_TURN_PLAYER, "YOUR MOVE" },
                 { LocalizationKey.CPU_GAME_TURN_OPPONENT, "THEIR MOVE" },
                 { LocalizationKey.CPU_GAME_EXIT_DLG_TITLE, "Menu" },
                 { LocalizationKey.CPU_GAME_SAVE_AND_EXIT, "Save & Exit" },
-                { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "Resume" },
+                { LocalizationKey.CPU_GAME_SAVE_AND_EXIT_CAP, "SAVE & EXIT" },
+                { LocalizationKey.CPU_GAME_CONTINUE_BUTTON, "RESUME" },
+                { LocalizationKey.CPU_GAME_OFFER_DRAW_BUTTON, "OFFER DRAW" },
                 { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "Back to Game" },
                 { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "GAMES" },
@@ -144,7 +157,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
-                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to Games" },
+                { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to Lobby" },
                 { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
 
@@ -156,7 +169,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.MULTIPLAYER_SEARCHING, "Searching..." },
                 { LocalizationKey.MULTIPLAYER_FOUND, "Get Ready..." },
                 { LocalizationKey.QUICK_MATCH_FAILED, "Try Later" },
-                { LocalizationKey.QUICK_MATCH_FAILED_REASON, "Player is already in a 5 min game" },
+                { LocalizationKey.QUICK_MATCH_FAILED_REASON, "Player is already in a game" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED, "Match Expired" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED_REASON, "You took too long to respond" },
 
@@ -194,6 +207,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.STORE_CONFIRM_DLG_TITLE_BUY, "Buy" },
                 { LocalizationKey.STORE_NOT_AVAILABLE, "Try Later" },
+                { LocalizationKey.STORE_GETTING_PACKAGE, "Getting Package" },
 
 
                 { LocalizationKey.CPU_STORE_HEADING, "THEMES" },
@@ -222,18 +236,20 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNAVAILABLE, "Purchasing is unavailable, check your payment settings" },
                 { LocalizationKey.STORE_PURCHASE_FAILED_REASON_UNKNOWN, "Reason unknown" },
 
-                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "CHESS STARS\nPremium Subscription"},
+                { LocalizationKey.SUBSCRIPTION_DLG_TITLE, "Upgrade To Premium!"},
                 { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unused portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
-                { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
-                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Try for free"},
+                { LocalizationKey.SUBSCRIPTION_DLG_FREE_TRIAL, "Start 3 Days Free Trial."},
+                { LocalizationKey.SUBSCRIPTION_DLG_PRICE, "Then (price) per month"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Subscribe"},
                 { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
-                { LocalizationKey.SUBSCRIPTION_DLG_PRICE, "3 days free trial\nthen (price) per month"},
+                
 
-                { LocalizationKey.PROMOTON_DLG_TITLE, "CHESS STARS\nPremium Subscription"},
-                { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Try for free"},
-                { LocalizationKey.PROMOTION_DLG_PRICE, "then (price) per month"},
-                { LocalizationKey.PROMOTION_DLG_PURCHASE, "3 days free trial"},
+                { LocalizationKey.PROMOTON_DLG_TITLE, "Premium Subscription"},
+                { LocalizationKey.PROMOTION_DLG_PURCHASE, "Start 3 Days Free Trial."},
+                { LocalizationKey.PROMOTION_DLG_PRICE, "Then (price) per month"},
+                { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Subscribe Now"},
 
                 #endregion
 
@@ -273,6 +289,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_ADD_TO_FRIENDS, "Add to Friends" },
                 { LocalizationKey.FRIENDS_REMOVE_FROM_FRIENDS, "Remove from Friends" },
                 { LocalizationKey.FRIENDS_TEXT_FRIENDED, "Friend" },
+                { LocalizationKey.FRIENDS_MANAGE_BLOCKED, "Manage Blocked Players"},
+                { LocalizationKey.FRIENDS_BLOCK_SEARCH, "Search blocked players by name.."},
+                { LocalizationKey.FRIENDS_UNBLOCK, "Unblock"},
+                { LocalizationKey.FRIENDS_BLOCKED, "BLOCKED PLAYERS"},
+                { LocalizationKey.FRIENDS_BLOCKED_EMPTY_LIST, "You haven't blocked anyone"},
                 #endregion
 
                 #region Share
@@ -302,6 +323,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LONG_PLAY_FRIENDLY, "Friendly" },
                 { LocalizationKey.PLAY, "Play" },
                 { LocalizationKey.VIEW, "View" },
+                { LocalizationKey.REMATCH, "Rematch" },
                 { LocalizationKey.LONG_PLAY_ACCEPT, "Accept" },
                 { LocalizationKey.LONG_PLAY_CANCEL, "Cancel" },
                 { LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING, "Hey, let's play :)" },
@@ -330,9 +352,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_DEFAULT_DAY_LINE, "TODAY" },
                 { LocalizationKey.CHAT_DEFAULT_SYSTEM_MESSAGE, "Start a new conversation. Say hello." },
                 { LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE, "To enable chat you must start at least one match with this player." },
-                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min Game"},
-                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Play Classic"},
+                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min"},
+                { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY_10_MIN, "10 Min"},
+                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Classic"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
+                { LocalizationKey.NEW_GAME_CONFIRM_START_GAME, "Start Game"},
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_NO, "No"},
                 { LocalizationKey.REMOVE_COMMUNITY_FRIEND_YES, "Yes"},
@@ -372,13 +396,29 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_ACCOUNT_RENEW, "Renews on (date)" },
                 { LocalizationKey.SETTINGS_ON, "On" },
                 { LocalizationKey.SETTINGS_OFF, "Off" },
+                { LocalizationKey.SETTINGS_FAQ, "FAQ" },
 
                 #endregion
 
                 #region Earn Rewards
 
                 { LocalizationKey.EARN_REWARDS_TITLE, "Earn Rewards" },
-                { LocalizationKey.EARN_REWARDS_INFO_TEXT, "Collect reward points on match result card" }
+                { LocalizationKey.EARN_REWARDS_INFO_TEXT, "Collect reward points on match result card" },
+
+                #endregion
+
+                #region ManageSubscription
+
+                { LocalizationKey.SUB_MANAGE, "Manage Your Subscription"},
+                { LocalizationKey.SUB_OPTIONS, "For other options, go to"},
+                { LocalizationKey.SUB_POPULAR, "Our most popular plan"},
+                { LocalizationKey.SUB_BENEFITS, "Same Benefits as above"},
+                { LocalizationKey.SUB_MONTHLY, "You are subscribed to the\n<b>Monthly</b> Plan"},
+                { LocalizationKey.SUB_ANNUAL, "You are subscribed to the\n<b>Yearly</b> Plan"},
+                { LocalizationKey.SUB_SWITCH_MONTHLY, "Switch to the <b>Monthly</b> Plan"},
+                { LocalizationKey.SUB_SWITCH_ANNUAL, "Switch to the <b>Yearly</b> Plan"},
+                { LocalizationKey.SUB_SWITCH_MONTHLY_BTN, "Switch to Monthly"},
+                { LocalizationKey.SUB_SWITCH_ANNUAL_BTN, "Switch to Yearly"},
 
                 #endregion
             };

@@ -22,6 +22,10 @@ namespace TurboLabz.InstantFramework
         string contactSupportURL { get; set; }
         string privacyPolicyURL { get; }
         string termsOfUseURL { get; }
+        InternalAdType internalAdType { get; set; }
+        string faqURL { get; }
+        bool isAutoSubscriptionDlgShown { get; set; }
+        bool isResumeGS { get; set; }
     }
 
     public enum DisconnectStates
@@ -29,7 +33,6 @@ namespace TurboLabz.InstantFramework
         FALSE,
         SHORT_DISCONNECT,
         LONG_DISCONNET
-
     }
 
     public enum GameMode
@@ -38,7 +41,12 @@ namespace TurboLabz.InstantFramework
         QUICK_MATCH,
         CPU,
         LONG_MATCH
-
     }
 
+    public enum InternalAdType
+    {
+        INTERAL_AD,
+        FORCED_ON_WIN,
+        NONE
+    }
 }

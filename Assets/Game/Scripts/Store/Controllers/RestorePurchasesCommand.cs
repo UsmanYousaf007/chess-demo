@@ -15,6 +15,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         private StoreItem item = null;
         private NS pState = null;
@@ -33,28 +34,29 @@ namespace TurboLabz.InstantGame
 
         private void OnPromiseReturn(BackendResult result)
         {
-            string cameFromScreen = "settings";
+            //string cameFromScreen = "settings";
 
-            if (pState.GetType() == typeof(NSSubscriptionDlg))
-            {
-                cameFromScreen = "subscription";
-            }
+            //if (pState.GetType() == typeof(NSSubscriptionDlg))
+            //{
+            //    cameFromScreen = "subscription";
+            //}
 
-            if (result == BackendResult.PURCHASE_COMPLETE)
-            {
-                int price = 0;
-                item = metaDataModel.store.items[GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG];
-                if(item != null)
-                {
-                    price = item.currency1Cost;
-                }
+            //if (result == BackendResult.PURCHASE_COMPLETE)
+            //{
+            //    int price = 0;
+            //    item = metaDataModel.store.items[playerModel.subscriptionType];
 
-                hAnalyticsService.LogMonetizationEvent("restore_ios_iap_completed", price, "menu", cameFromScreen);
-            }
-            else if (result == BackendResult.PURCHASE_FAILED)
-            {
-                hAnalyticsService.LogEvent("restore_ios_iap_failed", "menu", cameFromScreen);
-            }
+            //    if(item != null)
+            //    {
+            //        price = item.currency1Cost;
+            //    }
+
+            //    hAnalyticsService.LogMonetizationEvent("restore_ios_iap_completed", price, "menu", cameFromScreen);
+            //}
+            //else if (result == BackendResult.PURCHASE_FAILED)
+            //{
+            //    hAnalyticsService.LogEvent("restore_ios_iap_failed", "menu", cameFromScreen);
+            //}
         }
     }
 }

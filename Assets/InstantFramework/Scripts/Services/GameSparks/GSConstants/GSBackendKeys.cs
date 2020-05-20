@@ -93,6 +93,12 @@ namespace TurboLabz.InstantFramework
         public const string ADS_REWARDED_VIDEO_CAP = "adsRewardedVideoCap";
         public const string ADS_INTERSTITIAL_CAP = "adsInterstitialCap";
         public const string RESIGN_CAP = "resignCap";
+        public const string MINUTES_VICTORY_AD = "minutesForVictoryInteralAd";
+        public const string AUTO_SUBSCRIPTION_THRESHOLD = "autoSubscriptionDlgThreshold";
+        public const string DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD = "daysPerAutoSubscriptionDlgThreshold";
+        public const string SESSIONS_BEFORE_PREGAME_AD = "sessionsBeforePregameAd";
+        public const string MAX_PREGAME_ADS_PER_DAY = "maxPregameAdsPerDay";
+        public const string INTERVALS_BETWEEN_PREGAME_ADS = "intervalsBetweenPregameAds";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
@@ -245,6 +251,7 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG = "SpecialBundleNoAdsForever";
 
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
+            public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";
@@ -253,6 +260,20 @@ namespace TurboLabz.InstantFramework
 
             public const string SHOP_ITEM_TYPE_CURRENCY = "CURRENCY";
             public const string SHOP_ITEM_TYPE_VGOOD = "VGOOD";
+
+            public static string GetOfferItemKey(string text)
+            {
+                switch (text)
+                {
+                    case "No Ads": return "NoAds";
+                    case "Unlimited Learning Tools Usage": return "LearningTools";
+                    case "All Themes Unlocked": return "UnlockAllThemes";
+                    case "Premium Display Picture Frame": return "PremiumBorder";
+                    case "Increased Friends Limit": return "IncreasedFriendsLimit";
+                    case "More Simultaneous Classic Matches": return "MoreMatches";
+                }
+                return "";
+            }
         }
 
         public static class ClaimReward
@@ -301,7 +322,14 @@ namespace TurboLabz.InstantFramework
             public const string STATUS = "status";
         }
 
-		public static class PublicProfile
+        public static class OfferDrawOp
+        {
+            public const string OFFER_DRAW = "offerDraw";
+            public const string REJECT_OFFER_DRAW = "rejectOfferDraw";
+            public const string ACCEPT_OFFER_DRAW = "accepttOfferDraw";
+        }
+
+        public static class PublicProfile
 		{
 			public const string PROFILE_NAME = "name";
 			public const string PROFILE_COUNTRY_ID = "countryId";
@@ -344,6 +372,7 @@ namespace TurboLabz.InstantFramework
             public const string IS_FACEBOOK_REWARD_CLAIMED = "isFBConnectRewardClaimed";
             public const string CPU_POWERUP_USED_COUNT = "cpuPowerupUsedCount";
             public const string SUBSCRIPTION_EXPIRY_TIMESTAMP = "subscriptionExpiryTime";
+            public const string SUBSCRIPTION_TYPE = "subscriptionType";
             public const string REWARD_INDEX = "rewardIndex";
             public const string REWARD_SHORT_CODE = "shortCode";
             public const string REWARD_QUANITY = "addedAmount";
@@ -370,6 +399,7 @@ namespace TurboLabz.InstantFramework
             public const string ELO_CHANGE = "eloChange";
             public const string CREATE_TIME = "createTime";
             public const string IS_RANKED = "isRanked";
+            public const string DURATION = "gameDuration";
         }
 
         public static class Chat

@@ -8,6 +8,7 @@ using GameSparks.Api.Messages;
 using GameSparks.Api.Responses;
 using GameSparks.Core;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,6 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
         [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         public void AddChallengeListeners()
         {
@@ -111,6 +113,20 @@ namespace TurboLabz.InstantFramework
                 {
                     challengeAcceptedSignal.Dispatch();
                 }
+
+                MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+                matchAnalyticsVO.context = AnalyticsContext.accepted;
+                matchAnalyticsVO.matchType = "classic";
+                matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+                Friend friend = playerModel.GetFriend(matchInfoModel.matches[challengeId].opponentPublicProfile.playerId);
+
+                if (friend != null)
+                    matchAnalyticsVO.friendType = friend.friendType;
+                else
+                    matchAnalyticsVO.friendType = "community";
+
+                matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
             }
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_OPPONENT_PINGED_MESSAGE)
             {
@@ -158,6 +174,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") ? message.Data.GetString("profilePicURL") : "undefined";
                 notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? (bool)message.Data.GetBoolean("isSubscriber") : false;
                 notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data.GetString("creationTimestamp")) : 0;
+                notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data.GetString("actionCode") : "undefined";
 
                 if (notificationVO.title != "unassigned")
                 {
@@ -193,6 +210,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? (bool)message.Data.GetBoolean("isSubscriber") : false;
                 notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data.GetString("creationTimestamp")) : 0;
                 notificationVO.isOpened = false;
+                notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data.GetString("actionCode") : "undefined";
 
                 notificationRecievedSignal.Dispatch(notificationVO);
             } 
@@ -207,14 +225,27 @@ namespace TurboLabz.InstantFramework
         ///////////////////////////////////////////////////////////////////////////////////////
         // Handle challenge messages
 
+        [System.Serializable]
+        class challengeMessageData
+        {
+            public string botId;
+            public bool isRanked;
+            public string matchGroup;
+        };
+
         private void OnChallengeStartedMessage(ChallengeStartedMessage message)
         {
             // Script data will be null for pending challenges
             if (message.ScriptData != null)
             {
+                challengeMessageData data = new challengeMessageData();
+                data = JsonUtility.FromJson<challengeMessageData>(message.Challenge.ChallengeMessage);
+
+                bool forceStart = data.matchGroup == "RandomLong";
+
                 GSData challengeData = message.ScriptData.GetGSData(GSBackendKeys.ChallengeData.CHALLENGE_DATA_KEY);
                 ParseChallengeData(message.Challenge.ChallengeId, challengeData);
-                HandleActiveNewMatch(message.Challenge.ChallengeId);
+                HandleActiveNewMatch(message.Challenge.ChallengeId, forceStart);
             }
         }
 

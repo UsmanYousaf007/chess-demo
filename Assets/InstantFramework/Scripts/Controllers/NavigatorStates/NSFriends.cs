@@ -58,6 +58,14 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSEarnRewardsDlg();
             }
+            else if (evt == NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                return new NSLimitReachedDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MANAGE_BLOCKED_FRIENDS)
+            {
+                return new NSManageBlockedFriends();
+            }
 
             return null;
         }

@@ -33,6 +33,11 @@ namespace TurboLabz.InstantFramework
         int interstitialAdsCount { get; set; }
         int resignCount { get; set; }
         bool isSkipVideoDlgShown { get; set; }
+        int quickMatchFinishedCount { get; set; }
+        int longMatchFinishedCount { get; set; }
+        int cpuMatchFinishedCount { get; set; }
+        DateTime timeAtSubscrptionDlgShown { get; set; }
+        int autoSubscriptionDlgShownCount { get; set; }
 
         void ResetDailyPrefers();
         void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);
@@ -44,5 +49,9 @@ namespace TurboLabz.InstantFramework
         int gameFinishedCount { get; set; }
         DateTime appsFlyerLastLaunchTime { get; set; }
         int sessionCount { get; set; }
+        int sessionsBeforePregameAdCount { get; set; }
+        int pregameAdsPerDayCount { get; set; }
+        DateTime intervalBetweenPregameAds { get; set; }
+        bool autoPromotionToQueen { get; set; }
     }
 }

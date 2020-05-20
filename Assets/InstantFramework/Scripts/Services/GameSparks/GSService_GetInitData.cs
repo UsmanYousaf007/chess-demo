@@ -21,9 +21,7 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> GetInitData(int appVersion, string appData)
         {
             // Fetch init data from server
-            return new GSGetInitDataRequest().Send(appVersion,
-                                                   appData,
-                                                   OnGetInitDataSuccess);
+            return new GSGetInitDataRequest(GetRequestContext()).Send(appVersion, appData, OnGetInitDataSuccess);
         }
 
         void OnGetInitDataSuccess(object r)
@@ -40,14 +38,12 @@ namespace TurboLabz.InstantFramework
             // Check app version match with back end. Bail if there is mismatch.
             if (appInfoModel.appBackendVersionValid == false)
             {
-                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
             // Check if game maintenance mode is On
             if (settingsModel.maintenanceFlag == true)
             {
-                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
@@ -120,7 +116,11 @@ namespace TurboLabz.InstantFramework
             }
 
             setDefaultSkinSignal.Dispatch();
-            getInitDataCompleteSignal.Dispatch();
+
+            if (playerModel.subscriptionExipryTimeStamp > 0)
+            {
+                getInitDataCompleteSignal.Dispatch();
+            }
         }
 
         private void FillPlayerDetails(GSData playerDetailsData)
@@ -146,6 +146,11 @@ namespace TurboLabz.InstantFramework
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {
                 playerModel.subscriptionExipryTimeStamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP).Value;
+            }
+
+            if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE))
+            {
+                playerModel.subscriptionType = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE);
             }
 
             // Split name to first and last initial
@@ -182,6 +187,12 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.rewardedVideoCap = adsSettingsData.GetInt(GSBackendKeys.ADS_REWARDED_VIDEO_CAP).Value;
             adsSettingsModel.interstitialCap = adsSettingsData.GetInt(GSBackendKeys.ADS_INTERSTITIAL_CAP).Value;
             adsSettingsModel.resignCap = adsSettingsData.GetInt(GSBackendKeys.RESIGN_CAP).Value;
+            adsSettingsModel.minutesForVictoryInternalAd = GSParser.GetSafeFloat(adsSettingsData, GSBackendKeys.MINUTES_VICTORY_AD);
+            adsSettingsModel.autoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.AUTO_SUBSCRIPTION_THRESHOLD);
+            adsSettingsModel.daysPerAutoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD);
+            adsSettingsModel.sessionsBeforePregameAd = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.SESSIONS_BEFORE_PREGAME_AD);
+            adsSettingsModel.maxPregameAdsPerDay = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MAX_PREGAME_ADS_PER_DAY);
+            adsSettingsModel.intervalsBetweenPregameAds = GSParser.GetSafeFloat(adsSettingsData, GSBackendKeys.INTERVALS_BETWEEN_PREGAME_ADS);
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
@@ -299,15 +310,17 @@ namespace TurboLabz.InstantFramework
 
                 Friend friend = null;
 
-                if (!isBlocked)
-                {
-                    friend = LoadFriend(friendId, friendData);
-                }
-                else
-                {
-                    friend = new Friend();
-                    friend.publicProfile = new PublicProfile();
-                }
+                //if (!isBlocked)
+                //{
+                //    friend = LoadFriend(friendId, friendData);
+                //}
+                //else
+                //{
+                //    friend = new Friend();
+                //    friend.publicProfile = new PublicProfile();
+                //}
+
+                friend = LoadFriend(friendId, friendData);
 
                 targetList.Add(friendId, friend);
             }
@@ -375,6 +388,8 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "GetInitData";
         const string ATT_APP_VERSION = "appVersion";
         const string ATT_APP_DATA = "appData";
+
+        public GSGetInitDataRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(int appVersion,
                                             string appData,

@@ -16,7 +16,6 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform lobbyScrollViewPivotForBanner;
     public LobbyView lobbyView;
     public RectTransform lobbyScrollViewTopShadow;
-    public RectTransform quickMatchButton;
 
     [Header("Profile")]
     public RectTransform profileFacebookButton;
@@ -58,9 +57,21 @@ public class NotchHandler : MonoBehaviour {
     [Header("Settings")]
     public RectTransform topBar;
 
+    [Header("Subscription")]
+    public RectTransform subscriptionTitle;
+    public RectTransform subscriptionOffers;
+
     [Header("Promotion")]
-    public RectTransform promotionTopNav;
-    public RectTransform promotionBottomNav;
+    public RectTransform promotionTitle;
+    public RectTransform promotionOffers;
+
+    [Header("Manage Subscription")]
+    public RectTransform manageSubscriptionBottomNav;
+
+    [Header("Manage Blocked Friends")]
+    public RectTransform blockedFriendsScrollView;
+    public RectTransform blockedFriendsScrollViewPort;
+    public RectTransform blockedFriendsSearchBarShadow;
 
     void Awake()
     {
@@ -92,7 +103,6 @@ public class NotchHandler : MonoBehaviour {
         SetY(lobbyScrollViewPivotForBanner, -318);
         lobbyView.setScorllViewportBottomTo = 361;
         SetY(lobbyScrollViewTopShadow, -2);
-        SetY(quickMatchButton, 347f);
 
         // PROFILE
         SetY(profileFacebookButton, -270f);
@@ -137,9 +147,22 @@ public class NotchHandler : MonoBehaviour {
         //SETTINGS
         SetY(topBar, -106f);
 
-        //PROMOTION
-        SetY(promotionTopNav, -85f);
-        SetY(promotionBottomNav, 94f);
+        //Subscription
+        SetY(subscriptionTitle, -106f);
+        SetY(subscriptionOffers, -435f);
+
+        //Promotion
+        SetY(promotionTitle, -106f);
+        SetY(promotionOffers, -435f);
+
+        //Manage Subscription
+        SetY(manageSubscriptionBottomNav, 60);
+
+        // Blocked Friends
+        SetY(blockedFriendsScrollView, -20f);
+        blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 60);
+        SetY(blockedFriendsSearchBarShadow, -125);
+
     }
 
     void SetY(RectTransform tfm, float y)

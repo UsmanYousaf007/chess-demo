@@ -130,7 +130,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.preferredInstallLocation = AndroidPreferredInstallLocation.Auto;
         PlayerSettings.Android.renderOutsideSafeArea = false;
         PlayerSettings.Android.showActivityIndicatorOnLoading = AndroidShowActivityIndicatorOnLoading.DontShow;
-        PlayerSettings.Android.splashScreenScale = AndroidSplashScreenScale.Center;
+        PlayerSettings.Android.splashScreenScale = AndroidSplashScreenScale.ScaleToFill;
         PlayerSettings.Android.startInFullscreen = true;
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64 | AndroidArchitecture.ARMv7;
         // PlayerSettings.Android.targetDevice = AndroidTargetDevice.FAT; // obsolete
@@ -166,7 +166,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.actionOnDotNetUnhandledException = ActionOnDotNetUnhandledException.Crash;
         // PlayerSettings.advancedLicense = true; // readonly
         PlayerSettings.allowFullscreenSwitch = true;
-        PlayerSettings.allowUnsafeCode = false;
+        PlayerSettings.allowUnsafeCode = true;
         PlayerSettings.allowedAutorotateToLandscapeLeft = false;
         PlayerSettings.allowedAutorotateToLandscapeRight = false;
         PlayerSettings.allowedAutorotateToPortrait = true;
@@ -221,10 +221,10 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.runInBackground = true;
         PlayerSettings.scriptingRuntimeVersion = ScriptingRuntimeVersion.Latest;
         //PlayerSettings.showUnitySplashScreen = true; // obsolete
-        PlayerSettings.SplashScreen.show = true;
+        PlayerSettings.SplashScreen.unityLogoStyle = PlayerSettings.SplashScreen.UnityLogoStyle.LightOnDark;
+        PlayerSettings.SplashScreen.show = false;
         // PlayerSettings.singlePassStereoRendering = false; // depricated
         //PlayerSettings.splashScreenStyle = SplashScreenStyle.Dark; // obsolete
-        PlayerSettings.SplashScreen.unityLogoStyle = PlayerSettings.SplashScreen.UnityLogoStyle.LightOnDark;
         PlayerSettings.statusBarHidden = true;
         PlayerSettings.stereoRenderingPath = StereoRenderingPath.MultiPass;
         //PlayerSettings.stereoscopic3D = false; // obsolete
@@ -272,10 +272,12 @@ public class BuildChess : MonoBehaviour
 
         EditorPrefs.SetString("AndroidSdkRoot", Environment.GetEnvironmentVariable("ANDROID_SDK_ROOT"));
 
+#if !UNITY_CLOUD_BUILD
         PlayerSettings.Android.keystoreName = desktopPath + "/data/turbo-labz/projects/keystores/instant-chess/instant-chess-signing.keystore";
         PlayerSettings.Android.keystorePass = "0_turbolabzsignature-instant-chess_1";
         PlayerSettings.Android.keyaliasPass = "0_turbolabzsignature-instant-chess_1";
         PlayerSettings.Android.keyaliasName = "instant-chess-signing";
+#endif
         PlayerSettings.Android.renderOutsideSafeArea = false;
 
         return buildPlayerOptions;
@@ -294,9 +296,11 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
-        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_Release");
-        ProcessBuild(buildPlayerOptions);
+        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_Release");
 
+#if !UNITY_CLOUD_BUILD
+        ProcessBuild(buildPlayerOptions);
+#endif
         LogUtil.Log("End Build iOS Release", "yellow");
     }
 
@@ -313,7 +317,10 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.Development, "_Development");
+
+#if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
+#endif
 
         LogUtil.Log("End Build iOS Development", "yellow");
     }
@@ -329,7 +336,9 @@ public class BuildChess : MonoBehaviour
         GASettings(true);
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_Release");
+#if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
+#endif
         LogUtil.Log("End Build Android Release");
     }
 
@@ -361,7 +370,9 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_ReleaseStore");
+#if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
+#endif
 
         LogUtil.Log("End Build iOS for Store", "yellow");
     }
@@ -377,7 +388,31 @@ public class BuildChess : MonoBehaviour
         GASettings(false);
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_ReleaseStore");
+
+#if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
+#endif
         LogUtil.Log("End Build Android for Store");
     }
+
+    public static void BuildiOSCloud(string xcodeproj)
+    {
+        BuildiOS();
+    }
+
+    public static void BuildAndroidloud(string player)
+    {
+        BuildAndroid();
+    }
+
+    public static void BuildiOSCloudDevelopment(string xcodeproj)
+    {
+        BuildiOSDevelopment();
+    }
+
+    public static void BuildAndroidloudDevelopment(string player)
+    {
+        BuildAndroidDevelopment();
+    }
+
 }

@@ -30,5 +30,8 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> ClaimFiftyMoveDraw();
         IPromise<BackendResult> ClaimThreefoldRepeatDraw();
         IPromise<BackendResult> PlayerResign(string challengeId);
+        IPromise<BackendResult> PlayerOfferDraw(string challengeId);
+        IPromise<BackendResult> PlayerOfferDrawAccepted(string challengeId);
+        IPromise<BackendResult> PlayerOfferDrawRejected(string challengeId);
     }
 }

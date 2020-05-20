@@ -44,7 +44,6 @@ namespace TurboLabz.InstantFramework
         public Button friendsButton;
 
         public Signal homeButtonClickedSignal = new Signal();
-        public Signal shopButtonClickedSignal = new Signal();
         public Signal friendsButtonClickedSignal = new Signal();
 
         public void Init()

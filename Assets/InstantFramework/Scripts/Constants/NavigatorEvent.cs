@@ -51,5 +51,8 @@ namespace TurboLabz.InstantFramework
         SHOW_SUBSCRIPTION_DLG,
         SHOW_SETTINGS,
         SHOW_EARN_REWARDS_DLG,
+        SHOW_MANAGE_SUBSCRIPTION,
+        CREATE_MATCH_LIMIT_REACHED_DIALOG,
+        SHOW_MANAGE_BLOCKED_FRIENDS
     }
 }

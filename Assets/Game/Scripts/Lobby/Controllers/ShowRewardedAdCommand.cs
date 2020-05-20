@@ -10,6 +10,8 @@ namespace TurboLabz.InstantGame
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         //Dispatch Signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
@@ -18,6 +20,7 @@ namespace TurboLabz.InstantGame
         {
             if (adsService.IsRewardedVideoAvailable())
             {
+                analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.rewarded);
                 showAdSignal.Dispatch(resultAdsVO);
             }
             else if (adsService.IsInterstitialAvailable())

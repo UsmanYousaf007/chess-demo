@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -27,6 +28,8 @@ namespace TurboLabz.InstantFramework
             view.restorePurchaseButtonClickedSignal.AddListener(OnRestorePurchases);
             view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
+            view.manageSubscriptionButtonClickedSignal.AddListener(OnManageSubscriptionClicked);
+            view.applySettingsSignal.AddListener(OnApplySettings);
         }
 
 
@@ -54,7 +57,7 @@ namespace TurboLabz.InstantFramework
             restorePurchasesSignal.Dispatch();
 
 #if UNITY_IOS
-            hAnalyticsService.LogEvent("restore_ios_iap_clicked", "menu", "settings");
+            hAnalyticsService.LogEvent("clicked", "settings", "", "restore_ios_iap");
 #endif
         }
 
@@ -81,7 +84,22 @@ namespace TurboLabz.InstantFramework
         void OnUpgradeToPremiumClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "settings");
+        }
+
+        private void OnManageSubscriptionClicked()
+        {
+            hAnalyticsService.LogEvent("clicked", "settings", "", "manage_subscription");
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MANAGE_SUBSCRIPTION);
+        }
+
+        private void OnApplySettings()
+        {
+            if (view.HasSettingsChanged())
+            {
+                savePlayerInventorySignal.Dispatch();
+            }
+
+            //OnCloseDailogue();
         }
     }
 }

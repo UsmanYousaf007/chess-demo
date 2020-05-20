@@ -31,7 +31,9 @@ public class XcodeSettingsPostProcesser
         // Additional files
         TurboLabz.TLUtils.LogUtil.Log("Adding ChessAI files..", "cyan");
         string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
-        string aiFolder = desktopPath + "/data/turbo-labz/projects/chess-ai-plugin/iOSChessPlugin/ChessAI/";
+
+        string aiFolder = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf('/')) + "/ChessAI/";
+        //string aiFolder =  desktopPath + "/data/turbo-labz/projects/chess-ai-plugin/iOSChessPlugin/ChessAI/";
 
         string[] arrayAIFiles = {
             "unity.h",
@@ -84,6 +86,10 @@ public class XcodeSettingsPostProcesser
 
         proj.AddCapability(targetGuid, PBXCapabilityType.PushNotifications);
         proj.AddCapability(targetGuid, PBXCapabilityType.BackgroundModes);
+
+        //patch v.5.13.14,its for xcode below v11.4
+        proj.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+        proj.SetBuildProperty(targetGuid, "CLANG_ENABLE_MODULES", "YES");
 
         // Get plist
         string plistPath = pathToBuiltProject + "/Info.plist";

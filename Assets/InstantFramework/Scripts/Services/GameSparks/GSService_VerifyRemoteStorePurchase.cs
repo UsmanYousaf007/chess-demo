@@ -18,19 +18,14 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        // Dispatch Signals
-        [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
-
-        // Services
-        [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public INavigatorModel navigatorModel { get; set; }
-
         long subscriptionExpiryTimeStamp;
+        string subscriptionType;
 
-        public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp)
+        public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp, string subscriptionType)
         {
             subscriptionExpiryTimeStamp = expiryTimeStamp;
-            return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, expiryTimeStamp,
+            this.subscriptionType = subscriptionType;
+            return new GSVerifyRemoteStorePurchaseRequest(remoteProductId, transactionId, purchaseReceipt, expiryTimeStamp, subscriptionType,
                                                             OnVerifyRemoteStorePurchaseSuccess).Send();
         }
 
@@ -56,8 +51,10 @@ namespace TurboLabz.InstantFramework
                 switch (shopItemId)
                 {
                     case GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG:
+                    case GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG:
                         playerModel.subscriptionExipryTimeStamp = subscriptionExpiryTimeStamp;
                         playerModel.renewDate = TimeUtil.ToDateTime(subscriptionExpiryTimeStamp).ToShortDateString();
+                        playerModel.subscriptionType = subscriptionType;
                         break;
                 }
 
@@ -95,7 +92,7 @@ namespace TurboLabz.InstantFramework
             promise.Dispatch(errorCode, transactionIdRecord);
         }
 
-        public GSVerifyRemoteStorePurchaseRequest(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp,
+        public GSVerifyRemoteStorePurchaseRequest(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp, string subscriptionType,
                                                     Action<LogEventResponse> onSuccess)
         {
             transactionIdRecord = transactionId;
@@ -104,7 +101,9 @@ namespace TurboLabz.InstantFramework
 
             var jsonData = new GSRequestData().AddString("remoteProductId", remoteProductId)
                                               .AddJSONStringAsObject("purchaseReceipt", purchaseReceipt)
-                                              .AddNumber("expiryTimeStamp", expiryTimeStamp);
+                                              .AddNumber("expiryTimeStamp", expiryTimeStamp)
+                                              .AddString("subscriptionType", subscriptionType);
+
             request.SetEventAttribute("jsonData", jsonData);
 
             // Do not modify below

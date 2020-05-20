@@ -74,6 +74,7 @@ namespace TurboLabz.InstantFramework
             vo.pic = sprite;
             vo.name = playerModel.name;
             vo.playerId = playerModel.id;
+            vo.rating = playerModel.eloScore;
 
             authFacebookResultSignal.Dispatch(vo);
 

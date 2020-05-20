@@ -29,16 +29,19 @@ namespace TurboLabz.Multiplayer
         public Button resignButton;
         public Button continueButton;
         public Button closeButton;
+        public Button offerDrawButton;
 
         public Signal menuButtonClickedSignal = new Signal();
         public Signal resignButtonClickedSignal = new Signal();
         public Signal continueButtonClickedSignal = new Signal();
+        public Signal offerDrawButtonClickedSignal = new Signal();
 
         public GameObject gameMenu;
 
         public Text exitTitleLabel;
         public Text resignButtonLabel;
         public Text continueButtonLabel;
+        public Text offerDrawButtonLabel;
 
         public void InitMenu()
         {
@@ -46,10 +49,12 @@ namespace TurboLabz.Multiplayer
             resignButton.onClick.AddListener(OnResignButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
             closeButton.onClick.AddListener(OnContinueButtonClicked);
-
+            offerDrawButton.onClick.AddListener(OnOfferDrawButtonClicked);
+           
             exitTitleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
+            offerDrawButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_OFFER_DRAW_BUTTON);
         }
 
         public void OnParentShowMenu()
@@ -144,14 +149,22 @@ namespace TurboLabz.Multiplayer
         {
             if ((appInfoModel.isReconnecting == DisconnectStates.FALSE) && !appInfoModel.syncInProgress)
             {
+                analyticsService.Event(AnalyticsEventId.tap_resign_game);
                 resignButtonClickedSignal.Dispatch();
                 EnableModalBlocker();
             }
         }
 
-        void OnContinueButtonClicked()
+        public void OnContinueButtonClicked()
         {
             continueButtonClickedSignal.Dispatch();
         }
+
+        void OnOfferDrawButtonClicked()
+        {
+            offerDrawButtonClickedSignal.Dispatch();
+            analyticsService.Event(AnalyticsEventId.offer_draw, AnalyticsContext.sent);
+        }
+
     }
 }

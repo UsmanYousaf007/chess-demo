@@ -14,7 +14,7 @@ using UnityEngine;
 
 using strange.extensions.mediation.impl;
 using System.Collections.Generic;
-using TurboLabz.Multiplayer;
+//using TurboLabz.Multiplayer;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
@@ -47,10 +47,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -60,7 +62,9 @@ namespace TurboLabz.InstantFramework
             view.Init();
 
             view.playMultiplayerButtonClickedSignal.AddListener(OnQuickMatchBtnClicked);
+            view.playMultiplayerClassicButtonClickedSignal.AddListener(OnClassicMatchBtnClicked);
             view.playCPUButtonClickedSignal.AddListener(OnPlayComputerMatchBtnClicked);
+            view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
@@ -110,6 +114,10 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.lobby, facebookService.isLoggedIn());
             }
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.ShowCreateMatchLimitReacDlg();
+            }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -118,6 +126,11 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Hide();
+            }
+
+            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            {
+                view.HideCreateMatchLimitDlg();
             }
         }
 
@@ -134,6 +147,7 @@ namespace TurboLabz.InstantFramework
             {
                 isCommunity = true;
                 isSearched = true;
+                return;
             }
 
             view.AddFriends(friends, isCommunity, isSearched);
@@ -268,7 +282,7 @@ namespace TurboLabz.InstantFramework
             refreshCommunitySignal.Dispatch();
 
             // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_community_refresh);
+            analyticsService.Event(AnalyticsEventId.refresh_community);
         }
 
         private void OnShareApp()
@@ -278,13 +292,32 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
+            if (!playerModel.isPremium)
+            {
+                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
+                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
+                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.isRanked = isRanked;
+                    vo.friendId = playerId;
+                    vo.actionCode = "ChallengeClassic";
+                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
-        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked)
+        private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
-            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
-
             var friend = playerModel.GetFriend(playerId);
 
             if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
@@ -292,7 +325,29 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
             }
 
-            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId);
+            if (!playerModel.isPremium) 
+            {
+                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
+                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
+                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.actionCode = actionCode;
+                    vo.friendId = playerId;
+                    vo.isRanked = isRanked;
+                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+             }
+
+            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
 
         private void OnAcceptButtonClicked(string playerId)
@@ -327,12 +382,75 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayComputerMatchBtnClicked()
         {
+            if (!playerModel.isPremium)
+            {
+                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
+                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
+                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
             startCPUGameSignal.Dispatch();
         }
 
-        private void OnQuickMatchBtnClicked()
+        private void OnQuickMatchBtnClicked(string actionCode)
         {
-            FindMatchAction.Random(findMatchSignal);
+            if (!playerModel.isPremium)
+            {
+                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
+                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
+                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.actionCode = actionCode;
+                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
+
+            FindMatchAction.Random(findMatchSignal, actionCode);
+        }
+
+        private void OnClassicMatchBtnClicked()
+        {
+            if (!playerModel.isPremium)
+            {
+                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
+                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
+                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.actionCode = FindMatchAction.ActionCode.RandomLong.ToString();
+                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
+            
+            //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
+            FindMatchAction.RandomLong(findMatchSignal);
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]
@@ -392,6 +510,22 @@ namespace TurboLabz.InstantFramework
         public void OnShowAdSkippedDlg()
         {
             view.ShowAdSkippedDailogue(true);
+        }
+
+        void OnUpgradeToPremiumClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
+        }
+
+        [ListensTo(typeof(UpdateOfferDrawSignal))]
+        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
+        {
+            if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
+            {
+                view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+                return;
+            }
         }
     }
 }

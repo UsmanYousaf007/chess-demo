@@ -58,6 +58,9 @@ namespace TurboLabz.InstantFramework
         THEME_SELECTION,
         SUBSCRIPTION_DLG,
         SETTINGS,
-        EARN_REWARDS_DLG
+        EARN_REWARDS_DLG,
+        MANAGE_SUBSCRIPTION,
+        CREATE_MATCH_LIMIT_REACHED_DIALOG,
+        MANAGE_BLOCKED_FRIENDS
     }
 }

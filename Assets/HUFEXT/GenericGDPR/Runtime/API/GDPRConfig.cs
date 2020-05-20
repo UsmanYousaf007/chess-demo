@@ -1,56 +1,41 @@
 ﻿using System;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HUFEXT.GenericGDPR.Runtime.API
 {
     [Serializable]
-    public enum LinkType
+    public class TranslationFont
     {
-        PrivacyPolicy,
-        TermsOfUse,
-        EULA
+        public string key;
+        public TMP_FontAsset font;
     }
     
     [CreateAssetMenu(menuName = "HUFEXT/GDPR/GDPR Config", fileName = "GDPRConfig.asset")]
-    public class GDPRConfig : AbstractConfig
+    public class GDPRConfig : FeatureConfigBase
     {
-        [Serializable]
-        public class Link
-        {
-            public LinkType Type;
-            public string Text;
-            public string URL;
-        }
-
-        [Header( "Common" )] 
-        [SerializeField] GameObject prefab;
-
-        [SerializeField] bool autoInit = true;
+        [Header( "Common" )]
+        [SerializeField] GameObject prefab = null;
+        [SerializeField] 
+        [FormerlySerializedAs("customPrefsKey")]
+        string gdprCustomPlayerPrefsKey = string.Empty;
+        [SerializeField] string personalizedAdsCustomPlayerPrefsKey = string.Empty;
         [SerializeField] bool destroyOnAccept = true;
-        [SerializeField] bool usePlayerPrefs = true;
-        [SerializeField] string playerPrefsKey;
+
+        [Header( "Translations" )] 
+        [SerializeField] bool enableTranslation = true;
         
-        [Header("Texts")]
-        public string titleText;
-        public string policyText;
-        public string detailedPolicyText;
-        public string moreInfoText;
-        public string lessInfoText;
-        public string buttonText;
-
-        [Header( "Links" )] 
-        [SerializeField] Link privacyPolicy;
-        [SerializeField] Link termsOfUse;
-        [SerializeField] Link eula;
-
         public GameObject Prefab => prefab;
-        public bool AutoInit => autoInit;
+        public string CustomGDPRKey => gdprCustomPlayerPrefsKey;
+        public string CustomPersonalizedAdsKey => personalizedAdsCustomPlayerPrefsKey;
         public bool DestroyOnAccept => destroyOnAccept;
-        public bool UsePlayerPrefs => usePlayerPrefs;
-        public string PlayerPrefsKey => playerPrefsKey;
-        public Link PrivacyPolicy => privacyPolicy;
-        public Link TermsOfUse => termsOfUse;
-        public Link Eula => eula;
+        public bool IsTranslationEnabled => enableTranslation;
+        
+        public override void RegisterManualInitializers()
+        {
+            AddManualInitializer( "GenericGDPR", HGenericGDPR.Initialize );
+        }
     }
 }

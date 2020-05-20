@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
 
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
 
         // Services
         [Inject] public IRateAppService rateAppService { get; set; }
@@ -42,7 +43,6 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.RATE_APP_DLG) 
             {
-                rateAppService.RateApp(false);
                 view.ShowAreYouEnjoying();
                 analyticsService.ScreenVisit(AnalyticsScreen.rate_dialog);
             }
@@ -93,7 +93,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            Application.OpenURL("mailto:" + Settings.SUPPORT_EMAIL);
+            contactSupportSignal.Dispatch();
             analyticsService.Event(AnalyticsEventId.tap_support);
         }
     }

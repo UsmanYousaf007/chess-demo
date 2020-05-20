@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> GetGameStartTime(string challengeId)
         {
-            return new GSGetGameStartTimeRequest().Send(challengeId, OnGetGameStartTimeSuccess);
+            return new GSGetGameStartTimeRequest(GetRequestContext()).Send(challengeId, OnGetGameStartTimeSuccess);
         }
 
         private void OnGetGameStartTimeSuccess(object m)
@@ -32,6 +32,8 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "GetGameStartTime";
         const string ATT_CHALLENGE_ID = "challengeId";
+
+        public GSGetGameStartTimeRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
         {

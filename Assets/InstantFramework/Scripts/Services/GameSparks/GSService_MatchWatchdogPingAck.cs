@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId, int moveCount)
         {
-            return new GSMatchWatchdogPingAckRequest().Send(currentTurnPlayerId, challengerId, challengedId, challengeId, moveCount);
+            return new GSMatchWatchdogPingAckRequest(GetRequestContext()).Send(currentTurnPlayerId, challengerId, challengedId, challengeId, moveCount);
         }
     }
 
@@ -24,8 +24,12 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "MatchWatchdogPingAck";
 
+        public GSMatchWatchdogPingAckRequest(GSFrameworkRequestContext context) : base(context) { }
+
         public IPromise<BackendResult> Send(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId, int moveCount)
         {
+            this.errorCode = BackendResult.WATCHDOG_PING_ACK_FAILED;
+
             new LogEventRequest()
                 .SetEventAttribute("currentTurnPlayerId", currentTurnPlayerId)
                 .SetEventAttribute("challengerId", challengerId)

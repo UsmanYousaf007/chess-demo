@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HUF.AnalyticsHBI.API;
+using HUF.AnalyticsHBI.Runtime.API;
 using HUFEXT.GenericGDPR.Runtime.API;
 using strange.extensions.command.impl;
 using UnityEngine;
@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
             var contactSupportUrl = string.Format(
                 "{0}/?gdpr={1}&tag={2}&appversion={3}&hardwarekey={4}&userid={5},{6}",
                 appInfoModel.contactSupportURL,
-                HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED ? 0 : 1,
+                HGenericGDPR.IsPersonalizedAdsAccepted ? 0 : 1,
                 "chess",
                 appInfoModel.clientVersion,
                 SystemInfo.deviceModel,

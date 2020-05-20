@@ -93,6 +93,16 @@ namespace TurboLabz.InstantFramework
             Print(evt.ToString(), p);
         }
 
+        public void Event(string evt, AnalyticsContext context)
+        {
+            Dictionary<string, object> p = new Dictionary<string, object>
+            {
+                { AnalyticsParameter.context.ToString(), context.ToString() }
+            };
+
+            Print(evt, p);
+        }
+
         public void LevelComplete(int difficulty)
         {
             Print("LevelComplete:" + difficulty);
@@ -123,6 +133,33 @@ namespace TurboLabz.InstantFramework
 
             LogUtil.Log(builder, "yellow");
 #endif
+        }
+
+        public void DesignEvent(AnalyticsEventId evt, AnalyticsParameter param, object val, AnalyticsEventId subEvt)
+        {
+            var eventStr = string.Format("{0}:{1}{2}:{3}", evt, param, val, subEvt);
+            Print(eventStr);
+        }
+
+        public void HEvent(string evt, params string[] param)
+        {
+            var evtStr = evt;
+            if (param != null && param.Length > 0)
+            {
+                var paramDict = new Dictionary<string, object>();
+                for (int i = 0; i < param.Length; i++)
+                {
+                    paramDict.Add($"ST{i + 1}", param[i]);
+                    evtStr += $":{param[i]}";
+                }
+
+                Print(evt, paramDict);
+            }
+            else
+            {
+                Print(evt);
+            }
+            Print(evtStr);
         }
     }
 }

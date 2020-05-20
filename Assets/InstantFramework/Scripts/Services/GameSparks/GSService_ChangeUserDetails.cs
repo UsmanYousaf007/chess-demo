@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
 	{
 		public IPromise<BackendResult> ChangeUserDetails(string name)
 		{
-			return new GSChangeUserDetailsRequest().Send(name, OnChangeUserDetailsSuccess);
+			return new GSChangeUserDetailsRequest(GetRequestContext()).Send(name, OnChangeUserDetailsSuccess);
 		}
 
 		private void OnChangeUserDetailsSuccess(object r)
@@ -33,6 +33,8 @@ namespace TurboLabz.InstantFramework
 
 	public class GSChangeUserDetailsRequest : GSFrameworkRequest
 	{
+		public GSChangeUserDetailsRequest(GSFrameworkRequestContext context) : base(context) { }
+
 		public IPromise<BackendResult> Send(string name, Action<object> onSuccess)
 		{
 			this.onSuccess = onSuccess;

@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> Unregister(string challengeId)
         {
-            return new GSUnregisterRequest().Send(challengeId, OnUnregisterSuccess);
+            return new GSUnregisterRequest(GetRequestContext()).Send(challengeId, OnUnregisterSuccess);
         }
 
         // TODO: move this logic into the unregister command
@@ -50,6 +50,8 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "Unregister";
         const string ATT_CHALLENGE_ID = "challengeId";
+
+        public GSUnregisterRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
         {

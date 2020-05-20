@@ -62,9 +62,11 @@ public class StrengthAnim : MonoBehaviour
 
         moveMeterButton.SetAsFirstSibling();
 
+        Camera mainCamera = Camera.main;
+
         var angle = Mathf.Atan2(strengthVO.fromPosition.y - strengthVO.toPosition.y, strengthVO.fromPosition.x - strengthVO.toPosition.x) * Mathf.Rad2Deg;
-        var toScreenPosition = Camera.main.WorldToScreenPoint(strengthVO.toPosition);
-        var stickerFromPosition = Camera.main.WorldToScreenPoint(strengthVO.fromPosition);
+        var toScreenPosition = mainCamera.WorldToScreenPoint(strengthVO.toPosition);
+        var stickerFromPosition = mainCamera.WorldToScreenPoint(strengthVO.fromPosition);
 
         stickerBg.transform.SetParent(this.transform.parent.parent, true);
         stickerBg.transform.SetAsFirstSibling();
@@ -80,7 +82,7 @@ public class StrengthAnim : MonoBehaviour
         arrowHead.rectTransform.position = arrowPivot.position;
         arrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
 
-        line.Draw(strengthVO.fromPosition, Camera.main.ScreenToWorldPoint(lineEndPivot.position));
+        line.Draw(strengthVO.fromPosition, mainCamera.ScreenToWorldPoint(lineEndPivot.position));
         
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = strengthVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;

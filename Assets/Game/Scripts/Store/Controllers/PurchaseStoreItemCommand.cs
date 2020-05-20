@@ -3,7 +3,8 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using HUF.Analytics.API;
+//using HUF.Analytics.API;
+using System.Collections.Generic;
 using strange.extensions.command.impl;
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
@@ -24,6 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -33,12 +35,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         private StoreItem item;
-        private NS pState = null;
+        private static NS pState = null;
 
         public override void Execute()
         {
             item = metaDataModel.store.items[key];
-            pState = navigatorModel.previousState;
+            if (navigatorModel.previousState.GetType() != typeof(NSConfirmDlg))
+            {
+                pState = navigatorModel.previousState;
+            }
 
             PurchaseResult purchaseResult = PurchaseResult.NONE;
 
@@ -95,6 +100,11 @@ namespace TurboLabz.InstantFramework
             if (pState.GetType() == typeof(NSLobby))
             {
                 cameFromScreen = "lobby_banner";
+
+                if (metaDataModel.appInfo.isAutoSubscriptionDlgShown)
+                {
+                    cameFromScreen = "auto_popup";
+                }
             }
             else if (pState.GetType() == typeof(NSCPU) || pState.GetType() == typeof(NSMultiplayer))
             {
@@ -104,10 +114,22 @@ namespace TurboLabz.InstantFramework
             {
                 cameFromScreen = "theme_selection";
             }
+            else if (pState.GetType() == typeof(NSCPUResultsDlg) || pState.GetType() == typeof(NSMultiplayerResultsDlg))
+            {
+                if (metaDataModel.appInfo.internalAdType == InternalAdType.FORCED_ON_WIN)
+                {
+                    cameFromScreen = "victory_popup";
+                }
+                else if (metaDataModel.appInfo.internalAdType == InternalAdType.INTERAL_AD)
+                {
+                    cameFromScreen = "interal_ad";
+                }
+            }
 
             if (result == BackendResult.PURCHASE_ATTEMPT)
             {
                 eventName = "attempt";
+                metaDataModel.store.lastPurchaseAttemptTimestamp = backendService.serverClock.currentTimestamp;
             }
             else if (result == BackendResult.PURCHASE_COMPLETE)
             {
@@ -122,7 +144,16 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
-            hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", "subscription", cameFromScreen);
+            if (eventName.Equals("failed"))
+            {
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen,
+                    new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
+
+            }
+            else
+            {
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen);
+            }
         }
 
         private void OnPurchase(BackendResult result)

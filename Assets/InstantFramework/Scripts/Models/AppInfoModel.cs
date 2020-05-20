@@ -23,12 +23,23 @@ namespace TurboLabz.InstantFramework
         public bool syncInProgress { get; set; }
         public GameMode gameMode { get; set; }
         public bool isNotificationActive { get; set; }
+        public InternalAdType internalAdType { get; set; }
+        public bool isAutoSubscriptionDlgShown { get; set; }
+        public bool isResumeGS { get; set; }
 
         public string privacyPolicyURL
         {
             get
             {
                 return "https://huuugegames.com/privacy-policy/";
+            }
+        }
+
+        public string faqURL
+        {
+            get
+            {
+                return "https://huuuge.helpshift.com/a/chess-stars/";
             }
         }
 
@@ -58,6 +69,7 @@ namespace TurboLabz.InstantFramework
             clientVersion = Application.version;
             gameMode = GameMode.NONE;
             isNotificationActive = false;
+            isResumeGS = false;
 
             modelsResetSignal.AddListener(Reset);
         }
@@ -71,6 +83,8 @@ namespace TurboLabz.InstantFramework
             onlineCount = 0;
             isNotificationActive = false;
             contactSupportURL = "";
+            internalAdType = InternalAdType.NONE;
+            isAutoSubscriptionDlgShown = false;
         }
     }
 }

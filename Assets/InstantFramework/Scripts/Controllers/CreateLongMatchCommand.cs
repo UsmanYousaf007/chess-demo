@@ -19,9 +19,6 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
-        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -36,18 +33,6 @@ namespace TurboLabz.InstantFramework
             matchInfoModel.createLongMatchAborted = false;
             matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.Unassigned;
             backendService.CreateLongMatch(opponentId, isRanked).Then(OnCreateLongMatch);
-
-            // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_long_match_create, 
-                AnalyticsParameter.is_ranked,
-                isRanked);
-
-            var friend = playerModel.GetFriend(opponentId);
-
-            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
-            {
-                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
-            }
         }
 
         private void OnCreateLongMatch(BackendResult result)
@@ -59,11 +44,6 @@ namespace TurboLabz.InstantFramework
                     //loadLobbySignal.Dispatch();
                     friendBarBusySignal.Dispatch(opponentId, false, matchInfoModel.createLongMatchAbortReason);
                 }
-
-                preferencesModel.gameStartCount++;
-                hAnalyticsService.LogEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match");
-                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-
             }
             else if (result != BackendResult.CANCELED)
             {

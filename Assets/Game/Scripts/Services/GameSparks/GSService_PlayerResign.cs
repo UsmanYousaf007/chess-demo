@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> PlayerResign(string challengeId)
         {
-            return new GSPlayerResignRequest().Send(challengeId);
+            return new GSPlayerResignRequest(GetRequestContext()).Send(challengeId);
         }
     }
 
@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "Resign";
         const string ATT_CHALLENGE_ID = "challengeId";
+
+        public GSPlayerResignRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string challengeId)
         {

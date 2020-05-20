@@ -5,7 +5,7 @@ using System;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections;
-using HUF.Analytics.API;
+//using HUF.Analytics.API;
 using IAnalyticsService = TurboLabz.InstantFramework.IAnalyticsService;
 
 namespace TurboLabz.InstantGame
@@ -100,7 +100,24 @@ namespace TurboLabz.InstantGame
                 key = LobbyPromotionKeys.GAME_UPDATE_BANNER,
                 condition = delegate
                 {
-                    return String.Compare(appInfoModel.clientVersion, settingsModel.minimumClientVersion) == -1 && !isUpdateBannerShown;
+                    string[] vServer = settingsModel.minimumClientVersion.Split('.');
+                    string[] vClient = appInfoModel.clientVersion.Split('.');
+                    
+
+                    bool majorV = int.Parse(vServer[0]) > int.Parse(vClient[0]);
+                    bool minorV = int.Parse(vServer[1]) > int.Parse(vClient[1]);
+
+                    if (majorV == true && !isUpdateBannerShown)
+                    {
+                        return true;
+                    }
+
+                    if (minorV == true && !isUpdateBannerShown)
+                    {
+                        return true;
+                    }
+
+                    return isUpdateBannerShown;
                 },
                 onClick = delegate (string key)
                 {

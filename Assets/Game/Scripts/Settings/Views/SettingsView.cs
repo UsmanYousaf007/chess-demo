@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using HUFEXT.GenericGDPR.Runtime.API;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -36,6 +35,14 @@ namespace TurboLabz.InstantFramework
         public Text personalizedAdsText;
         public Button personalisedAdsOnBtn;
         public Button personalisedAdsOffBtn;
+        public Text personalisedAdsOnText;
+        public Text personalisedAdsOffText;
+
+        public Text autoConvertPawntoQueenText;
+        public Button autoConvertPawntoQueenOnBtn;
+        public Button autoConvertPawntoQueenOffBtn;
+        public Text autoConvertPawntoQueenOnBtnText;
+        public Text autoConvertPawntoQueenOffBtnText;
 
         public Button manageSubscriptionBtn;
         public Text manageSubscriptionText;
@@ -49,26 +56,33 @@ namespace TurboLabz.InstantFramework
         public Button privacyPolicyBtn;
         public Text privacyPolicyText;
 
+        public Button FAQBtn;
+        public Text FAQText;
+
         public Button upgradeToPremiumBtn;
         public Text upgradeToPremiumText;
 
-        public Text personalisedAdsOnText;
-        public Text personalisedAdsOffText;
 
+        public Button hufShowAdsTestSuite;
 
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
         public Signal restorePurchaseButtonClickedSignal = new Signal();
+        public Signal applySettingsSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         //Models 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
+        bool settingsChanged = false;
 
         public void Init()
         {
@@ -78,8 +92,8 @@ namespace TurboLabz.InstantFramework
             backButtonText.text = localizationService.Get(LocalizationKey.BACK_TEXT);
             soundText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_TITLE);
             soundEffectsText.text = localizationService.Get(LocalizationKey.SETTINGS_SOUND_EFFECT);
-            soundOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
-            soundOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
+            soundOnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
+            soundOffText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
 
             //Account
             manageSubscriptionText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION);
@@ -88,8 +102,11 @@ namespace TurboLabz.InstantFramework
             privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
             upgradeToPremiumText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM);
             personalizedAdsText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS);
-            personalisedAdsOnText.text = localizationService.Get(LocalizationKey.SETTINGS_ON);
-            personalisedAdsOffText.text = localizationService.Get(LocalizationKey.SETTINGS_OFF);
+            personalisedAdsOnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
+            personalisedAdsOffText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
+            FAQText.text = localizationService.Get(LocalizationKey.SETTINGS_FAQ);
+            autoConvertPawntoQueenOnBtnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
+            autoConvertPawntoQueenOffBtnText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
 
             //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
@@ -101,6 +118,9 @@ namespace TurboLabz.InstantFramework
             audioOnButton.onClick.AddListener(OnAudioOnButtonClicked);
             personalisedAdsOffBtn.onClick.AddListener(OnPersonalizedAdsOffButtonClicked);
             personalisedAdsOnBtn.onClick.AddListener(OnPersonalizedAdsOnButtonClicked);
+            FAQBtn.onClick.AddListener(OnFAQButtonClicked);
+            autoConvertPawntoQueenOffBtn.onClick.AddListener(OnAutoConvertPawntoQueenOffButtonClicked);
+            autoConvertPawntoQueenOnBtn.onClick.AddListener(OnAutoConvertPawntoQueenOffButtonClicked);
 
             appVersion.text = "v" + Application.version;
 
@@ -110,12 +130,18 @@ namespace TurboLabz.InstantFramework
 #if UNITY_ANDROID
             restorePurchaseBtn.gameObject.SetActive(false);
 #endif
+            hufShowAdsTestSuite.gameObject.SetActive(Debug.isDebugBuild);
+            hufShowAdsTestSuite.onClick.AddListener(adsService.ShowTestSuite);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
+            RefreshAudioButtons();
             RefreshPersonalisedAdsToggleButtons();
+            RefreshAutoConvertPawntoQueenButtons();
+            //settingsChanged = playerModel.autoPromotionToQueen;
+            settingsChanged = preferencesModel.autoPromotionToQueen;
         }
 
         public void SetSubscriptionPrice()
@@ -130,17 +156,17 @@ namespace TurboLabz.InstantFramework
             string subscriptionInfo = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_INFO);
             string subscriptionRenewDate = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_RENEW);
             
-            priceText.text = isSubscriber ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
+            //priceText.text = isSubscriber ? subscriptionRenewDate.Replace("(date)", playerModel.renewDate) : subscriptionInfo;
            
             upgradeToPremiumBtn.gameObject.SetActive(!isSubscriber);
             manageSubscriptionBtn.gameObject.SetActive(isSubscriber && !playerModel.isPremium);
-            priceText.gameObject.SetActive((isSubscriber && !playerModel.isPremium) || !isSubscriber);
+            //priceText.gameObject.SetActive((isSubscriber && !playerModel.isPremium) || !isSubscriber);
         }
 
         void OnManageSubscriptionButtonClicked()
         {
-            Application.OpenURL(metaDataModel.settingsModel.manageSubscriptionURL);
             audioService.PlayStandardClick();
+            manageSubscriptionButtonClickedSignal.Dispatch();
         }
 
         void OnUpgradeToPremiumButtonClicked()
@@ -152,30 +178,31 @@ namespace TurboLabz.InstantFramework
         //Personalised Ads Button
         private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalisedAdsOffBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted != GDPRStatus.ACCEPTED);
-            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+            personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPersonalizedAdsAccepted);
+            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         private void OnPersonalizedAdsOffButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPolicyAccepted = GDPRStatus.ACCEPTED;
+            HGenericGDPR.IsPersonalizedAdsAccepted = true;
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
+            hAnalyticsService.LogEvent("turn_on", "settings", "", "personalised_ads");
         }
 
         private void OnPersonalizedAdsOnButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPolicyAccepted = GDPRStatus.TURNED_OFF;
+            HGenericGDPR.IsPersonalizedAdsAccepted = false;
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
+            hAnalyticsService.LogEvent("turn_off", "settings", "", "personalised_ads");
         }
 
         private void SetConsent()
         {
-            adsService.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
-            HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted == GDPRStatus.ACCEPTED);
+            adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         void OnRestorePurchaseButtonClicked()
@@ -186,14 +213,22 @@ namespace TurboLabz.InstantFramework
 
         void OnTermsOfUseButtonClicked()
         {
-            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
+            hAnalyticsService.LogEvent("terms_clicked", "settings", "", "terms");
             audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
         }
 
         void OnPrivacyPolicyButtonClicked()
         {
-            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
+            hAnalyticsService.LogEvent("clicked", "settings", "", "privacy_policy");
             audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
+        }
+
+        void OnFAQButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.faqURL);
         }
 
         public void Show()
@@ -204,6 +239,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
+            //applySettingsSignal.Dispatch();
         }
 
         public void OnBackButtonClicked()
@@ -216,18 +252,48 @@ namespace TurboLabz.InstantFramework
             audioService.ToggleAudio(true);
             audioService.PlayStandardClick();
             RefreshAudioButtons();
+            hAnalyticsService.LogEvent("turn_on", "settings", "", "sounds");
         }
 
         private void OnAudioOnButtonClicked()
         {
             audioService.ToggleAudio(false);
             RefreshAudioButtons();
+            hAnalyticsService.LogEvent("turn_off", "settings", "", "sounds");
         }
 
         private void RefreshAudioButtons()
         {
             audioOffButton.gameObject.SetActive(!audioService.IsAudioOn());
             audioOnButton.gameObject.SetActive(audioService.IsAudioOn());
+        }
+
+        private void OnAutoConvertPawntoQueenOffButtonClicked()
+        {
+            //playerModel.autoPromotionToQueen = !playerModel.autoPromotionToQueen;
+            preferencesModel.autoPromotionToQueen = !preferencesModel.autoPromotionToQueen;
+            audioService.PlayStandardClick();
+            RefreshAutoConvertPawntoQueenButtons();
+        }
+
+        private void OnAutoConvertPawntoQueenOnButtonClicked()
+        {
+            audioService.PlayStandardClick();
+        }
+
+        private void RefreshAutoConvertPawntoQueenButtons()
+        {
+            //autoConvertPawntoQueenOffBtn.gameObject.SetActive(!playerModel.autoPromotionToQueen);
+            //autoConvertPawntoQueenOnBtn.gameObject.SetActive(playerModel.autoPromotionToQueen);
+
+            autoConvertPawntoQueenOffBtn.gameObject.SetActive(!preferencesModel.autoPromotionToQueen);
+            autoConvertPawntoQueenOnBtn.gameObject.SetActive(preferencesModel.autoPromotionToQueen);
+
+        }
+
+        public bool HasSettingsChanged()
+        {
+            return settingsChanged != preferencesModel.autoPromotionToQueen;
         }
     }
 }

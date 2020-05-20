@@ -8,6 +8,7 @@ public class ThemeSelectionMediator : Mediator
 
     // Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -22,7 +23,7 @@ public class ThemeSelectionMediator : Mediator
     [ListensTo(typeof(StoreAvailableSignal))]
     public void OnStoreAvailable(bool isAvailable)
     {
-        if (isAvailable)
+        if (!isAvailable)
         {
             view.Init();
         }
@@ -57,6 +58,7 @@ public class ThemeSelectionMediator : Mediator
         if (view.HasSkinChanged())
         {
             savePlayerInventorySignal.Dispatch();
+            hAnalyticsService.LogEvent("selection", "menu", "", "theme_change");
         }
 
         OnCloseDailogue();

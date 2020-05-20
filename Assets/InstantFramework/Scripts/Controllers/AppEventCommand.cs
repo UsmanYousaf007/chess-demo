@@ -2,13 +2,6 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
-/// @author Mubeen Iqbal <mubeen@turbolabz.com>
-/// @company Turbo Labz <http://turbolabz.com>
-/// @date 2016-11-01 11:39:01 UTC+05:00
-/// 
-/// @description
-/// [add_description_here]
 
 using GameSparks.Core;
 using strange.extensions.command.impl;
@@ -28,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GameAppEventSignal gameAppEventSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
+        [Inject] public ClosePromotionDlgSignal closePromotionDlgSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -38,6 +32,9 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //bool softReconnecting = false;
 
@@ -45,13 +42,23 @@ namespace TurboLabz.InstantFramework
         {
             gameAppEventSignal.Dispatch(appEvent);
 
+            // Log analytics for quit while in reconnecting 
+            if (appEvent == AppEvent.QUIT && appInfoModel.isReconnecting != DisconnectStates.FALSE)
+            {
+                analyticsService.Event(AnalyticsEventId.app_quit_during_disconnected);
+            }
+
             if (appEvent == AppEvent.PAUSED || appEvent == AppEvent.QUIT)
             {
+                appInfoModel.isResumeGS = false;
+
                 navigatorEventSignal.Dispatch(NavigatorEvent.IGNORE);
                 modelsSaveToDiskSignal.Dispatch();
+                hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
 
                 //only schedule local notificaitons once player model is filled with data
-                if(playerModel.id != null) {
+                if (playerModel.id != null)
+                {
                     setLocalNotificationNumber();
                 }
             }
@@ -60,10 +67,36 @@ namespace TurboLabz.InstantFramework
                 if (appInfoModel.isReconnecting != DisconnectStates.FALSE)
                     return;
 
-               // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
-                   // return;
+                if (appInfoModel.internalAdType != InternalAdType.NONE)
+                {
+                    closePromotionDlgSignal.Dispatch();
+                    return;
+                }
+                // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
+                // return;
 
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            }
+            else if (appEvent == AppEvent.RESUMED)
+            {
+                appInfoModel.isResumeGS = true;
+                backendService.ScheduleSwitchOffResumeGS();
+
+                if (SplashLoader.launchCode != 1)
+                {
+                    if (firebasePushNotificationService.IsNotificationOpened())
+                    {
+                        hAnalyticsService.LogEvent("launch_opened", "launch", "notification");
+                    }
+                    else
+                    {
+                        hAnalyticsService.LogEvent("launch_opened", "launch");
+                    }
+                    SplashLoader.launchCode = 2;
+                }
+
+                firebasePushNotificationService.ClearNotifications();
+                navigatorModel.currentState.RenderDisplayOnEnter();
             }
         }
 

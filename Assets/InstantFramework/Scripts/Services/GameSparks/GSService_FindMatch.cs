@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> FindMatch(string action)
         {
-            return new GSFindMatchRequest().Send(action, OnFindMatchSuccess);
+            return new GSFindMatchRequest(GetRequestContext()).Send(action, OnFindMatchSuccess);
         }
 
         private void OnFindMatchSuccess(object r)
@@ -51,6 +51,8 @@ namespace TurboLabz.InstantFramework
     {
         const string SHORT_CODE = "FindMatch";
         const string ATT_ACTION = "action";
+
+        public GSFindMatchRequest(GSFrameworkRequestContext context) : base(context) { }
 
         public IPromise<BackendResult> Send(string action, Action<object> onSuccess)
         {

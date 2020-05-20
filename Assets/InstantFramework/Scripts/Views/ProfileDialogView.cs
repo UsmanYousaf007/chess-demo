@@ -84,8 +84,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
-
-
+        [Inject] public IAudioService audioService { get; set; }
 
         public Signal<string> blockUserSignal = new Signal<string>();
         public Signal<string> addFriendSignal = new Signal<string>();
@@ -277,6 +276,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnBlockConfirm()
         {
+            audioService.PlayStandardClick();
             confirmDialog.SetActive(true);
         }
 

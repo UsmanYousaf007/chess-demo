@@ -34,11 +34,12 @@ namespace TurboLabz.InstantFramework
 
         // services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
-            InternetReachabilityMonitor.AddListener(OnInternetConnectedTicked);
+            backendService.OnlineCheckerAddListener(OnInternetConnectedTicked);
             gameObject.SetActive(true);
             view.HidePopUp();
         }
@@ -74,7 +75,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
+        private void OnInternetConnectedTicked(bool isConnected, ConnectionSwitchType connectionSwitch)
         {
             if (appInfoModel.gameMode == GameMode.NONE || matchInfoModel.activeChallengeId == null)
             {
@@ -84,11 +85,12 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
+                    analyticsService.Event(AnalyticsEventId.reconnection_shown, AnalyticsContext.internet_disconnect);
                     view.ShowPopUp();
                 }
             }
 
-            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
+            if (connectionSwitch == ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 // Make sure state is not in long disconnect
                 if (appInfoModel.isReconnecting == DisconnectStates.FALSE)
@@ -101,7 +103,7 @@ namespace TurboLabz.InstantFramework
                 pauseNotificationsSignal.Dispatch(true);
             }
             else
-            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            if (connectionSwitch == ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 if (appInfoModel.isReconnecting == DisconnectStates.SHORT_DISCONNECT)
                 {
@@ -119,6 +121,8 @@ namespace TurboLabz.InstantFramework
                 }
 
                 pauseNotificationsSignal.Dispatch(false);
+
+                Crosstales.OnlineCheck.OnlineCheck.SetNormalState();
             }
         }
     }

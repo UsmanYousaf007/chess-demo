@@ -11,6 +11,17 @@ namespace TurboLabz.InstantFramework
     [Serializable]
     public static class FindMatchAction
     {
+
+        public enum ActionCode
+        {
+            Random,
+            Random10,
+            RandomLong,
+            Challenge,
+            Accept,
+            Challenge10
+        }
+
         public struct ActionData
         {
             public string action;
@@ -22,8 +33,9 @@ namespace TurboLabz.InstantFramework
         }
 
         public const string ACTION_RANDOM = "Random";
-        static ActionData actionData = new ActionData();
+        public static ActionData actionData = new ActionData();
         public static bool isMatchRequestedWithFriend;
+        public static bool isRandomLongMatch;
 
         static public void Reset()
         {
@@ -33,21 +45,33 @@ namespace TurboLabz.InstantFramework
             actionData.isRanked = true;
         }
 
-        static public void Random(FindMatchSignal signal)
+        static public void Random(FindMatchSignal signal, string actionCode)
         {
             Reset();
             isMatchRequestedWithFriend = false;
-            actionData.action = "Random";
+            isRandomLongMatch = false;
+            actionData.action = actionCode;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
-        static public void Challenge(FindMatchSignal signal, bool isRanked, string opponentId)
+        static public void Challenge(FindMatchSignal signal, bool isRanked, string opponentId, string actionCode)
         {
             Reset();
             isMatchRequestedWithFriend = true;
-            actionData.action = "Challenge";
+            isRandomLongMatch = false;
+            //actionData.action = "Challenge";
+            actionData.action = actionCode;
             actionData.isRanked = isRanked;
             actionData.opponentId = opponentId;
+            signal.Dispatch(JsonUtility.ToJson(actionData));
+        }
+
+        static public void RandomLong(FindMatchSignal signal)
+        {
+            Reset();
+            isMatchRequestedWithFriend = false;
+            isRandomLongMatch = true;
+            actionData.action = ActionCode.RandomLong.ToString();
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -55,7 +79,9 @@ namespace TurboLabz.InstantFramework
         {
             Reset();
             isMatchRequestedWithFriend = false;
-            actionData.action = "Accept";
+            isRandomLongMatch = false;
+            //actionData.action = "Accept";
+            actionData.action = ActionCode.Accept.ToString();
             actionData.matchGroup = matchGroup;
             actionData.opponentId = opponentId;
             actionData.avatarId = avatarId;

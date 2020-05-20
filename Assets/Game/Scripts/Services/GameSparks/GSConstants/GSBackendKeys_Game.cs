@@ -45,9 +45,13 @@ namespace TurboLabz.InstantFramework
         public const string AI_SPEED = "aiSpeed";
         public const string TIME_STAMP = "timestamp";
         public const string POWER_UP_USED_COUNT = "powerupUsedCount";
+        public const string OFFER_DRAW = "offerDraw";
+        public const string OFFER_DRAW_STATUS = "status";
+        public const string OFFER_DRAW_OFFERED_BY = "offeredBy";
 
         // Message ExtCodes
         public const string CHALLENGE_ACCEPT_MESSAGE = "ChallengeAcceptMessage";
+        public const string CHALLENGE_OFFER_DRAW_MESSAGE = "ChallengeOfferDrawMessage";
 
         // Challenge response keys
         public const string CHALLENGE_INSTANCE_ID = "challengeInstanceId";
@@ -80,7 +84,8 @@ namespace TurboLabz.InstantFramework
             { "drawByThreefoldRepetitionWithoutMove", GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE },
             { "playerDisconnected", GameEndReason.PLAYER_DISCONNECTED },
             { "declined", GameEndReason.DECLINED },
-            { "abandon", GameEndReason.ABANDON}
+            { "abandon", GameEndReason.ABANDON},
+            { "drawByDrawOffered", GameEndReason.DRAW_BY_DRAW_OFFERED}
         };
 
         public static readonly Dictionary<string, ChessColor> PLAYER_COLOR_MAP = new Dictionary<string, ChessColor>() {

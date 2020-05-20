@@ -28,8 +28,6 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             Retain();
-
-            picsModel.DeleteFriendPic(friendId);
             backendService.FriendsOpBlock(friendId).Then(OnFriendBlock);
         }
 

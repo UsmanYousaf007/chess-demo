@@ -109,22 +109,22 @@ namespace TurboLabz.Multiplayer
         }
 
         // Failed server requests will trigger this signal
-        [ListensTo(typeof(SyncReconnectDataSignal))]
+        //[ListensTo(typeof(SyncReconnectDataSignal))]
         public void SyncReconnectData(string challengeId)
         {
-            InternetReachabilityMonitor.StopMonitor();
+            backendService.OnlineCheckerStop();
 
             view.EnableSynchMovesDlg(true);
 
-            OnInternetConnectedTicked(false, InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED);
-            OnInternetConnectedTicked(true, InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED);
+            OnInternetConnectedTicked(false, ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED);
+            OnInternetConnectedTicked(true, ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED);
 
-            InternetReachabilityMonitor.StartMonitor();
+            backendService.OnlineCheckerStart();
         }
 
         // Chess board needs to be synched on app resume to keep clocks in synch with server
         // Only meant for app going into background and back
-        [ListensTo(typeof(AppEventSignal))]
+        //[ListensTo(typeof(AppEventSignal))]
         public void OnAppEvent(AppEvent evt)
         {
             if (!gameObject.activeSelf ||
@@ -149,7 +149,7 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void OnInternetConnectedTicked(bool isConnected, InternetReachabilityMonitor.ConnectionSwitchType connectionSwitch)
+        private void OnInternetConnectedTicked(bool isConnected, ConnectionSwitchType connectionSwitch)
         {
             // No need to sync an ended match
             if (matchInfoModel.activeChallengeId == null )
@@ -163,11 +163,12 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
-            if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
+            if (connectionSwitch == ConnectionSwitchType.FROM_CONNECTED_TO_DISCONNECTED)
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {
                     appInfoModel.syncInProgress = true;
+                    analyticsService.Event(AnalyticsEventId.reconnection_shown, AnalyticsContext.internet_switch);
                     reconnectViewEnableSignal.Dispatch(true);
                     view.chessboardBlocker.SetActive(true);
                     TLUtils.LogUtil.Log("Match disconnected Id: " + matchInfoModel.activeChallengeId, "cyan");
@@ -178,7 +179,7 @@ namespace TurboLabz.Multiplayer
                     matchReconnection = false;
                 }
             }
-            else if (connectionSwitch == InternetReachabilityMonitor.ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
+            else if (connectionSwitch == ConnectionSwitchType.FROM_DISCONNECTED_TO_CONNECTED)
             {
                 if (matchInfoModel.activeChallengeId != null)
                 {

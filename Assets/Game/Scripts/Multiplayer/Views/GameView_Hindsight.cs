@@ -20,6 +20,8 @@ namespace TurboLabz.Multiplayer
     {
         public Signal hindsightClickedSignal = new Signal();
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
+        [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
 
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
@@ -123,7 +125,10 @@ namespace TurboLabz.Multiplayer
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
+                setSubscriptionContext.Dispatch(isLongPlay ? "Classic" : isTenMinGame ? "TenMin" : "FiveMin", "Coach");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                OnParentHideAdBanner();
+                subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
                 EnableModalBlocker();
             }
             else

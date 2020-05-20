@@ -38,6 +38,16 @@ namespace TurboLabz.InstantGame
         public const string TIME_SPENT_LOBBY = "timeSpentLobby";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";
         public const string SKIP_DLG_SHOWN = "skipDlgShown";
+        public const string QUICK_MATCH_FINISHED_COUNT = "quickMatchFinishedCount";
+        public const string LONG_MATCH_FINISHED_COUNT = "longMatchFinishedCount";
+        public const string CPU_MATCH_FINISHED_COUNT = "cpuMatchFinishedCount";
+        public const string TIME_AT_SUBSCRIPTION_DLG_SHOWN = "timeAtSubscriptionDlgShown";
+        public const string AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT = "autoSubscriptionDlgShownCount";
+
+        //Pregame ads
+        public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";
+        public const string PREGAME_ADS_PER_DAY_COUNT = "pregameAdsPerDayCount";
+        public const string INTERVAL_BETWEEN_PREGAME_ADS = "intervalBetweenPregameAds";
 
         //for appsflyer events for HUUUGE
         public const string VIDEO_FINISHED_COUNT = "videoFinishedCount";
@@ -52,5 +62,7 @@ namespace TurboLabz.InstantGame
         public const string INTERSTITIAL_ADS_COUNT = "interstitialAdsCount";
         public const string RESIGN_COUNT = "resignCount";
         public const string S3_URL_PING_VERSION = "urlPingVersion";
+        public const string AUTO_PROMOTION_TO_QUEEN = "autoPromotionToQueen";
+        
     }
 }

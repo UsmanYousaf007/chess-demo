@@ -11,6 +11,8 @@ using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
+using strange.extensions.promise.api;
+using HUFEXT.CrossPromo.Runtime.API;
 
 namespace TurboLabz.Multiplayer
 {
@@ -44,6 +46,8 @@ namespace TurboLabz.Multiplayer
 
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
+
+        public Button showCrossPromoButton;
 
         public RectTransform rewardBar;
         public Text earnRewardsText;
@@ -88,6 +92,7 @@ namespace TurboLabz.Multiplayer
             declinedLobbyButton.onClick.AddListener(OnResultsDeclinedButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
+            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
 
             // Text Labels
             resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
@@ -123,16 +128,6 @@ namespace TurboLabz.Multiplayer
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
-
-                if(isLongPlay)
-                {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_available, AnalyticsContext.long_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_available, AnalyticsContext.quick_match);
-                }
-                
             }
             else
             {
@@ -141,15 +136,6 @@ namespace TurboLabz.Multiplayer
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;
-
-                if (isLongPlay)
-                {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_failed, AnalyticsContext.long_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.ads_rewared_failed, AnalyticsContext.quick_match);
-                }
             }
         }
 
@@ -174,6 +160,9 @@ namespace TurboLabz.Multiplayer
             HideSafeMoveBorder();
 
             viewBoardResultPanel.gameObject.SetActive(false);
+
+            showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+
         }
 
         public void HideResultsDialog()
@@ -218,6 +207,9 @@ namespace TurboLabz.Multiplayer
         {
             viewBoardResultPanel.reason.text = "";
             EnableRewarededVideoButton(true);
+            offerTextDlg.SetActive(false);
+            offerDrawDialog.SetActive(false);
+
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -273,9 +265,19 @@ namespace TurboLabz.Multiplayer
                     }
                     else
                     {
+                        isDraw = true;
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
                         viewBoardResultPanel.reason.text = string.Format("{0} left", playerName);
                     }
+                    break;
+
+                case GameEndReason.DRAW_BY_DRAW_OFFERED:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.color = Colors.YELLOW_DIM;
+                    Color c = resultsGameResultReasonLabel.color;
+                    c.a = Colors.ENABLED_TEXT_ALPHA;
+                    resultsGameResultReasonLabel.color = c;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW);
                     break;
 
                 default:
@@ -426,26 +428,25 @@ namespace TurboLabz.Multiplayer
             vo.rewardType = adRewardType;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.rewarded;
             showRewardedAdSignal.Dispatch(vo);
 
             //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
 
-            if (isLongPlay)
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+
+            /*if (isLongPlay)
             {
-                backToLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.long_match);
-
-                analyticsService.Event(AnalyticsEventId.ads_rewared_show, AnalyticsContext.long_match);
-
+                //backToLobbySignal.Dispatch();
+                //refreshLobbySignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.rewarded);
             }
             else
             {
-                backToLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.quick_match);
-
-                analyticsService.Event(AnalyticsEventId.ads_rewared_show, AnalyticsContext.quick_match);
-
-            }
+                //backToLobbySignal.Dispatch();
+                //refreshLobbySignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.rewarded);
+            }*/
         }
 
         private void OnResultsDeclinedButtonClicked()
@@ -472,24 +473,43 @@ namespace TurboLabz.Multiplayer
         public void OnResultsSkipRewardButtonClicked()
         {
             audioService.PlayStandardClick();
-            backToLobbySignal.Dispatch();
-            refreshLobbySignal.Dispatch();
+            //backToLobbySignal.Dispatch();
+            //refreshLobbySignal.Dispatch();
 
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.interstitial_endgame;
             showAdSignal.Dispatch(vo);
 
-            if (isLongPlay)
+            /*if (isLongPlay)
             { 
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.long_match);
             }
             else
             {
                 analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.quick_match);
+            }*/
+        }
+
+
+        private void OnCrossPromoButtonClicked()
+        {
+            toggleBannerSignal.Dispatch(false);
+            hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
+          
+            IPromise promise = HCrossPromo.OpenPanel();
+            if (promise != null)
+            {
+                promise.Then(ToggleBannerSignalFunc);
             }
+        }
+
+        private void ToggleBannerSignalFunc()
+        {
+            toggleBannerSignal.Dispatch(true);
         }
     }
 }

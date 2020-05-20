@@ -4,7 +4,7 @@
 /// Proprietary and confidential
 
 using TurboLabz.InstantFramework;
-
+using UnityEngine;
 
 namespace TurboLabz.Multiplayer 
 {
@@ -12,6 +12,7 @@ namespace TurboLabz.Multiplayer
     {
         // Dispatch Signals
         [Inject] public ResignSignal resignSignal { get; set; }
+        [Inject] public OfferDrawSignal offerDrawSignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
 
         public void OnRegisterMenu()
@@ -21,6 +22,7 @@ namespace TurboLabz.Multiplayer
             view.menuButtonClickedSignal.AddListener(OnMenuButtonClicked);
             view.resignButtonClickedSignal.AddListener(OnResignClicked);
             view.continueButtonClickedSignal.AddListener(OnContinueButtonClicked);
+            view.offerDrawButtonClickedSignal.AddListener(OnOfferDrawClicked);
         }
 
         public void OnRemoveMenu()
@@ -58,9 +60,21 @@ namespace TurboLabz.Multiplayer
             cancelHintSingal.Dispatch();
         }
 
+        private void OnOfferDrawClicked()
+        {
+            offerDrawSignal.Dispatch("offered");
+            view.OnContinueButtonClicked();
+        }
+
         private void OnContinueButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+        }
+
+        [ListensTo(typeof(UpdateOfferDrawSignal))]
+        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
+        {
+            view.OfferDraw(offerDrawVO.status, offerDrawVO.offeredBy);
         }
     }
 }
