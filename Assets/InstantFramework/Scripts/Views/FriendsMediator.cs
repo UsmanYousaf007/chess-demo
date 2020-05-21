@@ -277,7 +277,6 @@ namespace TurboLabz.InstantFramework
                     vo.adsType = AdType.Interstitial;
                     vo.isRanked = isRanked;
                     vo.friendId = playerId;
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     showAdSignal.Dispatch(vo);
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;
@@ -310,7 +309,6 @@ namespace TurboLabz.InstantFramework
                     vo.actionCode = actionCode;
                     vo.friendId = playerId;
                     vo.isRanked = isRanked;
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     showAdSignal.Dispatch(vo);
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;

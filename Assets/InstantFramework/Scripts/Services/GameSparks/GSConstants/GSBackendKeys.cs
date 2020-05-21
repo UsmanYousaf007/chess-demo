@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
         public const string DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD = "daysPerAutoSubscriptionDlgThreshold";
         public const string SESSIONS_BEFORE_PREGAME_AD = "sessionsBeforePregameAd";
         public const string MAX_PREGAME_ADS_PER_DAY = "maxPregameAdsPerDay";
+        public const string WAIT_PREGAME_AD_LOAD_SECONDS = "waitForPregameAdLoadSeconds";
         public const string INTERVALS_BETWEEN_PREGAME_ADS = "intervalsBetweenPregameAds";
 
         // Coin pack purchase

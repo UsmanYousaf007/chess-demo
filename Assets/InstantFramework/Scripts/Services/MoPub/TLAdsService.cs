@@ -137,11 +137,25 @@ namespace TurboLabz.InstantFramework
             return availableFlag && isNotCapped;
         }
 
+        /// <summary>
+        /// Use this to chcek if an interstitial ad is loaded and ready to show.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInterstitialReady()
+        {
+            return HAdsManager.CanShowAd(PLACEMENT_ID_INTERSTITIAL);
+        }
+
+        public bool IsInterstitialNotCapped()
+        {
+            return (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
+                (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
+        }
+
         public bool IsInterstitialAvailable()
         {
-            var availableFlag = HAdsManager.CanShowAd(PLACEMENT_ID_INTERSTITIAL);
-            bool isNotCapped = (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
-                (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
+            bool availableFlag = IsInterstitialReady();
+            bool isNotCapped = IsInterstitialNotCapped();
 
             if (!availableFlag)
             {
@@ -197,17 +211,21 @@ namespace TurboLabz.InstantFramework
 
         void OnInterstitailEnded(AdManagerCallback data)
         {
+            AdsResult adResultInstantFramework = AdsResult.FINISHED;
             switch (data.Result)
             {
                 case AdResult.Completed:
                     analyticsService.Event(AnalyticsEventId.ad_completed, playerModel.adContext);
+                    adResultInstantFramework = AdsResult.FINISHED;
                     break;
 
                 case AdResult.Skipped:
                     analyticsService.Event(AnalyticsEventId.ad_skipped, playerModel.adContext);
+                    adResultInstantFramework = AdsResult.SKIPPED;
                     break;
 
                 case AdResult.Failed:
+                    adResultInstantFramework = AdsResult.FAILED;
                     analyticsService.Event(AnalyticsEventId.ad_failed, playerModel.adContext);
                     break;
             }
@@ -216,7 +234,7 @@ namespace TurboLabz.InstantFramework
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)),
                 new KeyValuePair<string, object>("duration", (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(videoStartTime)).TotalSeconds),
                 new KeyValuePair<string, object>("end_type", data.Result.ToString()));
-            adEndedPromise.Dispatch(AdsResult.FINISHED);
+            adEndedPromise.Dispatch(adResultInstantFramework);
 
             adStatus = true;
             showAd = false;
