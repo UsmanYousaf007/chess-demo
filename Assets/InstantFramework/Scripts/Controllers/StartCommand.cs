@@ -43,7 +43,7 @@ namespace TurboLabz.InstantFramework
 
         private Coroutine wifiHealthCheckCR = null;
         private int wifiHealthWaitCounter = 0;
-        private const int SLOW_WIFI_WARNING_THRESHOLD_SECONDS = 10;
+        private const int SLOW_WIFI_WARNING_THRESHOLD_SECONDS = 30;
 
         public override void Execute()
 		{
