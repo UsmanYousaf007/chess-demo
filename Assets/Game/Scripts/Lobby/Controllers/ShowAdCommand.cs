@@ -298,8 +298,6 @@ namespace TurboLabz.InstantGame
 
         private void PregameAdCompleteHandler(AdsResult result = AdsResult.FINISHED)
         {
-            Debug.LogError("Adresult: " + result);
-
             if (result == AdsResult.FINISHED || result == AdsResult.SKIPPED)
             {
                 analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
