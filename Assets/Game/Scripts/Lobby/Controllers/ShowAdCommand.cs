@@ -57,6 +57,7 @@ namespace TurboLabz.InstantGame
         public string claimRewardType;
         private AdsRewardVO adsRewardData;
         private IPromise<AdsResult> promotionAdPromise;
+        private WaitForSeconds waitForOneSecond;
 
         public override void Execute()
         {
@@ -85,6 +86,9 @@ namespace TurboLabz.InstantGame
 
                 return;
             }
+
+            // Initializing wait for one second to be used in WaitForPregameAdCoroutine
+            waitForOneSecond = new WaitForSeconds(1f);
 
             switch (adType)
             {
@@ -192,7 +196,7 @@ namespace TurboLabz.InstantGame
         {
             while (waitSeconds > 0)
             {
-                yield return new WaitForSeconds(1);
+                yield return waitForOneSecond;
                 waitSeconds--;
 
                 if (adsService.IsInterstitialReady())
