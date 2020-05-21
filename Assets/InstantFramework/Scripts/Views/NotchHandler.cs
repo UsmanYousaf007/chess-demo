@@ -133,9 +133,9 @@ public class NotchHandler : MonoBehaviour {
             ShiftX(tfm, -10f);
 
         // CHAT NEW
-        SetY(chatNewTopBar, -193.1f);
-        SetY(chatNewScrollView, -45.07f);
-        SetHeight(chatNewScrollView, 1405.84f);
+        SetY(chatNewTopBar, -273f);
+        //SetY(chatNewScrollView, -45.07f);
+        SetHeight(chatNewScrollView, 1326f);
         SetBottom(chatNewViewPort, 0f);
         SetY(chatNewBotBar, 141f);
 
