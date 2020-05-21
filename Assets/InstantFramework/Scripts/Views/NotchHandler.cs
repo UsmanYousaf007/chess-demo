@@ -34,6 +34,7 @@ public class NotchHandler : MonoBehaviour {
 
     [Header("Multiplayer Game")]
     public RectTransform mpTopBar;
+    public RectTransform mpOfferDraw;
     public RectTransform mpBotBar;
     public RectTransform[] mpLeft;
     public RectTransform[] mpRight;
@@ -124,6 +125,7 @@ public class NotchHandler : MonoBehaviour {
 
         // MULTIPLAYER GAME
         SetY(mpTopBar, -148f);
+        SetY(mpOfferDraw, -1074f);
         SetY(mpBotBar, 141f);
         foreach (RectTransform tfm in mpLeft)
             ShiftX(tfm, 10f);
