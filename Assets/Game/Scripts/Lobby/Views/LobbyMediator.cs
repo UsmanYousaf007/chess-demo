@@ -314,7 +314,8 @@ namespace TurboLabz.InstantFramework
         {
             var friend = playerModel.GetFriend(playerId);
 
-            if (!playerModel.isPremium) 
+            //-- We're not showing pre-game ad for one minute matches
+            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Challenge1.ToString()) 
             {
                 if (CanShowPregameAd())
                 {
@@ -382,7 +383,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchBtnClicked(string actionCode)
         {
-            if (!playerModel.isPremium)
+            //-- We're not showing pre-game ad for one minute matches
+            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Random1.ToString())
             {
                 if (CanShowPregameAd())
                 {
