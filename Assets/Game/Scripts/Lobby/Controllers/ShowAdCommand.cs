@@ -81,6 +81,11 @@ namespace TurboLabz.InstantGame
                     if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
                     {
                         LoadGameStartSignal();
+                    }else if(playerModel.adContext == AnalyticsContext.interstitial_endgame)
+                    {
+                        Retain();
+                        ClaimReward(AdsResult.BYPASS);
+                        LoadLobby();
                     }
                 }
 
