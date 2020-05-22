@@ -6,7 +6,8 @@
 using TurboLabz.TLUtils;
 using HUF.Notifications.Runtime.API;
 using Firebase.Messaging;
-using HUF.InitFirebase.Runtime.API;
+using System.Collections;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -16,7 +17,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
-
+        [Inject] public IRoutineRunner routineRunner { get; set; }
         // Listen to signals
         [Inject] public AppEventSignal appEventSignal { get; set; }
 
@@ -29,19 +30,8 @@ namespace TurboLabz.InstantFramework
         {
 
             appEventSignal.AddListener(OnAppEvent);
-
-#if !UNITY_EDITOR
-            if (HInitFirebase.IsInitialized)
-            {
-                LogUtil.Log("FB Notif initialized");
-                HandleFirebaseInitComplete();
-            }
-            else
-            {
-                LogUtil.Log("FB Notif handler added");
-                HInitFirebase.OnInitializationSuccess += HandleFirebaseInitComplete;
-            }
-#endif
+            routineRunner.StartCoroutine(HandleFirebaseInitComplete());
+            FirebaseMessaging.MessageReceived += OnMessageReceived;
 
             //Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
             //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -71,8 +61,9 @@ namespace TurboLabz.InstantFramework
             //);
         }
 
-        void HandleFirebaseInitComplete()
+        IEnumerator HandleFirebaseInitComplete()
         {
+            yield return new WaitForSeconds(0.5f);
             ProcessToken(HNotifications.Push.CachedToken);
             ProcessMessage(HNotifications.Push.CachedMessage);
         }
@@ -90,6 +81,11 @@ namespace TurboLabz.InstantFramework
 
         private void ProcessToken(string token)
         {
+            if (token == null)
+            {
+                return;
+            }
+
             backendService.PushNotificationRegistration(token);
             pushToken = token;
             TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
@@ -99,7 +95,6 @@ namespace TurboLabz.InstantFramework
         {
             if (message == null)
             {
-                LogUtil.Log("FB Notif message null");
                 return;
             }
 
@@ -110,11 +105,8 @@ namespace TurboLabz.InstantFramework
             // Socket messaging handles notifications when game is running.
             if (!isNotificationOpened)
             {
-                LogUtil.Log("FB Notif not opened");
                 return;
             }
-
-            LogUtil.Log("FB Notif opened");
 
             NotificationVO notificationVO;
             notificationVO.title = "unassigned";

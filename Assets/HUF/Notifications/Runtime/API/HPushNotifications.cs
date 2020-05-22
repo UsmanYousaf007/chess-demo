@@ -49,7 +49,7 @@ namespace HUF.Notifications.Runtime.API
             OnNotificationsReceived.Dispatch(notificationData);
         }
 
-        public string CachedToken => notifications.CachedToken;
-        public FirebaseMessage CachedMessage => notifications.CachedMessage;
+        public string CachedToken => notifications?.CachedToken;
+        public FirebaseMessage CachedMessage => notifications?.CachedMessage;
     }
 }

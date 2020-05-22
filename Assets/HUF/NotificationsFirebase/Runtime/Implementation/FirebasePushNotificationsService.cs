@@ -54,13 +54,11 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
 
         void OnTokenReceived(object sender, TokenReceivedEventArgs token)
         {
-            Debug.Log("FB Notif token received");
             cachedToken = token.Token;
         }
 
         void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            Debug.Log("FB Notif message received");
             cachedMessage = e.Message;
             OnNotificationReceived.Dispatch(e.Message.RawData);
         }
