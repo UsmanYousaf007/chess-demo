@@ -55,44 +55,7 @@ namespace TurboLabz.InstantFramework
 
             // This sends the backend request
             backendService.FindMatch(action).Then(HandleFindMatchErrors);
-
-
-            MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
-            matchAnalyticsVO.context = AnalyticsContext.start_attempt;
-
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Accept.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
-            {
-                matchAnalyticsVO.friendType = "random";
-            }
-            else
-            {
-                var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
-                matchAnalyticsVO.friendType = friend.friendType;
-            }
-
-            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
-
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
-            {
-                matchAnalyticsVO.matchType = "classic";
-            }
-            else
-            {
-                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
-                    matchAnalyticsVO.matchType = "5m";
-                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
-                    matchAnalyticsVO.matchType = "10m";
-                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
-                    matchAnalyticsVO.matchType = "1m";
-            }
-
-            matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
-
-
+            matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.start_attempt));
             findMatchRequestCompleteSignal.AddOnce(OnFindMatchRequestCompleted);
         }
 
@@ -140,16 +103,10 @@ namespace TurboLabz.InstantFramework
             // Set the finding match view to a found match state
             matchFoundSignal.Dispatch(pvo);
 
-            MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
-            matchAnalyticsVO.context = AnalyticsContext.success;
-
             // add friend
             if (matchInfoModel.activeMatch.isBotMatch == false)
             {
                 newFriendSignal.Dispatch(pvo.playerId, false);
-            }else
-            {
-                matchAnalyticsVO.context = AnalyticsContext.success_bot;
             }
 
             // For quick match games, the flow continues from the get game start time signal
@@ -157,42 +114,11 @@ namespace TurboLabz.InstantFramework
 
             getGameStartTimeSignal.Dispatch();
 
+            //Analytics
             preferencesModel.gameStartCount++;
-
-
-            var friend = playerModel.GetFriend(pvo.playerId);
-
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString()
-                || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
-                matchAnalyticsVO.friendType = "random";
-            else
-            {
-                if(friend != null)
-                    matchAnalyticsVO.friendType = friend.friendType;
-                else
-                    matchAnalyticsVO.friendType = "community";
-            }
-
-            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
-
-            if (matchInfoModel.activeMatch.isLongPlay)
-            {
-                matchAnalyticsVO.matchType = "classic";
-            }
-            else
-            {
-                hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match", challengeId);
-                appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-
-                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString()) 
-                    matchAnalyticsVO.matchType = "5m";
-                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
-                    matchAnalyticsVO.matchType = "10m";
-                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
-                    matchAnalyticsVO.matchType = "1m";
-            }
-
-            matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+            hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", matchInfoModel.activeMatch.isLongPlay ? "long_match" : "quick_match", challengeId);
+            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+            matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(matchInfoModel.activeMatch.isBotMatch ? AnalyticsContext.success_bot : AnalyticsContext.success));
 
             // Grab the opponent profile pic if any
             if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
@@ -269,39 +195,101 @@ namespace TurboLabz.InstantFramework
             }
             else if (result != BackendResult.SUCCESS)
             {
-                MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
-                matchAnalyticsVO.context = AnalyticsContext.failed;
-
-                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString()
-                    || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
-                    matchAnalyticsVO.friendType = "random";
-                else
-                {
-                    var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
-                    matchAnalyticsVO.friendType = friend.friendType;
-                }
-
-                matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
-
-                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
-                {
-                    matchAnalyticsVO.matchType = "classic";
-                }
-                else
-                {
-                    if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
-                        matchAnalyticsVO.matchType = "5m";
-                    else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
-                        matchAnalyticsVO.matchType = "10m";
-                    else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
-                        matchAnalyticsVO.matchType = "1m";
-                }
-
-                matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
-
+                matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
                 backendErrorSignal.Dispatch(result);
                 Release();
             }
+        }
+
+        private MatchAnalyticsVO GetFindMatchAnalyticsVO(AnalyticsContext context)
+        {
+            var matchAnalyticsVO = new MatchAnalyticsVO();
+            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+            matchAnalyticsVO.context = context;
+
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
+                matchAnalyticsVO.matchType = "classic";
+            }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
+            {
+                matchAnalyticsVO.matchType = "5m";
+            }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
+            {
+                matchAnalyticsVO.matchType = "10m";
+            }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
+            {
+                matchAnalyticsVO.matchType = "1m";
+            }
+
+
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
+                matchAnalyticsVO.friendType = "random";
+            }
+            else
+            {
+                var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
+                if (friend != null)
+                {
+                    var friendType = friend.friendType;
+                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                    {
+                        if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
+                        {
+                            matchAnalyticsVO.friendType = "friends_facebook_notification_in_app";
+                        }
+                        else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
+                        {
+                            matchAnalyticsVO.friendType = "friends_facebook_notification_out_app";
+                        }
+                        else
+                        {
+                            matchAnalyticsVO.friendType = "friends_facebook";
+                        }
+                    }
+                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+                    {
+                        if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
+                        {
+                            matchAnalyticsVO.friendType = "friends_community_notification_in_app";
+                        }
+                        else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
+                        {
+                            matchAnalyticsVO.friendType = "friends_community_notification_out_app";
+                        }
+                        else
+                        {
+                            matchAnalyticsVO.friendType = "friends_community";
+                        }
+                    }
+                }
+                else
+                {
+                    if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
+                    {
+                        matchAnalyticsVO.friendType = "community_notification_in_app";
+                    }
+                    else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
+                    {
+                        matchAnalyticsVO.friendType = "community_notification_out_app";
+                    }
+                    else
+                    {
+                        matchAnalyticsVO.friendType = "community";
+                    }
+                }
+            }
+
+            return matchAnalyticsVO;
         }
     }
 }

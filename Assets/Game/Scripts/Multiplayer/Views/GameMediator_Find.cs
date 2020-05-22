@@ -66,47 +66,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnFindMatchTimeout()
         {
-            MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
-            matchAnalyticsVO.context = AnalyticsContext.failed;
-
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString()
-                || FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
-                matchAnalyticsVO.friendType = "random";
-            else
-            {
-                var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
-                if(friend == null)
-                    matchAnalyticsVO.friendType = "community";
-                else
-                    matchAnalyticsVO.friendType = friend.friendType;
-            }
-
-            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
-
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
-            {
-                matchAnalyticsVO.matchType = "classic";
-            }
-            else
-            {
-                if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
-                    matchAnalyticsVO.matchType = "5m";
-                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
-                    matchAnalyticsVO.matchType = "10m";
-                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
-                    matchAnalyticsVO.matchType = "1m";
-            }
-
-            matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
-
-            /*if (FindMatchAction.isMatchRequestedWithFriend)
-            {
-                analyticsService.Event(AnalyticsEventId.quickmatch_direct_request_timeout_ingame);
-
-            }else if(FindMatchAction.isRandomLongMatch)
-            {
-                analyticsService.Event(AnalyticsEventId.match_timer_runs_out, AnalyticsContext.random_long_match);
-            }*/
+            matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
             loadLobbySignal.Dispatch();
         }
 
@@ -114,6 +74,64 @@ namespace TurboLabz.Multiplayer
         public void OnUpdatePic(string playerId, Sprite sprite)
         {
             view.SetProfilePicById(playerId, sprite);
+        }
+
+        private MatchAnalyticsVO GetFindMatchAnalyticsVO(AnalyticsContext context)
+        {
+            var matchAnalyticsVO = new MatchAnalyticsVO();
+            matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+            matchAnalyticsVO.context = context;
+
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
+                matchAnalyticsVO.matchType = "classic";
+            }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
+            {
+                matchAnalyticsVO.matchType = "5m";
+            }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
+            {
+                matchAnalyticsVO.matchType = "10m";
+            }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
+            {
+                matchAnalyticsVO.matchType = "1m";
+            }
+
+
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
+                matchAnalyticsVO.friendType = "random";
+            }
+            else
+            {
+                var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
+                if (friend != null)
+                {
+                    var friendType = friend.friendType;
+                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                    {
+                         matchAnalyticsVO.friendType = "friends_facebook";
+                    }
+                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+                    {
+                         matchAnalyticsVO.friendType = "friends_community";
+                    }
+                }
+                else
+                {
+                    matchAnalyticsVO.friendType = "community";
+                }
+            }
+
+            return matchAnalyticsVO;
         }
     }
 }

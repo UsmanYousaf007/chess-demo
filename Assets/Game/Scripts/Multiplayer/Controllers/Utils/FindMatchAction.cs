@@ -24,6 +24,13 @@ namespace TurboLabz.InstantFramework
             Challenge1
         }
 
+        public enum NotificationStatus
+        {
+            InGame,
+            OutGame,
+            None
+        }
+
         public struct ActionData
         {
             public string action;
@@ -32,6 +39,7 @@ namespace TurboLabz.InstantFramework
             public bool isRanked;
             public string avatarId;
             public string avatarBgColor;
+            public NotificationStatus notificationStatus;
         }
 
         public const string ACTION_RANDOM = "Random";
@@ -53,6 +61,7 @@ namespace TurboLabz.InstantFramework
             isMatchRequestedWithFriend = false;
             isRandomLongMatch = false;
             actionData.action = actionCode;
+            actionData.notificationStatus = NotificationStatus.None;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -65,6 +74,7 @@ namespace TurboLabz.InstantFramework
             actionData.action = actionCode;
             actionData.isRanked = isRanked;
             actionData.opponentId = opponentId;
+            actionData.notificationStatus = NotificationStatus.None;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -74,10 +84,11 @@ namespace TurboLabz.InstantFramework
             isMatchRequestedWithFriend = false;
             isRandomLongMatch = true;
             actionData.action = ActionCode.RandomLong.ToString();
+            actionData.notificationStatus = NotificationStatus.None;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
-        static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor)
+        static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor, NotificationStatus notificationStatus)
         {
             Reset();
             isMatchRequestedWithFriend = false;
@@ -88,6 +99,7 @@ namespace TurboLabz.InstantFramework
             actionData.opponentId = opponentId;
             actionData.avatarId = avatarId;
             actionData.avatarBgColor = avatarBgColor;
+            actionData.notificationStatus = notificationStatus;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
     }
