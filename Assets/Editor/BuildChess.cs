@@ -107,6 +107,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.iOS.tvOSManualProvisioningProfileID = "";
         PlayerSettings.iOS.tvOSManualProvisioningProfileType = ProvisioningProfileType.Automatic;
         PlayerSettings.iOS.useOnDemandResources = false;
+        PlayerSettings.SetArchitecture(BuildTargetGroup.iOS, 1); // 0 - None, 1 - ARM64, 2 - Universal.
 
         PlayerSettings.applicationIdentifier = "com.turbolabz.instantchess.ios";
         PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.iOS, ApiCompatibilityLevel.NET_4_6);
@@ -132,7 +133,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.showActivityIndicatorOnLoading = AndroidShowActivityIndicatorOnLoading.DontShow;
         PlayerSettings.Android.splashScreenScale = AndroidSplashScreenScale.ScaleToFill;
         PlayerSettings.Android.startInFullscreen = true;
-        PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64 | AndroidArchitecture.ARMv7;
+        PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
         // PlayerSettings.Android.targetDevice = AndroidTargetDevice.FAT; // obsolete
         PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevelAuto;
         // PlayerSettings.Android.use24BitDepthBuffer = true; // obsolete
