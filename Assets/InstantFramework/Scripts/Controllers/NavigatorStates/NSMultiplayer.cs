@@ -10,13 +10,39 @@ namespace TurboLabz.InstantFramework
 {
     public class NSMultiplayer : NS
     {
+        long timeAtScreenShown;
+
         public override void RenderDisplayOnEnter()
         {
+            timeAtScreenShown = cmd.backendService.serverClock.currentTimestamp;
             ShowView(NavigatorViewId.MULTIPLAYER);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
+            var matchInfo = cmd.matchInfoModel.activeMatch == null ? cmd.matchInfoModel.lastCompletedMatch : cmd.matchInfoModel.activeMatch;
+            var timeSpent = (cmd.backendService.serverClock.currentTimestamp - timeAtScreenShown) / 1000;
+
+            if (matchInfo != null)
+            {
+                if (matchInfo.isLongPlay)
+                {
+                    cmd.preferencesModel.timeSpentLongMatch += timeSpent;
+                }
+                else if (matchInfo.isTenMinGame)
+                {
+                    cmd.preferencesModel.timeSpent10mMatch += timeSpent;
+                }
+                else if (matchInfo.isOneMinGame)
+                {
+                    cmd.preferencesModel.timeSpent1mMatch += timeSpent;
+                }
+                else
+                {
+                    cmd.preferencesModel.timeSpent5mMatch += timeSpent;
+                }
+            }
+
             if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG)
             {
                 TLUtils.LogUtil.LogNullValidation(cmd.matchInfoModel.activeChallengeId, "cmd.matchInfoModel.activeChallengeId");

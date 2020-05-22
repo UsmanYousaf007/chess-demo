@@ -152,7 +152,12 @@ namespace TurboLabz.InstantFramework
             var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
 
             if (daysBetweenLastLogin >= 1)
-            { 
+            {
+                analyticsService.Event("cpu_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentCpuMatch));
+                analyticsService.Event("classic_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentLongMatch));
+                analyticsService.Event("1m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mMatch));
+                analyticsService.Event("5m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mMatch));
+                analyticsService.Event("10m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mMatch));
                 preferencesModel.ResetDailyPrefers();
             }
 

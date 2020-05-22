@@ -86,6 +86,8 @@ namespace TurboLabz.InstantFramework
                     matchAnalyticsVO.matchType = "5m";
                 else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
                     matchAnalyticsVO.matchType = "10m";
+                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
+                    matchAnalyticsVO.matchType = "1m";
             }
 
             matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
@@ -186,6 +188,8 @@ namespace TurboLabz.InstantFramework
                     matchAnalyticsVO.matchType = "5m";
                 else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
                     matchAnalyticsVO.matchType = "10m";
+                else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
+                    matchAnalyticsVO.matchType = "1m";
             }
 
             matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
@@ -289,6 +293,8 @@ namespace TurboLabz.InstantFramework
                         matchAnalyticsVO.matchType = "5m";
                     else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
                         matchAnalyticsVO.matchType = "10m";
+                    else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
+                        matchAnalyticsVO.matchType = "1m";
                 }
 
                 matchAnalyticsSignal.Dispatch(matchAnalyticsVO);

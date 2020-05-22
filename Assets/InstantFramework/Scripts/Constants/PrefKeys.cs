@@ -32,6 +32,11 @@ namespace TurboLabz.InstantGame
         public const string STRENGTH_USED_COUNT = "strengthUsedCount";
         public const string PROMOTION_CYCLE_INDEX = "promotionCycleIndex";
         public const string TIME_AT_LOBBY_LOADED_FIRST_TIME = "timeAtLobbyLoadedFirstTime";
+        public const string TIME_SPENT_1M_MATCH = "timeSpent1mMatch";
+        public const string TIME_SPENT_5M_MATCH = "timeSpent5mMatch";
+        public const string TIME_SPENT_10M_MATCH = "timeSpent10mMatch";
+        public const string TIME_SPENT_LONG_MATCH = "timeSpentLongMatch";
+        public const string TIME_SPENT_CPU_MATCH = "timeSpentCpuMatch";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";
         public const string SKIP_DLG_SHOWN = "skipDlgShown";
         public const string TIME_AT_SUBSCRIPTION_DLG_SHOWN = "timeAtSubscriptionDlgShown";

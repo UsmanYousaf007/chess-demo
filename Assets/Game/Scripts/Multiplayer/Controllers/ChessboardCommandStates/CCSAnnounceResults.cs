@@ -50,7 +50,14 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                matchAnalyticsVO.matchType = "5m";
+                if (cmd.matchInfoModel.activeMatch.isOneMinGame)
+                {
+                    matchAnalyticsVO.matchType = "1m";
+                }
+                else
+                {
+                    matchAnalyticsVO.matchType = "5m";
+                }
 
                 if (cmd.matchInfoModel.activeMatch.isBotMatch)
                 {

@@ -33,6 +33,11 @@ namespace TurboLabz.InstantGame
         public int strengthUsedCount { get; set; }
         public int promotionCycleIndex { get; set; }
         public DateTime timeAtLobbyLoadedFirstTime { get; set; }
+        public float timeSpent1mMatch { get; set; }
+        public float timeSpent5mMatch { get; set; }
+        public float timeSpent10mMatch { get; set; }
+        public float timeSpentLongMatch { get; set; }
+        public float timeSpentCpuMatch { get; set; }
         public DateTime lastLaunchTime { get; set; }
         public int videoFinishedCount { get; set; }
         public int continousPlayCount { get; set; }
@@ -77,6 +82,11 @@ namespace TurboLabz.InstantGame
             strengthUsedCount = 0;
             promotionCycleIndex = 0;
             timeAtLobbyLoadedFirstTime = DateTime.Now;
+            timeSpent1mMatch = 0;
+            timeSpent5mMatch = 0;
+            timeSpent10mMatch = 0;
+            timeSpentLongMatch = 0;
+            timeSpentCpuMatch = 0;
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
             videoFinishedCount = 0;
             continousPlayCount = 0;
@@ -163,6 +173,31 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME))
                 {
                     timeAtLobbyLoadedFirstTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME)));
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_CPU_MATCH))
+                {
+                    timeSpentCpuMatch = reader.Read<float>(PrefKeys.TIME_SPENT_CPU_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_LONG_MATCH))
+                {
+                    timeSpentLongMatch = reader.Read<float>(PrefKeys.TIME_SPENT_LONG_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_1M_MATCH))
+                {
+                    timeSpent1mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_1M_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_5M_MATCH))
+                {
+                    timeSpent5mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_5M_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_10M_MATCH))
+                {
+                    timeSpent10mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_10M_MATCH);
                 }
 
                 if (reader.HasKey(PrefKeys.LAST_LAUNCH_TIME))
@@ -290,6 +325,11 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
                 writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
                 writer.Write<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME, timeAtLobbyLoadedFirstTime.ToBinary().ToString());
+                writer.Write<float>(PrefKeys.TIME_SPENT_1M_MATCH, timeSpent1mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
                 writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
                 writer.Write<int>(PrefKeys.VIDEO_FINISHED_COUNT, videoFinishedCount);
                 writer.Write<int>(PrefKeys.COUNTINOUS_PLAY_COUNT, continousPlayCount);
@@ -327,7 +367,11 @@ namespace TurboLabz.InstantGame
         public void ResetDailyPrefers()
         {
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
-
+            timeSpentCpuMatch = 0;
+            timeSpentLongMatch = 0;
+            timeSpent1mMatch = 0;
+            timeSpent5mMatch = 0;
+            timeSpent10mMatch = 0;
             globalAdsCount = 0;
             rewardedAdsCount = 0;
             interstitialAdsCount = 0;

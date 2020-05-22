@@ -17,13 +17,18 @@ namespace TurboLabz.InstantFramework
 {
     public class NSCPU : NS
     {
+        long timeAtScreenShown;
+
         public override void RenderDisplayOnEnter()
         {
+            timeAtScreenShown = cmd.backendService.serverClock.currentTimestamp;
             ShowView(NavigatorViewId.CPU);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
+            cmd.preferencesModel.timeSpentCpuMatch += (cmd.backendService.serverClock.currentTimestamp - timeAtScreenShown) / 1000;
+
             if (evt == NavigatorEvent.SHOW_CPU_EXIT_DLG ||
                 evt == NavigatorEvent.ESCAPE)
             {

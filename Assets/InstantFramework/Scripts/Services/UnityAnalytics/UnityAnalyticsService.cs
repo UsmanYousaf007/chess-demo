@@ -72,6 +72,11 @@ namespace TurboLabz.InstantFramework
 
         public void Event(AnalyticsEventId evt, AnalyticsParameter param, object val)
         {
+            Event(evt.ToString(), param, val);
+        }
+
+        public void Event(string evt, AnalyticsParameter param, object val)
+        {
             if (param == AnalyticsParameter.elo)
             {
                 int rating = (int)val;
@@ -91,9 +96,9 @@ namespace TurboLabz.InstantFramework
                 { param.ToString(), val }
             };
 
-            Analytics.CustomEvent(evt.ToString(), p);
+            Analytics.CustomEvent(evt, p);
             GameAnalytics.NewDesignEvent($"{evt}:{param}:{val}");
-            Print(evt.ToString(), p);
+            Print(evt, p);
         }
 
         public void Event(AnalyticsEventId evt, AnalyticsContext context)

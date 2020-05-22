@@ -130,6 +130,7 @@ namespace TurboLabz.InstantFramework
         return_from_background,
         cpu_match,
         matchmaking,
+        onemin_match,
 
         //Ads
         rewarded,
@@ -195,7 +196,7 @@ namespace TurboLabz.InstantFramework
         is_bot,
         context,
         day,
-        minutes,
+        seconds,
         num_facebook_friends
     }
 

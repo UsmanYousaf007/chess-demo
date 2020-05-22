@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         public bool isTenMinGame { get; set; }
         public string drawOfferStatus { get; set; }
         public string drawOfferedBy { get; set; }
+        public bool isOneMinGame { get; set; }
 
         public bool isBotMatch
         {
@@ -69,6 +70,7 @@ namespace TurboLabz.InstantFramework
             isTenMinGame = false;
             drawOfferStatus = null;
             drawOfferedBy = null;
+            isOneMinGame = false;
         }
     }
 

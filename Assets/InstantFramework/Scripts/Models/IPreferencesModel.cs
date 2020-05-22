@@ -23,6 +23,11 @@ namespace TurboLabz.InstantFramework
         int strengthUsedCount { get; set; }
         int promotionCycleIndex { get; set; }
         DateTime timeAtLobbyLoadedFirstTime { get; set; }
+        float timeSpent1mMatch { get; set; }
+        float timeSpent5mMatch { get; set; }
+        float timeSpent10mMatch { get; set; }
+        float timeSpentLongMatch { get; set; }
+        float timeSpentCpuMatch { get; set; }
         DateTime lastLaunchTime { get; set; }
         int globalAdsCount { get; set; }
         int rewardedAdsCount { get; set; }
