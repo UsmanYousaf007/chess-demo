@@ -15,10 +15,12 @@ namespace TurboLabz.InstantFramework
         public Image opponentFlag;
         public Button confirmRankedGameBtn;
         public Text confirmRankedGameBtnText;
-        public Button confirmFriendlyGameBtn;
-        public Text confirmFriendlyGameBtnText;
+        public Button confirmFriendly1MinGameBtn;
+        public Text confirmFriendly1MinGameBtnText;
+        public Button confirmFriendly5MinGameBtn;
+        public Text confirmFriendly5MinGameBtnText;
         public Button confirmFriendly10MinGameBtn;
-        public Text confirmFriendly10MinGameText;
+        public Text confirmFriendly10MinGameBtnText;
         public Button ToggleRankButton;
         public GameObject ToggleRankON;
         public GameObject ToggleRankOFF;

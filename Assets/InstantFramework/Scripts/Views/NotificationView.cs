@@ -244,13 +244,17 @@ namespace TurboLabz.InstantGame
                 notification.titleLarge.gameObject.SetActive(true);
                 notification.title.gameObject.SetActive(false);
 
-                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString())
                 {
-                    notification.titleLarge.text = "5-Minutes Game";
+                    notification.titleLarge.text = "1-Minute Game";
+                }
+                else if(notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                {
+                    notification.titleLarge.text = "5-Minute Game";
                 }
                 else
                 {
-                    notification.titleLarge.text = "10-Minutes Game";
+                    notification.titleLarge.text = "10-Minute Game";
                 }
 
                 notification.body.text = notificationVO.title;
