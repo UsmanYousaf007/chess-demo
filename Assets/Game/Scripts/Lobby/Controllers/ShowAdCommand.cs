@@ -326,33 +326,20 @@ namespace TurboLabz.InstantGame
 
             if (resultAdsVO.actionCode == FindMatchAction.ActionCode.RandomLong.ToString())
             {
-                analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
                 FindMatchAction.RandomLong(findMatchSignal);
             }
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Random1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random.ToString()
               || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random10.ToString())
             {
-
-                if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Random.ToString())
-                    analyticsService.Event("5m_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.start_attempt);
-                else
-                    analyticsService.Event("10m_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.start_attempt);
-
                 FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString());
             }
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
                 resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString())
             {
-                if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
-                    analyticsService.Event("5m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.start_attempt);
-                else
-                    analyticsService.Event("10m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.start_attempt);
-
                 FindMatchAction.Challenge(findMatchSignal, resultAdsVO.isRanked, resultAdsVO.friendId, resultAdsVO.actionCode.ToString());
             }
             else if (resultAdsVO.actionCode == "ChallengeClassic")
             {
-                analyticsService.Event("classic_" + AnalyticsEventId.match_find_friends, AnalyticsContext.start_attempt);
                 tapLongMatchSignal.Dispatch(resultAdsVO.friendId, resultAdsVO.isRanked);
             }
             
