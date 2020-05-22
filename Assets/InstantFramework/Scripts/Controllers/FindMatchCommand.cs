@@ -63,6 +63,7 @@ namespace TurboLabz.InstantFramework
             if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Accept.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
             {
                 matchAnalyticsVO.friendType = "random";
