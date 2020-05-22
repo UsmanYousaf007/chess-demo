@@ -172,22 +172,19 @@ namespace TurboLabz.InstantFramework
 
             matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
 
-            if (matchInfoModel.activeMatch.isLongPlay) {
-
-                //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random.ToString(), AnalyticsContext.success);
+            if (matchInfoModel.activeMatch.isLongPlay)
+            {
                 matchAnalyticsVO.matchType = "classic";
-
             }
-            else {
+            else
+            {
                 hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "quick_match", challengeId);
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-
 
                 if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString()) 
                     matchAnalyticsVO.matchType = "5m";
                 else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() || FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
                     matchAnalyticsVO.matchType = "10m";
-                //analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.quick_match);
             }
 
             matchAnalyticsSignal.Dispatch(matchAnalyticsVO);

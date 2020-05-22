@@ -108,12 +108,6 @@ namespace TurboLabz.Multiplayer
             hintThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHintButton();
-
-            if(strengthPanel.gameObject.activeSelf)
-            {
-                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-            }
-
             strengthPanel.Hide();
             strengthOnboardingTooltip.SetActive(false);
         }
@@ -147,21 +141,6 @@ namespace TurboLabz.Multiplayer
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
-
-                if (isStrengthToolTipShown)
-                {
-                    isStrengthToolTipShown = false;
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
-
-                if (InstantFramework.LobbyView.isStrengthTrainingShown)
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
             }
         }
 

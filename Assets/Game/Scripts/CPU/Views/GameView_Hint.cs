@@ -102,12 +102,6 @@ namespace TurboLabz.CPU
             hintThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHintButton();
-
-            if (strengthPanel.gameObject.activeSelf)
-            {
-                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.computer_match);
-            }
-
             strengthPanel.Hide();
             strengthOnboardingTooltip.SetActive(false);
         }
@@ -143,21 +137,6 @@ namespace TurboLabz.CPU
                 hintClickedSignal.Dispatch();
 
                 StashStepButtons();
-
-                if (isStrengthToolTipShown)
-                {
-                    isStrengthToolTipShown = false;
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, AnalyticsContext.computer_match);
-                }
-
-                if (InstantFramework.LobbyView.isStrengthTrainingShown)
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, AnalyticsContext.computer_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
-                }
             }
         }
 

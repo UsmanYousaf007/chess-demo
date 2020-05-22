@@ -314,11 +314,6 @@ namespace TurboLabz.InstantFramework
         {
             var friend = playerModel.GetFriend(playerId);
 
-            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
-            {
-                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
-            }
-
             if (!playerModel.isPremium) 
             {
                 if (CanShowPregameAd())
@@ -465,17 +460,6 @@ namespace TurboLabz.InstantFramework
         public void OnRemoveLobbyPromotion(StoreItem item)
         {
             view.RemovePromotion(item.key);
-        }
-
-        [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]
-        public void OnReportLobbyPromotionAnalytic(string key, AnalyticsEventId eventId)
-        {
-            if (!view.IsVisible())
-            {
-                return;
-            }
-
-            view.ReportAnalytic(key, eventId);
         }
 
         [ListensTo(typeof(ShowProcessingSignal))]

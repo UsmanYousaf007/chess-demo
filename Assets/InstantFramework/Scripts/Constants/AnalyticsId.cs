@@ -40,103 +40,17 @@ namespace TurboLabz.InstantFramework
 
     public enum AnalyticsEventId
     {
-        tap_share,
-        tap_support,
-        tap_coins,
-        tap_lobby_bundle,
-        tap_long_match_create,
-        tap_long_match_accept,
-        tap_long_match_decline,
-        tap_long_match_remove,
-        tap_long_match_profile,
-        tap_rate_yes,
-        tap_rate_no,
-        tap_chat_message_send,
-        tap_pow_info,
-        tap_pow_safe_move_off,
-        tap_pow_safe_move_on,
-        tap_pow_safe_move_undo,
-        tap_pow_hint,
-        tap_pow_hindsight,
-        v1_spot_purchase_complete,
-        store_purchase_complete,
-        ad_user_requested,
-        ads_skip_reward,
-        ads_friends_back,
-        session_fb,
-        session_guest,
-        session_premium,
-        friends_community,
-        friends_facebook,
-        friends_blocked,
-        friends_active_games,
-        level_complete,
-        level_fail,
-        player_elo,
-        
-        long_match_complete_duration,
-        selected_theme,
-        disconnection_time,
-
-        //random quick match
-        quickmatch_direct_request_timeout_ingame,
-        bot_quick_match_won,
-        bot_quick_match_lost,
-
-
-        tap_pow_move_meter,
-        cancel_pow_move_meter,
-        close_pow_move_meter,
-        tap_pow_coach,
-        cancel_pow_coach,
-        close_pow_coach,
-        imp_banner_subscription,
-        tap_banner_subscription,
-        tap_coach_after_tooltip,
-        tap_move_meter_after_tooltip,
-        tap_coach_after_training,
-        tap_move_meter_after_training,
-        tap_yes_skill_level_dlg,
-        tap_no_skill_level_dlg,
-        tap_chat_player_profile,
-        out_game_chat_match_active,
-        out_game_chat_match_inactive,
-        tap_add_friends,
-        tap_remove_friends,
-        start_match_with_favourite,
-
-        //powerups
-        powerup_usage_no,
-        powerup_usage_low,
-        powerup_usage_avg,
-        powerup_usage_good,
-        powerup_usage_awesome,
-
-        time_spent_quick_macth,
-        time_spent_long_match,
-        time_spent_cpu_match,
-        time_spent_lobby,
-        first_game_started,
-        quick_match_player,
-        long_match_player,
-        cpu_mactch_player,
-        multi_mode_player,
-        mode_distribution,
+        //Engineering tools
         reconnection_shown,
         gs_disconneced,
         gs_call_fail,
         gs_disconnected_unique,
         internet_warning_on_splash,
-
-        tap_match,
-        tap_resign_game,
-        playerturn_timer_runs_out_long,
-        played_bot_match,
-        played_online_match,
-        match_timer_runs_out,
-
+        disconnection_time,
+        app_quit_during_disconnected,
 
         //Ads
+        ad_user_requested,
         ad_requested,
         ad_not_available,
         ad_available,
@@ -157,14 +71,7 @@ namespace TurboLabz.InstantFramework
         game_finished,
         continuous_play,
         focus_lost,
-        subscription_dlg_shown,
-        get_free_trial_clicked,
-        subscription_purchased,
         cross_promo_clicked,
-        terms_clicked,
-        close_subscription_clicked,
-
-        app_quit_during_disconnected,
 
         //UI Interaction
         refresh_community,
@@ -189,7 +96,20 @@ namespace TurboLabz.InstantFramework
         match_find,
 
         //offer draw
-        offer_draw
+        offer_draw,
+
+        //subscription
+        subscription_dlg_shown,
+        subscription_session,
+        subscription_purchased,
+        subscription_renewed,
+        subscription_dlg_purchased,
+
+        //elo distribution
+        elo,
+
+        //match end distribution
+        match_end
     }
 
     public enum AnalyticsContext
@@ -240,8 +160,25 @@ namespace TurboLabz.InstantFramework
         accepted,
         rejected,
         cancelled,
-        sent
+        sent,
 
+        //Subscription
+        yearly,
+        monthly,
+        premium,
+
+        //Match End Distribution
+        clock,
+        draw,
+        check_mate,
+        resign,
+        disconect,
+        clock_bot_win,
+        clock_player_win,
+        check_mate_bot_win,
+        check_mate_player_win,
+        resign_bot_win,
+        resign_player_win
     }
 
     public enum AnalyticsParameter

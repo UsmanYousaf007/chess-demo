@@ -36,11 +36,6 @@ namespace TurboLabz.InstantFramework
             Retain();
             challengeId = GetChallengeId();
             backendService.Decline(challengeId).Then(OnDecline);
-
-            // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_long_match_decline,
-                AnalyticsParameter.is_ranked,
-                matchInfoModel.matches[challengeId].isRanked);
         }
 
         private void OnDecline(BackendResult result)

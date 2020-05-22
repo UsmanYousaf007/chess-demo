@@ -37,11 +37,6 @@ namespace TurboLabz.InstantFramework
             Retain();
             challengeId = GetChallengeId();
             backendService.Accept(challengeId).Then(OnAccept);
-
-            // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_long_match_accept,
-                AnalyticsParameter.is_ranked,
-                matchInfoModel.matches[challengeId].isRanked);
         }
 
         private void OnAccept(BackendResult result)
@@ -64,7 +59,6 @@ namespace TurboLabz.InstantFramework
                 preferencesModel.gameStartCount++;
                 hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match", challengeId);
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-                analyticsService.Event(AnalyticsEventId.game_started, AnalyticsContext.long_match);
             }
 
             Release();

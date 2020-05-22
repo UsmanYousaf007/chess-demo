@@ -75,7 +75,7 @@ namespace TurboLabz.InstantFramework
             if (param == AnalyticsParameter.elo)
             {
                 int rating = (int)val;
-                val = rating - (rating % 500);
+                val = rating - (rating % 200);
             }
             else if (param == AnalyticsParameter.bot_difficulty)
             {

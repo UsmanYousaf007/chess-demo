@@ -109,7 +109,6 @@ namespace TurboLabz.InstantFramework
             if (facebookService.isLoggedIn())
             {
                 int facebookFriendCount = 0;
-                int communityFriendCount = 0;
                 foreach (KeyValuePair<string, Friend> kvp in playerModel.friends)
                 {
                     Friend friend = kvp.Value;
@@ -117,31 +116,20 @@ namespace TurboLabz.InstantFramework
                     {
                         facebookFriendCount++;
                     }
-                    else if (friend.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
-                    {
-                        communityFriendCount++;
-                    }
                 }
 
-                analyticsService.Event(AnalyticsEventId.session_fb);
-                analyticsService.Event(AnalyticsEventId.friends_community, AnalyticsParameter.count, communityFriendCount);
                 analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, facebookFriendCount);
-                analyticsService.Event(AnalyticsEventId.friends_active_games, AnalyticsParameter.count, matchInfoModel.matches.Count);
-                analyticsService.Event(AnalyticsEventId.friends_blocked, AnalyticsParameter.count, playerModel.blocked.Count);
             }
-            else
+
+            if (playerModel.HasSubscription())
             {
-                analyticsService.Event(AnalyticsEventId.session_guest);
+                var context = playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
+                context = playerModel.isPremium ? AnalyticsContext.premium : context;
+                analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
-            analyticsService.Event(AnalyticsEventId.player_elo, AnalyticsParameter.elo, playerModel.eloScore);
-            analyticsService.Event(AnalyticsEventId.selected_theme, AnalyticsParameter.theme_name, playerModel.activeSkinId);
-
-            if (playerModel.isPremium)
-            {
-                analyticsService.Event(AnalyticsEventId.session_premium);
-            }
-
+            if(preferencesModel.rankedMatchesFinishedCount > 15)
+            analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
             SendDailyAnalytics();
         }
 
@@ -164,39 +152,7 @@ namespace TurboLabz.InstantFramework
             var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
 
             if (daysBetweenLastLogin >= 1)
-            {
-                analyticsService.Event(AnalyticsEventId.time_spent_cpu_match, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentCpuMatch));
-                analyticsService.Event(AnalyticsEventId.time_spent_long_match, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLongMatch));
-                analyticsService.Event(AnalyticsEventId.time_spent_quick_macth, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentQuickMatch));
-                analyticsService.Event(AnalyticsEventId.time_spent_lobby, AnalyticsParameter.minutes, Mathf.RoundToInt(preferencesModel.timeSpentLobby));
-
-                float totalGames = preferencesModel.cpuMatchFinishedCount
-                    + preferencesModel.longMatchFinishedCount
-                    + preferencesModel.quickMatchFinishedCount;
-
-                float THRESHOLD = 0.75f;
-
-                if (totalGames > 0)
-                {
-                    var noOfDays = (preferencesModel.lastLaunchTime - TimeUtil.ToDateTime(playerModel.creationDate)).Days;
-                    var playerType = AnalyticsEventId.multi_mode_player;
-
-                    if (preferencesModel.cpuMatchFinishedCount / totalGames >= THRESHOLD)
-                    {
-                        playerType = AnalyticsEventId.cpu_mactch_player;
-                    }
-                    else if (preferencesModel.longMatchFinishedCount / totalGames >= THRESHOLD)
-                    {
-                        playerType = AnalyticsEventId.long_match_player;
-                    }
-                    else if (preferencesModel.quickMatchFinishedCount / totalGames >= THRESHOLD)
-                    {
-                        playerType = AnalyticsEventId.quick_match_player;
-                    }
-
-                    analyticsService.DesignEvent(AnalyticsEventId.mode_distribution, AnalyticsParameter.day, noOfDays, playerType);
-                }
-
+            { 
                 preferencesModel.ResetDailyPrefers();
             }
 

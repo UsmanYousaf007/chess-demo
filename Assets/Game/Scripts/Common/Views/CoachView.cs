@@ -215,9 +215,6 @@ public class CoachView : MonoBehaviour
             normalPanel.text.CrossFadeAlpha(UI_ALPHA_MIN, FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
         }
 
-
-        coachVO.analyticsService.Event(AnalyticsEventId.close_pow_coach, coachVO.analyticsContext);
-
         Invoke("Hide", FADE_DURATION);
         //Invoke("Reset", FADE_DURATION);
     }

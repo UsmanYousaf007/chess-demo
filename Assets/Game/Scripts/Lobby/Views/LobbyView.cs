@@ -350,8 +350,6 @@ namespace TurboLabz.InstantFramework
         void OnClassicMatchBtnClicked()
         {
             Debug.Log("OnClassicMatchBtnClicked");
-            analyticsService.Event(AnalyticsEventId.tap_match, AnalyticsContext.random_long_match);
-
             audioService.PlayStandardClick();
             actionBar = null;
 
@@ -965,7 +963,6 @@ namespace TurboLabz.InstantFramework
         {
             removeCommunityFriendDlg.SetActive(false);
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
-            analyticsService.Event(AnalyticsEventId.tap_long_match_remove);
         }
 
         void RemoveCommunityFriendDlgNo()
@@ -1095,7 +1092,6 @@ namespace TurboLabz.InstantFramework
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
-            analyticsService.Event(AnalyticsEventId.tap_match, AnalyticsContext.long_match);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)

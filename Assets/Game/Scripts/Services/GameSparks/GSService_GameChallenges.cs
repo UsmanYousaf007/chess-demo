@@ -202,17 +202,19 @@ namespace TurboLabz.InstantFramework
 
             if (matchInfoModel.matches.ContainsKey(challengeId))
             {
-                if (matchInfoModel.matches[challengeId].isLongPlay)
+                var matchInfo = matchInfoModel.matches[challengeId];
+                if (matchInfo.isLongPlay)
                 {
-                    preferencesModel.longMatchFinishedCount++;
                     hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString(), challengeId);
-                    analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.long_match);
                 }
                 else
                 {
-                    preferencesModel.quickMatchFinishedCount++;
                     hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString(), challengeId);
-                    analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.quick_match);
+                }
+
+                if (matchInfo.isRanked)
+                {
+                    preferencesModel.rankedMatchesFinishedCount++;
                 }
             }            
             #endregion

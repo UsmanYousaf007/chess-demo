@@ -23,24 +23,17 @@ namespace TurboLabz.InstantFramework
         int strengthUsedCount { get; set; }
         int promotionCycleIndex { get; set; }
         DateTime timeAtLobbyLoadedFirstTime { get; set; }
-        float timeSpentQuickMatch { get; set; }
-        float timeSpentLongMatch { get; set; }
-        float timeSpentCpuMatch { get; set; }
-        float timeSpentLobby { get; set; }
         DateTime lastLaunchTime { get; set; }
         int globalAdsCount { get; set; }
         int rewardedAdsCount { get; set; }
         int interstitialAdsCount { get; set; }
         int resignCount { get; set; }
         bool isSkipVideoDlgShown { get; set; }
-        int quickMatchFinishedCount { get; set; }
-        int longMatchFinishedCount { get; set; }
-        int cpuMatchFinishedCount { get; set; }
         DateTime timeAtSubscrptionDlgShown { get; set; }
         int autoSubscriptionDlgShownCount { get; set; }
+        int rankedMatchesFinishedCount { get; set; }
 
         void ResetDailyPrefers();
-        void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown);
 
         //for appsflyer events for HUUUGE
         int videoFinishedCount { get; set; }

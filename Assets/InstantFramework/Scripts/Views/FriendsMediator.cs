@@ -289,11 +289,6 @@ namespace TurboLabz.InstantFramework
         {
             var friend = playerModel.GetFriend(playerId);
 
-            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
-            {
-                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
-            }
-
             if (!playerModel.isPremium)
             {
                 var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;

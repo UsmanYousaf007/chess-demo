@@ -47,7 +47,6 @@ namespace TurboLabz.InstantFramework
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
                 preferencesModel.isLobbyLoadedFirstTime = true;
-                analyticsService.Event(AnalyticsEventId.first_game_started, matchInfo.isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
             }
 
             if (matchInfo.isLongPlay &&

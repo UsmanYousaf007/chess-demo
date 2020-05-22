@@ -79,7 +79,6 @@ public class SubscriptionDlgMediator : Mediator
     {
         if (viewId == NavigatorViewId.SUBSCRIPTION_DLG)
         {
-            analyticsService.Event(AnalyticsEventId.close_subscription_clicked, AnalyticsParameter.context, cameFromScreen);
             view.Hide();
             subscriptionDlgClosedSignal.Dispatch();
         }
@@ -110,7 +109,6 @@ public class SubscriptionDlgMediator : Mediator
     {
         purchaseStoreItemSignal.Dispatch(view.key, true);
         hAnalyticsService.LogEvent("start_trial_clicked", "subscription", "subscription_popup", analyticsFunnelId);
-        analyticsService.Event(AnalyticsEventId.get_free_trial_clicked, AnalyticsParameter.context, cameFromScreen);
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]
@@ -124,7 +122,7 @@ public class SubscriptionDlgMediator : Mediator
     {
         if (view.IsVisible())
         {
-            analyticsService.Event(AnalyticsEventId.subscription_purchased, AnalyticsParameter.context, cameFromScreen);
+            analyticsService.Event(AnalyticsEventId.subscription_dlg_purchased, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "subscribe_button", analyticsFunnelId);
             OnCloseDailogue();
         }
@@ -141,7 +139,6 @@ public class SubscriptionDlgMediator : Mediator
     private void OnTermsClicked()
     {
         hAnalyticsService.LogEvent("terms_clicked", "subscription", "subscription_popup", analyticsFunnelId);
-        analyticsService.Event(AnalyticsEventId.terms_clicked, AnalyticsParameter.context, cameFromScreen);
     }
 
     [ListensTo(typeof(SetSubscriptionContext))]

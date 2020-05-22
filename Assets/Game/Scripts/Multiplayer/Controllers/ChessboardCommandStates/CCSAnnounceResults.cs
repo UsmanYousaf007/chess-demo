@@ -34,43 +34,31 @@ namespace TurboLabz.Multiplayer
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
 
+            var matchAnalyticsVO = new MatchAnalyticsVO();
+            matchAnalyticsVO.eventID = AnalyticsEventId.match_end;
+            matchAnalyticsVO.friendType = string.Empty;
+            matchAnalyticsVO.context = GetGameEndContext(chessboard.gameEndReason, playerWins, cmd.matchInfoModel.activeMatch.isBotMatch);
+
             if (cmd.matchInfoModel.activeMatch.isLongPlay)
             {
                 cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
-
-                // Analytics
-                long startMs = cmd.activeMatchInfo.gameStartTimeMilliseconds;
-                long currentTime = cmd.backendService.serverClock.currentTimestamp;
-                TimeSpan elapsed = TimeSpan.FromMilliseconds(currentTime - startMs);
-                cmd.analyticsService.Event(AnalyticsEventId.long_match_complete_duration, AnalyticsParameter.duration, elapsed.TotalHours);
-
-                if (chessboard.gameEndReason == GameEndReason.TIMER_EXPIRED)
-                {
-                    cmd.analyticsService.Event(AnalyticsEventId.playerturn_timer_runs_out_long);
-                }
+                matchAnalyticsVO.matchType = "classic";
+            }
+            else if (cmd.matchInfoModel.activeMatch.isTenMinGame)
+            {
+                matchAnalyticsVO.matchType = "10m";
             }
             else
             {
-                // Analytics
+                matchAnalyticsVO.matchType = "5m";
+
                 if (cmd.matchInfoModel.activeMatch.isBotMatch)
                 {
-                    if (playerWins)
-                    {
-                        cmd.analyticsService.Event(AnalyticsEventId.bot_quick_match_won, 
-                            AnalyticsParameter.bot_difficulty, 
-                            cmd.activeMatchInfo.botDifficulty);
-                    }
-                    else
-                    {
-                        cmd.analyticsService.Event(AnalyticsEventId.bot_quick_match_lost,
-                            AnalyticsParameter.bot_difficulty,
-                            cmd.activeMatchInfo.botDifficulty);
-                    }
-                    cmd.analyticsService.Event(AnalyticsEventId.played_bot_match, AnalyticsContext.quick_match);
+                    matchAnalyticsVO.friendType = "bot";
                 }
                 else
                 {
-                    cmd.analyticsService.Event(AnalyticsEventId.played_online_match, AnalyticsContext.quick_match);
+                    matchAnalyticsVO.friendType = "player";
                 }
 
                 cmd.matchInfoModel.matches.Remove(cmd.matchInfoModel.activeChallengeId);
@@ -82,7 +70,67 @@ namespace TurboLabz.Multiplayer
             cmd.hintAvailableSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(false);
             cmd.disableUndoBtnSignal.Dispatch(false);
-            
+            cmd.matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+        }
+
+        private AnalyticsContext GetGameEndContext(GameEndReason reason, bool playerWins, bool isBot)
+        {
+            var context = AnalyticsContext.clock;
+
+            switch (reason)
+            {
+                case GameEndReason.TIMER_EXPIRED:
+                    if (isBot)
+                    {
+                        context = playerWins ? AnalyticsContext.clock_player_win : AnalyticsContext.clock_bot_win;
+                    }
+                    else
+                    {
+                        context = AnalyticsContext.clock;
+                    }
+                    break;
+
+                case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE:
+                case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE:
+                case GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL:
+                case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE:
+                case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE:
+                    context = AnalyticsContext.draw;
+                    break;
+
+                case GameEndReason.DRAW_BY_DRAW_OFFERED:
+                    context = AnalyticsContext.draw_agreement;
+                    break;
+
+                case GameEndReason.PLAYER_DISCONNECTED:
+                    context = AnalyticsContext.disconect;
+                    break;
+
+                case GameEndReason.CHECKMATE:
+                    if (isBot)
+                    {
+                        context = playerWins ? AnalyticsContext.check_mate_player_win : AnalyticsContext.check_mate_bot_win;
+                    }
+                    else
+                    {
+                        context = AnalyticsContext.check_mate;
+                    }
+                    break;
+
+                case GameEndReason.RESIGNATION:
+                    if (isBot)
+                    {
+                        context = playerWins ? AnalyticsContext.resign_player_win : AnalyticsContext.resign_bot_win;
+                    }
+                    else
+                    {
+                        context = AnalyticsContext.resign;
+                    }
+                    break;
+
+            }
+
+            return context;
         }
     }
 }

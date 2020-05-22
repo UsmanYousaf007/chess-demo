@@ -33,13 +33,11 @@ namespace TurboLabz.InstantFramework
             yesButton.onClick.AddListener(() =>
             {
                 OnButtonClicked(BEGINNER_STR);
-                analyticsService.Event(AnalyticsEventId.tap_yes_skill_level_dlg);
             });
 
             noButton.onClick.AddListener(() =>
             {
                 OnButtonClicked(DEFAULT_STR);
-                analyticsService.Event(AnalyticsEventId.tap_no_skill_level_dlg);
             });
         }
 
