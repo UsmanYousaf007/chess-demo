@@ -179,7 +179,8 @@ namespace TurboLabz.InstantFramework
         check_mate_bot_win,
         check_mate_player_win,
         resign_bot_win,
-        resign_player_win
+        resign_player_win,
+        declined
     }
 
     public enum AnalyticsParameter
