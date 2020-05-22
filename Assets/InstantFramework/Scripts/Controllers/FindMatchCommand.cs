@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 using UnityEngine;
+using TurboLabz.InstantGame;
 using strange.extensions.command.impl;
 
 namespace TurboLabz.InstantFramework
@@ -24,6 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
         [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
+        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -189,6 +191,9 @@ namespace TurboLabz.InstantFramework
         // Release ONLY on error condition
         private void HandleFindMatchErrors(BackendResult result)
         {
+            //-- Hide UI blocker and spinner here
+            showProcessingSignal.Dispatch(false, false);
+
             if (result == BackendResult.CANCELED)
             {
                 Release();

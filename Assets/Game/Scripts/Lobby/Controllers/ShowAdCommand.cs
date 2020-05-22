@@ -37,8 +37,7 @@ namespace TurboLabz.InstantGame
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
-        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
-
+        
         // Services
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -104,9 +103,6 @@ namespace TurboLabz.InstantGame
                     {
                         if (adsService.IsInterstitialAvailable())
                         {
-                            //-- Show UI blocker and spinner here
-                            showProcessingSignal.Dispatch(true, true);
-
                             var promise = adsService.ShowInterstitial();
                             if (promise != null)
                             {
@@ -125,9 +121,6 @@ namespace TurboLabz.InstantGame
                             {
                                 if (adsSettingsModel.waitForPregameAdLoadSeconds > 0)
                                 {
-                                    //-- Show UI blocker and spinner here
-                                    showProcessingSignal.Dispatch(true, true);
-
                                     //-- Start ad waiting coroutine here
                                     routineRunner.StartCoroutine(WaitForPregameAdCoroutine(adsSettingsModel.waitForPregameAdLoadSeconds));
                                 }
@@ -317,9 +310,6 @@ namespace TurboLabz.InstantGame
 
                 preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             }
-
-            //-- Hide UI blocker and spinner here
-            showProcessingSignal.Dispatch(false, false);
 
             LoadGameStartSignal();
         }
