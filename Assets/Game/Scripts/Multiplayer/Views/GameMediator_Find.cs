@@ -110,25 +110,22 @@ namespace TurboLabz.Multiplayer
             {
                 matchAnalyticsVO.friendType = "random";
             }
+            else if (playerModel.friends.ContainsKey(FindMatchAction.actionData.opponentId))
+            {
+                var friendType = playerModel.friends[FindMatchAction.actionData.opponentId].friendType;
+                if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                {
+                    matchAnalyticsVO.friendType = "friends_facebook";
+                }
+                else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
+                         friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                {
+                    matchAnalyticsVO.friendType = "friends_community";
+                }
+            }
             else
             {
-                var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
-                if (friend != null)
-                {
-                    var friendType = friend.friendType;
-                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
-                    {
-                         matchAnalyticsVO.friendType = "friends_facebook";
-                    }
-                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
-                    {
-                         matchAnalyticsVO.friendType = "friends_community";
-                    }
-                }
-                else
-                {
-                    matchAnalyticsVO.friendType = "community";
-                }
+                matchAnalyticsVO.friendType = "community";
             }
 
             return matchAnalyticsVO;

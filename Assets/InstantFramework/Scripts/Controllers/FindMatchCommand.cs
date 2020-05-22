@@ -235,59 +235,57 @@ namespace TurboLabz.InstantFramework
             {
                 matchAnalyticsVO.friendType = "random";
             }
-            else
+            else if (playerModel.friends.ContainsKey(FindMatchAction.actionData.opponentId))
             {
-                var friend = playerModel.GetFriend(FindMatchAction.actionData.opponentId);
-                if (friend != null)
-                {
-                    var friendType = friend.friendType;
-                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
-                    {
-                        if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
-                        {
-                            matchAnalyticsVO.friendType = "friends_facebook_notification_in_app";
-                        }
-                        else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
-                        {
-                            matchAnalyticsVO.friendType = "friends_facebook_notification_out_app";
-                        }
-                        else
-                        {
-                            matchAnalyticsVO.friendType = "friends_facebook";
-                        }
-                    }
-                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
-                    {
-                        if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
-                        {
-                            matchAnalyticsVO.friendType = "friends_community_notification_in_app";
-                        }
-                        else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
-                        {
-                            matchAnalyticsVO.friendType = "friends_community_notification_out_app";
-                        }
-                        else
-                        {
-                            matchAnalyticsVO.friendType = "friends_community";
-                        }
-                    }
-                }
-                else
+                var friendType = playerModel.friends[FindMatchAction.actionData.opponentId].friendType;
+                if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
                 {
                     if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
                     {
-                        matchAnalyticsVO.friendType = "community_notification_in_app";
+                        matchAnalyticsVO.friendType = "friends_facebook_notification_in_app";
                     }
                     else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
                     {
-                        matchAnalyticsVO.friendType = "community_notification_out_app";
+                        matchAnalyticsVO.friendType = "friends_facebook_notification_out_app";
                     }
                     else
                     {
-                        matchAnalyticsVO.friendType = "community";
+                        matchAnalyticsVO.friendType = "friends_facebook";
+                    }
+                }
+                else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
+                         friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                {
+                    if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
+                    {
+                        matchAnalyticsVO.friendType = "friends_community_notification_in_app";
+                    }
+                    else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
+                    {
+                        matchAnalyticsVO.friendType = "friends_community_notification_out_app";
+                    }
+                    else
+                    {
+                        matchAnalyticsVO.friendType = "friends_community";
                     }
                 }
             }
+            else
+            {
+                if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
+                {
+                    matchAnalyticsVO.friendType = "community_notification_in_app";
+                }
+                else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
+                {
+                    matchAnalyticsVO.friendType = "community_notification_out_app";
+                }
+                else
+                {
+                    matchAnalyticsVO.friendType = "community";
+                }
+            }
+            
 
             return matchAnalyticsVO;
         }
