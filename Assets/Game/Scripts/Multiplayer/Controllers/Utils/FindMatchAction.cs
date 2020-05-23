@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
             public string avatarId;
             public string avatarBgColor;
             public NotificationStatus notificationStatus;
+            public string acceptActionCode;
         }
 
         public const string ACTION_RANDOM = "Random";
@@ -88,7 +89,7 @@ namespace TurboLabz.InstantFramework
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
-        static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor, NotificationStatus notificationStatus)
+        static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor, string actionCode, NotificationStatus notificationStatus)
         {
             Reset();
             isMatchRequestedWithFriend = false;
@@ -100,6 +101,7 @@ namespace TurboLabz.InstantFramework
             actionData.avatarId = avatarId;
             actionData.avatarBgColor = avatarBgColor;
             actionData.notificationStatus = notificationStatus;
+            actionData.acceptActionCode = actionCode;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
     }

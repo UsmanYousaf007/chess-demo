@@ -212,22 +212,24 @@ namespace TurboLabz.InstantFramework
             matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
             matchAnalyticsVO.context = context;
 
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            var actionCode = FindMatchAction.actionData.action.Equals(FindMatchAction.ActionCode.Accept.ToString()) ? FindMatchAction.actionData.acceptActionCode : FindMatchAction.actionData.action;
+
+            if (actionCode == FindMatchAction.ActionCode.RandomLong.ToString())
             {
                 matchAnalyticsVO.matchType = "classic";
             }
-            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge.ToString() ||
-                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString())
+            else if (actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
+                     actionCode == FindMatchAction.ActionCode.Random.ToString())
             {
                 matchAnalyticsVO.matchType = "5m";
             }
-            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge10.ToString() ||
-                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString())
+            else if (actionCode == FindMatchAction.ActionCode.Challenge10.ToString() ||
+                     actionCode == FindMatchAction.ActionCode.Random10.ToString())
             {
                 matchAnalyticsVO.matchType = "10m";
             }
-            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() ||
-                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
+            else if (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                     actionCode == FindMatchAction.ActionCode.Random1.ToString())
             {
                 matchAnalyticsVO.matchType = "1m";
             }

@@ -543,6 +543,7 @@ MonoBehaviour:
   isLongPlay: 0
   isRankedGame: 0
   isTenMinGame: 0
+  isOneMinGame: 0
   acceptButton: {fileID: 613190847}
   declineButton: {fileID: 1891510980}
   acceptDialog: {fileID: 525596577}
@@ -94484,7 +94485,7 @@ MonoBehaviour:
   Dev: {fileID: 233865067}
   Sandbox: {fileID: 64930014}
   HuuugeDev: {fileID: 1627554865}
-  environment: 4
+  environment: 5
   configURL: https://chess-star.s3.amazonaws.com/preview467.png
 --- !u!4 &1628862473
 Transform:
@@ -121391,6 +121392,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 26.062397
       objectReference: {fileID: 0}
+    - target: {fileID: 2691815605772399255, guid: 28ca4d75ee2a84402b0b2a7643ab3cf0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -36.44995
+      objectReference: {fileID: 0}
+    - target: {fileID: 2691815605772399255, guid: 28ca4d75ee2a84402b0b2a7643ab3cf0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9138179323459642286, guid: 28ca4d75ee2a84402b0b2a7643ab3cf0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -121500,16 +121511,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 39.513958
-      objectReference: {fileID: 0}
-    - target: {fileID: 2691815605772399255, guid: 28ca4d75ee2a84402b0b2a7643ab3cf0,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -36.44995
-      objectReference: {fileID: 0}
-    - target: {fileID: 2691815605772399255, guid: 28ca4d75ee2a84402b0b2a7643ab3cf0,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28ca4d75ee2a84402b0b2a7643ab3cf0, type: 3}

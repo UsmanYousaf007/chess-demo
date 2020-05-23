@@ -329,7 +329,7 @@ namespace TurboLabz.InstantGame
                 }
 
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
-                                        notificationVO.avatarId, notificationVO.avaterBgColorId, FindMatchAction.NotificationStatus.OutGame);
+                                        notificationVO.avatarId, notificationVO.avaterBgColorId, notificationVO.actionCode, FindMatchAction.NotificationStatus.OutGame);
             }
         }
 
@@ -361,7 +361,7 @@ namespace TurboLabz.InstantGame
             loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
             FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup,
-                notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId, FindMatchAction.NotificationStatus.InGame);
+                notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId, notifications[0].notificationVO.actionCode, FindMatchAction.NotificationStatus.InGame);
             FadeBlocker();
         }
 
