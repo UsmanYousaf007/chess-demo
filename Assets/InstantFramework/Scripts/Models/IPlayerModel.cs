@@ -76,5 +76,7 @@ namespace TurboLabz.InstantFramework
 
         void UpdateGoodsInventory(string key, int quantity);
         AdsRewardVO GetAdsRewardsData();
+
+        int GetSocialFriendsCount();
     }
 }

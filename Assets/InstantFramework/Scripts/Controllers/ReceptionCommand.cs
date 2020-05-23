@@ -106,21 +106,6 @@ namespace TurboLabz.InstantFramework
 
         private void SendAnalytics()
         {
-            if (facebookService.isLoggedIn())
-            {
-                int facebookFriendCount = 0;
-                foreach (KeyValuePair<string, Friend> kvp in playerModel.friends)
-                {
-                    Friend friend = kvp.Value;
-                    if (friend.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
-                    {
-                        facebookFriendCount++;
-                    }
-                }
-
-                analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, facebookFriendCount);
-            }
-
             if (playerModel.HasSubscription())
             {
                 var context = playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
@@ -128,8 +113,10 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
-            if(preferencesModel.rankedMatchesFinishedCount > 15)
-            analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
+            if (preferencesModel.rankedMatchesFinishedCount >= 15)
+            {
+                analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
+            }
             SendDailyAnalytics();
         }
 
