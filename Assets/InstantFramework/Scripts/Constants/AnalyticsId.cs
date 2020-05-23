@@ -83,16 +83,6 @@ namespace TurboLabz.InstantFramework
         cpu_end_lvl_,
 
         //Match Start Distrubtion
-        match_find_random,
-        match_find_friends,
-        match_find_friends_notification_in_app,
-        match_find_friends_notification_out_app,
-        match_find_community,
-        match_find_community_notification_in_app,
-        match_find_community_notification_out_app,
-        classic_match_find_random,
-        classic_match_find_friends,
-        classic_match_find_community,
         match_find,
 
         //offer draw
