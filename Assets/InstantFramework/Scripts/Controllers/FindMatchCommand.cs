@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
         [Inject] public FindMatchRequestCompleteSignal findMatchRequestCompleteSignal { get; set; }
+        [Inject] public FindRandomLongMatchCompleteSignal findRandomLongMatchCompleteSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -89,7 +90,13 @@ namespace TurboLabz.InstantFramework
                 // The actual found match message arrives through a different pipeline
                 // from the backend
                 findMatchCompleteSignal.AddOnce(OnFindMatchComplete);
+                findRandomLongMatchCompleteSignal.AddOnce(OnFindRandomLongMatchComplete);
             }
+        }
+
+        private void OnFindRandomLongMatchComplete()
+        {
+            matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.success));
         }
 
         private void OnFindMatchComplete(string challengeId)

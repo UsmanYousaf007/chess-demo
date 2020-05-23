@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
     public class SetUpdateURLSignal : Signal<string> { }
     public class FindMatchSignal : Signal<string> { }
     public class FindMatchCompleteSignal : Signal<string> { }
+    public class FindRandomLongMatchCompleteSignal : Signal { }
     public class TapLongMatchSignal : Signal<string, bool> { }
     public class CreateLongMatchSignal : Signal<string, bool> { }
     public class StartLongMatchSignal : Signal<string> { }

@@ -291,6 +291,7 @@ namespace TurboLabz.InstantFramework
                     preferencesModel.gameStartCount++;
                     hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match", matchInfoModel.activeChallengeId);
                     appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+                    findRandomLongMatchCompleteSignal.Dispatch();
                 }
             }
             else
