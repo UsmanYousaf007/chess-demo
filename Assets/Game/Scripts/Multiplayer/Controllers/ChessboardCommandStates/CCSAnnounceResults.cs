@@ -75,15 +75,15 @@ namespace TurboLabz.Multiplayer
                 cmd.unregisterSignal.Dispatch(cmd.matchInfoModel.activeChallengeId);
                 matchAnalyticsVO.matchType = "classic";
             }
-            else if (cmd.matchInfoModel.activeMatch.isTenMinGame)
-            {
-                matchAnalyticsVO.matchType = "10m";
-            }
             else
             {
                 if (cmd.matchInfoModel.activeMatch.isOneMinGame)
                 {
                     matchAnalyticsVO.matchType = "1m";
+                }
+                else if (cmd.matchInfoModel.activeMatch.isTenMinGame)
+                {
+                    matchAnalyticsVO.matchType = "10m";
                 }
                 else
                 {
