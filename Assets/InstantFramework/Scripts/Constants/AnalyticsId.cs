@@ -51,7 +51,6 @@ namespace TurboLabz.InstantFramework
 
         //Ads
         ad_user_requested,
-        ad_requested,
         ad_not_available,
         ad_available,
         ad_shown,
@@ -124,6 +123,7 @@ namespace TurboLabz.InstantFramework
 
         //Ads
         rewarded,
+        interstitial,
         interstitial_pregame,
         interstitial_endgame,
         interstitial_rewarded_failed_replacement,

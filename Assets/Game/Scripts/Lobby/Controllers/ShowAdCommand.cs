@@ -298,8 +298,6 @@ namespace TurboLabz.InstantGame
         {
             if (result == AdsResult.FINISHED || result == AdsResult.SKIPPED)
             {
-                analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
-
                 preferencesModel.globalAdsCount++;
                 preferencesModel.interstitialAdsCount++;
 
