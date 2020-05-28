@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HUF.AdsAdMobMediation.Runtime.Implementation;
 using HUF.Analytics.Runtime.API;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
@@ -197,6 +198,26 @@ namespace TurboLabz.InstantFramework
             AddCpuGameParameters(name);
             _LogEvent(name, ST1, ST2);
             analyticsService.HEvent(name, ST1, ST2);
+        }
+
+        public void LogAdImpressionEvent(PaidEventData data)
+        {
+            analyticsEvent = new Dictionary<string, object>();
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, "ad_impression");
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.VALUE_KEY, data.Cents);
+            analyticsEvent.Add(AnalyticsMonetizationEvent.CENTS_KEY, data.Cents);
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.ST1_KEY, "monetization");
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.ST2_KEY, data.PlacementId);
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.ST3_KEY, data.AdapterId);
+            analyticsEvent.Add("ad_type", data.PlacementType);
+            analyticsEvent.Add("ad_precision", data.Precision);
+            analyticsEvent.Add("ad_currency_id", data.CurrencyCode);
+            analyticsEvent.Add("ad_mediation", data.MediationId);
+            analyticsEvent.Add("ad_amount", data.Cents / 10000d);
+            AddDefaultParameters();
+            HAnalytics.LogMonetizationEvent(analyticsEvent);
+            analyticsEvent = null;
+            analyticsService.HEvent("ad_impression", data.CurrencyCode, data.Cents.ToString());
         }
 
         private void AddDefaultParameters()

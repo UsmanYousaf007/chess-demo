@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HUF.AdsAdMobMediation.Runtime.Implementation;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,6 +20,8 @@ namespace TurboLabz.InstantFramework
 
         void LogMultiplayerGameEvent(string name, string ST1, string ST2, string challengeId);
         void LogCpuGameEvent(string name, string ST1, string ST2);
+
+        void LogAdImpressionEvent(PaidEventData data);
     }
 }
 

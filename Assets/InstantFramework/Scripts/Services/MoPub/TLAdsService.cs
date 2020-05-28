@@ -8,6 +8,7 @@ using HUF.AdsAdMobMediation.Runtime.API;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
+using HUF.AdsAdMobMediation.Runtime.Implementation;
 
 namespace TurboLabz.InstantFramework
 {
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
             HAds.Banner.OnClicked += OnBannerClicked;
             HAds.Interstitial.OnClicked += OnInterstitialClicked;
             HAds.Rewarded.OnClicked += OnRewardedClicked;
+            HAdsAdMobMediation.OnPaidEvent += HandlePaidEvent;
             HAdsManager.SetNewBannerPosition(BannerPosition.TopCenter);
             bannerDisplay = false;
         }
@@ -273,6 +275,11 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
             }*/
+        }
+
+        private void HandlePaidEvent(PaidEventData data)
+        {
+            hAnalyticsService.LogAdImpressionEvent(data);
         }
     }
 }

@@ -90,12 +90,7 @@ namespace TurboLabz.InstantFramework
 
         public void Event(AnalyticsEventId evt, AnalyticsContext context)
         {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { AnalyticsParameter.context.ToString(), context.ToString() }
-            };
-
-            Print(evt.ToString(), p);
+            Event(evt.ToString(), context);
         }
 
         public void Event(string evt, AnalyticsContext context)

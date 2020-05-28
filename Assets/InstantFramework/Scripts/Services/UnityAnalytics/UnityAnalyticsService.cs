@@ -103,14 +103,7 @@ namespace TurboLabz.InstantFramework
 
         public void Event(AnalyticsEventId evt, AnalyticsContext context)
         {
-            Dictionary<string, object> p = new Dictionary<string, object>
-            {
-                { AnalyticsParameter.context.ToString(), context.ToString() }
-            };
-
-            Analytics.CustomEvent(evt.ToString(), p);
-            GameAnalytics.NewDesignEvent($"{evt}:{context}");
-            Print(evt.ToString(), p);
+            Event(evt.ToString(), context);
         }
 
         public void Event(string evt, AnalyticsContext context)
@@ -120,6 +113,8 @@ namespace TurboLabz.InstantFramework
                 { AnalyticsParameter.context.ToString(), context.ToString() }
             };
 
+            Analytics.CustomEvent(evt, p);
+            GameAnalytics.NewDesignEvent($"{evt}:{context}");
             Print(evt, p);
         }
 
