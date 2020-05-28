@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         void Event(AnalyticsEventId evt, AnalyticsContext context);
         void Event(string evt, AnalyticsContext context);
         void Event(AnalyticsEventId evt, AnalyticsParameter param, object val);
+        void Event(string evt, AnalyticsParameter param, object val);
 
         void DesignEvent(AnalyticsEventId evt, AnalyticsParameter param, object val, AnalyticsEventId subEvt);
         void HEvent(string evt, params string [] param);

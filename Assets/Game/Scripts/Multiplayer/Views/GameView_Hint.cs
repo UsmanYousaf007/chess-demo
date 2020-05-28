@@ -108,12 +108,6 @@ namespace TurboLabz.Multiplayer
             hintThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHintButton();
-
-            if(strengthPanel.gameObject.activeSelf)
-            {
-                //analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-            }
-
             strengthPanel.Hide();
             strengthOnboardingTooltip.SetActive(false);
         }
@@ -135,7 +129,7 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch(isLongPlay ? "Classic" : isTenMinGame ? "TenMin" : "FiveMin", "MoveMeter");
+                setSubscriptionContext.Dispatch(isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : "5m", "move_meter");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
@@ -147,21 +141,6 @@ namespace TurboLabz.Multiplayer
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
-
-                if (isStrengthToolTipShown)
-                {
-                    isStrengthToolTipShown = false;
-                    //analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
-
-                if (InstantFramework.LobbyView.isStrengthTrainingShown)
-                {
-                    //analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
-                else
-                {
-                    //analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
             }
         }
 
@@ -179,11 +158,11 @@ namespace TurboLabz.Multiplayer
 
         public void DisableHintButton()
         {
-            //hintButton.interactable = false;
-            //hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 0.5f);
-            //hintAdd.color = Colors.ColorAlpha(hintAdd.color, 0.5f);
-            //hintLabel.color = Colors.ColorAlpha(hintLabel.color, 0.5f);
-            //hintIcon.color = Colors.ColorAlpha(hintIcon.color, 0.5f);
+            hintButton.interactable = false;
+            hintCountLabel.color = Colors.ColorAlpha(hintCountLabel.color, 0.5f);
+            hintAdd.color = Colors.ColorAlpha(hintAdd.color, 0.5f);
+            hintLabel.color = Colors.ColorAlpha(hintLabel.color, 0.5f);
+            hintIcon.color = Colors.ColorAlpha(hintIcon.color, 0.5f);
         }
 
         public void EnableHintButton()

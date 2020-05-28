@@ -262,6 +262,21 @@ namespace TurboLabz.InstantFramework
             return adsRewardVO;
         }
 
+        public int GetSocialFriendsCount()
+        {
+            var count = 0;
+
+            foreach (var friend in friends)
+            {
+                if (friend.Value.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
     }
 }
 

@@ -196,23 +196,57 @@ namespace TurboLabz.InstantFramework
 
         private void HandleActiveGameEnd(string challengeId)
         {
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
+
             #region analytics
             preferencesModel.gameFinishedCount++;
             appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, preferencesModel.gameFinishedCount);
 
             if (matchInfoModel.matches.ContainsKey(challengeId))
             {
-                if (matchInfoModel.matches[challengeId].isLongPlay)
+                var matchInfo = matchInfoModel.matches[challengeId];
+                if (matchInfo.isLongPlay)
                 {
-                    preferencesModel.longMatchFinishedCount++;
                     hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString(), challengeId);
-                    analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.long_match);
+
+                    if (chessboard.moveList.Count < 2)
+                    {
+                        var analyticsVO = new MatchAnalyticsVO();
+                        analyticsVO.context = AnalyticsContext.cancelled;
+                        analyticsVO.matchType = "classic";
+                        analyticsVO.eventID = AnalyticsEventId.match_find;
+                        var opponentId = matchInfo.opponentPublicProfile.playerId;
+
+                        if (playerModel.friends.ContainsKey(opponentId))
+                        {
+                            var friendType = playerModel.friends[opponentId].friendType;
+                            if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                            {
+                                analyticsVO.friendType = "friends_facebook";
+
+                            }
+                            else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
+                                     friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                            {
+                                analyticsVO.friendType = "friends_community";
+                            }
+                        }
+                        else
+                        {
+                            analyticsVO.friendType = "community";
+                        }
+
+                        matchAnalyticsSignal.Dispatch(analyticsVO);
+                    }
                 }
                 else
                 {
-                    preferencesModel.quickMatchFinishedCount++;
                     hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString(), challengeId);
-                    analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.quick_match);
+                }
+
+                if (matchInfo.isRanked)
+                {
+                    preferencesModel.rankedMatchesFinishedCount++;
                 }
             }            
             #endregion
@@ -220,7 +254,6 @@ namespace TurboLabz.InstantFramework
             if (challengeId != matchInfoModel.activeChallengeId)
                 return;
 
-            Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
             // Add cases where the game ending does not have a move to the checks below
             if (GameEndHasMove(chessboard))

@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Dispatch Signals
         [Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
@@ -517,6 +518,11 @@ namespace TurboLabz.InstantFramework
             else
             {
                 hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew");
+            }
+
+            if (name.Equals("completed"))
+            {
+                analyticsService.Event(AnalyticsEventId.subscription_renewed, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
             }
         }
 

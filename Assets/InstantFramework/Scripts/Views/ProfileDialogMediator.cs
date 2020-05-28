@@ -53,7 +53,6 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.PROFILE_DLG) 
             {
                 view.Show();
-                analyticsService.Event(AnalyticsEventId.tap_long_match_profile);
             }
         }
 
@@ -86,14 +85,12 @@ namespace TurboLabz.InstantFramework
         private void OnChat(string playerId)
         {
             loadChatSignal.Dispatch(playerId, false);
-            analyticsService.Event(AnalyticsEventId.tap_chat_player_profile);
         }
 
         private void OnAddFriend(string playerId)
         {
             newFriendSignal.Dispatch(playerId, true);
             cancelSearchResultSignal.Dispatch();
-            analyticsService.Event(AnalyticsEventId.tap_add_friends);
         }
 
         private void OnRemoveFriend(string playerId)
@@ -102,7 +99,6 @@ namespace TurboLabz.InstantFramework
             {
                 OnClose();
                 removeCommunityFriendSignal.Dispatch(playerId);
-                analyticsService.Event(AnalyticsEventId.tap_remove_friends);
             }
             else
             {

@@ -263,6 +263,9 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
+
             if (!playerModel.isPremium)
             {
                 var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
@@ -277,7 +280,6 @@ namespace TurboLabz.InstantFramework
                     vo.adsType = AdType.Interstitial;
                     vo.isRanked = isRanked;
                     vo.friendId = playerId;
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     showAdSignal.Dispatch(vo);
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;
@@ -288,14 +290,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
+
             var friend = playerModel.GetFriend(playerId);
 
-            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
-            {
-                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
-            }
-
-            if (!playerModel.isPremium)
+            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Challenge1.ToString())
             {
                 var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
 
@@ -310,7 +310,6 @@ namespace TurboLabz.InstantFramework
                     vo.actionCode = actionCode;
                     vo.friendId = playerId;
                     vo.isRanked = isRanked;
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     showAdSignal.Dispatch(vo);
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;

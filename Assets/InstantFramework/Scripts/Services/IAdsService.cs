@@ -18,5 +18,7 @@ namespace TurboLabz.InstantFramework
         void HideBanner();
         void CollectSensitiveData(bool consentStatus);
         void ShowTestSuite();
+        bool IsInterstitialReady();
+        bool IsInterstitialNotCapped();
     }
 }

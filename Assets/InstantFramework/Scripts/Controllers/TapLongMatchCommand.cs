@@ -37,8 +37,26 @@ namespace TurboLabz.InstantFramework
                 matchAnalyticsVO.context = AnalyticsContext.start_attempt;
                 matchAnalyticsVO.matchType = "classic";
                 matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
-                var friend = playerModel.GetFriend(opponentId);
-                matchAnalyticsVO.friendType = friend.friendType;
+
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    var friendType = playerModel.friends[opponentId].friendType;
+                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                    {
+                        matchAnalyticsVO.friendType = "friends_facebook";
+
+                    }
+                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
+                             friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                    {
+                        matchAnalyticsVO.friendType = "friends_community";
+                    }
+                }
+                else
+                {
+                    matchAnalyticsVO.friendType = "community";
+                }
+
                 matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
 
                 createLongMatchSignal.Dispatch(opponentId, isRanked);

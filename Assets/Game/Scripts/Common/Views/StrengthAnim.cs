@@ -183,9 +183,6 @@ public class StrengthAnim : MonoBehaviour
         }
 
         Fade();
-
-        //strengthVO.analyticsService.Event(AnalyticsEventId.close_pow_move_meter, strengthVO.analyticsContext);
-
     }
 
     public void Hide()

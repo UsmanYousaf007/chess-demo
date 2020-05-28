@@ -46,16 +46,6 @@ namespace TurboLabz.Multiplayer
                 return;
 
             infoButtonClickedSignal.Dispatch();
-
-            if (isLongPlay)
-            {
-                analyticsService.Event(AnalyticsEventId.tap_pow_info, AnalyticsContext.long_match);
-            }
-            else
-            {
-                analyticsService.Event(AnalyticsEventId.tap_pow_info, AnalyticsContext.quick_match);
-            }
-
         }
 
         void OnCloseButtonClicked()

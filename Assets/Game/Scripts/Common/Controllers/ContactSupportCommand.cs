@@ -39,8 +39,6 @@ namespace TurboLabz.InstantFramework
 
             Application.OpenURL(contactSupportUrl);
             TLUtils.LogUtil.Log("Contact US URL " + contactSupportUrl);
-
-            analyticsService.Event(AnalyticsEventId.tap_support);
         }
 
         private string MyEscapeURL(string URL)

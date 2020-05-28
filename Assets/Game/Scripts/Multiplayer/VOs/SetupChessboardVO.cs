@@ -8,6 +8,7 @@ namespace TurboLabz.Multiplayer
         public bool isLongPlay;
         public bool isRanked;
         public bool isTenMinGame;
+        public bool isOneMinGame;
     }
 }
 

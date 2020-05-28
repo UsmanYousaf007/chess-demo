@@ -294,12 +294,7 @@ namespace TurboLabz.InstantFramework
         {
             if (!playerModel.isPremium)
             {
-                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
-                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                if (CanShowPregameAd())
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
@@ -307,7 +302,6 @@ namespace TurboLabz.InstantFramework
                     vo.isRanked = isRanked;
                     vo.friendId = playerId;
                     vo.actionCode = "ChallengeClassic";
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
@@ -318,21 +312,15 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
+
             var friend = playerModel.GetFriend(playerId);
 
-            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+            //-- We're not showing pre-game ad for one minute matches
+            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Challenge1.ToString()) 
             {
-                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
-            }
-
-            if (!playerModel.isPremium) 
-            {
-                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
-                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                if (CanShowPregameAd())
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
@@ -340,7 +328,6 @@ namespace TurboLabz.InstantFramework
                     vo.actionCode = actionCode;
                     vo.friendId = playerId;
                     vo.isRanked = isRanked;
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
@@ -384,17 +371,11 @@ namespace TurboLabz.InstantFramework
         {
             if (!playerModel.isPremium)
             {
-                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
-                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                if (CanShowPregameAd())
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
                     vo.adsType = AdType.Interstitial;
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
@@ -405,20 +386,18 @@ namespace TurboLabz.InstantFramework
 
         private void OnQuickMatchBtnClicked(string actionCode)
         {
-            if (!playerModel.isPremium)
-            {
-                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
 
-                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
-                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+            //-- We're not showing pre-game ad for one minute matches
+            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Random1.ToString())
+            {
+                if (CanShowPregameAd())
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
                     vo.adsType = AdType.Interstitial;
                     vo.actionCode = actionCode;
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     showAdSignal.Dispatch(vo);
                     return;
@@ -430,20 +409,17 @@ namespace TurboLabz.InstantFramework
 
         private void OnClassicMatchBtnClicked()
         {
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
+
             if (!playerModel.isPremium)
             {
-                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
-                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                if (CanShowPregameAd())
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
                     vo.adsType = AdType.Interstitial;
                     vo.actionCode = FindMatchAction.ActionCode.RandomLong.ToString();
-                    view.preferencesModel.intervalBetweenPregameAds = DateTime.Now;
                     showAdSignal.Dispatch(vo);
                     return;
                 }
@@ -451,6 +427,26 @@ namespace TurboLabz.InstantFramework
             
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.RandomLong(findMatchSignal);
+        }
+
+        private bool CanShowPregameAd()
+        {
+            bool retVal = false;
+
+            IPreferencesModel preferencesModel = view.preferencesModel;
+            IAdsSettingsModel adsSettingsModel = view.adsSettingsModel;
+
+            double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+            if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
+                preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
+                (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
+            {
+                retVal = true;
+            }
+
+            return retVal;
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]
@@ -475,17 +471,6 @@ namespace TurboLabz.InstantFramework
         public void OnRemoveLobbyPromotion(StoreItem item)
         {
             view.RemovePromotion(item.key);
-        }
-
-        [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]
-        public void OnReportLobbyPromotionAnalytic(string key, AnalyticsEventId eventId)
-        {
-            if (!view.IsVisible())
-            {
-                return;
-            }
-
-            view.ReportAnalytic(key, eventId);
         }
 
         [ListensTo(typeof(ShowProcessingSignal))]

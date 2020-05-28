@@ -61,14 +61,12 @@ namespace TurboLabz.InstantFramework
         {
             rateAppService.RateApp(false);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            analyticsService.Event(AnalyticsEventId.tap_rate_no);
         }
 
         private void OnRate()
         {
             rateAppService.RateApp(true);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            analyticsService.Event(AnalyticsEventId.tap_rate_yes);
         }
 
         private void OnImproveBtnClick()
@@ -94,7 +92,6 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             contactSupportSignal.Dispatch();
-            analyticsService.Event(AnalyticsEventId.tap_support);
         }
     }
 }

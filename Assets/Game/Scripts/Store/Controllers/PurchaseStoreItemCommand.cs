@@ -134,6 +134,7 @@ namespace TurboLabz.InstantFramework
             else if (result == BackendResult.PURCHASE_COMPLETE)
             {
                 eventName = "completed";
+                analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
             {

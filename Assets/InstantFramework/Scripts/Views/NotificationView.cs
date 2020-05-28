@@ -244,13 +244,17 @@ namespace TurboLabz.InstantGame
                 notification.titleLarge.gameObject.SetActive(true);
                 notification.title.gameObject.SetActive(false);
 
-                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString())
                 {
-                    notification.titleLarge.text = "5-Minutes Game";
+                    notification.titleLarge.text = "1-Minute Game";
+                }
+                else if(notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                {
+                    notification.titleLarge.text = "5-Minute Game";
                 }
                 else
                 {
-                    notification.titleLarge.text = "10-Minutes Game";
+                    notification.titleLarge.text = "10-Minute Game";
                 }
 
                 notification.body.text = notificationVO.title;
@@ -293,17 +297,6 @@ namespace TurboLabz.InstantGame
 
         public void ProcessOpenedNotification(NotificationVO notificationVO)
         {
-            string challengeId = GetChallengeId(notificationVO.senderPlayerId);
-            if (challengeId != null)
-            {
-                MatchInfo matchInfo = matchInfoModel.matches[challengeId];
-                if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
-                {
-                    analyticsService.Event("classic_" + AnalyticsEventId.match_find_friends, AnalyticsContext.accepted);
-                    tapLongMatchSignal.Dispatch(notificationVO.senderPlayerId, false);
-                }
-            }
-
             if (notificationVO.matchGroup != "undefined")
             {
                 if((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent)/1000 > NOTIFICATION_QUICKMATCH_DURATION)
@@ -334,14 +327,9 @@ namespace TurboLabz.InstantGame
                         facebookService.GetSocialPic(notificationVO.profilePicURL, notificationVO.senderPlayerId).Then(OnGetSocialPic);
                     }
                 }
-               
-                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
-                    analyticsService.Event("5m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.accepted);
-                else
-                    analyticsService.Event("10m_" + AnalyticsEventId.match_find_friends.ToString(), AnalyticsContext.accepted);
 
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
-                                        notificationVO.avatarId, notificationVO.avaterBgColorId);
+                                        notificationVO.avatarId, notificationVO.avaterBgColorId, notificationVO.actionCode, FindMatchAction.NotificationStatus.OutGame);
             }
         }
 
@@ -373,7 +361,7 @@ namespace TurboLabz.InstantGame
             loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
             FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup,
-                notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId);
+                notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId, notifications[0].notificationVO.actionCode, FindMatchAction.NotificationStatus.InGame);
             FadeBlocker();
         }
 

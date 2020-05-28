@@ -92,7 +92,6 @@ namespace TurboLabz.InstantFramework
         private void OnAddBucksButtonClicked()
         {
             addBucksButtonClickedSignal.Dispatch();
-            analyticsService.Event(AnalyticsEventId.tap_coins);
         }
 
         private void OnSupportButtonClicked()
