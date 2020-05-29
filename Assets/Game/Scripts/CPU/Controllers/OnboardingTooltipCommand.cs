@@ -23,26 +23,23 @@ namespace TurboLabz.CPU
 
         public override void Execute()
         {
-            if (matchInfoModel.activeMatch.isLongPlay)
+            if (!preferencesModel.isCoachTooltipShown
+            && moveVo.opponentScore > oldOpponentScore)
             {
-                if (!preferencesModel.isCoachTooltipShown
-               && moveVo.opponentScore > oldOpponentScore)
-                {
-                    showCoachOnboardingTooltipSignal.Dispatch(true);
-                    showStrengthOnboardingTooltipSignal.Dispatch(false);
-                    preferencesModel.isCoachTooltipShown = true;
-                }
-                else if (!preferencesModel.isStrengthTooltipShown
-                    && moveVo.playerScore > oldPlayerScore)
-                {
-                    showStrengthOnboardingTooltipSignal.Dispatch(true);
-                    showCoachOnboardingTooltipSignal.Dispatch(false);
-                    preferencesModel.isStrengthTooltipShown = true;
-                }
-
-                oldOpponentScore = moveVo.opponentScore;
-                oldPlayerScore = moveVo.playerScore;
+                showCoachOnboardingTooltipSignal.Dispatch(true);
+                showStrengthOnboardingTooltipSignal.Dispatch(false);
+                preferencesModel.isCoachTooltipShown = true;
             }
+            else if (!preferencesModel.isStrengthTooltipShown
+                && moveVo.playerScore > oldPlayerScore)
+            {
+                showStrengthOnboardingTooltipSignal.Dispatch(true);
+                showCoachOnboardingTooltipSignal.Dispatch(false);
+                preferencesModel.isStrengthTooltipShown = true;
+            }
+
+            oldOpponentScore = moveVo.opponentScore;
+            oldPlayerScore = moveVo.playerScore;
         }
     }
 }
