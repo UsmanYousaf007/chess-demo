@@ -12,6 +12,7 @@ namespace TurboLabz.Multiplayer
 
         // Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // Signals
         [Inject] public ShowStrengthOnboardingTooltipSignal showStrengthOnboardingTooltipSignal { get; set; }
@@ -22,23 +23,26 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            if (!preferencesModel.isCoachTooltipShown
-               && moveVo.opponentScore > oldOpponentScore)
+            if (matchInfoModel.activeMatch.isLongPlay)
             {
-                showCoachOnboardingTooltipSignal.Dispatch(true);
-                showStrengthOnboardingTooltipSignal.Dispatch(false);
-                preferencesModel.isCoachTooltipShown = true;
-            }
-            else if (!preferencesModel.isStrengthTooltipShown
-                && moveVo.playerScore > oldPlayerScore)
-            {
-                showStrengthOnboardingTooltipSignal.Dispatch(true);
-                showCoachOnboardingTooltipSignal.Dispatch(false);
-                preferencesModel.isStrengthTooltipShown = true;
-            }
+                if (!preferencesModel.isCoachTooltipShown
+                   && moveVo.opponentScore > oldOpponentScore)
+                {
+                    showCoachOnboardingTooltipSignal.Dispatch(true);
+                    showStrengthOnboardingTooltipSignal.Dispatch(false);
+                    preferencesModel.isCoachTooltipShown = true;
+                }
+                else if (!preferencesModel.isStrengthTooltipShown
+                    && moveVo.playerScore > oldPlayerScore)
+                {
+                    showStrengthOnboardingTooltipSignal.Dispatch(true);
+                    showCoachOnboardingTooltipSignal.Dispatch(false);
+                    preferencesModel.isStrengthTooltipShown = true;
+                }
 
-            oldOpponentScore = moveVo.opponentScore;
-            oldPlayerScore = moveVo.playerScore;
+                oldOpponentScore = moveVo.opponentScore;
+                oldPlayerScore = moveVo.playerScore;
+            }
         }
     }
 }

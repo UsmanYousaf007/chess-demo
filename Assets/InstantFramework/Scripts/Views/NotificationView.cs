@@ -125,7 +125,7 @@ namespace TurboLabz.InstantGame
 
         private void PreShowNotificationSetup(NotificationContainer notificationContainer)
         {
-            if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            if (appInfoModel.gameMode != GameMode.NONE && (appInfoModel.gameMode == GameMode.CPU || appInfoModel.gameMode == GameMode.QUICK_MATCH))
             {
                 Notification notificationObj = notificationContainer.obj.GetComponent<Notification>();
                 notificationObj.playButton.gameObject.SetActive(false);
@@ -268,11 +268,11 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            /*if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
             {
                 notification.playButton.gameObject.SetActive(false);
                 notification.acceptQuickMatchButton.gameObject.SetActive(false);
-            }
+            }*/
 
             notifidationObj.transform.SetParent(gameObject.transform);
             var notificationPosition = new Vector3(0, positionDummy.transform.position.y, 0); 

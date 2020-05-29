@@ -1283,7 +1283,7 @@ namespace TurboLabz.InstantFramework
 
             if (recentlyCompleted.Count > 0)
             {
-                int maxCount = 5;
+                int maxCount = settingsModel.maxRecentlyCompletedMatchCount;
                 sectionRecentlyCompletedMatches.gameObject.SetActive(true);
                 index = sectionRecentlyCompletedMatches.GetSiblingIndex() + 1;
                 for (int i = 0; i < recentlyCompleted.Count; i++)

@@ -172,6 +172,7 @@ namespace TurboLabz.CPU
             viewBoardResultPanel.gameObject.SetActive(false);
 
             showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            appInfoModel.gameMode = GameMode.NONE;
 
         }
 
