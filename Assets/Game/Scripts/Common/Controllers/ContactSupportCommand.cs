@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
             var contactSupportUrl = string.Format(
                 "{0}/?gdpr={1}&tag={2}&appversion={3}&hardwarekey={4}&userid={5},{6}",
                 appInfoModel.contactSupportURL,
-                HGenericGDPR.IsPersonalizedAdsAccepted ? 0 : 1,
+                0,
                 "chess",
                 appInfoModel.clientVersion,
                 SystemInfo.deviceModel,

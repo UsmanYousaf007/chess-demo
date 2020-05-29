@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
                     break;
 
                 case PLACEMENT_ID_INTERSTITIAL:
-                    analyticsService.Event(AnalyticsEventId.ad_available, playerModel.adContext);
+                    analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.interstitial);
                     break;
             }
         }
@@ -72,6 +72,7 @@ namespace TurboLabz.InstantFramework
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
             HAdsManager.ShowAd(PLACEMENT_ID_INTERSTITIAL, OnInterstitailEnded);
+            analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "interstitial", HAds.Interstitial.GetAdProviderName(),
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)));
             return adEndedPromise;
@@ -84,6 +85,7 @@ namespace TurboLabz.InstantFramework
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
             HAdsManager.ShowAd(PLACEMENT_ID_REWARDED, OnRewardedEnded);
+            analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.rewarded);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "rewarded_result_2xcoins", HAds.Rewarded.GetAdProviderName(),
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)));
             return adEndedPromise;
@@ -267,14 +269,14 @@ namespace TurboLabz.InstantFramework
 
         public void OnAppEvent(AppEvent evt)
         {
-            /*if (evt == AppEvent.ESCAPED && showAd && !adStatus)
-            {
-                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
-            }
-            else if(evt == AppEvent.PAUSED && showAd && !adStatus)
-            {
-                analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
-            }*/
+            //if (evt == AppEvent.ESCAPED && showAd && !adStatus)
+            //{
+            //    analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
+            //}
+            //else if(evt == AppEvent.PAUSED && showAd && !adStatus)
+            //{
+            //    analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
+            //}
         }
 
         private void HandlePaidEvent(PaidEventData data)

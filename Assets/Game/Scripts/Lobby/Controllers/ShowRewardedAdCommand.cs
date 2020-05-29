@@ -20,7 +20,6 @@ namespace TurboLabz.InstantGame
         {
             if (adsService.IsRewardedVideoAvailable())
             {
-                analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.rewarded);
                 showAdSignal.Dispatch(resultAdsVO);
             }
             else if (adsService.IsInterstitialAvailable())
