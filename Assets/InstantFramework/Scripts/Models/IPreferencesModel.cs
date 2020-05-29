@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
         DateTime timeAtSubscrptionDlgShown { get; set; }
         int autoSubscriptionDlgShownCount { get; set; }
         int rankedMatchesFinishedCount { get; set; }
+        bool isAutoSubsriptionDlgShownFirstTime { get; set; }
 
         void ResetDailyPrefers();
 

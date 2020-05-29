@@ -13,6 +13,7 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public IAnalyticsService analyticsService { get; set; }
     [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
     [Inject] public IBackendService backendService { get; set; }
+    [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -28,7 +29,6 @@ public class SubscriptionDlgMediator : Mediator
 
     private string cameFromScreen;
     private NS cameFromState;
-    private string screenContext;
     private string powerUpContext;
     private KeyValuePair<string, object> analyticsFunnelId;
 
@@ -64,10 +64,9 @@ public class SubscriptionDlgMediator : Mediator
             analyticsFunnelId = new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, backendService.serverClock.currentTimestamp));
             analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
             cameFromState = navigatorModel.previousState;
-            screenContext = cameFromState.GetType().Equals(typeof(NSLobby)) || cameFromState.GetType().Equals(typeof(NSRateAppDlg)) ? !appInfoModel.isAutoSubscriptionDlgShown ? "lobby_banner" : "auto_popup" : "";
             cameFromScreen = cameFromState.ToString();
-            cameFromScreen = cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2);
-            cameFromScreen = screenContext.Equals("auto_popup") ? screenContext : cameFromScreen;
+            cameFromScreen = CollectionsUtil.GetContextFromState(cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2));
+            cameFromScreen = appInfoModel.isAutoSubscriptionDlgShown ? autoSubscriptionDailogueService.IsShownFirstTime() ? "install_popup" : "auto_popup" : cameFromScreen;
             cameFromScreen = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ? powerUpContext : cameFromScreen;
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
@@ -144,6 +143,6 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(SetSubscriptionContext))]
     public void OnSetContext(string gameType, string powerUp)
     {
-        powerUpContext = string.Concat(gameType, powerUp);
+        powerUpContext = $"{gameType}_{powerUp}";
     }
 }

@@ -4,5 +4,6 @@
     {
         bool CanShow();
         void Show();
+        bool IsShownFirstTime();
     }
 }

@@ -58,6 +58,7 @@ namespace TurboLabz.InstantGame
         public bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
         public bool autoPromotionToQueen { get; set;}
         public int rankedMatchesFinishedCount { get; set; }
+        public bool isAutoSubsriptionDlgShownFirstTime { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -102,6 +103,7 @@ namespace TurboLabz.InstantGame
             isSubscriptionDlgShownOnFirstLaunch = false;
             autoPromotionToQueen = false;
             rankedMatchesFinishedCount = 0;
+            isAutoSubsriptionDlgShownFirstTime = false;
             ResetDailyPrefers();
         }
 
@@ -295,6 +297,11 @@ namespace TurboLabz.InstantGame
                     rankedMatchesFinishedCount = reader.Read<int>(PrefKeys.RANKED_MATCHES_FINISHED_COUNT);
                 }
 
+                if (reader.HasKey(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME))
+                {
+                    isAutoSubsriptionDlgShownFirstTime = reader.Read<bool>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -347,9 +354,9 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT, sessionsBeforePregameAdCount);
                 writer.Write<int>(PrefKeys.PREGAME_ADS_PER_DAY_COUNT, pregameAdsPerDayCount);
                 writer.Write<string>(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS, intervalBetweenPregameAds.ToBinary().ToString());
-                //writer.Write<bool>(PrefKeys.SUBSCRIPTION_DLG_SHOWN, isSubscriptionDlgShownOnFirstLaunch);
                 writer.Write<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN, autoPromotionToQueen);
                 writer.Write<int>(PrefKeys.RANKED_MATCHES_FINISHED_COUNT, rankedMatchesFinishedCount);
+                writer.Write<bool>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME, isAutoSubsriptionDlgShownFirstTime);
 
                 writer.Close();
             }
