@@ -465,7 +465,7 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
-            if (bars.ContainsKey(friend.playerId) || (isCommunity && !isSearched))
+            if (bars.ContainsKey(friend.playerId) || (isCommunity && !isSearched) || friend.friendType == Friend.FRIEND_TYPE_COMMUNITY)
             {
                 return;
             }
