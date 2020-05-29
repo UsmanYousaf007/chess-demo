@@ -55,14 +55,15 @@ namespace TurboLabz.InstantFramework
                 LongPlayStatus status = entry.Value.longPlayStatus;
                 FriendBar bar = entry.Value;
 
-                if (bar.isCommunity)
+                if (bar.isCommunity || bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
                 {
                     continue;
                 }
 
-                if (bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
+                /*if (bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
                 {
-                    if (status != LongPlayStatus.DEFAULT)
+                    continue;
+                    /*if (status != LongPlayStatus.DEFAULT)
                     {
                         bar.gameObject.SetActive(false);
                         continue;
@@ -91,10 +92,16 @@ namespace TurboLabz.InstantFramework
                         {
                             recentCompleted.Add(bar);
                         }
+                    }*/
+                //}
+                //else //fb friends
+                //{
+                    if (status != LongPlayStatus.DEFAULT)
+                    {
+                        bar.gameObject.SetActive(false);
+                        continue;
                     }
-                }
-                else //fb friends
-                {
+
                     if (entry.Value.friendInfo.publicProfile.isSubscriber)
                     {
                         if (entry.Value.isOnline)
@@ -117,7 +124,7 @@ namespace TurboLabz.InstantFramework
                             fbFriends.Add(bar);
                         }
                     }
-                }
+                //}
 
                 //if (status == LongPlayStatus.NEW_CHALLENGE ||
                 //    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
