@@ -101,6 +101,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnFindMatchComplete(string challengeId)
         {
+            if (matchInfoModel.activeChallengeId == challengeId)
+            {
+                Release();
+                return;
+            }
+
             matchInfoModel.activeChallengeId = challengeId;
 
             // Create and fill the opponent profile
