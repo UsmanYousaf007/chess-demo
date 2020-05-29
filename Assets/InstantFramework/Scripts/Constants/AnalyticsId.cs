@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         internet_warning_on_splash,
         disconnection_time,
         app_quit_during_disconnected,
+        target_architecture,
 
         //Ads
         ad_user_requested,
@@ -120,6 +121,8 @@ namespace TurboLabz.InstantFramework
         cpu_match,
         matchmaking,
         onemin_match,
+        ARM64,
+        ARM,
 
         //Ads
         rewarded,

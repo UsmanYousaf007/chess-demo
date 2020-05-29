@@ -10,7 +10,9 @@
 /// @description
 /// This provides the information about Unity game engine.
 
+using System;
 using UnityEngine;
+using System.Globalization;
 
 namespace TurboLabz.TLUtils
 {
@@ -22,6 +24,22 @@ namespace TurboLabz.TLUtils
             {
                 return Application.internetReachability != NetworkReachability.NotReachable;
             }
+        }
+
+        public static bool Is64Bit()
+        {
+            bool retVal = false;
+
+            // Find the architecture of the running process.
+            // We can use the Environment property Is64BitProcess along with SystemInfo.processorType to figure it out.
+            // Do a case insensitive string check.
+            if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(SystemInfo.processorType, "ARM", CompareOptions.IgnoreCase) >= 0)
+            {
+                if (Environment.Is64BitProcess)
+                    retVal = true;
+            }
+
+            return retVal;
         }
     }
 }
