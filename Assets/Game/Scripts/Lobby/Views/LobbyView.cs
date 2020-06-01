@@ -1299,6 +1299,12 @@ namespace TurboLabz.InstantFramework
                     else
                     {
                         recentlyCompleted[i].gameObject.SetActive(false);
+
+                        // TODO: HACK: REMOVE THIS HACK! NEED TO HANDLE RECENT LIST ITEM REMOVAL EITEHR ON BACKEND OR PROPERLY IN CLIENT
+                        if (recentlyCompleted[i].friendInfo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
+                        {
+                            backendService.FriendsOpRemove(recentlyCompleted[i].friendInfo.playerId);
+                        }
                     }
                 }
             }
