@@ -5,7 +5,6 @@ using HUF.Notifications.Runtime.API;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace HUF.NotificationsFirebase.Runtime.Implementation

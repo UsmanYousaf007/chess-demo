@@ -1,3 +1,28 @@
+## [3.1.0] - 2020-05-21
+### Changed
+- move back to HUF Firebase
+
+## [3.0.0] - 2020-05-15
+### Added 
+- Handled more error cases and logged them
+
+### Changed
+- If firebase uses its internal cached configs fetch reports **successful** attempt instead of failing
+
+## [2.2.0] - 2020-05-13
+### Added 
+- Support for retrieval of cache information
+
+### Fixed
+- Package description
+
+## [2.1.1] - 2020-05-08
+### Added
+- Firebase from unity package manager dependencies
+
+### Removed
+- HUF Firebase dependencies
+
 ## [2.1.0] - 2020-04-29
 ### Added
 - Option to overwrite local configs with Firebase ones

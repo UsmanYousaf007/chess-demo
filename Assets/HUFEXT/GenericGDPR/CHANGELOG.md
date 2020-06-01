@@ -1,3 +1,18 @@
+## [2.3.3] - 2020-05-13
+### Changed
+- Changed header text
+
+## [2.3.2] - 2020-05-12
+### Fixed
+- HIP initialization check differing from autoinit ones
+
+## [2.3.1] - 2020-04-22
+### Added
+- Added support for Unity system language API.
+
+### Fixed
+- Fixed issue with translations on ios.
+
 ## [2.3.0] - 2020-04-15
 ### Added
 - Added ability to force language in editor and build.

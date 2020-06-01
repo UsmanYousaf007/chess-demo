@@ -1,4 +1,8 @@
 Assets/HUF/Utils/CHANGELOG.md
+Assets/HUF/Utils/Documentation~/content/docs/secure-value-vault.md
+Assets/HUF/Utils/Documentation~/content/static/secure-value-vault/SecurityExample3.cs
+Assets/HUF/Utils/Documentation~/content/static/secure-value-vault/SecurityExample2.cs
+Assets/HUF/Utils/Documentation~/content/static/secure-value-vault/SecurityExample1.cs
 Assets/HUF/Utils/Editor/ScreenshotMaker.cs
 Assets/HUF/Utils/Editor/ClearPlayerPrefs.cs
 Assets/HUF/Utils/Editor/SafeArea/SafeAreaSimulatorWindow.cs
@@ -68,6 +72,8 @@ Assets/HUF/Utils/Runtime/MinMaxRange/MinMaxRange.cs
 Assets/HUF/Utils/Runtime/MinMaxRange/MinMaxInt.cs
 Assets/HUF/Utils/Runtime/MinMaxRange/MinMaxFloat.cs
 Assets/HUF/Utils/Runtime/HSingleton.cs
+Assets/HUF/Utils/Runtime/PlayerPrefs/Security/Implementation/HSecureValueVault.cs
+Assets/HUF/Utils/Runtime/PlayerPrefs/Security/API/HSecureValueVault.cs
 Assets/HUF/Utils/Runtime/PlayerPrefs/CustomPP.cs
 Assets/HUF/Utils/Runtime/PlayerPrefs/IntPP.cs
 Assets/HUF/Utils/Runtime/PlayerPrefs/FloatPP.cs
@@ -90,6 +96,7 @@ Assets/HUF/Utils/Runtime/Configs/API/IConfigsModel.cs
 Assets/HUF/Utils/Runtime/Configs/API/FeatureConfigBase.cs
 Assets/HUF/Utils/Runtime/3rdParty/Blowfish/Blowfish.cs
 Assets/HUF/Utils/Runtime/Performance/StopwatchManager.cs
+Assets/HUF/Utils/Runtime/Logging/Plugins/iOS/HUFNativeLogs.m
 Assets/HUF/Utils/Runtime/Logging/HLog.cs
 Assets/HUF/Utils/Runtime/Logging/HLogConfig.cs
 Assets/HUF/Utils/Runtime/Logging/HLogPrefix.cs

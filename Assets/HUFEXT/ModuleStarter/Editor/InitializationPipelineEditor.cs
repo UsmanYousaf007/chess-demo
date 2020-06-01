@@ -134,8 +134,6 @@ namespace HUFEXT.ModuleStarter.Editor
 
         void OnEnable()
         {
-            GUIStyle headerStyle = EditorStyles.miniLabel;
-
             BuildList();
             BuildOrderableList();
         }
