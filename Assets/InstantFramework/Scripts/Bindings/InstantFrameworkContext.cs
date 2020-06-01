@@ -139,6 +139,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NewFriendAddedSignal>().ToSingleton();
             injectionBinder.Bind<NotificationRecievedSignal>().ToSingleton();
             injectionBinder.Bind<PreShowNotificationSignal>().ToSingleton();
+            injectionBinder.Bind<ShowViewBoardResultsPanelSignal>().ToSingleton();
             injectionBinder.Bind<PostShowNotificationSignal>().ToSingleton();
             injectionBinder.Bind<ChallengeAcceptedSignal>().ToSingleton();
             injectionBinder.Bind<OpponentPingedForConnectionSignal>().ToSingleton();

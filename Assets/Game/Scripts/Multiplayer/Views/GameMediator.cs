@@ -88,6 +88,16 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        [ListensTo(typeof(ShowViewBoardResultsPanelSignal))]
+        public void OnShowViewBoardResultsPanel(bool isShow)
+        {
+            if (gameObject.activeSelf)
+            {
+                view.ShowViewBoardResultsPanel(isShow);
+            }
+        }
+
+
         [ListensTo(typeof(PostShowNotificationSignal))]
         public void OnPostShowNotification()
         {

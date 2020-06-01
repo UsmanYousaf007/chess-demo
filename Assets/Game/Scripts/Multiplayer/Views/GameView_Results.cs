@@ -163,7 +163,7 @@ namespace TurboLabz.Multiplayer
             appInfoModel.gameMode = GameMode.NONE;
         }
 
-        private void ShowViewBoardResultsPanel(bool show)
+        public void ShowViewBoardResultsPanel(bool show)
         {
             viewBoardResultPanel.gameObject.SetActive(show);
         }

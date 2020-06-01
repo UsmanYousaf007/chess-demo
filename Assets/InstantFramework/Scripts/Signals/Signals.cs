@@ -120,7 +120,8 @@ namespace TurboLabz.InstantFramework
     public class RestorePurchasesSignal : Signal { }
     public class NewFriendAddedSignal : Signal<string> { }
     public class NotificationRecievedSignal : Signal<NotificationVO> { }
-    public class PreShowNotificationSignal : Signal { }
+    public class PreShowNotificationSignal : Signal{ }
+    public class ShowViewBoardResultsPanelSignal : Signal<bool> { }
     public class PostShowNotificationSignal : Signal { }
     public class ResumeMatchSignal : Signal<NavigatorViewId> { }
     public class UpdatePlayerNotificationCountSignal : Signal<int> { }
