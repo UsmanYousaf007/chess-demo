@@ -79,6 +79,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RemoveFriendSignal>().To<RemoveFriendCommand>();
             commandBinder.Bind<BlockFriendSignal>().To<BlockFriendCommand>();
             commandBinder.Bind<RemoveCommunityFriendSignal>().To<RemoveCommunityFriendCommand>();
+            commandBinder.Bind<RemoveRecentlyPlayedSignal>().To<RemoveRecentlyPlayedCommand>();
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<ShowShareScreenDialogSignal>().To<ShowShareDialogCommand>();
             commandBinder.Bind<UnblockFriendSignal>().To<UnblockFriendCommand>();

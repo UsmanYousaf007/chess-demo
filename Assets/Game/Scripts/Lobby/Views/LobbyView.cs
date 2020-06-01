@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public RemoveRecentlyPlayedSignal removeRecentlyPlayedSignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -1303,7 +1304,7 @@ namespace TurboLabz.InstantFramework
                         // TODO: HACK: REMOVE THIS HACK! NEED TO HANDLE RECENT LIST ITEM REMOVAL EITEHR ON BACKEND OR PROPERLY IN CLIENT
                         if (recentlyCompleted[i].friendInfo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
                         {
-                            backendService.FriendsOpRemove(recentlyCompleted[i].friendInfo.playerId);
+                            removeRecentlyPlayedSignal.Dispatch(recentlyCompleted[i].friendInfo.playerId);
                         }
                     }
                 }
