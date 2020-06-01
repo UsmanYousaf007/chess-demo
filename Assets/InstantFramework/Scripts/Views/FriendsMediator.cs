@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        //[Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
@@ -54,6 +54,9 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+
+        public Dictionary<string, Friend> communityFriends;
+        public Dictionary<string, Friend> searchedFriends;
 
         public override void OnRegister()
         {
@@ -117,11 +120,13 @@ namespace TurboLabz.InstantFramework
             if (friendCategory == FriendCategory.COMMUNITY)
             {
                 isCommunity = true;
+                communityFriends = friends;
             }
             else if (friendCategory == FriendCategory.SEARCHED)
             {
                 isCommunity = true;
                 isSearched = true;
+                searchedFriends = friends;
             }
 
             view.AddFriends(friends, isCommunity, isSearched);

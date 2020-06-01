@@ -36,7 +36,6 @@ namespace TurboLabz.InstantFramework
 
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
-        [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
@@ -148,6 +147,7 @@ namespace TurboLabz.InstantFramework
         public Signal inviteFriendSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
+        private List<FriendBar> friendBarsPool = new List<FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
         private string eloPrefix;
@@ -338,8 +338,11 @@ namespace TurboLabz.InstantFramework
         {
             ResetSearch();
             inSearchView = false;
-            refreshFriendsSignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
+
+            SortFriends();
+
+            //refreshFriendsSignal.Dispatch();
+            //refreshCommunitySignal.Dispatch();
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -465,14 +468,15 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
-            if (bars.ContainsKey(friend.playerId) || (isCommunity && !isSearched) || friend.friendType == Friend.FRIEND_TYPE_COMMUNITY)
+            if (bars.ContainsKey(friend.playerId) || (isCommunity && !isSearched))
             {
                 return;
             }
 
+            // If we have a friend bar in pool then we use that, else we instantiate a new bar
+            FriendBar friendBarFromPool = GetFriendBarFromPool();
+            GameObject friendBarObj = friendBarFromPool != null ? friendBarFromPool.gameObject : Instantiate(friendBarPrefab);
 
-            // create bar
-            GameObject friendBarObj = Instantiate(friendBarPrefab);
             SkinLink[] objects = friendBarObj.GetComponentsInChildren<SkinLink>();
             for (int i =0; i< objects.Length;i++)
             {
@@ -480,7 +484,7 @@ namespace TurboLabz.InstantFramework
             }
 
             // update bar values
-            FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
+            FriendBar friendBar = friendBarFromPool != null ? friendBarFromPool : friendBarObj.GetComponent<FriendBar>();
             friendBar.Init(localizationService);
             friendBar.lastMatchTimeStamp = friend.lastMatchTimestamp;
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId, friendBar));
@@ -518,6 +522,8 @@ namespace TurboLabz.InstantFramework
             {
                 friendBar.UpdateCommmunityStrip();
             }
+
+            friendBarObj.gameObject.SetActive(true);
         }
 
         public void UpdateBarsSkin()
@@ -878,7 +884,9 @@ namespace TurboLabz.InstantFramework
         {
             if (friendId != null && bars.ContainsKey(friendId) && (!bars[friendId].isSearched || bars[friendId].isRemoved))
             {
-                GameObject.Destroy(bars[friendId].gameObject);
+                AddFriendBarToPool(bars[friendId]);
+                bars[friendId].gameObject.SetActive(false);
+                //GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
             }
         }
@@ -928,7 +936,9 @@ namespace TurboLabz.InstantFramework
 
             foreach (string key in destroyMe)
             {
-                Destroy(bars[key].gameObject);
+                AddFriendBarToPool(bars[key]);
+                bars[key].gameObject.SetActive(false);
+                //Destroy(bars[key].gameObject);
                 bars.Remove(key);
             }
 
@@ -1213,5 +1223,29 @@ namespace TurboLabz.InstantFramework
             manageBlockedFriendsButtonClickedSignal.Dispatch();
             audioService.PlayStandardClick();
         }
+
+        #region friendsBarPool
+        private FriendBar GetFriendBarFromPool()
+        {
+            FriendBar friendBar = null;
+
+            if (friendBarsPool.Count > 0)
+            {
+                int listEndIndex = friendBarsPool.Count - 1;
+                friendBar = friendBarsPool[listEndIndex];
+                friendBarsPool.RemoveAt(listEndIndex);
+            }
+
+            return friendBar;
+        }
+
+        private void AddFriendBarToPool(FriendBar friendBar)
+        {
+            if (friendBarsPool == null)
+                friendBarsPool = new List<FriendBar>();
+
+            friendBarsPool.Add(friendBar);
+        }
+        #endregion
     }
 }
