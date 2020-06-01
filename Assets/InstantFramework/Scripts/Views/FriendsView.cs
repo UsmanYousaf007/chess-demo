@@ -851,7 +851,10 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             ResetSearch();
-            refreshFriendsSignal.Dispatch();
+
+            if (inSearchView == true)
+                refreshFriendsSignal.Dispatch();
+
             gameObject.SetActive(false); 
         }
 

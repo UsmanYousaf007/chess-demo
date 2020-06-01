@@ -34,8 +34,7 @@ namespace TurboLabz.InstantGame
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
-        [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
-
+        
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
@@ -67,10 +66,6 @@ namespace TurboLabz.InstantGame
             {
                 friendsShowConnectFacebookSignal.Dispatch(true);
             }
-
-            //refreshCommunitySignal.Dispatch();
-            //refreshFriendsSignal.Dispatch();
-            addFriendsSignal.Dispatch(playerModel.community, FriendCategory.COMMUNITY);
 
             // Update the timers on the bars
             foreach (string key in playerModel.friends.Keys)
