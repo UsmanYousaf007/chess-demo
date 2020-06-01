@@ -1,6 +1,5 @@
 ﻿using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
-using UnityEngine;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
@@ -44,6 +43,7 @@ namespace TurboLabz.InstantFramework
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
             HAdsManager.OnAdFetch += OnAdFetched;
             HAds.Banner.OnClicked += OnBannerClicked;
+            HAds.Banner.OnFailed += OnBannerFailed;
             HAds.Interstitial.OnClicked += OnInterstitialClicked;
             HAds.Rewarded.OnClicked += OnRewardedClicked;
             HAdsAdMobMediation.OnPaidEvent += HandlePaidEvent;
@@ -61,6 +61,10 @@ namespace TurboLabz.InstantFramework
 
                 case PLACEMENT_ID_INTERSTITIAL:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.interstitial);
+                    break;
+
+                case PLACEMENT_ID_BANNER:
+                    analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.banner);
                     break;
             }
         }
@@ -95,6 +99,7 @@ namespace TurboLabz.InstantFramework
         {
             bannerDisplay = true;
             HAdsManager.ShowAd(PLACEMENT_ID_BANNER, OnBannerShown);
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.banner);
         }
 
         public void HideBanner()
@@ -115,6 +120,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnBannerClicked(IBannerCallbackData data)
         {
+            analyticsService.Event(AnalyticsEventId.ad_clicked, AnalyticsContext.banner);
             appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_clicked.ToString());
             hAnalyticsService.LogEvent(AnalyticsEventId.ad_clicked.ToString(), "monetization", "banner", data.ProviderId);
         }
@@ -253,6 +259,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.banner);
             appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_displayed.ToString());
             hAnalyticsService.LogEvent(AnalyticsEventId.ad_displayed.ToString(), "monetization", "banner", data.ProviderId);
         }
@@ -282,6 +289,12 @@ namespace TurboLabz.InstantFramework
         private void HandlePaidEvent(PaidEventData data)
         {
             hAnalyticsService.LogAdImpressionEvent(data);
+        }
+
+
+        private void OnBannerFailed(IBannerCallbackData data)
+        {
+            analyticsService.Event(AnalyticsEventId.ad_failed, AnalyticsContext.banner);
         }
     }
 }

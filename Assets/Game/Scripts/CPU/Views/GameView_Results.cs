@@ -168,12 +168,14 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
-
-            viewBoardResultPanel.gameObject.SetActive(false);
-
+            ShowViewBoardResultsPanel(false);
             showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
             appInfoModel.gameMode = GameMode.NONE;
+        }
 
+        private void ShowViewBoardResultsPanel(bool show)
+        {
+            viewBoardResultPanel.gameObject.SetActive(show);
         }
 
         public void HideResultsDialog()
@@ -464,7 +466,7 @@ namespace TurboLabz.CPU
             menuOpensResultsDlg = true;
             EnableMenuButton();
             DisableModalBlocker();
-            viewBoardResultPanel.gameObject.SetActive(true);
+            ShowViewBoardResultsPanel(true);
         }
 
         private void OnPlaybackOverlayClicked()

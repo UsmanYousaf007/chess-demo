@@ -131,6 +131,7 @@ namespace TurboLabz.InstantFramework
         interstitial_endgame,
         interstitial_rewarded_failed_replacement,
         interstitial_rewarded_capped_replacement,
+        banner,
 
         //Session
         num_facebook_friends,
