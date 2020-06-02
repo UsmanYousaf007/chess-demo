@@ -178,6 +178,7 @@ namespace TurboLabz.InstantFramework
 
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
+        private List<FriendBar> friendBarsPool = new List<FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
         private string eloPrefix;
@@ -477,8 +478,10 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            // create bar
-            GameObject friendBarObj = Instantiate(friendBarPrefab);
+            // If we have a friend bar in pool then we use that, else we instantiate a new bar
+            FriendBar friendBarFromPool = GetFriendBarFromPool();
+            GameObject friendBarObj = friendBarFromPool != null ? friendBarFromPool.gameObject : Instantiate(friendBarPrefab);
+
             SkinLink[] objects = friendBarObj.GetComponentsInChildren<SkinLink>();
             for (int i = 0; i < objects.Length; i++)
             {
@@ -486,7 +489,7 @@ namespace TurboLabz.InstantFramework
             }
 
             // update bar values
-            FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
+            FriendBar friendBar = friendBarFromPool != null ? friendBarFromPool : friendBarObj.GetComponent<FriendBar>();
             friendBar.Init(localizationService);
             friendBar.lastMatchTimeStamp = friend.lastMatchTimestamp;
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId, friendBar));
@@ -850,7 +853,8 @@ namespace TurboLabz.InstantFramework
 
             if (friendId != null && bars.ContainsKey(friendId))
             {
-                Destroy(bars[friendId].gameObject);
+                AddFriendBarToPool(bars[friendId]);
+                bars[friendId].gameObject.SetActive(false);
                 bars.Remove(friendId);
             }
         }
@@ -900,7 +904,8 @@ namespace TurboLabz.InstantFramework
 
             foreach (string key in destroyMe)
             {
-                Destroy(bars[key].gameObject);
+                AddFriendBarToPool(bars[key]);
+                bars[key].gameObject.SetActive(false);
                 bars.Remove(key);
             }
 
@@ -1462,5 +1467,29 @@ namespace TurboLabz.InstantFramework
         {
             adSkippedDlg.SetActive(show);
         }
+
+        #region friendsBarPool
+        private FriendBar GetFriendBarFromPool()
+        {
+            FriendBar friendBar = null;
+
+            if (friendBarsPool.Count > 0)
+            {
+                int listEndIndex = friendBarsPool.Count - 1;
+                friendBar = friendBarsPool[listEndIndex];
+                friendBarsPool.RemoveAt(listEndIndex);
+            }
+
+            return friendBar;
+        }
+
+        private void AddFriendBarToPool(FriendBar friendBar)
+        {
+            if (friendBarsPool == null)
+                friendBarsPool = new List<FriendBar>();
+
+            friendBarsPool.Add(friendBar);
+        }
+        #endregion
     }
 }
