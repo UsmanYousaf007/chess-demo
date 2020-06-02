@@ -332,17 +332,18 @@ namespace TurboLabz.InstantFramework
             cacheEnabledSections.Clear();
             if(playerModel.search != null)
                 playerModel.search.Clear();
+
+            // Adding all friend bars in view after clearing search friends from view.
+            if (playerModel.friends != null)
+            {
+                AddFriends(playerModel.friends, false, false);
+                SortFriends();
+            }
         }
 
         public void OnCancelSearchClicked()
         {
             ResetSearch();
-            inSearchView = false;
-
-            SortFriends();
-
-            //refreshFriendsSignal.Dispatch();
-            //refreshCommunitySignal.Dispatch();
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -539,8 +540,6 @@ namespace TurboLabz.InstantFramework
                 }
             }
         }
-
-        //private List<GameObject> removeBars = new List<GameObject>();
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
@@ -859,7 +858,6 @@ namespace TurboLabz.InstantFramework
             if (inSearchView)
             {
                 ResetSearch();
-                refreshFriendsSignal.Dispatch();
             }
             gameObject.SetActive(false); 
         }
@@ -886,7 +884,6 @@ namespace TurboLabz.InstantFramework
             {
                 AddFriendBarToPool(bars[friendId]);
                 bars[friendId].gameObject.SetActive(false);
-                //GameObject.Destroy(bars[friendId].gameObject);
                 bars.Remove(friendId);
             }
         }
@@ -938,7 +935,6 @@ namespace TurboLabz.InstantFramework
             {
                 AddFriendBarToPool(bars[key]);
                 bars[key].gameObject.SetActive(false);
-                //Destroy(bars[key].gameObject);
                 bars.Remove(key);
             }
 
