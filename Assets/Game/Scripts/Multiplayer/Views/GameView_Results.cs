@@ -158,12 +158,14 @@ namespace TurboLabz.Multiplayer
             }
 
             HideSafeMoveBorder();
-
-            viewBoardResultPanel.gameObject.SetActive(false);
-
+            ShowViewBoardResultsPanel(false);
             showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
             appInfoModel.gameMode = GameMode.NONE;
+        }
 
+        public void ShowViewBoardResultsPanel(bool show)
+        {
+            viewBoardResultPanel.gameObject.SetActive(show);
         }
 
         public void HideResultsDialog()
@@ -468,7 +470,7 @@ namespace TurboLabz.Multiplayer
             audioService.PlayStandardClick();
             uiBlocker.SetActive(false);
             resultsDialogClosedSignal.Dispatch();
-            viewBoardResultPanel.gameObject.SetActive(true);
+            ShowViewBoardResultsPanel(true);
         }
 
         public void OnResultsSkipRewardButtonClicked()

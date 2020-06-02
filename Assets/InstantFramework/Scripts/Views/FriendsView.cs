@@ -468,7 +468,7 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
-            if (bars.ContainsKey(friend.playerId) || (isCommunity && !isSearched))
+            if (bars.ContainsKey(friend.playerId) || (!isSearched && (isCommunity || friend.friendType.Equals(Friend.FRIEND_TYPE_COMMUNITY))))
             {
                 return;
             }
@@ -856,11 +856,11 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
-            ResetSearch();
-
-            if (inSearchView == true)
+            if (inSearchView)
+            {
+                ResetSearch();
                 refreshFriendsSignal.Dispatch();
-
+            }
             gameObject.SetActive(false); 
         }
 

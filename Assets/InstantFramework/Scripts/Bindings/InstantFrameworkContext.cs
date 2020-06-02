@@ -79,6 +79,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RemoveFriendSignal>().To<RemoveFriendCommand>();
             commandBinder.Bind<BlockFriendSignal>().To<BlockFriendCommand>();
             commandBinder.Bind<RemoveCommunityFriendSignal>().To<RemoveCommunityFriendCommand>();
+            commandBinder.Bind<RemoveRecentlyPlayedSignal>().To<RemoveRecentlyPlayedCommand>();
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<ShowShareScreenDialogSignal>().To<ShowShareDialogCommand>();
             commandBinder.Bind<UnblockFriendSignal>().To<UnblockFriendCommand>();
@@ -138,6 +139,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<NewFriendAddedSignal>().ToSingleton();
             injectionBinder.Bind<NotificationRecievedSignal>().ToSingleton();
             injectionBinder.Bind<PreShowNotificationSignal>().ToSingleton();
+            injectionBinder.Bind<ShowViewBoardResultsPanelSignal>().ToSingleton();
             injectionBinder.Bind<PostShowNotificationSignal>().ToSingleton();
             injectionBinder.Bind<ChallengeAcceptedSignal>().ToSingleton();
             injectionBinder.Bind<OpponentPingedForConnectionSignal>().ToSingleton();

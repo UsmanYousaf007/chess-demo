@@ -61,6 +61,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
+        [Inject] public ShowViewBoardResultsPanelSignal showViewBoardResultsPanelSignal { get; set; }
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -345,8 +346,10 @@ namespace TurboLabz.InstantGame
             {
                 saveGameSignal.Dispatch();
             }
+
             loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
+            showViewBoardResultsPanelSignal.Dispatch(false);
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
             FadeBlocker();
         }
@@ -358,8 +361,10 @@ namespace TurboLabz.InstantGame
             {
                 saveGameSignal.Dispatch();
             }
+
             loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
+            showViewBoardResultsPanelSignal.Dispatch(false);
             FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup,
                 notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId, notifications[0].notificationVO.actionCode, FindMatchAction.NotificationStatus.InGame);
             FadeBlocker();
