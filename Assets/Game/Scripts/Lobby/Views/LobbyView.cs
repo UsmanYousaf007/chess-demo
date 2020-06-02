@@ -527,7 +527,10 @@ namespace TurboLabz.InstantFramework
             {
                 friendBar.UpdateCommmunityStrip();
             }
+
+            friendBarObj.SetActive(true);
         }
+
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
             if (sprite == null)
