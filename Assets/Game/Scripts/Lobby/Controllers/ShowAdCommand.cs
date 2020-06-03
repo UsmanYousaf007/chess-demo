@@ -110,7 +110,7 @@ namespace TurboLabz.InstantGame
                             }
                             else
                             {
-                                Release();
+                                LoadGameStartSignal();
                             }
                         }
                         else

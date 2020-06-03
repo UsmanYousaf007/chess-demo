@@ -32,7 +32,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
@@ -263,9 +262,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
-            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
-
             if (!playerModel.isPremium)
             {
                 var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
@@ -295,6 +291,7 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
+            //-- We're not showing pre-game ad for one minute matches
             if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Challenge1.ToString())
             {
                 var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
