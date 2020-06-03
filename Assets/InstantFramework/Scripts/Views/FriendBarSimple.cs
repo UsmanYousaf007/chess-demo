@@ -102,4 +102,11 @@ public class FriendBarSimple : MonoBehaviour
         unblockButton.interactable = false;
         unblockButtonLabel.gameObject.SetActive(false);
     }
+
+    public void UpdateSocialPic(Sprite sprite)
+    {
+        avatarIcon.gameObject.SetActive(false);
+        avatarBg.gameObject.SetActive(false);
+        avatarImage.sprite = sprite;
+    }
 }

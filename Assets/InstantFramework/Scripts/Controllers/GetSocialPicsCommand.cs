@@ -73,6 +73,10 @@ namespace TurboLabz.InstantGame
                     {
                         playerModel.friends[friendId].publicProfile.profilePicture = sprite;
                     }
+                    else if (playerModel.blocked.ContainsKey(friendId))
+                    {
+                        playerModel.blocked[friendId].publicProfile.profilePicture = sprite;
+                    }
                 }
             }
 
@@ -84,6 +88,7 @@ namespace TurboLabz.InstantGame
                 picsModel.SetFriendPics(playerModel.friends, true);
                 picsModel.SetFriendPics(playerModel.search, false);
                 picsModel.SetFriendPics(playerModel.community, false);
+                picsModel.SetFriendPics(playerModel.blocked, false);
 
                 Resources.UnloadUnusedAssets();
                 Release();

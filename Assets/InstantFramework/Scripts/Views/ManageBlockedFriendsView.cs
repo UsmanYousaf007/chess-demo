@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
 
         private string searchQuery = string.Empty;
+        private Dictionary<string, FriendBarSimple> bars;
 
         public void Init()
         {
@@ -36,6 +37,7 @@ namespace TurboLabz.InstantFramework
             inputField.onEndEdit.AddListener(OnSearchSubmit);
             backButton.onClick.AddListener(OnBackButtonPressed);
             cancelSearchButton.onClick.AddListener(OnCancelSearchButtonPressed);
+            bars = new Dictionary<string, FriendBarSimple>();
         }
 
         public void Show()
@@ -94,10 +96,11 @@ namespace TurboLabz.InstantFramework
 
         private void ClearFriendsBarContainer()
         {
-            foreach (var bar in GetComponentsInChildren<FriendBarSimple>())
+            foreach (var bar in bars)
             {
-                Destroy(bar.gameObject);
+                Destroy(bar.Value.gameObject);
             }
+            bars.Clear();
         }
 
         private void AddToFriendsBarContrainer(Dictionary<string, Friend> blockedFriends)
@@ -119,6 +122,7 @@ namespace TurboLabz.InstantFramework
                 simpleFriendBar.UpdateMasking(count == blockedFriends.Count, true);
                 simpleFriendBar.unblockButton.onClick.AddListener(() => OnUnblockButtonPressed(entry.Value.playerId));
                 simpleFriendBar.unblockButtonLabel.text = localizationService.Get(LocalizationKey.FRIENDS_UNBLOCK);
+                bars.Add(entry.Value.playerId, simpleFriendBar);
             }
 
             emptyListSection.SetActive(blockedFriends.Count == 0);
@@ -127,6 +131,19 @@ namespace TurboLabz.InstantFramework
             {
                 emptyListText.text = $"{localizationService.Get(LocalizationKey.FRIENDS_BLOCKED_EMPTY_LIST)} with name {searchQuery}";
             }
+        }
+
+        public void UpdateFriendPic(string playerId, Sprite sprite)
+        {
+            if (sprite == null)
+                return;
+
+            TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
+
+            if (playerId != null && !bars.ContainsKey(playerId))
+                return;
+
+            bars[playerId].UpdateSocialPic(sprite);
         }
     }
 }
