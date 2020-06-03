@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
             matchInfoModel.matches[challengeId].drawOfferStatus = offerDrawVO.status;
             matchInfoModel.matches[challengeId].drawOfferedBy = offerDrawVO.offeredBy;
 
-            if (offerDrawVO.status != null)
+            if (offerDrawVO.status != null && matchInfoModel.activeChallengeId == offerDrawVO.challengeId)
             {
                 updateOfferDrawSignal.Dispatch(offerDrawVO);
             }
