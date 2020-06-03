@@ -29,14 +29,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorHideViewSignal hideViewSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ExitLongMatchSignal exitLongMatchSignal { get; set; }
-        [Inject] public TurboLabz.Multiplayer.CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public Multiplayer.CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public DisableModalBlockersSignal disableModalBlockersSignal { get; set; }
+        [Inject] public Multiplayer.ChessboardEventSignal chessboardEventSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
-        [Inject] public TurboLabz.CPU.IChessboardModel cpuChessboardModel { get; set; }
-        [Inject] public TurboLabz.Multiplayer.IChessboardModel multiplayerChessboardModel { get; set; }
+        [Inject] public CPU.IChessboardModel cpuChessboardModel { get; set; }
+        [Inject] public Multiplayer.IChessboardModel multiplayerChessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
 
