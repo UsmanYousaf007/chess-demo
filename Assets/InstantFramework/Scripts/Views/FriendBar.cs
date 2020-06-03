@@ -85,13 +85,13 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateMasking(bool isLastCell, bool isLastSection)
         {
-            //bottomAlphaBg.SetActive(false);
+            bottomAlphaBg.SetActive(false);
             maskObject.enabled = false;
             bgGlow.SetActive(false);
             bgGlowLastStrip.SetActive(false);
             if (!isLastSection && isLastCell)
             {
-                //bottomAlphaBg.SetActive(true);
+                bottomAlphaBg.SetActive(true);
             }
             if (isLastCell)
             {
