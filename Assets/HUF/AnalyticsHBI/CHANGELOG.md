@@ -1,3 +1,7 @@
+## [2.0.2] - 2020-05-28
+### Changed
+- HBI SDK updated to 1.2.0
+
 ## [2.0.1] - 2020-05-04
 ### Changed
 - HBI SDK updated to 1.1.0

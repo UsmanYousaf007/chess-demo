@@ -1,3 +1,12 @@
+## [2.4.2] - 2020-05-29
+### Fixed
+- Disable BITCODE for Unity 2019.3
+
+## [2.4.1] - 2020-05-14
+### Fixed
+- Endless config loading loop
+
+
 ## [2.4.0] - 2020-05-14
 ### Added
 - Possibility to log on iOS native log

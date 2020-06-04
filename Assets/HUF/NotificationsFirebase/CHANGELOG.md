@@ -1,7 +1,10 @@
+## [2.2.0] - 2020-05-22
+### Added
+- Exposed Firebase's message event
+
 ## [2.1.0] - 2020-05-21
 ### Changed
 - move back to HUF Firebase
-
 
 ## [2.0.1] - 2020-05-08
 ### Added
@@ -9,7 +12,6 @@
 
 ### Removed
 - HUF Firebase dependencies
-
 
 ## [2.0.0] - 2020-04-06
 ### Added

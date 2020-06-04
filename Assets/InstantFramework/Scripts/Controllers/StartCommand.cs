@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
         private const int SLOW_WIFI_WARNING_THRESHOLD_SECONDS = 10;
 
         public override void Execute()
-		{
+        {
             CommandBegin();
 
             modelsResetSignal.Dispatch();

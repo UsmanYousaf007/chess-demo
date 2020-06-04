@@ -8,7 +8,7 @@ using HUFEXT.ModuleStarter.Runtime.API;
 
 public class SplashLoader : MonoBehaviour {
 
-    public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
+    public static int launchCode = 0; // 1 = normal launch, 2 = resume, 3 = already launched
 
     void Awake()
     {

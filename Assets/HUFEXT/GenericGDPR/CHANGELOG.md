@@ -1,3 +1,7 @@
+## [2.3.4] - 2020-05-21
+### Fixed
+- Missing characters in Japanese and Korean font assets
+
 ## [2.3.3] - 2020-05-13
 ### Changed
 - Changed header text

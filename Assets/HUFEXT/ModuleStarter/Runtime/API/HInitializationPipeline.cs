@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
+using HUF.Utils.Runtime.Logging;
 using HUFEXT.ModuleStarter.Runtime.Config;
 using HUFEXT.ModuleStarter.Runtime.Data;
 using JetBrains.Annotations;
@@ -14,8 +15,8 @@ namespace HUFEXT.ModuleStarter.Runtime.API
 {
     public static class HInitializationPipeline
     {
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HInitializationPipeline) );
         static readonly Action voidAction = () => { };
-        static readonly Action releaseAction = () => isAwaitingModuleInit = false;
 
         static bool isAwaitingModuleInit;
 
@@ -75,14 +76,29 @@ namespace HUFEXT.ModuleStarter.Runtime.API
 
                 isAwaitingModuleInit = true;
 
+                HLog.Log( logPrefix, $"Initializing {entry.id}" );
+
                 if ( entry.isAsync )
                 {
-                    module.Initializer( voidAction );
+                    try
+                    {
+                        module.Initializer( voidAction );
+                        HLog.Log( logPrefix, $"{entry.id} Initialized" );
+                    }
+                    catch ( Exception exception )
+                    {
+                        HLog.LogError( logPrefix, $"Initialization of {entry.id} failed: {exception}" );
+                    }
                     isAwaitingModuleInit = false;
                 }
                 else
                 {
-                    module.Initializer( releaseAction );
+                    Action callback = () =>
+                    {
+                        HLog.Log( logPrefix, $"{entry.id} Initialized" );
+                        isAwaitingModuleInit = false;
+                    };
+                    module.Initializer( callback );
                 }
 
                 while ( isAwaitingModuleInit )

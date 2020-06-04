@@ -85,10 +85,10 @@ namespace HUF.Utils.Runtime.Configs.Implementation
                 config.ValidateConfig();
             }
 
-            HLog.Log( logPrefix, $"Applied {configMap.Count} configs from '{configsPathInfo}' folder out of {configsArray.Length}." );
 #if UNITY_EDITOR && !UNITY_CLOUD_BUILD
             shouldReload = false;
 #endif
+            HLog.Log( logPrefix, $"Applied {configMap.Count} configs from '{configsPathInfo}' folder out of {configsArray.Length}." );
         }
 
         public T GetConfig<T>() where T : AbstractConfig
