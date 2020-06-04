@@ -205,44 +205,8 @@ namespace TurboLabz.InstantFramework
             if (matchInfoModel.matches.ContainsKey(challengeId))
             {
                 var matchInfo = matchInfoModel.matches[challengeId];
-                if (matchInfo.isLongPlay)
-                {
-                    hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString(), challengeId);
-
-                    if (chessboard.moveList.Count < 2)
-                    {
-                        var analyticsVO = new MatchAnalyticsVO();
-                        analyticsVO.context = AnalyticsContext.cancelled;
-                        analyticsVO.matchType = "classic";
-                        analyticsVO.eventID = AnalyticsEventId.match_find;
-                        var opponentId = matchInfo.opponentPublicProfile.playerId;
-
-                        if (playerModel.friends.ContainsKey(opponentId))
-                        {
-                            var friendType = playerModel.friends[opponentId].friendType;
-                            if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
-                            {
-                                analyticsVO.friendType = "friends_facebook";
-
-                            }
-                            else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
-                                     friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
-                            {
-                                analyticsVO.friendType = "friends_community";
-                            }
-                        }
-                        else
-                        {
-                            analyticsVO.friendType = "community";
-                        }
-
-                        matchAnalyticsSignal.Dispatch(analyticsVO);
-                    }
-                }
-                else
-                {
-                    hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString(), challengeId);
-                }
+                var context = matchInfo.isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match;
+                hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", context.ToString(), challengeId);
 
                 if (matchInfo.isRanked)
                 {

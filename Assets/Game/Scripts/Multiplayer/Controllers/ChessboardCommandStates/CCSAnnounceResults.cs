@@ -34,37 +34,6 @@ namespace TurboLabz.Multiplayer
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
 
-
-            if (chessboard.gameEndReason == GameEndReason.DECLINED)
-            {
-                var analyticsVO = new MatchAnalyticsVO();
-                analyticsVO.context = AnalyticsContext.rejected;
-                analyticsVO.matchType = "classic";
-                analyticsVO.eventID = AnalyticsEventId.match_find;
-                var opponentId = cmd.matchInfoModel.activeMatch.opponentPublicProfile.playerId;
-
-                if (cmd.playerModel.friends.ContainsKey(opponentId))
-                {
-                    var friendType = cmd.playerModel.friends[opponentId].friendType;
-                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
-                    {
-                        analyticsVO.friendType = "friends_facebook";
-
-                    }
-                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
-                             friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
-                    {
-                        analyticsVO.friendType = "friends_community";
-                    }
-                }
-                else
-                {
-                    analyticsVO.friendType = "community";
-                }
-
-                cmd.matchAnalyticsSignal.Dispatch(analyticsVO);
-            }
-
             var matchAnalyticsVO = new MatchAnalyticsVO();
             matchAnalyticsVO.eventID = AnalyticsEventId.match_end;
             matchAnalyticsVO.friendType = string.Empty;

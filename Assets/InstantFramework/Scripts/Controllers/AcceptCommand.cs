@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
         [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -59,6 +60,32 @@ namespace TurboLabz.InstantFramework
                 preferencesModel.gameStartCount++;
                 hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", "long_match", challengeId);
                 appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+
+                MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+                matchAnalyticsVO.context = AnalyticsContext.accepted;
+                matchAnalyticsVO.matchType = "classic";
+                matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    var friendType = playerModel.friends[opponentId].friendType;
+                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                    {
+                        matchAnalyticsVO.friendType = "friends_facebook";
+
+                    }
+                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
+                             friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                    {
+                        matchAnalyticsVO.friendType = "friends_community";
+                    }
+                }
+                else
+                {
+                    matchAnalyticsVO.friendType = "community";
+                }
+
+                matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
             }
 
             Release();
