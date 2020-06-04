@@ -372,7 +372,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
-        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_ReleaseStore");
+        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_ReleaseStore");
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
 #endif
