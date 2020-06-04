@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using strange.extensions.mediation.impl;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -47,6 +48,12 @@ namespace TurboLabz.InstantFramework
         public void OnUpdateView(Dictionary<string, Friend> blockedFriends)
         {
             view.UpdateView(blockedFriends);
+        }
+
+        [ListensTo(typeof(UpdateFriendPicSignal))]
+        public void OnUpdateFriendPic(string playerId, Sprite sprite)
+        {
+            view.UpdateFriendPic(playerId, sprite);
         }
 
         private void OnBackSignal()

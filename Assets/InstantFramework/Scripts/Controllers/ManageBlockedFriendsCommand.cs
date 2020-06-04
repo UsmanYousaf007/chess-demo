@@ -11,6 +11,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateManageBlockedFriendsViewSignal updateManageBlockedFriendsViewSignal { get; set; }
+        [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -28,6 +29,7 @@ namespace TurboLabz.InstantFramework
                     .ToDictionary(f => f.Key, f => f.Value);
             }
 
+            getSocialPicsSignal.Dispatch(blockedFriends);
             updateManageBlockedFriendsViewSignal.Dispatch(blockedFriends);
         }
     }
