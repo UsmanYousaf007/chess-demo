@@ -28,7 +28,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Utils
                 lang = "en",
                 header = "IMPORTANT NOTICE",
                 policy = "I hereby consent to the usage and disclosure of my personal data (including device information and my preferences) to <link=" + AD_PARTNERS_LINK + "><color=#{0}><u>advertising network companies</u></color></link> for the purpose of serving targeted advertisements to me in the game. I understand that I can withdraw this consent at any time within the game Settings, as also described in our <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><u>Privacy Policy</u></color></link>.",
-                footer = "By clicking OK above, you agree to be bound by our <link=" + TERMS_OF_USE_LINK + "><color=#{0}><u>Terms of Use</u></color></link> and our <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><u>Privacy Policy</u></color></link> and you affirm that you are older than 16.",
+                footer = "By clicking OK above, you agree to be bound by our <link=" + TERMS_OF_USE_LINK + "><color=#{0}><b><u>Terms of Use</u></b></color></link> and our <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><b><u>Privacy Policy</u></b></color></link> and you affirm that you are older than 16.",
                 toggle = "I Accept",
                 button = "OK"
             },
