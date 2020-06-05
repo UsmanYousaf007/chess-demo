@@ -72,6 +72,8 @@ public class FriendBarSimple : MonoBehaviour
 
         premiumBorder.SetActive(friend.publicProfile.isSubscriber);
         thinking.SetActive(false);
+        unblockButton.interactable = true;
+        unblockButtonLabel.gameObject.SetActive(true);
         unblockButton.onClick.AddListener(OnUnblockButtonPressed);
     }
 
@@ -108,5 +110,10 @@ public class FriendBarSimple : MonoBehaviour
         avatarIcon.gameObject.SetActive(false);
         avatarBg.gameObject.SetActive(false);
         avatarImage.sprite = sprite;
+    }
+
+    public void RemoveButtonListeners()
+    {
+        unblockButton.onClick.RemoveAllListeners();
     }
 }

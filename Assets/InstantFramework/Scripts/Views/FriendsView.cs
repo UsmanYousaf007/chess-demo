@@ -146,7 +146,7 @@ namespace TurboLabz.InstantFramework
         public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
 
-        private FriendBarsPool friendBarsPool;
+        private GameObjctsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
@@ -240,7 +240,7 @@ namespace TurboLabz.InstantFramework
             manageBlockedPlayersButton.onClick.AddListener(OnManageBlockedFriendsClicked);
 
             // Initializing Friend Bars Pool
-            friendBarsPool = new FriendBarsPool(friendBarPrefab);
+            friendBarsPool = new GameObjctsPool(friendBarPrefab);
         }
 
         #region InviteFriendDialog
@@ -478,8 +478,8 @@ namespace TurboLabz.InstantFramework
             }
 
             // If we have a friend bar in pool then we use that, else we instantiate a new bar
-            FriendBar friendBar = friendBarsPool.GetBar();
-            GameObject friendBarObj = friendBar.gameObject;
+            GameObject friendBarObj = friendBarsPool.GetObject();
+            FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
 
             SkinLink[] objects = friendBarObj.GetComponentsInChildren<SkinLink>();
             for (int i =0; i< objects.Length;i++)
@@ -884,8 +884,8 @@ namespace TurboLabz.InstantFramework
         {
             if (friendId != null && bars.ContainsKey(friendId) && (!bars[friendId].isSearched || bars[friendId].isRemoved))
             {
-                friendBarsPool.ReturnBar(bars[friendId]);
-                bars[friendId].gameObject.SetActive(false);
+                bars[friendId].RemoveButtonListeners();
+                friendBarsPool.ReturnObject(bars[friendId].gameObject);
                 bars.Remove(friendId);
             }
         }
@@ -935,8 +935,8 @@ namespace TurboLabz.InstantFramework
 
             foreach (string key in destroyMe)
             {
-                friendBarsPool.ReturnBar(bars[key]);
-                bars[key].gameObject.SetActive(false);
+                bars[key].RemoveButtonListeners();
+                friendBarsPool.ReturnObject(bars[key].gameObject);
                 bars.Remove(key);
             }
 

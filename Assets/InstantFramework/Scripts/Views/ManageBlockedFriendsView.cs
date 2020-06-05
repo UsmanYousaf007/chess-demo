@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
 
         private string searchQuery = string.Empty;
         private Dictionary<string, FriendBarSimple> bars;
+        private GameObjctsPool simpleFriendBarsPool;
 
         public void Init()
         {
@@ -38,6 +39,7 @@ namespace TurboLabz.InstantFramework
             backButton.onClick.AddListener(OnBackButtonPressed);
             cancelSearchButton.onClick.AddListener(OnCancelSearchButtonPressed);
             bars = new Dictionary<string, FriendBarSimple>();
+            simpleFriendBarsPool = new GameObjctsPool(friendBarPrefab);
         }
 
         public void Show()
@@ -98,7 +100,8 @@ namespace TurboLabz.InstantFramework
         {
             foreach (var bar in bars)
             {
-                Destroy(bar.Value.gameObject);
+                bar.Value.RemoveButtonListeners();
+                simpleFriendBarsPool.ReturnObject(bar.Value.gameObject);
             }
             bars.Clear();
         }
@@ -106,11 +109,13 @@ namespace TurboLabz.InstantFramework
         private void AddToFriendsBarContrainer(Dictionary<string, Friend> blockedFriends)
         {
             var count = 0;
+
+            friendBarContainer.gameObject.SetActive(false);
             foreach (var entry in blockedFriends)
             {
                 count++;
 
-                var bar = Instantiate(friendBarPrefab, friendBarContainer) as GameObject;
+                var bar = simpleFriendBarsPool.GetObject();
 
                 foreach (var skinLink in bar.GetComponentsInChildren<SkinLink>())
                 {
@@ -123,7 +128,11 @@ namespace TurboLabz.InstantFramework
                 simpleFriendBar.unblockButton.onClick.AddListener(() => OnUnblockButtonPressed(entry.Value.playerId));
                 simpleFriendBar.unblockButtonLabel.text = localizationService.Get(LocalizationKey.FRIENDS_UNBLOCK);
                 bars.Add(entry.Value.playerId, simpleFriendBar);
+
+                bar.transform.SetParent(friendBarContainer, false);
+                bar.gameObject.SetActive(true);
             }
+            friendBarContainer.gameObject.SetActive(true);
 
             emptyListSection.SetActive(blockedFriends.Count == 0);
 

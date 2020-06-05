@@ -376,11 +376,17 @@ namespace TurboLabz.InstantFramework
             return maxCount;
         }
 
-        
-
-
+        public void RemoveButtonListeners()
+        {
+            viewProfileButton.onClick.RemoveAllListeners();
+            stripButton.onClick.RemoveAllListeners();
+            acceptButton.onClick.RemoveAllListeners();
+            notNowButton.onClick.RemoveAllListeners();
+            cancelButton.onClick.RemoveAllListeners();
+            okButton.onClick.RemoveAllListeners();
+            viewButton.onClick.RemoveAllListeners();
+            unreadChat.onClick.RemoveAllListeners();
+            removeCommunityFriendButton.onClick.RemoveAllListeners();
+        }
     }
-
-
-    
 }
