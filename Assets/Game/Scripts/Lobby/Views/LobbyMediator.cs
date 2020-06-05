@@ -317,10 +317,9 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
-            //-- We're not showing pre-game ad for one minute matches
-            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Challenge1.ToString()) 
+            if (!playerModel.isPremium) 
             {
-                if (CanShowPregameAd())
+                if (CanShowPregameAd(actionCode))
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
@@ -389,10 +388,9 @@ namespace TurboLabz.InstantFramework
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
             OnShowProcessingUI(true, true);
 
-            //-- We're not showing pre-game ad for one minute matches
-            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Random1.ToString())
+            if (!playerModel.isPremium)
             {
-                if (CanShowPregameAd())
+                if (CanShowPregameAd(actionCode))
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
@@ -429,7 +427,7 @@ namespace TurboLabz.InstantFramework
             FindMatchAction.RandomLong(findMatchSignal);
         }
 
-        private bool CanShowPregameAd()
+        private bool CanShowPregameAd(string actionCode = null)
         {
             bool retVal = false;
 
@@ -438,10 +436,18 @@ namespace TurboLabz.InstantFramework
 
             double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
 
-            if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
-                preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
-                (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
+            bool isOneMinuteGame = actionCode != null &&
+                                    (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                                    actionCode == FindMatchAction.ActionCode.Random1.ToString());
+
+            if (isOneMinuteGame && view.adsSettingsModel.showPregameInOneMinute == false)
+            {
+                retVal = false;
+            }
+            else if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
+                    preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
+                    (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
             {
                 retVal = true;
             }

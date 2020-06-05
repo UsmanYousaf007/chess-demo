@@ -194,6 +194,7 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.maxPregameAdsPerDay = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MAX_PREGAME_ADS_PER_DAY);
             adsSettingsModel.waitForPregameAdLoadSeconds = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.WAIT_PREGAME_AD_LOAD_SECONDS);
             adsSettingsModel.intervalsBetweenPregameAds = GSParser.GetSafeFloat(adsSettingsData, GSBackendKeys.INTERVALS_BETWEEN_PREGAME_ADS);
+            adsSettingsModel.showPregameInOneMinute = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.SHOW_PREGAME_AD_ONE_MINUTE);
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)

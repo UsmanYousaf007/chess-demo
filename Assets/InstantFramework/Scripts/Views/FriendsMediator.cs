@@ -264,12 +264,7 @@ namespace TurboLabz.InstantFramework
         {
             if (!playerModel.isPremium)
             {
-                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
-                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                if (CanShowPregameAd())
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
@@ -291,15 +286,9 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
-            //-- We're not showing pre-game ad for one minute matches
-            if (!playerModel.isPremium && actionCode != FindMatchAction.ActionCode.Challenge1.ToString())
+            if (!playerModel.isPremium)
             {
-                var minutesBetweenLastAdShown = (DateTime.Now - view.preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-                if (view.preferencesModel.sessionsBeforePregameAdCount > view.adsSettingsModel.sessionsBeforePregameAd &&
-                    view.preferencesModel.pregameAdsPerDayCount < view.adsSettingsModel.maxPregameAdsPerDay &&
-                    (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (view.preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= view.adsSettingsModel.intervalsBetweenPregameAds)))
+                if (CanShowPregameAd(actionCode))
                 {
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
@@ -372,6 +361,34 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+        }
+
+        private bool CanShowPregameAd(string actionCode = null)
+        {
+            bool retVal = false;
+
+            IPreferencesModel preferencesModel = view.preferencesModel;
+            IAdsSettingsModel adsSettingsModel = view.adsSettingsModel;
+
+            double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+            bool isOneMinuteGame = actionCode != null &&
+                                    (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                                    actionCode == FindMatchAction.ActionCode.Random1.ToString());
+
+            if (isOneMinuteGame && view.adsSettingsModel.showPregameInOneMinute == false)
+            {
+                retVal = false;
+            }
+            else if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
+                    preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
+                    (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
+            {
+                retVal = true;
+            }
+
+            return retVal;
         }
     }
 }

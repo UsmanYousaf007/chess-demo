@@ -100,6 +100,7 @@ namespace TurboLabz.InstantFramework
         public const string MAX_PREGAME_ADS_PER_DAY = "maxPregameAdsPerDay";
         public const string WAIT_PREGAME_AD_LOAD_SECONDS = "waitForPregameAdLoadSeconds";
         public const string INTERVALS_BETWEEN_PREGAME_ADS = "intervalsBetweenPregameAds";
+        public const string SHOW_PREGAME_AD_ONE_MINUTE = "showPregameOneMinute";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
