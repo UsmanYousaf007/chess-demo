@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpSearch(string matchString, int skip) { return new GSFriendsOpRequest(GetRequestContext()).Send("search", matchString, OnFriendOpSuccess, skip); }
         public IPromise<BackendResult> FriendsOpStatus(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("status", friendId, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpUnblock(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("unblock", friendId, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpBlocked(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("blocked", friendId, OnFriendOpSuccess); }
 
         private void OnFriendOpSuccess(object r)
 		{
@@ -82,6 +83,15 @@ namespace TurboLabz.InstantFramework
                 Friend friend = playerModel.friends[blockedId];
                 playerModel.blocked.Add(blockedId, friend);
                 playerModel.friends.Remove(blockedId);
+            }
+
+            // Friend unblocked
+            string unblockedId = response.ScriptData.GetString(GSBackendKeys.FriendsOp.UNBLOCK);
+            if (unblockedId != null)
+            {
+                Friend friend = playerModel.blocked[unblockedId];
+                playerModel.friends.Add(unblockedId, friend);
+                playerModel.blocked.Remove(unblockedId);
             }
 
             // Update friend status 

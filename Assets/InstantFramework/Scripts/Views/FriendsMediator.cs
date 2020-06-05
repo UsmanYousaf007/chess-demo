@@ -54,6 +54,8 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        private bool fectchBlockedList = true;
+
         public override void OnRegister()
         {
             view.Init();
@@ -349,7 +351,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnManageBlockedFriends()
         {
-            manageBlockedFriendsSignal.Dispatch(string.Empty);
+            manageBlockedFriendsSignal.Dispatch(string.Empty, fectchBlockedList);
+            fectchBlockedList = false;
         }
 
         [ListensTo(typeof(UpdateOfferDrawSignal))]

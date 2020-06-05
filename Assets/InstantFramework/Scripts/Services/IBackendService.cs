@@ -62,5 +62,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> FriendsOpSearch(string matchString, int skip); // search players
         IPromise<BackendResult> FriendsOpStatus(string friendId); // retrieve status of friends
         IPromise<BackendResult> FriendsOpUnblock(string friendId); // unblock a friend
+        IPromise<BackendResult> FriendsOpBlocked(string friendId); // get blocked friends
     }
 }

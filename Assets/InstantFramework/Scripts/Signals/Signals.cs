@@ -149,7 +149,7 @@ namespace TurboLabz.InstantFramework
     public class SelectTierSignal : Signal<string> { }
     public class SetSubscriptionContext : Signal<string, string> { }
     public class MatchAnalyticsSignal : Signal<MatchAnalyticsVO> { }
-    public class ManageBlockedFriendsSignal : Signal<string> { }
+    public class ManageBlockedFriendsSignal : Signal<string, bool> { }
     public class UnblockFriendSignal : Signal<string> { }
     public class UpdateManageBlockedFriendsViewSignal : Signal<Dictionary<string, Friend>> { }
     public class UpdateOfferDrawSignal : Signal<OfferDrawVO> { }

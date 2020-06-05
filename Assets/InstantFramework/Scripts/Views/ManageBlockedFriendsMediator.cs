@@ -63,7 +63,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnSubmitSearchSignal(string filter)
         {
-            manageBlockedFriendsSignal.Dispatch(filter);
+            manageBlockedFriendsSignal.Dispatch(filter, false);
         }
 
         private void OnUnblockFriendSignal(string friendId)
