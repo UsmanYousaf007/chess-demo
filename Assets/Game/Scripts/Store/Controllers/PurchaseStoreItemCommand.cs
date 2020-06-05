@@ -135,6 +135,7 @@ namespace TurboLabz.InstantFramework
             {
                 eventName = "completed";
                 analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
+                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
             {
