@@ -36,7 +36,7 @@ allprojects {
             url "https://maven.google.com"
         }
         maven {
-            url "file:////Users/Turbolabz/Desktop/data/turbo-labz/projects/instant-chess/Assets/Firebase/m2repository" // Assets/Firebase/Editor/AnalyticsDependencies.xml:18, Assets/Firebase/Editor/AppDependencies.xml:20, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/CrashlyticsDependencies.xml:20, Assets/Firebase/Editor/DatabaseDependencies.xml:20, Assets/Firebase/Editor/DynamicLinksDependencies.xml:20, Assets/Firebase/Editor/FirestoreDependencies.xml:20, Assets/Firebase/Editor/FunctionsDependencies.xml:20, Assets/Firebase/Editor/InstanceIdDependencies.xml:20, Assets/Firebase/Editor/MessagingDependencies.xml:20, Assets/Firebase/Editor/RemoteConfigDependencies.xml:20, Assets/Firebase/Editor/StorageDependencies.xml:20
+            url (unityProjectPath + "/Assets/Firebase/m2repository") // Assets/Firebase/Editor/AnalyticsDependencies.xml:18, Assets/Firebase/Editor/AppDependencies.xml:20, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/CrashlyticsDependencies.xml:20, Assets/Firebase/Editor/DatabaseDependencies.xml:20, Assets/Firebase/Editor/DynamicLinksDependencies.xml:20, Assets/Firebase/Editor/FirestoreDependencies.xml:20, Assets/Firebase/Editor/FunctionsDependencies.xml:20, Assets/Firebase/Editor/InstanceIdDependencies.xml:20, Assets/Firebase/Editor/MessagingDependencies.xml:20, Assets/Firebase/Editor/RemoteConfigDependencies.xml:20, Assets/Firebase/Editor/StorageDependencies.xml:20
         }
         maven {
             url "https://chartboostmobile.bintray.com/Chartboost" // Assets/HUF/AdsAdMobMediation/Editor/CharboostAdapterDependencies.xml:7

@@ -18,60 +18,38 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
+        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
+
         // Listen to signals
         [Inject] public AppEventSignal appEventSignal { get; set; }
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
 
-        // Signals
+        // Dispatch Signals
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
 
         bool isNotificationOpened;
 
         public void Init()
         {
-
             appEventSignal.AddListener(OnAppEvent);
-            routineRunner.StartCoroutine(HandleFirebaseInitComplete());
+            RegisterNotification();
+            ClearNotifications();
             FirebaseMessaging.MessageReceived += OnMessageReceived;
 
-            //Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
-            //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
-            //{
-            //    if (task.Result == Firebase.DependencyStatus.Available)
-            //    {
-            //        Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
-            //        Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
-            //        Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
-
-            //        //if (string.IsNullOrEmpty(HInitFirebase.CachedToken))
-            //        //{
-            //        //    Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
-            //        //}
-            //        //else
-            //        //{
-            //        //    ProcessToken(HInitFirebase.CachedToken);
-            //        //}
-
-            //        TLUtils.LogUtil.Log("Firebase intialization success.");
-            //    }
-            //    else
-            //    {
-            //        TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
-            //    }
-            //}
-            //);
+            if (autoSubscriptionDailogueService.CanShow())
+            {
+                subscriptionDlgClosedSignal.AddOnce(HandleFirebaseInitComplete);
+            }
+            else
+            {
+                HandleFirebaseInitComplete();
+            }
         }
 
-        IEnumerator HandleFirebaseInitComplete()
+        private void HandleFirebaseInitComplete()
         {
-            yield return new WaitForSeconds(0.5f);
             ProcessToken(HNotifications.Push.CachedToken);
             ProcessMessage(HNotifications.Push.CachedMessage);
-        }
-
-        public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token)
-        {
-            FirebaseMessaging.TokenReceived -= OnTokenReceived;
-            ProcessToken(token.Token);
         }
 
         public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
@@ -153,6 +131,13 @@ namespace TurboLabz.InstantFramework
             UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
 #elif UNITY_ANDROID
             Unity.Notifications.Android.AndroidNotificationCenter.CancelAllDisplayedNotifications();
+#endif
+        }
+
+        private void RegisterNotification()
+        {
+#if UNITY_IOS
+            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.None);
 #endif
         }
     }

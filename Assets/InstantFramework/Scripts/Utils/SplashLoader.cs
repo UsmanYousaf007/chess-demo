@@ -8,7 +8,7 @@ using HUFEXT.ModuleStarter.Runtime.API;
 
 public class SplashLoader : MonoBehaviour {
 
-    public static int launchCode = 0; // 1 = normal launch, 2 = resume, 3 = already launched
+    public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
 
     void Awake()
     {
@@ -21,12 +21,12 @@ public class SplashLoader : MonoBehaviour {
 
     void OnEnable()
     {
-        HGenericGDPR.OnPolicyAccepted += LoadGameScene;
+        HGenericGDPR.OnPolicyAccepted += RunInitPipiline;
     }
 
     void OnDisable()
     {
-        HGenericGDPR.OnPolicyAccepted -= LoadGameScene;
+        HGenericGDPR.OnPolicyAccepted -= RunInitPipiline;
     }
 
     void Start() 
@@ -37,11 +37,11 @@ public class SplashLoader : MonoBehaviour {
         }
         else
         {
-            LoadGameScene();
+            RunInitPipiline();
         }
     }
 
-    void LoadGameScene()
+    void RunInitPipiline()
     {
         HInitializationPipeline.RunPipeline();
     }

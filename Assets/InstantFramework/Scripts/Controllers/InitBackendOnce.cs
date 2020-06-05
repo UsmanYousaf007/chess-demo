@@ -18,11 +18,6 @@ namespace TurboLabz.InstantFramework
     {
         // Services
         [Inject] public IBackendService backendService { get; set; }
-        [Inject] public IPushNotificationService pushNotificationService { get; set; }
-        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
-
-        //Signals
-        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
 
         public override void Execute()
         {
@@ -31,24 +26,6 @@ namespace TurboLabz.InstantFramework
             backendService.AddChallengeListeners();
             backendService.StartPinger();
             backendService.OnlineCheckerStart();
-
-            if (autoSubscriptionDailogueService.CanShow())
-            {
-                subscriptionDlgClosedSignal.AddOnce(RegisterNotification);
-            }
-            else
-            {
-                RegisterNotification();
-            }
-        }
-
-        private void RegisterNotification()
-        {
-            pushNotificationService.Init();
-#if UNITY_IOS
-            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.None);
-#endif
-            pushNotificationService.ClearNotifications();
         }
     }
 }
