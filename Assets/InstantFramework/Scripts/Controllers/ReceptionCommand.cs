@@ -97,7 +97,6 @@ namespace TurboLabz.InstantFramework
                 SendAnalytics();
             }
 
-
             pauseNotificationsSignal.Dispatch(false);
 
             CommandEnd();
@@ -110,11 +109,6 @@ namespace TurboLabz.InstantFramework
                 var context = playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
                 context = playerModel.isPremium ? AnalyticsContext.premium : context;
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
-            }
-
-            if (preferencesModel.rankedMatchesFinishedCount >= 15)
-            {
-                analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
             }
 
             // Logging target architecture event

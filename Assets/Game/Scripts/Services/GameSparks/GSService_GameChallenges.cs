@@ -211,13 +211,18 @@ namespace TurboLabz.InstantFramework
                 if (matchInfo.isRanked)
                 {
                     preferencesModel.rankedMatchesFinishedCount++;
+
+                    if (preferencesModel.rankedMatchesFinishedCount >= 15 && !preferencesModel.isFirstRankedGameOfTheDayFinished)
+                    {
+                        preferencesModel.isFirstRankedGameOfTheDayFinished = true;
+                        analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
+                    }
                 }
             }            
             #endregion
 
             if (challengeId != matchInfoModel.activeChallengeId)
                 return;
-
 
             // Add cases where the game ending does not have a move to the checks below
             if (GameEndHasMove(chessboard))
