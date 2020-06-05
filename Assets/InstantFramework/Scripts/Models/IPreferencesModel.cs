@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         int autoSubscriptionDlgShownCount { get; set; }
         int rankedMatchesFinishedCount { get; set; }
         bool isAutoSubsriptionDlgShownFirstTime { get; set; }
+        bool isFirstRankedGameOfTheDayFinished { get; set; }
 
         void ResetDailyPrefers();
 

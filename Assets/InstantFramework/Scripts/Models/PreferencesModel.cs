@@ -59,6 +59,7 @@ namespace TurboLabz.InstantGame
         public bool autoPromotionToQueen { get; set;}
         public int rankedMatchesFinishedCount { get; set; }
         public bool isAutoSubsriptionDlgShownFirstTime { get; set; }
+        public bool isFirstRankedGameOfTheDayFinished { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -302,6 +303,11 @@ namespace TurboLabz.InstantGame
                     isAutoSubsriptionDlgShownFirstTime = reader.Read<bool>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME);
                 }
 
+                if (reader.HasKey(PrefKeys.FIRST_RANKED_GAME_OF_DAY))
+                {
+                    isFirstRankedGameOfTheDayFinished = reader.Read<bool>(PrefKeys.FIRST_RANKED_GAME_OF_DAY);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -357,6 +363,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN, autoPromotionToQueen);
                 writer.Write<int>(PrefKeys.RANKED_MATCHES_FINISHED_COUNT, rankedMatchesFinishedCount);
                 writer.Write<bool>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME, isAutoSubsriptionDlgShownFirstTime);
+                writer.Write<bool>(PrefKeys.FIRST_RANKED_GAME_OF_DAY, isFirstRankedGameOfTheDayFinished);
 
                 writer.Close();
             }
@@ -384,6 +391,7 @@ namespace TurboLabz.InstantGame
             interstitialAdsCount = 0;
             resignCount = 0;
             pregameAdsPerDayCount = 0;
+            isFirstRankedGameOfTheDayFinished = false;
         }
     }
 }

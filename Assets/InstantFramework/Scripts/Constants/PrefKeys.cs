@@ -43,6 +43,7 @@ namespace TurboLabz.InstantGame
         public const string AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT = "autoSubscriptionDlgShownCount";
         public const string RANKED_MATCHES_FINISHED_COUNT = "rankedMatchesFinishedCount";
         public const string AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME = "autoSubscriptionDlgShownFirstTime";
+        public const string FIRST_RANKED_GAME_OF_DAY = "firstRankedGameOfTheGame";
 
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";
