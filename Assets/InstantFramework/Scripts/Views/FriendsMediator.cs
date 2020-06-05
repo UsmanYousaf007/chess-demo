@@ -273,6 +273,7 @@ namespace TurboLabz.InstantFramework
                     vo.adsType = AdType.Interstitial;
                     vo.isRanked = isRanked;
                     vo.friendId = playerId;
+                    vo.actionCode = "ChallengeClassic";
                     showAdSignal.Dispatch(vo);
                     analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                     return;
