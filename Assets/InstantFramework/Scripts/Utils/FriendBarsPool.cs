@@ -1,32 +1,33 @@
-﻿using System.Collections;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
     public class FriendBarsPool
     {
+        private GameObject _poolParent;
         private GameObject _friendBarPrefab;
-        private List<FriendBar> friendBarsPool = new List<FriendBar>();
+        private List<FriendBar> _friendBarsPool = new List<FriendBar>();
 
         public FriendBarsPool(GameObject friendBarPrefab, int initialPoolCount = 0)
         {
             _friendBarPrefab = friendBarPrefab;
 
+            _poolParent = new GameObject("FriendBarsPool");
+
             if (initialPoolCount > 0)
             {
-                friendBarsPool = new List<FriendBar>(initialPoolCount + 1);
+                _friendBarsPool = new List<FriendBar>(initialPoolCount + 1);
 
                 for (int i = 0; i < initialPoolCount; i++)
                 {
                     FriendBar friendBar = GameObject.Instantiate(_friendBarPrefab).GetComponent<FriendBar>();
-                    friendBar.gameObject.SetActive(false);
                     ReturnBar(friendBar);
                 }
             }
             else
             {
-                friendBarsPool = new List<FriendBar>();
+                _friendBarsPool = new List<FriendBar>();
             }
         }
 
@@ -34,11 +35,15 @@ namespace TurboLabz.InstantFramework
         {
             FriendBar friendBar = null;
 
-            if (friendBarsPool.Count > 0)
+            if (_friendBarsPool.Count > 0)
             {
-                int listEndIndex = friendBarsPool.Count - 1;
-                friendBar = friendBarsPool[listEndIndex];
-                friendBarsPool.RemoveAt(listEndIndex);
+                // Removing from end of list because it's fast
+                int listEndIndex = _friendBarsPool.Count - 1;
+                friendBar = _friendBarsPool[listEndIndex];
+                _friendBarsPool.RemoveAt(listEndIndex);
+
+                // Removing as child of _poolParent
+                friendBar.transform.SetParent(null, false);
             }
             else
             {
@@ -50,10 +55,18 @@ namespace TurboLabz.InstantFramework
 
         public void ReturnBar(FriendBar friendBar)
         {
-            if (friendBarsPool == null)
-                friendBarsPool = new List<FriendBar>();
+            if (_friendBarsPool == null)
+                _friendBarsPool = new List<FriendBar>();
 
-            friendBarsPool.Add(friendBar);
+            _friendBarsPool.Add(friendBar);
+            friendBar.transform.SetParent(_poolParent.transform, false);
+            friendBar.gameObject.SetActive(false);
+        }
+
+        ~FriendBarsPool()
+        {
+            _friendBarsPool = null;
+            GameObject.Destroy(_poolParent);
         }
     }
 }
