@@ -18,7 +18,6 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
-        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
 
         // Listen to signals
         [Inject] public AppEventSignal appEventSignal { get; set; }
@@ -26,6 +25,9 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
+
+        //Models
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         bool isNotificationOpened;
 
@@ -36,14 +38,25 @@ namespace TurboLabz.InstantFramework
             ClearNotifications();
             FirebaseMessaging.MessageReceived += OnMessageReceived;
 
-            if (autoSubscriptionDailogueService.CanShow())
+            if (appInfoModel.isAutoSubscriptionDlgShown)
             {
-                subscriptionDlgClosedSignal.AddOnce(HandleFirebaseInitComplete);
+                subscriptionDlgClosedSignal.AddOnce(HandleFirebaseInitCompleteAsync);
             }
             else
             {
                 HandleFirebaseInitComplete();
             }
+        }
+
+        private void HandleFirebaseInitCompleteAsync()
+        {
+            routineRunner.StartCoroutine(HandleFirebaseInitCompleteWithDelay());
+        }
+
+        private IEnumerator HandleFirebaseInitCompleteWithDelay()
+        {
+            yield return new WaitForEndOfFrame();
+            HandleFirebaseInitComplete();
         }
 
         private void HandleFirebaseInitComplete()

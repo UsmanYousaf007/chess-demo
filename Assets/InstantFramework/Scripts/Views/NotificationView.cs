@@ -293,7 +293,6 @@ namespace TurboLabz.InstantGame
 
         public void ProcessOpenedNotification(NotificationVO notificationVO)
         {
-            loadLobbySignal.Dispatch();
             string challengeId = GetChallengeId(notificationVO.senderPlayerId);
             if (challengeId != null)
             {

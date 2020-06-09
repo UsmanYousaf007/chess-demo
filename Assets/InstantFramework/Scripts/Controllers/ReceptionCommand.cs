@@ -88,8 +88,8 @@ namespace TurboLabz.InstantFramework
                 initBackendOnceSignal.Dispatch();
                 loadLobbySignal.Dispatch();
                 loadPromotionSingal.Dispatch();
-                pushNotificationService.Init();
                 autoSubscriptionDailogueService.Show();
+                pushNotificationService.Init();
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
                 SendAnalytics();
