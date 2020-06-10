@@ -5,18 +5,25 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using PlayFab;
+using PlayFab.ClientModels;
 using SocialEdge.Modules;
+using SocialEdge.Types;
 using UnityEngine;
 
 public class mongo : MonoBehaviour
 {
-    Friend _friend;
     private MongoClient _client;
     private IMongoCollection<BsonDocument> _collection;
     // Start is called before the first frame update
     void Start()
     {
-        _friend = new Friend();
+        var req = new PlayFab.ClientModels.LoginWithCustomIDRequest {
+            CustomId = "user0",
+            CreateAccount=false
+        };
+        PlayFabClientAPI.LoginWithCustomID(req, OnSuccess, OnFailed);
+
         _client = new MongoClient("mongodb+srv://MyMongoDBUser:mongodbpassword123@testcluster-hsxfp.mongodb.net/test?retryWrites=true&w=majority");
         var database = _client.GetDatabase("TestDatabase");
         _collection = database.GetCollection<BsonDocument>("Players");
@@ -24,9 +31,57 @@ public class mongo : MonoBehaviour
         var results = Search("Player", 0, 10, new PlayerModel(), "abc");
     }
 
-    public Dictionary<string, Friend> Search(string matchString, int skipDocs, int limitDocs, PlayerModel playerData, string playerId)
+    public void OnSuccess(LoginResult result)
     {
-        Dictionary<string, Friend> result = null;
+        var req = new GetStoreItemsRequest {
+            StoreId = "StoreId1"            
+
+        };
+        PlayFabClientAPI.GetStoreItems(req,OnCatSuccess,OnFailed);
+    }
+
+    public void OnCatSuccess(GetStoreItemsResult res)
+    {
+        var req = new PlayFab.ClientModels.PurchaseItemRequest{
+            ItemId="One",
+            Price=20,
+            VirtualCurrency="GD",
+            StoreId="StoreId1"
+        };
+        Console.WriteLine("Cato get");
+
+        //PlayFabClientAPI.PurchaseItem(req, OnPurchaseSuccess, OnFailed);
+
+
+        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), OnInventorySucces, OnFailed);
+
+    }
+
+    public void OnPurchaseSuccess(PurchaseItemResult result)
+    {
+        Console.WriteLine("Purchase successful woohoo money spent");
+    }
+
+    public void OnInventorySucces(GetUserInventoryResult result)
+    {
+        Console.WriteLine("Inventory gotten phrrrrrr");
+    }
+    public void OnFailed(PlayFabError result)
+    {
+        Console.WriteLine("Phaiiiilllll");
+    }
+
+    public FriendModel Create(string playerId)
+    {
+        FriendModel friend = new FriendModel();
+        friend.publicProfile = new PlayerModel().GetPublicProfile(playerId);
+        friend.friendType = FriendTypes.FRIEND_TYPE_SOCIAL;
+        return friend;
+    }
+
+    public Dictionary<string, FriendModel> Search(string matchString, int skipDocs, int limitDocs, PlayerModel playerData, string playerId)
+    {
+        Dictionary<string, FriendModel> result = null;
         List<PlayerModel> players = null;
         try
         {
@@ -49,10 +104,10 @@ public class mongo : MonoBehaviour
 
                 if (players != null && players.Count > 0)
                 {
-                    result = new Dictionary<string, Friend>();
+                    result = new Dictionary<string, FriendModel>();
                     foreach (var player in players)
                     {
-                        var friend = _friend.Create(player.id);
+                        var friend = Create(player.id);
                         friend.friendType = GetFriendType(playerData, player.id);
                         result[player.id] = friend;
                     }
@@ -109,9 +164,9 @@ public class mongo : MonoBehaviour
     }
 
     /*Search by tag text and case insensitive*/
-    public Dictionary<string, Friend> SearchTag(string tag, PlayerModel playerData, string playerId)
+    public Dictionary<string, FriendModel> SearchTag(string tag, PlayerModel playerData, string playerId)
     {
-        Dictionary<string, Friend> result = null;
+        Dictionary<string, FriendModel> result = null;
 
         try
         {
@@ -130,8 +185,8 @@ public class mongo : MonoBehaviour
                 var filteredPlayer = SearchFilter(searchedPlayer, playerData, playerId).FirstOrDefault();
                 if (filteredPlayer != null)
                 {
-                    result = new Dictionary<string, Friend>();
-                    var friend = _friend.Create(filteredPlayer.id);
+                    result = new Dictionary<string, FriendModel>();
+                    var friend = Create(filteredPlayer.id);
                     friend.friendType = GetFriendType(playerData, filteredPlayer.id);
                     result[filteredPlayer.id] = friend;
                 }
@@ -142,11 +197,5 @@ public class mongo : MonoBehaviour
             throw new Exception("Exception thrown from Friend.SearchTag. " + e.Message, e.InnerException);
         }
         return result;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

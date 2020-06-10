@@ -18,15 +18,15 @@ namespace SocialEdge.Modules
         public PlayerModel()
         {
             privateProfile = new PrivateProfile();
-            privateProfile.friends = new Dictionary<string, Friend>();
-            privateProfile.community = new Dictionary<string, Friend>();
+            privateProfile.friends = new Dictionary<string, FriendModel>();
+            privateProfile.community = new Dictionary<string, FriendModel>();
             privateProfile.blocked = new Dictionary<string, string>();
+            privateProfile.playerActiveInventory = new List<Inventory>();
+            privateProfile.activeChallenges = new List<Match>();
+            privateProfile.pendingChallenges = new List<Match>();
+            privateProfile.adsRewardData = new List<Ads>();
 
             publicProfile = new PublicProfile();
-            publicProfile.playerActiveInventory = new List<Inventory>();
-            publicProfile.activeChallenges = new List<Match>();
-            publicProfile.pendingChallenges = new List<Match>();
-            publicProfile.adsRewardData = new List<Ads>();
 
         }
 
@@ -37,6 +37,8 @@ namespace SocialEdge.Modules
             player.publicProfile = GetPublicProfile(id);
             return player;
         }
+
+        
 
         public PrivateProfile GetPrivateProfile(string id)
         {
@@ -49,25 +51,30 @@ namespace SocialEdge.Modules
         }
 
         #region Player Profiles
-        public class PrivateProfile
-        {
+        public class PublicProfile
+        {     
             public string tag;
             public int eloCompletedPlacementGames;
             public int eloScore;
             public int gamesWon;
             public int gamesLost;
             public int gamesDrawn;
-            public string countryFlag;
-            public Dictionary<string, Friend> friends;
-            public Dictionary<string, Friend> community;
-            public Dictionary<string, string> blocked;
-            public PrivateProfile()
+            public string countryId;
+
+            /*In old code, these were private members of profile but converted to public or were gamesparks attributes*/
+            public bool isOnline;
+            public bool isSubscriber;
+            public string name;
+            public List<string> externalIds;
+            public DateTime creationDate;
+            public List<Inventory> activeInventory;
+            public PublicProfile()
             {
-                countryFlag = null;
+                countryId = null;
             }
         }
 
-        public class PublicProfile
+        public class PrivateProfile
         {
 
             public int adLifetimeImpressions;
@@ -76,7 +83,9 @@ namespace SocialEdge.Modules
             public bool isBot;
             public int botDifficulty;
             public string currentChallengeId;
-
+            public Dictionary<string, FriendModel> friends;
+            public Dictionary<string, FriendModel> community;
+            public Dictionary<string, string> blocked;
             public List<Match> activeChallenges;
             public List<Match> pendingChallenges;
             public bool firstLongMatchCompleted;
@@ -92,11 +101,12 @@ namespace SocialEdge.Modules
             public int totalPowerupUsageCount;
             public int eventTimeStamp;
             public int subscriptionExpiryTime;
+            public int eloScore;
             public List<Ads> adsRewardData;
 
 
             #endregion
-            public PublicProfile()
+            public PrivateProfile()
             {
                 clientVersion = "1.0.7";
                 currentChallengeId = null;
@@ -115,4 +125,29 @@ namespace SocialEdge.Modules
     public class Inventory
     {
     }
+
+    //    var getPublicDisplayName = function(sparkPlayer) {
+    //        var fullName = sparkPlayer.getDisplayName();
+    //    var nameSplit = fullName.split(" ");
+    //    var first = "";
+    //    var last = "";
+    //    var firstNameLastInitial = fullName;
+    //        if (nameSplit.length > 1)
+    //        {
+    //            for (var i = 0; i<nameSplit.length - 1; i++)
+    //            {
+    //                first = first + nameSplit[i];
+    //            }
+    //last = nameSplit[nameSplit.length - 1];
+    //            var lastInitial = last[0];
+    //firstNameLastInitial = first + " " + lastInitial + ".";
+    //        }
+
+    //        return firstNameLastInitial;
+    //    }
+
+    //public string GetPublicDisplayName()
+    //{
+    //    var fullName = this.GetPublicDisplayName();
+    //}
 }
