@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
+        [Inject] public IPushNotificationService pushNotificationService { get; set; }
 
         public override void Execute()
         {
@@ -83,17 +84,13 @@ namespace TurboLabz.InstantFramework
             if (!isResume)
             {
                 preferencesModel.sessionCount++;
-
                 initBackendOnceSignal.Dispatch();
-
                 loadLobbySignal.Dispatch();
                 loadPromotionSingal.Dispatch();
-
                 autoSubscriptionDailogueService.Show();
-
+                pushNotificationService.Init();
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
-
                 SendAnalytics();
             }
 

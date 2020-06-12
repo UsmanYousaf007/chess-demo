@@ -9,6 +9,10 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#if UNITY_IOS && !UNITY_EDITOR
+using System.Runtime.InteropServices;
+#endif
+
 namespace HUF.Utils.Runtime.Logging
 {
     public static class HLog
@@ -125,6 +129,10 @@ namespace HUF.Utils.Runtime.Logging
                     Debug.Log( FormatMessage( prefixSource.Prefix, message, type ), context );
                     break;
             }
+#if UNITY_IOS && !UNITY_EDITOR
+            if (config != null && config.IOSNativeLogs)
+                HUFiOSSendNativeLog( FormatMessage( prefixSource.Prefix, message, type ) );
+#endif
         }
 
         /// <summary>
@@ -151,5 +159,10 @@ namespace HUF.Utils.Runtime.Logging
         {
             return !Debug.isDebugBuild && Config != null && Config.CanLogOnProd;
         }
+        
+#if UNITY_IOS && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        static extern void HUFiOSSendNativeLog(string message);
+#endif
     }
 }

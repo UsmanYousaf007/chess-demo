@@ -7,11 +7,13 @@ namespace HUF.RemoteConfigs.Runtime.API
     public interface IRemoteConfigsService
     {
         bool IsInitialized { get; }
+        bool SupportsCaching { get; }
+        string UID { get; }
 
         event UnityAction OnInitComplete;
         event UnityAction OnFetchComplete;
         event UnityAction OnFetchFailed;
-        
+
         void Fetch();
         Dictionary<string, string> GetConfigJSONs();
         string GetConfigJSON(string configId);

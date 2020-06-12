@@ -1,9 +1,40 @@
+## [2.4.2] - 2020-05-29
+### Fixed
+- Disable BITCODE for Unity 2019.3
+
+## [2.4.1] - 2020-05-14
+### Fixed
+- Endless config loading loop
+
+
+## [2.4.0] - 2020-05-14
+### Added
+- Possibility to log on iOS native log
+
+
+## [2.3.1] - 2020-05-14
+### Fixed
+- optimized BuildConfigMap usage in ConfigsModel
+- config refresh on Windows
+
+
+## [2.3.0] - 2020-05-08
+### Added
+- `HSecureValueVault` Security system
+
+### Deprecated
+- `SecureCustomPP` as not secure enough
+
+### Fixed
+- Heading typo in changelog
+
+
 ## [2.2.5] - 2020-05-04
 ### Fixed
 - Endless loop in configs init
 
 
-# [2.2.4] - 2020-04-29
+## [2.2.4] - 2020-04-29
 ### Added
 - Stopwatch manager for measuring performance
 

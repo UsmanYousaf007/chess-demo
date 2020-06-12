@@ -40,6 +40,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         public override void RegisterManualInitializers()
         {
             AddManualInitializer( "Cross Promo - HUF", HCrossPromo.Init );
+            AddManualInitializer("Cross Promo Fetch - HUF", HCrossPromo.Fetch);
         }
     }
 }

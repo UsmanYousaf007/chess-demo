@@ -62,10 +62,20 @@ namespace HUF.Auth.Runtime.API
         [PublicAPI]
         public static bool TryRegisterService(IAuthService service)
         {
-            bool isPossible = AuthModel.TryRegisterService(service);
+            bool isPossible = false;
+
+            try
+            {
+                isPossible = AuthModel.TryRegisterService( service );
+            }
+            catch ( Exception exception )
+            {
+                HLog.LogError( logPrefix, exception.ToString() );
+            }
 
             if ( !isPossible )
                 HLog.LogError( logPrefix, $"Registration of service {service.Name} not possible" );
+
             return isPossible;
         }
 
