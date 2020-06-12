@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Dispatch Signals
         [Inject] public RemoteStorePurchaseCompletedSignal remoteStorePurchaseCompletedSignal { get; set; }
@@ -108,11 +109,18 @@ namespace TurboLabz.InstantFramework
                         playerModel.subscriptionType = FindRemoteStoreItemShortCode(product.definition.id);
                         updatePlayerDataSignal.Dispatch();
                     }
+
+                    if (info.isCancelled() == Result.True)
+                    {
+                        var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(product.definition.id)];
+                        hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
+                            new KeyValuePair<string, object>("store_iap_id", product.transactionID));
+                    }
                 }
 #if SUBSCRIPTION_TEST
                 else if (playerModel.subscriptionExipryTimeStamp > 0)
                 {
-                    playerModel.subscriptionExipryTimeStamp = 0;
+                    playerModel.subscriptionExipryTimeStamp = 1;
                     loadPromotionSingal.Dispatch();
                     updatePlayerDataSignal.Dispatch();
                 }
@@ -333,6 +341,8 @@ namespace TurboLabz.InstantFramework
 
                     updateConfirmDlgSignal.Dispatch(vo);
 
+                    metaDataModel.store.failedPurchaseTransactionId = transactionID;
+
                     if (storePromise != null)
                     {
                         storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
@@ -391,6 +401,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                metaDataModel.store.failedPurchaseTransactionId = product.transactionID;
                 if (storePromise != null)
                 {
                     storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
@@ -498,7 +509,22 @@ namespace TurboLabz.InstantFramework
         private void LogAutoRenewEvent(string name, string productId)
         {
             var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
-            hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew");
+
+            if (name.Equals("failed"))
+            {
+                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew",
+                    new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
+            }
+            else
+            {
+                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew");
+            }
+
+            if (name.Equals("completed"))
+            {
+                analyticsService.Event(AnalyticsEventId.subscription_renewed, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
+                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
+            }
         }
 
         public void UpgardeSubscription(string oldProductId, string newProductId)

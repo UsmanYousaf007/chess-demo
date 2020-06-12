@@ -31,6 +31,9 @@ namespace TurboLabz.InstantFramework
         //[Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -122,6 +125,11 @@ namespace TurboLabz.InstantFramework
         public Button findFriendOkButton;
         public Text findFriendOkText;
 
+        [Header("Drop Down Menu")]
+        public Button menuButton;
+        public GameObject dropDownMenu;
+        public Button manageBlockedPlayersButton;
+        public Text manageBlockedPlayersText;
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal reloadFriendsSignal = new Signal();
@@ -136,7 +144,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string, bool, string> quickMatchFriendButtonClickedSignal = new Signal<string, bool, string>();
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
-
+        public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
 
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -163,12 +171,18 @@ namespace TurboLabz.InstantFramework
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
-            startGameConfirmationDlg.confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
-            startGameConfirmationDlg.confirmFriendly10MinGameText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
+
+            startGameConfirmationDlg.confirmFriendly1MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN1_GAME_TEXT);
+            startGameConfirmationDlg.confirmFriendly5MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
+            startGameConfirmationDlg.confirmFriendly10MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
+
             startGameConfirmationDlg.startGameText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_START_GAME);
             startGameConfirmationDlg.confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
-            startGameConfirmationDlg.confirmFriendlyGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge.ToString()); });
+
+            startGameConfirmationDlg.confirmFriendly1MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge1.ToString()); });
+            startGameConfirmationDlg.confirmFriendly5MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge.ToString()); });
             startGameConfirmationDlg.confirmFriendly10MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge10.ToString()); });
+
             startGameConfirmationDlg.confirmGameCloseBtn.onClick.AddListener(ConfirmNewGameDlgNo);
             startGameConfirmationDlg.ToggleRankButton.onClick.AddListener(OnToggleRankButtonClicked);
             startGameConfirmationDlg.toggleRankButtonState = true;
@@ -221,6 +235,9 @@ namespace TurboLabz.InstantFramework
             findFriendOkButton.onClick.AddListener(HideFriendsHelpDialog);
             findFriendOkText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
 
+            manageBlockedPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_MANAGE_BLOCKED);
+            menuButton.onClick.AddListener(() => dropDownMenu.SetActive(true));
+            manageBlockedPlayersButton.onClick.AddListener(OnManageBlockedFriendsClicked);
         }
 
         #region InviteFriendDialog
@@ -448,7 +465,7 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
-            if (bars.ContainsKey(friend.playerId) || (isCommunity && !isSearched))
+            if (bars.ContainsKey(friend.playerId) || (!isSearched && (isCommunity || friend.friendType.Equals(Friend.FRIEND_TYPE_COMMUNITY))))
             {
                 return;
             }
@@ -589,6 +606,7 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
+            friendBar.isOfferDraw = vo.offerDraw;
             friendBar.UpdateStatus();
 
             // Set the timer clocks
@@ -716,6 +734,15 @@ namespace TurboLabz.InstantFramework
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
+            else if (reason == CreateLongMatchAbortReason.Blocked)
+            {
+                createMatchLimitReachedText.text = "Sorry, a game could not be created. Please try later.";
+                SetMatchLimitReachedDialogue(false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
+
+                friendBar.playArrow.SetActive(true);
+                friendBar.playArrowButton.SetActive(false);
+            }
             else // Match successfully created
             {
                 friendBar.playArrow.SetActive(false);
@@ -768,6 +795,29 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
+        {
+            //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+
+            if (!bars.ContainsKey(opponentID))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[opponentID].GetComponent<FriendBar>();
+
+            if (status == "offered")
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, -27);
+                friendBar.drawOffer.SetActive(true);
+            }
+            else
+            {
+                friendBar.generalStatus.rectTransform.anchoredPosition = new Vector2(friendBar.generalStatus.rectTransform.anchoredPosition.x, 0);
+                friendBar.drawOffer.SetActive(false);
+            }
+        }
+
         void OnUpgradeToPremiumButtonClicked()
         {
             upgradeToPremiumButtonClickedSignal.Dispatch();
@@ -787,6 +837,7 @@ namespace TurboLabz.InstantFramework
             createMatchLimitReachedDlg.SetActive(false);
             inviteFriendDlg.SetActive(false);
             findFriendDlg.SetActive(false);
+            dropDownMenu.SetActive(false);
 
             // TODO: Better handling needed
             if (sectionSearched.gameObject.activeSelf)
@@ -799,7 +850,11 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
-            ResetSearch();
+            if (inSearchView)
+            {
+                ResetSearch();
+                refreshFriendsSignal.Dispatch();
+            }
             gameObject.SetActive(false); 
         }
 
@@ -945,7 +1000,6 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendDlg.SetActive(false);
             actionBar.isRemoved = true;
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
-            analyticsService.Event(AnalyticsEventId.tap_long_match_remove);
         }
 
         void RemoveCommunityFriendDlgNo()
@@ -1061,7 +1115,6 @@ namespace TurboLabz.InstantFramework
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
-            analyticsService.Event(AnalyticsEventId.tap_match, AnalyticsContext.long_match);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)
@@ -1153,6 +1206,12 @@ namespace TurboLabz.InstantFramework
         {
             processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        private void OnManageBlockedFriendsClicked()
+        {
+            manageBlockedFriendsButtonClickedSignal.Dispatch();
+            audioService.PlayStandardClick();
         }
     }
 }

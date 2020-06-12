@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HUF.Ads.Implementation
+namespace HUF.Ads.Runtime.Implementation
 {
     [Serializable]
     public class AdPlacementData

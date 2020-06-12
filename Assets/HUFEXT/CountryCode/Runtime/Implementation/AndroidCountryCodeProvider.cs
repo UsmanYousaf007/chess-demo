@@ -1,17 +1,16 @@
 #if UNITY_ANDROID
-using HUFEXT.NativeCountryCode.API;
 using UnityEngine;
 
-namespace HUFEXT.NativeCountryCode.Implementation
+namespace HUFEXT.CountryCode.Runtime.Implementation
 {
     public class AndroidCountryCodeProvider : ICountryCodeProvider
     {
-        public CountryCode GetCountryCode()
+        public API.CountryCode GetCountryCode()
         {
             return ReadCountryCodeFromLocale();
         }
 
-        CountryCode ReadCountryCodeFromLocale()
+        API.CountryCode ReadCountryCodeFromLocale()
         {
             using (var localeObject = new AndroidJavaClass("java.util.Locale"))
             {
@@ -21,7 +20,7 @@ namespace HUFEXT.NativeCountryCode.Implementation
                     {
                         var language = localeInstance.Call<string>("getLanguage");
                         var country = localeInstance.Call<string>("getCountry");
-                        return new CountryCode(language, country);
+                        return new API.CountryCode(language, country);
                     }
                 }
             }

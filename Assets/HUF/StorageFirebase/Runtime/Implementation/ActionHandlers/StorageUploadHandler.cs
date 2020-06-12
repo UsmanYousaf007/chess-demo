@@ -2,12 +2,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Firebase.Extensions;
 using Firebase.Storage;
-using HUF.Storage.API.Structs;
-using HUF.StorageFirebase.API;
-using HUF.Utils.Extensions;
+using HUF.Storage.Runtime.API.Structs;
+using HUF.StorageFirebase.Runtime.API;
+using HUF.Utils.Runtime.Extensions;
 using UnityEngine.Events;
 
-namespace HUF.StorageFirebase.Implementation.ActionHandlers
+namespace HUF.StorageFirebase.Runtime.Implementation.ActionHandlers
 {
     public class StorageUploadHandler
     {

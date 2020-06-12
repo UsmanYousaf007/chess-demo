@@ -11,12 +11,15 @@
 /// [add_description_here]
 
 using System;
+using System.Collections.Generic;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.TLUtils
 {
     public static class CollectionsUtil
     {
         private static Random random = new Random();
+        private static Dictionary<string, string> stateToContextMap;
 
         public static void Shuffle<T>(T[] collection)
         {
@@ -30,6 +33,30 @@ namespace TurboLabz.TLUtils
                 collection[i] = collection[index];
                 collection[index] = tmp;
             }
+        }
+
+        public static string GetContextFromState(string state)
+        {
+            if (stateToContextMap == null)
+            {
+                CreateStateToContextMap();
+            }
+
+            if (!stateToContextMap.ContainsKey(state))
+            {
+                return string.Empty;
+            }
+
+            return stateToContextMap[state];
+        }
+
+        private static void CreateStateToContextMap()
+        {
+            stateToContextMap = new Dictionary<string, string>();
+            stateToContextMap.Add("Lobby", "lobby");
+            stateToContextMap.Add("LimitReachedDlg", "games_limit");
+            stateToContextMap.Add("ThemeSelectionDlg", "themes");
+            stateToContextMap.Add("Settings", "settings");
         }
     }
 }

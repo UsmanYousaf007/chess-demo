@@ -1,7 +1,7 @@
-using HUF.Ads.API;
-using HUF.Ads.Implementation;
+using HUF.Ads.Runtime.Implementation;
 using HUF.Utils;
 using HUF.Utils.Runtime.Logging;
+using HUFEXT.AdsManager.Runtime.AdMediation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.Config;
 using HUFEXT.AdsManager.Runtime.Service;
@@ -12,23 +12,21 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
     {
         public AdManagerRewardedQueue(
             AdPlacementData inAdPlacementData,
-            AdsManagerConfig inAdsManagerConfig,
             HUFAdsService inAdsService ) : base(
             inAdPlacementData,
-            inAdsManagerConfig,
             inAdsService )
         {
             logPrefix = new HLogPrefix( HAdsManager.logPrefix, nameof(AdManagerRewardedQueue) );
         }
 
-        protected override void OnFetched( IAdCallbackData callbackData )
+        protected override void HandleFetched( AdCallback callbackData )
         {
             if ( callbackData.PlacementId != adPlacementData.PlacementId )
                 return;
 
             adStatus = AdStatus.WaitingForFetch;
             adsService.RemoveFromRewardedAdQueue( adPlacementData.PlacementId );
-            base.OnFetched( callbackData );
+            base.HandleFetched( callbackData );
         }
 
         protected override void StartFetching()

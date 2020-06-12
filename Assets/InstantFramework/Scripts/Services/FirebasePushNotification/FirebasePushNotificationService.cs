@@ -3,13 +3,11 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
-using UnityEngine.Purchasing;
-using System.Collections.Generic;
-using UnityEngine.Purchasing.Security;
-using strange.extensions.promise.api;
-using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
+using HUF.Notifications.Runtime.API;
+using Firebase.Messaging;
+using System.Collections;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,61 +17,80 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IRoutineRunner routineRunner { get; set; }
 
         // Listen to signals
         [Inject] public AppEventSignal appEventSignal { get; set; }
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
 
-        // Signals
+        // Dispatch Signals
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
+
+        //Models
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         bool isNotificationOpened;
 
-        public void Init() 
+        public void Init()
         {
-
             appEventSignal.AddListener(OnAppEvent);
+            RegisterNotification();
+            ClearNotifications();
+            FirebaseMessaging.MessageReceived += OnMessageReceived;
 
-            Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
-            Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => 
-                {
-                    if (task.Result == Firebase.DependencyStatus.Available) 
-                    {
-                        Firebase.Messaging.FirebaseMessaging.TokenRegistrationOnInitEnabled = false;
-                        Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
-                        Firebase.Messaging.FirebaseMessaging.MessageReceived += OnMessageReceived;
-                        Firebase.Messaging.FirebaseMessaging.RequestPermissionAsync();
-                        TLUtils.LogUtil.Log("Firebase intialization success.");
-                    } 
-                    else 
-                    {
-                        TLUtils.LogUtil.Log("Firebase could not resolve all dependencies: " + dependencyStatus, "red");
-                    }
-                }
-            );
+            if (appInfoModel.isAutoSubscriptionDlgShown)
+            {
+                subscriptionDlgClosedSignal.AddOnce(HandleFirebaseInitCompleteAsync);
+            }
+            else
+            {
+                HandleFirebaseInitComplete();
+            }
         }
 
-        public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token) 
+        private void HandleFirebaseInitCompleteAsync()
         {
-            Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
-            backendService.PushNotificationRegistration(token.Token);
-            pushToken = token.Token;
-            TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
+            routineRunner.StartCoroutine(HandleFirebaseInitCompleteWithDelay());
         }
 
-        public string GetToken()
+        private IEnumerator HandleFirebaseInitCompleteWithDelay()
         {
-            return pushToken;
+            yield return new WaitForEndOfFrame();
+            HandleFirebaseInitComplete();
         }
 
-        private void OnAppEvent(AppEvent evt)
+        private void HandleFirebaseInitComplete()
         {
-
+            ProcessToken(HNotifications.Push.CachedToken);
+            ProcessMessage(HNotifications.Push.CachedMessage);
         }
 
         public virtual void OnMessageReceived(object sender, Firebase.Messaging.MessageReceivedEventArgs e)
         {
-            var notification = e.Message.Notification;
-            isNotificationOpened = e.Message.NotificationOpened;
+            ProcessMessage(e.Message);
+        }
+
+        private void ProcessToken(string token)
+        {
+            if (token == null)
+            {
+                return;
+            }
+
+            backendService.PushNotificationRegistration(token);
+            pushToken = token;
+            TLUtils.LogUtil.Log("Firebase deviceToken: " + pushToken, "red");
+        }
+
+        private void ProcessMessage(FirebaseMessage message)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            var notification = message.Notification;
+            isNotificationOpened = message.NotificationOpened;
 
             // Bail if push notification was not clicked.
             // Socket messaging handles notifications when game is running.
@@ -91,18 +108,29 @@ namespace TurboLabz.InstantFramework
                 notificationVO.title = notification.Title;
                 notificationVO.body = notification.Body;
             }
-            notificationVO.isOpened = isNotificationOpened;
-            notificationVO.senderPlayerId = e.Message.Data.ContainsKey("senderPlayerId") == true ? e.Message.Data["senderPlayerId"] : "undefined";
-            notificationVO.challengeId = e.Message.Data.ContainsKey("challengeId") == true ? e.Message.Data["challengeId"] : "undefined";
-            notificationVO.matchGroup = e.Message.Data.ContainsKey("matchGroup") == true ? e.Message.Data["matchGroup"] : "undefined";
-            notificationVO.avatarId = e.Message.Data.ContainsKey("avatarId") == true ? e.Message.Data["avatarId"] : "undefined";
-            notificationVO.avaterBgColorId = e.Message.Data.ContainsKey("avatarBgColorId") == true ? e.Message.Data["avatarBgColorId"] : "undefined";
-            notificationVO.profilePicURL = e.Message.Data.ContainsKey("profilePicURL") == true ? e.Message.Data["profilePicURL"] : "undefined";
-            notificationVO.isPremium = e.Message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(e.Message.Data["isSubscriber"]) : false;
-            notificationVO.timeSent = e.Message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(e.Message.Data["creationTimestamp"]) : 0;
-            notificationVO.actionCode = e.Message.Data.ContainsKey("actionCode") == true ? e.Message.Data["actionCode"] : "undefined";
 
-        notificationRecievedSignal.Dispatch(notificationVO);
+            notificationVO.isOpened = isNotificationOpened;
+            notificationVO.senderPlayerId = message.Data.ContainsKey("senderPlayerId") == true ? message.Data["senderPlayerId"] : "undefined";
+            notificationVO.challengeId = message.Data.ContainsKey("challengeId") == true ? message.Data["challengeId"] : "undefined";
+            notificationVO.matchGroup = message.Data.ContainsKey("matchGroup") == true ? message.Data["matchGroup"] : "undefined";
+            notificationVO.avatarId = message.Data.ContainsKey("avatarId") == true ? message.Data["avatarId"] : "undefined";
+            notificationVO.avaterBgColorId = message.Data.ContainsKey("avatarBgColorId") == true ? message.Data["avatarBgColorId"] : "undefined";
+            notificationVO.profilePicURL = message.Data.ContainsKey("profilePicURL") == true ? message.Data["profilePicURL"] : "undefined";
+            notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(message.Data["isSubscriber"]) : false;
+            notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data["creationTimestamp"]) : 0;
+            notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data["actionCode"] : "undefined";
+
+            notificationRecievedSignal.Dispatch(notificationVO);
+        }
+
+        public string GetToken()
+        {
+            return pushToken;
+        }
+
+        private void OnAppEvent(AppEvent evt)
+        {
+
         }
 
         public bool IsNotificationOpened()
@@ -116,6 +144,13 @@ namespace TurboLabz.InstantFramework
             UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
 #elif UNITY_ANDROID
             Unity.Notifications.Android.AndroidNotificationCenter.CancelAllDisplayedNotifications();
+#endif
+        }
+
+        private void RegisterNotification()
+        {
+#if UNITY_IOS
+            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.None);
 #endif
         }
     }

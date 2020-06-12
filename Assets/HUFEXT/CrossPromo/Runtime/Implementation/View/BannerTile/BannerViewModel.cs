@@ -1,14 +1,13 @@
-using HUF.Storage.API;
-using HUF.Storage.API.Structs;
-using HUF.Utils.Configs.API;
-using HUF.Utils.Extensions;
-using HUFEXT.CrossPromo.Implementation.Model;
+using HUF.Storage.Runtime.API;
+using HUF.Storage.Runtime.API.Structs;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
+using HUFEXT.CrossPromo.Runtime.Implementation.Model;
 using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
-using HUFEXT.CrossPromo.API;
 
-namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
 {
     public class BannerViewModel
     {
@@ -67,7 +66,8 @@ namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
                     return;
                 }
                 sprite.name = name;
-                SpriteBank.Sprites.Add(name, sprite);
+                if(!SpriteBank.Sprites.ContainsKey(name))
+                    SpriteBank.Sprites.Add(name, sprite);
                 InternalViewUpdate(sprite);
             }
             else

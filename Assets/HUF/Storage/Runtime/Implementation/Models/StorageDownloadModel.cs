@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using HUF.Storage.API;
-using HUF.Storage.API.Structs;
+using HUF.Storage.Runtime.API;
+using HUF.Storage.Runtime.API.Structs;
 using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Storage.Implementation.Models
+namespace HUF.Storage.Runtime.Implementation.Models
 {
     public class StorageDownloadModel : IDownloadService
     {

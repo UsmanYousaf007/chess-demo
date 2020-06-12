@@ -1,33 +1,42 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using GoogleMobileAds.Editor;
-using HUF.AdsAdMobMediation.API;
-using HUF.AdsAdMobMediation.Implementation;
-using HUF.Utils.Configs.API;
+using HUF.AdsAdMobMediation.Runtime.API;
+using HUF.AdsAdMobMediation.Runtime.Implementation;
+using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
 namespace HUF.AdsAdMobMediation.Editor
 {
     [UsedImplicitly]
     public class AdMobConfigAutoFixer : IPreprocessBuildWithReport
     {
+        const string adMobConfigPlace = "Assets/GoogleMobileAds/Resources/";
+        
         public int callbackOrder => -1;
-
         HLogPrefix logPrefix = new HLogPrefix( HAdsAdMobMediation.logPrefix, nameof(AdMobConfigAutoFixer) );
-
+        
+        
         public virtual void OnPreprocessBuild( BuildReport report )
         {
-            AdMobProviderConfig adsConfig = GetAdMobProviderConfig();
+            AdMobProviderConfig adsConfig = Resources.LoadAll<AbstractConfig>("")
+                .OfType<AdMobProviderConfig>()
+                .First();
 
             if ( adsConfig == null )
             {
-                HLog.LogError( logPrefix, "No Ads Config" );
+                HLog.LogError( logPrefix, $"Missing {nameof(AdMobProviderConfig)}" );
                 return;
             }
-
+            if ( !Directory.Exists( adMobConfigPlace ) )
+            {
+                Directory.CreateDirectory( adMobConfigPlace );
+            }
             var settingsInstance = GoogleMobileAdsSettings.Instance;
 
             settingsInstance.AdMobAndroidAppId =
@@ -40,15 +49,6 @@ namespace HUF.AdsAdMobMediation.Editor
             settingsInstance.DelayAppMeasurementInit = true;
             EditorUtility.SetDirty( settingsInstance );
             settingsInstance.WriteSettingsToFile();
-        }
-
-        static AdMobProviderConfig GetAdMobProviderConfig()
-        {
-            var files = AssetDatabase.FindAssets( "t:AdMobProviderConfig" );
-
-            var configPath = files.Select( AssetDatabase.GUIDToAssetPath )
-                .First( s => s.Contains( "Resources/HUFConfigs/" ) );
-            return AssetDatabase.LoadAssetAtPath<AdMobProviderConfig>( configPath );
         }
     }
 }

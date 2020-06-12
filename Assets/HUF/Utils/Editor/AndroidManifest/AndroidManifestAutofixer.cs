@@ -1,13 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
-using HUF.Utils.Assets.Editor;
 using HUF.Utils.Editor.AssetsBuilder;
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.AndroidManifest;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
+using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
-namespace HUF.Utils.AndroidManifest.Editor
+namespace HUF.Utils.Editor.AndroidManifest
 {
     [UsedImplicitly]
     public class AndroidManifestAutoFixer : IPreprocessBuildWithReport
@@ -28,21 +32,42 @@ namespace HUF.Utils.AndroidManifest.Editor
 
         }
         
+        [MenuItem( "HUF/Utils/Builds/Build Assets From Templates" )]
         public static void ReplaceAndroidManifestKeys()
         {
-            var configs = AssetsUtils.GetByFilter<AndroidManifestKeysConfig>($"t: {nameof(AndroidManifestKeysConfig)}");
+            var configs = Resources.LoadAll<AbstractConfig>("")
+                .Select(x => x as AndroidManifestKeysConfig)
+                .Where(x => x != null).ToList();
+            
             if (configs.Count == 0)
                 return;
-            
-            foreach (var config in configs)
+
+            var configsString = new List<string>();
+            for ( int i = 0; i < configs.Count; i++ )
             {
+                configsString.Add( AssetDatabase.GetAssetPath( configs[i] ) );
+            }
+            
+            foreach (var configString in configsString)
+            {
+                var config = (AndroidManifestKeysConfig) AssetDatabase.LoadAssetAtPath( configString, typeof(AndroidManifestKeysConfig));
+                
                 if (config == null)
+                {
+                    HLog.LogWarning( new HLogPrefix(nameof(AndroidManifestAutoFixer) ) , $"Could not load config {configString}" );
+                    continue;
+                }
+
+                if (config.AndroidManifestTemplatePath.IsNullOrEmpty())
                     continue;
                 
-                if (config.PackageName.IsNullOrEmpty() && config.AutoUpdateAndroidManifest)
-                    AndroidManifestKeyReplacer.CreateFinalManifest(config, config.AndroidManifestTemplatePath, config.AndroidManifestTemplatePath);
-
-                if ( GetAndroidManifestTemplateDataToCopy( config, out string templatePath, out string savePath ) )
+                if ( config.PackageName.IsNullOrEmpty())
+                {
+                    AndroidManifestKeyReplacer.CreateFinalManifest( config,
+                        config.AndroidManifestTemplatePath,
+                        config.AndroidManifestTemplatePath );
+                }
+                else if ( GetAndroidManifestTemplateDataToCopy( config, out string templatePath, out string savePath ) )
                 {
                     AndroidManifestKeyReplacer.CreateFinalManifest( config, templatePath, $"{savePath}/{HUFBuildAssetsResolver.MANIFEST_FULL_NAME}");
                     HUFBuildAssetsResolver.CreateProjectPropertyFile( savePath );

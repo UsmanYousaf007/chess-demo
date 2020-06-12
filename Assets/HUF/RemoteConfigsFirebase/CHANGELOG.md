@@ -1,3 +1,47 @@
+## [3.1.0] - 2020-05-21
+### Changed
+- move back to HUF Firebase
+
+## [3.0.0] - 2020-05-15
+### Added 
+- Handled more error cases and logged them
+
+### Changed
+- If firebase uses its internal cached configs fetch reports **successful** attempt instead of failing
+
+## [2.2.0] - 2020-05-13
+### Added 
+- Support for retrieval of cache information
+
+### Fixed
+- Package description
+
+## [2.1.1] - 2020-05-08
+### Added
+- Firebase from unity package manager dependencies
+
+### Removed
+- HUF Firebase dependencies
+
+## [2.1.0] - 2020-04-29
+### Added
+- Option to overwrite local configs with Firebase ones
+
+## [2.0.0] - 2020-03-16
+### Added
+- HIP support
+- init log
+
+### Changed
+- Self Containing Package
+- Namespaces
+
+### Removed
+- Define from HRemoteConfigsFirebase
+
+### Fixed
+- Service ignoring Firebase's AutoInit
+
 ## [1.9.0] - 2020-01-14
 ### Added
 - Added package manifest and changelog.

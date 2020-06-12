@@ -1,10 +1,10 @@
 using System.IO;
 using System.Text;
-using HUF.Utils.Assets.Editor;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.Configs.API.Editor
+namespace HUF.Utils.Editor.Configs
 {
     public static class ConfigsMigrationTool
     {

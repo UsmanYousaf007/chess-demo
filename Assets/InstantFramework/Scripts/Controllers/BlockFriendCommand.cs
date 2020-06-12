@@ -17,6 +17,7 @@ namespace TurboLabz.InstantGame
         // dispatch signals
         [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
+        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -29,7 +30,9 @@ namespace TurboLabz.InstantGame
         {
             Retain();
 
-            picsModel.DeleteFriendPic(friendId);
+            //-- Show UI blocker here
+            showProcessingSignal.Dispatch(true, false);
+
             backendService.FriendsOpBlock(friendId).Then(OnFriendBlock);
         }
 
@@ -40,6 +43,9 @@ namespace TurboLabz.InstantGame
                 clearFriendSignal.Dispatch(friendId);
                 sortFriendsSignal.Dispatch();
             }
+
+            //-- Hide UI blocker here
+            showProcessingSignal.Dispatch(false, false);
 
             Release();
         }

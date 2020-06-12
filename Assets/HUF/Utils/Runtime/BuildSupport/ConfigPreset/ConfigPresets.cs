@@ -1,11 +1,11 @@
-﻿using System.Linq;
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Presets;
 using UnityEngine;
 
-namespace HUF.Utils.Wrappers.BuildSupport.ConfigPreset
+namespace HUF.Utils.Runtime.BuildSupport.ConfigPreset
 {
     enum PresetApplyMode
     {

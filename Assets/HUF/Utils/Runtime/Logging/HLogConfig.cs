@@ -1,5 +1,4 @@
-using System.Collections;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEngine;
 
 namespace HUF.Utils.Runtime.Logging
@@ -11,10 +10,20 @@ namespace HUF.Utils.Runtime.Logging
         [SerializeField] bool isFilteringLogs = default;
         [SerializeField] string regexFilter;
         [SerializeField] bool ignoreCaseInRegex = default;
+        [SerializeField] bool iOSNativeLogs = false;
 
         public bool IsFilteringLogs => isFilteringLogs;
         public bool CanLogOnProd => canLogOnProd;
         public string RegexFilter => regexFilter;
         public bool IgnoreCaseInRegex => ignoreCaseInRegex;
+        public bool IOSNativeLogs => iOSNativeLogs;
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            HLog.RefreshConfig();
+            base.OnValidate();
+        }
+#endif
     }
 }

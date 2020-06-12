@@ -14,6 +14,8 @@ namespace TurboLabz.InstantFramework
         public bool remoteStoreAvailable { get; set; }
         public IDictionary<string, List<StoreItem>> lists { get; set; }
         public IOrderedDictionary<string, StoreItem> items { get; set; }
+        public long lastPurchaseAttemptTimestamp { get; set; }
+        public string failedPurchaseTransactionId { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -29,6 +31,8 @@ namespace TurboLabz.InstantFramework
         {
             lists = new Dictionary<string, List<StoreItem>>();
             items = new OrderedDictionary<string, StoreItem>();
+            lastPurchaseAttemptTimestamp = 0;
+            failedPurchaseTransactionId = "";
         }
 
         public List<string> getRemoteProductIds ()
@@ -94,7 +98,8 @@ namespace TurboLabz.InstantFramework
         public int pointsRequired;              // Points required to unlock skin
         public IDictionary<string, int> bundledItems;  // Bundled items
         //public IDictionary<string, BundledItem> bundleDescriptions;  // Bundled item descriptions
-
+        public decimal originalPrice;
+        public float discountedRatio;
 
         public enum State
         {
@@ -128,6 +133,8 @@ namespace TurboLabz.InstantFramework
             bundledItems = null;
             skinIndex = -1;
             pointsRequired = 0;
+            originalPrice = 0;
+            discountedRatio = 0;
         }
     }
 }

@@ -1,38 +1,31 @@
 using System;
-using HUF.Ads.API;
-using HUF.Utils.Extensions;
+using HUF.Ads.Runtime.API;
 using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 
-namespace HUF.Ads.Implementation
+namespace HUF.Ads.Runtime.Implementation
 {
     [Serializable]
     public struct ApplicationIdentifier
     {
-        static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(ApplicationIdentifier));
-        #pragma warning disable 0649
+        static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(ApplicationIdentifier) );
+#pragma warning disable 0649
         [SerializeField] string iOSAppId;
         [SerializeField] string androidAppId;
-        #pragma warning restore 0649
+#pragma warning restore 0649
 
         public string Value
         {
             get
             {
-                switch (Application.platform)
-                {
-                    case RuntimePlatform.IPhonePlayer:
-                        return iOSAppId;
-                    case RuntimePlatform.Android:
-                        return androidAppId;
-                    case RuntimePlatform.OSXEditor:
-                    case RuntimePlatform.WindowsEditor:
-                    case RuntimePlatform.LinuxEditor:
-                        return androidAppId.IsNullOrEmpty() ? iOSAppId : androidAppId;
-                    default:
-                        HLog.LogWarning(logPrefix, $"Using unsupported platform for current provider configuration.");
-                        return "";
-                }
+#if UNITY_ANDROID
+                return androidAppId;
+#elif UNITY_IOS
+                return iOSAppId;
+#else
+                HLog.LogWarning(logPrefix, $"Using unsupported platform for current provider configuration.");
+                return "";
+#endif
             }
         }
 #if UNITY_EDITOR

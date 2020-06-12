@@ -22,8 +22,11 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_MULTIPLAYER ||
-                evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.ESCAPE)
+            {
+                cmd.chessboardEventSignal.Dispatch(Multiplayer.ChessboardEvent.DRAW_REJECTED);
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
                 return new NSMultiplayer();
             }

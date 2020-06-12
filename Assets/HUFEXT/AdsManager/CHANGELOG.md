@@ -1,3 +1,17 @@
+## [1.4.1] - 2020-04-16
+### Fixed
+- Freeze on show banner with fail response
+
+
+## [1.4.0] - 2020-04-02
+### Added
+- HIP support
+- Init log
+
+## [1.3.0] - 2020-03-21
+### Change
+- Support for more mediations
+
 ## [1.1.3] - 2020-02-21
 ### Fixed
 - Disconnect old ads events, when changing config

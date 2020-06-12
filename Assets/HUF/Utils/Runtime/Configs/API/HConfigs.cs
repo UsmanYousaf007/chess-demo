@@ -1,25 +1,38 @@
 using System;
 using System.Collections.Generic;
-using HUF.Utils.Configs.Implementation;
+using HUF.Utils.Runtime.Configs.Implementation;
 using JetBrains.Annotations;
 
-namespace HUF.Utils.Configs.API
+namespace HUF.Utils.Runtime.Configs.API
 {
     public static class HConfigs
     {
         public const string CONFIGS_FOLDER = "HUFConfigs";
-        
+
         static IConfigsModel configsModel;
-        static IConfigsModel ConfigsModel => configsModel ?? (configsModel = new ConfigsModel());
+        static IConfigsModel ConfigsModel
+        {
+            get
+            {
+                if ( configsModel != null )
+                {
+                    return configsModel;
+                }
+
+                configsModel = new ConfigsModel();
+                configsModel.InitConfigsMap();
+                return configsModel;
+            }
+        }
 
         /// <summary>
         /// True if there is no Resources/HUFConfigs/ConfigsInitializationConfig.asset config file <para />
         /// or if it's created with AutoInit checkbox set to true, <para />
-        /// False otherwise 
+        /// False otherwise
         /// </summary>
         [PublicAPI]
         public static bool IsAutoInitEnabled => ConfigsModel.IsAutoInitEnabled;
-        
+
         /// <summary>
         /// Get AbstractConfig of given type
         /// </summary>
@@ -37,7 +50,7 @@ namespace HUF.Utils.Configs.API
         {
             return ConfigsModel?.GetConfig<T>(configId);
         }
-        
+
         /// <summary>
         /// Check if there is any AbstractConfig of given type registered
         /// </summary>
@@ -55,7 +68,7 @@ namespace HUF.Utils.Configs.API
         {
             return ConfigsModel.HasConfig<T>(configId);
         }
-        
+
         /// <summary>
         /// Get all AbstractConfigs of given type
         /// </summary>
@@ -64,7 +77,7 @@ namespace HUF.Utils.Configs.API
         {
             return ConfigsModel?.GetConfigs<T>();
         }
-        
+
         /// <summary>
         /// Get all AbstractConfigs of given type or derived from given type
         /// </summary>
@@ -84,7 +97,7 @@ namespace HUF.Utils.Configs.API
         {
             ConfigsModel.AddConfig(config, type);
         }
-        
+
         /// <summary>
         /// Adds new config to configs map to be used in future.
         /// </summary>
@@ -104,7 +117,7 @@ namespace HUF.Utils.Configs.API
         {
             ConfigsModel.AddConfigs(configsCollection);
         }
-        
+
         /// <summary>
         /// Adds new configs to map to be used in future.
         /// </summary>

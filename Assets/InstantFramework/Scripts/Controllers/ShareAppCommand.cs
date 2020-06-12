@@ -36,8 +36,6 @@ namespace TurboLabz.InstantFramework
                 "Hey, I am " + "\"" + playerModel.name + "\"" + "(Tag: "+ playerModel.tag + "). Let's play Chess!\n" + SHARE_URL,
                 "Invite a friend to play chess"
                 );
-
-            analyticsService.Event(AnalyticsEventId.tap_share);
         }
     }
 }

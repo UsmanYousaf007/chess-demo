@@ -1,4 +1,4 @@
-﻿namespace HUF.Utils.PlayerPrefs  
+﻿namespace HUF.Utils.Runtime.PlayerPrefs  
 {
     public class FloatPP : CustomPP<float>
     {

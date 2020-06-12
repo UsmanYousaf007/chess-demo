@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using HUFEXT.PackageManager.Editor.Implementation.Local.Services;
-using HUFEXT.PackageManager.Editor.Implementation.Remote.Auth;
 using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Events;
-using Report = HUF.Build.Report.Sender;
 
 namespace HUFEXT.PackageManager.Editor.Utils
 {
@@ -18,21 +13,6 @@ namespace HUFEXT.PackageManager.Editor.Utils
     {
         public int callbackOrder => 0;
         
-        private static class Keys
-        {
-            private const string PREFIX = "huf_";
-            internal const string DEV_ID = PREFIX + "developer_id";
-            internal const string PACKAGE_NAME = PREFIX + "package_name";
-            internal const string VERSION = PREFIX + "version";
-            internal const string BUILD_TIME = PREFIX + "build_time";
-            internal const string UNITY_VERSION = PREFIX + "unity";
-            internal const string OS = PREFIX + "operating_system";
-            internal const string PLATFORM = PREFIX + "platform";
-            internal const string API_VERSION = PREFIX + "minimum_api_version";
-            internal const string HUF_PACKAGE = PREFIX + "package_";
-            internal const string UNITY_PACKAGE = "unity_package_";
-        }
-
         public enum ReportStatus
         {
             Success = 0,
@@ -40,66 +20,60 @@ namespace HUFEXT.PackageManager.Editor.Utils
         }
 
         private static Dictionary<string, string> buildParameters;
-        private static ListRequest packagesRequest;
+        private static UnityEditor.PackageManager.Requests.ListRequest packagesRequest;
 
         static UnityAction<Dictionary<string, string>> OnReportGenerationCompleted;
 
         public static ReportStatus GenerateBuildInfo( UnityAction<Dictionary<string, string>> response )
         {
             var status = ReportStatus.Success;
-            var token = Token.LoadExistingToken();
-            if ( token == null )
+            
+            if ( !Models.Token.Exists )
             {
                 return ReportStatus.Failed;
             }
 
             buildParameters = new Dictionary<string, string>()
             {
-                { Keys.DEV_ID, token.DeveloperID },
-                { Keys.PACKAGE_NAME, PlayerSettings.applicationIdentifier },
-                { Keys.VERSION, PlayerSettings.bundleVersion },
-                { Keys.BUILD_TIME, DateTime.Now.ToString( CultureInfo.InvariantCulture ) },
-                { Keys.UNITY_VERSION, Application.unityVersion },
-                { Keys.OS, SystemInfo.operatingSystem },
-                { Keys.PLATFORM, EditorUserBuildSettings.activeBuildTarget.ToString() },
+                { Models.Keys.BuildEventKey.DEV_ID, Models.Token.ID },
+                { Models.Keys.BuildEventKey.PACKAGE_NAME, PlayerSettings.applicationIdentifier },
+                { Models.Keys.BuildEventKey.VERSION, PlayerSettings.bundleVersion },
+                { Models.Keys.BuildEventKey.BUILD_TIME, DateTime.Now.ToString( CultureInfo.InvariantCulture ) },
+                { Models.Keys.BuildEventKey.UNITY_VERSION, Application.unityVersion },
+                { Models.Keys.BuildEventKey.OS, SystemInfo.operatingSystem },
+                { Models.Keys.BuildEventKey.PLATFORM, EditorUserBuildSettings.activeBuildTarget.ToString() },
             };
 
             switch ( EditorUserBuildSettings.activeBuildTarget )
             {
                 case BuildTarget.Android:
                 {
-                    buildParameters.Add( Keys.API_VERSION, PlayerSettings.Android.minSdkVersion.ToString() );
+                    buildParameters.Add( Models.Keys.BuildEventKey.API_VERSION,
+                        PlayerSettings.Android.minSdkVersion.ToString() );
                     break;
                 }
                 case BuildTarget.iOS:
                 {
-                    buildParameters.Add( Keys.API_VERSION, PlayerSettings.iOS.targetOSVersionString );
+                    buildParameters.Add( Models.Keys.BuildEventKey.API_VERSION,
+                        PlayerSettings.iOS.targetOSVersionString );
                     break;
                 }
             }
 
-            new LocalPackagesService().RequestPackagesList( string.Empty, ( localPackages ) =>
+            foreach ( var package in Core.Packages.Local )
             {
-                if ( !token.IsValid && localPackages.Count > 0)
+                var name = string.Empty;
+                var arr = package.name.Split( '.' );
+                if ( arr.Length > 0 )
                 {
-                    status = ReportStatus.Failed;
+                    name = arr.Last();
                 }
-
-                foreach ( var package in localPackages )
-                {
-                    var name = string.Empty;
-                    var arr = package.name.Split( '.' );
-                    if ( arr.Length > 0 )
-                    {
-                        name = arr.Last();
-                    }
-                    buildParameters[Keys.HUF_PACKAGE + name] = package.version;
-                }
-            } );
+                buildParameters[Models.Keys.BuildEventKey.HUF_PACKAGE + name] = package.version;
+            }
 
             OnReportGenerationCompleted = response;
 
-            packagesRequest = Client.List( true );
+            packagesRequest = UnityEditor.PackageManager.Client.List( true );
             EditorApplication.update += FetchUnityPackages;
 
             return status;
@@ -117,11 +91,11 @@ namespace HUFEXT.PackageManager.Editor.Utils
                     {
                         name = arr.Last();
                     }
-                    buildParameters[Keys.UNITY_PACKAGE + name] = package.version;
+                    buildParameters[Models.Keys.BuildEventKey.UNITY_PACKAGE + name] = package.version;
                 }
             }
 
-            if ( packagesRequest.Status != StatusCode.InProgress )
+            if ( packagesRequest.Status != UnityEditor.PackageManager.StatusCode.InProgress )
             {
                 OnReportGenerationCompleted?.Invoke( buildParameters );
                 OnReportGenerationCompleted = null;
@@ -137,7 +111,15 @@ namespace HUFEXT.PackageManager.Editor.Utils
         
         public void OnPreprocessBuild( UnityEditor.Build.Reporting.BuildReport report )
         {
-            GenerateBuildInfo( Report.SendReport );
+            GenerateBuildInfo( Reporter.Send );
         }
+        
+#if HPM_DEV_MODE
+        [MenuItem("HUF/Debug/Send Test HBI report")]
+        public static void SendTestReport()
+        {
+            new BuildReportPreprocess().OnPreprocessBuild( null );
+        }
+#endif
     }
 }

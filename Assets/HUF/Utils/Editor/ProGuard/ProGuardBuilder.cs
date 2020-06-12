@@ -77,6 +77,8 @@ namespace HUF.Utils.Editor.ProGuard
                 return string.Empty;
             }
 
+            index++;
+
             index += GENERATED_CONTENT_PREFIX_END.Length;
             return file.text.Substring( index, file.text.Length - index );
         }

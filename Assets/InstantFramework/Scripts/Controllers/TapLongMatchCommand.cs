@@ -19,9 +19,11 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public CreateLongMatchSignal createLongMatchSignal { get; set; }
         [Inject] public StartLongMatchSignal startLongMatchSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public override void Execute()
         {
@@ -31,6 +33,32 @@ namespace TurboLabz.InstantFramework
 
             if (challengeId == null)
             {
+                MatchAnalyticsVO matchAnalyticsVO = new MatchAnalyticsVO();
+                matchAnalyticsVO.context = AnalyticsContext.start_attempt;
+                matchAnalyticsVO.matchType = "classic";
+                matchAnalyticsVO.eventID = AnalyticsEventId.match_find;
+
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    var friendType = playerModel.friends[opponentId].friendType;
+                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                    {
+                        matchAnalyticsVO.friendType = "friends_facebook";
+
+                    }
+                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
+                             friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                    {
+                        matchAnalyticsVO.friendType = "friends_community";
+                    }
+                }
+                else
+                {
+                    matchAnalyticsVO.friendType = "community";
+                }
+
+                matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
                 createLongMatchSignal.Dispatch(opponentId, isRanked);
             }
             else

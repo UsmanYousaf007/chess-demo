@@ -9,8 +9,8 @@ features on *iOS* and *Android*:
 | Firebase Analytics                 | FirebaseAnalytics.unitypackage    |
 | Firebase Authentication            | FirebaseAuth.unitypackage         |
 | Firebase Crashlytics               | FirebaseCrashlytics.unitypackage  |
-| Firebase Realtime Database         | FirebaseDatabase.unitypackage     |
 | Firebase Dynamic Links             | FirebaseDynamicLinks.unitypackage |
+| Cloud Firestore                    | FirebaseFirestore.unitypackage    |
 | Firebase Functions                 | FirebaseFunctions.unitypackage    |
 | Firebase Instance ID               | FirebaseInstanceId.unitypackage   |
 | Firebase Messaging                 | FirebaseMessaging.unitypackage    |
@@ -37,6 +37,7 @@ desktop builds on Windows, OS X, and Linux:
 |:----------------------------------:|:---------------------------------:|
 | Firebase Authentication            | FirebaseAuth.unitypackage         |
 | Firebase Realtime Database*        | FirebaseDatabase.unitypackage     |
+| Cloud Firestore                    | FirebaseFirestore.unitypackage    |
 | Firebase Functions                 | FirebaseFunctions.unitypackage    |
 | Firebase Remote Config             | FirebaseRemoteConfig.unitypackage |
 | Firebase Storage                   | FirebaseStorage.unitypackage      |
@@ -162,11 +163,56 @@ Support
 
 Release Notes
 -------------
+### 6.14.1
+  - Changes
+    - Auth: Added a new method: Firebase.Auth.Credential.IsValid().
+    - Auth: Added Firebase.Auth.FirebaseAccountLinkException which may be thrown
+      by LinkAndRetrieveDataWithCredentialAsync. The exception includes a
+      Firebase.Auth.UserInfo object which may contain additional information
+      about the user's account.
+    - Auth (iOS): Added Firebase.Auth.UserInfo.UpdatedCredential. This
+      credential may be valid in FirebaseAccountLinkExceptions indicating that
+      the credential may be used to sign into Firebase as the Apple-linked user.
+
+### 6.14.0
+  - Changes
+    - Firestore: `Firestore.LoggingEnabled` is replaced by `Firestore.LogLevel`
+      for consistency with other Firebase Unity APIs. The getter for this
+      property has been removed.
+    - Crashlytics (iOS): Removes references to UIWebView APIs to prevent App
+      Store rejections.
+
+### 6.13.0
+  - Changes
+    - General: Update asset labels so that External Dependency Manager works
+      even if files in Firebase SDK are moved.
+    - Firestore: Added `Query.WhereArrayContains()` query operator to find
+      documents where an array field contains a specific element.
+    - Firestore: Added `FieldValue.ArrayUnion()` and `FieldValue.ArrayRemove()`
+      to atomically add and remove elements from an array field in a document.
+    - Firestore: Added `Query.WhereIn()` and `Query.WhereArrayContainsAny()`
+      query operators. `Query.WhereIn()` finds documents where a specified
+      field’s value is IN a specified array. `Query.WhereArrayContainsAny()`
+      finds documents where a specified field is an array and contains ANY
+      element of a specified array.
+    - Firestore: Fixed QuerySnapshot.GetEnumerator() to not throw an
+      InvalidCastException.
+
+### 6.12.0
+  - Overview
+    - Added experimental support for Cloud Firestore SDK.
+  - Changes
+    - Firestore: Experimental release of Firestore is now available on all
+      supported platforms.
+
 ### 6.11.0
   - Overview
     - Updated dependencies, changed minimum Xcode, and fixed an issue in
       Database handling Auth token revocation.
   - Changes
+    - General (Editor): Added FirebaseAuth manifest file to
+      FirebaseDatabase.unitypackage and FirebaseStorage.unitypackage for better
+      package management through Play Services Resolver.
     - General (iOS): Minimum Xcode version is now 10.3.
     - General: When creating a FirebaseApp, the ProjectId from the default
       FirebaseApp is used if one is not provided.

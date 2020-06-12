@@ -35,5 +35,17 @@ namespace TurboLabz.InstantFramework
                 subscriptionDlgClosedSignal.AddOnce(() => appInfoModel.isAutoSubscriptionDlgShown = false);
             }
         }
+
+        public bool IsShownFirstTime()
+        {
+            bool rv = preferencesModel.isAutoSubsriptionDlgShownFirstTime;
+
+            if (!rv)
+            {
+                preferencesModel.isAutoSubsriptionDlgShownFirstTime = true;
+            }
+
+            return !rv;
+        }
     }
 }

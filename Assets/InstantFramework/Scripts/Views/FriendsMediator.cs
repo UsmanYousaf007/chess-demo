@@ -19,6 +19,7 @@ using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using TurboLabz.InstantGame;
 using TurboLabz.Multiplayer;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,7 +32,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ShowProfileDialogSignal showProfileDialogSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
         [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -51,6 +53,8 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+
+        private bool fectchBlockedList = true;
 
         public override void OnRegister()
         {
@@ -70,6 +74,7 @@ namespace TurboLabz.InstantFramework
             view.removeCommunityFriendSignal.AddListener(OnRemoveCommunityFriend);
             view.showChatSignal.AddListener(OnShowChat);
             view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
+            view.manageBlockedFriendsButtonClickedSignal.AddListener(OnManageBlockedFriends);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -259,18 +264,45 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
+            if (!playerModel.isPremium)
+            {
+                if (CanShowPregameAd())
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.isRanked = isRanked;
+                    vo.friendId = playerId;
+                    vo.actionCode = "ChallengeClassic";
+                    showAdSignal.Dispatch(vo);
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    return;
+                }
+            }
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
-            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
 
             var friend = playerModel.GetFriend(playerId);
 
-            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+            if (!playerModel.isPremium)
             {
-                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
+                if (CanShowPregameAd(actionCode))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.actionCode = actionCode;
+                    vo.friendId = playerId;
+                    vo.isRanked = isRanked;
+                    showAdSignal.Dispatch(vo);
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    return;
+                }
             }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
@@ -316,6 +348,51 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "friends");
+        }
+
+        private void OnManageBlockedFriends()
+        {
+            manageBlockedFriendsSignal.Dispatch(string.Empty, fectchBlockedList);
+            fectchBlockedList = false;
+        }
+
+        [ListensTo(typeof(UpdateOfferDrawSignal))]
+        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
+        {
+            if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
+            {
+                view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+                return;
+            }
+
+        }
+
+        private bool CanShowPregameAd(string actionCode = null)
+        {
+            bool retVal = false;
+
+            IPreferencesModel preferencesModel = view.preferencesModel;
+            IAdsSettingsModel adsSettingsModel = view.adsSettingsModel;
+
+            double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+            bool isOneMinuteGame = actionCode != null &&
+                                    (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                                    actionCode == FindMatchAction.ActionCode.Random1.ToString());
+
+            if (isOneMinuteGame && view.adsSettingsModel.showPregameInOneMinute == false)
+            {
+                retVal = false;
+            }
+            else if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
+                    preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
+                    (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
+            {
+                retVal = true;
+            }
+
+            return retVal;
         }
     }
 }

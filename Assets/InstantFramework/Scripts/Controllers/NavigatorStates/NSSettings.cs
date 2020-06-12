@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.FRIENDS);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.FRIENDS, NavigatorViewId.MANAGE_BLOCKED_FRIENDS);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -32,6 +32,10 @@ namespace TurboLabz.InstantFramework
                 else if (viewId == NavigatorViewId.FRIENDS)
                 {
                     return new NSFriends();
+                }
+                else if (viewId == NavigatorViewId.MANAGE_BLOCKED_FRIENDS)
+                {
+                    return new NSManageBlockedFriends();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_LOBBY)

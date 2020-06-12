@@ -40,6 +40,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public BackendPlayerTurnSignal backendPlayerTurnSignal { get; set; }
         [Inject] public UpdateResultDialogSignal updateResultsDialogSignal { get; set; }
         [Inject] public UpdatePromoDialogSignal updatePromoDialogSignal { get; set; }
+        [Inject] public AutoQueenPromoSignal autoQueenPromoSignal { get; set; }
         [Inject] public UpdatePromoSignal updatePromoSignal { get; set; }
         [Inject] public ClaimFiftyMoveDrawSignal claimFiftyMoveDrawSignal { get; set; }
         [Inject] public ClaimThreefoldRepeatDrawSignal claimThreefoldRepeatDrawSignal { get; set; }
@@ -63,6 +64,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public WaitingForOpponentAcceptSignal waitingForOpponentAcceptSignal { get; set; }
         [Inject] public DisableUndoBtnSignal disableUndoBtnSignal { get; set; }
         [Inject] public OnboardingTooltipSignal onboardingTooltipSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }

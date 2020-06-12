@@ -1,8 +1,8 @@
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine.Events;
 
-namespace HUF.Ads.API
+namespace HUF.Ads.Runtime.API
 {
     public class HBanner
     {
@@ -108,7 +108,7 @@ namespace HUF.Ads.API
         [PublicAPI]
         public string GetAdProviderName()
         {
-            return service.BannerAdProvider.ProviderId;
+            return service?.BannerAdProvider == null ? "UNKNOWN" : service.BannerAdProvider.ProviderId;
         }
 
         void AdShown(IBannerCallbackData data)

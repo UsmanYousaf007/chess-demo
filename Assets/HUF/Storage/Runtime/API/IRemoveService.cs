@@ -1,8 +1,8 @@
 using System;
-using HUF.Storage.API.Structs;
+using HUF.Storage.Runtime.API.Structs;
 using UnityEngine.Events;
 
-namespace HUF.Storage.API
+namespace HUF.Storage.Runtime.API
 {
     public interface IRemoveService : IDisposable
     {

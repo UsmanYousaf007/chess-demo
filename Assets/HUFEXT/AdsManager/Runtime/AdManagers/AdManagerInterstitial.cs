@@ -1,6 +1,5 @@
-using HUF.Ads.API;
-using HUF.Ads.Implementation;
-using HUF.Utils.Extensions;
+using HUF.Ads.Runtime.Implementation;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.Config;
@@ -13,35 +12,24 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
     {
         public AdManagerInterstitial(
             AdPlacementData inAdPlacementData,
-            AdsManagerConfig inAdsManagerConfig,
             HUFAdsService inAdsService ) : base(
             inAdPlacementData,
-            inAdsManagerConfig,
             inAdsService )
         {
             logPrefix = new HLogPrefix( HAdsManager.logPrefix, nameof(AdManagerInterstitial) );
         }
 
-        protected override void RegisterEvents()
-        {
-            HAds.Interstitial.OnFetched += OnFetched;
-            HAds.Interstitial.OnEnded += OnEnded;
-        }
-
         protected override void Fetch()
         {
             base.Fetch();
-            HAds.Interstitial.Fetch( adPlacementData.PlacementId );
+            adsService.Mediation.FetchInterstitial( adPlacementData.PlacementId );
         }
 
         public override void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             base.ShowAd( resultCallback, alternativeAdPlacement );
 
-            if ( HAds.Interstitial.TryShow( adPlacementData.PlacementId ) == false )
-            {
-                OnFailToShow();
-            }
+            adsService.Mediation.ShowInterstitial( adPlacementData.PlacementId );
         }
 
         protected override void SendAdEvent( AdResult result, string placementId )
@@ -52,22 +40,24 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
                     placementId,
                     result ) );
         }
+        
 
-        protected override string GetAdMediationName()
+        
+        protected override void SubscribeToEvents()
         {
-            return HAds.Interstitial.GetAdProviderName();
+            adsService.Mediation.OnInterstitialFetched += HandleFetched;
+            adsService.Mediation.OnInterstitialEnded += HandleEnded;
         }
-
-        protected override void DisconnectFromAds()
+        protected override void UnsubscribeFromEvents()
         {
-            HAds.Interstitial.OnFetched -= OnFetched;
-            HAds.Interstitial.OnEnded -= OnEnded;
+            adsService.Mediation.OnInterstitialFetched -= HandleFetched;
+            adsService.Mediation.OnInterstitialEnded -= HandleEnded;
         }
 
         protected override bool NativeIsReady()
         {
             HLog.Log( logPrefix, $"NativeIsReady {adPlacementData.PlacementId}" );
-            return HAds.Interstitial.IsReady( adPlacementData.PlacementId );
+            return adsService.Mediation.IsInterstitialReady( adPlacementData.PlacementId );
         }
     }
 }

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
+using HUF.Utils.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.Assets.Editor
+namespace HUF.Utils.Editor
 {
     public static class AssetsUtils
     {

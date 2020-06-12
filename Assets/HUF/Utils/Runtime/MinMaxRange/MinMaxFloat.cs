@@ -1,7 +1,7 @@
 ﻿using System;
 using Random = UnityEngine.Random;
 
-namespace HUF.Utils.MinMaxRange
+namespace HUF.Utils.Runtime.MinMaxRange
 {
     [Serializable]
     public class MinMaxFloat : MinMaxRange<float>

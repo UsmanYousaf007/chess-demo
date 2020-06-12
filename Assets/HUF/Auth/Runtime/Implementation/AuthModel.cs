@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using HUF.Auth.API;
-using HUF.Utils.Extensions;
+using HUF.Auth.Runtime.API;
+using HUF.Utils.Runtime.Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Auth.Implementation
+namespace HUF.Auth.Runtime.Implementation
 {
     public class AuthModel : IAuthModel
     {
@@ -13,8 +13,7 @@ namespace HUF.Auth.Implementation
         readonly Dictionary<string, IAuthService> services = new Dictionary<string, IAuthService>();
 
         public event UnityAction<string> OnInitialized;
-        public event UnityAction<string> OnSignInSuccess;
-        public event UnityAction<string> OnSignInFailure;
+        public event UnityAction<string,bool> OnSignIn;
         public event UnityAction<string> OnSignOutComplete;
 
         public AuthModel()
@@ -32,8 +31,7 @@ namespace HUF.Auth.Implementation
 
             services.Add(service.Name, service);
             service.OnInitialized += Initialized;
-            service.OnSignInSuccess += SignInSuccess;
-            service.OnSignInFailure += SignInFailure;
+            service.OnSignIn += SignIn;
             service.OnSignOutComplete += SignOutCompete;
             service.Init();
 
@@ -54,15 +52,10 @@ namespace HUF.Auth.Implementation
         {
             OnInitialized.Dispatch(serviceName);
         }
-        
-        void SignInSuccess(string serviceName)
-        {
-            OnSignInSuccess.Dispatch(serviceName);
-        }
 
-        void SignInFailure(string serviceName)
+        void SignIn(string serviceName, bool success)
         {
-            OnSignInFailure.Dispatch(serviceName);
+            OnSignIn.Dispatch(serviceName,success);
         }
 
         void SignOutCompete(string serviceName)
@@ -93,7 +86,7 @@ namespace HUF.Auth.Implementation
             var service = GetService(serviceName);
             return service != null ? service.UserId : string.Empty;
         }
-        
+
         public bool IsInitialized(string serviceName)
         {
             var service = GetService(serviceName);

@@ -33,10 +33,11 @@ namespace TurboLabz.InstantGame
         public int strengthUsedCount { get; set; }
         public int promotionCycleIndex { get; set; }
         public DateTime timeAtLobbyLoadedFirstTime { get; set; }
-        public float timeSpentQuickMatch { get; set; }
+        public float timeSpent1mMatch { get; set; }
+        public float timeSpent5mMatch { get; set; }
+        public float timeSpent10mMatch { get; set; }
         public float timeSpentLongMatch { get; set; }
         public float timeSpentCpuMatch { get; set; }
-        public float timeSpentLobby { get; set; }
         public DateTime lastLaunchTime { get; set; }
         public int videoFinishedCount { get; set; }
         public int continousPlayCount { get; set; }
@@ -49,11 +50,16 @@ namespace TurboLabz.InstantGame
         public int resignCount { get; set; }
         public bool isSkipVideoDlgShown { get; set; }
         public int sessionCount { get; set; }
-        public int quickMatchFinishedCount { get; set; }
-        public int longMatchFinishedCount { get; set; }
-        public int cpuMatchFinishedCount { get; set; }
         public DateTime timeAtSubscrptionDlgShown { get; set; }
         public int autoSubscriptionDlgShownCount { get; set; }
+        public int sessionsBeforePregameAdCount { get; set; }
+        public int pregameAdsPerDayCount { get; set; }
+        public DateTime intervalBetweenPregameAds { get; set; }
+        public bool isSubscriptionDlgShownOnFirstLaunch { get; set; }
+        public bool autoPromotionToQueen { get; set;}
+        public int rankedMatchesFinishedCount { get; set; }
+        public bool isAutoSubsriptionDlgShownFirstTime { get; set; }
+        public bool isFirstRankedGameOfTheDayFinished { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -78,10 +84,11 @@ namespace TurboLabz.InstantGame
             strengthUsedCount = 0;
             promotionCycleIndex = 0;
             timeAtLobbyLoadedFirstTime = DateTime.Now;
-            timeSpentQuickMatch = 0;
+            timeSpent1mMatch = 0;
+            timeSpent5mMatch = 0;
+            timeSpent10mMatch = 0;
             timeSpentLongMatch = 0;
             timeSpentCpuMatch = 0;
-            timeSpentLobby = 0;
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
             videoFinishedCount = 0;
             continousPlayCount = 0;
@@ -90,11 +97,14 @@ namespace TurboLabz.InstantGame
             appsFlyerLastLaunchTime = lastLaunchTime;
             isSkipVideoDlgShown = false;
             sessionCount = 0;
-            quickMatchFinishedCount = 0;
-            longMatchFinishedCount = 0;
-            cpuMatchFinishedCount = 0;
             timeAtSubscrptionDlgShown = DateTime.Now;
             autoSubscriptionDlgShownCount = 0;
+            sessionsBeforePregameAdCount = 0;
+            intervalBetweenPregameAds = DateTime.MaxValue;
+            isSubscriptionDlgShownOnFirstLaunch = false;
+            autoPromotionToQueen = false;
+            rankedMatchesFinishedCount = 0;
+            isAutoSubsriptionDlgShownFirstTime = false;
             ResetDailyPrefers();
         }
 
@@ -173,19 +183,24 @@ namespace TurboLabz.InstantGame
                     timeSpentCpuMatch = reader.Read<float>(PrefKeys.TIME_SPENT_CPU_MATCH);
                 }
 
-                if (reader.HasKey(PrefKeys.TIME_SPENT_LOBBY))
-                {
-                    timeSpentLobby = reader.Read<float>(PrefKeys.TIME_SPENT_LOBBY);
-                }
-
                 if (reader.HasKey(PrefKeys.TIME_SPENT_LONG_MATCH))
                 {
                     timeSpentLongMatch = reader.Read<float>(PrefKeys.TIME_SPENT_LONG_MATCH);
                 }
 
-                if (reader.HasKey(PrefKeys.TIME_SPENT_QUICK_MATCH))
+                if (reader.HasKey(PrefKeys.TIME_SPENT_1M_MATCH))
                 {
-                    timeSpentQuickMatch = reader.Read<float>(PrefKeys.TIME_SPENT_QUICK_MATCH);
+                    timeSpent1mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_1M_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_5M_MATCH))
+                {
+                    timeSpent5mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_5M_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_10M_MATCH))
+                {
+                    timeSpent10mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_10M_MATCH);
                 }
 
                 if (reader.HasKey(PrefKeys.LAST_LAUNCH_TIME))
@@ -248,21 +263,6 @@ namespace TurboLabz.InstantGame
                     sessionCount = reader.Read<int>(PrefKeys.SESSION_COUNT);
                 }
 
-                if (reader.HasKey(PrefKeys.QUICK_MATCH_FINISHED_COUNT))
-                {
-                    quickMatchFinishedCount = reader.Read<int>(PrefKeys.QUICK_MATCH_FINISHED_COUNT);
-                }
-
-                if (reader.HasKey(PrefKeys.LONG_MATCH_FINISHED_COUNT))
-                {
-                    longMatchFinishedCount = reader.Read<int>(PrefKeys.LONG_MATCH_FINISHED_COUNT);
-                }
-
-                if (reader.HasKey(PrefKeys.CPU_MATCH_FINISHED_COUNT))
-                {
-                    cpuMatchFinishedCount = reader.Read<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT);
-                }
-
                 if (reader.HasKey(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN))
                 {
                     timeAtSubscrptionDlgShown = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN)));
@@ -271,6 +271,41 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT))
                 {
                     autoSubscriptionDlgShownCount = reader.Read<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT))
+                {
+                    sessionsBeforePregameAdCount = reader.Read<int>(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.PREGAME_ADS_PER_DAY_COUNT))
+                {
+                    pregameAdsPerDayCount = reader.Read<int>(PrefKeys.PREGAME_ADS_PER_DAY_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS))
+                {
+                    intervalBetweenPregameAds = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS)));
+                }
+
+                if (reader.HasKey(PrefKeys.AUTO_PROMOTION_TO_QUEEN))
+                {
+                    autoPromotionToQueen = reader.Read<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN);
+                }
+
+                if (reader.HasKey(PrefKeys.RANKED_MATCHES_FINISHED_COUNT))
+                {
+                    rankedMatchesFinishedCount = reader.Read<int>(PrefKeys.RANKED_MATCHES_FINISHED_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME))
+                {
+                    isAutoSubsriptionDlgShownFirstTime = reader.Read<bool>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME);
+                }
+
+                if (reader.HasKey(PrefKeys.FIRST_RANKED_GAME_OF_DAY))
+                {
+                    isFirstRankedGameOfTheDayFinished = reader.Read<bool>(PrefKeys.FIRST_RANKED_GAME_OF_DAY);
                 }
 
                 reader.Close();
@@ -303,9 +338,10 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
                 writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
                 writer.Write<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME, timeAtLobbyLoadedFirstTime.ToBinary().ToString());
-                writer.Write<float>(PrefKeys.TIME_SPENT_QUICK_MATCH, timeSpentQuickMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_1M_MATCH, timeSpent1mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
-                writer.Write<float>(PrefKeys.TIME_SPENT_LOBBY, timeSpentLobby);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
                 writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
                 writer.Write<int>(PrefKeys.VIDEO_FINISHED_COUNT, videoFinishedCount);
@@ -319,11 +355,16 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.RESIGN_COUNT, resignCount);
                 writer.Write<bool>(PrefKeys.SKIP_DLG_SHOWN, isSkipVideoDlgShown);
                 writer.Write<int>(PrefKeys.SESSION_COUNT, sessionCount);
-                writer.Write<int>(PrefKeys.QUICK_MATCH_FINISHED_COUNT, quickMatchFinishedCount);
-                writer.Write<int>(PrefKeys.LONG_MATCH_FINISHED_COUNT, longMatchFinishedCount);
-                writer.Write<int>(PrefKeys.CPU_MATCH_FINISHED_COUNT, cpuMatchFinishedCount);
                 writer.Write<string>(PrefKeys.TIME_AT_SUBSCRIPTION_DLG_SHOWN, timeAtSubscrptionDlgShown.ToBinary().ToString());
                 writer.Write<int>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_COUNT, autoSubscriptionDlgShownCount);
+                writer.Write<int>(PrefKeys.SESSIONS_BBEFORE_PREGAME_AD_COUNT, sessionsBeforePregameAdCount);
+                writer.Write<int>(PrefKeys.PREGAME_ADS_PER_DAY_COUNT, pregameAdsPerDayCount);
+                writer.Write<string>(PrefKeys.INTERVAL_BETWEEN_PREGAME_ADS, intervalBetweenPregameAds.ToBinary().ToString());
+                writer.Write<bool>(PrefKeys.AUTO_PROMOTION_TO_QUEEN, autoPromotionToQueen);
+                writer.Write<int>(PrefKeys.RANKED_MATCHES_FINISHED_COUNT, rankedMatchesFinishedCount);
+                writer.Write<bool>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME, isAutoSubsriptionDlgShownFirstTime);
+                writer.Write<bool>(PrefKeys.FIRST_RANKED_GAME_OF_DAY, isFirstRankedGameOfTheDayFinished);
+
                 writer.Close();
             }
             catch (Exception e)
@@ -337,46 +378,20 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateTimeSpentAnalyticsData(AnalyticsEventId eventId, DateTime timeAtScreenShown)
-        {
-            var minutesSpent = (float)(TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - timeAtScreenShown).TotalMinutes;
-
-            LogUtil.Log("[eventId] : " + eventId + "   [minutesSpent] : " + minutesSpent, "orange");
-
-            if (eventId == AnalyticsEventId.time_spent_cpu_match)
-            {
-                timeSpentCpuMatch += minutesSpent;
-                LogUtil.Log("timeSpentCpuMatch ###  " + timeSpentCpuMatch, "cyan");
-            }
-            else if (eventId == AnalyticsEventId.time_spent_long_match)
-            {
-                timeSpentLongMatch += minutesSpent;
-                LogUtil.Log("timeSpentLongMatch ###  " + timeSpentLongMatch, "cyan");
-            }
-            else if (eventId == AnalyticsEventId.time_spent_quick_macth)
-            {
-                timeSpentQuickMatch += minutesSpent;
-                LogUtil.Log("timeSpentQuickMatch ###  " + timeSpentQuickMatch, "cyan");
-            }
-            else if (eventId == AnalyticsEventId.time_spent_lobby)
-            {
-                timeSpentLobby += minutesSpent;
-                LogUtil.Log("timeSpentLobby ###  " + timeSpentLobby, "cyan");
-            }
-        }
-
         public void ResetDailyPrefers()
         {
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
-
             timeSpentCpuMatch = 0;
             timeSpentLongMatch = 0;
-            timeSpentQuickMatch = 0;
-            timeSpentLobby = 0;
+            timeSpent1mMatch = 0;
+            timeSpent5mMatch = 0;
+            timeSpent10mMatch = 0;
             globalAdsCount = 0;
             rewardedAdsCount = 0;
             interstitialAdsCount = 0;
             resignCount = 0;
+            pregameAdsPerDayCount = 0;
+            isFirstRankedGameOfTheDayFinished = false;
         }
     }
 }

@@ -38,6 +38,12 @@ namespace TurboLabz.Multiplayer
             view.UpdatePromoDialog(color);
         }
 
+        [ListensTo(typeof(AutoQueenPromoSignal))]
+        public void OnUpdateAutoPromo(ChessColor color)
+        {
+            view.AutoQueenPromotion(color);
+        }
+
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowPromoDialog(NavigatorViewId viewId)
         {

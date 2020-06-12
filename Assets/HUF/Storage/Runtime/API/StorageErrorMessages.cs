@@ -1,4 +1,4 @@
-namespace HUF.Storage.API
+namespace HUF.Storage.Runtime.API
 {
     public static class StorageErrorMessages
     {

@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace HUF.Utils.Assets
+namespace HUF.Utils.Runtime
 {
     public static class PathUtils
     {

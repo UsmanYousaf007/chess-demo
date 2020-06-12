@@ -11,14 +11,13 @@ namespace TurboLabz.InstantGame
         // Services
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         //Dispatch Signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         public override void Execute()
         {
-            analyticsService.Event(AnalyticsEventId.ads_rewarded_show_new);
-
             if (adsService.IsRewardedVideoAvailable())
             {
                 showAdSignal.Dispatch(resultAdsVO);
@@ -29,7 +28,6 @@ namespace TurboLabz.InstantGame
                 vo.adsType = AdType.Interstitial;
                 vo.rewardType = GSBackendKeys.ClaimReward.TYPE_MATCH_WIN;
                 showAdSignal.Dispatch(vo);
-                analyticsService.Event(AnalyticsEventId.ads_rewarded_interstitial_show);
             }
             else
             {
@@ -37,7 +35,6 @@ namespace TurboLabz.InstantGame
                 vo.adsType = AdType.Promotion;
                 vo.rewardType = GSBackendKeys.ClaimReward.TYPE_PROMOTION;
                 showAdSignal.Dispatch(vo);
-                analyticsService.Event(AnalyticsEventId.ads_rewarded_interstitial_not_available);
             }
         }
     }

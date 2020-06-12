@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace HUF.Utils.BuildSupport
+namespace HUF.Utils.Runtime.BuildSupport
 {
     [CreateAssetMenu(menuName = "HUF/BuildSupport/iOS/PurposeStringConfig",
         fileName = "PurposeStringConfig.asset")]

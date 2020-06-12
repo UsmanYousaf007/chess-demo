@@ -57,9 +57,6 @@ namespace TurboLabz.CPU
 
 
                 UpdateSafeMoveCounts();
-
-
-                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_undo, AnalyticsContext.computer_match);
             }
         }
 

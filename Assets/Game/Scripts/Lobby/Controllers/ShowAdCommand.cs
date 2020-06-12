@@ -13,6 +13,7 @@ using UnityEngine;
 using strange.extensions.promise.api;
 using GameSparks.Core;
 using strange.extensions.promise.impl;
+using System.Collections;
 
 namespace TurboLabz.InstantGame
 {
@@ -33,7 +34,10 @@ namespace TurboLabz.InstantGame
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
-
+        [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public TapLongMatchSignal tapLongMatchSignal { get; set; }
+        
         // Services
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -44,11 +48,15 @@ namespace TurboLabz.InstantGame
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+
+        [Inject] public IRoutineRunner routineRunner { get; set; }
 
         public AdType adType;
         public string claimRewardType;
         private AdsRewardVO adsRewardData;
         private IPromise<AdsResult> promotionAdPromise;
+        private WaitForSeconds waitForOneSecond;
 
         public override void Execute()
         {
@@ -61,40 +69,92 @@ namespace TurboLabz.InstantGame
             // Case: Ad removed
             if (removeAds)
             {
-                Retain();
-                ClaimReward(AdsResult.BYPASS);
-                LoadLobby();
+                if (adType == AdType.RewardedVideo)
+                {
+                    Retain();
+                    ClaimReward(AdsResult.BYPASS);
+                    LoadLobby();
+                }
+                else if (adType == AdType.Interstitial)
+                {
+                    if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                    {
+                        LoadGameStartSignal();
+                    }else if(playerModel.adContext == AnalyticsContext.interstitial_endgame)
+                    {
+                        Retain();
+                        ClaimReward(AdsResult.BYPASS);
+                        LoadLobby();
+                    }
+                }
+
                 return;
             }
+
+            // Initializing wait for one second to be used in WaitForPregameAdCoroutine
+            waitForOneSecond = new WaitForSeconds(1f);
 
             switch (adType)
             {
                 case AdType.Interstitial:
 
                     Retain();
-                    if (adsService.IsInterstitialAvailable())
+                    if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
                     {
-                        preferencesModel.globalAdsCount++;
-                        preferencesModel.interstitialAdsCount++;
-
-                        var promise = adsService.ShowInterstitial();
-                        if (promise != null)
+                        if (adsService.IsInterstitialAvailable())
                         {
-                            promise.Then(LoadLobby);
-                            promise.Then(ClaimReward);
-                            promise.Then(ShowPromotionOnVictory);
+                            var promise = adsService.ShowInterstitial();
+                            if (promise != null)
+                            {
+                                promise.Then(PregameAdCompleteHandler);
+                            }
+                            else
+                            {
+                                LoadGameStartSignal();
+                            }
                         }
                         else
                         {
-                            Release();
+                            // If the the ad was unavailable becuause it wasn't loaded then we wait for it to load here, otherwise we assume that
+                            // it was not available because of some other cap settings and we dispatch the load game signal.
+                            if (adsService.IsInterstitialReady() == false && adsService.IsInterstitialNotCapped() == true)
+                            {
+                                if (adsSettingsModel.waitForPregameAdLoadSeconds > 0)
+                                {
+                                    //-- Start ad waiting coroutine here
+                                    routineRunner.StartCoroutine(WaitForPregameAdCoroutine(adsSettingsModel.waitForPregameAdLoadSeconds));
+                                }
+                                else
+                                {
+                                    LoadGameStartSignal();
+                                }
+                            }
+                            else
+                            {
+                                LoadGameStartSignal();
+                            }
                         }
-
-                        analyticsService.Event(AnalyticsEventId.ads_interstitial_show);
                     }
                     else
                     {
-                        ShowPromotion();
-                        analyticsService.Event(AnalyticsEventId.ads_interstitial_failed);
+                        if (adsService.IsInterstitialAvailable())
+                        {
+                            var promise = adsService.ShowInterstitial();
+                            if (promise != null)
+                            {
+                                promise.Then(LoadLobby);
+                                promise.Then(ClaimReward);
+                                promise.Then(ShowPromotionOnVictory);
+                            }
+                            else
+                            {
+                                Release();
+                            }
+                        }
+                        else
+                        {
+                            ShowPromotion();
+                        }
                     }
 
                     break;
@@ -128,6 +188,34 @@ namespace TurboLabz.InstantGame
                     ShowPromotion();
                     break;
             }
+        }
+
+        private IEnumerator WaitForPregameAdCoroutine(int waitSeconds)
+        {
+            while (waitSeconds > 0)
+            {
+                yield return waitForOneSecond;
+                waitSeconds--;
+
+                if (adsService.IsInterstitialReady())
+                {
+                    //-- Show pregame Ad
+                    var promise = adsService.ShowInterstitial();
+                    if (promise != null)
+                    {
+                        promise.Then(PregameAdCompleteHandler);
+                    }
+                    else
+                    {
+                        Release();
+                    }
+
+                    yield break;
+                }
+            }
+
+            //-- If ad is not loaded when we reach here then we consider it as failed
+            PregameAdCompleteHandler(AdsResult.FAILED);
         }
 
         string challengeId = "";
@@ -179,6 +267,7 @@ namespace TurboLabz.InstantGame
 
         private void ShowPromotion()
         {
+            //analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.interstitial_replacement);
             LoadLobby();
             //promotionAdPromise = new Promise<AdsResult>();
             //promotionAdPromise.Then(ClaimReward);
@@ -203,6 +292,56 @@ namespace TurboLabz.InstantGame
             refreshCommunitySignal.Dispatch();
             refreshFriendsSignal.Dispatch();
             cancelHintSingal.Dispatch();
+        }
+
+        private void PregameAdCompleteHandler(AdsResult result = AdsResult.FINISHED)
+        {
+            if (result == AdsResult.FINISHED || result == AdsResult.SKIPPED)
+            {
+                preferencesModel.globalAdsCount++;
+                preferencesModel.interstitialAdsCount++;
+
+                if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                {
+                    preferencesModel.pregameAdsPerDayCount++;
+                }
+
+                preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+            }
+
+            LoadGameStartSignal();
+        }
+
+        private void LoadGameStartSignal()
+        {
+            //playerModel.adContext = AnalyticsContext.interstitial_endgame;
+            Debug.Log("ACTION CODE: " + resultAdsVO.actionCode);
+
+            if (resultAdsVO.actionCode == FindMatchAction.ActionCode.RandomLong.ToString())
+            {
+                FindMatchAction.RandomLong(findMatchSignal);
+            }
+            else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Random1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random.ToString()
+              || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random10.ToString())
+            {
+                FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString());
+            }
+            else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
+                resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString())
+            {
+                FindMatchAction.Challenge(findMatchSignal, resultAdsVO.isRanked, resultAdsVO.friendId, resultAdsVO.actionCode.ToString());
+            }
+            else if (resultAdsVO.actionCode == "ChallengeClassic")
+            {
+                tapLongMatchSignal.Dispatch(resultAdsVO.friendId, resultAdsVO.isRanked);
+            }
+            
+            else
+            {
+                startCPUGameSignal.Dispatch();
+            }
+
+            Release();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public UpdateFriendBarStatusSignal updateFriendBarStatusSignal { get; set; }
+        [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
         [Inject] public CloseStripSignal closeStripSignal { get; set; }
 
         // Models
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
                 if (friendId == opponentId)
                 {
                     Chessboard chessboard = chessboardModel.chessboards[entry.Key];
+
                     LongPlayStatusVO vo;
                     vo.playerId = friendId;
                     vo.lastActionTime = DateTime.UtcNow;
@@ -125,6 +127,11 @@ namespace TurboLabz.InstantFramework
                     vo.isPlayerTurn = chessboard.isPlayerTurn;
                     vo.isRanked = matchInfo.isRanked;
 
+                    if (matchInfo.drawOfferStatus == "offered")
+                        vo.offerDraw = true;
+                    else
+                        vo.offerDraw = false;
+
                     updateFriendBarStatusSignal.Dispatch(vo);
                     friendHasMatch = matchInfo.isLongPlay;
 
@@ -141,6 +148,7 @@ namespace TurboLabz.InstantFramework
                 vo.isGameCanceled = false;
                 vo.isPlayerTurn = false;
                 vo.isRanked = false;
+                vo.offerDraw = false;
 
                 updateFriendBarStatusSignal.Dispatch(vo);
             }

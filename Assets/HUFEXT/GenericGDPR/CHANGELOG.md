@@ -1,3 +1,42 @@
+## [2.3.4] - 2020-05-21
+### Fixed
+- Missing characters in Japanese and Korean font assets
+
+## [2.3.3] - 2020-05-13
+### Changed
+- Changed header text
+
+## [2.3.2] - 2020-05-12
+### Fixed
+- HIP initialization check differing from autoinit ones
+
+## [2.3.1] - 2020-04-22
+### Added
+- Added support for Unity system language API.
+
+### Fixed
+- Fixed issue with translations on ios.
+
+## [2.3.0] - 2020-04-15
+### Added
+- Added ability to force language in editor and build.
+
+### Changed
+- Moved font assets to HUFEXT/GenericGDPR/Fonts directory.
+- Moved font configuration from GDPR config to GDPRView component in prefab.
+
+## [2.2.0] - 2020-03-30
+### Added
+- Added link for advertising network companies
+- Added Initialization method with prefab as parameter
+
+### Changed
+- Dispose method will be called only if DestroyOnAccept flag is enabled
+
+## [2.1.1] - 2020-03-30
+### Changed
+- fixed namespaces
+
 ## [2.1.0] - 2020-03-20
 ### Added
 - Custom prefs key for personalized ads.

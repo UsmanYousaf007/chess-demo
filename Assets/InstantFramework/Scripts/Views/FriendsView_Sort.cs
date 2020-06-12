@@ -60,41 +60,41 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                if (bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
+                if (bar.friendType != Friend.FRIEND_TYPE_COMMUNITY)
                 {
-                    if (status != LongPlayStatus.DEFAULT)
-                    {
-                        bar.gameObject.SetActive(false);
-                        continue;
-                    }
+                    //    if (status != LongPlayStatus.DEFAULT)
+                    //    {
+                    //        bar.gameObject.SetActive(false);
+                    //        continue;
+                    //    }
 
-                    if (entry.Value.friendInfo.publicProfile.isSubscriber)
-                    {
-                        bar.UpdatePlayButtonStatus(true, localizationService);
-                        if (entry.Value.isOnline)
-                        {
-                            subsriberOnlineRecentCompleted.Add(bar);
-                        }
-                        else
-                        {
-                            subsriberRecentCompleted.Add(bar);
-                        }
-                    }
-                    else
-                    {
-                        bar.UpdatePlayButtonStatus(true, localizationService);
-                        if (entry.Value.isOnline)
-                        {
-                            onlineRecentCompleted.Add(bar);
-                        }
-                        else
-                        {
-                            recentCompleted.Add(bar);
-                        }
-                    }
-                }
-                else //fb friends
-                {
+                    //    if (entry.Value.friendInfo.publicProfile.isSubscriber)
+                    //    {
+                    //        bar.UpdatePlayButtonStatus(true, localizationService);
+                    //        if (entry.Value.isOnline)
+                    //        {
+                    //            subsriberOnlineRecentCompleted.Add(bar);
+                    //        }
+                    //        else
+                    //        {
+                    //            subsriberRecentCompleted.Add(bar);
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        bar.UpdatePlayButtonStatus(true, localizationService);
+                    //        if (entry.Value.isOnline)
+                    //        {
+                    //            onlineRecentCompleted.Add(bar);
+                    //        }
+                    //        else
+                    //        {
+                    //            recentCompleted.Add(bar);
+                    //        }
+                    //    }
+                    //}
+                    //else //fb friends
+                    //{
                     if (entry.Value.friendInfo.publicProfile.isSubscriber)
                     {
                         if (entry.Value.isOnline)
@@ -119,39 +119,39 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
-                //if (status == LongPlayStatus.NEW_CHALLENGE ||
-                //    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
-                //    entry.Value.isGameCanceled)
-                //{
-                //    newMatches.Add(bar);
-                //}
-                //else if (status == LongPlayStatus.PLAYER_TURN)
-                //{
-                //    yourMove.Add(bar);
-                //}
-                //else if (status == LongPlayStatus.OPPONENT_TURN)
-                //{
-                //    theirMove.Add(bar);
-                //}
-                //else if (status == LongPlayStatus.DECLINED ||
-                //         status == LongPlayStatus.PLAYER_WON ||
-                //         status == LongPlayStatus.OPPONENT_WON ||
-                //         status == LongPlayStatus.DRAW)
-                //{
-                //    ended.Add(bar);
-                //}
-                //else
-                //{
-                //    if (entry.Value.isOnline)
-                //    {
-                //        emptyOnline.Add(bar);
-                //    }
-                //    else
-                //    {
-                //        emptyOffline.Add(bar);
-                //    }
-                //}
-            }
+            //if (status == LongPlayStatus.NEW_CHALLENGE ||
+            //    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
+            //    entry.Value.isGameCanceled)
+            //{
+            //    newMatches.Add(bar);
+            //}
+            //else if (status == LongPlayStatus.PLAYER_TURN)
+            //{
+            //    yourMove.Add(bar);
+            //}
+            //else if (status == LongPlayStatus.OPPONENT_TURN)
+            //{
+            //    theirMove.Add(bar);
+            //}
+            //else if (status == LongPlayStatus.DECLINED ||
+            //         status == LongPlayStatus.PLAYER_WON ||
+            //         status == LongPlayStatus.OPPONENT_WON ||
+            //         status == LongPlayStatus.DRAW)
+            //{
+            //    ended.Add(bar);
+            //}
+            //else
+            //{
+            //    if (entry.Value.isOnline)
+            //    {
+            //        emptyOnline.Add(bar);
+            //    }
+            //    else
+            //    {
+            //        emptyOffline.Add(bar);
+            //    }
+            //}
+        }
 
             // Sort holders
             //newMatches.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));

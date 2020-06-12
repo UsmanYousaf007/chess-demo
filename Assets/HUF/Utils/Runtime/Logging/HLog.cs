@@ -3,10 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
+
+#if UNITY_IOS && !UNITY_EDITOR
+using System.Runtime.InteropServices;
+#endif
 
 namespace HUF.Utils.Runtime.Logging
 {
@@ -36,10 +41,17 @@ namespace HUF.Utils.Runtime.Logging
         
         static HLogConfig GetLogConfig()
         {
-            var files = AssetDatabase.FindAssets( "t:HLogConfig" );
+            var files = AssetDatabase.FindAssets( $"t:{nameof(HLogConfig)}" );
 
+            if ( files.Length == 0 )
+                return null;
+            
             var configPath = files.Select( AssetDatabase.GUIDToAssetPath )
-                .First( s => s.Contains( "Resources/HUFConfigs/" ) );
+                .FirstOrDefault( s => s.Contains( "Resources/HUFConfigs/" ) );
+
+            if ( configPath.IsNullOrEmpty() )
+                return null;
+            
             return AssetDatabase.LoadAssetAtPath<HLogConfig>( configPath );
         }
 #endif
@@ -117,6 +129,10 @@ namespace HUF.Utils.Runtime.Logging
                     Debug.Log( FormatMessage( prefixSource.Prefix, message, type ), context );
                     break;
             }
+#if UNITY_IOS && !UNITY_EDITOR
+            if (config != null && config.IOSNativeLogs)
+                HUFiOSSendNativeLog( FormatMessage( prefixSource.Prefix, message, type ) );
+#endif
         }
 
         /// <summary>
@@ -143,5 +159,10 @@ namespace HUF.Utils.Runtime.Logging
         {
             return !Debug.isDebugBuild && Config != null && Config.CanLogOnProd;
         }
+        
+#if UNITY_IOS && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        static extern void HUFiOSSendNativeLog(string message);
+#endif
     }
 }

@@ -27,16 +27,6 @@ namespace TurboLabz.CPU
             chessboardModel.inSafeMode = !chessboardModel.inSafeMode;
             updateSafeMoveStateSignal.Dispatch(chessboardModel.inSafeMode);
             preferencesModel.isSafeMoveOn = chessboardModel.inSafeMode;
-
-            // Analytics
-            if (chessboardModel.inSafeMode)
-            {
-                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_on, AnalyticsContext.computer_match);
-            }
-            else
-            {
-                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_off, AnalyticsContext.computer_match);
-            }
         }
     }
 }

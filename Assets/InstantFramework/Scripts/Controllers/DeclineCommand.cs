@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public UnregisterSignal unregisterSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -36,11 +37,6 @@ namespace TurboLabz.InstantFramework
             Retain();
             challengeId = GetChallengeId();
             backendService.Decline(challengeId).Then(OnDecline);
-
-            // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_long_match_decline,
-                AnalyticsParameter.is_ranked,
-                matchInfoModel.matches[challengeId].isRanked);
         }
 
         private void OnDecline(BackendResult result)
@@ -53,6 +49,32 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 unregisterSignal.Dispatch(challengeId);
+
+                var analyticsVO = new MatchAnalyticsVO();
+                analyticsVO.context = AnalyticsContext.rejected;
+                analyticsVO.matchType = "classic";
+                analyticsVO.eventID = AnalyticsEventId.match_find;
+
+                if (playerModel.friends.ContainsKey(opponentId))
+                {
+                    var friendType = playerModel.friends[opponentId].friendType;
+                    if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                    {
+                        analyticsVO.friendType = "friends_facebook";
+
+                    }
+                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
+                             friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                    {
+                        analyticsVO.friendType = "friends_community";
+                    }
+                }
+                else
+                {
+                    analyticsVO.friendType = "community";
+                }
+
+                matchAnalyticsSignal.Dispatch(analyticsVO);
             }
 
             Release();

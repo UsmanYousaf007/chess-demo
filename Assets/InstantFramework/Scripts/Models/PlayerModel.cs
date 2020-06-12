@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
         public long subscriptionExipryTimeStamp { get; set; }
         public string renewDate { get; set; }
         public string subscriptionType { get; set; }
+        public AnalyticsContext adContext { get; set; }
 
         public string name
         {
@@ -130,6 +131,7 @@ namespace TurboLabz.InstantFramework
             rewardPointsRequired = 0;
             rewardShortCode = "";
             rewardQuantity = 0;
+            adContext = AnalyticsContext.unknown;
         }
 
 		public bool OwnsVGood(string key)
@@ -258,6 +260,21 @@ namespace TurboLabz.InstantFramework
             adsRewardVO.currentPoints = rewardCurrentPoints;
             adsRewardVO.requiredPoints = rewardPointsRequired;
             return adsRewardVO;
+        }
+
+        public int GetSocialFriendsCount()
+        {
+            var count = 0;
+
+            foreach (var friend in friends)
+            {
+                if (friend.Value.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
     }

@@ -29,6 +29,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
@@ -38,15 +40,19 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePlayerNotificationCountSignal updatePlayerNotificationCountSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public RemoveRecentlyPlayedSignal removeRecentlyPlayedSignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
         public Transform listContainer;
         public GameObject friendBarPrefab;
 
-        public Button quickMatchBtn;
+
+        public Button quickMatch1MinBtn;
+        public Button quickMatch5MinBtn;
+        public Button quickMatch10MinBtn;
+
         public Text quickMatchFiveMinPlayTxt;
-        public Button quickMatchTenMinBtn;
         public Text quickMatchTenMinPlayTxt;
         public Text quickMatchTitleTxt;
         public GameObject quickMatchPlay;
@@ -197,12 +203,18 @@ namespace TurboLabz.InstantFramework
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
-            startGameConfirmationDlg.confirmFriendlyGameBtnText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
-            startGameConfirmationDlg.confirmFriendly10MinGameText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
+
+            startGameConfirmationDlg.confirmFriendly1MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN1_GAME_TEXT);
+            startGameConfirmationDlg.confirmFriendly5MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
+            startGameConfirmationDlg.confirmFriendly10MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
+
             startGameConfirmationDlg.startGameText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_START_GAME);
             startGameConfirmationDlg.confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
-            startGameConfirmationDlg.confirmFriendlyGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge.ToString()); });
+
+            startGameConfirmationDlg.confirmFriendly1MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge1.ToString()); });
+            startGameConfirmationDlg.confirmFriendly5MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge.ToString()); });
             startGameConfirmationDlg.confirmFriendly10MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge10.ToString()); });
+
             startGameConfirmationDlg.confirmGameCloseBtn.onClick.AddListener(ConfirmNewGameDlgNo);
             startGameConfirmationDlg.ToggleRankButton.onClick.AddListener(OnToggleRankButtonClicked);
             startGameConfirmationDlg.toggleRankButtonState = true;
@@ -225,8 +237,9 @@ namespace TurboLabz.InstantFramework
             quickMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION);
             quickMatchFiveMinPlayTxt.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
             quickMatchTenMinPlayTxt.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
-            quickMatchBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
-            quickMatchTenMinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
+            quickMatch1MinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random1.ToString()); });
+            quickMatch5MinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
+            quickMatch10MinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
 
             classicMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION);
             classicMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC);
@@ -348,8 +361,6 @@ namespace TurboLabz.InstantFramework
         void OnClassicMatchBtnClicked()
         {
             Debug.Log("OnClassicMatchBtnClicked");
-            analyticsService.Event(AnalyticsEventId.tap_match, AnalyticsContext.random_long_match);
-
             audioService.PlayStandardClick();
             actionBar = null;
 
@@ -587,12 +598,15 @@ namespace TurboLabz.InstantFramework
             friendBar.isGameCanceled = vo.isGameCanceled;
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
-            friendBar.UpdateStatus();
+            friendBar.isOfferDraw = vo.offerDraw;
 
-            //if (recentlyCompleted.Contains(friendBar))
-            //{
-            friendBar.removeCommunityFriendButton.gameObject.SetActive(false);
-            //}
+
+            if (recentlyCompleted.Contains(friendBar))
+            {
+                friendBar.removeCommunityFriendButton.gameObject.SetActive(true);
+            }
+
+            friendBar.UpdateStatus();
 
             // Set the timer clocks
             if (friendBar.longPlayStatus == LongPlayStatus.NEW_CHALLENGE ||
@@ -712,6 +726,15 @@ namespace TurboLabz.InstantFramework
                 friendBar.playArrow.SetActive(true);
                 friendBar.playArrowButton.SetActive(false);
             }
+            else if (reason == CreateLongMatchAbortReason.Blocked)
+            {
+                createMatchLimitReachedText.text = "Sorry, a game could not be created. Please try later.";
+                SetMatchLimitReachedDialogue(false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.CREATE_MATCH_LIMIT_REACHED_DIALOG);
+
+                friendBar.playArrow.SetActive(true);
+                friendBar.playArrowButton.SetActive(false);
+            }
             else // Match successfully created
             {
                 friendBar.playArrow.SetActive(false);
@@ -735,7 +758,6 @@ namespace TurboLabz.InstantFramework
                 createMatchLimitReachedCloseBtn.gameObject.SetActive(false);
             } 
         }
-
 
         void SetMatchLimitReachedDialogue(bool isSelfLimitReached)
         {
@@ -761,6 +783,31 @@ namespace TurboLabz.InstantFramework
                 createMatchLimitReachedTitleText.gameObject.SetActive(false);
                 createMatchLimitReachedUpgradeBtn.gameObject.SetActive(false);
                 createMatchLimitReachedCloseBtn.gameObject.SetActive(true);
+
+            }
+        }
+
+        public void UpdateFriendBarDrawOfferStatus(string status, string offeredBy, string opponentID)
+        {
+            //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
+
+            if (!bars.ContainsKey(opponentID))
+            {
+                return;
+            }
+
+            FriendBar friendBar = bars[opponentID].GetComponent<FriendBar>();
+
+            if (status == "offered")
+            {
+                //friendBar.SetDrawOfferStatus(true);
+                friendBar.isOfferDraw = true;
+                friendBar.UpdateStatus();
+            }
+            else
+            {
+                friendBar.isOfferDraw = false;
+                friendBar.UpdateStatus();
             }
         }
 
@@ -927,7 +974,6 @@ namespace TurboLabz.InstantFramework
         {
             removeCommunityFriendDlg.SetActive(false);
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
-            analyticsService.Event(AnalyticsEventId.tap_long_match_remove);
         }
 
         void RemoveCommunityFriendDlgNo()
@@ -1057,7 +1103,6 @@ namespace TurboLabz.InstantFramework
         {
             startGameConfirmationDlg.gameObject.SetActive(false);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
-            analyticsService.Event(AnalyticsEventId.tap_match, AnalyticsContext.long_match);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)
@@ -1239,7 +1284,7 @@ namespace TurboLabz.InstantFramework
 
             if (recentlyCompleted.Count > 0)
             {
-                int maxCount = 5;
+                int maxCount = settingsModel.maxRecentlyCompletedMatchCount;
                 sectionRecentlyCompletedMatches.gameObject.SetActive(true);
                 index = sectionRecentlyCompletedMatches.GetSiblingIndex() + 1;
                 for (int i = 0; i < recentlyCompleted.Count; i++)
@@ -1248,13 +1293,19 @@ namespace TurboLabz.InstantFramework
                     {
                         recentlyCompleted[i].gameObject.SetActive(true);
                         recentlyCompleted[i].transform.SetSiblingIndex(index);
-                        recentlyCompleted[i].removeCommunityFriendButton.gameObject.SetActive(false);
+                        recentlyCompleted[i].removeCommunityFriendButton.gameObject.SetActive(true);
                         index++;
                         recentlyCompleted[i].UpdateMasking((maxCount == (i + 1) || recentlyCompleted.Count == (i + 1)), false);
                     }
                     else
                     {
                         recentlyCompleted[i].gameObject.SetActive(false);
+
+                        // TODO: HACK: REMOVE THIS HACK! NEED TO HANDLE RECENT LIST ITEM REMOVAL EITEHR ON BACKEND OR PROPERLY IN CLIENT
+                        if (recentlyCompleted[i].friendInfo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
+                        {
+                            removeRecentlyPlayedSignal.Dispatch(recentlyCompleted[i].friendInfo.playerId);
+                        }
                     }
                 }
             }

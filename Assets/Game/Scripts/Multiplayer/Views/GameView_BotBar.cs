@@ -73,7 +73,6 @@ namespace TurboLabz.Multiplayer
             if (showAdOnBack)
             {
                 showAdOnBack = false;
-                analyticsService.Event(AnalyticsEventId.ads_friends_back);
             }
             
             backToLobbySignal.Dispatch(); 

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace HUF.Utils
+namespace HUF.Utils.Runtime
 {
     public class CoroutineManager : HSingleton<CoroutineManager>
     {

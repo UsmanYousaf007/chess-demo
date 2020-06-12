@@ -45,8 +45,9 @@ namespace TurboLabz.Multiplayer
 		[HideInInspector] public bool isLongPlay;
         [HideInInspector] public bool isRankedGame;
         [HideInInspector] public bool isTenMinGame;
-		
-		private bool menuButtonWasActive;
+        [HideInInspector] public bool isOneMinGame;
+
+        private bool menuButtonWasActive;
         Coroutine opponentConnectionMonitorCR;
 
         public void Show()
@@ -67,6 +68,7 @@ namespace TurboLabz.Multiplayer
             OnParentShowInfo();
             OnParentShowAdBanner();
             EnableSafeButton();
+            ShowViewBoardResultsPanel(false);
         }
 
         public void Hide()

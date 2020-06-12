@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using HUFEXT.PackageManager.Editor.Implementation.Remote.Auth;
-using HUFEXT.PackageManager.Editor.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,108 +6,99 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public class PolicyWindow : EditorWindow
     {
-        // Strings
-        private const string windowTitle = "Huuuge Unity Framework - Accept license and import our package manager";
-        private const string licenseLabel = "Please read and accept our license:";
-        private const string checkboxLabel = " I accept the terms and conditions";
-        private const string buttonLabel = "Proceed";
-        private const string validateLabel = "Validating...";
-        private const string errorDialogTitle = "Error...";
-        private const string errorDialogDescription = "You must accept our license and enter valid credentials.";
-        private const string errorDialogButton = "OK";
-        private string license;
-        
         private Vector2 scroll;
-        private bool licenseAccepted;
-
+        private string license;
         private string developerId = string.Empty;
         private string accessKey = string.Empty;
+        private bool licenseAccepted;
         private bool waitForValidation = false;
         
         public static void Init()
         {
+            if ( !File.Exists( Models.Keys.Views.Policy.LICENSE_PATH ) )
+            {
+                Debug.LogError( "[PackageManager] Unable to find LICENSE file. Please re-install package." );
+                return;
+            }
+            
             var window = CreateInstance( typeof( PolicyWindow ) ) as PolicyWindow;
-            if ( window != null )
+            if ( window == null )
             {
-                window.titleContent = new GUIContent( windowTitle );
-                window.minSize = new Vector2( 500f, 480f );
-                window.ShowUtility();
+                return;
             }
+            
+            window.titleContent = new GUIContent( Models.Keys.Views.Policy.TITLE );
+            window.minSize = new Vector2( 500f, 480f );
+            window.ShowUtility();
         }
         
-        private void LoadLicenseText( bool force = false )
-        {
-            if ( string.IsNullOrEmpty( license ) || force )
-            {
-                license = File.ReadAllText( Registry.Resources.LICENSE_TEXT );
-            }
-        }
-        
-        private void OnEnable()
-        {
-            LoadLicenseText( true );
-        }
-
-        private void OnFocus()
-        {
-            LoadLicenseText();
-        }
-
         void OnGUI()
         {
-            HCommonGUI.BannerWithLogo( position.width );
-            GUILayout.BeginArea(new Rect(0, 80, position.width, position.height - 80));
+            if ( !LoadLicense() )
             {
+                Close();
+                return;
+            }
+            
+            Utils.HGUI.BannerWithLogo( position.width );
+            using ( new GUILayout.AreaScope( new Rect( 0, 80, position.width, position.height - 80 ) ) )
+            {
+                EditorGUILayout.Space();
                 DrawLicense();
                 GUILayout.FlexibleSpace();
-
                 using( new GUILayout.HorizontalScope() )
                 {
                     GUILayout.FlexibleSpace();
                     DrawCredentials();
                     GUILayout.FlexibleSpace();
                 }
-                
                 GUILayout.FlexibleSpace();
             }
-            GUILayout.EndArea();
+        }
+
+        bool LoadLicense()
+        {
+            if ( !string.IsNullOrEmpty( license ) )
+            {
+                return true;
+            }
+            
+            if ( File.Exists( Models.Keys.Views.Policy.LICENSE_PATH ) )
+            {
+                license = File.ReadAllText( Models.Keys.Views.Policy.LICENSE_PATH );
+                return true;
+            }
+                
+            Debug.LogError( "[PackageManager] Unable to find LICENSE file. Please re-install package." );
+            return false;
         }
         
         private void DrawLicense()
         {
-            if ( string.IsNullOrEmpty( license ) )
+            EditorGUILayout.LabelField( Models.Keys.Views.Policy.LICENSE, EditorStyles.boldLabel );
+            Utils.HGUI.HorizontalSeparator();
+            using( var v = new EditorGUILayout.VerticalScope() )
             {
-                licenseAccepted = true;
-                GUILayout.FlexibleSpace();
-                return;
-            }
-            
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField( licenseLabel, EditorStyles.boldLabel );
-            HCommonGUI.HorizontalSeparator();
-
-            var rect = EditorGUILayout.BeginVertical();
-            {
-                EditorGUI.DrawRect( rect, new Color( 0f, 0f, 0f, 0.3f ) );
-                scroll = EditorGUILayout.BeginScrollView( scroll, GUILayout.Height( position.height - 300f ) );
+                EditorGUI.DrawRect( v.rect, new Color( 0f, 0f, 0f, 0.3f ) );
+                var height = GUILayout.Height( position.height - 300f );
+                using ( var s = new EditorGUILayout.ScrollViewScope( scroll, height ) )
                 {
+                    scroll = s.scrollPosition;
                     GUILayout.Label( license, new GUIStyle( EditorStyles.label )
                     {
                         wordWrap = true, 
                         fontSize = 12
                     } );
                 }
-                EditorGUILayout.EndScrollView();
             }
-            EditorGUILayout.EndVertical();
-            HCommonGUI.HorizontalSeparator();
+            Utils.HGUI.HorizontalSeparator();
         }
 
         private void DrawCredentials()
         {
-            EditorGUI.BeginDisabledGroup( waitForValidation );
+            using( new EditorGUI.DisabledGroupScope( waitForValidation ) )
             {
-                GUILayout.BeginVertical( EditorStyles.helpBox, GUILayout.Width( 320f ) );
+                using ( new EditorGUILayout.VerticalScope(  EditorStyles.helpBox, GUILayout.Width( 350f ) ) )
                 {
                     EditorGUILayout.PrefixLabel( "Developer ID" );
                     developerId = GUILayout.TextField( developerId );
@@ -117,54 +106,72 @@ namespace HUFEXT.PackageManager.Editor.Views
                     EditorGUILayout.PrefixLabel( "Access Token" );
                     accessKey = GUILayout.PasswordField( accessKey, '*' );
 
-                    HCommonGUI.HorizontalCentered( () =>
+                    EditorGUILayout.Space();
+                    using( new GUILayout.HorizontalScope() )
                     {
-                        if ( !string.IsNullOrEmpty( license ) )
-                        {
-                            licenseAccepted = GUILayout.Toggle( licenseAccepted, checkboxLabel );
-                        }
-                    } );
+                        GUILayout.FlexibleSpace();
+                        licenseAccepted = GUILayout.Toggle( licenseAccepted, Models.Keys.Views.Policy.CHECKBOX );
+                        GUILayout.FlexibleSpace();
+                    }
 
-                    HCommonGUI.HorizontalCentered( () =>
+                    EditorGUILayout.Space();
+                    using ( new EditorGUI.DisabledGroupScope( !licenseAccepted ) )
                     {
-                        var label = waitForValidation ? validateLabel : buttonLabel;
-                        if ( GUILayout.Button( label, GUILayout.Width( 150f ), GUILayout.Height( 30f ) ) )
+                        using ( new GUILayout.HorizontalScope() )
                         {
-                            OnProceedRequest();
+                            GUILayout.FlexibleSpace();
+                            var label = waitForValidation ? Models.Keys.Views.Policy.VALIDATE : Models.Keys.Views.Policy.BUTTON;
+                            if ( GUILayout.Button( label, GUILayout.Width( 150f ), GUILayout.Height( 30f ) ) )
+                            {
+                                OnProceedRequest();
+                            }
+
+                            GUILayout.FlexibleSpace();
                         }
-                    } );
+                    }
 
                     EditorGUILayout.Space();
                 }
-                GUILayout.EndVertical();
             }
-            EditorGUI.EndDisabledGroup();
         }
         
-        private void OnProceedRequest()
+        void OnProceedRequest()
         {
-            waitForValidation = true;
-
-            var auth = Token.Create( developerId, accessKey, licenseAccepted );
-            auth.Validate( ( success ) =>
+            if( !licenseAccepted )
             {
-                if ( !success )
+                return;
+            }
+
+            waitForValidation = true;
+            if ( !Models.Token.CreateUnsignedToken( developerId, accessKey ) )
+            {
+                OnAuthorizationFailed();
+                return;
+            }
+            
+            Core.Command.Execute( new Commands.Connection.AuthorizeTokenCommand()
+            {
+                OnComplete = ( success, msg ) =>
                 {
-                    ShowErrorDialog();
-                    auth.Invalidate();
-                    return;
+                    if ( !success )
+                    {
+                        OnAuthorizationFailed();
+                        return;
+                    }
+
+                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand() );
+                    EditorApplication.ExecuteMenuItem( Models.Keys.MENU_ITEM_OPEN_PACKAGE_MANAGER );
+                    Close();
                 }
-                
-                Close();
-                AssetDatabase.Refresh();
-                EditorApplication.ExecuteMenuItem( Registry.MenuItems.PACKAGE_MANAGER );
             });
         }
 
-        void ShowErrorDialog()
+        void OnAuthorizationFailed()
         {
             waitForValidation = false;
-            EditorUtility.DisplayDialog( errorDialogTitle, errorDialogDescription, errorDialogButton );
+            EditorUtility.DisplayDialog( Models.Keys.Views.Policy.ERROR_TITLE, 
+                                         Models.Keys.Views.Policy.ERROR_DESC,
+                                         Models.Keys.Views.Policy.ERROR_BUTTON );
         }
     }
 }

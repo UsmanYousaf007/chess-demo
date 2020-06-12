@@ -38,14 +38,12 @@ namespace TurboLabz.InstantFramework
             // Check app version match with back end. Bail if there is mismatch.
             if (appInfoModel.appBackendVersionValid == false)
             {
-                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
             // Check if game maintenance mode is On
             if (settingsModel.maintenanceFlag == true)
             {
-                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
@@ -118,7 +116,11 @@ namespace TurboLabz.InstantFramework
             }
 
             setDefaultSkinSignal.Dispatch();
-            getInitDataCompleteSignal.Dispatch();
+
+            if (playerModel.subscriptionExipryTimeStamp > 0)
+            {
+                getInitDataCompleteSignal.Dispatch();
+            }
         }
 
         private void FillPlayerDetails(GSData playerDetailsData)
@@ -188,6 +190,11 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.minutesForVictoryInternalAd = GSParser.GetSafeFloat(adsSettingsData, GSBackendKeys.MINUTES_VICTORY_AD);
             adsSettingsModel.autoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.AUTO_SUBSCRIPTION_THRESHOLD);
             adsSettingsModel.daysPerAutoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD);
+            adsSettingsModel.sessionsBeforePregameAd = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.SESSIONS_BEFORE_PREGAME_AD);
+            adsSettingsModel.maxPregameAdsPerDay = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MAX_PREGAME_ADS_PER_DAY);
+            adsSettingsModel.waitForPregameAdLoadSeconds = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.WAIT_PREGAME_AD_LOAD_SECONDS);
+            adsSettingsModel.intervalsBetweenPregameAds = GSParser.GetSafeFloat(adsSettingsData, GSBackendKeys.INTERVALS_BETWEEN_PREGAME_ADS);
+            adsSettingsModel.showPregameInOneMinute = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.SHOW_PREGAME_AD_ONE_MINUTE);
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
@@ -302,19 +309,8 @@ namespace TurboLabz.InstantFramework
             {
                 GSData friendData = (GSData)obj.Value;
                 string friendId = obj.Key;
-
                 Friend friend = null;
-
-                if (!isBlocked)
-                {
-                    friend = LoadFriend(friendId, friendData);
-                }
-                else
-                {
-                    friend = new Friend();
-                    friend.publicProfile = new PublicProfile();
-                }
-
+                friend = LoadFriend(friendId, friendData);
                 targetList.Add(friendId, friend);
             }
         }
@@ -343,33 +339,6 @@ namespace TurboLabz.InstantFramework
                 msg.guid = pair.Key;
 
                 receiveChatMessageSignal.Dispatch(msg, true);
-            }
-        }
-
-        private void SendPowerupUsageAnalytics(GSData eventData)
-        {
-            var usagePercentage = eventData.GetInt(GSBackendKeys.POWERUP_USAGE_PERCENTAGE).Value;
-            var eventdayNo = eventData.GetInt(GSBackendKeys.EVENT_DAY_NUMBER).Value;
-
-            if (usagePercentage <= 0)
-            {
-                analyticsService.Event(AnalyticsEventId.powerup_usage_no, AnalyticsParameter.day, eventdayNo);
-            }
-            else if (usagePercentage > 0 && usagePercentage <= 2)
-            {
-                analyticsService.Event(AnalyticsEventId.powerup_usage_low, AnalyticsParameter.day, eventdayNo);
-            }
-            else if (usagePercentage > 2 && usagePercentage <= 5)
-            {
-                analyticsService.Event(AnalyticsEventId.powerup_usage_avg, AnalyticsParameter.day, eventdayNo);
-            }
-            else if (usagePercentage > 5 && usagePercentage <= 10)
-            {
-                analyticsService.Event(AnalyticsEventId.powerup_usage_good, AnalyticsParameter.day, eventdayNo);
-            }
-            else if (usagePercentage > 10)
-            {
-                analyticsService.Event(AnalyticsEventId.powerup_usage_awesome, AnalyticsParameter.day, eventdayNo);
             }
         }
     }
