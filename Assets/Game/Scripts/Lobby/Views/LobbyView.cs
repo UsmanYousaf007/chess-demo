@@ -962,12 +962,26 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-
         void RemoveCommunityFriendButtonClicked(string playerId)
         {
             audioService.PlayStandardClick();
             actionBar = bars[playerId];
-            removeCommunityFriendDlg.SetActive(true);
+
+            if (recentlyCompleted != null && recentlyCompleted.Contains(actionBar))
+            {
+                List<string> removeRecentIds = new List<string>(2);
+                removeRecentIds.Add(actionBar.friendInfo.playerId);
+                FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentIds, FriendsSubOpFlag.REMOVE_RECENT);
+
+                actionBar.friendInfo.removedFromRecentPlayed = true;
+                removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
+
+                SortFriends();
+            }
+            else
+            {
+                removeCommunityFriendDlg.SetActive(true);
+            }
         }
 
         void RemoveCommunityFriendDlgYes()
@@ -1186,7 +1200,7 @@ namespace TurboLabz.InstantFramework
             List<FriendBar> emptyOffline = new List<FriendBar>();
             List<FriendBar> activeMatches = new List<FriendBar>();
             List<string> destroyMe = new List<string>();
-
+            List<string> removeRecentCompletedIds = new List<string>();
 
             int notificationCounter = 0;
             notificationTagImage.gameObject.SetActive(false);
@@ -1215,7 +1229,7 @@ namespace TurboLabz.InstantFramework
                     activeMatches.Add(bar);
 
                 }
-                else if ((bar.lastMatchTimeStamp > 0) &&
+                else if (bar.friendInfo.removedFromRecentPlayed == false && (bar.lastMatchTimeStamp > 0) &&
                                     (bar.lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (RECENTLY_COMPLETED_THRESHOLD_DAYS * 24 * 60 * 60 * 1000))) &&
                                     status == LongPlayStatus.DEFAULT)
                 {
@@ -1304,7 +1318,7 @@ namespace TurboLabz.InstantFramework
                         // TODO: HACK: REMOVE THIS HACK! NEED TO HANDLE RECENT LIST ITEM REMOVAL EITEHR ON BACKEND OR PROPERLY IN CLIENT
                         if (recentlyCompleted[i].friendInfo.friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
                         {
-                            removeRecentlyPlayedSignal.Dispatch(recentlyCompleted[i].friendInfo.playerId);
+                            removeRecentCompletedIds.Add(recentlyCompleted[i].friendInfo.playerId);
                         }
                     }
                 }
@@ -1314,6 +1328,12 @@ namespace TurboLabz.InstantFramework
                 sectionRecentlyCompletedMatches.gameObject.SetActive(false);
             }
 
+            if (removeRecentCompletedIds.Count > 0)
+            {
+                FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentCompletedIds, FriendsSubOpFlag.REMOVE_RECENT);
+
+                removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
+            }
         }
 
         public void SortCommunity()

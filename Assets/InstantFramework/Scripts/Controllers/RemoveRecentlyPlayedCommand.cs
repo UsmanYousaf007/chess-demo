@@ -1,4 +1,5 @@
 ﻿using strange.extensions.command.impl;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -6,6 +7,7 @@ namespace TurboLabz.InstantFramework
     {
         // parameter
         [Inject] public string friendId { get; set; }
+        [Inject] public FriendsSubOp friendsSubOp { get; set; }
 
         // dispatch signals
         [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
@@ -19,10 +21,8 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            picsModel.DeleteFriendPic(friendId);
-            backendService.FriendsOpRemove(friendId);
-            clearFriendSignal.Dispatch(friendId);
-            playerModel.friends.Remove(friendId);
+            string opJson = JsonUtility.ToJson(friendsSubOp);
+            backendService.FriendsOpRemove(friendId, opJson);
         }
     }
 }

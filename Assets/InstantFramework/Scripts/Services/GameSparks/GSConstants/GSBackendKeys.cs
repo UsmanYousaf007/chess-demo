@@ -311,6 +311,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_COMMUNITY = "community";
             public const string TYPE_FAVOURITE = "favourite";
             public const string LAST_MATCH_TIMESTAMP = "lastMatchTimestamp";
+            public const string REMOVED_FROM_RECENT_PLAYED = "removedFromRecentPlayed";
         }
 
 		public static class FriendsOp
