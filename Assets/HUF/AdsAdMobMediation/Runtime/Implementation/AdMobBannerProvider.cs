@@ -109,7 +109,7 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
         {
             HLog.Log( logPrefix, "Hide banner ad" );
 
-            //if ( bannerStatus != BannerLoadingStatus.None )
+            if ( bannerStatus != BannerLoadingStatus.None )
                 banner?.Hide();
             bannerStatus = BannerLoadingStatus.None;
         }
@@ -181,7 +181,8 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
             syncContext.Post(
                 s =>
                 {
-                    bannerStatus = BannerLoadingStatus.None;
+                    if (bannerStatus == BannerLoadingStatus.Loading)
+                        bannerStatus = BannerLoadingStatus.None;
                     HLog.LogWarning( logPrefix, $"Failed to load banner ad with error: {args.Message}" );
                     OnBannerFailed.Dispatch( BuildCallbackData() );
                 },
