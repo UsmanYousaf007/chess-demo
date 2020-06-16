@@ -310,7 +310,16 @@ namespace TurboLabz.InstantFramework
                 GSData friendData = (GSData)obj.Value;
                 string friendId = obj.Key;
                 Friend friend = null;
-                friend = LoadFriend(friendId, friendData);
+
+                if (!isBlocked)
+                {
+                    friend = LoadFriend(friendId, friendData);
+                }
+                else
+                {
+                    friend = LoadBlocked(friendId, friendData);
+                }
+
                 targetList.Add(friendId, friend);
             }
         }
@@ -322,6 +331,20 @@ namespace TurboLabz.InstantFramework
             friend.publicProfile = new PublicProfile();
             GSParser.ParseFriend(friend, friendData, friendId);
 
+            return friend;
+        }
+
+        public Friend LoadBlocked(string friendId, GSData friendData)
+        {
+            var friend = new Friend();
+            friend.playerId = friendId;
+            friend.gamesDrawn = GSParser.GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_DRAWN);
+            friend.gamesLost = GSParser.GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_LOST);
+            friend.gamesWon = GSParser.GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_WON);
+            friend.friendType = GSParser.GetSafeString(friendData, GSBackendKeys.Friend.TYPE, GSBackendKeys.Friend.TYPE_COMMUNITY);
+            friend.lastMatchTimestamp = GSParser.GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
+            friend.publicProfile = new PublicProfile();
+            friend.publicProfile.name = friendData.GetString(GSBackendKeys.PublicProfile.NAME);
             return friend;
         }
 

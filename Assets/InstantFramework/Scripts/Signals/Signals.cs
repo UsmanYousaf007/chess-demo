@@ -152,6 +152,7 @@ namespace TurboLabz.InstantFramework
     public class ManageBlockedFriendsSignal : Signal<string, bool> { }
     public class UnblockFriendSignal : Signal<string> { }
     public class UpdateManageBlockedFriendsViewSignal : Signal<Dictionary<string, Friend>> { }
+    public class ResetUnblockButtonSignal : Signal<string> { }
     public class UpdateOfferDrawSignal : Signal<OfferDrawVO> { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }

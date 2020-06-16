@@ -432,24 +432,8 @@ namespace TurboLabz.Multiplayer
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.rewarded;
-            showRewardedAdSignal.Dispatch(vo);
-
-            //showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
-
             analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-
-            /*if (isLongPlay)
-            {
-                //backToLobbySignal.Dispatch();
-                //refreshLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.rewarded);
-            }
-            else
-            {
-                //backToLobbySignal.Dispatch();
-                //refreshLobbySignal.Dispatch();
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.rewarded);
-            }*/
+            showRewardedAdSignal.Dispatch(vo);
         }
 
         private void OnResultsDeclinedButtonClicked()
@@ -476,8 +460,6 @@ namespace TurboLabz.Multiplayer
         public void OnResultsSkipRewardButtonClicked()
         {
             audioService.PlayStandardClick();
-            //backToLobbySignal.Dispatch();
-            //refreshLobbySignal.Dispatch();
 
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
@@ -485,16 +467,13 @@ namespace TurboLabz.Multiplayer
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
-            showAdSignal.Dispatch(vo);
 
-            /*if (isLongPlay)
-            { 
-                analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.long_match);
-            }
-            else
+            if (!playerModel.HasSubscription())
             {
-                analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.quick_match);
-            }*/
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            }
+
+            showAdSignal.Dispatch(vo);
         }
 
 

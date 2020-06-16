@@ -292,7 +292,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
-            if (!playerModel.isPremium)
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd())
                 {
@@ -317,7 +317,7 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
-            if (!playerModel.isPremium) 
+            if (!playerModel.HasSubscription()) 
             {
                 if (CanShowPregameAd(actionCode))
                 {
@@ -368,7 +368,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayComputerMatchBtnClicked()
         {
-            if (!playerModel.isPremium)
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd())
                 {
@@ -410,7 +410,7 @@ namespace TurboLabz.InstantFramework
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
             OnShowProcessingUI(true, true);
 
-            if (!playerModel.isPremium)
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd())
                 {

@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         public GameObject emptyListSection;
         public Text emptyListText;
         public GameObject processing;
+        public GameObject uiBlocker;
 
         // Dispatch Signals
         public Signal backButtonPressedSignal = new Signal();
@@ -56,6 +57,7 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(Dictionary<string, Friend> blockedFriends)
         {
             processing.SetActive(false);
+            uiBlocker.SetActive(false);
             ClearFriendsBarContainer();
             AddToFriendsBarContrainer(blockedFriends);
         }
@@ -93,6 +95,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnUnblockButtonPressed(string friendId)
         {
+            uiBlocker.SetActive(true);
             onUnblockButtonPressedSignal.Dispatch(friendId);
             audioService.PlayStandardClick();
         }
@@ -136,17 +139,15 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void UpdateFriendPic(string playerId, Sprite sprite)
+        public void ResetUnblockButton(string playerId)
         {
-            if (sprite == null)
-                return;
-
             TLUtils.LogUtil.LogNullValidation(playerId, "playerId");
 
             if (playerId != null && !bars.ContainsKey(playerId))
                 return;
 
-            bars[playerId].UpdateSocialPic(sprite);
+            uiBlocker.SetActive(false);
+            bars[playerId].ResetUnblockButton();
         }
     }
 }
