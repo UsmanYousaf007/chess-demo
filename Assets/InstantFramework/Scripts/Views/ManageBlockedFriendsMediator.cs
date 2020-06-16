@@ -18,8 +18,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public UnblockFriendSignal unblockFriendSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
 
-        private bool friendUnblocked = false;
-
         public override void OnRegister()
         {
             view.Init();
@@ -44,12 +42,6 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.MANAGE_BLOCKED_FRIENDS)
             {
                 view.Hide();
-
-                if (friendUnblocked == true)
-                {
-                    refreshCommunitySignal.Dispatch();
-                    friendUnblocked = false;
-                }
             }
         }
 
@@ -78,7 +70,6 @@ namespace TurboLabz.InstantFramework
         private void OnUnblockFriendSignal(string friendId)
         {
             unblockFriendSignal.Dispatch(friendId);
-            friendUnblocked = true;
         }
     }
 }

@@ -13,10 +13,13 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
-        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ResetUnblockButtonSignal resetUnblockButtonSignal { get; set; }
+        [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
+        [Inject] public GetSocialPicsSignal getSocialPicsSignal { get; set; }
+        [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
+        [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -56,7 +59,10 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 manageBlockedFriendsSignal.Dispatch(string.Empty, false);
-                refreshFriendsSignal.Dispatch();
+                addFriendsSignal.Dispatch(playerModel.friends, FriendCategory.FRIEND);
+                updateFriendBarSignal.Dispatch(playerModel.friends[friendId], friendId);
+                getSocialPicsSignal.Dispatch(playerModel.friends);
+                sortFriendsSignal.Dispatch();
             }
 
             Release();

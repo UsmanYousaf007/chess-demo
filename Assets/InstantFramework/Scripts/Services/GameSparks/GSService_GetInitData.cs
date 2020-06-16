@@ -343,6 +343,7 @@ namespace TurboLabz.InstantFramework
             friend.gamesWon = GSParser.GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_WON);
             friend.friendType = GSParser.GetSafeString(friendData, GSBackendKeys.Friend.TYPE, GSBackendKeys.Friend.TYPE_COMMUNITY);
             friend.lastMatchTimestamp = GSParser.GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
+            friend.flagMask = GSParser.GetSafeLong(friendData, GSBackendKeys.Friend.FLAG_MASK);
             friend.publicProfile = new PublicProfile();
             friend.publicProfile.name = friendData.GetString(GSBackendKeys.PublicProfile.NAME);
             return friend;
