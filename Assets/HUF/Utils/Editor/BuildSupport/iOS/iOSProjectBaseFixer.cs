@@ -20,12 +20,11 @@ namespace HUF.Utils.BuildSupport.Editor.iOS
             project = new PBXProject();
             project.ReadFromString(File.ReadAllText(projectPath));
 #if UNITY_2019_3_OR_NEWER
-            string targetName = project.GetUnityMainTargetGuid();
+            var targetGuid = project.GetUnityMainTargetGuid();
 #else
-			string targetName = PBXProject.GetUnityTargetName();
-#endif
+            string targetName = PBXProject.GetUnityTargetName();
             var targetGuid = project.TargetGuidByName(targetName);
-
+#endif
             if (Process(project, targetGuid, projectPath))
                 SaveProject();
         }

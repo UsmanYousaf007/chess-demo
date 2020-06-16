@@ -1,22 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace HUF.RemoteConfigs.Runtime.API
 {
     public static class HRemoteConfigs
     {
+        const string CACHE_KEY = "HRC_Cache{0}";
+        const long UTC_OFFSET = 1589440000;
+
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HRemoteConfigs) );
 
         static IRemoteConfigsService remoteConfigsService;
+
+        static bool isFetching;
 
         static HRemoteConfigs()
         {
             OnInitComplete += () => HLog.Log( logPrefix, "RemoteConfig service initialized" );
         }
+
+        /// <summary>
+        /// Returns last successful UTC cache refresh timestamp. Mind it is not secure time.
+        /// </summary>
+        [PublicAPI]
+        public static long? CacheTimestamp
+        {
+            get
+            {
+                bool? hasCache = HasAnyCache();
+                if ( !hasCache.HasValue )
+                    return null;
+
+                int timestamp = PlayerPrefs.GetInt( GetServiceCacheKey() );
+
+                return UTC_OFFSET + timestamp;
+            }
+        }
+
+        /// <summary>
+        /// Is set to TRUE if service handled fetch(successfully or not) at least once
+        /// </summary>
+        [PublicAPI] public static bool IsFetchHandled { get; private set; }
 
         /// <summary>
         /// Is set to TRUE if service is fully initialized and FALSE otherwise
@@ -38,6 +68,18 @@ namespace HUF.RemoteConfigs.Runtime.API
         /// Dispatched when fetch failed. Provides reason as string
         /// </summary>
         [PublicAPI] public static event UnityAction OnFetchFail;
+
+        /// <summary>
+        /// Returns true if service has cache present (RemoteConfigs successfully fetched at least once)
+        /// </summary>
+        [PublicAPI]
+        public static bool? HasAnyCache()
+        {
+            if ( !IsServiceAttached() )
+                return null;
+
+            return PlayerPrefs.HasKey( GetServiceCacheKey() );
+        }
 
         /// <summary>
         /// Registers config service. If there is already registered service the services are swapped.
@@ -67,7 +109,13 @@ namespace HUF.RemoteConfigs.Runtime.API
         public static void Fetch()
         {
             if ( IsServiceAttached() )
+            {
+                if ( isFetching )
+                    return;
+
+                isFetching = true;
                 remoteConfigsService.Fetch();
+            }
             else
                 OnFetchFail.Dispatch();
         }
@@ -131,11 +179,20 @@ namespace HUF.RemoteConfigs.Runtime.API
         static void HandleFetchFailed()
         {
             OnFetchFail.Dispatch();
+            IsFetchHandled = true;
+            isFetching = false;
         }
 
         static void HandleFetchComplete()
         {
             OnFetchComplete.Dispatch();
+            IsFetchHandled = true;
+            isFetching = false;
+
+            if ( !remoteConfigsService.SupportsCaching )
+                return;
+
+            PlayerPrefs.SetInt( GetServiceCacheKey(), (int)(DateTime.UtcNow.ToFileTimeUtc() - UTC_OFFSET ) );
         }
 
         static bool IsServiceAttached()
@@ -143,9 +200,14 @@ namespace HUF.RemoteConfigs.Runtime.API
             if ( remoteConfigsService != null )
                 return true;
 
-            HLog.LogError(logPrefix, "No remote config service attached. " +
-                                 "Please attach remote service to use this feature");
+            HLog.LogError( logPrefix,
+                "No remote config service attached. Please attach remote service to use this feature" );
             return false;
+        }
+
+        static string GetServiceCacheKey()
+        {
+            return string.Format( CACHE_KEY, remoteConfigsService.UID );
         }
     }
 }

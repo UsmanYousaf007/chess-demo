@@ -15,7 +15,6 @@ namespace HUF.InitFirebase.Runtime.API
         /// </summary>
         [PublicAPI]
         public static bool IsInitialized => Initializer.IsInitialized;
-        public static string CachedToken => Initializer.CachedToken;
 
         /// <summary>
         /// Occurs when Firebase initialization finish with success.

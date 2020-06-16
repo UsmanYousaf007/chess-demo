@@ -14,9 +14,7 @@ namespace HUF.InitFirebase.Runtime.Implementation
         FirebaseApp firebaseApp;
 
         public bool IsInitialized => firebaseApp != null;
-        public string CachedToken => cachedToken;
         bool isInitializing = false;
-        string cachedToken = string.Empty;
 
         public event UnityAction OnInitializationSuccess;
         public event UnityAction OnInitializationFailure;
@@ -50,7 +48,6 @@ namespace HUF.InitFirebase.Runtime.Implementation
         void InitializationSuccessCallback()
         {
             firebaseApp = FirebaseApp.DefaultInstance;
-            Firebase.Messaging.FirebaseMessaging.TokenReceived += OnTokenReceived;
             OnInitializationSuccess.Dispatch();
             HLog.Log( logPrefix, "Firebase initialized" );
         }
@@ -59,12 +56,6 @@ namespace HUF.InitFirebase.Runtime.Implementation
         {
             OnInitializationFailure.Dispatch();
             HLog.LogError( logPrefix, "Unable to initialize Firebase" );
-        }
-
-        public virtual void OnTokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs token)
-        {
-            Firebase.Messaging.FirebaseMessaging.TokenReceived -= OnTokenReceived;
-            cachedToken = token.Token;
         }
     }
 }

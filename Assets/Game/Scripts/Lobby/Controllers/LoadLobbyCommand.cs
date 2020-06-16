@@ -31,7 +31,6 @@ namespace TurboLabz.InstantGame
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
-        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public AddFriendsSignal addFriendsSignal { get; set; }

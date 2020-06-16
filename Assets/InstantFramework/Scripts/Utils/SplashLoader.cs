@@ -4,6 +4,7 @@ using TurboLabz.InstantFramework;
 using UnityEngine.SceneManagement;
 using TurboLabz.TLUtils;
 using HUFEXT.GenericGDPR.Runtime.API;
+using HUFEXT.ModuleStarter.Runtime.API;
 
 public class SplashLoader : MonoBehaviour {
 
@@ -20,12 +21,12 @@ public class SplashLoader : MonoBehaviour {
 
     void OnEnable()
     {
-        HGenericGDPR.OnPolicyAccepted += LoadGameScene;
+        HGenericGDPR.OnPolicyAccepted += RunInitPipiline;
     }
 
     void OnDisable()
     {
-        HGenericGDPR.OnPolicyAccepted -= LoadGameScene;
+        HGenericGDPR.OnPolicyAccepted -= RunInitPipiline;
     }
 
     void Start() 
@@ -36,12 +37,12 @@ public class SplashLoader : MonoBehaviour {
         }
         else
         {
-            LoadGameScene();
+            RunInitPipiline();
         }
     }
 
-    void LoadGameScene()
+    void RunInitPipiline()
     {
-        SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
+        HInitializationPipeline.RunPipeline();
     }
 }

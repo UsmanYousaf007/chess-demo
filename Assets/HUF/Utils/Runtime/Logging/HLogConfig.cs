@@ -10,11 +10,13 @@ namespace HUF.Utils.Runtime.Logging
         [SerializeField] bool isFilteringLogs = default;
         [SerializeField] string regexFilter;
         [SerializeField] bool ignoreCaseInRegex = default;
+        [SerializeField] bool iOSNativeLogs = false;
 
         public bool IsFilteringLogs => isFilteringLogs;
         public bool CanLogOnProd => canLogOnProd;
         public string RegexFilter => regexFilter;
         public bool IgnoreCaseInRegex => ignoreCaseInRegex;
+        public bool IOSNativeLogs => iOSNativeLogs;
 
 #if UNITY_EDITOR
         protected override void OnValidate()

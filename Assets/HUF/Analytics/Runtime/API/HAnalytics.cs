@@ -55,7 +55,17 @@ namespace HUF.Analytics.Runtime.API
         [PublicAPI]
         public static bool TryRegisterService( IAnalyticsService service )
         {
-            return AnalyticsModel.TryRegisterService( service );
+            try
+            {
+                AnalyticsModel.TryRegisterService( service );
+            }
+            catch ( Exception exception )
+            {
+                HLog.LogError( prefix, exception.ToString() );
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>

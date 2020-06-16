@@ -9,6 +9,11 @@ using UnityEngine;
 
 namespace GameSparks
 {
+    public static class LastErrorCache
+    {
+		public static string lastError;
+    }
+
 	/// <summary>
 	/// Default WebSocket implementation used in the sdk. 
 	/// </summary>
@@ -22,6 +27,8 @@ namespace GameSparks
 
 		protected WebSocket ws;
 
+		string lastActionLog;
+
 		public static System.Net.EndPoint Proxy { get; set; }
 
 		private void Initialize(String url,
@@ -29,6 +36,7 @@ namespace GameSparks
 			Action onOpen,
 			Action<String> onError)
 		{
+			lastActionLog = "Websocket LastAction: Create new socket";
 
 			this.onOpen = onOpen;
 			this.onError = onError;
@@ -54,6 +62,10 @@ namespace GameSparks
 			ws.StartPingThread = true;
 			ws.PingFrequency = 30 * 1000; // TODO: GS default was 30 seconds!!!
 
+			// Todo: Move to one time initialization
+			HTTPManager.MaxConnectionIdleTime = TimeSpan.FromSeconds(7200);
+			ws.CloseAfterNoMesssage = TimeSpan.FromSeconds(30);
+
 			ws.Open();
 		}
 
@@ -77,23 +89,43 @@ namespace GameSparks
             onClose?.Invoke();
         }
 
+        // NOORJ
 		void OnError(WebSocket ws, string error)
 		{
 			string DeviceName = SystemInfo.deviceName.ToString();
-			string DeviceType = SystemInfo.deviceType.ToString();
+			bool closeSocket = false;
 
 			if (DeviceName == null)
 				DeviceName = "unknown";
 
-			if (DeviceType == null)
-				DeviceType = "unknown";
+			if (ws.isPingFail)
+			{
+				UnityEngine.Debug.Log("Websocket OnError [Ping Fail]:" + error + " Device Info:" + DeviceName);
 
-			GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "Websocket OnError:" + error + " Device Info:" + DeviceName + ", " + DeviceType);
+				string stackTrace = System.Environment.StackTrace;
+				LastErrorCache.lastError = "[PING FAIL] Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
+					" [Stack:] " + stackTrace + " [Device:]" + DeviceName;
+				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, LastErrorCache.lastError);
+				closeSocket = true;
+			}
+			else
+			{
+				UnityEngine.Debug.Log("Websocket OnError:" + error + " Device Info:" + DeviceName);
+
+				string stackTrace = System.Environment.StackTrace;
+				LastErrorCache.lastError = "Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
+					" [Stack:] " + stackTrace + " [Device:]" + DeviceName;
+				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, LastErrorCache.lastError);
+				closeSocket = true;
+			}
 
 			onError?.Invoke(error);
 
-			ws.Close();
-        }
+            if (closeSocket)
+            {
+				ws.Close();
+			}
+		}
 
 
 		/// <summary>
@@ -105,7 +137,6 @@ namespace GameSparks
 			Action onOpen,
 			Action<String> onError)
 		{
-
 			Initialize(url, onClose, onOpen, onError);
 
 			this.onMessage = onMessage;
@@ -135,6 +166,8 @@ namespace GameSparks
 		/// </summary>
 		public void Open()
 		{
+			lastActionLog = "Websocket LastAction: Open Socket";
+
 			GameSparks.Core.GameSparksUtil.Log("Opening Websocket");
 			try
 			{
@@ -168,6 +201,8 @@ namespace GameSparks
 		/// </summary>
 		public void Terminate()
 		{
+			lastActionLog = "Websocket LastAction: Closing Socket";
+
 			GameSparks.Core.GameSparksUtil.Log("Closing Websocket");
 			try
 			{
@@ -195,6 +230,8 @@ namespace GameSparks
 		/// </summary>
 		public void Send(String request)
 		{
+			lastActionLog = "Websocket LastAction: Send - " + request;
+
 			try
 			{
 				ws.Send(request);
@@ -207,6 +244,8 @@ namespace GameSparks
 
 		public void SendBinary(byte[] request, int offset, int length)
 		{
+			lastActionLog = "Websocket LastAction: Send Binary data";
+
 			try
 			{
 				List<ArraySegment<byte>> list = new List<ArraySegment<byte>>();
