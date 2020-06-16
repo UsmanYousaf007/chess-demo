@@ -54,7 +54,6 @@ namespace TurboLabz.InstantFramework
         public Text drawOfferText;
         public GameObject drawOffer;
 
-        bool stringsLoaded = false;
         static string strWaiting = "";
         static string strDeclined = "";
         static string strTheirMove = "";
@@ -320,9 +319,6 @@ namespace TurboLabz.InstantFramework
         public void Init(ILocalizationService localizationService)
         {
             // Set localized text
-            if (stringsLoaded)
-                return;
-                
             notNowButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NOT_NOW);
             playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT);
@@ -340,8 +336,6 @@ namespace TurboLabz.InstantFramework
             viewButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_VIEW);
             strNewMatchGreeting = localizationService.Get(LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING);
             strDeclineApology = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINE_APOLOGY);
-
-            stringsLoaded = true;
         }
 
         public int solution(int N)
