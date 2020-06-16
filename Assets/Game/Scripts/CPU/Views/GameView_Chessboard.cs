@@ -424,7 +424,8 @@ namespace TurboLabz.CPU
             }
 
             showPossibleMovesCR = ShowPossibleMovesCR(pieceLocation, possibleMoves);
-            StartCoroutine(showPossibleMovesCR);
+            if (this.gameObject.activeInHierarchy)
+                StartCoroutine(showPossibleMovesCR);
         }
 
         private IEnumerator ShowPossibleMovesCR(FileRank pieceLocation, List<ChessSquare> possibleMoves)
