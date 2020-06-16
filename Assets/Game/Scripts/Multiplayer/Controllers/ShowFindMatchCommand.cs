@@ -63,6 +63,10 @@ namespace TurboLabz.InstantFramework
                     vo.opponent.avatarId = friend.publicProfile.avatarId;
                     vo.opponent.avatarColorId = friend.publicProfile.avatarBgColorId;
                     vo.opponent.isPremium = friend.publicProfile.isSubscriber;
+
+                    // Updating this here so the friend can be added in recent played list.
+                    // This is updated on server by itself when the match starts.
+                    friend.flagMask |= (long)FriendsFlagMask.RECENT_PLAYED;
                 }
                 else
                 {

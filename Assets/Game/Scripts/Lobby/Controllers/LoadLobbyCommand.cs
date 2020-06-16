@@ -15,8 +15,6 @@ namespace TurboLabz.InstantGame
 {
     public class LoadLobbyCommand : Command
     {
-
-
         // Dispatch Signals
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
@@ -27,13 +25,10 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
-        [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -66,10 +61,6 @@ namespace TurboLabz.InstantGame
             {
                 friendsShowConnectFacebookSignal.Dispatch(true);
             }
-
-            //refreshCommunitySignal.Dispatch();
-            //refreshFriendsSignal.Dispatch();
-            addFriendsSignal.Dispatch(playerModel.community, FriendCategory.COMMUNITY);
 
             // Update the timers on the bars
             foreach (string key in playerModel.friends.Keys)

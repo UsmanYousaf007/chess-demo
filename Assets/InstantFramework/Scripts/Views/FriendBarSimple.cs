@@ -32,6 +32,8 @@ public class FriendBarSimple : MonoBehaviour
     {
         profileNameLabel.text = friend.publicProfile.name;
         thinking.SetActive(false);
+        unblockButton.interactable = true;
+        unblockButtonLabel.gameObject.SetActive(true);
         unblockButton.onClick.AddListener(OnUnblockButtonPressed);
     }
 
@@ -71,5 +73,10 @@ public class FriendBarSimple : MonoBehaviour
         thinking.SetActive(show);
         unblockButton.interactable = !show;
         unblockButtonLabel.gameObject.SetActive(!show);
+    }
+
+    public void RemoveButtonListeners()
+    {
+        unblockButton.onClick.RemoveAllListeners();
     }
 }

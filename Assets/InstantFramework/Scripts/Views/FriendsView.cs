@@ -36,7 +36,6 @@ namespace TurboLabz.InstantFramework
 
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
-        [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
@@ -147,6 +146,7 @@ namespace TurboLabz.InstantFramework
         public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
 
+        private GameObjctsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
@@ -238,6 +238,9 @@ namespace TurboLabz.InstantFramework
             manageBlockedPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_MANAGE_BLOCKED);
             menuButton.onClick.AddListener(() => dropDownMenu.SetActive(true));
             manageBlockedPlayersButton.onClick.AddListener(OnManageBlockedFriendsClicked);
+
+            // Initializing Friend Bars Pool
+            friendBarsPool = new GameObjctsPool(friendBarPrefab);
         }
 
         #region InviteFriendDialog
@@ -332,14 +335,18 @@ namespace TurboLabz.InstantFramework
             cacheEnabledSections.Clear();
             if(playerModel.search != null)
                 playerModel.search.Clear();
+
+            // Adding all friend bars in view after clearing search friends from view.
+            if (playerModel.friends != null)
+            {
+                AddFriends(playerModel.friends, false, false);
+                SortFriends();
+            }
         }
 
         public void OnCancelSearchClicked()
         {
             ResetSearch();
-            inSearchView = false;
-            refreshFriendsSignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
         }
 
         public void ShowConnectFacebook(bool showConnectInfo)
@@ -470,9 +477,10 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            // If we have a friend bar in pool then we use that, else we instantiate a new bar
+            GameObject friendBarObj = friendBarsPool.GetObject();
+            FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
 
-            // create bar
-            GameObject friendBarObj = Instantiate(friendBarPrefab);
             SkinLink[] objects = friendBarObj.GetComponentsInChildren<SkinLink>();
             for (int i =0; i< objects.Length;i++)
             {
@@ -480,7 +488,6 @@ namespace TurboLabz.InstantFramework
             }
 
             // update bar values
-            FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
             friendBar.Init(localizationService);
             friendBar.lastMatchTimeStamp = friend.lastMatchTimestamp;
             friendBar.viewProfileButton.onClick.AddListener(() => ViewProfile(friend.playerId, friendBar));
@@ -518,6 +525,8 @@ namespace TurboLabz.InstantFramework
             {
                 friendBar.UpdateCommmunityStrip();
             }
+
+            friendBarObj.gameObject.SetActive(true);
         }
 
         public void UpdateBarsSkin()
@@ -533,8 +542,6 @@ namespace TurboLabz.InstantFramework
                 }
             }
         }
-
-        //private List<GameObject> removeBars = new List<GameObject>();
 
         public void UpdateFriendPic(string playerId, Sprite sprite)
         {
@@ -853,7 +860,6 @@ namespace TurboLabz.InstantFramework
             if (inSearchView)
             {
                 ResetSearch();
-                refreshFriendsSignal.Dispatch();
             }
             gameObject.SetActive(false); 
         }
@@ -878,7 +884,8 @@ namespace TurboLabz.InstantFramework
         {
             if (friendId != null && bars.ContainsKey(friendId) && (!bars[friendId].isSearched || bars[friendId].isRemoved))
             {
-                GameObject.Destroy(bars[friendId].gameObject);
+                bars[friendId].RemoveButtonListeners();
+                friendBarsPool.ReturnObject(bars[friendId].gameObject);
                 bars.Remove(friendId);
             }
         }
@@ -928,7 +935,8 @@ namespace TurboLabz.InstantFramework
 
             foreach (string key in destroyMe)
             {
-                Destroy(bars[key].gameObject);
+                bars[key].RemoveButtonListeners();
+                friendBarsPool.ReturnObject(bars[key].gameObject);
                 bars.Remove(key);
             }
 
