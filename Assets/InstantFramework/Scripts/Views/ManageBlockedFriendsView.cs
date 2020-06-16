@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         public Text sectionHeaderText;
         public GameObject emptyListSection;
         public Text emptyListText;
+        public GameObject processing;
 
         // Dispatch Signals
         public Signal backButtonPressedSignal = new Signal();
@@ -46,6 +47,7 @@ namespace TurboLabz.InstantFramework
         {
             ResetSearch();
             gameObject.SetActive(true);
+            processing.SetActive(true);
         }
 
         public void Hide()
@@ -55,6 +57,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(Dictionary<string, Friend> blockedFriends)
         {
+            processing.SetActive(false);
             ClearFriendsBarContainer();
             AddToFriendsBarContrainer(blockedFriends);
         }

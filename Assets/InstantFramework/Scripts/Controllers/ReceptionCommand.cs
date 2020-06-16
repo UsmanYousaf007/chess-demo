@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
+        [Inject] public IPushNotificationService pushNotificationService { get; set; }
 
         public override void Execute()
         {
@@ -83,20 +84,15 @@ namespace TurboLabz.InstantFramework
             if (!isResume)
             {
                 preferencesModel.sessionCount++;
-
                 initBackendOnceSignal.Dispatch();
-
                 loadLobbySignal.Dispatch();
                 loadPromotionSingal.Dispatch();
-
                 autoSubscriptionDailogueService.Show();
-
+                pushNotificationService.Init();
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch();
-
                 SendAnalytics();
             }
-
 
             pauseNotificationsSignal.Dispatch(false);
 
@@ -110,11 +106,6 @@ namespace TurboLabz.InstantFramework
                 var context = playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
                 context = playerModel.isPremium ? AnalyticsContext.premium : context;
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
-            }
-
-            if (preferencesModel.rankedMatchesFinishedCount >= 15)
-            {
-                analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
             }
 
             // Logging target architecture event

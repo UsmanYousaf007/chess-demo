@@ -136,10 +136,7 @@ namespace TurboLabz.InstantFramework
                     playArrow.gameObject.SetActive(true);
                     playArrowButton.gameObject.SetActive(false);
 
-                    if (friendType == Friend.FRIEND_TYPE_COMMUNITY || friendType == Friend.FRIEND_TYPE_FAVOURITE)
-                    {
-                        removeCommunityFriendButton.gameObject.SetActive(true);
-                    }
+                    removeCommunityFriendButton.gameObject.SetActive(true);
                     break;
 
                 case LongPlayStatus.NEW_CHALLENGE:

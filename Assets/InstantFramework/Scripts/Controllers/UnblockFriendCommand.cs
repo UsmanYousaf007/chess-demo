@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                manageBlockedFriendsSignal.Dispatch(string.Empty);
+                manageBlockedFriendsSignal.Dispatch(string.Empty, false);
                 refreshFriendsSignal.Dispatch();
             }
 

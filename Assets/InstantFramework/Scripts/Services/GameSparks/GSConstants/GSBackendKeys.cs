@@ -100,6 +100,7 @@ namespace TurboLabz.InstantFramework
         public const string MAX_PREGAME_ADS_PER_DAY = "maxPregameAdsPerDay";
         public const string WAIT_PREGAME_AD_LOAD_SECONDS = "waitForPregameAdLoadSeconds";
         public const string INTERVALS_BETWEEN_PREGAME_ADS = "intervalsBetweenPregameAds";
+        public const string SHOW_PREGAME_AD_ONE_MINUTE = "showPregameOneMinute";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";
@@ -310,6 +311,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_COMMUNITY = "community";
             public const string TYPE_FAVOURITE = "favourite";
             public const string LAST_MATCH_TIMESTAMP = "lastMatchTimestamp";
+            public const string FLAG_MASK = "flagMask";
         }
 
 		public static class FriendsOp
@@ -321,6 +323,7 @@ namespace TurboLabz.InstantFramework
             public const string BLOCK = "block";
             public const string SEARCH = "search";
             public const string STATUS = "status";
+            public const string UNBLOCK = "unblock";
         }
 
         public static class OfferDrawOp

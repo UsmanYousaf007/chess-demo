@@ -9,6 +9,8 @@ namespace HUF.RemoteConfigs.Runtime.Implementation
     public abstract class BaseRemoteService : IRemoteConfigsService
     {
         public abstract bool IsInitialized { get; }
+        public abstract bool SupportsCaching { get; }
+        public abstract string UID { get; }
 
         public abstract event UnityAction OnInitComplete;
         public abstract event UnityAction OnFetchComplete;

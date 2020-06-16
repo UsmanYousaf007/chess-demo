@@ -30,12 +30,12 @@ namespace HUF.StorageFirebase.Runtime.API
             }
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void AutoInit()
         {
-            if (!HConfigs.HasConfig<FirebaseStorageConfig>())
+            if ( !HConfigs.HasConfig<FirebaseStorageConfig>() )
             {
-                HLog.LogError(logPrefix, FirebaseErrorMessages.CONFIG_MISSING_ERROR);
+                HLog.LogError( logPrefix, FirebaseErrorMessages.CONFIG_MISSING_ERROR );
                 return;
             }
 

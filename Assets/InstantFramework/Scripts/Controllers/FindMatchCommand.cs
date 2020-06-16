@@ -213,7 +213,6 @@ namespace TurboLabz.InstantFramework
             }
             else if (result != BackendResult.SUCCESS)
             {
-                matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
                 backendErrorSignal.Dispatch(result);
                 Release();
             }

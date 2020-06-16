@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
         int maxPregameAdsPerDay { get; set; }
         int waitForPregameAdLoadSeconds { get; set; }
         double intervalsBetweenPregameAds { get; set; }
-
+        bool showPregameInOneMinute { get; set; }
     }
 }
 

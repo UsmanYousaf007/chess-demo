@@ -66,7 +66,8 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
                     return;
                 }
                 sprite.name = name;
-                SpriteBank.Sprites.Add(name, sprite);
+                if(!SpriteBank.Sprites.ContainsKey(name))
+                    SpriteBank.Sprites.Add(name, sprite);
                 InternalViewUpdate(sprite);
             }
             else

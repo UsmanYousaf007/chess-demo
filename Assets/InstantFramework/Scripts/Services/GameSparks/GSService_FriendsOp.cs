@@ -24,10 +24,11 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpAdd(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("add", friendId, OnFriendOpSuccess, 0, facebookService.GetAccessToken()); }
         public IPromise<BackendResult> FriendsOpAddFavourite(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("addFavourite", friendId, OnFriendOpSuccess, 0, facebookService.GetAccessToken()); }
         public IPromise<BackendResult> FriendsOpInitialize() { return new GSFriendsOpRequest(GetRequestContext()).Send("initialize", null, OnFriendOpSuccess); }
-        public IPromise<BackendResult> FriendsOpRemove(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("remove", friendId, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpRemove(string friendId, string opJson = null) { return new GSFriendsOpRequest(GetRequestContext()).Send("remove", friendId, OnFriendOpSuccess, 0, null, opJson); }
         public IPromise<BackendResult> FriendsOpSearch(string matchString, int skip) { return new GSFriendsOpRequest(GetRequestContext()).Send("search", matchString, OnFriendOpSuccess, skip); }
         public IPromise<BackendResult> FriendsOpStatus(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("status", friendId, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpUnblock(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("unblock", friendId, OnFriendOpSuccess); }
+        public IPromise<BackendResult> FriendsOpBlocked(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("blocked", friendId, OnFriendOpSuccess); }
 
         private void OnFriendOpSuccess(object r)
 		{
@@ -82,6 +83,15 @@ namespace TurboLabz.InstantFramework
                 Friend friend = playerModel.friends[blockedId];
                 playerModel.blocked.Add(blockedId, friend);
                 playerModel.friends.Remove(blockedId);
+            }
+
+            // Friend unblocked
+            string unblockedId = response.ScriptData.GetString(GSBackendKeys.FriendsOp.UNBLOCK);
+            if (unblockedId != null)
+            {
+                Friend friend = playerModel.blocked[unblockedId];
+                playerModel.friends.Add(unblockedId, friend);
+                playerModel.blocked.Remove(unblockedId);
             }
 
             // Update friend status 
@@ -190,10 +200,11 @@ namespace TurboLabz.InstantFramework
 		const string ATT_OP = "op";
         const string ATT_FBTOKEN = "fbToken";
         const string ATT_SKIP = "skip";
+        const string ATT_JSON = "opJson";
 
         public GSFriendsOpRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, int skip = 0, string fbToken = null)
+        public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, int skip = 0, string fbToken = null, string opJson = null)
 		{
 			this.errorCode = BackendResult.FRIENDS_OP_FAILED;
 			this.onSuccess = onSuccess;
@@ -203,6 +214,7 @@ namespace TurboLabz.InstantFramework
 				.SetEventAttribute(ATT_FRIEND_ID, friendId)
                 .SetEventAttribute(ATT_FBTOKEN, fbToken)
                 .SetEventAttribute(ATT_SKIP, skip)
+                .SetEventAttribute(ATT_JSON, opJson)
 				.Send(OnRequestSuccess, OnRequestFailure);
 
 			return promise;

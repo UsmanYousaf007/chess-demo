@@ -144,6 +144,13 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             hasContent = remoteConfig.CrossPromoPanelGameModels.Count > 0 && remoteConfig.TopPanelCrossPromoGameModels.Count > 0;
         }
 
+        public void FetchRemoteConfigs()
+        {
+            HandleRemoteConfigsInitialized();
+            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
+            HRemoteConfigs.OnFetchFail += HandleConfigFetchFinished;
+        }
+
         void HandleRemoteConfigsInitialized()
         {
             HRemoteConfigs.Fetch();

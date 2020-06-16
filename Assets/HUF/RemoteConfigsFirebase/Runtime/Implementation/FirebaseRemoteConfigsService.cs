@@ -10,15 +10,18 @@ using HUF.RemoteConfigs.Runtime.Implementation;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
 {
     public class FirebaseRemoteConfigsService : BaseRemoteService
     {
+        const string SERVICE_UID = "Firebase";
+
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(FirebaseRemoteConfigsService) );
         public override bool IsInitialized => HInitFirebase.IsInitialized;
+        public override bool SupportsCaching => true;
+        public override string UID => SERVICE_UID;
 
         FirebaseRemoteConfigsConfig config;
 
@@ -109,33 +112,51 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
             {
                 HLog.Log( logPrefix, $"Fetch completed." );
                 FinalizeFetchCompleted();
+                return;
+            }
+
+            if ( FirebaseRemoteConfig.Info.LastFetchStatus == LastFetchStatus.Success )
+            {
+                HLog.Log( logPrefix, $"Firebase cache used. Nothing new was fetched" );
+                OnFetchComplete.Dispatch();
+                return;
+            }
+
+            string failReason;
+
+            if ( fetchTask.Exception != null )
+            {
+                failReason = fetchTask.Exception.GetFullErrorMessage();
+            }
+            else if ( fetchTask.IsCanceled )
+            {
+                failReason = "Fetch task was cancelled.";
             }
             else
             {
-                string failReason;
+                failReason = FirebaseRemoteConfig.Info.LastFetchFailureReason.ToString();
 
-                if ( fetchTask.Exception != null )
+                switch ( FirebaseRemoteConfig.Info.LastFetchFailureReason )
                 {
-                    failReason = fetchTask.Exception.GetFullErrorMessage();
-                }
-                else if ( fetchTask.IsCanceled )
-                {
-                    failReason = "Fetch task was cancelled";
-                }
-                else if ( fetchTask.IsFaulted )
-                {
-                    failReason = "Unknown error";
-                }
-                else
-                {
-                    failReason = "There is no error but nothing was fetched. " +
-                                 "Probably 'Fetch' was called before the previously cached data expired. " +
-                                 "Check 'CacheExpirationInSeconds' field in 'FirebaseRemoteConfigsConfig'";
-                }
+                    case FetchFailureReason.Invalid:
+                        failReason = "There is no error but nothing was fetched. " +
+                                     "Probably 'Fetch' was called before the previously cached data expired. " +
+                                     "Check 'CacheExpirationInSeconds' field in 'FirebaseRemoteConfigsConfig'.";
+                        break;
 
-                HLog.LogWarning( logPrefix, $"Fetch failed. {failReason}" );
-                OnFetchFailed();
+                    case FetchFailureReason.Throttled:
+                        failReason =
+                            $"Throttled by the server until {FirebaseRemoteConfig.Info.ThrottledEndTime}. You are sending too many fetch requests in too short a time.";
+                        break;
+
+                    case FetchFailureReason.Error:
+                        failReason = "There was an unknown error on the Server.";
+                        break;
+                }
             }
+
+            HLog.LogWarning( logPrefix, $"Fetch failed. {failReason}" );
+            OnFetchFailed.Dispatch();
         }
 
         void FinalizeFetchCompleted()
