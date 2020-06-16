@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
 
                     // Updating this here so the friend can be added in recent played list.
                     // This is updated on server by itself when the match starts.
-                    friend.removedFromRecentPlayed = false;
+                    friend.flagMask |= (long)FriendsFlagMask.RECENT_PLAYED;
                 }
                 else
                 {

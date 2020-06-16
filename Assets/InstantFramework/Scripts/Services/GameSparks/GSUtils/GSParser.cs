@@ -316,7 +316,7 @@ namespace TurboLabz.InstantFramework
 			friend.gamesWon = GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_WON);
             friend.friendType = GetSafeString(friendData, GSBackendKeys.Friend.TYPE, GSBackendKeys.Friend.TYPE_COMMUNITY);
             friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
-            friend.removedFromRecentPlayed = GetSafeBool(friendData, GSBackendKeys.Friend.REMOVED_FROM_RECENT_PLAYED);
+            friend.flagMask = GetSafeLong(friendData, GSBackendKeys.Friend.FLAG_MASK);
 
             GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);

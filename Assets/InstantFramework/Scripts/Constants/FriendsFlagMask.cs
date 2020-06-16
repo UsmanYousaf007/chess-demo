@@ -10,9 +10,8 @@ using System;
 namespace TurboLabz.InstantFramework
 {
     [Flags]
-    public enum FriendsSubOpFlag
+    public enum FriendsFlagMask
     {
-        NONE = 0x1,
-        REMOVE_RECENT = 0x2,
+        RECENT_PLAYED = 0x1
     }
 }

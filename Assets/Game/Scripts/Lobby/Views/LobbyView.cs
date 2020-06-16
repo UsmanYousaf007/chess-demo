@@ -971,9 +971,9 @@ namespace TurboLabz.InstantFramework
             {
                 List<string> removeRecentIds = new List<string>(2);
                 removeRecentIds.Add(actionBar.friendInfo.playerId);
-                FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentIds, FriendsSubOpFlag.REMOVE_RECENT);
+                FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentIds, FriendsSubOp.SubOpType.REMOVE_RECENT);
 
-                actionBar.friendInfo.removedFromRecentPlayed = true;
+                actionBar.friendInfo.flagMask &= ~(long)FriendsFlagMask.RECENT_PLAYED;
                 removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
 
                 SortFriends();
@@ -1229,9 +1229,10 @@ namespace TurboLabz.InstantFramework
                     activeMatches.Add(bar);
 
                 }
-                else if (bar.friendInfo.removedFromRecentPlayed == false && (bar.lastMatchTimeStamp > 0) &&
-                                    (bar.lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (RECENTLY_COMPLETED_THRESHOLD_DAYS * 24 * 60 * 60 * 1000))) &&
-                                    status == LongPlayStatus.DEFAULT)
+                else if ((bar.friendInfo.flagMask & (long)FriendsFlagMask.RECENT_PLAYED) != 0 &&
+                        (bar.lastMatchTimeStamp > 0) &&
+                        (bar.lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (RECENTLY_COMPLETED_THRESHOLD_DAYS * 24 * 60 * 60 * 1000))) &&
+                        status == LongPlayStatus.DEFAULT)
                 {
                     bar.UpdatePlayButtonStatus(true, localizationService);
                     recentlyCompleted.Add(bar);
@@ -1330,7 +1331,7 @@ namespace TurboLabz.InstantFramework
 
             if (removeRecentCompletedIds.Count > 0)
             {
-                FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentCompletedIds, FriendsSubOpFlag.REMOVE_RECENT);
+                FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentCompletedIds, FriendsSubOp.SubOpType.REMOVE_RECENT);
 
                 removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
             }

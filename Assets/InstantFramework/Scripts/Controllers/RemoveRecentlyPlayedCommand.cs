@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             string opJson = JsonUtility.ToJson(friendsSubOp);
-            backendService.FriendsOpRemove(friendId, opJson);
+            backendService.FriendsOpRemove(string.IsNullOrEmpty(friendId) ? null : friendId, opJson);
         }
     }
 }
