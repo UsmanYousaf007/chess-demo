@@ -46,10 +46,13 @@ namespace TurboLabz.InstantFramework
                         matchAnalyticsVO.friendType = "friends_facebook";
 
                     }
-                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
-                             friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                    else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
                     {
                         matchAnalyticsVO.friendType = "friends_community";
+                    }
+                    else
+                    {
+                        matchAnalyticsVO.friendType = "community";
                     }
                 }
                 else

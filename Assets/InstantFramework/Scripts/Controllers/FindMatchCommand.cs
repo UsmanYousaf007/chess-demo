@@ -272,8 +272,7 @@ namespace TurboLabz.InstantFramework
                         matchAnalyticsVO.friendType = "friends_facebook";
                     }
                 }
-                else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE) ||
-                         friendType.Equals(GSBackendKeys.Friend.TYPE_COMMUNITY))
+                else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
                 {
                     if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
                     {
@@ -286,6 +285,21 @@ namespace TurboLabz.InstantFramework
                     else
                     {
                         matchAnalyticsVO.friendType = "friends_community";
+                    }
+                }
+                else
+                {
+                    if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.InGame)
+                    {
+                        matchAnalyticsVO.friendType = "community_notification_in_app";
+                    }
+                    else if (FindMatchAction.actionData.notificationStatus == FindMatchAction.NotificationStatus.OutGame)
+                    {
+                        matchAnalyticsVO.friendType = "community_notification_out_app";
+                    }
+                    else
+                    {
+                        matchAnalyticsVO.friendType = "community";
                     }
                 }
             }
