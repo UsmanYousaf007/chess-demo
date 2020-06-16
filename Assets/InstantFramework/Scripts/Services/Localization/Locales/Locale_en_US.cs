@@ -295,6 +295,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_UNBLOCK, "Unblock"},
                 { LocalizationKey.FRIENDS_BLOCKED, "BLOCKED PLAYERS"},
                 { LocalizationKey.FRIENDS_BLOCKED_EMPTY_LIST, "You haven't blocked anyone"},
+                { LocalizationKey.FRIENDS_UNBLOCK_FAILED_TITLE, "Unblock Failed"},
+                { LocalizationKey.FRIENDS_UNBLOCK_FAILED_DESC, "Unblocking a player will add them as a friend but your friends limit is reached, please remove unused friends strip to unblock"},
                 #endregion
 
                 #region Share

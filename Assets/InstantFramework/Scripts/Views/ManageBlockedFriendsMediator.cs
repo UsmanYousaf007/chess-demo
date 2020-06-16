@@ -59,10 +59,10 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(blockedFriends);
         }
 
-        [ListensTo(typeof(UpdateFriendPicSignal))]
-        public void OnUpdateFriendPic(string playerId, Sprite sprite)
+        [ListensTo(typeof(ResetUnblockButtonSignal))]
+        public void OnResetUnblockButton(string playerId)
         {
-            view.UpdateFriendPic(playerId, sprite);
+            view.ResetUnblockButton(playerId);
         }
 
         private void OnBackSignal()

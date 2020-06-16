@@ -213,7 +213,7 @@ namespace TurboLabz.CPU
             HideHint();
             HideHindsight();
 
-            showAdOnBack = true;
+            showAdOnBack = !playerModel.HasSubscription();
         }
 
         public void UpdatePlayerPrePromoMove(MoveVO moveVO)
@@ -258,7 +258,7 @@ namespace TurboLabz.CPU
             HideHint();
             HideHindsight();
 
-            showAdOnBack = true;
+            showAdOnBack = !playerModel.HasSubscription();
         }
 
         public void UpdateOpponentMove(MoveVO moveVO)

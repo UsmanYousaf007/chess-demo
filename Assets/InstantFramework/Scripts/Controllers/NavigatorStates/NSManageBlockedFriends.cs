@@ -42,6 +42,10 @@
             {
                 return new NSEarnRewardsDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
+            {
+                return new NSConfirmDlg();
+            }
 
             return null;
         }

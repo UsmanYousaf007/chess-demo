@@ -433,12 +433,8 @@ namespace TurboLabz.CPU
             vo.challengeId = "";
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.rewarded;
-            showRewardedAdSignal.Dispatch(vo);
-
-            // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
-            //backToLobbySignal.Dispatch();
-
             analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            showRewardedAdSignal.Dispatch(vo);
         }
 
         public void OnResultsSkipRewardButtonClicked()
@@ -450,12 +446,11 @@ namespace TurboLabz.CPU
             vo.challengeId = "";
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
+            if (!playerModel.HasSubscription())
+            {
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            }
             showAdSignal.Dispatch(vo);
-
-            //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
-            //backToLobbySignal.Dispatch();
-
-            //analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
         }
 
         private void OnResultsClosed()

@@ -264,7 +264,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
-            if (!playerModel.isPremium)
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd())
                 {
@@ -289,7 +289,7 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
-            if (!playerModel.isPremium)
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd(actionCode))
                 {
