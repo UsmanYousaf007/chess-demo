@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
                 string reason = response.ScriptData.GetString(GSBackendKeys.Match.ABORT_KEY);
 
                 matchInfoModel.createLongMatchAborted = true;
+                matchInfoModel.activeLongMatchOpponentId = null;
                 if(reason == "LimitReached")
                 {
                     matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.LimitReached;
