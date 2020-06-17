@@ -325,6 +325,7 @@ namespace TurboLabz.InstantFramework
                         savedFriend.gamesLost = updatedFriend.gamesLost;
                         savedFriend.gamesDrawn = updatedFriend.gamesDrawn;
                         savedFriend.lastMatchTimestamp = updatedFriend.lastMatchTimestamp;
+                        savedFriend.flagMask = updatedFriend.flagMask;
                         savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
 
                         EloVO vo;
