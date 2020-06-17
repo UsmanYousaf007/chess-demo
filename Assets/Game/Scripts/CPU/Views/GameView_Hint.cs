@@ -34,6 +34,8 @@ namespace TurboLabz.CPU
         public StrengthAnim strengthPanel;
         public GameObject strengthOnboardingTooltip;
 
+        private IEnumerator hideHintCR = null;
+
         private bool isStrengthToolTipShown;
 
         public void InitHint()
@@ -93,7 +95,13 @@ namespace TurboLabz.CPU
             }
 
             strengthPanel.ShowStrengthPanel(strengthVO);
-            StartCoroutine(HideHint(4.0f));
+            //StartCoroutine(HideHint(4.0f));
+
+            hideHintCR = HideHint(4.0f);
+            if (this.gameObject.activeInHierarchy)
+            {
+                StartCoroutine(hideHintCR);
+            }
 
         }
 
