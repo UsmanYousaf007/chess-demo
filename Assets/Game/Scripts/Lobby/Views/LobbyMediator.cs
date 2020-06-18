@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public RemoveRecentlyPlayedSignal removeRecentlyPlayedSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -82,6 +83,7 @@ namespace TurboLabz.InstantFramework
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
             view.showChatSignal.AddListener(OnShowChat);
+            view.clearRecentButtonClickedSignal.AddListener(ClearRecentPlayed);
         }
 
         private void OnDecStrengthButtonClicked()
@@ -453,6 +455,48 @@ namespace TurboLabz.InstantFramework
             }
 
             return retVal;
+        }
+
+        private void ClearRecentPlayed(List<FriendBar> recentCompletedBars, long recentlyCompletedThreshold)
+        {
+            List<string> removeRecentCompletedIds = new List<string>();
+            HashSet<string> uniqueReceneCompletedIds = new HashSet<string>();
+            Dictionary<string, Friend> friends = playerModel.friends;
+
+            // Removing from recent completed bars
+            for (int i = 0; i < recentCompletedBars.Count; i++)
+            {
+                Friend friendInfo = recentCompletedBars[i].friendInfo;
+                if ((friendInfo.flagMask & (long)FriendsFlagMask.RECENT_PLAYED) != 0 &&
+                    (recentCompletedBars[i].lastMatchTimeStamp > 0) &&
+                    (recentCompletedBars[i].lastMatchTimeStamp > (TimeUtil.unixTimestampMilliseconds - (recentlyCompletedThreshold * 24 * 60 * 60 * 1000))) &&
+                    recentCompletedBars[i].longPlayStatus == LongPlayStatus.DEFAULT)
+                {
+                    friendInfo.flagMask &= ~(long)FriendsFlagMask.RECENT_PLAYED;
+                    removeRecentCompletedIds.Add(friendInfo.playerId);
+                    uniqueReceneCompletedIds.Add(friendInfo.playerId);
+                }
+            }
+
+            // Removing recently completed from friends if any
+            foreach (var friend in friends.Values)
+            {
+                if ((friend.flagMask & (long)FriendsFlagMask.RECENT_PLAYED) != 0 &&
+                (friend.lastMatchTimestamp > 0) &&
+                (friend.lastMatchTimestamp > (TimeUtil.unixTimestampMilliseconds - (recentlyCompletedThreshold * 24 * 60 * 60 * 1000))))
+                {
+                    if (!uniqueReceneCompletedIds.Contains(friend.playerId))
+                    {
+                        removeRecentCompletedIds.Add(friend.playerId);
+                    }
+                }
+            }
+
+            FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentCompletedIds, FriendsSubOp.SubOpType.REMOVE_RECENT);
+
+            removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
+
+            view.SortFriends();
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]

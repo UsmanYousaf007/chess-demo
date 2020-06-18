@@ -80,6 +80,9 @@ namespace TurboLabz.InstantFramework
         public Transform sectionPlaySomeoneNew;
         public GameObject sectionPlaySomeoneNewEmpty;
 
+        public Text clearRecentBtnTxt;
+        public Button clearRecentBtn;
+
         public Text sectionActiveMatchesTitle;
         public Text sectionPlaySomeoneNewTitle;
 
@@ -175,6 +178,7 @@ namespace TurboLabz.InstantFramework
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
+        public Signal<List<FriendBar>, long> clearRecentButtonClickedSignal = new Signal<List<FriendBar>, long>();
 
         private GameObjctsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -250,6 +254,7 @@ namespace TurboLabz.InstantFramework
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
+            clearRecentBtnTxt.text = localizationService.Get(LocalizationKey.CHAT_CLEAR);
 
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
@@ -260,6 +265,7 @@ namespace TurboLabz.InstantFramework
             notificationTagImage.gameObject.SetActive(false);
 
             cacheEnabledSections = new List<GameObject>();
+            clearRecentBtn.onClick.AddListener(OnClearRecentButtonClicked);
 
             scrollViewOrignalPosition = scrollRect.transform.localPosition;
             scrollViewportOrginalBottom = scrollViewport.offsetMin.y;
@@ -401,6 +407,11 @@ namespace TurboLabz.InstantFramework
             {
                 playCPUButtonClickedSignal.Dispatch();
             }
+        }
+
+        void OnClearRecentButtonClicked()
+        {
+            clearRecentButtonClickedSignal.Dispatch(recentlyCompleted, RECENTLY_COMPLETED_THRESHOLD_DAYS);
         }
 
         void OnComputerDifficultyDlgCloseClicked()
