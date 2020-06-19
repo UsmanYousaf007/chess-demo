@@ -33,6 +33,9 @@ namespace TurboLabz.InstantFramework
 
         public GameObject GetObject()
         {
+
+            return GameObject.Instantiate(_prefab);
+
             GameObject retObj = null;
 
             if (_pool.Count > 0)
@@ -55,6 +58,11 @@ namespace TurboLabz.InstantFramework
 
         public void ReturnObject(GameObject obj)
         {
+
+            GameObject.Destroy(obj);
+            obj = null;
+            return;
+
             if (_pool == null)
                 _pool = new List<GameObject>();
 
