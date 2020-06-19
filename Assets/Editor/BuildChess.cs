@@ -398,6 +398,16 @@ public class BuildChess : MonoBehaviour
         LogUtil.Log("End Build Android for Store");
     }
 
+    [MenuItem("Build/Apply Build Settings (iOS & Android)", false, 0)]
+    public static void ApplyBuildSettingsiOSAndroid()
+    {
+        LogUtil.Log("Applying project settings for iOS and Android");
+        BuildPlayerSettings();
+        BuildPlayerSettingsAndroid();
+        BuildPlayerSettingsiOS();
+        LogUtil.Log("End Apply Settings");
+    }
+
     public static void BuildiOSCloud(string xcodeproj)
     {
         BuildiOS();
