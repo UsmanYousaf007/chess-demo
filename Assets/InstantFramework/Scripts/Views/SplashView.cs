@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                wifiWarning.text = "Slow internet. Please wait..";
+                wifiWarning.text = "Connecting to server...";
             }
 
             analyticsService.Event(AnalyticsEventId.internet_warning_on_splash);
