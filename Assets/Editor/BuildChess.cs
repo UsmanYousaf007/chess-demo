@@ -108,6 +108,9 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.iOS.tvOSManualProvisioningProfileType = ProvisioningProfileType.Automatic;
         PlayerSettings.iOS.useOnDemandResources = false;
 
+        //-- Uncomment this to remove 32bit arhitecture from iOS build.
+        //PlayerSettings.SetArchitecture(BuildTargetGroup.iOS, 1); // 0 - None, 1 - ARM64, 2 - Universal.
+
         PlayerSettings.applicationIdentifier = "com.turbolabz.instantchess.ios";
         PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.iOS, ApiCompatibilityLevel.NET_4_6);
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, "com.turbolabz.instantchess.ios");
@@ -296,7 +299,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
-        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_Release");
+        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_Release");
 
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
@@ -369,7 +372,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
-        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.None, "_ReleaseStore");
+        BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_ReleaseStore");
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
 #endif
@@ -393,6 +396,16 @@ public class BuildChess : MonoBehaviour
         ProcessBuild(buildPlayerOptions);
 #endif
         LogUtil.Log("End Build Android for Store");
+    }
+
+    [MenuItem("Build/Apply Build Settings (iOS & Android)", false, 0)]
+    public static void ApplyBuildSettingsiOSAndroid()
+    {
+        LogUtil.Log("Applying project settings for iOS and Android");
+        BuildPlayerSettings();
+        BuildPlayerSettingsAndroid();
+        BuildPlayerSettingsiOS();
+        LogUtil.Log("End Apply Settings");
     }
 
     public static void BuildiOSCloud(string xcodeproj)

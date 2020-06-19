@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HUF.Utils.BuildSupport
+namespace HUF.Utils.Runtime.BuildSupport
 {
     [System.Serializable]
     public class PurposeStringData

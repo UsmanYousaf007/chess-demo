@@ -28,13 +28,20 @@ namespace TurboLabz.InstantFramework
                 string reason = response.ScriptData.GetString(GSBackendKeys.Match.ABORT_KEY);
 
                 matchInfoModel.createLongMatchAborted = true;
+                matchInfoModel.activeLongMatchOpponentId = null;
                 if(reason == "LimitReached")
                 {
                     matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.LimitReached;
-                }else if(reason == "Pending match already exists.")
+                }
+                else if(reason == "Pending match already exists.")
                 {
                     matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.Pending;
-                }else
+                }
+                else if (reason == "Blocked")
+                {
+                    matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.Blocked;
+                }
+                else
                 {
                     matchInfoModel.createLongMatchAbortReason = CreateLongMatchAbortReason.CreateFailed;
                 }

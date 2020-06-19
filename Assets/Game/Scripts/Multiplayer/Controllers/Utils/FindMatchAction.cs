@@ -19,7 +19,16 @@ namespace TurboLabz.InstantFramework
             RandomLong,
             Challenge,
             Accept,
-            Challenge10
+            Challenge10,
+            Random1,
+            Challenge1
+        }
+
+        public enum NotificationStatus
+        {
+            InGame,
+            OutGame,
+            None
         }
 
         public struct ActionData
@@ -30,10 +39,12 @@ namespace TurboLabz.InstantFramework
             public bool isRanked;
             public string avatarId;
             public string avatarBgColor;
+            public NotificationStatus notificationStatus;
+            public string acceptActionCode;
         }
 
         public const string ACTION_RANDOM = "Random";
-        static ActionData actionData = new ActionData();
+        public static ActionData actionData = new ActionData();
         public static bool isMatchRequestedWithFriend;
         public static bool isRandomLongMatch;
 
@@ -51,6 +62,7 @@ namespace TurboLabz.InstantFramework
             isMatchRequestedWithFriend = false;
             isRandomLongMatch = false;
             actionData.action = actionCode;
+            actionData.notificationStatus = NotificationStatus.None;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -63,6 +75,7 @@ namespace TurboLabz.InstantFramework
             actionData.action = actionCode;
             actionData.isRanked = isRanked;
             actionData.opponentId = opponentId;
+            actionData.notificationStatus = NotificationStatus.None;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -72,10 +85,11 @@ namespace TurboLabz.InstantFramework
             isMatchRequestedWithFriend = false;
             isRandomLongMatch = true;
             actionData.action = ActionCode.RandomLong.ToString();
+            actionData.notificationStatus = NotificationStatus.None;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
-        static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor)
+        static public void Accept(FindMatchSignal signal, string opponentId, string matchGroup, string avatarId, string avatarBgColor, string actionCode, NotificationStatus notificationStatus)
         {
             Reset();
             isMatchRequestedWithFriend = false;
@@ -86,6 +100,8 @@ namespace TurboLabz.InstantFramework
             actionData.opponentId = opponentId;
             actionData.avatarId = avatarId;
             actionData.avatarBgColor = avatarBgColor;
+            actionData.notificationStatus = notificationStatus;
+            actionData.acceptActionCode = actionCode;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
     }

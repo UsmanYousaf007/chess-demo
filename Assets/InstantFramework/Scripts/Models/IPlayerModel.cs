@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         long subscriptionExipryTimeStamp { get; set; }
         string renewDate { get; set; }
         string subscriptionType { get; set; }
+        AnalyticsContext adContext { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
@@ -75,5 +76,7 @@ namespace TurboLabz.InstantFramework
 
         void UpdateGoodsInventory(string key, int quantity);
         AdsRewardVO GetAdsRewardsData();
+
+        int GetSocialFriendsCount();
     }
 }

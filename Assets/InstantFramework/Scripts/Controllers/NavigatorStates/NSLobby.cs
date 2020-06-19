@@ -10,18 +10,13 @@ namespace TurboLabz.InstantFramework
 {
     public class NSLobby : NS
     {
-        DateTime timeAtScreenShown;
-
         public override void RenderDisplayOnEnter()
         {
-            timeAtScreenShown = TimeUtil.ToDateTime(cmd.backendService.serverClock.currentTimestamp);
             ShowView(NavigatorViewId.LOBBY);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            cmd.preferencesModel.UpdateTimeSpentAnalyticsData(AnalyticsEventId.time_spent_lobby, timeAtScreenShown);
-
             if (evt == NavigatorEvent.SHOW_CPU)
             {
                 return new NSCPU();

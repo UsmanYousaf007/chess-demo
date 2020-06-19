@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
     public class SetUpdateURLSignal : Signal<string> { }
     public class FindMatchSignal : Signal<string> { }
     public class FindMatchCompleteSignal : Signal<string> { }
+    public class FindRandomLongMatchCompleteSignal : Signal { }
     public class TapLongMatchSignal : Signal<string, bool> { }
     public class CreateLongMatchSignal : Signal<string, bool> { }
     public class StartLongMatchSignal : Signal<string> { }
@@ -76,6 +77,7 @@ namespace TurboLabz.InstantFramework
     public class BlockFriendSignal : Signal<string> { }
     public class LoadChatSignal : Signal<string, bool> { }
     public class RemoveCommunityFriendSignal : Signal<string> { }
+    public class RemoveRecentlyPlayedSignal : Signal<string, FriendsSubOp> { }
     public class UpdateFriendOnlineStatusSignal : Signal<ProfileVO> { }
     public class ClearCommunitySignal : Signal { }
     public class ClearFriendsSignal : Signal { }
@@ -118,7 +120,8 @@ namespace TurboLabz.InstantFramework
     public class RestorePurchasesSignal : Signal { }
     public class NewFriendAddedSignal : Signal<string> { }
     public class NotificationRecievedSignal : Signal<NotificationVO> { }
-    public class PreShowNotificationSignal : Signal { }
+    public class PreShowNotificationSignal : Signal{ }
+    public class ShowViewBoardResultsPanelSignal : Signal<bool> { }
     public class PostShowNotificationSignal : Signal { }
     public class ResumeMatchSignal : Signal<NavigatorViewId> { }
     public class UpdatePlayerNotificationCountSignal : Signal<int> { }
@@ -145,6 +148,12 @@ namespace TurboLabz.InstantFramework
     public class DisableModalBlockersSignal : Signal { }
     public class SelectTierSignal : Signal<string> { }
     public class SetSubscriptionContext : Signal<string, string> { }
+    public class MatchAnalyticsSignal : Signal<MatchAnalyticsVO> { }
+    public class ManageBlockedFriendsSignal : Signal<string, bool> { }
+    public class UnblockFriendSignal : Signal<string> { }
+    public class UpdateManageBlockedFriendsViewSignal : Signal<Dictionary<string, Friend>> { }
+    public class ResetUnblockButtonSignal : Signal<string> { }
+    public class UpdateOfferDrawSignal : Signal<OfferDrawVO> { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

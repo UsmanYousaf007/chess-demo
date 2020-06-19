@@ -61,6 +61,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
+        [Inject] public ShowViewBoardResultsPanelSignal showViewBoardResultsPanelSignal { get; set; }
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -125,7 +126,7 @@ namespace TurboLabz.InstantGame
 
         private void PreShowNotificationSetup(NotificationContainer notificationContainer)
         {
-            if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            if (appInfoModel.gameMode != GameMode.NONE && (appInfoModel.gameMode == GameMode.CPU || appInfoModel.gameMode == GameMode.QUICK_MATCH))
             {
                 Notification notificationObj = notificationContainer.obj.GetComponent<Notification>();
                 notificationObj.playButton.gameObject.SetActive(false);
@@ -244,13 +245,17 @@ namespace TurboLabz.InstantGame
                 notification.titleLarge.gameObject.SetActive(true);
                 notification.title.gameObject.SetActive(false);
 
-                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString())
                 {
-                    notification.titleLarge.text = "5-Minutes Game";
+                    notification.titleLarge.text = "1-Minute Game";
+                }
+                else if(notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
+                {
+                    notification.titleLarge.text = "5-Minute Game";
                 }
                 else
                 {
-                    notification.titleLarge.text = "10-Minutes Game";
+                    notification.titleLarge.text = "10-Minute Game";
                 }
 
                 notification.body.text = notificationVO.title;
@@ -264,11 +269,11 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
+            /*if (appInfoModel.gameMode == GameMode.QUICK_MATCH || appInfoModel.gameMode == GameMode.CPU)
             {
                 notification.playButton.gameObject.SetActive(false);
                 notification.acceptQuickMatchButton.gameObject.SetActive(false);
-            }
+            }*/
 
             notifidationObj.transform.SetParent(gameObject.transform);
             var notificationPosition = new Vector3(0, positionDummy.transform.position.y, 0); 
@@ -293,16 +298,6 @@ namespace TurboLabz.InstantGame
 
         public void ProcessOpenedNotification(NotificationVO notificationVO)
         {
-            string challengeId = GetChallengeId(notificationVO.senderPlayerId);
-            if (challengeId != null)
-            {
-                MatchInfo matchInfo = matchInfoModel.matches[challengeId];
-                if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
-                {
-                    tapLongMatchSignal.Dispatch(notificationVO.senderPlayerId, false);
-                }
-            }
-
             if (notificationVO.matchGroup != "undefined")
             {
                 if((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent)/1000 > NOTIFICATION_QUICKMATCH_DURATION)
@@ -333,8 +328,9 @@ namespace TurboLabz.InstantGame
                         facebookService.GetSocialPic(notificationVO.profilePicURL, notificationVO.senderPlayerId).Then(OnGetSocialPic);
                     }
                 }
+
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
-                                        notificationVO.avatarId, notificationVO.avaterBgColorId);
+                                        notificationVO.avatarId, notificationVO.avaterBgColorId, notificationVO.actionCode, FindMatchAction.NotificationStatus.OutGame);
             }
         }
 
@@ -350,8 +346,10 @@ namespace TurboLabz.InstantGame
             {
                 saveGameSignal.Dispatch();
             }
+
             loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
+            showViewBoardResultsPanelSignal.Dispatch(false);
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
             FadeBlocker();
         }
@@ -363,10 +361,12 @@ namespace TurboLabz.InstantGame
             {
                 saveGameSignal.Dispatch();
             }
+
             loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
+            showViewBoardResultsPanelSignal.Dispatch(false);
             FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup,
-                notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId);
+                notifications[0].notificationVO.avatarId, notifications[0].notificationVO.avaterBgColorId, notifications[0].notificationVO.actionCode, FindMatchAction.NotificationStatus.InGame);
             FadeBlocker();
         }
 

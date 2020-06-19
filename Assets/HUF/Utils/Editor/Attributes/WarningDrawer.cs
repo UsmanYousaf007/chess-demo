@@ -1,7 +1,8 @@
+using HUF.Utils.Runtime.Attributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.Attributes.Editor
+namespace HUF.Utils.Editor.Attributes
 {
     [CustomPropertyDrawer(typeof(WarningAttribute))]
     public class WarningDrawer : PropertyDrawer

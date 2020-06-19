@@ -61,6 +61,11 @@ namespace TurboLabz.InstantFramework
 
         public void Event(AnalyticsEventId evt, AnalyticsParameter param, object val)
         {
+            Event(evt.ToString(), param, val);
+        }
+
+        public void Event(string evt, AnalyticsParameter param, object val)
+        {
             if (param == AnalyticsParameter.elo)
             {
                 int rating = (int)val;
@@ -80,17 +85,22 @@ namespace TurboLabz.InstantFramework
                 { param.ToString(), val }
             };
 
-            Print(evt.ToString(), p);
+            Print(evt, p);
         }
 
         public void Event(AnalyticsEventId evt, AnalyticsContext context)
+        {
+            Event(evt.ToString(), context);
+        }
+
+        public void Event(string evt, AnalyticsContext context)
         {
             Dictionary<string, object> p = new Dictionary<string, object>
             {
                 { AnalyticsParameter.context.ToString(), context.ToString() }
             };
 
-            Print(evt.ToString(), p);
+            Print(evt, p);
         }
 
         public void LevelComplete(int difficulty)

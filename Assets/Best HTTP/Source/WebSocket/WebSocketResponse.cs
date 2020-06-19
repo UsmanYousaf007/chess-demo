@@ -614,6 +614,8 @@ namespace BestHTTP.WebSocket
 
                 CloseWithError(HTTPRequestStates.Error, "No message received in the given time!");
 
+                UnityEngine.Debug.Log("PING FAILED - OnHeartbeatUpdate");
+
                 this.pingFail = true;
             }
         }
@@ -644,6 +646,8 @@ namespace BestHTTP.WebSocket
                 HTTPManager.Logger.Information("WebSocketResponse", "Error while sending PING message! Closing WebSocket.");
                 CloseWithError(HTTPRequestStates.Error, "Error while sending PING message!");
                 this.pingFail = true;
+
+                UnityEngine.Debug.Log("PING FAILED - SendPing");
             }
         }
 

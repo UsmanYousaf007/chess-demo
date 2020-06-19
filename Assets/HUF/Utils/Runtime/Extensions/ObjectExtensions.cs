@@ -1,7 +1,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace HUF.Utils.Extensions
+namespace HUF.Utils.Runtime.Extensions
 {
     public static class ObjectExtensions
     {

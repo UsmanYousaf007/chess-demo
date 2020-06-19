@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using HUF.Utils.Configs.API;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEngine;
 
-namespace HUF.Ads.Implementation.EditorAds
+namespace HUF.Ads.Runtime.Implementation.EditorAds
 {
     public abstract class BaseEditorAdProvider
     {

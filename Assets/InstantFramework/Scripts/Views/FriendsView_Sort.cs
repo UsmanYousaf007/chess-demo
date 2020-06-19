@@ -38,16 +38,10 @@ namespace TurboLabz.InstantFramework
             List<FriendBar> allFriends = new List<FriendBar>();
 
             List<FriendBar> onlineFbFriends = new List<FriendBar>();
-            List<FriendBar> subsriberOnlineFbFriends = new List<FriendBar>();
-
+            List<FriendBar> activeFbFriends = new List<FriendBar>();
             List<FriendBar> fbFriends = new List<FriendBar>();
-            List<FriendBar> subsriberFbFriends = new List<FriendBar>();
-
             List<FriendBar> onlineRecentCompleted = new List<FriendBar>();
-            List<FriendBar> subsriberOnlineRecentCompleted = new List<FriendBar>();
-
             List<FriendBar> recentCompleted = new List<FriendBar>();
-            List<FriendBar> subsriberRecentCompleted = new List<FriendBar>();
 
             // Fill holders
             foreach (KeyValuePair<string, FriendBar> entry in bars)
@@ -60,98 +54,88 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
-                if (bar.friendType == Friend.FRIEND_TYPE_COMMUNITY)
+                if (bar.friendType != Friend.FRIEND_TYPE_COMMUNITY)
                 {
-                    if (status != LongPlayStatus.DEFAULT)
-                    {
-                        bar.gameObject.SetActive(false);
-                        continue;
-                    }
+                    //    if (status != LongPlayStatus.DEFAULT)
+                    //    {
+                    //        bar.gameObject.SetActive(false);
+                    //        continue;
+                    //    }
 
-                    if (entry.Value.friendInfo.publicProfile.isSubscriber)
+                    //    if (entry.Value.friendInfo.publicProfile.isSubscriber)
+                    //    {
+                    //        bar.UpdatePlayButtonStatus(true, localizationService);
+                    //        if (entry.Value.isOnline)
+                    //        {
+                    //            subsriberOnlineRecentCompleted.Add(bar);
+                    //        }
+                    //        else
+                    //        {
+                    //            subsriberRecentCompleted.Add(bar);
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        bar.UpdatePlayButtonStatus(true, localizationService);
+                    //        if (entry.Value.isOnline)
+                    //        {
+                    //            onlineRecentCompleted.Add(bar);
+                    //        }
+                    //        else
+                    //        {
+                    //            recentCompleted.Add(bar);
+                    //        }
+                    //    }
+                    //}
+                    //else //fb friends
+                    //{
+                    if (entry.Value.isOnline)
                     {
-                        bar.UpdatePlayButtonStatus(true, localizationService);
-                        if (entry.Value.isOnline)
-                        {
-                            subsriberOnlineRecentCompleted.Add(bar);
-                        }
-                        else
-                        {
-                            subsriberRecentCompleted.Add(bar);
-                        }
+                        onlineFbFriends.Add(bar);
+                    }
+                    else if (!entry.Value.isOnline && entry.Value.isActive)
+                    {
+                        activeFbFriends.Add(bar);
                     }
                     else
                     {
-                        bar.UpdatePlayButtonStatus(true, localizationService);
-                        if (entry.Value.isOnline)
-                        {
-                            onlineRecentCompleted.Add(bar);
-                        }
-                        else
-                        {
-                            recentCompleted.Add(bar);
-                        }
-                    }
-                }
-                else //fb friends
-                {
-                    if (entry.Value.friendInfo.publicProfile.isSubscriber)
-                    {
-                        if (entry.Value.isOnline)
-                        {
-                            subsriberOnlineFbFriends.Add(bar);
-                        }
-                        else
-                        {
-                            subsriberFbFriends.Add(bar);
-                        }
-                    }
-                    else
-                    {
-                        if (entry.Value.isOnline)
-                        {
-                            onlineFbFriends.Add(bar);
-                        }
-                        else
-                        {
-                            fbFriends.Add(bar);
-                        }
+                        fbFriends.Add(bar);
                     }
                 }
 
-                //if (status == LongPlayStatus.NEW_CHALLENGE ||
-                //    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
-                //    entry.Value.isGameCanceled)
-                //{
-                //    newMatches.Add(bar);
-                //}
-                //else if (status == LongPlayStatus.PLAYER_TURN)
-                //{
-                //    yourMove.Add(bar);
-                //}
-                //else if (status == LongPlayStatus.OPPONENT_TURN)
-                //{
-                //    theirMove.Add(bar);
-                //}
-                //else if (status == LongPlayStatus.DECLINED ||
-                //         status == LongPlayStatus.PLAYER_WON ||
-                //         status == LongPlayStatus.OPPONENT_WON ||
-                //         status == LongPlayStatus.DRAW)
-                //{
-                //    ended.Add(bar);
-                //}
-                //else
-                //{
-                //    if (entry.Value.isOnline)
-                //    {
-                //        emptyOnline.Add(bar);
-                //    }
-                //    else
-                //    {
-                //        emptyOffline.Add(bar);
-                //    }
-                //}
-            }
+            //if (status == LongPlayStatus.NEW_CHALLENGE ||
+            //    status == LongPlayStatus.WAITING_FOR_ACCEPT ||
+            //    entry.Value.isGameCanceled)
+            //{
+            //    newMatches.Add(bar);
+            //}
+            //else if (status == LongPlayStatus.PLAYER_TURN)
+            //{
+            //    yourMove.Add(bar);
+            //}
+            //else if (status == LongPlayStatus.OPPONENT_TURN)
+            //{
+            //    theirMove.Add(bar);
+            //}
+            //else if (status == LongPlayStatus.DECLINED ||
+            //         status == LongPlayStatus.PLAYER_WON ||
+            //         status == LongPlayStatus.OPPONENT_WON ||
+            //         status == LongPlayStatus.DRAW)
+            //{
+            //    ended.Add(bar);
+            //}
+            //else
+            //{
+            //    if (entry.Value.isOnline)
+            //    {
+            //        emptyOnline.Add(bar);
+            //    }
+            //    else
+            //    {
+            //        emptyOffline.Add(bar);
+            //    }
+            //}
+        }
 
             // Sort holders
             //newMatches.Sort((x, y) => x.lastActionTime.CompareTo(y.lastActionTime));
@@ -161,17 +145,11 @@ namespace TurboLabz.InstantFramework
             //emptyOnline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
             //emptyOffline.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
 
-            onlineFbFriends.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-            subsriberOnlineFbFriends.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-
-            fbFriends.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-            subsriberFbFriends.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-
-            onlineRecentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-            subsriberOnlineRecentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-
-            recentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
-            subsriberRecentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
+            onlineFbFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            activeFbFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            fbFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal));
+            //onlineRecentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
+            //recentCompleted.Sort((x, y) => -1 * x.lastMatchTimeStamp.CompareTo(y.lastMatchTimeStamp));
 
             //allFriends.Sort((x, y) => string.Compare(x.friendInfo.publicProfile.name, y.friendInfo.publicProfile.name, StringComparison.Ordinal)); 
 
@@ -199,7 +177,7 @@ namespace TurboLabz.InstantFramework
             {
                 index = sectionPlayAFriend.GetSiblingIndex() + 1;
             }
-            
+
             //if (yourMove.Count > 0 ||
             //    theirMove.Count > 0 ||
             //    ended.Count > 0 ||
@@ -208,29 +186,20 @@ namespace TurboLabz.InstantFramework
             //    emptyOffline.Count > 0
             //    )
 
-            int fbFriendCount = fbFriends.Count + onlineFbFriends.Count + subsriberFbFriends.Count + subsriberOnlineFbFriends.Count;
+            int fbFriendCount = fbFriends.Count + onlineFbFriends.Count + activeFbFriends.Count;
             playerModel.playerFriendsCount = fbFriendCount;
 
-            if (subsriberOnlineFbFriends.Count > 0 || subsriberFbFriends.Count > 0 || fbFriends.Count > 0 || onlineFbFriends.Count > 0)
+            if (fbFriends.Count > 0 || onlineFbFriends.Count > 0 || activeFbFriends.Count > 0)
             {
-
-                foreach (FriendBar bar in subsriberOnlineFbFriends)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    count++;
-                    index++;
-                    bar.UpdateMasking(count == fbFriendCount, true);
-                }
-
-                foreach (FriendBar bar in subsriberFbFriends)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    count++;
-                    index++;
-                    bar.UpdateMasking(count == fbFriendCount, true);
-                }
-
                 foreach (FriendBar bar in onlineFbFriends)
+                {
+                    bar.transform.SetSiblingIndex(index);
+                    count++;
+                    index++;
+                    bar.UpdateMasking(count == fbFriendCount, true);
+                }
+
+                foreach (FriendBar bar in activeFbFriends)
                 {
                     bar.transform.SetSiblingIndex(index);
                     count++;
@@ -259,28 +228,12 @@ namespace TurboLabz.InstantFramework
             }
 
 
-            int recentMatchCount = onlineRecentCompleted.Count + recentCompleted.Count + subsriberOnlineRecentCompleted.Count + subsriberRecentCompleted.Count;
-            if (subsriberOnlineRecentCompleted.Count > 0 || subsriberRecentCompleted.Count > 0 ||  onlineRecentCompleted.Count > 0 || recentCompleted.Count > 0)
+            int recentMatchCount = onlineRecentCompleted.Count + recentCompleted.Count;
+            if (onlineRecentCompleted.Count > 0 || recentCompleted.Count > 0)
             {
                 sectionRecentlyCompleted.gameObject.SetActive(true);
 
                 index = sectionRecentlyCompleted.GetSiblingIndex() + 1;
-
-                foreach (FriendBar bar in subsriberOnlineRecentCompleted)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    count++;
-                    index++;
-                    bar.UpdateMasking(count == recentMatchCount, true);
-                }
-
-                foreach (FriendBar bar in subsriberRecentCompleted)
-                {
-                    bar.transform.SetSiblingIndex(index);
-                    count++;
-                    index++;
-                    bar.UpdateMasking(count == recentMatchCount, true);
-                }
 
                 foreach (FriendBar bar in onlineRecentCompleted)
                 {

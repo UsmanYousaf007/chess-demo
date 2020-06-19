@@ -10,6 +10,5 @@ namespace TurboLabz.InstantGame
         public Condition condition;
         public delegate void OnClick(string key = null);
         public OnClick onClick;
-        public AnalyticsEventId analyticsImpId;
     }
 }

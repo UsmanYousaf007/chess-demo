@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation.Model;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.Model;
 using UnityEngine;
 
-namespace HUFEXT.CrossPromo.Implementation
+namespace HUFEXT.CrossPromo.Runtime.Implementation
 {
     [CreateAssetMenu(fileName = "CrossPromoRemoteConfig", menuName = "HUFEXT/CrossPromo/CrossPromoRemoteConfig")]
     public class CrossPromoRemoteConfig : FeatureConfigBase
@@ -21,7 +22,7 @@ namespace HUFEXT.CrossPromo.Implementation
         [SerializeField] float imagesInteractionFadeValue = default;
         [SerializeField] float imagesInteractionFadeTime = default;
         [SerializeField] float bulletPointFadeTime = default;
-        
+
         public List<TileModel> TopPanelCrossPromoGameModels => topPanelCrossPromoGameModels;
         public List<TileModel> CrossPromoPanelGameModels => crossPromoPanelGameModels;
         public string BottomPanelLogoSpritePath => bottomPanelLogoSpritePath;
@@ -35,5 +36,11 @@ namespace HUFEXT.CrossPromo.Implementation
         public float ImagesInteractionFadeValue => imagesInteractionFadeValue;
         public float ImagesInteractionFadeTime => imagesInteractionFadeTime;
         public float BulletPointFadeTime => bulletPointFadeTime;
+
+        public override void RegisterManualInitializers()
+        {
+            AddManualInitializer( "Cross Promo - HUF", HCrossPromo.Init );
+            AddManualInitializer("Cross Promo Fetch - HUF", HCrossPromo.Fetch);
+        }
     }
 }

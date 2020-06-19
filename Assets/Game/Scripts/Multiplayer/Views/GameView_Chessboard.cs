@@ -115,23 +115,26 @@ namespace TurboLabz.Multiplayer
             boardContent.localScale = Vector3.Scale(new Vector3(scaleUniform, scaleUniform, scaleUniform), boardContent.localScale);
             float scaleWidth = 1.0f - (scaleUniformOriginal - scaleUniform) / 1.5f;
 
+            // Getting reference to the main camera
+            Camera mainCamera = Camera.main;
+
             // Adjust screen content according to board stretch
             Rect strechMax = ((RectTransform)gameObject.transform).rect;
             float h = ((RectTransform)playerInfoPanel.transform).sizeDelta.y;
             float offsetY = playerInfoPanel.transform.position.y * (scaleUniform - 1.0f);
             ((RectTransform)playerInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            var playerProfileScreenPoint = Camera.main.WorldToScreenPoint(playerProfileUiAnchor.position);
+            var playerProfileScreenPoint = mainCamera.WorldToScreenPoint(playerProfileUiAnchor.position);
             playerInfoPanel.transform.position = playerProfileScreenPoint;
             //playerInfoPanel.transform.position = new Vector3(playerInfoPanel.transform.position.x, (playerInfoPanel.transform.position.y - offsetY) - scaleWidth, playerInfoPanel.transform.position.z);
 
             h = ((RectTransform)opponentInfoPanel.transform).sizeDelta.y;
             ((RectTransform)opponentInfoPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
             //opponentInfoPanel.transform.position = new Vector3(opponentInfoPanel.transform.position.x, (opponentInfoPanel.transform.position.y + offsetY) + scaleWidth, opponentInfoPanel.transform.position.z);
-            var opponentProfileScreenPoint = Camera.main.WorldToScreenPoint(opponentProfileUiAnchor.position);
+            var opponentProfileScreenPoint = mainCamera.WorldToScreenPoint(opponentProfileUiAnchor.position);
             opponentInfoPanel.transform.position = opponentProfileScreenPoint;
 
             //((RectTransform)coachView.bg.transform).sizeDelta = new Vector2((strechMax.width * scaleWidth) + (20 * scaleWidth), ((RectTransform)coachView.bg.transform).sizeDelta.y);
-            //var viewportPoint = Camera.main.WorldToScreenPoint(coachUIAnchorPoint.position);
+            //var viewportPoint = mainCamera.WorldToScreenPoint(coachUIAnchorPoint.position);
             //coachView.bg.transform.position = viewportPoint;
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
@@ -552,6 +555,7 @@ namespace TurboLabz.Multiplayer
             isLongPlay = vo.isLongPlay;
             isRankedGame = vo.isRanked;
             isTenMinGame = vo.isTenMinGame;
+            isOneMinGame = vo.isOneMinGame;
 
             if (vo.isPlayerWhite)
             {

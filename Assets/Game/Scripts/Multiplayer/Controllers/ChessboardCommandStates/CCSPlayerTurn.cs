@@ -32,6 +32,11 @@ namespace TurboLabz.Multiplayer
                 RenderOpponentMove(cmd);
                 cmd.enablePlayerTurnInteraction.Dispatch();
             }
+            else if (CameFromState(cmd, typeof(CCSFiftyMoveDrawOnOpponentTurnAvailable)) ||
+                     CameFromState(cmd, typeof(CCSThreefoldRepeatDrawOnOpponentTurnAvailable)))
+            {
+                cmd.enablePlayerTurnInteraction.Dispatch();
+            }
             // If we came here after an invalid target square was clicked
             else if (CameFromState(cmd, typeof(CCSPlayerTurnPieceSelected)))
             {

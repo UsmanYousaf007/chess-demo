@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IChatModel chatModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -46,7 +47,6 @@ namespace TurboLabz.InstantFramework
             if (!preferencesModel.isLobbyLoadedFirstTime)
             {
                 preferencesModel.isLobbyLoadedFirstTime = true;
-                analyticsService.Event(AnalyticsEventId.first_game_started, matchInfo.isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
             }
 
             if (matchInfo.isLongPlay &&
@@ -57,6 +57,13 @@ namespace TurboLabz.InstantFramework
             }
 
             string opponentId = matchInfoModel.activeMatch.opponentPublicProfile.playerId;
+
+            OfferDrawVO offerDrawVO = new OfferDrawVO();
+            offerDrawVO.status = matchInfoModel.activeMatch.drawOfferStatus;
+            offerDrawVO.offeredBy = matchInfoModel.activeMatch.drawOfferedBy;
+            offerDrawVO.opponentId = opponentId;
+            offerDrawVO.challengeId = matchInfoModel.activeChallengeId;
+            updateOfferDrawSignal.Dispatch(offerDrawVO);
 
             Friend opponentProfile = playerModel.GetFriend(opponentId);
 

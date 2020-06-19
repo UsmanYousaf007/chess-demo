@@ -1,10 +1,10 @@
-using HUF.Storage.API.Structs;
-using HUF.Utils.Extensions;
+using HUF.Storage.Runtime.API.Structs;
+using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Storage.API.Models
+namespace HUF.Storage.Runtime.API.Models
 {
     public class HStorageAssetBundle : IObjectStorage<AssetBundle>
     {

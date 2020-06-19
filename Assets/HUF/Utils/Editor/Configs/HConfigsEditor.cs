@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using HUF.Utils.Assets.Editor;
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Utils.Configs.API.Editor
+namespace HUF.Utils.Editor.Configs
 {
     public static class HConfigsEditor
     {

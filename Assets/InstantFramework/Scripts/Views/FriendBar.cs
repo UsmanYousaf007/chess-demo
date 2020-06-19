@@ -51,7 +51,9 @@ namespace TurboLabz.InstantFramework
         public GameObject rankedIcon;
         public GameObject friendlyIcon;
 
-        bool stringsLoaded = false;
+        public Text drawOfferText;
+        public GameObject drawOffer;
+
         static string strWaiting = "";
         static string strDeclined = "";
         static string strTheirMove = "";
@@ -72,6 +74,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector] public bool isRanked;
         [HideInInspector] public long lastMatchTimeStamp;
         [HideInInspector] public bool isRemoved;
+        [HideInInspector] public bool isOfferDraw;
 
         [Header("Friends Bar Optimization")]
         public GameObject bottomAlphaBg;
@@ -100,6 +103,26 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void SetDrawOfferStatus(bool isDrawOffer)
+        {
+            if (isDrawOffer)
+            {
+                drawOffer.SetActive(true);
+                if(yourMoveStatus.gameObject.activeSelf)
+                    yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -27);
+                else
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -27);
+            }
+            else
+            {
+                drawOffer.SetActive(false);
+                if (yourMoveStatus.gameObject.activeSelf)
+                    yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, 0);
+                else
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, 0);
+            }
+        }
+
         public void UpdateStatus()
         {
             DisableOptionalElements();
@@ -112,10 +135,7 @@ namespace TurboLabz.InstantFramework
                     playArrow.gameObject.SetActive(true);
                     playArrowButton.gameObject.SetActive(false);
 
-                    if (friendType == Friend.FRIEND_TYPE_COMMUNITY || friendType == Friend.FRIEND_TYPE_FAVOURITE)
-                    {
-                        removeCommunityFriendButton.gameObject.SetActive(true);
-                    }
+                    removeCommunityFriendButton.gameObject.SetActive(true);
                     break;
 
                 case LongPlayStatus.NEW_CHALLENGE:
@@ -129,6 +149,7 @@ namespace TurboLabz.InstantFramework
                     newMatchGreetingLabel.text = strNewMatchGreeting;
                     rankedIcon.SetActive(isRanked);
                     friendlyIcon.SetActive(!isRanked);
+                    removeCommunityFriendButton.gameObject.SetActive(false);
 
                     break;
 
@@ -139,6 +160,7 @@ namespace TurboLabz.InstantFramework
                     cancelButton.interactable = true;
                     timerLabel.gameObject.SetActive(true);
                     stripButton.gameObject.SetActive(true);
+                    removeCommunityFriendButton.gameObject.SetActive(false);
 
                     if (isPlayerTurn)
                     {
@@ -153,6 +175,17 @@ namespace TurboLabz.InstantFramework
                     playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
 
+                    if (isOfferDraw)
+                    {
+                        drawOffer.SetActive(true);
+                        yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, -27);
+                    }
+                    else
+                    {
+                        drawOffer.SetActive(false);
+                        yourMoveStatus.rectTransform.anchoredPosition = new Vector2(yourMoveStatus.rectTransform.anchoredPosition.x, 0);
+                    }
+
                     break;
 
                 case LongPlayStatus.OPPONENT_TURN:
@@ -163,12 +196,23 @@ namespace TurboLabz.InstantFramework
                     playArrowButton.gameObject.SetActive(true);
                     timerLabel.gameObject.SetActive(true);
 
+                    if (isOfferDraw)
+                    {
+                        drawOffer.SetActive(true);
+                        generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, -27);
+                    }
+                    else
+                    {
+                        drawOffer.SetActive(false);
+                        generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, 0);
+                    }
                     break;
 
                 case LongPlayStatus.PLAYER_WON:
                     generalStatus.gameObject.SetActive(true);
                     generalStatus.text = isGameCanceled ? strCanceled: strYouWon;
 
+                    generalStatus.rectTransform.anchoredPosition = new Vector2(generalStatus.rectTransform.anchoredPosition.x, 0);
                     if (isGameCanceled)
                     {
                         okButton.gameObject.SetActive(true);
@@ -269,14 +313,12 @@ namespace TurboLabz.InstantFramework
             rankedIcon.SetActive(false);
             friendlyIcon.SetActive(false);
             viewButton.gameObject.SetActive(false);
+            drawOffer.SetActive(false);
         }
 
         public void Init(ILocalizationService localizationService)
         {
             // Set localized text
-            if (stringsLoaded)
-                return;
-                
             notNowButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_NOT_NOW);
             playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             acceptButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_ACCEPT);
@@ -294,8 +336,6 @@ namespace TurboLabz.InstantFramework
             viewButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_VIEW);
             strNewMatchGreeting = localizationService.Get(LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING);
             strDeclineApology = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINE_APOLOGY);
-
-            stringsLoaded = true;
         }
 
         public int solution(int N)
@@ -327,11 +367,17 @@ namespace TurboLabz.InstantFramework
             return maxCount;
         }
 
-        
-
-
+        public void RemoveButtonListeners()
+        {
+            viewProfileButton.onClick.RemoveAllListeners();
+            stripButton.onClick.RemoveAllListeners();
+            acceptButton.onClick.RemoveAllListeners();
+            notNowButton.onClick.RemoveAllListeners();
+            cancelButton.onClick.RemoveAllListeners();
+            okButton.onClick.RemoveAllListeners();
+            viewButton.onClick.RemoveAllListeners();
+            unreadChat.onClick.RemoveAllListeners();
+            removeCommunityFriendButton.onClick.RemoveAllListeners();
+        }
     }
-
-
-    
 }

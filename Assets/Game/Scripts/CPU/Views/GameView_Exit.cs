@@ -57,7 +57,7 @@ namespace TurboLabz.CPU
             titleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
-            saveAndExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_SAVE_AND_EXIT);
+            saveAndExitButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_SAVE_AND_EXIT_CAP);
             backToLobbyButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_SAVE_AND_EXIT);
 
         }
@@ -160,7 +160,6 @@ namespace TurboLabz.CPU
 
         void OnResignButtonClicked()
         {
-            analyticsService.Event(AnalyticsEventId.tap_resign_game);
             resignButtonClickedSignal.Dispatch();
         }
 
@@ -192,6 +191,8 @@ namespace TurboLabz.CPU
                 vo.rewardType = GSBackendKeys.ClaimReward.NONE;
                 vo.challengeId = "";
                 vo.playerWins = false;
+                playerModel.adContext = AnalyticsContext.interstitial_endgame;
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 showAdSignal.Dispatch(vo);
 
                 showAdOnBack = false;

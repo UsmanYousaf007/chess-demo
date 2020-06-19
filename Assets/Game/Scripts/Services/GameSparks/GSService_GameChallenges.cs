@@ -63,7 +63,15 @@ namespace TurboLabz.InstantFramework
             GSData playerData = gameData.GetGSData(playerModel.id);
             GSData opponentData = gameData.GetGSData(matchInfo.opponentPublicProfile.playerId);
 
-            if(playerData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
+
+            GSData offerDraw = gameData.GetGSData(GSBackendKeys.OFFER_DRAW);
+            if (offerDraw != null)
+            {
+                matchInfo.drawOfferStatus = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_STATUS);
+                matchInfo.drawOfferedBy = offerDraw.GetString(GSBackendKeys.OFFER_DRAW_OFFERED_BY);
+            }
+
+            if (playerData.ContainsKey(GSBackendKeys.POWER_UP_USED_COUNT))
             {
                 matchInfo.playerPowerupUsedCount = playerData.GetInt(GSBackendKeys.POWER_UP_USED_COUNT).Value;
             }
@@ -188,31 +196,33 @@ namespace TurboLabz.InstantFramework
 
         private void HandleActiveGameEnd(string challengeId)
         {
+            Chessboard chessboard = chessboardModel.chessboards[challengeId];
+
             #region analytics
             preferencesModel.gameFinishedCount++;
             appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, preferencesModel.gameFinishedCount);
 
             if (matchInfoModel.matches.ContainsKey(challengeId))
             {
-                if (matchInfoModel.matches[challengeId].isLongPlay)
+                var matchInfo = matchInfoModel.matches[challengeId];
+                var context = matchInfo.isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match;
+                hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", context.ToString(), challengeId);
+
+                if (matchInfo.isRanked)
                 {
-                    preferencesModel.longMatchFinishedCount++;
-                    hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.long_match.ToString());
-                    analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.long_match);
-                }
-                else
-                {
-                    preferencesModel.quickMatchFinishedCount++;
-                    hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", AnalyticsContext.quick_match.ToString());
-                    analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.quick_match);
+                    preferencesModel.rankedMatchesFinishedCount++;
+
+                    if (preferencesModel.rankedMatchesFinishedCount >= 15 && !preferencesModel.isFirstRankedGameOfTheDayFinished)
+                    {
+                        preferencesModel.isFirstRankedGameOfTheDayFinished = true;
+                        analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
+                    }
                 }
             }            
             #endregion
 
             if (challengeId != matchInfoModel.activeChallengeId)
                 return;
-
-            Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
             // Add cases where the game ending does not have a move to the checks below
             if (GameEndHasMove(chessboard))
@@ -233,6 +243,7 @@ namespace TurboLabz.InstantFramework
                 (gameEndReason != GameEndReason.TIMER_EXPIRED) &&
                 (gameEndReason != GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE) &&
                 (gameEndReason != GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE) &&
+                (gameEndReason != GameEndReason.DRAW_BY_DRAW_OFFERED) &&
                 (gameEndReason != GameEndReason.DECLINED) &&
                 (gameEndReason != GameEndReason.NONE))
             {

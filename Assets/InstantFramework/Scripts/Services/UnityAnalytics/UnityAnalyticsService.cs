@@ -72,10 +72,15 @@ namespace TurboLabz.InstantFramework
 
         public void Event(AnalyticsEventId evt, AnalyticsParameter param, object val)
         {
+            Event(evt.ToString(), param, val);
+        }
+
+        public void Event(string evt, AnalyticsParameter param, object val)
+        {
             if (param == AnalyticsParameter.elo)
             {
                 int rating = (int)val;
-                val = rating - (rating % 500);
+                val = rating - (rating % 200);
             }
             else if (param == AnalyticsParameter.bot_difficulty)
             {
@@ -91,21 +96,26 @@ namespace TurboLabz.InstantFramework
                 { param.ToString(), val }
             };
 
-            Analytics.CustomEvent(evt.ToString(), p);
+            Analytics.CustomEvent(evt, p);
             GameAnalytics.NewDesignEvent($"{evt}:{param}:{val}");
-            Print(evt.ToString(), p);
+            Print(evt, p);
         }
 
         public void Event(AnalyticsEventId evt, AnalyticsContext context)
+        {
+            Event(evt.ToString(), context);
+        }
+
+        public void Event(string evt, AnalyticsContext context)
         {
             Dictionary<string, object> p = new Dictionary<string, object>
             {
                 { AnalyticsParameter.context.ToString(), context.ToString() }
             };
 
-            Analytics.CustomEvent(evt.ToString(), p);
+            Analytics.CustomEvent(evt, p);
             GameAnalytics.NewDesignEvent($"{evt}:{context}");
-            Print(evt.ToString(), p);
+            Print(evt, p);
         }
 
         public void LevelComplete(int difficulty)
@@ -159,6 +169,7 @@ namespace TurboLabz.InstantFramework
                 var paramDict = new Dictionary<string, object>();
                 for (int i = 0; i < param.Length; i++)
                 {
+                    param[i] = string.IsNullOrEmpty(param[i]) ? "null" : param[i];
                     paramDict.Add($"ST{i + 1}", param[i]);
                     evtStr += $":{param[i]}";
                 }

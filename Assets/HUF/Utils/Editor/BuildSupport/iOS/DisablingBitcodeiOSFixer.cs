@@ -1,17 +1,40 @@
-﻿using JetBrains.Annotations;
+﻿#if UNITY_IOS
+using System.IO;
+using JetBrains.Annotations;
+using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
 namespace HUF.Utils.BuildSupport.Editor.iOS
 {
     [UsedImplicitly]
-    public class DisablingBitcodeiOSFixer : iOSProjectBaseFixer
+    public class DisablingBitcodeiOS
     {
-        public override int callbackOrder => 10;
-
-        protected override bool Process(PBXProject project, string targetGuid, string projectPath)
+        [PostProcessBuild( 1000 )]
+        public static void PostProcessBuildAttribute( BuildTarget target, string pathToBuildProject )
         {
-            project.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
-            return true;
+            if(target == BuildTarget.iOS)
+            {
+                string projectPath = PBXProject.GetPBXProjectPath(pathToBuildProject);
+
+                PBXProject pbxProject = new PBXProject();
+                pbxProject.ReadFromFile(projectPath);
+#if UNITY_2019_3_OR_NEWER
+                var targetGuid = pbxProject.GetUnityMainTargetGuid();
+#else
+                var targetName = PBXProject.GetUnityTargetName();
+                var targetGuid = pbxProject.TargetGuidByName(targetName);
+#endif          
+                pbxProject.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
+                pbxProject.WriteToFile (projectPath);
+                
+                var projectInString = File.ReadAllText(projectPath);
+
+                projectInString = projectInString.Replace("ENABLE_BITCODE = YES;",
+                    $"ENABLE_BITCODE = NO;");
+                File.WriteAllText(projectPath, projectInString);
+            }
         }
     }
 }
+#endif

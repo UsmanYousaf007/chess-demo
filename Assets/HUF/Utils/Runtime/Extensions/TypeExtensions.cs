@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HUF.Utils.Extensions
+namespace HUF.Utils.Runtime.Extensions
 {
     public static class TypeExtensions
     {

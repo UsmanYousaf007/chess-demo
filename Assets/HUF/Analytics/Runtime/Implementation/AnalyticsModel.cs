@@ -1,146 +1,222 @@
 ﻿using System.Collections.Generic;
-using HUF.Analytics.API;
-using HUF.Utils;
-using HUF.Utils.PlayerPrefs;
-using UnityEngine;
+using HUF.Analytics.Runtime.API;
+using HUF.Utils.Runtime.Logging;
+using UnityEngine.Events;
 
-namespace HUF.Analytics.Implementation
+namespace HUF.Analytics.Runtime.Implementation
 {
     public class AnalyticsModel
     {
+        const int CACHE_CAPACITY = 50;
+        
+        readonly HLogPrefix prefix = new HLogPrefix( nameof( AnalyticsModel ) );
         readonly Dictionary<string, IAnalyticsService> services = new Dictionary<string, IAnalyticsService>();
+        readonly Dictionary<string, List<AnalyticsEvent>> cache = new Dictionary<string, List<AnalyticsEvent>>( CACHE_CAPACITY );
+        
+        public event UnityAction<bool> OnCollectSensitiveDataCallback;
+        public event UnityAction<string, bool> OnServiceInitializationComplete;
 
-        public bool TryRegisterService(IAnalyticsService service)
+        bool IsAlreadyRegistered( IAnalyticsService service )
         {
-            if (IsAlreadyRegistered(service))
+            return services.ContainsKey( service.Name );
+        }
+        
+        public bool TryRegisterService( IAnalyticsService service )
+        {
+            if ( IsAlreadyRegistered( service ) )
             {
-                Debug.LogWarningFormat($"[AnalyticsModel] Service {service.Name} already added to model.");
+                HLog.LogWarning( prefix, $"Service {service.Name} is already registered." );
+                if ( !service.IsInitialized )
+                {
+                    HLog.LogWarning( prefix, $"Service {service.Name} is not initialized." );
+                }
                 return false;
             }
 
-            services.Add(service.Name, service);
-            service.Init();
-
-            bool? consentValue = HAnalytics.GetGDPRConsent();
-
-            if (consentValue.HasValue)
+            services.Add( service.Name, service );
+            cache.Add( service.Name, new List<AnalyticsEvent>() );
+            
+            if ( HAnalytics.IsGDPRAccepted )
             {
-                CollectSensitiveData(consentValue.Value,service.Name);
+                service.Init( this );
             }
+
             return true;
         }
 
-        bool IsAlreadyRegistered(IAnalyticsService service)
+        public void CompleteServiceInitialization( string serviceName, bool status )
         {
-            return services.ContainsKey(service.Name);
-        }
-
-        public void LogEvent(Dictionary<string, object> analyticsParameters, params string[] serviceNames)
-        {
-            var analyticsEvent = AnalyticsEvent.Create(analyticsParameters);
-            if (analyticsEvent != null)
-                LogEvent(analyticsEvent, serviceNames);
-        }
-
-        public void LogEvent(AnalyticsEvent analyticsEvent, params string[] serviceNames)
-        {
-            if (serviceNames.Length > 0)
+            if ( status == false )
             {
-                HLogs.LogFormatDebug("[AnalyticsModel] Log event: {0} to services: [{1}]",
-                                     analyticsEvent, string.Join(",", serviceNames));
-                foreach (var serviceName in serviceNames)
+                HLog.LogWarning( prefix, $"Unable to initialize {serviceName} service." );
+                OnServiceInitializationComplete?.Invoke( serviceName, false );
+                return;
+            }
+
+            services.TryGetValue( serviceName, out var service );
+            
+            if ( service == null )
+            {
+                HLog.LogWarning( prefix, $"Unable to find {serviceName} service." );
+                OnServiceInitializationComplete?.Invoke( serviceName, false );
+                return;
+            }
+            
+            CollectSensitiveData( HAnalytics.IsGDPRAccepted, service );
+            LogEventsFromCache( service );
+            OnServiceInitializationComplete?.Invoke( serviceName, true );
+            HLog.Log( prefix, $"Service {serviceName} initialization completed." );
+        }
+        
+        public void LogEvent( Dictionary<string, object> analyticsParameters, params string[] serviceNames )
+        {
+            var analyticsEvent = AnalyticsEvent.Create( analyticsParameters );
+            if ( analyticsEvent != null )
+            {
+                LogEvent( analyticsEvent, serviceNames );
+            }
+        }
+
+        public void LogEvent( AnalyticsEvent analyticsEvent, params string[] serviceNames )
+        {
+            if ( serviceNames.Length > 0 )
+            {
+                foreach ( var serviceName in serviceNames )
                 {
-                    LogEvent(analyticsEvent, serviceName);
+                    if ( services.TryGetValue( serviceName, out var service ) && !LogEvent( analyticsEvent, service ) )
+                    {
+                        HLog.Log( prefix, $"Event {analyticsEvent.EventName} cached for {serviceName}." );
+                        cache[serviceName].Add( analyticsEvent );
+                    }
                 }
             }
-            else
+            else if( services.Count > 0 )
             {
-                HLogs.LogFormatDebug("[AnalyticsModel] Log event: {0}", analyticsEvent);
-                foreach (var service in services.Values)
+                foreach ( var service in services.Values )
                 {
-                    LogEvent(analyticsEvent, service.Name);
+                    if ( !LogEvent( analyticsEvent, service ) )
+                    {
+                        HLog.Log( prefix, $"Event {analyticsEvent.EventName} cached for {service.Name}." );
+                        cache[service.Name].Add( analyticsEvent );
+                    }
                 }
             }
         }
-
-        void LogEvent(AnalyticsEvent analyticsEvent, string serviceName)
+        
+        bool LogEvent( AnalyticsEvent analyticsEvent, IAnalyticsService service )
         {
-            services.TryGetValue(serviceName, out var service);
+            if ( service == null || !service.IsInitialized )
+            {
+                return false;
+            }
 
-            if (service != null)
-                service.LogEvent(analyticsEvent);
-            else
-                Debug.LogWarningFormat($"[AnalyticsModel] Can't find service {serviceName}");
+            HLog.Log( prefix, $"Log event: {analyticsEvent} to service: {service.Name}." );
+            service.LogEvent( analyticsEvent );
+            return true;
         }
-
+        
         public void LogMonetizationEvent(Dictionary<string, object> analyticsParameters, params string[] serviceNames)
         {
-            if (!analyticsParameters.ContainsKey(AnalyticsMonetizationEvent.CENTS_KEY))
+            if ( !analyticsParameters.ContainsKey( AnalyticsMonetizationEvent.CENTS_KEY ) )
             {
-                Debug.LogWarningFormat($"[AnalyticsModel] Missing {AnalyticsMonetizationEvent.CENTS_KEY} parameter");
+                HLog.LogWarning( prefix, $"Missing {AnalyticsMonetizationEvent.CENTS_KEY} parameter." );
                 return;
             }
 
-            if (!(analyticsParameters[AnalyticsMonetizationEvent.CENTS_KEY] is int cents))
+            if ( !( analyticsParameters[AnalyticsMonetizationEvent.CENTS_KEY] is int cents ) )
             {
-                Debug.LogWarningFormat($"[AnalyticsModel] {AnalyticsMonetizationEvent.CENTS_KEY} parameter is in wrong type");
+                HLog.LogWarning( prefix, $"Wrong type of parameter: {AnalyticsMonetizationEvent.CENTS_KEY}." );
                 return;
             }
 
-            var analyticsEvent = AnalyticsMonetizationEvent.Create(analyticsParameters, cents);
-
-            if (analyticsEvent != null)
-                LogMonetizationEvent(analyticsEvent, serviceNames);
+            var analyticsEvent = AnalyticsMonetizationEvent.Create( analyticsParameters, cents );
+            if ( analyticsEvent != null )
+            {
+                LogMonetizationEvent( analyticsEvent, serviceNames );
+            }
         }
 
         public void LogMonetizationEvent(AnalyticsMonetizationEvent monetizationEvent, params string[] serviceNames)
         {
-            if (serviceNames.Length > 0)
+            if ( serviceNames.Length > 0 )
             {
-                HLogs.LogFormatDebug("[AnalyticsModel] Log monetization event: {0} to services: [{1}]",
-                                     monetizationEvent, string.Join(",", serviceNames));
-                foreach (var serviceName in serviceNames)
+                foreach ( var serviceName in serviceNames )
                 {
-                    LogMonetizationEvent(monetizationEvent, serviceName);
+                    if ( services.TryGetValue( serviceName, out var service ) &&
+                         !LogMonetizationEvent( monetizationEvent, service ) )
+                    {
+                        HLog.Log( prefix, $"Event {monetizationEvent.EventName} cached for {service.Name}." );
+                        cache[service.Name].Add( monetizationEvent );
+                    }
                 }
             }
-            else
+            else if( services.Count > 0 )
             {
-                HLogs.LogFormatDebug("[AnalyticsModel] Log monetization event: {0}", monetizationEvent);
-                foreach (var service in services.Values)
+                foreach ( var service in services.Values )
                 {
-                    LogMonetizationEvent(monetizationEvent, service.Name);
+                    if ( !LogMonetizationEvent( monetizationEvent, service ) )
+                    {
+                        HLog.Log( prefix, $"Event {monetizationEvent.EventName} cached for {service.Name}." );
+                        cache[service.Name].Add( monetizationEvent );
+                    }
                 }
             }
         }
 
-        void LogMonetizationEvent(AnalyticsMonetizationEvent monetizationEvent, string serviceName)
+        bool LogMonetizationEvent(AnalyticsMonetizationEvent monetizationEvent, IAnalyticsService service )
         {
-            services.TryGetValue(serviceName, out var service);
-
-            if (service != null)
-                service.LogMonetizationEvent(monetizationEvent);
-            else
-                Debug.LogWarningFormat($"[AnalyticsModel] Can't find service {serviceName}");
-        }
-
-        public void CollectSensitiveData(bool consentStatus)
-        {
-            HLogs.LogFormatDebug("[AnalyticsModel] Set consent: {0}", consentStatus);
-            foreach (var service in services.Values)
+            if ( service == null || !service.IsInitialized )
             {
-                CollectSensitiveData(consentStatus, service.Name);
+                return false;
+            }
+
+            HLog.Log( prefix, $"Log monetization event: {monetizationEvent}." );
+            service.LogMonetizationEvent( monetizationEvent );
+            return true;
+        }
+        
+        void LogEventsFromCache( IAnalyticsService service )
+        {
+            if ( cache[service.Name].Count > 0 )
+            {
+                foreach ( var ev in cache[service.Name] )
+                {
+                    if ( ev is AnalyticsMonetizationEvent monetizationEvent )
+                    {
+                        LogMonetizationEvent( monetizationEvent, service );
+                    }
+                    else
+                    {
+                        LogEvent( ev, service );
+                    }
+                }
             }
         }
 
-        void CollectSensitiveData(bool consentStatus, string serviceName)
+        public void CollectSensitiveData( bool consentStatus )
         {
-            services.TryGetValue(serviceName, out var service);
+            HLog.Log( prefix, $"Set consent for all services to {consentStatus}." );
+            foreach ( var service in services.Values )
+            {
+                CollectSensitiveData( consentStatus, service );
+            }
+            OnCollectSensitiveDataCallback?.Invoke( consentStatus );
+        }
 
-            if (service != null)
-                service.CollectSensitiveData(consentStatus);
-            else
-                Debug.LogWarningFormat($"[AnalyticsModel] Can't find service {serviceName}");
+        void CollectSensitiveData( bool consentStatus, IAnalyticsService service )
+        {
+            if ( service != null )
+            {
+                if ( service.IsInitialized )
+                {
+                    service.CollectSensitiveData( consentStatus );
+                }
+                else
+                {
+                    HLog.Log( prefix, $"Initializing service {service.Name}..." );
+                    service.Init( this );
+                }
+            }
         }
     }
 }

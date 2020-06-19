@@ -1,25 +1,28 @@
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Logging;
+using HUFEXT.CrossPromo.Runtime.Implementation;
 using JetBrains.Annotations;
-using UnityEngine;
-using UnityEngine.Events;
-using TurboLabz.InstantFramework;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
+using UnityEngine;
+using UnityEngine.Events;
 
-namespace HUFEXT.CrossPromo.API
+namespace HUFEXT.CrossPromo.Runtime.API
 {
     public static class HCrossPromo
     {
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HCrossPromo) );
+
+        public static CrossPromoService service;
+        static bool isInitialized;
+        static IPromise promise = null;
+
         /// <summary>
         /// Use this event to get information about panel being close
         /// at any point.
         /// </summary>
         [PublicAPI]
         public static event UnityAction OnCrossPromoPanelClosed;
-
-        public static CrossPromoService service;
-        static bool isInitialized;
 
         /// <summary>
         /// Use this method to close panel explicitly
@@ -33,7 +36,6 @@ namespace HUFEXT.CrossPromo.API
             OnCrossPromoPanelClosed?.Invoke();
         }
 
-        static IPromise promise = null;
         /// <summary>
         /// Use this method to show panel
         /// </summary>
@@ -55,7 +57,11 @@ namespace HUFEXT.CrossPromo.API
             {
                 service = new CrossPromoService();
                 isInitialized = true;
+                HLog.Log( logPrefix, "Service initialized" );
+                return;
             }
+
+            HLog.LogWarning( logPrefix, "Service already initialized" );
         }
 
         /// <summary>
@@ -96,7 +102,7 @@ namespace HUFEXT.CrossPromo.API
         {
             service.SetCloseButtonText(text);
         }
-        
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void AutoInit()
         {
@@ -106,8 +112,13 @@ namespace HUFEXT.CrossPromo.API
                 if (config != null && config.AutoInit)
                 {
                     Init();
-                }   
+                }
             }
+        }
+
+        public static void Fetch()
+        {
+            service.FetchRemoteConfigs();
         }
     }
 }

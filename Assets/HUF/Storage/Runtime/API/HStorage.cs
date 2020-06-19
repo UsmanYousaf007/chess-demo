@@ -1,13 +1,12 @@
-﻿#define HUF_STORAGE
-
-using HUF.Storage.API.Models;
-using HUF.Storage.API.Structs;
-using HUF.Storage.Implementation.Models;
+﻿using System;
+using HUF.Storage.Runtime.API.Models;
+using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.Implementation.Models;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine.Events;
 
-namespace HUF.Storage.API
+namespace HUF.Storage.Runtime.API
 {
     public static class HStorage
     {
@@ -54,7 +53,10 @@ namespace HUF.Storage.API
         [PublicAPI]
         public static bool TryRegisterDownloadService(IDownloadService downloadService)
         {
-            return StorageModel.TryRegisterService(new StorageDownloadModel(downloadService));
+            return LogServiceRegistration(
+                StorageModel.TryRegisterService( new StorageDownloadModel( downloadService ) ),
+                downloadService.GetType()
+            );
         }
 
         /// <summary>
@@ -78,7 +80,10 @@ namespace HUF.Storage.API
         [PublicAPI]
         public static bool TryRegisterUploadService(IUploadService uploadService)
         {
-            return StorageModel.TryRegisterService(new StorageUploadModel(uploadService));
+            return LogServiceRegistration(
+                StorageModel.TryRegisterService( new StorageUploadModel( uploadService ) ),
+                uploadService.GetType()
+            );
         }
 
         /// <summary>
@@ -102,7 +107,11 @@ namespace HUF.Storage.API
         [PublicAPI]
         public static bool TryRegisterRemoveService(IRemoveService removeService)
         {
-            return StorageModel.TryRegisterService(new StorageRemoveModel(removeService));
+            return LogServiceRegistration(
+                StorageModel.TryRegisterService( new StorageRemoveModel( removeService ) ),
+                removeService.GetType()
+            );
+
         }
 
         /// <summary>
@@ -124,6 +133,16 @@ namespace HUF.Storage.API
         {
             storageModel?.Dispose();
             storageModel = null;
+        }
+
+        static bool LogServiceRegistration( bool result, Type type )
+        {
+            if ( result )
+                HLog.Log( logPrefix, $"Service {type} registered" );
+            else
+                HLog.LogError( logPrefix, $"Unable to register service {type}" );
+
+            return result;
         }
     }
 }

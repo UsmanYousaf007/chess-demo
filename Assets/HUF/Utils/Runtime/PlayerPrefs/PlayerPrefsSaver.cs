@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
-using BlowFishCS;
+using HUF.Utils.Runtime._3rdParty.Blowfish;
 using UnityEngine;
 
-namespace HUF.Utils.PlayerPrefs
+namespace HUF.Utils.Runtime.PlayerPrefs
 {
     public class PlayerPrefsSaver
     {

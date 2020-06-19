@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Prefs = UnityEngine.PlayerPrefs;
 
-namespace HUF.Utils.PlayerPrefs 
+namespace HUF.Utils.Runtime.PlayerPrefs 
 {
     public static class HPlayerPrefs
     {

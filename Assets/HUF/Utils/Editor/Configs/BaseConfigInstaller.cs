@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using HUF.Utils.Runtime.Configs.API;
 using UnityEditor;
 
-namespace HUF.Utils.Configs.API.Editor
+namespace HUF.Utils.Editor.Configs
 {
     public class BaseConfigInstaller : AssetPostprocessor
     {

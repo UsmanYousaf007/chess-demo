@@ -12,6 +12,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
+        [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -19,6 +20,8 @@ namespace TurboLabz.Multiplayer
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         private string challengeId = null;
 
@@ -46,6 +49,47 @@ namespace TurboLabz.Multiplayer
                 if (challengeId == matchInfoModel.activeChallengeId)
                 {
                     syncReconnectDataSignal.Dispatch(challengeId);
+                }
+            }
+            else
+            {
+                //Analytics
+                var matchInfo = matchInfoModel.matches[challengeId];
+                if (matchInfo.isLongPlay)
+                {
+                    var chessboard = chessboardModel.chessboards[challengeId];
+                    if (chessboard.moveList.Count < 2)
+                    {
+                        var analyticsVO = new MatchAnalyticsVO();
+                        analyticsVO.context = AnalyticsContext.cancelled;
+                        analyticsVO.matchType = "classic";
+                        analyticsVO.eventID = AnalyticsEventId.match_find;
+                        var opponentId = matchInfo.opponentPublicProfile.playerId;
+
+                        if (playerModel.friends.ContainsKey(opponentId))
+                        {
+                            var friendType = playerModel.friends[opponentId].friendType;
+                            if (friendType.Equals(GSBackendKeys.Friend.TYPE_SOCIAL))
+                            {
+                                analyticsVO.friendType = "friends_facebook";
+
+                            }
+                            else if (friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+                            {
+                                analyticsVO.friendType = "friends_community";
+                            }
+                            else
+                            {
+                                analyticsVO.friendType = "community";
+                            }
+                        }
+                        else
+                        {
+                            analyticsVO.friendType = "community";
+                        }
+
+                        matchAnalyticsSignal.Dispatch(analyticsVO);
+                    }
                 }
             }
 

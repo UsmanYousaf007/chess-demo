@@ -75,6 +75,9 @@ namespace TurboLabz.CPU
             OnParentHideClickAndDrag();
             OnParentHideAdBanner();
             appInfoModel.gameMode = GameMode.NONE;
+
+            if (hideHintCR != null)
+                StopCoroutine(hideHintCR);
         }
 
         public bool IsVisible()

@@ -1,6 +1,6 @@
-using HUFEXT.CrossPromo.Implementation.View.Common;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.Common;
 
-namespace HUFEXT.CrossPromo.Implementation.View.BottomPanel
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel
 {
     public class LogoImageView : BaseImage
     {

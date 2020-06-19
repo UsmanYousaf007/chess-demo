@@ -1,20 +1,20 @@
 {
   "name": "com.huuuge.hufext.adsmanager",
   "displayName": "Ads Manager",
-  "version": "1.1.3",
+  "version": "1.4.1",
   "unity": "2018.4",
   "description": "Ads manager will handle fetching all ads from config. This tool will make Ads integration very simple and easy. Manager is integrated with all HUF ads mediations.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.utils:1.9.5",
-      "com.huuuge.huf.ads:1.10.0"
+      "com.huuuge.huf.utils@^2.2.0",
+      "com.huuuge.huf.ads@^2.0.0"
     ],
-    "date": "28.02.2020 14:31",
-    "commit": "1d792f9",
-    "build": "43",
+    "date": "04.05.2020 14:53",
+    "commit": "ab3963a",
+    "build": "59",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUFEXT/AdsManager",
-    "rollout": "1.9"
+    "rollout": "11"
   }
 }

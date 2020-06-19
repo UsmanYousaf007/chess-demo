@@ -130,5 +130,21 @@ namespace TurboLabz.InstantGame
 
             return count;
         }
+
+        public int GetHighestDifficultyLevelBeaten()
+        {
+            var pset = stats[0].performance;
+            var highestBeatenLevel = 0;
+
+            for (int i = 0; i < pset.Count; i++)
+            {
+                if (pset[i] > 0 && i > highestBeatenLevel)
+                {
+                    highestBeatenLevel = i;
+                }
+            }
+
+            return highestBeatenLevel + 1;
+        }
     }
 }

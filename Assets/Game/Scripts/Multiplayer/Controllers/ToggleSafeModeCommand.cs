@@ -30,19 +30,6 @@ namespace TurboLabz.Multiplayer
             activeChessboard.inSafeMode = !activeChessboard.inSafeMode;
             updateSafeMoveStateSignal.Dispatch(activeChessboard.inSafeMode);
             preferencesModel.isSafeMoveOn = activeChessboard.inSafeMode;
-
-
-            // Analytics
-            AnalyticsContext context = matchInfoModel.activeMatch.isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match;
-
-            if (activeChessboard.inSafeMode)
-            {
-                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_on, context);
-            }
-            else
-            {
-                analyticsService.Event(AnalyticsEventId.tap_pow_safe_move_off, context);
-            }
         }
     }
 }

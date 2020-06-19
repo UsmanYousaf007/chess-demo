@@ -1,12 +1,12 @@
 using System;
 using GoogleMobileAds.Api;
-using HUF.Ads.API;
-using HUF.Ads.Implementation;
-using HUF.Utils.Extensions;
+using HUF.Ads.Runtime.API;
+using HUF.Ads.Runtime.Implementation;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using UnityEngine.Events;
 
-namespace HUF.AdsAdMobMediation.Implementation
+namespace HUF.AdsAdMobMediation.Runtime.Implementation
 {
     public enum AdMobBannerAdSize
     {
@@ -38,58 +38,55 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         BannerLoadingStatus bannerStatus;
 
-        public AdMobBannerProvider(AdMobProviderBase baseProvider) : base(baseProvider)
-        {
-        }
+        public AdMobBannerProvider( AdMobProviderBase baseProvider ) : base( baseProvider ) { }
 
-        public bool Show(BannerPosition position = BannerPosition.BottomCenter)
+        public bool Show( BannerPosition position = BannerPosition.BottomCenter )
         {
-            var data = Config.GetPlacementData(PlacementType.Banner);
-            if (data == null)
+            var data = Config.GetPlacementData( PlacementType.Banner );
+
+            if ( data == null )
                 return false;
 
-            return Show(data, position);
+            return Show( data, position );
         }
 
-        public bool Show(string placementId, BannerPosition position = BannerPosition.BottomCenter)
+        public bool Show( string placementId, BannerPosition position = BannerPosition.BottomCenter )
         {
-            var data = Config.GetPlacementData(placementId);
-            if (data == null)
+            var data = Config.GetPlacementData( placementId );
+
+            if ( data == null )
                 return false;
 
-            return Show(data, position);
+            return Show( data, position );
         }
 
-        bool Show(AdPlacementData data, BannerPosition position)
+        bool Show( AdPlacementData data, BannerPosition position )
         {
-            if (bannerStatus == BannerLoadingStatus.Loading || !baseProvider.IsInitialized)
+            if ( bannerStatus == BannerLoadingStatus.Loading || !baseProvider.IsInitialized )
             {
                 return false;
             }
 
-            HLog.Log(logPrefix, $"Show Banner ad with placementId: {data.PlacementId}");
+            HLog.Log( logPrefix, $"Show Banner ad with placementId: {data.PlacementId}" );
 
-            if (banner != null)
+            if ( banner != null )
             {
                 UnsubscribeCallbacks();
                 banner.Destroy();
             }
 
             bannerStatus = BannerLoadingStatus.Loading;
-
             lastShownBannerData = data;
-
-            banner = new BannerView(data.AppId, GetAdSize(), position.ToAdMobBannerPosition());
-
+            banner = new BannerView( data.AppId, GetAdSize(), position.ToAdMobBannerPosition() );
             SubscribeCallbacks();
-            banner.LoadAd(baseProvider.CreateRequest());
+            banner.LoadAd( baseProvider.CreateRequest() );
             banner.Show();
             return true;
         }
 
         AdSize GetAdSize()
         {
-            switch (bannerSize)
+            switch ( bannerSize )
             {
                 case AdMobBannerAdSize.Banner:
                     return AdSize.Banner;
@@ -102,7 +99,7 @@ namespace HUF.AdsAdMobMediation.Implementation
                 case AdMobBannerAdSize.SmartBanner:
                     return AdSize.SmartBanner;
                 case AdMobBannerAdSize.FullWidth:
-                    return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
+                    return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth( AdSize.FullWidth );
                 default:
                     return AdSize.SmartBanner;
             }
@@ -110,113 +107,125 @@ namespace HUF.AdsAdMobMediation.Implementation
 
         public void Hide()
         {
-            HLog.Log(logPrefix, "Hide banner ad");
+            HLog.Log( logPrefix, "Hide banner ad" );
 
-            //if (bannerStatus != BannerLoadingStatus.None)
+            if ( bannerStatus != BannerLoadingStatus.None )
                 banner?.Hide();
-
             bannerStatus = BannerLoadingStatus.None;
         }
 
         void SubscribeCallbacks()
         {
-            if (banner == null)
+            if ( banner == null )
             {
-                HLog.LogError(logPrefix, "Failed to subscribe banner callbacks!");
+                HLog.LogError( logPrefix, "Failed to subscribe banner callbacks!" );
                 return;
             }
 
-            banner.OnAdLoaded += OnBannerLoaded;
-            banner.OnAdFailedToLoad += OnBannerFailedToLoad;
-            banner.OnAdOpening += OnBannerOpened;
-            banner.OnAdClosed += OnBannerClosed;
-            banner.OnAdLeavingApplication += OnLeavingApplicationFromBanner;
+            banner.OnAdLoaded += HandleBannerLoaded;
+            banner.OnAdFailedToLoad += HandleBannerFailedToLoad;
+            banner.OnAdOpening += HandleBannerOpened;
+            banner.OnAdClosed += HandleBannerClosed;
+            banner.OnAdLeavingApplication += HandleBannerClick;
+            banner.OnPaidEvent += HandlePaidEvent;
         }
 
         void UnsubscribeCallbacks()
         {
-            if (banner == null)
+            if ( banner == null )
             {
-                HLog.LogError(logPrefix, "Failed to unsubscribe banner callbacks!");
+                HLog.LogError( logPrefix, "Failed to unsubscribe banner callbacks!" );
                 return;
             }
 
-            banner.OnAdLoaded -= OnBannerLoaded;
-            banner.OnAdFailedToLoad -= OnBannerFailedToLoad;
-            banner.OnAdOpening -= OnBannerOpened;
-            banner.OnAdClosed -= OnBannerClosed;
-            banner.OnAdLeavingApplication -= OnLeavingApplicationFromBanner;
+            banner.OnAdLoaded -= HandleBannerLoaded;
+            banner.OnAdFailedToLoad -= HandleBannerFailedToLoad;
+            banner.OnAdOpening -= HandleBannerOpened;
+            banner.OnAdClosed -= HandleBannerClosed;
+            banner.OnAdLeavingApplication -= HandleBannerClick;
+            banner.OnPaidEvent -= HandlePaidEvent;
         }
 
-        void OnBannerLoaded(object sender, EventArgs args)
+        void HandlePaidEvent( object sender, AdValueEventArgs e )
+        {
+            string adapterName = string.Empty;
+
+            if ( banner != null )
+            {
+                adapterName = banner.MediationAdapterClassName();
+            }
+
+            baseProvider.HandleAdPaidEvent( PlacementType.Banner, lastShownBannerData?.PlacementId, adapterName, sender, e );
+        }
+
+        void HandleBannerLoaded( object sender, EventArgs args )
         {
             syncContext.Post(
                 s =>
                 {
-                    HLog.Log(logPrefix, $"Banner ad loaded, height: ${banner.GetHeightInPixels()}");
+                    HLog.Log( logPrefix, $"Banner ad loaded, height: ${banner.GetHeightInPixels()}" );
 
-                    if (bannerStatus == BannerLoadingStatus.None)
+                    if ( bannerStatus == BannerLoadingStatus.None )
                     {
                         return;
                     }
 
                     bannerStatus = BannerLoadingStatus.Loaded;
-
-                    OnBannerShown.Dispatch(BuildCallbackData());
+                    OnBannerShown.Dispatch( BuildCallbackData() );
                 },
-                null);
+                null );
         }
 
-        void OnBannerFailedToLoad(object sender, AdFailedToLoadEventArgs args)
+        void HandleBannerFailedToLoad( object sender, AdFailedToLoadEventArgs args )
         {
             syncContext.Post(
                 s =>
                 {
-                    bannerStatus = BannerLoadingStatus.None;
-                    HLog.LogWarning(logPrefix, $"Failed to load banner ad with error: {args.Message}");
-                    OnBannerFailed.Dispatch(BuildCallbackData());
+                    if (bannerStatus == BannerLoadingStatus.Loading)
+                        bannerStatus = BannerLoadingStatus.None;
+                    HLog.LogWarning( logPrefix, $"Failed to load banner ad with error: {args.Message}" );
+                    OnBannerFailed.Dispatch( BuildCallbackData() );
                 },
-                null);
+                null );
         }
 
-        void OnBannerOpened(object sender, EventArgs args)
+        void HandleBannerOpened( object sender, EventArgs args )
         {
             syncContext.Post(
                 s =>
                 {
-                    HLog.Log(logPrefix, "Banner ad clicked");
-                    OnBannerClicked.Dispatch(BuildCallbackData());
+                    HLog.Log( logPrefix, "Banner ad clicked" );
+                    OnBannerClicked.Dispatch( BuildCallbackData() );
                 },
-                null);
+                null );
         }
 
-        void OnBannerClosed(object sender, EventArgs args)
+        void HandleBannerClosed( object sender, EventArgs args )
         {
             syncContext.Post(
                 s =>
                 {
-                    HLog.Log(logPrefix, "Banner closed");
-                    OnBannerHidden.Dispatch(BuildCallbackData());
+                    HLog.Log( logPrefix, "Banner closed" );
+                    OnBannerHidden.Dispatch( BuildCallbackData() );
                 },
-                null);
+                null );
         }
 
-        void OnLeavingApplicationFromBanner(object sender, EventArgs args)
+        void HandleBannerClick( object sender, EventArgs args )
         {
             syncContext.Post(
-                s =>
-                {
-                    HLog.Log(logPrefix, "Leaving app by click on Banner ad");
-                },
-                null);
+                s => { HLog.Log( logPrefix, "Leaving app by click on Banner ad" ); },
+                null );
         }
 
         BannerCallbackData BuildCallbackData()
         {
-            return new BannerCallbackData(ProviderId, lastShownBannerData?.PlacementId, banner?.GetHeightInPixels() ?? 0f);
+            return new BannerCallbackData( ProviderId,
+                lastShownBannerData?.PlacementId,
+                banner?.GetHeightInPixels() ?? 0f );
         }
 
-        public void SetBannerSize(AdMobBannerAdSize size)
+        public void SetBannerSize( AdMobBannerAdSize size )
         {
             bannerSize = size;
         }

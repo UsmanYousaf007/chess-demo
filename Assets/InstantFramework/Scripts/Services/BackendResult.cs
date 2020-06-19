@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
         UPDATE_PLAYER_DATA_FAILED,
         WATCHDOG_PING_ACK_FAILED,
         SYNC_RECONNECT_DATA_FAILED,
-        NOT_AUTHORIZED
+        NOT_AUTHORIZED,
+        OFFER_DRAW_OP_FAILED
     }
 }

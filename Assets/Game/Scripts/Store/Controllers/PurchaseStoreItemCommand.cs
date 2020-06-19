@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 //using HUF.Analytics.API;
+using System.Collections.Generic;
 using strange.extensions.command.impl;
 using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
@@ -34,12 +35,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         private StoreItem item;
-        private NS pState = null;
+        private static NS pState = null;
 
         public override void Execute()
         {
             item = metaDataModel.store.items[key];
-            pState = navigatorModel.previousState;
+            if (navigatorModel.previousState.GetType() != typeof(NSConfirmDlg))
+            {
+                pState = navigatorModel.previousState;
+            }
 
             PurchaseResult purchaseResult = PurchaseResult.NONE;
 
@@ -125,10 +129,13 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.PURCHASE_ATTEMPT)
             {
                 eventName = "attempt";
+                metaDataModel.store.lastPurchaseAttemptTimestamp = backendService.serverClock.currentTimestamp;
             }
             else if (result == BackendResult.PURCHASE_COMPLETE)
             {
                 eventName = "completed";
+                analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
+                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
             {
@@ -139,7 +146,16 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
-            hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ","_")}", cameFromScreen);
+            if (eventName.Equals("failed"))
+            {
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen,
+                    new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
+
+            }
+            else
+            {
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen);
+            }
         }
 
         private void OnPurchase(BackendResult result)

@@ -58,12 +58,12 @@ public class ManageSubscriptionMediator : Mediator
 
         if (isMonthlyActive)
         {
-            hAnalyticsService.LogEvent("switch_to_yearly_clicked", "menu", "settings");
+            hAnalyticsService.LogEvent("clicked", "settings", "", "upgrade_subscription_yearly");
             storeService.UpgardeSubscription(monthlySubscription.remoteProductId, annualSubscription.remoteProductId);
         }
         else
         {
-            hAnalyticsService.LogEvent("switch_to_monthly_clicked", "menu", "settings");
+            hAnalyticsService.LogEvent("clicked", "settings", "", "upgrade_subscription_monthly");
             storeService.UpgardeSubscription(annualSubscription.remoteProductId, monthlySubscription.remoteProductId);
         }
     }

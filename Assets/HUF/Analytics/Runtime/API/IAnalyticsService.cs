@@ -1,11 +1,14 @@
-﻿namespace HUF.Analytics.API
+﻿using HUF.Analytics.Runtime.Implementation;
+
+namespace HUF.Analytics.Runtime.API
 {
     public interface IAnalyticsService
     {
         string Name { get; }
-        void Init();
-        void LogEvent(AnalyticsEvent analyticsEvent);
-        void LogMonetizationEvent(AnalyticsMonetizationEvent analyticsEvent);
-        void CollectSensitiveData(bool consentStatus);
+        bool IsInitialized { get; }
+        void Init( AnalyticsModel model );
+        void LogEvent( AnalyticsEvent analyticsEvent );
+        void LogMonetizationEvent( AnalyticsMonetizationEvent analyticsEvent );
+        void CollectSensitiveData( bool consentStatus );
     }
 }

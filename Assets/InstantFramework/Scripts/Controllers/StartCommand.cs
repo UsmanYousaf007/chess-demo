@@ -11,7 +11,7 @@ using GameSparks.Core;
 using GameAnalyticsSDK;
 using TurboLabz.CPU;
 using HUFEXT.GenericGDPR.Runtime.API;
-using HUF.Analytics.API;
+using HUF.Analytics.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -43,10 +43,10 @@ namespace TurboLabz.InstantFramework
 
         private Coroutine wifiHealthCheckCR = null;
         private int wifiHealthWaitCounter = 0;
-        private const int SLOW_WIFI_WARNING_THRESHOLD_SECONDS = 10;
+        private const int SLOW_WIFI_WARNING_THRESHOLD_SECONDS = 30;
 
         public override void Execute()
-		{
+        {
             CommandBegin();
 
             modelsResetSignal.Dispatch();

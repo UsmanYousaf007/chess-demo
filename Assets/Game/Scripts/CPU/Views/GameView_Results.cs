@@ -21,9 +21,8 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
-using HUFEXT.CrossPromo.API;
 using strange.extensions.promise.api;
-using HUFEXT.CrossPromo.Implementation;
+using HUFEXT.CrossPromo.Runtime.API;
 
 namespace TurboLabz.CPU
 {
@@ -87,6 +86,7 @@ namespace TurboLabz.CPU
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         private void InitResultsCPU()
         {
@@ -168,11 +168,14 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
-
-            viewBoardResultPanel.gameObject.SetActive(false);
-
+            ShowViewBoardResultsPanel(false);
             showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            appInfoModel.gameMode = GameMode.NONE;
+        }
 
+        private void ShowViewBoardResultsPanel(bool show)
+        {
+            viewBoardResultPanel.gameObject.SetActive(show);
         }
 
         public void HideResultsDialog()
@@ -215,6 +218,9 @@ namespace TurboLabz.CPU
         {
             EnableRewarededVideoButton(true);
             viewBoardResultPanel.reason.text = "";
+
+            string analyName = AnalyticsEventId.cpu_end_lvl_.ToString() + cpuGameModel.cpuStrength;
+
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -223,6 +229,11 @@ namespace TurboLabz.CPU
 
                 case GameEndReason.CHECKMATE:
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE);
+
+                    if(playerWins)
+                        analyticsService.Event(analyName, AnalyticsContext.won_checkmate);
+                    else
+                        analyticsService.Event(analyName, AnalyticsContext.lost_checkmate);
                     break;
 
                 case GameEndReason.RESIGNATION:
@@ -239,33 +250,48 @@ namespace TurboLabz.CPU
                         viewBoardResultPanel.reason.text = "Computer resigned";
 
                     }
+
+                    if (playerWins)
+                        analyticsService.Event(analyName, AnalyticsContext.won_resign);
+                    else
+                        analyticsService.Event(analyName, AnalyticsContext.lost_resign);
+
                     break;
 
                 case GameEndReason.STALEMATE:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_STALEMATE);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_stalemate);
                     break;
 
                 case GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_insufficient_material);
                     break;
 
                 case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE:
                 case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_fifty_move);
                     break;
 
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE:
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_THREEFOLD_REPEAT_RULE);
+                    analyticsService.Event(analyName, AnalyticsContext.draw_threefold_repetition);
                     break;
 
                 case GameEndReason.PLAYER_DISCONNECTED:
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
                     viewBoardResultPanel.reason.text = string.Format("{0} left", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
+                    break;
+
+                case GameEndReason.DRAW_BY_DRAW_OFFERED:
+                    isDraw = true;
+                    resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_OFFERED_DRAW);
                     break;
 
                 default:
@@ -277,6 +303,9 @@ namespace TurboLabz.CPU
             {
                 viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
             }
+
+
+            
         }
 
         private void UpdateGameResultHeadingSection()
@@ -403,12 +432,9 @@ namespace TurboLabz.CPU
             vo.rewardType = adRewardType;
             vo.challengeId = "";
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.rewarded;
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
             showRewardedAdSignal.Dispatch(vo);
-
-           // showAdSignal.Dispatch(AdType.RewardedVideo, adRewardType);
-            //backToLobbySignal.Dispatch();
-
-            analyticsService.Event(AnalyticsEventId.ads_collect_reward, AnalyticsContext.computer_match);         
         }
 
         public void OnResultsSkipRewardButtonClicked()
@@ -419,12 +445,12 @@ namespace TurboLabz.CPU
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = "";
             vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.interstitial_endgame;
+            if (!playerModel.HasSubscription())
+            {
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            }
             showAdSignal.Dispatch(vo);
-
-            //showAdSignal.Dispatch(AdType.Interstitial, collectRewardType);
-            //backToLobbySignal.Dispatch();
-
-            analyticsService.Event(AnalyticsEventId.ads_skip_reward, AnalyticsContext.computer_match);
         }
 
         private void OnResultsClosed()
@@ -435,7 +461,7 @@ namespace TurboLabz.CPU
             menuOpensResultsDlg = true;
             EnableMenuButton();
             DisableModalBlocker();
-            viewBoardResultPanel.gameObject.SetActive(true);
+            ShowViewBoardResultsPanel(true);
         }
 
         private void OnPlaybackOverlayClicked()

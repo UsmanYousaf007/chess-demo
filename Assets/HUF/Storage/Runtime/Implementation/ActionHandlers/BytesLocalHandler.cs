@@ -1,10 +1,10 @@
 using System;
 using System.IO;
-using HUF.Storage.API;
-using HUF.Storage.API.Structs;
+using HUF.Storage.Runtime.API;
+using HUF.Storage.Runtime.API.Structs;
 using UnityEngine.Events;
 
-namespace HUF.Storage.Implementation.ActionHandlers
+namespace HUF.Storage.Runtime.Implementation.ActionHandlers
 {
     public class BytesLocalHandler : BaseActionHandler<byte[]>
     {

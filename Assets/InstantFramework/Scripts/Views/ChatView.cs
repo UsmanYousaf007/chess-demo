@@ -212,18 +212,6 @@ namespace TurboLabz.InstantFramework
                 AddChatBubble(message, true);
                 inputField.text = "";
                 chatSubmitSignal.Dispatch(message);
-
-                if (!inGame)
-                {
-                    if (IsAnyMatchActiveWithOpponent())
-                    {
-                        analyticsService.Event(AnalyticsEventId.out_game_chat_match_active);
-                    }
-                    else
-                    {
-                        analyticsService.Event(AnalyticsEventId.out_game_chat_match_inactive);
-                    }
-                }
             }
         }
 

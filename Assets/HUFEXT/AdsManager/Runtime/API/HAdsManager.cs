@@ -1,7 +1,8 @@
-﻿using HUF.Ads.API;
-using HUF.Ads.Implementation;
-using HUF.Utils.Configs.API;
-using HUF.Utils.Extensions;
+﻿using System.Collections.Generic;
+using HUF.Ads.Runtime.API;
+using HUF.Ads.Runtime.Implementation;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using HUFEXT.AdsManager.Runtime.Config;
@@ -9,6 +10,7 @@ using HUFEXT.AdsManager.Runtime.Service;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.TextCore.LowLevel;
 
 namespace HUFEXT.AdsManager.Runtime.API
 {
@@ -18,8 +20,14 @@ namespace HUFEXT.AdsManager.Runtime.API
 
         static AdsManagerConfig config;
         static HUFAdsService adsService;
+        static List<HUFAdsService> alternativeMediations = new List<HUFAdsService>();
+        static List<HUFAdsService> mediationsList = new List<HUFAdsService>();
+        static BannerPosition lastBannerPosition = BannerPosition.BottomCenter;
 
-        static UnityAction<AdsManagerFetchCallbackData> OnAdFetchStatic;
+        /// <summary>
+        /// Occurs when any ad is Fetched.
+        /// </summary>
+        [PublicAPI] public static UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
 
         static AdsManagerConfig Config
         {
@@ -28,34 +36,6 @@ namespace HUFEXT.AdsManager.Runtime.API
                 if ( config == null && HConfigs.HasConfig<AdsManagerConfig>() )
                     config = HConfigs.GetConfig<AdsManagerConfig>();
                 return config;
-            }
-        }
-
-        /// <summary>
-        /// Occurs when any ad is Fetched.
-        /// </summary>
-        [PublicAPI]
-        public static event UnityAction<AdsManagerFetchCallbackData> OnAdFetch
-        {
-            add
-            {
-                if ( adsService == null )
-                {
-                    OnAdFetchStatic += value;
-                    return;
-                }
-
-                adsService.OnAdFetch += value;
-            }
-            remove
-            {
-                if ( adsService == null )
-                {
-                    OnAdFetchStatic -= value;
-                    return;
-                }
-
-                adsService.OnAdFetch -= value;
             }
         }
 
@@ -77,16 +57,19 @@ namespace HUFEXT.AdsManager.Runtime.API
         {
             if ( Config != null )
             {
-                adsService = new HUFAdsService();
-
-                if ( OnAdFetchStatic != null )
-                {
-                    adsService.OnAdFetch = OnAdFetchStatic;
-                    OnAdFetchStatic = null;
-                }
+                adsService = new HUFAdsService( new BaseAdMediation(), false );
+                mediationsList.Insert( 0, adsService );
+                adsService.OnAdFetch += HandleAdFetch;
+                HLog.Log( logPrefix, $"Service initialized" );
             }
             else
-                HLog.LogError( logPrefix, $"AdsManagerConfig dose not exits" );
+                HLog.LogError( logPrefix, $"AdsManagerConfig does not exist" );
+        }
+
+        static void HandleAdFetch( AdsManagerFetchCallbackData adData )
+        {
+            if ( adsService != null )
+                OnAdFetch.Dispatch( adData );
         }
 
         /// <summary>
@@ -107,7 +90,18 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static bool CanShowAd( string placementId )
         {
-            return adsService != null && adsService.CanShowAd( placementId );
+            if ( adsService != null && !placementId.IsNullOrEmpty())
+            {
+                foreach ( var mediation in mediationsList )
+                {
+                    if ( mediation.CanShowAd( placementId ) )
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -118,13 +112,22 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void ShowAd( string placementId, UnityAction<AdManagerCallback> resultCallback )
         {
-            if ( adsService == null )
+            if ( adsService == null  || placementId.IsNullOrEmpty())
             {
                 resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
                 return;
             }
 
-            adsService.ShowAd( placementId, resultCallback );
+            foreach ( var mediation in mediationsList )
+            {
+                if ( mediation.CanShowAd( placementId ) )
+                {
+                    mediation.ShowAd( placementId, resultCallback );
+                    return;
+                }
+            }
+
+            resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
         }
 
         /// <summary>
@@ -140,7 +143,13 @@ namespace HUFEXT.AdsManager.Runtime.API
                 return false;
             }
 
-            adsService.SetBannerPosition( position );
+            lastBannerPosition = position;
+
+            foreach ( var mediation in mediationsList )
+            {
+                mediation.SetBannerPosition( position );
+            }
+
             return true;
         }
 
@@ -150,7 +159,19 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="placementId">Ad placement id</param>
         public static void HideBanner( string placementId )
         {
-            adsService?.HideBanner( placementId );
+            if ( adsService == null )
+            {
+                HLog.LogWarning( logPrefix, "AdsManagerIsNotInitialized" );
+                return;
+            }
+
+            foreach ( var mediation in mediationsList )
+            {
+                if ( !mediation.CanShowAd( placementId ) )
+                {
+                    mediation.HideBanner( placementId );
+                }
+            }
         }
 
         /// <summary>
@@ -159,7 +180,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void HideBanner()
         {
-            adsService?.HideBanner();
+            HideBanner( adsService.DefaultBannerPlacement );
         }
 
         /// <summary>
@@ -173,11 +194,12 @@ namespace HUFEXT.AdsManager.Runtime.API
         {
             if ( adsService == null )
             {
-                resultCallback.Dispatch( new AdManagerCallback( "HUF", "NONE", AdResult.Failed ) );
+                resultCallback.Dispatch( new AdManagerCallback( "HUF", string.Empty, AdResult.Failed ) );
                 return;
             }
 
-            adsService.ShowBanner( resultCallback, position );
+            SetNewBannerPosition( position );
+            ShowAd( adsService.DefaultBannerPlacement, resultCallback );
         }
 
         /// <summary>
@@ -192,13 +214,8 @@ namespace HUFEXT.AdsManager.Runtime.API
             UnityAction<AdManagerCallback> resultCallback,
             BannerPosition position = BannerPosition.BottomCenter )
         {
-            if ( adsService == null )
-            {
-                resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
-                return;
-            }
-
-            adsService.ShowBanner( placementId, resultCallback, position );
+            SetNewBannerPosition( position );
+            ShowAd( placementId, resultCallback );
         }
 
         /// <summary>
@@ -209,13 +226,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void ShowBanner( string placementId, UnityAction<AdManagerCallback> resultCallback )
         {
-            if ( adsService == null )
-            {
-                resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
-                return;
-            }
-
-            adsService.ShowBanner( placementId, resultCallback );
+            ShowAd( placementId, resultCallback );
         }
 
         /// <summary>
@@ -246,13 +257,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void ShowInterstitial( string placementId, UnityAction<AdManagerCallback> resultCallback )
         {
-            if ( adsService == null )
-            {
-                resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
-                return;
-            }
-
-            adsService.ShowInterstitial( placementId, resultCallback );
+            ShowAd( placementId, resultCallback );
         }
 
         /// <summary>
@@ -264,11 +269,11 @@ namespace HUFEXT.AdsManager.Runtime.API
         {
             if ( adsService == null )
             {
-                resultCallback.Dispatch( new AdManagerCallback( "HUF", "NONE", AdResult.Failed ) );
+                resultCallback.Dispatch( new AdManagerCallback( "HUF", string.Empty, AdResult.Failed ) );
                 return;
             }
 
-            adsService.ShowInterstitial( resultCallback );
+            ShowAd( adsService.DefaultInterstitialPlacement, resultCallback );
         }
 
         /// <summary>
@@ -279,13 +284,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void ShowRewarded( string placementId, UnityAction<AdManagerCallback> resultCallback )
         {
-            if ( adsService == null )
-            {
-                resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
-                return;
-            }
-
-            adsService.ShowRewarded( placementId, resultCallback );
+            ShowAd( placementId, resultCallback );
         }
 
         /// <summary>
@@ -296,11 +295,28 @@ namespace HUFEXT.AdsManager.Runtime.API
         {
             if ( adsService == null )
             {
-                resultCallback.Dispatch( new AdManagerCallback( "HUF", "NONE", AdResult.Failed ) );
+                resultCallback.Dispatch( new AdManagerCallback( "HUF", string.Empty, AdResult.Failed ) );
                 return;
             }
 
-            adsService.ShowRewarded( resultCallback );
+            ShowAd( adsService.DefaultRewardedPlacement, resultCallback );
+        }
+
+        /// <summary>
+        /// Used by HUF to add additional alternative mediation
+        /// </summary>
+        /// <param name="mediation">alternative mediation to check for ads</param>
+        public static void RegisterAlternativeMediation( HUFAdsService mediation )
+        {
+            if ( alternativeMediations.Contains( mediation ) )
+            {
+                HLog.LogWarning( logPrefix, $"Don't add same mediation multiple times! {nameof(mediation)}" );
+                return;
+            }
+            alternativeMediations.Add( mediation );
+            mediationsList.Add( mediation );
+            mediation.SetBannerPosition( lastBannerPosition );
+            mediation.OnAdFetch += HandleAdFetch;
         }
     }
 }

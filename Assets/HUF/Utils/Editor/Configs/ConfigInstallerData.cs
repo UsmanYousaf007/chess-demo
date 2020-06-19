@@ -1,6 +1,6 @@
 using System;
 
-namespace HUF.Utils.Configs.API.Editor
+namespace HUF.Utils.Editor.Configs
 {
     public struct ConfigInstallerData
     {

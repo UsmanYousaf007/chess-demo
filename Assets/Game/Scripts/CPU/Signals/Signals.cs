@@ -41,6 +41,7 @@ namespace TurboLabz.CPU
     public class UpdateResultDialogSignal : Signal<GameEndReason, bool, int, bool> {}
     public class UpdatePromoDialogSignal : Signal<ChessColor> {}
     public class UpdatePromoSignal : Signal<MoveVO> {}
+    public class AutoQueenPromoSignal : Signal<ChessColor> { }
     public class RunTimeControlSignal : Signal {}
     public class TakeTurnSwapTimeControlSignal : Signal {}
     public class ReceiveTurnSwapTimeControlSignal : Signal {}

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HUF.Utils.Attributes
+namespace HUF.Utils.Runtime.Attributes
 {
     /// <summary>
     /// Display a field as read-only in the inspector.

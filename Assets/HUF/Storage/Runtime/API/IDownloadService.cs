@@ -1,10 +1,9 @@
 using System;
-using HUF.Storage.API.Structs;
-using HUF.Storage.Implementation.ActionHandlers;
+using HUF.Storage.Runtime.API.Structs;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Storage.API
+namespace HUF.Storage.Runtime.API
 {
     public interface IDownloadService : IDisposable
     {

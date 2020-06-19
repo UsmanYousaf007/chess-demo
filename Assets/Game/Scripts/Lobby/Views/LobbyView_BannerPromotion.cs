@@ -3,8 +3,6 @@ using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
-using System.Collections;
-using HUF.Analytics.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -129,17 +127,8 @@ namespace TurboLabz.InstantFramework
                     cycleIndex = 0,
                     key = "none",
                     condition = null,
-                    onClick = null,
-                    analyticsImpId = 0
+                    onClick = null
                 });
-            }
-        }
-
-        public void ReportAnalytic(string key, AnalyticsEventId eventId)
-        {
-            if (currentPromotion.key.Equals(key))
-            {
-                analyticsService.Event(eventId);
             }
         }
     }

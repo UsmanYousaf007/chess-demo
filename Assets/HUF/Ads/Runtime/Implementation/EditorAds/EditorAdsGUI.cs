@@ -1,8 +1,8 @@
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUF.Ads.Implementation.EditorAds
+namespace HUF.Ads.Runtime.Implementation.EditorAds
 {
     public class EditorAdsGUI : MonoBehaviour
     {

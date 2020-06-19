@@ -14,6 +14,8 @@ using TurboLabz.InstantFramework;
 using TMPro;
 using TurboLabz.InstantGame;
 using System.Collections;
+using System;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.Multiplayer
 {
@@ -58,49 +60,87 @@ namespace TurboLabz.Multiplayer
 
         public void RenderHint(HintVO vo)
         {
-            int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
-            hintFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
-            hintFromIndicator.SetActive(true);
-
-            int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
-            hintToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
-            hintToIndicator.SetActive(true);
-
-            audioService.Play(audioService.sounds.SFX_HINT);
-
-            //UpdateHintCount(vo.availableHints);
-            //DisableHintButton();
-            hintThinking.SetActive(false);
-            DisableModalBlocker();
-            DisableHintButton();
-
-            var strengthVO = new StrengthVO();
-            strengthVO.strength = vo.strength;
-            strengthVO.fromPosition = hintFromIndicator.transform.position;
-            strengthVO.toPosition = hintToIndicator.transform.position;
-            strengthVO.fromIndicator = hintFromIndicator;
-            strengthVO.toIndicator = hintToIndicator;
-            strengthVO.audioService = audioService;
-            strengthVO.analyticsService = analyticsService;
-            strengthVO.activeSkinId = vo.skinId;
-            strengthVO.pieceName = vo.piece;
-
-            if (isLongPlay)
+            try
             {
-                strengthVO.analyticsContext = AnalyticsContext.long_match;
-            }
-            else
-            {
-                strengthVO.analyticsContext = AnalyticsContext.quick_match;
-            }
+                int fromSquareIndex = RankFileMap.Map[vo.fromSquare.fileRank.rank, vo.fromSquare.fileRank.file];
+                hintFromIndicator.transform.position = chessboardSquares[fromSquareIndex].position;
+                hintFromIndicator.SetActive(true);
 
-            if (vo.piece.Contains("captured"))
-            {
-                strengthVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
-            }
+                int toSquareIndex = RankFileMap.Map[vo.toSquare.fileRank.rank, vo.toSquare.fileRank.file];
+                hintToIndicator.transform.position = chessboardSquares[toSquareIndex].position;
+                hintToIndicator.SetActive(true);
 
-            strengthPanel.ShowStrengthPanel(strengthVO);
-            StartCoroutine(HideHint(4.0f));
+                audioService.Play(audioService.sounds.SFX_HINT);
+
+                //UpdateHintCount(vo.availableHints);
+                //DisableHintButton();
+                hintThinking.SetActive(false);
+                DisableModalBlocker();
+                DisableHintButton();
+
+                var strengthVO = new StrengthVO();
+                strengthVO.strength = vo.strength;
+                strengthVO.fromPosition = hintFromIndicator.transform.position;
+                strengthVO.toPosition = hintToIndicator.transform.position;
+                strengthVO.fromIndicator = hintFromIndicator;
+                strengthVO.toIndicator = hintToIndicator;
+                strengthVO.audioService = audioService;
+                strengthVO.analyticsService = analyticsService;
+                strengthVO.activeSkinId = vo.skinId;
+                strengthVO.pieceName = vo.piece;
+
+                if (isLongPlay)
+                {
+                    strengthVO.analyticsContext = AnalyticsContext.long_match;
+                }
+                else
+                {
+                    strengthVO.analyticsContext = AnalyticsContext.quick_match;
+                }
+
+                if (vo.piece.Contains("captured"))
+                {
+                    strengthVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
+                }
+
+                strengthPanel.ShowStrengthPanel(strengthVO);
+                StartCoroutine(HideHint(4.0f));
+            }
+            catch (Exception e)
+            {
+                if(hintFromIndicator == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_hintFromIndicator_" + e.StackTrace);
+                }
+                else if (hintToIndicator == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_hintToIndicator_" + e.StackTrace);
+                }
+                else if (audioService == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_audioService_" + e.StackTrace);
+                }
+                else if (hintThinking == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_hintThinking_" + e.StackTrace);
+                }
+                else if (strengthPanel == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_strengthPanel_" + e.StackTrace);
+                }
+                else if (audioService.sounds == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_audioService_sounds_" + e.StackTrace);
+                }
+                else if (vo.fromSquare == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_vo_fromSquare_" + e.StackTrace);
+                }
+                else if (vo.toSquare == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Error, "GameView_Hint_RenderHint_vo_toSquare_" + e.StackTrace);
+                }
+            }
         }
 
         public void CancelHint()
@@ -108,12 +148,6 @@ namespace TurboLabz.Multiplayer
             hintThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHintButton();
-
-            if(strengthPanel.gameObject.activeSelf)
-            {
-                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-            }
-
             strengthPanel.Hide();
             strengthOnboardingTooltip.SetActive(false);
         }
@@ -135,7 +169,7 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch(isLongPlay ? "Classic" : isTenMinGame ? "TenMin" : "FiveMin", "MoveMeter");
+                setSubscriptionContext.Dispatch(isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : "5m", "move_meter");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
@@ -147,21 +181,6 @@ namespace TurboLabz.Multiplayer
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
-
-                if (isStrengthToolTipShown)
-                {
-                    isStrengthToolTipShown = false;
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
-
-                if (InstantFramework.LobbyView.isStrengthTrainingShown)
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match);
-                }
             }
         }
 

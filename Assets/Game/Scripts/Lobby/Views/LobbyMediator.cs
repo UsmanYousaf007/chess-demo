@@ -14,7 +14,7 @@ using UnityEngine;
 
 using strange.extensions.mediation.impl;
 using System.Collections.Generic;
-using TurboLabz.Multiplayer;
+//using TurboLabz.Multiplayer;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -281,7 +282,7 @@ namespace TurboLabz.InstantFramework
             refreshCommunitySignal.Dispatch();
 
             // Analytics
-            analyticsService.Event(AnalyticsEventId.tap_community_refresh);
+            analyticsService.Event(AnalyticsEventId.refresh_community);
         }
 
         private void OnShareApp()
@@ -291,19 +292,46 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
+            if (!playerModel.HasSubscription())
+            {
+                if (CanShowPregameAd())
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.isRanked = isRanked;
+                    vo.friendId = playerId;
+                    vo.actionCode = "ChallengeClassic";
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
-            analyticsService.Event(AnalyticsEventId.quickmatch_direct_request);
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
 
             var friend = playerModel.GetFriend(playerId);
 
-            if (friend != null && friend.friendType.Equals(GSBackendKeys.Friend.TYPE_FAVOURITE))
+            if (!playerModel.HasSubscription()) 
             {
-                analyticsService.Event(AnalyticsEventId.start_match_with_favourite);
-            }
+                if (CanShowPregameAd(actionCode))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.actionCode = actionCode;
+                    vo.friendId = playerId;
+                    vo.isRanked = isRanked;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+             }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
@@ -340,17 +368,91 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayComputerMatchBtnClicked()
         {
+            if (!playerModel.HasSubscription())
+            {
+                if (CanShowPregameAd())
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
             startCPUGameSignal.Dispatch();
         }
 
         private void OnQuickMatchBtnClicked(string actionCode)
         {
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
+
+            if (!playerModel.isPremium)
+            {
+                if (CanShowPregameAd(actionCode))
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.actionCode = actionCode;
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
+
             FindMatchAction.Random(findMatchSignal, actionCode);
         }
 
         private void OnClassicMatchBtnClicked()
         {
+            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
+            OnShowProcessingUI(true, true);
+
+            if (!playerModel.HasSubscription())
+            {
+                if (CanShowPregameAd())
+                {
+                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.actionCode = FindMatchAction.ActionCode.RandomLong.ToString();
+                    showAdSignal.Dispatch(vo);
+                    return;
+                }
+            }
+            
+            //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.RandomLong(findMatchSignal);
+        }
+
+        private bool CanShowPregameAd(string actionCode = null)
+        {
+            bool retVal = false;
+
+            IPreferencesModel preferencesModel = view.preferencesModel;
+            IAdsSettingsModel adsSettingsModel = view.adsSettingsModel;
+
+            double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+            bool isOneMinuteGame = actionCode != null &&
+                                    (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                                    actionCode == FindMatchAction.ActionCode.Random1.ToString());
+
+            if (isOneMinuteGame && view.adsSettingsModel.showPregameInOneMinute == false)
+            {
+                retVal = false;
+            }
+            else if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
+                    preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
+                    (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
+            {
+                retVal = true;
+            }
+
+            return retVal;
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]
@@ -375,17 +477,6 @@ namespace TurboLabz.InstantFramework
         public void OnRemoveLobbyPromotion(StoreItem item)
         {
             view.RemovePromotion(item.key);
-        }
-
-        [ListensTo(typeof(ReportLobbyPromotionAnalyticSingal))]
-        public void OnReportLobbyPromotionAnalytic(string key, AnalyticsEventId eventId)
-        {
-            if (!view.IsVisible())
-            {
-                return;
-            }
-
-            view.ReportAnalytic(key, eventId);
         }
 
         [ListensTo(typeof(ShowProcessingSignal))]
@@ -416,6 +507,16 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
+        }
+
+        [ListensTo(typeof(UpdateOfferDrawSignal))]
+        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
+        {
+            if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
+            {
+                view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+                return;
+            }
         }
     }
 }

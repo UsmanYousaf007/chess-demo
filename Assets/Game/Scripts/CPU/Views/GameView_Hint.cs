@@ -34,6 +34,8 @@ namespace TurboLabz.CPU
         public StrengthAnim strengthPanel;
         public GameObject strengthOnboardingTooltip;
 
+        private IEnumerator hideHintCR = null;
+
         private bool isStrengthToolTipShown;
 
         public void InitHint()
@@ -93,7 +95,13 @@ namespace TurboLabz.CPU
             }
 
             strengthPanel.ShowStrengthPanel(strengthVO);
-            StartCoroutine(HideHint(4.0f));
+            //StartCoroutine(HideHint(4.0f));
+
+            hideHintCR = HideHint(4.0f);
+            if (this.gameObject.activeInHierarchy)
+            {
+                StartCoroutine(hideHintCR);
+            }
 
         }
 
@@ -102,12 +110,6 @@ namespace TurboLabz.CPU
             hintThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHintButton();
-
-            if (strengthPanel.gameObject.activeSelf)
-            {
-                analyticsService.Event(AnalyticsEventId.cancel_pow_move_meter, AnalyticsContext.computer_match);
-            }
-
             strengthPanel.Hide();
             strengthOnboardingTooltip.SetActive(false);
         }
@@ -129,7 +131,7 @@ namespace TurboLabz.CPU
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch("Cpu", "MoveMeter");
+                setSubscriptionContext.Dispatch("cpu", "move_meter");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
@@ -143,21 +145,6 @@ namespace TurboLabz.CPU
                 hintClickedSignal.Dispatch();
 
                 StashStepButtons();
-
-                if (isStrengthToolTipShown)
-                {
-                    isStrengthToolTipShown = false;
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_tooltip, AnalyticsContext.computer_match);
-                }
-
-                if (InstantFramework.LobbyView.isStrengthTrainingShown)
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_move_meter_after_training, AnalyticsContext.computer_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_move_meter, AnalyticsContext.computer_match);
-                }
             }
         }
 

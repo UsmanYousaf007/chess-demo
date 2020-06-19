@@ -311,11 +311,12 @@ namespace TurboLabz.InstantFramework
 
         public static void ParseFriend(Friend friend, GSData friendData, string friendId)
 		{
-			friend.gamesDrawn = friendData.GetInt(GSBackendKeys.Friend.GAMES_DRAWN).Value;
-			friend.gamesLost = friendData.GetInt(GSBackendKeys.Friend.GAMES_LOST).Value;
-			friend.gamesWon = friendData.GetInt(GSBackendKeys.Friend.GAMES_WON).Value;
-            friend.friendType = friendData.GetString(GSBackendKeys.Friend.TYPE);
+            friend.gamesDrawn = GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_DRAWN);
+			friend.gamesLost = GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_LOST);
+			friend.gamesWon = GetSafeInt(friendData, GSBackendKeys.Friend.GAMES_WON);
+            friend.friendType = GetSafeString(friendData, GSBackendKeys.Friend.TYPE, GSBackendKeys.Friend.TYPE_COMMUNITY);
             friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
+            friend.flagMask = GetSafeLong(friendData, GSBackendKeys.Friend.FLAG_MASK);
 
             GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);

@@ -1,10 +1,9 @@
-using HUFEXT.CrossPromo.Implementation.View.Common;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.Common;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-
-namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
 {
     [RequireComponent(typeof(RectTransform))]
     public class BannerTileContainer : MonoBehaviour, ILayoutElement

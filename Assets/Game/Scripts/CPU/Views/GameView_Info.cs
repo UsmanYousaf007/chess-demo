@@ -42,8 +42,6 @@ namespace TurboLabz.CPU
         void OnInfoButtonClicked()
         {
             infoButtonClickedSignal.Dispatch();
-
-            analyticsService.Event(AnalyticsEventId.tap_pow_info, AnalyticsContext.computer_match);
         }
 
         void OnCloseButtonClicked()

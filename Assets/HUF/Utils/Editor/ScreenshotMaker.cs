@@ -1,10 +1,11 @@
 using System.Collections;
 using System.IO;
 using System.Linq;
+using HUF.Utils.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.ScreenshotMaker.Editor
+namespace HUF.Utils.Editor
 {
     public class ScreenshotMaker : EditorWindow
     {

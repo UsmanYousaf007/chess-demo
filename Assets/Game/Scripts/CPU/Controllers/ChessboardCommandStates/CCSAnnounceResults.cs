@@ -98,10 +98,8 @@ namespace TurboLabz.CPU
             cmd.toggleStepForwardSignal.Dispatch(false);
 
             cmd.preferencesModel.gameFinishedCount++;
-            cmd.preferencesModel.cpuMatchFinishedCount++;
-            cmd.hAnalyticsService.LogEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", "cpu_match");
+            cmd.hAnalyticsService.LogCpuGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", "cpu_match");
             cmd.appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount);
-            cmd.analyticsService.Event(AnalyticsEventId.game_finished, AnalyticsContext.computer_match);
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

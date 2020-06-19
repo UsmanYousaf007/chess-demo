@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-namespace HUF.Utils.Wrappers.Libraries.Editor
+namespace HUF.Utils.Editor
 {
     public class LibrariesImporter : AssetPostprocessor
     {

@@ -1,10 +1,10 @@
 using System;
 using System.IO;
 using System.Text;
-using HUF.Utils.Extensions;
+using HUF.Utils.Runtime.Extensions;
 using UnityEngine;
 
-namespace HUF.Storage.API
+namespace HUF.Storage.Runtime.API
 {
     public static class StorageUtils
     {

@@ -12,6 +12,7 @@ namespace TurboLabz.CPU
 
         // Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // Signals
         [Inject] public ShowStrengthOnboardingTooltipSignal showStrengthOnboardingTooltipSignal { get; set; }
@@ -23,7 +24,7 @@ namespace TurboLabz.CPU
         public override void Execute()
         {
             if (!preferencesModel.isCoachTooltipShown
-               && moveVo.opponentScore > oldOpponentScore)
+            && moveVo.opponentScore > oldOpponentScore)
             {
                 showCoachOnboardingTooltipSignal.Dispatch(true);
                 showStrengthOnboardingTooltipSignal.Dispatch(false);

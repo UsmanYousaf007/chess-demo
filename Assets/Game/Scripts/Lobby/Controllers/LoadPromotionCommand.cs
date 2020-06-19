@@ -74,7 +74,6 @@ namespace TurboLabz.InstantGame
 
             if (promotionToShowIndex != -1)
             {
-                analyticsService.Event(promotionCycle[promotionToShowIndex].analyticsImpId);
                 showPromotionSignal.Dispatch(promotionCycle[promotionToShowIndex]);
             }
             else
@@ -84,9 +83,7 @@ namespace TurboLabz.InstantGame
                     cycleIndex = 0,
                     key = "none",
                     condition = null,
-                    onClick = null,
-                    analyticsImpId = 0
-                };
+                    onClick = null                };
 
                 showPromotionSignal.Dispatch(emptyPromotion);
             }
@@ -129,7 +126,7 @@ namespace TurboLabz.InstantGame
 #else
                     LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
 #endif
-                },
+                }
             };
 
             if(gameUpdateItem.condition())
@@ -164,10 +161,8 @@ namespace TurboLabz.InstantGame
                 onClick = delegate (string key)
                 {
                     audioService.PlayStandardClick();
-                    analyticsService.Event(AnalyticsEventId.tap_banner_subscription);
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-                },
-                analyticsImpId = AnalyticsEventId.imp_banner_subscription
+                }
             };
 
             promotionCycle.Add(ultimateItem);

@@ -1,3 +1,4 @@
+#if UNITY_IOS
 using System.Collections.Generic;
 using UnityEditor.iOS.Xcode;
 
@@ -24,3 +25,4 @@ namespace HUF.Utils.BuildSupport.Editor.iOS
         }
     }
 }
+#endif

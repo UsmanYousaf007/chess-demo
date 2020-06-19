@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public Text wifiWarning;
         public Text userMessage;
@@ -28,6 +29,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            preferencesModel.sessionsBeforePregameAdCount++;
             gameObject.SetActive(true);
         }
 
@@ -48,7 +50,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                wifiWarning.text = "Slow internet. Please wait..";
+                wifiWarning.text = "Connecting to server...";
             }
 
             analyticsService.Event(AnalyticsEventId.internet_warning_on_splash);

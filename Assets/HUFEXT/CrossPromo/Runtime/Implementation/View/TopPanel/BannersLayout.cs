@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using HUFEXT.CrossPromo.Implementation.Model;
-using HUFEXT.CrossPromo.Implementation.View.BannerTile;
-using HUFEXT.CrossPromo.Implementation.View.BulletPoint;
+using HUFEXT.CrossPromo.Runtime.Implementation.Model;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BulletPoint;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HUFEXT.CrossPromo.Implementation.View.TopPanel
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.TopPanel
 {
     [RequireComponent(typeof(RectTransform))]
     public class BannersLayout : MonoBehaviour

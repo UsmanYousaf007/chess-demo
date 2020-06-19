@@ -100,12 +100,6 @@ namespace TurboLabz.CPU
             hindsightThinking.SetActive(false);
             DisableModalBlocker();
             //DisableHindsightButton();
-
-            if(coachView.gameObject.activeSelf)
-            {
-                analyticsService.Event(AnalyticsEventId.cancel_pow_coach, AnalyticsContext.computer_match);
-            }
-
             coachView.Hide();
             coachOnboardingTooltip.SetActive(false);
         }
@@ -121,7 +115,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch("Cpu", "Coach");
+                setSubscriptionContext.Dispatch("cpu", "coach");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
@@ -136,21 +130,6 @@ namespace TurboLabz.CPU
                 hindsightClickedSignal.Dispatch();
 
                 StashStepButtons();
-
-                if (isCoachToolTipShown)
-                {
-                    isCoachToolTipShown = false;
-                    analyticsService.Event(AnalyticsEventId.tap_coach_after_tooltip, AnalyticsContext.computer_match);
-                }
-
-                if (InstantFramework.LobbyView.isCoachTrainingShown)
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_coach_after_training, AnalyticsContext.computer_match);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.tap_pow_coach, AnalyticsContext.computer_match);
-                }
             }
         }
 

@@ -1,3 +1,8 @@
+## [2.0.0] - 2020-03-16
+### Changed
+- Self Containing Package
+- Namespaces
+
 ## [1.10.1] - 2020-02-18
 ### Added
 - Main HLogPrefix

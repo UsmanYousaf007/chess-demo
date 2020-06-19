@@ -1,10 +1,10 @@
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation.View.Common;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.Common;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace HUFEXT.CrossPromo.Implementation.View.BannerTile
+namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
 {
     public class BannerTileImage : BaseImage, IPointerDownHandler, IPointerExitHandler, IPointerUpHandler
     {

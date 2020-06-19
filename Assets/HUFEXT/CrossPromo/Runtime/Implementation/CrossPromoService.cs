@@ -1,15 +1,15 @@
 using System.Collections;
-using HUF.InitFirebase.API;
-using HUF.RemoteConfigs.API;
-using HUF.Utils;
-using HUF.Utils.Configs.API;
-using HUFEXT.CrossPromo.Implementation.View.BottomPanel;
-using HUFEXT.CrossPromo.Implementation.View.ContentPanel;
-using HUFEXT.CrossPromo.Implementation.View.TopPanel;
+using HUF.InitFirebase.Runtime.API;
+using HUF.RemoteConfigs.Runtime.API;
+using HUF.Utils.Runtime;
+using HUF.Utils.Runtime.Configs.API;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.ContentPanel;
+using HUFEXT.CrossPromo.Runtime.Implementation.View.TopPanel;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HUFEXT.CrossPromo.Implementation
+namespace HUFEXT.CrossPromo.Runtime.Implementation
 {
     public class CrossPromoService
     {
@@ -56,7 +56,7 @@ namespace HUFEXT.CrossPromo.Implementation
         public void ClosePanel()
         {
             crossPromoView.gameObject.SetActive(false);
-            Screen.orientation = defaultAppOrientation;
+            //Screen.orientation = defaultAppOrientation;
         }
 
         public void OpenPanel()
@@ -96,8 +96,8 @@ namespace HUFEXT.CrossPromo.Implementation
 
             if (!localConfig.UseDefaultAppOrientation)
                 defaultAppOrientation = Screen.orientation;
-            Screen.orientation = ScreenOrientation.Portrait;
-            yield return new WaitUntil(() => Screen.orientation == ScreenOrientation.Portrait);
+            //Screen.orientation = ScreenOrientation.Portrait;
+            //yield return new WaitUntil(() => Screen.orientation == ScreenOrientation.Portrait);
             crossPromoView.gameObject.SetActive(true);
             yield return null;
             LayoutRebuilder.ForceRebuildLayoutImmediate(crossPromoView.GetComponent<RectTransform>());
@@ -142,6 +142,13 @@ namespace HUFEXT.CrossPromo.Implementation
             ClosePanel();
 
             hasContent = remoteConfig.CrossPromoPanelGameModels.Count > 0 && remoteConfig.TopPanelCrossPromoGameModels.Count > 0;
+        }
+
+        public void FetchRemoteConfigs()
+        {
+            HandleRemoteConfigsInitialized();
+            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
+            HRemoteConfigs.OnFetchFail += HandleConfigFetchFinished;
         }
 
         void HandleRemoteConfigsInitialized()

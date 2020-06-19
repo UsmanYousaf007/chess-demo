@@ -1,7 +1,7 @@
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace HUFEXT.NativeCountryCode.API
+namespace HUFEXT.CountryCode.Runtime.API
 {
     public class CountryCode
     {
