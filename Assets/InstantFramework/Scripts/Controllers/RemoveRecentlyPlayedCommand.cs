@@ -28,9 +28,13 @@ namespace TurboLabz.InstantFramework
                 // if friend type is community then we remove from local friends
                 if (playerModel.friends[friendIds[i]].friendType == GSBackendKeys.Friend.TYPE_COMMUNITY)
                 {
-                    picsModel.DeleteFriendPic(friendId);
-                    clearFriendSignal.Dispatch(friendId);
-                    playerModel.friends.Remove(friendId);
+                    picsModel.DeleteFriendPic(friendIds[i]);
+                    clearFriendSignal.Dispatch(friendIds[i]);
+                    playerModel.friends.Remove(friendIds[i]);
+                }
+                else
+                {
+                    playerModel.friends[friendIds[i]].flagMask &= ~(long)FriendsFlagMask.RECENT_PLAYED;
                 }
             }
 
