@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -409,6 +410,33 @@ namespace TurboLabz.InstantFramework
             {
                 playButtonClickedSignal.Dispatch(friendId, isRanked);
                 startGameFriendId = null;
+            }
+        }
+
+        public void SignInWithAppleResult(AuthSignInWIthAppleResultVO vo)
+        {
+            LogUtil.Log("SignInWithAppleAuthResult :: " + vo.isSuccessful);
+            facebookConnectAnim.SetActive(false);
+            uiBlocker.SetActive(false);
+
+            if (vo.isSuccessful)
+            {
+                // Player attempted to start a game
+                if ((startGameFriendId != null) && (vo.playerId != startGameFriendId))
+                {
+                    CreateGame(startGameFriendId, startGameRanked);
+                }
+
+                // Freak case where player started a game with themselves while they were a community player
+                if ((startGameFriendId != null) && (vo.playerId == startGameFriendId))
+                {
+                    startGameFriendId = null;
+                }
+            }
+            else
+            {
+                ShowConnectFacebook(true);
+                refreshCommunitySignal.Dispatch();
             }
         }
 

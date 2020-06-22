@@ -11,6 +11,7 @@ using GameSparks.Api.Requests;
 using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
 using UnityEngine;
+using UnityEditor;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,6 +32,11 @@ namespace TurboLabz.InstantFramework
             return new GSAuthFacebookRequest(GetRequestContext()).Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
         }
 
+        public IPromise<BackendResult> AuthSignInWithApple(string authorizationCode, bool existingPlayer)
+        {
+            return new GSAuthSignInWithAppleRequest(GetRequestContext()).Send(authorizationCode, existingPlayer, (existingPlayer == true ? (Action<object>)null : onSignInWithAppleAuthSuccess));
+        }
+
         public IPromise<BackendResult> AuthEmail(string email, string password, bool existingPlayer)
         {
             return new GSAuthEmailResquest(GetRequestContext()).Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
@@ -43,6 +49,15 @@ namespace TurboLabz.InstantFramework
         }
 
         private void onFacebookAuthSuccess(object r)
+        {
+            AuthenticationResponse response = (AuthenticationResponse)r;
+            playerModel.id = response.UserId;
+
+            GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
+            FillPlayerDetails(playerDetailsData);
+        }
+
+        private void onSignInWithAppleAuthSuccess(object r)
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
@@ -93,6 +108,28 @@ namespace TurboLabz.InstantFramework
             new FacebookConnectRequest()
                 .SetScriptData(scriptData)
                 .SetAccessToken(accessToken)
+                .Send(OnRequestSuccess, OnRequestFailure);
+
+            return promise;
+        }
+    }
+
+    public class GSAuthSignInWithAppleRequest : GSFrameworkRequest
+    {
+        public GSAuthSignInWithAppleRequest(GSFrameworkRequestContext context) : base(context) { }
+
+        public IPromise<BackendResult> Send(string authorizationCode, bool existingPlayer, Action<object> onSignInWithAppleAuthSuccess)
+        {
+            this.onSuccess = onSignInWithAppleAuthSuccess;
+            this.errorCode = BackendResult.AUTH_SIGN_IN_WITH_APPLE_FAILED;
+
+            GSRequestData scriptData = new GSRequestData();
+            scriptData.AddBoolean("existingPlayer", existingPlayer);
+
+            new SignInWithAppleConnectRequest()
+                .SetScriptData(scriptData)
+                .SetClientId("1386718098")
+                .SetAuthorizationCode(authorizationCode)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

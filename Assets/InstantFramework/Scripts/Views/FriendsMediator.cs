@@ -207,6 +207,15 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(AuthSignInWithAppleResultSignal))]
+        public void OnAuthSignInWithAppleSignal(AuthSignInWIthAppleResultVO vo)
+        {
+            if (view.IsVisible())
+            {
+                view.SignInWithAppleResult(vo);
+            }
+        }
+
         [ListensTo(typeof(ToggleFacebookButton))]
         public void OnToggleFacebookButton(bool toggle)
         {

@@ -14,6 +14,8 @@ namespace TurboLabz.InstantFramework
         public Sprite playerPic;
         public string playerName;
         public bool isFacebookLoggedIn;
+        public bool isAppleSignedIn;
+        public bool isAppleSignInSupported;
         public int eloScore;
         public string countryId;
         public string playerId;
