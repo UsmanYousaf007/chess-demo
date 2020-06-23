@@ -193,7 +193,7 @@ namespace TurboLabz.InstantFramework
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
             noActiveMatchesText.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
-            
+
             playComputerMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
             refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
 
@@ -396,6 +396,7 @@ namespace TurboLabz.InstantFramework
             if (!isCPUGameInProgress)
             {
                 chooseComputerDifficultyDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_START_CPU_GAME_DLG);
             }
             else
             {
@@ -405,12 +406,18 @@ namespace TurboLabz.InstantFramework
 
         void OnComputerDifficultyDlgCloseClicked()
         {
-            chooseComputerDifficultyDlg.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         void OnComputerDifficultyDlgStartGameClicked()
         {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             playCPUButtonClickedSignal.Dispatch();
+        }
+
+        public void HideChooseCPUGameDlg()
+        {
+            chooseComputerDifficultyDlg.SetActive(false);
         }
 
         void CacheEnabledSections()

@@ -139,6 +139,10 @@ namespace TurboLabz.InstantFramework
             {
                 view.HideRemoveCommunityFriendDlg();
             }
+            else if (viewId == NavigatorViewId.START_CPU_GAME_DLG)
+            {
+                view.HideChooseCPUGameDlg();
+            }
         }
 
         [ListensTo(typeof(AddFriendsSignal))]

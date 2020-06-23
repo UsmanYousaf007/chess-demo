@@ -81,6 +81,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSRemoveFriendDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_START_CPU_GAME_DLG)
+            {
+                return new NSStartCPUGame();
+            }
 
             return null;
         }

@@ -56,6 +56,7 @@ namespace TurboLabz.InstantFramework
         SHOW_MANAGE_BLOCKED_FRIENDS,
         SHOW_START_GAME_DLG,
         SHOW_INVITE_DLG,
-        SHOW_REMOVE_FRIEND_DLG
+        SHOW_REMOVE_FRIEND_DLG,
+        SHOW_START_CPU_GAME_DLG
     }
 }
