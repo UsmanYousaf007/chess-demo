@@ -14,28 +14,12 @@ namespace TurboLabz.InstantGame
     public class RateAppDialogView : View
     {
         public Text titleLabel;
-        public Text titleRateLabel;
-        public Text titleTeamLoveLabel;
+        public Text subTitle;
         public Button closeButton;
-
-        public Button improveButton;
-        public Text improveButtonLabel;
-
-        public Button likeButton;
-        public Text likeButtonLabel;
-
-        public Button loveButton;
-        public Text loveButtonLabel;
-
         public Button rateButton;
         public Text rateButtonLabel;
-
-        public Button tellUsButton;
-        public Text tellUsButtonLabel;
-
-        public Button notNowButton;
-        public Text notNowButtonLabel;
-
+        public Button leaveFeedbackButton;
+        public Text leaveFeedbackLabel;
         public GameObject dlg;
 
         private const float RATEAPP_SHORT_DELAY_TIME = 0.8f;
@@ -45,20 +29,10 @@ namespace TurboLabz.InstantGame
 
         public void Init()
         {
-            titleLabel.text         = localizationService.Get(LocalizationKey.RATE_APP_TITLE) + " " + Application.productName + "?";
-            titleRateLabel.text     = "";
-            titleTeamLoveLabel.text = localizationService.Get(LocalizationKey.RATE_APP_LOVE_FROM_TEAM);
-            notNowButtonLabel.text  = localizationService.Get(LocalizationKey.RATE_APP_NOT_NOW);
-            rateButtonLabel.text    = localizationService.Get(LocalizationKey.RATE_APP_RATE);
-
-            improveButtonLabel.text = localizationService.Get(LocalizationKey.RATE_APP_IMPROVE);
-            likeButtonLabel.text    = localizationService.Get(LocalizationKey.RATE_APP_LIKE);
-            loveButtonLabel.text    = localizationService.Get(LocalizationKey.RATE_APP_LOVE);
-            tellUsButtonLabel.text  = localizationService.Get(LocalizationKey.RATE_APP_TELL);
-
-            //dialog 2
-            HideRateDlg();
-
+            titleLabel.text = localizationService.Get(LocalizationKey.RATE_APP_TITLE) + " " + Application.productName + "?";
+            subTitle.text = localizationService.Get(LocalizationKey.RATE_APP_SUB_TITLE_RATE);
+            leaveFeedbackLabel.text  = localizationService.Get(LocalizationKey.RATE_APP_TELL);
+            rateButtonLabel.text = localizationService.Get(LocalizationKey.RATE_APP_RATE);
         }
 
         private void AnimateYouEnjoingDialog()
@@ -72,45 +46,6 @@ namespace TurboLabz.InstantGame
             dlg.transform.localPosition = new Vector3(0f, Screen.height + 800, 0f);
 
             Invoke("AnimateYouEnjoingDialog", RATEAPP_SHORT_DELAY_TIME);
-        }
-
-        public void ShowRateDlg()
-        {
-            titleLabel.gameObject.SetActive(false);
-            titleTeamLoveLabel.gameObject.SetActive(false);
-            improveButton.gameObject.SetActive(false);
-            likeButton.gameObject.SetActive(false);
-            loveButton.gameObject.SetActive(false);
-
-            tellUsButton.gameObject.SetActive(false);
-            rateButton.gameObject.SetActive(false);
-            notNowButton.gameObject.SetActive(true);
-            titleRateLabel.gameObject.SetActive(true);
-        }
-
-        public void HideRateDlg()
-        {
-            tellUsButton.gameObject.SetActive(false);
-            rateButton.gameObject.SetActive(false);
-            notNowButton.gameObject.SetActive(false);
-            titleRateLabel.gameObject.SetActive(false);
-        }
-
-        public void ShowRateUs()
-        {
-            ShowRateDlg();
-
-            titleRateLabel.text = localizationService.Get(LocalizationKey.RATE_APP_SUB_TITLE_RATE);
-            rateButton.gameObject.SetActive(true);
-
-        }
-
-        public void ShowTellUs()
-        {
-            ShowRateDlg();
-
-            titleRateLabel.text = localizationService.Get(LocalizationKey.RATE_APP_SUB_TITLE_TELL);
-            tellUsButton.gameObject.SetActive(true);
         }
 
         public void Hide()

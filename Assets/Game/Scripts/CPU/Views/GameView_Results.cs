@@ -173,7 +173,7 @@ namespace TurboLabz.CPU
             appInfoModel.gameMode = GameMode.NONE;
         }
 
-        private void ShowViewBoardResultsPanel(bool show)
+        public void ShowViewBoardResultsPanel(bool show)
         {
             viewBoardResultPanel.gameObject.SetActive(show);
         }
@@ -476,6 +476,7 @@ namespace TurboLabz.CPU
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
 
             IPromise promise = HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
             if (promise != null)
             {
                 promise.Then(ToggleBannerSignalFunc);
@@ -484,6 +485,7 @@ namespace TurboLabz.CPU
 
         private void ToggleBannerSignalFunc()
         {
+            appInfoModel.internalAdType = InternalAdType.NONE;
             toggleBannerSignal.Dispatch(true);
         }
     }

@@ -73,6 +73,14 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLimitReachedDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_START_GAME_DLG)
+            {
+                return new NSStartGameDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_REMOVE_FRIEND_DLG)
+            {
+                return new NSRemoveFriendDlg();
+            }
 
             return null;
         }

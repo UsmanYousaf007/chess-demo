@@ -485,12 +485,14 @@ namespace TurboLabz.Multiplayer
             IPromise promise = HCrossPromo.OpenPanel();
             if (promise != null)
             {
+                appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
                 promise.Then(ToggleBannerSignalFunc);
             }
         }
 
         private void ToggleBannerSignalFunc()
         {
+            appInfoModel.internalAdType = InternalAdType.NONE;
             toggleBannerSignal.Dispatch(true);
         }
     }

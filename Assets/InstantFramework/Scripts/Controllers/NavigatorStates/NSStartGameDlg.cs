@@ -1,4 +1,4 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -9,48 +9,37 @@
 /// 
 /// @description
 /// [add_description_here]
-using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSMultiplayerResultsDlg : NS
+    public class NSStartGameDlg : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.MULTIPLAYER_RESULTS_DLG);
+            ShowDialog(NavigatorViewId.START_GAME_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.matchInfoModel.lastCompletedMatch.gameEndReason.Equals(Chess.GameEndReason.DECLINED.ToString()))
+                NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.FRIENDS);
+
+                if (viewId == NavigatorViewId.LOBBY)
                 {
-                    cmd.exitLongMatchSignal.Dispatch();
-                    cmd.cancelHintSingal.Dispatch();
-                    return null;
+                    return new NSLobby();
                 }
-                else
+                else if (viewId == NavigatorViewId.FRIENDS)
                 {
-                    cmd.showViewBoardResultsPanelSignal.Dispatch(true);
-                    return new NSMultiplayer();
+                    return new NSFriends();
                 }
-            }
-            else if (evt == NavigatorEvent.SHOW_LOBBY)
-            {
-                return new NSLobby();
-            }
-            else if (evt == NavigatorEvent.SHOW_STATS)
-            {
-                return new NSStats();
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
                 return new NSMultiplayer();
             }
-
+            
             return null;
         }
     }
 }
-

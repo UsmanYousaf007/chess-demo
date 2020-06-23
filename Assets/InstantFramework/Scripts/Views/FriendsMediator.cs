@@ -85,7 +85,7 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
             }
-            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            else if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
                 view.ShowCreateMatchLimitReacDlg();
             }
@@ -104,9 +104,21 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
-            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            else if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
                 view.HideCreateMatchLimitDlg();
+            }
+            else if (viewId == NavigatorViewId.START_GAME_DLG)
+            {
+                view.HideStartGameDlg();
+            }
+            else if (viewId == NavigatorViewId.INVITE_DLG)
+            {
+                view.HideInviteDlg();
+            }
+            else if (viewId == NavigatorViewId.REMOVE_FRIEND_DLG)
+            {
+                view.HideRemoveCommunityFriendDlg();
             }
         }
 

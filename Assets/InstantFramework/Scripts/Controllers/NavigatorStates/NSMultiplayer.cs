@@ -90,6 +90,10 @@ namespace TurboLabz.InstantFramework
                         cmd.cancelHintSingal.Dispatch();
                         return null;
                     }
+                    else if (cmd.matchInfoModel.lastCompletedMatch != null && cmd.matchInfoModel.lastCompletedMatch.isLongPlay)
+                    {
+                        return new NSMultiplayerResultsDlg();
+                    }
                     else
                     {
                         return new NSMultiplayerExitDlg();

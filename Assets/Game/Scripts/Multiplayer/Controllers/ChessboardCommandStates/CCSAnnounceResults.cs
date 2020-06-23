@@ -33,6 +33,7 @@ namespace TurboLabz.Multiplayer
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
+            cmd.matchInfoModel.lastCompletedMatch.gameEndReason = chessboard.gameEndReason.ToString();
 
             var matchAnalyticsVO = new MatchAnalyticsVO();
             matchAnalyticsVO.eventID = AnalyticsEventId.match_end;

@@ -28,12 +28,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
-        //[Inject] public ISettingsModel settingsModel { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
-
 
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
@@ -41,7 +37,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
-
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -247,15 +243,21 @@ namespace TurboLabz.InstantFramework
         private void OnDefaultInviteFriendsButtonClicked()
         {
             inviteFriendDlg.SetActive(true);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVITE_DLG);
         }
         private void InviteFriendDialogCloseButtonClicked()
         {
-            inviteFriendDlg.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         private void InviteFriendDialogButtonClicked()
         {
             inviteFriendSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        public void HideInviteDlg()
+        {
             inviteFriendDlg.SetActive(false);
         }
         #endregion
@@ -987,6 +989,7 @@ namespace TurboLabz.InstantFramework
             {
                 actionBar = bar;
                 ShowConfirmGameDlg(actionBar);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_START_GAME_DLG);
             }
             else
             {
@@ -1001,16 +1004,22 @@ namespace TurboLabz.InstantFramework
             actionBar = bars[friend.playerId];
             removeCommunityFriendTitleText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE) + friend.publicProfile.name + "?";
             removeCommunityFriendDlg.SetActive(true);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REMOVE_FRIEND_DLG);
         }
 
         void RemoveCommunityFriendDlgYes()
         {
-            removeCommunityFriendDlg.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             actionBar.isRemoved = true;
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
         }
 
         void RemoveCommunityFriendDlgNo()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        public void HideRemoveCommunityFriendDlg()
         {
             removeCommunityFriendDlg.SetActive(false);
         }
@@ -1121,27 +1130,32 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmRankedGameBtnClicked()
         {
-            startGameConfirmationDlg.gameObject.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)
         {
-            startGameConfirmationDlg.gameObject.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState, actionCode);
         }
 
         void ConfirmNewGameDlgNo()
         {
-            startGameConfirmationDlg.gameObject.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         void CloseNewGameDlg(string friendId)
         {
             if (startGameConfirmationDlg.gameObject.activeSelf && actionBar != null && actionBar.friendInfo.playerId == friendId)
             {
-                startGameConfirmationDlg.gameObject.SetActive(false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }
+        }
+
+        public void HideStartGameDlg()
+        {
+            startGameConfirmationDlg.gameObject.SetActive(false);
         }
 
         public void UpdateStartGameConfirmationDlg(ProfileVO vo)
