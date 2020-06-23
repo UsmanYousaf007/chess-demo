@@ -268,7 +268,7 @@ namespace TurboLabz.Multiplayer
                     }
                     else
                     {
-                        isDraw = true;
+                        //isDraw = true;
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
                         viewBoardResultPanel.reason.text = string.Format("{0} left", playerName);
                     }
