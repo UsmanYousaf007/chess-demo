@@ -147,7 +147,7 @@ namespace TurboLabz.InstantGame
             playerProfileNameInputField.transform.gameObject.SetActive(false);
             nameConfirmDlg.SetActive(false);
 
-            nameEditBtn.gameObject.SetActive(false);
+            //nameEditBtn.gameObject.SetActive(false);
 
             if (string.IsNullOrEmpty(playerModel.editedName))
             {
@@ -202,7 +202,7 @@ namespace TurboLabz.InstantGame
             changeUserDetailsSignal.Dispatch(newName);
             nameConfirmDlg.SetActive(false);
 
-            nameEditBtn.gameObject.SetActive(false);
+            //nameEditBtn.gameObject.SetActive(false);
         }
 
         void nameConfirmDlgNoBtnClicked()
