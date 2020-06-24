@@ -182,7 +182,7 @@ namespace TurboLabz.InstantGame
         {
             var newName = playerProfileNameInputField.text;
             nameConfirmDlgTitleText.text = "Change name to "+ newName + "?";
-            nameConfirmDlgSubheadingText.text = "Are you sure you want to change your name?";
+            nameConfirmDlgSubheadingText.text = "Other players can view your name. Please use a friendly name and have fun.";
             nameConfirmDlgYesBtnText.text = "Yes";
 
             nameConfirmDlg.SetActive(true);
