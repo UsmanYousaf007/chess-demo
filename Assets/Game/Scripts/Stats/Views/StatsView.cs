@@ -146,15 +146,7 @@ namespace TurboLabz.InstantGame
             gameObject.SetActive(true);
             playerProfileNameInputField.transform.gameObject.SetActive(false);
             nameConfirmDlg.SetActive(false);
-
-            //nameEditBtn.gameObject.SetActive(false);
-
-            if (string.IsNullOrEmpty(playerModel.editedName))
-            {
-                nameEditBtn.gameObject.SetActive(true);
-            }
-
-            //nameEditBtn.gameObject.SetActive(true);
+            nameEditBtn.gameObject.SetActive(true);
         }
 
         public void Hide()
@@ -190,7 +182,7 @@ namespace TurboLabz.InstantGame
         {
             var newName = playerProfileNameInputField.text;
             nameConfirmDlgTitleText.text = "Change name to "+ newName + "?";
-            nameConfirmDlgSubheadingText.text = "You can change your name once. Are you sure to change your name?";
+            nameConfirmDlgSubheadingText.text = "Are you sure you want to change your name?";
             nameConfirmDlgYesBtnText.text = "Yes";
 
             nameConfirmDlg.SetActive(true);
@@ -201,8 +193,6 @@ namespace TurboLabz.InstantGame
             var newName = playerProfileNameInputField.text;
             changeUserDetailsSignal.Dispatch(newName);
             nameConfirmDlg.SetActive(false);
-
-            //nameEditBtn.gameObject.SetActive(false);
         }
 
         void nameConfirmDlgNoBtnClicked()
