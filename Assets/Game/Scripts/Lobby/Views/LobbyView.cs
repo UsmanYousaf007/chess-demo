@@ -1000,6 +1000,8 @@ namespace TurboLabz.InstantFramework
                 removeCommunityFriendDlg.SetActive(true);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REMOVE_FRIEND_DLG);
             }
+
+            analyticsService.Event(AnalyticsEventId.remove_strip_clicked, AnalyticsContext.recently_played);
         }
 
         void RemoveCommunityFriendDlgYes()

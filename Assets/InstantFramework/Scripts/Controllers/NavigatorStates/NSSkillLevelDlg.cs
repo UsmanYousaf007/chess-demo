@@ -9,7 +9,12 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            if (evt == NavigatorEvent.SHOW_LOBBY)
+            if (evt == NavigatorEvent.ESCAPE)
+            {
+                cmd.skillSelectedSignal.Dispatch();
+                return null;
+            }
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
                 return new NSLobby();
             }
