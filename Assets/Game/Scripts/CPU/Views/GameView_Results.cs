@@ -79,7 +79,7 @@ namespace TurboLabz.CPU
         private string adRewardType;
         private string collectRewardType;
         private float animDelay;
-        private bool menuOpensResultsDlg;
+        public bool menuOpensResultsDlg;
         private int resultRewardCoins;
 
         [Inject] public IAdsService adsService { get; set; }
@@ -456,7 +456,7 @@ namespace TurboLabz.CPU
         private void OnResultsClosed()
         {
             audioService.PlayStandardClick();
-            HideResultsDialog();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
             //playbackOverlay.gameObject.SetActive(true);
             menuOpensResultsDlg = true;
             EnableMenuButton();
@@ -467,7 +467,7 @@ namespace TurboLabz.CPU
         private void OnPlaybackOverlayClicked()
         {
             playbackOverlay.gameObject.SetActive(false);
-            ShowResultsDialog();
+            showResultsDlgSignal.Dispatch();
         }
 
         private void OnCrossPromoButtonClicked()
