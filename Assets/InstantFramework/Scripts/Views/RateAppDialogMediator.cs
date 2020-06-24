@@ -66,6 +66,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnTellUsBtnClick()
         {
+            rateAppService.RateApp(false);
             audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             contactSupportSignal.Dispatch();

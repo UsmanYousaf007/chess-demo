@@ -1005,6 +1005,7 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendTitleText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE) + friend.publicProfile.name + "?";
             removeCommunityFriendDlg.SetActive(true);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REMOVE_FRIEND_DLG);
+            analyticsService.Event(AnalyticsEventId.remove_strip_clicked, AnalyticsContext.friends);
         }
 
         void RemoveCommunityFriendDlgYes()

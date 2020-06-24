@@ -38,5 +38,11 @@ namespace TurboLabz.InstantFramework
                 showSplashContentSignal.Dispatch(true);
             }
         }
+
+        [ListensTo(typeof(SkillSelectedSignal))]
+        public void OnSkillLevelSelected()
+        {
+            view.SetDefaultSkillLevel();
+        }
     }
 }

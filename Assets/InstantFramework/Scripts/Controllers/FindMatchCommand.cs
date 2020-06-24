@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
 
             // This sends the backend request
             backendService.FindMatch(action).Then(HandleFindMatchErrors);
+            findRandomLongMatchCompleteSignal.RemoveAllListeners();
             matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.start_attempt));
             findMatchRequestCompleteSignal.AddOnce(OnFindMatchRequestCompleted);
         }
@@ -81,7 +82,7 @@ namespace TurboLabz.InstantFramework
                 };
 
                 updateConfirmDlgSignal.Dispatch(vo);
-
+                matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
             }
             else
             {

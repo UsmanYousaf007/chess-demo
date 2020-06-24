@@ -75,6 +75,7 @@ namespace TurboLabz.InstantFramework
 
         //UI Interaction
         refresh_community,
+        remove_strip_clicked,
 
         //Session
         session_facebook,
@@ -174,7 +175,11 @@ namespace TurboLabz.InstantFramework
         check_mate_player_win,
         resign_bot_win,
         resign_player_win,
-        declined
+        declined,
+
+        //remove strip
+        recently_played,
+        friends
     }
 
     public enum AnalyticsParameter

@@ -78,6 +78,11 @@ namespace TurboLabz.InstantFramework
                 }
 
                 bool p = cmd.multiplayerChessboardModel.chessboards.ContainsKey(cmd.matchInfoModel.activeChallengeId);
+                if (p == false)
+                {
+                    return new NSMultiplayerResultsDlg();
+                }
+
                 if (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
                 {
                     return new NSMultiplayerResultsDlg();
@@ -89,10 +94,6 @@ namespace TurboLabz.InstantFramework
                         cmd.exitLongMatchSignal.Dispatch();
                         cmd.cancelHintSingal.Dispatch();
                         return null;
-                    }
-                    else if (cmd.matchInfoModel.lastCompletedMatch != null && cmd.matchInfoModel.lastCompletedMatch.isLongPlay)
-                    {
-                        return new NSMultiplayerResultsDlg();
                     }
                     else
                     {

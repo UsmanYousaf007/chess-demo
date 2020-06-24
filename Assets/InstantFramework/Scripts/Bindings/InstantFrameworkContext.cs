@@ -160,6 +160,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SelectTierSignal>().ToSingleton();
             injectionBinder.Bind<SetSubscriptionContext>().ToSingleton();
             injectionBinder.Bind<UpdateOfferDrawSignal>().ToSingleton();
+            injectionBinder.Bind<SkillSelectedSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
