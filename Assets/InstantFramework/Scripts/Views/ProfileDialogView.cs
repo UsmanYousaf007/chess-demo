@@ -220,12 +220,6 @@ namespace TurboLabz.InstantFramework
                 inGame = true;
             }
 
-            if (vo.friendType == GSBackendKeys.Friend.TYPE_SOCIAL)
-            {
-                EnableAddButton(false);
-                EnableRemoveButton(false);
-            }
-
             if (!vo.oppOnline && vo.oppActive)
             {
                 onlineStatus.sprite = active;
