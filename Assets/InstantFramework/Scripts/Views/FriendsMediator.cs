@@ -99,7 +99,7 @@ namespace TurboLabz.InstantFramework
         public void OnShowFriendsHelpSignal()
         {
             //view.ShowFriendsHelpDialog();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FIND_FRIEND_DLG);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FIND_YOUR_FRIEND_DLG);
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
