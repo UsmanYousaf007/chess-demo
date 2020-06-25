@@ -336,7 +336,19 @@ namespace TurboLabz.InstantFramework
             viewButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_VIEW);
             strNewMatchGreeting = localizationService.Get(LocalizationKey.LONG_PLAY_NEW_MATCH_GREETING);
             strDeclineApology = localizationService.Get(LocalizationKey.LONG_PLAY_DECLINE_APOLOGY);
-        }
+
+            // Setting default values
+            longPlayStatus = LongPlayStatus.DEFAULT;
+            isCommunity = false;
+            isSearched = false;
+            friendType = null;
+            isGameCanceled = false;
+            isPlayerTurn = false;
+            isRanked = false;
+            lastMatchTimeStamp = 0;
+            isRemoved = false;
+            isOfferDraw = false;
+    }
 
         public int solution(int N)
         {

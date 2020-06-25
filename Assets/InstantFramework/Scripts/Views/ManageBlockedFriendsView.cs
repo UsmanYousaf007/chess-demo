@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
 
         private string searchQuery = string.Empty;
         private Dictionary<string, FriendBarSimple> bars;
-        private GameObjctsPool simpleFriendBarsPool;
+        private GameObjectsPool simpleFriendBarsPool;
 
         public void Init()
         {
@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
             backButton.onClick.AddListener(OnBackButtonPressed);
             cancelSearchButton.onClick.AddListener(OnCancelSearchButtonPressed);
             bars = new Dictionary<string, FriendBarSimple>();
-            simpleFriendBarsPool = new GameObjctsPool(friendBarPrefab);
+            simpleFriendBarsPool = new GameObjectsPool(friendBarPrefab);
         }
 
         public void Show()
