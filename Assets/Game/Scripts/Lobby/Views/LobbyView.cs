@@ -487,7 +487,6 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            // If we have a friend bar in pool then we use that, else we instantiate a new bar
             GameObject friendBarObj = friendBarsPool.GetObject();
             FriendBar friendBar = friendBarObj.GetComponent<FriendBar>();
 
