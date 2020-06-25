@@ -228,7 +228,7 @@ namespace TurboLabz.InstantFramework
             findFriendLoginInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO); 
             findFriendSearchInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_SEARCH_INFO);
             findFriendInviteInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_INVITE_INFO); 
-            findFriendOkButton.onClick.AddListener(HideFriendsHelpDialogSignal);
+            findFriendOkButton.onClick.AddListener(FriendsHelpDialogCloseButtonClicked);
             findFriendOkText.text = localizationService.Get(LocalizationKey.LONG_PLAY_OK);
 
             manageBlockedPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_MANAGE_BLOCKED);
@@ -1224,7 +1224,7 @@ namespace TurboLabz.InstantFramework
             findFriendDlg.SetActive(false);
         }
 
-        public void HideFriendsHelpDialogSignal()
+        public void FriendsHelpDialogCloseButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }

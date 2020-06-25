@@ -275,7 +275,7 @@ namespace TurboLabz.InstantFramework
             adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
             adSkippedInfoText.text = localizationService.Get(LocalizationKey.AD_SKIPPED_INFO_TEXT);
             adSkippedOkText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
-            adSkippedOkButton.onClick.AddListener(() => ShowAdSkippedDailogue(false));
+            adSkippedOkButton.onClick.AddListener(() => AdSkippedDailogueCloseButtonClicked());
 
             // Initializing Friend Bars Pool
             friendBarsPool = new GameObjctsPool(friendBarPrefab, 10);
@@ -1507,6 +1507,11 @@ namespace TurboLabz.InstantFramework
         public void ShowAdSkippedDailogue(bool show)
         {
             adSkippedDlg.SetActive(show);
+        }
+
+        public void AdSkippedDailogueCloseButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }
 }

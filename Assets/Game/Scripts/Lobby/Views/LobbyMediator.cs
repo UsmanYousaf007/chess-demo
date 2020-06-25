@@ -118,6 +118,10 @@ namespace TurboLabz.InstantFramework
             {
                 view.ShowCreateMatchLimitReacDlg();
             }
+            else if (viewId == NavigatorViewId.AD_SKIPPED_DLG)
+            {
+                view.ShowAdSkippedDailogue(true);
+            }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -142,6 +146,10 @@ namespace TurboLabz.InstantFramework
             else if (viewId == NavigatorViewId.START_CPU_GAME_DLG)
             {
                 view.HideChooseCPUGameDlg();
+            }
+            else if (viewId == NavigatorViewId.AD_SKIPPED_DLG)
+            {
+                view.ShowAdSkippedDailogue(false);
             }
         }
 
@@ -511,7 +519,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(ShowAdSkippedDlgSignal))]
         public void OnShowAdSkippedDlg()
         {
-            view.ShowAdSkippedDailogue(true);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_AD_SKIPPED_DLG);
         }
 
         void OnUpgradeToPremiumClicked()
