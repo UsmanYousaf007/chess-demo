@@ -176,7 +176,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
 
-        private GameObjctsPool friendBarsPool;
+        private GameObjectsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
@@ -278,7 +278,7 @@ namespace TurboLabz.InstantFramework
             adSkippedOkButton.onClick.AddListener(() => ShowAdSkippedDailogue(false));
 
             // Initializing Friend Bars Pool
-            friendBarsPool = new GameObjctsPool(friendBarPrefab, 10);
+            friendBarsPool = new GameObjectsPool(friendBarPrefab, 10);
         }
 
         void OnDecStrengthButtonClicked()

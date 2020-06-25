@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GameObjctsPool
+    public class GameObjectsPool
     {
         private GameObject _poolParent;
         private GameObject _prefab;
         private List<GameObject> _pool;
 
-        public GameObjctsPool(GameObject friendBarPrefab, int initialPoolCount = 0)
+        public GameObjectsPool(GameObject friendBarPrefab, int initialPoolCount = 0)
         {
             _prefab = friendBarPrefab;
 

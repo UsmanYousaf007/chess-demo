@@ -142,7 +142,7 @@ namespace TurboLabz.InstantFramework
         public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
 
-        private GameObjctsPool friendBarsPool;
+        private GameObjectsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
         private List<GameObject> defaultInvite = new List<GameObject>();
         private FriendBar actionBar;
@@ -236,7 +236,7 @@ namespace TurboLabz.InstantFramework
             manageBlockedPlayersButton.onClick.AddListener(OnManageBlockedFriendsClicked);
 
             // Initializing Friend Bars Pool
-            friendBarsPool = new GameObjctsPool(friendBarPrefab);
+            friendBarsPool = new GameObjectsPool(friendBarPrefab);
         }
 
         #region InviteFriendDialog
