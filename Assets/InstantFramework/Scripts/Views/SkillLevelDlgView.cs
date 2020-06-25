@@ -70,5 +70,10 @@ namespace TurboLabz.InstantFramework
             initFacebookSignal.Dispatch();
             receptionSignal.Dispatch(false);
         }
+
+        public void SetDefaultSkillLevel()
+        {
+            OnButtonClicked(DEFAULT_STR);
+        }
     }
 }

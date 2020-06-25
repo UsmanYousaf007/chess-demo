@@ -78,7 +78,9 @@ namespace TurboLabz.CPU
             if (gameObject.activeSelf)
             {
                 view.ShowViewBoardResultsPanel(isShow);
-                view.uiBlocker.SetActive(false);
+                view.DisableModalBlocker();
+                view.EnableMenuButton();
+                view.menuOpensResultsDlg = true;
             }
         }
     }

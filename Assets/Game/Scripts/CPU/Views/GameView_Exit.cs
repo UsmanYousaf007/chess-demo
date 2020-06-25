@@ -33,6 +33,7 @@ namespace TurboLabz.CPU
         public Signal continueButtonClickedSignal = new Signal();
         public Signal saveAndExitButtonClickedSignal = new Signal();
         public Signal returnToLobbySignal = new Signal();
+        public Signal showResultsDlgSignal = new Signal();
 
         public GameObject gameMenu;
 
@@ -150,7 +151,7 @@ namespace TurboLabz.CPU
         {
             if (menuOpensResultsDlg)
             {
-                ShowResultsDialog();
+                showResultsDlgSignal.Dispatch();
             }
             else
             {
@@ -172,7 +173,7 @@ namespace TurboLabz.CPU
         {
             if (menuOpensResultsDlg)
             {
-                ShowResultsDialog();
+                showResultsDlgSignal.Dispatch();
             }
             else
             {
