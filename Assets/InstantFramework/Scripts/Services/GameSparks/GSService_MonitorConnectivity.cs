@@ -125,7 +125,7 @@ namespace TurboLabz.InstantFramework
             if (isResumeGS == false)
             {
                 analyticsService.Event(AnalyticsEventId.gs_disconnected_unique);
-                GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "[GS Unforced Disconnect] " + GameSparks.LastErrorCache.lastError);
+                GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, "[GS Unforced Disconnect] " + GameSparks.SocketStats.lastError);
             }
         }
 
