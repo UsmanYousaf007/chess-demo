@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (evt == NavigatorEvent.ESCAPE)
             {
-                return new NSLobby();
+                cmd.androidNativeService.SendToBackground();
             }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
