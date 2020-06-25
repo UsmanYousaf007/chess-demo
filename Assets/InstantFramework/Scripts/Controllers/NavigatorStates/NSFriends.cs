@@ -78,6 +78,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSRemoveFriendDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_FIND_YOUR_FRIEND_DLG)
+            {
+                return new NSFindFriendsDlg();
+            }
 
             return null;
         }

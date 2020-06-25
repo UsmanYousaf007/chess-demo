@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
         START_GAME_DLG,
         INVITE_DLG,
         REMOVE_FRIEND_DLG,
-        START_CPU_GAME_DLG
+        START_CPU_GAME_DLG,
+        FIND_YOUR_FRIEND_DLG
     }
 }
