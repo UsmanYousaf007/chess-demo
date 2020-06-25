@@ -289,8 +289,8 @@ namespace TurboLabz.InstantGame
         private void LoadLobby(AdsResult result = AdsResult.FINISHED)
         {
             loadLobbySignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
             refreshFriendsSignal.Dispatch();
+            refreshCommunitySignal.Dispatch(false);
             cancelHintSingal.Dispatch();
         }
 

@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerInventorySignal : Signal<PlayerInventoryVO> { }
     public class UpdateRemoveAdsSignal : Signal<string, bool> { }
     public class AddFriendsSignal : Signal<Dictionary<string, Friend>, FriendCategory> { }
-    public class RefreshCommunitySignal : Signal { }
+    public class RefreshCommunitySignal : Signal<bool> { }
     public class SearchFriendSignal : Signal<string, int> { }
     public class RefreshFriendsSignal : Signal { }
     public class RemoveFriendSignal : Signal<string> { }

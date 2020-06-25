@@ -87,7 +87,7 @@ namespace TurboLabz.Multiplayer
         private void OnRefreshLobby()
         {
             refreshFriendsSignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
+            refreshCommunitySignal.Dispatch(false);
         }
     }
 }

@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
                 autoSubscriptionDailogueService.Show();
                 pushNotificationService.Init();
                 refreshFriendsSignal.Dispatch();
-                refreshCommunitySignal.Dispatch();
+                refreshCommunitySignal.Dispatch(true);
                 SendAnalytics();
             }
 

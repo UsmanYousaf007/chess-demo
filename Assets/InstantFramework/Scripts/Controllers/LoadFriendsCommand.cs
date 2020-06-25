@@ -46,7 +46,6 @@ namespace TurboLabz.InstantGame
             else
             {
                 friendsShowConnectFacebookSignal.Dispatch(true);
-                //refreshCommunitySignal.Dispatch();
             }
 
             // Update the timers on the bars

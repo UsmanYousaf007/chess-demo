@@ -290,7 +290,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnRefreshCommunity()
         {
-            refreshCommunitySignal.Dispatch();
+            refreshCommunitySignal.Dispatch(true);
 
             // Analytics
             analyticsService.Event(AnalyticsEventId.refresh_community);

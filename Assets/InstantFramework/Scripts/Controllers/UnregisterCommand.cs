@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                 refreshFriendsSignal.Dispatch();
 
                 // Todo: Community update may not be needed. Investigate especially because this is a backend server request.
-                refreshCommunitySignal.Dispatch();
+                refreshCommunitySignal.Dispatch(false);
             }
             else
             {

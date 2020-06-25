@@ -199,7 +199,7 @@ namespace TurboLabz.InstantFramework
             appInfoModel.isReconnecting = DisconnectStates.FALSE;
 
             refreshFriendsSignal.Dispatch();
-            refreshCommunitySignal.Dispatch();
+            refreshCommunitySignal.Dispatch(true);
 
             Release();
         }

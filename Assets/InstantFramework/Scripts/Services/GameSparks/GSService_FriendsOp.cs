@@ -151,6 +151,8 @@ namespace TurboLabz.InstantFramework
         {
             if (friendDict != null)
             {
+                bool refreshFriends = false;
+
                 foreach(KeyValuePair<string, object> obj in friendDict.BaseData)
                 {
                     GSData friendData = (GSData)obj.Value;
@@ -165,8 +167,6 @@ namespace TurboLabz.InstantFramework
                         if (playerModel.friends.ContainsKey(friendId))
                         {
                             playerModel.friends[friendId].friendType = friendData.GetString(GSBackendKeys.Friend.TYPE);
-                            refreshFriendsSignal.Dispatch();
-                            refreshCommunitySignal.Dispatch();
                         }
                         else
                         {
@@ -182,13 +182,16 @@ namespace TurboLabz.InstantFramework
                             }
 
                             playerModel.friends.Add(friendId, friend);
-
-                            refreshFriendsSignal.Dispatch();
-                            refreshCommunitySignal.Dispatch();
-
                         }
-                      
+
+                        refreshFriends = true;
                     }
+                }
+
+                if (refreshFriends)
+                {
+                    refreshFriendsSignal.Dispatch();
+                    refreshCommunitySignal.Dispatch(false);
                 }
             }
         }

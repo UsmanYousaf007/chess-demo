@@ -437,7 +437,6 @@ namespace TurboLabz.InstantFramework
             else
             {
                 ShowConnectFacebook(true);
-                refreshCommunitySignal.Dispatch();
             }
         }
 
