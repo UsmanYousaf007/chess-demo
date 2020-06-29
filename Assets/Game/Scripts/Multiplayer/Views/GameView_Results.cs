@@ -268,7 +268,8 @@ namespace TurboLabz.Multiplayer
                     }
                     else
                     {
-                        isDraw = true;
+                        //isDraw = true; when any player disconnects then the player who gets disconnected gets a draw and the opponent wins
+
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DISCONNECTED);
                         viewBoardResultPanel.reason.text = string.Format("{0} left", playerName);
                     }
