@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         {
             GameObject retObj = null;
 
+            // If we have an object in pool then we use that, else we instantiate a new bar
             if (_pool.Count > 0)
             {
                 // Removing from end of list because it's fast

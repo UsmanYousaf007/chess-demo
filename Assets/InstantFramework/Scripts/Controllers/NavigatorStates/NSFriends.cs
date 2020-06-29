@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (evt == NavigatorEvent.ESCAPE)
             {
-                return new NSLobby();
+                cmd.androidNativeService.SendToBackground();
             }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
@@ -77,6 +77,10 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_REMOVE_FRIEND_DLG)
             {
                 return new NSRemoveFriendDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_FIND_YOUR_FRIEND_DLG)
+            {
+                return new NSFindFriendsDlg();
             }
 
             return null;

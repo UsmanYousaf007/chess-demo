@@ -20,7 +20,8 @@ public class GameSparksConfig : MonoBehaviour {
         Live,
         URLBased,
         Sandbox,
-        HuuugeDev
+        HuuugeDev,
+        Unassigned
     }
 
     public string configURL = "";

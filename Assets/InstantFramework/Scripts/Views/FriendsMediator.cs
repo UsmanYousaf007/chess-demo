@@ -89,12 +89,17 @@ namespace TurboLabz.InstantFramework
             {
                 view.ShowCreateMatchLimitReacDlg();
             }
+            else if (viewId == NavigatorViewId.FIND_YOUR_FRIEND_DLG)
+            {
+                view.ShowFriendsHelpDialog();
+            }
         }
 
         [ListensTo(typeof(ShowFriendsHelpSignal))]
         public void OnShowFriendsHelpSignal()
         {
-            view.ShowFriendsHelpDialog();
+            //view.ShowFriendsHelpDialog();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FIND_YOUR_FRIEND_DLG);
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -119,6 +124,10 @@ namespace TurboLabz.InstantFramework
             else if (viewId == NavigatorViewId.REMOVE_FRIEND_DLG)
             {
                 view.HideRemoveCommunityFriendDlg();
+            }
+            else if (viewId == NavigatorViewId.FIND_YOUR_FRIEND_DLG)
+            {
+                view.HideFriendsHelpDialog();
             }
         }
 
