@@ -19,6 +19,7 @@ public class NotchHandler : MonoBehaviour {
 
     [Header("Profile")]
     public RectTransform profileFacebookButton;
+    public RectTransform profileSiwaButton;
     public RectTransform profileCenterContent;
 
     [Header("Friends")]
@@ -107,6 +108,7 @@ public class NotchHandler : MonoBehaviour {
 
         // PROFILE
         SetY(profileFacebookButton, -270f);
+        SetY(profileSiwaButton, -270f);
         SetY(profileCenterContent, -66f);
 
         // FRIENDS

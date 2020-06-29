@@ -78,6 +78,8 @@ namespace TurboLabz.InstantFramework
 
         //Session
         session_facebook,
+        session_apple_id,
+        session_guest,
 
         //CPU Levels Distribution
         cpu_end_lvl_,

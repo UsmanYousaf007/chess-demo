@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
 		[Inject] public ReceptionSignal receptionSignal { get; set; }
 		[Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public InitFacebookSignal initFacebookSignal { get; set; }
+        [Inject] public InitSignInWithAppleSignal initSignInWithAppleSignal { get; set; }
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public SplashWifiIsHealthySignal splashWifiIsHealthySignal { get; set; }
@@ -112,6 +113,7 @@ namespace TurboLabz.InstantFramework
 		void GotoReception()
 		{
             initFacebookSignal.Dispatch();
+            initSignInWithAppleSignal.Dispatch();
             receptionSignal.Dispatch(false);
 			RemoveListeners();
 

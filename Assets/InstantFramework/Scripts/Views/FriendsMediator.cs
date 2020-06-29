@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
+        [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -75,6 +76,7 @@ namespace TurboLabz.InstantFramework
             view.showChatSignal.AddListener(OnShowChat);
             view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
             view.manageBlockedFriendsButtonClickedSignal.AddListener(OnManageBlockedFriends);
+            view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -402,6 +404,11 @@ namespace TurboLabz.InstantFramework
             }
 
             return retVal;
+        }
+
+        private void OnSignInWithAppleButtonClicked()
+        {
+            authSignInWithAppleSignal.Dispatch();
         }
     }
 }

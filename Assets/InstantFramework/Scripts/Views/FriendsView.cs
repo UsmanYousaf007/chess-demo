@@ -71,6 +71,8 @@ namespace TurboLabz.InstantFramework
         public Text facebookLoginButtonText;
         public GameObject facebookConnectAnim;
         public Text facebookConnectText;
+        public Button signInWithAppleButton;
+        public Text signInWithAppleLabel;
         public ScrollRect scrollRect;
         public GameObject uiBlocker;
         public GameObject processingUi;
@@ -146,6 +148,7 @@ namespace TurboLabz.InstantFramework
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
         public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
+        public Signal signInWithAppleClicked = new Signal();
 
         private GameObjctsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -166,6 +169,7 @@ namespace TurboLabz.InstantFramework
             facebookLoginButtonText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_LOGIN_BUTTON_TEXT);
             inviteFriendsText.text = localizationService.Get(LocalizationKey.FRIENDS_NO_FRIENDS_TEXT);
             facebookConnectText.text = localizationService.Get(LocalizationKey.FRIENDS_FACEBOOK_CONNECT_TEXT);
+            signInWithAppleLabel.text = localizationService.Get(LocalizationKey.SIGN_IN);
 
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionSearchResultsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS);
@@ -194,6 +198,7 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendTitleText.text = localizationService.Get(LocalizationKey.REMOVE_COMMUNITY_FRIEND_TITLE);
 
             facebookLoginButton.onClick.AddListener(OnFacebookButtonClicked);
+            signInWithAppleButton.onClick.AddListener(OnSignInWithAppleClicked);
 
             removeCommunityFriendYesBtn.onClick.AddListener(RemoveCommunityFriendDlgYes);
             removeCommunityFriendNoBtn.onClick.AddListener(RemoveCommunityFriendDlgNo);
@@ -359,6 +364,8 @@ namespace TurboLabz.InstantFramework
                 listContainer.gameObject.SetActive(true);
                 facebookLoginButton.gameObject.SetActive(false);
                 facebookLoginButton.enabled = false;
+                signInWithAppleButton.gameObject.SetActive(false);
+                signInWithAppleButton.enabled = false;
                 facebookConnectText.gameObject.SetActive(false);
                 facebookConnectAnim.SetActive(false);
                 uiBlocker.SetActive(false);
@@ -369,6 +376,8 @@ namespace TurboLabz.InstantFramework
                 //listContainer.gameObject.SetActive(false);
                 facebookLoginButton.gameObject.SetActive(true);
                 facebookLoginButton.enabled = true;
+                signInWithAppleButton.gameObject.SetActive(true);
+                signInWithAppleButton.enabled = true;
                 facebookConnectText.gameObject.SetActive(true);
                 facebookConnectAnim.SetActive(false);
             }
@@ -377,6 +386,8 @@ namespace TurboLabz.InstantFramework
                 listContainer.gameObject.SetActive(true);
                 facebookLoginButton.gameObject.SetActive(false);
                 facebookLoginButton.enabled = false;
+                signInWithAppleButton.gameObject.SetActive(false);
+                signInWithAppleButton.enabled = false;
                 facebookConnectText.gameObject.SetActive(false);
                 facebookConnectAnim.SetActive(false);
                 uiBlocker.SetActive(false);
@@ -939,6 +950,7 @@ namespace TurboLabz.InstantFramework
         public void ToggleFacebookButton(bool toggle)
         {
             facebookLoginButton.interactable = toggle;
+            signInWithAppleButton.interactable = toggle;
         }
 
         void ClearType(FriendCategory friendCategory)
@@ -977,6 +989,7 @@ namespace TurboLabz.InstantFramework
             facebookConnectAnim.SetActive(true);
             uiBlocker.SetActive(true);
             facebookLoginButton.enabled = false;
+            signInWithAppleButton.enabled = false;
         }
 
         void DefaultInviteSetActive(bool active)
@@ -1248,6 +1261,12 @@ namespace TurboLabz.InstantFramework
         {
             manageBlockedFriendsButtonClickedSignal.Dispatch();
             audioService.PlayStandardClick();
+        }
+
+        private void OnSignInWithAppleClicked()
+        {
+            signInWithAppleClicked.Dispatch();
+            facebookConnectAnim.SetActive(true);
         }
     }
 }

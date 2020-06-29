@@ -46,6 +46,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
 
         private BackendResult authBackendResult;
 
@@ -76,7 +77,14 @@ namespace TurboLabz.InstantFramework
             string fbAccessToken = facebookService.GetAccessToken();
             if (fbAccessToken == null)
             {
-                backendService.AuthGuest().Then(OnAuthComplete);
+                if (signInWithAppleService.IsSignedIn())
+                {
+                    ProcessSignInWithApple();
+                }
+                else
+                {
+                    backendService.AuthGuest().Then(OnAuthComplete);
+                }
             }
             else
             {
@@ -202,6 +210,16 @@ namespace TurboLabz.InstantFramework
             refreshCommunitySignal.Dispatch();
 
             Release();
+        }
+
+        void ProcessSignInWithApple()
+        {
+            signInWithAppleService.GetCredentialState().Then((args) => {
+                if (string.IsNullOrEmpty(args.error))
+                {
+                    backendService.AuthSignInWithApple(args.userInfo.idToken, true).Then(OnAuthComplete);
+                }
+            });
         }
     }
 }
