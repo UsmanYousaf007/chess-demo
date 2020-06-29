@@ -143,7 +143,7 @@ namespace TurboLabz.InstantFramework
             {
                 setSkinSignal.Dispatch(playerModel.activeSkinId);
                 refreshFriendsSignal.Dispatch();
-                refreshCommunitySignal.Dispatch();
+                refreshCommunitySignal.Dispatch(true);
 
                 //in case if fb logged in user has subscription, dispatch this signal in order to unlock all subscription features
                 if (playerModel.HasSubscription())

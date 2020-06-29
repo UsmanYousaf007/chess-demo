@@ -12,6 +12,9 @@ namespace TurboLabz.InstantGame
 {
     public class RefreshCommunityCommand : Command
     {
+        // Params
+        [Inject] public bool fetchFromServer { get; set; }
+
         // dispatch signals
         [Inject] public ClearCommunitySignal clearCommunitySignal { get; set; }
         [Inject] public AddFriendsSignal addFriendsSignal { get; set; }
@@ -27,16 +30,23 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            if (playerModel.busyRefreshingCommunity)
+            if (fetchFromServer)
             {
-                return;
+                if (playerModel.busyRefreshingCommunity)
+                {
+                    return;
+                }
+
+                playerModel.busyRefreshingCommunity = true;
+
+                Retain();
+
+                backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
             }
-
-            playerModel.busyRefreshingCommunity = true;
-
-            Retain();
-
-            backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
+            else
+            {
+                OnCommunityRefresh(BackendResult.SUCCESS);
+            }
         }
 
         private void OnCommunityRefresh(BackendResult result)

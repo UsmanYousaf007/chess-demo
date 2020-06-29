@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
         [Inject] public UnblockFriendSignal unblockFriendSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
 
         public override void OnRegister()
         {

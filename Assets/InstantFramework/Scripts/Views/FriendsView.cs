@@ -35,7 +35,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
@@ -437,7 +436,6 @@ namespace TurboLabz.InstantFramework
             else
             {
                 ShowConnectFacebook(true);
-                refreshCommunitySignal.Dispatch();
             }
         }
 
