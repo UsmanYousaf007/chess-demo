@@ -9,9 +9,10 @@ using UnityEngine;
 
 namespace GameSparks
 {
-    public static class LastErrorCache
+    public static class SocketStats
     {
 		public static string lastError;
+		public static int connectionCount = 0;
     }
 
 	/// <summary>
@@ -71,7 +72,8 @@ namespace GameSparks
 
 		void OnOpen(WebSocket ws)
 		{
-            onOpen?.Invoke();
+			SocketStats.connectionCount++;
+			onOpen?.Invoke();
         }
 
 		void OnMessageReceived(WebSocket ws, string message)
@@ -100,22 +102,22 @@ namespace GameSparks
 
 			if (ws.isPingFail)
 			{
-				UnityEngine.Debug.Log("Websocket OnError [Ping Fail]:" + error + " Device Info:" + DeviceName);
+				UnityEngine.Debug.Log("Websocket(" + SocketStats.connectionCount + ") " +  "OnError [Ping Fail]:" + error + " Device Info:" + DeviceName);
 
 				string stackTrace = System.Environment.StackTrace;
-				LastErrorCache.lastError = "[PING FAIL] Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
+				SocketStats.lastError = "[PING FAIL]" + "Websocket(" + SocketStats.connectionCount + ") " + "OnError:" + error + " [Last Action:] " + lastActionLog +
 					" [Stack:] " + stackTrace + " [Device:]" + DeviceName;
-				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, LastErrorCache.lastError);
+				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, SocketStats.lastError);
 				closeSocket = true;
 			}
 			else
 			{
-				UnityEngine.Debug.Log("Websocket OnError:" + error + " Device Info:" + DeviceName);
+				UnityEngine.Debug.Log("Websocket(" + SocketStats.connectionCount + ") " + "OnError:" + error + " Device Info:" + DeviceName);
 
 				string stackTrace = System.Environment.StackTrace;
-				LastErrorCache.lastError = "Websocket OnError:" + error + " [Last Action:] " + lastActionLog +
+				SocketStats.lastError = "Websocket(" + SocketStats.connectionCount + ") " +  "OnError:" + error + " [Last Action:] " + lastActionLog +
 					" [Stack:] " + stackTrace + " [Device:]" + DeviceName;
-				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, LastErrorCache.lastError);
+				GameAnalytics.NewErrorEvent(GAErrorSeverity.Info, SocketStats.lastError);
 				closeSocket = true;
 			}
 

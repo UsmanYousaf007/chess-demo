@@ -85,6 +85,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSStartCPUGame();
             }
+            else if (evt == NavigatorEvent.SHOW_AD_SKIPPED_DLG)
+            {
+                return new NSAdSkippedDlg();
+            }
 
             return null;
         }

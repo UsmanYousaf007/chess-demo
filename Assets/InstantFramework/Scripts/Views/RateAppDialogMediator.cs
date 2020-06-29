@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -49,6 +51,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.RATE_APP_DLG)
             {
                 view.Hide();
+                preferencesModel.hasRated = true;
             }
         }
 

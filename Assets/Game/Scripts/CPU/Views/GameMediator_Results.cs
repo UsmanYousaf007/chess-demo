@@ -80,6 +80,7 @@ namespace TurboLabz.CPU
                 view.ShowViewBoardResultsPanel(isShow);
                 view.DisableModalBlocker();
                 view.EnableMenuButton();
+                view.menuOpensResultsDlg = true;
             }
         }
     }
