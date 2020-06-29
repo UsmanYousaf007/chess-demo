@@ -193,7 +193,7 @@ namespace TurboLabz.InstantFramework
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
             noActiveMatchesText.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES_EMPTY);
             waitingForPlayersText.text = localizationService.Get(LocalizationKey.FRIENDS_WAITING_FOR_PLAYERS);
-            
+
             playComputerMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
             refreshText.text = localizationService.Get(LocalizationKey.FRIENDS_REFRESH_TEXT);
 
@@ -275,7 +275,7 @@ namespace TurboLabz.InstantFramework
             adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
             adSkippedInfoText.text = localizationService.Get(LocalizationKey.AD_SKIPPED_INFO_TEXT);
             adSkippedOkText.text = localizationService.Get(LocalizationKey.OKAY_TEXT);
-            adSkippedOkButton.onClick.AddListener(() => ShowAdSkippedDailogue(false));
+            adSkippedOkButton.onClick.AddListener(() => AdSkippedDailogueCloseButtonClicked());
 
             // Initializing Friend Bars Pool
             friendBarsPool = new GameObjctsPool(friendBarPrefab, 10);
@@ -396,6 +396,7 @@ namespace TurboLabz.InstantFramework
             if (!isCPUGameInProgress)
             {
                 chooseComputerDifficultyDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_START_CPU_GAME_DLG);
             }
             else
             {
@@ -405,12 +406,18 @@ namespace TurboLabz.InstantFramework
 
         void OnComputerDifficultyDlgCloseClicked()
         {
-            chooseComputerDifficultyDlg.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         void OnComputerDifficultyDlgStartGameClicked()
         {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             playCPUButtonClickedSignal.Dispatch();
+        }
+
+        public void HideChooseCPUGameDlg()
+        {
+            chooseComputerDifficultyDlg.SetActive(false);
         }
 
         void CacheEnabledSections()
@@ -964,6 +971,7 @@ namespace TurboLabz.InstantFramework
             {
                 actionBar = bar;
                 ShowConfirmGameDlg(actionBar);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_START_GAME_DLG);
             }
             else
             {
@@ -990,16 +998,24 @@ namespace TurboLabz.InstantFramework
             else
             {
                 removeCommunityFriendDlg.SetActive(true);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REMOVE_FRIEND_DLG);
             }
+
+            analyticsService.Event(AnalyticsEventId.remove_strip_clicked, AnalyticsContext.recently_played);
         }
 
         void RemoveCommunityFriendDlgYes()
         {
-            removeCommunityFriendDlg.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             removeCommunityFriendSignal.Dispatch(actionBar.friendInfo.playerId);
         }
 
         void RemoveCommunityFriendDlgNo()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        public void HideRemoveCommunityFriendDlg()
         {
             removeCommunityFriendDlg.SetActive(false);
         }
@@ -1124,27 +1140,32 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmRankedGameBtnClicked()
         {
-            startGameConfirmationDlg.gameObject.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)
         {
-            startGameConfirmationDlg.gameObject.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState, actionCode);
         }
 
         void ConfirmNewGameDlgNo()
         {
-            startGameConfirmationDlg.gameObject.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         void CloseNewGameDlg(string friendId)
         {
             if (startGameConfirmationDlg.gameObject.activeSelf && actionBar != null && actionBar.friendInfo.playerId == friendId)
             {
-                startGameConfirmationDlg.gameObject.SetActive(false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }
+        }
+
+        public void HideStartGameDlg()
+        {
+            startGameConfirmationDlg.gameObject.SetActive(false);
         }
 
         public void UpdateStartGameConfirmationDlg(ProfileVO vo)
@@ -1486,6 +1507,11 @@ namespace TurboLabz.InstantFramework
         public void ShowAdSkippedDailogue(bool show)
         {
             adSkippedDlg.SetActive(show);
+        }
+
+        public void AdSkippedDailogueCloseButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }
 }

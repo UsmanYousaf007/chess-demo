@@ -1,4 +1,4 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -12,38 +12,30 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSStats : NS
+    public class NSAdSkippedDlg : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.STATS);
+            ShowDialog(NavigatorViewId.AD_SKIPPED_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY);
+                NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.FRIENDS);
 
                 if (viewId == NavigatorViewId.LOBBY)
                 {
                     return new NSLobby();
                 }
+                else if (viewId == NavigatorViewId.FRIENDS)
+                {
+                    return new NSFriends();
+                }
             }
-            else if (evt == NavigatorEvent.SHOW_LOBBY)
-            {
-                return new NSLobby();
-            }
-            else if (evt == NavigatorEvent.SHOW_CHAT)
-            {
-                return new NSChat();
-            }
-            else if (evt == NavigatorEvent.SHOW_SHARE_SCREEN_DLG)
-            {
-                return new NSShareDlg();
-            }
+
             return null;
         }
     }
 }
-

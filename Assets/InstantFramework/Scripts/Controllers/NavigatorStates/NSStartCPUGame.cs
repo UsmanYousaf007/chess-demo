@@ -1,4 +1,4 @@
-/// @license Propriety <http://license.url>
+﻿/// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
@@ -12,11 +12,11 @@
 
 namespace TurboLabz.InstantFramework
 {
-    public class NSStats : NS
+    public class NSStartCPUGame : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.STATS);
+            ShowDialog(NavigatorViewId.START_CPU_GAME_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
@@ -30,20 +30,12 @@ namespace TurboLabz.InstantFramework
                     return new NSLobby();
                 }
             }
-            else if (evt == NavigatorEvent.SHOW_LOBBY)
+            else if (evt == NavigatorEvent.SHOW_CPU)
             {
-                return new NSLobby();
+                return new NSCPU();
             }
-            else if (evt == NavigatorEvent.SHOW_CHAT)
-            {
-                return new NSChat();
-            }
-            else if (evt == NavigatorEvent.SHOW_SHARE_SCREEN_DLG)
-            {
-                return new NSShareDlg();
-            }
+
             return null;
         }
     }
 }
-

@@ -78,6 +78,11 @@ namespace TurboLabz.InstantFramework
                 }
 
                 bool p = cmd.multiplayerChessboardModel.chessboards.ContainsKey(cmd.matchInfoModel.activeChallengeId);
+                if (p == false)
+                {
+                    return new NSMultiplayerResultsDlg();
+                }
+
                 if (p == true && cmd.multiplayerChessboardModel.chessboards[cmd.matchInfoModel.activeChallengeId].inPlaybackMode)
                 {
                     return new NSMultiplayerResultsDlg();

@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (evt == NavigatorEvent.ESCAPE)
             {
-                return null;
+                cmd.androidNativeService.SendToBackground();
             }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
@@ -65,6 +65,22 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_MANAGE_BLOCKED_FRIENDS)
             {
                 return new NSManageBlockedFriends();
+            }
+            else if (evt == NavigatorEvent.SHOW_START_GAME_DLG)
+            {
+                return new NSStartGameDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_INVITE_DLG)
+            {
+                return new NSInviteDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_REMOVE_FRIEND_DLG)
+            {
+                return new NSRemoveFriendDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_FIND_YOUR_FRIEND_DLG)
+            {
+                return new NSFindFriendsDlg();
             }
 
             return null;

@@ -34,6 +34,7 @@ namespace TurboLabz.CPU
             view.continueButtonClickedSignal.AddListener(OnContinueButtonClicked);
             view.saveAndExitButtonClickedSignal.AddListener(OnSaveAndExitButtonClicked);
             view.returnToLobbySignal.AddListener(OnReturnToLobby);
+            view.showResultsDlgSignal.AddListener(OnShowResultsDlg);
         }
 
         public void OnRemoveMenu()
@@ -109,6 +110,11 @@ namespace TurboLabz.CPU
         {
             loadLobbySignal.Dispatch();
             cancelHintSignal.Dispatch();
+        }
+
+        private void OnShowResultsDlg()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
         }
     }
 }

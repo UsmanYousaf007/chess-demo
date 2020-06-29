@@ -85,16 +85,21 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.friends, facebookService.isLoggedIn());
             }
-            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            else if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
                 view.ShowCreateMatchLimitReacDlg();
+            }
+            else if (viewId == NavigatorViewId.FIND_YOUR_FRIEND_DLG)
+            {
+                view.ShowFriendsHelpDialog();
             }
         }
 
         [ListensTo(typeof(ShowFriendsHelpSignal))]
         public void OnShowFriendsHelpSignal()
         {
-            view.ShowFriendsHelpDialog();
+            //view.ShowFriendsHelpDialog();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FIND_YOUR_FRIEND_DLG);
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -104,9 +109,25 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
-            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            else if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
                 view.HideCreateMatchLimitDlg();
+            }
+            else if (viewId == NavigatorViewId.START_GAME_DLG)
+            {
+                view.HideStartGameDlg();
+            }
+            else if (viewId == NavigatorViewId.INVITE_DLG)
+            {
+                view.HideInviteDlg();
+            }
+            else if (viewId == NavigatorViewId.REMOVE_FRIEND_DLG)
+            {
+                view.HideRemoveCommunityFriendDlg();
+            }
+            else if (viewId == NavigatorViewId.FIND_YOUR_FRIEND_DLG)
+            {
+                view.HideFriendsHelpDialog();
             }
         }
 

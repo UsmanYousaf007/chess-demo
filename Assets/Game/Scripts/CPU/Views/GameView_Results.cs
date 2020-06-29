@@ -79,7 +79,7 @@ namespace TurboLabz.CPU
         private string adRewardType;
         private string collectRewardType;
         private float animDelay;
-        private bool menuOpensResultsDlg;
+        public bool menuOpensResultsDlg;
         private int resultRewardCoins;
 
         [Inject] public IAdsService adsService { get; set; }
@@ -173,7 +173,7 @@ namespace TurboLabz.CPU
             appInfoModel.gameMode = GameMode.NONE;
         }
 
-        private void ShowViewBoardResultsPanel(bool show)
+        public void ShowViewBoardResultsPanel(bool show)
         {
             viewBoardResultPanel.gameObject.SetActive(show);
         }
@@ -456,7 +456,7 @@ namespace TurboLabz.CPU
         private void OnResultsClosed()
         {
             audioService.PlayStandardClick();
-            HideResultsDialog();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
             //playbackOverlay.gameObject.SetActive(true);
             menuOpensResultsDlg = true;
             EnableMenuButton();
@@ -467,7 +467,7 @@ namespace TurboLabz.CPU
         private void OnPlaybackOverlayClicked()
         {
             playbackOverlay.gameObject.SetActive(false);
-            ShowResultsDialog();
+            showResultsDlgSignal.Dispatch();
         }
 
         private void OnCrossPromoButtonClicked()
@@ -476,6 +476,7 @@ namespace TurboLabz.CPU
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
 
             IPromise promise = HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
             if (promise != null)
             {
                 promise.Then(ToggleBannerSignalFunc);
@@ -484,6 +485,7 @@ namespace TurboLabz.CPU
 
         private void ToggleBannerSignalFunc()
         {
+            appInfoModel.internalAdType = InternalAdType.NONE;
             toggleBannerSignal.Dispatch(true);
         }
     }

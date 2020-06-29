@@ -61,6 +61,12 @@ namespace TurboLabz.InstantFramework
         EARN_REWARDS_DLG,
         MANAGE_SUBSCRIPTION,
         CREATE_MATCH_LIMIT_REACHED_DIALOG,
-        MANAGE_BLOCKED_FRIENDS
+        MANAGE_BLOCKED_FRIENDS,
+        START_GAME_DLG,
+        INVITE_DLG,
+        REMOVE_FRIEND_DLG,
+        START_CPU_GAME_DLG,
+        FIND_YOUR_FRIEND_DLG,
+        AD_SKIPPED_DLG
     }
 }

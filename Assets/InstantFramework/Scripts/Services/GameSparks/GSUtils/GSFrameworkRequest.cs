@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                 else
                 {
                     errorString = error.GetString("authentication");
-                    if (errorString.Equals("NOTAUTHORIZED"))
+                    if (errorString != null && errorString.Equals("NOTAUTHORIZED"))
                     {
                         Dispatch(BackendResult.NOT_AUTHORIZED);
                         LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "not_authorized");
@@ -100,7 +100,7 @@ namespace TurboLabz.InstantFramework
                 else
                 {
                     errorString = error.GetString("authentication");
-                    if (errorString.Equals("NOTAUTHORIZED"))
+                    if (errorString != null && errorString.Equals("NOTAUTHORIZED"))
                     {
                         Dispatch(BackendResult.NOT_AUTHORIZED);
                         LogAnalytic(AnalyticsEventId.gs_call_fail, errorCode.ToString(), context.currentViewId.ToString(), "not_authorized");
@@ -114,7 +114,7 @@ namespace TurboLabz.InstantFramework
 
                 string challengeInstanceId = error.GetString("challengeInstanceId");
                 LogUtil.Log("OnRequestFailure challengeInstanceId: " + challengeInstanceId, "red");
-                if (challengeInstanceId == "COMPLETE")
+                if (challengeInstanceId == "COMPLETE" || challengeInstanceId == "NOT_YOUR_TURN")
                 {
                     Dispatch(BackendResult.CANCELED);
                     return;

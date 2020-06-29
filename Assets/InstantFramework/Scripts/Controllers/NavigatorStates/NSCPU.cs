@@ -29,10 +29,20 @@ namespace TurboLabz.InstantFramework
         {
             cmd.preferencesModel.timeSpentCpuMatch += (cmd.backendService.serverClock.currentTimestamp - timeAtScreenShown) / 1000;
 
-            if (evt == NavigatorEvent.SHOW_CPU_EXIT_DLG ||
-                evt == NavigatorEvent.ESCAPE)
+            if (evt == NavigatorEvent.SHOW_CPU_EXIT_DLG)
             {
                 return new NSCPUExitDlg();
+            }
+            else if (evt == NavigatorEvent.ESCAPE)
+            {
+                if (cmd.cpuGameModel.inProgress)
+                {
+                    return new NSCPUExitDlg(); 
+                }
+                else
+                {
+                    return new NSCPUResultsDlg();
+                }
             }
             else if (evt == NavigatorEvent.SHOW_CPU_RESULTS_DLG)
             {

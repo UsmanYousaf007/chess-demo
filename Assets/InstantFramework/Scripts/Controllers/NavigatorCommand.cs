@@ -32,6 +32,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public Multiplayer.CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public DisableModalBlockersSignal disableModalBlockersSignal { get; set; }
         [Inject] public Multiplayer.ChessboardEventSignal chessboardEventSignal { get; set; }
+        [Inject] public ShowViewBoardResultsPanelSignal showViewBoardResultsPanelSignal { get; set; }
+        [Inject] public SkillSelectedSignal skillSelectedSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }

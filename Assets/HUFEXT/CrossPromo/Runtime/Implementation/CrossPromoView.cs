@@ -1,3 +1,4 @@
+using HUFEXT.CrossPromo.Runtime.API;
 using HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel;
 using HUFEXT.CrossPromo.Runtime.Implementation.View.ContentPanel;
 using HUFEXT.CrossPromo.Runtime.Implementation.View.TopPanel;
@@ -18,6 +19,14 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         public BottomPanelContainer BottomPanelContainer;
 
         public BottomPanelContainer BottomPanelContainerDefaultPrefab => bottomPanelContainerDefaultPrefab;
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                HCrossPromo.ClosePanel();
+            }
+        }
 
     }
 }

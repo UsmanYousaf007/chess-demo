@@ -24,7 +24,8 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                return null;
+                cmd.showViewBoardResultsPanelSignal.Dispatch(true);
+                return new NSCPU();
             }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {

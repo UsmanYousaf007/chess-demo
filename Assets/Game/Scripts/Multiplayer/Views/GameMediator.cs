@@ -94,6 +94,7 @@ namespace TurboLabz.Multiplayer
             if (gameObject.activeSelf)
             {
                 view.ShowViewBoardResultsPanel(isShow);
+                view.uiBlocker.SetActive(false);
             }
         }
 

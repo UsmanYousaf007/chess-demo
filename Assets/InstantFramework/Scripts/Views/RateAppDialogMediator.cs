@@ -25,17 +25,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
-            view.notNowButton.onClick.AddListener(OnNotNow);
             view.closeButton.onClick.AddListener(OnNotNow);
             view.rateButton.onClick.AddListener(OnRate);
-
-            view.improveButton.onClick.AddListener(OnImproveBtnClick);
-            view.likeButton.onClick.AddListener(OnLikeBtnClick);
-            view.loveButton.onClick.AddListener(OnLoveBtnClick);
-            view.tellUsButton.onClick.AddListener(OnTellUsBtnClick);
+            view.leaveFeedbackButton.onClick.AddListener(OnTellUsBtnClick);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -54,6 +51,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.RATE_APP_DLG)
             {
                 view.Hide();
+                preferencesModel.hasRated = true;
             }
         }
 
@@ -69,26 +67,9 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
-        private void OnImproveBtnClick()
-        {
-            audioService.PlayStandardClick();
-            view.ShowTellUs();
-        }
-
-        private void OnLikeBtnClick()
-        {
-            audioService.PlayStandardClick();
-            view.ShowRateUs();
-        }
-
-        private void OnLoveBtnClick()
-        {
-            audioService.PlayStandardClick();
-            view.ShowRateUs();
-        }
-
         private void OnTellUsBtnClick()
         {
+            rateAppService.RateApp(false);
             audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             contactSupportSignal.Dispatch();

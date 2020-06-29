@@ -114,9 +114,13 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.lobby, facebookService.isLoggedIn());
             }
-            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            else if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
                 view.ShowCreateMatchLimitReacDlg();
+            }
+            else if (viewId == NavigatorViewId.AD_SKIPPED_DLG)
+            {
+                view.ShowAdSkippedDailogue(true);
             }
         }
 
@@ -127,10 +131,25 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
-
-            if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
+            else if (viewId == NavigatorViewId.CREATE_MATCH_LIMIT_REACHED_DIALOG)
             {
                 view.HideCreateMatchLimitDlg();
+            }
+            else if (viewId == NavigatorViewId.START_GAME_DLG)
+            {
+                view.HideStartGameDlg();
+            }
+            else if (viewId == NavigatorViewId.REMOVE_FRIEND_DLG)
+            {
+                view.HideRemoveCommunityFriendDlg();
+            }
+            else if (viewId == NavigatorViewId.START_CPU_GAME_DLG)
+            {
+                view.HideChooseCPUGameDlg();
+            }
+            else if (viewId == NavigatorViewId.AD_SKIPPED_DLG)
+            {
+                view.ShowAdSkippedDailogue(false);
             }
         }
 
@@ -500,7 +519,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(ShowAdSkippedDlgSignal))]
         public void OnShowAdSkippedDlg()
         {
-            view.ShowAdSkippedDailogue(true);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_AD_SKIPPED_DLG);
         }
 
         void OnUpgradeToPremiumClicked()

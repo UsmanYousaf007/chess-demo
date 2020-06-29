@@ -71,5 +71,17 @@ namespace TurboLabz.CPU
         {
             loadLobbySignal.Dispatch();
         }
+
+        [ListensTo(typeof(ShowViewBoardResultsPanelSignal))]
+        public void OnShowViewBoardResultsPanel(bool isShow)
+        {
+            if (gameObject.activeSelf)
+            {
+                view.ShowViewBoardResultsPanel(isShow);
+                view.DisableModalBlocker();
+                view.EnableMenuButton();
+                view.menuOpensResultsDlg = true;
+            }
+        }
     }
 }
