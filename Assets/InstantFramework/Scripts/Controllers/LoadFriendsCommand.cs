@@ -16,7 +16,6 @@ namespace TurboLabz.InstantGame
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
-        [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
         [Inject] public ShowFriendsHelpSignal showFriendsHelpSignal { get; set; }

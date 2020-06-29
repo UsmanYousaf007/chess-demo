@@ -45,10 +45,7 @@ namespace TurboLabz.InstantGame
             }
             else
             {
-                clearCommunitySignal.Dispatch();
-                addFriendsSignal.Dispatch(playerModel.community, FriendCategory.COMMUNITY);
-                getSocialPicsSignal.Dispatch(playerModel.community);
-                sortCommunitySignal.Dispatch();
+                OnCommunityRefresh(BackendResult.SUCCESS);
             }
         }
 
