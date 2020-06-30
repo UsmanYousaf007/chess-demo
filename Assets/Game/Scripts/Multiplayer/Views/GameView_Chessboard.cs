@@ -556,6 +556,7 @@ namespace TurboLabz.Multiplayer
             isRankedGame = vo.isRanked;
             isTenMinGame = vo.isTenMinGame;
             isOneMinGame = vo.isOneMinGame;
+            isThirtyMinGame = vo.isThirtyMinGame;
 
             if (vo.isPlayerWhite)
             {

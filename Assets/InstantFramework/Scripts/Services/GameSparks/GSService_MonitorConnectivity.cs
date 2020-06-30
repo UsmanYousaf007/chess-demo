@@ -99,6 +99,10 @@ namespace TurboLabz.InstantFramework
                 {
                     analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.onemin_match);
                 }
+                else if (matchInfoModel.activeMatch.isThirtyMinGame)
+                {
+                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.thirtymin_match);
+                }
                 else
                 {
                     analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.quick_match);

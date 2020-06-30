@@ -36,6 +36,7 @@ namespace TurboLabz.InstantGame
         public float timeSpent1mMatch { get; set; }
         public float timeSpent5mMatch { get; set; }
         public float timeSpent10mMatch { get; set; }
+        public float timeSpent30mMatch { get; set; }
         public float timeSpentLongMatch { get; set; }
         public float timeSpentCpuMatch { get; set; }
         public DateTime lastLaunchTime { get; set; }
@@ -84,11 +85,6 @@ namespace TurboLabz.InstantGame
             strengthUsedCount = 0;
             promotionCycleIndex = 0;
             timeAtLobbyLoadedFirstTime = DateTime.Now;
-            timeSpent1mMatch = 0;
-            timeSpent5mMatch = 0;
-            timeSpent10mMatch = 0;
-            timeSpentLongMatch = 0;
-            timeSpentCpuMatch = 0;
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
             videoFinishedCount = 0;
             continousPlayCount = 0;
@@ -201,6 +197,11 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.TIME_SPENT_10M_MATCH))
                 {
                     timeSpent10mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_10M_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_30M_MATCH))
+                {
+                    timeSpent30mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_30M_MATCH);
                 }
 
                 if (reader.HasKey(PrefKeys.LAST_LAUNCH_TIME))
@@ -341,6 +342,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<float>(PrefKeys.TIME_SPENT_1M_MATCH, timeSpent1mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_30M_MATCH, timeSpent30mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
                 writer.Write<string>(PrefKeys.LAST_LAUNCH_TIME, lastLaunchTime.ToBinary().ToString());
@@ -386,6 +388,7 @@ namespace TurboLabz.InstantGame
             timeSpent1mMatch = 0;
             timeSpent5mMatch = 0;
             timeSpent10mMatch = 0;
+            timeSpent30mMatch = 0;
             globalAdsCount = 0;
             rewardedAdsCount = 0;
             interstitialAdsCount = 0;

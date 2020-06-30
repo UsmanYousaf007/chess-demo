@@ -159,6 +159,7 @@ namespace TurboLabz.InstantFramework
             matchInfo.isLongPlay = (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) ? true : false;
             matchInfo.isTenMinGame = matchDuration == 10 * 60 * 1000;
             matchInfo.isOneMinGame = matchDuration == 60 * 1000;
+            matchInfo.isThirtyMinGame = matchDuration == 30 * 60 * 1000;
             matchInfo.challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
             matchInfo.challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
             if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)

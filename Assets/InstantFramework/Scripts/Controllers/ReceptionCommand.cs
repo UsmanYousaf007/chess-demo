@@ -139,6 +139,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event("1m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mMatch));
                 analyticsService.Event("5m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mMatch));
                 analyticsService.Event("10m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mMatch));
+                analyticsService.Event("30m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent30mMatch));
                 preferencesModel.ResetDailyPrefers();
             }
 
