@@ -46,6 +46,7 @@ namespace TurboLabz.Multiplayer
         [HideInInspector] public bool isRankedGame;
         [HideInInspector] public bool isTenMinGame;
         [HideInInspector] public bool isOneMinGame;
+        [HideInInspector] public bool isThirtyMinGame;
 
         private bool menuButtonWasActive;
         Coroutine opponentConnectionMonitorCR;

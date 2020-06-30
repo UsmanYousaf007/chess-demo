@@ -37,6 +37,10 @@ namespace TurboLabz.InstantFramework
                 {
                     cmd.preferencesModel.timeSpent1mMatch += timeSpent;
                 }
+                else if (matchInfo.isThirtyMinGame)
+                {
+                    cmd.preferencesModel.timeSpent30mMatch += timeSpent;
+                }
                 else
                 {
                     cmd.preferencesModel.timeSpent5mMatch += timeSpent;
