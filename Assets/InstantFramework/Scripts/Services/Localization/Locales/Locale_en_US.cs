@@ -357,7 +357,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CHAT_DISABLED_SYSTEM_MESSAGE, "To enable chat you must start at least one match with this player." },
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY, "5 Min"},
                 { LocalizationKey.NEW_GAME_CONFIRM_FRIENDLY_10_MIN, "10 Min"},
-                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Classic"},
+                { LocalizationKey.NEW_GAME_CONFIRM_RANKED, "Classic 48h"},
                 { LocalizationKey.NEW_GAME_CONFIRM_TITLE, "START A CLASSIC GAME"},
                 { LocalizationKey.NEW_GAME_CONFIRM_START_GAME, "Start Game"},
                 { LocalizationKey.FRIENDLY_GAME_CAPTION, "Friendly"},
