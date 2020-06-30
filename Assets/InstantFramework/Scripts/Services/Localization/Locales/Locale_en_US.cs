@@ -124,7 +124,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_MENU_DURATION_NONE, "None" },
                 { LocalizationKey.CPU_MENU_PLAYER_COLOR, "Play As" },
                 { LocalizationKey.CPU_MENU_THEME, "Theme" },
-                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Blitz" },
+                { LocalizationKey.CPU_MENU_PLAY_ONLINE, "Fast" },
                 { LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC, "Classic" },
                 { LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION, "Random Player" },
                 { LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION_CLASSIC30, "Random Player 30 Min" },
