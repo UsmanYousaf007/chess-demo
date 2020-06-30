@@ -259,9 +259,12 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.banner);
-            appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_displayed.ToString());
-            hAnalyticsService.LogEvent(AnalyticsEventId.ad_displayed.ToString(), "monetization", "banner", data.ProviderId);
+            if (data.Result == AdResult.Completed)
+            {
+                analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.banner);
+                appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_displayed.ToString());
+                hAnalyticsService.LogEvent(AnalyticsEventId.ad_displayed.ToString(), "monetization", "banner", data.ProviderId);
+            }
         }
 
         public void CollectSensitiveData(bool consentStatus)
@@ -294,6 +297,11 @@ namespace TurboLabz.InstantFramework
 
         private void OnBannerFailed(IBannerCallbackData data)
         {
+            if (bannerDisplay)
+            {
+                HideBanner();
+            }
+
             analyticsService.Event(AnalyticsEventId.ad_failed, AnalyticsContext.banner);
         }
     }
