@@ -322,12 +322,12 @@ namespace TurboLabz.InstantGame
                 FindMatchAction.RandomLong(findMatchSignal);
             }
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Random1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random.ToString()
-              || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random10.ToString())
+              || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random10.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random30.ToString())
             {
                 FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString());
             }
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
-                resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString())
+                resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge30.ToString())
             {
                 FindMatchAction.Challenge(findMatchSignal, resultAdsVO.isRanked, resultAdsVO.friendId, resultAdsVO.actionCode.ToString());
             }

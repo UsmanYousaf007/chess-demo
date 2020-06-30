@@ -96,6 +96,11 @@ namespace TurboLabz.Multiplayer
             {
                 matchAnalyticsVO.matchType = "10m";
             }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge30.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random30.ToString())
+            {
+                matchAnalyticsVO.matchType = "30m";
+            }
             else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge1.ToString() ||
                      FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString())
             {
@@ -105,6 +110,7 @@ namespace TurboLabz.Multiplayer
 
             if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random30.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
             {

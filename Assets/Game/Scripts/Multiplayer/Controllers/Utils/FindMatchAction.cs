@@ -16,10 +16,12 @@ namespace TurboLabz.InstantFramework
         {
             Random,
             Random10,
+            Random30,
             RandomLong,
             Challenge,
             Accept,
             Challenge10,
+            Challenge30,
             Random1,
             Challenge1
         }

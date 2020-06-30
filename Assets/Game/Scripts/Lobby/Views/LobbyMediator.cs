@@ -436,14 +436,14 @@ namespace TurboLabz.InstantFramework
                     playerModel.adContext = AnalyticsContext.interstitial_pregame;
                     ResultAdsVO vo = new ResultAdsVO();
                     vo.adsType = AdType.Interstitial;
-                    vo.actionCode = FindMatchAction.ActionCode.RandomLong.ToString();
+                    vo.actionCode = FindMatchAction.ActionCode.Random30.ToString();
                     showAdSignal.Dispatch(vo);
                     return;
                 }
             }
             
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
-            FindMatchAction.RandomLong(findMatchSignal);
+            FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
 
         private bool CanShowPregameAd(string actionCode = null)
