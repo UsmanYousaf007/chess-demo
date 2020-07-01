@@ -35,6 +35,7 @@ namespace TurboLabz.InstantGame
         public const string TIME_SPENT_1M_MATCH = "timeSpent1mMatch";
         public const string TIME_SPENT_5M_MATCH = "timeSpent5mMatch";
         public const string TIME_SPENT_10M_MATCH = "timeSpent10mMatch";
+        public const string TIME_SPENT_30M_MATCH = "timeSpent30mMatch";
         public const string TIME_SPENT_LONG_MATCH = "timeSpentLongMatch";
         public const string TIME_SPENT_CPU_MATCH = "timeSpentCpuMatch";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";

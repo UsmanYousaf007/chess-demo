@@ -240,7 +240,7 @@ namespace TurboLabz.InstantFramework
             quickMatch5MinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
             quickMatch10MinBtn.onClick.AddListener(delegate { OnQuickMatchBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
 
-            classicMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION);
+            classicMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_DESCRIPTION_CLASSIC30);
             classicMatchTitleTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_PLAY_ONLINE_CLASSIC);
             classicMatchPlayTxt.text = localizationService.Get(LocalizationKey.PLAY);
             classicMatchBtn.onClick.AddListener(OnClassicMatchBtnClicked);

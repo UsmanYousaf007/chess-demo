@@ -55,6 +55,10 @@ namespace TurboLabz.Multiplayer
                 {
                     matchAnalyticsVO.matchType = "10m";
                 }
+                else if (cmd.matchInfoModel.activeMatch.isThirtyMinGame)
+                {
+                    matchAnalyticsVO.matchType = "30m";
+                }
                 else
                 {
                     matchAnalyticsVO.matchType = "5m";
