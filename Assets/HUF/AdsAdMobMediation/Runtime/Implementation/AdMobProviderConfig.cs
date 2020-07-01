@@ -26,9 +26,7 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
         
         [Header( "Tests" )]
         [SerializeField] List<string> testDevices = default;
-
-
-        public bool PauseAppDuringAdPlay => iOSPauseAppDuringAdPlay;
+        
         public string AppLovinSdkKey => appLovinSdkKey;
         public string MoPubAppId => moPub.Value;
         public string OguryAppId => ogury.Value;

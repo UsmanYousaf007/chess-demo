@@ -34,6 +34,7 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
 
         BannerView banner;
         AdPlacementData lastShownBannerData;
+        float lastBannerHeight;
         AdMobBannerAdSize bannerSize = AdMobBannerAdSize.SmartBanner;
 
         BannerLoadingStatus bannerStatus;
@@ -163,14 +164,17 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
             syncContext.Post(
                 s =>
                 {
-                    HLog.Log( logPrefix, $"Banner ad loaded, height: ${banner.GetHeightInPixels()}" );
+                    float height = banner.GetHeightInPixels();
 
                     if ( bannerStatus == BannerLoadingStatus.None )
-                    {
                         return;
-                    }
 
+                    if ( bannerStatus != BannerLoadingStatus.Loading && lastBannerHeight == height )
+                        return;
+
+                    HLog.Log( logPrefix, $"Banner ad loaded, height: ${height}" );
                     bannerStatus = BannerLoadingStatus.Loaded;
+                    lastBannerHeight = height;
                     OnBannerShown.Dispatch( BuildCallbackData() );
                 },
                 null );
@@ -178,11 +182,13 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
 
         void HandleBannerFailedToLoad( object sender, AdFailedToLoadEventArgs args )
         {
+            if( bannerStatus != BannerLoadingStatus.Loading )
+                return;
+
             syncContext.Post(
                 s =>
                 {
-                    if (bannerStatus == BannerLoadingStatus.Loading)
-                        bannerStatus = BannerLoadingStatus.None;
+                    bannerStatus = BannerLoadingStatus.None;
                     HLog.LogWarning( logPrefix, $"Failed to load banner ad with error: {args.Message}" );
                     OnBannerFailed.Dispatch( BuildCallbackData() );
                 },

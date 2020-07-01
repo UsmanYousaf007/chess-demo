@@ -3,7 +3,6 @@ using System.Linq;
 using GoogleMobileAds.Editor;
 using HUF.AdsAdMobMediation.Runtime.API;
 using HUF.AdsAdMobMediation.Runtime.Implementation;
-using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEditor;
@@ -24,15 +23,14 @@ namespace HUF.AdsAdMobMediation.Editor
         
         public virtual void OnPreprocessBuild( BuildReport report )
         {
-            AdMobProviderConfig adsConfig = Resources.LoadAll<AbstractConfig>("")
-                .OfType<AdMobProviderConfig>()
-                .First();
+            AdMobProviderConfig config = Resources.LoadAll<AdMobProviderConfig>(string.Empty).FirstOrDefault();
 
-            if ( adsConfig == null )
+            if ( config == null )
             {
                 HLog.LogError( logPrefix, $"Missing {nameof(AdMobProviderConfig)}" );
                 return;
             }
+
             if ( !Directory.Exists( adMobConfigPlace ) )
             {
                 Directory.CreateDirectory( adMobConfigPlace );
@@ -40,10 +38,10 @@ namespace HUF.AdsAdMobMediation.Editor
             var settingsInstance = GoogleMobileAdsSettings.Instance;
 
             settingsInstance.AdMobAndroidAppId =
-                adsConfig.EditorApplicationIdentifier.EditorAndroidAppId;
+                config.EditorApplicationIdentifier.EditorAndroidAppId;
 
             settingsInstance.AdMobIOSAppId =
-                adsConfig.EditorApplicationIdentifier.EditoriOSAppId;
+                config.EditorApplicationIdentifier.EditoriOSAppId;
             settingsInstance.IsAdManagerEnabled = true;
             settingsInstance.IsAdMobEnabled = true;
             settingsInstance.DelayAppMeasurementInit = true;
