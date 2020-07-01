@@ -200,3 +200,5 @@
 *.reason  -text
 *.rns     -text
 *.so filter=lfs diff=lfs merge=lfs -text
+*.framework filter=lfs diff=lfs merge=lfs -text
+Assets/HUF/AdsAdMobMediation/SDK/Ogury/Plugins/iOS/OguryAds.framework/OguryAds filter=lfs diff=lfs merge=lfs -text
