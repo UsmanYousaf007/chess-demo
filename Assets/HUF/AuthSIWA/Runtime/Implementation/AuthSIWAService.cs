@@ -35,10 +35,9 @@ namespace HUF.AuthSIWA.Runtime.Implementation
         public bool IsSignedIn => userInfo.userDetectionStatus != UserDetectionStatus.Unsupported;
         public string UserId => IsSignedIn ? userInfo.userId : string.Empty;
         public string IdToken => IsSignedIn ? userInfo.idToken : string.Empty;
+        public string AuthorizationCode => IsSignedIn ? userInfo.authorizationCode : string.Empty;
         public bool IsInitialized => signInWithApple != null;
-        public string DisplayName => IsSignedIn
-            ? userInfo.displayName
-            : string.Empty;
+        public string DisplayName => IsSignedIn ? userInfo.displayName : string.Empty;
         public string Email => IsSignedIn ? userInfo.email : string.Empty;
 
         public SignInWithApple ServiceComponent => signInWithApple;
@@ -63,10 +62,12 @@ namespace HUF.AuthSIWA.Runtime.Implementation
             {
                 signInWithApple.onCredentialState = new SignInWithAppleEvent();
                 signInWithApple.onError = new SignInWithAppleEvent();
+                signInWithApple.onLogin = new SignInWithAppleEvent();
             }
 
             signInWithApple.onCredentialState.AddListener(OnCredentialState);
             signInWithApple.onError.AddListener(OnError);
+            signInWithApple.onLogin.AddListener(OnSignInComplete);
 
             if (HPlayerPrefs.HasKey(AUTH_SIWA_USER_INFO_KEY))
             {
@@ -95,7 +96,8 @@ namespace HUF.AuthSIWA.Runtime.Implementation
             switch (args.credentialState)
             {
                 case UserCredentialState.Revoked:
-                    userInfo = new UserInfo();
+                case UserCredentialState.NotFound:
+                    userInfo = new UserInfo { userDetectionStatus = UserDetectionStatus.Unsupported };
                     HPlayerPrefs.DeleteKey( AUTH_SIWA_USER_INFO_KEY );
                     OnSignOutComplete.Dispatch( Name );
                     break;
@@ -125,7 +127,7 @@ namespace HUF.AuthSIWA.Runtime.Implementation
                 return false;
             }
 
-            signInWithApple.Login(OnSignInComplete);
+            signInWithApple.Login();
             return true;
         }
 

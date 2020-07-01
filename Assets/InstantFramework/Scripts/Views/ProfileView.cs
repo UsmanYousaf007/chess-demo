@@ -164,6 +164,19 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        public void SignOutSocialAccount()
+        {
+            if (facebookButton != null)
+            {
+                facebookButton.gameObject.SetActive(true);
+            }
+
+            if (signInWithAppleButton != null)
+            {
+                signInWithAppleButton.gameObject.SetActive(true);
+            }
+        }
+
         public void UpdateEloScores(EloVO vo)
         {
             eloScoreValue.text = vo.playerEloScore.ToString();

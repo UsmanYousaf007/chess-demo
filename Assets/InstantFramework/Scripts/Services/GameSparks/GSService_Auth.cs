@@ -132,7 +132,7 @@ namespace TurboLabz.InstantFramework
 
             new SignInWithAppleConnectRequest()
                 .SetScriptData(scriptData)
-                .SetClientId("1386718098")
+                .SetClientId("com.turbolabz.instantchess.ios")
                 .SetAuthorizationCode(authorizationCode)
                 .Send(OnRequestSuccess, OnRequestFailure);
 

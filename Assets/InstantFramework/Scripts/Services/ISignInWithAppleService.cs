@@ -4,16 +4,15 @@
 /// Proprietary and confidential
 
 using strange.extensions.promise.api;
-using UnityEngine.SignInWithApple;
 
 namespace TurboLabz.InstantFramework
 {
     public interface ISignInWithAppleService
     {
-        IPromise<SignInWithApple.CallbackArgs> Login();
-        IPromise<SignInWithApple.CallbackArgs> GetCredentialState();
+        IPromise<bool, string> Login();
         bool IsSignedIn();
         bool IsSupported();
         string GetDisplayName();
+        string GetTokenId();
     }
 }

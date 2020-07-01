@@ -27,6 +27,7 @@ namespace UnityEngine.SignInWithApple
         public string displayName;
 
         public string idToken;
+        public string authorizationCode;
         public string error;
 
         public UserDetectionStatus userDetectionStatus;
@@ -78,7 +79,8 @@ namespace UnityEngine.SignInWithApple
                     displayName = info.displayName,
                     email = info.email,
                     userId = info.userId,
-                    userDetectionStatus = info.userDetectionStatus
+                    userDetectionStatus = info.userDetectionStatus,
+                    authorizationCode = info.authorizationCode
                 };
             }
             else

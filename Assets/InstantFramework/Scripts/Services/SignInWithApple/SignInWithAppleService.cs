@@ -3,45 +3,38 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using HUF.Auth.Runtime.API;
 using HUF.AuthSIWA.Runtime.API;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
-using UnityEngine.SignInWithApple;
 
 namespace TurboLabz.InstantFramework
 {
     public class SignInWithAppleService : ISignInWithAppleService
     {
-        IPromise<SignInWithApple.CallbackArgs> promise;
+        //Dispatch Signals
+        [Inject] public SignOutSocialAccountSignal signOutSocialAccountSignal { get; set; }
 
-        public IPromise<SignInWithApple.CallbackArgs> Login()
+        IPromise<bool, string> promise;
+        bool isInitliazed = false;
+
+        public IPromise<bool, string> Login()
         {
-            promise = new Promise<SignInWithApple.CallbackArgs>();
-            HAuthSIWA.Service.ServiceComponent.Login(OnLogin);
+            promise = new Promise<bool, string>();
+            HAuthSIWA.Service.OnSignIn += OnLogin;
+            HAuthSIWA.Service.SignIn();
             return promise;
         }
 
-        private void OnLogin(SignInWithApple.CallbackArgs args)
+        private void OnLogin(string name, bool success)
         {
-            promise.Dispatch(args);
-            promise = null;
-        }
-
-        public IPromise<SignInWithApple.CallbackArgs> GetCredentialState()
-        {
-            promise = new Promise<SignInWithApple.CallbackArgs>();
-            HAuthSIWA.Service.ServiceComponent.GetCredentialState(HAuthSIWA.Service.UserId, OnCredentialState);
-            return promise;
-        }
-
-        private void OnCredentialState(SignInWithApple.CallbackArgs args)
-        {
-            promise.Dispatch(args);
+            promise.Dispatch(success, HAuthSIWA.AuthorizationCode);
             promise = null;
         }
 
         public bool IsSignedIn()
         {
+            Init();
             return IsSupported() && HAuthSIWA.Service.IsSignedIn;
         }
 
@@ -53,6 +46,36 @@ namespace TurboLabz.InstantFramework
         public string GetDisplayName()
         {
             return HAuthSIWA.DisplayName;
+        }
+
+        public string GetTokenId()
+        {
+            return HAuthSIWA.AuthorizationCode;
+        }
+
+        private void Init()
+        {
+            if (isInitliazed)
+            {
+                return;
+            }
+
+            isInitliazed = true;
+
+            if (!IsSupported())
+            {
+                return;
+            }
+
+            HAuthSIWA.Service.OnSignOutComplete += OnSignOut;
+        }
+
+        private void OnSignOut(string service)
+        {
+            if (service.Equals(AuthServiceName.SIWA))
+            {
+                signOutSocialAccountSignal.Dispatch();
+            }
         }
     }
 }

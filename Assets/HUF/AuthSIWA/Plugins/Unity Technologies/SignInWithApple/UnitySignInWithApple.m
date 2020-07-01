@@ -9,6 +9,7 @@ struct UserInfo
     const char * displayName;
 
     const char * idToken;
+    const char * authorizationCode;
     const char * error;
 
     ASUserDetectionStatus userDetectionStatus;
@@ -80,9 +81,11 @@ static UnitySignInWithApple* _unitySignInWithAppleInstance;
         if (@available(iOS 13.0, tvOS 13.0, *)) {
             ASAuthorizationAppleIDCredential* credential = (ASAuthorizationAppleIDCredential*)authorization.credential;
             NSString* idToken = [[NSString alloc] initWithData:credential.identityToken encoding:NSUTF8StringEncoding];
+            NSString* authorizationCode = [[NSString alloc] initWithData:credential.authorizationCode encoding:NSUTF8StringEncoding];
             NSPersonNameComponents* name = credential.fullName;
 
             data.idToken = [idToken UTF8String];
+            data.authorizationCode = [authorizationCode UTF8String];
 
             data.displayName = [[NSPersonNameComponentsFormatter localizedStringFromPersonNameComponents:name
                                                                                                    style:NSPersonNameComponentsFormatterStyleDefault
@@ -105,6 +108,7 @@ static UnitySignInWithApple* _unitySignInWithAppleInstance;
         // All members need to be set to a non-null value.
         struct UserInfo data;
         data.idToken = "";
+        data.authorizationCode = "";
         data.displayName = "";
         data.email = "";
         data.userId = "";

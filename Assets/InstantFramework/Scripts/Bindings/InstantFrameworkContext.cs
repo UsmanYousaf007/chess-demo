@@ -42,7 +42,6 @@ namespace TurboLabz.InstantFramework
             // Bind signals to commands
             commandBinder.Bind<StartSignal>().To<StartCommand>().Once();
             commandBinder.Bind<InitFacebookSignal>().To<InitFacebookCommand>();
-            commandBinder.Bind<InitSignInWithAppleSignal>().To<InitSignInWithAppleCommand>();
             commandBinder.Bind<AppEventSignal>().To<AppEventCommand>();
             commandBinder.Bind<LoadStatsSignal>().To<LoadStatsCommand>();
             commandBinder.Bind<LoadFriendsSignal>().To<LoadFriendsCommand>();
@@ -113,6 +112,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetInitDataFailedSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookResultSignal>().ToSingleton();
             injectionBinder.Bind<AuthSignInWithAppleResultSignal>().ToSingleton();
+            injectionBinder.Bind<SignOutSocialAccountSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
             injectionBinder.Bind<FindMatchCompleteSignal>().ToSingleton();
             injectionBinder.Bind<FindRandomLongMatchCompleteSignal>().ToSingleton();

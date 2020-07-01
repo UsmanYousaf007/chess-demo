@@ -1,6 +1,5 @@
 ﻿using strange.extensions.command.impl;
 using TurboLabz.InstantGame;
-using UnityEngine.SignInWithApple;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,11 +28,11 @@ namespace TurboLabz.InstantFramework
             signInWithAppleService.Login().Then(OnSignInWithAppleComplete);
         }
 
-        private void OnSignInWithAppleComplete(SignInWithApple.CallbackArgs args)
+        private void OnSignInWithAppleComplete(bool success, string tokenId)
         {
-            if (string.IsNullOrEmpty(args.error))
+            if (success)
             {
-                backendService.AuthSignInWithApple(args.userInfo.idToken, false).Then(OnAuthSignInWithAppleComplete);
+                backendService.AuthSignInWithApple(tokenId, false).Then(OnAuthSignInWithAppleComplete);
             }
             else
             {

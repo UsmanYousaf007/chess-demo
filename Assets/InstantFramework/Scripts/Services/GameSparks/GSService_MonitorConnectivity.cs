@@ -151,14 +151,7 @@ namespace TurboLabz.InstantFramework
                 string fbAccessToken = facebookService.GetAccessToken();
                 if (fbAccessToken == null)
                 {
-                    if (signInWithAppleService.IsSignedIn())
-                    {
-                        ProcessSignInWithApple();
-                    }
-                    else
-                    {
-                        AuthGuest().Then(ProcessHardReconnection);
-                    }
+                    AuthGuest().Then(ProcessHardReconnection);
                 }
                 else
                 {
@@ -208,16 +201,6 @@ namespace TurboLabz.InstantFramework
                 // state will be obtained from full init data.
                 RemoveChallengeListeners();
             }
-        }
-
-        void ProcessSignInWithApple()
-        {
-            signInWithAppleService.GetCredentialState().Then((args) => {
-                if (string.IsNullOrEmpty(args.error))
-                {
-                    AuthSignInWithApple(args.userInfo.idToken, true).Then(ProcessHardReconnection);
-                }
-            });
         }
     }
 }

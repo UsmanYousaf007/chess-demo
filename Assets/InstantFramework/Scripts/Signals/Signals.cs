@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
     public class AppEventSignal : Signal<AppEvent> { }
     public class GameAppEventSignal : Signal<AppEvent> { }
     public class InitFacebookSignal : Signal { }
-    public class InitSignInWithAppleSignal : Signal { }
     public class GameDisconnectingSignal : Signal { }
     public class SetUpdateURLSignal : Signal<string> { }
     public class FindMatchSignal : Signal<string> { }
@@ -43,6 +42,7 @@ namespace TurboLabz.InstantFramework
     public class AuthSignInWithAppleSignal : Signal { }
     public class AuthFacebookResultSignal : Signal<AuthFacebookResultVO> { }
     public class AuthSignInWithAppleResultSignal : Signal<AuthSignInWIthAppleResultVO> { }
+    public class SignOutSocialAccountSignal : Signal { }
     public class UpdateProfileSignal : Signal<ProfileVO> { }
     public class UpdateOpponentProfileSignal : Signal<ProfileVO> { }
     public class UpdateChatOpponentPicSignal : Signal<Sprite> { }

@@ -67,6 +67,12 @@ namespace TurboLabz.InstantGame
             view.SignInWithAppleResult(vo);
         }
 
+        [ListensTo(typeof(SignOutSocialAccountSignal))]
+        public void OnSignOutSocialAccount()
+        {
+            view.SignOutSocialAccount();
+        }
+
         [ListensTo(typeof(ToggleFacebookButton))]
         public void OnToggleFacebookButton(bool toggle)
         {

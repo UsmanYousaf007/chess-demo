@@ -451,6 +451,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void SignOutSocialAccount()
+        {
+            ShowConnectFacebook(true);
+        }
+
         public void FacebookAuthResult(AuthFacebookResultVO vo)
         {
             LogUtil.Log("FacebookAuthResult :: " + vo.isSuccessful);
