@@ -1,6 +1,30 @@
+## [2.7.2] - 2020-07-01
+### Fix
+- Fix build process on iOS
+
+## [2.7.1] - 2020-06-26
+### Added
+- unity 2019.3+ project fixer
+
+## [2.7.0] - 2020-06-17
+### Added
+- BaseDummyPreprocessBuild
+
+
+## [2.6.0] - 2020-06-08
+### Added
+- Plist Parser
+
+
+## [2.5.0] - 2020-06-05
+### Added
+- Extended UnityEvents
+
+
 ## [2.4.2] - 2020-05-29
 ### Fixed
 - Disable BITCODE for Unity 2019.3
+
 
 ## [2.4.1] - 2020-05-14
 ### Fixed

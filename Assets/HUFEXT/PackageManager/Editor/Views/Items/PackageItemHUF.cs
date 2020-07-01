@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HUFEXT.PackageManager.Editor.Views.Items
 {
-    public class PackageItemHUF : ListItem
+    public class HPackageListItem : ListItem
     {
         static readonly Dictionary<Models.PackageStatus, GUIContent> statusContent = new Dictionary<Models.PackageStatus, GUIContent>
         {
@@ -101,12 +101,26 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
             }
         };
         
+        static GUIStyle labelStyle = new GUIStyle( EditorStyles.label )
+        {
+            fontSize  = 11,
+            fontStyle = FontStyle.Normal,
+            richText  = true
+        };
+        
+        static GUIStyle boldStyle = new GUIStyle( EditorStyles.label )
+        {
+            fontSize  = 11,
+            fontStyle = FontStyle.Bold,
+            richText  = true
+        };
+        
         public override PackageListView.ItemType Type => PackageListView.ItemType.PackageHUF;
 
         public readonly Models.PackageManifest manifest;
         public bool isActive = false;
 
-        public PackageItemHUF( PackageManagerWindow window, Models.PackageManifest manifest ) : base ( window )
+        public HPackageListItem( PackageManagerWindow window, Models.PackageManifest manifest ) : base ( window )
         {
             this.manifest = manifest;
         }
@@ -115,13 +129,7 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
         {
             if ( manifest == null )
             {
-                GUILayout.Label( "<color=red>Null manifest reference.</color>",
-                    new GUIStyle( EditorStyles.label )
-                    {
-                        fontSize  = 11,
-                        fontStyle = FontStyle.Normal,
-                        richText  = true
-                    } );
+                GUILayout.Label( "<color=red>Null manifest reference.</color>", labelStyle );
                 return;
             }
             
@@ -140,8 +148,12 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
 
                 if ( GUI.Button( rect, GUIContent.none, EditorStyles.label ) && !isActive )
                 {
-                    // selectedPackageName = item.manifest.name;
-                    Window.Enqueue( ViewEvent.SelectPackage, manifest.name );
+                    Window.RegisterEvent( new Models.PackageManagerViewEvent
+                    {
+                        owner = Models.PackageManagerViewType.PackageListView,
+                        eventType = Models.EventType.SelectPackage,
+                        data = manifest.name
+                    });
                 }
 
                 var displayName = manifest.displayName.Length > 25
@@ -159,13 +171,7 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
                     displayName = $"<color=red>{displayName}</color>";
                 }
 
-                GUILayout.Label( displayName,
-                    new GUIStyle( EditorStyles.label )
-                    {
-                        fontSize  = 11,
-                        fontStyle = isActive ? FontStyle.Bold : FontStyle.Normal,
-                        richText  = true
-                    } );
+                GUILayout.Label( displayName, isActive ? boldStyle : labelStyle );
 
                 if ( manifest.IsRepository )
                 {

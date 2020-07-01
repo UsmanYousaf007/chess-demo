@@ -8,6 +8,8 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public class PackageView : PackageManagerView
     {
+        public override Models.PackageManagerViewType Type => Models.PackageManagerViewType.PackageView;
+        
         const float BUTTON_WIDTH = 120.0f;
         readonly float BUTTON_HEIGHT = EditorGUIUtility.singleLineHeight;
         
@@ -19,12 +21,16 @@ namespace HUFEXT.PackageManager.Editor.Views
             window = parent;
         }
 
-        public override void RefreshView( ViewEvent ev )
+        public override void OnEventCompleted( Models.PackageManagerViewEvent ev )
         {
-            if ( window.state.selectedPackage != null )
+            if ( ev.eventType == Models.EventType.RefreshPackages && window.state.selectedPackage != null )
             {
-                Core.Command.Execute( new Commands.Processing.SelectPackageCommand( window,
-                                                                                    window.state.selectedPackage.name ) );
+                RegisterEvent( new Models.PackageManagerViewEvent
+                {
+                    owner = Type,
+                    eventType = Models.EventType.SelectPackage,
+                    data = window.state.selectedPackage.name
+                });
             }
         }
 
@@ -96,7 +102,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                     
                     if ( GUILayout.Button( label,GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
-                        window.Enqueue( ViewEvent.InstallPackage, package );
+                        Core.Registry.ClearCache();
+                        RegisterEvent( new Models.PackageManagerViewEvent
+                        {
+                            owner     = Type,
+                            eventType = Models.EventType.InstallPackage,
+                            data      = package.ToString()
+                        } );
                     }
 
                     if ( update )
@@ -106,7 +118,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                             if ( GUILayout.Button( "Remove", 
                                                    GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                             {
-                                window.Enqueue( ViewEvent.RemovePackage, package );
+                                Core.Registry.ClearCache();
+                                RegisterEvent( new Models.PackageManagerViewEvent
+                                {
+                                    owner     = Type,
+                                    eventType = Models.EventType.RemovePackage,
+                                    data      = package.ToString()
+                                } );
                             }
                         }
                     }
@@ -119,7 +137,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                 {
                     if ( GUILayout.Button( "Remove", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
-                        window.Enqueue( ViewEvent.RemovePackage, package );
+                        Core.Registry.ClearCache();
+                        RegisterEvent( new Models.PackageManagerViewEvent
+                        {
+                            owner     = Type,
+                            eventType = Models.EventType.RemovePackage,
+                            data      = package.ToString()
+                        } );
                     }
                     break;
                 }

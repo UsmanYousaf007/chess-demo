@@ -1,3 +1,13 @@
+## [1.3.0] - 2020-06-08
+### Added 
+- Unity packages displayed in HPM.
+- Support for external scoped registries.
+- Stability and performance improvements.
+
+### Fixed
+- Packages doesn't refresh after install/remove.
+- Fixed incorrect flow of packages.
+
 ## [1.2.1] - 2020-05-05
 ### Changed
 - Changed HBI endpoint.

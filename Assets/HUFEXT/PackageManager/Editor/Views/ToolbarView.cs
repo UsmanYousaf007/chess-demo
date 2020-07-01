@@ -1,4 +1,4 @@
-﻿using System;
+﻿using HUFEXT.PackageManager.Editor.Models;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public class ToolbarView : PackageManagerView
     {
+        public override Models.PackageManagerViewType Type => Models.PackageManagerViewType.ToolbarView;
+        
         readonly GUIContent addButton;
         readonly GUIContent copyButton;
         readonly GUIContent refreshButton;
@@ -41,11 +43,11 @@ namespace HUFEXT.PackageManager.Editor.Views
             if ( GUILayout.Button( addButton, EditorStyles.toolbarButton ) )
             {
                 var menu = new GenericMenu();
-                RegisterMenuItem( ref menu, "Copy developer ID to clipboard", ViewEvent.CopyDeveloperID );
+                RegisterMenuItem( ref menu, "Copy developer ID to clipboard", Models.EventType.CopyDeveloperID );
                 menu.AddSeparator( string.Empty );
-                RegisterMenuItem( ref menu, "Add default registries", ViewEvent.AddDefaultRegistries );
-                menu.AddDisabledItem( new GUIContent( "Add custom registry..." ) );
-                //RegisterMenuItem( ref menu, "Add custom registry...", ViewEvent.AddScopedRegistry );
+                RegisterMenuItem( ref menu, "Add default registries", Models.EventType.AddDefaultRegistries );
+                //menu.AddDisabledItem( new GUIContent( "Add custom registry..." ) );
+                RegisterMenuItem( ref menu, "Add custom registry...", Models.EventType.AddScopedRegistry );
                 menu.ShowAsContext();
             }
 
@@ -61,7 +63,12 @@ namespace HUFEXT.PackageManager.Editor.Views
 
             if ( EditorGUI.EndChangeCheck() )
             {
-                window.Enqueue( ViewEvent.RefreshListView );
+                //PackageManagerWindow.Enqueue( ViewEvent.RefreshListView );
+                RegisterEvent( new PackageManagerViewEvent
+                {
+                    owner = Type, 
+                    eventType = Models.EventType.RefreshListView
+                } );
             }
 
             if ( Core.Packages.UpdateInProgress )
@@ -75,7 +82,12 @@ namespace HUFEXT.PackageManager.Editor.Views
             
             if ( GUILayout.Button( refreshButton, EditorStyles.toolbarButton ) )
             {
-                window.Enqueue( ViewEvent.RefreshPackages );
+                //PackageManagerWindow.Enqueue( ViewEvent.RefreshPackages );
+                RegisterEvent( new PackageManagerViewEvent
+                {
+                    owner     = Type, 
+                    eventType = Models.EventType.RefreshPackages
+                } );
             }
         }
         
@@ -85,22 +97,23 @@ namespace HUFEXT.PackageManager.Editor.Views
             {
                 var menu = new GenericMenu();
 
-                RegisterMenuItem( ref menu, "Show preview packages", ViewEvent.ShowPreviewPackages, window.state.showPreviewPackages );
+                RegisterMenuItem( ref menu, "Show preview packages", Models.EventType.ShowPreviewPackages, window.state.showPreviewPackages );
+                RegisterMenuItem( ref menu, "Show unity packages", Models.EventType.ShowUnityPackages, window.state.showUnityPackages );
                 
                 menu.AddSeparator( string.Empty );
                 
-                RegisterMenuItem( ref menu, "Update packages...", ViewEvent.ShowUpdateWindow );
+                RegisterMenuItem( ref menu, "Update packages...", Models.EventType.ShowUpdateWindow );
 
                 menu.AddSeparator( string.Empty );
                 
-                RegisterMenuItem( ref menu, "Generate report/Only HUF", ViewEvent.GenerateReportHUF );
-                RegisterMenuItem( ref menu, "Generate report/Full", ViewEvent.GenerateReportFull );
-                RegisterMenuItem( ref menu, "Help", ViewEvent.ContactSupport );
+                RegisterMenuItem( ref menu, "Generate report/Only HUF", Models.EventType.GenerateReportHUF );
+                RegisterMenuItem( ref menu, "Generate report/Full", Models.EventType.GenerateReportFull );
+                RegisterMenuItem( ref menu, "Help", Models.EventType.ContactSupport );
 
                 menu.AddSeparator( string.Empty );
                 
                 //RegisterMenuItem( ref menu, "Force resolve", ViewEvent.ForceResolvePackages );
-                RegisterMenuItem( ref menu, "Clear cache", ViewEvent.ClearCache );
+                RegisterMenuItem( ref menu, "Clear cache", Models.EventType.ClearCache );
                 
                 menu.AddSeparator( string.Empty );
                 
@@ -108,11 +121,11 @@ namespace HUFEXT.PackageManager.Editor.Views
                 RegisterMenuItem( ref menu,
                                   window.state.channel == Models.PackageChannel.Stable
                                       ? "Switch to Preview"
-                                      : "Switch to Stable", ViewEvent.TogglePreviewOrStableChannel );
+                                      : "Switch to Stable", Models.EventType.TogglePreviewOrStableChannel );
 
                 menu.AddSeparator( string.Empty );
 
-                RegisterMenuItem( ref menu, "Revoke HUF license", ViewEvent.RevokeLicense );
+                RegisterMenuItem( ref menu, "Revoke HUF license", Models.EventType.RevokeLicense );
                 
 #if HPM_DEV_MODE
                 AddDebugOptions( menu );
@@ -122,9 +135,13 @@ namespace HUFEXT.PackageManager.Editor.Views
             }
         }
 
-        void RegisterMenuItem( ref GenericMenu menu, string label, ViewEvent ev, bool enabled = false )
+        void RegisterMenuItem( ref GenericMenu menu, string label, Models.EventType type, bool enabled = false )
         {
-            menu.AddItem( new GUIContent( label ), enabled, () => window.Enqueue( ev ) );
+            menu.AddItem( new GUIContent( label ), enabled, () => RegisterEvent( new PackageManagerViewEvent
+            {
+                owner     = Type, 
+                eventType = type
+            } ));
         }
         
         void AddDebugOptions( GenericMenu menu )

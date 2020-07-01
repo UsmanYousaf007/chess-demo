@@ -38,6 +38,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
         }
 
         public string UserId => IsInitialized ? hbi.UserId() : string.Empty;
+        public string SessionId => IsInitialized ? hbi.SessionId() : string.Empty;
 
         bool HasCorrectSettings( HBIAnalyticsConfig config )
         {

@@ -1,3 +1,15 @@
+## [2.2.0] - 2020-06-25
+### Added
+- Dummy service
+
+## [2.1.0] - 2020-06-01
+### Added
+- Error logs if accessing uninitialized service
+- Exposed Session ID
+
+### Changed
+- HBI to HDS in descriptions
+
 ## [2.0.2] - 2020-05-28
 ### Changed
 - HBI SDK updated to 1.2.0

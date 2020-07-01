@@ -23,8 +23,10 @@ namespace HUF.Utils.BuildSupport.Editor.iOS
             plistDocument.ReadFromString(File.ReadAllText(plistPath));
             PlistElementDict rootDict = plistDocument.root;
 
-            if (Process(rootDict, plistPath))
-                SavePlist();
+            /*if (Process(rootDict, plistPath))
+                SavePlist();*/
+            Process( rootDict, plistPath );
+            SavePlist();
         }
 
         protected abstract bool Process(PlistElementDict rootDict, string projectPath);

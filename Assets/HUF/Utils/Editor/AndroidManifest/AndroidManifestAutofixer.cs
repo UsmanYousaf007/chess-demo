@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using HUF.Utils.Editor.AssetsBuilder;
+using HUF.Utils.Editor.BuildSupport.AssetsBuilder;
 using HUF.Utils.Runtime.AndroidManifest;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;

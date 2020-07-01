@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using HUFEXT.PackageManager.Editor.Views.Items;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace HUFEXT.PackageManager.Editor.Views
 {
     public class PackageListView : PackageManagerView
     {
+        public override Models.PackageManagerViewType Type => Models.PackageManagerViewType.PackageListView;
+        
         const float ITEM_HEIGHT = 30f;
         const float VIEW_WIDTH = 310f;
         const string SEARCH_FIELD_NAME = "HUF_PM_Toolbar_Search";
@@ -21,12 +22,15 @@ namespace HUFEXT.PackageManager.Editor.Views
 
         private readonly List<ListItem> baseItems = new List<ListItem>();
         private readonly List<ListItem> currentItems = new List<ListItem>();
+        private readonly List<ListItem> unityItems = new List<ListItem>();
         
         bool refreshItemsList = false;
         bool regenerateItemsList = false;
         GUIStyle searchBarStyle;
         GUIStyle searchBarButtonStyle;
-
+        
+        UnityEditor.PackageManager.Requests.ListRequest unityListRequest;
+        
         public enum ItemType
         {
             RolloutTag,
@@ -38,19 +42,20 @@ namespace HUFEXT.PackageManager.Editor.Views
         {
             regenerateItemsList = true;
         }
-        
-        public override void RefreshView( ViewEvent ev )
+
+        public override void OnEventCompleted( Models.PackageManagerViewEvent ev )
         {
-            switch ( ev )
+            switch ( ev.eventType )
             {
-                case ViewEvent.Undefined:
-                case ViewEvent.RefreshListView:
+                case Models.EventType.RefreshListView:
+                case Models.EventType.ShowPreviewPackages:
+                case Models.EventType.ShowUnityPackages:
                 {
                     refreshItemsList = true;
                     break;
                 }
-
-                case ViewEvent.RefreshPackages:
+                
+                case Models.EventType.RefreshPackages:
                 {
                     regenerateItemsList = true;
                     break;
@@ -67,12 +72,14 @@ namespace HUFEXT.PackageManager.Editor.Views
                 isInitialized = true;
             }
 
+            FetchUnityPackages();
+            
             if ( refreshItemsList )
             {
                 RefreshItems();
                 refreshItemsList = false;
             }
-            
+
             using ( new EditorGUILayout.VerticalScope() )
             {
                 DrawSearchBar();
@@ -117,13 +124,16 @@ namespace HUFEXT.PackageManager.Editor.Views
             AddItemsByTag( Models.Rollout.NOT_HUF_LABEL, true, true, false );
             AddItemsByTag( Models.Rollout.DEVELOPMENT_LABEL, true, true, false );
             AddItemsByTag( Models.Rollout.NOT_INSTALLED_LABEL, false, false, true );
+            AddItemsByTag( Models.Rollout.UNITY_LABEL, true, true, false );
+            
+            unityListRequest = UnityEditor.PackageManager.Client.List( true );
             
             RefreshItems();
             
             void AddItemsByTag( string tag, bool compareTag, bool ignoreNotInstalled, bool ignoreInstalled )
             {
                 var anyItemAdded = false;
-                var rolloutTag = new RolloutLabel( tag, labelColor );
+                var rolloutTag = new Items.RolloutLabel( tag, labelColor );
                 baseItems.Add( rolloutTag );
                 
                 foreach ( var package in packages )
@@ -141,7 +151,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                             continue;
                         }
                         
-                        baseItems.Add( new PackageItemHUF( window, package ) );
+                        baseItems.Add( new Items.HPackageListItem( window, package ) );
                         anyItemAdded = true;
                     }
                 }
@@ -151,8 +161,29 @@ namespace HUFEXT.PackageManager.Editor.Views
                     baseItems.Remove( rolloutTag );
                 }
             }
+
+            refreshItemsList = true;
         }
 
+        void FetchUnityPackages()
+        {
+            if ( unityListRequest != null && unityListRequest.IsCompleted )
+            {
+                if ( unityListRequest.Status == StatusCode.Success )
+                {
+                    baseItems.Add( new Items.RolloutLabel( "Unity Packages", labelColor ) );
+                    foreach ( var package in unityListRequest.Result )
+                    {
+                        baseItems.Add( new Items.UnityPackageListItem( window, package ) );
+                    }
+
+                    refreshItemsList = true;
+                }
+
+                unityListRequest = null;
+            }
+        }
+        
         List<string> GetSortedTags( ref List<Models.PackageManifest> packages )
         {
             var tags = packages
@@ -201,11 +232,17 @@ namespace HUFEXT.PackageManager.Editor.Views
 
                     case ItemType.PackageHUF:
                     {
-                        var package = ( PackageItemHUF ) baseItems[i];
+                        var package = ( Items.HPackageListItem ) baseItems[i];
                         if ( ShouldDrawPackageItem( package.manifest ) )
                         {
                             currentItems.Add( baseItems[i] );
                         }
+                        break;
+                    }
+
+                    case ItemType.PackageUnity:
+                    {
+                        currentItems.Add( baseItems[i] );
                         break;
                     }
                 }
@@ -292,6 +329,11 @@ namespace HUFEXT.PackageManager.Editor.Views
             {
                 return false;
             }
+
+            if ( manifest.huf.isUnity && !window.state.showUnityPackages )
+            {
+                return false;
+            }
             
             switch ( window.state.categoryType )
             {
@@ -301,6 +343,8 @@ namespace HUFEXT.PackageManager.Editor.Views
                     if ( !manifest.name.Contains( "hufext." ) ) { return false; } break;
                 case Models.PackageCategoryType.SDK:
                     if ( !manifest.name.Contains( ".plugins." ) ) { return false; } break;
+                case Models.PackageCategoryType.UNITY:
+                    if ( !manifest.name.Contains( ".unity." ) ) { return false; } break;
             }
             
             switch ( window.state.sortingType )

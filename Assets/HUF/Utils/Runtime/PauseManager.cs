@@ -1,4 +1,5 @@
 using HUF.Utils.Runtime.Extensions;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace HUF.Utils.Runtime
@@ -7,8 +8,10 @@ namespace HUF.Utils.Runtime
     {
         public event UnityAction<bool> OnAppPause;
         public event UnityAction<bool> OnApplicationFocusChange;
-
+        public event UnityAction<ScreenOrientation> OnScreenOrientationChange;
+        
         bool currentFocus;
+        ScreenOrientation lastScreenOrientation = ScreenOrientation.Portrait;
 
         void OnApplicationPause( bool pauseStatus )
         {
@@ -22,6 +25,20 @@ namespace HUF.Utils.Runtime
             {
                 currentFocus = hasFocus;
                 OnApplicationFocusChange.Dispatch( currentFocus );
+            }
+        }
+        
+        void Awake()
+        {
+            lastScreenOrientation = Screen.orientation;
+        }
+
+        void Update()
+        {
+            if (lastScreenOrientation != Screen.orientation)
+            {
+                lastScreenOrientation = Screen.orientation;
+                OnScreenOrientationChange.Dispatch(lastScreenOrientation);
             }
         }
     }

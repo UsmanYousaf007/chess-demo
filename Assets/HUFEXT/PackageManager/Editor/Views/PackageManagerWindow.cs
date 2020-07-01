@@ -1,48 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using HUFEXT.PackageManager.Editor.Commands.Base;
 using UnityEditor;
 using UnityEngine;
 
 namespace HUFEXT.PackageManager.Editor.Views
 {
-    public enum ViewEvent
-    {
-        Undefined,
-        CopyDeveloperID,
-        RefreshListView,
-        RefreshPackages,
-        ShowPreviewPackages,
-        ShowUpdateWindow,
-        ForceResolvePackages,
-        AddScopedRegistry,
-        AddDefaultRegistries,
-        ClearCache,
-        GenerateReportHUF,
-        GenerateReportFull,
-        ContactSupport,
-        RevokeLicense,
-        SelectPackage,
-        InstallPackage,
-        RemovePackage,
-        ChangePackagesChannel,
-        TogglePreviewOrStableChannel,
-        ChangeDevelopmentEnvPath,
-        DisableDeveloperMode,
-    }
-    
     public class PackageManagerWindow : EditorWindow, IHasCustomMenu
     {
         static bool isDirty = false;
         
-        readonly Queue<ViewEvent> eventsQueue = new Queue<ViewEvent>();
-        readonly Dictionary<ViewEvent, object> eventsData = new Dictionary<ViewEvent, object>();
-        ViewEvent currentEvent = ViewEvent.Undefined;
-        ViewEvent asyncEvent = ViewEvent.Undefined;
-
         readonly List<PackageManagerView> views = new List<PackageManagerView>();
-
+        [SerializeField] Models.PackageManagerQueue queue = new Models.PackageManagerQueue();
+        [SerializeField] Models.PackageManagerViewEvent currentEvent = null;
+        [SerializeField] int retryCount = 0;
+        
         [SerializeField] 
         public Models.PackageManagerState state;
         
@@ -72,6 +43,11 @@ namespace HUFEXT.PackageManager.Editor.Views
                 PolicyWindow.Init();
             }
         }
+
+        public static void RefreshPackages()
+        {
+            isDirty = true;
+        }
         
         private void OnEnable()
         {
@@ -90,9 +66,14 @@ namespace HUFEXT.PackageManager.Editor.Views
                 views.Add( new PackageView( this ) );
             }
 
+            if ( queue.events == null )
+            {
+                queue.events = new List<Models.PackageManagerViewEvent>();
+            }
+            
             isDirty = false;
         }
-
+        
         public void AddItemsToMenu(GenericMenu menu)
         {
             if ( Core.Packages.Installing || Core.Packages.UpdateInProgress )
@@ -104,30 +85,25 @@ namespace HUFEXT.PackageManager.Editor.Views
                         Core.Packages.UpdateInProgress = false;
                     } );
             }
+            
+            menu.AddItem( new GUIContent( "HUF/Clear Window Queue" ), false,
+                () =>
+                {
+                    currentEvent = null;
+                    queue.events.Clear();
+                } );
         }
         
-        public static void RefreshViews()
+        public void RegisterEvent( Models.PackageManagerViewEvent ev )
         {
-            isDirty = true;
-        }
-        
-        public void Enqueue( ViewEvent ev, object data = null )
-        {
-            if ( eventsQueue.Contains( ev ) )
+            if ( queue.events.Find( e => e.eventType == ev.eventType ) != null )
             {
-                Debug.Log( $"Duplicated event: {ev.ToString()}" );
                 return;
             }
             
-            eventsQueue.Enqueue( ev );
-            if ( data != null )
-            {
-                eventsData[ev] = data;
-            }
-            
-            views.ForEach( view => view.OnEventEnter( ev ) );
+            queue.events.Add( ev );
         }
-
+        
         private void OnDisable()
         {
             state.Save();
@@ -154,23 +130,37 @@ namespace HUFEXT.PackageManager.Editor.Views
         
         void OnInspectorUpdate()
         {
-            currentEvent = eventsQueue.Count > 0 ? eventsQueue.Dequeue() : ViewEvent.Undefined;
-
-            if ( currentEvent != ViewEvent.Undefined )
-            {
-                HandleEvents( currentEvent );
-            }
-
             if ( isDirty )
             {
-                if ( asyncEvent != ViewEvent.Undefined )
+                RegisterEvent( new Models.PackageManagerViewEvent
                 {
-                    views.ForEach( view => view.RefreshView( asyncEvent ) );
-                    asyncEvent = ViewEvent.Undefined;
-                }
+                    owner = Models.PackageManagerViewType.Unknown,
+                    eventType = Models.EventType.RefreshPackages
+                });
                 
-                views.ForEach( view => view.RefreshView( currentEvent ) );
                 isDirty = false;
+            }
+
+            // Fetch next event to handle.
+            if ( currentEvent == null && queue.events.Count > 0)
+            {
+                currentEvent = queue.events[0];
+                queue.events.RemoveAt( 0 );
+                retryCount = 0;
+            }
+
+            // Only if current event is completed.
+            if ( ProcessEvent() )
+            {
+                for ( int i = 0; i < views.Count; ++i )
+                {
+                    if ( views[i].Type != currentEvent.owner )
+                    {
+                        views[i].OnEventCompleted( currentEvent );
+                    }
+                }
+
+                currentEvent = null;
                 Repaint();
             }
             
@@ -196,117 +186,242 @@ namespace HUFEXT.PackageManager.Editor.Views
             }
         }
 
-        void HandleEvents( ViewEvent ev )
+        // Returns true if event is completed.
+        bool ProcessEvent()
         {
-            switch ( ev )
+            if ( currentEvent == null )
             {
-                case ViewEvent.CopyDeveloperID:
+                return false;
+            }
+
+            if ( currentEvent.inProgress )
+            {
+                retryCount++;
+                if ( retryCount > 30 )
+                {
+                    currentEvent.completed = true;
+                    retryCount = 0;
+                }
+                
+                return currentEvent.completed;
+            }
+
+            currentEvent.inProgress = true;
+            HandleEvent();
+            return currentEvent.completed;
+        }
+
+        void HandleEvent()
+        {
+            switch ( currentEvent.eventType )
+            {
+                case Models.EventType.CopyDeveloperID:
                 {
                     GUIUtility.systemCopyBuffer = state.developerId;
                     Debug.Log( $"Your developer ID was copied to clipboard: {GUIUtility.systemCopyBuffer}" );
-                    break;
-                }
-
-                case ViewEvent.RefreshListView:
-                {
-                    isDirty = true;
+                    currentEvent.completed = true;
                     break;
                 }
                 
-                case ViewEvent.RefreshPackages:
+                case Models.EventType.RefreshListView:
                 {
-                    Core.Packages.Installing = true;
-                    Repaint();
-                    
-                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
-                    {
-                        OnComplete = ( result, serializedData ) =>
-                        {
-                            Core.Packages.Installing = false;
-                            asyncEvent = ViewEvent.RefreshPackages;
-                            isDirty = true;
-                        }
-                    });
-                    break;
-                }
-
-                case ViewEvent.AddScopedRegistry:
-                {
-                    // Show editor window.
-                    break;
-                }
-
-                case ViewEvent.AddDefaultRegistries:
-                {
-                    Core.Command.Execute( new AddGoogleScopedRegistryCommand() );
+                    //isDirty = true;
+                    currentEvent.completed = true;
                     break;
                 }
                 
-                case ViewEvent.ShowPreviewPackages:
+                case Models.EventType.AddDefaultRegistries:
+                {
+                    Core.Command.Execute( new Commands.Base.AddGoogleScopedRegistryCommand() );
+                    currentEvent.completed = true;
+                    break;
+                }
+                
+                case Models.EventType.AddScopedRegistry:
+                {
+                    CustomRegistryWindow.Init();
+                    currentEvent.completed = true;
+                    break;
+                }
+                
+                case Models.EventType.ShowPreviewPackages:
                 {
                     state.showPreviewPackages = !state.showPreviewPackages;
-                    isDirty = true;
+                    currentEvent.completed = true;
                     break;
                 }
-
-                case ViewEvent.ShowUpdateWindow:
+                
+                case Models.EventType.ShowUnityPackages:
                 {
-                    Views.PackageUpdateWindow.Init();
+                    state.showUnityPackages = !state.showUnityPackages;
+                    currentEvent.completed  = true;
                     break;
                 }
-
-                case ViewEvent.GenerateReportHUF:
+                
+                case Models.EventType.ShowUpdateWindow:
+                {
+                    PackageUpdateWindow.Init();
+                    currentEvent.completed = true;
+                    break;
+                }
+                
+                case Models.EventType.GenerateReportHUF:
                 {
                     var builder = new StringBuilder();
                     foreach ( var package in Core.Packages.Local )
                     {
                         builder.Append( $"{package.displayName} {package.version}\n" );
                     }
-                    var log = builder.ToString();
-                    Debug.Log( $"HUF Packages installed in {PlayerSettings.applicationIdentifier}: \n" + log );
-                    GUIUtility.systemCopyBuffer = log;
+                    GUIUtility.systemCopyBuffer = builder.ToString();
+                    Debug.Log(
+                        $"HUF Packages installed in {PlayerSettings.applicationIdentifier}: \n{GUIUtility.systemCopyBuffer}" );
+                    currentEvent.completed = true;
                     break;
                 }
 
-                case ViewEvent.GenerateReportFull:
+                case Models.EventType.GenerateReportFull:
                 {
                     Utils.BuildReportPreprocess.GenerateBuildInfo( report =>
                     {
-                        var serializedReport = Utils.BuildReportPreprocess.SerializeReport( report );
-                        Debug.Log( "Build report: \n" + serializedReport );
-                        GUIUtility.systemCopyBuffer = serializedReport;
-                        Debug.Log( "Build report copied to clipboard." );
+                        GUIUtility.systemCopyBuffer = Utils.BuildReportPreprocess.SerializeReport( report );
+                        Debug.Log( $"Build report: \n{GUIUtility.systemCopyBuffer}\nBuild report copied to clipboard." );
+                        currentEvent.completed = true;
                     } );
                     break;
                 }
                 
-                case ViewEvent.ContactSupport:
+                case Models.EventType.ContactSupport:
                 {
                     Application.OpenURL( Models.Keys.HELPSHIFT_URL_KEY + state.developerId );
+                    currentEvent.completed = true;
                     break;
                 }
 
-                case ViewEvent.SelectPackage:
+                case Models.EventType.SelectPackage:
                 {
-                    Core.Command.Execute( new Commands.Processing.SelectPackageCommand( this, eventsData[ev] as string )
+                    Core.Command.Execute( new Commands.Processing.SelectPackageCommand( this, currentEvent.data )
                     {
                         OnComplete = ( result, data ) =>
                         {
-                            if ( result )
-                            {
-                                RefreshViews();
-                            }
+                            currentEvent.completed = true;
                         }
                     } );
                     break;
                 }
+                
+                case Models.EventType.RefreshPackages:
+                {
+                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
+                    {
+                        OnComplete = ( result, serializedData ) =>
+                        {
+                            if ( currentEvent != null )
+                            {
+                                currentEvent.completed = true;
+                            }
+                        }
+                    });
+                    break;
+                }
+                
+                case Models.EventType.ClearCache:
+                {
+                    Core.Registry.ClearCache();
+                    Core.Packages.RemoveLock();
+                    currentEvent.completed = true;
+                    break;
+                }
 
-                case ViewEvent.InstallPackage:
+                case Models.EventType.ChangePackagesChannel:
+                {
+                    Core.Packages.Channel = state.channel;
+                    RegisterEvent( new Models.PackageManagerViewEvent
+                    {
+                        owner = currentEvent.owner,
+                        eventType = Models.EventType.RefreshPackages
+                    });
+                    currentEvent.completed = true;
+                    break;
+                }
+
+                case Models.EventType.TogglePreviewOrStableChannel:
+                {
+                    if ( state.channel == Models.PackageChannel.Stable )
+                    {
+                        state.channel = Models.PackageChannel.Preview;
+                    }
+                    else
+                    {
+                        state.channel = Models.PackageChannel.Stable;
+                    }
+                    Core.Packages.Channel = state.channel;
+                    RegisterEvent( new Models.PackageManagerViewEvent
+                    {
+                        owner     = currentEvent.owner,
+                        eventType = Models.EventType.ChangePackagesChannel
+                    });
+                    currentEvent.completed = true;
+                    break;
+                }
+                
+                case Models.EventType.ChangeDevelopmentEnvPath:
+                {
+                    var temp = EditorUtility.OpenFolderPanel( "Change development registry",
+                        currentEvent.data,
+                        "" );
+                    if ( temp != string.Empty )
+                    {
+                        Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, temp );
+                        RegisterEvent( new Models.PackageManagerViewEvent
+                        {
+                            owner     = currentEvent.owner,
+                            eventType = Models.EventType.RefreshPackages
+                        });
+                    }
+                    currentEvent.completed = true;
+                    break;
+                }
+
+                case Models.EventType.DisableDeveloperMode:
+                {
+                    Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS );
+                    Core.Packages.Channel = Models.PackageChannel.Stable;
+                    state.channel = Models.PackageChannel.Stable;
+                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
+                    {
+                        downloadLatest = true,
+                        OnComplete = ( result, serializedData ) =>
+                        {
+                            var group = BuildPipeline.GetBuildTargetGroup( EditorUserBuildSettings.activeBuildTarget );
+                            var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup( group );
+                            var replace = defines.Replace( "HPM_DEV_MODE", "" );
+                            PlayerSettings.SetScriptingDefineSymbolsForGroup( group, replace );
+                            currentEvent.completed = true;
+                        }
+                    });
+                    break;
+                }
+
+                case Models.EventType.RevokeLicense:
+                {
+                    if ( EditorUtility.DisplayDialogComplex( "Are you sure?", 
+                        "Cache data and your HUF license will be removed from this machine.", 
+                        "OK", 
+                        "Cancel", 
+                        "" ) == 0 )
+                    {
+                        Models.Token.Invalidate();
+                    }
+                    currentEvent.completed = true;
+                    break;
+                }
+                
+                case Models.EventType.InstallPackage:
                 {
                     Core.Packages.Installing = true;
                     Repaint();
-                    
-                    var package = eventsData[ev] as Models.PackageManifest;
+
+                    var package = Models.PackageManifest.ParseManifest( currentEvent.data, true );
                     if ( package == null )
                     {
                         break;
@@ -319,107 +434,66 @@ namespace HUFEXT.PackageManager.Editor.Views
                     Core.Command.Enqueue( new Commands.Processing.PackageResolveCommand( package, useLatestVersion ) );
                     Core.Command.Enqueue( new Commands.Processing.PackageLockCommand() );
                     Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
+                    currentEvent.completed = true;
                     break;
                 }
 
-                case ViewEvent.RemovePackage:
+                case Models.EventType.RemovePackage:
                 {
-                    Core.Packages.Installing = true;
-                    Repaint();
-                    
-                    var package = eventsData[ev] as Models.PackageManifest;
+                    var package = Models.PackageManifest.ParseManifest( currentEvent.data, true );
                     if ( package == null )
                     {
                         break;
                     }
+
+                    if ( package.huf.isUnity )
+                    {
+                        UnityEditor.PackageManager.Client.Remove( package.name );
+                        currentEvent.completed = true;
+                        RefreshPackages();
+                        break;
+                    }
+                    
+                    Core.Packages.Installing = true;
+                    Repaint();
+                    
+                    RegisterEvent( new Models.PackageManagerViewEvent
+                    {
+                        owner     = Models.PackageManagerViewType.Unknown,
+                        eventType = Models.EventType.RefreshPackages
+                    });
+                    
+                    //currentEvent.completed = true;
                     
                     Core.Command.Enqueue( new Commands.Processing.RemovePackageCommand
                     {
                         path = package.huf.path,
                         OnComplete = ( result, data ) =>
                         {
-                            Core.Packages.Installing = false;
-                            EditorUtility.ClearProgressBar();
-                            AssetDatabase.Refresh();
-                            isDirty = true;
+                            currentEvent.completed = true;
                         }
                     });
+                    
                     break;
                 }
 
-                case ViewEvent.ClearCache:
+                case Models.EventType.BuildSelectedPackage:
                 {
-                    if ( Directory.Exists( Models.Keys.CACHE_DIRECTORY ) )
+                    Core.Command.Enqueue( new Commands.Processing.BuildPackageCommand
                     {
-                        Directory.Delete( Models.Keys.CACHE_DIRECTORY, true );
-                    }
-                    Core.Packages.RemoveLock();
-                    break;
-                }
-
-                case ViewEvent.ChangePackagesChannel:
-                {
-                    Core.Packages.Channel = state.channel;
-                    Enqueue( ViewEvent.RefreshPackages );
-                    break;
-                }
-
-                case ViewEvent.TogglePreviewOrStableChannel:
-                {
-                    if ( state.channel == Models.PackageChannel.Stable )
-                    {
-                        state.channel = Models.PackageChannel.Preview;
-                    }
-                    else
-                    {
-                        state.channel = Models.PackageChannel.Stable;
-                    }
-                    Enqueue( ViewEvent.ChangePackagesChannel );
+                        manifest = state.selectedPackage
+                    });
+                    
+                    currentEvent.completed = true;
                     break;
                 }
                 
-                case ViewEvent.ChangeDevelopmentEnvPath:
+                default:
                 {
-                    var temp = EditorUtility.OpenFolderPanel( "Change development registry", eventsData[ev] as string, "" );
-                    if ( temp != string.Empty )
-                    {
-                        Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, temp );
-                        Enqueue( ViewEvent.RefreshPackages );
-                    }
-                    break;
-                }
-
-                case ViewEvent.DisableDeveloperMode:
-                {
-                    Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS );
-                    Core.Packages.Channel = Models.PackageChannel.Stable;
-                    state.channel = Models.PackageChannel.Stable;
-                    
-                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
-                    {
-                        downloadLatest = true,
-                        OnComplete = ( result, serializedData ) =>
-                        {
-                            var group = BuildPipeline.GetBuildTargetGroup( EditorUserBuildSettings.activeBuildTarget );
-                            var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup( group );
-                            var replace = defines.Replace( "HPM_DEV_MODE", "" );
-                            PlayerSettings.SetScriptingDefineSymbolsForGroup( group, replace );
-                        }
-                    });
-                    break;
-                }
-
-                case ViewEvent.RevokeLicense:
-                {
-                    if ( EditorUtility.DisplayDialogComplex( "Are you sure?", "Cache data and your HUF license will be removed from this machine.", "OK", "Cancel", "" ) == 0 )
-                    {
-                        Models.Token.Invalidate();
-                    }
+                    currentEvent.completed = true;
                     break;
                 }
             }
-
-            eventsData.Remove( ev );
         }
     }
 }

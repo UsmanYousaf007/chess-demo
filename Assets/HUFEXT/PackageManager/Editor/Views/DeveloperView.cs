@@ -10,6 +10,7 @@ namespace HUFEXT.PackageManager.Editor.Views
     public class DeveloperView : PackageManagerView
     {
         const string PREFS_KEY = "HUF.PackageManager.DevelopmentMode";
+        public override Models.PackageManagerViewType Type => Models.PackageManagerViewType.DeveloperView;
         
         [SerializeField] string localEnv;
         [SerializeField] bool buildMode;
@@ -30,16 +31,7 @@ namespace HUFEXT.PackageManager.Editor.Views
             }
             Utils.HGUI.HorizontalSeparator();
         }
-
-        public override void RefreshView( ViewEvent ev )
-        {
-            Core.Registry.Load( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, out localEnv );
-            if ( !Directory.Exists( localEnv ) )
-            {
-                localEnv = string.Empty;
-            }
-        }
-
+        
         void DrawDeveloperOptions( Rect rect )
         {
             using ( new EditorGUILayout.HorizontalScope( ) ) 
@@ -49,16 +41,26 @@ namespace HUFEXT.PackageManager.Editor.Views
                 
                 if ( GUILayout.Button( "Disable", EditorStyles.miniButton ) )
                 {
-                    window.Enqueue( ViewEvent.DisableDeveloperMode );
+                    RegisterEvent( new Models.PackageManagerViewEvent
+                    {
+                        owner     = Type,
+                        eventType = Models.EventType.DisableDeveloperMode
+                    } );
                 }
-                
-                GUILayout.Label( "|" );
-                
-                if ( GUILayout.Button( "Edit", EditorStyles.miniButton ) )
+
+                if ( window != null && window.state.selectedPackage != null )
                 {
-                    PackageVersionEditor.Init( window );
+                    GUILayout.Label( "|" );
+
+                    using ( new EditorGUI.DisabledScope( window.state.selectedPackage == null ) )
+                    {
+                        if ( GUILayout.Button( "Package Editor", EditorStyles.miniButton ) )
+                        {
+                            Editors.PackageEditorWindow.Init( window );
+                        }
+                    }
                 }
-                
+
                 GUILayout.Label( "| Channel:" );
                 GUI.SetNextControlName( "HUF_ChannelToggle" );
                 
@@ -67,7 +69,11 @@ namespace HUFEXT.PackageManager.Editor.Views
                                                                                      GUILayout.Width( 100f ) );
                 if ( EditorGUI.EndChangeCheck() )
                 {
-                    window.Enqueue( ViewEvent.ChangePackagesChannel );
+                    RegisterEvent( new Models.PackageManagerViewEvent
+                    {
+                        owner     = Type,
+                        eventType = Models.EventType.ChangePackagesChannel
+                    } );
                 }
                 
                 if ( window.state.channel == Models.PackageChannel.Development )
@@ -83,7 +89,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                     
                     if ( GUILayout.Button( buttonText, EditorStyles.miniPullDown ) )
                     {
-                        window.Enqueue( ViewEvent.ChangeDevelopmentEnvPath, localEnv );
+                        //PackageManagerWindow.Enqueue( ViewEvent.ChangeDevelopmentEnvPath, localEnv );
+                        RegisterEvent( new Models.PackageManagerViewEvent
+                        {
+                            owner     = Type,
+                            eventType = Models.EventType.ChangeDevelopmentEnvPath,
+                            data      = localEnv
+                        } );
                     }
                 }
 
@@ -103,6 +115,8 @@ namespace HUFEXT.PackageManager.Editor.Views
     [Serializable]
     public class DeveloperView : PackageManagerView 
     {
+        public override Models.PackageManagerViewType Type => Models.PackageManagerViewType.DeveloperView;
+        
         public DeveloperView( PackageManagerWindow parent ) : base( parent )
         {
         }
