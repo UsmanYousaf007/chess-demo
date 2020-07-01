@@ -7,11 +7,13 @@ public static class GSAuth
 {
     private const string FACEBOOK = "FB";
     private const string GOOGLE_PLAY = "GP";
+    private const string APPLE = "AP";
 
     private static readonly IDictionary<string, ExternalAuthType> externalIdMap =
         new Dictionary<string, ExternalAuthType>() {
         { FACEBOOK, ExternalAuthType.FACEBOOK },
-        { GOOGLE_PLAY, ExternalAuthType.GOOGLE_PLAY }
+        { GOOGLE_PLAY, ExternalAuthType.GOOGLE_PLAY },
+        { APPLE, ExternalAuthType.APPLE}
     };
 
     public static IDictionary<ExternalAuthType, ExternalAuth> GetExternalAuthentications(GSData externalIds)

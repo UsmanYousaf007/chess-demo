@@ -376,8 +376,8 @@ namespace TurboLabz.InstantFramework
                 //listContainer.gameObject.SetActive(false);
                 facebookLoginButton.gameObject.SetActive(true);
                 facebookLoginButton.enabled = true;
-                signInWithAppleButton.gameObject.SetActive(true);
-                signInWithAppleButton.enabled = true;
+                signInWithAppleButton.gameObject.SetActive(signInWithAppleService.IsSupported());
+                signInWithAppleButton.enabled = signInWithAppleService.IsSupported();
                 facebookConnectText.gameObject.SetActive(true);
                 facebookConnectAnim.SetActive(false);
             }
