@@ -185,7 +185,7 @@ namespace TurboLabz.InstantFramework
         {
             preferencesModel.videoFinishedCount++;
 
-            var videoEventData = new Dictionary<string, string>();
+            var videoEventData = new Dictionary<string, object>();
             videoEventData.Add("network", data.ProviderId);
             videoEventData.Add("placement", data.PlacementId);
 

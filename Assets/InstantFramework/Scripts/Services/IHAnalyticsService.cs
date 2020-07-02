@@ -8,8 +8,9 @@ namespace TurboLabz.InstantFramework
         void LogEvent(string name);
         void LogEvent(string name, string ST1);
         void LogEvent(string name, string ST1, string ST2);
-        void LogEvent(string name, string ST1, string ST2, params KeyValuePair<string, object>[] additionalParamters);
         void LogEvent(string name, string ST1, string ST2, string ST3);
+        void LogEvent(string name, string ST1, params KeyValuePair<string, object>[] additionalParamters);
+        void LogEvent(string name, string ST1, string ST2, params KeyValuePair<string, object>[] additionalParamters);
         void LogEvent(string name, string ST1, string ST2, string ST3, params KeyValuePair<string, object>[] additionalParamters);
 
         void LogMonetizationEvent(string name, int value);
@@ -22,6 +23,9 @@ namespace TurboLabz.InstantFramework
         void LogCpuGameEvent(string name, string ST1, string ST2);
 
         void LogAdImpressionEvent(PaidEventData data);
+
+        void LogAppsFlyerEvent(string name, Dictionary<string, object> eventData);
+        string GetAppsFlyerId();
     }
 }
 

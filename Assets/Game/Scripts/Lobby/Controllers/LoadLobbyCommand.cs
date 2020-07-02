@@ -10,6 +10,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
 using TurboLabz.Multiplayer;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
@@ -87,13 +88,15 @@ namespace TurboLabz.InstantGame
 
             if (SplashLoader.launchCode == 1)
             {
+                var appsFlyerId = new KeyValuePair<string, object>("appsflyer_id", hAnalyticsService.GetAppsFlyerId());
+
                 if (firebasePushNotificationService.IsNotificationOpened())
                 {
-                    hAnalyticsService.LogEvent("launch", "launch", "notification");
+                    hAnalyticsService.LogEvent("launch", "launch", "notification", appsFlyerId);
                 }
                 else
                 {
-                    hAnalyticsService.LogEvent("launch", "launch");
+                    hAnalyticsService.LogEvent("launch", "launch", appsFlyerId);
                 }
                 SplashLoader.launchCode = 3;
             }

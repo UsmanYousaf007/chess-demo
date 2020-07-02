@@ -9,7 +9,7 @@ namespace TurboLabz.InstantFramework
     public interface IAppsFlyerService
     {
         void Init();
-        void TrackRichEvent(string eventName, Dictionary<string, string> eventValues = null);
+        void TrackRichEvent(string eventName, Dictionary<string, object> eventValues = null);
         void TrackLimitedEvent(AnalyticsEventId eventName, int currentValue);
     }
 }

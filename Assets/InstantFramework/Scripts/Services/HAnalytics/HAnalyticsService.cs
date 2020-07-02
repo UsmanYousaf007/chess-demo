@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using HUF.AdsAdMobMediation.Runtime.Implementation;
 using HUF.Analytics.Runtime.API;
+using HUF.AnalyticsAppsFlyer.Runtime.API;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
@@ -53,6 +54,13 @@ namespace TurboLabz.InstantFramework
             analyticsService.HEvent(name, ST1, ST2, ST3);
         }
 
+        public void LogEvent(string name, string ST1, params KeyValuePair<string, object>[] additionalParamters)
+        {
+            analyticsEvent = new Dictionary<string, object>();
+            _LogEvent(name, ST1, additionalParamters);
+            analyticsService.HEvent(name, ST1);
+        }
+
         public void LogEvent(string name, string ST1, string ST2, params KeyValuePair<string, object>[] additionalParamters)
         {
             analyticsEvent = new Dictionary<string, object>();
@@ -71,7 +79,7 @@ namespace TurboLabz.InstantFramework
         {
             analyticsEvent.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, name);
             AddDefaultParameters();
-            HAnalytics.LogEvent(analyticsEvent);
+            HAnalytics.LogEvent(analyticsEvent, AnalyticsServiceName.HBI);
             analyticsEvent = null;
         }
 
@@ -93,21 +101,21 @@ namespace TurboLabz.InstantFramework
             _LogEvent(name, ST1, ST2);
         }
 
+        private void _LogEvent(string name, string ST1, params KeyValuePair<string, object>[] additionalParamters)
+        {
+            AddParameters(additionalParamters);
+            _LogEvent(name, ST1);
+        }
+
         private void _LogEvent(string name, string ST1, string ST2, params KeyValuePair<string, object>[] additionalParamters)
         {
-            foreach (var parameter in additionalParamters)
-            {
-                analyticsEvent.Add(parameter.Key, parameter.Value);
-            }
+            AddParameters(additionalParamters);
             _LogEvent(name, ST1, ST2);
         }
 
         private void _LogEvent(string name, string ST1, string ST2, string ST3, params KeyValuePair<string, object>[] additionalParamters)
         {
-            foreach (var parameter in additionalParamters)
-            {
-                analyticsEvent.Add(parameter.Key, parameter.Value);
-            }
+            AddParameters(additionalParamters);
             _LogEvent(name, ST1, ST2, ST3);
         }
 
@@ -152,7 +160,7 @@ namespace TurboLabz.InstantFramework
             analyticsEvent.Add(AnalyticsEvent.EventConsts.VALUE_KEY, value);
             analyticsEvent.Add(AnalyticsMonetizationEvent.CENTS_KEY, value);
             AddDefaultParameters();
-            HAnalytics.LogMonetizationEvent(analyticsEvent);
+            HAnalytics.LogMonetizationEvent(analyticsEvent, AnalyticsServiceName.HBI);
             analyticsEvent = null;
         }
 
@@ -177,10 +185,7 @@ namespace TurboLabz.InstantFramework
 
         private void _LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3, params KeyValuePair<string, object>[] additionalParamters)
         {
-            foreach (var parameter in additionalParamters)
-            {
-                analyticsEvent.Add(parameter.Key, parameter.Value);
-            }
+            AddParameters(additionalParamters);
             _LogMonetizationEvent(name, value, ST1, ST2, ST3);
         }
 
@@ -215,7 +220,7 @@ namespace TurboLabz.InstantFramework
             analyticsEvent.Add("ad_mediation", data.MediationId);
             analyticsEvent.Add("ad_amount", data.Cents / 10000d);
             AddDefaultParameters();
-            HAnalytics.LogMonetizationEvent(analyticsEvent);
+            HAnalytics.LogMonetizationEvent(analyticsEvent, AnalyticsServiceName.HBI);
             analyticsEvent = null;
             GameAnalyticsSDK.GameAnalytics.NewBusinessEvent(data.CurrencyCode, data.Cents, "ad_impression", data.AdapterId, "default");
         }
@@ -297,6 +302,25 @@ namespace TurboLabz.InstantFramework
                 analyticsEvent.Add("steps_used", cpuChessboardModel.moveList.Count);
                 analyticsEvent.Add("end_type", cpuChessboardModel.gameEndReason.ToString());
             }
+        }
+
+        private void AddParameters(params KeyValuePair<string, object>[] paramters)
+        {
+            foreach (var parameter in paramters)
+            {
+                analyticsEvent.Add(parameter.Key, parameter.Value);
+            }
+        }
+
+        public void LogAppsFlyerEvent(string name, Dictionary<string, object> eventData)
+        {
+            eventData.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, name);
+            HAnalytics.LogEvent(eventData, AnalyticsServiceName.APPS_FLYER);
+        }
+
+        public string GetAppsFlyerId()
+        {
+            return string.IsNullOrEmpty(HAnalyticsAppsFlyer.UserId) ? string.Empty : HAnalyticsAppsFlyer.UserId;
         }
     }
 }

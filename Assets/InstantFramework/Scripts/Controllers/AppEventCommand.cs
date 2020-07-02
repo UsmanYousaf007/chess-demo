@@ -7,6 +7,7 @@ using GameSparks.Core;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using TurboLabz.Multiplayer;
+using System.Collections.Generic;
 #if UNITY_IOS
 using UnityEngine.iOS;
 #endif
@@ -84,13 +85,15 @@ namespace TurboLabz.InstantFramework
 
                 if (SplashLoader.launchCode != 1)
                 {
+                    var appsFlyerId = new KeyValuePair<string, object>("appsflyer_id", hAnalyticsService.GetAppsFlyerId());
+
                     if (firebasePushNotificationService.IsNotificationOpened())
                     {
-                        hAnalyticsService.LogEvent("launch_opened", "launch", "notification");
+                        hAnalyticsService.LogEvent("launch_opened", "launch", "notification", appsFlyerId);
                     }
                     else
                     {
-                        hAnalyticsService.LogEvent("launch_opened", "launch");
+                        hAnalyticsService.LogEvent("launch_opened", "launch", appsFlyerId);
                     }
                     SplashLoader.launchCode = 2;
                 }
