@@ -544,6 +544,7 @@ MonoBehaviour:
   isRankedGame: 0
   isTenMinGame: 0
   isOneMinGame: 0
+  isThirtyMinGame: 0
   acceptButton: {fileID: 613190847}
   declineButton: {fileID: 1891510980}
   acceptDialog: {fileID: 525596577}
@@ -16996,6 +16997,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1584410071}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_Name
+      value: ThinkingCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17100,14 +17109,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_Name
-      value: ThinkingCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
@@ -21557,6 +21558,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1642018759}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_Name
+      value: Thinking
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21661,10 +21666,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_Name
-      value: Thinking
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
@@ -33510,6 +33511,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1089695881}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_Name
+      value: Thinking
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -33614,14 +33623,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.9999329
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_Name
-      value: Thinking
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
@@ -64199,6 +64200,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1302150908}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_Name
+      value: ThinkingCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -64303,14 +64312,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_Name
-      value: ThinkingCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
@@ -90411,10 +90412,10 @@ RectTransform:
   m_Father: {fileID: 1738496839}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -21}
-  m_SizeDelta: {x: 0, y: 2}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 4}
+  m_SizeDelta: {x: 197.81, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1572510058
 MonoBehaviour:
