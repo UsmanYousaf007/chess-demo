@@ -1,3 +1,11 @@
+## [1.1.0] - 2020-06-02
+### Added 
+- completion event
+- completion status
+
+### Fixed
+- Progress measurement
+
 ## [1.0.3] - 2020-05-25
 ### Changed
 - Verdose initialization
