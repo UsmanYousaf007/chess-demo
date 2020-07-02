@@ -10,8 +10,15 @@ char* cStringCopy(const char* string)
     return res;
 }
 
+FOUNDATION_EXPORT char* GetRegionNative()
+{
+    NSLocale *countryLocale = [NSLocale currentLocale];
+    NSString *region = [countryLocale objectForKey:NSLocaleCountryCode];
+    return cStringCopy([region UTF8String]);
+}
+
 FOUNDATION_EXPORT char* GetCountryCodeNative()
 {
-    NSString* locale = [[NSLocale currentLocale] localeIdentifier];
-    return cStringCopy([locale UTF8String]);
+    NSString* language = [[NSLocale preferredLanguages] firstObject];
+    return cStringCopy([language UTF8String]);
 }
