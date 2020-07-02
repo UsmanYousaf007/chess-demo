@@ -19,7 +19,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Dispatch Signals
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
@@ -59,7 +58,6 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 facebookService.GetSocialName().Then(OnSocialName_BackendSetSocialName);
-                analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, playerModel.GetSocialFriendsCount());
             }
             else
             {

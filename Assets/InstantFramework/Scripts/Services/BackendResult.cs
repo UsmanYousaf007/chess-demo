@@ -66,6 +66,7 @@ namespace TurboLabz.InstantFramework
         WATCHDOG_PING_ACK_FAILED,
         SYNC_RECONNECT_DATA_FAILED,
         NOT_AUTHORIZED,
-        OFFER_DRAW_OP_FAILED
+        OFFER_DRAW_OP_FAILED,
+        AUTH_SIGN_IN_WITH_APPLE_FAILED
     }
 }

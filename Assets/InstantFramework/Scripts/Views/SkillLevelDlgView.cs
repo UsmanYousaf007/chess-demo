@@ -18,7 +18,6 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public ReceptionSignal receptionSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public InitFacebookSignal initFacebookSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -67,7 +66,6 @@ namespace TurboLabz.InstantFramework
 
         private void GotoReception()
         {
-            initFacebookSignal.Dispatch();
             receptionSignal.Dispatch(false);
         }
 

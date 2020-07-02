@@ -18,7 +18,6 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
@@ -54,7 +53,6 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 facebookService.GetSocialPic(facebookService.GetFacebookId(), playerModel.id).Then(OnGetSocialPic);
-                analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, playerModel.GetSocialFriendsCount());
             }
             else if (result != BackendResult.CANCELED)
             {
