@@ -1,3 +1,7 @@
+## [1.3.1] - 2020-07-01
+### Fixed
+Install path
+
 ## [1.3.0] - 2020-06-08
 ### Added 
 - Unity packages displayed in HPM.
