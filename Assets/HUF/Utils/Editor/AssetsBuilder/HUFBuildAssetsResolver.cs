@@ -1,4 +1,3 @@
-#if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -291,4 +290,3 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
         }
     }
 }
-#endif

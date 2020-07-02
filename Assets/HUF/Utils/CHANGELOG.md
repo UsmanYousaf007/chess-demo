@@ -1,4 +1,8 @@
-## [2.7.2] - 2020-07-01
+## [2.7.3] - 2020-07-02
+### Fix
+- Fix build process on iOS 2019.3+
+
+## [2.7.2] - 2020-07-02
 ### Fix
 - Fix build process on iOS
 
