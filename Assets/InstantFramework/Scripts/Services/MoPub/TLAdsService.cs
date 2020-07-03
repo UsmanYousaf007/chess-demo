@@ -27,15 +27,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
 
         private IPromise<AdsResult> adEndedPromise;
-        private bool bannerDisplay = false;
         private long videoStartTime = 0;
 
         private const string PLACEMENT_ID_BANNER = "Banner";
         private const string PLACEMENT_ID_REWARDED = "Rewarded";
         private const string PLACEMENT_ID_INTERSTITIAL = "Interstitial";
-
-        public bool adStatus = false;
-        public bool showAd = false;
 
         public void Init()
         {
@@ -48,7 +44,6 @@ namespace TurboLabz.InstantFramework
             HAds.Rewarded.OnClicked += OnRewardedClicked;
             HAdsAdMobMediation.OnPaidEvent += HandlePaidEvent;
             HAdsManager.SetNewBannerPosition(BannerPosition.TopCenter);
-            bannerDisplay = false;
         }
 
         private void OnAdFetched(AdsManagerFetchCallbackData callbackData)
@@ -71,8 +66,6 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<AdsResult> ShowInterstitial()
         {
-            adStatus = false;
-            showAd = true;
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
             HAdsManager.ShowAd(PLACEMENT_ID_INTERSTITIAL, OnInterstitailEnded);
@@ -84,8 +77,6 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<AdsResult> ShowRewardedVideo()
         {
-            adStatus = false;
-            showAd = true;
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
             HAdsManager.ShowAd(PLACEMENT_ID_REWARDED, OnRewardedEnded);
@@ -97,14 +88,12 @@ namespace TurboLabz.InstantFramework
 
         public void ShowBanner()
         {
-            bannerDisplay = true;
             HAdsManager.ShowAd(PLACEMENT_ID_BANNER, OnBannerShown);
             analyticsService.Event(AnalyticsEventId.ad_user_requested, AnalyticsContext.banner);
         }
 
         public void HideBanner()
         {
-            bannerDisplay = false;
             HAdsManager.HideBanner(PLACEMENT_ID_BANNER);
         }
 
@@ -135,13 +124,11 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.ad_not_available, AnalyticsContext.rewarded);
                 playerModel.adContext = AnalyticsContext.interstitial_rewarded_failed_replacement;
-                adStatus = true;
             }
             else if (!isNotCapped)
             {
                 analyticsService.Event(AnalyticsEventId.ad_cap_reached, AnalyticsContext.rewarded);
                 playerModel.adContext = AnalyticsContext.interstitial_rewarded_capped_replacement;
-                adStatus = true;
             }
 
             return availableFlag && isNotCapped;
@@ -170,12 +157,10 @@ namespace TurboLabz.InstantFramework
             if (!availableFlag)
             {
                 analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
-                adStatus = true;
             }
             else if (!isNotCapped)
             {
                 analyticsService.Event(AnalyticsEventId.ad_cap_reached, playerModel.adContext);
-                adStatus = true;
             }
 
             return availableFlag && isNotCapped;
@@ -214,9 +199,6 @@ namespace TurboLabz.InstantFramework
                     adEndedPromise.Dispatch(AdsResult.FAILED);
                     break;
             }
-            adStatus = true;
-            showAd = false;
-            //playerModel.adContext = AnalyticsContext.unknown;
         }
 
         void OnInterstitailEnded(AdManagerCallback data)
@@ -245,20 +227,10 @@ namespace TurboLabz.InstantFramework
                 new KeyValuePair<string, object>("duration", (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(videoStartTime)).TotalSeconds),
                 new KeyValuePair<string, object>("end_type", data.Result.ToString()));
             adEndedPromise.Dispatch(adResultInstantFramework);
-
-            adStatus = true;
-            showAd = false;
-            //playerModel.adContext = AnalyticsContext.unknown;
         }
 
         public void OnBannerShown(AdManagerCallback data)
         {
-            if (bannerDisplay == false)
-            {
-                HideBanner();
-                return;
-            }
-
             if (data.Result == AdResult.Completed)
             {
                 analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.banner);
@@ -297,11 +269,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnBannerFailed(IBannerCallbackData data)
         {
-            if (bannerDisplay)
-            {
-                HideBanner();
-            }
-
             analyticsService.Event(AnalyticsEventId.ad_failed, AnalyticsContext.banner);
         }
     }
