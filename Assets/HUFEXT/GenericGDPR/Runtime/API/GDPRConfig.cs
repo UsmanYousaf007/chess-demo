@@ -23,7 +23,12 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         string gdprCustomPlayerPrefsKey = string.Empty;
         [SerializeField] string personalizedAdsCustomPlayerPrefsKey = string.Empty;
         [SerializeField] bool destroyOnAccept = true;
-
+        
+        [Header( "Country Check" )]
+        [SerializeField] bool enableCountryCheck = false;
+        [SerializeField] bool defaultPersonalizedAdsValue = false;
+        [SerializeField] string showForCountries = "AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IE,IT,LV,LT,LU,MT,NL,PT,RO,SK,SI,ES,SE,GB,GF,GP,MQ,ME,YT,RE,MF,GI,AX,PM,GL,BL,SX,AW,CW,WF,PF,NC,TF,AI,BM,IO,VG,KY,FK,MS,PN,SH,GS,TC,AD,LI,MC,SM,VA,JE,GG,GI,CH,PL";
+        
         [Header( "Translations" )]
         [SerializeField] bool enableTranslation = true;
 
@@ -32,6 +37,9 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         public string CustomPersonalizedAdsKey => personalizedAdsCustomPlayerPrefsKey;
         public bool DestroyOnAccept => destroyOnAccept;
         public bool IsTranslationEnabled => enableTranslation;
+        public bool EnableCountryCheck => enableCountryCheck;
+        public bool DefaultPersonalizedAdsValue => defaultPersonalizedAdsValue;
+        public string ShowForCountries => showForCountries;
 
         public override void RegisterManualInitializers()
         {

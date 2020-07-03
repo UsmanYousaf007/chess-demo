@@ -1,3 +1,11 @@
+## [2.4.1] - 2020-06-05
+### Changed
+- One frame delay on AutoInit - fix wrong GDPR displayment on some devices
+
+## [2.4.0] - 2020-06-01
+### Added
+- Added optional feature to show GDPR only in specific country.
+
 ## [2.3.4] - 2020-05-21
 ### Fixed
 - Missing characters in Japanese and Korean font assets
