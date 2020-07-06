@@ -76,6 +76,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
+                { LocalizationKey.SIGN_IN, "Sign in" },
                 { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
 
                 #endregion
@@ -265,7 +266,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND, "PLAY A FRIEND" },
                 { LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW, "PLAY SOMEONE NEW" },
                 { LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS, "SEARCH RESULTS" },
-                { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite Facebook Friends" },
+                { LocalizationKey.FRIENDS_NO_FRIENDS_TEXT, "Invite Friends" },
                 { LocalizationKey.FRIENDS_INVITE_TEXT, "Invite" },
                 { LocalizationKey.FRIENDS_INVITE_BUTTON_TEXT, "Invite" },
                 { LocalizationKey.FRIENDS_INVITE_TITLE_TEXT, "Invite a Friend" },
