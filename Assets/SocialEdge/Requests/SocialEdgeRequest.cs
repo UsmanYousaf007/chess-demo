@@ -13,6 +13,7 @@ namespace SocialEdge.Requests
         protected TRESPONSE response;
         protected Action<TRESPONSE> actionSuccess;
         protected Action<TRESPONSE> actionFailure;
+        
         protected long timeoutMillis;
 
         /// <summary>

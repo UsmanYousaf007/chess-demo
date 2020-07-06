@@ -8,16 +8,13 @@ using BestHTTP.SignalRCore.Encoders;
 using SocialEdge.Communication;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using SocialEdge.Configuration;
 namespace SocialEdge.Communication
 {
     public class SignalRHub //: CommunicationHub<HubConnection>
     {
         public HubConnection connection;
         bool isConnected;
-        private const string AZURE_TITLE_URL = "https://chessstars.azurewebsites.net/api";
-        //private const string AZURE_TITLE_URL = "http://localhost:7071/api";
-   
 
         public void Setup(string user)
         {
@@ -28,7 +25,7 @@ namespace SocialEdge.Communication
                 protocol = new JsonProtocol(new LitJsonEncoder());
         #endif
 
-            connection = new HubConnection(new Uri(AZURE_TITLE_URL), protocol,user);
+            connection = new HubConnection(new Uri(Configurations.AzuerUrl), protocol,user);
             connection.Options.PingInterval = new TimeSpan(0, 0, 5000);
             connection.AuthenticationProvider = new AzureSignalRServiceAuthenticator(connection);
         }
@@ -48,14 +45,14 @@ namespace SocialEdge.Communication
         public  void Send(string receiverId)
         {
             Thread.Sleep(2000);
-            var request = new HTTPRequest(new Uri(AZURE_TITLE_URL + "/addToGroup"), HTTPMethods.Post);
+            var request = new HTTPRequest(new Uri(Configurations.AzuerUrl + "/addToGroup"), HTTPMethods.Post);
             request.AddHeader("Content-Type", "application/json");
             string json = LitJson.JsonMapper.ToJson(new Group { user = connection.userOptions.UserId, name = "Gamegroup" });
             request.RawData = System.Text.Encoding.UTF8.GetBytes(json);
             request.Send();
 
             Thread.Sleep(2000);
-            var request2 = new HTTPRequest(new Uri(AZURE_TITLE_URL + "/messages"), HTTPMethods.Post);
+            var request2 = new HTTPRequest(new Uri(Configurations.AzuerUrl + "/messages"), HTTPMethods.Post);
             request2.AddHeader("Content-Type", "application/json");
             string json2 = LitJson.JsonMapper.ToJson(new TestMessage { sender = "Bob", text = "something" });
             request2.RawData = System.Text.Encoding.UTF8.GetBytes(json2);

@@ -21,15 +21,16 @@ public class SocialEdgeMethodRunner
     public void SocialEdge_Login_Success()
     {
         Action<SocialEdgeBackendLoginResponse> target = LoginSuccessCallBack;
-        new SocialEdgeBackendLoginRequest().SetSuccessCallback(target).GetBasicInfo()
-                 .Send();
+        var req = new SocialEdgeBackendLoginRequest().SetSuccessCallback(target).SetFailureCallback(target).GetBasicInfo();
+        req.Send();
+        var a = 123;
     }
 
 
     public void LoginSuccessCallBack(SocialEdgeBackendLoginResponse resp)
     {
         Debug.Log("login callback");
-        SocialEdge_AddFriend_Success(friendId);
+       // SocialEdge_AddFriend_Success(friendId);
     }
 
     /// <summary>

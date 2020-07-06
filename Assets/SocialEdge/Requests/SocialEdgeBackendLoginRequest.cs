@@ -90,16 +90,9 @@ namespace SocialEdge.Requests
             };
             PlayFabClientAPI.LoginWithIOSDeviceID(iosRequest, OnSuccess, OnFailure);
 #endif            
-            //PlayFabClientAPI.RegisterForIOSPushNotifica
-            //LoginWithCustomIDRequest hrequest = new LoginWithCustomIDRequest
-            //{
-
-            //    CustomId = "user0",
-            //    CreateAccount = false
-            //};
-
-            //PlayFabClientAPI.LoginWithCustomID(hrequest, OnSuccess, OnFailure);
         }
+
+
 
         private void OnSuccess(LoginResult result)
         {
@@ -138,6 +131,6 @@ namespace SocialEdge.Requests
 	    }
 
         
-        }
-
     }
+
+}

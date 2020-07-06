@@ -18,7 +18,7 @@ PlayerSettings:
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
-  m_ShowUnitySplashLogo: 0
+  m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
   m_SplashScreenAnimation: 1
   m_SplashScreenLogoStyle: 1
@@ -963,7 +963,7 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: CT_OC
-    4: CT_OC;SUBSCRIPTION_TEST
+    4: CT_OC;SUBSCRIPTION_TEST;ENABLE_PLAYFABSERVER_API
     7: CT_OC;SUBSCRIPTION_TEST
     13: CT_OC
     14: CT_OC
