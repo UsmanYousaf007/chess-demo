@@ -9,7 +9,6 @@
 /// 
 /// @description
 /// [add_description_here]
-using HUF.AuthSIWA.Runtime.API;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
@@ -42,11 +41,6 @@ namespace TurboLabz.InstantFramework
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 appEscapeSignal.Dispatch();
-            }
-
-            if (HAuthSIWA.Service.ServiceComponent != null)
-            {
-                HAuthSIWA.Service.ServiceComponent.Update();
             }
         }
             

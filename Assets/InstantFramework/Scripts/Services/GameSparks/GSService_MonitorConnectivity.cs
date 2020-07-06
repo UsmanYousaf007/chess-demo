@@ -155,7 +155,7 @@ namespace TurboLabz.InstantFramework
                 string fbAccessToken = facebookService.GetAccessToken();
                 if (fbAccessToken == null)
                 {
-                    AuthGuest().Then(ProcessHardReconnection);
+                    AuthGuest().Then(OnAuthComplete);
                 }
                 else
                 {
