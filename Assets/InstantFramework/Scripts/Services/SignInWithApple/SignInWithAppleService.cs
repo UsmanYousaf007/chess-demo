@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnLogin(string name, bool success)
         {
+            HAuthSIWA.Service.OnSignIn -= OnLogin;
             promise.Dispatch(success, HAuthSIWA.AuthorizationCode);
             promise = null;
         }
