@@ -134,6 +134,7 @@ namespace HUF.AuthSIWA.Runtime.Implementation
         void OnSignInComplete(SignInWithApple.CallbackArgs args)
         {
             userInfo = args.userInfo;
+            userInfo.userDetectionStatus = UserDetectionStatus.LikelyReal;
             HPlayerPrefs.SetString( AUTH_SIWA_USER_INFO_KEY, JsonUtility.ToJson( userInfo ) );
             HLog.Log( prefix, "Authentication succeed." );
             OnSignIn.Dispatch( Name, true );
