@@ -28,11 +28,11 @@ namespace TurboLabz.InstantFramework
             signInWithAppleService.Login().Then(OnSignInWithAppleComplete);
         }
 
-        private void OnSignInWithAppleComplete(bool success, string tokenId)
+        private void OnSignInWithAppleComplete(bool success, string authorizationCode)
         {
             if (success)
             {
-                backendService.AuthSignInWithApple(tokenId, false).Then(OnAuthSignInWithAppleComplete);
+                backendService.AuthSignInWithApple(authorizationCode, false).Then(OnAuthSignInWithAppleComplete);
             }
             else
             {
@@ -44,13 +44,22 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                if (string.IsNullOrEmpty(playerModel.editedName))
+                var displayName = signInWithAppleService.GetDisplayName();
+
+                if (!string.IsNullOrEmpty(displayName))
                 {
-                    backendService.SetPlayerSocialName(signInWithAppleService.GetDisplayName()).Then(OnAuthConcluded);
+                    if (string.IsNullOrEmpty(playerModel.editedName))
+                    {
+                        backendService.SetPlayerSocialName(displayName).Then(OnAuthConcluded);
+                    }
+                    else
+                    {
+                        backendService.SetPlayerSocialName(playerModel.editedName).Then(OnAuthConcluded);
+                    }
                 }
                 else
                 {
-                    backendService.SetPlayerSocialName(playerModel.editedName).Then(OnAuthConcluded);
+                    CommandEnd(true);
                 }
             }
             else
