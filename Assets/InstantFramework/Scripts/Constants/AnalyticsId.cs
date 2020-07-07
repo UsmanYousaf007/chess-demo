@@ -102,7 +102,18 @@ namespace TurboLabz.InstantFramework
         elo,
 
         //match end distribution
-        match_end
+        match_end,
+
+        //FTUE funnel
+        ftue_app_launch,
+        ftue_gdpr,
+        ftue_skill_level_dlg,
+        ftue_intstall_popup,
+        ftue_lobby,
+
+        //early inidicator
+        install_game_count,
+        install_game_fav_mode
     }
 
     public enum AnalyticsContext
@@ -202,6 +213,5 @@ namespace TurboLabz.InstantFramework
         seconds,
         num_facebook_friends
     }
-
 }
 
