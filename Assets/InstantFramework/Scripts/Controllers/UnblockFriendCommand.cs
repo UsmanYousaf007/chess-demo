@@ -36,10 +36,6 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 manageBlockedFriendsSignal.Dispatch(string.Empty, false);
-                addFriendsSignal.Dispatch(playerModel.friends, FriendCategory.FRIEND);
-                updateFriendBarSignal.Dispatch(playerModel.friends[friendId], friendId);
-                getSocialPicsSignal.Dispatch(playerModel.friends);
-                sortFriendsSignal.Dispatch();
             }
 
             Release();
