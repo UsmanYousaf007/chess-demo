@@ -15,6 +15,9 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public SignOutSocialAccountSignal signOutSocialAccountSignal { get; set; }
 
+        //Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         IPromise<bool, string> promise;
         bool isInitliazed = false;
 
@@ -66,6 +69,11 @@ namespace TurboLabz.InstantFramework
             if (!IsSupported())
             {
                 return;
+            }
+
+            if (HAuthSIWA.Service.IsSignedIn)
+            {
+                analyticsService.Event(AnalyticsEventId.session_apple_id);
             }
 
             HAuthSIWA.Service.OnSignOutComplete += OnSignOut;

@@ -46,7 +46,6 @@ namespace TurboLabz.InstantFramework
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.newUser = (bool)response.NewPlayer;
-            analyticsService.Event(AnalyticsEventId.session_guest);
         }
 
         private void onFacebookAuthSuccess(object r)
