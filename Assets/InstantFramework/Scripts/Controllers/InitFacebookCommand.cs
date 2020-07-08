@@ -42,25 +42,18 @@ namespace TurboLabz.InstantFramework
             if ((result == FacebookResult.SUCCESS) && facebookService.isLoggedIn())
             {
                 backendService.AuthFacebook(facebookService.GetAccessToken(), true).Then(OnFacebookAuthComplete);
-                analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, playerModel.GetSocialFriendsCount());
             }
             else
             {
-                if (signInWithAppleService.IsSignedIn())
-                {
-                    analyticsService.Event(AnalyticsEventId.session_apple_id);
-                }
-                else
-                {
-                    analyticsService.Event(AnalyticsEventId.session_guest);
-                }
-
+                LogSessionAnalytics();
                 Release();
             }
         }
 
         private void OnFacebookAuthComplete(BackendResult result)
         {
+            analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, playerModel.GetSocialFriendsCount());
+
             if (result == BackendResult.SUCCESS)
             {
                 facebookService.GetSocialPic(facebookService.GetFacebookId(), playerModel.id).Then(OnGetSocialPic);
@@ -92,5 +85,16 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
+        void LogSessionAnalytics()
+        {
+            if (signInWithAppleService.IsSignedIn())
+            {
+                analyticsService.Event(AnalyticsEventId.session_apple_id);
+            }
+            else
+            {
+                analyticsService.Event(AnalyticsEventId.session_guest);
+            }
+        }
     }
 }
