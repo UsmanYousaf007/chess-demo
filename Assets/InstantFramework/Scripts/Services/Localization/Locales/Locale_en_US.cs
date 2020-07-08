@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.MIN1_GAME_TEXT, "1 Min" },
                 { LocalizationKey.MIN5_GAME_TEXT, "5 Min" },
                 { LocalizationKey.MIN10_GAME_TEXT, "10 Min" },
+                { LocalizationKey.MIN30_GAME_TEXT, "30 Min" },
                 { LocalizationKey.ON_TEXT, "On" },
                 { LocalizationKey.OFF_TEXT, "Off" },
                 { LocalizationKey.ACCEPT_TEXT, "Accept" },
