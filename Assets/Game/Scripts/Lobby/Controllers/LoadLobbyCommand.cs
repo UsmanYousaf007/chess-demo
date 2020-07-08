@@ -37,7 +37,6 @@ namespace TurboLabz.InstantGame
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -62,7 +61,6 @@ namespace TurboLabz.InstantGame
             else
             {
                 friendsShowConnectFacebookSignal.Dispatch(true);
-                analyticsService.Event(AnalyticsEventId.session_guest);
             }
 
             // Update the timers on the bars

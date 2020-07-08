@@ -8,6 +8,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -61,6 +62,8 @@ namespace TurboLabz.InstantFramework
                 {
                     CommandEnd(true);
                 }
+
+                analyticsService.Event(AnalyticsEventId.session_apple_id);
             }
             else
             {

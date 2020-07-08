@@ -71,11 +71,6 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (HAuthSIWA.Service.IsSignedIn)
-            {
-                analyticsService.Event(AnalyticsEventId.session_apple_id);
-            }
-
             HAuthSIWA.Service.OnSignOutComplete += OnSignOut;
         }
 
