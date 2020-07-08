@@ -21,6 +21,8 @@ namespace TurboLabz.InstantFramework
         public Text confirmFriendly5MinGameBtnText;
         public Button confirmFriendly10MinGameBtn;
         public Text confirmFriendly10MinGameBtnText;
+        public Button confirmFriendly30MinGameBtn;
+        public Text confirmFriendly30MinGameBtnText;
         public Button ToggleRankButton;
         public GameObject ToggleRankON;
         public GameObject ToggleRankOFF;
@@ -28,8 +30,15 @@ namespace TurboLabz.InstantFramework
         public Text opponentActivityText;
         public GameObject premiumBorder;
         public Text startGameText;
+        public Button tooltipBtn;
+        public GameObject tooltip;
 
         [HideInInspector] public bool toggleRankButtonState;
         [HideInInspector] public string playerId;
+
+        private void OnEnable()
+        {
+            tooltip.SetActive(false);
+        }
     }
 }

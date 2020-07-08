@@ -206,6 +206,7 @@ namespace TurboLabz.InstantFramework
             startGameConfirmationDlg.confirmFriendly1MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN1_GAME_TEXT);
             startGameConfirmationDlg.confirmFriendly5MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
             startGameConfirmationDlg.confirmFriendly10MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
+            startGameConfirmationDlg.confirmFriendly30MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN30_GAME_TEXT);
 
             startGameConfirmationDlg.startGameText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_START_GAME);
             startGameConfirmationDlg.confirmRankedGameBtn.onClick.AddListener(ConfirmRankedGameBtnClicked);
@@ -213,6 +214,9 @@ namespace TurboLabz.InstantFramework
             startGameConfirmationDlg.confirmFriendly1MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge1.ToString()); });
             startGameConfirmationDlg.confirmFriendly5MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge.ToString()); });
             startGameConfirmationDlg.confirmFriendly10MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge10.ToString()); });
+            startGameConfirmationDlg.confirmFriendly30MinGameBtn.onClick.AddListener(delegate { ConfirmFriendlyGameBtnClicked(FindMatchAction.ActionCode.Challenge30.ToString()); });
+
+            startGameConfirmationDlg.tooltipBtn.onClick.AddListener(delegate { ToolTipBtnClicked(); });
 
             startGameConfirmationDlg.confirmGameCloseBtn.onClick.AddListener(ConfirmNewGameDlgNo);
             startGameConfirmationDlg.ToggleRankButton.onClick.AddListener(OnToggleRankButtonClicked);
@@ -1146,6 +1150,11 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState, actionCode);
+        }
+
+        void ToolTipBtnClicked()
+        {
+            startGameConfirmationDlg.tooltip.SetActive(!startGameConfirmationDlg.tooltip.activeSelf);
         }
 
         void ConfirmNewGameDlgNo()
