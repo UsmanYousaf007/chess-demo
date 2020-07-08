@@ -51,6 +51,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public string chatOnDiscordURL
+        {
+            get
+            {
+                return "https://discord.gg/QUuudB4";
+            }
+        }
+
         enum subVersionIndex
         {
             MAJOR = 0,
