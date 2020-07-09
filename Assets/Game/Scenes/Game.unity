@@ -15016,7 +15016,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1771304492}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -16008,7 +16008,7 @@ RectTransform:
   m_Children:
   - {fileID: 907295633}
   m_Father: {fileID: 1771304492}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -55044,7 +55044,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1771304492}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -77384,7 +77384,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224843664588895068}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -93936,6 +93936,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1613702126}
   m_CullTransparentMesh: 0
+--- !u!1 &1613768041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1613768042}
+  m_Layer: 5
+  m_Name: dummy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1613768042
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613768041}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2080123480}
+  m_Father: {fileID: 1771304492}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -72, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1616258616
 GameObject:
   m_ObjectHideFlags: 0
@@ -104128,6 +104164,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000119, y: 1.0000119, z: 1.0000119}
   m_Children:
+  - {fileID: 1613768042}
   - {fileID: 1875413639}
   - {fileID: 957237421}
   - {fileID: 246001051}
@@ -104138,7 +104175,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -88.62891, y: 5.28}
-  m_SizeDelta: {x: 20, y: 28}
+  m_SizeDelta: {x: 153, y: 28}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1771304493
 MonoBehaviour:
@@ -104243,7 +104280,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 0.7
-  m_Text: ??
+  m_Text: Select Theme
 --- !u!222 &1771304496
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -112042,7 +112079,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1771304492}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -122697,18 +122734,18 @@ RectTransform:
   m_GameObject: {fileID: 2080123479}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000141, y: 1.0000141, z: 1.0000141}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 970216111}
   - {fileID: 1694971209}
-  m_Father: {fileID: 224843664588895068}
-  m_RootOrder: 7
+  m_Father: {fileID: 1613768042}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100.45144, y: 10.1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: -91.2, y: 4}
   m_SizeDelta: {x: 255.1, y: 106}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &2080123481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127199,7 +127236,6 @@ RectTransform:
   - {fileID: 1988397443}
   - {fileID: 1771304492}
   - {fileID: 1324535949}
-  - {fileID: 2080123480}
   - {fileID: 1338495350}
   m_Father: {fileID: 2052948977}
   m_RootOrder: 3
