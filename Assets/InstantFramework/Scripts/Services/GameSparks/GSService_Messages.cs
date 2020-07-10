@@ -116,7 +116,7 @@ namespace TurboLabz.InstantFramework
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_OPPONENT_PINGED_MESSAGE)
             {
                 string challengeId = message.Data.GetString("challengeId");
-                int timer = (int)message.Data.GetInt("timerCount");
+                int timer = (int)message.Data.GetInt("pingTimerSec");
 
                 if (challengeId == matchInfoModel.activeChallengeId)
                 {
