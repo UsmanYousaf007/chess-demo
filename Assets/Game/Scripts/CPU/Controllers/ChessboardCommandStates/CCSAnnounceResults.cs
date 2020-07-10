@@ -100,6 +100,7 @@ namespace TurboLabz.CPU
             cmd.preferencesModel.gameFinishedCount++;
             cmd.hAnalyticsService.LogCpuGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", "cpu_match");
             cmd.appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount);
+            cmd.gameModesAnalyticsService.ProcessGameCount();
         }
 
         public override CCS HandleEvent(ChessboardCommand cmd)

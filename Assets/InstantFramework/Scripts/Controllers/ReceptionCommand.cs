@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
+        [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
 
         public override void Execute()
         {
@@ -134,12 +135,8 @@ namespace TurboLabz.InstantFramework
 
             if (daysBetweenLastLogin >= 1)
             {
-                analyticsService.Event("cpu_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentCpuMatch));
-                analyticsService.Event("classic_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentLongMatch));
-                analyticsService.Event("1m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mMatch));
-                analyticsService.Event("5m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mMatch));
-                analyticsService.Event("10m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mMatch));
-                analyticsService.Event("30m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent30mMatch));
+                gameModesAnalyticsService.LogTimeSpent();
+                gameModesAnalyticsService.LogInstallDayData();
                 preferencesModel.ResetDailyPrefers();
             }
 

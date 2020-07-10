@@ -3,12 +3,12 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
 using strange.extensions.context.api;
 using strange.extensions.context.impl;
 using TurboLabz.Chess;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
+using UnityEngine;
 
 
 namespace TurboLabz.InstantFramework
@@ -204,6 +204,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IRateAppService>().To<RateAppService>().ToSingleton();
             injectionBinder.Bind<IAppsFlyerService>().To<AppsFlyerService>().ToSingleton();
             injectionBinder.Bind<IAutoSubscriptionDailogueService>().To<AutoSubscriptionDailogueService>().ToSingleton();
+            injectionBinder.Bind<IGameModesAnalyticsService>().To<GameModesAnalyticsService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();

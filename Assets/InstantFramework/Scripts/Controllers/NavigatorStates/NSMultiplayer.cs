@@ -22,30 +22,7 @@ namespace TurboLabz.InstantFramework
         {
             var matchInfo = cmd.matchInfoModel.activeMatch == null ? cmd.matchInfoModel.lastCompletedMatch : cmd.matchInfoModel.activeMatch;
             var timeSpent = (cmd.backendService.serverClock.currentTimestamp - timeAtScreenShown) / 1000;
-
-            if (matchInfo != null)
-            {
-                if (matchInfo.isLongPlay)
-                {
-                    cmd.preferencesModel.timeSpentLongMatch += timeSpent;
-                }
-                else if (matchInfo.isTenMinGame)
-                {
-                    cmd.preferencesModel.timeSpent10mMatch += timeSpent;
-                }
-                else if (matchInfo.isOneMinGame)
-                {
-                    cmd.preferencesModel.timeSpent1mMatch += timeSpent;
-                }
-                else if (matchInfo.isThirtyMinGame)
-                {
-                    cmd.preferencesModel.timeSpent30mMatch += timeSpent;
-                }
-                else
-                {
-                    cmd.preferencesModel.timeSpent5mMatch += timeSpent;
-                }
-            }
+            cmd.gameModesAnalyticsService.ProcessTimeSpent(timeSpent, matchInfo);
 
             if (evt == NavigatorEvent.SHOW_MULTIPLAYER_EXIT_DLG)
             {

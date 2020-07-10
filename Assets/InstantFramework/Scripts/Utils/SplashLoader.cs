@@ -77,11 +77,11 @@ public class SplashLoader : MonoBehaviour {
         GameAnalytics.NewDesignEvent(evt.ToString());
 
 #if UNITY_EDITOR
-        var suffix = "[EDITOR_ANALYTICS]";
+        var prefix = "[EDITOR_ANALYTICS]";
 #else
-        var suffix = "[TLANALYTICS]";
+        var prefix = "[TLANALYTICS]";
 #endif
 
-        LogUtil.Log($"{suffix} {evt}", "yellow");
+        LogUtil.Log($"{prefix} {evt}", "yellow");
     }
 }

@@ -218,6 +218,8 @@ namespace TurboLabz.InstantFramework
                         analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
                     }
                 }
+
+                gameModesAnalyticsService.ProcessGameCount(matchInfo);
             }            
             #endregion
 
