@@ -109,11 +109,11 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(OpponentPingedForConnectionSignal))]
-        public void OnOpponentPingedForConnection(bool isAck)
+        public void OnOpponentPingedForConnection(bool isAck, int timer)
         {
             if (gameObject.activeSelf)
             {
-                view.EnableOpponentConnectionMonitor(!isAck);
+                view.EnableOpponentConnectionMonitor(!isAck, timer);
             }
         }
 

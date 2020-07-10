@@ -157,7 +157,17 @@ namespace TurboLabz.Multiplayer
             matchTypeObject.SetActive(true);
         }
 
-        public void EnableOpponentConnectionMonitor(bool isEnable)
+        IEnumerator AutoResignCountdown(int startTimer)
+        {
+            int countdownTimer = startTimer;
+            while (countdownTimer > 0) {
+                opponentConnectionMonitorLabel.text = "Auto resign in " + countdownTimer + " secs";
+                yield return new WaitForSeconds(1);
+                countdownTimer--;
+            }
+        }
+
+        public void EnableOpponentConnectionMonitor(bool isEnable, int timer)
         {
             //matchTypeObject.SetActive(false);
             if (opponentConnectionMonitorCR != null)
@@ -169,6 +179,7 @@ namespace TurboLabz.Multiplayer
             if (isEnable)
             {
                 opponentConnectionMonitorLabel.gameObject.SetActive(true);
+                StartCoroutine(AutoResignCountdown(timer));
             }
             else
             {
