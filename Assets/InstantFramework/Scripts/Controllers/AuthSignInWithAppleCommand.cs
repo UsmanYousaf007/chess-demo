@@ -8,6 +8,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -28,11 +29,11 @@ namespace TurboLabz.InstantFramework
             signInWithAppleService.Login().Then(OnSignInWithAppleComplete);
         }
 
-        private void OnSignInWithAppleComplete(bool success, string tokenId)
+        private void OnSignInWithAppleComplete(bool success, string authorizationCode)
         {
             if (success)
             {
-                backendService.AuthSignInWithApple(tokenId, false).Then(OnAuthSignInWithAppleComplete);
+                backendService.AuthSignInWithApple(authorizationCode, false).Then(OnAuthSignInWithAppleComplete);
             }
             else
             {
@@ -44,14 +45,25 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                if (string.IsNullOrEmpty(playerModel.editedName))
+                var displayName = signInWithAppleService.GetDisplayName();
+
+                if (!string.IsNullOrEmpty(displayName))
                 {
-                    backendService.SetPlayerSocialName(signInWithAppleService.GetDisplayName()).Then(OnAuthConcluded);
+                    if (string.IsNullOrEmpty(playerModel.editedName))
+                    {
+                        backendService.SetPlayerSocialName(displayName).Then(OnAuthConcluded);
+                    }
+                    else
+                    {
+                        backendService.SetPlayerSocialName(playerModel.editedName).Then(OnAuthConcluded);
+                    }
                 }
                 else
                 {
-                    backendService.SetPlayerSocialName(playerModel.editedName).Then(OnAuthConcluded);
+                    CommandEnd(true);
                 }
+
+                analyticsService.Event(AnalyticsEventId.session_apple_id);
             }
             else
             {

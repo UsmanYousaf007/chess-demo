@@ -46,7 +46,6 @@ namespace TurboLabz.InstantFramework
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.newUser = (bool)response.NewPlayer;
-            analyticsService.Event(AnalyticsEventId.session_guest);
         }
 
         private void onFacebookAuthSuccess(object r)
@@ -56,8 +55,6 @@ namespace TurboLabz.InstantFramework
 
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
-
-            analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, playerModel.GetSocialFriendsCount());
         }
 
         private void onSignInWithAppleAuthSuccess(object r)
@@ -67,7 +64,6 @@ namespace TurboLabz.InstantFramework
 
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
-            analyticsService.Event(AnalyticsEventId.session_apple_id);
         }
 
         private void onEmailAuthSuccess(object r)

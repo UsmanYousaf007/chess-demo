@@ -15,6 +15,9 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public SignOutSocialAccountSignal signOutSocialAccountSignal { get; set; }
 
+        //Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         IPromise<bool, string> promise;
         bool isInitliazed = false;
 
