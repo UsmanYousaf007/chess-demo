@@ -186,7 +186,7 @@ namespace TurboLabz.Multiplayer
 
             if (isEnable)
             {
-                if (timer <= opponentTimer.Seconds)
+                if (timer <= opponentTimer.TotalSeconds)
                 {
                     opponentConnectionMonitorLabel.gameObject.SetActive(true);
                     opponentAutoResignCR = StartCoroutine(AutoResignCountdown(timer));
