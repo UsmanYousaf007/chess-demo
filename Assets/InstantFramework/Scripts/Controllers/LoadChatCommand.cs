@@ -103,11 +103,14 @@ namespace TurboLabz.InstantFramework
                 var activeMatch = GetActiveMatchWithOpponent();
                 if (activeMatch != null)
                 {
-                    vo.isChatEnabled &= !activeMatch.isLongPlay || activeMatch.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED;
+                    vo.isChatEnabled = !activeMatch.isLongPlay ||
+                        activeMatch.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED ||
+                        opponentProfile.friendType == Friend.FRIEND_TYPE_SOCIAL;
                 }
                 else if (matchInfoModel.lastCompletedMatch != null)
                 {
-                    vo.isChatEnabled &= matchInfoModel.lastCompletedMatch.opponentPublicProfile.playerId.Equals(opponentId);
+                    vo.isChatEnabled = matchInfoModel.lastCompletedMatch.opponentPublicProfile.playerId.Equals(opponentId) ||
+                                       opponentProfile.friendType == Friend.FRIEND_TYPE_SOCIAL;
                 }
                 else
                 {

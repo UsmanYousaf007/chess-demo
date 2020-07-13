@@ -33,6 +33,7 @@ public class AudioList : MonoBehaviour
     public AudioClip SFX_VICTORY;
     public AudioClip SFX_SHOP_PURCHASE_ITEM;
     public AudioClip SFX_REWARD_UNLOCKED;
+    public AudioClip SFX_CLOCK_WARNING;
 
     // Dispatch Signal
     public Signal playStandardClickSignal = new Signal();

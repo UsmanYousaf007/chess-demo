@@ -45,12 +45,12 @@ namespace TurboLabz.InstantFramework
         {
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                wifiWarning.text = "No internet connection";
+                wifiWarning.text = "No Internet";
                 userMessage.text = "Please check your internet connection";
             }
             else
             {
-                wifiWarning.text = "Connecting to server...";
+                wifiWarning.text = "Connecting...";
             }
 
             analyticsService.Event(AnalyticsEventId.internet_warning_on_splash);
