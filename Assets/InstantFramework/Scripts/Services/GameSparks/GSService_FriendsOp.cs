@@ -89,11 +89,6 @@ namespace TurboLabz.InstantFramework
             string unblockedId = response.ScriptData.GetString(GSBackendKeys.FriendsOp.UNBLOCK);
             if (unblockedId != null)
             {
-                Friend friend = playerModel.blocked[unblockedId];
-                friend.friendType = GSBackendKeys.Friend.TYPE_FAVOURITE;
-                GSData publicProfileData = response.ScriptData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
-                GSParser.PopulatePublicProfile(friend.publicProfile, publicProfileData, unblockedId);
-                playerModel.friends.Add(unblockedId, friend);
                 playerModel.blocked.Remove(unblockedId);
             }
 

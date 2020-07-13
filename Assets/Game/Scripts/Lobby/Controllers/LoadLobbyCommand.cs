@@ -33,6 +33,7 @@ namespace TurboLabz.InstantGame
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
@@ -54,7 +55,7 @@ namespace TurboLabz.InstantGame
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
 
-            if (facebookService.isLoggedIn())
+            if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {
                 friendsShowConnectFacebookSignal.Dispatch(false);
             }
@@ -110,6 +111,8 @@ namespace TurboLabz.InstantGame
             pvo.eloScore = playerModel.eloScore;
             pvo.countryId = playerModel.countryId;
             pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
+            pvo.isAppleSignedIn = signInWithAppleService.IsSignedIn();
+            pvo.isAppleSignInSupported = signInWithAppleService.IsSupported();
             pvo.playerId = playerModel.id;
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;

@@ -71,6 +71,7 @@ namespace TurboLabz.InstantFramework
 
             // Bind signals to social commands
             commandBinder.Bind<AuthFaceBookSignal>().To<AuthFacebookCommand>();
+            commandBinder.Bind<AuthSignInWithAppleSignal>().To<AuthSignInWithAppleCommand>();
             commandBinder.Bind<RefreshCommunitySignal>().To<RefreshCommunityCommand>();
             commandBinder.Bind<SearchFriendSignal>().To<SearchFriendCommand>();
             commandBinder.Bind<UpdateSearchResultsSignal>().To<UpdateSearchResultsCommand>();
@@ -110,6 +111,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetInitDataCompleteSignal>().ToSingleton();
             injectionBinder.Bind<GetInitDataFailedSignal>().ToSingleton();
             injectionBinder.Bind<AuthFacebookResultSignal>().ToSingleton();
+            injectionBinder.Bind<AuthSignInWithAppleResultSignal>().ToSingleton();
+            injectionBinder.Bind<SignOutSocialAccountSignal>().ToSingleton();
             injectionBinder.Bind<SetErrorAndHaltSignal>().ToSingleton();
             injectionBinder.Bind<FindMatchCompleteSignal>().ToSingleton();
             injectionBinder.Bind<FindRandomLongMatchCompleteSignal>().ToSingleton();
@@ -196,6 +199,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
+            injectionBinder.Bind<ISignInWithAppleService>().To<SignInWithAppleService>().ToSingleton();
             injectionBinder.Bind<IPushNotificationService>().To<FirebasePushNotificationService>().ToSingleton();
             injectionBinder.Bind<IRateAppService>().To<RateAppService>().ToSingleton();
             injectionBinder.Bind<IAppsFlyerService>().To<AppsFlyerService>().ToSingleton();

@@ -44,6 +44,8 @@ namespace TurboLabz.Multiplayer
         private TimeSpan opponentTimer;
         private float clockSpeed;
 
+        private TimeSpan prevPlayerTimer;
+
         private const double clockEmergencyThresholdSeconds = 10;
         private Coroutine flashClocksCR = null;
         private bool flashToggle = false;
@@ -80,6 +82,7 @@ namespace TurboLabz.Multiplayer
             opponentTimer = vo.opponentTimer;
             playerClockLabel.text = TimeUtil.FormatPlayerClock(playerTimer);
             opponentClockLabel.text = TimeUtil.FormatPlayerClock(opponentTimer);
+            prevPlayerTimer = new TimeSpan(0);
 
             playerClockFill.fillAmount =(float)(playerTimer.TotalSeconds / startingTimer.TotalSeconds);
             opponentClockFill.fillAmount = (float)(opponentTimer.TotalSeconds / startingTimer.TotalSeconds);
@@ -116,6 +119,13 @@ namespace TurboLabz.Multiplayer
 
         public void TickPlayerTimer(TimeSpan playerTimer)
         {
+            if (prevPlayerTimer.TotalSeconds != 0 &&
+                prevPlayerTimer.TotalSeconds > clockEmergencyThresholdSeconds &&
+                playerTimer.TotalSeconds <= clockEmergencyThresholdSeconds)
+            {
+                audioService.Play(audioService.sounds.SFX_CLOCK_WARNING);
+            }
+            prevPlayerTimer = playerTimer;
             this.playerTimer = playerTimer;
             playerClockLabel.text = TimeUtil.FormatPlayerClock(playerTimer);
             SetPlayerTimerActiveColors();

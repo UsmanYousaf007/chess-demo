@@ -31,7 +31,8 @@ namespace TurboLabz.InstantGame
         public Button facebookButton;
         public Text facebookButtonLabel;
         public GameObject facebookConnectAnim;
-
+        public Button signInWithAppleButton;
+        public Text signInWithAppleLabel;
         public Sprite defaultAvatar;
         public Sprite whiteAvatar;
         public Image profilePic;
@@ -51,13 +52,19 @@ namespace TurboLabz.InstantGame
 
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal profilePicButtonClickedSignal = new Signal();
-
+        public Signal signInWithAppleClicked = new Signal();
+        
         public void Init()
         {
             if (facebookButton != null)
             {
                 facebookButton.onClick.AddListener(OnFacebookButtonClicked);
                 facebookConnectAnim.SetActive(false);
+            }
+
+            if (signInWithAppleButton != null)
+            {
+                signInWithAppleButton.onClick.AddListener(OnSignInWithAppleClicked);
             }
 
             profilePicButton.onClick.AddListener(OnProfilePicButtonClicked);
@@ -71,6 +78,11 @@ namespace TurboLabz.InstantGame
             {
                 facebookButton.onClick.RemoveAllListeners();
             }
+
+            if (signInWithAppleButton != null)
+            {
+                signInWithAppleButton.onClick.RemoveAllListeners();
+            }
         }
 
         public void UpdateView(ProfileVO vo)
@@ -80,16 +92,27 @@ namespace TurboLabz.InstantGame
                 facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
             }
 
+            if (signInWithAppleLabel != null)
+            {
+                signInWithAppleLabel.text = localizationService.Get(LocalizationKey.SIGN_IN);
+            }
+
             profileName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
             playerId = vo.playerId;
             SetProfilePic(vo);
 
+            var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
             if (facebookButton != null)
             {
-                facebookButton.gameObject.SetActive(!vo.isFacebookLoggedIn);
+                facebookButton.gameObject.SetActive(showLoginButton);
                 facebookConnectAnim.SetActive(false);
+            }
+
+            if (signInWithAppleButton != null)
+            {
+                signInWithAppleButton.gameObject.SetActive(vo.isAppleSignInSupported && showLoginButton);
             }
         }
 
@@ -105,11 +128,52 @@ namespace TurboLabz.InstantGame
                 {
                     facebookButton.gameObject.SetActive(false);
                 }
+
+                if (signInWithAppleButton != null)
+                {
+                    signInWithAppleButton.gameObject.SetActive(false);
+                }
             }
 
-            if (facebookButton != null)
+            if (facebookConnectAnim != null)
             {
                 facebookConnectAnim.SetActive(false);
+            }
+        }
+
+        public void SignInWithAppleResult(AuthSignInWIthAppleResultVO vo)
+        {
+            if (vo.isSuccessful)
+            {
+                profileName.text = vo.name;
+
+                if (facebookButton != null)
+                {
+                    facebookButton.gameObject.SetActive(false);
+                }
+
+                if (signInWithAppleButton != null)
+                {
+                    signInWithAppleButton.gameObject.SetActive(false);
+                }
+            }
+
+            if (facebookConnectAnim != null)
+            {
+                facebookConnectAnim.SetActive(false);
+            }
+        }
+
+        public void SignOutSocialAccount()
+        {
+            if (facebookButton != null)
+            {
+                facebookButton.gameObject.SetActive(true);
+            }
+
+            if (signInWithAppleButton != null)
+            {
+                signInWithAppleButton.gameObject.SetActive(true);
             }
         }
 
@@ -133,6 +197,11 @@ namespace TurboLabz.InstantGame
             if (facebookButton != null)
             {
                 facebookButton.interactable = toggle;
+            }
+
+            if (signInWithAppleButton != null)
+            {
+                signInWithAppleButton.interactable = toggle;
             }
         }
 
@@ -194,6 +263,12 @@ namespace TurboLabz.InstantGame
         private void OnFacebookButtonClicked()
         {
             facebookButtonClickedSignal.Dispatch();
+            facebookConnectAnim.SetActive(true);
+        }
+
+        private void OnSignInWithAppleClicked()
+        {
+            signInWithAppleClicked.Dispatch();
             facebookConnectAnim.SetActive(true);
         }
 

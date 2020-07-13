@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 16149090
+    totalSpriteSurfaceArea: 16194721
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -84,6 +84,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 960b91b114d4d4de8a15f49bb2087f30, type: 3}
   - {fileID: 21300000, guid: 8bccfab19c807492194b5d766acf6189, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
+  - {fileID: 21300000, guid: 7c4600c189b3f4458b5e558d650067d6, type: 3}
   - {fileID: 21300000, guid: ee4815e1410c2421eb48e1d0984d2387, type: 3}
   - {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
   - {fileID: 21300000, guid: 3fac34f104e5c4dbd978c6c2034d9066, type: 3}
@@ -190,7 +191,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f482a5e71cb314a20942bc9596fe8e93, type: 3}
   - {fileID: 21300000, guid: 86e19218e9f8c4bc197ee60d718ad44d, type: 3}
   - {fileID: 21300000, guid: 70754318efb21480e98e27e1a7a08fde, type: 3}
+  - {fileID: 21300000, guid: 5e3a1918df78740c79848fba00a7c35a, type: 3}
   - {fileID: 21300000, guid: 455caf181f6c44899acc62f654ae9723, type: 3}
+  - {fileID: 21300000, guid: 5d3fc02844995431189cc8064e3f1524, type: 3}
   - {fileID: 21300000, guid: 72252928f6cbc42efbde35fdd5d91b2e, type: 3}
   - {fileID: 21300000, guid: c05faf2831dd74a4f8cf24f5ff587fac, type: 3}
   - {fileID: 21300000, guid: 2ce8304814f1a48b79278d4b6c34d397, type: 3}
@@ -221,6 +224,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2ab5648995f684723aa61105f1c7e2f1, type: 3}
   - {fileID: 21300000, guid: ab6d26a93118d4a1f91a046e75684209, type: 3}
   - {fileID: 21300000, guid: 7c6cd6a9b1bda4683aa271ced9dde8ff, type: 3}
+  - {fileID: 21300000, guid: 2a0b79a9122784097ba9009f874cfe95, type: 3}
   - {fileID: 21300000, guid: b70f67c9e248f46bab17a8ac041088a8, type: 3}
   - {fileID: 21300000, guid: b8f2bfd9e6a48471dadc23fb0072385d, type: 3}
   - {fileID: 21300000, guid: fa3407e9f0e11466591111f2043f377d, type: 3}
@@ -256,6 +260,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6fc5bfebb751d485d99ca3b3d74cb669, type: 3}
   - {fileID: 21300000, guid: f83ec0fb53c42417793b9117ca684ece, type: 3}
   - {fileID: 21300000, guid: 1794a7fbc785543458af439d65b92f54, type: 3}
+  - {fileID: 21300000, guid: 8c1cc70cb2dea4cf3b3da899333b0207, type: 3}
   - {fileID: 21300000, guid: dc1b0a0c18f924600aed6c3ec13a19b8, type: 3}
   - {fileID: 21300000, guid: e0e0ac0c595614d4380fb3340c12f610, type: 3}
   - {fileID: 21300000, guid: 0ab7ba1c888d4440c910f465e5d7892c, type: 3}
@@ -295,6 +300,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5b20f01eeb7b64fe88ed883b3a367071, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8052434e060894b4a92cbc310d430f8e, type: 3}
+  - {fileID: 21300000, guid: 200fb25e4bd2141bbb34a82192f909a6, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
   - {fileID: 21300000, guid: 7220a37e96f94412f9e345436efd82b1, type: 3}
   - {fileID: 21300000, guid: 6a8697be8231c46b395a645b18af4804, type: 3}
@@ -345,6 +351,7 @@ SpriteAtlas:
   - PlusIcon
   - OnboardingCoach
   - PossibleMovesIndicator
+  - GDPRStandardDlg
   - CrossPromoIcon
   - NoStar
   - EmptyBarBg
@@ -451,7 +458,9 @@ SpriteAtlas:
   - PowerUpPlusIcon
   - SubOfferBg
   - StripButton
+  - AppleBtn
   - BlackPixel
+  - GradientBarVert
   - QuickMatchButtonIcon
   - HintIndicator
   - Black
@@ -482,6 +491,7 @@ SpriteAtlas:
   - ComputerIcon
   - ChatBubbleInGameFlip
   - 1
+  - WhiteBtn
   - StripArrow
   - SectionGlow
   - UIBlocker
@@ -517,6 +527,7 @@ SpriteAtlas:
   - SupportIcon
   - CPUThinking
   - RateUsBtn
+  - AppleLogo
   - BtnGlassBg
   - ErrorChess
   - ProfileIcon
@@ -556,6 +567,7 @@ SpriteAtlas:
   - minutesGameButtonCommunity
   - SettingsIcon
   - DrawAcceptBtn
+  - DiscordIcon
   - RewardBtnDefeat
   - PremiumBorderIcon
   - KingCheckIndicator

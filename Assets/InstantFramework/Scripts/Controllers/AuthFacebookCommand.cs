@@ -59,7 +59,6 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 facebookService.GetSocialName().Then(OnSocialName_BackendSetSocialName);
-                analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, playerModel.GetSocialFriendsCount());
             }
             else
             {
@@ -79,7 +78,9 @@ namespace TurboLabz.InstantFramework
                 else
                 {
                     backendService.SetPlayerSocialName(playerModel.editedName).Then(OnBackendSetSocialName_GetFriends);
-                } 
+                }
+
+                analyticsService.Event(AnalyticsEventId.session_facebook, AnalyticsParameter.num_facebook_friends, playerModel.GetSocialFriendsCount());
             }
             else
             {

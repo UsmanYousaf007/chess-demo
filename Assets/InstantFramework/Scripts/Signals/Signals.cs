@@ -39,7 +39,10 @@ namespace TurboLabz.InstantFramework
     public class GetInitDataCompleteSignal : Signal { }
     public class GetInitDataFailedSignal : Signal<BackendResult> { }
     public class AuthFaceBookSignal : Signal { }
+    public class AuthSignInWithAppleSignal : Signal { }
     public class AuthFacebookResultSignal : Signal<AuthFacebookResultVO> { }
+    public class AuthSignInWithAppleResultSignal : Signal<AuthSignInWIthAppleResultVO> { }
+    public class SignOutSocialAccountSignal : Signal { }
     public class UpdateProfileSignal : Signal<ProfileVO> { }
     public class UpdateOpponentProfileSignal : Signal<ProfileVO> { }
     public class UpdateChatOpponentPicSignal : Signal<Sprite> { }
