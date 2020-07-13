@@ -267,6 +267,7 @@ namespace GameSparks.Core
 
 		public int HandshakeOffset {
 			get {
+				return 20000;
 				return _handshakeOffset;
 			}
 			set {

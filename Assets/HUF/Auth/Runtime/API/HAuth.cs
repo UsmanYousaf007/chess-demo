@@ -8,7 +8,7 @@ namespace HUF.Auth.Runtime.API
 {
     public static class HAuth
     {
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HAuth) );
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HAuth) );
         static IAuthModel authModel;
         static IAuthModel AuthModel => authModel ?? (authModel = new AuthModel());
 

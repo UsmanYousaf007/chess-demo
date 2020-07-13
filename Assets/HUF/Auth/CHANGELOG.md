@@ -1,3 +1,7 @@
+## [2.1.0] - 2020-06-26
+### Added
+- Dummy service
+
 ## [2.0.1] - 2020-05-21
 ### Fixed
 - Improved initialization reliability

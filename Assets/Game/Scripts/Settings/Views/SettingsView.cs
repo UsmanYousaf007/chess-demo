@@ -62,6 +62,8 @@ namespace TurboLabz.InstantFramework
         public Button upgradeToPremiumBtn;
         public Text upgradeToPremiumText;
 
+        public Button chatOnDiscordBtn;
+        public Text chatOnDiscordText;
 
         public Button hufShowAdsTestSuite;
 
@@ -101,6 +103,7 @@ namespace TurboLabz.InstantFramework
             termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
             privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
             upgradeToPremiumText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM);
+            chatOnDiscordText.text = localizationService.Get(LocalizationKey.SETTINGS_CHAT_ON_DISCORD);
             personalizedAdsText.text = localizationService.Get(LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS);
             personalisedAdsOnText.text = localizationService.Get(LocalizationKey.ON_TEXT);
             personalisedAdsOffText.text = localizationService.Get(LocalizationKey.OFF_TEXT);
@@ -111,6 +114,7 @@ namespace TurboLabz.InstantFramework
             //Set Button Listeners
             manageSubscriptionBtn.onClick.AddListener(OnManageSubscriptionButtonClicked);
             upgradeToPremiumBtn.onClick.AddListener(OnUpgradeToPremiumButtonClicked);
+            chatOnDiscordBtn.onClick.AddListener(OnChatOnDiscordButtonClicked);
             restorePurchaseBtn.onClick.AddListener(OnRestorePurchaseButtonClicked);
             termsOfUseBtn.onClick.AddListener(OnTermsOfUseButtonClicked);
             privacyPolicyBtn.onClick.AddListener(OnPrivacyPolicyButtonClicked);
@@ -173,6 +177,13 @@ namespace TurboLabz.InstantFramework
         {
             upgradeToPremiumButtonClickedSignal.Dispatch();
             audioService.PlayStandardClick();
+        }
+
+        void OnChatOnDiscordButtonClicked()
+        {
+            hAnalyticsService.LogEvent("clicked", "settings", "", "link_discord");
+            audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.chatOnDiscordURL);
         }
 
         //Personalised Ads Button

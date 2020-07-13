@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
     public enum ExternalAuthType
     {
         FACEBOOK,
-        GOOGLE_PLAY
+        GOOGLE_PLAY,
+        APPLE
     }
 }

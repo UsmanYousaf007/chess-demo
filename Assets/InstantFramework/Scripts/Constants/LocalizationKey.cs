@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
 
         public const string ELO_SCORE = "eloScore";
         public const string FACEBOOK_LOGIN = "facebookLogin";
+        public const string SIGN_IN = "signIn";
         public const string REMOVE_ADS = "removeAds";
         public const string FREE_NO_ADS_PERIOD = "freeNoAdsPeriod";
         public const string FREE_NO_ADS_MINUTES = "freeNoAdsMinutes";
@@ -393,6 +394,7 @@ namespace TurboLabz.InstantFramework
         public const string SETTINGS_SOUND_EFFECT = "settingsSoundEffect";
         public const string SETTINGS_ACCOUNT_TITLE = "settingsAccountTitle";
         public const string SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM = "settingsAccountUpgradeToPremium";
+        public const string SETTINGS_CHAT_ON_DISCORD = "settingsChatOnDiscord";
         public const string SETTINGS_ACCOUNT_PERSONALISED_ADS = "settingsAccountPersonalisedAds";
         public const string SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION = "settingsAccountManageSubscription";
         public const string SETTINGS_ACCOUNT_INFO = "settingsAccountInfo";

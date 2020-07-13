@@ -162,7 +162,7 @@ namespace GameSparks.Core
 		}
 
 		internal static int HandshakeOffset {
-			get { return 2000; }
+			get { return 20000; }
 		}	
 			
 		public static Func<String, String> OnGameSparksNonce { 
