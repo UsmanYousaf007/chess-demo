@@ -11,7 +11,7 @@ namespace TurboLabz.InstantFramework
     public interface IPreferencesModel
     {
         bool isAudioOn { get; set; }
-        int adSlotImpressions { get; set; }    
+        int adSlotImpressions { get; set; }
         long adSlotId { get; set; }
         bool hasRated { get; set; }
         bool isSafeMoveOn { get; set; }
@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
         int coachUsedCount { get; set; }
         int strengthUsedCount { get; set; }
         int promotionCycleIndex { get; set; }
-        DateTime timeAtLobbyLoadedFirstTime { get; set; }
         float timeSpent1mMatch { get; set; }
         float timeSpent5mMatch { get; set; }
         float timeSpent10mMatch { get; set; }
@@ -40,6 +39,17 @@ namespace TurboLabz.InstantFramework
         int rankedMatchesFinishedCount { get; set; }
         bool isAutoSubsriptionDlgShownFirstTime { get; set; }
         bool isFirstRankedGameOfTheDayFinished { get; set; }
+        bool isInstallDayOver { get; set; }
+        int installDayGameCount { get; set; }
+        string installDayFavMode { get; set; }
+        string overallFavMode { get; set; }
+        int favModeCount { get; set; }
+        int gameCount1m { get; set; }
+        int gameCount5m { get; set; }
+        int gameCount10m { get; set; }
+        int gameCount30m { get; set; }
+        int gameCountLong { get; set; }
+        int gameCountCPU { get; set; }
 
         void ResetDailyPrefers();
 

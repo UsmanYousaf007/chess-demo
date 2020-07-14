@@ -30,6 +30,7 @@ namespace TurboLabz.InstantGame
         [Inject] public SetActionCountSignal setActionCountSignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -38,6 +39,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -100,6 +102,14 @@ namespace TurboLabz.InstantGame
                     hAnalyticsService.LogEvent("launch", "launch", appsFlyerId);
                 }
                 SplashLoader.launchCode = 3;
+            }
+
+            if (SplashLoader.FTUE)
+            {
+                subscriptionDlgClosedSignal.AddOnce(() => {
+                    analyticsService.DesignEvent(AnalyticsEventId.ftue_lobby);
+                    SplashLoader.FTUE = false;
+                });
             }
         }
 

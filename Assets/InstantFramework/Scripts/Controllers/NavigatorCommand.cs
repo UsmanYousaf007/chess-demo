@@ -41,11 +41,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public CPU.IChessboardModel cpuChessboardModel { get; set; }
         [Inject] public Multiplayer.IChessboardModel multiplayerChessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
-        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
 		[Inject] public IAndroidNativeService androidNativeService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
 
         public override void Execute()
         {

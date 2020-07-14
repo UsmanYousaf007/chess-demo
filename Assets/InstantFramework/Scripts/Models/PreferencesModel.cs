@@ -32,7 +32,6 @@ namespace TurboLabz.InstantGame
         public int coachUsedCount { get; set; }
         public int strengthUsedCount { get; set; }
         public int promotionCycleIndex { get; set; }
-        public DateTime timeAtLobbyLoadedFirstTime { get; set; }
         public float timeSpent1mMatch { get; set; }
         public float timeSpent5mMatch { get; set; }
         public float timeSpent10mMatch { get; set; }
@@ -61,6 +60,17 @@ namespace TurboLabz.InstantGame
         public int rankedMatchesFinishedCount { get; set; }
         public bool isAutoSubsriptionDlgShownFirstTime { get; set; }
         public bool isFirstRankedGameOfTheDayFinished { get; set; }
+        public bool isInstallDayOver { get; set; }
+        public int installDayGameCount { get; set; }
+        public string installDayFavMode { get; set; }
+        public string overallFavMode { get; set; }
+        public int favModeCount { get; set; }
+        public int gameCount1m { get; set; }
+        public int gameCount5m { get; set; }
+        public int gameCount10m { get; set; }
+        public int gameCount30m { get; set; }
+        public int gameCountLong { get; set; }
+        public int gameCountCPU { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -84,7 +94,6 @@ namespace TurboLabz.InstantGame
             coachUsedCount = 0;
             strengthUsedCount = 0;
             promotionCycleIndex = 0;
-            timeAtLobbyLoadedFirstTime = DateTime.Now;
             lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
             videoFinishedCount = 0;
             continousPlayCount = 0;
@@ -101,6 +110,17 @@ namespace TurboLabz.InstantGame
             autoPromotionToQueen = false;
             rankedMatchesFinishedCount = 0;
             isAutoSubsriptionDlgShownFirstTime = false;
+            isInstallDayOver = false;
+            installDayFavMode = string.Empty;
+            overallFavMode = string.Empty;
+            installDayGameCount = 0;
+            favModeCount = 0;
+            gameCount1m = 0;
+            gameCount5m = 0;
+            gameCount10m = 0;
+            gameCount30m = 0;
+            gameCountLong = 0;
+            gameCountCPU = 0;
             ResetDailyPrefers();
         }
 
@@ -167,11 +187,6 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.PROMOTION_CYCLE_INDEX))
                 {
                     promotionCycleIndex = reader.Read<int>(PrefKeys.PROMOTION_CYCLE_INDEX);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME))
-                {
-                    timeAtLobbyLoadedFirstTime = DateTime.FromBinary(long.Parse(reader.Read<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME)));
                 }
 
                 if (reader.HasKey(PrefKeys.TIME_SPENT_CPU_MATCH))
@@ -309,6 +324,61 @@ namespace TurboLabz.InstantGame
                     isFirstRankedGameOfTheDayFinished = reader.Read<bool>(PrefKeys.FIRST_RANKED_GAME_OF_DAY);
                 }
 
+                if (reader.HasKey(PrefKeys.IS_INSTALL_DAY_OVER))
+                {
+                    isInstallDayOver = reader.Read<bool>(PrefKeys.IS_INSTALL_DAY_OVER);
+                }
+
+                if (reader.HasKey(PrefKeys.INSTALL_DAY_GAME_COUNT))
+                {
+                    installDayGameCount = reader.Read<int>(PrefKeys.INSTALL_DAY_GAME_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.INSTALL_DAY_FAV_MODE))
+                {
+                    installDayFavMode = reader.Read<string>(PrefKeys.INSTALL_DAY_FAV_MODE);
+                }
+
+                if (reader.HasKey(PrefKeys.OVERALL_FAV_MODE))
+                {
+                    overallFavMode = reader.Read<string>(PrefKeys.OVERALL_FAV_MODE);
+                }
+
+                if (reader.HasKey(PrefKeys.FAV_MODE_COUNT))
+                {
+                    favModeCount = reader.Read<int>(PrefKeys.FAV_MODE_COUNT);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_COUNT_1M))
+                {
+                    gameCount1m = reader.Read<int>(PrefKeys.GAME_COUNT_1M);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_COUNT_5M))
+                {
+                    gameCount5m = reader.Read<int>(PrefKeys.GAME_COUNT_5M);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_COUNT_10M))
+                {
+                    gameCount10m = reader.Read<int>(PrefKeys.GAME_COUNT_10M);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_COUNT_30M))
+                {
+                    gameCount30m = reader.Read<int>(PrefKeys.GAME_COUNT_30M);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_COUNT_LONG))
+                {
+                    gameCountLong = reader.Read<int>(PrefKeys.GAME_COUNT_LONG);
+                }
+
+                if (reader.HasKey(PrefKeys.GAME_COUNT_CPU))
+                {
+                    gameCountCPU = reader.Read<int>(PrefKeys.GAME_COUNT_CPU);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -338,7 +408,6 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.COACH_USED_COUNT, coachUsedCount);
                 writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
                 writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
-                writer.Write<string>(PrefKeys.TIME_AT_LOBBY_LOADED_FIRST_TIME, timeAtLobbyLoadedFirstTime.ToBinary().ToString());
                 writer.Write<float>(PrefKeys.TIME_SPENT_1M_MATCH, timeSpent1mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
@@ -366,6 +435,17 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.RANKED_MATCHES_FINISHED_COUNT, rankedMatchesFinishedCount);
                 writer.Write<bool>(PrefKeys.AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME, isAutoSubsriptionDlgShownFirstTime);
                 writer.Write<bool>(PrefKeys.FIRST_RANKED_GAME_OF_DAY, isFirstRankedGameOfTheDayFinished);
+                writer.Write<bool>(PrefKeys.IS_INSTALL_DAY_OVER, isInstallDayOver);
+                writer.Write<int>(PrefKeys.INSTALL_DAY_GAME_COUNT, installDayGameCount);
+                writer.Write<string>(PrefKeys.INSTALL_DAY_FAV_MODE, installDayFavMode);
+                writer.Write<string>(PrefKeys.OVERALL_FAV_MODE, overallFavMode);
+                writer.Write<int>(PrefKeys.FAV_MODE_COUNT, favModeCount);
+                writer.Write<int>(PrefKeys.GAME_COUNT_1M, gameCount1m);
+                writer.Write<int>(PrefKeys.GAME_COUNT_5M, gameCount5m);
+                writer.Write<int>(PrefKeys.GAME_COUNT_10M, gameCount10m);
+                writer.Write<int>(PrefKeys.GAME_COUNT_30M, gameCount30m);
+                writer.Write<int>(PrefKeys.GAME_COUNT_LONG, gameCountLong);
+                writer.Write<int>(PrefKeys.GAME_COUNT_CPU, gameCountCPU);
 
                 writer.Close();
             }

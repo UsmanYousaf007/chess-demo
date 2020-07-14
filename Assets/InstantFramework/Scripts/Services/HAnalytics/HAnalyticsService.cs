@@ -222,7 +222,6 @@ namespace TurboLabz.InstantFramework
             AddDefaultParameters();
             HAnalytics.LogMonetizationEvent(analyticsEvent, AnalyticsServiceName.HBI);
             analyticsEvent = null;
-            GameAnalyticsSDK.GameAnalytics.NewBusinessEvent(data.CurrencyCode, data.Cents, "ad_impression", data.AdapterId, "default");
         }
 
         private void AddDefaultParameters()
