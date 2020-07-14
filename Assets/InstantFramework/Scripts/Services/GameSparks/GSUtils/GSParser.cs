@@ -84,7 +84,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public static void PopulateStoreItem(StoreItem item, GSData itemData)
+        public static void PopulateStoreItem(StoreItem item, GSData itemData, string videoBaseUrl = null)
         {
             const string unrecognized = "unrecognized";
 
@@ -97,7 +97,8 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
-                GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG
+                GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG,
+                GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG
             };
 
             //string[] tagState = {
@@ -152,6 +153,8 @@ namespace TurboLabz.InstantFramework
                 item.bundledItems = new Dictionary<string, int>();
                 ParseBundledGoods(item, bundleData);
             }
+
+            item.videoUrl = videoBaseUrl != null ? videoBaseUrl + itemData.GetString(GSBackendKeys.SHOP_ITEM_ID) + ".mp4" : null;
 
             LogUtil.Log("********** PopulateShopItem: " + item.key);
         }

@@ -100,6 +100,7 @@ namespace TurboLabz.InstantFramework
         //public IDictionary<string, BundledItem> bundleDescriptions;  // Bundled item descriptions
         public decimal originalPrice;
         public float discountedRatio;
+        public string videoUrl;
 
         public enum State
         {

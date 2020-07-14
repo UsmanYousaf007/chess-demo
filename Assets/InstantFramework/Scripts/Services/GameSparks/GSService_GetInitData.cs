@@ -249,20 +249,26 @@ namespace TurboLabz.InstantFramework
             List<GSData> powerUpHindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> powerUpHindsightItems = PopulateStoreItems(powerUpHindsightShopItemsData);
 
+            string videoLessonsURL = storeSettingsData.GetString(GSBackendKeys.ShopItem.VIDEO_LESSONS_BASE_URL);
+
+            List<GSData> videoLessonShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> videoLessonItems = PopulateStoreItems(videoLessonShopItemsData, videoLessonsURL);
+
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG, subscriptionItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG, powerUpHintItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG, powerUpHindsightItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS, videoLessonItems);
         }
 
-        private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData)
+        private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData, string videoBaseUrl = null)
         {
             IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
 
             foreach (GSData itemData in itemSettingsData)
             {
                 var item = new StoreItem();
-                GSParser.PopulateStoreItem(item, itemData);
+                GSParser.PopulateStoreItem(item, itemData, videoBaseUrl);
                 items.Add(item.key, item);
             }
 

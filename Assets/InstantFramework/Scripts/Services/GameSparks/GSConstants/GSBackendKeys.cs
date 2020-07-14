@@ -219,6 +219,8 @@ namespace TurboLabz.InstantFramework
 
         public static class ShopItem
         {
+            public const string VIDEO_LESSONS_BASE_URL = "videoLessonsBaseURL";
+
             public const string SHOP_SETTINGS = "shopSettings";
             public const string SKIN_SHOP_ITEMS = "skinShopItems";
             public const string COINS_SHOP_ITEMS = "coinsShopItems";
@@ -231,6 +233,7 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_HINDSIGHT_SHOP_ITEMS = "powerUpHindsightShopItems";
             public const string POWERUP_SAFEMOVE_SHOP_ITEMS = "powerUpSafeMoveShopItems";
             public const string SUBSCRIPTION_SHOP_ITEMS = "subscriptionShopItems";
+            public const string VIDEO_LESSON_SHOP_ITEMS = "videoLessonShopItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -246,6 +249,8 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_HINT_SHOP_TAG = "PowerUpHint";
             public const string POWERUP_HINDSIGHT_SHOP_TAG = "PowerUpHindsight";
             public const string POWERUP_SAFEMOVE_SHOP_TAG = "PowerUpSafeMove";
+
+            public const string VIDEO_LESSON_SHOP_TAG = "VideoLesson";
 
             public const string FEATURE_REMOVEAD_PERM_SHOP_TAG = "FeatureRemoveAdsPerm";
             public const string FEATURE_REMOVEAD_30_SHOP_TAG = "FeatureRemoveAds30";
