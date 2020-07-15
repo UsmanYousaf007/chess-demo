@@ -191,7 +191,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IScreenCaptureService>().To<NativeScreenCapture>().ToSingleton();
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<TLAdsService>().ToSingleton();
-            injectionBinder.Bind<IHAnalyticsService>().To<HAnalyticsService>().ToSingleton();
+            injectionBinder.Bind<IHAnalyticsService>().To<HAnalyticsService>().ToSingleton();           
 #if UNITY_EDITOR
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsServiceEditor>().ToSingleton();
 #else
@@ -206,6 +206,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAppsFlyerService>().To<AppsFlyerService>().ToSingleton();
             injectionBinder.Bind<IAutoSubscriptionDailogueService>().To<AutoSubscriptionDailogueService>().ToSingleton();
             injectionBinder.Bind<IVideoPlaybackService>().To<AVProVideoPlayer>().ToSingleton();
+            injectionBinder.Bind<IPhotoService>().To<PhotoPickerService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
