@@ -377,11 +377,11 @@ namespace TurboLabz.InstantFramework
                 #region Rate App
 
                 { LocalizationKey.RATE_APP_TITLE, "Enjoying" },
-                { LocalizationKey.RATE_APP_SUB_TITLE_RATE, "Help us by rating" },
+                { LocalizationKey.RATE_APP_SUB_TITLE_RATE, "Please take a few seconds to rate us on the store. It really helps." },
                 { LocalizationKey.RATE_APP_SUB_TITLE_TELL, "Please tell us how we can improve the game for you." },
                 { LocalizationKey.RATE_APP_RATE, "RATE US" },
-                { LocalizationKey.RATE_APP_TELL, "Leave feedback" },
-                { LocalizationKey.RATE_APP_NOT_NOW, "Maybe Later" },
+                { LocalizationKey.RATE_APP_TELL, "TELL US" },
+                { LocalizationKey.RATE_APP_NOT_NOW, "May be Later" },
                 { LocalizationKey.RATE_APP_IMPROVE, "No" },
                 { LocalizationKey.RATE_APP_LIKE, "Yes" },
                 { LocalizationKey.RATE_APP_LOVE, "Yes" },
