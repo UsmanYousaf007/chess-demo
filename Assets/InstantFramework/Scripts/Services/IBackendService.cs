@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
     public partial interface IBackendService
     {
         IServerClock serverClock { get; }
-
+        string uploadUrl { get; set; }
         void AddChallengeListeners();
         void AddMessageListeners();
         void AddChatMessageListener();
@@ -64,5 +64,8 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> FriendsOpStatus(string friendId); // retrieve status of friends
         IPromise<BackendResult> FriendsOpUnblock(string friendId); // unblock a friend
         IPromise<BackendResult> FriendsOpBlocked(string friendId); // get blocked friends
+
+        IPromise<BackendResult> GetUploadUrl();
+        IPromise<BackendResult> GetDownloadUrl(string id);
     }
 }

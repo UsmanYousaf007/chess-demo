@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         string renewDate { get; set; }
         string subscriptionType { get; set; }
         AnalyticsContext adContext { get; set; }
+        string uploadedPicId { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

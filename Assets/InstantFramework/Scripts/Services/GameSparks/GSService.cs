@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IServerClock serverClock { get; set; }
 
+        
         private GSFrameworkRequestContext GetRequestContext()
         {
             return new GSFrameworkRequestContext { currentViewId = navigatorModel.currentViewId };
