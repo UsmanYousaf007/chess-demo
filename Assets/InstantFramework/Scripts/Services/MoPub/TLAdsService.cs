@@ -182,7 +182,7 @@ namespace TurboLabz.InstantFramework
                 new KeyValuePair<string, object>("duration", (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(videoStartTime)).TotalSeconds),
                 new KeyValuePair<string, object>("end_type", data.Result.ToString()));
 
-            if(preferencesModel.isInstallDayOver && preferencesModel.videoFinishedCount <= 10)
+            if(!preferencesModel.isInstallDayOver && preferencesModel.videoFinishedCount <= 10)
             {
                 appsFlyerService.TrackRichEvent("install_day_video_finished_" + preferencesModel.videoFinishedCount, videoEventData);
 

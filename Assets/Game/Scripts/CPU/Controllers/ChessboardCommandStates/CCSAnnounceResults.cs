@@ -101,7 +101,7 @@ namespace TurboLabz.CPU
             cmd.hAnalyticsService.LogCpuGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", "cpu_match");
             cmd.appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, cmd.preferencesModel.gameFinishedCount);
 
-            if (cmd.preferencesModel.isInstallDayOver && cmd.preferencesModel.gameFinishedCount <= 10)
+            if (!cmd.preferencesModel.isInstallDayOver && cmd.preferencesModel.gameFinishedCount <= 10)
             {
                 cmd.appsFlyerService.TrackRichEvent("install_day_game_finished_" + cmd.preferencesModel.gameFinishedCount);
                 cmd.hAnalyticsService.LogCpuGameEvent("install_day_game_finished_" + cmd.preferencesModel.gameFinishedCount, "gameplay", "cpu_match");
