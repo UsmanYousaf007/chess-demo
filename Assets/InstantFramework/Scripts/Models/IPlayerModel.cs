@@ -45,9 +45,11 @@ namespace TurboLabz.InstantFramework
         string activeSkinId { get; set; }   
         IOrderedDictionary<string, int> inventory { get; set; }
 
+        // Videos
+        Dictionary<string, Video> videos { get; set; }
 
-		// Friends
-		Dictionary<string, Friend> friends { get; set; }
+        // Friends
+        Dictionary<string, Friend> friends { get; set; }
 		Dictionary<string, Friend> blocked { get; set; }
         Dictionary<string, Friend> community { get; set; }
         Dictionary<string, Friend> search { get; set; }

@@ -7,6 +7,9 @@ namespace TurboLabz.InstantFramework
 {
     public class SavePlayerInventoryCommand : Command
     {
+        // Params
+        [Inject] public string requestJson { get; set; }
+
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
@@ -21,7 +24,7 @@ namespace TurboLabz.InstantFramework
             Retain();
 
             // TODO: This is hardcoded to only handle skins. Make this generic for new item types
-            backendService.UpdateActiveInventory(playerModel.activeSkinId).Then(OnComplete);
+            backendService.UpdateActiveInventory(playerModel.activeSkinId, requestJson).Then(OnComplete);
         }
 
         private void OnComplete(BackendResult result)
