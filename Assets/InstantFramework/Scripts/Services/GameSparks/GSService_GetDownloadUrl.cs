@@ -10,7 +10,7 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-
+        public string downloadUrl { get; set; }
 
         public IPromise<BackendResult> GetDownloadUrl(string fileId)
         {
@@ -19,11 +19,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnDownloadUrlSuccess(object r)
         {
-            LogEventResponse response = (LogEventResponse)r;
-
-
-
-            //findMatchRequestCompleteSignal.Dispatch(opponentStatus);
+            GetUploadedResponse response = (GetUploadedResponse)r;
+            //response.Url
         }
 
         #region request

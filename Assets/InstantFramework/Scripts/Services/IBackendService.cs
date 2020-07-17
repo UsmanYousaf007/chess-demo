@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
     {
         IServerClock serverClock { get; }
         string uploadUrl { get; set; }
+        string downloadUrl { get; set; }
         void AddChallengeListeners();
         void AddMessageListeners();
         void AddChatMessageListener();

@@ -4,10 +4,11 @@ using System;
 using GameSparks.Api.Messages;
 using strange.extensions.command.impl;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GetUploadUrlCommand : Command
+    public class UploadFileCommand : Command
     {
         [Inject] public byte[] fileStream { get; set; }
 
@@ -35,8 +36,22 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS && isValidUrl)
             {
                 var form = new WWWForm();
+                
                 form.AddBinaryData("file", fileStream, "profilPicture.png", "image/png");
-                new WWW(backendService.uploadUrl, form);
+                using (UnityWebRequest www = UnityWebRequest.Post(backendService.uploadUrl, form))
+                {
+                    www.SendWebRequest();
+                    if (www.isNetworkError || www.isHttpError)
+                    {
+                        Debug.Log(www.error);
+                    }
+                    else
+                    {
+                        Debug.Log("Form upload complete!");
+                    }
+                }
+                
+                new UnityWebRequest();
             }
 
             else if (result == BackendResult.UPLOAD_URL_GET_FAILED)

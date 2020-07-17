@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GetDownloadUrlCommand : Command
+    public class DownloadFileCommand : Command
     {
         [Inject] public string fileId { get; set; }
 
@@ -26,14 +26,16 @@ namespace TurboLabz.InstantFramework
 
         private void OnComplete(BackendResult result)
         {
-            //bool isValidUrl = !String.IsNullOrEmpty(backendService.downloadUrl);
-            //if (result == BackendResult.DOWNLOAD_URL_GET_FAILED && isValidUrl)
-            //{
-            //    backendErrorSignal.Dispatch(result);
-            //}
+            bool isValidUrl = !String.IsNullOrEmpty(backendService.downloadUrl);
+            if (result == BackendResult.SUCCESS && isValidUrl)
+            {
+              
+            }
 
-            //else if (result == BackendResult.SUCCESS)
-            //{ }
+            else if (result == BackendResult.DOWNLOAD_URL_GET_FAILED)
+            {
+                backendErrorSignal.Dispatch(result);
+            }
 
             Release();
         }
