@@ -313,8 +313,16 @@ namespace TurboLabz.InstantFramework
 
         public void LogAppsFlyerEvent(string name, Dictionary<string, object> eventData)
         {
-            eventData.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, name);
+            analyticsEvent = new Dictionary<string, object>();
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, name);
+
+            foreach (var e in eventData)
+            {
+                analyticsEvent.Add(e.Key, e.Value);
+            }
+
             HAnalytics.LogEvent(eventData, AnalyticsServiceName.APPS_FLYER);
+            analyticsEvent = null;
         }
 
         public string GetAppsFlyerId()
