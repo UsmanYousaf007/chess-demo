@@ -165,6 +165,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateOfferDrawSignal>().ToSingleton();
             injectionBinder.Bind<SkillSelectedSignal>().ToSingleton();
             injectionBinder.Bind<VideoEventSignal>().ToSingleton();
+            injectionBinder.Bind<ReceivedSignedURLSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -199,6 +200,7 @@ namespace TurboLabz.InstantFramework
 #endif
             injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
+            injectionBinder.Bind<IAWSService>().To<AWSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
             injectionBinder.Bind<ISignInWithAppleService>().To<SignInWithAppleService>().ToSingleton();
             injectionBinder.Bind<IPushNotificationService>().To<FirebasePushNotificationService>().ToSingleton();
