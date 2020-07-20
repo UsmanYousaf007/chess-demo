@@ -103,6 +103,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ConsumeVirtualGoodSignal>().To<ConsumeVirtualGoodCommand>();
             commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<ManageBlockedFriendsSignal>().To<ManageBlockedFriendsCommand>();
+            commandBinder.Bind<UploadFileSignal>().To<UploadFileCommand>();
+            commandBinder.Bind<DownloadFileSignal>().To<DownloadFileCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -164,6 +166,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SetSubscriptionContext>().ToSingleton();
             injectionBinder.Bind<UpdateOfferDrawSignal>().ToSingleton();
             injectionBinder.Bind<SkillSelectedSignal>().ToSingleton();
+            injectionBinder.Bind<FileUploadCompleteSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -205,6 +208,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAppsFlyerService>().To<AppsFlyerService>().ToSingleton();
             injectionBinder.Bind<IAutoSubscriptionDailogueService>().To<AutoSubscriptionDailogueService>().ToSingleton();
             injectionBinder.Bind<IGameModesAnalyticsService>().To<GameModesAnalyticsService>().ToSingleton();
+            injectionBinder.Bind<IPhotoService>().To<PhotoPickerService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();

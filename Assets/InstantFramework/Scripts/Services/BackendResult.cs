@@ -67,6 +67,9 @@ namespace TurboLabz.InstantFramework
         SYNC_RECONNECT_DATA_FAILED,
         NOT_AUTHORIZED,
         OFFER_DRAW_OP_FAILED,
-        AUTH_SIGN_IN_WITH_APPLE_FAILED
+        AUTH_SIGN_IN_WITH_APPLE_FAILED,
+        UPLOAD_URL_GET_FAILED,
+        DOWNLOAD_URL_GET_FAILED
+
     }
 }

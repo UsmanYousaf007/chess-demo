@@ -27,13 +27,14 @@ namespace TurboLabz.InstantGame
         [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public ShowShareScreenDialogSignal shareScreenDialogSignal { get; set; }
-
+        [Inject] public UploadFileSignal uploadFileSignal { get; set; }
         // View injection
         [Inject] public StatsView view { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
+        [Inject] public IPhotoService profilePhotoService { get; set; }
 
         public override void OnRegister()
         {
@@ -41,6 +42,7 @@ namespace TurboLabz.InstantGame
             view.restorePurchasesSignal.AddListener(OnRestorePurchases);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
             view.shareBtn.onClick.AddListener(OnShareScreenClicked);
+            view.nameEditBtn.onClick.AddListener(OnProfilePicUpdateClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -104,6 +106,24 @@ namespace TurboLabz.InstantGame
         public void OnShowProcessingUI(bool show, bool showProcessingUi)
         {
             view.ShowProcessing(show, showProcessingUi);
+        }
+
+
+        void OnProfilePicUpdateClicked()
+        {
+            var byteStream = profilePhotoService.PickPhoto(512, "png");
+            var uploadFileVO = new UploadFileVO {
+                fileName="profilePic",
+                stream=byteStream,
+                mimeType="image/png"
+            };
+            uploadFileSignal.Dispatch(uploadFileVO);
+        }
+
+        [ListensTo(typeof(FileUploadCompleteSignal))]
+        public void OnPictureUploadComplete(string result)
+        {
+            var uploadResult = result;
         }
     }
 }

@@ -33,10 +33,14 @@ namespace TurboLabz.InstantFramework
         {
             this.errorCode = BackendResult.UPDATE_PLAYER_DATA_FAILED;
 
-            var jsonData = new GSRequestData()
-                .AddNumber(ATT_NOTIFICATION_COUNT, playerModel.notificationCount)
-                .AddNumber(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP, playerModel.subscriptionExipryTimeStamp)
-                .AddString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE, playerModel.subscriptionType);
+            string uploadedPicId = playerModel.uploadedPicId ?? "";
+            
+                         var jsonData = new GSRequestData()
+                             .AddNumber(ATT_NOTIFICATION_COUNT, playerModel.notificationCount)
+                             .AddNumber(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP, playerModel.subscriptionExipryTimeStamp)                            
+                            .AddString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE, playerModel.subscriptionType)
+                            .AddString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID, uploadedPicId);
+
 
             new LogEventRequest()
                 .SetEventKey(SHORT_CODE)

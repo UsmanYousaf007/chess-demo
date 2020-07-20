@@ -17438,14 +17438,14 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1087500997421805239, guid: ac40c97f61f104b598219f89f2a03363,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1087500997421805236, guid: ac40c97f61f104b598219f89f2a03363,
         type: 3}
       propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087500997421805239, guid: ac40c97f61f104b598219f89f2a03363,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7333266363576487909, guid: ac40c97f61f104b598219f89f2a03363,
@@ -19192,7 +19192,7 @@ PrefabInstance:
     - target: {fileID: 7210508060297443231, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 716.69995
+      value: 716.6992
       objectReference: {fileID: 0}
     - target: {fileID: 7430699043119149699, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
@@ -19412,7 +19412,7 @@ PrefabInstance:
     - target: {fileID: 7751608515565259060, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 267.76776
+      value: 267.76953
       objectReference: {fileID: 0}
     - target: {fileID: 3642231041099579250, guid: fc6cce3296d7c485bb4b081ef97abf63,
         type: 3}
@@ -27480,14 +27480,14 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1087500997421805239, guid: ac40c97f61f104b598219f89f2a03363,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1087500997421805236, guid: ac40c97f61f104b598219f89f2a03363,
         type: 3}
       propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087500997421805239, guid: ac40c97f61f104b598219f89f2a03363,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7333266363576487909, guid: ac40c97f61f104b598219f89f2a03363,
@@ -55497,7 +55497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -221.94003, y: -19.200043}
+  m_AnchoredPosition: {x: -221.9414, y: -19.200043}
   m_SizeDelta: {x: 253.2, y: 62}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &957338963
@@ -83884,6 +83884,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 34
       objectReference: {fileID: 0}
+    - target: {fileID: 8829770178525540161, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -262.10156
+      objectReference: {fileID: 0}
+    - target: {fileID: 8829770178525540161, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -207.74158
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b61f72c037234d6ba533cb9f20f20bd, type: 3}
 --- !u!1 &1450800371 stripped
@@ -95477,7 +95487,7 @@ MonoBehaviour:
   Dev: {fileID: 233865067}
   Sandbox: {fileID: 64930014}
   HuuugeDev: {fileID: 1627554865}
-  environment: 0
+  environment: 4
   configURL: https://chess-star.s3.amazonaws.com/preview467.png
 --- !u!4 &1628862473
 Transform:
@@ -112384,7 +112394,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -88.62958, y: 5.278291}
+  m_AnchoredPosition: {x: -88.62891, y: 5.278291}
   m_SizeDelta: {x: 153, y: 28}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1876865226
