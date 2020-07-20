@@ -10,37 +10,50 @@ using UnityEditor.Build.Reporting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace HUF.Utils.Editor.AssetsBuilder
+namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
 {
     public class HUFBuildAssetsResolver : IPreprocessBuildWithReport
     {
-        const string PLUGIN_FOLDER = "Assets/Plugins/";
-        const string ANDROID_PLUGINS_FOLDER = PLUGIN_FOLDER + "Android/";
-        const string IOS_PLUGINS_FOLDER = PLUGIN_FOLDER + "iOS/";
+        public static event Action OnBuildError;
 
-        const string HUF_ANDROID_ASSET_FOLDER = "Plugins/Android";
-        const string HUF_IOS_ASSET_FOLDER = "Plugins/iOS";
-        const string MANIFEST_COPY_SEARCH = "Manifest.huf";
+        public const string PLUGIN_FOLDER = "Assets/Plugins/";
+        public const string ANDROID_PLUGINS_FOLDER = PLUGIN_FOLDER + "Android/";
+        public const string IOS_PLUGINS_FOLDER = PLUGIN_FOLDER + "iOS/";
+
+        public const string HUF_ANDROID_ASSET_FOLDER = "Plugins/Android";
+        public const string HUF_IOS_ASSET_FOLDER = "Plugins/iOS";
+        public const string MANIFEST_COPY_SEARCH = "Manifest.huf";
         public const string MANIFEST_TEMPLATE_SEARCH = "ManifestTemplate.huf";
 
         public const string MANIFEST_FULL_NAME = "AndroidManifest.xml";
-        const string PROJECT_PROPERTY_FULL_NAME = "project.properties";
-        const string ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME = ".androidlib";
-        const string META_FILES = ".meta";
+        public const string PROJECT_PROPERTY_FULL_NAME = "project.properties";
+        public const string ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME = ".androidlib";
+        public const string META_FILES = ".meta";
 
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HUFBuildAssetsResolver) );
 
         public int callbackOrder => -1000;
 
+        static void OnLogMessageReceived( string condition, string stacktrace, LogType type )
+        {
+            if (condition.Contains( "Build completed" ) && type == LogType.Error )
+            {
+                OnBuildError.Dispatch();
+                Application.logMessageReceived -= OnLogMessageReceived;
+            }
+        }
+
         public void OnPreprocessBuild( BuildReport report )
         {
+            Application.logMessageReceived += OnLogMessageReceived;
             RunHUFBuildAssetsResolver();
         }
 
-        [PostProcessBuildAttribute( 1000 )]
+        [PostProcessBuild( 1000 )]
         public static void PostProcessBuildAttribute( BuildTarget target, string pathToBuiltProject )
         {
             RunHUFBuildAssetsReverter();
+            Application.logMessageReceived -= OnLogMessageReceived;
         }
 
         [MenuItem( "HUF/Utils/Builds/Build Assets Resolver" )]
@@ -58,7 +71,7 @@ namespace HUF.Utils.Editor.AssetsBuilder
             HUFAndroidBuildsAssetsReverter();
 #endif
         }
-
+#if UNITY_ANDROID
         static void HUFAndroidBuildsAssetsReverter()
         {
             var paths = GetHUFManifests( MANIFEST_COPY_SEARCH );
@@ -93,32 +106,11 @@ namespace HUF.Utils.Editor.AssetsBuilder
 
                 DeleteAllDirectorys( sourcePath );
             }
-            
-            if ( Directory.Exists( $"{ANDROID_PLUGINS_FOLDER}Firebase" ) )
-                DeleteAllDirectorys( $"{ANDROID_PLUGINS_FOLDER}Firebase" , false);
+
+            /*if ( Directory.Exists( $"{ANDROID_PLUGINS_FOLDER}Firebase" ) )
+                DeleteAllDirectorys( $"{ANDROID_PLUGINS_FOLDER}Firebase", false );*/
         }
-
-        static void DeleteAllDirectorys( string sourcePath, bool addAndroidLibraryName = true )
-        {
-            var dir = new DirectoryInfo( sourcePath );
-            var directories = dir.GetDirectories();
-
-            foreach ( var directory in directories )
-            {
-                if ( directory.Name == "res" )
-                    continue;
-
-                var directoryFinalPath = $"{ANDROID_PLUGINS_FOLDER}{directory.Name}" +
-                                         $"{(addAndroidLibraryName ? ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME : String.Empty)}";
-
-                if ( Directory.Exists( directoryFinalPath ) )
-                {
-                    FileUtil.DeleteFileOrDirectory( directoryFinalPath );
-                    FileUtil.DeleteFileOrDirectory( directoryFinalPath + META_FILES );
-                }
-            }
-        }
-
+        
         static void HUFAndroidBuildAssetsResolver()
         {
             var paths = GetHUFManifests( MANIFEST_COPY_SEARCH );
@@ -171,8 +163,8 @@ namespace HUF.Utils.Editor.AssetsBuilder
                     CopyFiles( $"{sourcePath}{directory.Name}", directoryFinalPath );
                 }
             }
-            
-            var firebaseCopyPath = FindSubfolderPath("Assets/Firebase", "ToCopy");
+
+            var firebaseCopyPath = FindSubfolderPath( "Assets/Firebase", "ToCopy" );
 
             if ( !firebaseCopyPath.IsNullOrEmpty() )
             {
@@ -186,6 +178,45 @@ namespace HUF.Utils.Editor.AssetsBuilder
 
             return ANDROID_PLUGINS_FOLDER + pathSplit[pathSplit.Length - 4] +
                    ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME;
+        }
+        
+        public static void CreateProjectPropertyFile( string endPath )
+        {
+            StreamWriter writer = new StreamWriter( endPath + "/" + PROJECT_PROPERTY_FULL_NAME, false );
+            writer.WriteLine( "android.library=true" );
+            writer.Close();
+        }
+
+        public static IEnumerable<string> GetHUFManifests( string manifestToSearch, string packageFolderName = "" )
+        {
+            var manifestFiles = AssetDatabase.FindAssets( "Manifest" );
+
+            return manifestFiles.Select( AssetDatabase.GUIDToAssetPath )
+                .Where( s =>
+                    s.EndsWith( manifestToSearch ) &&
+                    s.Contains( packageFolderName + "/" + HUF_ANDROID_ASSET_FOLDER ) );
+        }
+#endif
+        
+        static void DeleteAllDirectorys( string sourcePath, bool addAndroidLibraryName = true )
+        {
+            var dir = new DirectoryInfo( sourcePath );
+            var directories = dir.GetDirectories();
+
+            foreach ( var directory in directories )
+            {
+                if ( directory.Name == "res" )
+                    continue;
+
+                var directoryFinalPath = $"{ANDROID_PLUGINS_FOLDER}{directory.Name}" +
+                                         $"{( addAndroidLibraryName ? ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME : String.Empty )}";
+
+                if ( Directory.Exists( directoryFinalPath ) )
+                {
+                    FileUtil.DeleteFileOrDirectory( directoryFinalPath );
+                    FileUtil.DeleteFileOrDirectory( directoryFinalPath + META_FILES );
+                }
+            }
         }
 
         static void CopyFiles( string source, string destination )
@@ -214,23 +245,6 @@ namespace HUF.Utils.Editor.AssetsBuilder
             }
         }
 
-        public static void CreateProjectPropertyFile( string endPath )
-        {
-            StreamWriter writer = new StreamWriter( endPath + "/" + PROJECT_PROPERTY_FULL_NAME, false );
-            writer.WriteLine( "android.library=true" );
-            writer.Close();
-        }
-
-        public static IEnumerable<string> GetHUFManifests( string manifestToSearch, string packageFolderName = "" )
-        {
-            var manifestFiles = AssetDatabase.FindAssets( "Manifest" );
-
-            return manifestFiles.Select( AssetDatabase.GUIDToAssetPath )
-                .Where( s =>
-                    s.EndsWith( manifestToSearch ) &&
-                    s.Contains( packageFolderName + "/" + HUF_ANDROID_ASSET_FOLDER ) );
-        }
-
         static IEnumerable<string> GetHUFPackageToCopyFolder()
         {
             var dir = new DirectoryInfo( Application.dataPath + "/HUF" );
@@ -249,23 +263,29 @@ namespace HUF.Utils.Editor.AssetsBuilder
 
             return packageAssetsAndroidPath;
         }
-        
-        static string FindSubfolderPath(string parentFolder, string searchFolder)
+
+        static string FindSubfolderPath( string parentFolder, string searchFolder )
         {
-            string[] folders = AssetDatabase.GetSubFolders(parentFolder);
-            string resultFolder = folders.FirstOrDefault(folder => (new DirectoryInfo(folder)).Name == searchFolder);
-            if (string.IsNullOrEmpty(resultFolder) && folders.Length > 0)
+            string[] folders = AssetDatabase.GetSubFolders( parentFolder );
+
+            string resultFolder =
+                folders.FirstOrDefault( folder => ( new DirectoryInfo( folder ) ).Name == searchFolder );
+
+            if ( string.IsNullOrEmpty( resultFolder ) && folders.Length > 0 )
             {
                 string temp;
-                for (int i = 0; i < folders.Length; i++)
+
+                for ( int i = 0; i < folders.Length; i++ )
                 {
-                    temp = FindSubfolderPath(folders[i], searchFolder);
-                    if (!string.IsNullOrEmpty(temp))
+                    temp = FindSubfolderPath( folders[i], searchFolder );
+
+                    if ( !string.IsNullOrEmpty( temp ) )
                     {
                         return temp;
                     }
                 }
             }
+
             return resultFolder;
         }
     }

@@ -72,10 +72,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                     GUILayout.FlexibleSpace();
                     if ( GUILayout.Button( "Continue", GUILayout.Width( 150f ), GUILayout.Height( 30f ) ) )
                     {
-                        foreach ( var package in packagesToUpdate )
+                        for ( int i = 0; i < packagesToUpdate.Count; ++i )
                         {
-                            Core.Command.BindAndExecute( new Commands.Processing.PackageResolveCommand( package, true ),
-                                                         new Commands.Processing.PackageLockCommand() );
+                            if ( itemShouldBeUpdated[i] )
+                            {
+                                Core.Command.BindAndExecute( new Commands.Processing.PackageResolveCommand( packagesToUpdate[i], true ),
+                                                             new Commands.Processing.PackageLockCommand() );
+                            }
                         }
                         
                         Close();

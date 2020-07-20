@@ -8,7 +8,6 @@ using UnityEngine;
 using TurboLabz.TLUtils;
 using System.Collections;
 using GameSparks.Core;
-using GameAnalyticsSDK;
 using TurboLabz.CPU;
 using HUFEXT.GenericGDPR.Runtime.API;
 using HUF.Analytics.Runtime.API;
@@ -57,7 +56,6 @@ namespace TurboLabz.InstantFramework
             ListenForKeyEvents();
 			navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPLASH);
 			audioService.Init();
-            GameAnalytics.Initialize();
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
             adsService.Init();

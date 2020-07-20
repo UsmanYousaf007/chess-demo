@@ -12,15 +12,18 @@ Assets/HUF/Utils/Editor/AndroidManifest/AndroidManifestConfigCustomInspector.cs
 Assets/HUF/Utils/Editor/Resources/Common/huf_logo.png
 Assets/HUF/Utils/Editor/Resources/Icons/huf_icon.png
 Assets/HUF/Utils/Editor/HEditorGUI.cs
+Assets/HUF/Utils/Editor/BuildSupport/BaseDummyPreprocessBuild.cs
 Assets/HUF/Utils/Editor/BuildSupport/ConfigPreset/ConfigPresetUCBHelper.cs
 Assets/HUF/Utils/Editor/BuildSupport/ConfigPreset/ConfigPresetsEditor.cs
 Assets/HUF/Utils/Editor/BuildSupport/DefineCollector.cs
+Assets/HUF/Utils/Editor/BuildSupport/Unity2019BuildFixer.cs
 Assets/HUF/Utils/Editor/BuildSupport/iOS/iOSProjectBaseFrameworkManager.cs
 Assets/HUF/Utils/Editor/BuildSupport/iOS/iOSMissingPurposeStringFixer.cs
 Assets/HUF/Utils/Editor/BuildSupport/iOS/iOSPlistBaseFixer.cs
 Assets/HUF/Utils/Editor/BuildSupport/iOS/iOSDebugBuildFixer.cs
 Assets/HUF/Utils/Editor/BuildSupport/iOS/DisablingBitcodeiOS.cs
 Assets/HUF/Utils/Editor/BuildSupport/iOS/iOSProjectBaseFixer.cs
+Assets/HUF/Utils/Editor/BuildSupport/AssetsBuilder/HUFBuildAssetsResolver.cs
 Assets/HUF/Utils/Editor/Attributes/ConditionalDrawer.cs
 Assets/HUF/Utils/Editor/Attributes/RequiredAttributeDrawer.cs
 Assets/HUF/Utils/Editor/Attributes/WarningDrawer.cs
@@ -37,7 +40,6 @@ Assets/HUF/Utils/Editor/Configs/ConfigsMigrationTool.cs
 Assets/HUF/Utils/Editor/Configs/ConfigInstallerData.cs
 Assets/HUF/Utils/Editor/LibrariesImporter.cs
 Assets/HUF/Utils/Editor/ProGuard/ProGuardBuilder.cs
-Assets/HUF/Utils/Editor/AssetsBuilder/HUFBuildAssetsResolver.cs
 Assets/HUF/Utils/Runtime/RandomGenerators/SecureStringGenerator.cs
 Assets/HUF/Utils/Runtime/HUFMiniJson.cs
 Assets/HUF/Utils/Runtime/DontDestroyOnLoad.cs

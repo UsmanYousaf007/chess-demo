@@ -23,6 +23,7 @@
         internal const string CACHE_PACKAGE_REGISTRY_KEY = "HUF.PackageManager.Cache.PackageRegistry";
         internal const string CACHE_PACKAGE_LOCAL_REGISTRY_KEY = "HUF.PackageManager.Cache.LocalPackageRegistry";
         internal const string CACHE_PACKAGE_REMOTE_REGISTRY_KEY = "HUF.PackageManager.Cache.LastRemotePackageRegistry";
+        internal const string CACHE_PACKAGE_UNITY_REGISTRY_KEY = "HUF.PackageManager.Cache.LastUnityPackageRegistry";
         internal const string CACHE_PACKAGE_INSTALL_IN_PROGRESS = "HUF.PackageManager.Cache.InstallInProgress";
         internal const string CACHE_PACKAGES_UPDATE_IN_PROGRESS = "HUF.PackageManager.Cache.UpdateInProgress";
         internal const string CACHE_PACKAGES_CURRENT_CHANNEL = "HUF.PackageManager.Cache.Channel";
@@ -79,6 +80,11 @@
             internal static class VersionEditor
             {
                 internal const string TITLE = "Huuuge Unity Framework - Edit package version";
+            }
+            
+            internal static class CustomRegistryEditor
+            {
+                internal const string TITLE = "Huuuge Unity Framework - Add custom scoped registry";
             }
         }
         

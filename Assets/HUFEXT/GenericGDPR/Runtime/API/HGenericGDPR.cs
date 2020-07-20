@@ -1,9 +1,12 @@
-﻿using HUF.Ads.Runtime.API;
+﻿using System.Collections;
+using HUF.Ads.Runtime.API;
 using HUF.Analytics.Runtime.API;
+using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.PlayerPrefs;
+using HUFEXT.CountryCode.Runtime.API;
 using HUFEXT.GenericGDPR.Runtime.Views;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -99,14 +102,20 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             }
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void AutoInit()
         {
             FetchConfig();
             if( ValidateConfig() && config.AutoInit && !IsPolicyAccepted )
             {
-                Initialize();
+                CoroutineManager.StartCoroutine( InitializeWithDelay() );
             }
+        }
+
+        static IEnumerator InitializeWithDelay()
+        {
+            yield return null;
+            Initialize();
         }
 
         /// <summary>
@@ -143,6 +152,13 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             if ( IsInitialized || config == null || prefab == null )
             {
                 HLog.LogError( prefix, "Unable to instantiate GDPR prefab." );
+                return;
+            }
+
+            if ( config.EnableCountryCheck && !IsGDPRRequiredForCurrentCountry() )
+            {
+                HLog.LogImportant( prefix, "GDPR is not required for current country." );
+                ForceAcceptPolicy();
                 return;
             }
             
@@ -229,6 +245,19 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             }
 
             return true;
+        }
+
+        private static bool IsGDPRRequiredForCurrentCountry()
+        {
+            var country = HNativeCountryCode.GetCountryCode().Country.ToUpper();
+            return config.ShowForCountries.Contains( country );
+        }
+
+        private static void ForceAcceptPolicy()
+        {
+            HAnalytics.CollectSensitiveData( true );
+            HAds.CollectSensitiveData( config.DefaultPersonalizedAdsValue );
+            OnPolicyAccepted.Dispatch();
         }
     }
 }

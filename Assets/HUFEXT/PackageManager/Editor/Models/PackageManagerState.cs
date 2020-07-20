@@ -1,4 +1,6 @@
-﻿namespace HUFEXT.PackageManager.Editor.Models
+﻿using UnityEngine;
+
+namespace HUFEXT.PackageManager.Editor.Models
 {
     public enum PackageChannel
     {
@@ -21,7 +23,8 @@
         All,
         HUF,
         HUFEXT,
-        SDK
+        SDK,
+        UNITY
     }
     
     [System.Serializable]
@@ -32,7 +35,8 @@
         public PackageCategoryType categoryType = PackageCategoryType.All;
         public PackageChannel channel = PackageChannel.Stable;
         public PackageManifest selectedPackage = null;
-        public bool showPreviewPackages = false;
+        public bool showPreviewPackages = true;
+        public bool showUnityPackages = true;
         public bool ignoreVersionTags = false;
         public bool enableDebugLogs = false;
         public string lastFetchDate;
@@ -43,11 +47,13 @@
         public void Load()
         {
             Core.Registry.Load( Keys.CACHE_PACKAGE_MANAGER_STATE_KEY, this, Core.CachePolicy.Prefs );
+            channel = Core.Packages.Channel;
             developerId = Token.ID;
         }
         
         public void Save()
         {
+            Core.Packages.Channel = channel;
             Core.Registry.Save( Keys.CACHE_PACKAGE_MANAGER_STATE_KEY, this, Core.CachePolicy.Prefs );
         }
     }

@@ -202,11 +202,21 @@ namespace TurboLabz.InstantFramework
             preferencesModel.gameFinishedCount++;
             appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_finished, preferencesModel.gameFinishedCount);
 
+            if (!preferencesModel.isInstallDayOver && preferencesModel.gameFinishedCount <= 10)
+            {
+                appsFlyerService.TrackRichEvent("install_day_game_finished_" + preferencesModel.gameFinishedCount);
+            }
+
             if (matchInfoModel.matches.ContainsKey(challengeId))
             {
                 var matchInfo = matchInfoModel.matches[challengeId];
                 var context = matchInfo.isLongPlay ? AnalyticsContext.long_match : AnalyticsContext.quick_match;
                 hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_finished.ToString(), "gameplay", context.ToString(), challengeId);
+
+                if (!preferencesModel.isInstallDayOver && preferencesModel.gameFinishedCount <= 10)
+                {
+                    hAnalyticsService.LogMultiplayerGameEvent("install_day_game_finished_" + preferencesModel.gameFinishedCount, "gameplay", context.ToString(), challengeId);
+                }
 
                 if (matchInfo.isRanked)
                 {
@@ -218,6 +228,8 @@ namespace TurboLabz.InstantFramework
                         analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
                     }
                 }
+
+                gameModesAnalyticsService.ProcessGameCount(matchInfo);
             }            
             #endregion
 

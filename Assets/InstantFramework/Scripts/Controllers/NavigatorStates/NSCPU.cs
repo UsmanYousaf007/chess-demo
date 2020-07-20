@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            cmd.preferencesModel.timeSpentCpuMatch += (cmd.backendService.serverClock.currentTimestamp - timeAtScreenShown) / 1000;
+            cmd.gameModesAnalyticsService.ProcessTimeSpent((cmd.backendService.serverClock.currentTimestamp - timeAtScreenShown) / 1000);
 
             if (evt == NavigatorEvent.SHOW_CPU_EXIT_DLG)
             {

@@ -116,9 +116,11 @@ namespace TurboLabz.InstantFramework
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_OPPONENT_PINGED_MESSAGE)
             {
                 string challengeId = message.Data.GetString("challengeId");
+                int timer = (int)message.Data.GetInt("pingTimerSec");
+
                 if (challengeId == matchInfoModel.activeChallengeId)
                 {
-                    opponentPingedForConnectionSignal.Dispatch(false);
+                    opponentPingedForConnectionSignal.Dispatch(false, timer);
                 }
             }
             else if (message.ExtCode == GSBackendKeys.MATCH_WATCHDOG_OPPONENT_ACKNOWLEDGED_MESSAGE)
@@ -126,7 +128,7 @@ namespace TurboLabz.InstantFramework
                 string challengeId = message.Data.GetString("challengeId");
                 if (challengeId == matchInfoModel.activeChallengeId)
                 {
-                    opponentPingedForConnectionSignal.Dispatch(true);
+                    opponentPingedForConnectionSignal.Dispatch(true, 0);
                 }
             }
             else if (message.ExtCode == GSBackendKeys.AI_TAKE_TURN_FAILED_MESSAGE)

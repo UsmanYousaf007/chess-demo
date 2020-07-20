@@ -1,7 +1,11 @@
-﻿namespace HUFEXT.PackageManager.Editor.Views
+﻿
+using UnityEngine;
+
+namespace HUFEXT.PackageManager.Editor.Views
 {
     public abstract class PackageManagerView
     {
+        public virtual Models.PackageManagerViewType Type => Models.PackageManagerViewType.Unknown;
         protected PackageManagerWindow window = null;
 
         protected PackageManagerView( PackageManagerWindow parent )
@@ -19,14 +23,19 @@
             OnGUI();
         }
 
-        public virtual void OnEventEnter( ViewEvent ev )
+        protected void RegisterEvent( Models.PackageManagerViewEvent ev )
         {
-            Utils.Common.Log( $"OnEventEnter: {GetType().Name} via {ev.ToString()}" );
+            if ( window == null )
+            {
+                return;
+            }
+            
+            window.RegisterEvent( ev );
         }
-        
-        public virtual void RefreshView( ViewEvent ev )
+
+        public virtual void OnEventCompleted( Models.PackageManagerViewEvent ev )
         {
-            Utils.Common.Log( $"RefreshView: {GetType().Name} via {ev.ToString()}" );
+            
         }
         
         protected virtual void OnGUI() { }

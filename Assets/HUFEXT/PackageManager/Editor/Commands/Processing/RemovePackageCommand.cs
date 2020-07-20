@@ -23,6 +23,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
         protected override void Complete( bool result, string serializedData = "" )
         {
             EditorUtility.ClearProgressBar();
+            Core.Packages.Installing = false;
             base.Complete( result, serializedData );
         }
 

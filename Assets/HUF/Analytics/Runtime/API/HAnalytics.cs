@@ -10,7 +10,7 @@ namespace HUF.Analytics.Runtime.API
 {
     public static class HAnalytics
     {
-        static readonly HLogPrefix prefix = new HLogPrefix( nameof( HAnalytics ) );
+        public static readonly HLogPrefix prefix = new HLogPrefix( nameof( HAnalytics ) );
         const string ANALYTICS_CONSENT_SENSITIVE_DATA = "HUFAnalyticsConsentSensitiveData";
 
         static AnalyticsModel analyticsModel;

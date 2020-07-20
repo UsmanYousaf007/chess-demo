@@ -30,9 +30,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             {
                 Core.Packages.RemoveLock();
                 Core.Packages.Installing = false;
-                Views.PackageManagerWindow.RefreshViews();
-                AssetDatabase.Refresh();
                 Complete( true );
+                Views.PackageManagerWindow.RefreshPackages();
+                AssetDatabase.Refresh();
                 return;
             }
 

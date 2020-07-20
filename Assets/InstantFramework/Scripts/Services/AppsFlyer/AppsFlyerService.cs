@@ -14,47 +14,22 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         public void Init()
         {
-            /* Mandatory - set your AppsFlyer’s Developer key. */
-            //HUUUUGE KEY 
-            AppsFlyer.setAppsFlyerKey("xPcmC6rPafKmCueR3W68Mk");
-            //TURBO LABZ KEY
-            //AppsFlyer.setAppsFlyerKey("2Rcqu5eJmG7svYc2RJauwh");
-            /* For detailed logging */
-            // AppsFlyer.setIsDebug (true); 
-#if UNITY_IOS
-            /* Mandatory - set your apple app ID
-             NOTE: You should enter the number only and not the "ID" prefix */
-            AppsFlyer.setAppID("1386718098");
-            AppsFlyer.trackAppLaunch();
-#elif UNITY_ANDROID
-            /* Mandatory - set your Android package name */
-            AppsFlyer.setAppID ("com.turbolabz.instantchess.android.googleplay");
-            /* For getting the conversion data in Android, you need to add the "AppsFlyerTrackerCallbacks" listener.*/
-            AppsFlyer.init ("xPcmC6rPafKmCueR3W68Mk", "AppsFlyerTrackerCallbacks");
-#endif
-
-            Debug.Log("################################## AppsFlyer: Initialized: "+ AppsFlyer.getAppsFlyerId());
-
             ProcessLaunchEvents();
         }
 
-        public void TrackRichEvent(string eventName, Dictionary<string, string> eventValues = null)
+        public void TrackRichEvent(string eventName, Dictionary<string, object> eventValues = null)
         {
-            //Dictionary<string, string> purchaseEvent = new Dictionary<string, string>();
-            //purchaseEvent.Add("af_currency", "USD");
-            //purchaseEvent.Add("af_revenue", "0.99");
-            //purchaseEvent.Add("af_quantity", "1");
-            //AppsFlyer.trackRichEvent("af_purchase", purchaseEvent);
             if (eventValues == null)
             {
-                eventValues = new Dictionary<string, string>();
+                eventValues = new Dictionary<string, object>();
                 eventValues.Add("none", "");
             }
-            AppsFlyer.trackRichEvent(eventName, eventValues);
-            Debug.Log("Appsflyer Event Name: " + eventName);
+
+            hAnalyticsService.LogAppsFlyerEvent(eventName, eventValues);
         }
 
         private void ProcessLaunchEvents()

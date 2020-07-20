@@ -70,6 +70,11 @@ public class SubscriptionDlgMediator : Mediator
             cameFromScreen = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ? powerUpContext : cameFromScreen;
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
+
+            if (SplashLoader.FTUE)
+            {
+                analyticsService.DesignEvent(AnalyticsEventId.ftue_intstall_popup);
+            }
         }
     }
 

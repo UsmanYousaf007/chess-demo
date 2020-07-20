@@ -31,7 +31,6 @@ namespace TurboLabz.InstantGame
         public const string COACH_USED_COUNT = "coachUsedCount";
         public const string STRENGTH_USED_COUNT = "strengthUsedCount";
         public const string PROMOTION_CYCLE_INDEX = "promotionCycleIndex";
-        public const string TIME_AT_LOBBY_LOADED_FIRST_TIME = "timeAtLobbyLoadedFirstTime";
         public const string TIME_SPENT_1M_MATCH = "timeSpent1mMatch";
         public const string TIME_SPENT_5M_MATCH = "timeSpent5mMatch";
         public const string TIME_SPENT_10M_MATCH = "timeSpent10mMatch";
@@ -45,6 +44,17 @@ namespace TurboLabz.InstantGame
         public const string RANKED_MATCHES_FINISHED_COUNT = "rankedMatchesFinishedCount";
         public const string AUTO_SUBSCRIPTION_DLG_SHOWN_FIRST_TIME = "autoSubscriptionDlgShownFirstTime";
         public const string FIRST_RANKED_GAME_OF_DAY = "firstRankedGameOfTheGame";
+        public const string IS_INSTALL_DAY_OVER = "isInstallDayOver";
+        public const string INSTALL_DAY_GAME_COUNT = "installDayGameCount";
+        public const string INSTALL_DAY_FAV_MODE = "installDayFavMode";
+        public const string OVERALL_FAV_MODE = "overallFavMode";
+        public const string FAV_MODE_COUNT = "favModeCount";
+        public const string GAME_COUNT_1M = "gameCount1m";
+        public const string GAME_COUNT_5M = "gameCount5m";
+        public const string GAME_COUNT_10M = "gameCount10m";
+        public const string GAME_COUNT_30M = "gameCount30m";
+        public const string GAME_COUNT_LONG = "gameCountLong";
+        public const string GAME_COUNT_CPU = "gameCountCPU";
 
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";

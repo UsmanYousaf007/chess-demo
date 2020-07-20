@@ -34,7 +34,11 @@ namespace HUFEXT.PackageManager.Editor.Core
                 return data;
             }
 
-            set => PlayerPrefs.SetString( Models.Keys.CACHE_DATA_KEY, EditorJsonUtility.ToJson( value ) );
+            set
+            {
+                PlayerPrefs.SetString( Models.Keys.CACHE_DATA_KEY, EditorJsonUtility.ToJson( value ) );
+                PlayerPrefs.Save();
+            }
         }
 
         static void RegisterPath( string path )
@@ -132,6 +136,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             else
             {
                 PlayerPrefs.SetString( path, data );
+                PlayerPrefs.Save();
             }
             RegisterPath( path );
             return useEditor ? EditorPrefs.HasKey( path ) : PlayerPrefs.HasKey( path );
@@ -197,6 +202,7 @@ namespace HUFEXT.PackageManager.Editor.Core
         public static bool Save( string path, int value )
         {
             PlayerPrefs.SetInt( path, value );
+            PlayerPrefs.Save();
             RegisterPath( path );
             return PlayerPrefs.HasKey( path );
         }
@@ -204,6 +210,7 @@ namespace HUFEXT.PackageManager.Editor.Core
         public static bool Save( string path, string value )
         {
             PlayerPrefs.SetString( path, value );
+            PlayerPrefs.Save();
             RegisterPath( path );
             return PlayerPrefs.HasKey( path );
         }
@@ -247,6 +254,14 @@ namespace HUFEXT.PackageManager.Editor.Core
             UnregisterPath( path );
         }
 
+        public static void ClearCache()
+        {     
+            if ( Directory.Exists( Models.Keys.CACHE_DIRECTORY ) )
+            {
+                Directory.Delete( Models.Keys.CACHE_DIRECTORY, true );
+            }
+        }
+        
         public static bool SaveInCache<T>( string path, T obj, bool encode = false ) where T : class 
         {
             return Save( $"{Models.Keys.CACHE_DIRECTORY}/{path}", obj, encode ? CachePolicy.EncodedFile : CachePolicy.File );
@@ -265,6 +280,7 @@ namespace HUFEXT.PackageManager.Editor.Core
         public static void Push( string key )
         {
             PlayerPrefs.SetInt( key, 1 );
+            PlayerPrefs.Save();
             RegisterPath( key );
         }
 

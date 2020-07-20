@@ -50,6 +50,7 @@ namespace TurboLabz.Multiplayer
 
         private bool menuButtonWasActive;
         Coroutine opponentConnectionMonitorCR;
+        Coroutine opponentAutoResignCR;
 
         public void Show()
         {
@@ -157,7 +158,18 @@ namespace TurboLabz.Multiplayer
             matchTypeObject.SetActive(true);
         }
 
-        public void EnableOpponentConnectionMonitor(bool isEnable)
+        IEnumerator AutoResignCountdown(int startTimer)
+        {
+            int countdownTimer = startTimer;
+            while (countdownTimer >= 0) {
+                opponentConnectionMonitorLabel.text = "Auto resign in " + countdownTimer + " secs";
+                yield return new WaitForSeconds(1);
+                countdownTimer--;
+            }
+            yield return null;
+        }
+
+        public void EnableOpponentConnectionMonitor(bool isEnable, int timer)
         {
             //matchTypeObject.SetActive(false);
             if (opponentConnectionMonitorCR != null)
@@ -166,9 +178,19 @@ namespace TurboLabz.Multiplayer
                 opponentConnectionMonitorCR = null;
             }
 
+            if (opponentAutoResignCR != null)
+            {
+                StopCoroutine(opponentAutoResignCR);
+                opponentAutoResignCR = null;
+            }
+
             if (isEnable)
             {
-                opponentConnectionMonitorLabel.gameObject.SetActive(true);
+                if (timer <= opponentTimer.TotalSeconds)
+                {
+                    opponentConnectionMonitorLabel.gameObject.SetActive(true);
+                    opponentAutoResignCR = StartCoroutine(AutoResignCountdown(timer));
+                }
             }
             else
             {
@@ -183,6 +205,13 @@ namespace TurboLabz.Multiplayer
                 routineRunner.StopCoroutine(opponentConnectionMonitorCR);
                 opponentConnectionMonitorCR = null;
             }
+
+            if (opponentAutoResignCR != null)
+            {
+                StopCoroutine(opponentAutoResignCR);
+                opponentAutoResignCR = null;
+            }
+
             opponentConnectionMonitorLabel.gameObject.SetActive(false);
         }
     }

@@ -30,9 +30,19 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+
+            view.yesButton.onClick.AddListener(OnYesClicked);
+            view.noButton.onClick.AddListener(OnNoClicked);
+
             view.closeButton.onClick.AddListener(OnNotNow);
+            view.noDlgCloseButton.onClick.AddListener(OnNotNow);
+            view.yesDlgCloseButton.onClick.AddListener(OnNotNow);
+            view.noDlgMaybeButton.onClick.AddListener(OnNotNow);
+            view.yesDlgMaybeButton.onClick.AddListener(OnNotNow);
+
             view.rateButton.onClick.AddListener(OnRate);
-            view.leaveFeedbackButton.onClick.AddListener(OnTellUsBtnClick);
+
+            view.tellUsButton.onClick.AddListener(OnTellUsBtnClick);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -59,6 +69,16 @@ namespace TurboLabz.InstantFramework
         {
             rateAppService.RateApp(false);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        private void OnYesClicked()
+        {
+            view.ShowYesDialogue();
+        }
+
+        private void OnNoClicked()
+        {
+            view.ShowNoDialogue();
         }
 
         private void OnRate()

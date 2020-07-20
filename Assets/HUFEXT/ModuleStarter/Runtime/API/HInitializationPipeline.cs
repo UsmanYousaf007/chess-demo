@@ -21,10 +21,22 @@ namespace HUFEXT.ModuleStarter.Runtime.API
         static bool isAwaitingModuleInit;
 
         /// <summary>
+        /// States whether or not init call was sent to all modules that are not skipped. It does not guarantee successful initialization of those modules.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsFullyInitialized { get; private set; }
+
+        /// <summary>
         /// Event for reporting initialization progress (from 0 to 1)
         /// </summary>
         [PublicAPI]
         public static event Action<float> OnInitializationProgress;
+
+        /// <summary>
+        /// Event for reporting initialization finish
+        /// </summary>
+        [PublicAPI]
+        public static event Action OnInitializationFinished;
 
         /// <summary>
         /// Used to manually run the initialization pipeline
@@ -32,6 +44,11 @@ namespace HUFEXT.ModuleStarter.Runtime.API
         [PublicAPI]
         public static void RunPipeline()
         {
+#if HUF_TESTS
+            OnInitializationProgress += HandleInitStep;
+            OnInitializationFinished += HandleInitFinish;
+#endif
+
             ModuleInitializer.ReloadAll();
             ModuleInitializerConfig.SortEntries();
             CoroutineManager.StartCoroutine( InitRoutine( ModuleInitializerConfig.Entries ) );
@@ -70,7 +87,10 @@ namespace HUFEXT.ModuleStarter.Runtime.API
                 var module = ModuleInitializer.Get( entry.id );
 
                 if ( module == null || entry.isSkipped )
+                {
+                    OnInitializationProgress.Dispatch( ++current / total );
                     continue;
+                }
 
                 yield return null;
 
@@ -106,6 +126,23 @@ namespace HUFEXT.ModuleStarter.Runtime.API
 
                 OnInitializationProgress.Dispatch( ++current/total );
             }
+
+            IsFullyInitialized = true;
+            OnInitializationFinished.Dispatch();
         }
+
+#if HUF_TESTS
+        static void HandleInitStep(float fraction)
+        {
+            HLog.Log( logPrefix, $"Init: {fraction * 100: F2}%" );
+        }
+
+        static void HandleInitFinish()
+        {
+            HLog.Log( logPrefix, "Init completed" );
+            OnInitializationProgress -= HandleInitStep;
+            OnInitializationFinished -= HandleInitFinish;
+        }
+#endif
     }
 }

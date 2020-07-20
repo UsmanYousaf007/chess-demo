@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using HUFEXT.PackageManager.Editor.Commands.Data;
+using UnityEditor;
 
 namespace HUFEXT.PackageManager.Editor.Commands.Processing
 {
@@ -13,7 +15,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
         {
             Core.Packages.UpdateInProgress = true;
 
-            Core.Command.Execute( new FetchLocalPackagesCommand() );
+            Core.Command.Execute( new GetLocalPackagesCommand() );
 
             if ( !downloadLatest )
             {
@@ -21,17 +23,23 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 return;
             }
             
-            Core.Command.Execute( new Connection.DownloadPackagesListCommand
+            Core.Command.Execute( new Data.GetUnityPackagesCommand
             {
-                OnComplete = ( result, serializedData ) =>
+                OnComplete = ( r, s ) =>
                 {
-                    Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_LAST_FETCH_KEY,
-                                   DateTime.Now.ToString( CultureInfo.InvariantCulture ) );
+                    Core.Command.Execute( new Data.GetRemotePackagesCommand()
+                    {
+                        OnComplete = ( result, serializedData ) =>
+                        {
+                            Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_LAST_FETCH_KEY,
+                                DateTime.Now.ToString( CultureInfo.InvariantCulture ) );
 
-                    var next = Utils.Common.GetTimestamp( Models.Keys.AUTO_FETCH_DELAY );
-                    Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_NEXT_AUTO_FETCH, next );
+                            var next = Utils.Common.GetTimestamp( Models.Keys.AUTO_FETCH_DELAY );
+                            Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_NEXT_AUTO_FETCH, next );
                     
-                    MergePackages( Core.Packages.Local, Core.Packages.Remote );
+                            MergePackages( Core.Packages.Local, Core.Packages.Remote );
+                        }
+                    });
                 }
             });
         }
@@ -39,7 +47,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
         protected override void Complete( bool result, string serializedData = "" )
         {
             Core.Packages.UpdateInProgress = false;
-            Views.PackageManagerWindow.RefreshViews();
+            AssetDatabase.Refresh();
             base.Complete( result, serializedData );
         }
 
@@ -50,13 +58,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             var packages = new List<Models.PackageManifest>();
             packages.AddRange( local );
 
-            for ( int i = 0; i < packages.Count; ++i )
-            {
-                if ( !packages[i].name.Contains( ".huuuge." ) )
-                {
-                    packages[i].huf.rollout = Models.Rollout.NOT_HUF_LABEL;
-                }
-            }
+            DetectVendorPackages();
             
             foreach ( var remotePackage in remote )
             {
@@ -70,9 +72,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 }
 
                 packages[index].huf.isLocal = false;
-                packages[index].huf.config = remotePackage.huf.config; // Apply latest remote config.
-                
-                // Not sure about that. Should be verified.
+                packages[index].huf.config = remotePackage.huf.config;
                 packages[index].huf.channel = remotePackage.huf.channel;
                 packages[index].huf.scope = remotePackage.huf.scope;
 
@@ -85,16 +85,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                         packages[index].name = remotePackage.name;
                     }
 
-                    if ( Utils.VersionComparer.Compare( remotePackage.version, ">", packages[index].version, true ) )
+                    switch ( Utils.VersionComparer.Compare( remotePackage.version, packages[index].version, true ) )
                     {
-                        packages[index].huf.status = Models.PackageStatus.GitError;
+                        case 0: packages[index].huf.status = Models.PackageStatus.GitUpdate; break;
+                        case 1: packages[index].huf.status = Models.PackageStatus.GitError; break;
                     }
-                    else if ( Utils.VersionComparer.Compare( remotePackage.version, "=", packages[index].version, true ) )
-                    {
-                        packages[index].huf.status = Models.PackageStatus.GitUpdate;
-                    }
-
-                    packages[index].huf.rollout = Models.Rollout.VCS_LABEL;
                     
                     continue;
                 }
@@ -105,15 +100,37 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                     packages[index].huf.status = Models.PackageStatus.Migration;
                     packages[index].version = "0.0.0-unknown";
                 }
-                else if ( Utils.VersionComparer.Compare( remotePackage.version, ">", packages[index].version ) )
+                else
                 {
-                    packages[index].huf.status = Models.PackageStatus.UpdateAvailable;
+                    var compare = Utils.VersionComparer.Compare( remotePackage.version, packages[index].version, true );
 
-                    // Current version is lower than minimal package version from current config.
-                    if ( Utils.VersionComparer.Compare( packages[index].version, "<",
-                                                        remotePackage.huf.config.minimumVersion ) )
+                    switch ( compare )
                     {
-                        packages[index].huf.status = Models.PackageStatus.ForceUpdate;
+                        case 0:
+                        {
+                            var compareTag =
+                                Utils.VersionComparer.Compare( remotePackage.version, packages[index].version );
+
+                            if ( compareTag == 1 )
+                            {
+                                packages[index].huf.status = Models.PackageStatus.UpdateAvailable;
+                            }
+                            
+                            break;
+                        }
+
+                        case 1:
+                        {
+                            var compareMin = Utils.VersionComparer.Compare( packages[index].version,
+                                remotePackage.huf.config.minimumVersion,
+                                true );
+
+                            packages[index].huf.status = ( compareMin == -1 )
+                                ? Models.PackageStatus.ForceUpdate
+                                : Models.PackageStatus.UpdateAvailable;
+                            
+                            break;
+                        }
                     }
                 }
 
@@ -123,16 +140,34 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 }
             }
 
-            for ( int i = 0; i < packages.Count; ++i ) 
-            {
-                if ( string.IsNullOrEmpty( packages[i].name ) )
-                {
-                    packages[i].name = "com.unknown." + packages[i].displayName.ToLower();
-                }
-            }
+            SetMissingPackageNames();
+
+            packages.AddRange( Core.Packages.Unity );
             
             Core.Packages.Data = packages.OrderBy( package => package.name ).ToList();
             Complete( true );
+            
+            void DetectVendorPackages()
+            {
+                for ( var i = 0; i < packages.Count; ++i )
+                {
+                    if ( !packages[i].name.Contains( ".huuuge." ) )
+                    {
+                        packages[i].huf.rollout = Models.Rollout.NOT_HUF_LABEL;
+                    }
+                }
+            }
+
+            void SetMissingPackageNames()
+            {
+                for ( var i = 0; i < packages.Count; ++i ) 
+                {
+                    if ( string.IsNullOrEmpty( packages[i].name ) )
+                    {
+                        packages[i].name = "com.unknown." + packages[i].displayName.ToLower();
+                    }
+                } 
+            }
         }
     }
 }

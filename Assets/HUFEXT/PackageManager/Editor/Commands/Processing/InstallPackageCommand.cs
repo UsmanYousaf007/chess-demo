@@ -27,6 +27,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 return;
             }
 
+            Core.Packages.Installing = true;
+            
             // Special case. When package import starts it will reload scripts and run GC after complete.
             // All callbacks will be cleared.
             Complete( true );

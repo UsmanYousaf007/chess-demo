@@ -30,6 +30,7 @@ namespace HUFEXT.PackageManager.Editor.Models
         public const string EXPERIMENTAL_LABEL  = "Experimental";
         public const string DEVELOPMENT_LABEL   = "Development";
         public const string NOT_INSTALLED_LABEL = "Not Installed";
+        public const string UNITY_LABEL         = "Unity Packages";
         public const string UNDEFINED_LABEL     = "Undefined";
     }
     
@@ -62,6 +63,7 @@ namespace HUFEXT.PackageManager.Editor.Models
             public string path = string.Empty;
             public bool isLocal = false;
             public bool isPreview = false;
+            public bool isUnity = false;
             public List<string> dependencies = new List<string>();
             public List<string> exclude = new List<string>();
             public List<string> details = new List<string>();
@@ -97,7 +99,17 @@ namespace HUFEXT.PackageManager.Editor.Models
         {
             return EditorJsonUtility.ToJson( this );
         }
+        
+        public static void SaveManifest( string file, PackageManifest manifest )
+        {
+            File.WriteAllText( file, EditorJsonUtility.ToJson( manifest, true ) );
+        }
 
+        public static void SaveConfig( string file, PackageConfig config )
+        {
+            File.WriteAllText( file, EditorJsonUtility.ToJson( config, true ) );
+        }
+        
         public void ParseVersion()
         {
             if( string.IsNullOrEmpty( version ) )

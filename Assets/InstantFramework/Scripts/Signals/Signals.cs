@@ -131,7 +131,7 @@ namespace TurboLabz.InstantFramework
     public class UpdatePlayerDataSignal : Signal { }
     public class ChallengeAcceptedSignal : Signal { }
     public class ChangeUserDetailsSignal : Signal<string> { }
-    public class OpponentPingedForConnectionSignal : Signal<bool> { }
+    public class OpponentPingedForConnectionSignal : Signal<bool, int> { }
     public class ShowInGameProfileSingal : Signal { }
     public class ChessboardBlockerEnableSignal : Signal<bool> { }
     public class ReconnectViewEnableSignal : Signal<bool> { }
