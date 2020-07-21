@@ -17,6 +17,7 @@ public class SubscriptionTierView : View
         public Vector3 bestValuePosition;
         public Sprite processing;
         public float bottomContainerSpacing;
+        public bool radioSelected;
     }
 
     public string key;
@@ -38,6 +39,9 @@ public class SubscriptionTierView : View
     public TierConfig defaultConfig;
     public RectTransform root;
     public HorizontalLayoutGroup bottomContainer;
+
+    public Text singleText;
+    public Image toggleBall;
 
     [Header("Not Available")]
     public RectTransform package;
@@ -82,13 +86,15 @@ public class SubscriptionTierView : View
         if (isMonthly)
         {
             item.originalPrice = Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2);
-            actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
-            price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
+            //actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
+            //price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
             //billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
-            billed.gameObject.SetActive(false);
-            billedSeperator.gameObject.SetActive(false);
-            savings.text = $"Save {savingsValue * 100}%";
+            //billed.gameObject.SetActive(false);
+            //billedSeperator.gameObject.SetActive(false);
+            //savings.text = $"Save {savingsValue * 100}%";
             item.discountedRatio = savingsValue;
+
+            singleText.text = "Upgrade with " + $"{savingsValue * 100}% off, for " + $"{item.remoteProductCurrencyCode} {savingsValue}" + "billed monthly";
         }
         else
         {
@@ -96,14 +102,16 @@ public class SubscriptionTierView : View
             var monthlyPrice = item.productPrice / 12;
             savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
             item.originalPrice = Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2);
-            actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
-            price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/yr";
-            billed.text = $"Just {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo"; ;
-            savings.text = $"Save {(int)(savingsValue * 100)}%";
+            //actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
+            //price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/yr";
+            //billed.text = $"Just {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo"; ;
+            //savings.text = $"Save {(int)(savingsValue * 100)}%";
             var showSavings = savingsValue > 0;
-            actualPrice.gameObject.SetActive(showSavings);
-            savings.gameObject.SetActive(showSavings);
+            //actualPrice.gameObject.SetActive(showSavings);
+            //savings.gameObject.SetActive(showSavings);
             item.discountedRatio = savingsValue;
+
+            singleText.text = "Upgrade with " + $"{(int)(savingsValue * 100)}% off, for " + $"{item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo" + ", billed annually";
         }
     }
 
@@ -116,7 +124,11 @@ public class SubscriptionTierView : View
     {
         this.isSelected = isSelected;
         var config = isSelected ? selectedConfig : defaultConfig;
-        title.color = price.color = savings.color = config.headingsColor;
+
+        toggleBall.enabled = config.radioSelected;
+        singleText.color = config.textColor;
+
+        /*title.color = price.color = savings.color = config.headingsColor;
         actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
         bg.image.sprite = config.bg;
         bg.image.SetNativeSize();
@@ -128,6 +140,7 @@ public class SubscriptionTierView : View
         foreach (var bar in processing)
         {
             bar.sprite = config.processing;
-        }
+        }*/
+
     }
 }

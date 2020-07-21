@@ -20,7 +20,7 @@ public class SubscriptionDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
-    public HorizontalLayoutGroup offerBg;
+    public VerticalLayoutGroup offerBg;
 
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -127,7 +127,7 @@ public class SubscriptionDlgView : View
     public void SetupPurchaseButton(bool isAvailable)
     {
         purchaseButton.interactable = isAvailable;
-        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+        //purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
     }
 }
 

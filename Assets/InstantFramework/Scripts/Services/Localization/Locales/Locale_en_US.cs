@@ -244,7 +244,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_DISCLAIMER, "Cancel subscription any time. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period by going to your Account Settings after purchase. Payment will be charged to iTunes or Google Play Account at confirmation of purchase. Any unused portion of free trial period, if offered, will be forfeited when you purchase a subscription."},
                 { LocalizationKey.SUBSCRIPTION_DLG_FREE_TRIAL, "Start 3 Days Free Trial."},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRICE, "Then (price) per month"},
-                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Subscribe"},
+                { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Continue"},
                 { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
