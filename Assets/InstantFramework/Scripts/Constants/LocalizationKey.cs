@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         public const string OFF_TEXT = "offText";
         public const string ACCEPT_TEXT = "acceptText";
         public const string DECLINE_TEXT = "declineText";
+        public const string START_TEXT = "startText";
 
         #endregion
 
@@ -149,7 +150,14 @@ namespace TurboLabz.InstantFramework
         public const string CPU_RESULTS_EXIT_BUTTON = "cpuResultsExitButton";
         public const string CLASSIC_MODE_TIME = "classicModeTime";
 
-        #endregion 
+        #endregion
+
+        #region Lessons
+
+        public const string LESSONS_TITLE = "lessonsTitle";
+        public const string LESSONS_DESCRIPTION = "lessonsDescription";
+
+        #endregion
 
         #region GameResults
 

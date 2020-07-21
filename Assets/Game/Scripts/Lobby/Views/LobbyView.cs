@@ -70,6 +70,12 @@ namespace TurboLabz.InstantFramework
         public Text playComputerMatchDescriptionTxt;
         public Text playComputerLevelTxt;
 
+        public Button lessonsBtn;
+        public Text lessonsTitleTxt;
+        public GameObject lessonsStart;
+        public Text lessonsStartTxt;
+        public Text lessonsDescriptionTxt;
+
         public Text noActiveMatchesText;
         public Text waitingForPlayersText;
 
@@ -174,6 +180,7 @@ namespace TurboLabz.InstantFramework
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
+        public Signal OnLessonsBtnClicked = new Signal();
 
         private GameObjectsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -253,6 +260,10 @@ namespace TurboLabz.InstantFramework
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
+            lessonsDescriptionTxt.text = localizationService.Get(LocalizationKey.LESSONS_DESCRIPTION);
+            lessonsTitleTxt.text = localizationService.Get(LocalizationKey.LESSONS_TITLE);
+            lessonsStartTxt.text = localizationService.Get(LocalizationKey.START_TEXT);
+            lessonsBtn.onClick.AddListener(OnLessonsButtonClicked);
 
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
@@ -421,6 +432,11 @@ namespace TurboLabz.InstantFramework
         public void HideChooseCPUGameDlg()
         {
             chooseComputerDifficultyDlg.SetActive(false);
+        }
+
+        void OnLessonsButtonClicked()
+        {
+            OnLessonsBtnClicked.Dispatch();
         }
 
         void CacheEnabledSections()

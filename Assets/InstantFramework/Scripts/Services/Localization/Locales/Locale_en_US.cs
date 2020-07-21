@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.OFF_TEXT, "Off" },
                 { LocalizationKey.ACCEPT_TEXT, "Accept" },
                 { LocalizationKey.DECLINE_TEXT, "Decline" },
-                 
+                { LocalizationKey.START_TEXT, "Start" },
 
                 #endregion
 
@@ -154,6 +154,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.CPU_RESULTS_CLOSE_BUTTON, "Back to Game" },
                 { LocalizationKey.CPU_RESULTS_STATS_BUTTON, "PROGRESS" },
                 { LocalizationKey.CPU_RESULTS_EXIT_BUTTON, "GAMES" },
+
+                #endregion
+
+                #region Lessons
+
+                { LocalizationKey.LESSONS_TITLE, "Lessons" },
+                { LocalizationKey.LESSONS_DESCRIPTION, "Learn to Play" },
+
 
                 #endregion
 

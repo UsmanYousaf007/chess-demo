@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
             view.playMultiplayerClassicButtonClickedSignal.AddListener(OnClassicMatchBtnClicked);
             view.playCPUButtonClickedSignal.AddListener(OnPlayComputerMatchBtnClicked);
             view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
+            view.OnLessonsBtnClicked.AddListener(OnLessonsBtnClicked);
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
@@ -444,6 +445,11 @@ namespace TurboLabz.InstantFramework
             
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
+        }
+
+        private void OnLessonsBtnClicked()
+        {
+
         }
 
         private bool CanShowPregameAd(string actionCode = null)
