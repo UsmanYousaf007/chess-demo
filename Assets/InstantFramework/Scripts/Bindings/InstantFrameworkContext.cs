@@ -254,7 +254,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton(); // Lifecyle handled
             injectionBinder.Bind<IRewardsSettingsModel>().To<RewardsSettingsModel>().ToSingleton(); // Lifecycle handled
             injectionBinder.Bind<ISettingsModel>().To<SettingsModel>().ToSingleton();
-
+            injectionBinder.Bind<ILessonsModel>().To<LessonsModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();
