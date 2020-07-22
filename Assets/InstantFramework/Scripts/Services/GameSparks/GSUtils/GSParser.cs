@@ -244,7 +244,10 @@ namespace TurboLabz.InstantFramework
                     }
                     else if (itemKind == GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG)
                     {
-                        playerModel.videos.Add(itemId, new Video(itemId, item.GetFloat("progress")));
+                        if (!playerModel.videos.ContainsKey(itemId))
+                        {
+                            playerModel.videos.Add(itemId, new Video(itemId, item.GetFloat("progress")));
+                        }
                     }
                 }
             }
