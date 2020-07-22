@@ -38,10 +38,10 @@ namespace TurboLabz.InstantGame
 
                 if (cachedPic == null)
                 {
-                    if (!string.IsNullOrEmpty(friend.uploadedPicId))
+                    if (!string.IsNullOrEmpty(friend.publicProfile.uploadedPicId))
                     {
                         picRequestCount++;
-                        profilePicService.GetProfilePic(friend.playerId, friend.uploadedPicId).Then(OnGetProfilePic);         
+                        profilePicService.GetProfilePic(friend.playerId, friend.publicProfile.uploadedPicId).Then(OnGetProfilePic);
                     }
 
                     else if (friend.publicProfile.facebookUserId != null)

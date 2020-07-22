@@ -20,11 +20,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnDownloadUrlSuccess(object r)
         {
-            LogEventResponse response = (LogEventResponse)r;
-
-
-
-            //findMatchRequestCompleteSignal.Dispatch(opponentStatus);
+            GetUploadedResponse response = (GetUploadedResponse)r;
+            downloadUrl = response.Url;
         }
 
         #region request

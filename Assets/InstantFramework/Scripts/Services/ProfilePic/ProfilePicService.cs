@@ -15,9 +15,12 @@ namespace TurboLabz.InstantFramework
 {
     public class ProfilePicService : IProfilePicService
     {
+
+        [Inject] public IBackendService backendService { get; set; }
+
         public IPromise<BackendResult, Sprite, string> GetProfilePic(string playerId, string uploadedPicId)
         {
-            return new GetProfilPicRequest().Send(playerId, uploadedPicId);
+            return new GetProfilPicRequest().Send(backendService.GetDownloadUrl, playerId, uploadedPicId);
         }
 
         public IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType)

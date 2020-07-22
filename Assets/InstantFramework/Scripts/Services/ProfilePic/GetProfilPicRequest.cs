@@ -16,32 +16,29 @@ namespace TurboLabz.InstantFramework
 {
     public class GetProfilPicRequest
     {
-        [Inject] IBackendService backendService { get; set; }
+        //[Inject] IBackendService backendService { get; set; }
         IPromise<BackendResult, Sprite, string> promise;
         private IRoutineRunner routineRunner;
         string playerId;
+
+        public delegate IPromise<BackendResult> DownloadUrlFn(string x);
 
         public GetProfilPicRequest()
         {
             routineRunner = new NormalRoutineRunner();
             promise = new Promise<BackendResult, Sprite, string>();
         }
-        public IPromise<BackendResult, Sprite, string> Send(string playerId, string uploadedPicId)
-        {
 
+        public IPromise<BackendResult, Sprite, string> Send(DownloadUrlFn getDownloadUrlFn, string playerId, string uploadedPicId)
+        {
             this.playerId = playerId;
-            GetProfilePicture(uploadedPicId);
+            getDownloadUrlFn(uploadedPicId).Then(OnUrlDownloadComplete);
             return promise;
-        }
-
-        private void GetProfilePicture(string uploadedPicId)
-        {
-            backendService.GetDownloadUrl(uploadedPicId).Then(OnUrlDownloadComplete);
         }
 
         private void OnUrlDownloadComplete(BackendResult result)
         {
-            bool isValidUrl = !String.IsNullOrEmpty(backendService.downloadUrl);
+            /*bool isValidUrl = !String.IsNullOrEmpty(backendService.downloadUrl);
             if (result == BackendResult.SUCCESS && isValidUrl)
             {
                 routineRunner.StartCoroutine(GetProfilePictureCR(backendService.downloadUrl));
@@ -51,6 +48,7 @@ namespace TurboLabz.InstantFramework
             {
                 promise.Dispatch(BackendResult.DOWNLOAD_PICTURE_FAILED,null,playerId);                
             }
+            */
         }
 
         private IEnumerator GetProfilePictureCR(string url)

@@ -210,6 +210,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAutoSubscriptionDailogueService>().To<AutoSubscriptionDailogueService>().ToSingleton();
             injectionBinder.Bind<IGameModesAnalyticsService>().To<GameModesAnalyticsService>().ToSingleton();
             injectionBinder.Bind<IPhotoService>().To<PhotoPickerService>().ToSingleton();
+            injectionBinder.Bind<IProfilePicService>().To<ProfilePicService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
