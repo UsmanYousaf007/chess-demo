@@ -160,6 +160,7 @@ namespace TurboLabz.InstantFramework
     public class SkillSelectedSignal : Signal { }
     public class LoadVideoSignal : Signal<string> { }
     public class VideoEventSignal : Signal<VideoEvent> { }
+    public class SaveLastWatchedVideoSignal : Signal<string> { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

@@ -64,6 +64,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
             commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
+            commandBinder.Bind<SaveLastWatchedVideoSignal>().To<SaveLastWatchedVideoCommand>();
 
             // Bind signals to models data loader commands
             commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();

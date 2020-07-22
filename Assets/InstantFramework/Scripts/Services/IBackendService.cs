@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> ChangeUserDetails(string name);
         IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId, int moveCount);
         IPromise<BackendResult> SyncReconnectData(string challengeId);
+        IPromise<BackendResult> SetLastWatchedVideo(string videoId);
 
         IPromise<BackendResult> UpdatePlayerData();
 

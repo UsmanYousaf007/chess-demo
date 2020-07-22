@@ -14,6 +14,9 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public LessonsVideoPlayerView view { get; set; }
 
+        // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         // Services
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -21,6 +24,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
+        [Inject] public SaveLastWatchedVideoSignal saveLastWatchedVideoSignal { get; set; }
 
         private bool videoPaused = false;
         private string videoId;
@@ -44,6 +48,12 @@ namespace TurboLabz.InstantFramework
             {
                 view.Show();
                 PlayVideo();
+
+                if (!string.IsNullOrEmpty(videoId) && playerModel.lastWatchedVideo != videoId)
+                {
+                    playerModel.lastWatchedVideo = videoId;
+                    saveLastWatchedVideoSignal.Dispatch(videoId);
+                }
             }
         }
 
