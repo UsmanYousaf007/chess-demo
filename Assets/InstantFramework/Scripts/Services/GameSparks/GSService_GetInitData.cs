@@ -65,6 +65,31 @@ namespace TurboLabz.InstantFramework
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
 
+            GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
+            if (lessonsData != null)
+            {
+                foreach (var entry in lessonsData.BaseData)
+                {
+                    var topicDictionary = new Dictionary<string, List<string>>();
+                    var topics = entry.Value as GSData;
+
+                    foreach (var topic in topics.BaseData)
+                    {
+                        var lessonsList = topic.Value as List<object>;
+                        var lessonsListStr = new List<string>();
+
+                        foreach (var lesson in lessonsList)
+                        {
+                            lessonsListStr.Add(lesson.ToString());
+                        }
+
+                        topicDictionary.Add(topic.Key, lessonsListStr);
+                    }
+
+                    lessonsModel.lessonsMapping.Add(entry.Key, topicDictionary);
+                }
+            }
+
             storeAvailableSignal.Dispatch(false);
 
             ParseActiveChallenges(response.ScriptData);

@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public ILessonsModel lessonsModel { get; set; }
 
         // Services
         [Inject] public IStoreService storeService { get; set; }

@@ -83,6 +83,9 @@ namespace TurboLabz.InstantFramework
         public const string OPPONENT_ELO = "opponentElo";
         public const string CHAT = "chat";
 
+        // Lessons
+        public const string LESSONS_MAPPING = "lessonsMapping";
+
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
         public const string ADS_MAX_IMPRESSIONS_PER_SLOT = "ADS_MAX_IMPRESSIONS_PER_SLOT";
