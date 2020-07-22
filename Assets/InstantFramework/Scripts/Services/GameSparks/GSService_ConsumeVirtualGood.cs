@@ -26,7 +26,7 @@ namespace TurboLabz.InstantFramework
 
             public GSConsumeVirtualGood(GSFrameworkRequestContext context) : base(context) { }
 
-            public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object> onSuccess)
+            public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object, Action<object>> onSuccess)
             {
                 this.onSuccess = onSuccess;
                 this.errorCode = BackendResult.CONSUME_VIRTUAL_GOOD_FAILED;
@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnConsumeVirtualGoodSuccess(object r)
+        private void OnConsumeVirtualGoodSuccess(object r, Action<object> a)
         {
            LogEventResponse response = (LogEventResponse)r;
 

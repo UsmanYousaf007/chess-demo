@@ -30,8 +30,8 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> FriendsOpUnblock(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("unblock", friendId, OnFriendOpSuccess); }
         public IPromise<BackendResult> FriendsOpBlocked(string friendId) { return new GSFriendsOpRequest(GetRequestContext()).Send("blocked", friendId, OnFriendOpSuccess); }
 
-        private void OnFriendOpSuccess(object r)
-		{
+        private void OnFriendOpSuccess(object r, Action<object> a)
+        {
 			LogEventResponse response = (LogEventResponse)r;
 
             if (response.ScriptData == null)
@@ -205,7 +205,7 @@ namespace TurboLabz.InstantFramework
 
         public GSFriendsOpRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string op, string friendId, Action<object> onSuccess, int skip = 0, string fbToken = null, string opJson = null)
+        public IPromise<BackendResult> Send(string op, string friendId, Action<object, Action<object>> onSuccess, int skip = 0, string fbToken = null, string opJson = null)
 		{
 			this.errorCode = BackendResult.FRIENDS_OP_FAILED;
 			this.onSuccess = onSuccess;

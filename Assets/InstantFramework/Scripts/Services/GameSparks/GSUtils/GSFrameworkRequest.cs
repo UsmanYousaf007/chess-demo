@@ -16,9 +16,10 @@ namespace TurboLabz.InstantFramework
         static List<IPromise<BackendResult>> activePromises = new List<IPromise<BackendResult>>();
 
         protected IPromise<BackendResult> promise;
-        protected Action<object> onSuccess;
+        protected Action<object, Action<object>> onSuccess;
         protected BackendResult errorCode;
         private GSFrameworkRequestContext context;
+        protected Action<object> onSuccessExternal;
 
         public static void CancelRequestSession()
         {
@@ -34,6 +35,7 @@ namespace TurboLabz.InstantFramework
             promise = new Promise<BackendResult>();
             activePromises.Add(promise);
             this.context = context;
+            onSuccessExternal = null;
         }
 
         protected void OnRequestSuccess(object response)
@@ -41,7 +43,7 @@ namespace TurboLabz.InstantFramework
 
             if (IsActive() && onSuccess != null)
             {
-                onSuccess(response);
+                onSuccess(response, onSuccessExternal);
             }
 
             Dispatch(BackendResult.SUCCESS);

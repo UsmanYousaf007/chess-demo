@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
             return new GSFindMatchRequest(GetRequestContext()).Send(action, OnFindMatchSuccess);
         }
 
-        private void OnFindMatchSuccess(object r)
+        private void OnFindMatchSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
 
@@ -54,7 +54,7 @@ namespace TurboLabz.InstantFramework
 
         public GSFindMatchRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string action, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string action, Action<object, Action<object>> onSuccess)
         {
             this.errorCode = BackendResult.MATCHMAKING_REQUEST_FAILED;
             this.onSuccess = onSuccess;

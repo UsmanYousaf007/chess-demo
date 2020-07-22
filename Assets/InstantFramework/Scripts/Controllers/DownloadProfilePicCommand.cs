@@ -19,16 +19,23 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateFriendPicSignal updateFriendPicSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
 
+        string downloadUrl;
+
         public override void Execute()
         {
             Retain();
             
-            backendService.GetDownloadUrl(fileId).Then(OnUrlDownloadComplete);
+            backendService.GetDownloadUrl(fileId, OnSuccessExternal).Then(OnUrlDownloadComplete);
+        }
+
+        private void OnSuccessExternal(object o)
+        {
+            downloadUrl = (string)o;
         }
 
         private void OnUrlDownloadComplete(BackendResult result)
         {
-            bool isValidUrl = !String.IsNullOrEmpty(backendService.downloadUrl);
+            bool isValidUrl = !String.IsNullOrEmpty(downloadUrl);
             if (result == BackendResult.SUCCESS && isValidUrl)
             {
                 //backendService.GetProfilePicture(backendService.downloadUrl, playerModel.id).Then(OnPictureDownloadComplete);

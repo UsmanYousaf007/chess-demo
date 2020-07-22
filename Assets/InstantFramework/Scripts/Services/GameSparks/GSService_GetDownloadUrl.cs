@@ -10,18 +10,19 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-
-        public string downloadUrl { get; set; }
-
-        public IPromise<BackendResult> GetDownloadUrl(string fileId)
+        public IPromise<BackendResult> GetDownloadUrl(string fileId, Action<object> onSuccessExternal)
         {
-            return new GSFileDownloadRequest(GetRequestContext()).Send(fileId, OnDownloadUrlSuccess);
+            return new GSFileDownloadRequest(GetRequestContext()).Send(fileId, OnDownloadUrlSuccess, onSuccessExternal);
         }
 
-        private void OnDownloadUrlSuccess(object r)
+        private void OnDownloadUrlSuccess(object r, Action<object> onSuccessExternal)
         {
             GetUploadedResponse response = (GetUploadedResponse)r;
-            downloadUrl = response.Url;
+
+            if (onSuccessExternal != null)
+            {
+                onSuccessExternal(response.Url);
+            }
         }
 
         #region request
@@ -30,10 +31,11 @@ namespace TurboLabz.InstantFramework
 
             public GSFileDownloadRequest(GSFrameworkRequestContext context) : base(context) { }
 
-            public IPromise<BackendResult> Send(string fileId, Action<object> onSuccess)
+            public IPromise<BackendResult> Send(string fileId, Action<object, Action<object>> onSuccess, Action<object> onSuccessExternal)
             {
                 this.errorCode = BackendResult.DOWNLOAD_URL_GET_FAILED;
                 this.onSuccess = onSuccess;
+                this.onSuccessExternal = onSuccessExternal;
 
                 new GetUploadedRequest()
                     .SetUploadId(fileId)

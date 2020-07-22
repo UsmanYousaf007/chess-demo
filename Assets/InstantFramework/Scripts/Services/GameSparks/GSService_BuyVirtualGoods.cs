@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
             return new GSBuyVirtualGoodsRequest(GetRequestContext()).Send(currencyType, quantity, shortCode, OnBuyVirtualGoodsSuccess);
         }
 
-        private void OnBuyVirtualGoodsSuccess(object r)
+        private void OnBuyVirtualGoodsSuccess(object r, Action<object>a)
         {
             BuyVirtualGoodResponse response = (BuyVirtualGoodResponse)r;
 
@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
             long currencyType,                                    // Which virtual currency to use. (1 to 6)
             int quantity,                                         // The number of items to purchase
             string shortCode,                                     // The short code of the virtual good to be purchased
-            Action<object> onSuccess)
+            Action<object, Action<object>> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.BUY_VIRTUAL_GOOD_FAILED;

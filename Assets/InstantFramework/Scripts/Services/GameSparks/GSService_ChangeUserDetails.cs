@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
 			return new GSChangeUserDetailsRequest(GetRequestContext()).Send(name, OnChangeUserDetailsSuccess);
 		}
 
-		private void OnChangeUserDetailsSuccess(object r)
+		private void OnChangeUserDetailsSuccess(object r, Action<object> a)
 		{
 			ChangeUserDetailsResponse response = (ChangeUserDetailsResponse)r;
 			playerModel.name = response.ScriptData.GetString(GSBackendKeys.DISPLAY_NAME);
@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
 	{
 		public GSChangeUserDetailsRequest(GSFrameworkRequestContext context) : base(context) { }
 
-		public IPromise<BackendResult> Send(string name, Action<object> onSuccess)
+		public IPromise<BackendResult> Send(string name, Action<object, Action<object>> onSuccess)
 		{
 			this.onSuccess = onSuccess;
 			this.errorCode = BackendResult.SET_PLAYER_SOCIAL_NAME_FAILED;

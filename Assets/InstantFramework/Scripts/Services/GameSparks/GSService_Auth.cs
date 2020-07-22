@@ -29,26 +29,26 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> AuthFacebook(string accessToken, bool existingPlayer)
         {
-            return new GSAuthFacebookRequest(GetRequestContext()).Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object>)null : onFacebookAuthSuccess));
+            return new GSAuthFacebookRequest(GetRequestContext()).Send(accessToken, existingPlayer, (existingPlayer == true ? (Action<object, Action<object>>)null : onFacebookAuthSuccess));
         }
 
         public IPromise<BackendResult> AuthSignInWithApple(string authorizationCode, bool existingPlayer)
         {
-            return new GSAuthSignInWithAppleRequest(GetRequestContext()).Send(authorizationCode, existingPlayer, (existingPlayer == true ? (Action<object>)null : onSignInWithAppleAuthSuccess));
+            return new GSAuthSignInWithAppleRequest(GetRequestContext()).Send(authorizationCode, existingPlayer, (existingPlayer == true ? (Action<object, Action<object>>)null : onSignInWithAppleAuthSuccess));
         }
 
         public IPromise<BackendResult> AuthEmail(string email, string password, bool existingPlayer)
         {
-            return new GSAuthEmailResquest(GetRequestContext()).Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object>)null : onEmailAuthSuccess));
+            return new GSAuthEmailResquest(GetRequestContext()).Send(email, password, existingPlayer, (existingPlayer == true ? (Action<object, Action<object>>)null : onEmailAuthSuccess));
         }
 
-        private void OnGuestAuthSuccess(object r)
+        private void OnGuestAuthSuccess(object r, Action<object> a)
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.newUser = (bool)response.NewPlayer;
         }
 
-        private void onFacebookAuthSuccess(object r)
+        private void onFacebookAuthSuccess(object r, Action<object> a)
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
             FillPlayerDetails(playerDetailsData);
         }
 
-        private void onSignInWithAppleAuthSuccess(object r)
+        private void onSignInWithAppleAuthSuccess(object r, Action<object> a)
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
             FillPlayerDetails(playerDetailsData);
         }
 
-        private void onEmailAuthSuccess(object r)
+        private void onEmailAuthSuccess(object r, Action<object> a)
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
@@ -80,7 +80,7 @@ namespace TurboLabz.InstantFramework
             return new GSSetPlayerSocialNameRequest(GetRequestContext()).Send(name, OnSetPlayerSocialNameSuccess);
         }
 
-        private void OnSetPlayerSocialNameSuccess(object r)
+        private void OnSetPlayerSocialNameSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
             playerModel.name = response.ScriptData.GetString(GSBackendKeys.DISPLAY_NAME);
@@ -97,7 +97,7 @@ namespace TurboLabz.InstantFramework
     {
         public GSAuthFacebookRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string accessToken, bool existingPlayer, Action<object> onFacebookAuthSuccess)
+        public IPromise<BackendResult> Send(string accessToken, bool existingPlayer, Action<object, Action<object>> onFacebookAuthSuccess)
         {
             this.onSuccess = onFacebookAuthSuccess;
             this.errorCode = BackendResult.AUTH_FACEBOOK_REQUEST_FAILED;
@@ -118,7 +118,7 @@ namespace TurboLabz.InstantFramework
     {
         public GSAuthSignInWithAppleRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string authorizationCode, bool existingPlayer, Action<object> onSignInWithAppleAuthSuccess)
+        public IPromise<BackendResult> Send(string authorizationCode, bool existingPlayer, Action<object, Action<object>> onSignInWithAppleAuthSuccess)
         {
             this.onSuccess = onSignInWithAppleAuthSuccess;
             this.errorCode = BackendResult.AUTH_SIGN_IN_WITH_APPLE_FAILED;
@@ -140,7 +140,7 @@ namespace TurboLabz.InstantFramework
     {
         public GSAuthEmailResquest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string email, string password, bool existingPlayer, Action<object> onEmailAuthSuccess)
+        public IPromise<BackendResult> Send(string email, string password, bool existingPlayer, Action<object, Action<object>> onEmailAuthSuccess)
         {
             this.onSuccess = onEmailAuthSuccess;
             this.errorCode = BackendResult.AUTH_EMAIL_REQUEST_FAILED;
@@ -162,7 +162,7 @@ namespace TurboLabz.InstantFramework
     {
         public GSAuthGuestRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(Action<object> onSuccess)
+        public IPromise<BackendResult> Send(Action<object, Action<object>> onSuccess)
         {
             this.errorCode = BackendResult.AUTH_GUEST_REQUEST_FAILED;
             this.onSuccess = onSuccess;
@@ -192,7 +192,7 @@ namespace TurboLabz.InstantFramework
         const string SHORT_CODE = "SetPlayerSocialName";
         const string ATT_NAME = "name";
 
-        public IPromise<BackendResult> Send(string name, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string name, Action<object, Action<object>> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.SET_PLAYER_SOCIAL_NAME_FAILED;

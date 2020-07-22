@@ -119,7 +119,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnPingSuccess(object r)
+        private void OnPingSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
 
@@ -171,7 +171,7 @@ namespace TurboLabz.InstantFramework
 
         public GSPingRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(Action<object> onSuccess, long clientSendTimestamp, bool opCommunityPublicStatus)
+        public IPromise<BackendResult> Send(Action<object, Action<object>> onSuccess, long clientSendTimestamp, bool opCommunityPublicStatus)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.PING_REQUEST_FAILED;

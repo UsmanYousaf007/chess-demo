@@ -20,8 +20,9 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult, Sprite, string> promise;
         private IRoutineRunner routineRunner;
         string playerId;
+        string downloadUrl;
 
-        public delegate IPromise<BackendResult> DownloadUrlFn(string x);
+        public delegate IPromise<BackendResult> DownloadUrlFn(string x, Action<object> a);
 
         public GetProfilPicRequest()
         {
@@ -32,23 +33,28 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult, Sprite, string> Send(DownloadUrlFn getDownloadUrlFn, string playerId, string uploadedPicId)
         {
             this.playerId = playerId;
-            getDownloadUrlFn(uploadedPicId).Then(OnUrlDownloadComplete);
+            getDownloadUrlFn(uploadedPicId, OnExternalSuccess).Then(OnUrlDownloadComplete);
             return promise;
+        }
+
+        private void OnExternalSuccess(object o)
+        {
+            downloadUrl = (string)o;
         }
 
         private void OnUrlDownloadComplete(BackendResult result)
         {
-            /*bool isValidUrl = !String.IsNullOrEmpty(backendService.downloadUrl);
+            bool isValidUrl = !String.IsNullOrEmpty(downloadUrl);
             if (result == BackendResult.SUCCESS && isValidUrl)
             {
-                routineRunner.StartCoroutine(GetProfilePictureCR(backendService.downloadUrl));
+                routineRunner.StartCoroutine(GetProfilePictureCR(downloadUrl));
             }
 
             else if (result == BackendResult.DOWNLOAD_URL_GET_FAILED)
             {
                 promise.Dispatch(BackendResult.DOWNLOAD_PICTURE_FAILED,null,playerId);                
             }
-            */
+            
         }
 
         private IEnumerator GetProfilePictureCR(string url)

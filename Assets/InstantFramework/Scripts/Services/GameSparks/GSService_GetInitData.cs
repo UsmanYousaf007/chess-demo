@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
             return new GSGetInitDataRequest(GetRequestContext()).Send(appVersion, appData, OnGetInitDataSuccess);
         }
 
-        void OnGetInitDataSuccess(object r)
+        void OnGetInitDataSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
@@ -379,7 +379,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> Send(int appVersion,
                                             string appData,
-                                            Action<object> onSuccess)
+                                            Action<object, Action<object>> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.GET_INIT_DATA_REQUEST_FAILED;

@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
             return new GSFileUploadRequest(GetRequestContext()).Send(OnUploadUrlSuccess);
         }
 
-        private void OnUploadUrlSuccess(object r)
+        private void OnUploadUrlSuccess(object r, Action<object> a)
         {
             GetUploadUrlResponse response = (GetUploadUrlResponse)r;
             uploadUrl = response.Url;
@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         {
             public GSFileUploadRequest(GSFrameworkRequestContext context) : base(context) { }
 
-            public IPromise<BackendResult> Send(Action<object> onSuccess)
+            public IPromise<BackendResult> Send(Action<object, Action<object>> onSuccess)
             {
                 this.errorCode = BackendResult.UPLOAD_URL_GET_FAILED;
                 this.onSuccess = onSuccess;

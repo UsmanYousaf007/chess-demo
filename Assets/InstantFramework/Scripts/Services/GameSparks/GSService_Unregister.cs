@@ -18,7 +18,7 @@ namespace TurboLabz.InstantFramework
         }
 
         // TODO: move this logic into the unregister command
-        private void OnUnregisterSuccess(object r)
+        private void OnUnregisterSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
 
@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
 
         public GSUnregisterRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string challengeId, Action<object, Action<object>> onSuccess)
         {
             this.errorCode = BackendResult.UNREGISTER_FAILED;
             this.onSuccess = onSuccess;

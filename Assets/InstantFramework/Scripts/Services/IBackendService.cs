@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
     {
         IServerClock serverClock { get; }
         string uploadUrl { get; set; }
-        string downloadUrl { get; set; }
 
         void AddChallengeListeners();
         void AddMessageListeners();
@@ -69,7 +68,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> FriendsOpBlocked(string friendId); // get blocked friends
 
         IPromise<BackendResult> GetUploadUrl();
-        IPromise<BackendResult> GetDownloadUrl(string id);
+        IPromise<BackendResult> GetDownloadUrl(string id, Action<object> onSuccessExternal);
         //IPromise<BackendResult, Sprite, string> GetProfilePicture(string url, string playerId);
         IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType);
     }

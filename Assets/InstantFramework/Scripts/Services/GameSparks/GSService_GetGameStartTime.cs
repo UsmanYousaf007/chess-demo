@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
             return new GSGetGameStartTimeRequest(GetRequestContext()).Send(challengeId, OnGetGameStartTimeSuccess);
         }
 
-        private void OnGetGameStartTimeSuccess(object m)
+        private void OnGetGameStartTimeSuccess(object m, Action<object> a)
         {
             ScriptMessage message = (ScriptMessage)m;
             matchInfoModel.activeMatch.gameStartTimeMilliseconds = message.Data.GetLong(GSBackendKeys.GAME_START_TIME).Value;
@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
 
         public GSGetGameStartTimeRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string challengeId, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string challengeId, Action<object, Action<object>> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.GET_GAME_START_TIME_REQUEST_FAILED;

@@ -18,7 +18,7 @@ namespace TurboLabz.InstantFramework
             return new GSCreateLongMatchRequest(GetRequestContext()).Send(opponentId, isRanked, OnCreateLongMatchResponse);
         }
 
-        private void OnCreateLongMatchResponse(object r)
+        private void OnCreateLongMatchResponse(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
             if (response != null &&
@@ -59,7 +59,7 @@ namespace TurboLabz.InstantFramework
 
         public GSCreateLongMatchRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string opponentId, bool isRanked, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(string opponentId, bool isRanked, Action<object, Action<object>> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.CREATE_LONG_MATCH_FAILED;

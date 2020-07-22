@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
             return new GSClaimRewardRequest(GetRequestContext()).Send(jsonData, OnClaimRewardSuccess);
         }
 
-        private void OnClaimRewardSuccess(object r)
+        private void OnClaimRewardSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
             if (response != null && response.ScriptData != null)
@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
 
         public GSClaimRewardRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object> onSuccess)
+        public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object, Action<object>> onSuccess)
         {
             this.onSuccess = onSuccess;
             this.errorCode = BackendResult.CLAIM_REWARD_REQUEST_FAILED;
