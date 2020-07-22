@@ -20,8 +20,10 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
 
         private bool videoPaused = false;
+        private string videoId;
 
         public override void OnRegister()
         {
@@ -61,21 +63,34 @@ namespace TurboLabz.InstantFramework
         {
             view.titleIconImage.sprite = vo.icon;
             view.titleText.text = vo.name;
+            videoId = vo.videoId;
         }
 
         [ListensTo(typeof(VideoEventSignal))]
-        public void OnVideoFinishedSeeking(VideoEvent videoEvent)
+        public void VideoEventListener(VideoEvent videoEvent)
         {
-            if (videoEvent == VideoEvent.FinishedSeeking)
+            switch (videoEvent)
             {
-                if (!videoPaused)
-                {
-                    PlayVideo();
-                }
-                else
-                {
-                    view.UpdateTimeText();
-                }
+                case VideoEvent.FinishedSeeking:
+                    if (!videoPaused)
+                    {
+                        PlayVideo();
+                    }
+                    else
+                    {
+                        view.UpdateTimeText();
+                    }
+
+                    break;
+                case VideoEvent.FinishedPlaying:
+                    // Save video to active inventory
+                    if (!string.IsNullOrEmpty(videoId))
+                    {
+                        VideoActiveInventoryItem videoInventoryItem = new VideoActiveInventoryItem(videoId, GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG, 100f);
+                        savePlayerInventorySignal.Dispatch(JsonUtility.ToJson(videoInventoryItem));
+                    }
+
+                    break;
             }
         }
 

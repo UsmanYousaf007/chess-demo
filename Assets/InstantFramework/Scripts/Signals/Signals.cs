@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
     public class BackendErrorSignal : Signal<BackendResult> { }
     public class ReceptionSignal : Signal<bool> { }
     public class LoadLobbySignal : Signal { }
-    public class SavePlayerInventorySignal : Signal { }
+    public class SavePlayerInventorySignal : Signal<string> { }
     public class SetSkinSignal : Signal<string> { }
     public class SetDefaultSkinSignal : Signal { }
     public class SkinUpdatedSignal : Signal { }

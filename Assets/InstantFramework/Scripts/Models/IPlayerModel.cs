@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
 
         // Videos
         Dictionary<string, Video> videos { get; set; }
+        string lastWatchedVideo { get; set; }
 
         // Friends
         Dictionary<string, Friend> friends { get; set; }

@@ -11,5 +11,6 @@ namespace TurboLabz.InstantGame
     {
         public string name;
         public Sprite icon;
+        public string videoId;
     }
 }
