@@ -3,15 +3,13 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantGame
 {
-    public class VideoLessonVO
+    public class TopicsViewVO
     {
-        public string name;
-        public Sprite icon;
-        public string videoId;
-        public bool isLocked;
+        public VideoLessonVO nextLesson;
+        public Dictionary<string, List<TopicVO>> sections;
     }
 }
