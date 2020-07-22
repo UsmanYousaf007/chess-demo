@@ -17,12 +17,21 @@ public class SubscriptionTierView : View
         public Vector3 bestValuePosition;
         public Sprite processing;
         public float bottomContainerSpacing;
-        public bool radioSelected;
     }
 
     public string key;
     public Button bg;
-    public Text title;
+
+    public bool isSelected;
+    public bool isMonthly;
+    public float savingsValue;
+    public TierConfig selectedConfig;
+    public TierConfig defaultConfig;
+    public Text singleText;
+    public Image toggleBall;
+
+    //TO-DO Remove code - SubDlg with icons
+    /*public Text title;
     public Text actualPrice;
     public Image actualPriceStrikeThrough;
     public Text price;
@@ -30,23 +39,15 @@ public class SubscriptionTierView : View
     public GameObject billedSeperator;
     public Text savings;
     public Text bestValue;
-    public RectTransform bestValueObject;
     public bool showBestValue;
-    public bool isSelected;
-    public bool isMonthly;
-    public float savingsValue;
-    public TierConfig selectedConfig;
-    public TierConfig defaultConfig;
+    public RectTransform bestValueObject;
     public RectTransform root;
     public HorizontalLayoutGroup bottomContainer;
-
-    public Text singleText;
-    public Image toggleBall;
 
     [Header("Not Available")]
     public RectTransform package;
     public GameObject notAvailable;
-    public Image[] processing;
+    public Image[] processing;*/
 
     //Signals
     public Signal selectTierClicked = new Signal();
@@ -60,14 +61,16 @@ public class SubscriptionTierView : View
     public void InitOnce()
     {
         bg.onClick.AddListener(OnClickSelectButton);
-        bestValueObject.gameObject.SetActive(showBestValue);
+        //TO-DO Remove code - SubDlg with icons
+        //bestValueObject.gameObject.SetActive(showBestValue);
         SelectTier(isSelected);
     }
 
     public void Init(bool isStoreAvailable)
     {
-        package.gameObject.SetActive(isStoreAvailable);
-        notAvailable.SetActive(!isStoreAvailable);
+        //TO-DO Remove code - SubDlg with icons
+        //package.gameObject.SetActive(isStoreAvailable);
+        //notAvailable.SetActive(!isStoreAvailable);
 
         if (!isStoreAvailable)
         {
@@ -81,20 +84,23 @@ public class SubscriptionTierView : View
             return;
         }
 
-        title.text = item.displayName;
+        //TO-DO Remove code - SubDlg with icons
+        //title.text = item.displayName;
 
         if (isMonthly)
         {
             item.originalPrice = Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2);
-            //actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
-            //price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
-            //billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
-            //billed.gameObject.SetActive(false);
-            //billedSeperator.gameObject.SetActive(false);
-            //savings.text = $"Save {savingsValue * 100}%";
             item.discountedRatio = savingsValue;
 
-            singleText.text = "Upgrade with " + $"{savingsValue * 100}% off, for " + $"{item.remoteProductCurrencyCode} {savingsValue}" + "billed monthly";
+            //TO-DO Remove code - SubDlg with icons
+            /*actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
+            price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/mo";
+            billed.text = $"Billed {item.remoteProductCurrencyCode} {item.productPrice} monthly";
+            //billed.gameObject.SetActive(false);
+            billedSeperator.gameObject.SetActive(false);
+            savings.text = $"Save {savingsValue * 100}%";*/
+
+            singleText.text = $"Upgrade with {savingsValue * 100}% off, for {item.remoteProductCurrencyCode} {item.originalPrice}, billed monthly";
         }
         else
         {
@@ -102,16 +108,18 @@ public class SubscriptionTierView : View
             var monthlyPrice = item.productPrice / 12;
             savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
             item.originalPrice = Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2);
-            //actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
-            //price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/yr";
-            //billed.text = $"Just {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo"; ;
-            //savings.text = $"Save {(int)(savingsValue * 100)}%";
-            var showSavings = savingsValue > 0;
-            //actualPrice.gameObject.SetActive(showSavings);
-            //savings.gameObject.SetActive(showSavings);
             item.discountedRatio = savingsValue;
 
-            singleText.text = "Upgrade with " + $"{(int)(savingsValue * 100)}% off, for " + $"{item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo" + ", billed annually";
+            //TO-DO Remove code - SubDlg with icons
+            /*actualPrice.text = $"{item.remoteProductCurrencyCode} {item.originalPrice}";
+            price.text = $"{item.remoteProductCurrencyCode} {item.productPrice}/yr";
+            billed.text = $"Just {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo"; ;
+            savings.text = $"Save {(int)(savingsValue * 100)}%";
+            var showSavings = savingsValue > 0;
+            actualPrice.gameObject.SetActive(showSavings);
+            savings.gameObject.SetActive(showSavings);*/
+
+            singleText.text = $"Upgrade with {(int)(savingsValue * 100)}% off, for {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo, billed annually";
         }
     }
 
@@ -125,9 +133,10 @@ public class SubscriptionTierView : View
         this.isSelected = isSelected;
         var config = isSelected ? selectedConfig : defaultConfig;
 
-        toggleBall.enabled = config.radioSelected;
+        toggleBall.enabled = isSelected;
         singleText.color = config.textColor;
 
+        //TO-DO Remove code - SubDlg with icons
         /*title.color = price.color = savings.color = config.headingsColor;
         actualPrice.color = billed.color = actualPriceStrikeThrough.color = config.textColor;
         bg.image.sprite = config.bg;
