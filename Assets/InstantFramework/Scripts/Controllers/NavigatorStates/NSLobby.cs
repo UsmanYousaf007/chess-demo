@@ -34,9 +34,9 @@ namespace TurboLabz.InstantFramework
                 return new NSProfileDlg();
             }
             else if (evt == NavigatorEvent.ESCAPE)
-			{
-				cmd.androidNativeService.SendToBackground();
-			}
+            {
+                cmd.androidNativeService.SendToBackground();
+            }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
                 return new NSMultiplayer();
@@ -88,6 +88,10 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_AD_SKIPPED_DLG)
             {
                 return new NSAdSkippedDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_LESSON_VIDEO)
+            {
+                return new NSLessonVideo();
             }
 
             return null;

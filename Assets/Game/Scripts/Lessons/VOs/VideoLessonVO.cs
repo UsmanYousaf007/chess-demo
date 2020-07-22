@@ -3,12 +3,13 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using strange.extensions.signal.impl;
-using TurboLabz.InstantFramework;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
-    public class VideoLoadFailedSignal : Signal { }
-    public class UpdateVideoLessonViewSignal : Signal<VideoLessonVO> { }
-    public class ShowVideoLessonSignal : Signal { }
+    public class VideoLessonVO
+    {
+        public string name;
+        public Sprite icon;
+    }
 }

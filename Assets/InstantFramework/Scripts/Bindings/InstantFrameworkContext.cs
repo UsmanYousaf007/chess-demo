@@ -165,7 +165,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateOfferDrawSignal>().ToSingleton();
             injectionBinder.Bind<SkillSelectedSignal>().ToSingleton();
             injectionBinder.Bind<VideoEventSignal>().ToSingleton();
-            injectionBinder.Bind<ReceivedSignedURLSignal>().ToSingleton();
+            injectionBinder.Bind<VideoLoadFailedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateVideoLessonViewSignal>().ToSingleton();
+            injectionBinder.Bind<ShowVideoLessonSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -276,6 +278,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadPromotionSingal>().To<LoadPromotionCommand>();
             commandBinder.Bind<LoadChatSignal>().To<LoadChatCommand>();
             commandBinder.Bind<ShowInGameProfileSingal>().To<ShowInGameProfileCommand>();
+            commandBinder.Bind<LoadVideoSignal>().To<LoadVideoCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -292,6 +295,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SubscriptionTierView>().To<SubscriptionTierMediator>();
             mediationBinder.Bind<ManageSubscriptionView>().To<ManageSubscriptionMediator>();
             mediationBinder.Bind<ManageBlockedFriendsView>().To<ManageBlockedFriendsMediator>();
+            mediationBinder.Bind<LessonsVideoPlayerView>().To<LessonsVideoPlayerMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

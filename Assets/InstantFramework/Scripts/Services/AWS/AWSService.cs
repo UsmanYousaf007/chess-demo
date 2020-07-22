@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
 
                 if (bodyDict.ContainsKey("body"))
                 {
-                    promise.Dispatch(BackendResult.SUCCESS, (string)bodyDict["body"]);
+                    promise.Dispatch(BackendResult.SUCCESS, bodyDict["body"].ToString());
                 }
                 else
                 {

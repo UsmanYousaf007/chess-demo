@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
         public void Prepare(string url)
         {
             this.url = url;
-            _avProPlayer.OpenVideoFromFile(MediaPlayer.FileLocation.AbsolutePathOrURL, url);
+            _avProPlayer.OpenVideoFromFile(MediaPlayer.FileLocation.AbsolutePathOrURL, url, false);
         }
 
         public void Pause()

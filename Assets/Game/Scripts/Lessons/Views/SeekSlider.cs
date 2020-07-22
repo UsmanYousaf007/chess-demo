@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace TurboLabz
+namespace TurboLabz.InstantGame
 {
     public class SeekSlider : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
