@@ -61,7 +61,9 @@ namespace TurboLabz.InstantFramework
         public string activeSkinId { get; set; } = null;    
         public IOrderedDictionary<string, int> inventory { get; set; }
 
+        // Videos
         public Dictionary<string, Video> videos { get; set; }
+        public string lastWatchedVideo { get; set; }
 
         // Friends
         public Dictionary<string, Friend> friends { get; set; }
@@ -120,7 +122,9 @@ namespace TurboLabz.InstantFramework
             // Inventory
             inventory = new OrderedDictionary<string, int>();
 
+            // Videos
             videos = new Dictionary<string, Video>();
+            lastWatchedVideo = null;
 
             // Friends
             friends = new Dictionary<string, Friend>();
@@ -279,6 +283,18 @@ namespace TurboLabz.InstantFramework
             }
 
             return count;
+        }
+
+        public void UpdateVideoProgress(string videoId, float progress)
+        {
+            if (videos.ContainsKey(videoId))
+            {
+                videos[videoId].progress = progress;
+            }
+            else
+            {
+                videos.Add(videoId, new Video(videoId, progress));
+            }
         }
 
     }

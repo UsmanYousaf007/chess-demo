@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
             Retain();
 
             // TODO: This is hardcoded to only handle skins. Make this generic for new item types
-            backendService.UpdateActiveInventory(playerModel.activeSkinId, requestJson).Then(OnComplete);
+            backendService.UpdateActiveInventory(playerModel.activeSkinId, !string.IsNullOrEmpty(requestJson) ? requestJson : null).Then(OnComplete);
         }
 
         private void OnComplete(BackendResult result)

@@ -57,7 +57,7 @@ public class ThemeSelectionMediator : Mediator
     {
         if (view.HasSkinChanged())
         {
-            savePlayerInventorySignal.Dispatch();
+            savePlayerInventorySignal.Dispatch("");
             hAnalyticsService.LogEvent("selection", "menu", "", "theme_change");
         }
 

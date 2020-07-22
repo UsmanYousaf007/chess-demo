@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
         {
             if (view.HasSettingsChanged())
             {
-                savePlayerInventorySignal.Dispatch();
+                savePlayerInventorySignal.Dispatch("");
             }
 
             //OnCloseDailogue();
