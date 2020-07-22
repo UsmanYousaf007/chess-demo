@@ -8,6 +8,7 @@ using TurboLabz.TLUtils;
 using System;
 using GameSparks.Core;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -69,6 +70,7 @@ namespace TurboLabz.InstantFramework
 
         IPromise<BackendResult> GetUploadUrl();
         IPromise<BackendResult> GetDownloadUrl(string id);
-
+        //IPromise<BackendResult, Sprite, string> GetProfilePicture(string url, string playerId);
+        IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType);
     }
 }

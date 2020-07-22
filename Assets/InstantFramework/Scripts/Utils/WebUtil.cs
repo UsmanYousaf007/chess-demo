@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace TurboLabz.TLUtils
 {
-    public static class WebUtil
+    public class WebUtil : MonoBehaviour
     {
 
 
@@ -24,14 +24,13 @@ namespace TurboLabz.TLUtils
             }
         }
 
-        public static UnityWebRequest Post(string url, byte[] stream, string filename, string mimeType)
+        public static IEnumerator UploadFileAsync(string url, byte[] stream, string filename, string mimeType)
         {
             WWWForm form = new WWWForm();
             form.AddBinaryData("file", stream, filename, mimeType);
             using (UnityWebRequest www = UnityWebRequest.Post(url, form))
             {
-                www.SendWebRequest();
-                return www;
+                yield return www.SendWebRequest();                
             }
 
         }
@@ -53,13 +52,13 @@ namespace TurboLabz.TLUtils
             }
         }
 
-        public static byte[] GetBinary(string url)
+        public static IEnumerator GetBinary(string url)
         {
             using (UnityWebRequest www = UnityWebRequest.Get(url))
             {
                 www.SendWebRequest();
                 byte[] stream = www.downloadHandler.data;
-                return stream;
+                yield return www.downloadHandler.data;
             }
 
         }

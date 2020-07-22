@@ -314,6 +314,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_FAVOURITE = "favourite";
             public const string LAST_MATCH_TIMESTAMP = "lastMatchTimestamp";
             public const string FLAG_MASK = "flagMask";
+            public const string UPLOADED_PIC_ID = "uploadedPicId";
         }
 
 		public static class FriendsOp

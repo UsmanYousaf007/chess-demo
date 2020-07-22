@@ -302,6 +302,16 @@ namespace TurboLabz.InstantGame
 
         public void ProcessOpenedNotification(NotificationVO notificationVO)
         {
+            string challengeId = GetChallengeId(notificationVO.senderPlayerId);
+            if (challengeId != null)
+            {
+                MatchInfo matchInfo = matchInfoModel.matches[challengeId];
+                if (matchInfo.isLongPlay && matchInfo.acceptStatus == GSBackendKeys.Match.ACCEPT_STATUS_ACCEPTED)
+                {
+                    tapLongMatchSignal.Dispatch(notificationVO.senderPlayerId, false);
+                }
+            }
+
             if (notificationVO.matchGroup != "undefined")
             {
                 if((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent)/1000 > NOTIFICATION_QUICKMATCH_DURATION)

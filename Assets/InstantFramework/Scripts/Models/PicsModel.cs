@@ -13,7 +13,7 @@ namespace TurboLabz.InstantFramework
         private const string PIC_KEY = "pic";
         private const string PIC_FILE_PREFIX = "fp";
         private Dictionary<string, Sprite> memCache = new Dictionary<string, Sprite>();
-
+        
         public void SetPlayerPic(string playerId, Sprite sprite, bool saveOnDisk = true)
         {
             if (sprite == null)

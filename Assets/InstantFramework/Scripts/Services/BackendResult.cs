@@ -69,7 +69,9 @@ namespace TurboLabz.InstantFramework
         OFFER_DRAW_OP_FAILED,
         AUTH_SIGN_IN_WITH_APPLE_FAILED,
         UPLOAD_URL_GET_FAILED,
-        DOWNLOAD_URL_GET_FAILED
+        DOWNLOAD_URL_GET_FAILED,
+        UPLOAD_PICTURE_FAILED,
+        DOWNLOAD_PICTURE_FAILED
 
     }
 }

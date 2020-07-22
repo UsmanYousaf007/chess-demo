@@ -6,12 +6,13 @@
 using System;
 using System.Collections.Generic;
 using strange.extensions.promise.api;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IPhotoService
     {
-        Byte[] PickPhoto(int size, string format);
-        Byte[] TakePhoto(int size, string format);
+        Photo PickPhoto(int size, string format);
+        Photo TakePhoto(int size, string format);
     }
 }

@@ -11,52 +11,69 @@ namespace TurboLabz.InstantFramework
 	public class PhotoPickerService : IPhotoService
 	{
 
-		public byte[] PickPhoto(int maxSize, string format)
+		public Photo PickPhoto(int maxSize, string format= "jpeg")
 		{
-			byte[] imageStream = null;
+			Photo photo = null;
 			try
 			{
 				NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
 				{
 					if (path != null)
 					{
-						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, true);
+						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
-						{
-							imageStream = photoTexture.EncodeToJPG();
-							Texture2D.Destroy(photoTexture);
-						}
-					}
+                        {
+                            photo = CreatePhotoView(photoTexture);
+
+                            Texture2D.Destroy(photoTexture);
+                        }
+                    }
 				});
-				return imageStream;
+				return photo;
 			}
 			catch (Exception e)
-			{ throw new Exception("Exception thrown from TakePhoto", e.InnerException); }
+			{
+                throw new Exception("Exception thrown from TakePhoto", e.InnerException);
+            }
 
 
 		}
 
-		public byte[] TakePhoto(int maxSize, string format = "jpeg")
+        public Photo TakePhoto(int maxSize, string format = "jpeg")
 		{
 			try
 			{
-				byte[] imageStream = null;
+				Photo photo = null;
 				NativeCamera.Permission permission = NativeCamera.TakePicture((path) =>
 				{
 					if (path != null)
 					{
-						Texture2D photoTexture = NativeCamera.LoadImageAtPath(path, maxSize, true);
+						Texture2D photoTexture = NativeCamera.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
 						{
-							imageStream = photoTexture.EncodeToJPG();
-							Texture2D.Destroy(photoTexture);
+							photo = CreatePhotoView(photoTexture);
 						}
 					}
 				});
-				return imageStream;
+				return photo;
 			}
 			catch (Exception e)
-			{ throw new Exception("Exception thrown from TakePhoto", e.InnerException); }
+			{
+                throw new Exception("Exception thrown from TakePhoto", e.InnerException);
+            }
+		}
+
+		private static Photo CreatePhotoView(Texture2D photoTexture)
+		{
+			Sprite image = Sprite.Create(photoTexture,
+											 new Rect(0, 0, photoTexture.width, photoTexture.height),
+											 new Vector2(0.5f, 0.5f));
+			image.name = photoTexture.name;
+
+			byte[] imageStream = photoTexture.EncodeToJPG();
+
+			Photo photo = new Photo(image, imageStream);
+			return photo;
 		}
 	}
 }

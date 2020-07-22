@@ -23,7 +23,7 @@ namespace TurboLabz.InstantGame
 
         // services
         [Inject] public IFacebookService facebookService { get; set; }
-
+        [Inject] public IProfilePicService profilePicService { get; set; }
         int picRequestCount = 0;
         int picResponseCount = 0;
 
@@ -38,7 +38,13 @@ namespace TurboLabz.InstantGame
 
                 if (cachedPic == null)
                 {
-                    if (friend.publicProfile.facebookUserId != null)
+                    if (!string.IsNullOrEmpty(friend.uploadedPicId))
+                    {
+                        picRequestCount++;
+                        profilePicService.GetProfilePic(friend.playerId, friend.uploadedPicId).Then(OnGetProfilePic);         
+                    }
+
+                    else if (friend.publicProfile.facebookUserId != null)
                     {
                         picRequestCount++;
                         facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
@@ -55,44 +61,71 @@ namespace TurboLabz.InstantGame
         {
             if (result == FacebookResult.SUCCESS)
             {
-            	TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
-            
-                if (friendId != null)
-                {
-                    updateFriendPicSignal.Dispatch(friendId, sprite);
-
-                    if (playerModel.community.ContainsKey(friendId))
-                    {
-                        playerModel.community[friendId].publicProfile.profilePicture = sprite;
-                    }
-                    else if (playerModel.search.ContainsKey(friendId))
-                    {
-                        playerModel.search[friendId].publicProfile.profilePicture = sprite;
-                    }
-                    else if (playerModel.friends.ContainsKey(friendId))
-                    {
-                        playerModel.friends[friendId].publicProfile.profilePicture = sprite;
-                    }
-                    else if (playerModel.blocked.ContainsKey(friendId))
-                    {
-                        playerModel.blocked[friendId].publicProfile.profilePicture = sprite;
-                    }
-                }
+                SetPics(sprite, friendId);
             }
 
             picResponseCount++;
 
             if (picRequestCount == picResponseCount)
             {
-                //Only saving frinds pics to disk
-                picsModel.SetFriendPics(playerModel.friends, true);
-                picsModel.SetFriendPics(playerModel.search, false);
-                picsModel.SetFriendPics(playerModel.community, false);
-                picsModel.SetFriendPics(playerModel.blocked, false);
-
-                Resources.UnloadUnusedAssets();
-                Release();
+                SavePics();
             }
         }
+
+        private void OnGetProfilePic(BackendResult result, Sprite sprite, string friendId)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                SetPics(sprite, friendId);
+            }
+
+            picResponseCount++;
+
+            if (picRequestCount == picResponseCount)
+            {
+                SavePics();
+            }
+        }
+
+        private void SetPics(Sprite sprite, string friendId)
+        {
+            TLUtils.LogUtil.LogNullValidation(friendId, "friendId");
+
+            if (friendId != null)
+            {
+                updateFriendPicSignal.Dispatch(friendId, sprite);
+
+                if (playerModel.community.ContainsKey(friendId))
+                {
+                    playerModel.community[friendId].publicProfile.profilePicture = sprite;
+                }
+                else if (playerModel.search.ContainsKey(friendId))
+                {
+                    playerModel.search[friendId].publicProfile.profilePicture = sprite;
+                }
+                else if (playerModel.friends.ContainsKey(friendId))
+                {
+                    playerModel.friends[friendId].publicProfile.profilePicture = sprite;
+                }
+                else if (playerModel.blocked.ContainsKey(friendId))
+                {
+                    playerModel.blocked[friendId].publicProfile.profilePicture = sprite;
+                }
+            }
+        }
+
+        private void SavePics()
+        {
+            //Only saving frinds pics to disk
+            picsModel.SetFriendPics(playerModel.friends, true);
+            picsModel.SetFriendPics(playerModel.search, false);
+            picsModel.SetFriendPics(playerModel.community, false);
+            picsModel.SetFriendPics(playerModel.blocked, false);
+
+            Resources.UnloadUnusedAssets();
+            Release();
+        }
+
+
     }
 }

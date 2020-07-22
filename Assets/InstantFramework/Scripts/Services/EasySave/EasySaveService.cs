@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
 
         public bool FileExists(string filename)
         {
-            return ES2.Exists(filename);
+            return ES2.Exists(filename);            
         }
 
         public void DeleteFile(string filename)

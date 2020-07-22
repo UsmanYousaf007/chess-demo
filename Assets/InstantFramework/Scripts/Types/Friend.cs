@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
 		public int gamesDrawn;
         public long lastMatchTimestamp;
         public long flagMask;
+        public string uploadedPicId;
         public PublicProfile publicProfile;
 	}
 }

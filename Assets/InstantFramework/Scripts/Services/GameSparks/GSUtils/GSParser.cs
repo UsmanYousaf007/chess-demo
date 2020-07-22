@@ -302,11 +302,16 @@ namespace TurboLabz.InstantFramework
 
             GSData externalIds = publicProfileData.GetGSData(GSBackendKeys.PublicProfile.EXTERNAL_IDS);
 			IDictionary<ExternalAuthType, ExternalAuth> auths = GSBackendKeys.Auth.GetExternalAuthentications(externalIds);
-			if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
+
+            publicProfile.uploadedPicId = publicProfileData.GetString(GSBackendKeys.Friend.UPLOADED_PIC_ID);
+
+            if (auths.ContainsKey(ExternalAuthType.FACEBOOK))
 			{
 				ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
 				publicProfile.facebookUserId = facebookAuthData.id;
 			}
+
+
 		}
 
         public static void ParseFriend(Friend friend, GSData friendData, string friendId)
@@ -317,6 +322,7 @@ namespace TurboLabz.InstantFramework
             friend.friendType = GetSafeString(friendData, GSBackendKeys.Friend.TYPE, GSBackendKeys.Friend.TYPE_COMMUNITY);
             friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
             friend.flagMask = GetSafeLong(friendData, GSBackendKeys.Friend.FLAG_MASK);
+
 
             GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
@@ -365,6 +371,7 @@ namespace TurboLabz.InstantFramework
             LogUtil.Log("********** playerModel.removeAdsTimeStamp" + " " + playerModel.removeAdsTimeStamp);
             LogUtil.Log("********** playerModel.removeAdsTimePeriod" + " " + playerModel.removeAdsTimePeriod);
             LogUtil.Log("********** playerModel.removeAdsTimePeriod" + " " + playerModel.cpuPowerupUsedCount);
+            LogUtil.Log("********** playerModel.uploadedPicId" + " " + playerModel.uploadedPicId);
             // Player Public Profile
             //PublicProfile publicProfile { get; }
 

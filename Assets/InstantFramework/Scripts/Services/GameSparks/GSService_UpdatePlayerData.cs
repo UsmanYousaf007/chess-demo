@@ -8,6 +8,7 @@ using strange.extensions.promise.api;
 using System;
 using GameSparks.Api.Requests;
 using GameSparks.Core;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> Send(IPlayerModel playerModel)
         {
+            Debug.Log("GSService_UpdatePlayerData begin");
             this.errorCode = BackendResult.UPDATE_PLAYER_DATA_FAILED;
 
             string uploadedPicId = playerModel.uploadedPicId ?? "";
@@ -39,14 +41,14 @@ namespace TurboLabz.InstantFramework
                              .AddNumber(ATT_NOTIFICATION_COUNT, playerModel.notificationCount)
                              .AddNumber(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP, playerModel.subscriptionExipryTimeStamp)                            
                             .AddString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE, playerModel.subscriptionType)
-                            .AddString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID, uploadedPicId);
+                            .AddString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID, playerModel.uploadedPicId);
 
-
+            Debug.Log("GSService_UpdatePlayerData middle");
             new LogEventRequest()
                 .SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_JSON_DATA, jsonData)
                 .Send(OnRequestSuccess, OnRequestFailure);
-
+            Debug.Log("GSService_UpdatePlayerData end");
             return promise;
         }
     }
