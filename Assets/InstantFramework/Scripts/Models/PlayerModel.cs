@@ -120,8 +120,10 @@ namespace TurboLabz.InstantFramework
             // Inventory
             inventory = new OrderedDictionary<string, int>();
 
-			// Friends
-			friends = new Dictionary<string, Friend>();
+            videos = new Dictionary<string, Video>();
+
+            // Friends
+            friends = new Dictionary<string, Friend>();
 			blocked = new Dictionary<string, Friend>();
             community = new Dictionary<string, Friend>();
             search = new Dictionary<string, Friend>();

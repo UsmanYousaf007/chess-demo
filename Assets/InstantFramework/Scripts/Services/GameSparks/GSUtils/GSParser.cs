@@ -242,6 +242,10 @@ namespace TurboLabz.InstantFramework
                     {
                         playerModel.avatarBgColorId = itemId;
                     }
+                    else if (itemKind == GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG)
+                    {
+                        playerModel.videos.Add(itemId, new Video(itemId, item.GetFloat("progress")));
+                    }
                 }
             }
         }
