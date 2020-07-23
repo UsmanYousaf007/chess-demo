@@ -78,10 +78,17 @@ namespace TurboLabz.InstantGame
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
-        private void OnNextLesson(string lessonId)
+        private void OnNextLesson(string lessonId, bool isLocked)
         {
-            view.processing.SetActive(true);
-            loadVideoSignal.Dispatch(lessonId);
+            if (isLocked)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            }
+            else
+            {
+                view.processing.SetActive(true);
+                loadVideoSignal.Dispatch(lessonId);
+            }
         }
 
         private void OnTopicClicked(TopicVO vo)
