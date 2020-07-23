@@ -38,6 +38,7 @@ namespace TurboLabz.InstantGame
                     lessonVO.name = metaDataModel.store.items[lesson].displayName;
                     lessonVO.videoId = lesson;
                     lessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(lesson));
+                    lessonVO.progress = (float)playerModel.GetVideoProgress(lesson)/100f;
                     lessonsList.Add(lessonVO);
                 }
             }

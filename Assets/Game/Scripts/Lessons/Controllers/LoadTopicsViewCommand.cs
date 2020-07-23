@@ -39,6 +39,7 @@ namespace TurboLabz.InstantGame
                 nextLessonVO.videoId = nextLesson;
                 nextLessonVO.icon = iconsContainer.GetSprite(lessonsModel.GetTopicId(nextLesson));
                 nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson));
+                nextLessonVO.progress = (float)playerModel.GetVideoProgress(nextLesson) / 100f;
                 vo.nextLesson = nextLessonVO;
             }
 

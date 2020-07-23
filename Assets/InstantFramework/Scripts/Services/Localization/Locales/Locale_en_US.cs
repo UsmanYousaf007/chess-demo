@@ -162,6 +162,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.LESSONS_TITLE, "Lessons" },
                 { LocalizationKey.LESSONS_DESCRIPTION, "Learn to Play" },
                 { LocalizationKey.LESSONS_START, "Start Lesson"},
+                { LocalizationKey.LESSONS_COMPLETED_TITLE, "Great Work!"},
+                { LocalizationKey.LESSONS_COMPLETED_DESCRIPTION, "You have completed all of the available lessons.\nStay tuned for more advanced lessons coming soon."},
 
                 #endregion
 

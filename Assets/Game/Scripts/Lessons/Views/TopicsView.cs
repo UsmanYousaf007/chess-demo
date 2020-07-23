@@ -17,18 +17,24 @@ namespace TurboLabz.InstantGame
         public Image nextLessonIcon;
         public Text nextLessonName;
         public Button nextLessonButton;
+        public Image nextLessonProgress;
         public Transform categoryContainer;
         public GameObject topicCategory;
         public GameObject topicTile;
         public Text backButtonLabel;
         public Button backButton;
         public GameObject processing;
+        public GameObject nextLessonSection;
+        public GameObject lessonsCompletedSection;
+        public Text lessonCompletedTitle;
+        public Text lessonCompletedDescription;
 
         private GameObjectsPool categoryPool;
         private GameObjectsPool topicTilePool;
         private string nextLessonId = string.Empty;
+        private bool isNextLessonLocked = false;
 
-        public Signal<string> nextLessonSignal = new Signal<string>();
+        public Signal<string, bool> nextLessonSignal = new Signal<string, bool>();
         public Signal backSignal = new Signal();
         public Signal<TopicVO> loadTopicSignal = new Signal<TopicVO>();
 
@@ -46,6 +52,8 @@ namespace TurboLabz.InstantGame
 
             startLessonLabel.text = localizationService.Get(LocalizationKey.LESSONS_START);
             backButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
+            lessonCompletedTitle.text = localizationService.Get(LocalizationKey.LESSONS_COMPLETED_TITLE);
+            lessonCompletedDescription.text = localizationService.Get(LocalizationKey.LESSONS_COMPLETED_DESCRIPTION);
         }
 
         public void Show()
@@ -60,10 +68,14 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(TopicsViewVO vo)
         {
+            nextLessonSection.SetActive(!vo.allLessonsWatched);
+            lessonsCompletedSection.SetActive(vo.allLessonsWatched);
             nextLessonIcon.sprite = vo.nextLesson.icon;
             nextLessonIcon.SetNativeSize();
             nextLessonName.text = vo.nextLesson.name;
             nextLessonId = vo.nextLesson.videoId;
+            nextLessonProgress.fillAmount = vo.nextLesson.progress;
+            isNextLessonLocked = vo.nextLesson.isLocked;
 
             foreach (var section in vo.sections)
             {
@@ -78,7 +90,7 @@ namespace TurboLabz.InstantGame
         private void OnNextLessonClicked()
         {
             audioService.PlayStandardClick();
-            nextLessonSignal.Dispatch(nextLessonId);
+            nextLessonSignal.Dispatch(nextLessonId, isNextLessonLocked);
         }
 
         private void OnBackButtonClicked()

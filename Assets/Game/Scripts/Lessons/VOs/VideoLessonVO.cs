@@ -13,5 +13,6 @@ namespace TurboLabz.InstantGame
         public Sprite icon;
         public string videoId;
         public bool isLocked;
+        public float progress;
     }
 }
