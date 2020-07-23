@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 using RenderHeads.Media.AVProVideo;
 
 namespace TurboLabz.InstantFramework
@@ -11,6 +12,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Events
         [Inject] public VideoEventSignal videoEventSignal { get; set; }
+        [Inject] public VideoLoadFailedSignal videoLoadFailedSignal { get; set; }
 
         private MediaPlayer _avProPlayer;
 
@@ -80,6 +82,9 @@ namespace TurboLabz.InstantFramework
                     break;
                 case MediaPlayerEvent.EventType.FinishedSeeking:
                     videoEventSignal.Dispatch(VideoEvent.FinishedSeeking);
+                    break;
+                case MediaPlayerEvent.EventType.Error:
+                    videoLoadFailedSignal.Dispatch();
                     break;
             }
         }
