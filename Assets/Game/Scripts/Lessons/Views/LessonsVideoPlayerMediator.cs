@@ -25,9 +25,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
         [Inject] public SaveLastWatchedVideoSignal saveLastWatchedVideoSignal { get; set; }
+        [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
 
         private bool videoPaused = false;
         private string videoId;
+        private VideoLessonVO nextVideo;
 
         public override void OnRegister()
         {
@@ -38,7 +40,7 @@ namespace TurboLabz.InstantFramework
             view.SeekStartedVideoSignal.AddListener(OnSeekStarted);
             view.SeekEndVideoSignal.AddListener(SeekTime);
             view._backButton.onClick.AddListener(OnBackButtonClicked);
-
+            view.nextVideoButton.onClick.AddListener(OnNextVideoButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -63,11 +65,14 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(UpdateVideoLessonViewSignal))]
-        public void UpdateView(VideoLessonVO vo)
+        public void UpdateView(LessonPlayVO vo)
         {
-            view.titleIconImage.sprite = vo.icon;
-            view.titleText.text = vo.name;
-            videoId = vo.videoId;
+            view.titleIconImage.sprite = vo.currentLesson.icon;
+            view.titleIconImage.SetNativeSize();
+            view.titleText.text = vo.currentLesson.name;
+            videoId = vo.currentLesson.videoId;
+            view.nextVideoButton.gameObject.SetActive(vo.nextLesson != null);
+            nextVideo = vo.nextLesson;
         }
 
         [ListensTo(typeof(VideoEventSignal))]
@@ -75,6 +80,13 @@ namespace TurboLabz.InstantFramework
         {
             switch (videoEvent)
             {
+                case VideoEvent.ReadyToPlay:
+                    if (view.isActiveAndEnabled)
+                    {
+                        view.processing.SetActive(false);
+                        PlayVideo();
+                    }
+                    break;
                 case VideoEvent.FinishedSeeking:
                     if (!videoPaused)
                     {
@@ -102,6 +114,15 @@ namespace TurboLabz.InstantFramework
                     }
 
                     break;
+            }
+        }
+
+        [ListensTo(typeof(VideoLoadFailedSignal))]
+        public void OnLessonLoadFailed()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.processing.SetActive(false);
             }
         }
 
@@ -145,6 +166,23 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             audioService.PlayStandardClick();
+        }
+
+        private void OnNextVideoButtonClicked()
+        {
+            audioService.PlayStandardClick();
+
+            if (nextVideo.isLocked)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            }
+            else
+            {
+                view.processing.SetActive(true);
+                videoPlaybackService.Stop();
+                view.Reset();
+                loadVideoSignal.Dispatch(nextVideo);
+            }
         }
     }
 }

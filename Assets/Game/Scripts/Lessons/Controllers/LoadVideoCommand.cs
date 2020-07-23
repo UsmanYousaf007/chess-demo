@@ -11,25 +11,36 @@ namespace TurboLabz.InstantGame
     public class LoadVideoCommand : Command
     {
         // Params
-        [Inject] public string videoId { get; set; }
+        [Inject] public VideoLessonVO lessonVO { get; set; }
 
         // Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+        [Inject] public ILessonsModel lessonsModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public VideoLoadFailedSignal videoLoadFailedSignal { get; set; }
+        [Inject] public UpdateVideoLessonViewSignal updateVideoLessonViewSignal { get; set; }
 
         // Services
         [Inject] public IAWSService aWSService { get; set; }
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
 
+        private StoreIconsContainer iconsContainer;
+
         public override void Execute()
         {
             Retain();
 
-            StoreItem videoItem = storeSettingsModel.GetVideoByShortCode(videoId);
-            aWSService.GetSignedUrl(videoItem.videoUrl).Then(OnURLReceived);
+            if (storeSettingsModel.items.ContainsKey(lessonVO.videoId))
+            {
+                aWSService.GetSignedUrl(storeSettingsModel.items[lessonVO.videoId].videoUrl).Then(OnURLReceived);
+            }
+            else
+            {
+                videoLoadFailedSignal.Dispatch();
+            }
         }
 
         public void OnURLReceived(BackendResult result, string signedUrl)
@@ -37,6 +48,24 @@ namespace TurboLabz.InstantGame
             if (result == BackendResult.SUCCESS)
             {
                 videoPlaybackService.Prepare(signedUrl);
+                var vo = new LessonPlayVO();
+                vo.currentLesson = lessonVO;
+
+                var nextLesson = lessonsModel.GetNextLesson(lessonVO.videoId);
+
+                if (storeSettingsModel.items.ContainsKey(lessonVO.videoId))
+                {
+                    iconsContainer = StoreIconsContainer.Load();
+                    var nextLessonVO = new VideoLessonVO();
+                    nextLessonVO.name = storeSettingsModel.items[nextLesson].displayName;
+                    nextLessonVO.videoId = nextLesson;
+                    nextLessonVO.icon = iconsContainer.GetSprite(lessonsModel.GetTopicId(nextLesson));
+                    nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson));
+                    nextLessonVO.progress = (float)playerModel.GetVideoProgress(nextLesson) / 100f;
+                    vo.nextLesson = nextLessonVO;
+                }
+
+                updateVideoLessonViewSignal.Dispatch(vo);
             }
             else
             {

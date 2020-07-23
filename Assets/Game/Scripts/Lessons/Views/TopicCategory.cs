@@ -11,6 +11,8 @@ public class TopicCategory : MonoBehaviour
     public Transform topicTileContainer;
     public SkinLink skinLink;
 
+    private GameObjectsPool tilePool;
+
     public void Init(string title, List<TopicVO> topics, GameObjectsPool topicTilePool, Signal<TopicVO> onClickSignal)
     {
         this.title.text = title;
@@ -25,6 +27,15 @@ public class TopicCategory : MonoBehaviour
             topicTile.button.onClick.AddListener(() => onClickSignal.Dispatch(topic));
             tile.transform.SetParent(topicTileContainer, false);
             tile.SetActive(true);
+            tilePool = topicTilePool;
+        }
+    }
+
+    public void Reset()
+    {
+        foreach (var tile in topicTileContainer.GetComponentsInChildren<TopicTile>())
+        {
+            tilePool.ReturnObject(tile.gameObject);
         }
     }
 }
