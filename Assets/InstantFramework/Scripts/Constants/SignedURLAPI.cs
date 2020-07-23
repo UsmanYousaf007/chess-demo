@@ -11,7 +11,7 @@ namespace TurboLabz.InstantFramework
 {
     public static class SignedURLAPI
     {
-        public const string REQUEST_URL = "https://wmiyl2vvnb.execute-api.us-east-1.amazonaws.com/default/GetSignedURL";
-        public const string API_KEY = "9IGj1pfi2s3btN7AqtBLuTSAnuxhSLAaXcacmxFd";
+        public const string REQUEST_URL = "https://5wjccgeei6.execute-api.us-east-1.amazonaws.com/prod/GetSignedURL";
+        public const string API_KEY = "QeKW5xmRhW1oD7Lht0EHU85e44szuHOW7RDOXqxI";
     }
 }
