@@ -81,5 +81,7 @@ namespace TurboLabz.InstantFramework
         AdsRewardVO GetAdsRewardsData();
 
         int GetSocialFriendsCount();
+
+        void UpdateVideoProgress(string videoId, float progress);
     }
 }

@@ -98,6 +98,8 @@ namespace TurboLabz.InstantFramework
                     {
                         VideoActiveInventoryItem videoInventoryItem = new VideoActiveInventoryItem(videoId, GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG, 100f);
                         savePlayerInventorySignal.Dispatch(JsonUtility.ToJson(videoInventoryItem));
+
+                        playerModel.UpdateVideoProgress(videoId, 100f);
                     }
 
                     break;
