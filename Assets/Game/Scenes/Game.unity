@@ -28701,6 +28701,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471305533}
   m_CullTransparentMesh: 0
+--- !u!224 &475952331 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2387223063838774861, guid: cd3d2f17d96ea457e915b03505f075fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2387223062195565415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &476483043
 GameObject:
   m_ObjectHideFlags: 0
@@ -71049,6 +71055,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &1219166516 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2387223062253775064, guid: cd3d2f17d96ea457e915b03505f075fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2387223062195565415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1219878026
 GameObject:
   m_ObjectHideFlags: 0
@@ -115172,6 +115184,8 @@ MonoBehaviour:
   topicsScrollView: {fileID: 255512668}
   lessonsViewBottomNav: {fileID: 1884642740}
   lessonsScrollView: {fileID: 797778145}
+  lessonVideoPlayerTopBar: {fileID: 475952331}
+  lessonVideoPlayerBottomNav: {fileID: 1219166516}
 --- !u!1 &1901426452
 GameObject:
   m_ObjectHideFlags: 0
