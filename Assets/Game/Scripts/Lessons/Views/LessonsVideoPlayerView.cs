@@ -85,7 +85,7 @@ namespace TurboLabz.InstantGame
 
         public void UpdateTimeText()
         {
-            TimeSpan currentTime = TimeSpan.FromMilliseconds(videoPlaybackService.time);
+            TimeSpan currentTime = TimeSpan.FromMilliseconds(seekSlider.GetNormalizedValue() * videoPlaybackService.duration);
             TimeSpan totalTime = TimeSpan.FromMilliseconds(videoPlaybackService.duration);
             _timeText.text = TimeUtil.MillisecondsToMinutesAndSeconds(currentTime) + " / " + TimeUtil.MillisecondsToMinutesAndSeconds(totalTime);
         }

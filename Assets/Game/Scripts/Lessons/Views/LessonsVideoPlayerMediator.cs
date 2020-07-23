@@ -80,10 +80,6 @@ namespace TurboLabz.InstantFramework
                     {
                         PlayVideo();
                     }
-                    else
-                    {
-                        view.UpdateTimeText();
-                    }
 
                     break;
                 case VideoEvent.FinishedPlaying:
@@ -141,6 +137,8 @@ namespace TurboLabz.InstantFramework
 
             nTime = Mathf.Clamp(nTime, 0f, 1f);
             videoPlaybackService.Seek(nTime * videoPlaybackService.duration);
+
+            view.UpdateTimeText();
         }
 
         private void OnBackButtonClicked()

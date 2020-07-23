@@ -21,6 +21,11 @@ namespace TurboLabz.InstantGame
             SeekEndEvent = seekEndEvent;
         }
 
+        public float GetNormalizedValue()
+        {
+            return _slider.normalizedValue;
+        }
+
         public void OnPointerDown(PointerEventData e)
         {
             SeekStartEvent?.Invoke();
