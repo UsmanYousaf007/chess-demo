@@ -280,6 +280,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadChatSignal>().To<LoadChatCommand>();
             commandBinder.Bind<ShowInGameProfileSingal>().To<ShowInGameProfileCommand>();
             commandBinder.Bind<LoadVideoSignal>().To<LoadVideoCommand>();
+            commandBinder.Bind<LoadTopicsViewSignal>().To<LoadTopicsViewCommand>();
+            commandBinder.Bind<LoadLessonsViewSignal>().To<LoadLessonsViewCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -297,6 +299,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ManageSubscriptionView>().To<ManageSubscriptionMediator>();
             mediationBinder.Bind<ManageBlockedFriendsView>().To<ManageBlockedFriendsMediator>();
             mediationBinder.Bind<LessonsVideoPlayerView>().To<LessonsVideoPlayerMediator>();
+            mediationBinder.Bind<TopicsView>().To<TopicsMediator>();
+            mediationBinder.Bind<LessonsView>().To<LessonsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -326,6 +330,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RemoveLobbyPromotionSignal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTopiscViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLessonsViewSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

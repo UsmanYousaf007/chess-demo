@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class TopicCategory : MonoBehaviour
     public Transform topicTileContainer;
     public SkinLink skinLink;
 
-    public void Init(string title, List<TopicVO> topics, GameObjectsPool topicTilePool)
+    public void Init(string title, List<TopicVO> topics, GameObjectsPool topicTilePool, Signal<TopicVO> onClickSignal)
     {
         this.title.text = title;
         skinLink.InitPrefabSkin();
@@ -18,8 +19,11 @@ public class TopicCategory : MonoBehaviour
         foreach (var topic in topics)
         {
             var tile = topicTilePool.GetObject();
-            tile.transform.SetParent(topicTileContainer);
-            tile.GetComponent<TopicTile>().Init(topic);
+            var topicTile = tile.GetComponent<TopicTile>();
+            topicTile.Init(topic);
+            topicTile.button.onClick.RemoveAllListeners();
+            topicTile.button.onClick.AddListener(() => onClickSignal.Dispatch(topic));
+            tile.transform.SetParent(topicTileContainer, false);
             tile.SetActive(true);
         }
     }

@@ -66,29 +66,7 @@ namespace TurboLabz.InstantFramework
             FillRewardsSettingsModel(rewardsSettingsData);
 
             GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
-            if (lessonsData != null)
-            {
-                foreach (var entry in lessonsData.BaseData)
-                {
-                    var topicDictionary = new Dictionary<string, List<string>>();
-                    var topics = entry.Value as GSData;
-
-                    foreach (var topic in topics.BaseData)
-                    {
-                        var lessonsList = topic.Value as List<object>;
-                        var lessonsListStr = new List<string>();
-
-                        foreach (var lesson in lessonsList)
-                        {
-                            lessonsListStr.Add(lesson.ToString());
-                        }
-
-                        topicDictionary.Add(topic.Key, lessonsListStr);
-                    }
-
-                    lessonsModel.lessonsMapping.Add(entry.Key, topicDictionary);
-                }
-            }
+            FillLessonsModel(lessonsData);
 
             storeAvailableSignal.Dispatch(false);
 
@@ -395,6 +373,34 @@ namespace TurboLabz.InstantFramework
                 msg.guid = pair.Key;
 
                 receiveChatMessageSignal.Dispatch(msg, true);
+            }
+        }
+
+        private void FillLessonsModel(GSData lessonsData)
+        {
+            if (lessonsData != null)
+            {
+                foreach (var entry in lessonsData.BaseData)
+                {
+                    var topicDictionary = new OrderedDictionary<string, List<string>>();
+                    var topics = entry.Value as GSData;
+
+                    foreach (var topic in topics.BaseData)
+                    {
+                        var lessonsList = topic.Value as List<object>;
+                        var lessonsListStr = new List<string>();
+
+                        foreach (var lesson in lessonsList)
+                        {
+                            lessonsListStr.Add(lesson.ToString());
+                        }
+
+                        lessonsModel.totalVideos += lessonsListStr.Count;
+                        topicDictionary.Add(topic.Key, lessonsListStr);
+                    }
+
+                    lessonsModel.lessonsMapping.Add(entry.Key, topicDictionary);
+                }
             }
         }
     }

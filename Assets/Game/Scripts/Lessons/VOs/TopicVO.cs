@@ -13,5 +13,6 @@ namespace TurboLabz.InstantGame
         public Sprite icon;
         public int completed;
         public int total;
+        public string section;
     }
 }

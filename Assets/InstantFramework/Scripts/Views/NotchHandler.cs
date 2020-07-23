@@ -75,6 +75,12 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform blockedFriendsScrollViewPort;
     public RectTransform blockedFriendsSearchBarShadow;
 
+    [Header("Lesson Views")]
+    public RectTransform topicsViewBottomNav;
+    public RectTransform topicsScrollView;
+    public RectTransform lessonsViewBottomNav;
+    public RectTransform lessonsScrollView;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -167,6 +173,13 @@ public class NotchHandler : MonoBehaviour {
         blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 60);
         SetY(blockedFriendsSearchBarShadow, -125);
 
+        //Lesson Views
+        SetY(topicsViewBottomNav, 89f);
+        SetTop(topicsScrollView, -177f);
+        SetBottom(topicsScrollView, 212f);
+        SetY(lessonsViewBottomNav, 89f);
+        SetTop(lessonsScrollView, -110f);
+        SetBottom(lessonsScrollView, 212f);
     }
 
     void SetY(RectTransform tfm, float y)

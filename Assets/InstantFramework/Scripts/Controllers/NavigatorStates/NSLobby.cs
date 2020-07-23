@@ -93,6 +93,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLessonVideo();
             }
+            else if (evt == NavigatorEvent.SHOW_TOPICS_VIEW)
+            {
+                return new NSLessonTopics();
+            }
 
             return null;
         }

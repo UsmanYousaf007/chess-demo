@@ -1,4 +1,5 @@
-﻿using TurboLabz.InstantFramework;
+﻿using strange.extensions.signal.impl;
+using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;

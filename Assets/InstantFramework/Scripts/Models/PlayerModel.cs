@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
         public float rewardPointsRequired { get; set; }
 
         private bool isSubscriber = false;
+        private float MAX_VIDEO_PROGRESS = 100;
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -297,6 +298,20 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public bool isVideoFullyWatched(string videoId)
+        {
+            if (videos.ContainsKey(videoId))
+            {
+                return videos[videoId].progress == MAX_VIDEO_PROGRESS;
+            }
+
+            return false;
+        }
+
+        public bool isAnyVideoWatched()
+        {
+            return videos.Count > 0;
+        }
     }
 }
 

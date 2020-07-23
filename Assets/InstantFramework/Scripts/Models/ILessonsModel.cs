@@ -4,11 +4,19 @@
 /// Proprietary and confidential
 
 using System.Collections.Generic;
+using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
     public interface ILessonsModel
     {
-        Dictionary<string, Dictionary<string, List<string>>> lessonsMapping { get; set; }
+        int totalVideos { get; set; }
+        OrderedDictionary<string, OrderedDictionary<string, List<string>>> lessonsMapping { get; set; }
+        int GetCompletedLessonsCount(string section, string topic);
+        bool HasWatchedAllLessons();
+        string GetNextLesson(string currentLesson);
+        string GetTopicId(string lesson);
+        OrderedDictionary<string, List<TopicVO>> GetSectionsWithTopicVO(StoreIconsContainer iconsContainer);
     }
 }

@@ -4,12 +4,14 @@
 /// Proprietary and confidential
 
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
     public class TopicsViewVO
     {
+        public bool allLessonsWatched;
         public VideoLessonVO nextLesson;
-        public Dictionary<string, List<TopicVO>> sections;
+        public OrderedDictionary<string, List<TopicVO>> sections;
     }
 }

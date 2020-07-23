@@ -22,13 +22,15 @@ namespace TurboLabz.InstantGame
         public GameObject topicTile;
         public Text backButtonLabel;
         public Button backButton;
+        public GameObject processing;
 
         private GameObjectsPool categoryPool;
         private GameObjectsPool topicTilePool;
         private string nextLessonId = string.Empty;
 
-        public Signal<string> nextLesson = new Signal<string>();
-        public Signal back = new Signal();
+        public Signal<string> nextLessonSignal = new Signal<string>();
+        public Signal backSignal = new Signal();
+        public Signal<TopicVO> loadTopicSignal = new Signal<TopicVO>();
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -66,22 +68,23 @@ namespace TurboLabz.InstantGame
             foreach (var section in vo.sections)
             {
                 var sectionObj = categoryPool.GetObject();
-                sectionObj.transform.SetParent(categoryContainer);
-                sectionObj.GetComponent<TopicCategory>().Init(section.Key, section.Value, topicTilePool);
+                sectionObj.transform.SetParent(categoryContainer, false);
+                sectionObj.GetComponent<TopicCategory>().Init(section.Key, section.Value, topicTilePool, loadTopicSignal);
                 sectionObj.SetActive(true);
             }
+            LayoutRebuilder.ForceRebuildLayoutImmediate(categoryContainer.GetComponent<RectTransform>());
         }
 
         private void OnNextLessonClicked()
         {
             audioService.PlayStandardClick();
-            nextLesson.Dispatch(nextLessonId);
+            nextLessonSignal.Dispatch(nextLessonId);
         }
 
         private void OnBackButtonClicked()
         {
             audioService.PlayStandardClick();
-            back.Dispatch();
+            backSignal.Dispatch();
         }
     }
 }

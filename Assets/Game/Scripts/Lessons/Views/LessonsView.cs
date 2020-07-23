@@ -23,10 +23,12 @@ namespace TurboLabz.InstantGame
         public Button backButton;
         public Transform lessonTileContainer;
         public GameObject lessonTile;
+        public GameObject processing;
 
         private GameObjectsPool lessonTilePool;
 
-        public Signal back = new Signal();
+        public Signal backSignal = new Signal();
+        public Signal<VideoLessonVO> playVideoSingal = new Signal<VideoLessonVO>();
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -54,13 +56,20 @@ namespace TurboLabz.InstantGame
         {
             SetupTopic(vo.topicVO);
 
-            foreach (var lessonVO in vo.lessons)
+            var i = 0;
+            foreach(var lessonVO in vo.lessons)
             {
+                i++;
                 var lesson = lessonTilePool.GetObject();
-                lesson.transform.SetParent(lessonTileContainer);
-                lesson.GetComponent<LessonTile>().Init(lessonVO);
+                var lessonTile = lesson.GetComponent<LessonTile>();
+                lessonVO.name = $"{i}. {lessonVO.name}";
+                lessonTile.Init(lessonVO);
+                lessonTile.button.onClick.RemoveAllListeners();
+                lessonTile.button.onClick.AddListener(() => playVideoSingal.Dispatch(lessonVO));
+                lesson.transform.SetParent(lessonTileContainer, false);
                 lesson.SetActive(true);
             }
+            LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
         }
 
         private void ClearView()
@@ -91,7 +100,7 @@ namespace TurboLabz.InstantGame
         private void OnBackButtonClicked()
         {
             audioService.PlayStandardClick();
-            back.Dispatch();
+            backSignal.Dispatch();
         }
     }
 }

@@ -68,6 +68,8 @@ namespace TurboLabz.InstantFramework
         START_CPU_GAME_DLG,
         FIND_YOUR_FRIEND_DLG,
         AD_SKIPPED_DLG,
-        LESSON_VIDEO
+        LESSON_VIDEO,
+        TOPICS_VIEW,
+        LESSONS_VIEW
     }
 }

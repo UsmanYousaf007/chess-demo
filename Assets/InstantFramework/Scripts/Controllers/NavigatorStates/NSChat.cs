@@ -54,6 +54,10 @@ namespace TurboLabz.InstantFramework
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_TOPICS_VIEW)
+            {
+                return new NSLessonTopics();
+            }
 
             return null;
         }

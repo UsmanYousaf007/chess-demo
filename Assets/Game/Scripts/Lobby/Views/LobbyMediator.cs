@@ -48,7 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
-        [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
+        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -450,21 +450,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnLessonsBtnClicked()
         {
-            // For testing
-            OnShowProcessingUI(true, true);
-
-            loadVideoSignal.Dispatch("VideoLessonCourseOverview");
-        }
-
-        [ListensTo(typeof(VideoEventSignal))]
-        public void OnLessonVideoReady(VideoEvent videoEvent)
-        {
-            OnShowProcessingUI(false, false);
-
-            if (videoEvent == VideoEvent.ReadyToPlay)
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSON_VIDEO);
-            }
+            loadTopicsViewSignal.Dispatch();
         }
 
         private bool CanShowPregameAd(string actionCode = null)

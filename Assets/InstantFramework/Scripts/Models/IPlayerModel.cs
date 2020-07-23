@@ -83,5 +83,7 @@ namespace TurboLabz.InstantFramework
         int GetSocialFriendsCount();
 
         void UpdateVideoProgress(string videoId, float progress);
+        bool isVideoFullyWatched(string videoId);
+        bool isAnyVideoWatched();
     }
 }
