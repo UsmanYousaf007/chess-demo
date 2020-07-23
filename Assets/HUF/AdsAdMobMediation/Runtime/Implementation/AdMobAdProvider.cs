@@ -18,7 +18,7 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
         protected AdMobAdProvider( AdMobProviderBase baseProvider )
         {
             this.baseProvider = baseProvider;
-            logPrefix = new HLogPrefix( GetType().Name );
+            logPrefix = new HLogPrefix( HAds.logPrefix, nameof(AdMobAdProvider) );
             syncContext = SynchronizationContext.Current;
         }
 

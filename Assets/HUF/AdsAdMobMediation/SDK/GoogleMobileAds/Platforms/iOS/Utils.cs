@@ -23,7 +23,7 @@ using GoogleMobileAds.Common;
 
 namespace GoogleMobileAds.iOS
 {
-    public class Utils
+    internal class Utils
     {
         // Creates an ad request.
         public static IntPtr BuildAdRequest(AdRequest request)

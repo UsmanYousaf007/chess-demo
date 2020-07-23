@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace GoogleMobileAds.Editor
 {
-
     public class GoogleMobileAdsSettings : ScriptableObject
     {
         private const string MobileAdsSettingsDir = "Assets/GoogleMobileAds";
