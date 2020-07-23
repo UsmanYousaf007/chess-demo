@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
 
         public string GetNextLesson(string currentLesson)
         {
-            if (string.IsNullOrEmpty(currentLesson) || !playerModel.isAnyVideoWatched())
+            if (string.IsNullOrEmpty(currentLesson))
             {
                 return lessonsMapping.First().Value.First().Value.First();
             }

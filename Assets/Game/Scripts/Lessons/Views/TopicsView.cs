@@ -31,10 +31,9 @@ namespace TurboLabz.InstantGame
 
         private GameObjectsPool categoryPool;
         private GameObjectsPool topicTilePool;
-        private string nextLessonId = string.Empty;
-        private bool isNextLessonLocked = false;
+        private VideoLessonVO lessonVO;
 
-        public Signal<string, bool> nextLessonSignal = new Signal<string, bool>();
+        public Signal<VideoLessonVO> nextLessonSignal = new Signal<VideoLessonVO>();
         public Signal backSignal = new Signal();
         public Signal<TopicVO> loadTopicSignal = new Signal<TopicVO>();
 
@@ -73,9 +72,8 @@ namespace TurboLabz.InstantGame
             nextLessonIcon.sprite = vo.nextLesson.icon;
             nextLessonIcon.SetNativeSize();
             nextLessonName.text = vo.nextLesson.name;
-            nextLessonId = vo.nextLesson.videoId;
             nextLessonProgress.fillAmount = vo.nextLesson.progress;
-            isNextLessonLocked = vo.nextLesson.isLocked;
+            lessonVO = vo.nextLesson;
 
             foreach (var section in vo.sections)
             {
@@ -90,7 +88,7 @@ namespace TurboLabz.InstantGame
         private void OnNextLessonClicked()
         {
             audioService.PlayStandardClick();
-            nextLessonSignal.Dispatch(nextLessonId, isNextLessonLocked);
+            nextLessonSignal.Dispatch(lessonVO);
         }
 
         private void OnBackButtonClicked()

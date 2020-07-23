@@ -9,10 +9,11 @@ using TurboLabz.InstantFramework;
 namespace TurboLabz.InstantGame
 {
     public class VideoLoadFailedSignal : Signal { }
-    public class UpdateVideoLessonViewSignal : Signal<VideoLessonVO> { }
+    public class UpdateVideoLessonViewSignal : Signal<LessonPlayVO> { }
     public class ShowVideoLessonSignal : Signal { }
     public class UpdateTopiscViewSignal : Signal<TopicsViewVO> { }
     public class LoadTopicsViewSignal : Signal { }
     public class UpdateLessonsViewSignal : Signal<LessonsViewVO> { }
     public class LoadLessonsViewSignal : Signal<TopicVO> { }
+    public class LoadVideoSignal : Signal<VideoLessonVO> { }
 }

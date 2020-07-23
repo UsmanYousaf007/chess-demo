@@ -20,6 +20,8 @@ namespace TurboLabz.InstantGame
         public Image titleIconImage;
         public Text titleText;
         public Button _backButton;
+        public Button nextVideoButton;
+        public GameObject processing;
 
         [SerializeField] private RectTransform _videoScreen;
         [SerializeField] private Button _playPauseButton;

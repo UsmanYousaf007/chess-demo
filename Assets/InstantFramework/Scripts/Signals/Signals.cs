@@ -158,7 +158,6 @@ namespace TurboLabz.InstantFramework
     public class ResetUnblockButtonSignal : Signal<string> { }
     public class UpdateOfferDrawSignal : Signal<OfferDrawVO> { }
     public class SkillSelectedSignal : Signal { }
-    public class LoadVideoSignal : Signal<string> { }
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
     // SKINS

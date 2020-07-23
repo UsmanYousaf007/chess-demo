@@ -87,7 +87,7 @@ namespace TurboLabz.InstantGame
             else
             {
                 view.processing.SetActive(true);
-                loadVideoSignal.Dispatch(vo.videoId);
+                loadVideoSignal.Dispatch(vo);
             }
         }
     }
