@@ -156,6 +156,7 @@ namespace TurboLabz.InstantFramework
 
         public const string LESSONS_TITLE = "lessonsTitle";
         public const string LESSONS_DESCRIPTION = "lessonsDescription";
+        public const string LESSONS_START = "lessonsStart";
 
         #endregion
 

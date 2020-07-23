@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
-    public class VideoLessonVO
+    public class TopicVO
     {
         public string name;
         public Sprite icon;
-        public string videoId;
-        public bool isLocked;
+        public int completed;
+        public int total;
     }
 }

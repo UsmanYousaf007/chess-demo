@@ -85,6 +85,21 @@ namespace TurboLabz.InstantFramework
 
         // Lessons
         public const string LESSONS_MAPPING = "lessonsMapping";
+        public static string GetLessonKey(string text)
+        {
+            switch (text)
+            {
+                case "How to Play": return "PieceMovement";
+                case "Ending the Game": return "ChangeTheme";
+                case "Building an Opening Strategy": return "BuildOpeningStrategy";
+                case "King Safety": return "KingSafety";
+                case "Tactics": return "Tactics";
+                case "Advanced Tactics": return "AdvTactics";
+                case "Checkmating your Opponent": return "CheckMatingOppo";
+                case "Advanced Scenarios": return "AdvScenarios";
+            }
+            return "";
+        }
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
