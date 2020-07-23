@@ -15,7 +15,8 @@
             {
                 if (viewId == NavigatorViewId.TOPICS_VIEW)
                 {
-                    return new NSLessonTopics();
+                    cmd.loadTopicsViewSignal.Dispatch();
+                    return null;
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)
@@ -33,6 +34,10 @@
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
             {
                 return new NSSubscriptionDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_TOPICS_VIEW)
+            {
+                return new NSLessonTopics();
             }
 
             return null;

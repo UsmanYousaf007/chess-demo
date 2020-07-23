@@ -25,8 +25,6 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSONS_VIEW);
-
             var lessonsList = new List<VideoLessonVO>();
             var lessons = lessonsModel.lessonsMapping[topicVO.section][topicVO.name];
 
@@ -48,6 +46,8 @@ namespace TurboLabz.InstantGame
             vo.topicVO = topicVO;
             vo.lessons = lessonsList;
             updateTopiscViewSignal.Dispatch(vo);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSONS_VIEW);
+            lessonsModel.lastViewedTopic = topicVO;
         }
     }
 }

@@ -18,5 +18,6 @@ namespace TurboLabz.InstantFramework
         string GetNextLesson(string currentLesson);
         string GetTopicId(string lesson);
         OrderedDictionary<string, List<TopicVO>> GetSectionsWithTopicVO(StoreIconsContainer iconsContainer);
+        TopicVO lastViewedTopic { get; set; }
     }
 }

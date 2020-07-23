@@ -63,6 +63,7 @@ namespace TurboLabz.InstantGame
         public void Hide()
         {
             gameObject.SetActive(false);
+            ClearView();
         }
 
         public void UpdateView(TopicsViewVO vo)
@@ -95,6 +96,15 @@ namespace TurboLabz.InstantGame
         {
             audioService.PlayStandardClick();
             backSignal.Dispatch();
+        }
+
+        private void ClearView()
+        {
+            foreach (var category in categoryContainer.GetComponentsInChildren<TopicCategory>())
+            {
+                categoryPool.ReturnObject(category.gameObject);
+                category.Reset();
+            }
         }
     }
 }

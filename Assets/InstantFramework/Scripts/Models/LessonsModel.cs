@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         public OrderedDictionary<string, OrderedDictionary<string, List<string>>> lessonsMapping { get; set; }
         public int totalVideos { get; set; }
+        public TopicVO lastViewedTopic { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -30,6 +31,7 @@ namespace TurboLabz.InstantFramework
         private void Reset()
         {
             totalVideos = 0;
+            lastViewedTopic = new TopicVO();
             lessonsMapping = new OrderedDictionary<string, OrderedDictionary<string, List<string>>>();
         }
 
