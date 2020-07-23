@@ -48,12 +48,6 @@ namespace TurboLabz.InstantFramework
             {
                 view.Show();
                 PlayVideo();
-
-                if (!string.IsNullOrEmpty(videoId) && playerModel.lastWatchedVideo != videoId)
-                {
-                    playerModel.lastWatchedVideo = videoId;
-                    saveLastWatchedVideoSignal.Dispatch(videoId);
-                }
             }
         }
 
@@ -93,13 +87,22 @@ namespace TurboLabz.InstantFramework
 
                     break;
                 case VideoEvent.FinishedPlaying:
-                    // Save video to active inventory
                     if (!string.IsNullOrEmpty(videoId))
                     {
-                        VideoActiveInventoryItem videoInventoryItem = new VideoActiveInventoryItem(videoId, GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG, 100f);
-                        savePlayerInventorySignal.Dispatch(JsonUtility.ToJson(videoInventoryItem));
+                        // Save video progress to active inventory
+                        if (playerModel.GetVideoProgress(videoId) < 100f)
+                        {
+                            VideoActiveInventoryItem videoInventoryItem = new VideoActiveInventoryItem(videoId, GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG, 100f);
+                            savePlayerInventorySignal.Dispatch(JsonUtility.ToJson(videoInventoryItem));
+                            playerModel.UpdateVideoProgress(videoId, 100f);
+                        }
 
-                        playerModel.UpdateVideoProgress(videoId, 100f);
+                        // Updating last watched video
+                        if (playerModel.lastWatchedVideo != videoId)
+                        {
+                            saveLastWatchedVideoSignal.Dispatch(videoId);
+                            playerModel.lastWatchedVideo = videoId;
+                        }
                     }
 
                     break;

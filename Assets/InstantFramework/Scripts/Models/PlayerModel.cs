@@ -312,6 +312,16 @@ namespace TurboLabz.InstantFramework
         {
             return videos.Count > 0;
         }
+
+        public float? GetVideoProgress(string videoId)
+        {
+            if (videos.ContainsKey(videoId))
+            {
+                return videos[videoId].progress;
+            }
+
+            return 0f;
+        }
     }
 }
 
