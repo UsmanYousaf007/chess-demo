@@ -6,9 +6,10 @@
 using System;
 using UnityEngine;
 
-namespace TurboLabz.InstantFramework { 
-
-public class Photo{
+namespace TurboLabz.InstantFramework
+{ 
+    public class Photo
+    {
         public Sprite sprite { get; set; }
         public byte[] stream { get; set; }
 

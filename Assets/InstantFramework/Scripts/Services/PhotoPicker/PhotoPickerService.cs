@@ -10,8 +10,9 @@ namespace TurboLabz.InstantFramework
 {
 	public class PhotoPickerService : IPhotoService
 	{
+		[Inject] public PhotoPickerCompleteSignal photoPickerCompletedSignal { get; set; }
 
-		public Photo PickPhoto(int maxSize, string format= "jpeg")
+		public void PickPhoto(int maxSize, string format= "jpeg")
 		{
 			Photo photo = null;
 			try
@@ -29,7 +30,7 @@ namespace TurboLabz.InstantFramework
                         }
                     }
 				});
-				return photo;
+				photoPickerCompletedSignal.Dispatch(photo);
 			}
 			catch (Exception e)
 			{
@@ -39,7 +40,7 @@ namespace TurboLabz.InstantFramework
 
 		}
 
-        public Photo TakePhoto(int maxSize, string format = "jpeg")
+        public void TakePhoto(int maxSize, string format = "jpeg")
 		{
 			try
 			{
@@ -55,7 +56,7 @@ namespace TurboLabz.InstantFramework
 						}
 					}
 				});
-				return photo;
+				photoPickerCompletedSignal.Dispatch(photo);
 			}
 			catch (Exception e)
 			{

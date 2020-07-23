@@ -3,16 +3,12 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using System;
-using System.Collections.Generic;
-using strange.extensions.promise.api;
-using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IPhotoService
     {
-        Photo PickPhoto(int size, string format);
-        Photo TakePhoto(int size, string format);
+        void PickPhoto(int size, string format);
+        void TakePhoto(int size, string format);
     }
 }

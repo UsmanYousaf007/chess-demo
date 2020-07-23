@@ -168,6 +168,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SkillSelectedSignal>().ToSingleton();
             injectionBinder.Bind<FileUploadCompleteSignal>().ToSingleton();
             injectionBinder.Bind<FileDownloadCompleteSignal>().ToSingleton();
+            injectionBinder.Bind<PhotoPickerCompleteSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

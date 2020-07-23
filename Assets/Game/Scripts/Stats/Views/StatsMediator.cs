@@ -109,21 +109,27 @@ namespace TurboLabz.InstantGame
             view.ShowProcessing(show, showProcessingUi);
         }
 
-
         void OnProfilePicUpdateClicked()
         {
-            var photo = photoPickerService.PickPhoto(512, "png");
+            photoPickerService.PickPhoto(512, "png");
+        }
 
-            //Save pic locally
-            picsModel.SetPlayerPic(playerModel.id, photo.sprite);
-            var a = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
-            var uploadFileVO = new UploadFileVO
+        [ListensTo(typeof(PhotoPickerCompleteSignal))]
+        public void OnPhotoPickerComplete (Photo photo)
+        {
+            if (photo != null)
             {
-                fileName="profilePic",
-                stream= photo.stream,
-                mimeType="image/png"
-            };
-            uploadFileSignal.Dispatch(uploadFileVO);
+                // Save pic locally
+                picsModel.SetPlayerPic(playerModel.id, photo.sprite);
+
+                var uploadFileVO = new UploadFileVO
+                {
+                    fileName = "profilePic",
+                    stream = photo.stream,
+                    mimeType = "image/png"
+                };
+                uploadFileSignal.Dispatch(uploadFileVO);
+            }
         }
     }
 }
