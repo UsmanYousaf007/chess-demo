@@ -31,12 +31,12 @@ namespace TurboLabz.InstantGame
         // View injection
         [Inject] public StatsView view { get; set; }
         //Model injection
-        //[Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
         [Inject] public IPhotoService photoPickerService { get; set; }
-        //[Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
         public override void OnRegister()
         {
             view.Init();
@@ -115,12 +115,12 @@ namespace TurboLabz.InstantGame
             var photo = photoPickerService.PickPhoto(512, "png");
 
             //Save pic locally
-            //picsModel.SetPlayerPic(playerModel.id, photo.sprite);
+            picsModel.SetPlayerPic(playerModel.id, photo.sprite);
             var a = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
             var uploadFileVO = new UploadFileVO
             {
                 fileName="profilePic",
-                stream= a,
+                stream= photo.stream,
                 mimeType="image/png"
             };
             uploadFileSignal.Dispatch(uploadFileVO);
