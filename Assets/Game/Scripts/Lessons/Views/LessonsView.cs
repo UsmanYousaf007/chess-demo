@@ -56,19 +56,17 @@ namespace TurboLabz.InstantGame
         {
             SetupTopic(vo.topicVO);
 
-            var i = 0;
             foreach(var lessonVO in vo.lessons)
             {
-                i++;
                 var lesson = lessonTilePool.GetObject();
                 var lessonTile = lesson.GetComponent<LessonTile>();
-                lessonVO.name = $"{i}. {lessonVO.name}";
                 lessonTile.Init(lessonVO);
                 lessonTile.button.onClick.RemoveAllListeners();
                 lessonTile.button.onClick.AddListener(() => playVideoSingal.Dispatch(lessonVO));
                 lesson.transform.SetParent(lessonTileContainer, false);
                 lesson.SetActive(true);
             }
+
             LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
         }
 
@@ -87,13 +85,13 @@ namespace TurboLabz.InstantGame
             topicName.text = vo.name;
             totalLabel.text = $"{vo.total} Lessons";
 
-            var completedPercentage = (float)vo.completed / (float)vo.total;
+            var completedPercentage = (float)vo.completed / vo.total;
             var isCompleted = completedPercentage == 1;
+            var fillAmount = .09f + (vo.completed * ((.91f - .09f) / vo.total));
             completedObject.SetActive(isCompleted);
             completedLabel.gameObject.SetActive(!isCompleted);
-
-            progressBar.fillAmount = completedPercentage;
-            completedLabel.text = $"{completedPercentage * 100}%";
+            progressBar.fillAmount = fillAmount;
+            completedLabel.text = $"{(int)(completedPercentage * 100)}%";
             progressBar.color = isCompleted ? Colors.GLASS_GREEN : Colors.YELLOW;
         }
 

@@ -23,7 +23,6 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOPICS_VIEW);
             iconsContainer = StoreIconsContainer.Load();
             var nextLesson = lessonsModel.GetNextLesson(playerModel.lastWatchedVideo);
             var vo = new TopicsViewVO();
@@ -44,6 +43,7 @@ namespace TurboLabz.InstantGame
             }
 
             vo.sections = lessonsModel.GetSectionsWithTopicVO(iconsContainer);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOPICS_VIEW);
             updateTopiscViewSignal.Dispatch(vo);
         }
     }

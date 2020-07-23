@@ -27,13 +27,16 @@ namespace TurboLabz.InstantGame
         {
             var lessonsList = new List<VideoLessonVO>();
             var lessons = lessonsModel.lessonsMapping[topicVO.section][topicVO.name];
+            int i = 0;
 
             foreach (var lesson in lessons)
             {
                 if (metaDataModel.store.items.ContainsKey(lesson))
                 {
+                    i++;
                     var lessonVO = new VideoLessonVO();
                     lessonVO.name = metaDataModel.store.items[lesson].displayName;
+                    lessonVO.index = i;
                     lessonVO.videoId = lesson;
                     lessonVO.icon = topicVO.icon;
                     lessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(lesson));
@@ -44,6 +47,7 @@ namespace TurboLabz.InstantGame
 
             var vo = new LessonsViewVO();
             vo.topicVO = topicVO;
+            vo.topicVO.completed = lessonsModel.GetCompletedLessonsCount(topicVO.section, topicVO.name);
             vo.lessons = lessonsList;
             updateTopiscViewSignal.Dispatch(vo);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSONS_VIEW);

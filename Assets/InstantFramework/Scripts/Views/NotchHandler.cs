@@ -80,6 +80,8 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform topicsScrollView;
     public RectTransform lessonsViewBottomNav;
     public RectTransform lessonsScrollView;
+    public RectTransform lessonVideoPlayerTopBar;
+    public RectTransform lessonVideoPlayerBottomNav;
 
     void Awake()
     {
@@ -180,6 +182,8 @@ public class NotchHandler : MonoBehaviour {
         SetY(lessonsViewBottomNav, 89f);
         SetTop(lessonsScrollView, -110f);
         SetBottom(lessonsScrollView, 212f);
+        SetY(lessonVideoPlayerTopBar, -113f);
+        SetY(lessonVideoPlayerBottomNav, 91f);
     }
 
     void SetY(RectTransform tfm, float y)

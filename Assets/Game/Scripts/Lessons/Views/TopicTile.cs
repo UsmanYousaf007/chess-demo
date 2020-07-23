@@ -23,13 +23,13 @@ public class TopicTile : MonoBehaviour
         nameLabel.text = vo.name;
         totalLessonsLabel.text = $"{vo.total} Lessons";
 
-        var completedPercentage = (float)vo.completed / (float)vo.total;
+        var completedPercentage = (float)vo.completed / vo.total;
         var isCompleted = completedPercentage == 1;
+        var fillAmount = .09f + (vo.completed * ((.91f - .09f) / vo.total));
         completedIcon.SetActive(isCompleted);
         progressLabel.gameObject.SetActive(!isCompleted);
-
-        progressBar.fillAmount = completedPercentage;
-        progressLabel.text = $"{completedPercentage * 100}%";
+        progressBar.fillAmount = fillAmount;
+        progressLabel.text = $"{(int)(completedPercentage * 100)}%";
         progressBar.color = isCompleted ? Colors.GLASS_GREEN : Colors.YELLOW;
     }
 }

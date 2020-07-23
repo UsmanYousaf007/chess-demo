@@ -49,14 +49,12 @@ namespace TurboLabz.InstantGame
             {
                 videoPlaybackService.Prepare(signedUrl);
                 var vo = new LessonPlayVO();
-                vo.currentLesson = lessonVO;
-
                 var nextLesson = lessonsModel.GetNextLesson(lessonVO.videoId);
 
                 if (storeSettingsModel.items.ContainsKey(lessonVO.videoId))
                 {
-                    iconsContainer = StoreIconsContainer.Load();
                     var nextLessonVO = new VideoLessonVO();
+                    iconsContainer = StoreIconsContainer.Load();
                     nextLessonVO.name = storeSettingsModel.items[nextLesson].displayName;
                     nextLessonVO.videoId = nextLesson;
                     nextLessonVO.icon = iconsContainer.GetSprite(lessonsModel.GetTopicId(nextLesson));
@@ -65,6 +63,7 @@ namespace TurboLabz.InstantGame
                     vo.nextLesson = nextLessonVO;
                 }
 
+                vo.currentLesson = lessonVO;
                 updateVideoLessonViewSignal.Dispatch(vo);
             }
             else
