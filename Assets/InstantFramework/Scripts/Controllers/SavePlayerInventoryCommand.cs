@@ -23,8 +23,16 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-            // TODO: This is hardcoded to only handle skins. Make this generic for new item types
-            backendService.UpdateActiveInventory(playerModel.activeSkinId, !string.IsNullOrEmpty(requestJson) ? requestJson : null).Then(OnComplete);
+            // If we have a Json then it's generic, otherwise we send the skin id for backwards compatibility
+            if (!string.IsNullOrEmpty(requestJson))
+            {
+                // The string "unassigned" is here because this is how it is handled in GS cloud code.
+                backendService.UpdateActiveInventory("unassigned", requestJson).Then(OnComplete);
+            }
+            else
+            {
+                backendService.UpdateActiveInventory(playerModel.activeSkinId).Then(OnComplete);
+            }
         }
 
         private void OnComplete(BackendResult result)

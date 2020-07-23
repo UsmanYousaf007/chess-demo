@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
 
             new LogEventRequest().SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_ACTIVE_CHESS_SKINS_ID, activeChessSkinsId)
+                .SetEventAttribute(ATT_JSON, json)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
             return promise;

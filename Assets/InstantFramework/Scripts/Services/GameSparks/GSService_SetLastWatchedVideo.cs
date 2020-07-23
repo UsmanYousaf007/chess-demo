@@ -7,7 +7,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> SetLastWatchedVideo(string videoId)
         {
-            return new GSUpdateActiveInventoryRequest(GetRequestContext()).Send(videoId);
+            return new GSSetLastWatchedVideoRequest(GetRequestContext()).Send(videoId);
         }
     }
 
