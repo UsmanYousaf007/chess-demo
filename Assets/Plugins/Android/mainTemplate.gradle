@@ -22,6 +22,10 @@ allprojects {
     }
 }
 
+configurations.all{
+	all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+}
+
 // Android Resolver Repos Start
 ([rootProject] + (rootProject.subprojects as List)).each {
     ext {
@@ -39,13 +43,13 @@ allprojects {
             url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Assets/Firebase/Editor/AnalyticsDependencies.xml:18, Assets/Firebase/Editor/AppDependencies.xml:20, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/CrashlyticsDependencies.xml:20, Assets/Firebase/Editor/DatabaseDependencies.xml:20, Assets/Firebase/Editor/DynamicLinksDependencies.xml:20, Assets/Firebase/Editor/FirestoreDependencies.xml:20, Assets/Firebase/Editor/FunctionsDependencies.xml:20, Assets/Firebase/Editor/InstanceIdDependencies.xml:20, Assets/Firebase/Editor/MessagingDependencies.xml:20, Assets/Firebase/Editor/RemoteConfigDependencies.xml:20, Assets/Firebase/Editor/StorageDependencies.xml:20
         }
         maven {
-            url "https://chartboostmobile.bintray.com/Chartboost" // Assets/HUF/AdsAdMobMediation/Editor/CharboostAdapterDependencies.xml:7
+            url "https://chartboostmobile.bintray.com/Chartboost" // Assets/HUF/AdsAdMobMediation/Editor/CharboostAdapterDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/ChartboostMediationDependencies.xml:8
         }
         maven {
             url "https://adcolony.bintray.com/AdColony" // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/AdColonyMediationDependencies.xml:7
         }
         maven {
-            url "https://jcenter.bintray.com/" // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/AppLovinMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/ChartboostMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/FacebookMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/IronSourceMediationDependencies.xml:8, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/MoPubMediationDependencies.xml:8, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/TapjoyMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/UnityMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/VerizonMediaMediationDependencies.xml:7
+            url "https://jcenter.bintray.com/" // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/AppLovinMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/ChartboostMediationDependencies.xml:8, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/FacebookMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/InMobiMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/IronSourceMediationDependencies.xml:8, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/MoPubMediationDependencies.xml:8, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/TapjoyMediationDependencies.xml:7, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/UnityMediationDependencies.xml:8, Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/VerizonMediaMediationDependencies.xml:7
         }
         maven {
             url "https://fyber.bintray.com/marketplace" // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/FyberMediationDependencies.xml:7
@@ -85,17 +89,18 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:[5,5.14)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:7
     implementation 'com.facebook.android:facebook-share:[5,5.14)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:8
     implementation 'com.google.ads.mediation:adcolony:4.1.4.1' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/AdColonyMediationDependencies.xml:7
-    implementation 'com.google.ads.mediation:applovin:9.12.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/AppLovinMediationDependencies.xml:7
-    implementation 'com.google.ads.mediation:chartboost:7.5.0.1' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/ChartboostMediationDependencies.xml:7
-    implementation 'com.google.ads.mediation:facebook:5.8.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/FacebookMediationDependencies.xml:7
-    implementation 'com.google.ads.mediation:fyber:7.3.4.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/FyberMediationDependencies.xml:7
-    implementation 'com.google.ads.mediation:ironsource:6.16.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/IronSourceMediationDependencies.xml:8
-    implementation 'com.google.ads.mediation:mopub:5.10.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/MoPubMediationDependencies.xml:8
+    implementation 'com.google.ads.mediation:applovin:9.12.8.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/AppLovinMediationDependencies.xml:7
+    implementation 'com.google.ads.mediation:chartboost:8.0.3.1' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/ChartboostMediationDependencies.xml:8
+    implementation 'com.google.ads.mediation:facebook:5.9.1.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/FacebookMediationDependencies.xml:7
+    implementation 'com.google.ads.mediation:fyber:7.5.4.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/FyberMediationDependencies.xml:7
+    implementation 'com.google.ads.mediation:inmobi:9.0.7.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/InMobiMediationDependencies.xml:7
+    implementation 'com.google.ads.mediation:ironsource:6.17.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/IronSourceMediationDependencies.xml:8
+    implementation 'com.google.ads.mediation:mopub:5.13.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/MoPubMediationDependencies.xml:8
     implementation 'com.google.ads.mediation:tapjoy:12.4.2.1' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/TapjoyMediationDependencies.xml:7
-    implementation 'com.google.ads.mediation:unity:3.4.2.1' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/UnityMediationDependencies.xml:7
-    implementation 'com.google.ads.mediation:verizonmedia:1.4.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/VerizonMediaMediationDependencies.xml:7
+    implementation 'com.google.ads.mediation:unity:3.4.6.1' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/UnityMediationDependencies.xml:8
+    implementation 'com.google.ads.mediation:verizonmedia:1.6.0.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/VerizonMediaMediationDependencies.xml:7
     implementation 'com.google.android.ads:mediation-test-suite:1.3.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAdsMediationTestSuite/Editor/GoogleMobileAdsMediationTestSuiteDependencies.xml:7
-    implementation 'com.google.android.gms:play-services-ads:19.1.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:7
+    implementation 'com.google.android.gms:play-services-ads:19.2.0' // Assets/HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:7
     implementation 'com.google.android.gms:play-services-appinvite:18.0.0' // Assets/Firebase/Editor/DynamicLinksDependencies.xml:13
     implementation 'com.google.firebase:firebase-analytics:17.4.1' // Assets/Firebase/Editor/StorageDependencies.xml:15
     implementation 'com.google.firebase:firebase-analytics-unity:6.15.0' // Assets/Firebase/Editor/AnalyticsDependencies.xml:18
