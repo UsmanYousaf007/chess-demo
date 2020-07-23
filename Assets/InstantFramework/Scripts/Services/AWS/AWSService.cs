@@ -16,10 +16,12 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public IRoutineRunner routineRunner { get; set; }
 
-        protected IPromise<BackendResult, string> promise = new Promise<BackendResult, string>();
+        protected IPromise<BackendResult, string> promise;
 
         public IPromise<BackendResult, string> GetSignedUrl(string unsignedURL)
         {
+            promise = new Promise<BackendResult, string>();
+
             routineRunner.StartCoroutine(GetSignedUrlRequest(unsignedURL));
 
             return promise;
@@ -53,6 +55,9 @@ namespace TurboLabz.InstantFramework
             {
                 promise.Dispatch(BackendResult.ACCEPT_FAILED, null);
             }
+
+            promise = null;
+            www.Dispose();
         }
 
         #endregion
