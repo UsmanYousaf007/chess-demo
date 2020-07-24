@@ -24,8 +24,8 @@ public class MoveFadeAnim : MonoBehaviour
     void OnEnable()
     {
         go.transform.localPosition = new Vector3(startPivot.localPosition.x, startPivot.localPosition.y, startPivot.localPosition.z);
-        iTween.MoveTo(go, iTween.Hash("position", endPivot.localPosition, "time", 6f, "islocal", true));
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0f, "time", 4f, "onupdate", "updateColor"));
+        iTween.MoveTo(go, iTween.Hash("position", endPivot.localPosition, "delay", 0.5f, "time", 6f, "islocal", true));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0.5f, "time", 4f, "onupdate", "updateColor"));
     }
 
     public void updateColor(float val)

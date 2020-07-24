@@ -396,9 +396,9 @@ namespace TurboLabz.CPU
                 }
             }
 
-            resultsAdTVImage.gameObject.SetActive(!removeAds);
-            resultsCollectRewardButton.gameObject.SetActive(!removeAds);
-            resultsCollectRewardButtonLabel.gameObject.SetActive(!removeAds);
+            //resultsAdTVImage.gameObject.SetActive(!removeAds);
+            //resultsCollectRewardButton.gameObject.SetActive(!removeAds);
+            //resultsCollectRewardButtonLabel.gameObject.SetActive(!removeAds);
 
             if (removeAds)
             {

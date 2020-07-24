@@ -15,6 +15,8 @@ public class FadeInFadeOut : MonoBehaviour
     [SerializeField]
     private Color StartColor = Color.clear;
 
+    public float time = 6f;
+
 
     // Start is called before the first frame update
     void OnEnable()
@@ -29,11 +31,11 @@ public class FadeInFadeOut : MonoBehaviour
 
     public void FadeIn()
     {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0f, "time", 6f, "onupdate", "updateColor", "oncomplete", "FadeOut"));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0f, "time", time, "onupdate", "updateColor", "oncomplete", "FadeOut"));
     }
 
     public void FadeOut()
     {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0f, "to", 1f, "delay", 0f, "time", 6f, "onupdate", "updateColor", "oncomplete", "FadeIn"));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0f, "to", 1f, "delay", 0f, "time", time, "onupdate", "updateColor", "oncomplete", "FadeIn"));
     }
 }

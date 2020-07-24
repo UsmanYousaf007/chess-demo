@@ -159,7 +159,7 @@ namespace TurboLabz.Multiplayer
 
         public void DoPulse()
         {
-            iTween.PunchScale(resultsCollectRewardButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "oncomplete", "DoPulse", "loopType", "loop", "delay", 1));
+            iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "oncomplete", "DoPulse", "loopType", "loop", "delay", 1));
         }
 
         public void OnParentShowResults()
