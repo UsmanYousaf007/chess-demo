@@ -1,57 +1,67 @@
 ## Internal SDK
-- Google Mobile Ads Unity Mediation - v5.1.0
-- Google Play services - v19.1.0
-- Google Mobile Ads iOS SDK - v7.58.0
+- Google Mobile Ads Unity Mediation - v5.2.0
+- Google Play services - v19.2.0
+- Google Mobile Ads iOS SDK - v7.60.0
 
-- AdColony Unity Adapter - v2.0.2
+- AdColony Unity Adapter - v2.0.3
 - AdColony Native Adapter (Android) - v4.1.4.1
 - AdColony SDK (Android) - v4.1.4
-- AdColony Native Adapter (iOS) - v4.1.4.1
-- AdColony SDK (iOS) - v4.1.4
+- AdColony Native Adapter (iOS) - v4.1.5.0
+- AdColony SDK (iOS) - v4.1.5
 
-- AppLovin Unity Adapter - v4.5.0
-- AppLovin Native Adapter (Android) - v9.12.0.0
-- AppLovin SDK (Android) - v9.12.0
-- AppLovin Native Adapter (iOS) - v9.12.0.0
-- AppLovin SDK (iOS) - v6.12.0
+- AppLovin Unity Adapter - v4.5.8
+- AppLovin Native Adapter (Android) - v9.12.8.0
+- AppLovin SDK (Android) - v9.12.8
+- AppLovin Native Adapter (iOS) - v6.12.8.0
+- AppLovin SDK (iOS) - v6.12.8
 
-- Chartboost Unity Adapter - v2.0.1
-- Chartboost Native Adapter (Android) - v7.5.0.1
-- Chartboost SDK (Android) - v7.5.0
-- Chartboost Native Adapter (iOS) - v8.0.4.0
-- Chartboost SDK (iOS) - v8.0.4
+- Chartboost Unity Adapter - v3.0.1
+- Chartboost Native Adapter (Android) - v8.0.3.1
+- Chartboost SDK (Android) - v8.0.3
+- Chartboost Native Adapter (iOS) - v8.1.0.1
+- Chartboost SDK (iOS) - v8.1.0
 
-- Facebook Unity Adapter - v2.8.0
-- Facebook Native Adapter (Android) - v5.8.0.0
-- Facebook Native Adapter (iOS) - v5.8.0.1
-- Facebook SDK - v5.8.0
-- FAN SDK - v5.8.0
+- Facebook Unity Adapter - v2.10.0
+- Facebook Native Adapter (Android) - v5.9.1.0
+- Facebook SDK - v5.9.1
+- Facebook Native Adapter (iOS) - v5.9.0.1
+- FAN SDK - v5.9.0
 
-- Fyber Unity Adapter - v1.1.0
-- Fyber Native Adapter (Android) - v7.3.4.0
-- Fyber SDK (Android) - v 7.5.3
-- Fyber Native Adapter (iOS) - v7.5.3
-- Fyber SDK (iOS) - v7.5.4
+- Fyber Unity Adapter - v1.2.3
+- Fyber Native Adapter (Android) - v7.5.4.0
+- Fyber SDK (Android) - v 7.5.4
+- Fyber Native Adapter (iOS) - v7.5.6.0
+- Fyber Marketplace SDK (iOS) - v7.5.6
 
-- Ironsource Unity Adapter - v1.5.0
-- Ironsource Native Adapter - v6.13.0.1.0
-- Ironsource SDK - v6.13.0.1.0
+- IronSource Unity Adapter - v1.9.0
+- IronSource Native Adapter (Android) - v6.17.0.0
+- IronSource SDK (Android) - v6.17.0
+- IronSource Native Adapter (iOS) - v6.16.3.0
+- IronSource SDK (iOS) - v6.16.3
 
-- Mopub Unity Adapter - v2.9.0
-- Mopub Native Adapter - v5.10.0.0
-- MoPub SDK - v5.10.0.0
+- MoPub Unity Adapter - v2.12.0
+- MoPub Native Adapter (Android) - v5.13.0.0
+- MoPub SDK (Android) - v5.13.0
+- MoPub Native Adapter (iOS) - v5.13.0.0
+- MoPub SDK (iOS) - v5.13.0
 
 - Tapjoy Unity Adapter - v2.4.2
-- Tapjoy Native Adapter - v12.4.2.1
-- Tapjoy SDK - v12.4.2
+- Tapjoy Native Adapter (Android) - v12.4.2.1
+- Tapjoy SDK (Android) - v12.4.2
+- Tapjoy Native Adapter (iOS) - v12.4.2.1
+- Tapjoy SDK (iOS) - v12.4.2
 
-- Unity Ads Unity Adapter - v2.4.2
-- Unity Ads Native Adapter - v3.4.2.1
-- Unity Ads SDK - v3.4.2
+- Unity Ads Unity Adapter - v2.4.6
+- Unity Ads Native Adapter (Android) - v3.4.6.1
+- Unity Ads SDK (Android) - v3.4.6
+- Unity Ads Native Adapter (iOS) - v3.4.6.0
+- Unity Ads SDK (iOS) - v3.4.6
 
-- Verizon Unity Adapter - v1.2.0
-- Verizon Native Adapter - v1.4.0.0
-- Verizon SDK - v1.4.0
+- VerizonMedia Unity Adapter - v1.4.0
+- VerizonMedia Native Adapter (Android) - v1.6.0.0
+- VerizonMedia SDK (Android) - v1.6.0
+- VerizonMedia Native Adapter (iOS) - v1.6.0.0
+- VerizonMedia SDK (iOS) - v1.6.0
 
 <!--- For now removed until 6.7 version
 - Vungle Unity Adapter - v3.3.0
@@ -60,9 +70,6 @@
 - Vungle Native Adapter (iOS) - v6.5.3.0
 - Vungle SDK (iOS) - v6.5.3
  --->
-
-- Mediation Test Suite Unity - v1.3.0
-- Mediation Test Suite Native SDK - v1.3.0
 
 - Ogury Native Adapter (iOS) - v03.02.2020
 - Ogury SDK (iOS) - v1.0.8
@@ -75,6 +82,37 @@
 - Mintegral Native Adapter (Android) - v2.2.7
 - Mintegral SDK (Android) - v9.8.0
  --->
+
+- InMobi Unity Adapter - v3.0.2
+- InMobi Native Adapter (Android) - v9.0.7.0
+- InMobi SDK (Android) - v9.0.7
+- InMobi Native Adapter (iOS) - v9.0.7.0
+- InMobi SDK (iOS) - v9.0.7
+
+- Mediation Test Suite Unity - v1.4.0
+
+## [2.3.0] - 2020-07-10
+### Added
+- InMobi Adapter
+
+### Fixed
+- typo in Applovin IOS SDK version 
+- typo in MoPub SDK versions
+- AppLovin Manifest fixer
+
+### Changed
+- Updated adapters to newest versions (see list above)
+- Unified adapters list
+- **Minimum IOS target: 10**
+
+### Required
+Add this snippet to an `android` section of the `Assets/Plugins/Android/mainTemplate.gradle` file.
+
+```
+configurations{
+    all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+}
+```
 
 ## [2.2.4] - 2020-06-29
 ### Removed

@@ -1,3 +1,10 @@
+# Version 1.4.0
+*2020-05-07*
+- Fixed issues building iOS for GoogleMobileAds Unity plugin version 5.1.0.
+- Changed Android library to distribute as a `.aar` file - if upgrading from a previous
+version, you should remove the `Assets/Plugins/Android/GoogleMobileAdsMediationTestSuite`
+folder and all files and folders within.
+
 # Version 1.3.0
 *2020-02-28*
 - Added Open Bidding loading support.

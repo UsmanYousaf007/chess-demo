@@ -20,7 +20,11 @@ public class SubscriptionDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
-    public HorizontalLayoutGroup offerBg;
+    public VerticalLayoutGroup offerBg;
+
+    //Fetching data
+    public GameObject thinking;
+    public Image[] radioButtons;
 
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -127,7 +131,17 @@ public class SubscriptionDlgView : View
     public void SetupPurchaseButton(bool isAvailable)
     {
         purchaseButton.interactable = isAvailable;
-        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+        thinking.SetActive(!isAvailable);
+        foreach(var btn in radioButtons)
+        {
+            var tempColor = btn.color;
+            if(isAvailable)
+                tempColor.a = 1f;
+            else
+                tempColor.a = 0.3f;
+            btn.color = tempColor;
+        }
+        //purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
     }
 }
 

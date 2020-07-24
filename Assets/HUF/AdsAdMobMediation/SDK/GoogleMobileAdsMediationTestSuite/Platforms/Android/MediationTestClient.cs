@@ -18,6 +18,7 @@ namespace GoogleMobileAdsMediationTestSuite.Android
 {
     using System;
     using System.Reflection;
+    using System.Collections.Generic;
     using GoogleMobileAdsMediationTestSuite.Common;
     using UnityEngine;
     using GoogleMobileAds.Api;
@@ -101,15 +102,27 @@ namespace GoogleMobileAdsMediationTestSuite.Android
         private void SetAdRequestImpl(AdRequest adRequest) {
             // Using reflection here because this is not a public API and it will not function for
             // compiled versions of the plugin (eg Native build).
-            Type androidUtils = Type.GetType(
-                "GoogleMobileAds.Android.Utils,Assembly-CSharp");
-            MethodInfo method = androidUtils.GetMethod(
-                "GetAdRequestJavaObject",
-                BindingFlags.Static | BindingFlags.Public);
-            AndroidJavaObject androidRequest = (AndroidJavaObject)method.Invoke(null, new[] { adRequest });
-            AndroidJavaClass mediationTestSuiteClass = new AndroidJavaClass(MediationTestSuiteClassName);
-            mediationTestSuiteClass.CallStatic("setAdRequest", androidRequest);
-
+            String unqualifiedTypeName = "GoogleMobileAds.Android.Utils";
+            List<String> assemblyNames = new List<String>() {
+              "Assembly-CSharp",
+              "GoogleMobileAds",
+              "GoogleMobileAds.Platforms",
+              "GoogleMobileAds.Android" };
+            Type androidUtils;
+            foreach (var assemblyName in assemblyNames)
+            {
+                androidUtils = Type.GetType(unqualifiedTypeName + "," + assemblyName);
+                if (androidUtils != null)
+                {
+                    MethodInfo method = androidUtils.GetMethod(
+                        "GetAdRequestJavaObject",
+                        BindingFlags.Static | BindingFlags.Public);
+                    AndroidJavaObject androidRequest = (AndroidJavaObject)method.Invoke(null, new[] { adRequest });
+                    AndroidJavaClass mediationTestSuiteClass = new AndroidJavaClass(MediationTestSuiteClassName);
+                    mediationTestSuiteClass.CallStatic("setAdRequest", androidRequest);
+                    break;
+                }
+            }
             foreach (string deviceHash in adRequest.TestDevices) {
                 this.AddTestDevice(deviceHash);
             }

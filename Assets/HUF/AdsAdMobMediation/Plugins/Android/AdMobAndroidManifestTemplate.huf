@@ -8,26 +8,6 @@
                 android:name="applovin.sdk.key"
                 android:value="APP_LOVIN_SDK_KEY"/>
                 
-         <activity android:name="com.vungle.publisher.VideoFullScreenAdActivity"
-                   android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
-
-         <activity android:name="com.vungle.publisher.MraidFullScreenAdActivity"
-                   android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-                   android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
-        <activity
-                android:name="com.inmobi.rendering.InMobiAdActivity"
-                android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize"
-                android:hardwareAccelerated="true" />
-        <receiver
-                android:name="com.inmobi.commons.core.utilities.uid.ImIdShareBroadCastReceiver"
-                android:enabled="true"
-                android:exported="true"
-                tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name="com.inmobi.share.id" />
-            </intent-filter>
-        </receiver>
 
         <activity android:name="com.applovin.adview.AppLovinInterstitialActivity"/>
         <activity android:name="com.applovin.adview.AppLovinConfirmationActivity"/>

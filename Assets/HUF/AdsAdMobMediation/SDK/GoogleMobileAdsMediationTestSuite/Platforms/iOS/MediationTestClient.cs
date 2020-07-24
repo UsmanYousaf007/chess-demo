@@ -17,10 +17,11 @@
 namespace GoogleMobileAdsMediationTestSuite.iOS
 {
     using System;
+    using System.Reflection;
+    using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using GoogleMobileAdsMediationTestSuite.Common;
     using GoogleMobileAds.Api;
-    using GoogleMobileAds.iOS;
     using UnityEngine;
 
     /// <summary>
@@ -53,7 +54,7 @@ namespace GoogleMobileAdsMediationTestSuite.iOS
         {
             set
             {
-                Externs.GADUMSetAdRequest(Utils.BuildAdRequest(value));
+                Externs.GADUMSetAdRequest(BuildAdRequest(value));
             }
         }
         internal delegate void GADUMediationTestSuiteDidDismissScreenCallback(IntPtr mediationClient);
@@ -107,6 +108,27 @@ namespace GoogleMobileAdsMediationTestSuite.iOS
         {
             GCHandle handle = (GCHandle)mediationClient;
             return handle.Target as MediationTestClient;
+        }
+
+        private IntPtr BuildAdRequest(AdRequest adRequest)
+        {
+            String unqualifiedTypeName = "GoogleMobileAds.iOS.Utils";
+            List<String> assemblyNames = new List<String>() { "Assembly-CSharp","GoogleMobileAds","GoogleMobileAds.iOS" };
+            Type iosUtils;
+            foreach (var assemblyName in assemblyNames)
+            {
+                iosUtils = Type.GetType(unqualifiedTypeName + "," + assemblyName);
+                if (iosUtils != null)
+                {
+                    MethodInfo methodInfo = iosUtils.GetMethod("BuildAdRequest");
+                    if (methodInfo != null)
+                    {
+                        return (IntPtr)methodInfo.Invoke(null, new[] { adRequest });
+                    }
+                    break;
+                }
+            }
+            throw new Exception("Unable to find GoogleMobileAds.iOS.Utils");
         }
 
     }
