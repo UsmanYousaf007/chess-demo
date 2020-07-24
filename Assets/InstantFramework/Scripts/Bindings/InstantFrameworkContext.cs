@@ -317,6 +317,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RemoveLobbyPromotionSignal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
+            injectionBinder.Bind<RatingBoostAnimSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

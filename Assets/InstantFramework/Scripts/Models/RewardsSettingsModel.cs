@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         public int facebookConnectReward { get; set; }
         public int failSafeCoinReward { get; set; }
         public int powerUpCoinsValue { get; set; }
+        public int ratingBoostReward { get; set; }
 
         public float coefficientWinVideo { get; set; }
         public float coefficientWinIntersitial { get; set; }
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
             coefficientLoseVideo = 0.4f;
             coefficientLoseIntersitial = 0.2f;
             powerUpCoinsValue = 1;
+            ratingBoostReward = 0;
         }
 
         public int getRewardCoins(AdType adType, int powerUpUsage, bool playerWins)

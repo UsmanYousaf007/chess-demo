@@ -73,7 +73,7 @@ namespace TurboLabz.InstantGame
                 {
                     Retain();
                     ClaimReward(AdsResult.BYPASS);
-                    LoadLobby();
+                    //LoadLobby();
                 }
                 else if (adType == AdType.Interstitial)
                 {
@@ -170,7 +170,7 @@ namespace TurboLabz.InstantGame
 
                         if (p != null)
                         {
-                            p.Then(LoadLobby);
+                            //p.Then(LoadLobby);
                             p.Then(ClaimReward);
                             p.Then(ShowPromotionOnVictory);
                         }

@@ -293,6 +293,9 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
             public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
             public const string TYPE_PROMOTION = "rewardMatchPromotional";
+            public const string TYPE_BOOST_RATING = "RatingBoostTier1";
+            public const string TYPE_GIFT = "giftReward";
+            public const string CLAIM_REWARD_TYPE = "claimRewardType";
 
             public const string NONE = "none";
         }
@@ -385,6 +388,7 @@ namespace TurboLabz.InstantFramework
             public const string REWARD_CURRENT_POINTS = "currentPoints";
             public const string REWARD_REQUIRED_POINTS = "pointsRequired";
             public const string ADS_REWARD_DATA = "adsRewardData";
+            public const string RATING_BOOST = "RatingBoost";
         }
 
         public static class Match

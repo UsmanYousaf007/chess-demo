@@ -177,14 +177,23 @@ namespace TurboLabz.InstantFramework
 
         public static void PopulateAdsRewardData(IPlayerModel playerModel, GSData data)
         {
-            playerModel.rewardQuantity = GetSafeInt(data, GSBackendKeys.PlayerDetails.REWARD_QUANITY);
-            var adsRewardData = data.GetGSData(GSBackendKeys.PlayerDetails.ADS_REWARD_DATA);
-            if (adsRewardData != null)
+            var rewardType = GetSafeString(data, GSBackendKeys.ClaimReward.CLAIM_REWARD_TYPE);
+            if (rewardType == GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
             {
-                playerModel.rewardIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_INDEX);
-                playerModel.rewardShortCode = adsRewardData.GetString(GSBackendKeys.PlayerDetails.REWARD_SHORT_CODE);
-                playerModel.rewardCurrentPoints = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
-                playerModel.rewardPointsRequired = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
+                playerModel.eloScore += GetSafeInt(data, GSBackendKeys.PlayerDetails.RATING_BOOST);
+            }
+            else
+            {
+                playerModel.rewardQuantity = GetSafeInt(data, GSBackendKeys.PlayerDetails.REWARD_QUANITY);
+
+                var adsRewardData = data.GetGSData(GSBackendKeys.PlayerDetails.ADS_REWARD_DATA);
+                if (adsRewardData != null)
+                {
+                    playerModel.rewardIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_INDEX);
+                    playerModel.rewardShortCode = adsRewardData.GetString(GSBackendKeys.PlayerDetails.REWARD_SHORT_CODE);
+                    playerModel.rewardCurrentPoints = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
+                    playerModel.rewardPointsRequired = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
+                }
             }
         }
 
