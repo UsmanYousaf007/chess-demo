@@ -24,8 +24,10 @@ namespace TurboLabz.InstantGame
         public Transform lessonTileContainer;
         public GameObject lessonTile;
         public GameObject processing;
+        public ScrollRect scrollView;
 
         private GameObjectsPool lessonTilePool;
+        private string lastTopicId = string.Empty;
 
         public Signal backSignal = new Signal();
         public Signal<VideoLessonVO> playVideoSingal = new Signal<VideoLessonVO>();
@@ -80,6 +82,7 @@ namespace TurboLabz.InstantGame
 
         private void SetupTopic(TopicVO vo)
         {
+            scrollView.verticalNormalizedPosition = lastTopicId.Equals(vo.name) ? scrollView.verticalNormalizedPosition : 1;
             topicIcon.sprite = vo.icon;
             topicIcon.SetNativeSize();
             topicName.text = vo.name;
@@ -93,6 +96,7 @@ namespace TurboLabz.InstantGame
             progressBar.fillAmount = fillAmount;
             completedLabel.text = $"{(int)(completedPercentage * 100)}%";
             progressBar.color = isCompleted ? Colors.GLASS_GREEN : Colors.YELLOW;
+            lastTopicId = vo.name;
         }
 
         private void OnBackButtonClicked()

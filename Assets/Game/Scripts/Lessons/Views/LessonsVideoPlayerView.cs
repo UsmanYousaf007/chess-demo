@@ -22,6 +22,7 @@ namespace TurboLabz.InstantGame
         public Button _backButton;
         public Button nextVideoButton;
         public GameObject processing;
+        public RectTransform layoutGroup;
 
         [SerializeField] private RectTransform _videoScreen;
         [SerializeField] private Button _playPauseButton;
@@ -68,6 +69,7 @@ namespace TurboLabz.InstantGame
         public void Show()
         {
             gameObject.SetActive(true);
+            UpdateView();
         }
 
         public void Hide()
@@ -154,5 +156,13 @@ namespace TurboLabz.InstantGame
             SeekEndVideoSignal.Dispatch(seek);
         }
         #endregion
+
+        public void UpdateView()
+        {
+            if (isActiveAndEnabled)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup);
+            }
+        }
     }
 }

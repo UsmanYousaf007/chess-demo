@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
         [Inject] public SaveLastWatchedVideoSignal saveLastWatchedVideoSignal { get; set; }
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
+        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
 
         private bool videoPaused = false;
         private string videoId;
@@ -71,8 +72,8 @@ namespace TurboLabz.InstantFramework
             view.titleIconImage.SetNativeSize();
             view.titleText.text = vo.currentLesson.name;
             videoId = vo.currentLesson.videoId;
-            view.nextVideoButton.gameObject.SetActive(vo.nextLesson != null);
             nextVideo = vo.nextLesson;
+            view.UpdateView();
         }
 
         [ListensTo(typeof(VideoEventSignal))]
@@ -172,7 +173,11 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
 
-            if (nextVideo.isLocked)
+            if (nextVideo == null)
+            {
+                loadTopicsViewSignal.Dispatch();
+            }
+            else if (nextVideo.isLocked)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }

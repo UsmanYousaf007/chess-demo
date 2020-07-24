@@ -51,7 +51,7 @@ namespace TurboLabz.InstantGame
                 var vo = new LessonPlayVO();
                 var nextLesson = lessonsModel.GetNextLesson(lessonVO.videoId);
 
-                if (storeSettingsModel.items.ContainsKey(lessonVO.videoId))
+                if (!string.IsNullOrEmpty(nextLesson) && storeSettingsModel.items.ContainsKey(nextLesson))
                 {
                     var nextLessonVO = new VideoLessonVO();
                     iconsContainer = StoreIconsContainer.Load();

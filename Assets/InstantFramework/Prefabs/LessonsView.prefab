@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 562.5, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6303942308598355194
@@ -556,6 +556,7 @@ MonoBehaviour:
   lessonTile: {fileID: 9150209391383665675, guid: 2d7c6d19fd3ca45a6af0a53adbbb6167,
     type: 3}
   processing: {fileID: 2946369111715926171}
+  scrollView: {fileID: 2041581768511546728}
 --- !u!1 &2041581768061852309
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +833,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 964.0005}
+  m_AnchoredPosition: {x: 0, y: 1157.9998}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2041581768761202117
@@ -1197,7 +1198,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 240.9, y: 224.9}
+  m_SizeDelta: {x: 270, y: 235.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8223347743316514739
 CanvasRenderer:
@@ -1762,7 +1763,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2, y: -70}
-  m_SizeDelta: {x: 240.9, y: 224.9}
+  m_SizeDelta: {x: 270, y: 235.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &742102729925835871
 CanvasRenderer:

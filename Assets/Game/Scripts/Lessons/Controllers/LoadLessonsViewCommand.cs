@@ -49,8 +49,8 @@ namespace TurboLabz.InstantGame
             vo.topicVO = topicVO;
             vo.topicVO.completed = lessonsModel.GetCompletedLessonsCount(topicVO.section, topicVO.name);
             vo.lessons = lessonsList;
-            updateTopiscViewSignal.Dispatch(vo);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSONS_VIEW);
+            updateTopiscViewSignal.Dispatch(vo);
             lessonsModel.lastViewedTopic = topicVO;
         }
     }
