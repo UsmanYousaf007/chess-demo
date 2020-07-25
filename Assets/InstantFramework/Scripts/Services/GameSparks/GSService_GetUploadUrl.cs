@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using GameSparks.Api.Requests;
 using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
-using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -21,7 +18,6 @@ namespace TurboLabz.InstantFramework
             GetUploadUrlResponse response = (GetUploadUrlResponse)r;
             uploadUrl = response.Url;
         }
-
 
         #region request
         public class GSFileUploadRequest : GSFrameworkRequest

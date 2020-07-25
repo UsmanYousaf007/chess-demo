@@ -22,10 +22,6 @@ allprojects {
     }
 }
 
-configurations.all{
-	all*.exclude group: 'com.google.guava', module: 'listenablefuture'
-}
-
 // Android Resolver Repos Start
 ([rootProject] + (rootProject.subprojects as List)).each {
     ext {
@@ -185,3 +181,7 @@ android {
     }**PACKAGING_OPTIONS****SPLITS**
 **BUILT_APK_LOCATION**
 }**SPLITS_VERSION_CODE****SOURCE_BUILD_SETUP**
+
+configurations {
+    all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+}

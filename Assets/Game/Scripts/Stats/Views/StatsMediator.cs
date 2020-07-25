@@ -43,6 +43,7 @@ namespace TurboLabz.InstantGame
             view.restorePurchasesSignal.AddListener(OnRestorePurchases);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
             view.shareBtn.onClick.AddListener(OnShareScreenClicked);
+            Debug.Log("Stats mediator begin");
             view.nameEditBtn.onClick.AddListener(OnProfilePicUpdateClicked);
         }
 
@@ -111,7 +112,7 @@ namespace TurboLabz.InstantGame
 
         void OnProfilePicUpdateClicked()
         {
-            photoPickerService.PickPhoto(512, "png");
+            photoPickerService.PickPhoto(512, "jpeg");
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
@@ -119,9 +120,7 @@ namespace TurboLabz.InstantGame
         {
             if (photo != null)
             {
-                // Save pic locally
                 picsModel.SetPlayerPic(playerModel.id, photo.sprite);
-
                 var uploadFileVO = new UploadFileVO
                 {
                     fileName = "profilePic",

@@ -3,20 +3,18 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using System.Collections;
-using UnityEngine;
-using Facebook.Unity;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
-using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace TurboLabz.InstantFramework
 {
-    public class GetProfilPicRequest
+    public class GetProfilePicRequest
     {
-        //[Inject] IBackendService backendService { get; set; }
         IPromise<BackendResult, Sprite, string> promise;
         private IRoutineRunner routineRunner;
         string playerId;
@@ -24,7 +22,7 @@ namespace TurboLabz.InstantFramework
 
         public delegate IPromise<BackendResult> DownloadUrlFn(string x, Action<object> a);
 
-        public GetProfilPicRequest()
+        public GetProfilePicRequest()
         {
             routineRunner = new NormalRoutineRunner();
             promise = new Promise<BackendResult, Sprite, string>();

@@ -104,7 +104,6 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<ManageBlockedFriendsSignal>().To<ManageBlockedFriendsCommand>();
             commandBinder.Bind<UploadFileSignal>().To<UploadProfilePicCommand>();
-            commandBinder.Bind<DownloadFileSignal>().To<DownloadProfilePicCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -166,8 +165,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<SetSubscriptionContext>().ToSingleton();
             injectionBinder.Bind<UpdateOfferDrawSignal>().ToSingleton();
             injectionBinder.Bind<SkillSelectedSignal>().ToSingleton();
-            injectionBinder.Bind<FileUploadCompleteSignal>().ToSingleton();
-            injectionBinder.Bind<FileDownloadCompleteSignal>().ToSingleton();
             injectionBinder.Bind<PhotoPickerCompleteSignal>().ToSingleton();
 
             // Bind views to mediators

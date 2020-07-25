@@ -19,10 +19,7 @@ namespace TurboLabz.InstantFramework
         {
             GetUploadedResponse response = (GetUploadedResponse)r;
 
-            if (onSuccessExternal != null)
-            {
-                onSuccessExternal(response.Url);
-            }
+            onSuccessExternal?.Invoke(response.Url);
         }
 
         #region request

@@ -3,13 +3,8 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine;
-using Facebook.Unity;
 using strange.extensions.promise.api;
-using System;
-using System.Collections.Generic;
-using strange.extensions.promise.impl;
-using TurboLabz.InstantGame;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -20,12 +15,13 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult, Sprite, string> GetProfilePic(string playerId, string uploadedPicId)
         {
-            return new GetProfilPicRequest().Send(backendService.GetDownloadUrl, playerId, uploadedPicId);
+            return new GetProfilePicRequest().Send(backendService.GetDownloadUrl, playerId, uploadedPicId);
         }
 
         public IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType)
         {
             return null;
         }
+
     }
 }

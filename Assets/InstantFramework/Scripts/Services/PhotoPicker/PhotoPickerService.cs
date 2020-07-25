@@ -25,19 +25,17 @@ namespace TurboLabz.InstantFramework
 						if (photoTexture != null)
                         {
                             photo = CreatePhotoView(photoTexture);
-
                             Texture2D.Destroy(photoTexture);
-                        }
-                    }
+
+							photoPickerCompletedSignal.Dispatch(photo);
+						}
+					}
 				});
-				photoPickerCompletedSignal.Dispatch(photo);
 			}
 			catch (Exception e)
 			{
                 throw new Exception("Exception thrown from TakePhoto", e.InnerException);
             }
-
-
 		}
 
         public void TakePhoto(int maxSize, string format = "jpeg")
@@ -49,14 +47,16 @@ namespace TurboLabz.InstantFramework
 				{
 					if (path != null)
 					{
-						Texture2D photoTexture = NativeCamera.LoadImageAtPath(path, maxSize, false);
+						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
 						{
 							photo = CreatePhotoView(photoTexture);
+							Texture2D.Destroy(photoTexture);
+
+							photoPickerCompletedSignal.Dispatch(photo);
 						}
 					}
 				});
-				photoPickerCompletedSignal.Dispatch(photo);
 			}
 			catch (Exception e)
 			{

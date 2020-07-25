@@ -35,13 +35,10 @@ namespace TurboLabz.InstantFramework
             Debug.Log("GSService_UpdatePlayerData begin");
             this.errorCode = BackendResult.UPDATE_PLAYER_DATA_FAILED;
 
-            string uploadedPicId = playerModel.uploadedPicId ?? "";
-            
-                         var jsonData = new GSRequestData()
-                             .AddNumber(ATT_NOTIFICATION_COUNT, playerModel.notificationCount)
-                             .AddNumber(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP, playerModel.subscriptionExipryTimeStamp)                            
-                            .AddString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE, playerModel.subscriptionType)
-                            .AddString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID, playerModel.uploadedPicId);
+            var jsonData = new GSRequestData()
+                .AddNumber(ATT_NOTIFICATION_COUNT, playerModel.notificationCount)
+                .AddNumber(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP, playerModel.subscriptionExipryTimeStamp)
+               .AddString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE, playerModel.subscriptionType);
 
             Debug.Log("GSService_UpdatePlayerData middle");
             new LogEventRequest()

@@ -4,12 +4,9 @@
 /// Proprietary and confidential
 
 using System.Collections;
-using UnityEngine;
-using Facebook.Unity;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
-using TurboLabz.TLUtils;
-using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace TurboLabz.InstantFramework
@@ -17,8 +14,6 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         private IPromise<BackendResult> promise = new Promise<BackendResult>();
-        //private IRoutineRunner routineRunner = new NormalRoutineRunner();
-
 
         public IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType)
         {
@@ -33,12 +28,11 @@ namespace TurboLabz.InstantFramework
             UnityWebRequest www = UnityWebRequest.Post(uploadUrl, form);
             yield return www.SendWebRequest();
 
-            if (string.IsNullOrEmpty(www.error)) // Success
+            if (string.IsNullOrEmpty(www.error))
             {
-
                 promise.Dispatch(BackendResult.SUCCESS);
             }
-            else // Failure
+            else
             {
                 promise.Dispatch(BackendResult.UPLOAD_PICTURE_FAILED);
             }
