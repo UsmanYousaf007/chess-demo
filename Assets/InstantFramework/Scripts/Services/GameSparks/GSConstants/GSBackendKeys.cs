@@ -459,7 +459,7 @@ namespace TurboLabz.InstantFramework
             public const string COEFFICIENT_WIN_INTERSITIAL = "winIntersitial";
             public const string COEFFICIENT_LOSE_VIDEO = "loseVideo";
             public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
-            public const string RATING_BOOST = "RatingBoost";
+            public const string RATING_BOOST = "ratingBoostTier1";
         }
 
         public static class PowerUp
