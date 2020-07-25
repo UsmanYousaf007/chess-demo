@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 177, y: 0}
+  m_AnchoredPosition: {x: 143, y: 0}
   m_SizeDelta: {x: 46, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1001465989080074029
@@ -220,8 +220,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 587, y: -26}
-  m_SizeDelta: {x: 703.4, y: 59.45}
+  m_AnchoredPosition: {x: 567.6, y: -39}
+  m_SizeDelta: {x: 732.4, y: 78}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &4546106702187386353
 CanvasRenderer:
@@ -257,7 +257,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 30
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -317,16 +317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: SubscriptionAnnual
   bg: {fileID: 334774746873228737}
-  title: {fileID: 0}
-  actualPrice: {fileID: 0}
-  actualPriceStrikeThrough: {fileID: 0}
-  price: {fileID: 0}
-  billed: {fileID: 0}
-  billedSeperator: {fileID: 0}
-  savings: {fileID: 0}
-  bestValue: {fileID: 0}
-  bestValueObject: {fileID: 0}
-  showBestValue: 1
   isSelected: 1
   isMonthly: 0
   savingsValue: 0.17
@@ -346,18 +336,8 @@ MonoBehaviour:
     bestValuePosition: {x: 88, y: 100, z: 0}
     processing: {fileID: 21300000, guid: b1e2ad5aa306b47de923735f174b606c, type: 3}
     bottomContainerSpacing: 10
-  root: {fileID: 8122596295000415041}
-  bottomContainer: {fileID: 0}
   singleText: {fileID: 7578440025076300878}
   toggleBall: {fileID: 6366574938775985243}
-  package: {fileID: 0}
-  notAvailable: {fileID: 0}
-  processing:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &8917364329352951228
 GameObject:
   m_ObjectHideFlags: 0
