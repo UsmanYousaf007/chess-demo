@@ -25,6 +25,7 @@ namespace TurboLabz.CPU
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
 
+
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
@@ -128,7 +129,7 @@ namespace TurboLabz.CPU
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
-
+                analyticsService.Event(AnalyticsEventId.power_ups_used, AnalyticsContext.coach);
                 StashStepButtons();
             }
         }

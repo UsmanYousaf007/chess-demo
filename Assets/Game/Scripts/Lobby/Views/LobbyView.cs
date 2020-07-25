@@ -1532,6 +1532,7 @@ namespace TurboLabz.InstantFramework
         public void RatingBoostAnimation()
         {
             ratingBoost.gameObject.SetActive(true);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
         }
     }
 }

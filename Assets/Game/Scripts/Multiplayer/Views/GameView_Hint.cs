@@ -181,6 +181,7 @@ namespace TurboLabz.Multiplayer
                 hintThinking.SetActive(true);
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 hintClickedSignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.power_ups_used, AnalyticsContext.move_meter);
             }
         }
 

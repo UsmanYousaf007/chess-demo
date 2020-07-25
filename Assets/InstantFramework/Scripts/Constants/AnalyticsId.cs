@@ -113,7 +113,10 @@ namespace TurboLabz.InstantFramework
 
         //early inidicator
         install_game_count,
-        install_game_fav_mode
+        install_game_fav_mode,
+
+        //power_ups
+        power_ups_used
     }
 
     public enum AnalyticsContext
@@ -193,7 +196,11 @@ namespace TurboLabz.InstantFramework
 
         //remove strip
         recently_played,
-        friends
+        friends,
+
+        //power_ups
+        coach,
+        move_meter
     }
 
     public enum AnalyticsParameter
