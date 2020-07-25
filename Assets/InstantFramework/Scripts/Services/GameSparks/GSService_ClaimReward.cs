@@ -9,11 +9,16 @@ using System;
 using GameSparks.Api.Requests;
 using GameSparks.Core;
 using TurboLabz.TLUtils;
+using TurboLabz.CPU;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public RatingBoostAnimSignal ratingBoostAnimSignal { get; set; }
+        
+
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
             return new GSClaimRewardRequest(GetRequestContext()).Send(jsonData, OnClaimRewardSuccess);
@@ -25,9 +30,13 @@ namespace TurboLabz.InstantFramework
             if (response != null && response.ScriptData != null)
             {
                 GSParser.PopulateAdsRewardData(playerModel, response.ScriptData);
+                loadLobbySignal.Dispatch();
+                refreshFriendsSignal.Dispatch();
+                refreshCommunitySignal.Dispatch(false);
+                cancelHintSingal.Dispatch();
+                ratingBoostAnimSignal.Dispatch();
                 LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
             }
-               
         }
     }
 

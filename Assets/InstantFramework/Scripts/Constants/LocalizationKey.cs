@@ -166,6 +166,8 @@ namespace TurboLabz.InstantFramework
 
         public const string RESULTS_CLOSE_BUTTON = "resultsCloseButton";
         public const string RESULTS_COLLECT_REWARD_BUTTON = "resultsCollectRewardButton";
+        public const string RESULTS_BOOST_RATING_BUTTON = "resultsBoostRatingButton";
+        public const string RESULTS_RECOVER_RATING_BUTTON = "resultsRecoverRatingButton";
         public const string RESULTS_SKIP_REWARD_BUTTON = "resultsSkipRewardButton";
         public const string RESULTS_EARNED = "resultsEarned";
         public const string RESULTS_REWARD = "resultsReward";

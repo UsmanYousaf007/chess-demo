@@ -133,6 +133,7 @@ namespace TurboLabz.Multiplayer
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.power_ups_used, AnalyticsContext.coach);
             }
         }
 

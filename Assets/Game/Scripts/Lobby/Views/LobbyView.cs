@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RemoveRecentlyPlayedSignal removeRecentlyPlayedSignal { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -194,6 +196,10 @@ namespace TurboLabz.InstantFramework
         List<FriendBar> recentlyCompleted = new List<FriendBar>();
         private StoreIconsContainer iconsContainer;
 
+        [Header("Rating boost")]
+        public RectTransform ratingBoost;
+        public TextMeshProUGUI textRatingBoost;
+
         public void Init()
         {
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
@@ -207,6 +213,8 @@ namespace TurboLabz.InstantFramework
 
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
+
+            //textRatingBoost.text = "+"+ rewardsSettingsModel.ratingBoostReward;
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
 
@@ -1535,6 +1543,12 @@ namespace TurboLabz.InstantFramework
         public void AdSkippedDailogueCloseButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        public void RatingBoostAnimation()
+        {
+            ratingBoost.gameObject.SetActive(true);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
         }
     }
 }

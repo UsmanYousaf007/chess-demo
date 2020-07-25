@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 20301765
+    totalSpriteSurfaceArea: 20412033
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -129,6 +129,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ac4ae5a301bdc4a05b49a0867343b6af, type: 3}
   - {fileID: 21300000, guid: 3b393ca398554423790920331ccce7f8, type: 3}
   - {fileID: 21300000, guid: f2c6c0b3eea7a408eb22d1628c27f989, type: 3}
+  - {fileID: 21300000, guid: 13b3cec3a99304d85804e59467ece2ab, type: 3}
   - {fileID: 21300000, guid: cb5eadd30aa904f8b832af222345d7fd, type: 3}
   - {fileID: 21300000, guid: 84af87f31dc3c44919e50996c0344237, type: 3}
   - {fileID: 21300000, guid: 8e1acdf30cd854d35891383225e8c61f, type: 3}
@@ -164,6 +165,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7abe9db59236b42f5af130549728159e, type: 3}
   - {fileID: 21300000, guid: 1a5312c5c60814719bb8b7f01c49f1c8, type: 3}
   - {fileID: 21300000, guid: 7ae353e533bfb492aa11982976211a42, type: 3}
+  - {fileID: 21300000, guid: a8e05be51632f493cbe7a1e34e6aa65c, type: 3}
   - {fileID: 21300000, guid: 47ef5de5122024e7f982947b013b2fcf, type: 3}
   - {fileID: 21300000, guid: 0a6735069c2e1439fbf46ae7c807915e, type: 3}
   - {fileID: 21300000, guid: 48e955063c7d742df8320acb7bc47571, type: 3}
@@ -326,6 +328,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2905b1de90480410d975d3615550d78d, type: 3}
   - {fileID: 21300000, guid: 6a479efebb79f4d45a0ffff1c84f4f41, type: 3}
   - {fileID: 21300000, guid: c9811a1f242a9421597693e97134c9bc, type: 3}
+  - {fileID: 21300000, guid: 438ae17f923eb4e2cac27422a5773ed4, type: 3}
   - {fileID: 21300000, guid: e52b4a7f946b44bafb58cf9980fde362, type: 3}
   - {fileID: 21300000, guid: ebe815bfa658843798083db4325add30, type: 3}
   - {fileID: 21300000, guid: 5631b6cf2e0534e3bae7ab6873622176, type: 3}
@@ -415,6 +418,7 @@ SpriteAtlas:
   - FriendsIcon
   - MinuteSelectionBtn
   - moveMeterFillerBg
+  - BoostRatingBtn
   - HintBtn
   - 4
   - d
@@ -450,6 +454,7 @@ SpriteAtlas:
   - friendStripGlow
   - SubTitleBanner
   - ClockBorderRect
+  - RatingFloaterTexture
   - HeartIcon
   - h
   - ChatBubbleLeft
@@ -612,6 +617,7 @@ SpriteAtlas:
   - 6
   - PlayIcon
   - ConnectToFbBg
+  - BlueTick
   - InGameChessLogo
   - ChatMaxIcon
   - ChatBubbleRight

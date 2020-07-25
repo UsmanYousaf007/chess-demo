@@ -38,11 +38,16 @@ namespace TurboLabz.Multiplayer
         public Text resultsRatingValueLabel;
         public Text resultsRatingChangeLabel;
 
+        public Button resultsBoostRatingButton;
+        public Text resultsBoostRatingButtonLabel;
+        public Image resultsBoostRatingAdTVImage;
+
         public Button resultsCollectRewardButton;
         public Text resultsCollectRewardButtonLabel;
-        public Button resultsViewBoardButton;
-        public Text resultsViewBoardButtonLabel;
         public Image resultsAdTVImage;
+
+        public Button resultsViewBoardButton;
+        public Text resultsViewBoardButtonLabel;  
 
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
@@ -88,6 +93,7 @@ namespace TurboLabz.Multiplayer
         public void InitResults()
         {
             // Button listeners
+            resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
             resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
             declinedLobbyButton.onClick.AddListener(OnResultsDeclinedButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
@@ -124,10 +130,16 @@ namespace TurboLabz.Multiplayer
             {
                 resultsCollectRewardButton.interactable = true;
                 resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
+
+                resultsBoostRatingButton.interactable = true;
+                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, Colors.ENABLED_TEXT_ALPHA);
+                c = resultsBoostRatingAdTVImage.color;
+                c.a = Colors.FULL_ALPHA;
+                resultsBoostRatingAdTVImage.color = c;
+                DoPulse();
             }
             else
             {
@@ -136,7 +148,18 @@ namespace TurboLabz.Multiplayer
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;
+
+                resultsBoostRatingButton.interactable = false;
+                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
+                c = resultsBoostRatingAdTVImage.color;
+                c.a = Colors.DISABLED_TEXT_ALPHA;
+                resultsBoostRatingAdTVImage.color = c;
             }
+        }
+
+        public void DoPulse()
+        {
+            iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "oncomplete", "DoPulse", "loopType", "loop", "delay", 1));
         }
 
         public void OnParentShowResults()
@@ -213,6 +236,8 @@ namespace TurboLabz.Multiplayer
             offerTextDlg.SetActive(false);
             offerDrawDialog.SetActive(false);
 
+            bool enablePulse = true;
+
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -230,6 +255,7 @@ namespace TurboLabz.Multiplayer
                         animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerName);
                         EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
+                        enablePulse = preferencesModel.resignCount <= adsSettingsModel.resignCap;
                     }
                     else
                     {
@@ -289,6 +315,9 @@ namespace TurboLabz.Multiplayer
                     break;
             }
 
+            if (enablePulse)
+                DoPulse();
+
             if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
             {
                 viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
@@ -304,6 +333,7 @@ namespace TurboLabz.Multiplayer
                 resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
                 resultsGameResultLabel.color = Colors.YELLOW_DIM;
                 viewBoardResultPanel.result.text = "Drawn";
+                resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
             }
             else
             {
@@ -313,6 +343,7 @@ namespace TurboLabz.Multiplayer
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
                     resultsGameResultLabel.color = Colors.GREEN_DIM;
                     viewBoardResultPanel.result.text = string.Format("{0} won", playerName);
+                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
                 }
                 else
                 {
@@ -320,6 +351,7 @@ namespace TurboLabz.Multiplayer
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
                     resultsGameResultLabel.color = Colors.RED_DIM;
                     viewBoardResultPanel.result.text = string.Format("{0} won", opponentName);
+                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_RECOVER_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
                 }
             }
             resultsGameImage.SetNativeSize();
@@ -362,9 +394,9 @@ namespace TurboLabz.Multiplayer
                 }
             }
 
-            resultsAdTVImage.gameObject.SetActive(!vo.removeAds);
-            resultsCollectRewardButton.gameObject.SetActive(!vo.removeAds);
-            resultsCollectRewardButtonLabel.gameObject.SetActive(!vo.removeAds);
+            //resultsAdTVImage.gameObject.SetActive(!vo.removeAds);
+            //resultsCollectRewardButton.gameObject.SetActive(!vo.removeAds);
+            //resultsCollectRewardButtonLabel.gameObject.SetActive(!vo.removeAds);
 
             if (vo.removeAds)
             {
@@ -431,6 +463,19 @@ namespace TurboLabz.Multiplayer
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
             vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.rewarded;
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            showRewardedAdSignal.Dispatch(vo);
+        }
+
+        private void OnResultsBoostRatingButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.RewardedVideo;
+            vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
+            vo.challengeId = "";
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.rewarded;
             analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
