@@ -213,13 +213,11 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IVideoPlaybackService>().To<AVProVideoPlayer>().ToSingleton();
             injectionBinder.Bind<IGameModesAnalyticsService>().To<GameModesAnalyticsService>().ToSingleton();
 
-//#if UNITY_ANDROID && !UNITY_EDITOR
-//            injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
-//#else
-//            injectionBinder.Bind<IAudioService>().To<UnityAudio>().ToSingleton();
-//#endif
-
+#if UNITY_ANDROID && !UNITY_EDITOR
+            injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
+#else
             injectionBinder.Bind<IAudioService>().To<UnityAudio>().ToSingleton();
+#endif
 
             // Bind utils
             injectionBinder.Bind<IRoutineRunner>().To<StrangeRoutineRunner>().ToSingleton();
