@@ -412,7 +412,6 @@ namespace TurboLabz.InstantFramework
             public const string REWARD_REQUIRED_POINTS = "pointsRequired";
             public const string ADS_REWARD_DATA = "adsRewardData";
             public const string LAST_WATCHED_VIDEO = "lastWatchedVideoId";
-            public const string RATING_BOOST = "RatingBoost";
         }
 
         public static class Match
@@ -460,8 +459,7 @@ namespace TurboLabz.InstantFramework
             public const string COEFFICIENT_WIN_INTERSITIAL = "winIntersitial";
             public const string COEFFICIENT_LOSE_VIDEO = "loseVideo";
             public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
-            
-
+            public const string RATING_BOOST = "RatingBoost";
         }
 
         public static class PowerUp

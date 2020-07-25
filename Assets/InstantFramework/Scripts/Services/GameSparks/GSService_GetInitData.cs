@@ -203,9 +203,9 @@ namespace TurboLabz.InstantFramework
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
         {
-            rewardsSettingsModel.facebookConnectReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD).Value;
-            rewardsSettingsModel.failSafeCoinReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD).Value;
-            rewardsSettingsModel.ratingBoostReward = rewardsSettingsData.GetInt(GSBackendKeys.PlayerDetails.RATING_BOOST).Value;
+            rewardsSettingsModel.facebookConnectReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD);
+            rewardsSettingsModel.failSafeCoinReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD);
+            rewardsSettingsModel.ratingBoostReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.RATING_BOOST);
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)

@@ -183,7 +183,7 @@ namespace TurboLabz.InstantFramework
             var rewardType = GetSafeString(data, GSBackendKeys.ClaimReward.CLAIM_REWARD_TYPE);
             if (rewardType == GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
             {
-                playerModel.eloScore += GetSafeInt(data, GSBackendKeys.PlayerDetails.RATING_BOOST);
+                playerModel.eloScore += GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
             }
             else
             {
