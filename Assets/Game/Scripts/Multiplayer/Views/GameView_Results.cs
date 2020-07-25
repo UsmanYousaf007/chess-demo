@@ -139,7 +139,6 @@ namespace TurboLabz.Multiplayer
                 c = resultsBoostRatingAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsBoostRatingAdTVImage.color = c;
-                DoPulse();
             }
             else
             {
@@ -157,9 +156,16 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void DoPulse()
+        public void DoPulse(bool val)
         {
-            iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "oncomplete", "DoPulse", "loopType", "loop", "delay", 1));
+            if (val)
+            {
+                iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "loopType", "loop", "delay", 1));
+            }
+            else
+            {
+                iTween.Stop(resultsBoostRatingButton.gameObject);
+            }
         }
 
         public void OnParentShowResults()
@@ -206,6 +212,8 @@ namespace TurboLabz.Multiplayer
             if (!isRanked)
             {
                 resultsFriendlyLabel.gameObject.SetActive(true);
+                EnableRewarededVideoButton(false);
+                DoPulse(false);
                 return;
             }
 
@@ -315,8 +323,7 @@ namespace TurboLabz.Multiplayer
                     break;
             }
 
-            if (enablePulse)
-                DoPulse();
+            DoPulse(enablePulse);
 
             if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
             {
@@ -373,9 +380,9 @@ namespace TurboLabz.Multiplayer
             isDraw = false;
             animDelay = RESULTS_DELAY_TIME;
             GameEndReason gameEndReason = vo.reason;
-
-            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
+            
             UpdateGameEndReasonSection(vo.reason);
+            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             UpdateGameResultHeadingSection();
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
