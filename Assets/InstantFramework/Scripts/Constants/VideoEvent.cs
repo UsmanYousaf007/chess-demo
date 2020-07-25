@@ -14,6 +14,8 @@ namespace TurboLabz.InstantFramework
         ReadyToPlay,
         FirstFrameReady,
         FinishedSeeking,
-        FinishedPlaying
+        FinishedPlaying,
+        StartedBuffering,
+        FinishedBuffering
     }
 }

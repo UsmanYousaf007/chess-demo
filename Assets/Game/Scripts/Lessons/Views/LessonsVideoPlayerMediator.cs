@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using UnityEngine;
+using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using strange.extensions.mediation.impl;
 
@@ -88,6 +89,8 @@ namespace TurboLabz.InstantFramework
                         PlayVideo();
                     }
                     break;
+
+                case VideoEvent.FinishedBuffering:
                 case VideoEvent.FinishedSeeking:
                     if (!videoPaused)
                     {
@@ -161,6 +164,11 @@ namespace TurboLabz.InstantFramework
             videoPlaybackService.Seek(nTime * videoPlaybackService.duration);
 
             view.UpdateTimeText();
+
+            if (!videoPlaybackService.isSeeking)
+            {
+                VideoEventListener(VideoEvent.FinishedSeeking);
+            }
         }
 
         private void OnBackButtonClicked()

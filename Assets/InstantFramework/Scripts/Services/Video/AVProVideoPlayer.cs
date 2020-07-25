@@ -16,8 +16,10 @@ namespace TurboLabz.InstantFramework
 
         private MediaPlayer _avProPlayer;
 
-        public bool isPlaying => _avProPlayer.Control.IsPlaying();
         public bool isPrepared => _avProPlayer.Control.CanPlay();
+        public bool isPlaying => _avProPlayer.Control.IsPlaying();
+        public bool isSeeking => _avProPlayer.Control.IsSeeking();
+        public bool isBuffering => _avProPlayer.Control.IsBuffering();
         public float duration => _avProPlayer.Info.GetDurationMs();
         public float playbackSpeed { get => _avProPlayer.m_PlaybackRate; set => _avProPlayer.Control.SetPlaybackRate(value); }
         public string url { get => _avProPlayer.m_VideoPath; set => _avProPlayer.m_VideoPath = value; }
@@ -82,6 +84,12 @@ namespace TurboLabz.InstantFramework
                     break;
                 case MediaPlayerEvent.EventType.FinishedSeeking:
                     videoEventSignal.Dispatch(VideoEvent.FinishedSeeking);
+                    break;
+                case MediaPlayerEvent.EventType.StartedBuffering:
+                    videoEventSignal.Dispatch(VideoEvent.StartedBuffering);
+                    break;
+                case MediaPlayerEvent.EventType.FinishedBuffering:
+                    videoEventSignal.Dispatch(VideoEvent.FinishedBuffering);
                     break;
                 case MediaPlayerEvent.EventType.Error:
                     videoLoadFailedSignal.Dispatch();
