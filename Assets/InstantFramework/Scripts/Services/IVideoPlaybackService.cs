@@ -10,8 +10,10 @@ namespace TurboLabz.InstantFramework
 {
     public interface IVideoPlaybackService
     {
-        bool isPlaying { get; }
         bool isPrepared { get; }
+        bool isPlaying { get; }
+        bool isSeeking { get; }
+        bool isBuffering { get; }
         float duration { get; }
         double time { get; }
         float playbackSpeed { get; set; }
