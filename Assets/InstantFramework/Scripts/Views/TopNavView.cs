@@ -129,7 +129,8 @@ namespace TurboLabz.InstantFramework
 
         public void SetupRewardBar()
         {
-            ShowRewardBar();
+            //To-Do collect reward
+            //ShowRewardBar();
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
