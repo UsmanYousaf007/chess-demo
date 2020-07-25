@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         void Stop();
         void Play();
         void Pause();
+        void Close();
         void Seek(float time);
         float GetProgress();
     }

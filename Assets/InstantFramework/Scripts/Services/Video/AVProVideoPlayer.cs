@@ -51,12 +51,17 @@ namespace TurboLabz.InstantFramework
 
         public void Play()
         {
-            _avProPlayer.Control.Play();
+            _avProPlayer.Play();
         }
 
         public void Stop()
         {
             _avProPlayer.Stop();
+        }
+
+        public void Close()
+        {
+            _avProPlayer.CloseVideo();
         }
 
         public void Seek(float time)

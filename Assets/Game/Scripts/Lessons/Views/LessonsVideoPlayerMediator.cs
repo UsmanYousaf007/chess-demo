@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.LESSON_VIDEO)
             {
-                videoPlaybackService.Stop();
+                videoPlaybackService.Close();
                 view.Reset();
                 view.Hide();
             }
@@ -194,6 +194,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnBackButtonClicked()
         {
+            videoPlaybackService.Close();
+
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             audioService.PlayStandardClick();
         }
@@ -215,7 +217,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 view.processing.SetActive(true);
-                videoPlaybackService.Stop();
+                videoPlaybackService.Close();
                 view.Reset();
                 loadVideoSignal.Dispatch(nextVideo);
             }
