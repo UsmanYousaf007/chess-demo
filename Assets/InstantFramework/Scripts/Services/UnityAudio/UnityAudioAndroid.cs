@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
         {
             if (preferencesModel.isAudioOn)
             {
-                AndroidNativeAudio.play(streamFiles[sound.name]);
+                //AndroidNativeAudio.play(streamFiles[sound.name]);
             }
         }
 
@@ -76,10 +76,10 @@ namespace TurboLabz.InstantFramework
             {
                 foreach (KeyValuePair<string, int> entry in streamFiles)
                 {
-                    AndroidNativeAudio.unload(entry.Value);
+                    //AndroidNativeAudio.unload(entry.Value);
                 }
 
-                AndroidNativeAudio.releasePool();
+                //AndroidNativeAudio.releasePool();
             }
         }
 
@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
 
         private void CreatePool(params AudioClip[] clips)
         {
-            AndroidNativeAudio.makePool(clips.Length); 
+            //AndroidNativeAudio.makePool(clips.Length); 
 
             streamFiles = new Dictionary<string, int>();
 
@@ -102,7 +102,7 @@ namespace TurboLabz.InstantFramework
 
         private void LoadSound(AudioClip clip)
         {
-            streamFiles.Add(clip.name, AndroidNativeAudio.load(clip.name + FILE_EXT));
+            //streamFiles.Add(clip.name, AndroidNativeAudio.load(clip.name + FILE_EXT));
         }
     }
 }
