@@ -115,7 +115,7 @@ namespace TurboLabz.CPU
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch("cpu", "coach");
+                setSubscriptionContext.Dispatch("cpu_coach");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);

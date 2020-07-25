@@ -27,9 +27,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public SaveLastWatchedVideoSignal saveLastWatchedVideoSignal { get; set; }
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
         [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
+        [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
+
+        //Analytics Service
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         private bool videoPaused = false;
-        private string videoId;
+        private string videoId = string.Empty;
+        private int lessonIndex = 0;
         private VideoLessonVO nextVideo;
 
         public override void OnRegister()
@@ -51,6 +56,8 @@ namespace TurboLabz.InstantFramework
             {
                 view.Show();
                 PlayVideo();
+                analyticsService.ScreenVisit(AnalyticsScreen.lessons_play);
+                analyticsService.Event($"lesson_{lessonIndex}", AnalyticsContext.started);
             }
         }
 
@@ -73,6 +80,7 @@ namespace TurboLabz.InstantFramework
             view.titleText.text = vo.currentLesson.name;
             videoId = vo.currentLesson.videoId;
             nextVideo = vo.nextLesson;
+            lessonIndex = vo.currentLesson.overallIndex;
             view.UpdateView();
         }
 
@@ -86,6 +94,7 @@ namespace TurboLabz.InstantFramework
                     {
                         view.processing.SetActive(false);
                         PlayVideo();
+                        analyticsService.Event($"lesson_{lessonIndex}", AnalyticsContext.started);
                     }
                     break;
                 case VideoEvent.FinishedSeeking:
@@ -98,6 +107,8 @@ namespace TurboLabz.InstantFramework
                 case VideoEvent.FinishedPlaying:
                     if (!string.IsNullOrEmpty(videoId))
                     {
+                        analyticsService.Event($"lesson_{lessonIndex}", AnalyticsContext.completed);
+
                         // Save video progress to active inventory
                         if (playerModel.GetVideoProgress(videoId) < 100f)
                         {
@@ -179,6 +190,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (nextVideo.isLocked)
             {
+                setSubscriptionContext.Dispatch($"lessons_{nextVideo.section.ToLower().Replace(' ', '_')}");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else

@@ -388,18 +388,14 @@ namespace TurboLabz.InstantFramework
                     foreach (var topic in topics.BaseData)
                     {
                         var lessonsList = topic.Value as List<object>;
-                        var lessonsListStr = new List<string>();
 
                         foreach (var lesson in lessonsList)
                         {
-                            lessonsListStr.Add(lesson.ToString());
+                            lessonsModel.lessonsMapping.Add(lesson.ToString(), topic.Key);
                         }
 
-                        lessonsModel.totalVideos += lessonsListStr.Count;
-                        topicDictionary.Add(topic.Key, lessonsListStr);
+                        lessonsModel.topicsMapping.Add(topic.Key, entry.Key);
                     }
-
-                    lessonsModel.lessonsMapping.Add(entry.Key, topicDictionary);
                 }
             }
         }

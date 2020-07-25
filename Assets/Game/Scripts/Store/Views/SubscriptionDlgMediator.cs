@@ -29,7 +29,7 @@ public class SubscriptionDlgMediator : Mediator
 
     private string cameFromScreen;
     private NS cameFromState;
-    private string powerUpContext;
+    private string context;
     private KeyValuePair<string, object> analyticsFunnelId;
 
     public override void OnRegister()
@@ -67,7 +67,9 @@ public class SubscriptionDlgMediator : Mediator
             cameFromScreen = cameFromState.ToString();
             cameFromScreen = CollectionsUtil.GetContextFromState(cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2));
             cameFromScreen = appInfoModel.isAutoSubscriptionDlgShown ? autoSubscriptionDailogueService.IsShownFirstTime() ? "install_popup" : "auto_popup" : cameFromScreen;
-            cameFromScreen = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ? powerUpContext : cameFromScreen;
+            var cameFromCustomContext = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ||
+                cameFromState.GetType().Equals(typeof(NSLessonTopics)) || cameFromState.GetType().Equals(typeof(NSLessonsView)) || cameFromState.GetType().Equals(typeof(NSLessonVideo));
+            cameFromScreen =  cameFromCustomContext ? context : cameFromScreen;
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
 
@@ -146,8 +148,8 @@ public class SubscriptionDlgMediator : Mediator
     }
 
     [ListensTo(typeof(SetSubscriptionContext))]
-    public void OnSetContext(string gameType, string powerUp)
+    public void OnSetContext(string context)
     {
-        powerUpContext = $"{gameType}_{powerUp}";
+        this.context = context;
     }
 }

@@ -16,6 +16,10 @@ namespace TurboLabz.InstantGame
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
+        [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
+
+        //Analytics Service
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void OnRegister()
         {
@@ -30,6 +34,7 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.LESSONS_VIEW)
             {
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.lessons_videos);
             }
         }
 
@@ -82,6 +87,7 @@ namespace TurboLabz.InstantGame
 
             if (vo.isLocked)
             {
+                setSubscriptionContext.Dispatch($"lessons_{vo.section.ToLower().Replace(' ', '_')}");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else

@@ -14,7 +14,7 @@ public class LessonTile : MonoBehaviour
 
     public void Init(VideoLessonVO vo)
     {
-        lessonName.text = $"{vo.index}. {vo.name}";
+        lessonName.text = $"{vo.indexInTopic}. {vo.name}";
         locked.SetActive(vo.isLocked);
         skinLink.InitPrefabSkin();
         progress.fillAmount = vo.progress;

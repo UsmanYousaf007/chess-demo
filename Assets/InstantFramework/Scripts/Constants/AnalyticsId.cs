@@ -35,7 +35,10 @@ namespace TurboLabz.InstantFramework
         subscription_dlg,
         show_settings,
         manage_subscription,
-        manage_blocked_friends
+        manage_blocked_friends,
+        lessons_videos,
+        lessons_topics,
+        lessons_play
     }
 
     public enum AnalyticsEventId
@@ -193,7 +196,11 @@ namespace TurboLabz.InstantFramework
 
         //remove strip
         recently_played,
-        friends
+        friends,
+
+        //lessons
+        started,
+        completed
     }
 
     public enum AnalyticsParameter

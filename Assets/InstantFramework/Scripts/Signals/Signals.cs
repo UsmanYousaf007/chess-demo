@@ -150,7 +150,7 @@ namespace TurboLabz.InstantFramework
     public class ShowAdSkippedDlgSignal : Signal { }
     public class DisableModalBlockersSignal : Signal { }
     public class SelectTierSignal : Signal<string> { }
-    public class SetSubscriptionContext : Signal<string, string> { }
+    public class SetSubscriptionContext : Signal<string> { }
     public class MatchAnalyticsSignal : Signal<MatchAnalyticsVO> { }
     public class ManageBlockedFriendsSignal : Signal<string, bool> { }
     public class UnblockFriendSignal : Signal<string> { }

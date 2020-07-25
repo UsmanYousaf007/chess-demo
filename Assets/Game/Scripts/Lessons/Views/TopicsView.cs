@@ -13,10 +13,9 @@ namespace TurboLabz.InstantGame
 {
     public class TopicsView : View
     {
-        public Text startLessonLabel;
         public Image nextLessonIcon;
         public Text nextLessonName;
-        public Button nextLessonButton;
+        public Button[] nextLessonButtons;
         public Image nextLessonProgress;
         public Transform categoryContainer;
         public GameObject topicCategory;
@@ -46,10 +45,12 @@ namespace TurboLabz.InstantGame
             categoryPool = new GameObjectsPool(topicCategory);
             topicTilePool = new GameObjectsPool(topicTile);
 
-            nextLessonButton.onClick.AddListener(OnNextLessonClicked);
+            foreach (var nextLessonButton in nextLessonButtons)
+            {
+                nextLessonButton.onClick.AddListener(OnNextLessonClicked);
+            }
             backButton.onClick.AddListener(OnBackButtonClicked);
 
-            startLessonLabel.text = localizationService.Get(LocalizationKey.LESSONS_START);
             backButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
             lessonCompletedTitle.text = localizationService.Get(LocalizationKey.LESSONS_COMPLETED_TITLE);
             lessonCompletedDescription.text = localizationService.Get(LocalizationKey.LESSONS_COMPLETED_DESCRIPTION);
@@ -71,7 +72,6 @@ namespace TurboLabz.InstantGame
             nextLessonSection.SetActive(!vo.allLessonsWatched);
             lessonsCompletedSection.SetActive(vo.allLessonsWatched);
             nextLessonIcon.sprite = vo.nextLesson.icon;
-            nextLessonIcon.SetNativeSize();
             nextLessonName.text = vo.nextLesson.name;
             nextLessonProgress.fillAmount = vo.nextLesson.progress;
             lessonVO = vo.nextLesson;

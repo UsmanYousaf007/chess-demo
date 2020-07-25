@@ -9,14 +9,18 @@ public class TopicCategory : MonoBehaviour
 {
     public Text title;
     public Transform topicTileContainer;
-    public SkinLink skinLink;
+    public SkinLink[] skinLinks;
 
     private GameObjectsPool tilePool;
 
     public void Init(string title, List<TopicVO> topics, GameObjectsPool topicTilePool, Signal<TopicVO> onClickSignal)
     {
         this.title.text = title;
-        skinLink.InitPrefabSkin();
+
+        foreach (var skinLink in skinLinks)
+        {
+            skinLink.InitPrefabSkin();
+        }
 
         foreach (var topic in topics)
         {

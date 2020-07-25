@@ -169,7 +169,8 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch(isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : isThirtyMinGame ? "30m" : "5m", "move_meter");
+                var matchType = isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : isThirtyMinGame ? "30m" : "5m";
+                setSubscriptionContext.Dispatch($"{matchType}_move_meter");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);

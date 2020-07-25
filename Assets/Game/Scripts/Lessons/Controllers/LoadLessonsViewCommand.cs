@@ -26,7 +26,7 @@ namespace TurboLabz.InstantGame
         public override void Execute()
         {
             var lessonsList = new List<VideoLessonVO>();
-            var lessons = lessonsModel.lessonsMapping[topicVO.section][topicVO.name];
+            var lessons = lessonsModel.GetLessonsByTopicId(topicVO.name);
             int i = 0;
 
             foreach (var lesson in lessons)
@@ -36,18 +36,20 @@ namespace TurboLabz.InstantGame
                     i++;
                     var lessonVO = new VideoLessonVO();
                     lessonVO.name = metaDataModel.store.items[lesson].displayName;
-                    lessonVO.index = i;
+                    lessonVO.indexInTopic = i;
                     lessonVO.videoId = lesson;
                     lessonVO.icon = topicVO.icon;
                     lessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(lesson));
                     lessonVO.progress = (float)playerModel.GetVideoProgress(lesson)/100f;
+                    lessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(lesson);
+                    lessonVO.section = topicVO.section;
                     lessonsList.Add(lessonVO);
                 }
             }
 
             var vo = new LessonsViewVO();
             vo.topicVO = topicVO;
-            vo.topicVO.completed = lessonsModel.GetCompletedLessonsCount(topicVO.section, topicVO.name);
+            vo.topicVO.completed = lessonsModel.GetCompletedLessonsCount(topicVO.name);
             vo.lessons = lessonsList;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSONS_VIEW);
             updateTopiscViewSignal.Dispatch(vo);

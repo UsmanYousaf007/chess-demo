@@ -12,8 +12,8 @@ namespace TurboLabz.InstantFramework
 {
     public class LessonsModel : ILessonsModel
     {
-        public OrderedDictionary<string, OrderedDictionary<string, List<string>>> lessonsMapping { get; set; }
-        public int totalVideos { get; set; }
+        public OrderedDictionary<string, string> topicsMapping { get; set; }
+        public OrderedDictionary<string, string> lessonsMapping { get; set; }
         public TopicVO lastViewedTopic { get; set; }
 
         // Listen to signals
@@ -30,95 +30,46 @@ namespace TurboLabz.InstantFramework
 
         private void Reset()
         {
-            totalVideos = 0;
             lastViewedTopic = new TopicVO();
-            lessonsMapping = new OrderedDictionary<string, OrderedDictionary<string, List<string>>>();
+            topicsMapping = new OrderedDictionary<string, string>();
+            lessonsMapping = new OrderedDictionary<string, string>();
         }
 
-        public int GetCompletedLessonsCount(string section, string topic)
+        public int GetCompletedLessonsCount(string topic)
         {
-            int count = 0;
-
-            foreach (var lesson in lessonsMapping[section][topic])
-            {
-                if (playerModel.isVideoFullyWatched(lesson))
-                {
-                    count++;
-                }
-            }
-
-            return count;
+            return (from lesson in lessonsMapping
+                    where lesson.Value.Equals(topic) && playerModel.isVideoFullyWatched(lesson.Key)
+                    select lesson).Count();
         }
 
         public bool HasWatchedAllLessons()
         {
-            int totalWatchedVideos = 0;
+            int totalWatchedVideos = (from lesson in lessonsMapping
+                                      where playerModel.isVideoFullyWatched(lesson.Key)
+                                      select lesson).Count();
 
-            foreach(var section in lessonsMapping)
-            {
-                foreach (var topic in section.Value)
-                {
-                    totalWatchedVideos += GetCompletedLessonsCount(section.Key, topic.Key);
-                }
-            }
-
-            return totalWatchedVideos == totalVideos;
+            return totalWatchedVideos == lessonsMapping.Count;
         }
 
         public string GetNextLesson(string currentLesson)
         {
             if (string.IsNullOrEmpty(currentLesson))
             {
-                return lessonsMapping.First().Value.First().Value.First();
+                return lessonsMapping.First().Key;
             }
 
-            var found = false;
-            foreach (var section in lessonsMapping)
+            var currentLessonIndex = lessonsMapping.IndexOf(currentLesson);
+
+            if (currentLessonIndex < lessonsMapping.Count - 1)
             {
-                if (found)
-                {
-                    return section.Value.First().Value.First();
-                }
-
-                foreach (var topic in section.Value)
-                {
-                    if (found)
-                    {
-                        return topic.Value.First();
-                    }
-
-                    for (int i = 0; i < topic.Value.Count; i++)
-                    {
-                        if (topic.Value[i].Equals(currentLesson))
-                        {
-                            if (i + 1 < topic.Value.Count)
-                            {
-                                return topic.Value[i + 1];
-                            }
-                            else
-                            {
-                                found = true;
-                            }
-                        }
-                    }
-                }
+                return lessonsMapping.ElementAt(currentLessonIndex + 1).Key;
             }
 
             if (!HasWatchedAllLessons())
             {
-                foreach (var section in lessonsMapping)
-                {
-                    foreach (var topic in section.Value)
-                    {
-                        foreach (var lesson in topic.Value)
-                        {
-                            if (!playerModel.isVideoFullyWatched(lesson))
-                            {
-                                return lesson;
-                            }
-                        }
-                    }
-                }
+                return (from lesson in lessonsMapping
+                        where playerModel.isVideoFullyWatched(lesson.Key)
+                        select lesson.Key).First();
             }
 
             return string.Empty;
@@ -126,42 +77,49 @@ namespace TurboLabz.InstantFramework
 
         public string GetTopicId(string lessonId)
         {
-            foreach (var section in lessonsMapping)
-            {
-                foreach (var topic in section.Value)
-                {
-                    foreach (var lesson in topic.Value)
-                    {
-                        if (lesson.Equals(lessonId))
-                        {
-                            return GSBackendKeys.GetLessonKey(topic.Key);
-                        }
-                    }
-                }
-            }
+            return GSBackendKeys.GetLessonKey(lessonsMapping[lessonId]);
+        }
 
-            return "PieceMovement";
+        private int GetTotalLessonsCount(string topic)
+        {
+            return (from lesson in lessonsMapping
+                    where lesson.Value.Equals(topic)
+                    select lesson).Count();
         }
 
         public OrderedDictionary<string, List<TopicVO>> GetSectionsWithTopicVO(StoreIconsContainer iconsContainer)
         {
             var rv = new OrderedDictionary<string, List<TopicVO>>();
-            foreach (var section in lessonsMapping)
+
+            foreach (var topic in topicsMapping)
             {
-                var topicList = new List<TopicVO>();
-                foreach (var topic in section.Value)
+                var vo = new TopicVO();
+                vo.name = topic.Key;
+                vo.total = GetTotalLessonsCount(topic.Key);
+                vo.completed = GetCompletedLessonsCount(topic.Key);
+                vo.icon = iconsContainer.GetSprite(GSBackendKeys.GetLessonKey(topic.Key));
+                vo.section = topic.Value;
+
+                if (rv.ContainsKey(topic.Value))
                 {
-                    var vo = new TopicVO();
-                    vo.name = topic.Key;
-                    vo.total = topic.Value.Count;
-                    vo.completed = GetCompletedLessonsCount(section.Key, topic.Key);
-                    vo.icon = iconsContainer.GetSprite(GSBackendKeys.GetLessonKey(topic.Key));
-                    vo.section = section.Key;
-                    topicList.Add(vo);
+                    rv[topic.Value].Add(vo);
                 }
-                rv.Add(section.Key, topicList);
+                else
+                {
+                    var list = new List<TopicVO>();
+                    list.Add(vo);
+                    rv.Add(topic.Value, list);
+                }
             }
+
             return rv;
+        }
+
+        public IEnumerable<string> GetLessonsByTopicId(string topicId)
+        {
+            return from lesson in lessonsMapping
+                   where lesson.Value.Equals(topicId)
+                   select lesson.Key;
         }
     }
 }
