@@ -171,9 +171,16 @@ namespace TurboLabz.CPU
             }
         }
 
-        void DoPulse()
+        void DoPulse(bool val)
         {
-            iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "loopType", "loop", "delay", 1));
+            if (val)
+            {
+                iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "loopType", "loop", "delay", 1));
+            }
+            else
+            {
+                iTween.Stop(resultsBoostRatingButton.gameObject);
+            }
         }            
 
         public void ShowResultsDialog()
@@ -215,6 +222,8 @@ namespace TurboLabz.CPU
             if (!isRanked)
             {
                 resultsFriendlyLabel.gameObject.SetActive(true);
+                EnableRewarededVideoButton(false);
+                DoPulse(false);
                 return;
             }
 
@@ -324,8 +333,7 @@ namespace TurboLabz.CPU
                     break;
             }
 
-            if(enablePulse)
-                DoPulse();
+            DoPulse(enablePulse);
 
             if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
             {
@@ -376,8 +384,9 @@ namespace TurboLabz.CPU
             animDelay = RESULTS_DELAY_TIME;
             playerWins = isPlayerWins;
 
-            UpdateResultRatingSection(false, 1, 0);
+
             UpdateGameEndReasonSection(gameEndReason);
+            UpdateResultRatingSection(false, 1, 0);
             UpdateGameResultHeadingSection();
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
