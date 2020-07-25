@@ -119,7 +119,10 @@ namespace TurboLabz.InstantFramework
         install_game_fav_mode,
 
         //power_ups
-        power_ups_used
+        power_ups_used,
+
+        //lessons
+        all_lessons_complete
     }
 
     public enum AnalyticsContext

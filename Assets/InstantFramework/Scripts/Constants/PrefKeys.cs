@@ -55,6 +55,7 @@ namespace TurboLabz.InstantGame
         public const string GAME_COUNT_30M = "gameCount30m";
         public const string GAME_COUNT_LONG = "gameCountLong";
         public const string GAME_COUNT_CPU = "gameCountCPU";
+        public const string LESSONS_COMPLETED = "lessonsCompleted";
 
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";

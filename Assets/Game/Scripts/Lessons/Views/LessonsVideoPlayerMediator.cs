@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
@@ -110,7 +111,16 @@ namespace TurboLabz.InstantFramework
                 case VideoEvent.FinishedPlaying:
                     if (!string.IsNullOrEmpty(videoId))
                     {
+                        //Analytics
                         analyticsService.Event($"lesson_{lessonIndex}", AnalyticsContext.completed);
+
+                        //next video will be null if all videos are watched
+                        if (nextVideo == null && !preferencesModel.isAllLessonsCompleted)
+                        {
+                            preferencesModel.isAllLessonsCompleted = true;
+                            analyticsService.Event(AnalyticsEventId.all_lessons_complete);
+                        }
+                        //Analytics End
 
                         // Save video progress to active inventory
                         if (playerModel.GetVideoProgress(videoId) < 100f)
@@ -192,6 +202,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
 
+            //next video will be null if all videos are watched
             if (nextVideo == null)
             {
                 loadTopicsViewSignal.Dispatch();
