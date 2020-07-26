@@ -7,7 +7,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
-using strange.extensions.signal.impl ;
+using strange.extensions.signal.impl;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
@@ -62,6 +62,7 @@ namespace TurboLabz.InstantGame
         public Text playingSince;
         public Button shareBtn;
         public Button copyTagBtn;
+        public Button profilePicBtn;
         public Image copiedToClipboardBg;
         public Text copiedToClipboardText;
         public Texture2D logo;
@@ -79,6 +80,15 @@ namespace TurboLabz.InstantGame
         public Text nameConfirmDlgTitleText;
         public Text nameConfirmDlgSubheadingText;
 
+        [Header("Profile Pic Change Dialog")]
+        public GameObject picUpdateDlg;
+        public Button takePhotoBtn;
+        public Button choosePhotoBtn;
+        public Button closePhotoBtn;
+        public Text takePhotoText;
+        public Text choosePhotoText;
+        public Text phototitleTxt;
+
         public void Init()
         {
             onlineTitle.text = localizationService.Get(LocalizationKey.STATS_ONLINE_TITLE);
@@ -92,6 +102,10 @@ namespace TurboLabz.InstantGame
             legendSilver.text = localizationService.Get(LocalizationKey.STATS_LEGEND_SILVER);
             tagLabel.text = localizationService.Get(LocalizationKey.STATS_TAG);
 
+            takePhotoText.text = localizationService.Get(LocalizationKey.STATS_TAKE_PHOTO);
+            choosePhotoText.text = localizationService.Get(LocalizationKey.STATS_CHOOSE_PHOTO);
+            phototitleTxt.text = localizationService.Get(LocalizationKey.STATS_PHOTO_TITLE);
+
             playerProfileNameInputField.transform.gameObject.SetActive(false);
 
             nameEditBtn.onClick.AddListener(nameEditBtnClicked);
@@ -101,13 +115,19 @@ namespace TurboLabz.InstantGame
             nameConfirmDlgNoBtn.onClick.AddListener(nameConfirmDlgNoBtnClicked);
             nameConfirmDlg.SetActive(false);
 
-
+            profilePicBtn.onClick.AddListener(OpenProfilePicDialog);
+            closePhotoBtn.onClick.AddListener(CloseProfilePicDialog);
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].sprite = noStar;
             }
 
             copyTagBtn.onClick.AddListener(OnCopyTagClicked);
+        }
+
+        public void CloseProfilePicDialog()
+        {
+            picUpdateDlg.SetActive(false);
         }
 
         public void UpdateView(StatsVO vo)
@@ -141,8 +161,8 @@ namespace TurboLabz.InstantGame
             playingSince.text = string.Format("Playing since, {0}", vo.playingSince);
         }
 
-        public void Show() 
-        { 
+        public void Show()
+        {
             gameObject.SetActive(true);
             playerProfileNameInputField.transform.gameObject.SetActive(false);
             nameConfirmDlg.SetActive(false);
@@ -150,7 +170,7 @@ namespace TurboLabz.InstantGame
         }
 
         public void Hide()
-        { 
+        {
             gameObject.SetActive(false);
         }
 
@@ -181,11 +201,17 @@ namespace TurboLabz.InstantGame
         void OpenConfirmDialog()
         {
             var newName = playerProfileNameInputField.text;
-            nameConfirmDlgTitleText.text = "Change name to "+ newName + "?";
+            nameConfirmDlgTitleText.text = "Change name to " + newName + "?";
             nameConfirmDlgSubheadingText.text = "Other players can view your name. Please use a friendly name and have fun.";
             nameConfirmDlgYesBtnText.text = "Yes";
 
             nameConfirmDlg.SetActive(true);
+        }
+
+
+        public void OpenProfilePicDialog()
+        {
+            picUpdateDlg.SetActive(true);
         }
 
         void nameConfirmDlgYesBtnClicked()
@@ -197,7 +223,7 @@ namespace TurboLabz.InstantGame
 
         void nameConfirmDlgNoBtnClicked()
         {
-            nameConfirmDlg.SetActive(false); 
+            nameConfirmDlg.SetActive(false);
         }
 
         void OnCopyTagClicked()

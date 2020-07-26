@@ -79,6 +79,12 @@ namespace TurboLabz.InstantGame
             view.ToggleFacebookButton(toggle);
         }
 
+        [ListensTo(typeof(PhotoPickerCompleteSignal))]
+        public void OnProfilePicUpdate(Photo vo)
+        {
+            view.UpdateProfilePic(vo);
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();

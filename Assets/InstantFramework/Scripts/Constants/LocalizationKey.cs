@@ -186,7 +186,9 @@ namespace TurboLabz.InstantFramework
         public const string STATS_LEGEND_GOLD = "statsLegendGold";
         public const string STATS_LEGEND_SILVER = "statsLegendSilver";
         public const string STATS_TAG = "statsTag";
-
+        public const string STATS_TAKE_PHOTO = "statsTakePhoto";
+        public const string STATS_CHOOSE_PHOTO = "statsSelectPhoto";
+        public const string STATS_PHOTO_TITLE = "statsPhotoTitle";
         #endregion
 
         #region Store

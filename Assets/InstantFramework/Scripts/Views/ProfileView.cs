@@ -205,8 +205,16 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        public void UpdateProfilePic(Photo vo)
+        {
+            if (vo.sprite == null)
+                Debug.Log("UpdateProfilePic sprite is null");
+            SetProfilePic(vo.sprite);
+        }
+
         private void SetProfilePic(Sprite sprite)
         {
+            Debug.Log("OnProfilePicUpdate SetProfilePic");
             noProfilePicBorder.SetActive(false);
             hasProfilePicBorder.SetActive(false);
             avatarIcon.gameObject.SetActive(false);

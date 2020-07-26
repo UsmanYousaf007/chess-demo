@@ -37,14 +37,17 @@ namespace TurboLabz.InstantGame
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
         [Inject] public IPhotoService photoPickerService { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+
+
         public override void OnRegister()
         {
             view.Init();
             view.restorePurchasesSignal.AddListener(OnRestorePurchases);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
             view.shareBtn.onClick.AddListener(OnShareScreenClicked);
-            Debug.Log("Stats mediator begin");
-            view.nameEditBtn.onClick.AddListener(OnProfilePicUpdateClicked);
+
+            view.choosePhotoBtn.onClick.AddListener(OnChoosePhotoBtnClicked);
+            view.takePhotoBtn.onClick.AddListener(OnTakePhotoBtnClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -110,7 +113,12 @@ namespace TurboLabz.InstantGame
             view.ShowProcessing(show, showProcessingUi);
         }
 
-        void OnProfilePicUpdateClicked()
+        void OnTakePhotoBtnClicked()
+        {
+            photoPickerService.TakePhoto(512, "jpeg");
+        }
+
+        void OnChoosePhotoBtnClicked()
         {
             photoPickerService.PickPhoto(512, "jpeg");
         }
@@ -118,6 +126,8 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
         public void OnPhotoPickerComplete (Photo photo)
         {
+            view.picUpdateDlg.SetActive(false);
+
             if (photo != null)
             {
                 picsModel.SetPlayerPic(playerModel.id, photo.sprite);

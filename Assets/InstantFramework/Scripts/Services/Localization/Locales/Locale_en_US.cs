@@ -191,6 +191,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STATS_LEGEND_GOLD, "• Gold star for beaten without move take-back •" },
                 { LocalizationKey.STATS_LEGEND_SILVER, "Beat using PowerUps" },
                 { LocalizationKey.STATS_TAG, "Tag" },
+                { LocalizationKey.STATS_TAKE_PHOTO, "Take Photo" },
+                { LocalizationKey.STATS_CHOOSE_PHOTO, "Choose Existing" },
+                { LocalizationKey.STATS_PHOTO_TITLE, "Change Photo" },
 
                 #endregion
 
