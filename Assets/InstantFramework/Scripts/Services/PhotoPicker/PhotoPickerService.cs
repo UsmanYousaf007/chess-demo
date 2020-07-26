@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
 						if (photoTexture != null)
                         {
                             photo = CreatePhotoView(photoTexture);
-                            Texture2D.Destroy(photoTexture);
+                            //Texture2D.Destroy(photoTexture);
 
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
@@ -51,7 +51,7 @@ namespace TurboLabz.InstantFramework
 						if (photoTexture != null)
 						{
 							photo = CreatePhotoView(photoTexture);
-							Texture2D.Destroy(photoTexture);
+							//Texture2D.Destroy(photoTexture);
 
 							photoPickerCompletedSignal.Dispatch(photo);
 						}

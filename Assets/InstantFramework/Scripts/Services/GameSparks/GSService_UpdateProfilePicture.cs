@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using System.Collections;
+using GameSparks.Api.Messages;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using UnityEngine;
@@ -13,15 +14,15 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        private IPromise<BackendResult> promise = new Promise<BackendResult>();
-
         public IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType)
         {
-            routineRunner.StartCoroutine(UploadProfilePicCR(filename,stream,mimeType));
-            return promise;
+            IPromise<BackendResult> uploadProfilePicPromise = new Promise<BackendResult>();
+            UploadCompleteMessage.Listener += OnUploadSuccess;
+            routineRunner.StartCoroutine(UploadProfilePicCR(filename,stream,mimeType, uploadProfilePicPromise));
+            return uploadProfilePicPromise;
         }
 
-        private IEnumerator UploadProfilePicCR(string filename, byte[] stream, string mimeType)
+        private IEnumerator UploadProfilePicCR(string filename, byte[] stream, string mimeType, IPromise<BackendResult> uploadProfilePicPromise)
         {
             var form = new WWWForm();
             form.AddBinaryData("file", stream, filename, mimeType);
@@ -30,12 +31,20 @@ namespace TurboLabz.InstantFramework
 
             if (string.IsNullOrEmpty(www.error))
             {
-                promise.Dispatch(BackendResult.SUCCESS);
+                uploadProfilePicPromise.Dispatch(BackendResult.SUCCESS);
             }
             else
             {
-                promise.Dispatch(BackendResult.UPLOAD_PICTURE_FAILED);
+                UploadCompleteMessage.Listener -= OnUploadSuccess;
+                uploadProfilePicPromise.Dispatch(BackendResult.UPLOAD_PICTURE_FAILED);
             }
+        }
+
+        public void OnUploadSuccess(GSMessage message)
+        {
+            string uploadedPicId = message.BaseData.GetString("uploadId");
+            UploadCompleteMessage.Listener -= OnUploadSuccess;
+            playerModel.uploadedPicId = uploadedPicId;
         }
     }
 }

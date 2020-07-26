@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-            UploadCompleteMessage.Listener += OnUploadSuccess;
             backendService.GetUploadUrl().Then(OnGetUploadUrlComplete);
         }
 
@@ -33,17 +32,11 @@ namespace TurboLabz.InstantFramework
             {
                 backendService.UploadProfilePic(uploadFileVO.fileName, uploadFileVO.stream, uploadFileVO.mimeType).Then(OnUploadProcessComplete);
             }
-
             else if (result == BackendResult.UPLOAD_URL_GET_FAILED)
             {
                 backendErrorSignal.Dispatch(result);
+                Release();
             }
-        }
-
-        public void OnUploadSuccess(GSMessage message)
-        {
-            string uploadedPicId = message.BaseData.GetString("uploadId");
-            playerModel.uploadedPicId = uploadedPicId;
         }
 
         private void OnUploadProcessComplete(BackendResult result)
@@ -52,7 +45,6 @@ namespace TurboLabz.InstantFramework
             {
                 backendErrorSignal.Dispatch(result);
             }
-
             Release();
         }
     }
