@@ -92,7 +92,7 @@ namespace TurboLabz.InstantFramework
                 case "How to Play": return "PieceMovement";
                 case "Ending the Game": return "ChangeTheme";
                 case "Building an Opening Strategy": return "BuildOpeningStrategy";
-                case "King Safety": return "KingSafety";
+                case "Advanced Openings": return "AdvOpening";
                 case "Tactics": return "Tactics";
                 case "Advanced Tactics": return "AdvTactics";
                 case "Checkmating your Opponent": return "CheckMatingOppo";
