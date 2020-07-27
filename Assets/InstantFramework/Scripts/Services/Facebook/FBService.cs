@@ -15,6 +15,8 @@ namespace TurboLabz.InstantFramework
 {
     public class FBService : IFacebookService
     {
+        IPromise<FacebookResult, Sprite, string> getPicPromise;
+
         public IPromise<FacebookResult> Init()
         {
             return new FBInitRequest().Send();
@@ -26,6 +28,31 @@ namespace TurboLabz.InstantFramework
         }
 
         public IPromise<FacebookResult, Sprite, string> GetSocialPic(string facebookUserId, string playerId)
+        {
+            if (IsInitialized())
+            {
+                return _GetSocialPic(facebookUserId, playerId);
+            }
+            else
+            {
+                getPicPromise = new Promise<FacebookResult, Sprite, string>();
+
+                Init().Then((result) =>
+                {
+                    if (result == FacebookResult.SUCCESS)
+                    {
+                        _GetSocialPic(facebookUserId, playerId).Then((res, picture, id) =>
+                        {
+                            getPicPromise.Dispatch(res, picture, id);
+                        });
+                    }
+                });
+            }
+
+            return getPicPromise;
+        }
+
+        private IPromise<FacebookResult, Sprite, string> _GetSocialPic(string facebookUserId, string playerId)
         {
             return new FBGetSocialPicRequest().Send(facebookUserId, playerId);
         }
