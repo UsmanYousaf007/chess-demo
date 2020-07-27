@@ -230,8 +230,7 @@ namespace TurboLabz.InstantFramework
             inputField.onEndEdit.AddListener(OnSearchSubmit);
             cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
             nextSearchButton.interactable = false;
-            ResetSearch();
-
+            //ResetSearch();
 
             findFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_TITLE); 
             findFriendLoginInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO); 
@@ -348,11 +347,12 @@ namespace TurboLabz.InstantFramework
                 playerModel.search.Clear();
 
             // Adding all friend bars in view after clearing search friends from view.
-            if (playerModel.friends != null)
+            refreshFriendsSignal.Dispatch();
+            /*if (playerModel.friends != null)
             {
                 AddFriends(playerModel.friends, false, false);
                 SortFriends();
-            }
+            }*/
         }
 
         public void OnCancelSearchClicked()
