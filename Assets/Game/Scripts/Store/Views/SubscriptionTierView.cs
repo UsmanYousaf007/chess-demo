@@ -100,7 +100,7 @@ public class SubscriptionTierView : View
             billedSeperator.gameObject.SetActive(false);
             savings.text = $"Save {savingsValue * 100}%";*/
 
-            singleText.text = $"Upgrade with {savingsValue * 100}% off, for {item.remoteProductCurrencyCode} {item.originalPrice}, billed monthly";
+            singleText.text = $"Upgrade with {savingsValue * 100}% off, for {item.remoteProductCurrencyCode} {item.productPrice}, billed monthly";
         }
         else
         {

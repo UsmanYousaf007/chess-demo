@@ -83,6 +83,24 @@ namespace TurboLabz.InstantFramework
         public const string OPPONENT_ELO = "opponentElo";
         public const string CHAT = "chat";
 
+        // Lessons
+        public const string LESSONS_MAPPING = "lessonsMapping";
+        public static string GetLessonKey(string text)
+        {
+            switch (text)
+            {
+                case "How to Play": return "PieceMovement";
+                case "Ending the Game": return "ChangeTheme";
+                case "Building an Opening Strategy": return "BuildOpeningStrategy";
+                case "King Safety": return "KingSafety";
+                case "Tactics": return "Tactics";
+                case "Advanced Tactics": return "AdvTactics";
+                case "Checkmating your Opponent": return "CheckMatingOppo";
+                case "Advanced Scenarios": return "AdvScenarios";
+            }
+            return "";
+        }
+
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
         public const string ADS_MAX_IMPRESSIONS_PER_SLOT = "ADS_MAX_IMPRESSIONS_PER_SLOT";
@@ -219,6 +237,8 @@ namespace TurboLabz.InstantFramework
 
         public static class ShopItem
         {
+            public const string VIDEO_LESSONS_BASE_URL = "videoLessonsBaseURL";
+
             public const string SHOP_SETTINGS = "shopSettings";
             public const string SKIN_SHOP_ITEMS = "skinShopItems";
             public const string COINS_SHOP_ITEMS = "coinsShopItems";
@@ -231,6 +251,7 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_HINDSIGHT_SHOP_ITEMS = "powerUpHindsightShopItems";
             public const string POWERUP_SAFEMOVE_SHOP_ITEMS = "powerUpSafeMoveShopItems";
             public const string SUBSCRIPTION_SHOP_ITEMS = "subscriptionShopItems";
+            public const string VIDEO_LESSON_SHOP_ITEMS = "videoLessonShopItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -246,6 +267,8 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_HINT_SHOP_TAG = "PowerUpHint";
             public const string POWERUP_HINDSIGHT_SHOP_TAG = "PowerUpHindsight";
             public const string POWERUP_SAFEMOVE_SHOP_TAG = "PowerUpSafeMove";
+
+            public const string VIDEO_LESSON_SHOP_TAG = "VideoLesson";
 
             public const string FEATURE_REMOVEAD_PERM_SHOP_TAG = "FeatureRemoveAdsPerm";
             public const string FEATURE_REMOVEAD_30_SHOP_TAG = "FeatureRemoveAds30";
@@ -293,6 +316,9 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
             public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
             public const string TYPE_PROMOTION = "rewardMatchPromotional";
+            public const string TYPE_BOOST_RATING = "RatingBoostTier1";
+            public const string TYPE_GIFT = "giftReward";
+            public const string CLAIM_REWARD_TYPE = "claimRewardType";
 
             public const string NONE = "none";
         }
@@ -387,7 +413,7 @@ namespace TurboLabz.InstantFramework
             public const string REWARD_REQUIRED_POINTS = "pointsRequired";
             public const string ADS_REWARD_DATA = "adsRewardData";
             public const string UPLOADED_PIC_ID = "uploadedPicId";
-
+            public const string LAST_WATCHED_VIDEO = "lastWatchedVideoId";
         }
 
         public static class Match
@@ -435,8 +461,7 @@ namespace TurboLabz.InstantFramework
             public const string COEFFICIENT_WIN_INTERSITIAL = "winIntersitial";
             public const string COEFFICIENT_LOSE_VIDEO = "loseVideo";
             public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
-            
-
+            public const string RATING_BOOST = "ratingBoostTier1";
         }
 
         public static class PowerUp

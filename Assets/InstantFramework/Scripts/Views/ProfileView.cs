@@ -46,7 +46,7 @@ namespace TurboLabz.InstantGame
         public Text eloScoreValue;
         public Image playerFlag;
         private string playerId;
-        private SpritesContainer defaultAvatarContainer;
+        private SpritesContainer defaultAvatarContainer; 
 
         public Button profilePicButton;
         

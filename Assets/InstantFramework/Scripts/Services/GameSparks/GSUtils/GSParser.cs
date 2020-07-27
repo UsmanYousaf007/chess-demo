@@ -84,7 +84,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public static void PopulateStoreItem(StoreItem item, GSData itemData)
+        public static void PopulateStoreItem(StoreItem item, GSData itemData, string videoBaseUrl = null)
         {
             const string unrecognized = "unrecognized";
 
@@ -97,7 +97,8 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
-                GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG
+                GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG,
+                GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG
             };
 
             //string[] tagState = {
@@ -153,6 +154,8 @@ namespace TurboLabz.InstantFramework
                 ParseBundledGoods(item, bundleData);
             }
 
+            item.videoUrl = videoBaseUrl != null ? videoBaseUrl + itemData.GetString(GSBackendKeys.SHOP_ITEM_ID) + ".mp4" : null;
+
             LogUtil.Log("********** PopulateShopItem: " + item.key);
         }
 
@@ -177,14 +180,23 @@ namespace TurboLabz.InstantFramework
 
         public static void PopulateAdsRewardData(IPlayerModel playerModel, GSData data)
         {
-            playerModel.rewardQuantity = GetSafeInt(data, GSBackendKeys.PlayerDetails.REWARD_QUANITY);
-            var adsRewardData = data.GetGSData(GSBackendKeys.PlayerDetails.ADS_REWARD_DATA);
-            if (adsRewardData != null)
+            var rewardType = GetSafeString(data, GSBackendKeys.ClaimReward.CLAIM_REWARD_TYPE);
+            if (rewardType == GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
             {
-                playerModel.rewardIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_INDEX);
-                playerModel.rewardShortCode = adsRewardData.GetString(GSBackendKeys.PlayerDetails.REWARD_SHORT_CODE);
-                playerModel.rewardCurrentPoints = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
-                playerModel.rewardPointsRequired = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
+                playerModel.eloScore += GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
+            }
+            else
+            {
+                playerModel.rewardQuantity = GetSafeInt(data, GSBackendKeys.PlayerDetails.REWARD_QUANITY);
+
+                var adsRewardData = data.GetGSData(GSBackendKeys.PlayerDetails.ADS_REWARD_DATA);
+                if (adsRewardData != null)
+                {
+                    playerModel.rewardIndex = GetSafeInt(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_INDEX);
+                    playerModel.rewardShortCode = adsRewardData.GetString(GSBackendKeys.PlayerDetails.REWARD_SHORT_CODE);
+                    playerModel.rewardCurrentPoints = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_CURRENT_POINTS);
+                    playerModel.rewardPointsRequired = GetSafeFloat(adsRewardData, GSBackendKeys.PlayerDetails.REWARD_REQUIRED_POINTS);
+                }
             }
         }
 
@@ -238,6 +250,13 @@ namespace TurboLabz.InstantFramework
                     else if (itemKind == GSBackendKeys.ShopItem.AVATAR_BG_COLOR_TAG)
                     {
                         playerModel.avatarBgColorId = itemId;
+                    }
+                    else if (itemKind == GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG)
+                    {
+                        if (!playerModel.videos.ContainsKey(itemId))
+                        {
+                            playerModel.videos.Add(itemId, new Video(itemId, item.GetFloat("progress")));
+                        }
                     }
                 }
             }

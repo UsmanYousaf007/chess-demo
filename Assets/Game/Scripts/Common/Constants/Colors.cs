@@ -29,6 +29,8 @@ namespace TurboLabz.InstantGame
         public static readonly Color YELLOW_DIM = new Color(223f / 255f, 169f / 255f, 88f / 255f, 1f);
         public static readonly Color RED_DIM = new Color(193f / 255f, 78f / 255f, 76f / 255f, 1f);
         public static readonly Color GREEN_DIM = new Color(148f / 255f, 207f / 255f, 96f / 255f, 1f);
+        public static readonly Color BLACK = new Color(0f, 0f, 0f, 1f);
+        public static readonly Color BLACK_DIM = new Color(0f, 0f, 0f, 50f/255f);
 
         public static readonly Color GLASS_GREEN = new Color(198f / 255f, 1f, 74f / 255f);
 

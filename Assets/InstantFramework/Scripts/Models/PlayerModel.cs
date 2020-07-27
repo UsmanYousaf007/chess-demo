@@ -62,8 +62,12 @@ namespace TurboLabz.InstantFramework
         public string activeSkinId { get; set; } = null;    
         public IOrderedDictionary<string, int> inventory { get; set; }
 
-		// Friends
-		public Dictionary<string, Friend> friends { get; set; }
+        // Videos
+        public Dictionary<string, Video> videos { get; set; }
+        public string lastWatchedVideo { get; set; }
+
+        // Friends
+        public Dictionary<string, Friend> friends { get; set; }
 		public Dictionary<string, Friend> blocked { get; set; }
         public Dictionary<string, Friend> community { get; set; }
         public Dictionary<string, Friend> search { get; set; }
@@ -77,6 +81,7 @@ namespace TurboLabz.InstantFramework
         public float rewardPointsRequired { get; set; }
 
         private bool isSubscriber = false;
+        private float MAX_VIDEO_PROGRESS = 100;
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -119,8 +124,12 @@ namespace TurboLabz.InstantFramework
             // Inventory
             inventory = new OrderedDictionary<string, int>();
 
-			// Friends
-			friends = new Dictionary<string, Friend>();
+            // Videos
+            videos = new Dictionary<string, Video>();
+            lastWatchedVideo = null;
+
+            // Friends
+            friends = new Dictionary<string, Friend>();
 			blocked = new Dictionary<string, Friend>();
             community = new Dictionary<string, Friend>();
             search = new Dictionary<string, Friend>();
@@ -278,6 +287,42 @@ namespace TurboLabz.InstantFramework
             return count;
         }
 
+        public void UpdateVideoProgress(string videoId, float progress)
+        {
+            if (videos.ContainsKey(videoId))
+            {
+                videos[videoId].progress = progress;
+            }
+            else
+            {
+                videos.Add(videoId, new Video(videoId, progress));
+            }
+        }
+
+        public bool isVideoFullyWatched(string videoId)
+        {
+            if (videos.ContainsKey(videoId))
+            {
+                return videos[videoId].progress == MAX_VIDEO_PROGRESS;
+            }
+
+            return false;
+        }
+
+        public bool isAnyVideoWatched()
+        {
+            return videos.Count > 0;
+        }
+
+        public float? GetVideoProgress(string videoId)
+        {
+            if (videos.ContainsKey(videoId))
+            {
+                return videos[videoId].progress;
+            }
+
+            return 0f;
+        }
     }
 }
 

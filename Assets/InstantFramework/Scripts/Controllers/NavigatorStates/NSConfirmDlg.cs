@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER, NavigatorViewId.SUBSCRIPTION_DLG, NavigatorViewId.MANAGE_BLOCKED_FRIENDS);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER, NavigatorViewId.SUBSCRIPTION_DLG, NavigatorViewId.MANAGE_BLOCKED_FRIENDS, NavigatorViewId.TOPICS_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -33,6 +33,10 @@
                 else if (viewId == NavigatorViewId.MANAGE_BLOCKED_FRIENDS)
                 {
                     return new NSManageBlockedFriends();
+                }
+                else if (viewId == NavigatorViewId.TOPICS_VIEW)
+                {
+                    return new NSLessonTopics();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)

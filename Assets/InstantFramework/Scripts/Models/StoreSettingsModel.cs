@@ -69,13 +69,32 @@ namespace TurboLabz.InstantFramework
 
             return item.Value;
         }
+
+        public StoreItem GetVideoByShortCode(string shortCode)
+        {
+            List<StoreItem> videoItems;
+
+            if (lists.TryGetValue(GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS, out videoItems))
+            {
+                for (int i = 0; i < videoItems.Count; i++)
+                {
+                    if (videoItems[i].key == shortCode)
+                    {
+                        return videoItems[i];
+                    }
+                }
+            }
+
+            return null;
+        }
+
     }
 
     //public class BundledItem
     //{
     //    public string Description;
     //    public int quantity;
-   // }
+    // }
 
     public class StoreItem
     {
@@ -100,6 +119,7 @@ namespace TurboLabz.InstantFramework
         //public IDictionary<string, BundledItem> bundleDescriptions;  // Bundled item descriptions
         public decimal originalPrice;
         public float discountedRatio;
+        public string videoUrl;
 
         public enum State
         {

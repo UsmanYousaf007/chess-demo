@@ -65,6 +65,9 @@ namespace TurboLabz.InstantFramework
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
 
+            GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
+            FillLessonsModel(lessonsData);
+
             storeAvailableSignal.Dispatch(false);
 
             ParseActiveChallenges(response.ScriptData);
@@ -142,6 +145,7 @@ namespace TurboLabz.InstantFramework
             playerModel.editedName = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.EDITED_NAME);
             playerModel.isFBConnectRewardClaimed = playerDetailsData.GetBoolean(GSBackendKeys.PlayerDetails.IS_FACEBOOK_REWARD_CLAIMED).Value;
             playerModel.cpuPowerupUsedCount = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
+            playerModel.lastWatchedVideo = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.LAST_WATCHED_VIDEO);
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {
@@ -199,8 +203,9 @@ namespace TurboLabz.InstantFramework
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
         {
-            rewardsSettingsModel.facebookConnectReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD).Value;
-            rewardsSettingsModel.failSafeCoinReward = rewardsSettingsData.GetInt(GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD).Value;
+            rewardsSettingsModel.facebookConnectReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD);
+            rewardsSettingsModel.failSafeCoinReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD);
+            rewardsSettingsModel.ratingBoostReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.RATING_BOOST);
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)
@@ -249,20 +254,26 @@ namespace TurboLabz.InstantFramework
             List<GSData> powerUpHindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_ITEMS);
             IOrderedDictionary<string, StoreItem> powerUpHindsightItems = PopulateStoreItems(powerUpHindsightShopItemsData);
 
+            string videoLessonsURL = storeSettingsData.GetString(GSBackendKeys.ShopItem.VIDEO_LESSONS_BASE_URL);
+
+            List<GSData> videoLessonShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS);
+            IOrderedDictionary<string, StoreItem> videoLessonItems = PopulateStoreItems(videoLessonShopItemsData, videoLessonsURL);
+
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG, subscriptionItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG, powerUpHintItems);
             storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG, powerUpHindsightItems);
+            storeSettingsModel.Add(GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS, videoLessonItems);
         }
 
-        private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData)
+        private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData, string videoBaseUrl = null)
         {
             IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
 
             foreach (GSData itemData in itemSettingsData)
             {
                 var item = new StoreItem();
-                GSParser.PopulateStoreItem(item, itemData);
+                GSParser.PopulateStoreItem(item, itemData, videoBaseUrl);
                 items.Add(item.key, item);
             }
 
@@ -363,6 +374,30 @@ namespace TurboLabz.InstantFramework
                 msg.guid = pair.Key;
 
                 receiveChatMessageSignal.Dispatch(msg, true);
+            }
+        }
+
+        private void FillLessonsModel(GSData lessonsData)
+        {
+            if (lessonsData != null)
+            {
+                foreach (var entry in lessonsData.BaseData)
+                {
+                    var topicDictionary = new OrderedDictionary<string, List<string>>();
+                    var topics = entry.Value as GSData;
+
+                    foreach (var topic in topics.BaseData)
+                    {
+                        var lessonsList = topic.Value as List<object>;
+
+                        foreach (var lesson in lessonsList)
+                        {
+                            lessonsModel.lessonsMapping.Add(lesson.ToString(), topic.Key);
+                        }
+
+                        lessonsModel.topicsMapping.Add(topic.Key, entry.Key);
+                    }
+                }
             }
         }
     }

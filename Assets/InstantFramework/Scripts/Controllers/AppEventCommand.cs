@@ -76,6 +76,11 @@ namespace TurboLabz.InstantFramework
                 // if (!chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
                 // return;
 
+                if (appInfoModel.isVideoLoading)
+                {
+                    return;
+                }
+
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             }
             else if (appEvent == AppEvent.RESUMED)

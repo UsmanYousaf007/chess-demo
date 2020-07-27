@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -58,6 +59,7 @@ namespace TurboLabz.InstantFramework
             appsFlyerService.Init();
             loadCPUGameDataSignal.Dispatch();
             adsService.Init();
+            videoPlaybackService.Init();
         }
 
 		void StartGameSparksAvailable(bool isAvailable)

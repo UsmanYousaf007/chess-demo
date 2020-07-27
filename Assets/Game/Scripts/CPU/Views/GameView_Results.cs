@@ -43,11 +43,16 @@ namespace TurboLabz.CPU
         public Text resultsRatingValueLabel;
         public Text resultsRatingChangeLabel;
 
+        public Button resultsBoostRatingButton;
+        public Text resultsBoostRatingButtonLabel;
+        public Image resultsBoostRatingAdTVImage;
+
         public Button resultsCollectRewardButton;
         public Text resultsCollectRewardButtonLabel;
+        public Image resultsAdTVImage;
+
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
-        public Image resultsAdTVImage;
 
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
@@ -111,6 +116,7 @@ namespace TurboLabz.CPU
 
             // Button listeners
             resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
+            resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
             showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
@@ -142,6 +148,12 @@ namespace TurboLabz.CPU
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsAdTVImage.color = c;
+
+                resultsBoostRatingButton.interactable = true;
+                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, 150f/255f);
+                c = resultsBoostRatingAdTVImage.color;
+                c.a = Colors.FULL_ALPHA;
+                resultsBoostRatingAdTVImage.color = c;
             }
             else
             {
@@ -150,8 +162,26 @@ namespace TurboLabz.CPU
                 Color c = resultsAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsAdTVImage.color = c;
+
+                resultsBoostRatingButton.interactable = false;
+                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, 80f / 255f);
+                c = resultsBoostRatingAdTVImage.color;
+                c.a = Colors.DISABLED_TEXT_ALPHA;
+                resultsBoostRatingAdTVImage.color = c;
             }
         }
+
+        void DoPulse(bool val)
+        {
+            if (val)
+            {
+                iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "loopType", "loop", "delay", 1));
+            }
+            else
+            {
+                iTween.Stop(resultsBoostRatingButton.gameObject);
+            }
+        }            
 
         public void ShowResultsDialog()
         {
@@ -192,6 +222,8 @@ namespace TurboLabz.CPU
             if (!isRanked)
             {
                 resultsFriendlyLabel.gameObject.SetActive(true);
+                EnableRewarededVideoButton(false);
+                DoPulse(false);
                 return;
             }
 
@@ -217,6 +249,7 @@ namespace TurboLabz.CPU
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
             EnableRewarededVideoButton(true);
+            bool enablePulse = true;
             viewBoardResultPanel.reason.text = "";
 
             string analyName = AnalyticsEventId.cpu_end_lvl_.ToString() + cpuGameModel.cpuStrength;
@@ -243,6 +276,7 @@ namespace TurboLabz.CPU
                         animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
                         EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
+                        enablePulse = preferencesModel.resignCount <= adsSettingsModel.resignCap;
                     }
                     else
                     {
@@ -299,13 +333,12 @@ namespace TurboLabz.CPU
                     break;
             }
 
+            DoPulse(enablePulse);
+
             if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
             {
                 viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
             }
-
-
-            
         }
 
         private void UpdateGameResultHeadingSection()
@@ -317,6 +350,7 @@ namespace TurboLabz.CPU
                 resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
                 resultsGameResultLabel.color = Colors.YELLOW_DIM;
                 viewBoardResultPanel.result.text = "Drawn";
+                resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
             }
             else
             {
@@ -326,6 +360,7 @@ namespace TurboLabz.CPU
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
                     resultsGameResultLabel.color = Colors.GREEN_DIM;
                     viewBoardResultPanel.result.text = string.Format("{0} won", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
+                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
                 }
                 else
                 {
@@ -333,6 +368,7 @@ namespace TurboLabz.CPU
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
                     resultsGameResultLabel.color = Colors.RED_DIM;
                     viewBoardResultPanel.result.text = "Computer won";
+                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_RECOVER_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
                 }
             }
 
@@ -348,8 +384,9 @@ namespace TurboLabz.CPU
             animDelay = RESULTS_DELAY_TIME;
             playerWins = isPlayerWins;
 
-            UpdateResultRatingSection(false, 1, 0);
+
             UpdateGameEndReasonSection(gameEndReason);
+            UpdateResultRatingSection(false, 1, 0);
             UpdateGameResultHeadingSection();
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
@@ -368,9 +405,9 @@ namespace TurboLabz.CPU
                 }
             }
 
-            resultsAdTVImage.gameObject.SetActive(!removeAds);
-            resultsCollectRewardButton.gameObject.SetActive(!removeAds);
-            resultsCollectRewardButtonLabel.gameObject.SetActive(!removeAds);
+            //resultsAdTVImage.gameObject.SetActive(!removeAds);
+            //resultsCollectRewardButton.gameObject.SetActive(!removeAds);
+            //resultsCollectRewardButtonLabel.gameObject.SetActive(!removeAds);
 
             if (removeAds)
             {
@@ -430,6 +467,19 @@ namespace TurboLabz.CPU
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = adRewardType;
+            vo.challengeId = "";
+            vo.playerWins = playerWins;
+            playerModel.adContext = AnalyticsContext.rewarded;
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            showRewardedAdSignal.Dispatch(vo);
+        }
+
+        private void OnResultsBoostRatingButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.RewardedVideo;
+            vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
             vo.challengeId = "";
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.rewarded;

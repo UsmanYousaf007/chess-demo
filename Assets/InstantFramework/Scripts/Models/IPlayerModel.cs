@@ -46,9 +46,12 @@ namespace TurboLabz.InstantFramework
         string activeSkinId { get; set; }   
         IOrderedDictionary<string, int> inventory { get; set; }
 
+        // Videos
+        Dictionary<string, Video> videos { get; set; }
+        string lastWatchedVideo { get; set; }
 
-		// Friends
-		Dictionary<string, Friend> friends { get; set; }
+        // Friends
+        Dictionary<string, Friend> friends { get; set; }
 		Dictionary<string, Friend> blocked { get; set; }
         Dictionary<string, Friend> community { get; set; }
         Dictionary<string, Friend> search { get; set; }
@@ -79,5 +82,10 @@ namespace TurboLabz.InstantFramework
         AdsRewardVO GetAdsRewardsData();
 
         int GetSocialFriendsCount();
+
+        void UpdateVideoProgress(string videoId, float progress);
+        bool isVideoFullyWatched(string videoId);
+        bool isAnyVideoWatched();
+        float? GetVideoProgress(string videoId);
     }
 }

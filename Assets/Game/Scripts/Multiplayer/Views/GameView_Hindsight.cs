@@ -119,7 +119,8 @@ namespace TurboLabz.Multiplayer
         {
             if (hindsightAdd.gameObject.activeSelf)
             {
-                setSubscriptionContext.Dispatch(isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : isThirtyMinGame ? "30m" : "5m", "coach");
+                var matchType = isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : isThirtyMinGame ? "30m" : "5m";
+                setSubscriptionContext.Dispatch($"{matchType}_coach");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
@@ -132,6 +133,7 @@ namespace TurboLabz.Multiplayer
                 EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                 //coachView.ShowAnalyzing();
                 hindsightClickedSignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.power_ups_used, AnalyticsContext.coach);
             }
         }
 

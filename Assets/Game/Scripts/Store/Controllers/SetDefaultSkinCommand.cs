@@ -22,7 +22,7 @@ namespace TurboLabz.InstantGame
                 !playerModel.OwnsVGood(playerModel.activeSkinId))
             {
                 setSkinSignal.Dispatch(metaDataModel.store.GetItemBySkinIndex(0).key);
-                savePlayerInventorySignal.Dispatch();
+                savePlayerInventorySignal.Dispatch("");
             }
 
             Resources.UnloadUnusedAssets();

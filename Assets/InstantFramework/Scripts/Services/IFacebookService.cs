@@ -19,5 +19,6 @@ namespace TurboLabz.InstantFramework
         string GetFacebookId();
         void LogOut();
 		string GetAccessToken();
+        bool IsInitialized();
     }
 }

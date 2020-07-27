@@ -476,14 +476,15 @@ namespace GameSparks.Platforms
 			ExecuteOnMainThread(() => {
 				if (GameSparksSettings.DebugBuild)
 				{
-					if (message.Length < 1500)
-					{
-						Debug.Log("GS: " + message);
-					} else
-					{
-						Debug.Log("GS: " + message.Substring(0, 1500) + "...");
-					}
-				}
+                    if (message.Length < 1500)
+                    {
+                        Debug.Log("GS: " + message);
+                    }
+                    else
+                    {
+                        Debug.Log("GS: " + message.Substring(0, 1500) + "...");
+                    }
+                }
 			});
 		}
 

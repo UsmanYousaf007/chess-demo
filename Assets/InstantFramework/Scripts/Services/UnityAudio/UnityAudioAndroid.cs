@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
 
         private void CreatePool(params AudioClip[] clips)
         {
-            AndroidNativeAudio.makePool(clips.Length); 
+            AndroidNativeAudio.makePool(clips.Length);
 
             streamFiles = new Dictionary<string, int>();
 

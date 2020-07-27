@@ -34,6 +34,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public Multiplayer.ChessboardEventSignal chessboardEventSignal { get; set; }
         [Inject] public ShowViewBoardResultsPanelSignal showViewBoardResultsPanelSignal { get; set; }
         [Inject] public SkillSelectedSignal skillSelectedSignal { get; set; }
+        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
+        [Inject] public LoadLessonsViewSignal loadLessonsViewSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -41,6 +43,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public CPU.IChessboardModel cpuChessboardModel { get; set; }
         [Inject] public Multiplayer.IChessboardModel multiplayerChessboardModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public ILessonsModel lessonsModel { get; set; }
 
         // Services
 		[Inject] public IAndroidNativeService androidNativeService { get; set; }

@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         public const string OFF_TEXT = "offText";
         public const string ACCEPT_TEXT = "acceptText";
         public const string DECLINE_TEXT = "declineText";
+        public const string START_TEXT = "startText";
 
         #endregion
 
@@ -149,12 +150,24 @@ namespace TurboLabz.InstantFramework
         public const string CPU_RESULTS_EXIT_BUTTON = "cpuResultsExitButton";
         public const string CLASSIC_MODE_TIME = "classicModeTime";
 
-        #endregion 
+        #endregion
+
+        #region Lessons
+
+        public const string LESSONS_TITLE = "lessonsTitle";
+        public const string LESSONS_DESCRIPTION = "lessonsDescription";
+        public const string LESSONS_START = "lessonsStart";
+        public const string LESSONS_COMPLETED_TITLE = "lessonCompletedTitle";
+        public const string LESSONS_COMPLETED_DESCRIPTION = "lessonsCompletedDescription";
+
+        #endregion
 
         #region GameResults
 
         public const string RESULTS_CLOSE_BUTTON = "resultsCloseButton";
         public const string RESULTS_COLLECT_REWARD_BUTTON = "resultsCollectRewardButton";
+        public const string RESULTS_BOOST_RATING_BUTTON = "resultsBoostRatingButton";
+        public const string RESULTS_RECOVER_RATING_BUTTON = "resultsRecoverRatingButton";
         public const string RESULTS_SKIP_REWARD_BUTTON = "resultsSkipRewardButton";
         public const string RESULTS_EARNED = "resultsEarned";
         public const string RESULTS_REWARD = "resultsReward";

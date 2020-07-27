@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt, long expiryTimeStamp, string subscriptionType);
         IPromise<BackendResult> ConsumeVirtualGood(GSRequestData jsonData);
         IPromise<BackendResult> ClaimReward(GSRequestData jsonData);
-        IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId);
+        IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string json = null);
         IPromise<BackendResult> SetPlayerSocialName(string name);
         IPromise<BackendResult> FindMatch(string opponentId);
         IPromise<BackendResult> CreateLongMatch(string opponentId, bool isRanked);
@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> ChangeUserDetails(string name);
         IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId, int moveCount);
         IPromise<BackendResult> SyncReconnectData(string challengeId);
+        IPromise<BackendResult> SetLastWatchedVideo(string videoId);
 
         IPromise<BackendResult> UpdatePlayerData();
 

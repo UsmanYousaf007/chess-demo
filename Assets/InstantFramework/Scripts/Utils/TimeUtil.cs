@@ -88,6 +88,23 @@ namespace TurboLabz.TLUtils
             return string.Format("{0:00}:{1:00}", Mathf.FloorToInt((float)timer.TotalMinutes), timer.Seconds);
         }
 
+        public static string MillisecondsToMinutesAndSeconds(TimeSpan timer)
+        {
+            // TODO: localize clock
+
+            long seconds = timer.Seconds;
+            long minutes = timer.Minutes;
+
+            // else show 00:00 format
+            // This code is similar to rounding the seconds to a ceiling
+            if (timer.TotalMilliseconds > 0)
+            {
+                timer = TimeSpan.FromMilliseconds(timer.TotalMilliseconds + 999);
+            }
+
+            return string.Format("{0:0}:{1:00}", Mathf.FloorToInt((float)timer.TotalMinutes), timer.Seconds);
+        }
+
         public static string FormatStripClock(TimeSpan timer)
         {
             if (Mathf.FloorToInt((float)timer.TotalHours) == 48)

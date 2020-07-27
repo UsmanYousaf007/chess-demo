@@ -129,14 +129,15 @@ namespace TurboLabz.InstantFramework
 
         public void SetupRewardBar()
         {
-            ShowRewardBar();
+            //To-Do collect reward
+            //ShowRewardBar();
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
 
         public void ShowRewardBar()
         {
-            rewardBarObject.SetActive(!playerModel.HasSubscription());
+            //rewardBarObject.SetActive(!playerModel.HasSubscription());
         }
 
         public void AnimateRewardBar(float from, float to)

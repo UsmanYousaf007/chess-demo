@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RemoveRecentlyPlayedSignal removeRecentlyPlayedSignal { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -69,6 +71,12 @@ namespace TurboLabz.InstantFramework
         public Text playComputerMatchPlayTxt;
         public Text playComputerMatchDescriptionTxt;
         public Text playComputerLevelTxt;
+
+        public Button lessonsBtn;
+        public Text lessonsTitleTxt;
+        public GameObject lessonsStart;
+        public Text lessonsStartTxt;
+        public Text lessonsDescriptionTxt;
 
         public Text noActiveMatchesText;
         public Text waitingForPlayersText;
@@ -174,6 +182,7 @@ namespace TurboLabz.InstantFramework
         public Signal incStrengthButtonClickedSignal = new Signal();
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
+        public Signal OnLessonsBtnClicked = new Signal();
 
         private GameObjectsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -186,6 +195,10 @@ namespace TurboLabz.InstantFramework
         private bool isCPUGameInProgress;
         List<FriendBar> recentlyCompleted = new List<FriendBar>();
         private StoreIconsContainer iconsContainer;
+
+        [Header("Rating boost")]
+        public RectTransform ratingBoost;
+        public TextMeshProUGUI textRatingBoost;
 
         public void Init()
         {
@@ -200,6 +213,8 @@ namespace TurboLabz.InstantFramework
 
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
+
+            //textRatingBoost.text = "+"+ rewardsSettingsModel.ratingBoostReward;
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
 
@@ -253,6 +268,10 @@ namespace TurboLabz.InstantFramework
             playComputerMatchDescriptionTxt.text = localizationService.Get(LocalizationKey.CPU_MENU_SINGLE_PLAYER_GAME);
             playComputerMatchBtn.onClick.AddListener(OnPlayComputerMatchBtnClicked);
 
+            lessonsDescriptionTxt.text = localizationService.Get(LocalizationKey.LESSONS_DESCRIPTION);
+            lessonsTitleTxt.text = localizationService.Get(LocalizationKey.LESSONS_TITLE);
+            lessonsStartTxt.text = localizationService.Get(LocalizationKey.START_TEXT);
+            lessonsBtn.onClick.AddListener(OnLessonsButtonClicked);
 
             decStrengthButton.onClick.AddListener(OnDecStrengthButtonClicked);
             incStrengthButton.onClick.AddListener(OnIncStrengthButtonClicked);
@@ -421,6 +440,11 @@ namespace TurboLabz.InstantFramework
         public void HideChooseCPUGameDlg()
         {
             chooseComputerDifficultyDlg.SetActive(false);
+        }
+
+        void OnLessonsButtonClicked()
+        {
+            OnLessonsBtnClicked.Dispatch();
         }
 
         void CacheEnabledSections()
@@ -1519,6 +1543,12 @@ namespace TurboLabz.InstantFramework
         public void AdSkippedDailogueCloseButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        public void RatingBoostAnimation()
+        {
+            ratingBoost.gameObject.SetActive(true);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
         }
     }
 }

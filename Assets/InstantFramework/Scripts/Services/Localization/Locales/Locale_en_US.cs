@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.OFF_TEXT, "Off" },
                 { LocalizationKey.ACCEPT_TEXT, "Accept" },
                 { LocalizationKey.DECLINE_TEXT, "Decline" },
-                 
+                { LocalizationKey.START_TEXT, "Start" },
 
                 #endregion
 
@@ -157,10 +157,22 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
+                #region Lessons
+
+                { LocalizationKey.LESSONS_TITLE, "Lessons" },
+                { LocalizationKey.LESSONS_DESCRIPTION, "Learn to Play" },
+                { LocalizationKey.LESSONS_START, "Start Lesson"},
+                { LocalizationKey.LESSONS_COMPLETED_TITLE, "Great Work!"},
+                { LocalizationKey.LESSONS_COMPLETED_DESCRIPTION, "You have completed all of the available lessons.\nStay tuned for more advanced lessons coming soon."},
+
+                #endregion
+
                 #region GameResults
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
+                { LocalizationKey.RESULTS_RECOVER_RATING_BUTTON, "Recover Rating" },
+                { LocalizationKey.RESULTS_BOOST_RATING_BUTTON, "Boost Rating" },
                 { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to Lobby" },
                 { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },

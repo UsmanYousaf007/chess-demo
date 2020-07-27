@@ -40,6 +40,11 @@ namespace TurboLabz.InstantFramework
             return FB.IsLoggedIn;
         }
 
+        public bool IsInitialized()
+        {
+            return FB.IsInitialized;
+        }
+
         public string GetFacebookId()
         {
             return AccessToken.CurrentAccessToken.UserId;

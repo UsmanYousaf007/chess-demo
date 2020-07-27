@@ -64,6 +64,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<InitBackendOnceSignal>().To<InitBackendOnce>().Once();
             commandBinder.Bind<ReceptionSignal>().To<ReceptionCommand>();
             commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
+            commandBinder.Bind<SaveLastWatchedVideoSignal>().To<SaveLastWatchedVideoCommand>();
 
             // Bind signals to models data loader commands
             commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();
@@ -166,6 +167,10 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateOfferDrawSignal>().ToSingleton();
             injectionBinder.Bind<SkillSelectedSignal>().ToSingleton();
             injectionBinder.Bind<PhotoPickerCompleteSignal>().ToSingleton();
+            injectionBinder.Bind<VideoEventSignal>().ToSingleton();
+            injectionBinder.Bind<VideoLoadFailedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateVideoLessonViewSignal>().ToSingleton();
+            injectionBinder.Bind<ShowVideoLessonSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -200,12 +205,14 @@ namespace TurboLabz.InstantFramework
 #endif
             injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
+            injectionBinder.Bind<IAWSService>().To<AWSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
             injectionBinder.Bind<ISignInWithAppleService>().To<SignInWithAppleService>().ToSingleton();
             injectionBinder.Bind<IPushNotificationService>().To<FirebasePushNotificationService>().ToSingleton();
             injectionBinder.Bind<IRateAppService>().To<RateAppService>().ToSingleton();
             injectionBinder.Bind<IAppsFlyerService>().To<AppsFlyerService>().ToSingleton();
             injectionBinder.Bind<IAutoSubscriptionDailogueService>().To<AutoSubscriptionDailogueService>().ToSingleton();
+            injectionBinder.Bind<IVideoPlaybackService>().To<AVProVideoPlayer>().ToSingleton();
             injectionBinder.Bind<IGameModesAnalyticsService>().To<GameModesAnalyticsService>().ToSingleton();
             injectionBinder.Bind<IPhotoService>().To<PhotoPickerService>().ToSingleton();
             injectionBinder.Bind<IProfilePicService>().To<ProfilePicService>().ToSingleton();
@@ -251,7 +258,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IChatModel>().To<ChatModel>().ToSingleton(); // Lifecyle handled
             injectionBinder.Bind<IRewardsSettingsModel>().To<RewardsSettingsModel>().ToSingleton(); // Lifecycle handled
             injectionBinder.Bind<ISettingsModel>().To<SettingsModel>().ToSingleton();
-
+            injectionBinder.Bind<ILessonsModel>().To<LessonsModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();
@@ -276,6 +283,9 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadPromotionSingal>().To<LoadPromotionCommand>();
             commandBinder.Bind<LoadChatSignal>().To<LoadChatCommand>();
             commandBinder.Bind<ShowInGameProfileSingal>().To<ShowInGameProfileCommand>();
+            commandBinder.Bind<LoadVideoSignal>().To<LoadVideoCommand>();
+            commandBinder.Bind<LoadTopicsViewSignal>().To<LoadTopicsViewCommand>();
+            commandBinder.Bind<LoadLessonsViewSignal>().To<LoadLessonsViewCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -292,6 +302,9 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SubscriptionTierView>().To<SubscriptionTierMediator>();
             mediationBinder.Bind<ManageSubscriptionView>().To<ManageSubscriptionMediator>();
             mediationBinder.Bind<ManageBlockedFriendsView>().To<ManageBlockedFriendsMediator>();
+            mediationBinder.Bind<LessonsVideoPlayerView>().To<LessonsVideoPlayerMediator>();
+            mediationBinder.Bind<TopicsView>().To<TopicsMediator>();
+            mediationBinder.Bind<LessonsView>().To<LessonsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -321,6 +334,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RemoveLobbyPromotionSignal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTopiscViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLessonsViewSignal>().ToSingleton();
+            injectionBinder.Bind<RatingBoostAnimSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

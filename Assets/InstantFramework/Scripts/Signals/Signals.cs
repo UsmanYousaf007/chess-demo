@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
     public class BackendErrorSignal : Signal<BackendResult> { }
     public class ReceptionSignal : Signal<bool> { }
     public class LoadLobbySignal : Signal { }
-    public class SavePlayerInventorySignal : Signal { }
+    public class SavePlayerInventorySignal : Signal<string> { }
     public class SetSkinSignal : Signal<string> { }
     public class SetDefaultSkinSignal : Signal { }
     public class SkinUpdatedSignal : Signal { }
@@ -150,7 +150,7 @@ namespace TurboLabz.InstantFramework
     public class ShowAdSkippedDlgSignal : Signal { }
     public class DisableModalBlockersSignal : Signal { }
     public class SelectTierSignal : Signal<string> { }
-    public class SetSubscriptionContext : Signal<string, string> { }
+    public class SetSubscriptionContext : Signal<string> { }
     public class MatchAnalyticsSignal : Signal<MatchAnalyticsVO> { }
     public class ManageBlockedFriendsSignal : Signal<string, bool> { }
     public class UnblockFriendSignal : Signal<string> { }
@@ -160,8 +160,11 @@ namespace TurboLabz.InstantFramework
     public class SkillSelectedSignal : Signal { }
     public class UploadFileSignal : Signal<UploadFileVO> { }
     public class PhotoPickerCompleteSignal : Signal<Photo> { }
+    public class VideoEventSignal : Signal<VideoEvent> { }
+    public class SaveLastWatchedVideoSignal : Signal<string> { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
+    public class RatingBoostAnimSignal : Signal { }
 }

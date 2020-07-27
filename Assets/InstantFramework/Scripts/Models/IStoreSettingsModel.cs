@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems);
         List<string> getRemoteProductIds();
         StoreItem GetItemBySkinIndex(int skinIndex);
+        StoreItem GetVideoByShortCode(string shortCode);
         long lastPurchaseAttemptTimestamp { get; set; }
         string failedPurchaseTransactionId { get; set; }
     }

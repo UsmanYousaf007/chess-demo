@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -65,6 +66,7 @@ namespace TurboLabz.InstantFramework
             view.playMultiplayerClassicButtonClickedSignal.AddListener(OnClassicMatchBtnClicked);
             view.playCPUButtonClickedSignal.AddListener(OnPlayComputerMatchBtnClicked);
             view.upgradeToPremiumButtonClickedSignal.AddListener(OnUpgradeToPremiumClicked);
+            view.OnLessonsBtnClicked.AddListener(OnLessonsBtnClicked);
 
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.reloadFriendsSignal.AddOnce(OnReloadFriends);
@@ -446,6 +448,11 @@ namespace TurboLabz.InstantFramework
             FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
 
+        private void OnLessonsBtnClicked()
+        {
+            loadTopicsViewSignal.Dispatch();
+        }
+
         private bool CanShowPregameAd(string actionCode = null)
         {
             bool retVal = false;
@@ -536,6 +543,12 @@ namespace TurboLabz.InstantFramework
                 view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
                 return;
             }
+        }
+
+        [ListensTo(typeof(RatingBoostAnimSignal))]
+        public void OnRatingBoostAnimation()
+        {
+            view.RatingBoostAnimation();
         }
     }
 }
