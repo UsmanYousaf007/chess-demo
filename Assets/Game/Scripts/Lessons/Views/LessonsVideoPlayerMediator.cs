@@ -91,6 +91,9 @@ namespace TurboLabz.InstantFramework
         {
             switch (videoEvent)
             {
+                case VideoEvent.FirstFrameReady:
+                    view.buffering.SetActive(false);
+                    break;
                 case VideoEvent.ReadyToPlay:
                     if (view.isActiveAndEnabled)
                     {
@@ -207,6 +210,8 @@ namespace TurboLabz.InstantFramework
             //next video will be null if all videos are watched
             if (nextVideo == null)
             {
+                videoPlaybackService.Close();
+                view.Reset();
                 loadTopicsViewSignal.Dispatch();
             }
             else if (nextVideo.isLocked)

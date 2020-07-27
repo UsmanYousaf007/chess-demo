@@ -23,6 +23,7 @@ namespace TurboLabz.InstantGame
         public Button nextVideoButton;
         public GameObject processing;
         public RectTransform layoutGroup;
+        public GameObject buffering;
 
         [SerializeField] private RectTransform _videoScreen;
         [SerializeField] private Button _playPauseButton;
@@ -56,6 +57,7 @@ namespace TurboLabz.InstantGame
         {
             SetTimeTextVisibility(false);
             _playIconAndBg.gameObject.SetActive(false);
+            buffering.SetActive(true);
 
             seekSlider = GetComponentInChildren<SeekSlider>(true);
             seekSlider.Init(OnSliderSeekStartEvent, OnSliderSeekEndEvent);
@@ -98,6 +100,7 @@ namespace TurboLabz.InstantGame
         {
             SetTimeTextVisibility(false);
             _playIconAndBg.gameObject.SetActive(false);
+            buffering.SetActive(true);
             seekSlider.UpdateSliderPosition(0f);
             paused = false;
         }

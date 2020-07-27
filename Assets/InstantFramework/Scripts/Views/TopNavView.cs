@@ -137,7 +137,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowRewardBar()
         {
-            rewardBarObject.SetActive(!playerModel.HasSubscription());
+            //rewardBarObject.SetActive(!playerModel.HasSubscription());
         }
 
         public void AnimateRewardBar(float from, float to)

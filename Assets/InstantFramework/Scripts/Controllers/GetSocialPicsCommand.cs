@@ -31,23 +31,43 @@ namespace TurboLabz.InstantGame
         {
             Retain();
 
-            foreach (KeyValuePair<string, Friend> obj in friends)
+            if (facebookService.IsInitialized())
             {
-                Friend friend = obj.Value;
-                var cachedPic = picsModel.GetPlayerPic(friend.playerId);
+                GetSocialPics(FacebookResult.SUCCESS);
+            }
+            else
+            {
+                facebookService.Init().Then(GetSocialPics);
+            }
+        }
 
-                if (cachedPic == null)
+        private void GetSocialPics(FacebookResult result)
+        {
+            if (result == FacebookResult.SUCCESS)
+            {
+                foreach (KeyValuePair<string, Friend> obj in friends)
                 {
-                    if (friend.publicProfile.facebookUserId != null)
+                    Friend friend = obj.Value;
+                    var cachedPic = picsModel.GetPlayerPic(friend.playerId);
+
+                    if (cachedPic == null)
                     {
-                        picRequestCount++;
-                        facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
+                        if (friend.publicProfile.facebookUserId != null)
+                        {
+                            picRequestCount++;
+                            facebookService.GetSocialPic(friend.publicProfile.facebookUserId, friend.playerId).Then(OnGetSocialPic);
+                        }
+                    }
+                    else
+                    {
+                        updateFriendPicSignal.Dispatch(friend.playerId, cachedPic);
+                        Release();
                     }
                 }
-                else
-                {
-                    updateFriendPicSignal.Dispatch(friend.playerId, cachedPic);
-                }
+            }
+            else
+            {
+                Release();
             }
         }
 
@@ -91,8 +111,9 @@ namespace TurboLabz.InstantGame
                 picsModel.SetFriendPics(playerModel.blocked, false);
 
                 Resources.UnloadUnusedAssets();
-                Release();
             }
+
+            Release();
         }
     }
 }
