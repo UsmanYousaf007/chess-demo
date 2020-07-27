@@ -24,9 +24,7 @@ namespace TurboLabz.InstantFramework
 						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
                         {
-                            photo = CreatePhotoView(photoTexture);
-                            //Texture2D.Destroy(photoTexture);
-
+                            photo = CreatePhotoView(photoTexture);        
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
 					}
@@ -51,8 +49,6 @@ namespace TurboLabz.InstantFramework
 						if (photoTexture != null)
 						{
 							photo = CreatePhotoView(photoTexture);
-							//Texture2D.Destroy(photoTexture);
-
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
 					}

@@ -115,12 +115,12 @@ namespace TurboLabz.InstantGame
 
         void OnTakePhotoBtnClicked()
         {
-            photoPickerService.TakePhoto(512, "jpeg");
+            photoPickerService.TakePhoto(200, "jpeg");
         }
 
         void OnChoosePhotoBtnClicked()
         {
-            photoPickerService.PickPhoto(512, "jpeg");
+            photoPickerService.PickPhoto(200, "jpeg");
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
