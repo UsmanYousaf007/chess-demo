@@ -106,5 +106,13 @@ namespace TurboLabz.InstantGame
                 category.Reset();
             }
         }
+
+        public void UnlockNextLesson()
+        {
+            if (lessonVO != null)
+            {
+                lessonVO.isLocked = false;
+            }
+        }
     }
 }

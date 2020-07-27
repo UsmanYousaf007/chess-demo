@@ -44,6 +44,14 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLessonTopics();
             }
+            else if (evt == NavigatorEvent.SHOW_CHAT)
+            {
+                return new NSChat();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
 
             return null;
         }

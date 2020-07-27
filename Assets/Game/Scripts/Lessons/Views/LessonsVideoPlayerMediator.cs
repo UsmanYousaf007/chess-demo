@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         // Services
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
@@ -98,6 +99,7 @@ namespace TurboLabz.InstantFramework
                     if (view.isActiveAndEnabled)
                     {
                         view.processing.SetActive(false);
+                        appInfoModel.isVideoLoading = false;
                         PlayVideo();
                         analyticsService.Event($"lesson_{lessonIndex}", AnalyticsContext.started);
                     }
@@ -151,6 +153,7 @@ namespace TurboLabz.InstantFramework
             if (view.isActiveAndEnabled)
             {
                 view.processing.SetActive(false);
+                appInfoModel.isVideoLoading = false;
             }
         }
 
@@ -222,9 +225,19 @@ namespace TurboLabz.InstantFramework
             else
             {
                 view.processing.SetActive(true);
+                appInfoModel.isVideoLoading = true;
                 videoPlaybackService.Close();
                 view.Reset();
                 loadVideoSignal.Dispatch(nextVideo);
+            }
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            if (nextVideo != null)
+            {
+                nextVideo.isLocked = false;
             }
         }
     }

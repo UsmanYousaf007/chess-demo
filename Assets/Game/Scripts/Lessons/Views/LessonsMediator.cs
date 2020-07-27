@@ -21,6 +21,9 @@ namespace TurboLabz.InstantGame
         //Analytics Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        //Models
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -64,6 +67,7 @@ namespace TurboLabz.InstantGame
                 }
 
                 view.processing.SetActive(false);
+                appInfoModel.isVideoLoading = false;
             }
         }
 
@@ -73,6 +77,7 @@ namespace TurboLabz.InstantGame
             if (view.isActiveAndEnabled)
             {
                 view.processing.SetActive(false);
+                appInfoModel.isVideoLoading = false;
             }
         }
 
@@ -81,20 +86,27 @@ namespace TurboLabz.InstantGame
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
-        private void OnPlayVideo(VideoLessonVO vo)
+        private void OnPlayVideo(LessonTile lesson)
         {
             view.audioService.PlayStandardClick();
 
-            if (vo.isLocked)
+            if (lesson.vo.isLocked)
             {
-                setSubscriptionContext.Dispatch($"lessons_{vo.section.ToLower().Replace(' ', '_')}");
+                setSubscriptionContext.Dispatch($"lessons_{lesson.vo.section.ToLower().Replace(' ', '_')}");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else
             {
                 view.processing.SetActive(true);
-                loadVideoSignal.Dispatch(vo);
+                appInfoModel.isVideoLoading = true;
+                loadVideoSignal.Dispatch(lesson.vo);
             }
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            view.UnlockLessons();
         }
     }
 }

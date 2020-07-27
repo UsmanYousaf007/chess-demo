@@ -22,6 +22,9 @@ namespace TurboLabz.InstantGame
         //Analytics Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        //Models
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -61,6 +64,7 @@ namespace TurboLabz.InstantGame
             if (view.isActiveAndEnabled)
             {
                 view.processing.SetActive(false);
+                appInfoModel.isVideoLoading = false;
 
                 if (videoEvent == VideoEvent.ReadyToPlay)
                 {
@@ -75,6 +79,7 @@ namespace TurboLabz.InstantGame
             if (view.isActiveAndEnabled)
             {
                 view.processing.SetActive(false);
+                appInfoModel.isVideoLoading = false;
             }
         }
 
@@ -93,6 +98,7 @@ namespace TurboLabz.InstantGame
             else
             {
                 view.processing.SetActive(true);
+                appInfoModel.isVideoLoading = true;
                 loadVideoSignal.Dispatch(vo);
             }
         }
@@ -101,6 +107,12 @@ namespace TurboLabz.InstantGame
         {
             view.audioService.PlayStandardClick();
             loadLessonsViewSignal.Dispatch(vo);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            view.UnlockNextLesson();
         }
     }
 }

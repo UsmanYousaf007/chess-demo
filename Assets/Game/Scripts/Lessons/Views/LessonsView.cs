@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
@@ -28,9 +29,10 @@ namespace TurboLabz.InstantGame
 
         private GameObjectsPool lessonTilePool;
         private string lastTopicId = string.Empty;
+        private List<LessonTile> lessonTiles;
 
         public Signal backSignal = new Signal();
-        public Signal<VideoLessonVO> playVideoSingal = new Signal<VideoLessonVO>();
+        public Signal<LessonTile> playVideoSingal = new Signal<LessonTile>();
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -41,6 +43,7 @@ namespace TurboLabz.InstantGame
             lessonTilePool = new GameObjectsPool(lessonTile);
             backButton.onClick.AddListener(OnBackButtonClicked);
             backButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
+            lessonTiles = new List<LessonTile>();
         }
 
         public void Show()
@@ -64,9 +67,10 @@ namespace TurboLabz.InstantGame
                 var lessonTile = lesson.GetComponent<LessonTile>();
                 lessonTile.Init(lessonVO);
                 lessonTile.button.onClick.RemoveAllListeners();
-                lessonTile.button.onClick.AddListener(() => playVideoSingal.Dispatch(lessonVO));
+                lessonTile.button.onClick.AddListener(() => playVideoSingal.Dispatch(lessonTile));
                 lesson.transform.SetParent(lessonTileContainer, false);
                 lesson.SetActive(true);
+                lessonTiles.Add(lessonTile);
             }
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
@@ -78,6 +82,7 @@ namespace TurboLabz.InstantGame
             {
                 lessonTilePool.ReturnObject(tile.gameObject);
             }
+            lessonTiles.Clear();
         }
 
         private void SetupTopic(TopicVO vo)
@@ -103,6 +108,14 @@ namespace TurboLabz.InstantGame
         {
             audioService.PlayStandardClick();
             backSignal.Dispatch();
+        }
+
+        public void UnlockLessons()
+        {
+            foreach (var lesson in lessonTiles)
+            {
+                lesson.Unlock();
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         string faqURL { get; }
         bool isAutoSubscriptionDlgShown { get; set; }
         bool isResumeGS { get; set; }
+        bool isVideoLoading { get; set; }
     }
 
     public enum DisconnectStates

@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         public InternalAdType internalAdType { get; set; }
         public bool isAutoSubscriptionDlgShown { get; set; }
         public bool isResumeGS { get; set; }
+        public bool isVideoLoading { get; set; }
 
         public string privacyPolicyURL
         {
@@ -93,6 +94,7 @@ namespace TurboLabz.InstantFramework
             contactSupportURL = "";
             internalAdType = InternalAdType.NONE;
             isAutoSubscriptionDlgShown = false;
+            isVideoLoading = false;
         }
     }
 }
