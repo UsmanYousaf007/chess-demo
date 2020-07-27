@@ -69,7 +69,7 @@ namespace TurboLabz.InstantGame
 
         public GameObject uiBlocker;
         public GameObject processingUi;
-
+ 
         public Signal restorePurchasesSignal = new Signal();
 
         [Header("Name Confirm Dialog")]

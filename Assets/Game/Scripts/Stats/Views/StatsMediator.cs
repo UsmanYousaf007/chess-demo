@@ -127,6 +127,7 @@ namespace TurboLabz.InstantGame
         public void OnPhotoPickerComplete (Photo photo)
         {
             view.picUpdateDlg.SetActive(false);
+            view.ShowProcessing(true, true);
 
             if (photo != null)
             {

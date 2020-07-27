@@ -3,6 +3,7 @@
 using System;
 using GameSparks.Api.Messages;
 using strange.extensions.command.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -18,6 +19,7 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal { get; set; }
+        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
 
         public override void Execute()
         {
@@ -35,6 +37,7 @@ namespace TurboLabz.InstantFramework
             else if (result == BackendResult.UPLOAD_URL_GET_FAILED)
             {
                 backendErrorSignal.Dispatch(result);
+                showProcessingSignal.Dispatch(false, false);
                 Release();
             }
         }
@@ -45,6 +48,7 @@ namespace TurboLabz.InstantFramework
             {
                 backendErrorSignal.Dispatch(result);
             }
+            showProcessingSignal.Dispatch(false, false);
             Release();
         }
     }

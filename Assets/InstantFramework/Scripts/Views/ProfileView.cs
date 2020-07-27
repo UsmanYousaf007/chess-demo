@@ -49,7 +49,7 @@ namespace TurboLabz.InstantGame
         private SpritesContainer defaultAvatarContainer;
 
         public Button profilePicButton;
-
+        
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal profilePicButtonClickedSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
