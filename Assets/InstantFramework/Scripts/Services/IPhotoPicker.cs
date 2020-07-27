@@ -8,7 +8,7 @@ namespace TurboLabz.InstantFramework
 {
     public interface IPhotoService
     {
-        void PickPhoto(int size, string format);
-        void TakePhoto(int size, string format);
+        void PickPhoto(int size, string format="jpeg");
+        void TakePhoto(int size, string format="jpeg");
     }
 }

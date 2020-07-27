@@ -38,6 +38,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IPhotoService photoPickerService { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
 
+        
 
         public override void OnRegister()
         {
@@ -115,12 +116,12 @@ namespace TurboLabz.InstantGame
 
         void OnTakePhotoBtnClicked()
         {
-            photoPickerService.TakePhoto(200, "jpeg");
+            photoPickerService.TakePhoto(StatsView.PROFILE_PIC_MAX_SIZE);
         }
 
         void OnChoosePhotoBtnClicked()
         {
-            photoPickerService.PickPhoto(200, "jpeg");
+            photoPickerService.PickPhoto(StatsView.PROFILE_PIC_MAX_SIZE);
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
