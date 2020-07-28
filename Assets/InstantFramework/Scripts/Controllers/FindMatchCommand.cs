@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
         [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
         [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public UpdateOpponentStatusSignal updateOpponentStatusSignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -67,8 +68,12 @@ namespace TurboLabz.InstantFramework
         {
             if (opponentStatus.Equals("busy"))
             {
+
+                var opponentID = FindMatchAction.actionData.opponentId;
+                ProfileVO pvo = GetOpponentProfile(opponentID);
                 //show dailogue
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_OPPONENT_STATUS_DLG);
+                /*navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
 
                 var vo = new ConfirmDlgVO
                 {
@@ -80,9 +85,11 @@ namespace TurboLabz.InstantFramework
                         navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
                     }
                 };
+                updateConfirmDlgSignal.Dispatch(vo);*/
 
-                updateConfirmDlgSignal.Dispatch(vo);
-                matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
+                MatchAnalyticsVO matchAnalyticsvo = GetFindMatchAnalyticsVO(AnalyticsContext.failed);
+                updateOpponentStatusSignal.Dispatch(pvo, matchAnalyticsvo.matchType);
+                matchAnalyticsSignal.Dispatch(matchAnalyticsvo);
             }
             else
             {
@@ -110,8 +117,9 @@ namespace TurboLabz.InstantFramework
 
             matchInfoModel.activeChallengeId = challengeId;
 
+            PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
             // Create and fill the opponent profile
-            ProfileVO pvo = GetOpponentProfile();
+            ProfileVO pvo = GetOpponentProfile(publicProfile.playerId);
 
             // Set the opponent info in the game view
             updateOpponentProfileSignal.Dispatch(pvo);
@@ -160,8 +168,9 @@ namespace TurboLabz.InstantFramework
                 if (matchInfoModel.activeMatch != null)
                 {
                     matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
+                    PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
-                    ProfileVO pvo = GetOpponentProfile();
+                    ProfileVO pvo = GetOpponentProfile(publicProfile.playerId);
                     updateOpponentProfileSignal.Dispatch(pvo);
 
                     updateChatOpponentPicSignal.Dispatch(sprite);
@@ -171,11 +180,12 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
-        private ProfileVO GetOpponentProfile()
+        private ProfileVO GetOpponentProfile(string opponentID)
         {
-            PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+            //PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
-            var friend = playerModel.GetFriend(publicProfile.playerId);
+            PublicProfile publicProfile = null;
+            var friend = playerModel.GetFriend(opponentID);
             if (friend != null)
             {
                 publicProfile = friend.publicProfile;

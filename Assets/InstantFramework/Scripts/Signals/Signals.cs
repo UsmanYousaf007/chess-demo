@@ -162,6 +162,7 @@ namespace TurboLabz.InstantFramework
     public class PhotoPickerCompleteSignal : Signal<Photo> { }
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
+    public class UpdateOpponentStatusSignal : Signal<ProfileVO, string> { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

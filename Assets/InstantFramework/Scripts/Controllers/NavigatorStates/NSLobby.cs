@@ -97,6 +97,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLessonTopics();
             }
+            else if (evt == NavigatorEvent.SHOW_OPPONENT_STATUS_DLG)
+            {
+                return new NSOpponentStatusDlg();
+            }
 
             return null;
         }

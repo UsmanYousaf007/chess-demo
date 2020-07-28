@@ -82,6 +82,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSFindFriendsDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_OPPONENT_STATUS_DLG)
+            {
+                return new NSOpponentStatusDlg();
+            }
 
             return null;
         }
