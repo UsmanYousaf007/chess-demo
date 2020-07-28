@@ -145,7 +145,7 @@ namespace TurboLabz.InstantGame
 
         void OnOpenSettingsBtnClicked()
         {
-            view.CloseSettingsDlg();
+            view.CloseSettingsDialog();
             photoPickerService.OpenCameraSettings();
         }
 
