@@ -63,11 +63,10 @@ namespace TurboLabz.InstantGame
         {
             if (view.isActiveAndEnabled)
             {
-                view.processing.SetActive(false);
-                appInfoModel.isVideoLoading = false;
-
                 if (videoEvent == VideoEvent.ReadyToPlay)
                 {
+                    view.processing.SetActive(false);
+                    appInfoModel.isVideoLoading = false;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSON_VIDEO);
                 }
             }
