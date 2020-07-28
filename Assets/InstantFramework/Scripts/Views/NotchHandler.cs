@@ -161,7 +161,7 @@ public class NotchHandler : MonoBehaviour {
 
         //Subscription
         SetY(subscriptionTitle, -106f);
-        SetY(subscriptionOffers, -435f);
+        SetY(subscriptionOffers, -626f);
 
         //Promotion
         SetY(promotionTitle, -106f);

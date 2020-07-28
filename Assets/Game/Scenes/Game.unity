@@ -58844,12 +58844,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 973090214}
   m_CullTransparentMesh: 0
---- !u!224 &974868419 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 522947120544847614, guid: cdf3eb40fb8a04aee886c15bcbd0a78e,
-    type: 3}
-  m_PrefabInstance: {fileID: 4544718625611399250}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &976183173
 GameObject:
   m_ObjectHideFlags: 0
@@ -116372,7 +116366,7 @@ MonoBehaviour:
   subscriptionTitle: {fileID: 1154409897}
   subscriptionOffers: {fileID: 889658473}
   promotionTitle: {fileID: 1922514714}
-  promotionOffers: {fileID: 974868419}
+  promotionOffers: {fileID: 1935745497}
   manageSubscriptionBottomNav: {fileID: 1435322812}
   blockedFriendsScrollView: {fileID: 525386969}
   blockedFriendsScrollViewPort: {fileID: 2042987604}
@@ -118357,6 +118351,12 @@ PrefabInstance:
 --- !u!224 &1935745496 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7263646666955139495, guid: a25431447b1ce46569690a3cf64afcf9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1935745495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1935745497 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7263646666514311377, guid: a25431447b1ce46569690a3cf64afcf9,
     type: 3}
   m_PrefabInstance: {fileID: 1935745495}
   m_PrefabAsset: {fileID: 0}
