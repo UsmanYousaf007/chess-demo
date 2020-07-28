@@ -49,6 +49,8 @@ namespace TurboLabz.InstantGame
 
             view.choosePhotoBtn.onClick.AddListener(OnChoosePhotoBtnClicked);
             view.takePhotoBtn.onClick.AddListener(OnTakePhotoBtnClicked);
+
+            view.openPhotoSettingsBtn.onClick.AddListener(OnOpenSettingsBtnClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -116,18 +118,41 @@ namespace TurboLabz.InstantGame
 
         void OnTakePhotoBtnClicked()
         {
-            photoPickerService.TakePhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+            if (photoPickerService.HasCameraPermission())
+            {
+                photoPickerService.TakePhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+            }
+            else
+            {
+                view.CloseProfilePicDialog();
+                view.OpenSettingsDialog();
+            }
+
         }
 
         void OnChoosePhotoBtnClicked()
         {
-            photoPickerService.PickPhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+            if (photoPickerService.HasGalleryPermission())
+            {
+                photoPickerService.PickPhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+            }
+            else
+            {
+                view.CloseProfilePicDialog();
+                view.OpenSettingsDialog();
+            }
+        }
+
+        void OnOpenSettingsBtnClicked()
+        {
+            view.CloseSettingsDlg();
+            photoPickerService.OpenCameraSettings();
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
         public void OnPhotoPickerComplete (Photo photo)
         {
-            view.picUpdateDlg.SetActive(false);
+            view.CloseProfilePicDialog();
             view.ShowProcessing(true, true);
 
             if (photo != null)

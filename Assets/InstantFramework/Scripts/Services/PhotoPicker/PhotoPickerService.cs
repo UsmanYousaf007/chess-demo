@@ -60,6 +60,40 @@ namespace TurboLabz.InstantFramework
             }
 		}
 
+		public bool HasCameraPermission()
+		{
+			var permission = NativeCamera.CheckPermission();
+			Debug.Log("HasCameraPermission: " + permission.ToString());
+			if (permission == NativeCamera.Permission.Granted || permission == NativeCamera.Permission.ShouldAsk)
+			{
+				return true;
+            }
+
+			return false;
+        }
+
+		public bool HasGalleryPermission()
+		{
+			var permission = NativeGallery.CheckPermission();
+			Debug.Log("HasGalleryPermission: " + permission.ToString());
+			if (permission == NativeGallery.Permission.Granted || permission == NativeGallery.Permission.ShouldAsk)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		public void OpenCameraSettings()
+		{
+			NativeCamera.OpenSettings();
+        }
+
+		public void OpenGallerySettings()
+		{
+			NativeGallery.OpenSettings();
+		}
+
 		private static Photo CreatePhotoView(Texture2D photoTexture)
 		{
 			Sprite image = Sprite.Create(photoTexture,

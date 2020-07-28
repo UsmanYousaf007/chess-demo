@@ -10,5 +10,9 @@ namespace TurboLabz.InstantFramework
     {
         void PickPhoto(int size, string format="jpeg");
         void TakePhoto(int size, string format="jpeg");
+        bool HasCameraPermission();
+        bool HasGalleryPermission();
+        void OpenCameraSettings();
+        void OpenGallerySettings();
     }
 }
