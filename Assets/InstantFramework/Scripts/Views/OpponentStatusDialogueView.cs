@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
-            tryAgainText.text = localizationService.Get(LocalizationKey.ELO_SCORE);
+            tryAgainText.text = localizationService.Get(LocalizationKey.TRY_AGAIN_LATER_TEXT);
         }
 
         public void Show()
@@ -98,7 +98,7 @@ namespace TurboLabz.InstantFramework
                 onlineStatus.sprite = vo.isOnline ? online : offline;
             }
 
-            opponentStatus.text = "Player is already in " + matchMode + " game";
+            opponentStatus.text = "Already in a " + matchMode + " Game";
 
             /*if (vo.inGame)
             {

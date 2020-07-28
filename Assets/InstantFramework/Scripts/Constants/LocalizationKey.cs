@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         public const string ACCEPT_TEXT = "acceptText";
         public const string DECLINE_TEXT = "declineText";
         public const string START_TEXT = "startText";
+        public const string TRY_AGAIN_LATER_TEXT = "tryAgainLaterText";
 
         #endregion
 
