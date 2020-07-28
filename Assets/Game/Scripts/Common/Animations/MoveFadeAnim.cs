@@ -7,7 +7,6 @@ using TMPro;
 public class MoveFadeAnim : MonoBehaviour
 {
     public GameObject go;
-    public Text uiObj;
     public TextMeshProUGUI uiObj1;
     public Transform startPivot;
     public Transform endPivot;
@@ -25,12 +24,17 @@ public class MoveFadeAnim : MonoBehaviour
     {
         go.transform.localPosition = new Vector3(startPivot.localPosition.x, startPivot.localPosition.y, startPivot.localPosition.z);
         iTween.MoveTo(go, iTween.Hash("position", endPivot.localPosition, "delay", 0.5f, "time", 6f, "islocal", true));
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0.5f, "time", 4f, "onupdate", "updateColor"));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0.5f, "time", 4f, "onupdate", "updateColor", "oncomplete", "DisableObj"));
     }
 
     public void updateColor(float val)
     {
         uiObj1.color = ((1f - val) * StartColor) + (val * EndColor);
+    }
+
+    void DisableObj()
+    {
+        gameObject.SetActive(false);
     }
 
 }

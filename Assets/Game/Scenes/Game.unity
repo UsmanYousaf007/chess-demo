@@ -53554,12 +53554,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889006186}
   m_CullTransparentMesh: 0
---- !u!224 &889658473 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3475021504417380697, guid: a25431447b1ce46569690a3cf64afcf9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1935745495}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &892425470
 GameObject:
   m_ObjectHideFlags: 0
@@ -53968,6 +53962,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899791225}
   m_CullTransparentMesh: 0
+--- !u!224 &900099885 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 522947120544847614, guid: cdf3eb40fb8a04aee886c15bcbd0a78e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4544718625611399250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &902509413
 GameObject:
   m_ObjectHideFlags: 0
@@ -116364,9 +116364,9 @@ MonoBehaviour:
   maintenanceWarningPopup: {fileID: 1805031680}
   topBar: {fileID: 316917912}
   subscriptionTitle: {fileID: 1154409897}
-  subscriptionOffers: {fileID: 889658473}
+  subscriptionOffers: {fileID: 1935745497}
   promotionTitle: {fileID: 1922514714}
-  promotionOffers: {fileID: 1935745497}
+  promotionOffers: {fileID: 900099885}
   manageSubscriptionBottomNav: {fileID: 1435322812}
   blockedFriendsScrollView: {fileID: 525386969}
   blockedFriendsScrollViewPort: {fileID: 2042987604}
