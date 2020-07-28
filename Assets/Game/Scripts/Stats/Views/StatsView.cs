@@ -88,7 +88,7 @@ namespace TurboLabz.InstantGame
         public Text takePhotoText;
         public Text choosePhotoText;
         public Text phototitleTxt;
-        public const int MAX_DIMENSION_SIZE = 512;
+        public const int PROFILE_PIC_MAX_SIZE = 512;
 
         public void Init()
         {
