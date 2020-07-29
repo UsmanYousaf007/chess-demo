@@ -129,11 +129,7 @@ namespace TurboLabz.InstantGame
 
             profilePicBtn.onClick.AddListener(OpenProfilePicDialog);
             closePhotoBtn.onClick.AddListener(CloseProfilePicDialog);
-
-
             closeSettingsDlgBtn.onClick.AddListener(closeSettingsDlgBtnClicked);
-
-         
 
             for (int i = 0; i < stars.Length; i++)
             {
@@ -141,10 +137,11 @@ namespace TurboLabz.InstantGame
             }
 
             copyTagBtn.onClick.AddListener(OnCopyTagClicked);
+
+            Color c = uiBlocker.GetComponent<Image>().color;
+            c.a = Colors.UI_BLOCKER_DARK_ALPHA;
+            uiBlocker.GetComponent<Image>().color = c;
         }
-
-
-
 
         public void closeSettingsDlgBtnClicked()
         {
