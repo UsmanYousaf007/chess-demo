@@ -84,7 +84,7 @@ namespace TurboLabz.Multiplayer
         private string playerName;
         private string opponentName;
         private string challengeId;
-        
+
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -331,9 +331,8 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void UpdateGameResultHeadingSection()
+        private void UpdateGameResultHeadingSection(int eloScoreDelta)
         {
-            
             if (isDraw)
             {
                 resultsGameImage.sprite = drawSprite;
@@ -354,11 +353,16 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
+                    int ratingBoost = rewardsSettingsModel.ratingBoostReward;
+                    if (eloScoreDelta < 0 && rewardsSettingsModel.ratingBoostReward > Mathf.Abs(eloScoreDelta))
+                    {
+                        ratingBoost = Mathf.Abs(eloScoreDelta);
+                    }
                     resultsGameImage.sprite = defeatSprite;
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
                     resultsGameResultLabel.color = Colors.RED_DIM;
                     viewBoardResultPanel.result.text = string.Format("{0} won", opponentName);
-                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_RECOVER_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
+                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_RECOVER_RATING_BUTTON)} +{ratingBoost}";
                 }
             }
             resultsGameImage.SetNativeSize();
@@ -383,7 +387,9 @@ namespace TurboLabz.Multiplayer
             
             UpdateGameEndReasonSection(vo.reason);
             UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
-            UpdateGameResultHeadingSection();
+            UpdateGameResultHeadingSection(vo.eloScoreDelta);
+
+            EnableRewarededVideoButton(adsService.IsRewardedVideoAvailable());
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
@@ -482,7 +488,7 @@ namespace TurboLabz.Multiplayer
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.RewardedVideo;
             vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
-            vo.challengeId = "";
+            vo.challengeId = challengeId;
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.rewarded;
             analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);

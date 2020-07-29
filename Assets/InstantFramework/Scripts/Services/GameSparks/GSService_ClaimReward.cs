@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch(false);
                 cancelHintSingal.Dispatch();
-                ratingBoostAnimSignal.Dispatch();
+                ratingBoostAnimSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
                 LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
             }
         }

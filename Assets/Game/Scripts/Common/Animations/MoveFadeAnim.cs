@@ -7,7 +7,7 @@ using TMPro;
 public class MoveFadeAnim : MonoBehaviour
 {
     public GameObject go;
-    public TextMeshProUGUI uiObj1;
+    public TextMeshProUGUI uiObj;
     public Transform startPivot;
     public Transform endPivot;
 
@@ -29,7 +29,7 @@ public class MoveFadeAnim : MonoBehaviour
 
     public void updateColor(float val)
     {
-        uiObj1.color = ((1f - val) * StartColor) + (val * EndColor);
+        uiObj.color = ((1f - val) * StartColor) + (val * EndColor);
     }
 
     void DisableObj()
