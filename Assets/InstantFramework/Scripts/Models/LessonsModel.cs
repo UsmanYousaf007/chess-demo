@@ -26,11 +26,11 @@ namespace TurboLabz.InstantFramework
         public void PostConstruct()
         {
             modelsResetSignal.AddListener(Reset);
+            lastViewedTopic = new TopicVO();
         }
 
         private void Reset()
         {
-            lastViewedTopic = new TopicVO();
             topicsMapping = new OrderedDictionary<string, string>();
             lessonsMapping = new OrderedDictionary<string, string>();
         }
