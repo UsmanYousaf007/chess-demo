@@ -84,6 +84,7 @@ namespace TurboLabz.Multiplayer
         private string playerName;
         private string opponentName;
         private string challengeId;
+        private bool isResultsBoostRatingButtonEnabled = false;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
@@ -127,6 +128,7 @@ namespace TurboLabz.Multiplayer
         private void EnableRewarededVideoButton(bool enable)
         {
             DoPulse(enable);
+            isResultsBoostRatingButtonEnabled = enable;
             if (enable)
             {
                 resultsCollectRewardButton.interactable = true;
@@ -154,6 +156,7 @@ namespace TurboLabz.Multiplayer
                 c = resultsBoostRatingAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsBoostRatingAdTVImage.color = c;
+                resultsBoostRatingButton.GetComponent<Image>().color = c;
             }
         }
 
@@ -244,8 +247,6 @@ namespace TurboLabz.Multiplayer
             offerTextDlg.SetActive(false);
             offerDrawDialog.SetActive(false);
 
-            bool enablePulse = true;
-
             switch (gameEndReason)
             {
                 case GameEndReason.TIMER_EXPIRED:
@@ -263,7 +264,6 @@ namespace TurboLabz.Multiplayer
                         animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerName);
                         EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
-                        enablePulse = preferencesModel.resignCount <= adsSettingsModel.resignCap;
                     }
                     else
                     {
@@ -352,9 +352,12 @@ namespace TurboLabz.Multiplayer
                 else
                 {
                     int ratingBoost = rewardsSettingsModel.ratingBoostReward;
-                    if (eloScoreDelta < 0 && rewardsSettingsModel.ratingBoostReward > Mathf.Abs(eloScoreDelta))
+                    if (isResultsBoostRatingButtonEnabled)
                     {
-                        ratingBoost = Mathf.Abs(eloScoreDelta);
+                        if (eloScoreDelta < 0 && rewardsSettingsModel.ratingBoostReward > Mathf.Abs(eloScoreDelta))
+                        {
+                            ratingBoost = Mathf.Abs(eloScoreDelta);
+                        }
                     }
                     resultsGameImage.sprite = defeatSprite;
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
@@ -385,9 +388,8 @@ namespace TurboLabz.Multiplayer
             
             UpdateGameEndReasonSection(vo.reason);
             UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
-            UpdateGameResultHeadingSection(vo.eloScoreDelta);
-
             EnableRewarededVideoButton(adsService.IsRewardedVideoAvailable());
+            UpdateGameResultHeadingSection(vo.eloScoreDelta);
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
