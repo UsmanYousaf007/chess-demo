@@ -209,7 +209,11 @@ namespace TurboLabz.InstantFramework
         completed,
         //power_ups
         coach,
-        move_meter
+        move_meter,
+        //profile picture
+        upload_pic,
+        choose_existing,
+        take_new
     }
 
     public enum AnalyticsParameter
