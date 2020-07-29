@@ -119,7 +119,7 @@ namespace TurboLabz.InstantGame
 
         void OnTakePhotoBtnClicked()
         {
-            analyticsService.Event("Take new photo tapped", AnalyticsContext.take_new);
+            analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.take_new);
             if (photoPickerService.HasCameraPermission())
             {
                 photoPickerService.TakePhoto(512, 512);
@@ -134,7 +134,7 @@ namespace TurboLabz.InstantGame
 
         void OnChoosePhotoBtnClicked()
         {
-            analyticsService.Event("Choose existing photo tapped", AnalyticsContext.choose_existing);
+            analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.choose_existing);
             if (photoPickerService.HasGalleryPermission())
             {
                 photoPickerService.PickPhoto(512, 512);
@@ -148,7 +148,7 @@ namespace TurboLabz.InstantGame
 
         void OnUploadProfilPicBtnClicked()
         {
-            analyticsService.Event("Upload pic tapped", AnalyticsContext.upload_pic);
+            analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.dlg_shown);
             view.OpenProfilePicDialog();
         }
 

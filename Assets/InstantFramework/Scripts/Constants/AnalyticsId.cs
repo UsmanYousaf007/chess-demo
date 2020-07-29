@@ -122,7 +122,10 @@ namespace TurboLabz.InstantFramework
         power_ups_used,
 
         //lessons
-        all_lessons_complete
+        all_lessons_complete,
+
+        //profile pic
+        upload_picture
     }
 
     public enum AnalyticsContext
@@ -211,7 +214,7 @@ namespace TurboLabz.InstantFramework
         coach,
         move_meter,
         //profile picture
-        upload_pic,
+        dlg_shown,        
         choose_existing,
         take_new
     }
