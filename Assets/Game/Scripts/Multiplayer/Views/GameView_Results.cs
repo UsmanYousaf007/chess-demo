@@ -126,6 +126,7 @@ namespace TurboLabz.Multiplayer
 
         private void EnableRewarededVideoButton(bool enable)
         {
+            DoPulse(enable);
             if (enable)
             {
                 resultsCollectRewardButton.interactable = true;
@@ -213,7 +214,6 @@ namespace TurboLabz.Multiplayer
             {
                 resultsFriendlyLabel.gameObject.SetActive(true);
                 EnableRewarededVideoButton(false);
-                DoPulse(false);
                 return;
             }
 
@@ -322,8 +322,6 @@ namespace TurboLabz.Multiplayer
                     resultsGameResultReasonLabel.text = "Unknown Reason";
                     break;
             }
-
-            DoPulse(enablePulse);
 
             if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
             {
