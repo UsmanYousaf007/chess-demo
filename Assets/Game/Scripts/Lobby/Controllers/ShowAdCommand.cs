@@ -71,9 +71,25 @@ namespace TurboLabz.InstantGame
             {
                 if (adType == AdType.RewardedVideo)
                 {
-                    Retain();
-                    ClaimReward(AdsResult.BYPASS);
-                    //LoadLobby();
+                    if (adsService.IsRewardedVideoAvailable())
+                    {
+                        preferencesModel.globalAdsCount++;
+                        preferencesModel.rewardedAdsCount++;
+                        Retain();
+                        IPromise<AdsResult> p = adsService.ShowRewardedVideo();
+
+                        if (p != null)
+                        {
+                            p.Then(LoadLobby);
+                            p.Then(RewardedAdCompleteHandler);
+                            p.Then(ClaimReward);
+                            p.Then(ShowPromotionOnVictory);
+                        }
+                        else
+                        {
+                            Release();
+                        }
+                    }
                 }
                 else if (adType == AdType.Interstitial)
                 {
@@ -170,7 +186,8 @@ namespace TurboLabz.InstantGame
 
                         if (p != null)
                         {
-                            //p.Then(LoadLobby);
+                            p.Then(LoadLobby);
+                            p.Then(RewardedAdCompleteHandler);
                             p.Then(ClaimReward);
                             p.Then(ShowPromotionOnVictory);
                         }
@@ -310,6 +327,14 @@ namespace TurboLabz.InstantGame
             }
 
             LoadGameStartSignal();
+        }
+
+        private void RewardedAdCompleteHandler(AdsResult result = AdsResult.FINISHED)
+        {
+            if (result == AdsResult.FINISHED || result == AdsResult.SKIPPED)
+            {
+                preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+            }
         }
 
         private void LoadGameStartSignal()

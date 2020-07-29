@@ -142,6 +142,7 @@ namespace TurboLabz.Multiplayer
                 c = resultsBoostRatingAdTVImage.color;
                 c.a = Colors.FULL_ALPHA;
                 resultsBoostRatingAdTVImage.color = c;
+                resultsBoostRatingButton.GetComponent<Image>().color = c;
             }
             else
             {
