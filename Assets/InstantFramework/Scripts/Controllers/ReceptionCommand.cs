@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
+        [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -45,6 +47,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
+        [Inject] public IProfilePicService profilePicService { get; set; }
 
         public override void Execute()
         {
@@ -97,7 +100,46 @@ namespace TurboLabz.InstantFramework
 
             pauseNotificationsSignal.Dispatch(false);
 
+
+            bool picWait = false;
+
+            // Finally update profile pic. Must be last operation
+            if (playerModel.uploadedPicId == "" && facebookService.isLoggedIn())
+            {
+                picWait = true;
+                facebookService.GetSocialPic(facebookService.GetFacebookId(), playerModel.id).Then(OnGetSocialPic);
+            }
+            else if (playerModel.uploadedPicId != "")
+            {
+                picWait = true;
+                profilePicService.GetProfilePic(playerModel.id, playerModel.uploadedPicId).Then(OnGetProfilePic);
+            }
+
+            if (!picWait)
+            {
+                CommandEnd();
+            }
+        }
+
+        private void OnGetSocialPic(FacebookResult result, Sprite sprite, string facebookUserId)
+        {
+            picsModel.SetPlayerPic(playerModel.id, sprite);
+
+            AuthFacebookResultVO vo = new AuthFacebookResultVO();
+            vo.isSuccessful = true;
+            vo.pic = sprite;
+            vo.name = playerModel.name;
+            vo.playerId = playerModel.id;
+            vo.rating = playerModel.eloScore;
+
+            authFacebookResultSignal.Dispatch(vo);
+
             CommandEnd();
+        }
+
+        private void OnGetProfilePic(BackendResult result, Sprite sprite, string playerId)
+        {
+            picsModel.SetPlayerPic(playerModel.id, sprite);
         }
 
         private void SendAnalytics()

@@ -13,10 +13,11 @@ namespace TurboLabz.InstantFramework
 	{
 		[Inject] public PhotoPickerCompleteSignal photoPickerCompletedSignal { get; set; }
 
-        #region Public Methods
-        public void PickPhoto(int maxSize, string format= "jpeg")
+		#region Public Methods
+		public void PickPhoto(int width, int height, string format= "jpeg")
 		{
 			Photo photo = null;
+			int maxSize = width > height ? width : height;
 			try
 			{
 				NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
@@ -26,7 +27,7 @@ namespace TurboLabz.InstantFramework
 						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
                         {
-							ResizeCanvas(photoTexture, 512, 512);
+							ResizeTextureCanvas(photoTexture, width, height);
 							photo = CreatePhotoView(photoTexture);        
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
@@ -39,10 +40,11 @@ namespace TurboLabz.InstantFramework
             }
 		}
 
-        public void TakePhoto(int maxSize, string format = "jpeg")
+        public void TakePhoto(int width, int height, string format = "jpeg")
 		{
 			try
 			{
+				int maxSize = width > height ? width : height;
 				Photo photo = null;
 				NativeCamera.Permission permission = NativeCamera.TakePicture((path) =>
 				{
@@ -51,7 +53,7 @@ namespace TurboLabz.InstantFramework
 						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
 						{
-							ResizeCanvas(photoTexture, 512, 512);
+							ResizeTextureCanvas(photoTexture, width, height);
 							photo = CreatePhotoView(photoTexture);
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
@@ -114,18 +116,23 @@ namespace TurboLabz.InstantFramework
 			return photo;
 		}
 
-		private Color32[] ResizeCanvas(Texture2D texture, int width, int height)
+		private Color32[] ResizeTextureCanvas(Texture2D texture, int width, int height)
 		{
-			var newPixels = ResizeCanvas(texture.GetPixels32(), texture.width, texture.height, width, height);
+			var newPixels = ResizeTextureCanvas(texture.GetPixels32(), texture.width, texture.height, width, height);
 			texture.Resize(width, height);
 			texture.SetPixels32(newPixels);
 			texture.Apply();
 			return newPixels;
 		}
 
-		private Color32[] ResizeCanvas(IList<Color32> pixels, int oldWidth, int oldHeight, int width, int height)
+		private Color32[] ResizeTextureCanvas(IList<Color32> pixels, int oldWidth, int oldHeight, int width, int height)
 		{
 			var newPixels = new Color32[(width * height)];
+			Color32 fillColor = new Color32(0, 0, 0, 255);
+
+			for (int i = 0; i < (width * height); i++)
+				newPixels[i] = fillColor;
+
 			var wBorder = (width - oldWidth) / 2;
 			var hBorder = (height - oldHeight) / 2;
 

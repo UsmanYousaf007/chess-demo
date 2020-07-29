@@ -88,7 +88,6 @@ namespace TurboLabz.InstantGame
         public Text takePhotoText;
         public Text choosePhotoText;
         public Text phototitleTxt;
-        public const int PROFILE_PIC_MAX_SIZE = 512;
 
         [Header("Open Settings Dialog")]
         public GameObject openSettingsDlg;

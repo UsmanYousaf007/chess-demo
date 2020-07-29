@@ -120,7 +120,7 @@ namespace TurboLabz.InstantGame
         {
             if (photoPickerService.HasCameraPermission())
             {
-                photoPickerService.TakePhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+                photoPickerService.TakePhoto(512, 512);
             }
             else
             {
@@ -134,7 +134,7 @@ namespace TurboLabz.InstantGame
         {
             if (photoPickerService.HasGalleryPermission())
             {
-                photoPickerService.PickPhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+                photoPickerService.PickPhoto(512, 512);
             }
             else
             {

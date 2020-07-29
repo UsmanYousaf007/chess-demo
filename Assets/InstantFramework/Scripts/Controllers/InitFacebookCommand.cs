@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                facebookService.GetSocialPic(facebookService.GetFacebookId(), playerModel.id).Then(OnGetSocialPic);
+                CommandEnd(FacebookResult.SUCCESS, null, null);
             }
             else if (result != BackendResult.CANCELED)
             {
@@ -69,9 +69,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void OnGetSocialPic(FacebookResult result, Sprite sprite, string facebookUserId)
+        void CommandEnd(FacebookResult result, Sprite sprite, string facebookUserId)
         {
-            picsModel.SetPlayerPic(playerModel.id, sprite);
+            //picsModel.SetPlayerPic(playerModel.id, sprite);
 
             AuthFacebookResultVO vo = new AuthFacebookResultVO();
             vo.isSuccessful = true;
