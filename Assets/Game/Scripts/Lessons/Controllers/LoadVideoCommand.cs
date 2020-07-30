@@ -50,6 +50,7 @@ namespace TurboLabz.InstantGame
                 videoPlaybackService.Prepare(signedUrl);
                 var vo = new LessonPlayVO();
                 var nextLesson = lessonsModel.GetNextLesson(lessonVO.videoId);
+                nextLesson = lessonsModel.lessonsMapping.IndexOf(nextLesson) == lessonVO.overallIndex ? string.Empty : nextLesson;
 
                 if (!string.IsNullOrEmpty(nextLesson) && storeSettingsModel.items.ContainsKey(nextLesson))
                 {

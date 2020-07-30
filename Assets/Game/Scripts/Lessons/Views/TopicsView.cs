@@ -71,10 +71,14 @@ namespace TurboLabz.InstantGame
         {
             nextLessonSection.SetActive(!vo.allLessonsWatched);
             lessonsCompletedSection.SetActive(vo.allLessonsWatched);
-            nextLessonIcon.sprite = vo.nextLesson.icon;
-            nextLessonName.text = vo.nextLesson.name;
-            nextLessonProgress.fillAmount = vo.nextLesson.progress;
             lessonVO = vo.nextLesson;
+
+            if (!vo.allLessonsWatched)
+            {
+                nextLessonIcon.sprite = vo.nextLesson.icon;
+                nextLessonName.text = vo.nextLesson.name;
+                nextLessonProgress.fillAmount = vo.nextLesson.progress;
+            }
 
             foreach (var section in vo.sections)
             {
