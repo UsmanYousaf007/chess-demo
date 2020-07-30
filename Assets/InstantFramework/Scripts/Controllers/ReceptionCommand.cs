@@ -104,26 +104,36 @@ namespace TurboLabz.InstantFramework
             bool picWait = false;
 
             // Finally update profile pic. Must be last operation
-            if (playerModel.uploadedPicId == "" && facebookService.isLoggedIn())
+            if (string.IsNullOrEmpty(playerModel.uploadedPicId) && facebookService.isLoggedIn())
             {
                 picWait = true;
                 facebookService.GetSocialPic(facebookService.GetFacebookId(), playerModel.id).Then(OnGetSocialPic);
             }
-            else if (playerModel.uploadedPicId != "")
+            else if (!string.IsNullOrEmpty(playerModel.uploadedPicId))
             {
                 picWait = true;
                 profilePicService.GetProfilePic(playerModel.id, playerModel.uploadedPicId).Then(OnGetProfilePic);
             }
 
+            // If there is no waiting for profile pic download then end this command
+            // Otherwise remove init data comlete and fail handlers but retain the command for pic download response
             if (!picWait)
             {
                 CommandEnd();
+            }
+            else
+            {
+                getInitDataCompleteSignal.RemoveListener(OnGetInitDataComplete);
+                getInitDataFailedSignal.RemoveListener(OnGetInitDataFailed);
             }
         }
 
         private void OnGetSocialPic(FacebookResult result, Sprite sprite, string facebookUserId)
         {
-            picsModel.SetPlayerPic(playerModel.id, sprite);
+            if (result == FacebookResult.SUCCESS)
+            {
+                picsModel.SetPlayerPic(playerModel.id, sprite);
+            }
 
             AuthFacebookResultVO vo = new AuthFacebookResultVO();
             vo.isSuccessful = true;
@@ -139,7 +149,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnGetProfilePic(BackendResult result, Sprite sprite, string playerId)
         {
-            picsModel.SetPlayerPic(playerModel.id, sprite);
+            if (result == BackendResult.SUCCESS)
+            {
+                picsModel.SetPlayerPic(playerModel.id, sprite);
+            }
+
+            CommandEnd();
         }
 
         private void SendAnalytics()
