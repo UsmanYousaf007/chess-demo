@@ -146,6 +146,7 @@ namespace TurboLabz.InstantFramework
             playerModel.isFBConnectRewardClaimed = playerDetailsData.GetBoolean(GSBackendKeys.PlayerDetails.IS_FACEBOOK_REWARD_CLAIMED).Value;
             playerModel.cpuPowerupUsedCount = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
             playerModel.lastWatchedVideo = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.LAST_WATCHED_VIDEO);
+            playerModel.uploadedPicId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID);
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {
