@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using TurboLabz.TLUtils;
 using System.Collections;
 using UnityEngine.Networking;
@@ -38,25 +39,31 @@ namespace TurboLabz.InstantFramework
 
             yield return www.SendWebRequest();
 
-            if (www.isDone)
+            try
             {
-                var bodyDict = MiniJSON.Json.Deserialize(www.downloadHandler.text) as Dictionary<string, object>;
-
-                if (bodyDict.ContainsKey("body"))
+                if (www.isDone)
                 {
-                    promise.Dispatch(BackendResult.SUCCESS, bodyDict["body"].ToString());
+                    var bodyDict = MiniJSON.Json.Deserialize(www.downloadHandler.text) as Dictionary<string, object>;
+
+                    if (bodyDict.ContainsKey("body"))
+                    {
+                        promise.Dispatch(BackendResult.SUCCESS, bodyDict["body"].ToString());
+                    }
+                    else
+                    {
+                        promise.Dispatch(BackendResult.ACCEPT_FAILED, null);
+                    }
                 }
                 else
                 {
                     promise.Dispatch(BackendResult.ACCEPT_FAILED, null);
                 }
             }
-            else
+            catch (Exception e)
             {
                 promise.Dispatch(BackendResult.ACCEPT_FAILED, null);
             }
 
-            promise = null;
             www.Dispose();
         }
 
