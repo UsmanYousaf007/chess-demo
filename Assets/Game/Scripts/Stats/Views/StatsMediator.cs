@@ -49,6 +49,9 @@ namespace TurboLabz.InstantGame
 
             view.choosePhotoBtn.onClick.AddListener(OnChoosePhotoBtnClicked);
             view.takePhotoBtn.onClick.AddListener(OnTakePhotoBtnClicked);
+
+            view.openPhotoSettingsBtn.onClick.AddListener(OnOpenSettingsBtnClicked);
+            view.profilePicBtn.onClick.AddListener(OnUploadProfilPicBtnClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -116,18 +119,49 @@ namespace TurboLabz.InstantGame
 
         void OnTakePhotoBtnClicked()
         {
-            photoPickerService.TakePhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+            analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.take_new);
+            if (photoPickerService.HasCameraPermission())
+            {
+                photoPickerService.TakePhoto(512, 512);
+            }
+            else
+            {
+                view.CloseProfilePicDialog();
+                view.OpenSettingsDialog();
+            }
+
         }
 
         void OnChoosePhotoBtnClicked()
         {
-            photoPickerService.PickPhoto(StatsView.PROFILE_PIC_MAX_SIZE);
+            analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.choose_existing);
+            if (photoPickerService.HasGalleryPermission())
+            {
+                photoPickerService.PickPhoto(512, 512);
+            }
+            else
+            {
+                view.CloseProfilePicDialog();
+                view.OpenSettingsDialog();
+            }
+        }
+
+        void OnUploadProfilPicBtnClicked()
+        {
+            analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.dlg_shown);
+            view.OpenProfilePicDialog();
+        }
+
+        void OnOpenSettingsBtnClicked()
+        {
+            view.CloseSettingsDialog();
+            photoPickerService.OpenCameraSettings();
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
         public void OnPhotoPickerComplete (Photo photo)
         {
-            view.picUpdateDlg.SetActive(false);
+            view.CloseProfilePicDialog();
             view.ShowProcessing(true, true);
 
             if (photo != null)

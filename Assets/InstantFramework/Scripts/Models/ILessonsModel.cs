@@ -13,12 +13,13 @@ namespace TurboLabz.InstantFramework
     {
         OrderedDictionary<string, string> topicsMapping { get; set; }
         OrderedDictionary<string, string> lessonsMapping { get; set; }
+        TopicVO lastViewedTopic { get; set; }
+
         int GetCompletedLessonsCount(string topic);
         bool HasWatchedAllLessons();
         string GetNextLesson(string currentLesson);
         string GetTopicId(string lesson);
         OrderedDictionary<string, List<TopicVO>> GetSectionsWithTopicVO(StoreIconsContainer iconsContainer);
-        TopicVO lastViewedTopic { get; set; }
         IEnumerable<string> GetLessonsByTopicId(string topicId);
     }
 }

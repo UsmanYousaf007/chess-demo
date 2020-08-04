@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TurboLabz.InstantFramework
@@ -12,9 +13,11 @@ namespace TurboLabz.InstantFramework
 	{
 		[Inject] public PhotoPickerCompleteSignal photoPickerCompletedSignal { get; set; }
 
-		public void PickPhoto(int maxSize, string format= "jpeg")
+		#region Public Methods
+		public void PickPhoto(int width, int height, string format= "jpeg")
 		{
 			Photo photo = null;
+			int maxSize = width > height ? width : height;
 			try
 			{
 				NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
@@ -24,7 +27,8 @@ namespace TurboLabz.InstantFramework
 						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
                         {
-                            photo = CreatePhotoView(photoTexture);        
+							ResizeTextureCanvas(photoTexture, width, height);
+							photo = CreatePhotoView(photoTexture);        
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
 					}
@@ -36,10 +40,11 @@ namespace TurboLabz.InstantFramework
             }
 		}
 
-        public void TakePhoto(int maxSize, string format = "jpeg")
+        public void TakePhoto(int width, int height, string format = "jpeg")
 		{
 			try
 			{
+				int maxSize = width > height ? width : height;
 				Photo photo = null;
 				NativeCamera.Permission permission = NativeCamera.TakePicture((path) =>
 				{
@@ -48,6 +53,7 @@ namespace TurboLabz.InstantFramework
 						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
 						{
+							ResizeTextureCanvas(photoTexture, width, height);
 							photo = CreatePhotoView(photoTexture);
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
@@ -60,7 +66,44 @@ namespace TurboLabz.InstantFramework
             }
 		}
 
-		private static Photo CreatePhotoView(Texture2D photoTexture)
+		public bool HasCameraPermission()
+		{
+			var permission = NativeCamera.CheckPermission();
+			Debug.Log("HasCameraPermission: " + permission.ToString());
+			if (permission == NativeCamera.Permission.Granted || permission == NativeCamera.Permission.ShouldAsk)
+			{
+				return true;
+            }
+
+			return false;
+        }
+
+		public bool HasGalleryPermission()
+		{
+			var permission = NativeGallery.CheckPermission();
+			Debug.Log("HasGalleryPermission: " + permission.ToString());
+			if (permission == NativeGallery.Permission.Granted || permission == NativeGallery.Permission.ShouldAsk)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		public void OpenCameraSettings()
+		{
+			NativeCamera.OpenSettings();
+        }
+
+		public void OpenGallerySettings()
+		{
+			NativeGallery.OpenSettings();
+		}
+
+        #endregion
+
+        #region Private Methods
+        private Photo CreatePhotoView(Texture2D photoTexture)
 		{
 			Sprite image = Sprite.Create(photoTexture,
 											 new Rect(0, 0, photoTexture.width, photoTexture.height),
@@ -72,5 +115,48 @@ namespace TurboLabz.InstantFramework
 			Photo photo = new Photo(image, imageStream);
 			return photo;
 		}
-	}
+
+		private Color32[] ResizeTextureCanvas(Texture2D texture, int width, int height)
+		{
+			var newPixels = ResizeTextureCanvas(texture.GetPixels32(), texture.width, texture.height, width, height);
+			texture.Resize(width, height);
+			texture.SetPixels32(newPixels);
+			texture.Apply();
+			return newPixels;
+		}
+
+		private Color32[] ResizeTextureCanvas(IList<Color32> pixels, int oldWidth, int oldHeight, int width, int height)
+		{
+			var newPixels = new Color32[(width * height)];
+			Color32 fillColor = new Color32(0, 0, 0, 255);
+
+			for (int i = 0; i < (width * height); i++)
+				newPixels[i] = fillColor;
+
+			var wBorder = (width - oldWidth) / 2;
+			var hBorder = (height - oldHeight) / 2;
+
+			for (int r = 0; r < height; r++)
+			{
+				var oldR = r - hBorder;
+				if (oldR < 0) { continue; }
+				if (oldR >= oldHeight) { break; }
+
+				for (int c = 0; c < width; c++)
+				{
+					var oldC = c - wBorder;
+					if (oldC < 0) { continue; }
+					if (oldC >= oldWidth) { break; }
+
+					var oldI = oldR * oldWidth + oldC;
+					var i = r * width + c;
+					newPixels[i] = pixels[oldI];
+				}
+			}
+
+			return newPixels;
+		}
+
+        #endregion
+    }
 }

@@ -76,6 +76,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnVideoEvent(MediaPlayer mediaPlayer, MediaPlayerEvent.EventType eventType, ErrorCode errorCode)
         {
+            LogUtil.Log($"OnVideoEvent {eventType}", "green");
             switch (eventType)
             {
                 case MediaPlayerEvent.EventType.ReadyToPlay:
@@ -98,6 +99,12 @@ namespace TurboLabz.InstantFramework
                     break;
                 case MediaPlayerEvent.EventType.Error:
                     videoLoadFailedSignal.Dispatch();
+                    break;
+                case MediaPlayerEvent.EventType.Started:
+                    videoEventSignal.Dispatch(VideoEvent.Started);
+                    break;
+                case MediaPlayerEvent.EventType.StartedSeeking:
+                    videoEventSignal.Dispatch(VideoEvent.StartedSeeking);
                     break;
             }
         }

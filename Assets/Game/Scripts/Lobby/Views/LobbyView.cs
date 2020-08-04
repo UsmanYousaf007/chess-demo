@@ -214,8 +214,6 @@ namespace TurboLabz.InstantFramework
             sectionPlaySomeoneNewTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_SOMEONE_NEW);
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
 
-            //textRatingBoost.text = "+"+ rewardsSettingsModel.ratingBoostReward;
-
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
 
             startGameConfirmationDlg.confirmFriendly1MinGameBtnText.text = localizationService.Get(LocalizationKey.MIN1_GAME_TEXT);
@@ -1545,8 +1543,9 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
-        public void RatingBoostAnimation()
+        public void RatingBoostAnimation(int ratingBoostVal)
         {
+            textRatingBoost.text = "+" + ratingBoostVal;
             ratingBoost.gameObject.SetActive(true);
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
         }

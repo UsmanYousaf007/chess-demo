@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public StartGameSignal startGameSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
-        [Inject] public ReceptionSignal receptionSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }

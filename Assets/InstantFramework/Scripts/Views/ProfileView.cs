@@ -120,7 +120,10 @@ namespace TurboLabz.InstantGame
         {
             if (vo.isSuccessful)
             {
-                SetProfilePic(vo.pic);
+                if (vo.pic != null)
+                {
+                    SetProfilePic(vo.pic);
+                }
                 profileName.text = vo.name;
                 eloScoreValue.text = vo.rating.ToString();
 
@@ -209,7 +212,11 @@ namespace TurboLabz.InstantGame
         {
             if (vo.sprite == null)
                 Debug.Log("UpdateProfilePic sprite is null");
-            SetProfilePic(vo.sprite);
+
+            if (vo.sprite != null)
+            {
+                SetProfilePic(vo.sprite);
+            }
         }
 
         private void SetProfilePic(Sprite sprite)

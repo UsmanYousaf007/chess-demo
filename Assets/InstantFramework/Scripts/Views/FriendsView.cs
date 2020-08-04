@@ -32,10 +32,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
-        [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
-        [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
@@ -144,6 +142,7 @@ namespace TurboLabz.InstantFramework
         public Signal manageBlockedFriendsButtonClickedSignal = new Signal();
         public Signal inviteFriendSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
+        public Signal localRefreshFriends = new Signal();
 
         private GameObjectsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -230,7 +229,8 @@ namespace TurboLabz.InstantFramework
             inputField.onEndEdit.AddListener(OnSearchSubmit);
             cancelSearchButton.onClick.AddListener(OnCancelSearchClicked);
             nextSearchButton.interactable = false;
-            //ResetSearch();
+            ResetSearch();
+
 
             findFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_TITLE); 
             findFriendLoginInfoText.text = localizationService.Get(LocalizationKey.FRIENDS_FIND_FRIEND_LOGIN_INFO); 
@@ -347,12 +347,10 @@ namespace TurboLabz.InstantFramework
                 playerModel.search.Clear();
 
             // Adding all friend bars in view after clearing search friends from view.
-            refreshFriendsSignal.Dispatch();
-            /*if (playerModel.friends != null)
+            if (playerModel.friends != null)
             {
-                AddFriends(playerModel.friends, false, false);
-                SortFriends();
-            }*/
+                localRefreshFriends.Dispatch();
+            }
         }
 
         public void OnCancelSearchClicked()

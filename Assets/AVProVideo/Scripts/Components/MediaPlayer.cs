@@ -1191,12 +1191,17 @@ namespace RenderHeads.Media.AVProVideo
 
 					if (checkForFileExist && !System.IO.File.Exists(fullPath))
 					{
-						Debug.LogError("[AVProVideo] File not found: " + fullPath, this);
+						if (Debug.isDebugBuild)
+						{
+							Debug.LogError("[AVProVideo] File not found: " + fullPath, this);
+						}
 					}
 					else
 					{
-						Helper.LogInfo(string.Format("Opening {0} (offset {1}) with API {2}", fullPath, fileOffset, GetPlatformVideoApiString()), this);
-
+						if (Debug.isDebugBuild)
+						{
+							Helper.LogInfo(string.Format("Opening {0} (offset {1}) with API {2}", fullPath, fileOffset, GetPlatformVideoApiString()), this);
+						}
 #if UNITY_EDITOR_WIN || (!UNITY_EDITOR && UNITY_STANDALONE_WIN)
 						if (_optionsWindows.enableAudio360)
 						{
@@ -1210,7 +1215,10 @@ namespace RenderHeads.Media.AVProVideo
 						if (!m_Control.OpenVideoFromFile(fullPath, fileOffset, httpHeaderJson, m_manuallySetAudioSourceProperties ? m_sourceSampleRate : 0,
 							m_manuallySetAudioSourceProperties ? m_sourceChannels : 0, (int)m_forceFileFormat))
 						{
-							Debug.LogError("[AVProVideo] Failed to open " + fullPath, this);
+							if (Debug.isDebugBuild)
+							{
+								Debug.LogError("[AVProVideo] Failed to open " + fullPath, this);
+							}
 						}
 						else
 						{
@@ -1222,7 +1230,10 @@ namespace RenderHeads.Media.AVProVideo
 				}
 				else
 				{
-					Debug.LogError("[AVProVideo] No file path specified", this);
+					if (Debug.isDebugBuild)
+					{
+						Debug.LogError("[AVProVideo] No file path specified", this);
+					}
 				}
 			}
 			return result;

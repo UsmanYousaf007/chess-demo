@@ -167,5 +167,5 @@ namespace TurboLabz.InstantFramework
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
-    public class RatingBoostAnimSignal : Signal { }
+    public class RatingBoostAnimSignal : Signal<int> { }
 }

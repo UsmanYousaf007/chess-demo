@@ -208,6 +208,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STATS_CHOOSE_PHOTO, "Choose Existing" },
                 { LocalizationKey.STATS_PHOTO_TITLE, "Change Photo" },
 
+                { LocalizationKey.STATS_OPEN_SETTINGS_TITLE, "Permissions" },
+                { LocalizationKey.STATS_OPEN_SETTINGS_SUBTITLE, "This option requires photo library access to set your profile picture" },
+                { LocalizationKey.STATS_OPEN_SETTINGS, "Settings" },
                 #endregion
 
                 #region Store

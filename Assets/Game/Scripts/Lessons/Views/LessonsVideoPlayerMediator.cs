@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
         private bool videoPaused = false;
+        private bool buffering = false;
         private string videoId = string.Empty;
         private int lessonIndex = 0;
         private VideoLessonVO nextVideo;
@@ -60,7 +61,6 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 PlayVideo();
                 analyticsService.ScreenVisit(AnalyticsScreen.lessons_play);
-                analyticsService.Event($"lesson_{lessonIndex}", AnalyticsContext.started);
             }
         }
 
@@ -90,29 +90,48 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(VideoEventSignal))]
         public void VideoEventListener(VideoEvent videoEvent)
         {
+            LogUtil.Log($"VideoEventListener {videoEvent}", "green");
             switch (videoEvent)
             {
                 case VideoEvent.FirstFrameReady:
-                    view.buffering.SetActive(false);
-                    break;
-                case VideoEvent.ReadyToPlay:
                     if (view.isActiveAndEnabled)
                     {
-                        view.processing.SetActive(false);
-                        appInfoModel.isVideoLoading = false;
-                        PlayVideo();
                         analyticsService.Event($"lesson_{lessonIndex}", AnalyticsContext.started);
                     }
                     break;
 
+                case VideoEvent.ReadyToPlay:
+                    if (view.isActiveAndEnabled)
+                    {
+                        PlayVideo();
+                    }
+                    break;
+
+                case VideoEvent.Started:
+                    if (view.isActiveAndEnabled)
+                    {
+                        view.buffering.SetActive(buffering);
+                        view.processing.SetActive(false);
+                        appInfoModel.isVideoLoading = false;
+                    }
+                    break;
+
+                case VideoEvent.StartedSeeking:
+                case VideoEvent.StartedBuffering:
+                    buffering = true;
+                    view.buffering.SetActive(true);
+                    break;
+
                 case VideoEvent.FinishedBuffering:
                 case VideoEvent.FinishedSeeking:
+                    buffering = false;
+                    view.buffering.SetActive(false);
                     if (!videoPaused)
                     {
                         PlayVideo();
                     }
-
                     break;
+
                 case VideoEvent.FinishedPlaying:
                     if (!string.IsNullOrEmpty(videoId))
                     {
@@ -142,7 +161,6 @@ namespace TurboLabz.InstantFramework
                             playerModel.lastWatchedVideo = videoId;
                         }
                     }
-
                     break;
             }
         }

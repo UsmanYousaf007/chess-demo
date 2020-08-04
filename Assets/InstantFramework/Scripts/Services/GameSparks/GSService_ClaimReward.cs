@@ -17,7 +17,6 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public RatingBoostAnimSignal ratingBoostAnimSignal { get; set; }
-        
 
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
@@ -30,11 +29,12 @@ namespace TurboLabz.InstantFramework
             if (response != null && response.ScriptData != null)
             {
                 GSParser.PopulateAdsRewardData(playerModel, response.ScriptData);
-                loadLobbySignal.Dispatch();
-                refreshFriendsSignal.Dispatch();
-                refreshCommunitySignal.Dispatch(false);
-                cancelHintSingal.Dispatch();
-                ratingBoostAnimSignal.Dispatch();
+
+                EloVO vo = new EloVO();
+                vo.playerEloScore = playerModel.eloScore;
+                updateEloScoresSignal.Dispatch(vo);
+
+                ratingBoostAnimSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
                 LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
             }
         }

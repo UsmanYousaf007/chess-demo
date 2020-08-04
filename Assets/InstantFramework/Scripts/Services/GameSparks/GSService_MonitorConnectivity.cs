@@ -168,7 +168,8 @@ namespace TurboLabz.InstantFramework
 
                 ReportDisconnectAnalytics();
 
-                GS.Reset();
+                // Logout GS
+                //GS.Reset();
 
                 // Avoid soft reconnect processing
                 OnlineCheckerStop();

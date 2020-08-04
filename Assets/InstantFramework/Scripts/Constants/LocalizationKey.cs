@@ -203,6 +203,10 @@ namespace TurboLabz.InstantFramework
         public const string STATS_TAKE_PHOTO = "statsTakePhoto";
         public const string STATS_CHOOSE_PHOTO = "statsSelectPhoto";
         public const string STATS_PHOTO_TITLE = "statsPhotoTitle";
+
+        public const string STATS_OPEN_SETTINGS_TITLE = "statsOpenSettingsTitle";
+        public const string STATS_OPEN_SETTINGS_SUBTITLE = "statsOpenSettingsSubTitle";
+        public const string STATS_OPEN_SETTINGS = "statsOpenSettings";
         #endregion
 
         #region Store

@@ -316,7 +316,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_MATCH_RUNNERUP_WIN = "rewardMatchRunnerUp";
             public const string TYPE_MATCH_RUNNERUP_WIN_AD = "rewardMatchRunnerUpWinAd";
             public const string TYPE_PROMOTION = "rewardMatchPromotional";
-            public const string TYPE_BOOST_RATING = "RatingBoostTier1";
+            public const string TYPE_BOOST_RATING = "ratingBoostTier1";
             public const string TYPE_GIFT = "giftReward";
             public const string CLAIM_REWARD_TYPE = "claimRewardType";
 
@@ -461,7 +461,7 @@ namespace TurboLabz.InstantFramework
             public const string COEFFICIENT_WIN_INTERSITIAL = "winIntersitial";
             public const string COEFFICIENT_LOSE_VIDEO = "loseVideo";
             public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
-            public const string RATING_BOOST = "ratingBoostTier1";
+            public const string RATING_BOOST = "ratingBoostTier1Reward";
         }
 
         public static class PowerUp

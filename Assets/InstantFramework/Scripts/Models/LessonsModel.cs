@@ -26,11 +26,11 @@ namespace TurboLabz.InstantFramework
         public void PostConstruct()
         {
             modelsResetSignal.AddListener(Reset);
+            lastViewedTopic = new TopicVO();
         }
 
         private void Reset()
         {
-            lastViewedTopic = new TopicVO();
             topicsMapping = new OrderedDictionary<string, string>();
             lessonsMapping = new OrderedDictionary<string, string>();
         }
@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
 
             var currentLessonIndex = lessonsMapping.IndexOf(currentLesson);
 
-            if (currentLessonIndex < lessonsMapping.Count - 1)
+            if (currentLessonIndex + 1 < lessonsMapping.Count)
             {
                 return lessonsMapping.ElementAt(currentLessonIndex + 1).Key;
             }
@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
             if (!HasWatchedAllLessons())
             {
                 return (from lesson in lessonsMapping
-                        where playerModel.isVideoFullyWatched(lesson.Key)
+                        where !playerModel.isVideoFullyWatched(lesson.Key)
                         select lesson.Key).First();
             }
 

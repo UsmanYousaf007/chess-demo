@@ -88,7 +88,14 @@ namespace TurboLabz.InstantGame
         public Text takePhotoText;
         public Text choosePhotoText;
         public Text phototitleTxt;
-        public const int PROFILE_PIC_MAX_SIZE = 512;
+
+        [Header("Open Settings Dialog")]
+        public GameObject openSettingsDlg;
+        public Button openPhotoSettingsBtn;
+        public Button closeSettingsDlgBtn;
+        public Text openSettingsBtnText;
+        public Text openSettingsDlgTitleText;
+        public Text openSettingsDlgSubheadingText;
 
         public void Init()
         {
@@ -107,6 +114,10 @@ namespace TurboLabz.InstantGame
             choosePhotoText.text = localizationService.Get(LocalizationKey.STATS_CHOOSE_PHOTO);
             phototitleTxt.text = localizationService.Get(LocalizationKey.STATS_PHOTO_TITLE);
 
+            openSettingsDlgTitleText.text = localizationService.Get(LocalizationKey.STATS_OPEN_SETTINGS_TITLE);
+            openSettingsDlgSubheadingText.text = localizationService.Get(LocalizationKey.STATS_OPEN_SETTINGS_SUBTITLE);
+            openSettingsBtnText.text = localizationService.Get(LocalizationKey.STATS_OPEN_SETTINGS);
+
             playerProfileNameInputField.transform.gameObject.SetActive(false);
 
             nameEditBtn.onClick.AddListener(nameEditBtnClicked);
@@ -116,8 +127,9 @@ namespace TurboLabz.InstantGame
             nameConfirmDlgNoBtn.onClick.AddListener(nameConfirmDlgNoBtnClicked);
             nameConfirmDlg.SetActive(false);
 
-            profilePicBtn.onClick.AddListener(OpenProfilePicDialog);
             closePhotoBtn.onClick.AddListener(CloseProfilePicDialog);
+            closeSettingsDlgBtn.onClick.AddListener(closeSettingsDlgBtnClicked);
+
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].sprite = noStar;
@@ -126,9 +138,9 @@ namespace TurboLabz.InstantGame
             copyTagBtn.onClick.AddListener(OnCopyTagClicked);
         }
 
-        public void CloseProfilePicDialog()
+        public void closeSettingsDlgBtnClicked()
         {
-            picUpdateDlg.SetActive(false);
+            openSettingsDlg.SetActive(false);
         }
 
         public void UpdateView(StatsVO vo)
@@ -213,6 +225,21 @@ namespace TurboLabz.InstantGame
         public void OpenProfilePicDialog()
         {
             picUpdateDlg.SetActive(true);
+        }
+
+        public void CloseProfilePicDialog()
+        {
+            picUpdateDlg.SetActive(false);
+        }
+
+        public void OpenSettingsDialog()
+        {
+            openSettingsDlg.SetActive(true);
+        }
+
+        public void CloseSettingsDialog()
+        {
+            openSettingsDlg.SetActive(false);
         }
 
         void nameConfirmDlgYesBtnClicked()

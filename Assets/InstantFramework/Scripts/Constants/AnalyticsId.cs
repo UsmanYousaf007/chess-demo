@@ -122,7 +122,10 @@ namespace TurboLabz.InstantFramework
         power_ups_used,
 
         //lessons
-        all_lessons_complete
+        all_lessons_complete,
+
+        //profile pic
+        upload_picture
     }
 
     public enum AnalyticsContext
@@ -209,7 +212,11 @@ namespace TurboLabz.InstantFramework
         completed,
         //power_ups
         coach,
-        move_meter
+        move_meter,
+        //profile picture
+        dlg_shown,        
+        choose_existing,
+        take_new
     }
 
     public enum AnalyticsParameter
