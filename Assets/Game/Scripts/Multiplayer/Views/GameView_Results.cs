@@ -388,8 +388,8 @@ namespace TurboLabz.Multiplayer
             GameEndReason gameEndReason = vo.reason;
             
             UpdateGameEndReasonSection(vo.reason);
-            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             EnableRewarededVideoButton(adsService.IsRewardedVideoAvailable());
+            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             UpdateGameResultHeadingSection(vo.eloScoreDelta);
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);

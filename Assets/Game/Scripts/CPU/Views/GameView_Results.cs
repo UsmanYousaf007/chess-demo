@@ -386,6 +386,7 @@ namespace TurboLabz.CPU
 
 
             UpdateGameEndReasonSection(gameEndReason);
+            EnableRewarededVideoButton(adsService.IsRewardedVideoAvailable());
             UpdateResultRatingSection(false, 1, 0);
             UpdateGameResultHeadingSection();
 
