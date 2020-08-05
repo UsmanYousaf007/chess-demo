@@ -12,6 +12,7 @@ public class SplashLoader : MonoBehaviour {
 
     public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
     public Text versionLabel;
+    public static string testGroup = "A";
 
     public static bool FTUE
     {
@@ -38,6 +39,7 @@ public class SplashLoader : MonoBehaviour {
         Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
         Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
         GameAnalytics.Initialize();
+        GameAnalytics.OnRemoteConfigsUpdatedEvent += OnRemoteConfigsUpdated;
         launchCode = 1;
         versionLabel.text = Application.version;
 
@@ -86,5 +88,12 @@ public class SplashLoader : MonoBehaviour {
 #endif
 
         LogUtil.Log($"{prefix} {evt}", "yellow");
+    }
+
+    private static void OnRemoteConfigsUpdated()
+    {
+        testGroup = GameAnalytics.GetRemoteConfigsValueAsString("test_group", "A");
+        GameAnalytics.SetCustomDimension01(testGroup);
+        LogUtil.Log($"GA test group {testGroup}", "yellow");
     }
 }
