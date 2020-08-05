@@ -44335,7 +44335,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 737848274}
-  - component: {fileID: 737848275}
   m_Layer: 5
   m_Name: RatingBoost
   m_TagString: Untagged
@@ -44365,23 +44364,6 @@ RectTransform:
   m_AnchoredPosition: {x: 70, y: -0.000091552734}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &737848275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 737848273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f74b1b2ba28004ea6bd4c2e682a1eba2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiElement: {fileID: 0}
-  startPivot: {fileID: 655259126}
-  endPivot: {fileID: 414340724}
-  EndColor: {r: 1, g: 1, b: 1, a: 1}
-  StartColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &738558194
 GameObject:
   m_ObjectHideFlags: 0
@@ -77563,6 +77545,9 @@ MonoBehaviour:
   adSkippedBar: {fileID: 1239382944}
   ratingBoost: {fileID: 737848274}
   textRatingBoost: {fileID: 545161512}
+  startPivot: {fileID: 655259126}
+  endPivot: {fileID: 414340724}
+  StartColor: {r: 1, g: 1, b: 1, a: 1}
   loadPromotionAt: {fileID: 1988397443}
   moveScrollViewTo: {fileID: 173769391}
   promotionContainer: {fileID: 1988397443}
