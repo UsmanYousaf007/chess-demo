@@ -33,8 +33,8 @@ namespace TurboLabz.InstantFramework
                 EloVO vo = new EloVO();
                 vo.playerEloScore = playerModel.eloScore;
                 updateEloScoresSignal.Dispatch(vo);
-
                 ratingBoostAnimSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
+                analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
                 LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
             }
         }

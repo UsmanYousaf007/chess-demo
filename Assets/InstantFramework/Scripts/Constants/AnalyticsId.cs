@@ -125,7 +125,10 @@ namespace TurboLabz.InstantFramework
         all_lessons_complete,
 
         //profile pic
-        upload_picture
+        upload_picture,
+
+        //boosters
+        booster_used
     }
 
     public enum AnalyticsContext
@@ -210,13 +213,18 @@ namespace TurboLabz.InstantFramework
         //lessons
         started,
         completed,
+
         //power_ups
         coach,
         move_meter,
+
         //profile picture
         dlg_shown,        
         choose_existing,
-        take_new
+        take_new,
+
+        //boosters
+        rating_booster
     }
 
     public enum AnalyticsParameter
