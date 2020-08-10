@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_ITEM_DESCRIPTION = "description";
         public const string SHOP_ITEM_CURRENCY1COST = "currency1Cost";
         public const string SHOP_ITEM_CURRENCY2COST = "currency2Cost";
+        public const string SHOP_ITEM_CURRENCY3COST = "currency3Cost";
         public const string SHOP_ITEM_MAX_QUANTITY = "maxQuantity";
         public const string SHOP_ITEM_UNLOCKATLEVEL = "unlockAtLevel";
         public const string SHOP_ITEM_CURRENCY1PAYOUT = "currency1Cost";
@@ -252,6 +253,10 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_SAFEMOVE_SHOP_ITEMS = "powerUpSafeMoveShopItems";
             public const string SUBSCRIPTION_SHOP_ITEMS = "subscriptionShopItems";
             public const string VIDEO_LESSON_SHOP_ITEMS = "videoLessonShopItems";
+            public const string GEMPACK_SHOP_ITEMS = "gemPackShopItems";
+            public const string SPECIALPACK_SHOP_ITEMS = "specialPackShopItems";
+            public const string SPECIALITEM_SHOP_ITEMS = "specialItemShopItems";
+
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -276,6 +281,11 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_ULTIMATE_SHOP_TAG = "SpecialBundleUltimate";
             public const string SPECIAL_BUNDLE_STANDARD_SHOP_TAG = "SpecialBundleStandard";
             public const string SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG = "SpecialBundleNoAdsForever";
+
+            public const string GEMPACK_SHOP_TAG = "GemPack";
+            public const string SPECIALPACK_SHOP_TAG = "SpecialPack";
+            public const string SPECIALITEM_SHOP_TAG = "SpecialItem";
+
 
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
             public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";

@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using GameSparks.Core;
 
 using TurboLabz.TLUtils;
@@ -84,7 +83,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public static void PopulateStoreItem(StoreItem item, GSData itemData, string videoBaseUrl = null)
+        public static void PopulateStoreItem(StoreItem item, GSData itemData)
         {
             const string unrecognized = "unrecognized";
 
@@ -98,7 +97,10 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG,
-                GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG
+                GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG,
+                GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG,
+                GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG,
+                GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG
             };
 
             //string[] tagState = {
@@ -121,6 +123,7 @@ namespace TurboLabz.InstantFramework
             item.description = itemData.GetString(GSBackendKeys.SHOP_ITEM_DESCRIPTION);
             item.currency1Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY1COST);
             item.currency2Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY2COST);
+            item.currency3Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY3COST);
             item.maxQuantity = GetSafeInt(itemData,GSBackendKeys.SHOP_ITEM_MAX_QUANTITY);
 
 #if UNITY_IOS
@@ -147,14 +150,24 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            // Check for payouts if item is currency type
+            if (item.type == StoreItem.Type.CURRENCY)
+            {
+                item.currency1Payout = item.currency1Cost;
+                item.currency2Payout = item.currency2Cost;
+                item.currency3Payout = item.currency3Cost;
+
+                item.currency1Cost = 0;
+                item.currency2Cost = 0;
+                item.currency3Cost = 0;
+            }
+
             IList<GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
             if (bundleData !=  null)
             {
                 item.bundledItems = new Dictionary<string, int>();
                 ParseBundledGoods(item, bundleData);
             }
-
-            item.videoUrl = videoBaseUrl != null ? videoBaseUrl + itemData.GetString(GSBackendKeys.SHOP_ITEM_ID) + ".mp4" : null;
 
             LogUtil.Log("********** PopulateShopItem: " + item.key);
         }
@@ -329,8 +342,6 @@ namespace TurboLabz.InstantFramework
 				ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
 				publicProfile.facebookUserId = facebookAuthData.id;
 			}
-
-
 		}
 
         public static void ParseFriend(Friend friend, GSData friendData, string friendId)
@@ -341,7 +352,6 @@ namespace TurboLabz.InstantFramework
             friend.friendType = GetSafeString(friendData, GSBackendKeys.Friend.TYPE, GSBackendKeys.Friend.TYPE_COMMUNITY);
             friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
             friend.flagMask = GetSafeLong(friendData, GSBackendKeys.Friend.FLAG_MASK);
-
 
             GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);

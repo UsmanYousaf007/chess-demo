@@ -107,8 +107,10 @@ namespace TurboLabz.InstantFramework
         public string description;              // Description to display in store     
         public int currency1Cost;               // Cost in currency1
         public int currency2Cost;               // Cost in currency2
+        public int currency3Cost;               // Cost in currency3
         public int currency1Payout;             // Payout in currency1
         public int currency2Payout;             // Payout in currency2
+        public int currency3Payout;             // Payout in currency3
         public string remoteProductId;          // Remote store product id
         public string remoteProductPrice;        // Remote store product localized price
         public string remoteProductCurrencyCode; // Remote store product currency code
