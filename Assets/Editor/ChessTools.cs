@@ -73,17 +73,6 @@ public class ChessTools : EditorWindow
         }
     }
 
-    [MenuItem("TLTools/GS Config HuuugeDev", false, 17)]
-    public static void SetGamesparksEnvHuuugeDev()
-    {
-        LogUtil.Log("Switch to GS Config HuuugeDev", "yellow");
-        bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.HuuugeDev);
-
-        if (status == false)
-        {
-            LogUtil.Log("Error: Failed to switch gamesparks environment!", "red");
-        }
-    }
 
     [MenuItem("TLTools/GS Config Live Preview", false, 18)]
     public static void SetGamesparksEnvLivePreview()
@@ -102,6 +91,54 @@ public class ChessTools : EditorWindow
     {
         LogUtil.Log("Switch to GS Config Live", "yellow");
         bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.Live);
+
+        if (status == false)
+        {
+            LogUtil.Log("Error: Failed to switch gamesparks environment!", "red");
+        }
+    }
+
+    [MenuItem("TLTools/GS Config Sami", false, 30)]
+    public static void SetGamesparksEnvSami()
+    {
+        LogUtil.Log("Switch to GS Config HuuugeDev", "yellow");
+        bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.Sami);
+
+        if (status == false)
+        {
+            LogUtil.Log("Error: Failed to switch gamesparks environment!", "red");
+        }
+    }
+
+    [MenuItem("TLTools/GS Config Omer", false, 31)]
+    public static void SetGamesparksEnvOmer()
+    {
+        LogUtil.Log("Switch to GS Config Omer", "yellow");
+        bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.Omer);
+
+        if (status == false)
+        {
+            LogUtil.Log("Error: Failed to switch gamesparks environment!", "red");
+        }
+    }
+
+    [MenuItem("TLTools/GS Config Ali", false, 32)]
+    public static void SetGamesparksEnvAli()
+    {
+        LogUtil.Log("Switch to GS Config Ali", "yellow");
+        bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.Ali);
+
+        if (status == false)
+        {
+            LogUtil.Log("Error: Failed to switch gamesparks environment!", "red");
+        }
+    }
+
+    [MenuItem("TLTools/GS Config Maryam", false, 33)]
+    public static void SetGamesparksEnvMaryam()
+    {
+        LogUtil.Log("Switch to GS Config Maryam", "yellow");
+        bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.Maryam);
 
         if (status == false)
         {
