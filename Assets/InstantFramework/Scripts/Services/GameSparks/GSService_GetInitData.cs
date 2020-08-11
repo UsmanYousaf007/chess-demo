@@ -243,67 +243,42 @@ namespace TurboLabz.InstantFramework
 
         private void FillStoreSettingsModel(GSData storeSettingsData)
         {
-            List<GSData> skinShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SKIN_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> skinItems = PopulateStoreItems(skinShopItemsData);
+            string[,] shopItemKeys =
+            {
+                { GSBackendKeys.ShopItem.SKIN_SHOP_ITEMS, GSBackendKeys.ShopItem.SKIN_SHOP_TAG },
+                { GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_ITEMS,GSBackendKeys.ShopItem.SUBSCRIPTION_TAG },
+                { GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS, GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG },
+                { GSBackendKeys.ShopItem.GEMPACK_SHOP_ITEMS, GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG },
+                { GSBackendKeys.ShopItem.SPECIALPACK_SHOP_ITEMS, GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG },
+                { GSBackendKeys.ShopItem.SPECIALITEM_SHOP_ITEMS, GSBackendKeys.ShopItem.SPECIALITEM_SHOP_TAG },
+                { GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_ITEMS, GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG }
+            };
 
-            List<GSData> subscriptionItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> subscriptionItems = PopulateCurrencyStoreItems(subscriptionItemsData);
+            int len = shopItemKeys.Length >> 1;
+            for (int i = 0; i < len; i++)
+            {
+                List<GSData> itemsData = storeSettingsData.GetGSDataList(shopItemKeys[i,0]);
+                if (itemsData != null)
+                {
+                    IOrderedDictionary<string, StoreItem> items = PopulateStoreItems(itemsData);
+                    storeSettingsModel.Add(shopItemKeys[i, 1], items);
+                }
+            }
 
-            List<GSData> powerUpHintShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> powerUpHintItems = PopulateStoreItems(powerUpHintShopItemsData);
-
-            List<GSData> powerUpHindsightShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> powerUpHindsightItems = PopulateStoreItems(powerUpHindsightShopItemsData);
-
-            string videoLessonsURL = storeSettingsData.GetString(GSBackendKeys.ShopItem.VIDEO_LESSONS_BASE_URL);
-
-            List<GSData> videoLessonShopItemsData = storeSettingsData.GetGSDataList(GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS);
-            IOrderedDictionary<string, StoreItem> videoLessonItems = PopulateStoreItems(videoLessonShopItemsData, videoLessonsURL);
-
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.SKIN_SHOP_TAG, skinItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG, subscriptionItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINT_SHOP_TAG, powerUpHintItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG, powerUpHindsightItems);
-            storeSettingsModel.Add(GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_ITEMS, videoLessonItems);
+            // Set URL for video lesson items
+            string videoBaseUrl = storeSettingsData.GetString(GSBackendKeys.ShopItem.VIDEO_LESSONS_BASE_URL);
+            List<StoreItem> videoLessons = storeSettingsModel.lists[GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG];
+            for (int i = 0; i < videoLessons.Count; i++)
+            {
+                videoLessons[i].videoUrl =  videoBaseUrl + videoLessons[i].key + ".mp4";
+            }
         }
 
-        private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData, string videoBaseUrl = null)
+        private IOrderedDictionary<string, StoreItem> PopulateStoreItems(List<GSData> itemSettingsData)
         {
             IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
 
             foreach (GSData itemData in itemSettingsData)
-            {
-                var item = new StoreItem();
-                GSParser.PopulateStoreItem(item, itemData, videoBaseUrl);
-                items.Add(item.key, item);
-            }
-
-            return items;
-        }
-
-        private IOrderedDictionary<string, StoreItem> PopulateCurrencyStoreItems(List<GSData> currencySetingsData)
-        {
-            IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
-
-            foreach (GSData itemData in currencySetingsData)
-            {
-                var item = new StoreItem();
-                GSParser.PopulateStoreItem(item, itemData);
-
-                item.currency2Payout = item.currency2Cost;
-                item.currency2Cost = 0;
-
-                items.Add(item.key, item);
-            }
-
-            return items;
-        }
-
-        private IOrderedDictionary<string, StoreItem> PopulateFeatureStoreItems(List<GSData> featureSetingsData)
-        {
-            IOrderedDictionary<string, StoreItem> items = new OrderedDictionary<string, StoreItem>();
-
-            foreach (GSData itemData in featureSetingsData)
             {
                 var item = new StoreItem();
                 GSParser.PopulateStoreItem(item, itemData);
