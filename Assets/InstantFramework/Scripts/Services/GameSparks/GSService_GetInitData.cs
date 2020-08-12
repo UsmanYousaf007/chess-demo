@@ -68,6 +68,9 @@ namespace TurboLabz.InstantFramework
             GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
             FillLessonsModel(lessonsData);
 
+            GSData downloadablesData = response.ScriptData.GetGSData(GSBackendKeys.DOWNLOADBLES);
+            FillDownloadablesModel(downloadablesData);
+
             storeAvailableSignal.Dispatch(false);
 
             ParseActiveChallenges(response.ScriptData);
@@ -82,6 +85,8 @@ namespace TurboLabz.InstantFramework
                 // The matchInfoModel.activeChallengeId is retained for the session and maintained by the client so it 
                 // need not be set from the server. Do not set activeChallengeId here.
             }
+
+            
 
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
             if (promise != null)
@@ -398,6 +403,18 @@ namespace TurboLabz.InstantFramework
 
                         lessonsModel.topicsMapping.Add(topic.Key, entry.Key);
                     }
+                }
+            }
+        }
+
+        private void FillDownloadablesModel(GSData downloadablesData)
+        {
+            if (downloadablesData != null)
+            {
+                foreach (var entry in downloadablesData.BaseData)
+                {
+                    DownloadableItem item = new DownloadableItem();
+                    //item.shortCode = 
                 }
             }
         }

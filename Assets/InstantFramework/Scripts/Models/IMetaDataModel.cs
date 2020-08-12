@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         IAdsSettingsModel adsSettings { get; set; }
         IRewardsSettingsModel rewardsSettings { get; set; }
         ISettingsModel settingsModel { get; set; }
+        IDownloadablesModel downloadableModel { get; set; }
     }
 }
 

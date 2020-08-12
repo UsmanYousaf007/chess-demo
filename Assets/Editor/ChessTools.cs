@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using TurboLabz.TLUtils;
 
-public class ChessTools : EditorWindow
+public partial class ChessTools : EditorWindow
 {
     static string[] gameSceneFiles = new string[] {
             "Assets/InstantFramework/Scenes/Splash.unity",
