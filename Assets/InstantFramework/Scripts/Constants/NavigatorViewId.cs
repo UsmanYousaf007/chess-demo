@@ -70,6 +70,7 @@ namespace TurboLabz.InstantFramework
         AD_SKIPPED_DLG,
         LESSON_VIDEO,
         TOPICS_VIEW,
-        LESSONS_VIEW
+        LESSONS_VIEW,
+        SHOP
     }
 }

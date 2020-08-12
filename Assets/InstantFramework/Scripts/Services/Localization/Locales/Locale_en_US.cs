@@ -223,7 +223,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_POWERUP_TITLE_HINT, "MOVE STRENGTH" },
                 { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "COACH" },
 
-                { LocalizationKey.STORE_BUNDLE_FIELD_OWNED, "OWNED" },
+                { LocalizationKey.STORE_BUNDLE_FIELD_OWNED, "Owned" },
                 { LocalizationKey.STORE_BUNDLE_FIELD_REMAINING, "Remaining" },
                 { LocalizationKey.STORE_BUNDLE_FIELD_DAYS, "Days" },
 
@@ -267,11 +267,14 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
                 
-
                 { LocalizationKey.PROMOTON_DLG_TITLE, "Premium Subscription"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE, "Start 3 Days Free Trial."},
                 { LocalizationKey.PROMOTION_DLG_PRICE, "Then (price) per month"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Subscribe Now"},
+
+                { LocalizationKey.SHOP_SPECIAL_PACKS, "SPECIAL PACKS"},
+                { LocalizationKey.SHOP_GEM_PACKS, "GEM PACKS"},
+                { LocalizationKey.SHOP_SUBSCRIPTION_STRIP, "All Packs\nPremium Upgrade!"},
 
                 #endregion
 

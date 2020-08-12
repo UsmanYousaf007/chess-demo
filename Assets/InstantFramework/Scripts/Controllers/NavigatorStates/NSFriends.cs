@@ -82,6 +82,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSFindFriendsDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
 
             return null;
         }

@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
-
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
 
         void OnShopButtonClicked()
         {
-
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
         }
     }
 }
