@@ -101,7 +101,7 @@ public class ChessTools : EditorWindow
     [MenuItem("TLTools/GS Config Sami", false, 30)]
     public static void SetGamesparksEnvSami()
     {
-        LogUtil.Log("Switch to GS Config HuuugeDev", "yellow");
+        LogUtil.Log("Switch to GS Config Sami", "yellow");
         bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.Sami);
 
         if (status == false)
