@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 17033736
+    totalSpriteSurfaceArea: 16995155
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -58,6 +58,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 57fb4f305816148a7968dce8846ba273, type: 3}
   - {fileID: 21300000, guid: 3a4bd9407b09f44e2ab0d9c985dd8f13, type: 3}
   - {fileID: 21300000, guid: 5bb54850274ea467da2134bd935d650d, type: 3}
+  - {fileID: 21300000, guid: 56e180607226a4d0a812e0d9519dd64d, type: 3}
   - {fileID: 21300000, guid: aa93e0606ad9049f8a679630ea1e61f3, type: 3}
   - {fileID: 21300000, guid: 68d334805ae194c68a9ad80770a7806e, type: 3}
   - {fileID: 21300000, guid: 4b911b803eb1d4e2b99697684c6e42fe, type: 3}
@@ -280,10 +281,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b1e2ad5aa306b47de923735f174b606c, type: 3}
   - {fileID: 21300000, guid: be27606a54e8b4e0888bc06622be2604, type: 3}
   - {fileID: 21300000, guid: 6531c66afb50f4ae485a4be398117020, type: 3}
-  - {fileID: 21300000, guid: fba03e6a5e1aa40c9bf7f7763745f8ab, type: 3}
   - {fileID: 21300000, guid: a57fbeaa0ae994737b48281787a80889, type: 3}
   - {fileID: 21300000, guid: b4cf4cbaecf8a48a585cf362d6717ad5, type: 3}
   - {fileID: 21300000, guid: d20158daec0574849be222d77c55e384, type: 3}
+  - {fileID: 21300000, guid: 6b1abaeaf36b44808afc6165801dea65, type: 3}
   - {fileID: 21300000, guid: 90a3bceafadd24bad8ce9ad7cb018ee2, type: 3}
   - {fileID: 21300000, guid: ac0fc3fa7d2cd443d9d1b504099b3622, type: 3}
   - {fileID: 21300000, guid: 7ef0320bcdde94f15a0fcd00c08b98d9, type: 3}
@@ -324,6 +325,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 618042ec0509e4697920eb8fe9c1829a, type: 3}
   - {fileID: 21300000, guid: ef73f2ec35a474bd2b7cdba511a187c6, type: 3}
   - {fileID: 21300000, guid: 389fc1fc648cb42c1a680bba327ced10, type: 3}
+  - {fileID: 21300000, guid: e7749a0db94bd44dcbc8e596fcfb8854, type: 3}
   - {fileID: 21300000, guid: 037c801d99d2942b09a3ca0799c2feb0, type: 3}
   - {fileID: 21300000, guid: eed1851dc5ddb415caa8c85fd104bcdb, type: 3}
   - {fileID: 21300000, guid: a297361d0729641f8bbadbed713c5620, type: 3}
@@ -342,7 +344,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5a63310e10b194ea1ac78aba3516c80c, type: 3}
   - {fileID: 21300000, guid: 9d8b360ed7d614468904ecb99ac12668, type: 3}
   - {fileID: 21300000, guid: 5b20f01eeb7b64fe88ed883b3a367071, type: 3}
-  - {fileID: 21300000, guid: 5cdff82ee3726434fa843fc66f2685eb, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8052434e060894b4a92cbc310d430f8e, type: 3}
   - {fileID: 21300000, guid: 200fb25e4bd2141bbb34a82192f909a6, type: 3}
@@ -370,10 +371,11 @@ SpriteAtlas:
   - FacebookLoginButton
   - FriendBar
   - UnlockAllThemesIcon
-  - Gem265Icon
+  - GemPack265Icon
   - HomeIcon
   - NoSmileyIcon
   - ProfileFlagMask
+  - SpecialPackAllLessonsIcon
   - ScrollArrow
   - GemBaseNoShadow
   - LobbyBtn
@@ -382,7 +384,7 @@ SpriteAtlas:
   - UndoBtn
   - ProfileFlagBorder
   - MatchMakingIcon
-  - GemCrateIcon
+  - GemPack1150Icon
   - TVIcon
   - PlayComputerButtonIcon
   - DragInvalid
@@ -391,14 +393,14 @@ SpriteAtlas:
   - WhiteBox
   - ViewboardIcon
   - AdvOpeningIcon
-  - RocketIcon
-  - GemBoosterIcon
+  - SpecialItemRatingBoosterIcon
+  - SpecialItemGemsBoosterIcon2
   - NoAdsIcon
   - ShareIcon
   - ChatIcon2
   - SubBannerBtn
   - VictoryIcon
-  - GemPackTile
+  - GemThumb
   - ChatMuteIconX
   - WhiteButtonBold
   - WhiteButton
@@ -418,7 +420,7 @@ SpriteAtlas:
   - GameTimeBtn
   - RoundEdgesGlow
   - 5
-  - Gem
+  - GemIcon
   - LongMatchIcon
   - UpdateIcon
   - UnlockBtn
@@ -443,7 +445,7 @@ SpriteAtlas:
   - InviteUsIcon
   - HourGlass
   - SectionMaskInvert
-  - KeyIcon
+  - SpecialItemKeyIcon
   - moveMeterFiller
   - GameToolButton
   - BtnIconHindsight
@@ -488,19 +490,19 @@ SpriteAtlas:
   - ChatBubbleInGame
   - InventoryIcon
   - profilePattern
-  - HintIconFlat
-  - WelcomeBundleBg
+  - SpecialItemHintIcon
+  - SpecialBundleWelcomeThumb
   - gameUpdateBannerIcon
-  - EliteBundleIcon
+  - SpecialBundleEliteIcon
   - CameraIcon
   - c
   - BlockPlayersPopup
-  - RemoveAdsPackTile
+  - SpecialPackRemoveAdsThumb
   - RadioBtnCircle
   - friendStripGlow
   - SubTitleBanner
-  - GemVaultIcon
-  - LessonPackTile
+  - GemPack3000Icon
+  - SpecialPackAllLessonsThumb
   - ClockBorderRect
   - RatingFloaterTexture
   - HeartIcon
@@ -509,12 +511,12 @@ SpriteAtlas:
   - ChatMuteIcon
   - BannerSub
   - UpdateImagePiece
-  - GemMountainIcon
+  - GemPack6250Icon
   - 3
   - YellowBtn
   - AvatarOutline
   - DragIndicator
-  - WelcomeBundleIcon
+  - SpecialBundleWelcomeIcon
   - DifficultyBg
   - ClosedGiftRewardIcon
   - InGameMenuIcon
@@ -575,12 +577,12 @@ SpriteAtlas:
   - GemBluePlus
   - ClassicChessIcon
   - ComputerIcon
-  - EliteBundleBg
+  - SpecialBundleEliteThumb
   - ChatBubbleInGameFlip
   - 1
   - WhiteBtn
   - StripArrow
-  - Gem150Icon
+  - GemPack150Icon
   - SectionGlow
   - UIBlocker
   - Sparkle
@@ -596,10 +598,10 @@ SpriteAtlas:
   - PlaceHolderDisabled
   - YesSmileyIcon
   - AvatarMask
-  - shopref
   - ToggleBtnBg
   - RefreshIcon
   - SmallTimer
+  - SpecialPackRemoveAdsIcon
   - SubStarBg
   - StrengthCloseBg
   - SelectedSubBg
@@ -619,7 +621,7 @@ SpriteAtlas:
   - BtnGlassBg
   - ErrorChess
   - ProfileIcon
-  - GemBoxIcon
+  - GemPack550Icon
   - TacticsIcon
   - SilverStar
   - RewardBar
@@ -640,6 +642,7 @@ SpriteAtlas:
   - ChatInGameEnterBg
   - CloseBtn
   - e
+  - SpecialPackAllThemesIcon
   - GradientBar
   - RewardBtnVictory
   - AudioOn
@@ -658,7 +661,6 @@ SpriteAtlas:
   - ExtraBadge
   - IconFreeCoins
   - minutesGameButtonCommunity
-  - GreenTick
   - SettingsIcon
   - DrawAcceptBtn
   - DiscordIcon
@@ -671,8 +673,8 @@ SpriteAtlas:
   - ConnectToFbBg
   - BlueTick
   - InGameChessLogo
-  - ThemePackTile
-  - GemBoosterIconFlat
+  - SpecialPackAllThemesThumb
+  - SpecialItemGemsBoosterIcon
   - ChatMaxIcon
   - ChatBubbleRight
   - ClassicStripPatternBg

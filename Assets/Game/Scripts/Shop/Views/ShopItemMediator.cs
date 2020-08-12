@@ -6,12 +6,16 @@ namespace TurboLabz.InstantFramework
     {
         //View injection
         [Inject] public ShopItemView view { get; set; }
-        [Inject] public ShopView shopView { get; set; }
+
+        public override void OnRegister()
+        {
+            view.Init();
+        }
 
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)
         {
-            view.OnStoreAvailable(shopView.iconsContainer, shopView.thumbsContainer, isAvailable);
+            view.OnStoreAvailable(isAvailable);
         }
     }
 }

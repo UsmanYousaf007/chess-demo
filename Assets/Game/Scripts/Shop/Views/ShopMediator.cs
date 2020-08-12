@@ -10,9 +10,13 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        //Dispatch Signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
+            view.subscriptionButtonClickedSignal.AddListener(OnSubscriptionButtonClickedSignal);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -32,6 +36,23 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            view.OnStoreAvailable(isAvailable);
+        }
+
+        private void OnSubscriptionButtonClickedSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnSubscriptionPurchased(StoreItem item)
+        {
+            view.SetSubscriptionOwnedStatus();
         }
     }
 }

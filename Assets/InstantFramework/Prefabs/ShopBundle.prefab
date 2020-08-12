@@ -499,6 +499,8 @@ MonoBehaviour:
   checkOwned: 0
   owned: {fileID: 0}
   ownedText: {fileID: 0}
+  isGems: 0
+  isBundle: 1
 --- !u!1 &6923537110057580755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,7 +1840,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 5
-    m_MaxSize: 65
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1

@@ -28,12 +28,15 @@ namespace TurboLabz.InstantFramework
         public GameObject owned;
         public Text ownedText;
         public bool isGems;
+        public bool isBundle;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
+        private static StoreIconsContainer iconsContainer;
+        private static StoreThumbsContainer thumbsContainer;
 
         //Models
-        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
         //Services
@@ -43,11 +46,24 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         public Signal<string> buyButtonSignal = new Signal<string>();
 
-        public void OnStoreAvailable(StoreIconsContainer iconsConainter, StoreThumbsContainer thumbsContainer, bool available)
+        public void Init()
         {
-            if (storeItem == null && metaDataModel.store.items.ContainsKey(shortCode))
+            if (iconsContainer == null)
             {
-                storeItem = metaDataModel.store.items[shortCode];
+                iconsContainer = StoreIconsContainer.Load();
+            }
+
+            if (thumbsContainer == null)
+            {
+                thumbsContainer = StoreThumbsContainer.Load();
+            }
+        }
+
+        public void OnStoreAvailable(bool available)
+        {
+            if (storeItem == null && storeSettingsModel.items.ContainsKey(shortCode))
+            {
+                storeItem = storeSettingsModel.items[shortCode];
             }
 
             if (storeItem == null)
@@ -58,22 +74,29 @@ namespace TurboLabz.InstantFramework
             if (!isInitlialised)
             {
                 title.text = isGems ? storeItem.displayName.Split(' ')[0] : storeItem.displayName;
-                icon.sprite = iconsConainter.GetSprite(shortCode);
+                icon.sprite = iconsContainer.GetSprite(shortCode);
                 icon.SetNativeSize();
                 thumbnail.sprite = thumbsContainer.GetSprite(isGems ? "Gem" : shortCode);
                 buyButton.onClick.AddListener(OnBuyButtonClicked);
 
-                if (storeItem.currency3Payout > 0)
+                if (isBundle && storeItem.bundledItems != null)
                 {
-                    currencyPayout.icon.sprite = iconsConainter.GetSprite("Gem");
-                    currencyPayout.count.text = storeItem.currency3Payout.ToString();
-                }
+                    if (storeItem.currency3Cost > 0)
+                    {
+                        currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
+                        currencyPayout.count.text = storeItem.currency3Cost.ToString();
+                    }
 
-                var i = 0;
-                foreach (var item in storeItem.bundledItems)
-                {
-                    payouts[i].icon.sprite = iconsConainter.GetSprite(item.Key);
-                    payouts[i].count.text = item.Value.ToString();
+                    var i = 0;
+                    foreach (var item in storeItem.bundledItems)
+                    {
+                        if (i < payouts.Length)
+                        {
+                            payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
+                            payouts[i].count.text = $"{item.Value} {storeSettingsModel.items[item.Key].displayName}";
+                            i++;
+                        }
+                    }
                 }
 
                 if (checkOwned)
