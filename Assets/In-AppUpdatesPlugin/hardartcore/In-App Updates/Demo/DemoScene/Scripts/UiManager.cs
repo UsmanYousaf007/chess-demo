@@ -8,7 +8,7 @@ namespace DemoUpdateManager
     {
 
 #if UNITY_ANDROID
-        public AndroidUpdateManager androidUpdateManager;
+       /* public AndroidUpdateManager androidUpdateManager;
         public Text statusText;
 
         private void OnEnable()
@@ -44,6 +44,7 @@ namespace DemoUpdateManager
             statusText.text = "Status: Update downloaded";
             androidUpdateManager.CompleteUpdate();
         }
+        */
 #endif
 
     }

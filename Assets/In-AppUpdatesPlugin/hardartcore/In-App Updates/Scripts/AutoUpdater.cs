@@ -6,7 +6,7 @@ namespace UpdateManager
     public class AutoUpdater : MonoBehaviour
     {
 
-        private AndroidUpdateManager _updateManager;
+        //private AndroidUpdateManager _updateManager;
 
         private void OnEnable()
         {
@@ -26,13 +26,13 @@ namespace UpdateManager
 
         private void Awake()
         {
-            _updateManager = GetComponent<AndroidUpdateManager>();
+            //_updateManager = GetComponent<AndroidUpdateManager>();
         }
 
         private void OnUpdateAvailable(int availableVersionCode)
         {
             // Start the process of downloading the update
-            _updateManager.StartUpdate();
+            //_updateManager.StartUpdate();
         }
 
         private void OnUpdateDownloading(long bytesDownloaded, long totalBytesToDownload)
@@ -43,7 +43,7 @@ namespace UpdateManager
         private void OnUpdateDownloaded()
         {
             // Update downloaded, install it : )
-            _updateManager.CompleteUpdate();
+            //_updateManager.CompleteUpdate();
         }
 
     }

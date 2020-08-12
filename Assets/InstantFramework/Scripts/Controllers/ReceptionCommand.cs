@@ -48,11 +48,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
+        [Inject] public IInAppUpdatesService inAppUpdatesService { get; set; }
 
         public override void Execute()
         {
             CommandBegin();
-
+            inAppUpdatesService.Init();
             getInitDataSignal.Dispatch(isResume);
 
         }
@@ -69,13 +70,25 @@ namespace TurboLabz.InstantFramework
         private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
-            if (appInfoModel.appBackendVersionValid == false)
+            /*if (appInfoModel.appBackendVersionValid == false)
+            {
+                TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
+                CommandEnd();
+                return;
+            }*/
+
+            if (inAppUpdatesService.IsUpdateAvailable())
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
                 CommandEnd();
                 return;
             }
+
+#if UNITY_ANDROID
+            inAppUpdatesService.DisableListeners();
+#endif
 
             if (settingsModel.maintenanceFlag == true)
             {
