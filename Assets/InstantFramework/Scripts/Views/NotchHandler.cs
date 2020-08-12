@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using UnityEngine.UI;
 
 public class NotchHandler : MonoBehaviour {
 
@@ -82,6 +83,9 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform lessonsScrollView;
     public RectTransform lessonVideoPlayerTopBar;
     public RectTransform lessonVideoPlayerBottomNav;
+
+    [Header("Shop")]
+    public RectTransform shopScrollView;
 
     void Awake()
     {
@@ -184,6 +188,11 @@ public class NotchHandler : MonoBehaviour {
         SetBottom(lessonsScrollView, 212f);
         SetY(lessonVideoPlayerTopBar, -113f);
         SetY(lessonVideoPlayerBottomNav, 91f);
+
+        //Shop
+        SetTop(shopScrollView, -177f);
+        SetBottom(shopScrollView, 232f);
+        shopScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
     }
 
     void SetY(RectTransform tfm, float y)

@@ -37498,6 +37498,12 @@ Transform:
   m_Father: {fileID: 113640929}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &596133503 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3057387842098476405, guid: bd327256901cc496794fc6f71716bf50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756673654}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &598314975
 GameObject:
   m_ObjectHideFlags: 0
@@ -63144,6 +63150,12 @@ RectTransform:
   m_AnchoredPosition: {x: 6.7, y: -258.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &1043117030 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2987544783545251453, guid: bd327256901cc496794fc6f71716bf50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756673654}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1043149194
 GameObject:
   m_ObjectHideFlags: 0
@@ -118250,12 +118262,14 @@ MonoBehaviour:
   - {fileID: 922238660}
   - {fileID: 591075822}
   - {fileID: 591075822}
+  - {fileID: 596133503}
   botNavs:
   - {fileID: 1697306882}
   - {fileID: 1906630984}
   - {fileID: 431902463}
   - {fileID: 316917913}
   - {fileID: 1215151230}
+  - {fileID: 1043117030}
   lobbyScrollView: {fileID: 240792988}
   lobbyViewPort: {fileID: 1684588706}
   lobbyScrollViewPivotForBanner: {fileID: 173769391}
@@ -118311,6 +118325,7 @@ MonoBehaviour:
   lessonsScrollView: {fileID: 1329058262}
   lessonVideoPlayerTopBar: {fileID: 114199747}
   lessonVideoPlayerBottomNav: {fileID: 2008947623}
+  shopScrollView: {fileID: 2032084662}
 --- !u!1 &1901426452
 GameObject:
   m_ObjectHideFlags: 0
@@ -124344,6 +124359,12 @@ MonoBehaviour:
   fileRank:
     file: 0
     rank: 0
+--- !u!224 &2032084662 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3057387841383960611, guid: bd327256901cc496794fc6f71716bf50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756673654}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2032191003
 GameObject:
   m_ObjectHideFlags: 0
