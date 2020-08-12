@@ -27,7 +27,8 @@ namespace TurboLabz.InstantFramework
 						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
                         {
-							ResizeTextureCanvas(photoTexture, width, height);
+							var dimensionSize = photoTexture.width < photoTexture.height ? photoTexture.width : photoTexture.height;
+							ResizeTextureCanvas(photoTexture, dimensionSize, dimensionSize);
 							photo = CreatePhotoView(photoTexture);        
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
@@ -53,7 +54,8 @@ namespace TurboLabz.InstantFramework
 						Texture2D photoTexture = NativeGallery.LoadImageAtPath(path, maxSize, false);
 						if (photoTexture != null)
 						{
-							ResizeTextureCanvas(photoTexture, width, height);
+							var dimensionSize = photoTexture.width < photoTexture.height ? photoTexture.width : photoTexture.height;
+							ResizeTextureCanvas(photoTexture, dimensionSize, dimensionSize);
 							photo = CreatePhotoView(photoTexture);
 							photoPickerCompletedSignal.Dispatch(photo);
 						}
