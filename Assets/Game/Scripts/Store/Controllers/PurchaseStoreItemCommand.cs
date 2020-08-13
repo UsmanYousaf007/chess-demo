@@ -134,8 +134,11 @@ namespace TurboLabz.InstantFramework
             else if (result == BackendResult.PURCHASE_COMPLETE)
             {
                 eventName = "completed";
-                analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
-                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
+                if (item.key.Contains("Subscription"))
+                {
+                    analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
+                    GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
+                }
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
             {
@@ -146,15 +149,17 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
+            var productName = item.key.Contains("Subscription") ? $"subscription_{item.displayName.Replace(" ", "_")}" : item.displayName.ToLower().Replace(" ", "_");
+
             if (eventName.Equals("failed"))
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen,
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", productName, cameFromScreen,
                     new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
 
             }
             else
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen);
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", productName, cameFromScreen);
             }
         }
 

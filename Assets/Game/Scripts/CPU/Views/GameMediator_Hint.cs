@@ -77,7 +77,7 @@ namespace TurboLabz.CPU
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscriptionPurchased(StoreItem item)
         {
-            if (view.IsVisible())
+            if (view.IsVisible() && item.key.Contains("Subscription"))
             {
                 view.UpdateHintCount(0);
                 view.UpdateHindsightCount(0);

@@ -39,7 +39,7 @@ namespace TurboLabz.InstantGame
                     lessonVO.indexInTopic = i;
                     lessonVO.videoId = lesson;
                     lessonVO.icon = topicVO.icon;
-                    lessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(lesson));
+                    lessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(lesson) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
                     lessonVO.progress = (float)playerModel.GetVideoProgress(lesson)/100f;
                     lessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(lesson);
                     lessonVO.section = topicVO.section;

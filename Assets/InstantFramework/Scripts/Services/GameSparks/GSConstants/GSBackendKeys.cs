@@ -286,7 +286,6 @@ namespace TurboLabz.InstantFramework
             public const string SPECIALPACK_SHOP_TAG = "SpecialPack";
             public const string SPECIALITEM_SHOP_TAG = "SpecialItem";
 
-
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
             public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";
 
@@ -297,6 +296,10 @@ namespace TurboLabz.InstantFramework
 
             public const string SHOP_ITEM_TYPE_CURRENCY = "CURRENCY";
             public const string SHOP_ITEM_TYPE_VGOOD = "VGOOD";
+
+            public const string ALL_THEMES_PACK = "SpecialPackAllThemes";
+            public const string ALL_LESSONS_PACK = "SpecialPackAllLessons";
+            public const string REMOVE_ADS_PACK = "SpecialPackRemoveAds";
 
             public static string GetOfferItemKey(string text)
             {
@@ -424,6 +427,7 @@ namespace TurboLabz.InstantFramework
             public const string ADS_REWARD_DATA = "adsRewardData";
             public const string UPLOADED_PIC_ID = "uploadedPicId";
             public const string LAST_WATCHED_VIDEO = "lastWatchedVideoId";
+            public const string GEMS = "gems";
         }
 
         public static class Match

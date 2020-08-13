@@ -273,23 +273,24 @@ namespace TurboLabz.InstantFramework
                 long expiryTimeStamp = 0;
                 string shortCode = storeItem.key;
 
-                if (e.purchasedProduct.definition.type == ProductType.Subscription &&
-                    CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
+                if (e.purchasedProduct.definition.type == ProductType.Subscription)
                 {
-                    var subscriptionInfo = new SubscriptionManager(e.purchasedProduct, null).getSubscriptionInfo();
-
-                    expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
-
-                    if (subscriptionInfo.isFreeTrial() == Result.True)
+                    if (CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
                     {
-                        storeItem.currency1Cost = 0;
-                        storeItem.productPrice = 0;
-                    }
-                }
+                        var subscriptionInfo = new SubscriptionManager(e.purchasedProduct, null).getSubscriptionInfo();
 
+                        expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
+
+                        if (subscriptionInfo.isFreeTrial() == Result.True)
+                        {
+                            storeItem.currency1Cost = 0;
+                            storeItem.productPrice = 0;
+                        }
+                    }
 #if UNITY_EDITOR
-                expiryTimeStamp = backendService.serverClock.currentTimestamp + (10 * 60 * 1000);
+                    expiryTimeStamp = backendService.serverClock.currentTimestamp + (10 * 60 * 1000);
 #endif
+                }
 
                 // Unlock the appropriate content here.
                 backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 

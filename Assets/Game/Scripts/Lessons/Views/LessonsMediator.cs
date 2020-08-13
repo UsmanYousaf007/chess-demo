@@ -105,7 +105,11 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscriptionPurchased(StoreItem item)
         {
-            view.UnlockLessons();
+            if (view.isActiveAndEnabled &&
+               (item.key.Contains("Subscription") || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK)))
+            {
+                view.UnlockLessons();
+            }
         }
     }
 }

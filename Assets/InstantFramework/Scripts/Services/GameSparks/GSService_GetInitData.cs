@@ -69,6 +69,7 @@ namespace TurboLabz.InstantFramework
             FillLessonsModel(lessonsData);
 
             storeAvailableSignal.Dispatch(false);
+            updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
 
             ParseActiveChallenges(response.ScriptData);
 
@@ -156,6 +157,11 @@ namespace TurboLabz.InstantFramework
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE))
             {
                 playerModel.subscriptionType = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE);
+            }
+
+            if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.GEMS))
+            {
+                playerModel.gems = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.GEMS).Value;
             }
 
             // Split name to first and last initial

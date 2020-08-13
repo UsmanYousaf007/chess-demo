@@ -99,14 +99,7 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
-                if (checkOwned)
-                {
-                    var isOwned = playerModel.HasSubscription() || playerModel.OwnsVGood(shortCode);
-                    ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
-                    buyButton.gameObject.SetActive(!isOwned);
-                    owned.SetActive(isOwned);
-                }
-
+                SetOwnedStatus();
                 isInitlialised = true;
             }
 
@@ -124,6 +117,17 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             buyButtonSignal.Dispatch(shortCode);
+        }
+
+        public void SetOwnedStatus()
+        {
+            if (checkOwned)
+            {
+                var isOwned = playerModel.HasSubscription() || playerModel.OwnsVGood(shortCode);
+                ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
+                buyButton.gameObject.SetActive(!isOwned);
+                owned.SetActive(isOwned);
+            }
         }
     }
 }

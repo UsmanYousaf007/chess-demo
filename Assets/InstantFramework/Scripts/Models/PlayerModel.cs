@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         public string subscriptionType { get; set; }
         public AnalyticsContext adContext { get; set; }
         public string uploadedPicId { get; set; }
+        public long gems { get; set; }
 
         public string name
         {
@@ -112,6 +113,7 @@ namespace TurboLabz.InstantFramework
             subscriptionExipryTimeStamp = 0;
             renewDate = "";
             subscriptionType = "";
+            gems = 0;
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -181,7 +183,7 @@ namespace TurboLabz.InstantFramework
             //        (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
             //        (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
 
-            return HasSubscription();
+            return HasSubscription() || OwnsVGood(GSBackendKeys.ShopItem.REMOVE_ADS_PACK);
         }
 
         public bool HasSubscription()
@@ -221,6 +223,7 @@ namespace TurboLabz.InstantFramework
             playerInventoryVO.hintCount = PowerUpHintCount;
             playerInventoryVO.safeMoveCount = PowerUpSafeMoveCount;
             playerInventoryVO.hindsightCount = PowerUpHindsightCount;
+            playerInventoryVO.gemsCount = gems;
 
             return playerInventoryVO;
         }

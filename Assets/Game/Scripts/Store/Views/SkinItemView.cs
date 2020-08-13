@@ -52,7 +52,7 @@ public class SkinItemView : View
         }
 
         item = storeSettingsModel.items[key];
-        isPremium = playerModel.HasSubscription() || playerModel.OwnsVGood(key);
+        isPremium = playerModel.HasSubscription() || playerModel.OwnsVGood(key) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_THEMES_PACK);
 
         SetOwnedState();
 

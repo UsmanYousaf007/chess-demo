@@ -62,9 +62,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnStoreAvailable(bool available)
         {
-            var isWelcomeBundlePurchased = playerModel.OwnsVGood(welcomePackShortCode);
-            welcomePack.SetActive(!isWelcomeBundlePurchased);
-            elitePack.SetActive(isWelcomeBundlePurchased);
+            SetBundle();
             SetSubscriptionOwnedStatus();
             subscriptionButton.interactable = available;
             subscriptionButtonText.gameObject.SetActive(available);
@@ -76,6 +74,13 @@ namespace TurboLabz.InstantFramework
             var isSubscriber = playerModel.HasSubscription();
             owned.SetActive(isSubscriber);
             subscriptionButton.gameObject.SetActive(!isSubscriber);
+        }
+
+        public void SetBundle()
+        {
+            var isWelcomeBundlePurchased = playerModel.OwnsVGood(welcomePackShortCode);
+            welcomePack.SetActive(!isWelcomeBundlePurchased);
+            elitePack.SetActive(isWelcomeBundlePurchased);
         }
 
         private void OnSubscirptionButtonClicked()

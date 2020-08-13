@@ -55,5 +55,10 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             addGemsButtonClickedSignal.Dispatch();
         }
+
+        public void UpdateGemsCount(long gems)
+        {
+            gemsCount.text = gems.ToString();
+        }
     }
 }

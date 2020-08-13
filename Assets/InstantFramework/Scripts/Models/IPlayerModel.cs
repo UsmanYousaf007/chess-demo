@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         string subscriptionType { get; set; }
         AnalyticsContext adContext { get; set; }
         string uploadedPicId { get; set; }
+        long gems { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

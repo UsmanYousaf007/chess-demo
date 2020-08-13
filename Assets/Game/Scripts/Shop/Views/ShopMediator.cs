@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
         public void OnSubscriptionPurchased(StoreItem item)
         {
             view.SetSubscriptionOwnedStatus();
+            view.SetBundle();
         }
     }
 }

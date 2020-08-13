@@ -52,5 +52,11 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
         }
+
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnGemsUpdated(PlayerInventoryVO inventory)
+        {
+            view.UpdateGemsCount(inventory.gemsCount);
+        }
     }
 }
