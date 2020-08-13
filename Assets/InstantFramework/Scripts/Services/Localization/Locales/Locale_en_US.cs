@@ -275,6 +275,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SHOP_SPECIAL_PACKS, "SPECIAL PACKS"},
                 { LocalizationKey.SHOP_GEM_PACKS, "GEM PACKS"},
                 { LocalizationKey.SHOP_SUBSCRIPTION_STRIP, "All Packs\nPremium Upgrade!"},
+                { LocalizationKey.SHOP_PURCHASED_DLG_GAINED, "You Gained:"},
+                { LocalizationKey.SHOP_PURHCASED_DLG_OK, "Got It"},
 
                 #endregion
 

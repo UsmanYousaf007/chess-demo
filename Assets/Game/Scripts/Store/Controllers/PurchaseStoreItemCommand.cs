@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
             item = metaDataModel.store.items[key];
             if (navigatorModel.previousState.GetType() != typeof(NSConfirmDlg))
             {
-                pState = navigatorModel.previousState;
+                pState = item.key.Contains("Subscription") ? navigatorModel.previousState : navigatorModel.currentState;
             }
 
             PurchaseResult purchaseResult = PurchaseResult.NONE;
@@ -113,6 +113,10 @@ namespace TurboLabz.InstantFramework
             else if (pState.GetType() == typeof(NSThemeSelectionDlg))
             {
                 cameFromScreen = "theme_selection";
+            }
+            else if (pState.GetType() == typeof(NSShop))
+            {
+                cameFromScreen = "shop";
             }
             else if (pState.GetType() == typeof(NSCPUResultsDlg) || pState.GetType() == typeof(NSMultiplayerResultsDlg))
             {

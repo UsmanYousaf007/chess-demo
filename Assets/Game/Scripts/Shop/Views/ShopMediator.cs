@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateShopBundlePurchasedViewSignal updateShopBundlePurchasedViewSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -54,6 +55,12 @@ namespace TurboLabz.InstantFramework
         {
             view.SetSubscriptionOwnedStatus();
             view.SetBundle();
+
+            if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG))
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED);
+                updateShopBundlePurchasedViewSignal.Dispatch(item);
+            }
         }
     }
 }

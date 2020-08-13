@@ -270,6 +270,8 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_SPECIAL_PACKS = "shopSpecailPacks";
         public const string SHOP_GEM_PACKS = "shopGemPacks";
         public const string SHOP_SUBSCRIPTION_STRIP = "shopSubscriptionStrip";
+        public const string SHOP_PURCHASED_DLG_GAINED = "shopPurchasedDlgGained";
+        public const string SHOP_PURHCASED_DLG_OK = "shopPurchasedDlgOk";
 
         #endregion
 

@@ -41,6 +41,10 @@
             {
                 return new NSSubscriptionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED)
+            {
+                return new NSShopBundlePurchasedDlg();
+            }
 
             return null;
         }

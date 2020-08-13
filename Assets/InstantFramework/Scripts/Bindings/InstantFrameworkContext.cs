@@ -171,6 +171,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<VideoLoadFailedSignal>().ToSingleton();
             injectionBinder.Bind<UpdateVideoLessonViewSignal>().ToSingleton();
             injectionBinder.Bind<ShowVideoLessonSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateShopBundlePurchasedViewSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -307,6 +308,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LessonsView>().To<LessonsMediator>();
             mediationBinder.Bind<ShopItemView>().To<ShopItemMediator>();
             mediationBinder.Bind<ShopView>().To<ShopMediator>();
+            mediationBinder.Bind<ShopBundlePurchasedView>().To<ShopBundlePurchasedMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
