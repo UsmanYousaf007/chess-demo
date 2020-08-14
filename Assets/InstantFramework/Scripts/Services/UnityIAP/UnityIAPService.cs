@@ -369,20 +369,20 @@ namespace TurboLabz.InstantFramework
 			LogUtil.Log("UnityIAPService - Purchase failed: " + reason);
 
             //show dailogue
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
 
-            var vo = new ConfirmDlgVO
-            {
-                title = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED),
-                desc = localizationService.Get(reason.ToString()),
-                yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
-                onClickYesButton = delegate
-                {
-                    navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-                }
-            };
+            //var vo = new ConfirmDlgVO
+            //{
+            //    title = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED),
+            //    desc = localizationService.Get(reason.ToString()),
+            //    yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
+            //    onClickYesButton = delegate
+            //    {
+            //        navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            //    }
+            //};
 
-            updateConfirmDlgSignal.Dispatch(vo);
+            //updateConfirmDlgSignal.Dispatch(vo);
 
             showIAPProcessingSignal.Dispatch(false, false);
 
