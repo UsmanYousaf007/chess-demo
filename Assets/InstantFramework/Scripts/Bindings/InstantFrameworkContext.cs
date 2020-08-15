@@ -216,6 +216,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IGameModesAnalyticsService>().To<GameModesAnalyticsService>().ToSingleton();
             injectionBinder.Bind<IPhotoService>().To<PhotoPickerService>().ToSingleton();
             injectionBinder.Bind<IProfilePicService>().To<ProfilePicService>().ToSingleton();
+            injectionBinder.Bind<IDownloadablesService>().To<DownloadablesService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
@@ -259,6 +260,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IRewardsSettingsModel>().To<RewardsSettingsModel>().ToSingleton(); // Lifecycle handled
             injectionBinder.Bind<ISettingsModel>().To<SettingsModel>().ToSingleton();
             injectionBinder.Bind<ILessonsModel>().To<LessonsModel>().ToSingleton();
+            injectionBinder.Bind<IDownloadablesModel>().To<DownloadablesModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();

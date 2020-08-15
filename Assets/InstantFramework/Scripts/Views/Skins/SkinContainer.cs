@@ -13,6 +13,9 @@ using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using System.Collections;
+using UnityEngine.U2D;
+using UnityEditor.U2D;
 #endif
 
 namespace TurboLabz.InstantFramework
@@ -47,6 +50,7 @@ namespace TurboLabz.InstantFramework
         #if UNITY_EDITOR
         const string ASSET_PATH = "Assets/Game/Images/Resources/";
         const string SKINS_PATH = "Assets/Game/Images/Skins/";
+        const string ATLAS_PATH = "Assets/Game/Images/Atlases/";
 
         [MenuItem("Assets/Create/Turbolabz/Chess Skin")]
         public static void CreateAsset() 
@@ -83,9 +87,18 @@ namespace TurboLabz.InstantFramework
             {
                 string spritePath = spritePathPrefx + Path.GetFileName(filePath);
                 sprites.Add(AssetDatabase.LoadAssetAtPath<Sprite>(spritePath));
-            }
 
+
+            }
+            
+            // Save the scriptable object to disk
             AssetBuilder.Build(this, skinName, ASSET_PATH);
+
+            // Save the sprite atlas to disk
+            SpriteAtlas spriteAtlas = new SpriteAtlas();
+            SpriteAtlasExtensions.Add(spriteAtlas, sprites.ToArray());
+            AssetDatabase.CreateAsset(spriteAtlas, ATLAS_PATH + skinName + ".spriteatlas");
+            AssetDatabase.SaveAssets();
         }
 
         #endif

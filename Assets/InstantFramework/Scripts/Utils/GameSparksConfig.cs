@@ -6,11 +6,15 @@ using UnityEngine;
 
 public class GameSparksConfig : MonoBehaviour {
 
+    // Game Configs
     public GameObject Live;
     public GameObject Preview;
     public GameObject Dev;
-    public GameObject Sandbox;
-    public GameObject HuuugeDev;
+    // Engineers' Configs
+    public GameObject Sami;
+    public GameObject Omer;
+    public GameObject Ali;
+    public GameObject Maryam;
 
     public Environment environment;
     public enum Environment
@@ -19,8 +23,10 @@ public class GameSparksConfig : MonoBehaviour {
         LivePreview,
         Live,
         URLBased,
-        Sandbox,
-        HuuugeDev,
+        Sami,
+        Omer,
+        Ali,
+        Maryam,
         Unassigned
     }
 
@@ -50,8 +56,10 @@ public class GameSparksConfig : MonoBehaviour {
         Live.SetActive(false);
         Preview.SetActive(false);
         Dev.SetActive(false);
-        Sandbox.SetActive(false);
-        HuuugeDev.SetActive(false);
+        Sami.SetActive(false);
+        Omer.SetActive(false);
+        Ali.SetActive(false);
+        Maryam.SetActive(false);
 
         if (environment == Environment.URLBased)
         {
@@ -69,13 +77,21 @@ public class GameSparksConfig : MonoBehaviour {
         {
             Dev.SetActive(true);
         }
-        else if (environment == Environment.Sandbox)
+        else if (environment == Environment.Sami)
         {
-            Sandbox.SetActive(true);
+            Sami.SetActive(true);
         }
-        else if (environment == Environment.HuuugeDev)
+        else if (environment == Environment.Omer)
         {
-            HuuugeDev.SetActive(true);
+            Omer.SetActive(true);
+        }
+        else if (environment == Environment.Ali)
+        {
+            Ali.SetActive(true);
+        }
+        else if (environment == Environment.Maryam)
+        {
+            Maryam.SetActive(true);
         }
     }
 
