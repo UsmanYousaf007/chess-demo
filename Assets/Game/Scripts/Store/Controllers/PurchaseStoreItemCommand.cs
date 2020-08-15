@@ -36,13 +36,15 @@ namespace TurboLabz.InstantFramework
 
         private StoreItem item;
         private static NS pState = null;
+        private bool isSubscriptionItem;
 
         public override void Execute()
         {
             item = metaDataModel.store.items[key];
             if (navigatorModel.previousState.GetType() != typeof(NSConfirmDlg))
             {
-                pState = item.key.Contains("Subscription") ? navigatorModel.previousState : navigatorModel.currentState;
+                isSubscriptionItem = item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG);
+                pState =  isSubscriptionItem ? navigatorModel.previousState : navigatorModel.currentState;
             }
 
             PurchaseResult purchaseResult = PurchaseResult.NONE;
@@ -138,7 +140,7 @@ namespace TurboLabz.InstantFramework
             else if (result == BackendResult.PURCHASE_COMPLETE)
             {
                 eventName = "completed";
-                if (item.key.Contains("Subscription"))
+                if (isSubscriptionItem)
                 {
                     analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
                     GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
@@ -153,7 +155,7 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
-            var productName = item.key.Contains("Subscription") ? $"subscription_{item.displayName.Replace(" ", "_")}" : item.displayName.ToLower().Replace(" ", "_");
+            var productName = isSubscriptionItem ? $"subscription_{item.displayName.Replace(" ", "_")}" : item.displayName.ToLower().Replace(" ", "_");
 
             if (eventName.Equals("failed"))
             {

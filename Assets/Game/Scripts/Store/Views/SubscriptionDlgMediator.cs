@@ -126,7 +126,7 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
-        if (view.IsVisible() && item.key.Contains("Subscription"))
+        if (view.IsVisible() && item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
         {
             analyticsService.Event(AnalyticsEventId.subscription_dlg_purchased, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "subscribe_button", analyticsFunnelId);

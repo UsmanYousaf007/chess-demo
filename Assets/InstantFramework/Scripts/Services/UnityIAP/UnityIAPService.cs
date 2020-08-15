@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
 			PURCHASE_STATE_SUCCESS
 		}
 
-		public IPromise<bool> Init(List<string> storeProductIds) 
+		public IPromise<bool> Init(Dictionary<string, ProductType> storeProductIds) 
 		{
             if (isStoreAvailable())
             {
@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
 			// Add Products
 			foreach (var id in storeProductIds)
 			{
-				builder.AddProduct(id, ProductType.Subscription);
+				builder.AddProduct(id.Key, id.Value);
 			}
 
 			UnityPurchasing.Initialize(this, builder);

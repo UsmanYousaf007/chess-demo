@@ -100,7 +100,8 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG,
                 GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG,
                 GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG,
-                GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG
+                GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG,
+                GSBackendKeys.ShopItem.SUBSCRIPTION_TAG
             };
 
             //string[] tagState = {

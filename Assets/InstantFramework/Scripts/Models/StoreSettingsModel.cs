@@ -6,6 +6,7 @@
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Purchasing;
 
 namespace TurboLabz.InstantFramework
 {
@@ -35,15 +36,18 @@ namespace TurboLabz.InstantFramework
             failedPurchaseTransactionId = "";
         }
 
-        public List<string> getRemoteProductIds ()
-        { 
-            List<string> ids = new List<string> ();
+        public Dictionary<string, ProductType> getRemoteProductIds ()
+        {
+            Dictionary<string, ProductType> ids = new Dictionary<string, ProductType>();
 
             foreach (KeyValuePair<string, StoreItem> item in items) 
 			{
                 if (item.Value.remoteProductId != null) 
 				{
-                    ids.Add(item.Value.remoteProductId);
+                    var itemType = item.Value.kind;
+                    var productType = itemType.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG) ? ProductType.NonConsumable :
+                        itemType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) ? ProductType.Subscription : ProductType.Consumable;
+                    ids.Add(item.Value.remoteProductId, productType);
 				}
 			}
 			return ids;			

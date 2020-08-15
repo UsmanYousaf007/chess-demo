@@ -61,7 +61,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscriptionPurchased(StoreItem item)
         {
-            if (view.IsVisible() && item.key.Contains("Subscription"))
+            if (view.IsVisible() && item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
             {
                 view.UpdateHintCount(0);
                 view.UpdateHindsightCount(0);
