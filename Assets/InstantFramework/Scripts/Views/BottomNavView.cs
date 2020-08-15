@@ -55,6 +55,9 @@ namespace TurboLabz.InstantFramework
         public Signal inventoryButtonClickedSignal = new Signal();
         public Signal shopButtonClickedSignal = new Signal();
 
+        //Services
+        [Inject] public IAudioService audioService { get; set; }
+
         public void Init()
         {
             homeLabel.text = localizationService.Get(LocalizationKey.NAV_HOME);
@@ -116,21 +119,25 @@ namespace TurboLabz.InstantFramework
 
         void HomeButtonClicked()
         {
+            audioService.PlayStandardClick();
             homeButtonClickedSignal.Dispatch();
         }
 
         void FriendsButtonClicked()
         {
+            audioService.PlayStandardClick();
             friendsButtonClickedSignal.Dispatch();
         }
 
         void InventoryButtonClicked()
         {
+            audioService.PlayStandardClick();
             inventoryButtonClickedSignal.Dispatch();
         }
 
         void ShopButtonClicked()
         {
+            audioService.PlayStandardClick();
             shopButtonClickedSignal.Dispatch();
         }
     }

@@ -28,6 +28,7 @@ public class SkinItemView : View
     public Image unlock;
     public Image tick;
     public Button button;
+    public Text owned;
 
     private StoreItem item;
     private StoreThumbsContainer thumbsContainer;

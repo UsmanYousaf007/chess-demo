@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         public string welcomePackShortCode;
         public GameObject welcomePack;
         public GameObject elitePack;
+        public Button subscriptionStrip;
         public Text subscriptionStripText;
         public Button subscriptionButton;
         public Text subscriptionButtonText;
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantFramework
             ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
 
             subscriptionButton.onClick.AddListener(OnSubscirptionButtonClicked);
+            subscriptionStrip.onClick.AddListener(OnSubscirptionButtonClicked);
 
             iconsContainer = StoreIconsContainer.Load();
             thumbsContainer = StoreThumbsContainer.Load();
@@ -64,7 +66,6 @@ namespace TurboLabz.InstantFramework
         {
             SetBundle();
             SetSubscriptionOwnedStatus();
-            subscriptionButton.interactable = available;
             subscriptionButtonText.gameObject.SetActive(available);
             loading.SetActive(!available);
         }

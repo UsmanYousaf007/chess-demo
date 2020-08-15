@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         public Text ownedText;
         public bool isGems;
         public bool isBundle;
+        public Button thumbnailButton;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
@@ -78,6 +79,7 @@ namespace TurboLabz.InstantFramework
                 icon.SetNativeSize();
                 thumbnail.sprite = thumbsContainer.GetSprite(isGems ? "Gem" : shortCode);
                 buyButton.onClick.AddListener(OnBuyButtonClicked);
+                thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
 
                 if (isBundle && storeItem.bundledItems != null)
                 {
@@ -109,6 +111,7 @@ namespace TurboLabz.InstantFramework
             }
 
             buyButton.interactable = available;
+            thumbnailButton.enabled = available;
             price.gameObject.SetActive(available);
             loading.SetActive(!available);
         }
