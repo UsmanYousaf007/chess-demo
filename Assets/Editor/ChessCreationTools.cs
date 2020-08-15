@@ -12,7 +12,7 @@ public partial class ChessTools
     const string SKINS_PATH = "Assets/Game/Images/Skins/";
     const string ATLAS_PATH = "Assets/Game/Images/Atlases/";
 
-    [MenuItem("TLTools/Create/Skin Bundles", false, 20)]
+    [MenuItem("TLTools/Create/Skin Bundles", false, 13)]
 
     public static void CreateSkinBundles()
     {
@@ -29,12 +29,12 @@ public partial class ChessTools
         for(int i=0;i<folders.Length;i++)
         {
             string skinName = new DirectoryInfo(folders[i]).Name;
-            string spriteAtlas = Directory.GetFiles(ATLAS_PATH, skinName + ".*").FirstOrDefault();
+            //string spriteAtlas = Directory.GetFiles(ATLAS_PATH, skinName + ".*").FirstOrDefault();
             string scriptableObj = Directory.GetFiles(ASSET_PATH, skinName + ".*").FirstOrDefault();
 
             bundleMape[i].assetBundleName = skinName;
             bundleMape[i].assetNames = new string[] {
-                spriteAtlas,
+              //  spriteAtlas,
                 scriptableObj
             };
         }
@@ -51,5 +51,8 @@ public partial class ChessTools
             Directory.CreateDirectory(assetBundleDirectory);
 
         BuildPipeline.BuildAssetBundles(assetBundleDirectory, buildMap, BuildAssetBundleOptions.None, target);
+        //BuildPipeline.BuildAssetBundles(
+        //    )
+        
     }
 }
