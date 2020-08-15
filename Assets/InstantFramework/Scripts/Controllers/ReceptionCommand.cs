@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             CommandBegin();
-            inAppUpdatesService.Init();
+            appUpdatesService.Init();
             getInitDataSignal.Dispatch(isResume);
 
         }

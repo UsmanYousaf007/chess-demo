@@ -89,7 +89,7 @@ namespace TurboLabz.InstantFramework
             // TODO: Update this entire view to support multiple platforms
 
 #if UNITY_ANDROID || UNITY_IOS
-            inAppUpdatesService.GoToStore(appInfoModel.storeURL);
+            appUpdatesService.GoToStore(appInfoModel.storeURL);
 #else
             LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
 #endif
