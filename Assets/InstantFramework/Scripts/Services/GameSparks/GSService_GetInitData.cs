@@ -68,9 +68,9 @@ namespace TurboLabz.InstantFramework
             GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
             FillLessonsModel(lessonsData);
 
-            GSData downloadablesData = response.ScriptData.GetGSData(GSBackendKeys.DOWNLOADBLES);
+            List<GSData>  downloadablesData = response.ScriptData.GetGSDataList(GSBackendKeys.DOWNLOADBLES);
             FillDownloadablesModel(downloadablesData);
-
+            
             storeAvailableSignal.Dispatch(false);
 
             ParseActiveChallenges(response.ScriptData);
@@ -407,14 +407,20 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void FillDownloadablesModel(GSData downloadablesData)
+        private void FillDownloadablesModel(List<GSData> downloadablesData)
         {
             if (downloadablesData != null)
             {
-                foreach (var entry in downloadablesData.BaseData)
+                downloadablesModel.downloadableItems = new List<DownloadableItem>();
+                foreach (var downloadable in downloadablesData)
                 {
                     DownloadableItem item = new DownloadableItem();
-                    //item.shortCode = 
+                    item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
+                    item.shortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
+                    item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
+                    item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
+
+                    downloadablesModel.downloadableItems.Add(item);
                 }
             }
         }

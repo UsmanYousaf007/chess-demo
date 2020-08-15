@@ -70,7 +70,8 @@ namespace TurboLabz.InstantFramework
 
         IPromise<BackendResult> GetUploadUrl();
         IPromise<BackendResult> GetDownloadUrl(string id, Action<object> onSuccessExternal);
-        //IPromise<BackendResult, Sprite, string> GetProfilePicture(string url, string playerId);
         IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType);
+
+        IPromise<BackendResult> GetDownloadableContentUrl(string shortCode, Action<object> onSuccessExternal);
     }
 }

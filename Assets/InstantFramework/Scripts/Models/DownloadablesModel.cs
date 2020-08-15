@@ -16,6 +16,6 @@ public class DownloadableItem
 {
     public string url { get; set; }
     public string shortCode { get; set; }
-    public int size { get; set; }
-    public string lastModified { get; set; }
+    public long size { get; set; }
+    public long lastModified { get; set; }
 }
