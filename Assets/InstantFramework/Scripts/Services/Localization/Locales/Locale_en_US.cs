@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.UPDATE_BUTTON, "UPDATE" },
                 { LocalizationKey.CHECK_INTERNET_CONNECTION, "Please check your internet connection." },
                 { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Stars account because your account is signed in on another device." },
-                
+                { LocalizationKey.UPDATE_LATER_BUTTON, "Update Later" },
 
 
                 #endregion

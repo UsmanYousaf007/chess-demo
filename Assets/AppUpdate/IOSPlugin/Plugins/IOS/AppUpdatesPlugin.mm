@@ -78,12 +78,12 @@ extern "C"
         [[InAppUpdateService sharedInstance] init];
     }
 
-    BOOL newVersionPresent()
+    BOOL IsNewVersionPresent()
     {
         return [[InAppUpdateService sharedInstance] newVersionPresent];
     }
 
-    void goToAppStore()
+    void GoToAppStore()
     {
         [[InAppUpdateService sharedInstance] goToAppStore];
     }

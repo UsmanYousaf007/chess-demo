@@ -33,6 +33,15 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.UPDATE)
+            {
+                view.Hide();
+            }
+        }
+
         [ListensTo(typeof(SetUpdateURLSignal))]
         public void OnSetUpdateURL(string url)
         {

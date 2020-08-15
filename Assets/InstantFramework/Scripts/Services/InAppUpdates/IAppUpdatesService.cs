@@ -7,20 +7,16 @@ using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
-    public interface IInAppUpdatesService
+    public interface IAppUpdatesService
     {
+        bool updateLater { get; set; }
         void Init();
+        void Terminate();
         bool IsUpdateAvailable();
-#if UNITY_IOS
-        void GoToAppStore();
-#endif
-#if UNITY_ANDROID
+        void GoToStore(string url);
         void CheckForUpdate();
         void OnUpdateAvailable(int availableVersionCode);
         void StartUpdate(int availableVersionCode);
         void OnUpdateDownloaded();
-        void DisableListeners();
-#endif
-
     }
 }

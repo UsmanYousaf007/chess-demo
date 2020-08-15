@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         public const string HARD_STOP = "hardStop";
         public const string RECONNECTING = "reconnecting";
         public const string UPDATE = "update";
+        public const string UPDATE_LATER_BUTTON = "updateLaterButton";
         public const string UPDATE_BUTTON = "updateButton";
         public const string CHECK_INTERNET_CONNECTION = "checkInternetConnection";
         public const string SESSION_TERMINATED = "SESSION_TERMINATED";

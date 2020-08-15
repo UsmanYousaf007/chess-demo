@@ -14,5 +14,14 @@ namespace TurboLabz.InstantFramework
         {
             ShowView(NavigatorViewId.UPDATE);
         }
+
+        public override NS HandleEvent(NavigatorEvent evt)
+        {
+            if (evt == NavigatorEvent.SHOW_LOBBY)
+            {
+                return new NSLobby();
+            }
+            return null;
+        }
     }
 }

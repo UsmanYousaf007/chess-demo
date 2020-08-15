@@ -29,8 +29,16 @@ namespace TurboLabz.InstantFramework
             LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
+
+#if UNITY_IOS
+            appInfoModel.storeURL = appInfoModel.iosURL;  
+#elif UNITY_ANDROID
+            appInfoModel.storeURL = appInfoModel.androidURL;
+#endif
+
             appInfoModel.appBackendVersionValid = response.ScriptData.GetBoolean(GSBackendKeys.APP_VERSION_VALID).Value;
             appInfoModel.contactSupportURL = response.ScriptData.GetString(GSBackendKeys.CONTACT_SUPPORT_URL);
+            appInfoModel.isMandatoryUpdate = GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.IS_MANDATORY_UPDATE);
 
             GSData gsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.GAME_SETTINGS);
             FillGameSettingsModel(gsSettingsData);

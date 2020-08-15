@@ -48,7 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
-        [Inject] public IInAppUpdatesService inAppUpdatesService { get; set; }
+        [Inject] public IAppUpdatesService appUpdatesService { get; set; }
 
         public override void Execute()
         {
@@ -78,17 +78,13 @@ namespace TurboLabz.InstantFramework
                 return;
             }*/
 
-            if (inAppUpdatesService.IsUpdateAvailable())
+            if ((appUpdatesService.IsUpdateAvailable()))// || appInfoModel.appBackendVersionValid == false) && !inAppUpdatesService.updateLater)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
                 CommandEnd();
                 return;
             }
-
-#if UNITY_ANDROID
-            inAppUpdatesService.DisableListeners();
-#endif
 
             if (settingsModel.maintenanceFlag == true)
             {

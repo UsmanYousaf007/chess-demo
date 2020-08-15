@@ -12,7 +12,7 @@ namespace UpdateManager
         IMMEDIATE = 1
     }
 
-    public static class AndroidUpdateManager
+    public class AndroidUpdateManager : MonoBehaviour
     {
         #region Events
         // Used to get an event when the update is available
@@ -28,18 +28,18 @@ namespace UpdateManager
         public static event Action OnUpdateDownloaded;
         #endregion
 
-        //public static AndroidUpdateManager Instance { get; private set; }
+        public static AndroidUpdateManager Instance { get; private set; }
 
-        public static bool isInDebugMode = false;
+        public bool isInDebugMode = false;
 
-        private static string unityPlayer = "com.unity3d.player.UnityPlayer";
+        private string unityPlayer = "com.unity3d.player.UnityPlayer";
 
         [Header("Update Type")]
         [SerializeField]
-        private static UpdateType updateType = UpdateType.FLEXIBLE;
+        private UpdateType updateType = UpdateType.FLEXIBLE;
 
-        private static AndroidJavaObject _currentActivity;
-        private static AndroidJavaObject _inAppUpdateManager;
+        private AndroidJavaObject _currentActivity;
+        private AndroidJavaObject _inAppUpdateManager;
 
         class OnUpdateListener : AndroidJavaProxy
         {
@@ -93,7 +93,7 @@ namespace UpdateManager
             }
         }
 
-        /*private void Awake()
+        private void Awake()
         {
             if (Instance == null)
             {
@@ -106,9 +106,9 @@ namespace UpdateManager
                 Instance = this;
                 DontDestroyOnLoad(this);
             }
-        }*/
+        }
 
-        public static void Init()
+        private void Start()
         {
             if (Application.isMobilePlatform)
             {
@@ -132,27 +132,27 @@ namespace UpdateManager
 
         // You should call this function after OnUpdateListener.onUpdate(isUpdateAvailable, isUpdateTypeAllowed)
         // and only if both isUpdateAvailable and isUpdateTypeAllowed are true 
-        public static void StartUpdate()
+        public void StartUpdate()
         {
             _inAppUpdateManager.Call("startUpdate");
         }
 
         // You should call this function after OnUpdateListener.onUpdateDownloaded()
         // to start the instalation of the update
-        public static void CompleteUpdate()
+        public void CompleteUpdate()
         {
             _inAppUpdateManager.Call("completeUpdate");
         }
 
         // You can check if there is an update using this when returning back to the game
         // from background.
-        public static void CheckForAnUpdate()
+        public void CheckForAnUpdate()
         {
             _inAppUpdateManager.Call("checkForAnUpdate");
         }
 
         // Get current UnityPlayerActivity object from UnityPlayer class
-        private static AndroidJavaObject GetCurrentAndroidActivity()
+        private AndroidJavaObject GetCurrentAndroidActivity()
         {
             if (_currentActivity == null)
             {
