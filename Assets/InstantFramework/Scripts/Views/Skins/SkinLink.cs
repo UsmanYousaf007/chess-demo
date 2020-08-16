@@ -64,6 +64,15 @@ namespace TurboLabz.InstantFramework
             else if (targetSpriteRenderer != null) 
             {
                 targetSpriteRenderer.sprite = sourceImage.sprite;
+
+                if (targetSpriteRenderer.sprite.texture == null)
+                {
+                    TLUtils.LogUtil.Log("UpdateSkin()==> Name:" + targetSpriteRenderer.sprite.name + " has NULL txture", "red");
+                }
+                else
+                {
+                    TLUtils.LogUtil.Log("UpdateSkin()==> Name:" + targetSpriteRenderer.sprite.name + " txture:" + targetSpriteRenderer.sprite.texture.name, "yellow");
+                }
             }
 
             foreach(SkinLink link in clonedSkinLinks)

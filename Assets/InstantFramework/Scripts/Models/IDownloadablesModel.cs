@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDownloadablesModel 
+namespace TurboLabz.InstantFramework
 {
-    List<DownloadableItem> downloadableItems { get; set; }
-    DownloadableItem Get(string name);
+    public interface IDownloadablesModel
+    {
+        Dictionary<string, DownloadableItem> downloadableItems { get; set; }
 
+        void Prepare();
+        bool IsUpdateAvailable(string shortCode);
+        void MarkUpdated(string shortCode);
+    }
 }

@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
     public class SkinRefs : View 
     {
         [Inject] public IDownloadablesService downloadablesService { get; set; }
+        [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+
         public Signal refreshSkinLinksSignal = new Signal();
 
         private string currentSkinId;
@@ -49,29 +51,32 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                
+                TLUtils.LogUtil.Log("SkinRefs - requesting download SKN_AMZ", "cyan");
+                currentSkinId = skinId;
 
-                var downloadedSkin = downloadablesService.GetDownloadableContent("SKN_AMZ").Then(OnSkinBundleLoaded);
+                downloadablesService.GetDownloadableContent("SKN_AMZ", OnSkinBundleLoaded);
             }
-
-
         }
 
         public void OnSkinBundleLoaded(BackendResult result, AssetBundle bundle)
         {
+            TLUtils.LogUtil.Log("SkinRefs - requesting download SKN_AMZ result: " + result.ToString(), "cyan");
+
             if (result == BackendResult.SUCCESS)
             {
-                SkinContainer container = SkinContainer.LoadSkin("SkinAmazon");
                 SkinContainer container2 = bundle.LoadAsset<SkinContainer>("SkinAmazon");
 
                 foreach (Transform child in transform)
                 {
                     Image img = child.GetComponent<Image>();
-                    img.sprite = container.GetSprite(child.name);
+                    img.sprite = container2.GetSprite(child.name);
                 }
             }
 
+            TLUtils.LogUtil.Log("SkinRefs - requesting download SKN_AMZ APPLY: ", "cyan");
+
             refreshSkinLinksSignal.Dispatch();
-            bundle.Unload(false);
         }
     }
 }

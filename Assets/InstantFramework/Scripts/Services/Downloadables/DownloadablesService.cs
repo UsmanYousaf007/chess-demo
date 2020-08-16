@@ -3,19 +3,62 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using System.Linq;
+using System;
 using strange.extensions.promise.api;
-using TurboLabz.InstantFramework;
 using UnityEngine;
+using UnityEngine.U2D;
 
-public class DownloadablesService : IDownloadablesService
+namespace TurboLabz.InstantFramework
 {
-    [Inject] public IBackendService backendService { get; set; }
-    [Inject] public IDownloadablesModel downloadablesModel { get; set; }
-    public IPromise<BackendResult, AssetBundle> GetDownloadableContent(string shortCode)
+    public class DownloadablesService : IDownloadablesService
     {
-        long lastModifiedTime = downloadablesModel.downloadableItems.Where(i => i.shortCode == shortCode).Select(i => i.lastModified).FirstOrDefault();
-        return new GetDownloadableContentRequest().Send(backendService.GetDownloadableContentUrl, shortCode, lastModifiedTime);
-    }
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IDownloadablesModel downloadablesModel { get; set; }
 
+        private string downloadShortCode;
+        private Action<BackendResult, AssetBundle> onDownloadContentCompleteCB;
+
+        public void GetDownloadableContent(string shortCode, Action<BackendResult, AssetBundle> callbackFn)
+        {
+            // Note: GetDownloadableContentRequest is not in the Strange context, but it uses a function from IBackendService. So the backend service
+            // function delegate is passed in to GetDownloadableContentRequest as a parameter.
+
+            DownloadableItem dlItem = downloadablesModel.downloadableItems[shortCode];
+            if (dlItem == null)
+            {
+                OnDownloadContentComplete(BackendResult.DOWNLOADABLE_CONTENT_GET_FAILED, null);
+                return;
+            }
+
+            downloadShortCode = shortCode;
+            onDownloadContentCompleteCB = callbackFn;
+
+            if (downloadablesModel.IsUpdateAvailable(shortCode))
+            {
+                TLUtils.LogUtil.Log("GetDownloadableContent()==> Download from URL", "cyan");
+                new GetDownloadableContentRequest().Send(backendService.GetDownloadableContentUrl, dlItem.shortCode, dlItem.lastModified).Then(OnDownloadContentComplete);
+            }
+
+            TLUtils.LogUtil.Log("GetDownloadableContent()==> Fetch from Cache", "cyan");
+            new GetDownloadableContentRequest().Send(null, dlItem.shortCode, dlItem.lastModified).Then(OnDownloadContentComplete);
+        }
+
+        public void OnDownloadContentComplete(BackendResult result, AssetBundle bundle)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                downloadablesModel.downloadableItems[downloadShortCode].bundle = bundle;
+                downloadablesModel.MarkUpdated(downloadShortCode);
+
+                string[] all = bundle.GetAllAssetNames();
+                TLUtils.LogUtil.Log("----> Bundle assets <---- " + all.Length, "yellow");
+                for (int i = 0; i < all.Length; i++)
+                {
+                    TLUtils.LogUtil.Log("bundle asset: " + all[i], "yellow");
+                }
+            }
+
+            onDownloadContentCompleteCB?.Invoke(result, bundle);
+        }
+    }
 }

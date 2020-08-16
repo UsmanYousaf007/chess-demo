@@ -411,7 +411,7 @@ namespace TurboLabz.InstantFramework
         {
             if (downloadablesData != null)
             {
-                downloadablesModel.downloadableItems = new List<DownloadableItem>();
+                downloadablesModel.downloadableItems = new Dictionary<string, DownloadableItem>();
                 foreach (var downloadable in downloadablesData)
                 {
                     DownloadableItem item = new DownloadableItem();
@@ -420,8 +420,10 @@ namespace TurboLabz.InstantFramework
                     item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
                     item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
 
-                    downloadablesModel.downloadableItems.Add(item);
+                    downloadablesModel.downloadableItems.Add(item.shortCode, item);
                 }
+
+                downloadablesModel.Prepare();
             }
         }
     }

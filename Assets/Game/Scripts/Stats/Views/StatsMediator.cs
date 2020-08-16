@@ -39,7 +39,6 @@ namespace TurboLabz.InstantGame
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IDownloadablesService downloadablesService { get; set; }
         
-
         public override void OnRegister()
         {
             view.Init();
@@ -121,8 +120,6 @@ namespace TurboLabz.InstantGame
 
         void OnTakePhotoBtnClicked()
         {
-            //downloadablesService.GetDownloadableContent("test_bundle");
-
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.take_new);
             if (photoPickerService.HasCameraPermission())
             {
@@ -133,7 +130,6 @@ namespace TurboLabz.InstantGame
                 view.CloseProfilePicDialog();
                 view.OpenSettingsDialog();
             }
-
         }
 
         void OnChoosePhotoBtnClicked()

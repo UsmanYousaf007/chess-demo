@@ -4,14 +4,13 @@
 /// Proprietary and confidential
 
 using UnityEngine;
-
 using strange.extensions.promise.api;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IDownloadablesService
     {
-        IPromise<BackendResult, AssetBundle> GetDownloadableContent(string shortCode);
-
+        void GetDownloadableContent(string shortCode, Action<BackendResult, AssetBundle> onDownloadCompleteCB);
     }
 }
