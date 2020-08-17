@@ -71,7 +71,9 @@ namespace TurboLabz.InstantFramework
         UPLOAD_URL_GET_FAILED,
         DOWNLOAD_URL_GET_FAILED,
         UPLOAD_PICTURE_FAILED,
-        DOWNLOAD_PICTURE_FAILED
+        DOWNLOAD_PICTURE_FAILED,
+        DOWNLOADABLE_CONTENT_GET_FAILED
+
 
     }
 }

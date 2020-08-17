@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using TurboLabz.TLUtils;
 
-public class ChessTools : EditorWindow
+public partial class ChessTools : EditorWindow
 {
     static string[] gameSceneFiles = new string[] {
             "Assets/InstantFramework/Scenes/Splash.unity",
@@ -54,14 +54,14 @@ public class ChessTools : EditorWindow
         SwitchScene(1);
     }
 
-    [MenuItem("TLTools/Show GS Config Environment", false, 15)]
+    [MenuItem("TLTools/Show GS Config Environment", false, 25)]
     public static void ShowGSConfigEnvironment()
     {
         GameSparksConfig.Environment env = GetGameSparksEnvironment();
         LogUtil.Log("GameSparks Config: " + env.ToString(), "yellow");
     }
 
-    [MenuItem("TLTools/GS Config Development", false, 16)]
+    [MenuItem("TLTools/GS Config Development", false, 26)]
     public static void SetGamesparksEnvDevelopment()
     {
         LogUtil.Log("Switch to GS Config Development", "yellow");
@@ -74,7 +74,7 @@ public class ChessTools : EditorWindow
     }
 
 
-    [MenuItem("TLTools/GS Config Live Preview", false, 18)]
+    [MenuItem("TLTools/GS Config Live Preview", false, 27)]
     public static void SetGamesparksEnvLivePreview()
     {
         LogUtil.Log("Switch to GS Config Live Preview", "yellow");
@@ -86,7 +86,7 @@ public class ChessTools : EditorWindow
         }
     }
 
-    [MenuItem("TLTools/GS Config Live", false, 19)]
+    [MenuItem("TLTools/GS Config Live", false, 29)]
     public static void SetGamesparksEnvLive()
     {
         LogUtil.Log("Switch to GS Config Live", "yellow");
@@ -98,7 +98,7 @@ public class ChessTools : EditorWindow
         }
     }
 
-    [MenuItem("TLTools/GS Config Sami", false, 30)]
+    [MenuItem("TLTools/GS Config Sami", false, 40)]
     public static void SetGamesparksEnvSami()
     {
         LogUtil.Log("Switch to GS Config Sami", "yellow");
@@ -110,7 +110,7 @@ public class ChessTools : EditorWindow
         }
     }
 
-    [MenuItem("TLTools/GS Config Omer", false, 31)]
+    [MenuItem("TLTools/GS Config Omer", false, 41)]
     public static void SetGamesparksEnvOmer()
     {
         LogUtil.Log("Switch to GS Config Omer", "yellow");
@@ -122,7 +122,7 @@ public class ChessTools : EditorWindow
         }
     }
 
-    [MenuItem("TLTools/GS Config Ali", false, 32)]
+    [MenuItem("TLTools/GS Config Ali", false, 42)]
     public static void SetGamesparksEnvAli()
     {
         LogUtil.Log("Switch to GS Config Ali", "yellow");
@@ -134,7 +134,7 @@ public class ChessTools : EditorWindow
         }
     }
 
-    [MenuItem("TLTools/GS Config Maryam", false, 33)]
+    [MenuItem("TLTools/GS Config Maryam", false, 43)]
     public static void SetGamesparksEnvMaryam()
     {
         LogUtil.Log("Switch to GS Config Maryam", "yellow");

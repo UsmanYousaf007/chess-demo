@@ -68,6 +68,10 @@ namespace TurboLabz.InstantFramework
             GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
             FillLessonsModel(lessonsData);
 
+            List<GSData> downloadablesData = response.ScriptData.GetGSDataList(GSBackendKeys.DOWNLOADBLES);
+
+            FillDownloadablesModel(downloadablesData);
+
             storeAvailableSignal.Dispatch(false);
 
             ParseActiveChallenges(response.ScriptData);
@@ -401,6 +405,28 @@ namespace TurboLabz.InstantFramework
                 }
             }
         }
+
+        private void FillDownloadablesModel(List<GSData> downloadablesData)
+
+        {
+            if (downloadablesData != null)
+            {
+                downloadablesModel.downloadableItems = new List<DownloadableItem>();
+                foreach (var downloadable in downloadablesData)
+
+                {
+                    DownloadableItem item = new DownloadableItem();
+                    item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
+                    item.shortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
+                    item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
+                    item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
+
+                    downloadablesModel.downloadableItems.Add(item);
+
+                }
+            }
+        }
+
     }
 
     #region REQUEST

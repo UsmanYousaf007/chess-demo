@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using DG.Tweening;
 
 public class MoveFadeAnim : MonoBehaviour
 {
-    public TextMeshProUGUI uiElement;
+    public GameObject go;
+    public Text uiObj;
+    public TextMeshProUGUI uiObj1;
     public Transform startPivot;
     public Transform endPivot;
 
@@ -22,21 +23,14 @@ public class MoveFadeAnim : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        uiElement.color = EndColor;
-        uiElement.gameObject.transform.position = startPivot.position;
-        StartCoroutine(DoAnimate());
+        go.transform.localPosition = new Vector3(startPivot.localPosition.x, startPivot.localPosition.y, startPivot.localPosition.z);
+        iTween.MoveTo(go, iTween.Hash("position", endPivot.localPosition, "delay", 0.5f, "time", 6f, "islocal", true));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0.5f, "time", 4f, "onupdate", "updateColor"));
     }
 
-    IEnumerator DoAnimate()
+    public void updateColor(float val)
     {
-        yield return new WaitForSeconds(0.5f);
-
-        uiElement.DOFade(0f, 4.5f);
-        uiElement.transform.DOMoveY(endPivot.position.y, 4.5f);
-
-        yield return new WaitForSeconds(6.2f);
-
-        gameObject.SetActive(false);
+        uiObj1.color = ((1f - val) * StartColor) + (val * EndColor);
     }
 
 }
