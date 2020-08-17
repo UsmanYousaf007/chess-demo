@@ -30,6 +30,13 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            // Check for bundle already loaded and persistent
+            if (dlItem.bundle != null)
+            {
+                callbackFn?.Invoke(BackendResult.SUCCESS, dlItem.bundle);
+                return;
+            }
+
             downloadShortCode = shortCode;
             onDownloadContentCompleteCB = callbackFn;
 
