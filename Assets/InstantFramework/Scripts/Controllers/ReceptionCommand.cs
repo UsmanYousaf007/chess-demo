@@ -78,7 +78,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }*/
 
-            if ((appUpdatesService.IsUpdateAvailable()))// || appInfoModel.appBackendVersionValid == false) && !inAppUpdatesService.updateLater)
+            if ((appUpdatesService.IsUpdateAvailable()) && !appUpdatesService.updateLater)// || appInfoModel.appBackendVersionValid == false) && !inAppUpdatesService.updateLater)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
