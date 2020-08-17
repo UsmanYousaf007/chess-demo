@@ -422,8 +422,6 @@ namespace TurboLabz.InstantFramework
 
                     downloadablesModel.downloadableItems.Add(item.shortCode, item);
                 }
-
-                downloadablesModel.Prepare();
             }
         }
     }

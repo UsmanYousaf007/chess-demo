@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
     {
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
-
+        [Inject] public IDownloadablesService downloadablesService { get; set; }
         // Listen to signals   
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -37,20 +37,26 @@ namespace TurboLabz.InstantFramework
             downloadableItems = new Dictionary<string, DownloadableItem>();
         }
 
-        public void Prepare()
+        public void Init()
         {
             versionCache = new Dictionary<string, DownloadableItem>();
-
-            if (!localDataService.FileExists(VERSION_CACHE_FILENAME))
-            {
-                SaveVersionCache();
-            }
-            else
-            {
-                LoadVersionCache();
-            }
+            LoadVersionCache();
         }
 
+        public void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn)
+        {
+            TLUtils.LogUtil.Log("BundleRefs - requesting download " + shortCode, "cyan");
+            try
+            {
+                downloadablesService.GetDownloadableContent("SkinAmazon", callbackFn);
+            }
+
+            catch (Exception e)
+            {
+                TLUtils.LogUtil.Log("Error when getting downloadable content. " + e, "red");
+            }
+
+        }
         public bool IsUpdateAvailable(string shortCode)
         {
             return !versionCache.ContainsKey(shortCode) ? true : versionCache[shortCode].lastModified < downloadableItems[shortCode].lastModified;
@@ -63,8 +69,11 @@ namespace TurboLabz.InstantFramework
                 versionCache.Add(shortCode, downloadableItems[shortCode]);
             }
 
-            versionCache[shortCode] = downloadableItems[shortCode];
-            SaveVersionCache();
+            else
+            {
+                versionCache[shortCode] = downloadableItems[shortCode];
+                SaveVersionCache();
+            }
         }
 
         private void LoadVersionCache()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +9,9 @@ namespace TurboLabz.InstantFramework
     {
         Dictionary<string, DownloadableItem> downloadableItems { get; set; }
 
-        void Prepare();
+        void Init();
         bool IsUpdateAvailable(string shortCode);
         void MarkUpdated(string shortCode);
+        void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn);
     }
 }

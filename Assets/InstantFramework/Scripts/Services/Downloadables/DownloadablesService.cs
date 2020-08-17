@@ -46,8 +46,11 @@ namespace TurboLabz.InstantFramework
                 new GetDownloadableContentRequest().Send(backendService.GetDownloadableContentUrl, dlItem.shortCode, dlItem.lastModified).Then(OnDownloadContentComplete);
             }
 
-            TLUtils.LogUtil.Log("GetDownloadableContent()==> Fetch from Cache", "cyan");
-            new GetDownloadableContentRequest().Send(null, dlItem.shortCode, dlItem.lastModified).Then(OnDownloadContentComplete);
+            else
+            {
+                TLUtils.LogUtil.Log("GetDownloadableContent()==> Fetch from Cache", "cyan");
+                new GetDownloadableContentRequest().Send(null, dlItem.shortCode, dlItem.lastModified).Then(OnDownloadContentComplete);
+            }
         }
 
         public void OnDownloadContentComplete(BackendResult result, AssetBundle bundle)

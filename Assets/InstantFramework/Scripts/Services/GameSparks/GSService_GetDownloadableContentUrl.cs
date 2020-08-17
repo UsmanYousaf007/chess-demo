@@ -20,13 +20,6 @@ namespace TurboLabz.InstantFramework
             if (data != null)
             {
                 GetDownloadableResponse response = (GetDownloadableResponse)data;
-                //DownloadableItem item = new DownloadableItem
-                //{
-                //    url = response.Url,
-                //    lastModified = response.LastModified,
-                //    shortCode = response.ShortCode,
-                //    size = response.Size
-                //};
                 onSuccessExternal?.Invoke(response.Url);
             }
 
