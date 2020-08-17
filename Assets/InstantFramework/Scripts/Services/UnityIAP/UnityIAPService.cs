@@ -116,15 +116,16 @@ namespace TurboLabz.InstantFramework
                         hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
                             new KeyValuePair<string, object>("store_iap_id", product.transactionID));
                     }
-                }
+
 #if SUBSCRIPTION_TEST
-                else if (playerModel.subscriptionExipryTimeStamp > 0)
-                {
-                    playerModel.subscriptionExipryTimeStamp = 1;
-                    loadPromotionSingal.Dispatch();
-                    updatePlayerDataSignal.Dispatch();
-                }
+                    if (playerModel.subscriptionExipryTimeStamp > 0)
+                    {
+                        playerModel.subscriptionExipryTimeStamp = 1;
+                        loadPromotionSingal.Dispatch();
+                        updatePlayerDataSignal.Dispatch();
+                    }
 #endif 
+                }
             }
 
 			promise.Dispatch(true);

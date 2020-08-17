@@ -88,5 +88,7 @@ namespace TurboLabz.InstantFramework
         bool isVideoFullyWatched(string videoId);
         bool isAnyVideoWatched();
         float? GetVideoProgress(string videoId);
+
+        int GetInventoryItemCount(string key);
     }
 }

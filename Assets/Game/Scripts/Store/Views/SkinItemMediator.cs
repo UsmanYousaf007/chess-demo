@@ -36,4 +36,10 @@ public class SkinItemMediator : Mediator
     {
         view.SetOwnedState();
     }
+
+    [ListensTo(typeof(UpdatePlayerInventorySignal))]
+    public void OnInventoryUpdated(PlayerInventoryVO inventory)
+    {
+        view.UpdateView();
+    }
 }

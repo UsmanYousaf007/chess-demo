@@ -309,6 +309,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ShopItemView>().To<ShopItemMediator>();
             mediationBinder.Bind<ShopView>().To<ShopMediator>();
             mediationBinder.Bind<ShopBundlePurchasedView>().To<ShopBundlePurchasedMediator>();
+            mediationBinder.Bind<InventoryView>().To<InventoryMediator>();
+            mediationBinder.Bind<InventoryItemView>().To<InventoryItemMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

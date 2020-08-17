@@ -55,7 +55,7 @@ namespace TurboLabz.InstantFramework
 
         void OnInventoryButtonClicked()
         {
-
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
         }
 
         void OnShopButtonClicked()

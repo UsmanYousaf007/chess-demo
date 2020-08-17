@@ -101,6 +101,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSShop();
             }
+            else if (evt == NavigatorEvent.SHOW_INVENTORY)
+            {
+                return new NSInventory();
+            }
 
             return null;
         }

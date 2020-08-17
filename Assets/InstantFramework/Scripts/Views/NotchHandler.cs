@@ -87,6 +87,11 @@ public class NotchHandler : MonoBehaviour {
     [Header("Shop")]
     public RectTransform shopScrollView;
 
+    [Header("Inventory")]
+    public RectTransform inventorySpecialItemsScrollView;
+    public RectTransform inventoryThemesScrollView;
+    public RectTransform inventoryTitleBar;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -193,6 +198,13 @@ public class NotchHandler : MonoBehaviour {
         SetTop(shopScrollView, -177f);
         SetBottom(shopScrollView, 232f);
         shopScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
+
+        //Inventory
+        SetTop(inventorySpecialItemsScrollView, -275f);
+        SetBottom(inventorySpecialItemsScrollView, 232f);
+        SetTop(inventoryThemesScrollView, -275f);
+        SetBottom(inventoryThemesScrollView, 232f);
+        SetY(inventoryTitleBar, -195f);
     }
 
     void SetY(RectTransform tfm, float y)

@@ -278,6 +278,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SHOP_PURCHASED_DLG_GAINED, "You Gained:"},
                 { LocalizationKey.SHOP_PURHCASED_DLG_OK, "Got It"},
 
+                { LocalizationKey.INVENTORY_SPECIAL_ITEMS, "SPECIAL ITEMS"},
+                { LocalizationKey.INVENTORY_ITEM_UNLOCK, "Unlock"},
+                { LocalizationKey.INVENTORY_WATCH_AD, "Watch Ad"},
+                { LocalizationKey.INVENTORY_TOOL_TIP, "Video will be available soon"},
+
                 #endregion
 
                 #region Friends

@@ -273,6 +273,11 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_PURCHASED_DLG_GAINED = "shopPurchasedDlgGained";
         public const string SHOP_PURHCASED_DLG_OK = "shopPurchasedDlgOk";
 
+        public const string INVENTORY_SPECIAL_ITEMS = "inventorySpecialItems";
+        public const string INVENTORY_ITEM_UNLOCK = "inventoryItemUnlock";
+        public const string INVENTORY_WATCH_AD = "inventoryWatchAd";
+        public const string INVENTORY_TOOL_TIP = "inventoryToolTip";
+
         #endregion
 
         #region Friends

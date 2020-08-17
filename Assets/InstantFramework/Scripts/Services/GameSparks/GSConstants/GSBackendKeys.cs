@@ -301,6 +301,12 @@ namespace TurboLabz.InstantFramework
             public const string ALL_LESSONS_PACK = "SpecialPackAllLessons";
             public const string REMOVE_ADS_PACK = "SpecialPackRemoveAds";
 
+            public const string SPECIAL_ITEM_GEMS_BOOSTER = "SpecialItemGemsBooster";
+            public const string SPECIAL_ITEM_HINT = "SpecialItemHint";
+            public const string SPECIAL_ITEM_KEY = "SpecialItemKey";
+            public const string SPECIAL_ITEM_RATING_BOOSTER = "SpecialItemRatingBooster";
+            public const string INVENTORY_SETTINGS_REWARDED_VIDEO_COST = "inventorySettings";
+
             public static string GetOfferItemKey(string text)
             {
                 switch (text)

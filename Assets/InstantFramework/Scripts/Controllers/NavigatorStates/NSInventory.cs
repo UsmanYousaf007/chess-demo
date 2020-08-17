@@ -1,10 +1,10 @@
 ﻿namespace TurboLabz.InstantFramework
 {
-    public class NSShop : NS
+    public class NSInventory : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.SHOP);
+            ShowView(NavigatorViewId.INVENTORY);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
@@ -25,6 +25,10 @@
             {
                 return new NSFriends();
             }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
                 return new NSChat();
@@ -40,14 +44,6 @@
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
             {
                 return new NSSubscriptionDlg();
-            }
-            else if (evt == NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED)
-            {
-                return new NSShopBundlePurchasedDlg();
-            }
-            else if (evt == NavigatorEvent.SHOW_INVENTORY)
-            {
-                return new NSInventory();
             }
 
             return null;

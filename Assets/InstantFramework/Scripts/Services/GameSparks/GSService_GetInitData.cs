@@ -56,6 +56,9 @@ namespace TurboLabz.InstantFramework
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
             FillAdsSettingsModel(adsSettingsData);
 
+            GSData inventorySettingsData = response.ScriptData.GetGSData(GSBackendKeys.ShopItem.INVENTORY_SETTINGS_REWARDED_VIDEO_COST);
+            FillInventorySettings(inventorySettingsData);
+
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
 
@@ -379,6 +382,25 @@ namespace TurboLabz.InstantFramework
 
                         lessonsModel.topicsMapping.Add(topic.Key, entry.Key);
                     }
+                }
+            }
+        }
+
+        private void FillInventorySettings(GSData inventorySettingsData)
+        {
+            if (inventorySettingsData != null)
+            {
+                string[] inventoryItemKeys =
+                {
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_GEMS_BOOSTER,
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER,
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY,
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT
+                };
+
+                foreach (var key in inventoryItemKeys)
+                {
+                    settingsModel.inventorySpecialItemsRewardedVideoCost.Add(key, GSParser.GetSafeInt(inventorySettingsData, key));
                 }
             }
         }

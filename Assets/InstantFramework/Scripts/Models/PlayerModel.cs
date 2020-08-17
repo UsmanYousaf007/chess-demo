@@ -326,6 +326,11 @@ namespace TurboLabz.InstantFramework
 
             return 0f;
         }
+
+        public int GetInventoryItemCount(string key)
+        {
+            return OwnsVGood(key) ? inventory[key] : 0;
+        }
     }
 }
 
