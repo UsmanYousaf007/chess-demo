@@ -82,7 +82,7 @@ namespace TurboLabz.InstantFramework
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
-                CommandEnd();
+                //CommandEnd();
                 return;
             }
 
