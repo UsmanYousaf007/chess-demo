@@ -36,7 +36,6 @@ namespace TurboLabz.InstantFramework
             if (view.checkOwned && view.shortCode.Equals(item.key))
             {
                 iTween.PunchScale(view.owned.gameObject, iTween.Hash("amount", new Vector3(0.3f, 0.3f, 0f), "time", 3f));
-                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
             }
         }
     }

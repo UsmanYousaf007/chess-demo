@@ -278,6 +278,9 @@ namespace TurboLabz.InstantFramework
         public const string INVENTORY_WATCH_AD = "inventoryWatchAd";
         public const string INVENTORY_TOOL_TIP = "inventoryToolTip";
 
+        public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
+        public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
+
         #endregion
 
         #region Friends

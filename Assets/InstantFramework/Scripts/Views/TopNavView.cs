@@ -63,24 +63,20 @@ namespace TurboLabz.InstantFramework
         {
             if (boughtGemsCount != null && gameObject.activeInHierarchy)
             {
-                boughtGemsCount.text = $"+{gems-long.Parse(gemsCount.text)}";
+                boughtGemsCount.text = $"+{gems - long.Parse(gemsCount.text)}";
                 boughtGemsCount.transform.localPosition = Vector3.zero;
                 boughtGemsCount.gameObject.SetActive(true);
                 DOTween.ToAlpha(() => boughtGemsCount.color, x => boughtGemsCount.color = x, 0.0f, 3.0f).OnComplete(() => OnFadeComplete(gems));
                 boughtGemsCount.transform.DOMoveY(Screen.height, 3.0f);
-                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
-            else
-            {
-                gemsCount.text = gems.ToString();
-            }
+
+            gemsCount.text = gems.ToString();
         }
 
         private void OnFadeComplete(long gems)
         {
             boughtGemsCount.color = originalColor;
             boughtGemsCount.gameObject.SetActive(false);
-            gemsCount.text = gems.ToString();
         }
     }
 }

@@ -49,18 +49,18 @@ namespace TurboLabz.InstantFramework
 
             PurchaseResult purchaseResult = PurchaseResult.NONE;
 
-            if (item.maxQuantity == 1 && playerModel.OwnsVGood(key) == true)
-            {
-                purchaseResult = PurchaseResult.ALREADY_OWNED;
-            }
-            else if (item.currency2Cost != 0 && playerModel.bucks < item.currency2Cost) 
-            {
-                purchaseResult = PurchaseResult.NOT_ENOUGH_BUCKS;
-            } 
-            else if (clearForPurchase == false)
-            {
-                purchaseResult = PurchaseResult.PERMISSION_TO_PURCHASE;
-            }
+            //if (item.maxQuantity == 1 && playerModel.OwnsVGood(key) == true)
+            //{
+            //    purchaseResult = PurchaseResult.ALREADY_OWNED;
+            //}
+            //else if (item.currency3Cost != 0 && playerModel.gems < item.currency3Cost) 
+            //{
+            //    purchaseResult = PurchaseResult.NOT_ENOUGH_GEMS;
+            //} 
+            //else if (clearForPurchase == false)
+            //{
+            //    purchaseResult = PurchaseResult.PERMISSION_TO_PURCHASE;
+            //}
 
             // Perform purchase if clear for purchase
             if (purchaseResult == PurchaseResult.NONE)
@@ -90,7 +90,7 @@ namespace TurboLabz.InstantFramework
             {
                 // Virtual good purchase
                 Retain();
-                backendService.BuyVirtualGoods(2, 1, storeItem.key).Then(OnPurchase);
+                backendService.BuyVirtualGoods(3, 1, storeItem.key).Then(OnPurchase);
             }
         }
 
@@ -145,6 +145,7 @@ namespace TurboLabz.InstantFramework
                     analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
                     GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
                 }
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
             {
@@ -179,7 +180,7 @@ namespace TurboLabz.InstantFramework
             {
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
-                audioService.Play(audioService.sounds.SFX_SHOP_PURCHASE_ITEM);
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
 
             Release();

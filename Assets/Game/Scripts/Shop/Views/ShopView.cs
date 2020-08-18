@@ -21,9 +21,6 @@ namespace TurboLabz.InstantFramework
         public GameObject loading;
         public RectTransform layout;
 
-        [HideInInspector] public StoreIconsContainer iconsContainer;
-        [HideInInspector] public StoreThumbsContainer thumbsContainer;
-
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -34,8 +31,6 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         public Signal subscriptionButtonClickedSignal = new Signal();
 
-        private bool isInitialised = false;
-
         public void Init()
         {
             specialPacksHeading.text = localizationService.Get(LocalizationKey.SHOP_SPECIAL_PACKS);
@@ -43,12 +38,8 @@ namespace TurboLabz.InstantFramework
             subscriptionButtonText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);
             subscriptionStripText.text = localizationService.Get(LocalizationKey.SHOP_SUBSCRIPTION_STRIP);
             ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
-
             subscriptionButton.onClick.AddListener(OnSubscirptionButtonClicked);
             subscriptionStrip.onClick.AddListener(OnSubscirptionButtonClicked);
-
-            iconsContainer = StoreIconsContainer.Load();
-            thumbsContainer = StoreThumbsContainer.Load();
         }
 
         public void Show()

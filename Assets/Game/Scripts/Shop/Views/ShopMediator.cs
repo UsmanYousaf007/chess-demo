@@ -60,7 +60,6 @@ namespace TurboLabz.InstantFramework
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED);
                 updateShopBundlePurchasedViewSignal.Dispatch(item);
-                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
             }
         }
     }

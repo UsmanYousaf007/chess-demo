@@ -27,9 +27,14 @@ namespace TurboLabz.InstantFramework
         public bool checkOwned;
         public GameObject owned;
         public Text ownedText;
+        public Button thumbnailButton;
         public bool isGems;
         public bool isBundle;
-        public Button thumbnailButton;
+        public bool showDiscount;
+        public GameObject discountObj;
+        public float discountPercentage;
+        public Text discountAmount;
+        public Text discountValue;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
@@ -102,6 +107,14 @@ namespace TurboLabz.InstantFramework
                 }
 
                 SetOwnedStatus();
+
+                if (showDiscount)
+                {
+                    discountObj.SetActive(true);
+                    discountAmount.text = $"{discountPercentage * 100}% Bonus";
+                    discountValue.text = $"{(int)(storeItem.currency3Payout - (storeItem.currency3Payout * discountPercentage))}";
+                }
+
                 isInitlialised = true;
             }
 

@@ -283,6 +283,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.INVENTORY_WATCH_AD, "Watch Ad"},
                 { LocalizationKey.INVENTORY_TOOL_TIP, "Video will be available soon"},
 
+                { LocalizationKey.SPOT_PURHCASE_TITLE, "Low On Gems?"},
+                { LocalizationKey.SPOT_PURCHASE_SUB_TITLE, "Purchase a Gem Pack to Continue!"},
+
                 #endregion
 
                 #region Friends

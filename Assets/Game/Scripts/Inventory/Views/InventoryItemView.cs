@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using DG.Tweening;
+using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,7 @@ namespace TurboLabz.InstantFramework
         public Sprite enoughGems;
         public Sprite notEnoughGems;
         public bool skipIconLoading;
+        public Text addedCount;
 
         private static StoreIconsContainer iconsContainer;
         private static StoreThumbsContainer thumbsContainer;
@@ -31,6 +33,9 @@ namespace TurboLabz.InstantFramework
         private bool isInitlialised = false;
         private StoreItem storeItem;
         private float rewardBarOriginalWidth;
+        private Color originalColor;
+        private Tweener addedAnimation;
+        private bool haveEnoughGems;
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -44,6 +49,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         public Signal<string> buyButtonSignal = new Signal<string>();
         public Signal<string> watchAdSignal = new Signal<string>();
+        public Signal notEnoughCurrencyToUnlockSignal = new Signal();
 
         public void Init()
         {
@@ -57,6 +63,8 @@ namespace TurboLabz.InstantFramework
                 thumbsContainer = StoreThumbsContainer.Load();
             }
 
+            addedCount.gameObject.SetActive(false);
+            originalColor = addedCount.color;
             rewardBarOriginalWidth = rewardedVideoProgressBar.sizeDelta.x;
             //bar fill code
             //var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
@@ -103,7 +111,15 @@ namespace TurboLabz.InstantFramework
         private void OnBuyButtonClicked()
         {
             audioService.PlayStandardClick();
-            buyButtonSignal.Dispatch(shortCode);
+
+            if (haveEnoughGems)
+            {
+                buyButtonSignal.Dispatch(shortCode);
+            }
+            else
+            {
+                notEnoughCurrencyToUnlockSignal.Dispatch();
+            }
         }
 
         private void OnWatchAdButtonClicked()
@@ -116,7 +132,28 @@ namespace TurboLabz.InstantFramework
         {
             price.text = storeItem.currency3Cost.ToString();
             count.text = playerModel.GetInventoryItemCount(shortCode).ToString();
-            buyButton.image.sprite = playerModel.gems >= storeItem.currency3Cost ? enoughGems : notEnoughGems;
+            haveEnoughGems = playerModel.gems >= storeItem.currency3Cost;
+            buyButton.image.sprite = haveEnoughGems ? enoughGems : notEnoughGems;
+        }
+
+        public void PlayAnimation()
+        {
+            if (addedAnimation != null)
+            {
+                addedAnimation.Kill();
+                DOTween.Kill(addedCount.transform);
+            }
+
+            addedCount.transform.localPosition = Vector3.zero;
+            addedCount.color = originalColor;
+            addedCount.gameObject.SetActive(true);
+            addedAnimation = DOTween.ToAlpha(() => addedCount.color, x => addedCount.color = x, 0.0f, 3.0f).OnComplete(OnFadeComplete);
+            addedCount.transform.DOMoveY(addedCount.transform.position.y + 100, 3.0f);
+        }
+
+        private void OnFadeComplete()
+        {
+            addedCount.gameObject.SetActive(false);
         }
     }
 }

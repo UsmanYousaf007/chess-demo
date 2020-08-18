@@ -8,15 +8,31 @@ public class SkinItemMediator : Mediator
 
     //Dispatch Signals
     [Inject] public SetSkinSignal setSkinSignal { get; set; }
+    [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+    [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
+    [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
     public override void OnRegister()
     {
         view.setSkinSignal.AddListener(OnSetSkin);
+        view.unlockItemSignal.AddListener(OnUnlockItem);
+        view.notEnoughCurrencyToUnlockSignal.AddListener(OnNotEnoughCurrency);
     }
 
-    public void OnSetSkin(string key)
+    private void OnSetSkin(string key)
     {
         setSkinSignal.Dispatch(key);
+    }
+
+    private void OnUnlockItem(string key, string consumeCurrenyKey, int consumeQuantity)
+    {
+        purchaseStoreItemSignal.Dispatch(key, true);
+        consumeVirtualGoodSignal.Dispatch(consumeCurrenyKey, consumeQuantity);
+    }
+
+    private void OnNotEnoughCurrency()
+    {
+        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
     }
 
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]

@@ -39,7 +39,8 @@ namespace TurboLabz.InstantFramework
         lessons_videos,
         lessons_topics,
         lessons_play,
-        inventory
+        inventory,
+        spot_purchase_dlg
     }
 
     public enum AnalyticsEventId

@@ -13,6 +13,14 @@
             {
                 return new NSShop();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+            {
+                return new NSMultiplayer();
+            }
+            else if (evt == NavigatorEvent.SHOW_CHAT)
+            {
+                return new NSChat();
+            }
 
             return null;
         }

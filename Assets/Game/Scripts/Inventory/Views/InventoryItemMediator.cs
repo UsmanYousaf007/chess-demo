@@ -9,11 +9,13 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
             view.buyButtonSignal.AddListener(OnPurchaseSignal);
+            view.notEnoughCurrencyToUnlockSignal.AddListener(OnNotEnoughCurrency);
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]
@@ -31,6 +33,20 @@ namespace TurboLabz.InstantFramework
         public void OnInventoryUpdated(PlayerInventoryVO inventory)
         {
             view.SetupPriceAndCount();
+        }
+        
+        [ListensTo(typeof(PurchaseStoreItemResultSignal))]
+        public void OnItemPurchased(StoreItem item, PurchaseResult result)
+        {
+            if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.shortCode))
+            {
+                view.PlayAnimation();
+            }
+        }
+
+        private void OnNotEnoughCurrency()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
     }
 }
