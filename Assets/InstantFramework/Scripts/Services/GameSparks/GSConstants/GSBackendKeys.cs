@@ -256,7 +256,7 @@ namespace TurboLabz.InstantFramework
             public const string GEMPACK_SHOP_ITEMS = "gemPackShopItems";
             public const string SPECIALPACK_SHOP_ITEMS = "specialPackShopItems";
             public const string SPECIALITEM_SHOP_ITEMS = "specialItemShopItems";
-
+            public const string SPECIALITEM_POINTS_ITEMS = "specialItemPointItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -285,6 +285,7 @@ namespace TurboLabz.InstantFramework
             public const string GEMPACK_SHOP_TAG = "GemPack";
             public const string SPECIALPACK_SHOP_TAG = "SpecialPack";
             public const string SPECIALITEM_SHOP_TAG = "SpecialItem";
+            public const string SPECIALITEM_POINTS_TAG = "Points";
 
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
             public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";

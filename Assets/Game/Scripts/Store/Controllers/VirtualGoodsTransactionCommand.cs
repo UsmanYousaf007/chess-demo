@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public VirtualGoodBoughtSignal virtualGoodBoughtSignal { get; set; }
 
         public override void Execute()
         {
@@ -51,6 +52,11 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+
+                if (!string.IsNullOrEmpty(vo.buyItemShortCode))
+                {
+                    virtualGoodBoughtSignal.Dispatch(vo.buyItemShortCode);
+                }
             }
 
             Release();

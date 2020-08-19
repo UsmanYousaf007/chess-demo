@@ -56,4 +56,13 @@ public class SkinItemMediator : Mediator
     {
         view.UpdateView();
     }
+
+    [ListensTo(typeof(VirtualGoodBoughtSignal))]
+    public void OnItemUnlocked(string itemShortCode)
+    {
+        if (itemShortCode.Equals(view.Key))
+        {
+            view.PlayAnimation();
+        }
+    }
 }

@@ -20,6 +20,7 @@ public class SkinItemView : View
     public Signal<string> setSkinSignal = new Signal<string>();
     public Signal<VirtualGoodsTransactionVO> unlockItemSignal = new Signal<VirtualGoodsTransactionVO>();
     public Signal notEnoughCurrencyToUnlockSignal = new Signal();
+    public string Key { get { return key; } }
 
     public Image thumbnail;
     public Image icon;
@@ -44,7 +45,6 @@ public class SkinItemView : View
     private bool isUnlocked;
     private bool haveEnoughItemsToUnlock;
     private bool haveEnoughGemsToUnlock;
-    private int playUnlockAnimation = 0;
 
     public void Init(string key)
     {
@@ -92,10 +92,6 @@ public class SkinItemView : View
         {
             setSkinSignal.Dispatch(key);
         }
-        //else
-        //{
-        //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-        //}
     }
 
     public void SetOwnedState()
@@ -109,18 +105,13 @@ public class SkinItemView : View
         requiredGems.text = unlockItem.currency3Cost.ToString();
         notEnoughUnlockItems.gameObject.SetActive(!haveEnoughItemsToUnlock);
         notEnoughUnlockItems.sprite = haveEnoughGemsToUnlock ? enoughGems : notEnoughGems;
-        PlayAnimation();
     }
 
-    private void PlayAnimation()
+    public void PlayAnimation()
     {
-        if (gameObject.activeInHierarchy && isUnlocked && playUnlockAnimation == 1)
-        {
-            unlockedAnimation.gameObject.SetActive(true);
-            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-            playUnlockAnimation = 2;
-            StartCoroutine(StopAnimation());
-        }
+        unlockedAnimation.gameObject.SetActive(true);
+        audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+        StartCoroutine(StopAnimation());
     }
 
     private void OnUnlockClicked()
@@ -133,14 +124,12 @@ public class SkinItemView : View
 
         if (haveEnoughItemsToUnlock)
         {
-            playUnlockAnimation = 1;
             vo.consumeItemShortCode = unlockItemKey;
             vo.consumeQuantity = 1;
             unlockItemSignal.Dispatch(vo);
         }
         else if (haveEnoughGemsToUnlock)
         {
-            playUnlockAnimation = 1;
             vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
             vo.consumeQuantity = unlockItem.currency3Cost;
             unlockItemSignal.Dispatch(vo);
