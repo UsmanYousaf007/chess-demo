@@ -118,5 +118,10 @@ public class XcodeSettingsPostProcesser
 
         File.WriteAllText(plistPath, plist.WriteToString());
         File.WriteAllText(projPath, proj.WriteToString());
+
+        //Adding Apple Sign-In Capability
+	    ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", PBXProject.GetUnityTargetName());
+	    ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
+	    projCapability.WriteToFile();
     }
 }
