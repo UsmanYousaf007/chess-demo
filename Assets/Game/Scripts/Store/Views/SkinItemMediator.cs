@@ -8,9 +8,8 @@ public class SkinItemMediator : Mediator
 
     //Dispatch Signals
     [Inject] public SetSkinSignal setSkinSignal { get; set; }
-    [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
-    [Inject] public ConsumeVirtualGoodSignal consumeVirtualGoodSignal { get; set; }
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+    [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
 
     public override void OnRegister()
     {
@@ -24,10 +23,9 @@ public class SkinItemMediator : Mediator
         setSkinSignal.Dispatch(key);
     }
 
-    private void OnUnlockItem(string key, string consumeCurrenyKey, int consumeQuantity)
+    private void OnUnlockItem(VirtualGoodsTransactionVO vo)
     {
-        purchaseStoreItemSignal.Dispatch(key, true);
-        consumeVirtualGoodSignal.Dispatch(consumeCurrenyKey, consumeQuantity);
+        virtualGoodsTransactionSignal.Dispatch(vo);
     }
 
     private void OnNotEnoughCurrency()

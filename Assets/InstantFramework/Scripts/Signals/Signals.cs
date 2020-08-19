@@ -163,6 +163,7 @@ namespace TurboLabz.InstantFramework
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
     public class UpdateShopBundlePurchasedViewSignal : Signal<StoreItem> { }
+    public class VirtualGoodsTransactionSignal : Signal<VirtualGoodsTransactionVO> { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }

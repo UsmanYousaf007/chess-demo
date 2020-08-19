@@ -18,7 +18,7 @@ public class SkinItemView : View
     [Inject] public IAudioService audioService { get; set; }
 
     public Signal<string> setSkinSignal = new Signal<string>();
-    public Signal<string, string, int> unlockItemSignal = new Signal<string, string, int>();
+    public Signal<VirtualGoodsTransactionVO> unlockItemSignal = new Signal<VirtualGoodsTransactionVO>();
     public Signal notEnoughCurrencyToUnlockSignal = new Signal();
 
     public Image thumbnail;
@@ -117,6 +117,7 @@ public class SkinItemView : View
         if (gameObject.activeInHierarchy && isUnlocked && playUnlockAnimation == 1)
         {
             unlockedAnimation.gameObject.SetActive(true);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             playUnlockAnimation = 2;
             StartCoroutine(StopAnimation());
         }
@@ -126,15 +127,23 @@ public class SkinItemView : View
     {
         audioService.PlayStandardClick();
 
+        var vo = new VirtualGoodsTransactionVO();
+        vo.buyItemShortCode = key;
+        vo.buyQuantity = 1;
+
         if (haveEnoughItemsToUnlock)
         {
             playUnlockAnimation = 1;
-            unlockItemSignal.Dispatch(key, unlockItemKey, 1);
+            vo.consumeItemShortCode = unlockItemKey;
+            vo.consumeQuantity = 1;
+            unlockItemSignal.Dispatch(vo);
         }
         else if (haveEnoughGemsToUnlock)
         {
             playUnlockAnimation = 1;
-            unlockItemSignal.Dispatch(key, GSBackendKeys.PlayerDetails.GEMS, unlockItem.currency3Cost);
+            vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+            vo.consumeQuantity = unlockItem.currency3Cost;
+            unlockItemSignal.Dispatch(vo);
         }
         else
         {
