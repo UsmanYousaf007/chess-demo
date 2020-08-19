@@ -446,6 +446,16 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUB_SWITCH_ANNUAL_BTN, "Switch to Yearly"},
 
                 #endregion
+
+
+                #region ManageSubscription
+
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN, "League Ends in"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TAP, "TAP"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES, "Trophies"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_RANK, "Rank"},
+
+                #endregion
             };
         }
     }

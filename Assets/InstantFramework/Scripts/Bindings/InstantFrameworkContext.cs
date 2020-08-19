@@ -305,6 +305,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LessonsVideoPlayerView>().To<LessonsVideoPlayerMediator>();
             mediationBinder.Bind<TopicsView>().To<TopicsMediator>();
             mediationBinder.Bind<LessonsView>().To<LessonsMediator>();
+            mediationBinder.Bind<LeagueProfileStripView>().To<LeagueProfileStripMediator>();
+            mediationBinder.Bind<TournamentsView>().To<TournamentsMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

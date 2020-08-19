@@ -446,5 +446,16 @@ namespace TurboLabz.InstantFramework
         public const string SUB_SWITCH_ANNUAL_BTN = "subSwitchAnnualBtn";
 
         #endregion
+
+
+        #region PlayerLeagueProfileStrip
+
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN = "leagueEndsInLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_TAP = "tapLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES = "trophiesLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_RANK = "rankLabel";
+
+        #endregion
+
     }
 }
