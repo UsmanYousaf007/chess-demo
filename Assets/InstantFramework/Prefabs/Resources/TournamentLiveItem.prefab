@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1798330448110798586}
   - component: {fileID: 1836490507041826153}
   m_Layer: 5
-  m_Name: GrandPrizeTitle
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -955,6 +955,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6538105015017868359}
+  - component: {fileID: 1748915539713110868}
   m_Layer: 5
   m_Name: TournamentLiveItem
   m_TagString: Untagged
@@ -982,6 +983,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0.5, y: -321.8}
   m_SizeDelta: {x: 921, y: 534.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1748915539713110868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6511803011811186507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d147368f9dab4cb7b37f65ed119a677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg: {fileID: 2468226113098471911}
+  headingLabel: {fileID: 1636750212188300010}
+  subHeadingLabel: {fileID: 7802494602442471505}
+  tournamentImage: {fileID: 6671916877966177444}
+  prizeImage: {fileID: 6239203213511224879}
+  countdownTimerText: {fileID: 2439947847692776966}
+  playerTrophiesCountText: {fileID: 8431786151119728429}
+  playerRankCountText: {fileID: 6364939500383937197}
+  button: {fileID: 4207650039054127917}
 --- !u!1 &6527182046252181632
 GameObject:
   m_ObjectHideFlags: 0
