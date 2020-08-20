@@ -5,7 +5,7 @@
 
 using UnityEngine;
 using strange.extensions.mediation.impl;
-
+using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public TournamentsView view { get; set; }
 
         // Dispatch signals
+        [Inject] public LeagueProfileStripSetOnClickSignal leagueProfileStripSetOnClickSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -23,9 +24,19 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        private Signal OnLeagueProfileStripClickedSignal = new Signal();
+
         public override void OnRegister()
         {
             view.Init();
+
+            OnLeagueProfileStripClickedSignal.AddListener(OnLeagueProfileStripClicked);
+            leagueProfileStripSetOnClickSignal.Dispatch(OnLeagueProfileStripClickedSignal);
+        }
+
+        public void OnLeagueProfileStripClicked()
+        {
+            TLUtils.LogUtil.Log("TournamentsMediator::OnLeagueProfileStripClicked()");
         }
     }
 }

@@ -167,4 +167,8 @@ namespace TurboLabz.InstantFramework
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
     public class RatingBoostAnimSignal : Signal<int> { }
+
+    // LeagueProfileStrip
+    public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
+    public class UpdateLeagueProfileStripSignal : Signal<LeagueProfileStripVO> { }
 }

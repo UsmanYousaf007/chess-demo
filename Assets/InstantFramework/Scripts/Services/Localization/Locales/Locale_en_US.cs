@@ -448,7 +448,7 @@ namespace TurboLabz.InstantFramework
                 #endregion
 
 
-                #region ManageSubscription
+                #region LeagueProfileStrip
 
                 { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN, "League Ends in"},
                 { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TAP, "TAP"},
@@ -456,7 +456,16 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_RANK, "Rank"},
 
                 #endregion
-            };
+
+                #region TournamentItem
+
+                { LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING, "Grand Prize"},
+                { LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING, "Play more, Win Big!"},
+                { LocalizationKey.TOURNAMENT_LIVE_ITEM_ENDS_IN, "Ends in"},
+
+                #endregion
+
+    };
         }
     }
 }

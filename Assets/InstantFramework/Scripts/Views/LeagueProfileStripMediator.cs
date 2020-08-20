@@ -9,6 +9,7 @@ using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using TurboLabz.InstantGame;
 using System;
+using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,6 +30,18 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+        }
+
+        [ListensTo(typeof(UpdateLeagueProfileStripSignal))]
+        public void OnUpdateProfile(LeagueProfileStripVO vo)
+        {
+            view.UpdateView(vo);
+        }
+
+        [ListensTo(typeof(LeagueProfileStripSetOnClickSignal))]
+        public void OnSetStripClickedSignal(Signal signal)
+        {
+            view.SetStripClickedSignal(signal);
         }
     }
 }

@@ -3,16 +3,11 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine.UI;
+using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using UnityEngine;
-using TurboLabz.TLUtils;
-using System.Collections.Generic;
-using strange.extensions.signal.impl;
-using System;
-using TurboLabz.InstantGame;
-using System.Text;
-using TMPro;
+using UnityEngine.UI;
+
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,8 +20,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateLeagueProfileStripSignal updateLeagueProfileStripSignal { get; set; }
 
-        public GameObject gameObjectLeagueProfileStrip;
+        public Transform listContainer;
+
+        private GameObject tournamentLiveItemPrefab;
+        private GameObject tournamentUpcomingItemPrefab;
+        private Dictionary<string, TournamentLiveItem> tournametLiveItems = new Dictionary<string, TournamentLiveItem>();
+        private Dictionary<string, TournamentUpcomingItem> tournametUpcomingItems = new Dictionary<string, TournamentUpcomingItem>();
 
         public void Init()
         {
@@ -38,8 +39,18 @@ namespace TurboLabz.InstantFramework
             leagueProfileStripVO.playerRankStatusImage = null;
             leagueProfileStripVO.tournamentCountdownTimer = "6d 5m";
 
-            LeagueProfileStripView s = gameObjectLeagueProfileStrip.GetComponent<LeagueProfileStripView>();
-            s.UpdateView(leagueProfileStripVO);
+            updateLeagueProfileStripSignal.Dispatch(leagueProfileStripVO);
+
+            LoadAssets();
+
+
+            AddTournamentLiveItem();
+        }
+
+        public void LoadAssets()
+        {
+            tournamentLiveItemPrefab = Resources.Load("TournamentLiveItem") as GameObject;
+            tournamentUpcomingItemPrefab = Resources.Load("TournamentUpcomingItem") as GameObject;
         }
 
         public void Show() 
@@ -55,6 +66,48 @@ namespace TurboLabz.InstantFramework
         {
             return gameObject.activeSelf;
         }
+
+        public void AddTournamentLiveItem()
+        {
+            GameObject obj = GameObject.Instantiate(tournamentLiveItemPrefab);
+            TournamentLiveItem item = obj.GetComponent<TournamentLiveItem>();
+
+            item.headingLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING);
+            item.subHeadingLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING);
+            item.tournamentImage = Resources.Load("AD") as Image;
+            item.prizeImage = Resources.Load("AL") as Image; ;
+            item.countdownTimerText.text = "2h 23n";
+            item.playerTrophiesCountText.text = "8";
+            item.playerRankCountText.text = "4";
+            item.button.onClick.AddListener(OnTournamentLiveItemClicked);
+
+            item.transform.SetParent(listContainer, false);
+            tournametLiveItems.Add(item.name, item);
+        }
+
+        public void AddTournamentUpcomingItem()
+        {
+            GameObject obj = GameObject.Instantiate(tournamentLiveItemPrefab);
+            TournamentUpcomingItem item = obj.GetComponent<TournamentUpcomingItem>();
+
+            item.tournamentImage = null;
+            item.countdownTimerText.text = "5h 28n";
+            item.button.onClick.AddListener(OnTournamentUpcomingItemClicked);
+
+            item.transform.SetParent(listContainer, false);
+            tournametUpcomingItems.Add(item.name, item);
+        }
+
+        public void OnTournamentLiveItemClicked()
+        {
+            TLUtils.LogUtil.Log("TournamentsView::OnTournamentLiveItemClicked()");
+        }
+
+        public void OnTournamentUpcomingItemClicked()
+        {
+            TLUtils.LogUtil.Log("TournamentsView::OnTournamentUpcomingItemClicked()");
+        }
+
 
     }
 }

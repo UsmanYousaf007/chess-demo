@@ -447,13 +447,20 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
-
         #region PlayerLeagueProfileStrip
 
         public const string PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN = "leagueEndsInLabel";
         public const string PLAYER_LEAGUE_PROFILE_STRIP_TAP = "tapLabel";
         public const string PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES = "trophiesLabel";
         public const string PLAYER_LEAGUE_PROFILE_STRIP_RANK = "rankLabel";
+
+        #endregion
+
+        #region TournamentItem
+
+        public const string TOURNAMENT_LIVE_ITEM_HEADING = "tournamentLiveItemHeading";
+        public const string TOURNAMENT_LIVE_ITEM_SUB_HEADING = "tournamentLiveItemSubHeading";
+        public const string TOURNAMENT_LIVE_ITEM_ENDS_IN = "tournamentLiveItemEndsIn";
 
         #endregion
 
