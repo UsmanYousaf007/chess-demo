@@ -403,9 +403,9 @@ RectTransform:
   m_Father: {fileID: 7739176987403995550}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 460.5, y: -20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 460.5, y: 0}
   m_SizeDelta: {x: 921, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919204263931619492
@@ -2396,8 +2396,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 460.5, y: 0}
+  m_SizeDelta: {x: 921, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7739176987403995546
 CanvasRenderer:
@@ -3455,6 +3455,26 @@ PrefabInstance:
       propertyPath: itemPointsShortCode
       value: SpecialItemKeyPoints
       objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.r
+      value: 0.5921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.g
+      value: 0.91764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.b
+      value: 0.8235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.a
+      value: 0.5019608
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 787a0d878c53b43598070365737fda98, type: 3}
 --- !u!224 &8852869666096361863 stripped
@@ -3720,6 +3740,26 @@ PrefabInstance:
         type: 3}
       propertyPath: itemPointsShortCode
       value: SpecialItemRatingBoosterPoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.r
+      value: 0.5921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.g
+      value: 0.8352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.b
+      value: 0.91764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.a
+      value: 0.5019608
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 787a0d878c53b43598070365737fda98, type: 3}
@@ -4006,6 +4046,26 @@ PrefabInstance:
         type: 3}
       propertyPath: itemPointsShortCode
       value: SpecialItemGemBoosterPoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.r
+      value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.g
+      value: 0.5921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.b
+      value: 0.91764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.a
+      value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 460047716164509946, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
@@ -5389,6 +5449,31 @@ PrefabInstance:
         type: 3}
       propertyPath: itemPointsShortCode
       value: SpecialItemHintPoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: checkSubscription
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.r
+      value: 0.88235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.g
+      value: 0.91764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.b
+      value: 0.5921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: ownedBgColor.a
+      value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 460047716164509946, guid: 787a0d878c53b43598070365737fda98,
         type: 3}

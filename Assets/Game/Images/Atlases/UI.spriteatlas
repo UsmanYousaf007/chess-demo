@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 17363417
+    totalSpriteSurfaceArea: 17371559
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -318,6 +318,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 57fc4f8c36c8048adb248a711ea1b5da, type: 3}
   - {fileID: 21300000, guid: a00a7a9c9a4104eeb930d41da88fbf0a, type: 3}
   - {fileID: 21300000, guid: 519f7a9cbb49c41a0993072ac4a9ef63, type: 3}
+  - {fileID: 21300000, guid: 498f62acbf699433ab8f37650abbf016, type: 3}
   - {fileID: 21300000, guid: 9fc89eac8b2b647378f09e3cc8c29d0c, type: 3}
   - {fileID: 21300000, guid: 610441bca674d4b5a9ae5ac01381aabf, type: 3}
   - {fileID: 21300000, guid: 6155f5bcbb876439182b8a8a5c2e342d, type: 3}
@@ -339,6 +340,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8253216d709db4b4eae19dbf1a2b4f34, type: 3}
   - {fileID: 21300000, guid: 0731c48de2dc04cd69ba96f2b2749a3d, type: 3}
   - {fileID: 21300000, guid: 40dc468d178234f53b6d87f3d8ea75e5, type: 3}
+  - {fileID: 21300000, guid: 10b6809d4eed14092bd089d788f5e908, type: 3}
   - {fileID: 21300000, guid: f078d19d015e24296a146d1630bee914, type: 3}
   - {fileID: 21300000, guid: 4e94dbad2bbb2482d8359a61da45bd21, type: 3}
   - {fileID: 21300000, guid: 446402cd7eb104dbab12aae71d79d696, type: 3}
@@ -636,6 +638,7 @@ SpriteAtlas:
   - NotificationBg
   - BlueTexture
   - ClockMask
+  - WatchAdBorder
   - DrawOfferBgStrip
   - QuickMatchIcon
   - InfinityIcon
@@ -657,6 +660,7 @@ SpriteAtlas:
   - UpgradeBadge
   - ErrorImagePiece
   - UnreadChat
+  - OwnedCountBg
   - LogoSkillLevelDlg
   - MoreMatchesIcon
   - AdvScenariosIcon

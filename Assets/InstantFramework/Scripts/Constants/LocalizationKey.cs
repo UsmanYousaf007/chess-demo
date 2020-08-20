@@ -277,6 +277,9 @@ namespace TurboLabz.InstantFramework
         public const string INVENTORY_ITEM_UNLOCK = "inventoryItemUnlock";
         public const string INVENTORY_WATCH_AD = "inventoryWatchAd";
         public const string INVENTORY_TOOL_TIP = "inventoryToolTip";
+        public const string INVENTORY_SUBSCIRPTION_ENABLE = "inventorySubscriptionEnabled";
+        public const string INVENTORY_OR = "inventoryOr";
+        public const string INVENTORY_UNLIMITED = "inventoryLimited";
 
         public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";

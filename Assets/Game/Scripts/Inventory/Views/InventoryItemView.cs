@@ -28,6 +28,14 @@ namespace TurboLabz.InstantFramework
         public bool skipIconLoading;
         public Text addedCount;
         public string itemPointsShortCode;
+        public bool checkSubscription;
+        public Text buyTitle;
+        public Text orLabel;
+        public Text subscriptionLabel;
+        public Image ownedBg;
+        public Color ownedBgColor;
+        public GameObject subscribersObj;
+        public GameObject nonSubscribersObj;
 
         private static StoreIconsContainer iconsContainer;
         private static StoreThumbsContainer thumbsContainer;
@@ -72,9 +80,29 @@ namespace TurboLabz.InstantFramework
                 thumbsContainer = StoreThumbsContainer.Load();
             }
 
+            if (!skipIconLoading)
+            {
+                icon.sprite = iconsContainer.GetSprite(shortCode);
+                icon.SetNativeSize();
+            }
+
             addedCount.gameObject.SetActive(false);
+            toolTip.SetActive(false);
+            subscribersObj.SetActive(false);
+
             originalColor = addedCount.color;
             rewardBarOriginalWidth = rewardedVideoProgressBar.sizeDelta.x;
+            thumbnail.sprite = thumbsContainer.GetSprite(shortCode);
+            ownedBg.color = ownedBg.color;
+
+            buyButton.onClick.AddListener(OnBuyButtonClicked);
+            watchAdButton.onClick.AddListener(OnWatchAdButtonClicked);
+
+            watchAdText.text = localizationService.Get(LocalizationKey.INVENTORY_WATCH_AD);
+            toolTipText.text = localizationService.Get(LocalizationKey.INVENTORY_TOOL_TIP);
+            buyTitle.text = localizationService.Get(LocalizationKey.STORE_CONFIRM_DLG_TITLE_BUY);
+            orLabel.text = localizationService.Get(LocalizationKey.INVENTORY_OR);
+            subscriptionLabel.text = localizationService.Get(LocalizationKey.INVENTORY_SUBSCIRPTION_ENABLE);
         }
 
         public void OnStoreAvailable(bool available)
@@ -91,24 +119,22 @@ namespace TurboLabz.InstantFramework
 
             if (!isInitlialised)
             {
-                buyButton.onClick.AddListener(OnBuyButtonClicked);
-                watchAdButton.onClick.AddListener(OnWatchAdButtonClicked);
                 title.text = storeItem.displayName;
                 description.text = storeItem.description;
-                thumbnail.sprite = thumbsContainer.GetSprite(shortCode);
-                toolTip.SetActive(false);
-                watchAdText.text = localizationService.Get(LocalizationKey.INVENTORY_WATCH_AD);
-                toolTipText.text = localizationService.Get(LocalizationKey.INVENTORY_TOOL_TIP);
                 SetupPriceAndCount();
                 SetupRewardBar();
-
-                if (!skipIconLoading)
-                {
-                    icon.sprite = iconsContainer.GetSprite(shortCode);
-                    icon.SetNativeSize();
-                }
-
                 isInitlialised = true;
+            }
+
+            if (available)
+            {
+                if (checkSubscription)
+                {
+                    var isSubscriber = playerModel.HasSubscription();
+                    subscribersObj.SetActive(isSubscriber);
+                    nonSubscribersObj.SetActive(!isSubscriber);
+                    count.text = isSubscriber ? localizationService.Get(LocalizationKey.INVENTORY_UNLIMITED) : count.text;
+                }
             }
         }
 
