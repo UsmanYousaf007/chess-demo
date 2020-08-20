@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
 
         public GameObject tournamentLeaderboardPlayerBarPrefab;
 
+        private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
+
         public void Init()
         {
             PopulateTournamentInfoBar();
@@ -34,10 +36,32 @@ namespace TurboLabz.InstantFramework
             PopulateFooter();
 
             AddPlayerBar();
+            AddPlayerBar();
+            AddPlayerBar();
+            AddPlayerBar();
+            AddPlayerBar();
+            AddPlayerBar();
+            Sort();
         }
 
         private void Sort()
         {
+            List<TournamentLeaderboardPlayerBar> items = new List<TournamentLeaderboardPlayerBar>();
+
+            // Copy all player bars into a list
+            foreach (KeyValuePair<string, TournamentLeaderboardPlayerBar> item in tournamentLeaderboardPlayerBars)
+            {
+                items.Add(item.Value);
+            }
+
+            // Todo: Sort
+
+            // Adust order
+            int index = 0;
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].transform.SetSiblingIndex(index++);
+            }
         }
 
         private void PopulateTournamentHeader()
@@ -102,8 +126,7 @@ namespace TurboLabz.InstantFramework
             /* public Button button; */
 
             item.transform.SetParent(listContainer, false);
-            //tournamentLiveItems.Add(item.name, item);
-
+            tournamentLeaderboardPlayerBars.Add(item.name+tournamentLeaderboardPlayerBars.Count.ToString(), item);
         }
 
         public void AddTournamentLiveItem()
