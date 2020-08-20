@@ -3305,6 +3305,8 @@ MonoBehaviour:
   header: {fileID: 4674651156589246281}
   infoBar: {fileID: 6530627150778729981}
   footer: {fileID: 6530627150753425612}
+  tournamentLeaderboardPlayerBarPrefab: {fileID: 1366082233149308536, guid: c5c6d564a797d4a2bb38d0f64c5cf044,
+    type: 3}
 --- !u!1 &580051011685376034
 GameObject:
   m_ObjectHideFlags: 0
@@ -6832,7 +6834,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc8a28a1b23947059bd45d27fa57eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bg: {fileID: 0}
   rulesLabel: {fileID: 6530627150601886562}
   totalScoreLabel: {fileID: 6530627150864707749}
   gameModeText: {fileID: 6530627150110848533}

@@ -25,11 +25,15 @@ namespace TurboLabz.InstantFramework
         public GameObject infoBar;
         public GameObject footer;
 
+        public GameObject tournamentLeaderboardPlayerBarPrefab;
+
         public void Init()
         {
             PopulateTournamentInfoBar();
             PopulateTournamentHeader();
             PopulateFooter();
+
+            AddPlayerBar();
         }
 
         private void Sort()
@@ -81,6 +85,25 @@ namespace TurboLabz.InstantFramework
             /*
                 public Button enterButton;
             */
+        }
+
+        public void AddPlayerBar()
+        {
+            GameObject obj = GameObject.Instantiate(tournamentLeaderboardPlayerBarPrefab);
+            TournamentLeaderboardPlayerBar item = obj.GetComponent<TournamentLeaderboardPlayerBar>();
+
+            item.playerNameText.text = "Radio Monkey";
+            item.playerScoreCountText.text = "4384";
+            item.playerRankCountText.text = "23";
+            item.trophiesRewardCountText.text = "50";
+
+            item.rankIcon.gameObject.SetActive(false);
+
+            /* public Button button; */
+
+            item.transform.SetParent(listContainer, false);
+            //tournamentLiveItems.Add(item.name, item);
+
         }
 
         public void AddTournamentLiveItem()
