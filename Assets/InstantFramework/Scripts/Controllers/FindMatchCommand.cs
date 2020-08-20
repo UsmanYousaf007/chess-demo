@@ -190,6 +190,10 @@ namespace TurboLabz.InstantFramework
             {
                 publicProfile = friend.publicProfile;
             }
+            else
+            {
+                publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+            }
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = publicProfile.profilePicture;
