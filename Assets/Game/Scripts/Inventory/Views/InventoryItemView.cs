@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
         public Image icon;
         public Text description;
         public RectTransform rewardedVideoProgressBar;
+        public ParticleSystem rewardBarParticleSystem;
         public Text rewardedVideoProgressBarText;
         public Button watchAdButton;
         public Text watchAdText;
@@ -26,6 +27,7 @@ namespace TurboLabz.InstantFramework
         public Sprite notEnoughGems;
         public bool skipIconLoading;
         public Text addedCount;
+        public string itemPointsShortCode;
 
         private static StoreIconsContainer iconsContainer;
         private static StoreThumbsContainer thumbsContainer;
@@ -36,6 +38,7 @@ namespace TurboLabz.InstantFramework
         private Color originalColor;
         private Tweener addedAnimation;
         private bool haveEnoughGems;
+        private bool isItemUnlockedByVideo;
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -48,8 +51,14 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         public Signal<string> buyButtonSignal = new Signal<string>();
-        public Signal<string> watchAdSignal = new Signal<string>();
+        public Signal<InventoryVideoVO> watchAdSignal = new Signal<InventoryVideoVO>();
         public Signal notEnoughCurrencyToUnlockSignal = new Signal();
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            rewardBarParticleSystem.Stop();
+        }
 
         public void Init()
         {
@@ -66,9 +75,6 @@ namespace TurboLabz.InstantFramework
             addedCount.gameObject.SetActive(false);
             originalColor = addedCount.color;
             rewardBarOriginalWidth = rewardedVideoProgressBar.sizeDelta.x;
-            //bar fill code
-            //var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
-            //rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
 
         public void OnStoreAvailable(bool available)
@@ -91,12 +97,10 @@ namespace TurboLabz.InstantFramework
                 description.text = storeItem.description;
                 thumbnail.sprite = thumbsContainer.GetSprite(shortCode);
                 toolTip.SetActive(false);
-                rewardedVideoProgressBar.sizeDelta = new Vector2(0, rewardedVideoProgressBar.sizeDelta.y);
-                var rewardedVideoCost = settingsModel.inventorySpecialItemsRewardedVideoCost.ContainsKey(shortCode) ? settingsModel.inventorySpecialItemsRewardedVideoCost[shortCode] : 0;
-                rewardedVideoProgressBarText.text = $"0/{rewardedVideoCost}";
                 watchAdText.text = localizationService.Get(LocalizationKey.INVENTORY_WATCH_AD);
                 toolTipText.text = localizationService.Get(LocalizationKey.INVENTORY_TOOL_TIP);
                 SetupPriceAndCount();
+                SetupRewardBar();
 
                 if (!skipIconLoading)
                 {
@@ -125,7 +129,10 @@ namespace TurboLabz.InstantFramework
         private void OnWatchAdButtonClicked()
         {
             audioService.PlayStandardClick();
-            watchAdSignal.Dispatch(shortCode);
+            var vo = new InventoryVideoVO();
+            vo.itemKey = shortCode;
+            vo.itemPointsKey = itemPointsShortCode;
+            watchAdSignal.Dispatch(vo);
         }
 
         public void SetupPriceAndCount()
@@ -134,6 +141,15 @@ namespace TurboLabz.InstantFramework
             count.text = playerModel.GetInventoryItemCount(shortCode).ToString();
             haveEnoughGems = playerModel.gems >= storeItem.currency3Cost;
             buyButton.image.sprite = haveEnoughGems ? enoughGems : notEnoughGems;
+        }
+
+        private void SetupRewardBar()
+        {
+            var currentPoints = playerModel.GetInventoryItemCount(itemPointsShortCode);
+            var requiredPoints = settingsModel.GetInventorySpecialItemsRewardedVideoCost(shortCode);
+            var barFillPercentage = (float)currentPoints / requiredPoints;
+            rewardedVideoProgressBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardedVideoProgressBar.sizeDelta.y);
+            rewardedVideoProgressBarText.text = $"{currentPoints}/{requiredPoints}";
         }
 
         public void PlayAnimation()
@@ -155,5 +171,69 @@ namespace TurboLabz.InstantFramework
         {
             addedCount.gameObject.SetActive(false);
         }
+
+        public void ShowTooltip()
+        {
+            toolTip.SetActive(true);
+        }
+
+        public void OnRewardedPointAdded()
+        {
+            var to = playerModel.GetInventoryItemCount(itemPointsShortCode);
+            var from = to - 1;
+            var requiredPoints = settingsModel.GetInventorySpecialItemsRewardedVideoCost(shortCode);
+            var barFillPercentageFrom = (float)from / requiredPoints;
+            var barFillPercentageTo = (float)to / requiredPoints;
+            var barValueFrom = rewardBarOriginalWidth * barFillPercentageFrom;
+            var barValurTo = rewardBarOriginalWidth * barFillPercentageTo;
+            rewardedVideoProgressBarText.text = $"{to}/{requiredPoints}";
+            AnimateRewardedVideoProgressBar(barValueFrom, barValurTo);
+        }
+
+        public void OnItemUnclocked()
+        {
+            isItemUnlockedByVideo = true;
+            var requiredPoints = settingsModel.GetInventorySpecialItemsRewardedVideoCost(shortCode);
+            rewardedVideoProgressBarText.text = $"{requiredPoints}/{requiredPoints}";
+            AnimateRewardedVideoProgressBar(rewardedVideoProgressBar.sizeDelta.x, rewardBarOriginalWidth);
+        }
+
+        private void AnimateRewardedVideoProgressBar(float from, float to)
+        {
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+
+            if (!rewardBarParticleSystem.isPlaying)
+            {
+                rewardBarParticleSystem.Play();
+            }
+
+            iTween.ValueTo(this.gameObject,
+                iTween.Hash(
+                    "from", from,
+                    "to", to,
+                    "time", 2f,
+                    "onupdate", "AnimateBar",
+                    "onupdatetarget", this.gameObject,
+                    "oncomplete", "AnimationComplete"
+                ));
+        }
+
+        private void AnimationComplete()
+        {
+            rewardBarParticleSystem.Stop();
+
+            if (isItemUnlockedByVideo)
+            {
+                isItemUnlockedByVideo = false;
+                SetupRewardBar();
+                PlayAnimation();
+            }
+        }
+
+        private void AnimateBar(float value)
+        {
+            rewardedVideoProgressBar.sizeDelta = new Vector2(value, rewardedVideoProgressBar.sizeDelta.y);
+        }
+
     }
 }

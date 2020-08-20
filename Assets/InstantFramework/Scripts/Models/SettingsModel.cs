@@ -54,5 +54,10 @@ namespace TurboLabz.InstantFramework
 
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
         }
+
+        public int GetInventorySpecialItemsRewardedVideoCost(string key)
+        {
+            return inventorySpecialItemsRewardedVideoCost.ContainsKey(key) ? inventorySpecialItemsRewardedVideoCost[key] : 0;
+        }
     }
 }

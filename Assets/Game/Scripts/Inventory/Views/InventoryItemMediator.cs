@@ -10,12 +10,14 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowInventoryRewardedVideoSignal showInventoryRewardedVideoSignal { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
             view.buyButtonSignal.AddListener(OnPurchaseSignal);
             view.notEnoughCurrencyToUnlockSignal.AddListener(OnNotEnoughCurrency);
+            view.watchAdSignal.AddListener(OnWatchVideo);
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]
@@ -27,6 +29,11 @@ namespace TurboLabz.InstantFramework
         private void OnPurchaseSignal(string shortCode)
         {
             purchaseStoreItemSignal.Dispatch(shortCode, true);
+        }
+
+        private void OnWatchVideo(InventoryVideoVO vo)
+        {
+            showInventoryRewardedVideoSignal.Dispatch(vo);
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
@@ -47,6 +54,28 @@ namespace TurboLabz.InstantFramework
         private void OnNotEnoughCurrency()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        [ListensTo(typeof(InventoryVideoResultSignal))]
+        public void OnVideoResult(InventoryVideoResult result, string key)
+        {
+            if (key.Equals(view.shortCode))
+            {
+                switch (result)
+                {
+                    case InventoryVideoResult.NOT_AVAILABLE:
+                        view.ShowTooltip();
+                        break;
+
+                    case InventoryVideoResult.SUCCESS:
+                        view.OnRewardedPointAdded();
+                        break;
+
+                    case InventoryVideoResult.ITEM_UNLOCKED:
+                        view.OnItemUnclocked();
+                        break;
+                }
+            }
         }
     }
 }

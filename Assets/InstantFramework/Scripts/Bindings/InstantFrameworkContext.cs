@@ -106,6 +106,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ManageBlockedFriendsSignal>().To<ManageBlockedFriendsCommand>();
             commandBinder.Bind<UploadFileSignal>().To<UploadProfilePicCommand>();
             commandBinder.Bind<VirtualGoodsTransactionSignal>().To<VirtualGoodsTransactionCommand>();
+            commandBinder.Bind<ShowInventoryRewardedVideoSignal>().To<ShowInventoryRewardedVideoCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -174,6 +175,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowVideoLessonSignal>().ToSingleton();
             injectionBinder.Bind<UpdateShopBundlePurchasedViewSignal>().ToSingleton();
             injectionBinder.Bind<VirtualGoodBoughtSignal>().ToSingleton();
+            injectionBinder.Bind<InventoryVideoResultSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
