@@ -3258,6 +3258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 580051011660739858}
+  - component: {fileID: 4891623125919050674}
   m_Layer: 5
   m_Name: TournamentLeaderboardView
   m_TagString: Untagged
@@ -3288,6 +3289,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4891623125919050674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580051011660739857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431a222baa87c43718d77272c6526f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listContainer: {fileID: 580051010113997551}
+  header: {fileID: 4674651156589246281}
+  infoBar: {fileID: 6530627150778729981}
+  footer: {fileID: 6530627150753425612}
 --- !u!1 &580051011685376034
 GameObject:
   m_ObjectHideFlags: 0
@@ -4129,7 +4146,7 @@ GameObject:
   - component: {fileID: 177280996660750072}
   - component: {fileID: 287568753126212971}
   m_Layer: 5
-  m_Name: GrandPrizeTitle
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4637,6 +4654,100 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!1 &3709473529824934894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7448121023480305912}
+  - component: {fileID: 1018361014358137171}
+  - component: {fileID: 9145276096120403290}
+  - component: {fileID: 6561570441532181886}
+  m_Layer: 5
+  m_Name: PlayerTicketsCountText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7448121023480305912
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3709473529824934894}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6530627150361577314}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1018361014358137171
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3709473529824934894}
+  m_CullTransparentMesh: 0
+--- !u!114 &9145276096120403290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3709473529824934894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 2
+    m_MaxSize: 24
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: You have 1/5?
+--- !u!114 &6561570441532181886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3709473529824934894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &4617339011972122754
 GameObject:
   m_ObjectHideFlags: 0
@@ -4720,6 +4831,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4628895565287713861}
+  - component: {fileID: 8603646285054221954}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -4747,6 +4859,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 861.62}
   m_SizeDelta: {x: 0, y: 534.2}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &8603646285054221954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674651156589246281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d147368f9dab4cb7b37f65ed119a677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg: {fileID: 4089768403019905509}
+  headingLabel: {fileID: 880391631932130024}
+  subHeadingLabel: {fileID: 8559416149294553171}
+  tournamentImage: {fileID: 5050304494749258918}
+  prizeImage: {fileID: 5482915286036385325}
+  countdownTimerText: {fileID: 4277662636259743236}
+  playerTrophiesCountText: {fileID: 8035152874029797167}
+  playerRankCountText: {fileID: 4816018037451866799}
+  button: {fileID: 0}
 --- !u!1 &5503235414692190204
 GameObject:
   m_ObjectHideFlags: 0
@@ -5185,7 +5318,7 @@ GameObject:
   - component: {fileID: 6530627149459149085}
   - component: {fileID: 6530627149459149084}
   m_Layer: 5
-  m_Name: TicketPlayCount
+  m_Name: TicketPlayCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5560,7 +5693,7 @@ GameObject:
   - component: {fileID: 6530627149972888603}
   - component: {fileID: 6530627149972888602}
   m_Layer: 5
-  m_Name: FreePlayText
+  m_Name: FreePlayLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5654,7 +5787,7 @@ GameObject:
   - component: {fileID: 6530627150026474099}
   - component: {fileID: 6530627150026474098}
   m_Layer: 5
-  m_Name: TimeButton
+  m_Name: GameModeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5775,7 +5908,7 @@ GameObject:
   - component: {fileID: 6530627150082057655}
   - component: {fileID: 6530627150082057654}
   m_Layer: 5
-  m_Name: TicketPlayText
+  m_Name: TicketPlayLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5943,7 +6076,7 @@ GameObject:
   - component: {fileID: 6530627150110848533}
   - component: {fileID: 6530627150110848532}
   m_Layer: 5
-  m_Name: TimeButtonText
+  m_Name: GameModeButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6158,7 +6291,7 @@ GameObject:
   - component: {fileID: 6530627150361577316}
   - component: {fileID: 6530627150361577315}
   m_Layer: 5
-  m_Name: PlayerTicketsInfo
+  m_Name: YouHaveLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6175,6 +6308,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7448121023480305912}
   - {fileID: 6530627150823600758}
   m_Father: {fileID: 6530627149484155930}
   m_RootOrder: 1
@@ -6253,7 +6387,7 @@ GameObject:
   - component: {fileID: 6530627150556930859}
   - component: {fileID: 6530627150556930858}
   m_Layer: 5
-  m_Name: PlayButton
+  m_Name: EnterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6469,7 +6603,7 @@ GameObject:
   - component: {fileID: 6530627150601886562}
   - component: {fileID: 6530627150601886561}
   m_Layer: 5
-  m_Name: RulesButtonText
+  m_Name: RulesButtonLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6559,6 +6693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6530627150753425613}
+  - component: {fileID: 6927190137290546171}
   m_Layer: 5
   m_Name: Footer
   m_TagString: Untagged
@@ -6586,6 +6721,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -67}
   m_SizeDelta: {x: 0, y: 534.2}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &6927190137290546171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6530627150753425612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1284da8383e4862a2220c5f3ec1dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg: {fileID: 6530627149484155931}
+  youHaveLabel: {fileID: 6530627150361577316}
+  ticketsCountText: {fileID: 9145276096120403290}
+  enterButton: {fileID: 6530627150556930858}
+  enterButtonFreePlayLabel: {fileID: 6530627149972888603}
+  enterButtonTicketPlayLabel: {fileID: 6530627150082057655}
+  enterButtonTicketPlayCountText: {fileID: 6530627149459149085}
+  freePlayButtonGroup: {fileID: 6530627149852473012}
+  ticketPlayButtonGroup: {fileID: 6530627148834809710}
 --- !u!1 &6530627150778729981
 GameObject:
   m_ObjectHideFlags: 0
@@ -6597,6 +6753,7 @@ GameObject:
   - component: {fileID: 6530627150778729982}
   - component: {fileID: 6530627150778729728}
   - component: {fileID: 6530627150778729983}
+  - component: {fileID: 7479149415995596962}
   m_Layer: 5
   m_Name: InfoBar
   m_TagString: Untagged
@@ -6663,6 +6820,28 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &7479149415995596962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6530627150778729981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dc8a28a1b23947059bd45d27fa57eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg: {fileID: 0}
+  rulesLabel: {fileID: 6530627150601886562}
+  totalScoreLabel: {fileID: 6530627150864707749}
+  gameModeText: {fileID: 6530627150110848533}
+  rulesButton: {fileID: 6530627150282688523}
+  totalScoreButton: {fileID: 6530627150840065002}
+  gameModeButton: {fileID: 6530627150026474098}
+  columnHeaderRankLabel: {fileID: 6530627149658791941}
+  columnHeaderScoreLabel: {fileID: 6530627150573672669}
+  columnHeaderRewardsLabel: {fileID: 6530627149246856853}
 --- !u!1 &6530627150797704443
 GameObject:
   m_ObjectHideFlags: 0
@@ -6749,7 +6928,7 @@ GameObject:
   - component: {fileID: 6530627150823600760}
   - component: {fileID: 6530627150823600759}
   m_Layer: 5
-  m_Name: TicketIcon (1)
+  m_Name: TicketIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6767,7 +6946,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6530627150361577314}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6945,7 +7124,7 @@ GameObject:
   - component: {fileID: 6530627150864707749}
   - component: {fileID: 6530627150864707748}
   m_Layer: 5
-  m_Name: TotalScoreButtonText
+  m_Name: TotalScoreButtonLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7500,15 +7679,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac40c97f61f104b598219f89f2a03363, type: 3}
---- !u!224 &512096679275328148 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1087500997421805238, guid: ac40c97f61f104b598219f89f2a03363,
-    type: 3}
-  m_PrefabInstance: {fileID: 580051011145128994}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &512096679275328150 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1087500997421805236, guid: ac40c97f61f104b598219f89f2a03363,
+    type: 3}
+  m_PrefabInstance: {fileID: 580051011145128994}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &512096679275328148 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1087500997421805238, guid: ac40c97f61f104b598219f89f2a03363,
     type: 3}
   m_PrefabInstance: {fileID: 580051011145128994}
   m_PrefabAsset: {fileID: 0}

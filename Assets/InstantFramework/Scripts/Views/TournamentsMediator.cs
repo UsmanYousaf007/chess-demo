@@ -24,14 +24,14 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
-        private Signal OnLeagueProfileStripClickedSignal = new Signal();
+        private Signal onLeagueProfileStripClickedSignal = new Signal();
 
         public override void OnRegister()
         {
             view.Init();
 
-            OnLeagueProfileStripClickedSignal.AddListener(OnLeagueProfileStripClicked);
-            leagueProfileStripSetOnClickSignal.Dispatch(OnLeagueProfileStripClickedSignal);
+            onLeagueProfileStripClickedSignal.AddListener(OnLeagueProfileStripClicked);
+            leagueProfileStripSetOnClickSignal.Dispatch(onLeagueProfileStripClickedSignal);
         }
 
         public void OnLeagueProfileStripClicked()

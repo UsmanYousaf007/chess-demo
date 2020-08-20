@@ -858,7 +858,7 @@ RectTransform:
   - {fileID: 393412944702352954}
   - {fileID: 393412945453582057}
   m_Father: {fileID: 393412946195439992}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1196,10 +1196,10 @@ RectTransform:
   m_Father: {fileID: 393412945539931323}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 460.5, y: -50}
-  m_SizeDelta: {x: 921, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &393412944974194929
 GameObject:
@@ -1443,6 +1443,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listContainer: {fileID: 393412945539931323}
+  tournamentLiveItemPrefab: {fileID: 6511803011811186507, guid: 95594c42571c7419fa88f0d8ba34a1f2,
+    type: 3}
+  tournamentUpcomingItemPrefab: {fileID: 7846950348074977237, guid: 3143b8053a7804d44aa1f4af8d936a0a,
+    type: 3}
+  sectionTournamentUpcomingItems: {fileID: 393412944949453151}
 --- !u!1 &393412945098176118
 GameObject:
   m_ObjectHideFlags: 0
@@ -3101,8 +3106,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 393412946085964240}
   - {fileID: 393412944791861111}
+  - {fileID: 393412946085964240}
   - {fileID: 463392271809882365}
   - {fileID: 393412945462981042}
   - {fileID: 393412945223725260}
@@ -3365,6 +3370,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 393412944879450079}
     m_Modifications:
+    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
+        type: 3}
+      propertyPath: m_Name
+      value: Progress Bar Particles Final
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1087500997421805238, guid: ac40c97f61f104b598219f89f2a03363,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3474,16 +3489,6 @@ PrefabInstance:
         type: 3}
       propertyPath: playOnAwake
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
-        type: 3}
-      propertyPath: m_Name
-      value: Progress Bar Particles Final
-      objectReference: {fileID: 0}
-    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1087500997421805239, guid: ac40c97f61f104b598219f89f2a03363,
         type: 3}
@@ -3761,6 +3766,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 393412946195439992}
     m_Modifications:
+    - target: {fileID: 5591997171372360935, guid: ffba95e4b1fc445c4a127c9b71d6be41,
+        type: 3}
+      propertyPath: m_Name
+      value: LeagueProfileStrip
+      objectReference: {fileID: 0}
     - target: {fileID: 5591997171372360936, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3799,7 +3809,7 @@ PrefabInstance:
     - target: {fileID: 5591997171372360936, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5591997171372360936, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}
@@ -3866,10 +3876,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5591997171372360935, guid: ffba95e4b1fc445c4a127c9b71d6be41,
+    - target: {fileID: 5591997172205225390, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}
-      propertyPath: m_Name
-      value: LeagueProfileStrip
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5591997172205225390, guid: ffba95e4b1fc445c4a127c9b71d6be41,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8451768254817614638, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}
@@ -3877,6 +3892,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8451768254817614638, guid: ffba95e4b1fc445c4a127c9b71d6be41,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680778212852984567, guid: ffba95e4b1fc445c4a127c9b71d6be41,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680778212852984567, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -3885,26 +3910,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5591997172205225390, guid: ffba95e4b1fc445c4a127c9b71d6be41,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5591997172205225390, guid: ffba95e4b1fc445c4a127c9b71d6be41,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5680778212852984567, guid: ffba95e4b1fc445c4a127c9b71d6be41,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5680778212852984567, guid: ffba95e4b1fc445c4a127c9b71d6be41,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffba95e4b1fc445c4a127c9b71d6be41, type: 3}

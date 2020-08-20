@@ -460,12 +460,23 @@ namespace TurboLabz.InstantFramework
                 #region TournamentItem
 
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING, "Grand Prize"},
-                { LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING, "Play more, Win Big!"},
+                { LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING, "Score high, Win Big!"},
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_ENDS_IN, "Ends in"},
+
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_RULES, "Rules"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_TOTAL_SCORE, "Total Score"},
+
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK, "Rank"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE, "Player Score"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_REWARDS, "Rewards"},
+
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE, "You have"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY, "Free Play"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY, "Play"},
 
                 #endregion
 
-    };
+            };
         }
     }
 }
