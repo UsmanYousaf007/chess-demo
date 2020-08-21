@@ -85,6 +85,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ShowProfileDialogSignal>().To<ShowProfileDialogCommand>();
             commandBinder.Bind<ShowShareScreenDialogSignal>().To<ShowShareDialogCommand>();
             commandBinder.Bind<UnblockFriendSignal>().To<UnblockFriendCommand>();
+            commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
+            commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
 
             commandBinder.Bind<GetSocialPicsSignal>().To<GetSocialPicsCommand>();
             commandBinder.Bind<AcceptSignal>().To<AcceptCommand>();
@@ -245,6 +247,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowSplashContentSignal>().ToSingleton();
             injectionBinder.Bind<UpdateManageBlockedFriendsViewSignal>().ToSingleton();
             injectionBinder.Bind<ResetUnblockButtonSignal>().ToSingleton();
+            injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
+            injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
+            injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
