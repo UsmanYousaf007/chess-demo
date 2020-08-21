@@ -3302,11 +3302,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listContainer: {fileID: 580051010113997551}
-  header: {fileID: 4674651156589246281}
-  infoBar: {fileID: 6530627150778729981}
-  footer: {fileID: 6530627150753425612}
+  headerObj: {fileID: 0}
+  infoBarObj: {fileID: 0}
+  footerObj: {fileID: 0}
   tournamentLeaderboardPlayerBarPrefab: {fileID: 1366082233149308536, guid: c5c6d564a797d4a2bb38d0f64c5cf044,
     type: 3}
+  header: {fileID: 8603646285054221954}
+  infoBar: {fileID: 7479149415995596962}
+  footer: {fileID: 6927190137290546171}
 --- !u!1 &580051011685376034
 GameObject:
   m_ObjectHideFlags: 0

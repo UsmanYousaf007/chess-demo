@@ -30,8 +30,23 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
 
-            onLeagueProfileStripClickedSignal.AddListener(OnLeagueProfileStripClicked);
+            // Add button click signal to profile strip
             leagueProfileStripSetOnClickSignal.Dispatch(onLeagueProfileStripClickedSignal);
+            onLeagueProfileStripClickedSignal.AddListener(OnLeagueProfileStripClicked);
+
+            // Button click handlers
+            view.liveItemClickedSignal.AddListener(OnUpcomingItemClicked);
+            view.upcomingItemClickedSignal.AddListener(OnUpcomingItemClicked);
+        }
+
+        public void OnUpcomingItemClicked(TournamentLiveItem item)
+        {
+            TLUtils.LogUtil.Log("TournamentsMediator::OnUpcomingItemClicked()");
+        }
+
+        public void OnUpcomingItemClicked(TournamentUpcomingItem item)
+        {
+            TLUtils.LogUtil.Log("TournamentsMediator::OnUpcomingItemClicked()");
         }
 
         public void OnLeagueProfileStripClicked()

@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,10 @@ namespace TurboLabz.InstantFramework
         public GameObject tournamentLiveItemPrefab;
         public GameObject tournamentUpcomingItemPrefab;
         public GameObject sectionTournamentUpcomingItems;
+
+        // Button click signals
+        public Signal<TournamentLiveItem> liveItemClickedSignal = new Signal<TournamentLiveItem>();
+        public Signal<TournamentUpcomingItem> upcomingItemClickedSignal = new Signal<TournamentUpcomingItem>();
 
         private Dictionary<string, TournamentLiveItem> tournamentLiveItems = new Dictionary<string, TournamentLiveItem>();
         private Dictionary<string, TournamentUpcomingItem> tournamentUpcomingItems = new Dictionary<string, TournamentUpcomingItem>();
@@ -90,7 +95,8 @@ namespace TurboLabz.InstantFramework
             item.countdownTimerText.text = "2h 23n";
             item.playerTrophiesCountText.text = "8";
             item.playerRankCountText.text = "4";
-            item.button.onClick.AddListener(() => OnTournamentLiveItemClicked(item));
+
+            item.button.onClick.AddListener(() => liveItemClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
             tournamentLiveItems.Add(item.name, item);
@@ -104,19 +110,11 @@ namespace TurboLabz.InstantFramework
             item.bg.sprite = Resources.Load("AM.png") as Sprite;
             item.tournamentImage.sprite = Resources.Load("AL") as Sprite;
             item.countdownTimerText.text = "5h 28n";
-            item.button.onClick.AddListener(() => OnTournamentUpcomingItemClicked(item));
+
+            item.button.onClick.AddListener(() => upcomingItemClickedSignal.Dispatch(item));
+
             item.transform.SetParent(listContainer, false);
             tournamentUpcomingItems.Add(item.name, item);
-        }
-
-        public void OnTournamentLiveItemClicked(TournamentLiveItem item)
-        {
-            TLUtils.LogUtil.Log("TournamentsView::OnTournamentLiveItemClicked()");
-        }
-
-        public void OnTournamentUpcomingItemClicked(TournamentUpcomingItem item)
-        {
-            TLUtils.LogUtil.Log("TournamentsView::OnTournamentUpcomingItemClicked()");
         }
     }
 }

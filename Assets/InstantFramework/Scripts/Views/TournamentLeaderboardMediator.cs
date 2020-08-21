@@ -26,6 +26,38 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+
+            // Button click handlers
+            view.playerBarClickedSignal.AddListener(OnPlayerBarClicked);
+            view.footer.enterButtonClickedSignal.AddListener(OnEnterButtonClicked);
+            view.infoBar.rulesButtonClickedSignal.AddListener(OnRulesButtonClicked);
+            view.infoBar.totalScoreButtonClickedSignal.AddListener(OnTotalScoreButtonClicked);
+            view.infoBar.gameModeButtonClickedSignal.AddListener(OnGameModeButtonClicked);
+        }
+
+        public void OnEnterButtonClicked()
+        {
+            TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnEnterButtonClicked()");
+        }
+
+        public void OnPlayerBarClicked(TournamentLeaderboardPlayerBar playerBar)
+        {
+            TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnPlayerBarClicked()");
+        }
+
+        public void OnRulesButtonClicked()
+        {
+            TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnRulesButtonClicked()");
+        }
+
+        public void OnTotalScoreButtonClicked()
+        {
+            TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnTotalScoreButtonClicked()");
+        }
+
+        public void OnGameModeButtonClicked()
+        {
+            TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnGameModeButtonClicked()");
         }
     }
 }

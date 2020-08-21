@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,12 +22,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public Transform listContainer;
-        public GameObject header;
-        public GameObject infoBar;
-        public GameObject footer;
-
         public GameObject tournamentLeaderboardPlayerBarPrefab;
+        public TournamentLiveItem header;
+        public TournamentLeaderboardInfoBar infoBar;
+        public TournamentLeaderboardFooter footer;
 
+        // Player bar click signal
+        [HideInInspector]
+        public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
         private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
 
         public void Init()
@@ -66,7 +69,7 @@ namespace TurboLabz.InstantFramework
 
         private void PopulateTournamentHeader()
         {
-            TournamentLiveItem item = header.GetComponent<TournamentLiveItem>();
+            TournamentLiveItem item = header;
 
             item.bg.sprite = Resources.Load("AM.png") as Sprite;
             item.headingLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING);
@@ -80,7 +83,7 @@ namespace TurboLabz.InstantFramework
 
         private void PopulateTournamentInfoBar()
         {
-            TournamentLeaderboardInfoBar item = infoBar.GetComponent<TournamentLeaderboardInfoBar>();
+            TournamentLeaderboardInfoBar item = infoBar;
 
             item.rulesLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_RULES);
             item.totalScoreLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_TOTAL_SCORE);
@@ -92,7 +95,7 @@ namespace TurboLabz.InstantFramework
 
         private void PopulateFooter()
         {
-            TournamentLeaderboardFooter item = footer.GetComponent<TournamentLeaderboardFooter>();
+            TournamentLeaderboardFooter item = footer;
 
             item.bg.sprite = Resources.Load("AM.png") as Sprite;
 
@@ -105,10 +108,6 @@ namespace TurboLabz.InstantFramework
 
             item.freePlayButtonGroup.gameObject.SetActive(false);
             item.ticketPlayButtonGroup.gameObject.SetActive(true);
-
-            /*
-                public Button enterButton;
-            */
         }
 
         public void AddPlayerBar()
@@ -123,14 +122,10 @@ namespace TurboLabz.InstantFramework
 
             item.rankIcon.gameObject.SetActive(false);
 
-            /* public Button button; */
+            item.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
             tournamentLeaderboardPlayerBars.Add(item.name+tournamentLeaderboardPlayerBars.Count.ToString(), item);
-        }
-
-        public void AddTournamentLiveItem()
-        {
         }
     }
 }
