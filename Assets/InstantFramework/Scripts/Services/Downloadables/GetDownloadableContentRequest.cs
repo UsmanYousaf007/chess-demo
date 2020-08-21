@@ -94,7 +94,9 @@ namespace TurboLabz.InstantFramework
 
                 TLUtils.LogUtil.Log("Fetch bundle from download handler - ", "cyan");
 
+
                 AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(www);
+                Debug.Log("Bundle fetched: bundle name is " + bundle.name);
                 TLUtils.LogUtil.Log("Downloaded bundle - " + shortCode, "cyan");
                 promise.Dispatch(BackendResult.SUCCESS, bundle);
             }

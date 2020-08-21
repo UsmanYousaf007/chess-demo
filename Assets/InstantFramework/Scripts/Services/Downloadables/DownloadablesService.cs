@@ -23,7 +23,9 @@ namespace TurboLabz.InstantFramework
             // Note: GetDownloadableContentRequest is not in the Strange context, but it uses a function from IBackendService. So the backend service
             // function delegate is passed in to GetDownloadableContentRequest as a parameter.
 
-            DownloadableItem dlItem = downloadablesModel.downloadableItems[shortCode];
+            
+            DownloadableItem dlItem = downloadablesModel?.downloadableItems?[shortCode];
+            
             if (dlItem == null)
             {
                 OnDownloadContentComplete(BackendResult.DOWNLOADABLE_CONTENT_GET_FAILED, null);

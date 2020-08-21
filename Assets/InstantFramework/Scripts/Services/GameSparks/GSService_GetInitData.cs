@@ -419,7 +419,7 @@ namespace TurboLabz.InstantFramework
                     item.shortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
                     item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
                     item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
-
+                    item.bundle = downloadablesModel.GetBundleFromVersionCache(item.shortCode);
                     downloadablesModel.downloadableItems.Add(item.shortCode, item);
                 }
             }

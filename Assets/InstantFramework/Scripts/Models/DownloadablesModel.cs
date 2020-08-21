@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using TurboLabz.TLUtils;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -11,6 +13,7 @@ namespace TurboLabz.InstantFramework
         public long size { get; set; }
         public long lastModified { get; set; }
         public AssetBundle bundle { get; set; }
+        public bool loadFromCache { get; set; }
     }
 
     public class DownloadablesModel : IDownloadablesModel
@@ -41,14 +44,26 @@ namespace TurboLabz.InstantFramework
         {
             versionCache = new Dictionary<string, DownloadableItem>();
             LoadVersionCache();
+            downloadableItems = versionCache;
+            LoadBundlesFromCachePreLaunch();
+        }
+
+        private void LoadBundlesFromCachePreLaunch()
+        {
+            foreach (var item in versionCache.Where(i=>i.Value.loadFromCache))
+            {
+                var shortCode = item.Value.shortCode.AppendPlatform();
+                Get(shortCode, null);
+            }
         }
 
         public void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn)
         {
+            shortCode = shortCode.AppendPlatform();
             TLUtils.LogUtil.Log("BundleRefs - requesting download " + shortCode, "cyan");
             try
             {
-                downloadablesService.GetDownloadableContent("SkinAmazon", callbackFn);
+                downloadablesService.GetDownloadableContent(shortCode, callbackFn);
             }
 
             catch (Exception e)
@@ -59,11 +74,13 @@ namespace TurboLabz.InstantFramework
         }
         public bool IsUpdateAvailable(string shortCode)
         {
+            shortCode = shortCode.AppendPlatform();
             return !versionCache.ContainsKey(shortCode) ? true : versionCache[shortCode].lastModified < downloadableItems[shortCode].lastModified;
         }
 
         public void MarkUpdated(string shortCode)
         {
+            shortCode = shortCode.AppendPlatform();
             if (!versionCache.ContainsKey(shortCode))
             {
                 versionCache.Add(shortCode, downloadableItems[shortCode]);
@@ -72,7 +89,20 @@ namespace TurboLabz.InstantFramework
             else
             {
                 versionCache[shortCode] = downloadableItems[shortCode];
-                SaveVersionCache();
+            }
+            SaveVersionCache();
+        }
+
+        public AssetBundle GetBundleFromVersionCache(string shortCode)
+        {
+            shortCode = shortCode.AppendPlatform();
+            if (versionCache.ContainsKey(shortCode))
+            {
+                return versionCache[shortCode].bundle;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -129,7 +159,9 @@ namespace TurboLabz.InstantFramework
                 writer.Write<string>("shortCode" + iStr, dlItem.Value.shortCode);
                 writer.Write<long>("size" + iStr, dlItem.Value.size);
                 writer.Write<long>("lastModified" + iStr, dlItem.Value.lastModified);
+                writer.Write<bool>("loadFromCache" + iStr, dlItem.Value.loadFromCache);
                 //writer.Write<string>("url" + iStr, dlItem.Value.url);
+                i++;
             }
         }
 
@@ -147,6 +179,7 @@ namespace TurboLabz.InstantFramework
                 dlItem.shortCode = reader.Read<string>("shortCode" + iStr);
                 dlItem.size = reader.Read<long>("size" + iStr);
                 dlItem.lastModified = reader.Read<long>("lastModified" + iStr);
+                dlItem.loadFromCache = reader.Read<bool>("loadFromCache" + iStr);
                 //dlItem.url = reader.Read<string>("url" + iStr);
 
                 dict.Add(key, dlItem);

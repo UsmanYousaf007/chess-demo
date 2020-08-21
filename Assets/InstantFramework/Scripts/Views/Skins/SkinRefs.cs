@@ -54,11 +54,17 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 SkinContainer container = bundle.LoadAsset<SkinContainer>(currentSkinId);
+                if(container!=null)
+                    Debug.Log("Container fetched: container name is " + currentSkinId);
+                else
+                    Debug.Log("Container is null");
                 LoadTransform(container);
             }
 
             TLUtils.LogUtil.Log("SkinRefs - requesting download SKN_AMZ APPLY: ", "cyan");
 
+            downloadablesModel.downloadableItems[currentSkinId.AppendPlatform()].loadFromCache = true;
+            downloadablesModel.MarkUpdated(currentSkinId);
             refreshSkinLinksSignal.Dispatch();
         }
 

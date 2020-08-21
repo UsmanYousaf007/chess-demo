@@ -43,7 +43,7 @@ namespace TurboLabz.InstantFramework
         {
             Assertions.Assert(sourceImage != null, "Source Image Not Set For Skin Link: " + gameObject.name);
 
-            if (sourceImage.sprite == null)
+            if (sourceImage == null || sourceImage.sprite == null)
             {
                 TLUtils.LogUtil.Log("Source Image Not Set For Skin Link: " + gameObject.name, "red");
                 return;
