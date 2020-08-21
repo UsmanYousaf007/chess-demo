@@ -264,7 +264,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IRewardsSettingsModel>().To<RewardsSettingsModel>().ToSingleton(); // Lifecycle handled
             injectionBinder.Bind<ISettingsModel>().To<SettingsModel>().ToSingleton();
             injectionBinder.Bind<ILessonsModel>().To<LessonsModel>().ToSingleton();
-            injectionBinder.Bind<ITournamentsModel>().To<TournamentsModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();
