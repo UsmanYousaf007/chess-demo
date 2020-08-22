@@ -127,7 +127,10 @@ namespace TurboLabz.InstantFramework
 #endif 
             }
 
-			promise.Dispatch(true);
+            if (promise != null)
+            {
+                promise.Dispatch(true);
+            }
 		}
 
 		public void OnInitializeFailed(InitializationFailureReason error)
