@@ -176,6 +176,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to Lobby" },
                 { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
+                { LocalizationKey.RESULTS_BOOSTED, "Boosted!"},
+                { LocalizationKey.RESULTS_BOOST_DRAW, "Rating boosts are available for wins and losses only"},
+                { LocalizationKey.RESULTS_BOOST_FRIENDLY, "Rating boosts are available for ranked games only"},
 
                 #endregion
 

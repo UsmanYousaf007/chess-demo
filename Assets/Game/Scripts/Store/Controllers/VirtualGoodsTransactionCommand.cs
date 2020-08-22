@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
         [Inject] public VirtualGoodBoughtSignal virtualGoodBoughtSignal { get; set; }
+        [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
         public override void Execute()
         {
@@ -59,6 +60,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            virtualGoodsTransactionResultSignal.Dispatch(result);
             Release();
         }
     }

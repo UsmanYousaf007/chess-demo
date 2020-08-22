@@ -68,6 +68,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSubscriptionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            {
+                return new NSSpotPurchase();
+            }
 
             return null;
         }

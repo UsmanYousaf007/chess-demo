@@ -171,6 +171,9 @@ namespace TurboLabz.InstantFramework
         public const string RESULTS_SKIP_REWARD_BUTTON = "resultsSkipRewardButton";
         public const string RESULTS_EARNED = "resultsEarned";
         public const string RESULTS_REWARD = "resultsReward";
+        public const string RESULTS_BOOST_DRAW = "resultsBoostDraw";
+        public const string RESULTS_BOOST_FRIENDLY = "resultsBoostFriendly";
+        public const string RESULTS_BOOSTED = "resultsBoosted";
 
         #endregion
 

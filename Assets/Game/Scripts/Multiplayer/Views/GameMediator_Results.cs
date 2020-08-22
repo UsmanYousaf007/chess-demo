@@ -14,6 +14,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using GameSparks.Core;
 
 namespace TurboLabz.Multiplayer 
 {
@@ -24,6 +25,12 @@ namespace TurboLabz.Multiplayer
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSignal { get; set; }       
+        [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+
+        //Listeners
+        [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
+
+        private string challengeId;
 
         public void OnRegisterResults()
         {
@@ -32,6 +39,8 @@ namespace TurboLabz.Multiplayer
             view.refreshLobbySignal.AddListener(OnRefreshLobby);
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
+            view.boostRatingSignal.AddListener(OnBoostRating);
+            view.notEnoughItemsToBoostSignal.AddListener(OnNotEnoughItemsToBoost);
         }
 
         public void OnRemoveResults()
@@ -88,6 +97,56 @@ namespace TurboLabz.Multiplayer
         {
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(false);
+        }
+
+        private void OnBoostRating(string challengeId, VirtualGoodsTransactionVO vo)
+        {
+            this.challengeId = challengeId;
+            virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
+            virtualGoodsTransactionSignal.Dispatch(vo);
+        }
+
+        private void OnTransactionResult(BackendResult result)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
+                                                  .AddString("challengeId", challengeId);
+
+                backendService.ClaimReward(jsonData);
+            }
+        }
+
+        [ListensTo(typeof(UpdateEloScoresSignal))]
+        public void OnUpdateEloScoresSignal(EloVO vo)
+        {
+            if (view.IsVisible())
+            {
+                view.resultsRatingValueLabel.text = vo.playerEloScore.ToString();
+            }
+        }
+
+        [ListensTo(typeof(RatingBoostAnimSignal))]
+        public void OnRatingBoostAnimation(int ratingBoost)
+        {
+            if (view.IsVisible())
+            {
+                view.PlayEloBoostedAnimation(ratingBoost);
+            }
+        }
+
+        private void OnNotEnoughItemsToBoost()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        {
+            if (view.IsVisible())
+            {
+                view.SetupBoostPrice();
+            }
         }
     }
 }
