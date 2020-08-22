@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
             isRandomLongMatch = false;
             actionData.action = actionCode;
             actionData.notificationStatus = NotificationStatus.None;
-            actionData.tournamentId = "CAMEFROMCLIENT";// tournamentId;
+            actionData.tournamentId = tournamentId;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
