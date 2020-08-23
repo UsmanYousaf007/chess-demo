@@ -11,6 +11,6 @@ namespace TurboLabz.InstantFramework
 {
     public interface IDownloadablesService
     {
-        void GetDownloadableContent(string shortCode, Action<BackendResult, AssetBundle> onDownloadCompleteCB);
+        void GetDownloadableContent(string shortCode, Action<BackendResult, AssetBundle> onDownloadCompleteCB, ContentType? contentType);
     }
 }

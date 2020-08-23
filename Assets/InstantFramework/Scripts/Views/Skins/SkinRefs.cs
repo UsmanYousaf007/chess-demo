@@ -27,22 +27,24 @@ namespace TurboLabz.InstantFramework
         public Signal refreshSkinLinksSignal = new Signal();
 
         private string currentSkinId;
+        private string newSkinId;
 
         public void LoadSkin(string skinId)
         {
             if (skinId != currentSkinId)
             {
-                currentSkinId = skinId;
-                SkinContainer container = SkinContainer.LoadSkin(skinId);
+                newSkinId = skinId;
+                SkinContainer container = SkinContainer.LoadSkin(newSkinId);
                 if (container != null)
                 {
+                    currentSkinId = newSkinId;
                     LoadTransform(container);
                     refreshSkinLinksSignal.Dispatch();
                 }
 
                 else
                 {
-                    downloadablesModel.Get(skinId, OnSkinBundleLoaded);
+                    downloadablesModel.Get(skinId, OnSkinBundleLoaded, ContentType.Skins);
                 }
             }
         }
@@ -53,18 +55,15 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                SkinContainer container = bundle.LoadAsset<SkinContainer>(currentSkinId);
-                if(container!=null)
-                    Debug.Log("Container fetched: container name is " + currentSkinId);
-                else
-                    Debug.Log("Container is null");
+                SkinContainer container = bundle.LoadAsset<SkinContainer>(newSkinId);
                 LoadTransform(container);
+                if (currentSkinId != null)
+                {
+                    downloadablesModel.LoadFromCache(currentSkinId, false);
+                }
+                downloadablesModel.LoadFromCache(newSkinId, true);
+                currentSkinId = newSkinId;
             }
-
-            TLUtils.LogUtil.Log("SkinRefs - requesting download SKN_AMZ APPLY: ", "cyan");
-
-            downloadablesModel.downloadableItems[currentSkinId.AppendPlatform()].loadFromCache = true;
-            downloadablesModel.MarkUpdated(currentSkinId);
             refreshSkinLinksSignal.Dispatch();
         }
 

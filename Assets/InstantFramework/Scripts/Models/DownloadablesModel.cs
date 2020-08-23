@@ -16,6 +16,19 @@ namespace TurboLabz.InstantFramework
         public bool loadFromCache { get; set; }
     }
 
+    public enum ContentType
+    {
+        Skins
+    }
+
+    public enum ContentDownloadStatus
+    {
+        Started,
+        Completed,
+        Failed,
+        Cancelled
+    }
+
     public class DownloadablesModel : IDownloadablesModel
     {
         // Services
@@ -53,29 +66,41 @@ namespace TurboLabz.InstantFramework
             foreach (var item in versionCache.Where(i=>i.Value.loadFromCache))
             {
                 var shortCode = item.Value.shortCode.AppendPlatform();
-                Get(shortCode, null);
+                Get(shortCode);
             }
         }
 
-        public void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn)
+        public void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn = null, ContentType? contentType = null )
         {
+            
             shortCode = shortCode.AppendPlatform();
+            
             TLUtils.LogUtil.Log("BundleRefs - requesting download " + shortCode, "cyan");
             try
             {
-                downloadablesService.GetDownloadableContent(shortCode, callbackFn);
+                downloadablesService.GetDownloadableContent(shortCode, callbackFn, contentType);
             }
 
             catch (Exception e)
             {
                 TLUtils.LogUtil.Log("Error when getting downloadable content. " + e, "red");
             }
-
         }
+
         public bool IsUpdateAvailable(string shortCode)
         {
             shortCode = shortCode.AppendPlatform();
             return !versionCache.ContainsKey(shortCode) ? true : versionCache[shortCode].lastModified < downloadableItems[shortCode].lastModified;
+        }
+
+        public void LoadFromCache(string shortCode, bool shouldLoad)
+        {
+            shortCode = shortCode.AppendPlatform();
+            if (downloadableItems.ContainsKey(shortCode))
+            {
+                downloadableItems[shortCode].loadFromCache = shouldLoad;
+                MarkUpdated(shortCode);
+            }
         }
 
         public void MarkUpdated(string shortCode)

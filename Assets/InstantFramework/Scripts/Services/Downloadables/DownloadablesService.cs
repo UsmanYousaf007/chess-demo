@@ -14,11 +14,12 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
-
+        [Inject] public DownloadableContentEventSignal dlcSignal { get; set; }
         private string downloadShortCode;
         private Action<BackendResult, AssetBundle> onDownloadContentCompleteCB;
 
-        public void GetDownloadableContent(string shortCode, Action<BackendResult, AssetBundle> callbackFn)
+        public void GetDownloadableContent(string shortCode, Action<BackendResult, AssetBundle> callbackFn,
+                                            ContentType? contentType)
         {
             // Note: GetDownloadableContentRequest is not in the Strange context, but it uses a function from IBackendService. So the backend service
             // function delegate is passed in to GetDownloadableContentRequest as a parameter.
@@ -45,13 +46,16 @@ namespace TurboLabz.InstantFramework
             if (downloadablesModel.IsUpdateAvailable(shortCode))
             {
                 TLUtils.LogUtil.Log("GetDownloadableContent()==> Download from URL", "cyan");
-                new GetDownloadableContentRequest().Send(backendService.GetDownloadableContentUrl, dlItem.shortCode, dlItem.lastModified).Then(OnDownloadContentComplete);
+                new GetDownloadableContentRequest(dlcSignal, contentType).Send(backendService.GetDownloadableContentUrl,
+                                                    dlItem.shortCode, dlItem.lastModified)
+                                                    .Then(OnDownloadContentComplete);
             }
 
             else
             {
                 TLUtils.LogUtil.Log("GetDownloadableContent()==> Fetch from Cache", "cyan");
-                new GetDownloadableContentRequest().Send(null, dlItem.shortCode, dlItem.lastModified).Then(OnDownloadContentComplete);
+                new GetDownloadableContentRequest(null, contentType).Send(null, dlItem.shortCode, dlItem.lastModified)
+                                                    .Then(OnDownloadContentComplete);
             }
         }
 
@@ -72,5 +76,14 @@ namespace TurboLabz.InstantFramework
 
             onDownloadContentCompleteCB?.Invoke(result, bundle);
         }
+
+        //private void DispatchSignal(ContentDownloadStatus status)
+        //{
+        //    if (contentSignal != null)
+        //    {
+        //        string stat = status.ToString();
+        //        contentSignal.Dispatch(contentType, stat);
+        //    }
+        //}
     }
 }

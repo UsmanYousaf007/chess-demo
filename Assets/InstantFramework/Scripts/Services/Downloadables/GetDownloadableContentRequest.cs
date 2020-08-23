@@ -15,23 +15,33 @@ namespace TurboLabz.InstantFramework
 {
     public class GetDownloadableContentRequest
     {
-        // Note: Do not inject a Strange context scope element. 
-
-        IPromise<BackendResult, AssetBundle> promise;
+        private IPromise<BackendResult, AssetBundle> promise;
+        private DownloadableContentEventSignal contentSignal;
         private IRoutineRunner routineRunner;
-        string downloadUrl;
-        string shortCode;
-        long lastModifiedTime;
+        private ContentType? contentType;
+        private string downloadUrl;
+        private string shortCode;
+        private long lastModifiedTime;
         public delegate IPromise<BackendResult> DownloadableContentUrlFn(string x, Action<object> a);
-        
+
         public GetDownloadableContentRequest()
         {
             routineRunner = new NormalRoutineRunner();
             promise = new Promise<BackendResult, AssetBundle>();
         }
 
-        public IPromise<BackendResult, AssetBundle> Send(DownloadableContentUrlFn getDownloadableContentUrlFn, string shortCode, long lastModifiedTime)
+        public GetDownloadableContentRequest(DownloadableContentEventSignal contentSignal, ContentType? contentType)
         {
+            routineRunner = new NormalRoutineRunner();
+            promise = new Promise<BackendResult, AssetBundle>();
+            this.contentSignal = contentSignal;
+            this.contentType = contentType;
+        }
+
+        public IPromise<BackendResult, AssetBundle> Send(DownloadableContentUrlFn getDownloadableContentUrlFn,
+                                                        string shortCode, long lastModifiedTime)
+        {
+            DispatchSignal(ContentDownloadStatus.Started);
             TLUtils.LogUtil.Log("Initiated downloaded bundle request for - " + shortCode, "cyan");
 
             this.shortCode = shortCode;
@@ -46,7 +56,7 @@ namespace TurboLabz.InstantFramework
             {
                 TLUtils.LogUtil.Log("Skip downloaded bundle URL request", "cyan");
 
-                this.downloadUrl = "na";
+                this.downloadUrl = "FromCache";
                 OnUrlDownloadComplete(BackendResult.SUCCESS);
             }
 
@@ -61,21 +71,22 @@ namespace TurboLabz.InstantFramework
         private void OnUrlDownloadComplete(BackendResult result)
         {
             bool isValidUrl = !String.IsNullOrEmpty(downloadUrl);
-            if ((result == BackendResult.SUCCESS && isValidUrl) || downloadUrl == "na")
+            if ((result == BackendResult.SUCCESS && isValidUrl) || downloadUrl == "FromCache")
             {
-                routineRunner.StartCoroutine(GetDownloadableConterCR(shortCode, downloadUrl, lastModifiedTime));
+                routineRunner.StartCoroutine(GetDownloadableContentCR(shortCode, downloadUrl, lastModifiedTime));
             }
             else if (result == BackendResult.DOWNLOAD_URL_GET_FAILED)
             {
                 promise.Dispatch(BackendResult.DOWNLOADABLE_CONTENT_GET_FAILED, null);
+                DispatchSignal(ContentDownloadStatus.Failed);
+
             }
         }
 
-        private IEnumerator GetDownloadableConterCR(string shortCode, string url, long lastModifiedTime)
+        private IEnumerator GetDownloadableContentCR(string shortCode, string url, long lastModifiedTime)
         {
             Hash128 hash = new Hash128();
             hash = Hash128.Compute(lastModifiedTime.ToString());
-  
 
             var www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
             string name = Application.companyName + "//" + Application.productName + "//" + "downlooadables//" + shortCode;
@@ -98,13 +109,25 @@ namespace TurboLabz.InstantFramework
                 AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(www);
                 Debug.Log("Bundle fetched: bundle name is " + bundle.name);
                 TLUtils.LogUtil.Log("Downloaded bundle - " + shortCode, "cyan");
+                DispatchSignal(ContentDownloadStatus.Completed);
                 promise.Dispatch(BackendResult.SUCCESS, bundle);
             }
             else
             {
                 TLUtils.LogUtil.Log("FAILED to to fetch bundle!! - ", "cyan");
-
+                DispatchSignal(ContentDownloadStatus.Failed);
                 promise.Dispatch(BackendResult.DOWNLOADABLE_CONTENT_GET_FAILED, null);
+            }
+
+
+        }
+
+        private void DispatchSignal(ContentDownloadStatus status)
+        {
+            if (contentSignal != null)
+            {
+                //string stat = status.ToString();
+                contentSignal.Dispatch(contentType, status);
             }
         }
 

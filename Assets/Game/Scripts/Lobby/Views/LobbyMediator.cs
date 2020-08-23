@@ -214,7 +214,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SortFriendsSignal))]
         public void OnSortFriends()
         {
-            
+
             view.SortFriends();
         }
 
@@ -278,6 +278,20 @@ namespace TurboLabz.InstantFramework
             view.UpdateBarsSkin();
         }
 
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType.Equals(ContentType.Skins) && status.Equals(ContentDownloadStatus.Started))
+                view.ShowProcessing(true, true);
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (status.Equals(ContentDownloadStatus.Started.ToString()))
+                view.ShowProcessing(false, false);
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -338,7 +352,7 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
-            if (!playerModel.HasSubscription()) 
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd(actionCode))
                 {
@@ -352,7 +366,7 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-             }
+            }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
@@ -443,7 +457,7 @@ namespace TurboLabz.InstantFramework
                     return;
                 }
             }
-            
+
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
