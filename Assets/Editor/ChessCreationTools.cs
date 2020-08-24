@@ -8,7 +8,7 @@ using UnityEngine;
 
 public partial class ChessTools
 {
-    const string ASSET_PATH = "Assets/Game/Images/Resources/";
+    const string ASSET_PATH = "Assets/AssetBundles/BundleCreationAssets/";
     const string SKINS_PATH = "Assets/Game/Images/Skins/";
     const string ATLAS_PATH = "Assets/Game/Images/Atlases/";
 
@@ -16,30 +16,32 @@ public partial class ChessTools
 
     public static void CreateSkinBundles()
     {
-        AssetBundleBuild[] bundleMap = CreateBundleMap();
-        BuildAllAssetBundles(BuildTarget.iOS, "iOS", bundleMap);
-        BuildAllAssetBundles(BuildTarget.iOS, "Android", bundleMap);
+        BuildTarget target = BuildTarget.iOS;
+        AssetBundleBuild[] bundleMap = CreateBundleMap(target);
+        BuildAllAssetBundles(target, target.ToString(), bundleMap);
+
+        target = BuildTarget.Android;
+        bundleMap = CreateBundleMap(target);
+        BuildAllAssetBundles(target, target.ToString(), bundleMap);
     }
 
 
-    private static AssetBundleBuild[] CreateBundleMap()
+    private static AssetBundleBuild[] CreateBundleMap(BuildTarget target)
     {
         string[] folders = Directory.GetDirectories(SKINS_PATH);
-        AssetBundleBuild[] bundleMape = new AssetBundleBuild[folders.Length];
+        AssetBundleBuild[] bundleMaps = new AssetBundleBuild[folders.Length];
         for(int i=0;i<folders.Length;i++)
         {
             string skinName = new DirectoryInfo(folders[i]).Name;
-            //string spriteAtlas = Directory.GetFiles(ATLAS_PATH, skinName + ".*").FirstOrDefault();
             string scriptableObj = Directory.GetFiles(ASSET_PATH, skinName + ".*").FirstOrDefault();
 
-            bundleMape[i].assetBundleName = skinName;
-            bundleMape[i].assetNames = new string[] {
-              //  spriteAtlas,
+            bundleMaps[i].assetBundleName = skinName + "_" + target.ToString();
+            bundleMaps[i].assetNames = new string[] {
                 scriptableObj
             };
         }
 
-        return bundleMape;
+        return bundleMaps;
     }
 
     private static void BuildAllAssetBundles(BuildTarget target, string folder = null, AssetBundleBuild[] buildMap = null)
@@ -51,8 +53,5 @@ public partial class ChessTools
             Directory.CreateDirectory(assetBundleDirectory);
 
         BuildPipeline.BuildAssetBundles(assetBundleDirectory, buildMap, BuildAssetBundleOptions.None, target);
-        //BuildPipeline.BuildAssetBundles(
-        //    )
-        
     }
 }
