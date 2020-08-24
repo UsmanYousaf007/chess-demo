@@ -278,19 +278,7 @@ namespace TurboLabz.InstantFramework
             view.UpdateBarsSkin();
         }
 
-        [ListensTo(typeof(DownloadableContentEventSignal))]
-        public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
-        {
-            if (contentType.Equals(ContentType.Skins) && status.Equals(ContentDownloadStatus.Started))
-                view.ShowProcessing(true, true);
-        }
 
-        [ListensTo(typeof(DownloadableContentEventSignal))]
-        public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
-        {
-            if (status.Equals(ContentDownloadStatus.Started.ToString()))
-                view.ShowProcessing(false, false);
-        }
 
         private void OnFacebookButtonClicked()
         {

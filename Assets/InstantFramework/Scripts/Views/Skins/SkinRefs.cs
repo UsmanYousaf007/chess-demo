@@ -37,8 +37,12 @@ namespace TurboLabz.InstantFramework
                 SkinContainer container = SkinContainer.LoadSkin(newSkinId);
                 if (container != null)
                 {
-                    currentSkinId = newSkinId;
                     LoadTransform(container);
+                    if (currentSkinId != null)
+                    {
+                        downloadablesModel.LoadFromCache(currentSkinId, false);
+                    }
+                    currentSkinId = newSkinId;
                     refreshSkinLinksSignal.Dispatch();
                 }
 

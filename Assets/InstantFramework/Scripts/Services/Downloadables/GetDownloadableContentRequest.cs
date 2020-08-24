@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
             this.shortCode = shortCode;
             this.lastModifiedTime = lastModifiedTime;
             this.downloadUrl = null;
+            contentSignal.Dispatch(contentType, ContentDownloadStatus.Started);
 
             if (getDownloadableContentUrlFn != null)
             {
@@ -54,9 +55,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                contentSignal.Dispatch(contentType, ContentDownloadStatus.Started);
                 TLUtils.LogUtil.Log("Skip downloaded bundle URL request", "cyan");
-
                 this.downloadUrl = "FromCache";
                 OnUrlDownloadComplete(BackendResult.SUCCESS);
             }

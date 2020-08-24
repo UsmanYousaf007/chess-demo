@@ -48,6 +48,20 @@ public class ThemeSelectionMediator : Mediator
         }
     }
 
+    [ListensTo(typeof(DownloadableContentEventSignal))]
+    public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
+    {
+        if (contentType.Equals(ContentType.Skins) && status.Equals(ContentDownloadStatus.Started))
+            view.ShowThemeDownloadBlocker();
+    }
+
+    [ListensTo(typeof(DownloadableContentEventSignal))]
+    public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
+    {
+        if (contentType.Equals(ContentType.Skins) && !status.Equals(ContentDownloadStatus.Started))
+            view.HideThemeDownloadBlocker();
+    }
+
     private void OnCloseDailogue()
     {
         navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
